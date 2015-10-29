@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb",
+  "env": {"browser": true, "node": true},
+  "globals": {"__DEVTOOLS__": true},
+  "rules": {
+    "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],
+    "new-cap": [2, {"capIsNew": false, "newIsCap": true}],
+    "no-use-before-define": [2, "nofunc"],
+    "comma-dangle": 0
+  }
+}
