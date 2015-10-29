@@ -1,0 +1,13 @@
+{
+  "name": "kerrokantasi-ui",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/City-of-Helsinki/kerrokantasi-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
+  }
+}
