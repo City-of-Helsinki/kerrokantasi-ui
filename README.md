@@ -1,6 +1,20 @@
 Kerro Kantasi UI
 ================
 
+Requirements
+------------
+
+* Node.js 4.2 LTS
+* Bower
+
+Preparation
+-----------
+
+```
+npm i
+bower i
+```
+
 Scripts
 -------
 
