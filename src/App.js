@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
 import messages from './i18n';
+import Helmet from 'react-helmet';
 
 class App extends React.Component {
   getChildContext() {
@@ -16,6 +17,7 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
+          <Helmet titleTemplate="%s - Kerro Kantasi" />
           {this.props.children}
         </div>
       </IntlProvider>);
