@@ -1,0 +1,21 @@
+{
+  "name": "kerrokantasi-ui",
+  "description": "",
+  "main": "index.js",
+  "authors": [],
+  "license": "?",
+  "homepage": "https://github.com/City-of-Helsinki/kerrokantasi-ui",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
+}
