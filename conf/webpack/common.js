@@ -23,7 +23,8 @@ module.exports = {
       {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file'},
       {test: /\.css$/, loader: 'style!css!postcss'},
       {test: /\.less$/, loader: 'style!css!postcss!less'},
-      {test: /\.json/, loader: 'json'}
+      {test: /\.json$/, loader: 'json'},
+      {test: /\.md$/, loader: 'html!markdown'},
     ]
   },
   postcss: [
