@@ -22,7 +22,8 @@ module.exports = {
       {test: /\.woff(2)?(\?v=.+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
       {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file'},
       {test: /\.css$/, loader: 'style!css!postcss'},
-      {test: /\.less$/, loader: 'style!css!postcss!less'}
+      {test: /\.less$/, loader: 'style!css!postcss!less'},
+      {test: /\.json/, loader: 'json'}
     ]
   },
   postcss: [
