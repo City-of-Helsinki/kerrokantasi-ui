@@ -1,0 +1,78 @@
+/* eslint-disable react/no-multi-comp */
+import React from 'react';
+import Navbar from 'react-bootstrap/lib/Navbar';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavBrand from 'react-bootstrap/lib/NavBrand';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import {FormattedMessage} from 'react-intl';
+import LanguageDropdown from './LanguageDropdown';
+import {connect} from 'react-redux';
+import {login, logout} from 'actions';
+
+class Header extends React.Component {
+  onSelect(eventKey) {
+    switch (eventKey) {
+    case 'home':
+      this.context.history.pushState(null, '/');
+      break;
+    case 'info':
+      this.context.history.pushState(null, '/info');
+      break;
+    case 'login':
+      // TODO: Actual login flow
+      this.props.dispatch(login());
+      break;
+    case 'logout':
+      // TODO: Actual logout flow
+      this.props.dispatch(logout());
+      break;
+    default:
+      // Not sure what to do here
+    }
+  }
+
+  getUserItems() {
+    const {user} = this.props;
+    if (user !== null) {
+      return [
+        <NavItem key="profile" eventKey="profile" href="#">{user.name}</NavItem>,
+        <NavItem key="logout" eventKey="logout" href="#"><FormattedMessage id="logout"/></NavItem>
+      ];
+    }
+    return [
+      <NavItem key="login" eventKey="login" href="#"><FormattedMessage id="login"/></NavItem>,
+      <NavItem key="register" eventKey="register" href="#"><FormattedMessage id="register"/></NavItem>
+    ];
+  }
+
+  render() {
+    const header = this;
+    const onSelect = (eventKey) => { header.onSelect(eventKey); };
+    const userItems = this.getUserItems();
+    return (
+      <Navbar>
+        <NavBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavBrand>
+        <Nav onSelect={onSelect}>
+          <NavItem eventKey="hearings" href="#"><FormattedMessage id="hearings"/></NavItem>
+          <NavItem eventKey="info" href="#"><FormattedMessage id="info"/></NavItem>
+        </Nav>
+        <Nav right onSelect={onSelect}>
+          {userItems}
+          <LanguageDropdown currentLanguage={this.props.language}/>
+        </Nav>
+      </Navbar>
+    );
+  }
+}
+
+Header.propTypes = {
+  dispatch: React.PropTypes.func,
+  user: React.PropTypes.object,
+  language: React.PropTypes.string
+};
+
+Header.contextTypes = {
+  history: React.PropTypes.object
+};
+
+export default connect((state) => ({user: state.user, language: state.language}))(Header);
