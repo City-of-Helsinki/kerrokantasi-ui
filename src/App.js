@@ -4,6 +4,7 @@ import {IntlProvider} from 'react-intl';
 import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 
 class App extends React.Component {
   getChildContext() {
@@ -21,6 +22,7 @@ class App extends React.Component {
           <Helmet titleTemplate="%s - Kerro Kantasi" />
           <Header/>
           {this.props.children}
+          <Footer/>
         </div>
       </IntlProvider>);
   }
