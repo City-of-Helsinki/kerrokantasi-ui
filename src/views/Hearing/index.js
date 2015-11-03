@@ -37,10 +37,10 @@ class Hearing extends React.Component {
 
   getOverviewMap() {
     const position = [51.505, -0.09];
-    const style = {height: "200px"}
+    const style = {height: '200px'};
     return (<Map center={position} zoom={13} style={style}>
         <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker position={position}/>
