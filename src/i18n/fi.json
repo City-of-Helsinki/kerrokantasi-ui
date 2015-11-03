@@ -1,0 +1,12 @@
+{
+  "login": "Kirjaudu sisään",
+  "logout": "Kirjaudu ulos",
+  "register": "Rekisteröidy",
+  "hearings": "Kuulemiset",
+  "info": "Tietoa palvelusta",
+  "privacyPolicy": "Rekisteriseloste",
+  "lang-fi": "Suomi",
+  "lang-en": "Englanti",
+  "lang-sv": "Ruotsi",
+  "welcome": "Tervetuloa"
+}

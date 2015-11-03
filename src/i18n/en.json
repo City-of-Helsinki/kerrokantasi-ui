@@ -1,0 +1,11 @@
+{
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Register",
+  "hearings": "Hearings",
+  "info": "About the service",
+  "privacyPolicy": "Privacy Policy",
+  "lang-fi": "Finnish",
+  "lang-en": "English",
+  "lang-sv": "Swedish"
+}
