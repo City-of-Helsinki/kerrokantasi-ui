@@ -6,7 +6,7 @@ class Info extends React.Component {
   render() {
     const content = {'fi': finnishContent}[this.props.language];
     return (<div className="container">
-      <div dangerouslySetInnerHTML={{__html: content || "Content not available in current language"}} />
+      <div dangerouslySetInnerHTML={{__html: content || 'Content not available in current language'}} />
     </div>);
   }
 }
