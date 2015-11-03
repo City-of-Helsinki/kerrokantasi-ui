@@ -20,7 +20,7 @@ class App extends React.Component {
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
           <Helmet titleTemplate="%s - Kerro Kantasi" />
-          <Header/>
+          <Header slim={this.props.location.pathname !== "/"} history={this.props.history} />
           {this.props.children}
           <Footer/>
         </div>
@@ -30,8 +30,10 @@ class App extends React.Component {
 
 App.propTypes = {
   children: React.PropTypes.node,
+  history: React.PropTypes.object,
   language: React.PropTypes.string,
-  user: React.PropTypes.object
+  location: React.PropTypes.object,
+  user: React.PropTypes.object,
 };
 App.childContextTypes = {
   language: React.PropTypes.string,
