@@ -29,6 +29,10 @@ module.exports = function(serverUrl) {
       ]
     },
     plugins: [
+      new webpack.DefinePlugin({
+        __DEVTOOLS__: true,
+        'process.env': {NODE_ENV: JSON.stringify('development')}
+      }),
       new HtmlWebpackPlugin({inject: true, template: common.paths.HTML_TEMPLATE}),
       new webpack.HotModuleReplacementPlugin()
       //new webpack.NoErrorsPlugin()  // https://github.com/MoOx/eslint-loader#noerrorsplugin
