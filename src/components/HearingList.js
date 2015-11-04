@@ -5,7 +5,7 @@ import {injectIntl} from 'react-intl';
 class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
-    return <li>{hearing.id}</li>;
+    return <li><a href={"/hearing_"+hearing.id}>{hearing.heading}</a></li>;
   }
 }
 
