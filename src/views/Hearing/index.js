@@ -1,5 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import {connect} from 'react-redux';
 import Badge from 'react-bootstrap/lib/Badge';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
@@ -7,10 +8,17 @@ import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {Map, Marker, TileLayer} from 'react-leaflet';
+import {fetchHearing} from 'actions';
 import Comment from './Comment';
 import Scenario from './Scenario';
 
 class Hearing extends React.Component {
+  componentDidMount() {
+    const {dispatch} = this.props;
+    const {hearingId} = this.props.params;
+    dispatch(fetchHearing(hearingId));
+  }
+
   getLabels() {
     return (<div>
       <Label>label 1</Label> <Label>label 2</Label>
@@ -50,14 +58,17 @@ class Hearing extends React.Component {
   }
 
   render() {
-    const {state, data} = (this.props.hearing || {state: 'done', data: {id: 'abcd1234', title: 'Hearing Title'}});
+    const {hearingId} = this.props.params;
+    const {state, data} = (this.props.hearing[hearingId] || {state: 'initial'});
+
     if (state !== 'done') {
       return (<div className="container">
-        <i>Loading...</i>
+        <i>Loading... {hearingId} {state}</i>
       </div>);
     }
+    console.log(data);
     return (<div className="container">
-      <Helmet title={data.title}/>
+      <Helmet title={data.heading}/>
       <Col xs={6} sm={3}>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
@@ -76,7 +87,7 @@ class Hearing extends React.Component {
         <div id="hearing">
           {this.getLabels()}
           <div>
-            <h1>{data.title}</h1>
+            <h1>{data.heading}</h1>
             <img width="100%" src="/assets/carousel.png"/>
             <div className="image-caption">
               <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -107,6 +118,10 @@ Curabitur vulputate venenatis lectus ac pulvinar. Etiam finibus aliquet magna co
   }
 }
 
-Hearing.propTypes = {hearing: React.PropTypes.object};
+Hearing.propTypes = {
+  dispatch: React.PropTypes.func,
+  hearing: React.PropTypes.object,
+  params: React.PropTypes.object
+};
 
-export default injectIntl(Hearing);
+export default connect((state) => ({hearing: state.hearing}))(injectIntl(Hearing));

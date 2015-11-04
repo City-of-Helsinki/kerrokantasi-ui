@@ -18,3 +18,17 @@ export function fetchHearingList(listId, endpoint, params) {
     });
   };
 }
+
+export function fetchHearing(hearingId) {
+  return (dispatch) => {
+    dispatch(createAction("beginFetchHearing")({hearingId}));
+    return api.get("v1/hearing/" + hearingId + "/", {}).then((response) => {
+      if (response.status >= 400) {
+        throw new Error("bad response from server");
+      }
+      response.json().then((data) => {
+        dispatch(createAction("receiveHearing")({hearingId, data}));
+      });
+    });
+  };
+}
