@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import Badge from 'react-bootstrap/lib/Badge';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
@@ -49,7 +50,14 @@ class Hearing extends React.Component {
   }
 
   render() {
+    const {state, data} = (this.props.hearing || {state: 'done', data: {id: 'abcd1234', title: 'Hearing Title'}});
+    if (state !== 'done') {
+      return (<div className="container">
+        <i>Loading...</i>
+      </div>);
+    }
     return (<div className="container">
+      <Helmet title={data.title}/>
       <Col xs={6} sm={3}>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
@@ -68,8 +76,8 @@ class Hearing extends React.Component {
         <div id="hearing">
           {this.getLabels()}
           <div>
-            <h1>Title</h1>
-            <img src="/assets/carousel.png"/>
+            <h1>{data.title}</h1>
+            <img width="100%" src="/assets/carousel.png"/>
             <div className="image-caption">
               <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
             </div>
@@ -98,5 +106,7 @@ Curabitur vulputate venenatis lectus ac pulvinar. Etiam finibus aliquet magna co
     </div>);
   }
 }
+
+Hearing.propTypes = {hearing: React.PropTypes.object};
 
 export default injectIntl(Hearing);
