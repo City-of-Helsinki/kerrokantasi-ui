@@ -45,16 +45,26 @@ class Header extends React.Component {
     ];
   }
 
+  getNavItem(id, active) {
+    return (
+      <NavItem key={id} eventKey={id} href="#" active={active}>
+        <FormattedMessage id={id + "HeaderText"} />
+        {!(this.props.slim) ? <FormattedMessage tagName="div" className="desc" id={id + "HeaderDescription"}/> : null}
+      </NavItem>
+    );
+  }
+
   render() {
     const header = this;
     const onSelect = (eventKey) => { header.onSelect(eventKey); };
     const userItems = this.getUserItems();
+    const {history} = this.props;
     return (
-      <Navbar>
+      <Navbar id="header">
         <NavBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavBrand>
         <Nav onSelect={onSelect}>
-          <NavItem eventKey="hearings" href="#"><FormattedMessage id="hearings"/></NavItem>
-          <NavItem eventKey="info" href="#"><FormattedMessage id="info"/></NavItem>
+          {this.getNavItem("hearings", history.isActive("/hearings"))}
+          {this.getNavItem("info", history.isActive("/info"))}
         </Nav>
         <Nav right onSelect={onSelect}>
           {userItems}
@@ -67,8 +77,10 @@ class Header extends React.Component {
 
 Header.propTypes = {
   dispatch: React.PropTypes.func,
+  history: React.PropTypes.object,
+  language: React.PropTypes.string,
+  slim: React.PropTypes.bool,
   user: React.PropTypes.object,
-  language: React.PropTypes.string
 };
 
 Header.contextTypes = {
