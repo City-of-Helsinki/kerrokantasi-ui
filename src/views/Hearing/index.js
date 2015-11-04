@@ -76,6 +76,11 @@ class Hearing extends React.Component {
       <Helmet title={data.heading}/>
       <Col xs={6} sm={3}>
         <div>
+          <h4><FormattedMessage id="timetable"/></h4>
+          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> {data.close_at}
+
+        </div>
+        <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
         </div>
         <ButtonGroup vertical>
@@ -83,7 +88,10 @@ class Hearing extends React.Component {
           <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>3</Badge></Button>
           <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{data.n_comments}</Badge></Button>
         </ButtonGroup>
-
+        <div>
+          <h4><FormattedMessage id="borough"/></h4>
+          <Label>{data.borough}</Label>
+        </div>
         {this.getOverviewMap()}
       </Col>
       <Col xs={12} sm={9}>
