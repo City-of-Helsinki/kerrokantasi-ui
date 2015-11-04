@@ -29,7 +29,8 @@
     "redux-actions": "^0.8.0",
     "redux-router": "^1.0.0-beta3",
     "redux-thunk": "^1.0.0",
-    "updeep": "^0.10.1"
+    "updeep": "^0.10.1",
+    "react-leaflet": "^0.8.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
