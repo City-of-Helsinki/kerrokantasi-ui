@@ -7,6 +7,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import moment from 'moment';
 import {fetchHearing} from 'actions';
 import Comment from './Comment';
 import Scenario from './Scenario';
@@ -53,7 +54,7 @@ class Hearing extends React.Component {
       <Col xs={6} sm={3}>
         <div>
           <h4><FormattedMessage id="timetable"/></h4>
-          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> {data.close_at}
+          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> {moment(data.close_at).fromNow()}
         </div>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
