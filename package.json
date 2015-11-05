@@ -30,7 +30,8 @@
     "redux-router": "^1.0.0-beta3",
     "redux-thunk": "^1.0.0",
     "updeep": "^0.10.1",
-    "react-leaflet": "^0.8.1"
+    "react-leaflet": "^0.8.1",
+    "moment": "^2.10.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
