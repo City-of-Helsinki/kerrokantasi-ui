@@ -69,7 +69,7 @@ class Hearing extends React.Component {
 
     if (state !== 'done') {
       return (<div className="container">
-        <i>Loading... {hearingId} {state}</i>
+        <i>Loading...</i>
       </div>);
     }
     return (<div className="container">

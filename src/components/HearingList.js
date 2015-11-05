@@ -1,11 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import {injectIntl} from 'react-intl';
+import {Link} from 'react-router';
 
 class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
-    return <li><a href={"/hearing_"+hearing.id}>{hearing.heading}</a></li>;
+    return (<li>
+        <Link to={`/hearing_${hearing.id}`}>{hearing.heading}</Link>
+      </li>);
   }
 }
 
