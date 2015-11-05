@@ -32,5 +32,5 @@ export default class Scenario extends React.Component {
 }
 
 Scenario.propTypes = {
-  data: React.PropTypes.obj
+  data: React.PropTypes.object
 };
