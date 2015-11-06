@@ -14,12 +14,12 @@ export default class Scenario extends React.Component {
     const {data} = this.props;
     if (this.state.collapsed) {
       return (<div className="hearing-scenario">
-        <h3 className="scenario-title" onClick={this.toogle.bind(this)}><i className="fa fa-chevron-right"></i> {'Scenario Name'}</h3>
+        <h3 className="scenario-title" onClick={this.toogle.bind(this)}><i className="fa fa-chevron-right"></i> {data.title}</h3>
         <hr/>
       </div>);
     }
     return (<div className="hearing-scenario">
-      <h3 className="scenario-title" onClick={this.toogle.bind(this)}><i className="fa fa-chevron-down"></i> {'Scenario Name'}</h3>
+      <h3 className="scenario-title" onClick={this.toogle.bind(this)}><i className="fa fa-chevron-down"></i> {data.title}</h3>
       <div className="scenario-content">
         <img className="img-responsive" src="/assets/carousel.png" />
         <div className="image-caption">Image Caption</div>
