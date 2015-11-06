@@ -9,26 +9,15 @@ import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {fetchHearing} from 'actions';
 import Comment from './Comment';
-import Scenario from './Scenario';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
+import ScenarioList from 'src/components/ScenarioList';
 
 class Hearing extends React.Component {
   componentDidMount() {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     dispatch(fetchHearing(hearingId));
-  }
-
-  getScenarios() {
-    return (<div id="hearing-scenarios">
-      <h2><FormattedMessage id="hearing-scenarios"/></h2>
-      <div>
-        <Scenario sourceId="abcdef123"/>
-        <Scenario sourceId="abcd1234"/>
-        <Scenario sourceId="123abcdef"/>
-      </div>
-    </div>);
   }
 
   getComments() {
@@ -60,7 +49,7 @@ class Hearing extends React.Component {
         </div>
         <ButtonGroup vertical>
           <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>3</Badge></Button>
+          <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>{data.scenarios.length}</Badge></Button>
           <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{data.n_comments}</Badge></Button>
         </ButtonGroup>
         <div>
@@ -83,7 +72,7 @@ class Hearing extends React.Component {
           <div dangerouslySetInnerHTML={{__html: data.content}} />
         </div>
         <hr/>
-        {this.getScenarios()}
+        <ScenarioList scenarios={data.scenarios}/>
         {this.getComments()}
       </Col>
     </div>);

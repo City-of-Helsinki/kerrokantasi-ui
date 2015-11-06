@@ -1,6 +1,6 @@
 import React from 'react';
 import {Map, Marker, TileLayer} from 'react-leaflet';
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
 class OverviewMap extends React.Component {
   render() {
@@ -26,4 +26,4 @@ OverviewMap.propTypes = {
   longitude: React.PropTypes.String
 };
 
-export default OverviewMap;
+export default (injectIntl(OverviewMap));
