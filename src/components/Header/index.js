@@ -18,6 +18,9 @@ class Header extends React.Component {
     case 'info':
       this.context.history.pushState(null, '/info');
       break;
+    case 'hearings':
+      this.context.history.pushState(null, '/hearings');
+      break;
     case 'login':
       // TODO: Actual login flow
       this.props.dispatch(login());
