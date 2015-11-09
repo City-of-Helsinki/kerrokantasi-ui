@@ -6,11 +6,12 @@ import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import {fetchHearing} from 'actions';
 import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
+import HearingImageList from 'src/components/HearingImageList';
 import ScenarioList from 'src/components/ScenarioList';
 
 class Hearing extends React.Component {
@@ -42,7 +43,7 @@ class Hearing extends React.Component {
       <Col xs={6} sm={3}>
         <div>
           <h4><FormattedMessage id="timetable"/></h4>
-          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> {data.close_at}
+          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={data.close_at}/>
         </div>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
@@ -63,10 +64,7 @@ class Hearing extends React.Component {
           <LabelList labels={data.labels}/>
           <div>
             <h1>{data.heading}</h1>
-            <img width="100%" src="/assets/carousel.png"/>
-            <div className="image-caption">
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </div>
+            <HearingImageList images={data.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: data.abstract}}/>
           </div>
           <div dangerouslySetInnerHTML={{__html: data.content}} />
