@@ -41,23 +41,25 @@ class Hearing extends React.Component {
     return (<div className="container">
       <Helmet title={data.heading}/>
       <Col xs={6} sm={3}>
-        <div>
-          <h4><FormattedMessage id="timetable"/></h4>
-          <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={data.close_at}/>
+        <div className="hearing-sidebar">
+          <div>
+            <h4><FormattedMessage id="timetable"/></h4>
+            <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={data.close_at}/>
+          </div>
+          <div>
+            <h4><FormattedMessage id="table-of-content"/></h4>
+          </div>
+          <ButtonGroup vertical>
+            <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
+            <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>{data.scenarios.length}</Badge></Button>
+            <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{data.n_comments}</Badge></Button>
+          </ButtonGroup>
+          <div>
+            <h4><FormattedMessage id="borough"/></h4>
+            <Label>{data.borough}</Label>
+          </div>
+          <OverviewMap latitude={data.latitude} longitude={data.longitude}/>
         </div>
-        <div>
-          <h4><FormattedMessage id="table-of-content"/></h4>
-        </div>
-        <ButtonGroup vertical>
-          <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>{data.scenarios.length}</Badge></Button>
-          <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{data.n_comments}</Badge></Button>
-        </ButtonGroup>
-        <div>
-          <h4><FormattedMessage id="borough"/></h4>
-          <Label>{data.borough}</Label>
-        </div>
-        <OverviewMap latitude={data.latitude} longitude={data.longitude}/>
       </Col>
       <Col xs={12} sm={9}>
         <div id="hearing">
