@@ -83,4 +83,4 @@ Hearing.propTypes = {
   params: React.PropTypes.object
 };
 
-export default connect((state) => ({hearing: state.hearing}))(injectIntl(Hearing));
+export default connect((state) => ({hearing: state.hearing, language: state.language}))(injectIntl(Hearing));
