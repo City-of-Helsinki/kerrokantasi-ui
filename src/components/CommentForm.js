@@ -8,7 +8,7 @@ class CommentForm extends React.Component {
     this.state = {collapsed: true};
   }
 
-  toogle() {
+  toggle() {
     this.setState({collapsed: !this.state.collapsed});
   }
 
@@ -20,12 +20,12 @@ class CommentForm extends React.Component {
           <textarea name="commentText"/>
         </p>
         <p>
-          <Button onClick={this.toogle.bind(this)}><FormattedMessage id="cancel" /></Button> <Button><FormattedMessage id="submit"/></Button>
+          <Button onClick={this.toggle.bind(this)}><FormattedMessage id="cancel" /></Button> <Button><FormattedMessage id="submit"/></Button>
         </p>
 
       </form>);
     }
-    return (<Button onClick={this.toogle.bind(this)}>
+    return (<Button onClick={this.toggle.bind(this)}>
       <FormattedMessage id="addComment"/>
     </Button>);
   }
