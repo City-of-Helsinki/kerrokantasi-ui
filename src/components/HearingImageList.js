@@ -5,7 +5,7 @@ class HearingImageList extends React.Component {
   render() {
     const {images} = this.props;
     return (<div>
-      {images.map((image, index) => <HearingImage data={image} key={index}/>)}
+      {images.map((image) => <HearingImage data={image} key={image.url}/>)}
     </div>);
   }
 }
