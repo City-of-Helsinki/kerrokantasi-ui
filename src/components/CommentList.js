@@ -10,7 +10,7 @@ class CommentList extends React.Component {
       return (<div>
         <h2><FormattedMessage id="comments"/></h2>
         {areCommentsOpen ? <CommentForm/> : null}
-        <p><FormattedMessage id="no-comments"/></p>
+        <p><FormattedMessage id="noCommentsAvailable"/></p>
       </div>);
     }
     return (<div>
