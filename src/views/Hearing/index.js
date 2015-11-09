@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import {fetchHearing} from 'actions';
-import Comment from './Comment';
+import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
 import HearingImageList from 'src/components/HearingImageList';
@@ -71,7 +71,7 @@ class Hearing extends React.Component {
         </div>
         <hr/>
         <ScenarioList scenarios={data.scenarios}/>
-        {this.getComments()}
+        <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} />
       </Col>
     </div>);
   }
