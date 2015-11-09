@@ -73,7 +73,7 @@ class Hearing extends React.Component {
         </div>
         <hr/>
         <ScenarioList scenarios={data.scenarios}/>
-        <CommentList comments={data.comments}/>
+        <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} />
       </Col>
     </div>);
   }
