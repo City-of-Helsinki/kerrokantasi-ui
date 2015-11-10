@@ -19,7 +19,11 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
-          <Helmet titleTemplate="%s - Kerro Kantasi" />
+          <Helmet
+            titleTemplate="%s - Kerro Kantasi"
+            link={[
+              {rel: "shortcut icon", type: "image/x-icon", href:"/assets/images/favicon.ico"}
+            ]}/>
           <Header slim={this.props.location.pathname !== "/"} history={this.props.history} />
           {this.props.children}
           <Footer/>
