@@ -21,8 +21,7 @@ export default class Scenario extends React.Component {
     return (<div className="hearing-scenario">
       <h3 className="scenario-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-down"></i> {data.title}</h3>
       <div className="scenario-content">
-        <img className="img-responsive" src="/assets/carousel.png" />
-        <div className="image-caption">Image Caption</div>
+        {data.images.map((image) => <div key={image.url}><img className="img-responsive" alt={image.title} title={image.title} src={image.url} /><div className="image-caption">{image.caption}</div></div>)}
         <p>{data.abstract}</p>
         <p>{data.content}</p>
       </div>

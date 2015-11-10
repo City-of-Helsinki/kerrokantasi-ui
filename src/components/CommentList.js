@@ -7,13 +7,13 @@ class CommentList extends React.Component {
   render() {
     const {comments, areCommentsOpen} = this.props;
     if (comments.length === 0) {
-      return (<div>
+      return (<div id="hearing-comments">
         <h2><FormattedMessage id="comments"/></h2>
         {areCommentsOpen ? <CommentForm/> : null}
         <p><FormattedMessage id="noCommentsAvailable"/></p>
       </div>);
     }
-    return (<div>
+    return (<div id="hearing-comments">
       <h2><FormattedMessage id="comments"/></h2>
       {areCommentsOpen ? <CommentForm/> : null}
       {comments.map((comment) => <Comment data={comment} key={comment.id}/>)}

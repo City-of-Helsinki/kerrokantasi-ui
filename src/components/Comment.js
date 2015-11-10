@@ -6,11 +6,12 @@ class Comment extends React.Component {
     const {data} = this.props;
     return (<div className="hearing-comment">
       <p>
+        <span className="pull-right"><i className="fa fa-thumbs-o-up"/> {data.votes}</span>
+        <i className="fa fa-clock-o"/> <FormattedRelative value={data.created_at}/><br/>
         <i className="fa fa-user"/> {data.created_by || "-"}
-        <i className="fa fa-clock-o"/> <FormattedRelative value={data.created_at}/>
       </p>
-      <p>{data.content}</p>
       <hr/>
+      <p>{data.content}</p>
     </div>);
   }
 }
