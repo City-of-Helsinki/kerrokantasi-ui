@@ -1,6 +1,7 @@
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
+import Input from 'react-bootstrap/lib/Input';
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -14,19 +15,17 @@ class CommentForm extends React.Component {
 
   render() {
     if (!this.state.collapsed) {
-      return (<form>
-        <label><FormattedMessage id="content"/></label>
-        <p>
-          <textarea name="commentText"/>
-        </p>
-        <p>
-          <Button onClick={this.toggle.bind(this)}><FormattedMessage id="cancel" /></Button> <Button><FormattedMessage id="submit"/></Button>
-        </p>
-
-      </form>);
+      return (<div className="comment-form"><form>
+          <h3><FormattedMessage id="writeComment"/></h3>
+          <Input type="textarea"/>
+          <p>
+            <Button bsStyle="primary"><FormattedMessage id="submit"/></Button> <Button onClick={this.toggle.bind(this)}><FormattedMessage id="cancel"/></Button>
+          </p>
+        </form>
+      </div>);
     }
-    return (<Button onClick={this.toggle.bind(this)}>
-      <FormattedMessage id="addComment"/>
+    return (<Button onClick={this.toggle.bind(this)} bsStyle="primary">
+      <i className="fa fa-comment-o"/> <FormattedMessage id="addComment"/>
     </Button>);
   }
 }
