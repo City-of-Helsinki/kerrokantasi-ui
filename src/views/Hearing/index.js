@@ -72,8 +72,12 @@ class Hearing extends React.Component {
           <div dangerouslySetInnerHTML={{__html: data.content}} />
         </div>
         <hr/>
-        <ScenarioList scenarios={data.scenarios}/>
-        <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} />
+        <div id="hearing-scenarios">
+          <ScenarioList scenarios={data.scenarios}/>
+        </div>
+        <div id="hearing-comments">
+          <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} />
+        </div>
       </Col>
     </div>);
   }
