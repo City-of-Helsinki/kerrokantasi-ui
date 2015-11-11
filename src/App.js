@@ -22,7 +22,7 @@ class App extends React.Component {
           <Helmet
             titleTemplate="%s - Kerro Kantasi"
             link={[
-              {rel: "shortcut icon", type: "image/x-icon", href:"/assets/images/favicon.ico"}
+              {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
             ]}/>
           <Header slim={this.props.location.pathname !== "/"} history={this.props.history} />
           {this.props.children}
