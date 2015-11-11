@@ -7,7 +7,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
-import {fetchHearing} from 'actions';
+import {fetchHearing, postHearingComment} from 'actions';
 import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
@@ -21,6 +21,12 @@ class Hearing extends React.Component {
     dispatch(fetchHearing(hearingId));
   }
 
+  onHearingCommentPost(text) {
+    const {dispatch} = this.props;
+    const {hearingId} = this.props.params;
+    dispatch(postHearingComment(hearingId, ("/v1/hearing/" + hearingId + "/comments/"), {content: text}));
+  }
+
   getComments() {
     return (<div id="hearing-comments">
               <h2><FormattedMessage id="comments"/></h2>
@@ -28,6 +34,7 @@ class Hearing extends React.Component {
               <Comment sourceId="123abcdef"/>
             </div>);
   }
+
 
   render() {
     const {hearingId} = this.props.params;
@@ -76,7 +83,10 @@ class Hearing extends React.Component {
           <ScenarioList scenarios={data.scenarios}/>
         </div>
         <div id="hearing-comments">
-          <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} hearingId={data.id} />
+          <CommentList
+           comments={data.comments}
+           areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))}
+           onCommentPost={this.onHearingCommentPost.bind(this)}/>
         </div>
       </Col>
     </div>);

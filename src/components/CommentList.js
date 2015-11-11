@@ -9,13 +9,13 @@ class CommentList extends React.Component {
     if (comments.length === 0) {
       return (<div>
         <h2><FormattedMessage id="comments"/></h2>
-        {areCommentsOpen ? <CommentForm hearingId={hearingId} /> : null}
+        {areCommentsOpen ? <CommentForm hearingId={hearingId} onCommentPost={this.props.onCommentPost}/> : null}
         <p><FormattedMessage id="noCommentsAvailable"/></p>
       </div>);
     }
     return (<div>
       <h2><FormattedMessage id="comments"/></h2>
-      {areCommentsOpen ? <CommentForm hearingId={hearingId}/> : null}
+      {areCommentsOpen ? <CommentForm hearingId={hearingId} onCommentPost={this.props.onCommentPost}/> : null}
       {comments.map((comment) => <Comment data={comment} key={comment.id}/>)}
     </div>);
   }
@@ -24,7 +24,8 @@ class CommentList extends React.Component {
 CommentList.propTypes = {
   comments: React.PropTypes.array,
   areCommentsOpen: React.PropTypes.bool,
-  hearingId: React.PropTypes.string
+  hearingId: React.PropTypes.string,
+  onCommentPost: React.PropTypes.function
 };
 
 export default injectIntl(CommentList);

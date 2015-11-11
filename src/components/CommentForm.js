@@ -2,7 +2,6 @@ import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Input from 'react-bootstrap/lib/Input';
-import postHearingComment from 'src/actions';
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -19,10 +18,7 @@ class CommentForm extends React.Component {
   }
 
   submitComment() {
-    const {hearingId, scenarioId} = this.props;
-    if (!scenarioId) {
-      postHearingComment(hearingId, ("/hearing/" + hearingId + "/comments/"), {content: this.state.commentText});
-    }
+    this.props.onCommentPost(this.state.commentText);
   }
 
   render() {
@@ -43,8 +39,7 @@ class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
-  hearingId: React.PropTypes.string,
-  scenarioId: React.PropTypes.string
+  onCommentPost: React.PropTypes.function
 };
 
 export default injectIntl(CommentForm);
