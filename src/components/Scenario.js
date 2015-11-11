@@ -1,6 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
-import {FormattedMessage} from 'react-intl';
 import CommentForm from './CommentForm';
 
 export default class Scenario extends React.Component {
