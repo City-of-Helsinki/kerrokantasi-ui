@@ -10,8 +10,7 @@ module.exports = function(serverUrl) {
   return merge(common, {
     serverUrl: serverUrl,
     entry: [
-      'webpack/hot/dev-server',
-      'webpack-dev-server/client?' + serverUrl,
+      'webpack-hot-middleware/client',
       common.paths.ENTRY
     ],
     debug: true,
