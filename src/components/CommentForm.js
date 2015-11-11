@@ -25,7 +25,7 @@ class CommentForm extends React.Component {
     if (!this.state.collapsed) {
       return (<div className="comment-form"><form>
           <h3><FormattedMessage id="writeComment"/></h3>
-          <Input type="textarea" onChange={this.handleChange}/>
+          <Input type="textarea" onChange={this.handleTextChange.bind(this)}/>
           <p>
             <Button bsStyle="primary" onClick={this.submitComment.bind(this)}><FormattedMessage id="submit"/></Button> <Button onClick={this.toggle.bind(this)}><FormattedMessage id="cancel"/></Button>
           </p>

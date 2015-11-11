@@ -29,7 +29,8 @@ class Hearing extends React.Component {
 
   onPostScenarioComment(scenarioId, text) {
     const {dispatch} = this.props;
-    dispatch(postScenarioComment(scenarioId, {content: text}));
+    const {hearingId} = this.props.params;
+    dispatch(postScenarioComment(hearingId, scenarioId, {content: text}));
   }
 
   getComments() {

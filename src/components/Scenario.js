@@ -9,7 +9,7 @@ export default class Scenario extends React.Component {
 
   onPostComment(text) {
     const {data} = this.props;
-    this.props.onPostScenarioComment(data.id, text);
+    this.props.onPostComment(data.id, text);
   }
 
   toggle() {
@@ -39,5 +39,5 @@ export default class Scenario extends React.Component {
 
 Scenario.propTypes = {
   data: React.PropTypes.object,
-  onPostScenarioComment: React.PropTypes.function
+  onPostComment: React.PropTypes.function
 };

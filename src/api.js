@@ -29,7 +29,7 @@ export function apiCall(endpoint, params, options = {}) {
 }
 
 export function post(endpoint, data, params = {}, options = {}) {
-  return apiCall(endpoint, params, merge({data, method: "POST"}, options));
+  return apiCall(endpoint, params, data, merge({options, method: "POST"}));
 }
 
 export function get(endpoint, params = {}, options = {}) {

@@ -13,7 +13,7 @@ class ScenarioList extends React.Component {
     }
     return (<div>
       <h2><FormattedMessage id="hearing-scenarios"/></h2>
-      {scenarios.map((scenario) => <Scenario data={scenario} key={scenario.id} onPostScenarioComment={this.props.onPostScenarioComment}/>)}
+      {scenarios.map((scenario) => <Scenario data={scenario} key={scenario.id} onPostComment={this.props.onPostScenarioComment}/>)}
     </div>);
   }
 }
