@@ -1,12 +1,11 @@
 import {handleActions} from 'redux-actions';
 
-const login = (/* state, action */) => ({
-  id: 'cmljayBhc3RsZXk=',
-  name: 'Mock von User'
-});
-
-const logout = (/* state, action */) => {
+const receiveUserData = (state, {payload}) => {
+  if (payload && payload.id) {
+    return payload;
+  }
   return null;
 };
+const clearUserData = (/* state, action */) => null;
 
-export default handleActions({login, logout}, null);
+export default handleActions({receiveUserData, clearUserData}, null);

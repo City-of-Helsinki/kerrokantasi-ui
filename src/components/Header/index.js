@@ -38,13 +38,12 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user !== null) {
       return [
-        <NavItem key="profile" eventKey="profile" href="#">{user.name}</NavItem>,
+        <NavItem key="profile" eventKey="profile" href="#">{user.displayName}</NavItem>,
         <NavItem key="logout" eventKey="logout" href="#"><FormattedMessage id="logout"/></NavItem>
       ];
     }
     return [
-      <NavItem key="login" eventKey="login" href="#"><FormattedMessage id="login"/></NavItem>,
-      <NavItem key="register" eventKey="register" href="#"><FormattedMessage id="register"/></NavItem>
+      <NavItem key="login" eventKey="login" href="#"><FormattedMessage id="login"/></NavItem>
     ];
   }
 

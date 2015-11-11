@@ -5,6 +5,7 @@ import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import {retrieveUserFromSession} from 'actions';
 
 class App extends React.Component {
   getChildContext() {
@@ -12,6 +13,10 @@ class App extends React.Component {
       language: this.props.language,
       user: this.props.user
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(retrieveUserFromSession());
   }
 
   render() {
@@ -34,6 +39,7 @@ App.propTypes = {
   language: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
+  dispatch: React.PropTypes.func,
 };
 App.childContextTypes = {
   language: React.PropTypes.string,
