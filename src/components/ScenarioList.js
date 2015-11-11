@@ -13,13 +13,14 @@ class ScenarioList extends React.Component {
     }
     return (<div>
       <h2><FormattedMessage id="hearing-scenarios"/></h2>
-      {scenarios.map((scenario) => <Scenario data={scenario} key={scenario.id}/>)}
+      {scenarios.map((scenario) => <Scenario data={scenario} key={scenario.id} onPostScenarioComment={this.props.onPostScenarioComment}/>)}
     </div>);
   }
 }
 
 ScenarioList.propTypes = {
-  scenarios: React.PropTypes.Array
+  scenarios: React.PropTypes.array,
+  onPostScenarioComment: React.PropTypes.function
 };
 
 export default (injectIntl(ScenarioList));

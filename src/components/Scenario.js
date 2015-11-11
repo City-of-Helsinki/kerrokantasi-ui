@@ -7,6 +7,11 @@ export default class Scenario extends React.Component {
     this.state = {collapsed: true};
   }
 
+  onPostComment(text) {
+    const {data} = this.props;
+    this.props.onPostScenarioComment(data.id, text);
+  }
+
   toggle() {
     this.setState({collapsed: !this.state.collapsed});
   }
@@ -26,12 +31,13 @@ export default class Scenario extends React.Component {
         <p>{data.abstract}</p>
         <p>{data.content}</p>
       </div>
-      <CommentForm/>
+      <CommentForm onPostComment={this.onPostComment.bind(this)}/>
     <hr/>
     </div>);
   }
 }
 
 Scenario.propTypes = {
-  data: React.PropTypes.object
+  data: React.PropTypes.object,
+  onPostScenarioComment: React.PropTypes.function
 };

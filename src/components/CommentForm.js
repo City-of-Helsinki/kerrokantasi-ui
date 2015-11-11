@@ -18,7 +18,7 @@ class CommentForm extends React.Component {
   }
 
   submitComment() {
-    this.props.onCommentPost(this.state.commentText);
+    this.props.onPostComment(this.state.commentText);
   }
 
   render() {
@@ -39,7 +39,7 @@ class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
-  onCommentPost: React.PropTypes.function
+  onPostComment: React.PropTypes.function
 };
 
 export default injectIntl(CommentForm);
