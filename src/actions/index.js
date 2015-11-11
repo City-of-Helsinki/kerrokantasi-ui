@@ -36,7 +36,7 @@ export function fetchHearing(hearingId) {
 export function postHearingComment(hearingId, params) {
   return (dispatch) => {
     dispatch(createAction("postingHearingComment")({hearingId}));
-    return api.post(("/v1/hearing/" + hearingId + "/comments/"), null, params).then((response) => {
+    return api.post(("/v1/hearing/" + hearingId + "/comments/"), params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
       }
@@ -51,7 +51,7 @@ export function postHearingComment(hearingId, params) {
 export function postScenarioComment(hearingId, scenarioId, params) {
   return (dispatch) => {
     dispatch(createAction("postingScenarioComment")({hearingId, scenarioId}));
-    return api.post(("/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/"), null, params).then((response) => {
+    return api.post(("/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/"), params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
       }

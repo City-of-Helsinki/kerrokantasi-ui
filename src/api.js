@@ -29,7 +29,11 @@ export function apiCall(endpoint, params, options = {}) {
 }
 
 export function post(endpoint, data, params = {}, options = {}) {
-  return apiCall(endpoint, params, data, merge({options, method: "POST"}));
+  if(typeof data !== "string") {
+    data = JSON.stringify(data);
+    options.headers = merge({"Content-Type": "application/json"}, options.headers);
+  }
+  return apiCall(endpoint, params, merge({body: data, method: "POST"}, options));
 }
 
 export function get(endpoint, params = {}, options = {}) {
