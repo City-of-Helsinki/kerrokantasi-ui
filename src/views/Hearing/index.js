@@ -76,7 +76,7 @@ class Hearing extends React.Component {
           <ScenarioList scenarios={data.scenarios}/>
         </div>
         <div id="hearing-comments">
-          <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} />
+          <CommentList comments={data.comments} areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))} hearingId={data.id} />
         </div>
       </Col>
     </div>);

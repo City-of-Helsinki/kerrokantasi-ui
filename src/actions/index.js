@@ -32,3 +32,18 @@ export function fetchHearing(hearingId) {
     });
   };
 }
+
+export function postHearingComment(hearingId, endpoint, params) {
+  return (dispatch) => {
+    dispatch(createAction("postingHearingComment")({hearingId}));
+    return api.post(endpoint, params).then((response) => {
+      if (response.status >= 400) {
+        throw new Error("bad response from server");
+      }
+      response.json().then((data) => {
+        dispatch(createAction("hearingCommentPosted")({hearingId, data}));
+        fetchHearing(hearingId);
+      });
+    });
+  };
+}
