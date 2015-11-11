@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import {FormattedMessage} from 'react-intl';
+import CommentForm from './CommentForm';
 
 export default class Scenario extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class Scenario extends React.Component {
         <p>{data.abstract}</p>
         <p>{data.content}</p>
       </div>
-      <Button bsStyle="primary"><i className="fa fa-comment-o"/> <FormattedMessage id="commentThisScenario"/></Button>
+      <CommentForm/>
     <hr/>
     </div>);
   }
