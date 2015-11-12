@@ -31,6 +31,21 @@ export function fetchHearing(hearingId) {
   };
 }
 
+export function followHearing(hearingId) {
+  return (dispatch) => {
+    dispatch(createAction("beginFollowHearing")({hearingId}));
+    return api.post("v1/hearing/" + hearingId + "/follow").then((response) => {
+      if (response.status >= 400) {
+        throw new Error("bad response from server");
+      }
+      response.json().then((data) => {
+        dispatch(createAction("receiveFollowHearing")({hearingId, data}));
+        dispatch(fetchHearing(hearingId));
+      });
+    });
+  };
+}
+
 export function postHearingComment(hearingId, params) {
   return (dispatch) => {
     dispatch(createAction("postingHearingComment")({hearingId}));

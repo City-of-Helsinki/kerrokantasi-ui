@@ -7,7 +7,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
-import {fetchHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
+import {fetchHearing, followHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
 import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
@@ -37,6 +37,12 @@ class Hearing extends React.Component {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     dispatch(postVote(commentId, hearingId, scenarioId));
+  }
+
+  onFollowHearing() {
+    const {dispatch} = this.props;
+    const {hearingId} = this.props.params;
+    dispatch(followHearing(hearingId));
   }
 
   render() {
@@ -76,7 +82,13 @@ class Hearing extends React.Component {
         <div id="hearing">
           <LabelList labels={data.labels}/>
           <div>
-            <h1>{data.heading}</h1>
+            <h1>
+              {user !== null ? (<span className="pull-right">
+                <Button bsStyle="primary" onClick={this.onFollowHearing.bind(this)}>
+                  <i className="fa fa-bell-o"/> <FormattedMessage id="follow"/>
+                </Button>
+               </span>) : null}
+              {data.heading}</h1>
             <HearingImageList images={data.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: data.abstract}}/>
           </div>
