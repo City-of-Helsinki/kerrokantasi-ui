@@ -8,6 +8,8 @@ import {getCompiler, applyCompilerMiddleware} from './bundler';
 import {getPassport, addAuth} from './auth';
 import {inspect} from 'util';
 import morgan from 'morgan';
+import renderMiddleware from "./render-middleware";
+
 const args = require('minimist')(process.argv.slice(2));
 
 const settings = getSettings();
@@ -27,26 +29,22 @@ server.use(cookieSession({secret: settings.sessionSecret, cookie: {maxAge: 60 * 
 server.use(passport.initialize());
 server.use(passport.session());
 addAuth(server, passport, settings);
-server.use(historyApiFallback({index: "/", verbose: !!settings.dev}));
-applyCompilerMiddleware(server, compiler, settings);
+
+if (settings.dev) {
+  applyCompilerMiddleware(server, compiler, settings);
+}
+server.use(renderMiddleware(settings));
 
 
 function run() {
   // Hello? Anyone there?
   server.listen(settings.port, settings.hostname, () => {
-    const msg = `Listening on ${settings.hostname}:${settings.port}.`;
-    const banner = new Array(msg.length + 1).join('=');
-    console.log(`${banner}\n${msg}\n${banner}`);
+    console.log(`[***] Listening on ${settings.hostname}:${settings.port}.`);
   });
 }
 
-if (!settings.dev) {
-  console.log("Building production bundle, please wait. This might take a little while.");
-  compiler.run((err, stats) => {
-    if (err) throw new Error(`Webpack error: ${err}`);
-    console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
-    run();
-  });
-} else {
-  run();
-}
+compiler.run((err, stats) => {
+  if (err) throw new Error(`Webpack error: ${err}`);
+  console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
+});
+run();

@@ -21,7 +21,14 @@ export function getCompiler(settings, withProgress) {
   if (withProgress && process.stdout.isTTY) {
     config.plugins.push(getProgressPlugin());
   }
-  return webpack(config);
+  const compiler = webpack(config);
+  compiler.plugin('emit', (compilation, compileCallback) => {
+    const stats = compilation.getStats().toJson();
+    const chunks = stats.chunks.sort((a, b) => (a.entry !== b.entry ? b.entry ? 1 : -1 : b.id - a.id));
+    settings.bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
+    compileCallback();
+  });
+  return compiler;
 }
 
 export function applyCompilerMiddleware(server, compiler, settings) {
