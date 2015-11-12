@@ -17,6 +17,7 @@ module.exports = function(serverUrl) {
     devtool: 'cheap-module-eval-source-map',
     output: {
       path: common.paths.OUTPUT,
+      publicPath: '/',
       filename: 'app.js'
     },
     module: {

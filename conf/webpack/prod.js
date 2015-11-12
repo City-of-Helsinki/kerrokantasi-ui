@@ -12,7 +12,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   output: {
     path: common.paths.OUTPUT,
-    publicPath: '',
+    publicPath: '/',
     filename: 'app.[hash].js'
   },
   module: {

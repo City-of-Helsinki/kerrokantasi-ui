@@ -24,9 +24,9 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(cookieSession({secret: settings.sessionSecret, cookie: {maxAge: 60 * 60000}}));
 server.use(passport.initialize());
 server.use(passport.session());
-applyCompilerMiddleware(server, compiler, settings);
 addAuth(server, passport, settings);
-server.use(historyApiFallback());
+server.use(historyApiFallback({index: "/", verbose: !!settings.dev}));
+applyCompilerMiddleware(server, compiler, settings);
 
 // Hello? Anyone there?
 server.listen(settings.port, settings.hostname, () => {
