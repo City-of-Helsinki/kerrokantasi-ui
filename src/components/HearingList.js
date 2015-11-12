@@ -1,14 +1,20 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import {Link} from 'react-router';
 
 class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
-    return (<li>
+    return (<div>
+      <h4>
         <Link to={`/hearing_${hearing.id}`}>{hearing.heading}</Link>
-      </li>);
+      </h4>
+      <div>
+        <i className="fa fa-clock-o"/> <FormattedMessage id="timeOpened" /> <FormattedRelative value={hearing.created_at}/> | <FormattedMessage id="timeClosed" /> <FormattedRelative value={hearing.close_at}/>
+      </div>
+      <hr/>
+    </div>);
   }
 }
 
@@ -18,7 +24,7 @@ class HearingList extends React.Component {
   render() {
     const {state, data} = (this.props.hearings || {});
     if (state !== "done") return <i>Loading...</i>;
-    return (<ul>{data.map((hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>)}</ul>);
+    return (<div className="media-list">{data.map((hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>)}</div>);
   }
 }
 
