@@ -77,7 +77,6 @@ export function addAuth(server, passport, settings) {
     res.send('OK');
   });
   server.get('/me', (req, res) => {
-    console.log(req.user);
     res.json(req.user || {});
   });
 }
