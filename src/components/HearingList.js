@@ -8,7 +8,7 @@ class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     return (<div>
       <h4>
-        <Link to={`/hearing_${hearing.id}`}>{hearing.heading}</Link>
+        <Link to={`/hearing/${hearing.id}`}>{hearing.heading}</Link>
       </h4>
       <div>
         <i className="fa fa-clock-o"/> <FormattedMessage id="timeOpened" /> <FormattedRelative value={hearing.created_at}/> | <FormattedMessage id="timeClosed" /> <FormattedRelative value={hearing.close_at}/>

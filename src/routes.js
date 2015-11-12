@@ -12,7 +12,7 @@ export default (
     <IndexRoute component={Home} />
     <Route path="/info" component={Info} />
     <Route path="/hearings" component={AllHearings} />
-    <Route path="/hearing_(:hearingId)" component={Hearing} />
+    <Route path="/hearing/(:hearingId)" component={Hearing} />
     <Route path="*" component={NotFound} />
   </Route>
 );
