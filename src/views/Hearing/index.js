@@ -42,6 +42,7 @@ class Hearing extends React.Component {
   render() {
     const {hearingId} = this.props.params;
     const {state, data} = (this.props.hearing[hearingId] || {state: 'initial'});
+    const {user} = this.props;
 
     if (state !== 'done') {
       return (<div className="container">
@@ -91,7 +92,10 @@ class Hearing extends React.Component {
           <CommentList
            comments={data.comments}
            areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))}
-           onPostComment={this.onPostHearingComment.bind(this)}/>
+           onPostComment={this.onPostHearingComment.bind(this)}
+           canVote={user !== null}
+           onPostVote={this.onVoteComment.bind(this)}
+           />
         </div>
       </Col>
     </div>);
@@ -102,6 +106,7 @@ Hearing.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
+  user: React.PropTypes.object,
 };
 
-export default connect((state) => ({hearing: state.hearing, language: state.language}))(injectIntl(Hearing));
+export default connect((state) => ({user: state.user, hearing: state.hearing, language: state.language}))(injectIntl(Hearing));

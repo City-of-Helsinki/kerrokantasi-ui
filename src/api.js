@@ -35,7 +35,7 @@ export function post(endpoint, data, params = {}, options = {}) {
     data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
     options.headers = merge({"Content-Type": "application/json"}, options.headers);
   }
-  return apiCall(endpoint, params, merge({body: body, method: "POST"}, options));
+  return apiCall(endpoint, params, merge({body: data, method: "POST"}, options));
 }
 
 export function get(endpoint, params = {}, options = {}) {

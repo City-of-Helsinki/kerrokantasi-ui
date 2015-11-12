@@ -16,7 +16,11 @@ class CommentList extends React.Component {
     return (<div>
       <h2><FormattedMessage id="comments"/></h2>
       {areCommentsOpen ? <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/> : null}
-      {comments.map((comment) => <Comment data={comment} key={comment.id}/>)}
+      {comments.map((comment) => (<Comment
+                                    data={comment}
+                                    key={comment.id}
+                                    onPostVote={this.props.onPostVote}
+                                    canVote={this.props.canVote} />))}
     </div>);
   }
 }
@@ -24,8 +28,10 @@ class CommentList extends React.Component {
 CommentList.propTypes = {
   comments: React.PropTypes.array,
   areCommentsOpen: React.PropTypes.bool,
+  canVote: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
-  onPostComment: React.PropTypes.function
+  onPostComment: React.PropTypes.function,
+  onPostVote: React.PropTypes.function,
 };
 
 export default injectIntl(CommentList);

@@ -51,9 +51,9 @@ export function postVote(commentId, hearingId, scenarioId) {
     dispatch(createAction("postingCommentVote")({hearingId, scenarioId}));
     let url = "";
     if (scenarioId) {
-      url = "/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/" + commentId + "/vote";
+      url = "/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/" + commentId + "/votes";
     } else {
-      url = "/v1/hearing/" + hearingId + "/comments/" + commentId + "/vote";
+      url = "/v1/hearing/" + hearingId + "/comments/" + commentId + "/votes";
     }
     return api.post(url).then((response) => {
       if (response.status >= 400) {
