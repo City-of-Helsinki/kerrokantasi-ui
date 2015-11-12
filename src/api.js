@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import {apiBaseUrl} from 'config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';
+import store from './store';
 
 function getApiURL(endpoint, params = null) {
   let url = (apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
@@ -16,14 +17,15 @@ function getApiURL(endpoint, params = null) {
 }
 
 export function apiCall(endpoint, params, options = {}) {
-  const finalOptions = merge({
-    method: "GET",
-    credentials: "include"
-  }, options);
-  finalOptions.headers = merge(
-    {"Accept": "application/json"},
-    finalOptions.headers || {}
-  );
+  const {user} = store.getState();
+  const finalOptions = merge({method: "GET"}, options);
+  const defaultHeaders = {
+    "Accept": "application/json"
+  };
+  if (user && user.token) {
+    defaultHeaders.Authorization = "JWT " + user.token;
+  }
+  finalOptions.headers = merge(defaultHeaders, finalOptions.headers || {});
   const url = getApiURL(endpoint, params);
   return fetch(url, finalOptions);
 }

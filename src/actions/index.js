@@ -1,9 +1,7 @@
 import {createAction} from 'redux-actions';
 import api from 'api';
-
+export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
-export const login = createAction('login');
-export const logout = createAction('logout');
 
 export function fetchHearingList(listId, endpoint, params) {
   return (dispatch) => {

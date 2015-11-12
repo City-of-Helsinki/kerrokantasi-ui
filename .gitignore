@@ -30,3 +30,4 @@ node_modules
 /dist
 /.idea
 bower_components
+/kk.config
