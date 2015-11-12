@@ -1,15 +1,27 @@
 const webpack = require('webpack');
+const ProgressBar = require('progress');
 
-export function getCompiler(settings) {
+function getProgressPlugin() {
+  const progress = new ProgressBar(
+    '[:bar] :percent :etas :state',
+    {incomplete: ' ', complete: '#', width: 60, total: 100}
+  );
+  return new webpack.ProgressPlugin(function (percentage, msg) {
+    progress.update(percentage, {state: msg.replace(/[\r\n]/g, '')});
+  });
+}
+
+export function getCompiler(settings, withProgress) {
   var config;
   if (settings.dev) {
     config = require('../conf/webpack/dev')(settings.serverUrl);
   } else {
     config = require('../conf/webpack/prod');
   }
-
+  if (withProgress && process.stdout.isTTY) {
+    config.plugins.push(getProgressPlugin());
+  }
   return webpack(config);
-
 }
 
 export function applyCompilerMiddleware(server, compiler, settings) {

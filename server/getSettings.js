@@ -15,6 +15,7 @@ const defaults = {
   cold: false
 };
 
+const requiredKeys = ["helsinkiAuthId", "helsinkiAuthSecret", "jwtKey", "sessionSecret"];
 
 export default function getOptions() {
   const nconf = new Provider();
@@ -34,6 +35,10 @@ export default function getOptions() {
     if(!settings.jwtKey) {
       settings.jwtKey = 'kerrokantasi';
     }
+  }
+  const missingKeys = requiredKeys.filter((key) => !settings[key]);
+  if(missingKeys.length) {
+    throw new Error("These configuration values are required but are currently missing: " + missingKeys.join(", "));
   }
   return settings;
 }
