@@ -31,8 +31,8 @@ export function apiCall(endpoint, params, options = {}) {
 }
 
 export function post(endpoint, data, params = {}, options = {}) {
-  if(typeof data !== "string") {
-    data = JSON.stringify(data);
+  if (typeof data !== "string") {
+    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
     options.headers = merge({"Content-Type": "application/json"}, options.headers);
   }
   return apiCall(endpoint, params, merge({body: data, method: "POST"}, options));
