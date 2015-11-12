@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node server",
-    "dev": "babel-node server --dev"
+    "start": "node server",
+    "dev": "node server --dev"
   },
   "repository": {
     "type": "git",
