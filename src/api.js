@@ -1,8 +1,7 @@
 import fetch from 'isomorphic-fetch';
-import {apiBaseUrl} from 'config';
+import {apiBaseUrl} from './config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';
-import store from './store';
 
 function getApiURL(endpoint, params = null) {
   let url = (apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
@@ -16,8 +15,11 @@ function getApiURL(endpoint, params = null) {
   return url;
 }
 
-export function apiCall(endpoint, params, options = {}) {
-  const {user} = store.getState();
+export function apiCall(state, endpoint, params, options = {}) {
+  if (typeof state !== "object") {
+    throw new Error("API calls require redux state for authentication");
+  }
+  const {user} = state;
   const finalOptions = merge({method: "GET"}, options);
   const defaultHeaders = {
     "Accept": "application/json"
@@ -30,16 +32,16 @@ export function apiCall(endpoint, params, options = {}) {
   return fetch(url, finalOptions);
 }
 
-export function post(endpoint, data, params = {}, options = {}) {
+export function post(state, endpoint, data, params = {}, options = {}) {
   if (typeof data !== "string") {
     data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
     options.headers = merge({"Content-Type": "application/json"}, options.headers);
   }
-  return apiCall(endpoint, params, merge({body: data, method: "POST"}, options));
+  return apiCall(state, endpoint, params, merge({body: data, method: "POST"}, options));
 }
 
-export function get(endpoint, params = {}, options = {}) {
-  return apiCall(endpoint, params, options);
+export function get(state, endpoint, params = {}, options = {}) {
+  return apiCall(state, endpoint, params, options);
 }
 
 export default {post, get};

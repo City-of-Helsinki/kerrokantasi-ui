@@ -8,11 +8,11 @@ import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import {fetchHearing, fetchScenarioComments, followHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
-import CommentList from 'src/components/CommentList';
-import LabelList from 'src/components/LabelList';
-import OverviewMap from 'src/components/OverviewMap';
-import HearingImageList from 'src/components/HearingImageList';
-import ScenarioList from 'src/components/ScenarioList';
+import CommentList from 'components/CommentList';
+import LabelList from 'components/LabelList';
+import OverviewMap from 'components/OverviewMap';
+import HearingImageList from 'components/HearingImageList';
+import ScenarioList from 'components/ScenarioList';
 
 class Hearing extends React.Component {
   componentDidMount() {
@@ -134,8 +134,9 @@ Hearing.propTypes = {
   scenarioComments: React.PropTypes.object,
 };
 
-export default connect((state) => ({user: state.user,
-                                    hearing: state.hearing,
-                                    scenarioComments: state.scenarioComments,
-                                    language: state.language})
-               )(injectIntl(Hearing));
+export default connect((state) => ({
+  user: state.user,
+  hearing: state.hearing,
+  scenarioComments: state.scenarioComments,
+  language: state.language
+}))(injectIntl(Hearing));
