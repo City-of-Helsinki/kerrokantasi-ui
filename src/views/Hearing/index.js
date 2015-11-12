@@ -7,7 +7,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
-import {fetchHearing, postHearingComment, postScenarioComment} from 'actions';
+import {fetchHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
 import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
@@ -33,18 +33,16 @@ class Hearing extends React.Component {
     dispatch(postScenarioComment(hearingId, scenarioId, {content: text}));
   }
 
-  getComments() {
-    return (<div id="hearing-comments">
-              <h2><FormattedMessage id="comments"/></h2>
-              <Comment sourceId="abcdef123"/>
-              <Comment sourceId="123abcdef"/>
-            </div>);
+  onVoteComment(commentId, scenarioId) {
+    const {dispatch} = this.props;
+    const {hearingId} = this.props.params;
+    dispatch(postVote(commentId, hearingId, scenarioId));
   }
-
 
   render() {
     const {hearingId} = this.props.params;
     const {state, data} = (this.props.hearing[hearingId] || {state: 'initial'});
+    const {user} = this.props;
 
     if (state !== 'done') {
       return (<div className="container">
@@ -94,7 +92,10 @@ class Hearing extends React.Component {
           <CommentList
            comments={data.comments}
            areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))}
-           onPostComment={this.onPostHearingComment.bind(this)}/>
+           onPostComment={this.onPostHearingComment.bind(this)}
+           canVote={user !== null}
+           onPostVote={this.onVoteComment.bind(this)}
+           />
         </div>
       </Col>
     </div>);
@@ -104,7 +105,8 @@ class Hearing extends React.Component {
 Hearing.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
-  params: React.PropTypes.object
+  params: React.PropTypes.object,
+  user: React.PropTypes.object,
 };
 
-export default connect((state) => ({hearing: state.hearing, language: state.language}))(injectIntl(Hearing));
+export default connect((state) => ({user: state.user, hearing: state.hearing, language: state.language}))(injectIntl(Hearing));
