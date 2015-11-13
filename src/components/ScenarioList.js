@@ -13,14 +13,27 @@ class ScenarioList extends React.Component {
     }
     return (<div>
       <h2><FormattedMessage id="hearing-scenarios"/></h2>
-      {scenarios.map((scenario) => <Scenario data={scenario} key={scenario.id} onPostComment={this.props.onPostScenarioComment}/>)}
+      {scenarios.map((scenario) => (<Scenario data={scenario}
+                                     key={scenario.id}
+                                     canComment={this.props.canComment}
+                                     onPostComment={this.props.onPostComment}
+                                     canVote={this.props.canVote}
+                                     onPostVote={this.props.onPostVote}
+                                     loadScenarioComments={this.props.loadScenarioComments}
+                                     comments={this.props.scenarioComments[scenario.id] || {data: []}}
+                                    />))}
     </div>);
   }
 }
 
 ScenarioList.propTypes = {
+  canComment: React.PropTypes.bool,
+  canVote: React.PropTypes.bool,
+  loadScenarioComments: React.PropTypes.function,
+  onPostComment: React.PropTypes.function,
+  onPostVote: React.PropTypes.function,
   scenarios: React.PropTypes.array,
-  onPostScenarioComment: React.PropTypes.function
+  scenarioComments: React.PropTypes.object,
 };
 
 export default (injectIntl(ScenarioList));

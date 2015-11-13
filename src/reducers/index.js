@@ -4,4 +4,6 @@ import language from './language';
 import user from './user';
 import hearingLists from './hearingLists';
 import hearing from './hearing';
-export default combineReducers({router, language, user, hearing, hearingLists});
+import scenarioComments from './scenarioComments';
+
+export default combineReducers({router, language, user, hearing, hearingLists, scenarioComments});

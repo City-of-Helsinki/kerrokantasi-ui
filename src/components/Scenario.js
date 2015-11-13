@@ -1,5 +1,5 @@
 import React from 'react';
-import CommentForm from './CommentForm';
+import CommentList from './CommentList';
 
 export default class Scenario extends React.Component {
   constructor(props) {
@@ -13,7 +13,16 @@ export default class Scenario extends React.Component {
   }
 
   toggle() {
+    if (this.state.collapsed === true) {
+      this.loadComments();
+    }
+
     this.setState({collapsed: !this.state.collapsed});
+  }
+
+  loadComments() {
+    const {data} = this.props;
+    this.props.loadScenarioComments(data.id);
   }
 
   render() {
@@ -31,13 +40,24 @@ export default class Scenario extends React.Component {
         <p>{data.abstract}</p>
         <p>{data.content}</p>
       </div>
-      <CommentForm onPostComment={this.onPostComment.bind(this)}/>
+      <CommentList
+       comments={this.props.comments.data}
+       canComment={this.props.canComment}
+       onPostComment={this.onPostComment.bind(this)}
+       canVote={this.props.canVote}
+       onPostVote={this.props.onPostVote}
+      />
     <hr/>
     </div>);
   }
 }
 
 Scenario.propTypes = {
+  canComment: React.PropTypes.bool,
+  canVote: React.PropTypes.bool,
   data: React.PropTypes.object,
-  onPostComment: React.PropTypes.function
+  onPostComment: React.PropTypes.function,
+  onPostVote: React.PropTypes.function,
+  loadScenarioComments: React.PropTypes.function,
+  comments: React.PropTypes.object,
 };

@@ -7,7 +7,7 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
-import {fetchHearing, followHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
+import {fetchHearing, fetchScenarioComments, followHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
 import CommentList from 'src/components/CommentList';
 import LabelList from 'src/components/LabelList';
 import OverviewMap from 'src/components/OverviewMap';
@@ -43,6 +43,12 @@ class Hearing extends React.Component {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     dispatch(followHearing(hearingId));
+  }
+
+  loadScenarioComments(scenarioId) {
+    const {dispatch} = this.props;
+    const {hearingId} = this.props.params;
+    dispatch(fetchScenarioComments(hearingId, scenarioId));
   }
 
   render() {
@@ -98,16 +104,22 @@ class Hearing extends React.Component {
         <div id="hearing-scenarios">
           <ScenarioList
            scenarios={data.scenarios}
-           onPostScenarioComment={this.onPostScenarioComment.bind(this)}/>
+           canComment={!data.closed && (new Date() < new Date(data.close_at))}
+           onPostComment={this.onPostScenarioComment.bind(this)}
+           canVote={user !== null}
+           onPostVote={this.onVoteComment.bind(this)}
+           loadScenarioComments={this.loadScenarioComments.bind(this)}
+           scenarioComments={this.props.scenarioComments}
+          />
         </div>
         <div id="hearing-comments">
           <CommentList
            comments={data.comments}
-           areCommentsOpen={!data.closed && (new Date() < new Date(data.close_at))}
+           canComment={!data.closed && (new Date() < new Date(data.close_at))}
            onPostComment={this.onPostHearingComment.bind(this)}
            canVote={user !== null}
            onPostVote={this.onVoteComment.bind(this)}
-           />
+          />
         </div>
       </Col>
     </div>);
@@ -119,6 +131,11 @@ Hearing.propTypes = {
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
   user: React.PropTypes.object,
+  scenarioComments: React.PropTypes.object,
 };
 
-export default connect((state) => ({user: state.user, hearing: state.hearing, language: state.language}))(injectIntl(Hearing));
+export default connect((state) => ({user: state.user,
+                                    hearing: state.hearing,
+                                    scenarioComments: state.scenarioComments,
+                                    language: state.language})
+               )(injectIntl(Hearing));
