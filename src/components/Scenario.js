@@ -4,19 +4,21 @@ import CommentList from './CommentList';
 export default class Scenario extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {collapsed: true};
+    this.state = {collapsed: true, commentLoaded: false};
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (!nextState.collapsed && !nextState.commentLoaded) {
+      this.loadComments();
+      this.setState({commentLoaded: true});
+    }
+  }
   onPostComment(text) {
     const {data} = this.props;
     this.props.onPostComment(data.id, text);
   }
 
   toggle() {
-    if (this.state.collapsed === true) {
-      this.loadComments();
-    }
-
     this.setState({collapsed: !this.state.collapsed});
   }
 
