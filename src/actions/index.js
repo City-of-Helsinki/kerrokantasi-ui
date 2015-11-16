@@ -46,6 +46,20 @@ export function followHearing(hearingId) {
   };
 }
 
+export function fetchScenarioComments(hearingId, scenarioId) {
+  return (dispatch) => {
+    dispatch(createAction("beginFetchScenarioComments")({hearingId, scenarioId}));
+    return api.get("v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments", {}).then((response) => {
+      if (response.status >= 400) {
+        throw new Error("bad response from server");
+      }
+      response.json().then((data) => {
+        dispatch(createAction("receiveScenarioComments")({hearingId, scenarioId, data}));
+      });
+    });
+  };
+}
+
 export function postHearingComment(hearingId, params) {
   return (dispatch) => {
     dispatch(createAction("postingHearingComment")({hearingId}));
@@ -55,6 +69,21 @@ export function postHearingComment(hearingId, params) {
       }
       response.json().then((data) => {
         dispatch(createAction("postedHearingComment")({hearingId, data}));
+        dispatch(fetchHearing(hearingId));
+      });
+    });
+  };
+}
+
+export function postScenarioComment(hearingId, scenarioId, params) {
+  return (dispatch) => {
+    dispatch(createAction("postingScenarioComment")({hearingId, scenarioId}));
+    return api.post(("/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/"), params).then((response) => {
+      if (response.status >= 400) {
+        throw new Error("bad response from server");
+      }
+      response.json().then((data) => {
+        dispatch(createAction("postedScenarioComment")({hearingId, scenarioId, data}));
         dispatch(fetchHearing(hearingId));
       });
     });
