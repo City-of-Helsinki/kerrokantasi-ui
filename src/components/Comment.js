@@ -13,8 +13,7 @@ class Comment extends React.Component {
       <p>
         <span className="pull-right"><i className="fa fa-thumbs-o-up"/> {data.n_votes}</span>
         <i className="fa fa-clock-o"/> <FormattedRelative value={data.created_at}/><br/>
-        <i className="fa fa-user"/> {data.created_by || "-"}
-        {}
+        <i className="fa fa-user"/> {data.created_by.username || "-"}
       </p>
       <hr/>
       <p>{data.content}</p>
