@@ -6,13 +6,20 @@ function getProgressPlugin() {
     '[:bar] :percent :etas :state',
     {incomplete: ' ', complete: '#', width: 60, total: 100}
   );
-  return new webpack.ProgressPlugin(function (percentage, msg) {
+  return new webpack.ProgressPlugin((percentage, msg) => {
     progress.update(percentage, {state: msg.replace(/[\r\n]/g, '')});
   });
 }
 
+function sortChunks(chunk1, chunk2) {
+  if (chunk1.entry !== chunk2.entry) {
+    return chunk2.entry ? 1 : -1;
+  }
+  return chunk2.id - chunk1.id;
+}
+
 export function getCompiler(settings, withProgress) {
-  var config;
+  let config;
   if (settings.dev) {
     config = require('../conf/webpack/dev')(settings.serverUrl);
   } else {
@@ -24,7 +31,7 @@ export function getCompiler(settings, withProgress) {
   const compiler = webpack(config);
   compiler.plugin('emit', (compilation, compileCallback) => {
     const stats = compilation.getStats().toJson();
-    const chunks = stats.chunks.sort((a, b) => (a.entry !== b.entry ? b.entry ? 1 : -1 : b.id - a.id));
+    const chunks = stats.chunks.sort(sortChunks);
     settings.bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
     compileCallback();
   });

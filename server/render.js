@@ -1,14 +1,13 @@
 import Helmet from 'react-helmet';
 import React from 'react';
-import {Provider} from 'react-redux';
 import {match, reduxReactRouter} from 'redux-router/server';
 import {renderToStaticMarkup, renderToString} from 'react-dom/server';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import flatten from 'lodash/array/flatten';
 import compact from 'lodash/array/compact';
+import qs from 'query-string';
 
 import commonInit from '../src/commonInit';
-import routes from '../src/routes';
 import createStore from '../src/createStore';
 import getRoot from '../src/getRoot';
 import Html from './Html';
@@ -29,21 +28,23 @@ function getDataDependencies(store) {
   const {getState, dispatch} = store;
   const {location, params, components} = getState().router;
   const fetchers = [];
+
   function getFetchers(component) {
     const fetcher = component.fetchData;
-    if(fetcher && typeof fetcher == 'function') fetchers.push(fetcher);
-    if(component.WrappedComponent) { // `react-redux` convention; dive in.
+    if (fetcher && typeof fetcher === 'function') fetchers.push(fetcher);
+    if (component.WrappedComponent) { // `react-redux` convention; dive in.
       getFetchers(component.WrappedComponent);
     }
     // TODO: `react-intl` support waits for https://github.com/yahoo/react-intl/pull/219
   }
+
   components.forEach(getFetchers);
-  if(!fetchers.length) return [];
+  if (!fetchers.length) return [];
   return compact(flatten(fetchers.map(fetchData => fetchData(dispatch, getState, location, params))));
 }
 
-function renderState(store, routerState, bundleSrc="/app.js") {
-  return new Promise(function (resolve, reject) {
+function renderState(store, routerState, bundleSrc = "/app.js") {
+  return new Promise((resolve, reject) => {
     // Workaround redux-router query string issue: https://github.com/rackt/redux-router/issues/106
     if (routerState.location.search && !routerState.location.query) {
       routerState.location.query = qs.parse(routerState.location.search);

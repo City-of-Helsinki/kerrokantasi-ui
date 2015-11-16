@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
-import historyApiFallback from 'connect-history-api-fallback';
 import getSettings from './getSettings';
 import {getCompiler, applyCompilerMiddleware} from './bundler';
 import {getPassport, addAuth} from './auth';

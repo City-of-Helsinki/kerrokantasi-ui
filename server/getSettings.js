@@ -1,4 +1,3 @@
-import {readFileSync} from 'fs';
 import {Provider} from 'nconf';
 const _ = require('lodash');
 
@@ -31,15 +30,15 @@ export default function getOptions() {
   settings.port = port;
   settings.publicUrl = settings.publicUrl || settings.serverUrl;
   if (settings.dev) {
-    if(!settings.sessionSecret) {
+    if (!settings.sessionSecret) {
       settings.sessionSecret = 'Don\'t Panic.';
     }
-    if(!settings.jwtKey) {
+    if (!settings.jwtKey) {
       settings.jwtKey = 'kerrokantasi';
     }
   }
   const missingKeys = requiredKeys.filter((key) => !settings[key]);
-  if(missingKeys.length) {
+  if (missingKeys.length) {
     throw new Error("These configuration values are required but are currently missing: " + missingKeys.join(", "));
   }
   return settings;
