@@ -1,16 +1,16 @@
 import 'assets/app.less';
-import React from 'react';
 import {render} from 'react-dom';
-import {Provider} from 'react-redux';
-import {ReduxRouter} from 'redux-router';
-import store from 'store';
+import getRoot from './getRoot';
+import createStore from './createStore';
+import commonInit from './commonInit';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import {reduxReactRouter} from 'redux-router';
 
-import {addLocaleData} from 'react-intl';
-import en from 'react-intl/lib/locale-data/en';
-import fi from 'react-intl/lib/locale-data/fi';
-import sv from 'react-intl/lib/locale-data/sv';
-addLocaleData(en);
-addLocaleData(fi);
-addLocaleData(sv);
-
-render(<div><Provider store={store}><ReduxRouter/></Provider></div>, document.getElementById('root'));
+commonInit();
+const store = createStore(
+  reduxReactRouter,
+  createBrowserHistory,
+  (typeof window !== "undefined" ? window.STATE : {})
+);
+const root = getRoot(store);
+render(root, document.getElementById('root'));

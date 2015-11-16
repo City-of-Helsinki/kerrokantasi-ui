@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node server",
-    "dev": "babel-node server --dev"
+    "start": "node server --server-rendering",
+    "dev": "node server --dev"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
     "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
   },
   "dependencies": {
+    "app-module-path": "^1.0.4",
     "body-parser": "^1.14.1",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
@@ -28,6 +29,8 @@
     "nconf": "^0.8.2",
     "passport": "^0.3.2",
     "passport-helsinki": "City-of-Helsinki/passport-helsinki#fec48d78e0258aa1472369014ffc01cd98c7cdc6",
+    "progress": "^1.1.8",
+    "query-string": "^3.0.0",
     "react": "^0.14.1",
     "react-bootstrap": "^0.27.3",
     "react-dom": "^0.14.1",
@@ -56,7 +59,6 @@
     "eslint-plugin-react": "^3.6.3",
     "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
-    "html-webpack-plugin": "^1.6.2",
     "json-loader": "^0.5.3",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",

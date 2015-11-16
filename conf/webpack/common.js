@@ -10,8 +10,7 @@ module.exports = {
     SRC,
     ASSETS,
     ENTRY: path.resolve(SRC, 'index.js'),
-    OUTPUT: path.resolve(ROOT, 'dist'),
-    HTML_TEMPLATE: path.resolve(__dirname, "template.html")
+    OUTPUT: path.resolve(ROOT, 'dist')
   },
   module: {
     loaders: [

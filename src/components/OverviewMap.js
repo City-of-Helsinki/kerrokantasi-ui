@@ -1,5 +1,4 @@
 import React from 'react';
-import {Map, Marker, TileLayer} from 'react-leaflet';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 class OverviewMap extends React.Component {
@@ -8,6 +7,8 @@ class OverviewMap extends React.Component {
     const position = [latitude, longitude];
     const style = {height: '200px'};
     if (latitude === "" || longitude === "") return null;
+    if (typeof window === "undefined") return <div />;
+    const {Map, Marker, TileLayer} = require('react-leaflet');  // Late import to be isomorphic compatible
     return (<div>
       <h4><FormattedMessage id="overview-map"/></h4>
       <Map center={position} zoom={13} style={style}>

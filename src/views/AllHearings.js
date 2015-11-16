@@ -6,9 +6,21 @@ import {fetchHearingList} from 'actions';
 import HearingList from 'components/HearingList';
 
 class AllHearings extends React.Component {
+  /**
+   * Return a promise that will, as it fulfills, have added requisite
+   * data for the All Hearings view into the dispatch's associated
+   * store.
+   *
+   * @param dispatch Redux Dispatch function
+   * @return {Promise} Data fetching promise
+   */
+  static fetchData(dispatch) {
+    return dispatch(fetchHearingList("allHearings", "/v1/hearing/"));
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch(fetchHearingList("allHearings", "/v1/hearing/"));
+    AllHearings.fetchData(dispatch);
   }
 
   render() {
@@ -28,4 +40,7 @@ AllHearings.propTypes = {
   hearingLists: React.PropTypes.object
 };
 
-export default connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(AllHearings));
+const WrappedAllHearings = connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(AllHearings));
+// We need to re-hoist the static fetchData to the wrapped component due to react-intl:
+WrappedAllHearings.fetchData = AllHearings.fetchData;
+export default WrappedAllHearings;
