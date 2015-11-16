@@ -15,10 +15,23 @@ import HearingImageList from 'components/HearingImageList';
 import ScenarioList from 'components/ScenarioList';
 
 class Hearing extends React.Component {
+  /**
+   * Return a promise that will, as it fulfills, have added requisite
+   * data for the Hearing view into the dispatch's associated store.
+   *
+   * @param dispatch Redux Dispatch function
+   * @param getState Redux state getter
+   * @param location Router location
+   * @param params Router params
+   * @return {Promise} Data fetching promise
+   */
+  static fetchData(dispatch, getState, location, params) {
+    return dispatch(fetchHearing(params.hearingId));
+  }
+
   componentDidMount() {
-    const {dispatch} = this.props;
-    const {hearingId} = this.props.params;
-    dispatch(fetchHearing(hearingId));
+    const {dispatch, params} = this.props;
+    Hearing.fetchData(dispatch, null, null, params);
   }
 
   onPostHearingComment(text) {
@@ -134,9 +147,12 @@ Hearing.propTypes = {
   scenarioComments: React.PropTypes.object,
 };
 
-export default connect((state) => ({
+const WrappedHearing = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
   scenarioComments: state.scenarioComments,
   language: state.language
 }))(injectIntl(Hearing));
+// We need to re-hoist the static fetchData to the wrapped component due to react-intl:
+WrappedHearing.fetchData = Hearing.fetchData;
+export default WrappedHearing;

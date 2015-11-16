@@ -6,10 +6,22 @@ import {fetchHearingList} from 'actions';
 import HearingList from 'components/HearingList';
 
 class Home extends React.Component {
+  /**
+   * Return a promise that will, as it fulfills, have added requisite
+   * data for the home view into the dispatch's associated store.
+   *
+   * @param dispatch Redux Dispatch function
+   * @return {Promise} Data fetching promise
+   */
+  static fetchData(dispatch) {
+    return Promise.all([
+      dispatch(fetchHearingList("nextClosingHearing", "/v1/hearing/", {next_closing: (new Date().toISOString())})),
+      dispatch(fetchHearingList("newestHearings", "/v1/hearing/", {order: "-created_at"}))
+    ]);
+  }
+
   componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch(fetchHearingList("nextClosingHearing", "/v1/hearing/", {next_closing: (new Date().toISOString())}));
-    dispatch(fetchHearingList("newestHearings", "/v1/hearing/", {order: "-created_at"}));
+    Home.fetchData(this.props.dispatch);
   }
 
   render() {
@@ -35,4 +47,7 @@ Home.propTypes = {
 };
 Home.contextTypes = {language: React.PropTypes.string};
 
-export default connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(Home));
+const WrappedHome = connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(Home));
+// We need to re-hoist the static fetchData to the wrapped component due to react-intl:
+WrappedHome.fetchData = Home.fetchData;
+export default WrappedHome;
