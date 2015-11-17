@@ -30,8 +30,8 @@ CommentList.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
-  onPostComment: React.PropTypes.function,
-  onPostVote: React.PropTypes.function,
+  onPostComment: React.PropTypes.func,
+  onPostVote: React.PropTypes.func,
 };
 
 export default injectIntl(CommentList);

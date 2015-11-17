@@ -39,7 +39,7 @@ class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
-  onPostComment: React.PropTypes.function
+  onPostComment: React.PropTypes.func
 };
 
 export default injectIntl(CommentForm);

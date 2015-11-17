@@ -58,8 +58,8 @@ Scenario.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   data: React.PropTypes.object,
-  onPostComment: React.PropTypes.function,
-  onPostVote: React.PropTypes.function,
-  loadScenarioComments: React.PropTypes.function,
+  onPostComment: React.PropTypes.func,
+  onPostVote: React.PropTypes.func,
+  loadScenarioComments: React.PropTypes.func,
   comments: React.PropTypes.object,
 };

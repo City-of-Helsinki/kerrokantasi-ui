@@ -29,9 +29,9 @@ class ScenarioList extends React.Component {
 ScenarioList.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
-  loadScenarioComments: React.PropTypes.function,
-  onPostComment: React.PropTypes.function,
-  onPostVote: React.PropTypes.function,
+  loadScenarioComments: React.PropTypes.func,
+  onPostComment: React.PropTypes.func,
+  onPostVote: React.PropTypes.func,
   scenarios: React.PropTypes.array,
   scenarioComments: React.PropTypes.object,
 };

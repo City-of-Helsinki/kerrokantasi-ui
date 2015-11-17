@@ -25,7 +25,7 @@ class Comment extends React.Component {
 Comment.propTypes = {
   data: React.PropTypes.object,
   canVote: React.PropTypes.bool,
-  onPostVote: React.PropTypes.function,
+  onPostVote: React.PropTypes.func,
 };
 
 export default injectIntl(Comment);
