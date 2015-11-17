@@ -2,7 +2,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
-import NavBrand from 'react-bootstrap/lib/NavBrand';
+import NavbarBrand from 'react-bootstrap/lib/NavbarBrand';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import {FormattedMessage} from 'react-intl';
 import LanguageDropdown from './LanguageDropdown';
@@ -63,12 +63,12 @@ class Header extends React.Component {
     const {history} = this.props;
     return (
       <Navbar id="header">
-        <NavBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavBrand>
+        <NavbarBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavbarBrand>
         <Nav onSelect={onSelect}>
           {this.getNavItem("hearings", history && history.isActive("/hearings"))}
           {this.getNavItem("info", history && history.isActive("/info"))}
         </Nav>
-        <Nav right onSelect={onSelect}>
+        <Nav pullRight onSelect={onSelect}>
           {userItems}
           <LanguageDropdown currentLanguage={this.props.language}/>
         </Nav>
