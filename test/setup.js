@@ -1,5 +1,3 @@
-const srcPath = require('path').resolve(__dirname, "..", "src");
-require('app-module-path').addPath(srcPath);
 const jsdom = require('jsdom').jsdom;
 const chai = require('chai');
 
