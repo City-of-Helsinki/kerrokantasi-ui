@@ -6,6 +6,7 @@ import createMemoryHistory from 'history/lib/createMemoryHistory';
 import flatten from 'lodash/array/flatten';
 import compact from 'lodash/array/compact';
 import qs from 'query-string';
+import url from 'url';
 
 import commonInit from '../src/commonInit';
 import createStore from '../src/createStore';
@@ -79,6 +80,10 @@ export default function render(req, res, settings) {
   if (!settings.dev && !settings.bundleSrc) { // Compilation not ready yet
     res.status(503).send("Initializing. Please try again soon.");
   }
+
+  // Hook up the global `HOSTNAME` for sharing usage:
+  const parsedUrl = url.parse(settings.publicUrl);
+  global.HOSTNAME = parsedUrl.protocol + "://" + parsedUrl.host;
 
   // This initialization segment here mirrors what's done in `src/index.js` for client-side:
   commonInit();
