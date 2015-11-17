@@ -11,6 +11,8 @@ import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
 import {jsdom} from 'jsdom';
+import Response from 'node-fetch/lib/response';
+import {Readable} from 'stream';
 
 export const mockUser = {id: "fff", displayName: "Mock von User"};
 
@@ -140,4 +142,75 @@ export function withAndWithoutUser(state = null, fn = null) {
     {state: assign({}, state, {user: null}), message: "when not logged in"},
     {state: assign({}, state, {user: mockUser}), message: "when logged in"}
   ].forEach(fn);
+}
+
+function streamify(s) {
+  if (typeof s === "string") {
+    var rs = new Readable;
+    rs.push("" + s);
+    rs.push(null);
+    return rs;
+  }
+  return s;
+}
+
+/**
+ * Return a mock fetch() replacement function for the given URL map.
+ *
+ * The URL map handlers are functions (or just straight data).
+ * Functions have the signature (url, options) (exactly those given to fetch()).
+ * The data, or the functions' retvals, should be Response objects (see
+ * `jsonResponse`), strings (assumed typeless OK responses), or objects with {body, init},
+ * that are then used to instantiate Responses.
+ *
+ * In addition, the returned function will have a `.calls` dictionary, recording the times
+ * each endpoint was called.
+ *
+ * @param urlMap URL map dictionary.
+ * @return {fetcher} A fetcher function.
+ */
+export function mockFetch(urlMap) {
+  const calls = {};
+  const fetcher = (url, options) => {
+    calls[url] = (calls[url] || 0) + 1;
+    const handler = urlMap[url];
+    if (!handler) {
+      throw new Error("Unexpected fetch for URL " + url + " (options " + options + ")");
+    }
+    let rv = null;
+    if (typeof handler === 'function') {
+      rv = handler(url, options);
+    } else {
+      rv = handler; // Assumed straight data.
+    }
+    if (rv.then) { // Smells like a promise -- fine!
+      return rv;
+    }
+    if (typeof rv === "string") {
+      rv = {body: rv, init: {status: 200}};
+    }
+    if (rv.body && rv.init) {
+      rv = new Response(streamify(rv.body), rv.init);
+    }
+    if (!(rv.json && typeof rv.json === 'function')) {
+      throw new Error("The return value from mockFetch handler for " + url + " did not return a response");
+    }
+    return new Promise((resolve) => {
+      resolve(rv);
+    });
+  };
+  fetcher.calls = calls;
+  return fetcher;
+}
+
+export function jsonResponse(content, status = 200) {
+  return new Response(
+    streamify(JSON.stringify(content)),
+    {
+      status,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
 }
