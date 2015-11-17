@@ -13,6 +13,7 @@ import LabelList from 'components/LabelList';
 import OverviewMap from 'components/OverviewMap';
 import HearingImageList from 'components/HearingImageList';
 import ScenarioList from 'components/ScenarioList';
+import SocialBar from 'components/SocialBar';
 
 class Hearing extends React.Component {
   /**
@@ -111,6 +112,7 @@ class Hearing extends React.Component {
             <Label>{data.borough}</Label>
           </div>
           <OverviewMap latitude={data.latitude} longitude={data.longitude}/>
+          <SocialBar />
         </div>
       </Col>
       <Col xs={12} sm={9}>
