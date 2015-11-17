@@ -23,8 +23,8 @@ class OverviewMap extends React.Component {
 }
 
 OverviewMap.propTypes = {
-  latitude: React.PropTypes.String,
-  longitude: React.PropTypes.String
+  latitude: React.PropTypes.string,
+  longitude: React.PropTypes.string
 };
 
 export default (injectIntl(OverviewMap));

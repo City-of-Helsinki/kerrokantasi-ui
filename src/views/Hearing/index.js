@@ -13,6 +13,7 @@ import LabelList from 'components/LabelList';
 import OverviewMap from 'components/OverviewMap';
 import HearingImageList from 'components/HearingImageList';
 import ScenarioList from 'components/ScenarioList';
+import SocialBar from 'components/SocialBar';
 
 class Hearing extends React.Component {
   /**
@@ -64,6 +65,22 @@ class Hearing extends React.Component {
     dispatch(fetchScenarioComments(hearingId, scenarioId));
   }
 
+  getOpenGraphMetaData(data) {
+    let hostname = "http://kerrokantasi.hel.fi";
+    if (typeof HOSTNAME === 'string') {
+      hostname = HOSTNAME;  // eslint-disable-line no-undef
+    } else if (typeof window !== 'undefined') {
+      hostname = window.location.protocol + "//" + window.location.host;
+    }
+    const url = hostname + this.props.location.pathname;
+    return [
+      {property: "og:url", content: url},
+      {property: "og:type", content: "website"},
+      {property: "og:title", content: data.heading}
+      // TODO: Add description and image?
+    ];
+  }
+
   render() {
     const {hearingId} = this.props.params;
     const {state, data} = (this.props.hearing[hearingId] || {state: 'initial'});
@@ -75,7 +92,7 @@ class Hearing extends React.Component {
       </div>);
     }
     return (<div className="container">
-      <Helmet title={data.heading}/>
+      <Helmet title={data.heading} meta={this.getOpenGraphMetaData(data)} />
       <Col xs={6} sm={3}>
         <div className="hearing-sidebar">
           <div>
@@ -95,6 +112,7 @@ class Hearing extends React.Component {
             <Label>{data.borough}</Label>
           </div>
           <OverviewMap latitude={data.latitude} longitude={data.longitude}/>
+          <SocialBar />
         </div>
       </Col>
       <Col xs={12} sm={9}>
@@ -143,6 +161,7 @@ Hearing.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
+  location: React.PropTypes.object,
   user: React.PropTypes.object,
   scenarioComments: React.PropTypes.object,
 };
