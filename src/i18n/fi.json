@@ -29,5 +29,7 @@
   "writeComment": "Kommentoi",
   "submit": "Lähetä",
   "cancel": "Peru",
-  "anonymous": "Anonyymi"
+  "anonymous": "Anonyymi",
+  "follow": "Seuraa",
+  "vote": "Äänestä"
 }

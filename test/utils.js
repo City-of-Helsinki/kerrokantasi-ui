@@ -12,6 +12,8 @@ import {Provider} from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
 import {jsdom} from 'jsdom';
 
+export const mockUser = {id: "fff", displayName: "Mock von User"};
+
 /**
  * Wire a component class up with Redux and React-Intl for testing.
  * Because there doesn't seem to be a good way to pass context down, the returned
@@ -117,4 +119,25 @@ export function domDescribe(name, fn) {
     fn();
     afterEach(() => dom(false));
   })
+}
+
+/**
+ * Meta-function for easily testing both logged-in and logged-out states.
+ *
+ * The given `fn` is called with an object with {state, message} keys;
+ * `state` is an initial state object and `message` something to append to
+ * the test description.
+ *
+ * @param state State to merge in.
+ * @param fn Test-declaring (`it...`) function.
+ */
+export function withAndWithoutUser(state = null, fn = null) {
+  if (typeof state === 'function') {
+    fn = state;
+    state = {};
+  }
+  [
+    {state: assign({}, state, {user: null}), message: "when not logged in"},
+    {state: assign({}, state, {user: mockUser}), message: "when logged in"}
+  ].forEach(fn);
 }
