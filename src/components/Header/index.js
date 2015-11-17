@@ -8,19 +8,12 @@ import {FormattedMessage} from 'react-intl';
 import LanguageDropdown from './LanguageDropdown';
 import {connect} from 'react-redux';
 import {login, logout} from 'actions';
+import {LinkContainer} from 'react-router-bootstrap';
+import {Link} from 'react-router';
 
 class Header extends React.Component {
   onSelect(eventKey) {
     switch (eventKey) {
-    case 'home':
-      this.context.history.pushState(null, '/');
-      break;
-    case 'info':
-      this.context.history.pushState(null, '/info');
-      break;
-    case 'hearings':
-      this.context.history.pushState(null, '/hearings');
-      break;
     case 'login':
       // TODO: Actual login flow
       this.props.dispatch(login());
@@ -47,26 +40,31 @@ class Header extends React.Component {
     ];
   }
 
-  getNavItem(id, active) {
-    return (
+  getNavItem(id, url) {
+    const {history} = this.props;
+    const active = history && history.isActive(url);
+    const navItem = (
       <NavItem key={id} eventKey={id} href="#" active={active}>
         <FormattedMessage id={id + "HeaderText"} />
         {!(this.props.slim) ? <FormattedMessage tagName="div" className="desc" id={id + "HeaderDescription"}/> : null}
       </NavItem>
     );
+    if (url) {
+      return <LinkContainer to={url}>{navItem}</LinkContainer>;
+    }
+    return navItem;
   }
 
   render() {
     const header = this;
     const onSelect = (eventKey) => { header.onSelect(eventKey); };
     const userItems = this.getUserItems();
-    const {history} = this.props;
     return (
       <Navbar id="header">
-        <NavbarBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavbarBrand>
+        <NavbarBrand><Link to="/">Kerro Kantasi</Link></NavbarBrand>
         <Nav onSelect={onSelect}>
-          {this.getNavItem("hearings", history && history.isActive("/hearings"))}
-          {this.getNavItem("info", history && history.isActive("/info"))}
+          {this.getNavItem("hearings", "/hearings")}
+          {this.getNavItem("info", "/info")}
         </Nav>
         <Nav pullRight onSelect={onSelect}>
           {userItems}
@@ -89,4 +87,8 @@ Header.contextTypes = {
   history: React.PropTypes.object
 };
 
-export default connect((state) => ({user: state.user, language: state.language}))(Header);
+export default connect((state) => ({
+  user: state.user,  // User dropdown requires this state
+  language: state.language,  // Language switch requires this state
+  router: state.router, // Navigation activity requires this state
+}))(Header);
