@@ -1,6 +1,9 @@
 Kerro Kantasi UI
 ================
 
+[![Build Status](https://travis-ci.org/City-of-Helsinki/kerrokantasi-ui.svg)](https://travis-ci.org/City-of-Helsinki/kerrokantasi-ui) [![Coverage Status](https://coveralls.io/repos/City-of-Helsinki/kerrokantasi-ui/badge.svg?branch=master&service=github)](https://coveralls.io/github/City-of-Helsinki/kerrokantasi-ui?branch=master)
+
+
 Requirements
 ------------
 

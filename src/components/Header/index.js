@@ -43,7 +43,7 @@ class Header extends React.Component {
       ];
     }
     return [
-      <NavItem key="login" eventKey="login" href="#"><FormattedMessage id="login"/></NavItem>
+      <NavItem key="login" eventKey="login" href="#" className="login-link"><FormattedMessage id="login"/></NavItem>
     ];
   }
 
@@ -65,8 +65,8 @@ class Header extends React.Component {
       <Navbar id="header">
         <NavBrand><a href="#" onClick={onSelect.bind(this, 'home')}>Kerro Kantasi</a></NavBrand>
         <Nav onSelect={onSelect}>
-          {this.getNavItem("hearings", history.isActive("/hearings"))}
-          {this.getNavItem("info", history.isActive("/info"))}
+          {this.getNavItem("hearings", history && history.isActive("/hearings"))}
+          {this.getNavItem("info", history && history.isActive("/info"))}
         </Nav>
         <Nav right onSelect={onSelect}>
           {userItems}

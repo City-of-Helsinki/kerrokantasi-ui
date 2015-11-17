@@ -1,0 +1,10 @@
+instrumentation:
+  root: src
+extensions:
+  - .js
+  - .jsx
+reporting:
+  reports:
+    - text
+    - html
+    - lcov
