@@ -23,5 +23,10 @@
   "welcome": "Tervetuloa",
   "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
   "newestHearings": "Uusimmat kuulemiset",
-  "allHearings": "Kaikki kuulemiset"
+  "allHearings": "Kaikki kuulemiset",
+  "timeOpened": "Avautui",
+  "timeClosed": "Sulkeutuu",
+  "writeComment": "Kommentoi",
+  "submit": "Lähetä",
+  "cancel": "Peru"
 }
