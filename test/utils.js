@@ -8,6 +8,7 @@ import {createRenderer} from 'react-addons-test-utils';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
+import {jsdom} from 'jsdom';
 
 /**
  * Wire a component class up with Redux and React-Intl for testing.
@@ -33,4 +34,33 @@ export function wireComponent(store, type, props = {}, children = []) {
 export function createTestStore(state) {
   commonInit();
   return createStore(reduxReactRouter, createMemoryHistory, state || {});
+}
+
+/**
+ * Set up or tear down the JSDOM DOM set up in global variables.
+ * @param mode
+ */
+export function dom(mode) {
+  if (mode) {
+    global.document = jsdom('<!doctype html><html><body></body></html>');
+    global.window = document.defaultView;
+    global.navigator = global.window.navigator;
+  } else {
+    global.document = undefined;
+    global.window = undefined;
+    global.navigator = undefined;
+  }
+}
+
+/**
+ * Sugar for setting up a Mocha suite with a DOM for each test.
+ * @param name
+ * @param fn
+ */
+export function domDescribe(name, fn) {
+  describe(name, () => {
+    beforeEach(() => dom(true));
+    fn();
+    afterEach(() => dom(false));
+  })
 }

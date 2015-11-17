@@ -1,10 +1,10 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
 import Header from 'components/Header';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, createTestStore} from './utils';
+import {wireComponent, createTestStore, domDescribe} from './utils';
 import React from 'react';
 
-describe('Header', () => {
+domDescribe('Header', () => {
   it('should show a login link when not logged in', () => {
     const comp = renderIntoDocument(wireComponent({user: null}, Header));
     expect(findDOMNode(comp).querySelector(".login-link")).to.be.ok;

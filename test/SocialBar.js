@@ -1,10 +1,10 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
 import SocialBar from 'components/SocialBar';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, createTestStore} from './utils';
+import {wireComponent, createTestStore, domDescribe} from './utils';
 import React from 'react';
 
-describe('SocialBar', () => {
+domDescribe('SocialBar', () => {
   it('should have a container for Facebook Sharing', () => {
     const comp = renderIntoDocument(wireComponent({}, SocialBar));
     expect(findDOMNode(comp).querySelector(".fb-share-button")).to.be.ok;
