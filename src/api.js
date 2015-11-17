@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from 'mockable-fetch';
 import {apiBaseUrl} from './config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';

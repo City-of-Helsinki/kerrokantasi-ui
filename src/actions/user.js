@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from 'mockable-fetch';
 import {createAction} from 'redux-actions';
 
 export function retrieveUserFromSession() {
