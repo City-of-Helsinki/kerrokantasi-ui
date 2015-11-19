@@ -13,9 +13,15 @@ export default class Scenario extends React.Component {
       this.setState({commentLoaded: true});
     }
   }
+
   onPostComment(text) {
     const {data} = this.props;
     this.props.onPostComment(data.id, text);
+  }
+
+  onPostVote(commentId) {
+    const {data} = this.props;
+    this.props.onPostVote(commentId, data.id);
   }
 
   toggle() {
@@ -47,7 +53,7 @@ export default class Scenario extends React.Component {
        canComment={this.props.canComment}
        onPostComment={this.onPostComment.bind(this)}
        canVote={this.props.canVote}
-       onPostVote={this.props.onPostVote}
+       onPostVote={this.onPostVote.bind(this)}
       />
     <hr/>
     </div>);
