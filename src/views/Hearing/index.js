@@ -30,6 +30,20 @@ class Hearing extends React.Component {
     return dispatch(fetchHearing(params.hearingId));
   }
 
+  /**
+   * Return truthy if the view can be rendered fully with the data currently
+   * acquirable by `getState()`.
+   *
+   * @param getState State getter
+   * @param location Router location
+   * @param params Router params
+   * @return {boolean} Renderable?
+   */
+  static canRenderFully(getState, location, params) {
+    const {state, data} = (getState().hearing[params.hearingId] || {state: 'initial'});
+    return (state === 'done' && data);
+  }
+
   componentDidMount() {
     const {dispatch, params} = this.props;
     Hearing.fetchData(dispatch, null, null, params);
@@ -172,6 +186,7 @@ const WrappedHearing = connect((state) => ({
   scenarioComments: state.scenarioComments,
   language: state.language
 }))(injectIntl(Hearing));
-// We need to re-hoist the static fetchData to the wrapped component due to react-intl:
+// We need to re-hoist the data statics to the wrapped component due to react-intl:
+WrappedHearing.canRenderFully = Hearing.canRenderFully;
 WrappedHearing.fetchData = Hearing.fetchData;
 export default WrappedHearing;

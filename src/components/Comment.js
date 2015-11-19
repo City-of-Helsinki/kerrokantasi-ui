@@ -9,11 +9,12 @@ class Comment extends React.Component {
   }
   render() {
     const {data, canVote} = this.props;
+    const createdBy = data.created_by;
     return (<div className="hearing-comment">
       <p>
         <span className="pull-right"><i className="fa fa-thumbs-o-up"/> {data.n_votes}</span>
         <i className="fa fa-clock-o"/> <FormattedRelative value={data.created_at}/><br/>
-        <i className="fa fa-user"/> {data.created_by.username || "-"}
+        <i className="fa fa-user"/> {createdBy ? createdBy.username : <FormattedMessage id="anonymous" />}
       </p>
       <hr/>
       <p>{data.content}</p>

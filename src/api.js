@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from 'mockable-fetch';
 import {apiBaseUrl} from './config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';
@@ -20,16 +20,16 @@ export function apiCall(state, endpoint, params, options = {}) {
     throw new Error("API calls require redux state for authentication");
   }
   const {user} = state;
-  const finalOptions = merge({method: "GET"}, options);
+  options = merge({method: "GET"}, options);  // eslint-disable-line no-param-reassign
   const defaultHeaders = {
     "Accept": "application/json"
   };
-  if (user && user.token) {
+  if (options.method !== "GET" && user && user.token) {
     defaultHeaders.Authorization = "JWT " + user.token;
   }
-  finalOptions.headers = merge(defaultHeaders, finalOptions.headers || {});
+  options.headers = merge(defaultHeaders, options.headers || {});
   const url = getApiURL(endpoint, params);
-  return fetch(url, finalOptions);
+  return fetch(url, options);
 }
 
 export function post(state, endpoint, data, params = {}, options = {}) {

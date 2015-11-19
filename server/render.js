@@ -29,10 +29,13 @@ function getDataDependencies(store) {
   const {getState, dispatch} = store;
   const {location, params, components} = getState().router;
   const fetchers = [];
+  const assurers = [];
 
   function getFetchers(component) {
     const fetcher = component.fetchData;
+    const assurer = component.canRenderFully;
     if (fetcher && typeof fetcher === 'function') fetchers.push(fetcher);
+    if (assurer && typeof assurer === 'function') assurers.push(assurer);
     if (component.WrappedComponent) { // `react-redux` convention; dive in.
       getFetchers(component.WrappedComponent);
     }
@@ -41,6 +44,13 @@ function getDataDependencies(store) {
 
   components.forEach(getFetchers);
   if (!fetchers.length) return [];
+  if (assurers.length) { // See if we have any rendering assurers; if we do...
+    // ... see whether they all assure us that they can render their respective views...
+    const allAssured = assurers.map(canRenderFully => canRenderFully(getState, location, params)).every((flag) => !!flag);
+    if (allAssured) { // ... and if they do, don't even bother with the actual fetchers.
+      return [];
+    }
+  }
   return compact(flatten(fetchers.map(fetchData => fetchData(dispatch, getState, location, params))));
 }
 
@@ -69,7 +79,7 @@ function renderState(store, routerState, bundleSrc = "/app.js") {
   });
 }
 
-export default function render(req, res, settings) {
+export default function render(req, res, settings, initialState = {}) {
   const bundleSrc = settings.bundleSrc || "/app.js";
   if (!settings.serverRendering) {
     const html = renderToStaticMarkup((<Html bundleSrc={bundleSrc}/>));
@@ -79,15 +89,16 @@ export default function render(req, res, settings) {
 
   if (!settings.dev && !settings.bundleSrc) { // Compilation not ready yet
     res.status(503).send("Initializing. Please try again soon.");
+    return;
   }
 
   // Hook up the global `HOSTNAME` for sharing usage:
-  const parsedUrl = url.parse(settings.publicUrl);
+  const parsedUrl = url.parse(settings.publicUrl || "http://127.0.0.1:8086/");
   global.HOSTNAME = parsedUrl.protocol + "://" + parsedUrl.host;
 
   // This initialization segment here mirrors what's done in `src/index.js` for client-side:
   commonInit();
-  const store = createStore(reduxReactRouter, createMemoryHistory, {});
+  const store = createStore(reduxReactRouter, createMemoryHistory, initialState);
 
   // And this bit replaces the actual React mounting.
   store.dispatch(match(req.url, (error, redirectLocation, routerState) => {
