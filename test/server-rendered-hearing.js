@@ -26,7 +26,7 @@ describe('Hearing rendered universally', () => {
     it('should render something ' + message, () => {
       return getRenderPromise(req, state).then(({status, body}) => {
         expect(status).to.equal(200);
-        expect(body).to.contain(data.heading);
+        expect(body).to.contain(data.title);
       });
     });
   });

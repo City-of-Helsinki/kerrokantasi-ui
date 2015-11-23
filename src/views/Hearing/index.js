@@ -7,12 +7,12 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
-import {fetchHearing, fetchScenarioComments, followHearing, postHearingComment, postScenarioComment, postVote} from 'actions';
+import {fetchHearing, fetchSectionComments, followHearing, postHearingComment, postSectionComment, postVote} from 'actions';
 import CommentList from 'components/CommentList';
 import LabelList from 'components/LabelList';
 import OverviewMap from 'components/OverviewMap';
 import HearingImageList from 'components/HearingImageList';
-import ScenarioList from 'components/ScenarioList';
+import SectionList from 'components/SectionList';
 import SocialBar from 'components/SocialBar';
 
 class Hearing extends React.Component {
@@ -55,16 +55,16 @@ class Hearing extends React.Component {
     dispatch(postHearingComment(hearingId, {content: text}));
   }
 
-  onPostScenarioComment(scenarioId, text) {
+  onPostSectionComment(sectionId, text) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
-    dispatch(postScenarioComment(hearingId, scenarioId, {content: text}));
+    dispatch(postSectionComment(hearingId, sectionId, {content: text}));
   }
 
-  onVoteComment(commentId, scenarioId) {
+  onVoteComment(commentId, sectionId) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
-    dispatch(postVote(commentId, hearingId, scenarioId));
+    dispatch(postVote(commentId, hearingId, sectionId));
   }
 
   onFollowHearing() {
@@ -73,10 +73,10 @@ class Hearing extends React.Component {
     dispatch(followHearing(hearingId));
   }
 
-  loadScenarioComments(scenarioId) {
+  loadSectionComments(sectionId) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
-    dispatch(fetchScenarioComments(hearingId, scenarioId));
+    dispatch(fetchSectionComments(hearingId, sectionId));
   }
 
   getOpenGraphMetaData(data) {
@@ -90,14 +90,14 @@ class Hearing extends React.Component {
     return [
       {property: "og:url", content: url},
       {property: "og:type", content: "website"},
-      {property: "og:title", content: data.heading}
+      {property: "og:title", content: data.title}
       // TODO: Add description and image?
     ];
   }
 
   render() {
     const {hearingId} = this.props.params;
-    const {state, data} = (this.props.hearing[hearingId] || {state: 'initial'});
+    const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
     const {user} = this.props;
 
     if (state !== 'done') {
@@ -105,33 +105,35 @@ class Hearing extends React.Component {
         <i>Loading...</i>
       </div>);
     }
+    const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
+    const onPostVote = this.onVoteComment.bind(this);
     return (<div className="container">
-      <Helmet title={data.heading} meta={this.getOpenGraphMetaData(data)} />
+      <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
       <Col xs={6} sm={3}>
         <div className="hearing-sidebar">
           <div>
             <h4><FormattedMessage id="timetable"/></h4>
-            <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={data.close_at}/>
+            <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={hearing.close_at}/>
           </div>
           <div>
             <h4><FormattedMessage id="table-of-content"/></h4>
           </div>
           <ButtonGroup vertical>
             <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-            <Button href="#hearing-scenarios"><FormattedMessage id="hearing-scenarios"/> <Badge>{data.scenarios.length}</Badge></Button>
-            <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{data.n_comments}</Badge></Button>
+            <Button href="#hearing-sections"><FormattedMessage id="hearing-sections"/> <Badge>{hearing.sections.length}</Badge></Button>
+            <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{hearing.n_comments}</Badge></Button>
           </ButtonGroup>
           <div>
             <h4><FormattedMessage id="borough"/></h4>
-            <Label>{data.borough}</Label>
+            <Label>{hearing.borough}</Label>
           </div>
-          <OverviewMap latitude={data.latitude} longitude={data.longitude}/>
+          <OverviewMap latitude={hearing.latitude} longitude={hearing.longitude}/>
           <SocialBar />
         </div>
       </Col>
       <Col xs={12} sm={9}>
         <div id="hearing">
-          <LabelList labels={data.labels}/>
+          <LabelList labels={hearing.labels}/>
           <div>
             <h1>
               {user !== null ? (<span className="pull-right">
@@ -139,31 +141,31 @@ class Hearing extends React.Component {
                   <i className="fa fa-bell-o"/> <FormattedMessage id="follow"/>
                 </Button>
                </span>) : null}
-              {data.heading}</h1>
-            <HearingImageList images={data.images}/>
-            <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: data.abstract}}/>
+              {hearing.title}</h1>
+            <HearingImageList images={hearing.images}/>
+            <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
           </div>
-          <div dangerouslySetInnerHTML={{__html: data.content}} />
+          <div dangerouslySetInnerHTML={{__html: (hearing.content || "")}} />
         </div>
         <hr/>
-        <div id="hearing-scenarios">
-          <ScenarioList
-           scenarios={data.scenarios}
-           canComment={!data.closed && (new Date() < new Date(data.close_at))}
-           onPostComment={this.onPostScenarioComment.bind(this)}
+        <div id="hearing-sections">
+          <SectionList
+           sections={hearing.sections}
+           canComment={hearingAllowsComments}
+           onPostComment={this.onPostSectionComment.bind(this)}
            canVote={user !== null}
-           onPostVote={this.onVoteComment.bind(this)}
-           loadScenarioComments={this.loadScenarioComments.bind(this)}
-           scenarioComments={this.props.scenarioComments}
+           onPostVote={onPostVote}
+           loadSectionComments={this.loadSectionComments.bind(this)}
+           sectionComments={this.props.sectionComments}
           />
         </div>
         <div id="hearing-comments">
           <CommentList
-           comments={data.comments}
-           canComment={!data.closed && (new Date() < new Date(data.close_at))}
+           comments={hearing.comments}
+           canComment={hearingAllowsComments}
            onPostComment={this.onPostHearingComment.bind(this)}
            canVote={user !== null}
-           onPostVote={this.onVoteComment.bind(this)}
+           onPostVote={onPostVote}
           />
         </div>
       </Col>
@@ -177,13 +179,13 @@ Hearing.propTypes = {
   params: React.PropTypes.object,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
-  scenarioComments: React.PropTypes.object,
+  sectionComments: React.PropTypes.object,
 };
 
 const WrappedHearing = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
-  scenarioComments: state.scenarioComments,
+  sectionComments: state.sectionComments,
   language: state.language
 }))(injectIntl(Hearing));
 // We need to re-hoist the data statics to the wrapped component due to react-intl:

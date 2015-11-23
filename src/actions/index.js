@@ -48,17 +48,17 @@ export function followHearing(hearingId) {
   };
 }
 
-export function fetchScenarioComments(hearingId, scenarioId) {
+export function fetchSectionComments(hearingId, sectionId) {
   return (dispatch, getState) => {
-    dispatch(createAction("beginFetchScenarioComments")({hearingId, scenarioId}));
-    const url = "v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments";
+    dispatch(createAction("beginFetchSectionComments")({hearingId, sectionId}));
+    const url = "v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments";
     return api.get(getState(), url, {}).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
       }
       return response.json();
     }).then((data) => {
-      dispatch(createAction("receiveScenarioComments")({hearingId, scenarioId, data}));
+      dispatch(createAction("receiveSectionComments")({hearingId, sectionId, data}));
     });
   };
 }
@@ -79,28 +79,28 @@ export function postHearingComment(hearingId, params) {
   };
 }
 
-export function postScenarioComment(hearingId, scenarioId, params) {
+export function postSectionComment(hearingId, sectionId, params) {
   return (dispatch, getState) => {
-    dispatch(createAction("postingScenarioComment")({hearingId, scenarioId}));
-    const url = ("/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/");
+    dispatch(createAction("postingSectionComment")({hearingId, sectionId}));
+    const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
     return api.post(getState(), url, params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
       }
       return response.json();
     }).then((data) => {
-      dispatch(createAction("postedScenarioComment")({hearingId, scenarioId, data}));
+      dispatch(createAction("postedSectionComment")({hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
     });
   };
 }
 
-export function postVote(commentId, hearingId, scenarioId) {
+export function postVote(commentId, hearingId, sectionId) {
   return (dispatch, getState) => {
-    dispatch(createAction("postingCommentVote")({hearingId, scenarioId}));
+    dispatch(createAction("postingCommentVote")({hearingId, sectionId}));
     let url = "";
-    if (scenarioId) {
-      url = "/v1/hearing/" + hearingId + "/scenarios/" + scenarioId + "/comments/" + commentId + "/vote";
+    if (sectionId) {
+      url = "/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
     } else {
       url = "/v1/hearing/" + hearingId + "/comments/" + commentId + "/vote";
     }
@@ -110,7 +110,7 @@ export function postVote(commentId, hearingId, scenarioId) {
       }
       return response.json();
     }).then((data) => {
-      dispatch(createAction("postedCommentVote")({commentId, hearingId, scenarioId, data}));
+      dispatch(createAction("postedCommentVote")({commentId, hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
     });
   };

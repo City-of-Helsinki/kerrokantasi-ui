@@ -1,7 +1,7 @@
 import React from 'react';
 import CommentList from './CommentList';
 
-export default class Scenario extends React.Component {
+export default class Section extends React.Component {
   constructor(props) {
     super(props);
     this.state = {collapsed: true, commentLoaded: false};
@@ -30,20 +30,20 @@ export default class Scenario extends React.Component {
 
   loadComments() {
     const {data} = this.props;
-    this.props.loadScenarioComments(data.id);
+    this.props.loadSectionComments(data.id);
   }
 
   render() {
     const {data} = this.props;
     if (this.state.collapsed) {
-      return (<div className="hearing-scenario">
-        <h3 className="scenario-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-right"></i> {data.title}</h3>
+      return (<div className="hearing-section">
+        <h3 className="section-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-right"></i> {data.title}</h3>
         <hr/>
       </div>);
     }
-    return (<div className="hearing-scenario">
-      <h3 className="scenario-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-down"></i> {data.title}</h3>
-      <div className="scenario-content">
+    return (<div className="hearing-section">
+      <h3 className="section-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-down"></i> {data.title}</h3>
+      <div className="section-content">
         {data.images.map((image) => <div key={image.url}><img className="img-responsive" alt={image.title} title={image.title} src={image.url} /><div className="image-caption">{image.caption}</div></div>)}
         <p>{data.abstract}</p>
         <p>{data.content}</p>
@@ -60,12 +60,12 @@ export default class Scenario extends React.Component {
   }
 }
 
-Scenario.propTypes = {
+Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   data: React.PropTypes.object,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
-  loadScenarioComments: React.PropTypes.func,
+  loadSectionComments: React.PropTypes.func,
   comments: React.PropTypes.object,
 };
