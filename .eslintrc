@@ -2,6 +2,9 @@
   "extends": "airbnb",
   "env": {"browser": true, "node": true},
   "globals": {"__DEVTOOLS__": true},
+  "ecmaFeatures": {
+    "experimentalObjectRestSpread": true
+  },
   "rules": {
     "quotes": 0,
     "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],

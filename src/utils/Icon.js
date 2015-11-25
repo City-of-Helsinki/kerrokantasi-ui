@@ -6,7 +6,7 @@ import React, {PropTypes} from 'react';
 
 export default class Icon extends React.Component {
   render() {
-    let {
+    const {
       Component,
       name, size, rotate, flip, spin, fixedWidth, stack, inverse,
       pulse, className, ...props

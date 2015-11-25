@@ -16,7 +16,7 @@ export default class Section extends React.Component {
   }
 
   onPostComment(text) {
-    const {data} = this.props;
+    const {section} = this.props;
     this.props.onPostComment(section.id, text);
   }
 
@@ -36,7 +36,7 @@ export default class Section extends React.Component {
 
   getTitleDiv(collapsed) {
     const {section} = this.props;
-    if(section.type === "introduction") { // Intros never render this
+    if (section.type === "introduction") { // Intros never render this
       return null;
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
@@ -51,6 +51,7 @@ export default class Section extends React.Component {
     const {section} = this.props;
     const collapsed = this.state.collapsed && (section.type !== "introduction");
     const titleDiv = this.getTitleDiv(collapsed);
+    let commentList = null;
     if (collapsed) {
       return (<div className="hearing-section">
         {titleDiv}
@@ -58,20 +59,20 @@ export default class Section extends React.Component {
         <hr/>
       </div>);
     }
-    var commentList = null;
+
     if (section.type !== "introduction" && section.commenting !== "none") {
-      commentList = <CommentList
+      commentList = (<CommentList
         comments={this.props.comments.data}
         canComment={this.props.canComment}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
-      />;
+      />);
     }
-    const imageList = section.images.map((image) => <div key={image.url}>
-      <img className="img-responsive" alt={image.title} title={image.title} src={image.url} />
+    const imageList = section.images.map((image) => (<div key={image.url}>
+      <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
       <div className="image-caption">{image.caption}</div>
-    </div>);
+    </div>));
     return (<div className="hearing-section">
       {titleDiv}
       <div className="section-content">

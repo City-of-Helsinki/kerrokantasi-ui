@@ -95,7 +95,7 @@ class Hearing extends React.Component {
   }
 
   getFollowButton() {
-    if(this.props.user === null) {
+    if (this.props.user === null) {
       return null;
     }
     return (
@@ -119,8 +119,8 @@ class Hearing extends React.Component {
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
-    const introSection = detect(hearing.sections, (s) => s.type === "introduction");
-    const regularSections = hearing.sections.filter((s) => s.type !== "introduction");
+    const introSection = detect(hearing.sections, (section) => section.type === "introduction");
+    const regularSections = hearing.sections.filter((section) => section.type !== "introduction");
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
       <Sidebar hearing={hearing} />
