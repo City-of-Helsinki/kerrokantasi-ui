@@ -5,15 +5,12 @@ import Section from './Section';
 class SectionList extends React.Component {
   render() {
     const {sections} = this.props;
-    if (sections.length === 0) {
-      return (<div>
-          <h2><FormattedMessage id="hearing-sections"/></h2>
-          <p><FormattedMessage id="no-sections-available"/></p>
-      </div>);
+    if (!sections || sections.length === 0) {
+      return null;
     }
     return (<div>
       <h2><FormattedMessage id="hearing-sections"/></h2>
-      {sections.map((section) => (<Section data={section}
+      {sections.map((section) => (<Section section={section}
                                      key={section.id}
                                      canComment={this.props.canComment}
                                      onPostComment={this.props.onPostComment}

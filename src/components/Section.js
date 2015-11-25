@@ -16,12 +16,12 @@ export default class Section extends React.Component {
 
   onPostComment(text) {
     const {data} = this.props;
-    this.props.onPostComment(data.id, text);
+    this.props.onPostComment(section.id, text);
   }
 
   onPostVote(commentId) {
-    const {data} = this.props;
-    this.props.onPostVote(commentId, data.id);
+    const {section} = this.props;
+    this.props.onPostVote(commentId, section.id);
   }
 
   toggle() {
@@ -29,33 +29,57 @@ export default class Section extends React.Component {
   }
 
   loadComments() {
-    const {data} = this.props;
-    this.props.loadSectionComments(data.id);
+    const {section} = this.props;
+    this.props.loadSectionComments(section.id);
+  }
+
+  getTitleDiv(collapsed) {
+    const {section} = this.props;
+    if(section.type === "introduction") { // Intros never render this
+      return null;
+    }
+    const iconClass = (collapsed ? "fa-chevron-right" : "fa-chevron-down");
+    return (
+      <h3 className="section-title" onClick={this.toggle.bind(this)}>
+        <i className={"fa " + iconClass} /> {this.props.section.title}
+      </h3>
+    );
   }
 
   render() {
-    const {data} = this.props;
-    if (this.state.collapsed) {
+    const {section} = this.props;
+    const collapsed = this.state.collapsed && (section.type !== "introduction");
+    const titleDiv = this.getTitleDiv(collapsed);
+    if (collapsed) {
       return (<div className="hearing-section">
-        <h3 className="section-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-right"></i> {data.title}</h3>
+        {titleDiv}
+        <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
         <hr/>
       </div>);
     }
+    var commentList = null;
+    if (section.type !== "introduction" && section.commenting !== "none") {
+      commentList = <CommentList
+        comments={this.props.comments.data}
+        canComment={this.props.canComment}
+        onPostComment={this.onPostComment.bind(this)}
+        canVote={this.props.canVote}
+        onPostVote={this.onPostVote.bind(this)}
+      />;
+    }
+    const imageList = section.images.map((image) => <div key={image.url}>
+      <img className="img-responsive" alt={image.title} title={image.title} src={image.url} />
+      <div className="image-caption">{image.caption}</div>
+    </div>);
     return (<div className="hearing-section">
-      <h3 className="section-title" onClick={this.toggle.bind(this)}><i className="fa fa-chevron-down"></i> {data.title}</h3>
+      {titleDiv}
       <div className="section-content">
-        {data.images.map((image) => <div key={image.url}><img className="img-responsive" alt={image.title} title={image.title} src={image.url} /><div className="image-caption">{image.caption}</div></div>)}
-        <p>{data.abstract}</p>
-        <p>{data.content}</p>
+        {imageList}
+        <div dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+        <div dangerouslySetInnerHTML={{__html: section.content}}></div>
       </div>
-      <CommentList
-       comments={this.props.comments.data}
-       canComment={this.props.canComment}
-       onPostComment={this.onPostComment.bind(this)}
-       canVote={this.props.canVote}
-       onPostVote={this.onPostVote.bind(this)}
-      />
-    <hr/>
+      {commentList}
+      <hr/>
     </div>);
   }
 }
@@ -63,7 +87,7 @@ export default class Section extends React.Component {
 Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
-  data: React.PropTypes.object,
+  section: React.PropTypes.object.isRequired,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
   loadSectionComments: React.PropTypes.func,

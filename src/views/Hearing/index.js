@@ -9,7 +9,9 @@ import CommentList from 'components/CommentList';
 import LabelList from 'components/LabelList';
 import HearingImageList from 'components/HearingImageList';
 import SectionList from 'components/SectionList';
+import Section from 'components/Section';
 import Sidebar from './Sidebar';
+import detect from 'lodash/collection/detect';
 
 class Hearing extends React.Component {
   /**
@@ -103,6 +105,8 @@ class Hearing extends React.Component {
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
+    const introSection = detect(hearing.sections, (s) => s.type === "introduction");
+    const regularSections = hearing.sections.filter((s) => s.type !== "introduction");
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
       <Sidebar hearing={hearing} />
@@ -120,12 +124,12 @@ class Hearing extends React.Component {
             <HearingImageList images={hearing.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
           </div>
-          <div dangerouslySetInnerHTML={{__html: (hearing.content || "")}} />
+          {introSection ? <Section section={introSection} canComment={false} /> : null}
         </div>
         <hr/>
         <div id="hearing-sections">
           <SectionList
-           sections={hearing.sections}
+           sections={regularSections}
            canComment={hearingAllowsComments}
            onPostComment={this.onPostSectionComment.bind(this)}
            canVote={user !== null}
