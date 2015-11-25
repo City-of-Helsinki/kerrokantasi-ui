@@ -8,6 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import OverviewMap from 'components/OverviewMap';
 import SocialBar from 'components/SocialBar';
 import formatRelativeTime from '../../utils/formatRelativeTime';
+import Icon from 'utils/Icon';
 
 class Sidebar extends React.Component {
   render() {
@@ -16,8 +17,8 @@ class Sidebar extends React.Component {
       <div className="hearing-sidebar">
         <div>
           <h4><FormattedMessage id="timetable"/></h4>
-          <i className="fa fa-clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
-          <i className="fa fa-clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+          <Icon name="clock-o" /> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
+          <Icon name="clock-o" /> {formatRelativeTime("timeClose", hearing.close_at)}
         </div>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>

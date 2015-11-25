@@ -12,6 +12,7 @@ import SectionList from 'components/SectionList';
 import Section from 'components/Section';
 import Sidebar from './Sidebar';
 import detect from 'lodash/collection/detect';
+import Icon from 'utils/Icon';
 
 class Hearing extends React.Component {
   /**
@@ -93,6 +94,19 @@ class Hearing extends React.Component {
     ];
   }
 
+  getFollowButton() {
+    if(this.props.user === null) {
+      return null;
+    }
+    return (
+      <span className="pull-right">
+        <Button bsStyle="primary" onClick={this.onFollowHearing.bind(this)}>
+          <Icon name="bell-o" /> <FormattedMessage id="follow"/>
+        </Button>
+      </span>
+    );
+  }
+
   render() {
     const {hearingId} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
@@ -114,13 +128,7 @@ class Hearing extends React.Component {
         <div id="hearing">
           <LabelList labels={hearing.labels}/>
           <div>
-            <h1>
-              {user !== null ? (<span className="pull-right">
-                <Button bsStyle="primary" onClick={this.onFollowHearing.bind(this)}>
-                  <i className="fa fa-bell-o"/> <FormattedMessage id="follow"/>
-                </Button>
-               </span>) : null}
-              {hearing.title}</h1>
+            <h1>{this.getFollowButton()} {hearing.title}</h1>
             <HearingImageList images={hearing.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
           </div>

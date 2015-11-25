@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentList from './CommentList';
+import Icon from 'utils/Icon';
 
 export default class Section extends React.Component {
   constructor(props) {
@@ -38,10 +39,10 @@ export default class Section extends React.Component {
     if(section.type === "introduction") { // Intros never render this
       return null;
     }
-    const iconClass = (collapsed ? "fa-chevron-right" : "fa-chevron-down");
+    const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        <i className={"fa " + iconClass} /> {this.props.section.title}
+        <Icon name={iconName} /> {this.props.section.title}
       </h3>
     );
   }

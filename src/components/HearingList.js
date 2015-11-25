@@ -3,6 +3,7 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
+import Icon from 'utils/Icon';
 
 class HearingListItem extends React.Component {
 
@@ -13,7 +14,7 @@ class HearingListItem extends React.Component {
         <Link to={`/hearing/${hearing.id}`}>{hearing.title}</Link>
       </h4>
       <div>
-        <i className="fa fa-clock-o"/>
+        <Icon name="clock-o"/>
         {formatRelativeTime("timeOpen", hearing.open_at)} | {formatRelativeTime("timeClose", hearing.close_at)}
       </div>
       <hr/>
