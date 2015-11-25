@@ -1,9 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {Link} from 'react-router';
+import formatRelativeTime from '../utils/formatRelativeTime';
 
 class HearingListItem extends React.Component {
+
   render() {
     const hearing = this.props.hearing;
     return (<div>
@@ -11,7 +13,8 @@ class HearingListItem extends React.Component {
         <Link to={`/hearing/${hearing.id}`}>{hearing.title}</Link>
       </h4>
       <div>
-        <i className="fa fa-clock-o"/> <FormattedMessage id="timeOpened" /> <FormattedRelative value={hearing.created_at}/> | <FormattedMessage id="timeClosed" /> <FormattedRelative value={hearing.close_at}/>
+        <i className="fa fa-clock-o"/>
+        {formatRelativeTime("timeOpen", hearing.open_at)} | {formatRelativeTime("timeClose", hearing.close_at)}
       </div>
       <hr/>
     </div>);
