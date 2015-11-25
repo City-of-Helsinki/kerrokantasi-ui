@@ -1,19 +1,15 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import Badge from 'react-bootstrap/lib/Badge';
 import Button from 'react-bootstrap/lib/Button';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Col from 'react-bootstrap/lib/Col';
-import Label from 'react-bootstrap/lib/Label';
-import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import {fetchHearing, fetchSectionComments, followHearing, postHearingComment, postSectionComment, postVote} from 'actions';
 import CommentList from 'components/CommentList';
 import LabelList from 'components/LabelList';
-import OverviewMap from 'components/OverviewMap';
 import HearingImageList from 'components/HearingImageList';
 import SectionList from 'components/SectionList';
-import SocialBar from 'components/SocialBar';
+import Sidebar from './Sidebar';
 
 class Hearing extends React.Component {
   /**
@@ -109,28 +105,7 @@ class Hearing extends React.Component {
     const onPostVote = this.onVoteComment.bind(this);
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
-      <Col xs={6} sm={3}>
-        <div className="hearing-sidebar">
-          <div>
-            <h4><FormattedMessage id="timetable"/></h4>
-            <i className="fa fa-clock-o"></i> <FormattedMessage id="closing"/> <FormattedRelative value={hearing.close_at}/>
-          </div>
-          <div>
-            <h4><FormattedMessage id="table-of-content"/></h4>
-          </div>
-          <ButtonGroup vertical>
-            <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-            <Button href="#hearing-sections"><FormattedMessage id="hearing-sections"/> <Badge>{hearing.sections.length}</Badge></Button>
-            <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{hearing.n_comments}</Badge></Button>
-          </ButtonGroup>
-          <div>
-            <h4><FormattedMessage id="borough"/></h4>
-            <Label>{hearing.borough}</Label>
-          </div>
-          <OverviewMap latitude={hearing.latitude} longitude={hearing.longitude}/>
-          <SocialBar />
-        </div>
-      </Col>
+      <Sidebar hearing={hearing} />
       <Col xs={12} sm={9}>
         <div id="hearing">
           <LabelList labels={hearing.labels}/>
