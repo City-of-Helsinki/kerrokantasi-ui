@@ -41,7 +41,11 @@ class Sidebar extends React.Component {
         {boroughDiv}
         <div>
           <h4><FormattedMessage id="overview-map"/></h4>
-          <OverviewMap latitude={hearing.latitude} longitude={hearing.longitude} geojson={hearing.geojson} />
+          <OverviewMap
+            hearings={[hearing]}
+            style={{width: '100%', height: '240px'}}
+            hideIfEmpty
+          />
         </div>
         <SocialBar />
       </div>

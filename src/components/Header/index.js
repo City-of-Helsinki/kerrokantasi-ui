@@ -64,6 +64,7 @@ class Header extends React.Component {
         <NavbarBrand><Link to="/">Kerro Kantasi</Link></NavbarBrand>
         <Nav onSelect={onSelect}>
           {this.getNavItem("hearings", "/hearings")}
+          {this.getNavItem("hearingMap", "/map")}
           {this.getNavItem("info", "/info")}
         </Nav>
         <Nav pullRight onSelect={onSelect}>
