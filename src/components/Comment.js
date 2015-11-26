@@ -11,17 +11,18 @@ class Comment extends React.Component {
 
   render() {
     const {data, canVote} = this.props;
-    const createdBy = data.created_by;
     const voteButton = (canVote ?
         <Button bsStyle="primary" onClick={this.onVote.bind(this)}>
           <FormattedMessage id="vote"/> <Icon name="thumbs-o-up"/>
         </Button> : null
     );
+    const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
+
     return (<div className="hearing-comment">
       <p>
         <span className="pull-right"><Icon name="thumbs-o-up"/> {data.n_votes}</span>
         <Icon name="clock-o"/> <FormattedRelative value={data.created_at}/><br/>
-        <Icon name="user"/> {createdBy ? createdBy.username : <FormattedMessage id="anonymous"/>}
+        <Icon name="user"/> {authorName || <FormattedMessage id="anonymous"/>}
       </p>
       <hr/>
       <p>{data.content}</p>
