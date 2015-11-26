@@ -2,6 +2,8 @@ import {Passport} from 'passport';
 import HelsinkiStrategy from 'passport-helsinki';
 import jwt from 'jsonwebtoken';
 import merge from 'lodash/object/merge';
+import _debug from 'debug';
+const debug = _debug('auth');
 
 function generateToken(profile, options) {
   return jwt.sign(merge({}, profile), options.key, {
@@ -25,6 +27,7 @@ MockStrategy.prototype.authenticate = function mockAuthenticate() {
     provider: 'helsinki'
   };
   profile.token = generateToken(profile, this.options);
+  debug('mock strategy success:', profile);
   this.success(profile);
 };
 
@@ -38,16 +41,22 @@ export function getPassport(settings) {
     clientSecret: settings.helsinkiAuthSecret,
     callbackURL: settings.publicUrl + '/login/helsinki/return'
   }, (accessToken, refreshToken, profile, done) => {
+    debug('access token:', accessToken);
+    debug('refresh token:', refreshToken);
     if (getTokenFromAPI) {
+      debug('acquiring token from api...');
       helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, (token) => {
         profile.token = token;
+        return done(null, profile);
       });
     } else {
       if (profile._json) delete profile._json;
       if (profile._raw) delete profile._raw;
       profile.token = generateToken(profile, jwtOptions);
+      debug('token generated with options:', jwtOptions);
+      debug('profile:', profile);
+      return done(null, profile);
     }
-    return done(null, profile);
   });
   passport.use(helsinkiStrategy);
   if (settings.dev) {
@@ -59,7 +68,7 @@ export function getPassport(settings) {
 }
 
 function successfulLoginHandler(req, res) {
-  const js = 'if(window.opener) { window.close(); } else { location.href = "/"; }';
+  const js = 'setTimeout(function() {if(window.opener) { window.close(); } else { location.href = "/"; } }, 300);';
   res.send('<html><body>Login successful.<script>' + js + '</script>');
 }
 
