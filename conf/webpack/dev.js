@@ -24,7 +24,7 @@ module.exports = function(serverUrl) {
         {test: /\.js$/, include: common.paths.SRC, loader: 'eslint'}
       ],
       loaders: [
-        {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot', 'babel']}
+        {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot', 'babel?cacheDirectory']}
       ]
     },
     plugins: [
