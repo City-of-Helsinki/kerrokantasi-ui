@@ -13,27 +13,36 @@ import Icon from 'utils/Icon';
 class Sidebar extends React.Component {
   render() {
     const {hearing} = this.props;
+    const boroughDiv = (hearing.borough ? (<div>
+      <h4><FormattedMessage id="borough"/></h4>
+      <Label>{hearing.borough}</Label>
+    </div>) : null);
     return (<Col xs={6} sm={3}>
       <div className="hearing-sidebar">
         <div>
           <h4><FormattedMessage id="timetable"/></h4>
-          <Icon name="clock-o" /> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
-          <Icon name="clock-o" /> {formatRelativeTime("timeClose", hearing.close_at)}
+          <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
+          <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
         </div>
         <div>
           <h4><FormattedMessage id="table-of-content"/></h4>
         </div>
         <ButtonGroup vertical>
           <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          <Button href="#hearing-sections"><FormattedMessage id="hearing-sections"/>
-            <Badge>{hearing.sections.length}</Badge></Button>
-          <Button href="#hearing-comments"><FormattedMessage id="comments"/> <Badge>{hearing.n_comments}</Badge></Button>
+          <Button href="#hearing-sections">
+            <FormattedMessage id="hearing-sections"/>
+            <Badge>{hearing.sections.length}</Badge>
+          </Button>
+          <Button href="#hearing-comments">
+            <FormattedMessage id="comments"/>
+            <Badge>{hearing.n_comments}</Badge>
+          </Button>
         </ButtonGroup>
+        {boroughDiv}
         <div>
-          <h4><FormattedMessage id="borough"/></h4>
-          <Label>{hearing.borough}</Label>
+          <h4><FormattedMessage id="overview-map"/></h4>
+          <OverviewMap latitude={hearing.latitude} longitude={hearing.longitude} geojson={hearing.geojson} />
         </div>
-        <OverviewMap latitude={hearing.latitude} longitude={hearing.longitude}/>
         <SocialBar />
       </div>
     </Col>);
