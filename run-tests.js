@@ -13,7 +13,7 @@ nodePath = process.env["NODE_PATH"] = nodePath.join(path.separator);
 var args = require('minimist')(process.argv.slice(2), opts={"--": true});
 if(args.cov) {
 	cmdline = [
-		"./node_modules/babel/bin/babel-node.js",
+		"./node_modules/babel-cli/bin/babel-node.js",
 		"./node_modules/isparta/bin/isparta",
 		"cover",
 		"./node_modules/mocha/bin/_mocha",
@@ -23,7 +23,7 @@ if(args.cov) {
 } else {
 	cmdline = [
 		"./node_modules/mocha/bin/_mocha",
-		"--compilers", "js:babel/register",
+		"--compilers", "js:babel-register",
 		"--recursive",
 		"--require", "./test/setup.js"
 	];
