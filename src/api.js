@@ -1,10 +1,10 @@
 import fetch from 'mockable-fetch';
-import {apiBaseUrl} from './config';
+import config from './config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';
 
 function getApiURL(endpoint, params = null) {
-  let url = (apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
+  let url = (config.apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
   if (params) {
     if (url.indexOf("?") > -1) {
