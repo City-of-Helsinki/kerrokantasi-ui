@@ -54,7 +54,7 @@ function getDataDependencies(store) {
   return compact(flatten(fetchers.map(fetchData => fetchData(dispatch, getState, location, params))));
 }
 
-function renderState(store, routerState, bundleSrc = "/app.js") {
+function renderState(settings, store, routerState, bundleSrc = "/app.js") {
   return new Promise((resolve, reject) => {
     // Workaround redux-router query string issue: https://github.com/rackt/redux-router/issues/106
     if (routerState.location.search && !routerState.location.query) {
@@ -71,6 +71,7 @@ function renderState(store, routerState, bundleSrc = "/app.js") {
         content={appContent}
         initialState={state}
         bundleSrc={bundleSrc}
+        apiBaseUrl={settings.apiBaseUrl}
       />));
       resolve({status, html});
     }).catch((err) => {
@@ -82,7 +83,7 @@ function renderState(store, routerState, bundleSrc = "/app.js") {
 export default function render(req, res, settings, initialState = {}) {
   const bundleSrc = settings.bundleSrc || "/app.js";
   if (!settings.serverRendering) {
-    const html = renderToStaticMarkup((<Html bundleSrc={bundleSrc}/>));
+    const html = renderToStaticMarkup((<Html bundleSrc={bundleSrc} apiBaseUrl={settings.apiBaseUrl} />));
     res.status(200).send(html);
     return;
   }
@@ -110,7 +111,7 @@ export default function render(req, res, settings, initialState = {}) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
       return;
     }
-    renderState(store, routerState, bundleSrc).then(({status, html}) => {
+    renderState(settings, store, routerState, bundleSrc).then(({status, html}) => {
       res.status(status || 200).send(html);
     }, (err) => {
       res.status(500).send(err);

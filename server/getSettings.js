@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const defaults = {
   serverUrl: 'http://localhost:8086',
+  apiBaseUrl: 'http://localhost:8000',
   publicUrl: null,
   helsinkiAuthId: null,
   helsinkiAuthSecret: null,
