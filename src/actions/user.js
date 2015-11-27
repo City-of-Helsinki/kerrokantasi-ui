@@ -3,7 +3,7 @@ import {createAction} from 'redux-actions';
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
-    return fetch('/me', {method: 'GET', credentials: 'same-origin'}).then((response) => {
+    return fetch('/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
       return response.json();
     }).then((data) => {
       return dispatch(createAction('receiveUserData')(data));

@@ -24,7 +24,7 @@
     "body-parser": "^1.14.1",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
-    "cookie-session": "^1.2.0",
+    "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.3",
     "history": "^1.13.0",
     "isomorphic-fetch": "^2.2.0",

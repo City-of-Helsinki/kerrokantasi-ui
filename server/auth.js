@@ -62,8 +62,14 @@ export function getPassport(settings) {
   if (settings.dev) {
     passport.use(new MockStrategy(jwtOptions));
   }
-  passport.serializeUser((user, done) => done(null, user));
-  passport.deserializeUser((user, done) => done(null, user));
+  passport.serializeUser((user, done) => {
+    debug('serializing user:', user);
+    done(null, user);
+  });
+  passport.deserializeUser((user, done) => {
+    debug('deserializing user:', user);
+    done(null, user);
+  });
   return passport;
 }
 

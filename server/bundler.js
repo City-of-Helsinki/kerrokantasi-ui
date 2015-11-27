@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const ProgressBar = require('progress');
+import _debug from 'debug';
+const debug = _debug('bundler');
 
 function getProgressPlugin() {
   const progress = new ProgressBar(
@@ -39,24 +41,25 @@ export function getCompiler(settings, withProgress) {
 }
 
 export function applyCompilerMiddleware(server, compiler, settings) {
-  if (settings.dev) {
-    server.use(require('webpack-dev-middleware')(compiler, {
-      publicPath: compiler.options.output.publicPath,
-      quiet: false,
-      noInfo: false,
-      stats: {
-        assets: false,
-        chunkModules: false,
-        chunks: true,
-        colors: true,
-        hash: false,
-        progress: false,
-        timings: false,
-        version: false
-      }
-    }));
-    if (!settings.cold) {
-      server.use(require('webpack-hot-middleware')(compiler));
+  if (!settings.dev) return;
+  debug("enabling dev-middleware");
+  server.use(require('webpack-dev-middleware')(compiler, {
+    publicPath: compiler.options.output.publicPath,
+    quiet: false,
+    noInfo: false,
+    stats: {
+      assets: false,
+      chunkModules: false,
+      chunks: true,
+      colors: true,
+      hash: false,
+      progress: false,
+      timings: false,
+      version: false
     }
+  }));
+  if (!settings.cold) {
+    debug("enabling hot-middleware");
+    server.use(require('webpack-hot-middleware')(compiler));
   }
 }

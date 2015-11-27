@@ -93,7 +93,7 @@ export default function render(req, res, settings, initialState = {}) {
   }
 
   // Hook up the global `HOSTNAME` for sharing usage:
-  const parsedUrl = url.parse(settings.publicUrl || "http://127.0.0.1:8086/");
+  const parsedUrl = url.parse(settings.publicUrl || "http://localhost:8086/");
   global.HOSTNAME = parsedUrl.protocol + "://" + parsedUrl.host;
 
   // This initialization segment here mirrors what's done in `src/index.js` for client-side:
