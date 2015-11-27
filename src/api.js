@@ -20,7 +20,7 @@ export function apiCall(state, endpoint, params, options = {}) {
     throw new Error("API calls require redux state for authentication");
   }
   const {user} = state;
-  options = merge({method: "GET"}, options);  // eslint-disable-line no-param-reassign
+  options = merge({method: "GET", credentials: "include"}, options);  // eslint-disable-line no-param-reassign
   const defaultHeaders = {
     "Accept": "application/json"
   };
