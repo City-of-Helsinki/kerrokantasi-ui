@@ -32,5 +32,8 @@
   "cancel": "Peru",
   "anonymous": "Anonyymi",
   "follow": "Seuraa",
-  "vote": "Äänestä"
+  "vote": "Äänestä",
+  "hearingMap": "Kuulemiset kartalla",
+  "hearingMapHeaderText": "Kartta",
+  "hearingMapHeaderDescription": "Näe kuulemiset kartalla"
 }

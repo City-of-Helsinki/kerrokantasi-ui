@@ -1,30 +1,64 @@
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import isNumber from 'lodash/lang/isNumber';
+import {connect} from 'react-redux';
+import {pushState} from 'redux-router';
+
 
 class OverviewMap extends React.Component {
+  navigateToHearing(id) {
+    this.props.dispatch(pushState(null, `/hearing/${id}`));
+  }
+  getHearingMapContent(hearings) {
+    const {Marker, Popup, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
+    let position = null;
+    const contents = [];
+    hearings.forEach((hearing) => {
+      const {latitude, longitude, geojson, id} = hearing;
+      const content = (this.props.enablePopups ? (<Popup>
+        <div>
+          <h4>
+            <a href="#" onClick={this.navigateToHearing.bind(this, hearing.id)}>{hearing.title}</a>
+          </h4>
+          <p>{hearing.abstract}</p>
+        </div>
+      </Popup>) : null);
+      if (geojson) {
+        contents.push(<GeoJson key={id} data={geojson}>{content}</GeoJson>);
+      } else if (isNumber(latitude) && isNumber(longitude)) {
+        contents.push(<Marker key={id} position={[latitude, longitude]}>{content}</Marker>);
+      }
+    });
+    if (position === null) {
+      position = [60.192059, 24.945831];  // Default to Helsinki's center
+    }
+    return {position, contents};
+  }
+
   render() {
-    const {latitude, longitude} = this.props;
-    const position = [latitude, longitude];
-    const style = {height: '200px'};
-    if (latitude === "" || longitude === "") return null;
-    if (typeof window === "undefined") return <div />;
-    const {Map, Marker, TileLayer} = require('react-leaflet');  // Late import to be isomorphic compatible
-    return (<div>
-      <h4><FormattedMessage id="overview-map"/></h4>
+    if (typeof window === "undefined") return null;
+    const {style, hearings} = this.props;
+    const {Map, TileLayer} = require('react-leaflet');  // Late import to be isomorphic compatible
+    const {position, contents} = this.getHearingMapContent(hearings);
+    if (!contents.length && this.props.hideIfEmpty) {
+      return null;
+    }
+    return (
       <Map center={position} zoom={13} style={style}>
         <TileLayer
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={position}/>
-      </Map>
-    </div>);
+        {contents}
+      </Map>);
   }
 }
 
 OverviewMap.propTypes = {
-  latitude: React.PropTypes.string,
-  longitude: React.PropTypes.string
+  dispatch: React.PropTypes.func,
+  hearings: React.PropTypes.array.isRequired,
+  style: React.PropTypes.object,
+  hideIfEmpty: React.PropTypes.bool,
+  enablePopups: React.PropTypes.bool
 };
 
-export default (injectIntl(OverviewMap));
+export default connect()(OverviewMap);
