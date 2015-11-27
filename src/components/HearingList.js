@@ -11,11 +11,11 @@ class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     return (<div>
       <h4>
+        {!hearing.published ? <Icon name="eye-slash" /> : null}
         <Link to={`/hearing/${hearing.id}`}>{hearing.title}</Link>
       </h4>
       <div>
-        <Icon name="clock-o"/>
-        {formatRelativeTime("timeOpen", hearing.open_at)} | {formatRelativeTime("timeClose", hearing.close_at)}
+        <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)} | {formatRelativeTime("timeClose", hearing.close_at)}
       </div>
       <hr/>
     </div>);

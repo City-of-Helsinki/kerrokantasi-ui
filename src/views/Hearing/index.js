@@ -128,7 +128,11 @@ class Hearing extends React.Component {
         <div id="hearing">
           <LabelList labels={hearing.labels}/>
           <div>
-            <h1>{this.getFollowButton()} {hearing.title}</h1>
+            <h1>
+              {this.getFollowButton()}
+              {!hearing.published ? <Icon name="eye-slash" /> : null}
+              {hearing.title}
+            </h1>
             <HearingImageList images={hearing.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
           </div>
