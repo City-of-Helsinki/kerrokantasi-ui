@@ -1,10 +1,10 @@
 import fetch from 'mockable-fetch';
-import {apiBaseUrl} from './config';
+import config from './config';
 import merge from 'lodash/object/merge';
 import qs from 'querystring';
 
 function getApiURL(endpoint, params = null) {
-  let url = (apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
+  let url = (config.apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
   if (params) {
     if (url.indexOf("?") > -1) {
@@ -20,7 +20,7 @@ export function apiCall(state, endpoint, params, options = {}) {
     throw new Error("API calls require redux state for authentication");
   }
   const {user} = state;
-  options = merge({method: "GET"}, options);  // eslint-disable-line no-param-reassign
+  options = merge({method: "GET", credentials: "include"}, options);  // eslint-disable-line no-param-reassign
   const defaultHeaders = {
     "Accept": "application/json"
   };

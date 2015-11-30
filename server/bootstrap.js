@@ -25,7 +25,14 @@ server.use('/assets', express.static(compiler.options.paths.ASSETS));
 server.use(morgan(settings.dev ? 'dev' : 'combined'));
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({extended: true}));
-server.use(cookieSession({secret: settings.sessionSecret, cookie: {maxAge: 60 * 60000}}));
+server.use((req, res, next) => {
+  if (/127\.0\.0\.1/.test(req.hostname)) {
+    res.status(400).send("Please use localhost, not 127.0.0.1.");
+  } else {
+    next();
+  }
+});
+server.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
 server.use(passport.initialize());
 server.use(passport.session());
 addAuth(server, passport, settings);

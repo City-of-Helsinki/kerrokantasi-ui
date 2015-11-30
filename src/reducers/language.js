@@ -1,10 +1,10 @@
-import {languages} from 'config';
+import config from '../config';
 
 export default function language(state, action) {
   if (action.type === 'setLanguage') {
-    if (languages.indexOf(action.payload) > -1) {
+    if (config.languages.indexOf(action.payload) > -1) {
       return action.payload;
     }
   }
-  return state || languages[0];
+  return state || config.languages[0];
 }

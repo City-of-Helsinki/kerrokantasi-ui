@@ -3,8 +3,11 @@ import React from 'react';
 export default class Html extends React.Component {
 
   render() {
-    const {head, bundleSrc, content, initialState} = this.props;
-    const initialStateHtml = `window.STATE = ${JSON.stringify(initialState || {})};`;
+    const {head, bundleSrc, content, initialState, apiBaseUrl} = this.props;
+    const initialStateHtml = `
+    window.STATE = ${JSON.stringify(initialState || {})};
+    window.API_BASE_URL = ${JSON.stringify(apiBaseUrl)};
+    `;
 
     return (
       <html lang="fi">
@@ -27,8 +30,9 @@ export default class Html extends React.Component {
 }
 
 Html.propTypes = {
-  head: React.PropTypes.object,
-  content: React.PropTypes.string,
+  apiBaseUrl: React.PropTypes.string,
   bundleSrc: React.PropTypes.string.isRequired,
+  content: React.PropTypes.string,
+  head: React.PropTypes.object,
   initialState: React.PropTypes.object
 };
