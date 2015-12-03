@@ -11,6 +11,13 @@ import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from 'utils/Icon';
 
 class Sidebar extends React.Component {
+  getScenariosCount(sections) {
+    const scenarios = sections.filter(function(section) {
+      return section.type === "scenario";
+    });
+    return scenarios.length;
+  }
+
   render() {
     const {hearing} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
@@ -31,7 +38,7 @@ class Sidebar extends React.Component {
           <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
           <Button href="#hearing-sections">
             <FormattedMessage id="hearing-sections"/>
-            <Badge>{hearing.sections.length}</Badge>
+            <Badge>{this.getScenariosCount(hearing.sections)}</Badge>
           </Button>
           <Button href="#hearing-comments">
             <FormattedMessage id="comments"/>
