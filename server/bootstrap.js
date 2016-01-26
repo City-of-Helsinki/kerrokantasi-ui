@@ -17,7 +17,7 @@ if (settings.dev || args.dump) {
   console.log("Settings:\n", inspect(settings, {colors: true}));
 }
 const server = express();
-const compiler = getCompiler(settings, true);
+var compiler = getCompiler(settings, true);
 const passport = getPassport(settings);
 
 server.use('/', express.static(compiler.options.paths.OUTPUT));
@@ -53,5 +53,6 @@ function run() {
 compiler.run((err, stats) => {
   if (err) throw new Error(`Webpack error: ${err}`);
   console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
+  compiler = null; // Throw the webpack into the well (if this was the last reference to it, we reclaim plenty of memory)
 });
 run();
