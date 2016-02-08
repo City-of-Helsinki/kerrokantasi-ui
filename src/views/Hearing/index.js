@@ -26,7 +26,7 @@ class Hearing extends React.Component {
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return dispatch(fetchHearing(params.hearingId));
+    return dispatch(fetchHearing(params.hearingId, location.query.preview));
   }
 
   /**
@@ -44,8 +44,8 @@ class Hearing extends React.Component {
   }
 
   componentDidMount() {
-    const {dispatch, params} = this.props;
-    Hearing.fetchData(dispatch, null, null, params);
+    const {dispatch, params, location} = this.props;
+    Hearing.fetchData(dispatch, null, location, params);
   }
 
   onPostHearingComment(text) {
