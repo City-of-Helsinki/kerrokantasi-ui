@@ -17,11 +17,12 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
-export function fetchHearing(hearingId) {
+export function fetchHearing(hearingId, previewKey = null) {
   return (dispatch, getState) => {
     dispatch(createAction("beginFetchHearing")({hearingId}));
     const url = "v1/hearing/" + hearingId + "/";
-    return api.get(getState(), url).then((response) => {
+    const params = previewKey ? {preview: previewKey} : {};
+    return api.get(getState(), url, params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
       }
