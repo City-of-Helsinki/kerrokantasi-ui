@@ -24,6 +24,11 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
     </div>) : null);
+    const scenariosCount = this.getScenariosCount(hearing.sections);
+    const scenarioButton = (scenariosCount ? (<Button href="#hearing-sections">
+      <FormattedMessage id="hearing-sections"/>
+      <Badge>{scenariosCount}</Badge>
+    </Button>) : null);
     return (<Col xs={6} sm={3}>
       <div className="hearing-sidebar">
         <div>
@@ -36,10 +41,7 @@ class Sidebar extends React.Component {
         </div>
         <ButtonGroup vertical>
           <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          <Button href="#hearing-sections">
-            <FormattedMessage id="hearing-sections"/>
-            <Badge>{this.getScenariosCount(hearing.sections)}</Badge>
-          </Button>
+          {scenarioButton}
           <Button href="#hearing-comments">
             <FormattedMessage id="comments"/>
             <Badge>{hearing.n_comments}</Badge>
