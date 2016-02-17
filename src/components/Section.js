@@ -1,6 +1,8 @@
 import React from 'react';
 import CommentList from './CommentList';
 import Icon from 'utils/Icon';
+import {isSpecialSectionType} from 'utils/section';
+import classNames from 'classnames';
 
 export default class Section extends React.Component {
   constructor(props) {
@@ -39,6 +41,13 @@ export default class Section extends React.Component {
     if (section.type === "introduction") { // Intros never render this
       return null;
     }
+    if (section.type === "closure info") {
+      return (
+        <h3 className="section-title">
+          {section.title}
+        </h3>
+      );
+    }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
@@ -49,7 +58,7 @@ export default class Section extends React.Component {
 
   render() {
     const {section} = this.props;
-    const collapsed = this.state.collapsed && (section.type !== "introduction");
+    const collapsed = this.state.collapsed && !isSpecialSectionType(section.type);
     const titleDiv = this.getTitleDiv(collapsed);
     let commentList = null;
     if (collapsed) {
@@ -60,7 +69,7 @@ export default class Section extends React.Component {
       </div>);
     }
 
-    if (section.type !== "introduction" && section.commenting !== "none") {
+    if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
       commentList = (<CommentList
         comments={this.props.comments.data}
         canComment={this.props.canComment}
@@ -73,7 +82,11 @@ export default class Section extends React.Component {
       <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
       <div className="image-caption">{image.caption}</div>
     </div>));
-    return (<div className="hearing-section">
+    const sectionClass = classNames({
+      'hearing-section': true,
+      'closure-info': section.type === "closure info"
+    });
+    return (<div className={sectionClass}>
       {titleDiv}
       <div className="section-content">
         {imageList}

@@ -13,6 +13,7 @@ import Section from 'components/Section';
 import Sidebar from './Sidebar';
 import detect from 'lodash/collection/detect';
 import Icon from 'utils/Icon';
+import {isSpecialSectionType} from 'utils/section';
 
 class Hearing extends React.Component {
   /**
@@ -120,7 +121,8 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const introSection = detect(hearing.sections, (section) => section.type === "introduction");
-    const regularSections = hearing.sections.filter((section) => section.type !== "introduction");
+    const closureInfoSection = detect(hearing.sections, (section) => section.type === "closure info");
+    const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
       <Sidebar hearing={hearing} />
@@ -136,6 +138,7 @@ class Hearing extends React.Component {
             <HearingImageList images={hearing.images}/>
             <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
           </div>
+          {closureInfoSection ? <Section section={closureInfoSection} canComment={false} /> : null}
           {introSection ? <Section section={introSection} canComment={false} /> : null}
         </div>
         <hr/>
