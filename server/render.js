@@ -3,8 +3,8 @@ import React from 'react';
 import {match, reduxReactRouter} from 'redux-router/server';
 import {renderToStaticMarkup, renderToString} from 'react-dom/server';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
-import flatten from 'lodash/array/flatten';
-import compact from 'lodash/array/compact';
+import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 import qs from 'query-string';
 import url from 'url';
 

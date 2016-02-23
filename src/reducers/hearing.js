@@ -1,4 +1,4 @@
-const updeep = require('updeep');
+import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
 
 const beginFetchHearing = (state, {payload}) => (updeep({

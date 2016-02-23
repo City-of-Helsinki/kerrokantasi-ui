@@ -1,7 +1,7 @@
 import {Passport} from 'passport';
 import HelsinkiStrategy from 'passport-helsinki';
 import jwt from 'jsonwebtoken';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 import _debug from 'debug';
 const debug = _debug('auth');
 

@@ -11,7 +11,7 @@ import HearingImageList from 'components/HearingImageList';
 import SectionList from 'components/SectionList';
 import Section from 'components/Section';
 import Sidebar from './Sidebar';
-import detect from 'lodash/collection/detect';
+import find from 'lodash/find';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
 
@@ -120,8 +120,8 @@ class Hearing extends React.Component {
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
-    const introSection = detect(hearing.sections, (section) => section.type === "introduction");
-    const closureInfoSection = detect(hearing.sections, (section) => section.type === "closure-info");
+    const introSection = find(hearing.sections, (section) => section.type === "introduction");
+    const closureInfoSection = find(hearing.sections, (section) => section.type === "closure-info");
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
 

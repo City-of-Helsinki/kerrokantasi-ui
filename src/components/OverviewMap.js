@@ -1,5 +1,5 @@
 import React from 'react';
-import isNumber from 'lodash/lang/isNumber';
+import isNumber from 'lodash/isNumber';
 import {connect} from 'react-redux';
 import {pushState} from 'redux-router';
 
