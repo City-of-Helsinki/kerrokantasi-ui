@@ -11,24 +11,13 @@ import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from 'utils/Icon';
 
 class Sidebar extends React.Component {
-  getScenariosCount(sections) {
-    const scenarios = sections.filter(function(section) {
-      return section.type === "scenario";
-    });
-    return scenarios.length;
-  }
-
   render() {
     const {hearing} = this.props;
+    const {sectionGroups} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
     </div>) : null);
-    const scenariosCount = this.getScenariosCount(hearing.sections);
-    const scenarioButton = (scenariosCount ? (<Button href="#hearing-sections">
-      <FormattedMessage id="hearing-sections"/>
-      <Badge>{scenariosCount}</Badge>
-    </Button>) : null);
     return (<Col xs={6} sm={3}>
       <div className="hearing-sidebar">
         <div>
@@ -41,7 +30,12 @@ class Sidebar extends React.Component {
         </div>
         <ButtonGroup vertical>
           <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          {scenarioButton}
+          {sectionGroups.map((sectionGroup) => (
+            <Button href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+              {sectionGroup.name_plural}
+              <Badge>{sectionGroup.sections.length}</Badge>
+            </Button>
+          ))}
           <Button href="#hearing-comments">
             <FormattedMessage id="comments"/>
             <Badge>{hearing.n_comments}</Badge>
@@ -63,7 +57,8 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-  hearing: React.PropTypes.object
+  hearing: React.PropTypes.object,
+  sectionGroups: React.PropTypes.array
 };
 
 export default injectIntl(Sidebar);
