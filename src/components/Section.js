@@ -38,7 +38,7 @@ export default class Section extends React.Component {
     this.props.loadSectionComments(section.id);
   }
 
-  getTitleDiv(collapsed) {
+  getTitleDiv(collapsed, collapsible) {
     const {section} = this.props;
     if (section.type === "introduction") { // Intros never render this
       return null;
@@ -53,15 +53,18 @@ export default class Section extends React.Component {
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        <Icon name={iconName} /> {this.props.section.title}
+        {collapsible ? <Icon name={iconName} /> : null}
+        {this.props.section.title}
       </h3>
     );
   }
 
   render() {
     const {section} = this.props;
-    const collapsed = this.state.collapsed && !isSpecialSectionType(section.type);
-    const titleDiv = this.getTitleDiv(collapsed);
+    const hasPlugin = !!section.plugin_identifier;
+    const collapsible = !isSpecialSectionType(section.type) && !hasPlugin;
+    const collapsed = collapsible && this.state.collapsed;
+    const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let commentList = null;
     if (collapsed) {
       return (<div className="hearing-section">
@@ -72,9 +75,10 @@ export default class Section extends React.Component {
     }
 
     if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
+      const canComment = (this.props.canComment && !hasPlugin);
       commentList = (<CommentList
         comments={this.props.comments.data}
-        canComment={this.props.canComment}
+        canComment={canComment}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
