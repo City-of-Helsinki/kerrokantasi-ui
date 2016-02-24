@@ -3,6 +3,7 @@ import BaseCommentForm from '../BaseCommentForm';
 import Input from 'react-bootstrap/lib/Input';
 import React from 'react';
 import {injectIntl} from 'react-intl';
+import {alert} from '../../utils/notify';
 
 
 class MapdonHKRPlugin extends BaseCommentForm {
