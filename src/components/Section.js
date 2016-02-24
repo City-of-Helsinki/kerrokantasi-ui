@@ -3,6 +3,9 @@ import CommentList from './CommentList';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
 import classNames from 'classnames';
+import MapdonHKRPlugin from './plugins/mapdon-hkr';
+import Alert from 'react-bootstrap/lib/Alert';
+
 
 export default class Section extends React.Component {
   constructor(props) {
@@ -59,6 +62,20 @@ export default class Section extends React.Component {
     );
   }
 
+  renderPluginContent(section) {
+    if (typeof window === 'undefined' || !section.plugin_identifier) {
+      return null;
+    }
+    switch (section.plugin_identifier) {
+    case "mapdon-hkr":
+      return (<MapdonHKRPlugin
+        data={section.plugin_data}
+        onPostComment={this.onPostComment.bind(this)}/>);
+    default:
+      return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
+    }
+  }
+
   render() {
     const {section} = this.props;
     const hasPlugin = !!section.plugin_identifier;
@@ -92,9 +109,11 @@ export default class Section extends React.Component {
       'hearing-section': true,
       'closure-info': section.type === "closure-info"
     });
+    const pluginContent = this.renderPluginContent(section);
     return (<div className={sectionClass}>
       {titleDiv}
       <div className="section-content">
+        {pluginContent}
         {imageList}
         <div dangerouslySetInnerHTML={{__html: section.abstract}}></div>
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>
