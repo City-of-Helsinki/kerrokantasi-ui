@@ -123,22 +123,7 @@ class Hearing extends React.Component {
     const introSection = detect(hearing.sections, (section) => section.type === "introduction");
     const closureInfoSection = detect(hearing.sections, (section) => section.type === "closure-info");
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
-
-    // group sections by type
-    const sectionGroups = [];
-    regularSections.forEach((section) => {
-      const sectionGroup = sectionGroups.find(group => section.type === group.type);
-      if (sectionGroup) {
-        sectionGroup.sections.push(section);
-      } else {
-        sectionGroups.push({
-          name_singular: section.type_name_singular,
-          name_plural: section.type_name_plural,
-          type: section.type,
-          sections: [section]
-        });
-      }
-    });
+    const sectionGroups = groupSections(regularSections);
 
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
@@ -205,3 +190,21 @@ const WrappedHearing = connect((state) => ({
 WrappedHearing.canRenderFully = Hearing.canRenderFully;
 WrappedHearing.fetchData = Hearing.fetchData;
 export default WrappedHearing;
+
+function groupSections(sections) {
+  const sectionGroups = [];
+  sections.forEach((section) => {
+    const sectionGroup = sectionGroups.find(group => section.type === group.type);
+    if (sectionGroup) {
+      sectionGroup.sections.push(section);
+    } else {
+      sectionGroups.push({
+        name_singular: section.type_name_singular,
+        name_plural: section.type_name_plural,
+        type: section.type,
+        sections: [section]
+      });
+    }
+  });
+  return sectionGroups;
+}

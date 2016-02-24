@@ -12,8 +12,7 @@ import Icon from 'utils/Icon';
 
 class Sidebar extends React.Component {
   render() {
-    const {hearing} = this.props;
-    const {sectionGroups} = this.props;
+    const {hearing, sectionGroups} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
