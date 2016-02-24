@@ -64,10 +64,11 @@ export function fetchSectionComments(hearingId, sectionId) {
   };
 }
 
-export function postHearingComment(hearingId, params) {
+export function postHearingComment(hearingId, text) {
   return (dispatch, getState) => {
     dispatch(createAction("postingHearingComment")({hearingId}));
     const url = ("/v1/hearing/" + hearingId + "/comments/");
+    const params = {content: text};
     return api.post(getState(), url, params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
@@ -80,10 +81,11 @@ export function postHearingComment(hearingId, params) {
   };
 }
 
-export function postSectionComment(hearingId, sectionId, params) {
+export function postSectionComment(hearingId, sectionId, text, pluginData = null) {
   return (dispatch, getState) => {
     dispatch(createAction("postingSectionComment")({hearingId, sectionId}));
     const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
+    const params = {content: text, plugin_data: pluginData};
     return api.post(getState(), url, params).then((response) => {
       if (response.status >= 400) {
         throw new Error("bad response from server");
