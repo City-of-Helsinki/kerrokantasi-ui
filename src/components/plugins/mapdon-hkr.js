@@ -21,7 +21,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
       <div className="plugin-comment-form mapdon-hkr-plugin-comment-form">
         <form>
           <iframe
-            src="/assets/mapdon-hkr/placeholder.html"
+            src="/assets/mapdon-hkr/plugin-inlined.html"
             className="plugin-frame mapdon-hkr-plugin-frame"
             ref="frame"
           ></iframe>
