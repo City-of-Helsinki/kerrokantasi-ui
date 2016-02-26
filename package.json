@@ -19,6 +19,7 @@
     "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
   },
   "dependencies": {
+    "alertifyjs": "^1.6.1",
     "app-module-path": "^1.0.4",
     "babel-preset-stage-2": "^6.1.18",
     "body-parser": "^1.14.1",
@@ -32,7 +33,7 @@
     "isomorphic-fetch": "^2.2.0",
     "jsonwebtoken": "^5.4.1",
     "leaflet": "^0.7.7",
-    "lodash": "^3.10.1",
+    "lodash": "^4.5.1",
     "morgan": "^1.6.1",
     "nconf": "^0.8.2",
     "passport": "^0.3.2",
@@ -44,15 +45,15 @@
     "react-dom": "^0.14.1",
     "react-helmet": "^2.2.0",
     "react-intl": "^2.0.0-pr-3",
-    "react-leaflet": "^0.9.0",
+    "react-leaflet": "^0.10.1",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc3",
     "react-router-bootstrap": "^0.19.3",
     "redux": "^3.0.4",
-    "redux-actions": "^0.8.0",
-    "redux-router": "^1.0.0-beta3",
+    "redux-actions": "^0.9.1",
+    "redux-router": "^1.0.0-beta7",
     "redux-thunk": "^1.0.0",
-    "updeep": "^0.11.0"
+    "updeep": "^0.13.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",

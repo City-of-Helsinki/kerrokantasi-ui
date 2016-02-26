@@ -3,6 +3,9 @@ import CommentList from './CommentList';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
 import classNames from 'classnames';
+import MapdonHKRPlugin from './plugins/mapdon-hkr';
+import Alert from 'react-bootstrap/lib/Alert';
+
 
 export default class Section extends React.Component {
   constructor(props) {
@@ -17,9 +20,11 @@ export default class Section extends React.Component {
     }
   }
 
-  onPostComment(text) {
+  onPostComment(text, pluginData) {
     const {section} = this.props;
-    this.props.onPostComment(section.id, text);
+    if (this.props.onPostComment) {
+      this.props.onPostComment(section.id, text, pluginData);
+    }
   }
 
   onPostVote(commentId) {
@@ -36,7 +41,7 @@ export default class Section extends React.Component {
     this.props.loadSectionComments(section.id);
   }
 
-  getTitleDiv(collapsed) {
+  getTitleDiv(collapsed, collapsible) {
     const {section} = this.props;
     if (section.type === "introduction") { // Intros never render this
       return null;
@@ -51,15 +56,32 @@ export default class Section extends React.Component {
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        <Icon name={iconName} /> {this.props.section.title}
+        {collapsible ? <Icon name={iconName} /> : null}
+        {this.props.section.title}
       </h3>
     );
   }
 
+  renderPluginContent(section) {
+    if (typeof window === 'undefined' || !section.plugin_identifier) {
+      return null;
+    }
+    switch (section.plugin_identifier) {
+    case "mapdon-hkr":
+      return (<MapdonHKRPlugin
+        data={section.plugin_data}
+        onPostComment={this.onPostComment.bind(this)}/>);
+    default:
+      return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
+    }
+  }
+
   render() {
     const {section} = this.props;
-    const collapsed = this.state.collapsed && !isSpecialSectionType(section.type);
-    const titleDiv = this.getTitleDiv(collapsed);
+    const hasPlugin = !!section.plugin_identifier;
+    const collapsible = !isSpecialSectionType(section.type) && !hasPlugin;
+    const collapsed = collapsible && this.state.collapsed;
+    const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let commentList = null;
     if (collapsed) {
       return (<div className="hearing-section">
@@ -70,9 +92,10 @@ export default class Section extends React.Component {
     }
 
     if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
+      const canComment = (this.props.canComment && !hasPlugin);
       commentList = (<CommentList
         comments={this.props.comments.data}
-        canComment={this.props.canComment}
+        canComment={canComment}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
@@ -86,9 +109,11 @@ export default class Section extends React.Component {
       'hearing-section': true,
       'closure-info': section.type === "closure-info"
     });
+    const pluginContent = this.renderPluginContent(section);
     return (<div className={sectionClass}>
       {titleDiv}
       <div className="section-content">
+        {pluginContent}
         {imageList}
         <div dangerouslySetInnerHTML={{__html: section.abstract}}></div>
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>

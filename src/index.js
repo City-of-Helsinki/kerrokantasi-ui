@@ -1,4 +1,6 @@
 import 'assets/app.less';
+import 'alertifyjs/build/css/alertify.css';
+import 'alertifyjs/build/css/themes/default.css';
 import {render} from 'react-dom';
 import getRoot from './getRoot';
 import createStore from './createStore';

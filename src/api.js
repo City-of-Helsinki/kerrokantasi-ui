@@ -1,6 +1,6 @@
 import fetch from 'mockable-fetch';
 import config from './config';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 import qs from 'querystring';
 
 function getApiURL(endpoint, params = null) {
