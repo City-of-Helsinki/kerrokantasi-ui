@@ -41,7 +41,7 @@ export default class Section extends React.Component {
     if (section.type === "introduction") { // Intros never render this
       return null;
     }
-    if (section.type === "closure info") {
+    if (section.type === "closure-info") {
       return (
         <h3 className="section-title">
           {section.title}
@@ -84,7 +84,7 @@ export default class Section extends React.Component {
     </div>));
     const sectionClass = classNames({
       'hearing-section': true,
-      'closure-info': section.type === "closure info"
+      'closure-info': section.type === "closure-info"
     });
     return (<div className={sectionClass}>
       {titleDiv}

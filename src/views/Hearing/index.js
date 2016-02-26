@@ -121,11 +121,13 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const introSection = detect(hearing.sections, (section) => section.type === "introduction");
-    const closureInfoSection = detect(hearing.sections, (section) => section.type === "closure info");
+    const closureInfoSection = detect(hearing.sections, (section) => section.type === "closure-info");
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
+    const sectionGroups = groupSections(regularSections);
+
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
-      <Sidebar hearing={hearing} />
+      <Sidebar hearing={hearing} sectionGroups={sectionGroups}/>
       <Col xs={12} sm={9}>
         <div id="hearing">
           <LabelList labels={hearing.labels}/>
@@ -142,17 +144,19 @@ class Hearing extends React.Component {
           {introSection ? <Section section={introSection} canComment={false} /> : null}
         </div>
         <hr/>
-        <div id="hearing-sections">
-          <SectionList
-           sections={regularSections}
-           canComment={hearingAllowsComments}
-           onPostComment={this.onPostSectionComment.bind(this)}
-           canVote={user !== null}
-           onPostVote={onPostVote}
-           loadSectionComments={this.loadSectionComments.bind(this)}
-           sectionComments={this.props.sectionComments}
-          />
-        </div>
+        {sectionGroups.map((sectionGroup) => (
+          <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+            <SectionList
+             sections={sectionGroup.sections}
+             canComment={hearingAllowsComments}
+             onPostComment={this.onPostSectionComment.bind(this)}
+             canVote={user !== null}
+             onPostVote={onPostVote}
+             loadSectionComments={this.loadSectionComments.bind(this)}
+             sectionComments={this.props.sectionComments}
+             />
+          </div>
+        ))}
         <div id="hearing-comments">
           <CommentList
            comments={hearing.comments}
@@ -186,3 +190,21 @@ const WrappedHearing = connect((state) => ({
 WrappedHearing.canRenderFully = Hearing.canRenderFully;
 WrappedHearing.fetchData = Hearing.fetchData;
 export default WrappedHearing;
+
+function groupSections(sections) {
+  const sectionGroups = [];
+  sections.forEach((section) => {
+    const sectionGroup = sectionGroups.find(group => section.type === group.type);
+    if (sectionGroup) {
+      sectionGroup.sections.push(section);
+    } else {
+      sectionGroups.push({
+        name_singular: section.type_name_singular,
+        name_plural: section.type_name_plural,
+        type: section.type,
+        sections: [section]
+      });
+    }
+  });
+  return sectionGroups;
+}

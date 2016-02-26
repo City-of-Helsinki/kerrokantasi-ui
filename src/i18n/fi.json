@@ -7,7 +7,6 @@
   "hearing": "Kuuleminen",
   "introduction": "Johdanto",
   "table-of-content": "Sisällys",
-  "hearing-sections": "Vaihtoehdot",
   "comments": "Mielipiteet",
   "borough": "Alue",
   "timetable": "Aikajana",
@@ -35,5 +34,6 @@
   "vote": "Äänestä",
   "hearingMap": "Kuulemiset kartalla",
   "hearingMapHeaderText": "Kartta",
-  "hearingMapHeaderDescription": "Näe kuulemiset kartalla"
+  "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
+  "noCommentsAvailable": "Ei mielipiteitä"
 }

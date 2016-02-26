@@ -1,5 +1,5 @@
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import Section from './Section';
 
 class SectionList extends React.Component {
@@ -9,7 +9,7 @@ class SectionList extends React.Component {
       return null;
     }
     return (<div>
-      <h2><FormattedMessage id="hearing-sections"/></h2>
+      <h2>{sections[0].type_name_plural}</h2>
       {sections.map((section) => (<Section section={section}
                                      key={section.id}
                                      canComment={this.props.canComment}
