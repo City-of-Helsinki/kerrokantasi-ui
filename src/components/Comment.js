@@ -12,21 +12,26 @@ class Comment extends React.Component {
   render() {
     const {data, canVote} = this.props;
     const voteButton = (canVote ?
-        <Button bsStyle="primary" onClick={this.onVote.bind(this)}>
-          <FormattedMessage id="vote"/> <Icon name="thumbs-o-up"/>
+        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+          <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
         </Button> : null
     );
     const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
 
     return (<div className="hearing-comment">
-      <p>
-        <span className="pull-right"><Icon name="thumbs-o-up"/> {data.n_votes}</span>
-        <Icon name="clock-o"/> <FormattedRelative value={data.created_at}/><br/>
-        <Icon name="user"/> {authorName || <FormattedMessage id="anonymous"/>}
-      </p>
-      <hr/>
-      <p>{data.content}</p>
-      {voteButton}
+      <div className="hearing-comment-header clearfix">
+        <div className="hearing-comment-votes">
+          <Icon name="thumbs-o-up"/> {data.n_votes}
+        </div>
+        <div className="hearing-comment-publisher">
+          <span className="hearing-comment-user">{authorName || <FormattedMessage id="anonymous"/>}</span>
+          <span className="hearing-comment-date"><FormattedRelative value={data.created_at}/></span>
+        </div>
+      </div>
+      <div className="hearing-comment-body">
+        <p>{data.content}</p>
+        {voteButton}
+      </div>
     </div>);
   }
 }

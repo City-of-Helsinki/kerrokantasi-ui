@@ -30,7 +30,7 @@ class App extends React.Component {
               {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
             ]}/>
           <Header slim={this.props.location.pathname !== "/"} history={this.props.history} />
-          {this.props.children}
+          <main>{this.props.children}</main>
           <Footer/>
         </div>
       </IntlProvider>);

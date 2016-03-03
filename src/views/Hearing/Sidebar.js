@@ -1,7 +1,7 @@
 import React from 'react';
 import Badge from 'react-bootstrap/lib/Badge';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import ListGroup from 'react-bootstrap/lib/ListGroup';
+import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage} from 'react-intl';
@@ -9,6 +9,9 @@ import OverviewMap from 'components/OverviewMap';
 import SocialBar from 'components/SocialBar';
 import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from 'utils/Icon';
+import AutoAffix from 'react-overlays/lib/AutoAffix';
+import Row from 'react-bootstrap/lib/Row';
+
 
 class Sidebar extends React.Component {
   render() {
@@ -17,40 +20,50 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
     </div>) : null);
-    return (<Col xs={6} sm={3}>
-      <div className="hearing-sidebar">
-        <div>
-          <h4><FormattedMessage id="timetable"/></h4>
-          <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
-          <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+    return (<Col md={4} lg={3}>
+      <AutoAffix viewportOffsetTop={75} offsetBottom={165} container={this.parentNode}>
+        <div className="hearing-sidebar">
+          <Row>
+            <Col sm={6} md={12}>
+              <div className="sidebar-section">
+                <h4><FormattedMessage id="timetable"/></h4>
+                <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
+                <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+              </div>
+              <div className="sidebar-section">
+                <h4><FormattedMessage id="table-of-content"/></h4>
+                <ListGroup>
+                  <ListGroupItem href="#hearing">
+                    <FormattedMessage id="hearing"/>
+                  </ListGroupItem>
+                  {sectionGroups.map((sectionGroup) => (
+                    <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+                      {sectionGroup.name_plural}
+                      <Badge>{sectionGroup.sections.length}</Badge>
+                    </ListGroupItem>
+                  ))}
+                  <ListGroupItem href="#hearing-comments">
+                    <FormattedMessage id="comments"/>
+                    <Badge>{hearing.n_comments}</Badge>
+                  </ListGroupItem>
+                </ListGroup>
+              </div>
+            </Col>
+            <Col sm={6} md={12}>
+              {boroughDiv}
+              <div className="sidebar-section">
+                <h4><FormattedMessage id="overview-map"/></h4>
+                <OverviewMap
+                  hearings={[hearing]}
+                  style={{width: '100%', height: '200px'}}
+                  hideIfEmpty
+                />
+              </div>
+              <SocialBar />
+            </Col>
+          </Row>
         </div>
-        <div>
-          <h4><FormattedMessage id="table-of-content"/></h4>
-        </div>
-        <ButtonGroup vertical>
-          <Button href="#hearing"><FormattedMessage id="hearing"/></Button>
-          {sectionGroups.map((sectionGroup) => (
-            <Button href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
-              {sectionGroup.name_plural}
-              <Badge>{sectionGroup.sections.length}</Badge>
-            </Button>
-          ))}
-          <Button href="#hearing-comments">
-            <FormattedMessage id="comments"/>
-            <Badge>{hearing.n_comments}</Badge>
-          </Button>
-        </ButtonGroup>
-        {boroughDiv}
-        <div>
-          <h4><FormattedMessage id="overview-map"/></h4>
-          <OverviewMap
-            hearings={[hearing]}
-            style={{width: '100%', height: '240px'}}
-            hideIfEmpty
-          />
-        </div>
-        <SocialBar />
-      </div>
+      </AutoAffix>
     </Col>);
   }
 }

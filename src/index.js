@@ -1,4 +1,4 @@
-import 'assets/app.less';
+import 'assets/less/app.less';
 import 'alertifyjs/build/css/alertify.css';
 import 'alertifyjs/build/css/themes/default.css';
 import {render} from 'react-dom';

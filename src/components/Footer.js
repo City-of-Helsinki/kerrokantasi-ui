@@ -1,14 +1,22 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router';
 
 class Footer extends React.Component {
   render() {
     const footer = this;
     return (
       <footer>
-        <hr/>
         <div className="container">
-          <a href="http://www.hel.fi/rekisteriseloste" target="_blank"><FormattedMessage id="privacyPolicy" /></a>
+          <div className="logo">
+            <Link to="/">
+              <img src="/assets/images/helsinki-coat-of-arms-black-big.png" />
+              <span>Kerrokantasi</span>
+            </Link>
+          </div>
+          <div className="links">
+            <a href="http://www.hel.fi/rekisteriseloste" target="_blank"><FormattedMessage id="privacyPolicy" /></a>
+          </div>
         </div>
       </footer>
     );
