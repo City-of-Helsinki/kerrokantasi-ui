@@ -1,0 +1,52 @@
+footer {
+    background: @brand-gray-light;
+    padding: 25px 0px;
+
+    a {
+        color: @text-muted;
+        &:hover, &:focus {
+            color: @link-color;
+        }
+    }
+
+    @media (min-width: @screen-md-min) {
+        height: 150px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 40px 0px;
+    }
+    .logo {
+        float: left;
+        padding-right: 50px;
+        white-space: nowrap;
+        a {
+            display: block;
+            color: @text-color;
+        }
+
+        img {
+            display: inline-block;
+            height: 46px;
+            width: auto;
+            vertical-align: middle;
+            @media (min-width: @screen-md-min) {
+                height: 70px;
+            }
+        }
+        span {
+            font-size: 2.1rem;
+            margin-left: 25px;
+            display: inline-block;
+            font-weight: bold;
+            vertical-align: middle;
+            @media (min-width: @screen-md-min) {
+                font-size: 2.8rem;
+            }
+        }
+    }
+    .links {
+        float: right;
+    }
+}
