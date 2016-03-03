@@ -25,12 +25,12 @@ class Sidebar extends React.Component {
         <div className="hearing-sidebar">
           <Row>
             <Col sm={6} md={12}>
-              <div className="sidebar-section">
+              <div className="sidebar-section timetable">
                 <h4><FormattedMessage id="timetable"/></h4>
                 <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
                 <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
               </div>
-              <div className="sidebar-section">
+              <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 <ListGroup>
                   <ListGroupItem href="#hearing">
@@ -51,7 +51,8 @@ class Sidebar extends React.Component {
             </Col>
             <Col sm={6} md={12}>
               {boroughDiv}
-              <div className="sidebar-section">
+              <SocialBar />
+              <div className="sidebar-section map">
                 <h4><FormattedMessage id="overview-map"/></h4>
                 <OverviewMap
                   hearings={[hearing]}
@@ -59,7 +60,6 @@ class Sidebar extends React.Component {
                   hideIfEmpty
                 />
               </div>
-              <SocialBar />
             </Col>
           </Row>
         </div>
