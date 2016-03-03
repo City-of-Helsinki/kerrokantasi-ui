@@ -1,11 +1,14 @@
-@bower-dir: "../bower_components";
+@bower-dir: "../../bower_components";
 @bootstrap-dir: "@{bower-dir}/bootstrap/less";
 @font-awesome-dir: "@{bower-dir}/font-awesome/less";
 @leaflet-dir: "@{bower-dir}/leaflet/dist";
 
-///// Bootstrap
+///// Local fonts and variables
+@import "hel/fonts";
+@import "hel/variables";
 
-@import "@{bootstrap-dir}/variables";
+///// Bootstrap
+//@import "@{bootstrap-dir}/variables";
 @import "@{bootstrap-dir}/mixins";
 @import "@{bootstrap-dir}/normalize";
 @import "@{bootstrap-dir}/print";
@@ -19,10 +22,10 @@
 @import "@{bootstrap-dir}/buttons";
 //@import "@{bootstrap-dir}/component-animations";
 @import "@{bootstrap-dir}/dropdowns";
-@import "@{bootstrap-dir}/button-groups";
+//@import "@{bootstrap-dir}/button-groups";
 @import "@{bootstrap-dir}/input-groups";
 @import "@{bootstrap-dir}/navs";
-@import "@{bootstrap-dir}/navbar";
+//@import "@{bootstrap-dir}/navbar";
 //@import "@{bootstrap-dir}/breadcrumbs";
 //@import "@{bootstrap-dir}/pagination";
 //@import "@{bootstrap-dir}/pager";
@@ -33,15 +36,15 @@
 @import "@{bootstrap-dir}/alerts";
 //@import "@{bootstrap-dir}/progress-bars";
 //@import "@{bootstrap-dir}/media";
-//@import "@{bootstrap-dir}/list-group";
+@import "@{bootstrap-dir}/list-group";
 //@import "@{bootstrap-dir}/panels";
-//@import "@{bootstrap-dir}/responsive-embed";
-//@import "@{bootstrap-dir}/wells";
-//@import "@{bootstrap-dir}/close";
+@import "@{bootstrap-dir}/responsive-embed";
+@import "@{bootstrap-dir}/wells";
+@import "@{bootstrap-dir}/close";
 
 // Components w/ JavaScript
 //@import "@{bootstrap-dir}/modals";
-//@import "@{bootstrap-dir}/tooltip";
+@import "@{bootstrap-dir}/tooltip";
 //@import "@{bootstrap-dir}/popovers";
 //@import "@{bootstrap-dir}/carousel";
 
@@ -49,29 +52,15 @@
 @import "@{bootstrap-dir}/utilities";
 @import "@{bootstrap-dir}/responsive-utilities";
 
-///// Flatly
-
-@import "flatly-variables";
-@import "flatly-tweaks";
-
 ///// Font Awesome
-
 @import "@{font-awesome-dir}/font-awesome";
 
 ///// Leaflet
-
 @import "@{leaflet-dir}/leaflet.css";
 
-///// Local
-
-@import "fonts";
-@import "hel-variables";
-
-@brand-primary: @hel-blue;
-@text-color: #222;
-
-#header li a {
-  max-width: 20em
-}
-
-@import "hearing-page";
+///// Hel custom styles
+@import "hel/common";
+@import "hel/navigation";
+@import "hel/hearing-page";
+@import "hel/hearing-list";
+@import "hel/footer";

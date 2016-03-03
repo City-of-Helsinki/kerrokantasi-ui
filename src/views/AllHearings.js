@@ -4,6 +4,8 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from 'actions';
 import HearingList from 'components/HearingList';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 
 class AllHearings extends React.Component {
   /**
@@ -28,8 +30,12 @@ class AllHearings extends React.Component {
     const {hearingLists} = this.props;
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
-      <h1><FormattedMessage id="allHearings"/></h1>
-      <HearingList hearings={hearingLists.allHearings} />
+      <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
+      <Row>
+        <Col md={8}>
+          <HearingList hearings={hearingLists.allHearings} />
+        </Col>
+      </Row>
     </div>);
   }
 }

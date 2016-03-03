@@ -4,6 +4,8 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from 'actions';
 import HearingList from 'components/HearingList';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 
 class Home extends React.Component {
   /**
@@ -30,12 +32,20 @@ class Home extends React.Component {
     return (<div className="container">
       <Helmet title={formatMessage({id: 'welcome'})}/>
       <h1><FormattedMessage id="welcome"/></h1>
-      <p>A welcome message in {this.context.language}.</p>
-      <hr/>
-      <h2><FormattedMessage id="nextClosingHearing"/></h2>
-      <HearingList hearings={hearingLists.nextClosingHearing} />
-      <h2><FormattedMessage id="newestHearings"/></h2>
-      <HearingList hearings={hearingLists.newestHearings} />
+      <p className="lead">A welcome message in {this.context.language}.</p>
+      <hr />
+      <Row>
+        <Col md={8}>
+          <div className="hearing-list">
+            <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
+            <HearingList hearings={hearingLists.nextClosingHearing} />
+          </div>
+          <div className="hearing-list">
+            <h2 className="page-title"><FormattedMessage id="newestHearings"/></h2>
+            <HearingList hearings={hearingLists.newestHearings} />
+          </div>
+        </Col>
+      </Row>
     </div>);
   }
 }

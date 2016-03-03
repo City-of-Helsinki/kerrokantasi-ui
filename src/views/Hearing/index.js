@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {fetchHearing, fetchSectionComments, followHearing, postHearingComment, postSectionComment, postVote} from 'actions';
 import CommentList from 'components/CommentList';
@@ -115,7 +116,7 @@ class Hearing extends React.Component {
 
     if (state !== 'done') {
       return (<div className="container">
-        <i>Loading...</i>
+        <div className="loader-wrap"><i className="fa fa-spinner fa-spin fa-2x text-primary"></i></div>
       </div>);
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
@@ -127,46 +128,47 @@ class Hearing extends React.Component {
 
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
-      <Sidebar hearing={hearing} sectionGroups={sectionGroups}/>
-      <Col xs={12} sm={9}>
-        <div id="hearing">
-          <LabelList labels={hearing.labels}/>
-          <div>
-            <h1>
-              {this.getFollowButton()}
-              {!hearing.published ? <Icon name="eye-slash" /> : null}
-              {hearing.title}
-            </h1>
-            <HearingImageList images={hearing.images}/>
-            <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
+      <LabelList className="main-labels" labels={hearing.labels}/>
+      <h1 className="page-title">
+        {this.getFollowButton()}
+        {!hearing.published ? <Icon name="eye-slash" /> : null}
+        {hearing.title}
+      </h1>
+      <Row>
+        <Sidebar hearing={hearing} sectionGroups={sectionGroups}/>
+        <Col md={8} lg={9}>
+          <div id="hearing">
+            <div>
+              <HearingImageList images={hearing.images}/>
+              <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
+            </div>
+            {closureInfoSection ? <Section section={closureInfoSection} canComment={false} /> : null}
+            {introSection ? <Section section={introSection} canComment={false} /> : null}
           </div>
-          {closureInfoSection ? <Section section={closureInfoSection} canComment={false} /> : null}
-          {introSection ? <Section section={introSection} canComment={false} /> : null}
-        </div>
-        <hr/>
-        {sectionGroups.map((sectionGroup) => (
-          <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
-            <SectionList
-             sections={sectionGroup.sections}
+          {sectionGroups.map((sectionGroup) => (
+            <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+              <SectionList
+               sections={sectionGroup.sections}
+               canComment={hearingAllowsComments}
+               onPostComment={this.onPostSectionComment.bind(this)}
+               canVote={user !== null}
+               onPostVote={onPostVote}
+               loadSectionComments={this.loadSectionComments.bind(this)}
+               sectionComments={this.props.sectionComments}
+               />
+            </div>
+          ))}
+          <div id="hearing-comments">
+            <CommentList
+             comments={hearing.comments}
              canComment={hearingAllowsComments}
-             onPostComment={this.onPostSectionComment.bind(this)}
+             onPostComment={this.onPostHearingComment.bind(this)}
              canVote={user !== null}
              onPostVote={onPostVote}
-             loadSectionComments={this.loadSectionComments.bind(this)}
-             sectionComments={this.props.sectionComments}
-             />
+            />
           </div>
-        ))}
-        <div id="hearing-comments">
-          <CommentList
-           comments={hearing.comments}
-           canComment={hearingAllowsComments}
-           onPostComment={this.onPostHearingComment.bind(this)}
-           canVote={user !== null}
-           onPostVote={onPostVote}
-          />
-        </div>
-      </Col>
+        </Col>
+      </Row>
     </div>);
   }
 }

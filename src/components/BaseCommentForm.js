@@ -39,14 +39,14 @@ class BaseCommentForm extends React.Component {
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
           <Input type="textarea" onChange={this.handleTextChange.bind(this)}/>
-          <p>
-            <Button bsStyle="primary" onClick={this.submitComment.bind(this)}>
-              <FormattedMessage id="submit"/>
-            </Button>
-            <Button onClick={this.toggle.bind(this)}>
+          <div className="comment-buttons clearfix">
+            <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
               <FormattedMessage id="cancel"/>
             </Button>
-          </p>
+            <Button bsStyle="primary" className="pull-right" onClick={this.submitComment.bind(this)}>
+              <FormattedMessage id="submit"/>
+            </Button>
+          </div>
         </form>
       </div>);
     }

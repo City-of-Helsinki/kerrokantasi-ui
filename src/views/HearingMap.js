@@ -21,7 +21,7 @@ class HearingMap extends React.Component {
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'hearingMap'})}/>
-      <h1><FormattedMessage id="hearingMap"/></h1>
+      <h1 className="page-title"><FormattedMessage id="hearingMap"/></h1>
       <OverviewMap hearings={hearings} style={{height: "800px"}} enablePopups />
     </div>);
   }

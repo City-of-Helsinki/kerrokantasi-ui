@@ -1,8 +1,8 @@
 # Tietoa Kerrokantasi.hel.fi –palvelusta
 
-Kerrokantasi on Helsingin kaupungin ylläpitämä verkkopalvelu, jossa kuntalaiset voivat kertoa mielipiteensä ja tulla
+<p class="lead">Kerrokantasi on Helsingin kaupungin ylläpitämä verkkopalvelu, jossa kuntalaiset voivat kertoa mielipiteensä ja tulla
 kuulluksi erityyppisistä valmisteluun tulevista tai valmistelussa jo olevista asioista. Mielipiteet ovat muiden
-nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön.
+nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön.</p>
 
 Palvelu on testausvaiheessa, ja sen pilottikäytössä olevassa versiossa ei ole vielä kaikkia suunnitteilla olevia
 ominaisuuksia ja toiminnallisuuksia. Testiversion tarkoituksena on mielipiteiden keräämisen ohella saada palautetta myös
@@ -21,7 +21,7 @@ mielipiteitä ennen päätöksentekoa.
 Palvelusta vastaa Helsingin kaupunginkanslia. Palveluun liittyviä kysymyksiä ja kehittämisehdotuksia voi lähettää
 palautelomakkeella.
 
-# Käyttöehdot
+## Käyttöehdot
 
 Kerrokantasi –palvelussa käyttäjä voi kirjoittaa mielipiteensä kyseessä olevasta asiasta nimellä tai nimimerkillä. Jos
 haluat allekirjoittaa mielipiteesi, kirjoita nimesi lomakkeen nimikenttään. Nimimerkkiä koskevat samat lainmukaisuus- ja
@@ -36,17 +36,17 @@ Voit kirjoittaa mielipiteesi suomeksi ja ruotsiksi, mutta myös muita kieliä vo
 
 Älä käytä SUURAAKKOSIA, sillä ne hankaloittavat kokonaisuuden luettavuutta ja viestivät huutamista.
 
-## Rekisteröityminen
+### Rekisteröityminen
 
 Rekisteröitymistä palveluun vaaditaan, mikäli haluat kirjautuneena käyttäjänä kannattaa (=peukuttaa) annettua
 mielipidettä. Rekisteröitymisessä vaaditaan toimiva sähköpostiosoite, johon kirjautumissalasana lähetetään.
 
-## Kirjoittajan vastuu
+### Kirjoittajan vastuu
 
 Mielipiteen kirjoittamisessa on noudatettava hyviä tapoja ja voimassa olevaa lainsäädäntöä. Jokainen keskustelija on
 vastuussa omista kirjoituksistaan ja niiden sisällöstä.
 
-## Keskustelujen valvonta
+### Keskustelujen valvonta
 
 Palvelua seurataan lähinnä virka-aikana arkisin. Viestejä ei pääsääntöisesti tarkisteta ennakkoon. Voit myös ilmoittaa
 asiattomista viesteistä palautelomakkeen kautta.
@@ -55,7 +55,7 @@ Palvelun valvojilla on oikeus poistaa ja muokata viestejä. Helsingin kaupunki p
 palvelussa julkaistuja viestejä muissa yhteyksissä. Helsingin kaupunki ei ole rikos- ja vahingonkorvausoikeudellisessa
 vastuussa kirjoitusten sisällöstä.
 
-## Asiattomat ja lainvastaiset viestit
+### Asiattomat ja lainvastaiset viestit
 
 Palvelun viestien tulee noudattaa hyvää keskustelutapaa ja niiden tulee liittyä kyseessä olevaan aiheeseen. Viesti
 poistetaan, jos se on määritelty Suomen lainsäädännössä lainvastaiseksi.
@@ -75,7 +75,7 @@ Asiaton viesti esimerkiksi:
 *   henkilöä tai henkilöryhmää loukkaava sisältää kaupallisia viestejä sisältää toisen yksityishenkilön henkilö- tai
 *   yhteystietoja.
 
-## Yhteys ylläpitoon
+### Yhteys ylläpitoon
 
 Jos huomaat kommenttipalstan mielipiteissä asiatonta tekstiä, voit lähettää siitä ilmoituksen palautelomakkeella.
 

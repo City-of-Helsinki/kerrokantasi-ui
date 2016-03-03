@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
 
 function getContent(language) {
   if (typeof window === "undefined") return "";
@@ -13,7 +15,11 @@ class Info extends React.Component {
   render() {
     const content = getContent(this.props.language);
     return (<div className="container">
-      <div dangerouslySetInnerHTML={{__html: content}}/>
+      <Row>
+        <Col md={8}>
+          <div dangerouslySetInnerHTML={{__html: content}} />
+        </Col>
+      </Row>
     </div>);
   }
 }
