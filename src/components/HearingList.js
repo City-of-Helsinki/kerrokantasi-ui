@@ -7,6 +7,7 @@ import Icon from 'utils/Icon';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import LabelList from './LabelList';
+import LoadSpinner from './LoadSpinner';
 
 class HearingListItem extends React.Component {
 
@@ -44,7 +45,7 @@ HearingListItem.propTypes = {hearing: React.PropTypes.object};
 class HearingList extends React.Component {
   render() {
     const {state, data} = (this.props.hearings || {});
-    if (state !== "done") return <div className="loader-wrap"><i className="fa fa-spinner fa-spin fa-2x text-primary"></i></div>;
+    if (state !== "done") return <LoadSpinner />;
     return (<div className="media-list">{data.map((hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>)}</div>);
   }
 }

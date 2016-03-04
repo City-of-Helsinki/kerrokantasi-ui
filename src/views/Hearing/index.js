@@ -15,6 +15,7 @@ import Sidebar from './Sidebar';
 import find from 'lodash/find';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
+import LoadSpinner from 'components/LoadSpinner';
 
 class Hearing extends React.Component {
   /**
@@ -116,7 +117,7 @@ class Hearing extends React.Component {
 
     if (state !== 'done') {
       return (<div className="container">
-        <div className="loader-wrap"><i className="fa fa-spinner fa-spin fa-2x text-primary"></i></div>
+        <LoadSpinner />
       </div>);
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
