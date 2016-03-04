@@ -36,11 +36,11 @@ class Home extends React.Component {
       <hr />
       <Row>
         <Col md={8}>
-          <div className="hearing-list">
+          <div className="list">
             <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
             <HearingList hearings={hearingLists.nextClosingHearing} />
           </div>
-          <div className="hearing-list">
+          <div className="list">
             <h2 className="page-title"><FormattedMessage id="newestHearings"/></h2>
             <HearingList hearings={hearingLists.newestHearings} />
           </div>

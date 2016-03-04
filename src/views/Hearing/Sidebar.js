@@ -20,6 +20,10 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
     </div>) : null);
+    const hearingMap = (hearing.geojson ? (<div className="sidebar-section map">
+      <h4><FormattedMessage id="overview-map"/></h4>
+      <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
+    </div>) : null);
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={75} offsetBottom={165} container={this.parentNode}>
         <div className="hearing-sidebar">
@@ -52,14 +56,7 @@ class Sidebar extends React.Component {
             <Col sm={6} md={12}>
               {boroughDiv}
               <SocialBar />
-              <div className="sidebar-section map">
-                <h4><FormattedMessage id="overview-map"/></h4>
-                <OverviewMap
-                  hearings={[hearing]}
-                  style={{width: '100%', height: '200px'}}
-                  hideIfEmpty
-                />
-              </div>
+              {hearingMap}
             </Col>
           </Row>
         </div>

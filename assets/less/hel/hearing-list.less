@@ -1,12 +1,50 @@
-.hearing-list {
-    &-item {
-        margin: 40px 0px;
-        &-meta {
-            color: @text-muted;
-            font-size: 1.4rem;
+.hearing-list-item {
+    display: flex;
+    margin: 20px 0px 50px 0px;
+    position: relative;
+    @media (max-width: @screen-xs-max) {
+        font-size: 1.4rem;
+    }
+    &-image {
+        flex-basis: 150px;
+        flex-shrink: 0;
+        flex-grow: 0;
+        @media (max-width: @screen-xs-max) {
+            display: none;
+        }
+        img {
+            max-width: 100%;
+            max-height: 115px;
         }
     }
-    & + .hearing-list {
-        margin-top: 60px;
+    &-content {
+        flex: 1 auto;
+        @media (min-width: @screen-sm-min) {
+            padding-left: 25px;
+        }
+    }
+    &-labels {
+        .label {
+            margin-bottom: 12px;
+        }
+    }
+    &-title-wrap {
+        padding-right: 70px;
+        position: relative;
+    }
+    &-title {
+        margin-top: 0;
+        @media (max-width: @screen-xs-max) {
+            font-size: 1.5rem;
+        }
+    }
+    &-comments {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    &-times {
+        color: @text-muted;
+        font-size: 1.4rem;
     }
 }
