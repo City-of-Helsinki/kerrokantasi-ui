@@ -32,7 +32,7 @@ class Home extends React.Component {
     return (<div className="container">
       <Helmet title={formatMessage({id: 'welcome'})}/>
       <h1><FormattedMessage id="welcome"/></h1>
-      <p className="lead">A welcome message in {this.context.language}.</p>
+      <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
       <hr />
       <Row>
         <Col md={8}>
