@@ -23,6 +23,7 @@ Scripts
 
 * `npm run dev`: development mode (hot reloading and all that jazz)
 * `npm start`: production mode
+* `npm run test`: run tests
 
 Configuration
 -------------
