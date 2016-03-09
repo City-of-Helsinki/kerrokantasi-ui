@@ -2,15 +2,29 @@
   "extends": "airbnb",
   "env": {"browser": true, "node": true},
   "globals": {"__DEVTOOLS__": true},
-  "ecmaFeatures": {
-    "experimentalObjectRestSpread": true
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
   },
+  "plugins": [
+    "react"
+  ],
   "rules": {
-    "quotes": 0,
+    "arrow-body-style": 0,
+    "comma-dangle": 0,
     "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],
+    "max-len": [1, 120],
     "new-cap": [2, {"capIsNew": false, "newIsCap": true}],
     "no-use-before-define": [2, "nofunc"],
-    "comma-dangle": 0,
-    "react/sort-comp": 0
+    "object-curly-spacing": 0,
+    "prefer-template": 0,
+    "quotes": 0,
+    "react/jsx-no-bind": 0,  // disabled as we use es6 (see https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md#es6-classes)
+    "react/jsx-space-before-closing": 0,
+    "react/prefer-stateless-function": 0,
+    "react/jsx-indent-props": 0,
+    "react/sort-comp": 0,
   }
 }

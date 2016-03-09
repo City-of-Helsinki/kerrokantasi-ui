@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server --server-rendering",
     "dev": "node server --dev",
-    "lint": "eslint src server",
+    "lint": "eslint src server test",
     "test": "env NODE_PATH=./src mocha --compilers js:babel-register --recursive --require ./test/setup.js",
     "test:watch": "npm test -- --watch",
     "test:cov": "nyc --reporter=lcov npm test"

@@ -21,19 +21,22 @@ class App extends React.Component {
 
   render() {
     const locale = this.props.language;
+    const links = [
+      {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
+    ];
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
           <Helmet
             titleTemplate="%s - Kerro Kantasi"
-            link={[
-              {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
-            ]}/>
-          <Header slim={this.props.location.pathname !== "/"} history={this.props.history} />
+            link={links}
+          />
+          <Header slim={this.props.location.pathname !== "/"} history={this.props.history}/>
           <main>{this.props.children}</main>
           <Footer/>
         </div>
-      </IntlProvider>);
+      </IntlProvider>
+    );
   }
 }
 

@@ -23,7 +23,7 @@ class Header extends React.Component {
 
   componentDidMount() {
     if (typeof window !== 'undefined') {
-      this._handleNavFix = throttle(function handleNavFix() {
+      this._handleNavFix = throttle(() => {
         const scrollY = scrolltop();
         document.body.classList.toggle("nav-fixed", scrollY > 115);
       }, 25);
@@ -39,15 +39,15 @@ class Header extends React.Component {
 
   onSelect(eventKey) {
     switch (eventKey) {
-    case 'login':
-      // TODO: Actual login flow
-      this.props.dispatch(login());
-      break;
-    case 'logout':
-      // TODO: Actual logout flow
-      this.props.dispatch(logout());
-      break;
-    default:
+      case 'login':
+        // TODO: Actual login flow
+        this.props.dispatch(login());
+        break;
+      case 'logout':
+        // TODO: Actual logout flow
+        this.props.dispatch(logout());
+        break;
+      default:
       // Not sure what to do here
     }
   }
@@ -70,8 +70,8 @@ class Header extends React.Component {
     const active = history && history.isActive(url);
     const navItem = (
       <NavItem key={id} eventKey={id} href="#" active={active}>
-        <FormattedMessage id={id + "HeaderText"} />
-        <FormattedMessage tagName="div" className="desc" id={id + "HeaderDescription"} />
+        <FormattedMessage id={id + "HeaderText"}/>
+        <FormattedMessage tagName="div" className="desc" id={id + "HeaderDescription"}/>
       </NavItem>
     );
     if (url) {
@@ -82,7 +82,9 @@ class Header extends React.Component {
 
   render() {
     const header = this;
-    const onSelect = (eventKey) => { header.onSelect(eventKey); };
+    const onSelect = (eventKey) => {
+      header.onSelect(eventKey);
+    };
     const userItems = this.getUserItems();
     const toggleMobile = this.toggleMobileNav.bind(this);
     return (
@@ -91,7 +93,7 @@ class Header extends React.Component {
           <div className="container">
             <div className="logo">
               <Link to="/">
-                <img src="/assets/images/helsinki-coat-of-arms-white-big.png" />
+                <img src="/assets/images/helsinki-coat-of-arms-white-big.png"/>
                 <span>Kerrokantasi</span>
               </Link>
             </div>

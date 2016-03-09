@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Helmet from 'react-helmet';
 import React from 'react';
 import {match, reduxReactRouter} from 'redux-router/server';
@@ -13,10 +14,11 @@ import createStore from '../src/createStore';
 import getRoot from '../src/getRoot';
 import Html from './Html';
 
-// Pilfered from https://github.com/rackt/react-router/blob/master/docs/guides/advanced/ServerRendering.md
-//           and https://github.com/nfl/react-helmet#server-usage
-//           and https://github.com/rackt/redux-router/commit/c1c737faf8fb7bc9426d5d7828d265d3e19aeed4
-//           and https://github.com/erikras/react-redux-universal-hot-example/blob/61610b154fa82d274d89f6cd1f0818edce5a8f6c/src/server.js
+// Pilfered from:
+// * https://github.com/rackt/react-router/blob/master/docs/guides/advanced/ServerRendering.md
+// * https://github.com/nfl/react-helmet#server-usage
+// * https://github.com/rackt/redux-router/commit/c1c737faf8fb7bc9426d5d7828d265d3e19aeed4
+// * https://github.com/erikras/react-redux-universal-hot-example/blob/61610b154fa82d274d89f6cd1f0818edce5a8f6c/src/server.js
 
 function getStatusFromRoutes(matchedRoutes) {
   return matchedRoutes.reduce((prev, cur) => cur.status || prev, null);
@@ -58,7 +60,7 @@ function renderState(settings, store, routerState, bundleSrc = "/app.js") {
   return new Promise((resolve, reject) => {
     // Workaround redux-router query string issue: https://github.com/rackt/redux-router/issues/106
     if (routerState.location.search && !routerState.location.query) {
-      routerState.location.query = qs.parse(routerState.location.search);
+      routerState.location.query = qs.parse(routerState.location.search);  // eslint-disable-line no-param-reassign
     }
     const promises = getDataDependencies(store);
     Promise.all(promises).then(() => {

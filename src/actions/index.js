@@ -5,9 +5,8 @@ export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 
 function checkResponseStatus(response) {
-  let err;
   if (response.status >= 400) {
-    err = new Error("Bad response from server");
+    const err = new Error("Bad response from server");
     err.response = response;
     throw err;
   }

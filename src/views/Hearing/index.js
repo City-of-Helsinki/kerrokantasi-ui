@@ -5,7 +5,10 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import {fetchHearing, fetchSectionComments, followHearing, postHearingComment, postSectionComment, postVote} from 'actions';
+import {
+  fetchHearing, fetchSectionComments, followHearing,
+  postHearingComment, postSectionComment, postVote
+} from 'actions';
 import CommentList from 'components/CommentList';
 import LabelList from 'components/LabelList';
 import HearingImageList from 'components/HearingImageList';
@@ -104,7 +107,7 @@ class Hearing extends React.Component {
     return (
       <span className="pull-right">
         <Button bsStyle="primary" onClick={this.onFollowHearing.bind(this)}>
-          <Icon name="bell-o" /> <FormattedMessage id="follow"/>
+          <Icon name="bell-o"/> <FormattedMessage id="follow"/>
         </Button>
       </span>
     );
@@ -128,11 +131,11 @@ class Hearing extends React.Component {
     const sectionGroups = groupSections(regularSections);
 
     return (<div className="container">
-      <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
+      <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)}/>
       <LabelList className="main-labels" labels={hearing.labels}/>
       <h1 className="page-title">
         {this.getFollowButton()}
-        {!hearing.published ? <Icon name="eye-slash" /> : null}
+        {!hearing.published ? <Icon name="eye-slash"/> : null}
         {hearing.title}
       </h1>
       <Row>
@@ -143,29 +146,29 @@ class Hearing extends React.Component {
               <HearingImageList images={hearing.images}/>
               <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
             </div>
-            {closureInfoSection ? <Section section={closureInfoSection} canComment={false} /> : null}
-            {introSection ? <Section section={introSection} canComment={false} /> : null}
+            {closureInfoSection ? <Section section={closureInfoSection} canComment={false}/> : null}
+            {introSection ? <Section section={introSection} canComment={false}/> : null}
           </div>
           {sectionGroups.map((sectionGroup) => (
             <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
               <SectionList
-               sections={sectionGroup.sections}
-               canComment={hearingAllowsComments}
-               onPostComment={this.onPostSectionComment.bind(this)}
-               canVote={user !== null}
-               onPostVote={onPostVote}
-               loadSectionComments={this.loadSectionComments.bind(this)}
-               sectionComments={this.props.sectionComments}
-               />
+                sections={sectionGroup.sections}
+                canComment={hearingAllowsComments}
+                onPostComment={this.onPostSectionComment.bind(this)}
+                canVote={user !== null}
+                onPostVote={onPostVote}
+                loadSectionComments={this.loadSectionComments.bind(this)}
+                sectionComments={this.props.sectionComments}
+              />
             </div>
           ))}
           <div id="hearing-comments">
             <CommentList
-             comments={hearing.comments}
-             canComment={hearingAllowsComments}
-             onPostComment={this.onPostHearingComment.bind(this)}
-             canVote={user !== null}
-             onPostVote={onPostVote}
+              comments={hearing.comments}
+              canComment={hearingAllowsComments}
+              onPostComment={this.onPostHearingComment.bind(this)}
+              canVote={user !== null}
+              onPostVote={onPostVote}
             />
           </div>
         </Col>

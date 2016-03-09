@@ -53,7 +53,9 @@ class HearingList extends React.Component {
   render() {
     const {state, data} = (this.props.hearings || {});
     if (state !== "done") return <LoadSpinner />;
-    return (<div className="hearing-list">{data.map((hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>)}</div>);
+    return (<div className="hearing-list">{data.map(
+      (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
+    )}</div>);
   }
 }
 

@@ -1,6 +1,6 @@
 export function loadScriptThenCall(id, src, sentinel, fn) {
   if (typeof document === "undefined" || typeof window === "undefined") {
-    return false;
+    return;
   }
   let timeout = null;
   const attemptLoad = () => {

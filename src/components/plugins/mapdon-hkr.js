@@ -26,8 +26,11 @@ class MapdonHKRPlugin extends BaseCommentForm {
             ref="frame"
           ></iframe>
           <br/>
-          <Input type="textarea" onChange={this.handleTextChange.bind(this)}
-                 placeholder="Kommentoi ehdotustasi tässä."/>
+          <Input
+            type="textarea"
+            onChange={this.handleTextChange.bind(this)}
+            placeholder="Kommentoi ehdotustasi tässä."
+          />
           <p>
             <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
               Lähetä ehdotus
@@ -94,10 +97,10 @@ class MapdonHKRPlugin extends BaseCommentForm {
       window.addEventListener("message", self._messageListener, false);
     }
 
-    iframe.addEventListener("load", function loadEvent() {
+    iframe.addEventListener("load", () => {
       self.sendMessageToPluginFrame({
         message: "mapData",
-        data: data,
+        data,
         instanceId: self.pluginInstanceId
       });
     }, false);
