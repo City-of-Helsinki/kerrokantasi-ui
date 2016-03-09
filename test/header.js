@@ -1,8 +1,7 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
 import Header from 'components/Header';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, createTestStore, domDescribe} from './utils';
-import React from 'react';
+import {wireComponent, domDescribe} from './utils';
 
 domDescribe('Header', () => {
   it('should show a login link when not logged in', () => {
