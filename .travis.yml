@@ -5,6 +5,8 @@ node_js:
 cache:
   directories:
     - node_modules
+before_install:
+  - npm i -g npm@latest
 script:
   - npm run lint
   - npm run test:cov
