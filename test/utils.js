@@ -173,7 +173,7 @@ export function mockFetch(urlMap) {
   const calls = {};
   const fetcher = (url, options) => {
     calls[url] = (calls[url] || 0) + 1;
-    const handler = urlMap[url];
+    const handler = urlMap[url] || urlMap[url.split("?")[0]];
     if (!handler) {
       throw new Error("Unexpected fetch for URL " + url + " (options " + options + ")");
     }
