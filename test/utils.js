@@ -1,5 +1,5 @@
-import assign from 'lodash/object/assign';
-import noop from 'lodash/utility/noop';
+import assign from 'lodash/assign';
+import noop from 'lodash/noop';
 import commonInit from 'commonInit';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import createStore from 'createStore';
