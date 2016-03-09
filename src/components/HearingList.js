@@ -1,10 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import {injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from 'utils/Icon';
 import LabelList from './LabelList';
+import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 
 class HearingListItem extends React.Component {
@@ -18,7 +20,10 @@ class HearingListItem extends React.Component {
       </div>
       <div className="hearing-list-item-content">
         <div className="hearing-list-item-labels">
-          <LabelList labels={hearing.labels} />
+          <LabelList labels={hearing.labels} className="hearing-list-item-labellist"/>
+          <div className="hearing-list-item-closed">
+            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : <p>&nbsp;</p> }
+          </div>
         </div>
         <div className="hearing-list-item-title-wrap">
           <h4 className="hearing-list-item-title">
