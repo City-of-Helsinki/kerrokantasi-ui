@@ -2,7 +2,6 @@
 
 var common = require('./common');
 var merge = require('webpack-merge');
-var path = require('path');
 var webpack = require('webpack');
 
 module.exports = merge(common, {

@@ -1,8 +1,7 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
 import SocialBar from 'components/SocialBar';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, createTestStore, domDescribe} from './utils';
-import React from 'react';
+import {wireComponent, domDescribe} from './utils';
 
 domDescribe('SocialBar', () => {
   it('should have a container for Facebook Sharing', () => {

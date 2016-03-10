@@ -34,7 +34,8 @@ export function getCompiler(settings, withProgress) {
   compiler.plugin('emit', (compilation, compileCallback) => {
     const stats = compilation.getStats().toJson();
     const chunks = stats.chunks.sort(sortChunks);
-    settings.bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
+    const bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
+    settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
     compileCallback();
   });
   return compiler;

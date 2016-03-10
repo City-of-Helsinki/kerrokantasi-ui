@@ -7,6 +7,7 @@ class OverviewMap extends React.Component {
   navigateToHearing(id) {
     this.props.dispatch(pushState(null, `/hearing/${id}`));
   }
+
   getHearingMapContent(hearings) {
     const {Popup, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
     const contents = [];
@@ -47,9 +48,8 @@ class OverviewMap extends React.Component {
             if (!input) return;
             const bounds = input.getLeafletElement().getBounds();
             if (bounds.isValid()) input.props.map.fitBounds(bounds);
-          }}>
-          {contents}
-        </FeatureGroup>
+          }}
+        >{contents}</FeatureGroup>
       </Map>);
   }
 }

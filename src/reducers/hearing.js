@@ -8,13 +8,13 @@ const beginFetchHearing = (state, {payload}) => {
     return state;
   }
   return updeep({
-    [payload.hearingId]: {"state": "pending"}
+    [payload.hearingId]: {state: "pending"}
   }, state);
 };
 
 const receiveHearing = (state, {payload}) => {
   return updeep({
-    [payload.hearingId]: {"state": "done", "data": payload.data}
+    [payload.hearingId]: {state: "done", data: payload.data}
   }, state);
 };
 

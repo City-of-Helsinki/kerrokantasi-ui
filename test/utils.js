@@ -1,12 +1,11 @@
-import assign from 'lodash/object/assign';
-import noop from 'lodash/utility/noop';
+import assign from 'lodash/assign';
+import noop from 'lodash/noop';
 import commonInit from 'commonInit';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import createStore from 'createStore';
 import messages from 'i18n';
 import React from 'react';
 import express from 'express';
-import {createRenderer} from 'react-addons-test-utils';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
@@ -28,7 +27,7 @@ export const mockUser = {id: "fff", displayName: "Mock von User"};
  */
 export function wireComponent(store, type, props = {}, children = []) {
   if (typeof store.getState !== "function") {  // Doesn't quack like a store
-    store = createTestStore(store);
+    store = createTestStore(store);  // eslint-disable-line no-param-reassign
   }
   const locale = store.getState().language || "fi";
   const el = React.createElement(type, props, children);
@@ -49,9 +48,9 @@ export function createTestStore(state) {
  * @constructor
  */
 function MockResponse(done = noop) {
-  var res = this;
-  var _status = null;
-  var _body = "";
+  const res = this;
+  let _status = null;
+  let _body = "";
   const writer = this.writer = {
     status: (code) => {
       _status = code;
@@ -81,16 +80,13 @@ function MockResponse(done = noop) {
  */
 export function getRenderPromise(request, initialState = {}, settings = {}) {
   const render = require('../server/render');
-  settings = assign({}, settings, {serverRendering: true, dev: true});
-  request.__proto__ = express.request;
-  if (!request.method) {
-    request.method = "GET";
-  }
-  return new Promise((resolve, reject) => {
+  const finalSettings = assign({}, settings, {serverRendering: true, dev: true});
+  const finalRequest = assign(Object.create(express.request), assign({method: "GET"}, request));
+  return new Promise((resolve) => {
     const mockResponse = new MockResponse((res) => {
       resolve(res.dump());
     });
-    render(request, mockResponse.writer, settings, initialState);
+    render(finalRequest, mockResponse.writer, finalSettings, initialState);
   });
 }
 
@@ -102,6 +98,7 @@ export function dom(mode) {
   if (mode) {
     global.document = jsdom('<!doctype html><html><body></body></html>');
     global.window = document.defaultView;
+    global.window.jsdom = true; // To disable some components that can't be really tested in this env
     global.navigator = global.window.navigator;
   } else {
     global.document = undefined;
@@ -120,7 +117,7 @@ export function domDescribe(name, fn) {
     beforeEach(() => dom(true));
     fn();
     afterEach(() => dom(false));
-  })
+  });
 }
 
 /**
@@ -135,8 +132,8 @@ export function domDescribe(name, fn) {
  */
 export function withAndWithoutUser(state = null, fn = null) {
   if (typeof state === 'function') {
-    fn = state;
-    state = {};
+    fn = state;  // eslint-disable-line no-param-reassign
+    state = {};  // eslint-disable-line no-param-reassign
   }
   [
     {state: assign({}, state, {user: null}), message: "when not logged in"},
@@ -144,14 +141,14 @@ export function withAndWithoutUser(state = null, fn = null) {
   ].forEach(fn);
 }
 
-function streamify(s) {
-  if (typeof s === "string") {
-    var rs = new Readable;
-    rs.push("" + s);
+function streamify(obj) {
+  if (typeof obj === "string") {
+    const rs = new Readable;
+    rs.push("" + obj);
     rs.push(null);
     return rs;
   }
-  return s;
+  return obj;
 }
 
 /**
@@ -173,7 +170,7 @@ export function mockFetch(urlMap) {
   const calls = {};
   const fetcher = (url, options) => {
     calls[url] = (calls[url] || 0) + 1;
-    const handler = urlMap[url];
+    const handler = urlMap[url] || urlMap[url.split("?")[0]];
     if (!handler) {
       throw new Error("Unexpected fetch for URL " + url + " (options " + options + ")");
     }

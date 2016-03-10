@@ -56,7 +56,7 @@ export default class Section extends React.Component {
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        {collapsible ? <Icon name={iconName} /> : null}
+        {collapsible ? <Icon name={iconName}/> : null}
         {this.props.section.title}
       </h3>
     );
@@ -67,12 +67,15 @@ export default class Section extends React.Component {
       return null;
     }
     switch (section.plugin_identifier) {
-    case "mapdon-hkr":
-      return (<MapdonHKRPlugin
-        data={section.plugin_data}
-        onPostComment={this.onPostComment.bind(this)}/>);
-    default:
-      return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
+      case "mapdon-hkr":
+        return (
+          <MapdonHKRPlugin
+            data={section.plugin_data}
+            onPostComment={this.onPostComment.bind(this)}
+          />
+        );
+      default:
+        return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
     }
   }
 

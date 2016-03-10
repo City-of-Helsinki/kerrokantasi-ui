@@ -3,7 +3,7 @@ import {handleActions} from 'redux-actions';
 
 const receiveSectionComments = (state, {payload}) => {
   return updeep({
-    [payload.sectionId]: {"state": "done", "data": payload.data}
+    [payload.sectionId]: {state: "done", data: payload.data}
   }, state);
 };
 

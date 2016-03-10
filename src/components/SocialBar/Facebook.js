@@ -23,9 +23,11 @@ export default class Facebook extends React.Component {
     }
     return (
       <span ref="container" id={"facebook-" + this.state.id}>
-        <div className="fb-share-button"
-             data-href={window.location.href}
-             data-layout="button_count"/>
+        <div
+          className="fb-share-button"
+          data-href={window.location.href}
+          data-layout="button_count"
+        />
       </span>
     );
   }

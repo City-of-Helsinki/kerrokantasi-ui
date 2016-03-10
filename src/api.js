@@ -22,12 +22,12 @@ export function apiCall(state, endpoint, params, options = {}) {
   const {user} = state;
   options = merge({method: "GET", credentials: "include"}, options);  // eslint-disable-line no-param-reassign
   const defaultHeaders = {
-    "Accept": "application/json"
+    "Accept": "application/json"  // eslint-disable-line quote-props
   };
   if (options.method !== "GET" && user && user.token) {
     defaultHeaders.Authorization = "JWT " + user.token;
   }
-  options.headers = merge(defaultHeaders, options.headers || {});
+  options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
   const url = getApiURL(endpoint, params);
   return fetch(url, options);
 }
@@ -35,7 +35,10 @@ export function apiCall(state, endpoint, params, options = {}) {
 export function post(state, endpoint, data, params = {}, options = {}) {
   if (typeof data !== "string") {
     data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
-    options.headers = merge({"Content-Type": "application/json"}, options.headers);
+    options.headers = merge(  // eslint-disable-line no-param-reassign
+      {"Content-Type": "application/json"},
+      options.headers
+    );
   }
   return apiCall(state, endpoint, params, merge({body: data, method: "POST"}, options));
 }

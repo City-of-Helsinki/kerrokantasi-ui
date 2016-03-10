@@ -54,7 +54,9 @@ function ignition() {
   compiler.run((err, stats) => {
     if (err) throw new Error(`Webpack error: ${err}`);
     console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
-    compiler = null; // Throw the webpack into the well (if this was the last reference to it, we reclaim plenty of memory)
+    // Throw the webpack into the well (if this was the last reference
+    // to it, we reclaim plenty of memory)
+    compiler = null;
   });
   run();
 }

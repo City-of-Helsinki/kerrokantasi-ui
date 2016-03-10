@@ -15,7 +15,8 @@ export function login() {
   return (dispatch) => {
     return new Promise((resolve) => {
       if (typeof window === 'undefined') {  // Not in DOM? Just try to get an user then and see how that goes.
-        return resolve(true);
+        resolve(true);
+        return;
       }
       const loginPopup = window.open(
         '/login/helsinki',
@@ -24,7 +25,8 @@ export function login() {
       );
       const wait = function wait() {
         if (loginPopup.closed) { // Is our login popup gone?
-          return resolve(true);
+          resolve(true);
+          return;
         }
         setTimeout(wait, 500); // Try again in a bit...
       };

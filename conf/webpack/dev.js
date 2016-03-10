@@ -1,11 +1,10 @@
-/* eslint-disable no-var */
+/* eslint-disable no-var, object-shorthand */
 
 var common = require('./common');
 var merge = require('webpack-merge');
-var path = require('path');
 var webpack = require('webpack');
 
-module.exports = function(serverUrl) {
+module.exports = function getDevConfig(serverUrl) {
   return merge(common, {
     serverUrl: serverUrl,
     entry: [
@@ -33,7 +32,7 @@ module.exports = function(serverUrl) {
         'process.env': {NODE_ENV: JSON.stringify('development')}
       }),
       new webpack.HotModuleReplacementPlugin()
-      //new webpack.NoErrorsPlugin()  // https://github.com/MoOx/eslint-loader#noerrorsplugin
+      // new webpack.NoErrorsPlugin()  // https://github.com/MoOx/eslint-loader#noerrorsplugin
     ]
   });
 };

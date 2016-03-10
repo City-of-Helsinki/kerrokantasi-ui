@@ -11,7 +11,7 @@ export function replace(newFetch = null) {
   fetch = newFetch || defaultFetch;
 }
 
-export default function() {
+export default function (...args) {
   // Proxy on to the current fetch implementation
-  return fetch.apply(this, arguments);
+  return fetch.apply(this, args);
 }

@@ -14,11 +14,15 @@ class LanguageDropdown extends React.Component {
     const langItems = config.languages.map((code) => {
       const style = {};
       if (code === currentLanguage) style.color = 'orange';
-      return (<MenuItem
-        key={code}
-        style={style}
-        onClick={() => dispatch(setLanguage(code))}
-        >{getLangName(code)}</MenuItem>);
+      return (
+        <MenuItem
+          key={code}
+          style={style}
+          onClick={() => dispatch(setLanguage(code))}
+        >
+          {getLangName(code)}
+        </MenuItem>
+      );
     });
     return (<NavDropdown title={getLangName(currentLanguage)} id="language">
       {langItems}

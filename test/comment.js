@@ -1,8 +1,7 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
 import Comment from 'components/Comment';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, createTestStore, domDescribe} from './utils';
-import React from 'react';
+import {wireComponent, domDescribe} from './utils';
 
 domDescribe('Comment', () => {
   it('should be able to render an anonymous comment without crashing', () => {

@@ -16,11 +16,14 @@ class CommentList extends React.Component {
     return (<div>
       <h2><FormattedMessage id="comments"/></h2>
       {canComment ? <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/> : null}
-      {comments.map((comment) => (<Comment
-                                    data={comment}
-                                    key={comment.id}
-                                    onPostVote={this.props.onPostVote}
-                                    canVote={this.props.canVote} />))}
+      {comments.map((comment) =>
+        <Comment
+          data={comment}
+          key={comment.id}
+          onPostVote={this.props.onPostVote}
+          canVote={this.props.canVote}
+        />
+      )}
     </div>);
   }
 }

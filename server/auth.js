@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import {Passport} from 'passport';
 import HelsinkiStrategy from 'passport-helsinki';
 import jwt from 'jsonwebtoken';
@@ -55,7 +57,7 @@ export function getPassport(settings) {
       profile.token = generateToken(profile, jwtOptions);
       debug('token generated with options:', jwtOptions);
       debug('profile:', profile);
-      return done(null, profile);
+      done(null, profile);
     }
   });
   passport.use(helsinkiStrategy);
