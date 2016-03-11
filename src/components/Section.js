@@ -105,9 +105,15 @@ export default class Section extends React.Component {
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let commentList = null;
     if (collapsed) {
-      return (<div className="hearing-section">
-        {titleDiv}
-        <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+      return (
+      <div className="section-list-item">
+        <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
+          {section.images.length ? <img src={section.images[0].url} /> : null}
+        </div>
+        <div className="section-list-item-content">
+          {titleDiv}
+          <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+        </div>
         <hr/>
       </div>);
     }

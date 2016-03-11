@@ -47,6 +47,41 @@
     font-size: 1.4rem;
 }
 
+.section-list-item {
+    display: flex;
+    margin: 20px 0px 50px 0px;
+    position: relative;
+    @media (max-width: @screen-xs-max) {
+        font-size: 1.4rem;
+    }
+    &-image {
+        flex-basis: 150px;
+        flex-shrink: 0;
+        flex-grow: 0;
+        @media (max-width: @screen-xs-max) {
+            display: none;
+        }
+        img {
+            max-width: 100%;
+            max-height: 115px;
+        }
+        float: left;
+        cursor: pointer;
+    }
+    &-content {
+        flex: 1 auto;
+        h3 {
+            margin-top: 0;
+        }
+        @media (min-width: @screen-sm-min) {
+            padding-left: 25px;
+        }
+        @media (max-width: @screen-xs-max) {
+            font-size: 1.5rem;
+        }
+    }
+}
+
 .hearing-comment {
     margin-top: 30px;
     border-top: 1px solid #eaeaea;
