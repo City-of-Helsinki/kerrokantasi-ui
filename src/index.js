@@ -8,6 +8,8 @@ import createStore from './createStore';
 import commonInit from './commonInit';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {reduxReactRouter} from 'redux-router';
+require('es6-promise').polyfill();
+
 
 commonInit(function initReady() {
   const store = createStore(
