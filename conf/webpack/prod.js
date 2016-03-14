@@ -5,7 +5,7 @@ var merge = require('webpack-merge');
 var webpack = require('webpack');
 
 module.exports = merge(common, {
-  entry: common.paths.ENTRY,
+  entry: [common.paths.ENTRY],
   debug: false,
   devtool: 'source-map',
   output: {
