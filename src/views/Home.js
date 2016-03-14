@@ -35,7 +35,7 @@ class Home extends React.Component {
       <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
       <hr />
       <Row>
-        <Col md={8}>
+        <Col md={8} xs={12}>
           <div className="list">
             <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
             <HearingList hearings={hearingLists.nextClosingHearing} />
@@ -43,6 +43,13 @@ class Home extends React.Component {
           <div className="list">
             <h2 className="page-title"><FormattedMessage id="newestHearings"/></h2>
             <HearingList hearings={hearingLists.newestHearings} />
+          </div>
+        </Col>
+        <Col md={4} xs={12}>
+          <div className="feedback-box">
+            <a href="mailto:dev@hel.fi">
+              <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
+            </a>
           </div>
         </Col>
       </Row>
