@@ -9,21 +9,26 @@ import noop from 'lodash/noop';
 
 let done = false;
 
+function addLocaleDatas() {
+  addLocaleData(en);
+  addLocaleData(fi);
+  addLocaleData(sv);
+}
+
 export default function commonInit(cb = noop) {
   if (done) {
     return;
   }
-  addLocaleData(en);
-  addLocaleData(fi);
-  addLocaleData(sv);
   done = true;
   if (!global.Intl) {
     // see https://github.com/andyearnshaw/Intl.js#intljs-and-browserifywebpack
     require.ensure(['intl'], function installIntl(require) {
       global.Intl = require('intl');
+      addLocaleDatas();
       cb();
     });
   } else {
+    addLocaleDatas();
     cb();
   }
 }
