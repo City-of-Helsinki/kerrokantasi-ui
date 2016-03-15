@@ -57,13 +57,15 @@ class Hearing extends React.Component {
   onPostHearingComment(text) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
-    dispatch(postHearingComment(hearingId, text));
+    const {authCode} = this.props.location.query;
+    dispatch(postHearingComment(hearingId, text, authCode));
   }
 
   onPostSectionComment(sectionId, text, pluginData) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
-    dispatch(postSectionComment(hearingId, sectionId, text, pluginData));
+    const {authCode} = this.props.location.query;
+    dispatch(postSectionComment(hearingId, sectionId, text, pluginData, authCode));
   }
 
   onVoteComment(commentId, sectionId) {
