@@ -70,12 +70,12 @@ export function fetchSectionComments(hearingId, sectionId) {
   };
 }
 
-export function postHearingComment(hearingId, text) {
+export function postHearingComment(hearingId, text, authCode = "") {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingId});
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingId + "/comments/");
-    const params = {content: text};
+    const params = {content: text, authorization_code: authCode};
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, data}));
       dispatch(fetchHearing(hearingId));
@@ -84,12 +84,12 @@ export function postHearingComment(hearingId, text) {
   };
 }
 
-export function postSectionComment(hearingId, sectionId, text, pluginData = null) {
+export function postSectionComment(hearingId, sectionId, text, pluginData = null, authCode = "") {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingId, sectionId});
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
-    const params = {content: text, plugin_data: pluginData};
+    const params = {content: text, plugin_data: pluginData, authorization_code: authCode};
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
