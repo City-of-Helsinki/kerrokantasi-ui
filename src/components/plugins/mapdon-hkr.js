@@ -16,7 +16,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
   }
 
   render() {
-    const buttonDisabled = (this.submitting || this.state.commentText.length < 2);
+    const buttonDisabled = (this.submitting);
     return (
       <div className="plugin-comment-form mapdon-hkr-plugin-comment-form">
         <form>
