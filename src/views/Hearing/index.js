@@ -202,7 +202,7 @@ export default WrappedHearing;
 function groupSections(sections) {
   const sectionGroups = [];
   sections.forEach((section) => {
-    const sectionGroup = sectionGroups.find(group => section.type === group.type);
+    const sectionGroup = find(sectionGroups, group => section.type === group.type);
     if (sectionGroup) {
       sectionGroup.sections.push(section);
     } else {
