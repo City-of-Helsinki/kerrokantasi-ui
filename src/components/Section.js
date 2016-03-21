@@ -63,7 +63,7 @@ export default class Section extends React.Component {
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        {collapsible ? <Icon name={iconName}/> : null}
+        {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
       </h3>
     );
