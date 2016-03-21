@@ -6,16 +6,25 @@ import CommentForm from './CommentForm';
 class CommentList extends React.Component {
   render() {
     const {comments, canComment, hearingId} = this.props;
+    const title = <h2><FormattedMessage id="comments"/></h2>;
+    const commentButton = (
+      canComment ?
+        <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/>
+        : null
+    );
     if (comments.length === 0) {
+      if (!canComment) {
+        return null;  // No need to show a header for nothing at all.
+      }
       return (<div>
-        <h2><FormattedMessage id="comments"/></h2>
-        {canComment ? <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/> : null}
+        {title}
+        {commentButton}
         <p><FormattedMessage id="noCommentsAvailable"/></p>
       </div>);
     }
     return (<div>
-      <h2><FormattedMessage id="comments"/></h2>
-      {canComment ? <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/> : null}
+      {title}
+      {commentButton}
       {comments.map((comment) =>
         <Comment
           data={comment}
