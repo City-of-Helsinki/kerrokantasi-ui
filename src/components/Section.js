@@ -13,10 +13,15 @@ export default class Section extends React.Component {
     this.state = {collapsed: true, commentLoaded: false};
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (!nextState.collapsed && !nextState.commentLoaded) {
+  componentDidMount() {
+    if (!this.isCollapsible()) {  // Trigger immediate comment load for uncollapsible sections
       this.loadComments();
-      this.setState({commentLoaded: true});
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.collapsed && !nextState.collapsed) {  // (Re-)load comments when uncollapsing
+      this.loadComments();
     }
   }
 
@@ -79,10 +84,16 @@ export default class Section extends React.Component {
     }
   }
 
+  isCollapsible() {
+    const {section} = this.props;
+    const hasPlugin = !!section.plugin_identifier;
+    return !isSpecialSectionType(section.type) && !hasPlugin;
+  }
+
   render() {
     const {section} = this.props;
     const hasPlugin = !!section.plugin_identifier;
-    const collapsible = !isSpecialSectionType(section.type) && !hasPlugin;
+    const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let commentList = null;
@@ -97,7 +108,7 @@ export default class Section extends React.Component {
     if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
       const canComment = (this.props.canComment && !hasPlugin);
       commentList = (<CommentList
-        comments={this.props.comments.data}
+        comments={(this.props.comments ? this.props.comments.data : null) || []}
         canComment={canComment}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
