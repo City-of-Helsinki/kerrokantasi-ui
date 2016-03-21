@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/lib/Alert';
 export default class Section extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {collapsed: true, commentLoaded: false};
+    this.state = {collapsed: true};
   }
 
   componentDidMount() {
@@ -43,7 +43,9 @@ export default class Section extends React.Component {
 
   loadComments() {
     const {section} = this.props;
-    this.props.loadSectionComments(section.id);
+    if (this.isCommentable() && this.props.loadSectionComments) {
+      this.props.loadSectionComments(section.id);
+    }
   }
 
   getTitleDiv(collapsed, collapsible) {
@@ -61,7 +63,7 @@ export default class Section extends React.Component {
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
-        {collapsible ? <Icon name={iconName}/> : null}
+        {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
       </h3>
     );
@@ -90,9 +92,14 @@ export default class Section extends React.Component {
     return !isSpecialSectionType(section.type) && !hasPlugin;
   }
 
-  render() {
+  isCommentable() {
     const {section} = this.props;
     const hasPlugin = !!section.plugin_identifier;
+    return (this.props.canComment && !hasPlugin);
+  }
+
+  render() {
+    const {section} = this.props;
     const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
@@ -106,10 +113,9 @@ export default class Section extends React.Component {
     }
 
     if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
-      const canComment = (this.props.canComment && !hasPlugin);
       commentList = (<CommentList
         comments={(this.props.comments ? this.props.comments.data : null) || []}
-        canComment={canComment}
+        canComment={this.isCommentable()}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
