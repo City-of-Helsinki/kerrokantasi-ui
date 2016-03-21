@@ -19,7 +19,7 @@ class SectionList extends React.Component {
           canVote={this.props.canVote}
           onPostVote={this.props.onPostVote}
           loadSectionComments={this.props.loadSectionComments}
-          comments={this.props.sectionComments[section.id] || {data: []}}
+          comments={this.props.sectionComments[section.id]}
         />))}
     </div>);
   }
