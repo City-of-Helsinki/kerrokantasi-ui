@@ -43,7 +43,7 @@ export default class Section extends React.Component {
 
   loadComments() {
     const {section} = this.props;
-    if (this.isCommentable() && this.props.loadSectionComments) {
+    if (section.n_comments !== 0 && this.props.loadSectionComments) {
       this.props.loadSectionComments(section.id);
     }
   }
@@ -118,7 +118,7 @@ export default class Section extends React.Component {
       </div>);
     }
 
-    if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
+    if (!isSpecialSectionType(section.type) && section.n_comments !== 0) {
       commentList = (<CommentList
         comments={(this.props.comments ? this.props.comments.data : null) || []}
         canComment={this.isCommentable()}
