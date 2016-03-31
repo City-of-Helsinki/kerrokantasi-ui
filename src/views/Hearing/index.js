@@ -115,8 +115,24 @@ class Hearing extends React.Component {
     );
   }
 
-  render() {
+  getClosureInfo() {
     const {formatMessage} = this.props.intl;
+    const {hearingId} = this.props.params;
+    const {data: hearing} = this.props.hearing[hearingId];
+    const closureInfo = find(hearing.sections, (section) => section.type === "closure-info");
+    if (closureInfo) {
+      return closureInfo;
+    }
+    // Render default closure info if no custom section is specified
+    return ({ type: "closure-info",
+      title: "",
+      abstract: "",
+      images: [],
+      content: formatMessage({id: 'defaultClosureInfo'}) }
+    );
+  }
+
+  render() {
     const {hearingId} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
     const {user} = this.props;
@@ -129,17 +145,9 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const introSection = find(hearing.sections, (section) => section.type === "introduction");
-    let closureInfoSection = find(hearing.sections, (section) => section.type === "closure-info");
+    const closureInfoSection = this.getClosureInfo();
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
-    // Render default closure info if no custom section is specified
-    if (!closureInfoSection && hearing.closed) {
-      closureInfoSection = { type: "closure-info",
-        title: "",
-        abstract: "",
-        images: [],
-        content: formatMessage({id: 'defaultClosureInfo'}) };
-    }
 
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
@@ -157,7 +165,7 @@ class Hearing extends React.Component {
               <HearingImageList images={hearing.images}/>
               <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
             </div>
-            {closureInfoSection ? <Section section={closureInfoSection} canComment={false}/> : null}
+            {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
             {introSection ? <Section section={introSection} canComment={false}/> : null}
           </div>
           {sectionGroups.map((sectionGroup) => (
