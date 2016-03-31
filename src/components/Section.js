@@ -1,5 +1,4 @@
 import React from 'react';
-import Badge from 'react-bootstrap/lib/Badge';
 import CommentList from './CommentList';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
@@ -66,7 +65,9 @@ export default class Section extends React.Component {
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
-        {collapsed ? (<Badge>{section.n_comments}</Badge>) : null}
+        <div className="section-title-comments">
+          <Icon name="comment-o"/>&nbsp;{ section.n_comments }
+        </div>
       </h3>
     );
   }
