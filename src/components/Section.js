@@ -65,9 +65,9 @@ export default class Section extends React.Component {
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
-        <div className="section-title-comments">
-          <Icon name="comment-o"/>&nbsp;{ section.n_comments }
-        </div>
+        {collapsed ? (<div className="section-title-comments">
+                        <Icon name="comment-o"/>&nbsp;{ section.n_comments }
+                      </div>) : null}
       </h3>
     );
   }
