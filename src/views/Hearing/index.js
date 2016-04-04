@@ -115,10 +115,8 @@ class Hearing extends React.Component {
     );
   }
 
-  getClosureInfo() {
+  getClosureInfo(hearing) {
     const {formatMessage} = this.props.intl;
-    const {hearingId} = this.props.params;
-    const {data: hearing} = this.props.hearing[hearingId];
     const closureInfo = find(hearing.sections, (section) => section.type === "closure-info");
     if (closureInfo) {
       return closureInfo;
@@ -145,7 +143,7 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const introSection = find(hearing.sections, (section) => section.type === "introduction");
-    const closureInfoSection = this.getClosureInfo();
+    const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
 
