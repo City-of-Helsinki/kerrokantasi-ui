@@ -39,5 +39,6 @@
   "hearingMap": "Kuulemiset kartalla",
   "hearingMapHeaderText": "Kartta",
   "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
-  "noCommentsAvailable": "Ei mielipiteitä"
+  "noCommentsAvailable": "Ei mielipiteitä",
+  "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa"
 }

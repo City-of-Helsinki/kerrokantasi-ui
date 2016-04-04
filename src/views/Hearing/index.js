@@ -191,7 +191,7 @@ class Hearing extends React.Component {
             />
           </div>
           <hr/>
-          <a href={reportUrl}>Lataa yhteenveto mielipiteistä Excel-muodossa</a>
+          <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
         </Col>
       </Row>
     </div>);
