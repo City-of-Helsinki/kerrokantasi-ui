@@ -43,7 +43,7 @@ export default class Section extends React.Component {
 
   loadComments() {
     const {section} = this.props;
-    if (this.isCommentable() && this.props.loadSectionComments) {
+    if (section.n_comments !== 0 && this.props.loadSectionComments) {
       this.props.loadSectionComments(section.id);
     }
   }
@@ -65,6 +65,9 @@ export default class Section extends React.Component {
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
+        {collapsed ? (<div className="section-title-comments">
+                        <Icon name="comment-o"/>&nbsp;{ section.n_comments }
+                      </div>) : null}
       </h3>
     );
   }
@@ -105,14 +108,20 @@ export default class Section extends React.Component {
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let commentList = null;
     if (collapsed) {
-      return (<div className="hearing-section">
-        {titleDiv}
-        <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+      return (
+      <div className="section-list-item">
+        <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
+          {section.images.length ? <img src={section.images[0].url} /> : null}
+        </div>
+        <div className="section-list-item-content">
+          {titleDiv}
+          <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+        </div>
         <hr/>
       </div>);
     }
 
-    if (!isSpecialSectionType(section.type) && section.commenting !== "none") {
+    if (!isSpecialSectionType(section.type) && section.n_comments !== 0) {
       commentList = (<CommentList
         comments={(this.props.comments ? this.props.comments.data : null) || []}
         canComment={this.isCommentable()}

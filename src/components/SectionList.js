@@ -9,7 +9,9 @@ class SectionList extends React.Component {
       return null;
     }
     return (<div>
-      <h2>{sections[0].type_name_plural}</h2>
+      <h2>{sections.length === 1 ?
+        sections[0].type_name_singular :
+        sections[0].type_name_plural}</h2>
       {sections.map((section) => (
         <Section
           section={section}

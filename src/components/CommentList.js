@@ -1,12 +1,16 @@
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import Icon from 'utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 
 class CommentList extends React.Component {
   render() {
     const {comments, canComment, hearingId} = this.props;
-    const title = <h2><FormattedMessage id="comments"/></h2>;
+    const title = (<h2><FormattedMessage id="comments"/>
+      <div className="commenticon">
+        <Icon name="comment-o"/>&nbsp;{ comments.length }
+      </div></h2>);
     const commentButton = (
       canComment ?
         <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/>
@@ -16,13 +20,13 @@ class CommentList extends React.Component {
       if (!canComment) {
         return null;  // No need to show a header for nothing at all.
       }
-      return (<div>
+      return (<div className="commentlist">
         {title}
         {commentButton}
         <p><FormattedMessage id="noCommentsAvailable"/></p>
       </div>);
     }
-    return (<div>
+    return (<div className="commentlist">
       {title}
       {commentButton}
       {comments.map((comment) =>

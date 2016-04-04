@@ -29,6 +29,7 @@
   "timeClosePast": "Sulkeutui",
   "timeCloseFuture": "Sulkeutuu",
   "hearingClosed": "Sulkeutunut",
+  "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
   "writeComment": "Kommentoi",
   "submit": "Lähetä",
   "cancel": "Peru",

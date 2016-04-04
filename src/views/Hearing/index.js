@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {
   fetchHearing, fetchSectionComments, followHearing,
   postHearingComment, postSectionComment, postVote
@@ -115,6 +115,21 @@ class Hearing extends React.Component {
     );
   }
 
+  getClosureInfo(hearing) {
+    const {formatMessage} = this.props.intl;
+    const closureInfo = find(hearing.sections, (section) => section.type === "closure-info");
+    if (closureInfo) {
+      return closureInfo;
+    }
+    // Render default closure info if no custom section is specified
+    return ({ type: "closure-info",
+      title: "",
+      abstract: "",
+      images: [],
+      content: formatMessage({id: 'defaultClosureInfo'}) }
+    );
+  }
+
   render() {
     const {hearingId} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
@@ -128,12 +143,12 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const introSection = find(hearing.sections, (section) => section.type === "introduction");
-    const closureInfoSection = find(hearing.sections, (section) => section.type === "closure-info");
+    const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
 
     return (<div className="container">
-      <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)}/>
+      <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
       <LabelList className="main-labels" labels={hearing.labels}/>
       <h1 className="page-title">
         {this.getFollowButton()}
@@ -148,7 +163,7 @@ class Hearing extends React.Component {
               <HearingImageList images={hearing.images}/>
               <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
             </div>
-            {closureInfoSection ? <Section section={closureInfoSection} canComment={false}/> : null}
+            {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
             {introSection ? <Section section={introSection} canComment={false}/> : null}
           </div>
           {sectionGroups.map((sectionGroup) => (
@@ -180,6 +195,7 @@ class Hearing extends React.Component {
 }
 
 Hearing.propTypes = {
+  intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
