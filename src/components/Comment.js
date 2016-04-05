@@ -17,6 +17,9 @@ class Comment extends React.Component {
         </Button> : null
     );
     const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
+    if (!data.content) {
+      return null;
+    }
 
     return (<div className="hearing-comment">
       <div className="hearing-comment-header clearfix">
