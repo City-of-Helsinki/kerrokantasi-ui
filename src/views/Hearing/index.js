@@ -19,6 +19,7 @@ import find from 'lodash/find';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType} from 'utils/section';
 import LoadSpinner from 'components/LoadSpinner';
+import config from 'config';
 
 class Hearing extends React.Component {
   /**
@@ -146,6 +147,7 @@ class Hearing extends React.Component {
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingId + '/report';
 
     return (<div className="container">
       <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
@@ -188,6 +190,8 @@ class Hearing extends React.Component {
               onPostVote={onPostVote}
             />
           </div>
+          <hr/>
+          <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
         </Col>
       </Row>
     </div>);
