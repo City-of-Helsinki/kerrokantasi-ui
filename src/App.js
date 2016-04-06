@@ -30,6 +30,7 @@ class App extends React.Component {
           <Helmet
             titleTemplate="%s - Kerro Kantasi"
             link={links}
+            script={[{src: "/assets/js/piwik.js", type: "text/javascript"}]}
           />
           <Header slim={this.props.location.pathname !== "/"} history={this.props.history}/>
           <main>{this.props.children}</main>
