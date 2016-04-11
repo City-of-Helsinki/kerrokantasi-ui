@@ -172,6 +172,7 @@ class Hearing extends React.Component {
             <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
               <SectionList
                 sections={sectionGroup.sections}
+                nComments={sectionGroup.n_comments}
                 canComment={hearingAllowsComments}
                 onPostComment={this.onPostSectionComment.bind(this)}
                 canVote={user !== null}
@@ -225,12 +226,14 @@ function groupSections(sections) {
     const sectionGroup = find(sectionGroups, group => section.type === group.type);
     if (sectionGroup) {
       sectionGroup.sections.push(section);
+      sectionGroup.n_comments += section.n_comments;
     } else {
       sectionGroups.push({
         name_singular: section.type_name_singular,
         name_plural: section.type_name_plural,
         type: section.type,
-        sections: [section]
+        sections: [section],
+        n_comments: section.n_comments,
       });
     }
   });

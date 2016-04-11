@@ -24,6 +24,8 @@
   "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
   "newestHearings": "Uusimmat kuulemiset",
   "allHearings": "Kaikki kuulemiset",
+  "totalSubmittedComment": "Yhteensä {n} mielipide",
+  "totalSubmittedComments": "Yhteensä {n} mielipidettä",
   "timeOpenPast": "Avautui",
   "timeOpenFuture": "Avautuu",
   "timeClosePast": "Sulkeutui",
