@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage, FormattedPlural} from 'react-intl';
 import OverviewMap from 'components/OverviewMap';
 import SocialBar from 'components/SocialBar';
 import formatRelativeTime from '../../utils/formatRelativeTime';
@@ -29,6 +29,13 @@ class Sidebar extends React.Component {
         <div className="hearing-sidebar">
           <Row>
             <Col sm={6} md={12}>
+              <div className="sidebar-section commentNumber">
+                <Icon name="comment-o"/> {' '}
+                <FormattedPlural value={hearing.n_comments}
+                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
+                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
+                />
+              </div>
               <div className="sidebar-section timetable">
                 <h4><FormattedMessage id="timetable"/></h4>
                 <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
@@ -43,12 +50,13 @@ class Sidebar extends React.Component {
                   {sectionGroups.map((sectionGroup) => (
                     <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                       {sectionGroup.name_plural}
+                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{ sectionGroup.n_comments }</div>
                       <Badge>{sectionGroup.sections.length}</Badge>
                     </ListGroupItem>
                   ))}
                   <ListGroupItem href="#hearing-comments">
                     <FormattedMessage id="comments"/>
-                    <Badge>{hearing.n_comments}</Badge>
+                    <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{hearing.comments.length}</div>
                   </ListGroupItem>
                 </ListGroup>
               </div>

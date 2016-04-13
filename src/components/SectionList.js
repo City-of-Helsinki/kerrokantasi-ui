@@ -1,17 +1,22 @@
 import React from 'react';
 import {injectIntl} from 'react-intl';
 import Section from './Section';
+import Icon from 'utils/Icon';
 
 class SectionList extends React.Component {
   render() {
-    const {sections} = this.props;
+    const {sections, nComments} = this.props;
     if (!sections || sections.length === 0) {
       return null;
     }
     return (<div>
       <h2>{sections.length === 1 ?
         sections[0].type_name_singular :
-        sections[0].type_name_plural}</h2>
+        sections[0].type_name_plural}
+        <div className="section-title-comments">
+          <Icon name="comment-o"/>&nbsp;{ nComments }
+        </div>
+      </h2>
       {sections.map((section) => (
         <Section
           section={section}
@@ -35,6 +40,7 @@ SectionList.propTypes = {
   onPostVote: React.PropTypes.func,
   sections: React.PropTypes.array,
   sectionComments: React.PropTypes.object,
+  nComments: React.PropTypes.number,
 };
 
 export default (injectIntl(SectionList));
