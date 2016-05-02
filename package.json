@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server --server-rendering",
+    "build": "bower i",
     "dev": "node server --dev",
     "lint": "eslint src server test",
     "test": "env NODE_PATH=./src mocha --compilers js:babel-register --recursive --require ./test/setup.js",
