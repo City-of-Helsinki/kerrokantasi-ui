@@ -11,6 +11,7 @@ const defaults = {
   jwtAudience: 'kerrokantasi',
   jwtKey: null,
   sessionSecret: null,
+  uiConfig: null,
   dev: false,
   serverRendering: false,
   cold: false,

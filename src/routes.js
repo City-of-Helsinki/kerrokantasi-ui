@@ -7,11 +7,12 @@ import HearingMap from 'views/HearingMap';
 import Home from 'views/Home';
 import Info from 'views/Info';
 import NotFound from 'views/NotFound';
+import config from 'config';
 
 function trackLink() {
   /* global Piwik */
   try {
-    const tracker = Piwik.getTracker("http://analytics.hel.ninja/piwik/piwik.php", 2);
+    const tracker = Piwik.getTracker(config.uiConfig.piwikUrl, 2);
     tracker.trackLink(document.URL);
   } catch (err) {
     /* When entering the site, Piwik is not yet defined. Entering will

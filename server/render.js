@@ -74,6 +74,7 @@ function renderState(settings, store, routerState, bundleSrc = "/app.js") {
         initialState={state}
         bundleSrc={bundleSrc}
         apiBaseUrl={settings.apiBaseUrl}
+        uiConfig={settings.uiConfig}
       />));
       resolve({status, html});
     }).catch((err) => {
@@ -85,7 +86,11 @@ function renderState(settings, store, routerState, bundleSrc = "/app.js") {
 export default function render(req, res, settings, initialState = {}) {
   const bundleSrc = settings.bundleSrc || "/app.js";
   if (!settings.serverRendering) {
-    const html = renderToStaticMarkup((<Html bundleSrc={bundleSrc} apiBaseUrl={settings.apiBaseUrl} />));
+    const html = renderToStaticMarkup((<Html
+      bundleSrc={bundleSrc}
+      apiBaseUrl={settings.apiBaseUrl}
+      uiConfig={settings.uiConfig}
+    />));
     res.status(200).send(html);
     return;
   }
