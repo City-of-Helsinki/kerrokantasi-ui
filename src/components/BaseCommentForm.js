@@ -3,6 +3,7 @@ import {FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Input from 'react-bootstrap/lib/Input';
 import Icon from 'utils/Icon';
+import CommentDisclaimer from './CommentDisclaimer';
 
 class BaseCommentForm extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ class BaseCommentForm extends React.Component {
               <FormattedMessage id="submit"/>
             </Button>
           </div>
+          <CommentDisclaimer/>
         </form>
       </div>);
     }
