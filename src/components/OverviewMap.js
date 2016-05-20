@@ -38,7 +38,7 @@ class OverviewMap extends React.Component {
     }
     const position = [60.192059, 24.945831];  // Default to Helsinki's center
     return (
-      <Map center={position} zoom={13} style={style}>
+      <Map center={position} zoom={13} style={style} minZoom={10}>
         <TileLayer
           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
