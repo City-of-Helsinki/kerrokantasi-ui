@@ -19,6 +19,10 @@ class BaseCommentForm extends React.Component {
     this.setState({commentText: event.target.value});
   }
 
+  clearCommentText() {
+    this.setState({commentText: ""});
+  }
+
   submitComment() {
     let pluginData = this.getPluginData();
     if (pluginData && typeof pluginData !== "string") {
@@ -28,6 +32,7 @@ class BaseCommentForm extends React.Component {
       this.state.commentText,
       pluginData
     );
+    this.clearCommentText();
   }
 
   getPluginData() {
@@ -39,7 +44,7 @@ class BaseCommentForm extends React.Component {
       return (<div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
-          <Input type="textarea" onChange={this.handleTextChange.bind(this)}/>
+          <Input type="textarea" value={this.state.commentText} onChange={this.handleTextChange.bind(this)}/>
           <div className="comment-buttons clearfix">
             <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
               <FormattedMessage id="cancel"/>
