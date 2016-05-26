@@ -6,9 +6,39 @@ import Icon from 'utils/Icon';
 import CommentDisclaimer from './CommentDisclaimer';
 
 class BaseCommentForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {collapsed: true, commentText: ""};
+  }
+
+  componentDidMount() {
+    const store = this.context.store;
+    if (store) {
+      /*
+      This is slightly dark magic that sidesteps the usual rules of
+      Redux componentry, but I sincerely believe this is for the better.
+      (The alternative would be to store the comment text in the global
+       store, which seems very unnecessary, plus the cleanup of having to
+       remember to empty the comment text from the global store when the user
+       "leaves" the hearing view for another seems even more cumbersome.)
+
+      Basically, this component subscribes to the state of the global store
+      but ONLY to notice when the "postedComment" action has been dispatched,
+      so it can modify its local state to clear the comment text.
+      */
+      this.unsubscribe = store.subscribe(() => {
+        if (store.getState().lastActionType === "postedComment") {
+          this.clearCommentText();
+        }
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+    }
   }
 
   toggle() {
@@ -32,7 +62,6 @@ class BaseCommentForm extends React.Component {
       this.state.commentText,
       pluginData
     );
-    this.clearCommentText();
   }
 
   getPluginData() {
@@ -65,6 +94,10 @@ class BaseCommentForm extends React.Component {
 
 BaseCommentForm.propTypes = {
   onPostComment: React.PropTypes.func
+};
+
+BaseCommentForm.contextTypes = {
+  store: React.PropTypes.object,  // See `componentDidMount`.
 };
 
 export default BaseCommentForm;
