@@ -27,6 +27,9 @@ export default function getOptions() {
   nconf.file({file: './kk.config'}); // Config is good
   nconf.defaults(_.clone(defaults));  // Defaults are good
   const settings = _.pick(nconf.get(), Object.keys(defaults));
+  if (_.isString(settings.uiConfig)) {
+    settings.uiConfig = JSON.parse(settings.uiConfig);
+  }
   const {hostname, port} = require('url').parse(settings.serverUrl);
   settings.hostname = hostname;
   settings.port = port;
