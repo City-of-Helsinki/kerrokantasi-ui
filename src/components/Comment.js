@@ -2,20 +2,21 @@ import React from 'react';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from 'utils/Icon';
+import {notifyError} from '../utils/notify';
+
 
 class Comment extends React.Component {
   onVote() {
-    const {data} = this.props;
-    this.props.onPostVote(data.id, data.section);
+    if (this.props.canVote) {
+      const {data} = this.props;
+      this.props.onPostVote(data.id, data.section);
+    } else {
+      notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
+    }
   }
 
   render() {
-    const {data, canVote} = this.props;
-    const voteButton = (canVote ?
-        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-          <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
-        </Button> : null
-    );
+    const {data} = this.props;
     const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
     if (!data.content) {
       return null;
@@ -24,7 +25,9 @@ class Comment extends React.Component {
     return (<div className="hearing-comment">
       <div className="hearing-comment-header clearfix">
         <div className="hearing-comment-votes">
-          <Icon name="thumbs-o-up"/> {data.n_votes}
+          <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+            <Icon name="thumbs-o-up"/> {data.n_votes}
+          </Button>
         </div>
         <div className="hearing-comment-publisher">
           <span className="hearing-comment-user">{authorName || <FormattedMessage id="anonymous"/>}</span>
@@ -33,7 +36,6 @@ class Comment extends React.Component {
       </div>
       <div className="hearing-comment-body">
         <p>{data.content}</p>
-        {voteButton}
       </div>
     </div>);
   }
