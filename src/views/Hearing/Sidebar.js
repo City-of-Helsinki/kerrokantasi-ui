@@ -15,7 +15,7 @@ import Row from 'react-bootstrap/lib/Row';
 
 class Sidebar extends React.Component {
   render() {
-    const {hearing, introSection, sectionGroups} = this.props;
+    const {hearing, mainSection, sectionGroups} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
                   ))}
                   <ListGroupItem href="#hearing-comments">
                     <FormattedMessage id="comments"/>
-                    <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{introSection.n_comments}</div>
+                    <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{mainSection.n_comments}</div>
                   </ListGroupItem>
                 </ListGroup>
               </div>
@@ -75,7 +75,7 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
   hearing: React.PropTypes.object,
-  introSection: React.PropTypes.object,
+  mainSection: React.PropTypes.object,
   sectionGroups: React.PropTypes.array
 };
 

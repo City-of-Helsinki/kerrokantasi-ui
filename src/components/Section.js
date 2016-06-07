@@ -50,7 +50,7 @@ export default class Section extends React.Component {
 
   getTitleDiv(collapsed, collapsible) {
     const {section} = this.props;
-    if (section.type === "introduction") { // Intros never render this
+    if (section.type === "main") {
       return null;
     }
     if (section.type === "closure-info") {
@@ -102,7 +102,7 @@ export default class Section extends React.Component {
   }
 
   getImageList(section) {
-    if (section.type === "introduction") { // Intro section images aren't rendered here atleast atm.
+    if (section.type === "main") { // Main section images aren't rendered here atleast atm.
       return null;
     }
     return section.images.map((image) => (<div key={image.url}>
@@ -151,7 +151,7 @@ export default class Section extends React.Component {
       <div className="section-content">
         {pluginContent}
         {imageList}
-        {section.type !== "introduction" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
+        {section.type !== "main" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>
       </div>
       {commentList}
