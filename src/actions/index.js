@@ -70,20 +70,6 @@ export function fetchSectionComments(hearingId, sectionId) {
   };
 }
 
-export function postHearingComment(hearingId, text, authCode = "") {
-  return (dispatch, getState) => {
-    const fetchAction = createAction("postingComment")({hearingId});
-    dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingId + "/comments/");
-    const params = {content: text, authorization_code: authCode};
-    return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedComment")({hearingId, data}));
-      dispatch(fetchHearing(hearingId));
-      alert("Kommenttisi on vastaanotettu. Kiitos!");
-    }).catch(requestErrorHandler(dispatch, fetchAction));
-  };
-}
-
 export function postSectionComment(hearingId, sectionId, text, pluginData = null, authCode = "") {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingId, sectionId});
@@ -93,6 +79,7 @@ export function postSectionComment(hearingId, sectionId, text, pluginData = null
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
+      dispatch(fetchSectionComments(hearingId, sectionId));
       alert("Kommenttisi on vastaanotettu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -102,15 +89,11 @@ export function postVote(commentId, hearingId, sectionId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingId, sectionId});
     dispatch(fetchAction);
-    let url = "";
-    if (sectionId) {
-      url = "/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
-    } else {
-      url = "/v1/hearing/" + hearingId + "/comments/" + commentId + "/vote";
-    }
+    const url = "/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedCommentVote")({commentId, hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
+      dispatch(fetchSectionComments(hearingId, sectionId));
       notifySuccess("Ääni vastaanotettu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
