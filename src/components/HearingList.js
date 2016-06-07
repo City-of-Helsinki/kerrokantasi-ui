@@ -13,7 +13,7 @@ class HearingListItem extends React.Component {
 
   render() {
     const hearing = this.props.hearing;
-    const mainImage = (hearing.images.length ? hearing.images[0] : null);
+    const mainImage = hearing.main_image;
     return (<div className="hearing-list-item">
       <div className="hearing-list-item-image">
         {mainImage ? <img src={mainImage.url} /> : null}

@@ -101,6 +101,16 @@ export default class Section extends React.Component {
     return (this.props.canComment && !hasPlugin);
   }
 
+  getImageList(section) {
+    if (section.type === "introduction") { // Intro section images aren't rendered here atleast atm.
+      return null;
+    }
+    return section.images.map((image) => (<div key={image.url}>
+      <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
+      <div className="image-caption">{image.caption}</div>
+    </div>));
+  }
+
   render() {
     const {section} = this.props;
     const collapsible = this.isCollapsible();
@@ -130,10 +140,7 @@ export default class Section extends React.Component {
         onPostVote={this.onPostVote.bind(this)}
       />);
     }
-    const imageList = section.images.map((image) => (<div key={image.url}>
-      <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
-      <div className="image-caption">{image.caption}</div>
-    </div>));
+    const imageList = this.getImageList(section);
     const sectionClass = classNames({
       'hearing-section': true,
       'closure-info': section.type === "closure-info"

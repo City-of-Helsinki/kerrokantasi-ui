@@ -163,7 +163,7 @@ class Hearing extends React.Component {
         <Col md={8} lg={9}>
           <div id="hearing">
             <div>
-              <HearingImageList images={hearing.images}/>
+              <HearingImageList images={introSection.images}/>
               <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
             </div>
             {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
