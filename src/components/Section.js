@@ -151,7 +151,7 @@ export default class Section extends React.Component {
       <div className="section-content">
         {pluginContent}
         {imageList}
-        <div dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+        {section.type !== "introduction" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>
       </div>
       {commentList}
