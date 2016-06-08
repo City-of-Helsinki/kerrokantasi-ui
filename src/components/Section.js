@@ -1,7 +1,7 @@
 import React from 'react';
 import CommentList from './CommentList';
 import Icon from 'utils/Icon';
-import {isSpecialSectionType} from 'utils/section';
+import {isSpecialSectionType, userCanComment} from 'utils/section';
 import classNames from 'classnames';
 import MapdonHKRPlugin from './plugins/mapdon-hkr';
 import Alert from 'react-bootstrap/lib/Alert';
@@ -134,7 +134,7 @@ export default class Section extends React.Component {
     if (!isSpecialSectionType(section.type)) {
       commentList = (<CommentList
         comments={(this.props.comments ? this.props.comments.data : null) || []}
-        canComment={this.isCommentable()}
+        canComment={this.isCommentable() && userCanComment(this.props.user, section)}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
@@ -168,4 +168,5 @@ Section.propTypes = {
   onPostVote: React.PropTypes.func,
   loadSectionComments: React.PropTypes.func,
   comments: React.PropTypes.object,
+  user: React.PropTypes.object,
 };
