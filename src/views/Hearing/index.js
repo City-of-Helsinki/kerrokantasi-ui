@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {
   fetchHearing, fetchSectionComments, followHearing,
-  postHearingComment, postSectionComment, postVote
+  postSectionComment, postVote
 } from 'actions';
 import CommentList from 'components/CommentList';
 import LabelList from 'components/LabelList';
@@ -59,7 +59,8 @@ class Hearing extends React.Component {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
-    dispatch(postHearingComment(hearingId, text, authCode));
+    const mainSection = find(this.props.hearing[hearingId].data.sections, (section) => section.type === "main");
+    dispatch(postSectionComment(hearingId, mainSection.id, text, null, authCode));
   }
 
   onPostSectionComment(sectionId, text, pluginData) {
@@ -143,7 +144,7 @@ class Hearing extends React.Component {
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
-    const introSection = find(hearing.sections, (section) => section.type === "introduction");
+    const mainSection = find(hearing.sections, (section) => section.type === "main");
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
@@ -158,15 +159,19 @@ class Hearing extends React.Component {
         {hearing.title}
       </h1>
       <Row>
-        <Sidebar hearing={hearing} sectionGroups={sectionGroups}/>
+        <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
         <Col md={8} lg={9}>
           <div id="hearing">
             <div>
-              <HearingImageList images={hearing.images}/>
+              <HearingImageList images={mainSection.images}/>
               <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
             </div>
             {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
-            {introSection ? <Section section={introSection} canComment={false}/> : null}
+            {mainSection ? <Section
+              section={mainSection}
+              canComment={false}
+              loadSectionComments={this.loadSectionComments.bind(this)}
+            /> : null}
           </div>
           {sectionGroups.map((sectionGroup) => (
             <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
@@ -184,7 +189,8 @@ class Hearing extends React.Component {
           ))}
           <div id="hearing-comments">
             <CommentList
-              comments={hearing.comments}
+              comments={this.props.sectionComments[mainSection.id] ?
+                        this.props.sectionComments[mainSection.id].data : []}
               canComment={hearingAllowsComments}
               onPostComment={this.onPostHearingComment.bind(this)}
               canVote={user !== null}

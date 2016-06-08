@@ -6,7 +6,7 @@ import Icon from 'utils/Icon';
 class Comment extends React.Component {
   onVote() {
     const {data} = this.props;
-    this.props.onPostVote(data.id);
+    this.props.onPostVote(data.id, data.section);
   }
 
   render() {
