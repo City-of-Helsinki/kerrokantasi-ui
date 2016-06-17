@@ -17,7 +17,7 @@ import Section from 'components/Section';
 import Sidebar from './Sidebar';
 import find from 'lodash/find';
 import Icon from 'utils/Icon';
-import {isSpecialSectionType} from 'utils/section';
+import {isSpecialSectionType, userCanComment} from 'utils/section';
 import LoadSpinner from 'components/LoadSpinner';
 import config from 'config';
 
@@ -184,6 +184,7 @@ class Hearing extends React.Component {
                 onPostVote={onPostVote}
                 loadSectionComments={this.loadSectionComments.bind(this)}
                 sectionComments={this.props.sectionComments}
+                user={user}
               />
             </div>
           ))}
@@ -191,7 +192,7 @@ class Hearing extends React.Component {
             <CommentList
               comments={this.props.sectionComments[mainSection.id] ?
                         this.props.sectionComments[mainSection.id].data : []}
-              canComment={hearingAllowsComments}
+              canComment={hearingAllowsComments && userCanComment(user, mainSection)}
               onPostComment={this.onPostHearingComment.bind(this)}
               canVote={user !== null}
               onPostVote={onPostVote}

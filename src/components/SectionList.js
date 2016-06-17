@@ -27,6 +27,7 @@ class SectionList extends React.Component {
           onPostVote={this.props.onPostVote}
           loadSectionComments={this.props.loadSectionComments}
           comments={this.props.sectionComments[section.id]}
+          user={this.props.user}
         />))}
     </div>);
   }
@@ -41,6 +42,7 @@ SectionList.propTypes = {
   sections: React.PropTypes.array,
   sectionComments: React.PropTypes.object,
   nComments: React.PropTypes.number,
+  user: React.PropTypes.object,
 };
 
 export default (injectIntl(SectionList));
