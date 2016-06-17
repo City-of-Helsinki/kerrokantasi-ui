@@ -78,12 +78,12 @@ export function fetchSectionComments(hearingId, sectionId) {
   };
 }
 
-export function postSectionComment(hearingId, sectionId, text, pluginData = null, authCode = "") {
+export function postSectionComment(hearingId, sectionId, text, authorName, pluginData = null, authCode = "") {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingId, sectionId});
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
-    const params = {content: text, plugin_data: pluginData, authorization_code: authCode};
+    const params = {content: text, author_name: authorName, plugin_data: pluginData, authorization_code: authCode};
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
