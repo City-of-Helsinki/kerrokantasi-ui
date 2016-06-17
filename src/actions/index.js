@@ -1,6 +1,7 @@
 import {createAction} from 'redux-actions';
 import api from 'api';
 import {alert, notifySuccess, notifyError} from '../utils/notify';
+import merge from 'lodash/merge';
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 
@@ -28,8 +29,12 @@ export function fetchHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId});
     dispatch(fetchAction);
-    return api.get(getState(), endpoint, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveHearingList")({listId, data}));
+
+    // make sure the results won't get paginated
+    const paramsWithLimit = merge({limit: 99998}, params);
+
+    return api.get(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
+      dispatch(createAction("receiveHearingList")({listId, data: data.results}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
