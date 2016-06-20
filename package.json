@@ -49,6 +49,7 @@
     "react-helmet": "^2.2.0",
     "react-intl": "2.0.0-rc-1",
     "react-leaflet": "^0.10.1",
+    "react-nl2br": "^0.1.1",
     "react-overlays": "^0.6.0",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc3",

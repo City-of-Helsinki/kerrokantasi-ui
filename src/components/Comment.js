@@ -2,6 +2,7 @@ import React from 'react';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from 'utils/Icon';
+import nl2br from 'react-nl2br';
 
 class Comment extends React.Component {
   onVote() {
@@ -32,7 +33,7 @@ class Comment extends React.Component {
         </div>
       </div>
       <div className="hearing-comment-body">
-        <p>{data.content}</p>
+        <p>{nl2br(data.content)}</p>
         {voteButton}
       </div>
     </div>);
