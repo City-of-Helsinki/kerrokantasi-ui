@@ -55,12 +55,12 @@ class Hearing extends React.Component {
     Hearing.fetchData(dispatch, null, location, params);
   }
 
-  onPostHearingComment(text) {
+  onPostHearingComment(text, pluginData) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing[hearingId].data.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, null, authCode));
+    dispatch(postSectionComment(hearingId, mainSection.id, text, pluginData, authCode));
   }
 
   onPostSectionComment(sectionId, text, pluginData) {
@@ -145,6 +145,9 @@ class Hearing extends React.Component {
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const mainSection = find(hearing.sections, (section) => section.type === "main");
+    const mainSectionCommentable = hearingAllowsComments
+      && userCanComment(user, mainSection)
+      && !mainSection.plugin_identifier; // comment box not available for plugins
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
@@ -170,6 +173,7 @@ class Hearing extends React.Component {
             {mainSection ? <Section
               section={mainSection}
               canComment={false}
+              onPostComment={this.onPostHearingComment.bind(this)}
               loadSectionComments={this.loadSectionComments.bind(this)}
             /> : null}
           </div>
@@ -190,9 +194,10 @@ class Hearing extends React.Component {
           ))}
           <div id="hearing-comments">
             <CommentList
+              section={mainSection}
               comments={this.props.sectionComments[mainSection.id] ?
                         this.props.sectionComments[mainSection.id].data : []}
-              canComment={hearingAllowsComments && userCanComment(user, mainSection)}
+              canComment={mainSectionCommentable}
               onPostComment={this.onPostHearingComment.bind(this)}
               canVote={user !== null}
               onPostVote={onPostVote}

@@ -144,6 +144,7 @@ export default class Section extends React.Component {
 
     if (!isSpecialSectionType(section.type)) {
       commentList = (<CommentList
+        section={section}
         comments={(this.props.comments ? this.props.comments.data : null) || []}
         canComment={this.isCommentable() && userCanComment(this.props.user, section)}
         onPostComment={this.onPostComment.bind(this)}

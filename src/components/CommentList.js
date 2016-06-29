@@ -3,10 +3,31 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import Icon from 'utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import MapdonKSVPlugin from './plugins/mapdon-ksv';
 
 class CommentList extends React.Component {
+
+  renderPluginContent(section) {
+    const {comments} = this.props;
+    if (typeof window === 'undefined' || !section.plugin_identifier) {
+      return null;
+    }
+    switch (section.plugin_identifier) {
+      case "mapdon-ksv":
+        return (
+          <MapdonKSVPlugin
+            data={section.plugin_data}
+            canComment={false}
+            comments={comments}
+          />
+        );
+      default:
+        return null; // The plugin does not support result visualization.
+    }
+  }
+
   render() {
-    const {comments, canComment, hearingId} = this.props;
+    const {section, comments, canComment, hearingId} = this.props;
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
         <Icon name="comment-o"/>&nbsp;{comments.length}
@@ -16,6 +37,7 @@ class CommentList extends React.Component {
         <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/>
         : null
     );
+    const pluginContent = this.renderPluginContent(section);
     if (comments.length === 0) {
       if (!canComment) {
         return null;  // No need to show a header for nothing at all.
@@ -28,6 +50,7 @@ class CommentList extends React.Component {
     }
     return (<div className="commentlist">
       {title}
+      {pluginContent}
       {commentButton}
       {comments.map((comment) =>
         <Comment
@@ -42,12 +65,13 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
+  section: React.PropTypes.object,
   comments: React.PropTypes.array,
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
   onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
+  onPostVote: React.PropTypes.func
 };
 
 export default injectIntl(CommentList);
