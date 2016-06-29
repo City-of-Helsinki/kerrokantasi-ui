@@ -4,6 +4,7 @@ import Icon from 'utils/Icon';
 import {isSpecialSectionType, userCanComment} from 'utils/section';
 import classNames from 'classnames';
 import MapdonHKRPlugin from './plugins/mapdon-hkr';
+import MapdonKSVPlugin from './plugins/mapdon-ksv';
 import Alert from 'react-bootstrap/lib/Alert';
 
 
@@ -82,6 +83,13 @@ export default class Section extends React.Component {
       case "mapdon-hkr":
         return (
           <MapdonHKRPlugin
+            data={section.plugin_data}
+            onPostComment={this.onPostComment.bind(this)}
+          />
+        );
+      case "mapdon-ksv":
+        return (
+          <MapdonKSVPlugin
             data={section.plugin_data}
             onPostComment={this.onPostComment.bind(this)}
           />
