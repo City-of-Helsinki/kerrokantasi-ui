@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
         <div className="container">
           <div className="logo">
             <Link to="/">
-              <img src="/assets/images/helsinki-coat-of-arms-black-big.png"/>
+              <img alt="City of Helsinki" src="/assets/images/helsinki-coat-of-arms-black-big.png"/>
               <span>Kerrokantasi</span>
             </Link>
           </div>

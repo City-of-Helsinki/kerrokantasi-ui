@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {injectIntl} from 'react-intl';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from 'utils/Icon';
@@ -16,13 +15,13 @@ class HearingListItem extends React.Component {
     const mainImage = hearing.main_image;
     return (<div className="hearing-list-item">
       <div className="hearing-list-item-image">
-        {mainImage ? <img src={mainImage.url} /> : null}
+        {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
       </div>
       <div className="hearing-list-item-content">
         <div className="hearing-list-item-labels">
           <LabelList labels={hearing.labels} className="hearing-list-item-labellist"/>
           <div className="hearing-list-item-closed">
-            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : <p>&nbsp;</p> }
+            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : <p>&nbsp;</p>}
           </div>
         </div>
         <div className="hearing-list-item-title-wrap">
@@ -31,7 +30,7 @@ class HearingListItem extends React.Component {
             <Link to={`/hearing/${hearing.id}`}>{hearing.title}</Link>
           </h4>
           <div className="hearing-list-item-comments">
-            <Icon name="comment-o"/>&nbsp;{ hearing.n_comments }
+            <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
           </div>
         </div>
         <div className="hearing-list-item-times">

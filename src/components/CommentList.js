@@ -9,7 +9,7 @@ class CommentList extends React.Component {
     const {comments, canComment, hearingId} = this.props;
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
-        <Icon name="comment-o"/>&nbsp;{ comments.length }
+        <Icon name="comment-o"/>&nbsp;{comments.length}
       </div></h2>);
     const commentButton = (
       canComment ?
