@@ -4,11 +4,16 @@
 	{"message": "mapData",
 	"data": {....},
 	"instanceId": ....,
-	"canComment": ....}
+	"canComment": ....,
+	"comments": [....]}
 
 Host posts the configuration data to the plugin.
 instanceId: an unique identifier for this map instance. A string. This is required to identify separate instances of the plugin in a single host page.
 canComment: boolean. Tells the plugin whether it is allowed to post user data.
+
+For visualization purposes, the following key _may_ or may not be present:
+
+comments: Array of objects, each with key 'pluginData' that contains GeoJSON posted with the comment.
 
 The `data` parameter contains the following keys:
 
@@ -17,9 +22,6 @@ The `data` parameter contains the following keys:
 * limit: a Number describing the total budget available for the user. May be null (to describe INFINITE BUDGET)
 * existing: GeoJSON object describing currently existing features (such as trash cans and benches) that the user may comment on. May be null.
 
-For visualization purposes, the following key _may_ or may not be present:
-
-* comments: Array of objects, each with key 'pluginData' that contains GeoJSON posted with the comment.
 
 # Get User Data
 
