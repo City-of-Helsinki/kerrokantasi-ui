@@ -31,7 +31,8 @@ class Sidebar extends React.Component {
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
                 <Icon name="comment-o"/> {' '}
-                <FormattedPlural value={hearing.n_comments}
+                <FormattedPlural
+                  value={hearing.n_comments}
                   one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
                   other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
                 />
@@ -50,7 +51,7 @@ class Sidebar extends React.Component {
                   {sectionGroups.map((sectionGroup) => (
                     <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                       {sectionGroup.name_plural}
-                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{ sectionGroup.n_comments }</div>
+                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
                       <Badge>{sectionGroup.sections.length}</Badge>
                     </ListGroupItem>
                   ))}

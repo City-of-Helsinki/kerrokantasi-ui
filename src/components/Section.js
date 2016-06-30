@@ -65,9 +65,11 @@ export default class Section extends React.Component {
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {this.props.section.title}
-        {collapsed ? (<div className="section-title-comments">
-                        <Icon name="comment-o"/>&nbsp;{ section.n_comments }
-                      </div>) : null}
+        {collapsed ? (
+          <div className="section-title-comments">
+            <Icon name="comment-o"/>&nbsp;{section.n_comments}
+          </div>
+        ) : null}
       </h3>
     );
   }
@@ -119,16 +121,17 @@ export default class Section extends React.Component {
     let commentList = null;
     if (collapsed) {
       return (
-      <div className="section-list-item">
-        <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
-          {section.images.length ? <img src={section.images[0].url} /> : null}
+        <div className="section-list-item">
+          <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
+            {section.images.length ? <img role="presentation" src={section.images[0].url} /> : null}
+          </div>
+          <div className="section-list-item-content">
+            {titleDiv}
+            <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+          </div>
+          <hr/>
         </div>
-        <div className="section-list-item-content">
-          {titleDiv}
-          <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
-        </div>
-        <hr/>
-      </div>);
+      );
     }
 
     if (!isSpecialSectionType(section.type)) {

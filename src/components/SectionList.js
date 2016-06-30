@@ -14,7 +14,7 @@ class SectionList extends React.Component {
         sections[0].type_name_singular :
         sections[0].type_name_plural}
         <div className="section-title-comments">
-          <Icon name="comment-o"/>&nbsp;{ nComments }
+          <Icon name="comment-o"/>&nbsp;{nComments}
         </div>
       </h2>
       {sections.map((section) => (

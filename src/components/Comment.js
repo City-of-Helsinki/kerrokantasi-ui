@@ -13,9 +13,9 @@ class Comment extends React.Component {
   render() {
     const {data, canVote} = this.props;
     const voteButton = (canVote ?
-        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-          <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
-        </Button> : null
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+        <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
+      </Button> : null
     );
     const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
     if (!data.content) {

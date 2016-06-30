@@ -93,7 +93,7 @@ class Header extends React.Component {
           <div className="container">
             <div className="logo">
               <Link to="/">
-                <img src="/assets/images/helsinki-coat-of-arms-white-big.png"/>
+                <img alt="City of Helsinki" src="/assets/images/helsinki-coat-of-arms-white-big.png"/>
                 <span>Kerrokantasi</span>
               </Link>
             </div>

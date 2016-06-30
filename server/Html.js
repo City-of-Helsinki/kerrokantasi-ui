@@ -11,19 +11,19 @@ export default class Html extends React.Component {
 
     return (
       <html lang="fi">
-      <head>
-        <meta charSet="utf-8"/>
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-        <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        {head ? head.title.toComponent() : <title>Kerro Kantasi</title>}
-        {head ? head.meta.toComponent() : null}
-        {head ? head.link.toComponent() : null}
-      </head>
-      <body>
-      <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
-      <script dangerouslySetInnerHTML={{ __html: initialStateHtml }}/>
-      <script src={bundleSrc}/>
-      </body>
+        <head>
+          <meta charSet="utf-8"/>
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+          <meta content="width=device-width, initial-scale=1" name="viewport"/>
+          {head ? head.title.toComponent() : <title>Kerro Kantasi</title>}
+          {head ? head.meta.toComponent() : null}
+          {head ? head.link.toComponent() : null}
+        </head>
+        <body>
+          <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
+          <script dangerouslySetInnerHTML={{ __html: initialStateHtml }}/>
+          <script src={bundleSrc}/>
+        </body>
       </html>
     );
   }
