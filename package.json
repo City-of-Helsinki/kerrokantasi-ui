@@ -48,7 +48,7 @@
     "react-dom": "^15.1.0",
     "react-helmet": "^2.2.0",
     "react-intl": "2.0.0-rc-1",
-    "react-leaflet": "^0.12.0",
+    "react-leaflet": "^0.11.5",
     "react-nl2br": "^0.1.1",
     "react-overlays": "^0.6.0",
     "react-redux": "^4.0.0",
