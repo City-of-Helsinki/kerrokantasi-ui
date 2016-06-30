@@ -45,5 +45,8 @@
   "hearingMapHeaderText": "Kartta",
   "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
   "noCommentsAvailable": "Ei mielipiteitä",
-  "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa"
+  "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa",
+  "publishedHearings": "Julkiset",
+  "publishingQueue": "Julkaisujono",
+  "drafts": "Luonnokset"
 }
