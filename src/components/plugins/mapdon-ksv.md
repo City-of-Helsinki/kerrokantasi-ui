@@ -4,18 +4,15 @@
 	{"message": "mapData",
 	"data": {....},
 	"instanceId": ....,
-	"canComment": ....,
+	"pluginPurpose": ....,
 	"comments": [....]}
 
 Host posts the configuration data to the plugin.
 instanceId: an unique identifier for this map instance. A string. This is required to identify separate instances of the plugin in a single host page.
-canComment: boolean. Tells the plugin whether it is allowed to post user data.
+pluginPurpose: `postComments`, `viewComments` or `viewHeatmap`, depending on which plugin feature we want displayed. The plugin is only allowed to post data if called with `postComments`.
+comments: Array of objects, each with key `pluginData` that contains GeoJSON posted with the comment. Must be present if `pluginPurpose` contains `viewComments` or `viewHeatmap`.
 
-For visualization purposes, the following key _may_ or may not be present:
-
-comments: Array of objects, each with key 'pluginData' that contains GeoJSON posted with the comment.
-
-The `data` parameter contains the following keys:
+The `data` key is always present and contains the following keys:
 
 * boundary: GeoJSON object describing the region where the user may add entities
 * catalog: A catalog structure of entities available. (Schema TBD, @jyrki?)
