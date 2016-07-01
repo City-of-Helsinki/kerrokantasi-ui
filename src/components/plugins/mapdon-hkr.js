@@ -7,7 +7,7 @@ import {injectIntl} from 'react-intl';
 import {alert} from '../../utils/notify';
 
 
-class MapdonHKRPlugin extends BaseCommentForm {
+export class MapdonHKRPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "hkr" + (0 | (Math.random() * 10000000));

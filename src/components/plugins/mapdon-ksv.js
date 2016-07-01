@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/lib/Button';
-import MapdonHKRPlugin from './mapdon-hkr';
+import {MapdonHKRPlugin} from './mapdon-hkr';
 import CommentDisclaimer from "../CommentDisclaimer";
 import Input from 'react-bootstrap/lib/Input';
 import React from 'react';
