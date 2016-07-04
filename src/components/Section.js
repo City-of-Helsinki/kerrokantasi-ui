@@ -161,10 +161,10 @@ export default class Section extends React.Component {
     return (<div className={sectionClass}>
       {titleDiv}
       <div className="section-content">
-        {pluginContent}
         {imageList}
         {section.type !== "main" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>
+        {pluginContent}
       </div>
       {commentList}
       <hr/>
