@@ -15,6 +15,9 @@ function checkResponseStatus(response) {
 
 function getResponseJSON(response) {
   checkResponseStatus(response);
+  if (response.status === 304) {
+    return {status_code: response.status};
+  }
   return response.json();
 }
 
@@ -99,7 +102,11 @@ export function postVote(commentId, hearingId, sectionId) {
       dispatch(createAction("postedCommentVote")({commentId, hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
       dispatch(fetchSectionComments(hearingId, sectionId));
-      notifySuccess("Ääni vastaanotettu. Kiitos!");
+      if (data.status_code === 304) {
+        notifyError("Olet jo antanut äänesi tälle kommentille.");
+      } else {
+        notifySuccess("Ääni vastaanotettu. Kiitos!");
+      }
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
