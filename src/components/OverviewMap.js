@@ -50,8 +50,8 @@ class OverviewMap extends React.Component {
             if (bounds.isValid()) {
               input.props.map.fitBounds(bounds);
               const viewportBounds = [
-                [60.1, 24.75],  // SouthWest corner
-                [60.35, 25.3]  // NorthEast corner
+                [59.9, 24.59],  // SouthWest corner
+                [60.43, 25.3]  // NorthEast corner
               ];  // Wide Bounds of City of Helsinki area
               input.props.map.setMaxBounds(viewportBounds);
             }
