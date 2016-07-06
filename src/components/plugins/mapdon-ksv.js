@@ -10,16 +10,11 @@ class MapdonKSVPlugin extends MapdonHKRPlugin {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));
-    if ('canComment' in props) {
-      this.canComment = props.canComment;
-    } else {
-      // the default behavior allows commenting
-      this.canComment = true;
-    }
   }
 
   render() {
     const buttonDisabled = (this.submitting);
+    const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
       <div>
         <br/>
@@ -40,21 +35,44 @@ class MapdonKSVPlugin extends MapdonHKRPlugin {
       <div className="plugin-comment-form mapdon-ksv-plugin-comment-form">
         <form>
           <iframe
-            src="/assets/mapdon-ksv/plugin-inlined.html"
+            src="/assets/mapdon-ksv/plugin-inline.html"
             className="plugin-frame mapdon-ksv-plugin-frame"
             ref="frame"
           ></iframe>
-          {this.canComment ? commentBox : null}
+          {pluginPurpose === 'postComments' ? commentBox : null}
         </form>
       </div>
     );
+  }
+
+  componentDidMount() {
+    const iframe = this.refs.frame;
+    const {data, pluginPurpose} = this.props;
+    let {comments} = this.props;
+    if (!comments) {
+      comments = [];
+    }
+    if (!this._messageListener) {
+      this._messageListener = this.onReceiveMessage.bind(this);
+      window.addEventListener("message", this._messageListener, false);
+    }
+
+    iframe.addEventListener("load", () => {
+      this.sendMessageToPluginFrame({
+        message: "mapData",
+        data,
+        pluginPurpose,
+        comments,
+        instanceId: this.pluginInstanceId
+      });
+    }, false);
   }
 }
 
 MapdonKSVPlugin.propTypes = {
   onPostComment: React.PropTypes.func,
   data: React.PropTypes.string,
-  canComment: React.PropTypes.bool,
+  pluginPurpose: React.PropTypes.string,
   comments: React.PropTypes.object
 };
 

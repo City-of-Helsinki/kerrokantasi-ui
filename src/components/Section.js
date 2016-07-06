@@ -92,6 +92,7 @@ export default class Section extends React.Component {
           <MapdonKSVPlugin
             data={section.plugin_data}
             onPostComment={this.onPostComment.bind(this)}
+            pluginPurpose="postComments"
           />
         );
       default:

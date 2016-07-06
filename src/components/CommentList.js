@@ -15,11 +15,20 @@ class CommentList extends React.Component {
     switch (section.plugin_identifier) {
       case "mapdon-ksv":
         return (
-          <MapdonKSVPlugin
-            data={section.plugin_data}
-            canComment={false}
-            comments={comments}
-          />
+          <div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewComments"
+              comments={comments}
+            />
+            <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewHeatmap"
+              comments={comments}
+            />
+            <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
+          </div>
         );
       default:
         return null; // The plugin does not support result visualization.
