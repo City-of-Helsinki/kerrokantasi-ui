@@ -67,6 +67,21 @@ class MapdonKSVPlugin extends MapdonHKRPlugin {
       });
     }, false);
   }
+
+  componentWillUpdate() {
+    const {data, pluginPurpose} = this.props;
+    let {comments} = this.props;
+    if (!comments) {
+      comments = [];
+    }
+    this.sendMessageToPluginFrame({
+      message: "mapData",
+      data,
+      pluginPurpose,
+      comments,
+      instanceId: this.pluginInstanceId
+    });
+  }
 }
 
 MapdonKSVPlugin.propTypes = {
