@@ -55,19 +55,19 @@ class Hearing extends React.Component {
     Hearing.fetchData(dispatch, null, location, params);
   }
 
-  onPostHearingComment(text) {
+  onPostHearingComment(text, authorName) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing[hearingId].data.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, null, authCode));
+    dispatch(postSectionComment(hearingId, mainSection.id, text, authorName, authCode));
   }
 
-  onPostSectionComment(sectionId, text, pluginData) {
+  onPostSectionComment(sectionId, text, authorName, pluginData) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
-    dispatch(postSectionComment(hearingId, sectionId, text, pluginData, authCode));
+    dispatch(postSectionComment(hearingId, sectionId, text, authorName, pluginData, authCode));
   }
 
   onVoteComment(commentId, sectionId) {
@@ -196,6 +196,7 @@ class Hearing extends React.Component {
               onPostComment={this.onPostHearingComment.bind(this)}
               canVote={user !== null}
               onPostVote={onPostVote}
+              canSetNickname={user === null}
             />
           </div>
           <hr/>

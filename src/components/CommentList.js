@@ -13,7 +13,11 @@ class CommentList extends React.Component {
       </div></h2>);
     const commentButton = (
       canComment ?
-        <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/>
+        <CommentForm
+          hearingId={hearingId}
+          onPostComment={this.props.onPostComment}
+          canSetNickname={this.props.canSetNickname}
+        />
         : null
     );
     if (comments.length === 0) {
@@ -48,6 +52,7 @@ CommentList.propTypes = {
   hearingId: React.PropTypes.string,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
+  canSetNickname: React.PropTypes.bool,
 };
 
 export default injectIntl(CommentList);

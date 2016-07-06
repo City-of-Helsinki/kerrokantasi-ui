@@ -48,5 +48,7 @@
   "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa",
   "publishedHearings": "Julkiset",
   "publishingQueue": "Julkaisujono",
-  "drafts": "Luonnokset"
+  "drafts": "Luonnokset",
+  "nickname": "Nimimerkki",
+  "registered": "rekisteröitynyt"
 }
