@@ -49,5 +49,6 @@
   "publishedHearings": "Julkiset",
   "publishingQueue": "Julkaisujono",
   "drafts": "Luonnokset",
-  "nickname": "Nimimerkki"
+  "nickname": "Nimimerkki",
+  "registered": "rekisteröitynyt"
 }
