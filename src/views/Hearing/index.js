@@ -55,12 +55,12 @@ class Hearing extends React.Component {
     Hearing.fetchData(dispatch, null, location, params);
   }
 
-  onPostHearingComment(text, pluginData) {
+  onPostHearingComment(text) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing[hearingId].data.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, pluginData, authCode));
+    dispatch(postSectionComment(hearingId, mainSection.id, text, null, authCode));
   }
 
   onPostSectionComment(sectionId, text, pluginData) {
@@ -172,8 +172,8 @@ class Hearing extends React.Component {
             {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
             {mainSection ? <Section
               section={mainSection}
-              canComment={false}
-              onPostComment={this.onPostHearingComment.bind(this)}
+              canComment={mainSectionCommentable}
+              onPostComment={this.onPostSectionComment.bind(this)}
               loadSectionComments={this.loadSectionComments.bind(this)}
             /> : null}
           </div>
