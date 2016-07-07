@@ -16,6 +16,7 @@ import SectionList from 'components/SectionList';
 import Section from 'components/Section';
 import Sidebar from './Sidebar';
 import find from 'lodash/find';
+import _ from 'lodash';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType, userCanComment} from 'utils/section';
 import LoadSpinner from 'components/LoadSpinner';
@@ -143,8 +144,8 @@ class Hearing extends React.Component {
       </div>);
     }
     let userIsAdmin = false;
-    if (hearing && user) {
-      userIsAdmin = user.adminOrganizations.some(value => value === hearing.organization);
+    if (hearing && user && _.has(user, 'adminOrganizations')) {
+      userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
     }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
