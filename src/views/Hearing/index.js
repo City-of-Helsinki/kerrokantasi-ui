@@ -142,6 +142,10 @@ class Hearing extends React.Component {
         <LoadSpinner />
       </div>);
     }
+    let userIsAdmin = false;
+    if (hearing && user) {
+      userIsAdmin = user.adminOrganizations.some(value => value === hearing.organization);
+    }
     const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
     const onPostVote = this.onVoteComment.bind(this);
     const mainSection = find(hearing.sections, (section) => section.type === "main");
@@ -194,6 +198,7 @@ class Hearing extends React.Component {
           ))}
           <div id="hearing-comments">
             <CommentList
+              displayVisualization={userIsAdmin || hearing.closed}
               section={mainSection}
               comments={this.props.sectionComments[mainSection.id] ?
                         this.props.sectionComments[mainSection.id].data : []}

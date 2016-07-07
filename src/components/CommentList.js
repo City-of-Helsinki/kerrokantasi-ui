@@ -36,7 +36,7 @@ class CommentList extends React.Component {
   }
 
   render() {
-    const {section, comments, canComment, hearingId} = this.props;
+    const {section, comments, canComment, hearingId, displayVisualization} = this.props;
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
         <Icon name="comment-o"/>&nbsp;{comments.length}
@@ -46,7 +46,11 @@ class CommentList extends React.Component {
         <CommentForm hearingId={hearingId} onPostComment={this.props.onPostComment}/>
         : null
     );
-    const pluginContent = this.renderPluginContent(section);
+    const pluginContent = (
+      displayVisualization ?
+        this.renderPluginContent(section)
+        : null
+    );
     if (comments.length === 0) {
       if (!canComment) {
         return null;  // No need to show a header for nothing at all.
@@ -74,6 +78,7 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
+  displayVisualization: React.PropTypes.bool,
   section: React.PropTypes.object,
   comments: React.PropTypes.array,
   canComment: React.PropTypes.bool,
