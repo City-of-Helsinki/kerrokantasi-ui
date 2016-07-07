@@ -45,6 +45,15 @@ class MapdonKSVPlugin extends MapdonHKRPlugin {
     );
   }
 
+  onReceiveMessage(event) {
+    const pluginPurpose = this.props.pluginPurpose;
+    // override user messages if in visualization mode
+    if (pluginPurpose !== 'postComments') {
+      return;
+    }
+    super.onReceiveMessage(event);
+  }
+
   componentDidMount() {
     const iframe = this.refs.frame;
     const {data, pluginPurpose} = this.props;
