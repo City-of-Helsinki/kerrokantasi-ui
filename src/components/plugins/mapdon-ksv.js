@@ -74,13 +74,16 @@ class MapdonKSVPlugin extends MapdonHKRPlugin {
     if (!comments) {
       comments = [];
     }
-    this.sendMessageToPluginFrame({
-      message: "mapData",
-      data,
-      pluginPurpose,
-      comments,
-      instanceId: this.pluginInstanceId
-    });
+    // do not redraw plugin contents if user has interacted with the plugin!
+    if (!this.userDataChanged) {
+      this.sendMessageToPluginFrame({
+        message: "mapData",
+        data,
+        pluginPurpose,
+        comments,
+        instanceId: this.pluginInstanceId
+      });
+    }
   }
 }
 
