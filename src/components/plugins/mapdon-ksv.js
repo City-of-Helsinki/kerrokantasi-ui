@@ -100,7 +100,7 @@ MapdonKSVPlugin.propTypes = {
   onPostComment: React.PropTypes.func,
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
-  comments: React.PropTypes.object
+  comments: React.PropTypes.array
 };
 
 export default injectIntl(MapdonKSVPlugin);
