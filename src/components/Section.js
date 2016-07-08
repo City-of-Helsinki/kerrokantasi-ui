@@ -123,7 +123,7 @@ export default class Section extends React.Component {
   }
 
   render() {
-    const {section} = this.props;
+    const {section, user} = this.props;
     const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
@@ -151,6 +151,7 @@ export default class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
+        canSetNickname={user === null}
       />);
     }
     const imageList = this.getImageList(section);
