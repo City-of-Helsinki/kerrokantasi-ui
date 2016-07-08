@@ -4,6 +4,7 @@ import CommentDisclaimer from "../CommentDisclaimer";
 import Input from 'react-bootstrap/lib/Input';
 import React from 'react';
 import {injectIntl} from 'react-intl';
+import {alert} from '../../utils/notify';
 
 
 class MapdonKSVPlugin extends BaseCommentForm {
