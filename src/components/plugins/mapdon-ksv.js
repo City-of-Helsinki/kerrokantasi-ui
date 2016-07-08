@@ -11,14 +11,14 @@ class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));
-    this.userDataChanged = false;
+    this.state = Object.assign(this.state, {userDataChanged: false});
     this.lastUserData = null;
     this.submitting = false;
   }
 
   render() {
     const canSetNickname = this.props.canSetNickname;
-    const buttonDisabled = (this.submitting);
+    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
       <div>
@@ -96,7 +96,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
 
     if (payload.message === "userDataChanged") {
-      this.userDataChanged = true;
+      this.setState({userDataChanged: true});
     }
 
     if (payload.message === "userData") {
@@ -114,7 +114,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
 
   clearCommentText() {
     // after successful posting, user data shall be decimated from the map
-    this.userDataChanged = false;
+    this.setState({userDataChanged: false});
     super.clearCommentText();
   }
 
@@ -150,14 +150,14 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps, nextState) {
     const {data, pluginPurpose} = this.props;
     let {comments} = this.props;
     if (!comments) {
       comments = [];
     }
     // do not redraw plugin contents if user has interacted with the plugin!
-    if (!this.userDataChanged) {
+    if (!nextState.userDataChanged) {
       this.sendMessageToPluginFrame({
         message: "mapData",
         data,
