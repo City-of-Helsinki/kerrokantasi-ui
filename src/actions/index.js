@@ -72,7 +72,7 @@ export function fetchSectionComments(hearingId, sectionId) {
     const fetchAction = createAction("beginFetchSectionComments")({hearingId, sectionId});
     dispatch(fetchAction);
     const url = "v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments";
-    return api.get(getState(), url, {}).then(getResponseJSON).then((data) => {
+    return api.get(getState(), url, {include: 'plugin_data'}).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({hearingId, sectionId, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };

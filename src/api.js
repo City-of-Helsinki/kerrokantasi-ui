@@ -24,7 +24,7 @@ export function apiCall(state, endpoint, params, options = {}) {
   const defaultHeaders = {
     "Accept": "application/json"  // eslint-disable-line quote-props
   };
-  if (options.method !== "GET" && user && user.token) {
+  if (user && user.token) {
     defaultHeaders.Authorization = "JWT " + user.token;
   }
   options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign

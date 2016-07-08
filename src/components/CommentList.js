@@ -3,10 +3,40 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import Icon from 'utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import MapdonKSVPlugin from './plugins/mapdon-ksv';
 
 class CommentList extends React.Component {
+
+  renderPluginContent(section) {
+    const {comments} = this.props;
+    if (typeof window === 'undefined' || !section.plugin_identifier) {
+      return null;
+    }
+    switch (section.plugin_identifier) {
+      case "mapdon-ksv":
+        return (
+          <div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewComments"
+              comments={comments}
+            />
+            <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewHeatmap"
+              comments={comments}
+            />
+            <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
+          </div>
+        );
+      default:
+        return null; // The plugin does not support result visualization.
+    }
+  }
+
   render() {
-    const {comments, canComment, hearingId} = this.props;
+    const {section, comments, canComment, hearingId, displayVisualization} = this.props;
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
         <Icon name="comment-o"/>&nbsp;{comments.length}
@@ -18,6 +48,11 @@ class CommentList extends React.Component {
           onPostComment={this.props.onPostComment}
           canSetNickname={this.props.canSetNickname}
         />
+        : null
+    );
+    const pluginContent = (
+      displayVisualization ?
+        this.renderPluginContent(section)
         : null
     );
     if (comments.length === 0) {
@@ -32,6 +67,7 @@ class CommentList extends React.Component {
     }
     return (<div className="commentlist">
       {title}
+      {pluginContent}
       {commentButton}
       {comments.map((comment) =>
         <Comment
@@ -46,6 +82,8 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
+  displayVisualization: React.PropTypes.bool,
+  section: React.PropTypes.object,
   comments: React.PropTypes.array,
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,

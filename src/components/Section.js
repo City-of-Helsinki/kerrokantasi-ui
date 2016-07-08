@@ -4,6 +4,7 @@ import Icon from 'utils/Icon';
 import {isSpecialSectionType, userCanComment} from 'utils/section';
 import classNames from 'classnames';
 import MapdonHKRPlugin from './plugins/mapdon-hkr';
+import MapdonKSVPlugin from './plugins/mapdon-ksv';
 import Alert from 'react-bootstrap/lib/Alert';
 
 
@@ -86,6 +87,14 @@ export default class Section extends React.Component {
             onPostComment={this.onPostComment.bind(this)}
           />
         );
+      case "mapdon-ksv":
+        return (
+          <MapdonKSVPlugin
+            data={section.plugin_data}
+            onPostComment={this.onPostComment.bind(this)}
+            pluginPurpose="postComments"
+          />
+        );
       default:
         return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
     }
@@ -136,6 +145,7 @@ export default class Section extends React.Component {
 
     if (!isSpecialSectionType(section.type)) {
       commentList = (<CommentList
+        section={section}
         comments={(this.props.comments ? this.props.comments.data : null) || []}
         canComment={this.isCommentable() && userCanComment(this.props.user, section)}
         onPostComment={this.onPostComment.bind(this)}
@@ -152,10 +162,10 @@ export default class Section extends React.Component {
     return (<div className={sectionClass}>
       {titleDiv}
       <div className="section-content">
-        {pluginContent}
         {imageList}
         {section.type !== "main" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
         <div dangerouslySetInnerHTML={{__html: section.content}}></div>
+        {pluginContent}
       </div>
       {commentList}
       <hr/>

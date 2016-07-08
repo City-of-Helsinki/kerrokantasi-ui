@@ -1,15 +1,29 @@
 import fetch from 'mockable-fetch';
 import {createAction} from 'redux-actions';
+import api from 'api';
+import _ from 'lodash';
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
     return fetch('/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
       return response.json();
-    }).then((data) => {
-      return dispatch(createAction('receiveUserData')(data));
+    }).then((user) => {
+      if (user.token) { // If the user is registered, check admin organizations
+        const url = "v1/users/" + user.id + "/";
+        return api.get({user}, url, {}).then((democracyUser) => {
+          return democracyUser.json();
+        }).then((democracyUserJSON) => {
+          const userWithOrganization = Object.assign({},
+            user,
+            {adminOrganizations: _.get(democracyUserJSON, 'admin_organizations', null)});
+          return dispatch(createAction('receiveUserData')(userWithOrganization));
+        });
+      }
+      return dispatch(createAction('receiveUserData')(user));
     });
   };
 }
+
 
 export function login() {
   return (dispatch) => {
