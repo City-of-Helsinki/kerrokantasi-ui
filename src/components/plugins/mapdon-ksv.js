@@ -25,6 +25,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
         <Input
           type="textarea"
           onChange={this.handleTextChange.bind(this)}
+          value={this.state.commentText}
           placeholder="Kommentoi ehdotustasi tässä."
         />
         <p>
