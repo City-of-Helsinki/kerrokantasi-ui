@@ -22,7 +22,6 @@ class Comment extends React.Component {
         <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
       </Button> : null
     );
-    const authorName = data.author_name || (data.created_by ? data.created_by.username : null);
     if (!data.content) {
       return null;
     }
@@ -35,7 +34,15 @@ class Comment extends React.Component {
           </Button>
         </div>
         <div className="hearing-comment-publisher">
-          <span className="hearing-comment-user">{authorName || <FormattedMessage id="anonymous"/>}</span>
+          <span className="hearing-comment-user">
+            {data.is_registered ?
+              <span className="hearing-comment-user-registered">
+                <Icon name="user"/>&nbsp;
+                <FormattedMessage id="registered"/>:&nbsp;
+              </span>
+            : null}
+            {data.author_name || <FormattedMessage id="anonymous"/>}
+          </span>
           <span className="hearing-comment-date"><FormattedRelative value={data.created_at}/></span>
         </div>
       </div>

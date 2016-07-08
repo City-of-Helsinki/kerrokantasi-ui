@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Input from 'react-bootstrap/lib/Input';
 import Icon from 'utils/Icon';
@@ -8,7 +8,7 @@ import CommentDisclaimer from './CommentDisclaimer';
 class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: ""};
+    this.state = {collapsed: true, commentText: "", nickname: ""};
   }
 
   componentDidMount() {
@@ -49,6 +49,10 @@ class BaseCommentForm extends React.Component {
     this.setState({commentText: event.target.value});
   }
 
+  handleNicknameChange(event) {
+    this.setState({nickname: event.target.value});
+  }
+
   clearCommentText() {
     this.setState({commentText: ""});
   }
@@ -58,8 +62,10 @@ class BaseCommentForm extends React.Component {
     if (pluginData && typeof pluginData !== "string") {
       pluginData = JSON.stringify(pluginData);
     }
+    const nickname = (this.state.nickname === "" ? null : this.state.nickname);
     this.props.onPostComment(
       this.state.commentText,
+      nickname,
       pluginData
     );
   }
@@ -69,11 +75,22 @@ class BaseCommentForm extends React.Component {
   }
 
   render() {
+    const canSetNickname = this.props.canSetNickname;
     if (!this.state.collapsed) {
       return (<div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
           <Input type="textarea" value={this.state.commentText} onChange={this.handleTextChange.bind(this)}/>
+          {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
+          {canSetNickname ? (
+            <Input
+              type="text"
+              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+              value={this.state.nickname}
+              onChange={this.handleNicknameChange.bind(this)}
+              maxLength={32}
+            />
+          ) : null}
           <div className="comment-buttons clearfix">
             <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
               <FormattedMessage id="cancel"/>
@@ -93,7 +110,9 @@ class BaseCommentForm extends React.Component {
 }
 
 BaseCommentForm.propTypes = {
-  onPostComment: React.PropTypes.func
+  onPostComment: React.PropTypes.func,
+  intl: intlShape.isRequired,
+  canSetNickname: React.PropTypes.bool,
 };
 
 BaseCommentForm.contextTypes = {
