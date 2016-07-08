@@ -56,12 +56,12 @@ class Hearing extends React.Component {
     Hearing.fetchData(dispatch, null, location, params);
   }
 
-  onPostHearingComment(text, authorName) {
+  onPostHearingComment(text, authorName, pluginData = null) {
     const {dispatch} = this.props;
     const {hearingId} = this.props.params;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing[hearingId].data.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, authorName, authCode));
+    dispatch(postSectionComment(hearingId, mainSection.id, text, authorName, pluginData, authCode));
   }
 
   onPostSectionComment(sectionId, text, authorName, pluginData) {
