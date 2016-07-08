@@ -76,6 +76,7 @@ export default class Section extends React.Component {
   }
 
   renderPluginContent(section) {
+    const {user} = this.props;
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }
@@ -93,6 +94,7 @@ export default class Section extends React.Component {
             data={section.plugin_data}
             onPostComment={this.onPostComment.bind(this)}
             pluginPurpose="postComments"
+            canSetNickname={user === null}
           />
         );
       default:

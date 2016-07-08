@@ -180,6 +180,7 @@ class Hearing extends React.Component {
               canComment={mainSectionCommentable}
               onPostComment={this.onPostSectionComment.bind(this)}
               loadSectionComments={this.loadSectionComments.bind(this)}
+              user={user}
             /> : null}
           </div>
           {sectionGroups.map((sectionGroup) => (

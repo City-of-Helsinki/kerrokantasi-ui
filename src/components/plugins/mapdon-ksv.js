@@ -3,7 +3,7 @@ import BaseCommentForm from '../BaseCommentForm';
 import CommentDisclaimer from "../CommentDisclaimer";
 import Input from 'react-bootstrap/lib/Input';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import {alert} from '../../utils/notify';
 
 
@@ -17,6 +17,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   render() {
+    const canSetNickname = this.props.canSetNickname;
     const buttonDisabled = (this.submitting);
     const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
@@ -28,6 +29,16 @@ class MapdonKSVPlugin extends BaseCommentForm {
           value={this.state.commentText}
           placeholder="Kommentoi ehdotustasi tässä."
         />
+        {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
+        {canSetNickname ? (
+          <Input
+            type="text"
+            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+            value={this.state.nickname}
+            onChange={this.handleNicknameChange.bind(this)}
+            maxLength={32}
+          />
+        ) : null}
         <p>
           <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
             Lähetä ehdotus
@@ -162,7 +173,8 @@ MapdonKSVPlugin.propTypes = {
   onPostComment: React.PropTypes.func,
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
-  comments: React.PropTypes.array
+  comments: React.PropTypes.array,
+  canSetNickname: React.PropTypes.bool,
 };
 
 export default injectIntl(MapdonKSVPlugin);
