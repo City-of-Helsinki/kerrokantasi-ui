@@ -29,6 +29,7 @@ class BaseCommentForm extends React.Component {
       this.unsubscribe = store.subscribe(() => {
         if (store.getState().lastActionType === "postedComment") {
           this.clearCommentText();
+          this.toggle();
         }
       });
     }
