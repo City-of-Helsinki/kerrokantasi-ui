@@ -83,7 +83,10 @@ export function postSectionComment(hearingId, sectionId, text, authorName, plugi
     const fetchAction = createAction("postingComment")({hearingId, sectionId});
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
-    const params = {content: text, author_name: authorName, plugin_data: pluginData, authorization_code: authCode};
+    let params = {content: text, plugin_data: pluginData, authorization_code: authCode};
+    if (authorName) {
+      params = Object.assign(params, {author_name: authorName});
+    }
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, sectionId, data}));
       dispatch(fetchHearing(hearingId));
