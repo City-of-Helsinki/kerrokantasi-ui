@@ -95,7 +95,12 @@ class BaseCommentForm extends React.Component {
             <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
               <FormattedMessage id="cancel"/>
             </Button>
-            <Button bsStyle="primary" className="pull-right" onClick={this.submitComment.bind(this)}>
+            <Button
+              bsStyle="primary"
+              disabled={!this.state.commentText}
+              className="pull-right"
+              onClick={this.submitComment.bind(this)}
+            >
               <FormattedMessage id="submit"/>
             </Button>
           </div>
