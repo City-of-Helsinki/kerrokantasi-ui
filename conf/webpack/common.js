@@ -5,6 +5,9 @@ const SRC = path.resolve(ROOT, 'src');
 const ASSETS = path.resolve(ROOT, 'assets');
 
 module.exports = {
+  entry: [
+    'babel-polyfill'
+  ],
   paths: {
     ROOT,
     SRC,
