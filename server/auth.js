@@ -35,7 +35,7 @@ MockStrategy.prototype.authenticate = function mockAuthenticate() {
 
 
 export function getPassport(settings) {
-  const getTokenFromAPI = false;  // TODO: Do this if necessary
+  const getTokenFromAPI = true;
   const jwtOptions = {key: settings.jwtKey, audience: 'kerrokantasi'};
   const passport = new Passport();
   const helsinkiStrategy = new HelsinkiStrategy({
@@ -61,7 +61,7 @@ export function getPassport(settings) {
     }
   });
   passport.use(helsinkiStrategy);
-  if (settings.dev) {
+  if (false) { // preferably develop using SSO
     passport.use(new MockStrategy(jwtOptions));
   }
   passport.serializeUser((user, done) => {
