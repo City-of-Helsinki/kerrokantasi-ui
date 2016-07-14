@@ -84,7 +84,7 @@ export function addAuth(server, passport, settings) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
-  if (settings.dev) {
+  if (false) {  // preferably develop using SSO
     server.get('/login/mock', passport.authenticate('mock'), successfulLoginHandler);
   }
   server.get('/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);
