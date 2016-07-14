@@ -93,7 +93,9 @@ export function addAuth(server, passport, settings) {
   });
   server.post('/logout', (req, res) => {
     req.logout();
-    res.send('OK');
+    const redirectUrl = req.query.next || '/';
+    console.log(redirectUrl);
+    res.redirect(`https://api.hel.fi/sso/logout/?next=${redirectUrl}`);
   });
   server.get('/me', (req, res) => {
     res.json(req.user || {});
