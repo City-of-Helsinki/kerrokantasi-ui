@@ -61,7 +61,7 @@ export function getPassport(settings) {
     }
   });
   passport.use(helsinkiStrategy);
-  if (false) { // preferably develop using SSO
+  if (settings.dev && false) { // preferably develop using SSO
     passport.use(new MockStrategy(jwtOptions));
   }
   passport.serializeUser((user, done) => {
@@ -84,7 +84,7 @@ export function addAuth(server, passport, settings) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
-  if (false) {  // preferably develop using SSO
+  if (settings.dev && false) {  // preferably develop using SSO
     server.get('/login/mock', passport.authenticate('mock'), successfulLoginHandler);
   }
   server.get('/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);
@@ -94,7 +94,6 @@ export function addAuth(server, passport, settings) {
   server.post('/logout', (req, res) => {
     req.logout();
     const redirectUrl = req.query.next || '/';
-    console.log(redirectUrl);
     res.redirect(`https://api.hel.fi/sso/logout/?next=${redirectUrl}`);
   });
   server.get('/me', (req, res) => {
