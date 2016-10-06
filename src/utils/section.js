@@ -38,7 +38,7 @@ export function initNewSection(inits) {
   return _.merge({
     id: "",
     type: "",
-    commenting: "",
+    commenting: "none",
     published: false,
     title: "",
     abstract: "",
