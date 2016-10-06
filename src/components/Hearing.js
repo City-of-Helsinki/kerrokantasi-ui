@@ -98,6 +98,9 @@ export class Hearing extends React.Component {
   }
 
   loadSectionComments(sectionId) {
+    if (sectionId === "" || sectionId === undefined) {
+      return;
+    }
     const {dispatch} = this.props;
     dispatch(fetchSectionComments(sectionId));
   }
