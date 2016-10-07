@@ -1,7 +1,8 @@
 import Button from 'react-bootstrap/lib/Button';
 import BaseCommentForm from '../BaseCommentForm';
 import CommentDisclaimer from "../CommentDisclaimer";
-import Input from 'react-bootstrap/lib/Input';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {alert} from '../../utils/notify';
@@ -23,21 +24,25 @@ class MapdonKSVPlugin extends BaseCommentForm {
     const commentBox = (
       <div>
         <br/>
-        <Input
-          type="textarea"
-          onChange={this.handleTextChange.bind(this)}
-          value={this.state.commentText}
-          placeholder="Kommentoi ehdotustasi tässä."
-        />
+        <FormGroup>
+          <FormControl
+            componentClass="textarea"
+            onChange={this.handleTextChange.bind(this)}
+            value={this.state.commentText}
+            placeholder="Kommentoi ehdotustasi tässä."
+          />
+        </FormGroup>
         {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
         {canSetNickname ? (
-          <Input
-            type="text"
-            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-            value={this.state.nickname}
-            onChange={this.handleNicknameChange.bind(this)}
-            maxLength={32}
-          />
+          <FormGroup>
+            <FormControl
+              type="text"
+              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+              value={this.state.nickname}
+              onChange={this.handleNicknameChange.bind(this)}
+              maxLength={32}
+            />
+          </FormGroup>
         ) : null}
         <p>
           <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>

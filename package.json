@@ -45,7 +45,7 @@
     "progress": "^1.1.8",
     "query-string": "^4.2.2",
     "react": "^15.1.0",
-    "react-bootstrap": "^0.29.5",
+    "react-bootstrap": "^0.30.5",
     "react-dom": "^15.1.0",
     "react-helmet": "^2.2.0",
     "react-intl": "2.0.0-rc-1",

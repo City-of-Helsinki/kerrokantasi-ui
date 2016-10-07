@@ -1,7 +1,8 @@
 import Button from 'react-bootstrap/lib/Button';
 import BaseCommentForm from '../BaseCommentForm';
 import CommentDisclaimer from "../CommentDisclaimer";
-import Input from 'react-bootstrap/lib/Input';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
 import {injectIntl} from 'react-intl';
 import {alert} from '../../utils/notify';
@@ -27,11 +28,13 @@ export class MapdonHKRPlugin extends BaseCommentForm {
             ref="frame"
           ></iframe>
           <br/>
-          <Input
-            type="textarea"
-            onChange={this.handleTextChange.bind(this)}
-            placeholder="Kommentoi ehdotustasi tässä."
-          />
+          <FormGroup>
+            <FormControl
+              componentClass="textarea"
+              onChange={this.handleTextChange.bind(this)}
+              placeholder="Kommentoi ehdotustasi tässä."
+            />
+          </FormGroup>
           <p>
             <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
               Lähetä ehdotus
