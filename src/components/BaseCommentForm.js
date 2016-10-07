@@ -1,7 +1,8 @@
 import React from 'react';
 import {intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
-import Input from 'react-bootstrap/lib/Input';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Icon from 'utils/Icon';
 import CommentDisclaimer from './CommentDisclaimer';
 
@@ -81,16 +82,22 @@ class BaseCommentForm extends React.Component {
       return (<div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
-          <Input type="textarea" value={this.state.commentText} onChange={this.handleTextChange.bind(this)}/>
+          <FormControl
+            componentClass="textarea"
+            value={this.state.commentText}
+            onChange={this.handleTextChange.bind(this)}
+          />
           {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
           {canSetNickname ? (
-            <Input
-              type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
+            <FormGroup>
+              <FormControl
+                type="text"
+                placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+                value={this.state.nickname}
+                onChange={this.handleNicknameChange.bind(this)}
+                maxLength={32}
+              />
+            </FormGroup>
           ) : null}
           <div className="comment-buttons clearfix">
             <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
