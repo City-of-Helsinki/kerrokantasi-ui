@@ -9,6 +9,7 @@ Requirements
 
 * Node.js 4.2 LTS
 * Bower
+* IE11+/Chrome/Firefox/Safari
 
 Preparation
 -----------
