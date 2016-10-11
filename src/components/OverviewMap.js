@@ -46,7 +46,7 @@ class OverviewMap extends React.Component {
         <FeatureGroup
           ref={(input) => {
             if (!input) return;
-            const bounds = input.getLeafletElement().getBounds();
+            const bounds = input.leafletElement.getBounds();
             if (bounds.isValid()) {
               input.props.map.fitBounds(bounds);
               const viewportBounds = [
