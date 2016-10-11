@@ -61,6 +61,8 @@ class BaseCommentForm extends React.Component {
 
   submitComment() {
     let pluginData = this.getPluginData();
+    //TODO: allow plugin data to override comment fields, if provided!!!
+
     if (pluginData && typeof pluginData !== "string") {
       pluginData = JSON.stringify(pluginData);
     }
