@@ -1,5 +1,7 @@
 import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
+import {has, isEmpty} from 'lodash';
+
 
 const beginFetchHearing = (state, {payload}) => {
   if (state[payload.hearingSlug]) {
@@ -11,6 +13,7 @@ const beginFetchHearing = (state, {payload}) => {
     [payload.hearingSlug]: {state: "pending"}
   }, state);
 };
+
 
 const receiveHearing = (state, {payload}) => {
   return updeep({
@@ -24,8 +27,23 @@ const changeCurrentlyViewed = (state, {payload}) => {
   }, state);
 };
 
+const savedHearingChange = (state, {payload}) => {
+  const hearing = payload.hearing;
+  if (has(state, hearing.slug) || isEmpty(state)) {
+    // We have just saved hearing with the same slug as we have in
+    // state. In order to keep the hearing up to date, let's update it
+    // accordingly.
+    return updeep({
+      [hearing.slug]: {state: "done", data: hearing}
+    }, state);
+  }
+  return state;
+};
+
 export default handleActions({
   beginFetchHearing,
   receiveHearing,
-  changeCurrentlyViewed
+  changeCurrentlyViewed,
+  savedHearingChange,
+  savedNewHearing: savedHearingChange,
 }, {});

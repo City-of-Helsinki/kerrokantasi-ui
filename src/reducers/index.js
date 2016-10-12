@@ -6,6 +6,7 @@ import hearingLists from './hearingLists';
 import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
+import hearingEditor from './hearingEditor';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -20,6 +21,7 @@ function lastActionType(state = null, action) {
 
 export default combineReducers({
   hearing,
+  hearingEditor,
   hearingLists,
   language,
   lastActionType,
