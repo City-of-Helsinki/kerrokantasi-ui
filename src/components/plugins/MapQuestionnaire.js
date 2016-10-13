@@ -89,6 +89,10 @@ class MapQuestionnaire extends BaseCommentForm {
     return this.lastUserComment;
   }
 
+  submitVote(commentId) {
+    this.props.onPostVote(commentId);
+  }
+
   onReceiveMessage(event) {
     const pluginPurpose = this.props.pluginPurpose;
     // override user messages if in visualization mode
@@ -109,14 +113,18 @@ class MapQuestionnaire extends BaseCommentForm {
 
     if (payload.message === "userData") {
       this.lastUserComment = payload.comment;
-      if (this.submitting) {
-        this.submitting = false;
-        if (this.lastUserComment) {
-          this.submitComment();
-        } else {
-          alert("Et muuttanut mitään kartassa.");
-        }
+      // whenever user data is sent by the plugin, post it no questions asked
+      this.submitting = false;
+      if (this.lastUserComment) {
+        this.submitComment();
+      } else {
+        alert("Et muuttanut mitään kartassa.");
       }
+    }
+
+    if (payload.message === "userVote") {
+      const commentToVote = payload.comment_id;
+      this.submitVote(commentToVote);
     }
   }
 
@@ -170,7 +178,7 @@ class MapQuestionnaire extends BaseCommentForm {
         message: "mapData",
         data,
         pluginPurpose,
-        comments,
+        comments: nextProps.comments ? nextProps.comments : [],
         instanceId: this.pluginInstanceId
       });
     }
@@ -179,6 +187,7 @@ class MapQuestionnaire extends BaseCommentForm {
 
 MapQuestionnaire.propTypes = {
   onPostComment: React.PropTypes.func,
+  onPostVote: React.PropTypes.func,
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
   comments: React.PropTypes.array,

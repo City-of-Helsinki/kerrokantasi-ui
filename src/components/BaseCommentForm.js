@@ -63,7 +63,7 @@ class BaseCommentForm extends React.Component {
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
     let nickname = (this.state.nickname === "" ? null : this.state.nickname);
-    let commentText = this.state.commentText;
+    let commentText = (this.state.commentText === null ? '' : this.state.commentText);
     let geojson = null;
     let label = null;
     let images = null;

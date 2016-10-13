@@ -52,6 +52,14 @@ Plugin sends the full JSON of the user data. Can be triggered by parent request,
 
 For `comment` object contents, see mapData above.
 
+# Post Vote
+
+    iframe -> parent:
+    {"message": "userVote",
+    "commentId": (the comment id)}
+
+Plugin requests parent to vote for the comment with provided id.
+
 # User Data Change Notification
 
 	iframe -> parent:

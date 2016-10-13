@@ -84,7 +84,7 @@ export function postSectionComment(hearingId, sectionId, commentData = {}) {
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
     let params = {
-      content: commentData.text ? commentData.text : null,
+      content: commentData.text ? commentData.text : "",
       plugin_data: commentData.pluginData ? commentData.pluginData : null,
       authorization_code: commentData.authCode ? commentData.authCode : "",
       geojson: commentData.geojson ? commentData.geojson : null,

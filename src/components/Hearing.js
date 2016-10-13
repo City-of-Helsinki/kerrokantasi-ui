@@ -145,6 +145,7 @@ class Hearing extends React.Component {
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostSectionComment.bind(this)}
                 loadSectionComments={this.loadSectionComments.bind(this)}
+                comments={this.props.sectionComments[mainSection.id]}
                 user={user}
               /> : null}
             </div>
