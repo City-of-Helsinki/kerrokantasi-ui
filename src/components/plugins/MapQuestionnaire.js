@@ -13,6 +13,7 @@ class MapQuestionnaire extends BaseCommentForm {
     super(props);
     this.pluginInstanceId = "map" + (0 | (Math.random() * 10000000));
     this.state = Object.assign(this.state, {userDataChanged: false});
+    this.lastUserData = null;
     this.lastUserComment = null;
     this.submitting = false;
   }
@@ -84,7 +85,7 @@ class MapQuestionnaire extends BaseCommentForm {
     this.requestData();
   }
 
-  getPluginData() {
+  getPluginComment() {
     return this.lastUserComment;
   }
 

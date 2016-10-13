@@ -27,14 +27,16 @@ class Hearing extends React.Component {
     const hearingId = this.props.hearingId;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, authorName, authCode));
+    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: null};
+    dispatch(postSectionComment(hearingId, mainSection.id, commentData));
   }
 
-  onPostSectionComment(sectionId, text, authorName, pluginData) {
+  onPostSectionComment(sectionId, commentData) {
     const {dispatch} = this.props;
     const hearingId = this.props.hearingId;
     const {authCode} = this.props.location.query;
-    dispatch(postSectionComment(hearingId, sectionId, text, authorName, pluginData, authCode));
+    commentData.authCode = authCode;
+    dispatch(postSectionComment(hearingId, sectionId, commentData));
   }
 
   onVoteComment(commentId, sectionId) {

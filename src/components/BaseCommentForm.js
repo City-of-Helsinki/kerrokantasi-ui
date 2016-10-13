@@ -60,21 +60,42 @@ class BaseCommentForm extends React.Component {
   }
 
   submitComment() {
+    const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
-    //TODO: allow plugin data to override comment fields, if provided!!!
+    let nickname = (this.state.nickname === "" ? null : this.state.nickname);
+    let commentText = this.state.commentText;
+    let geojson = null;
+    let label = null;
+    let images = null;
 
-    if (pluginData && typeof pluginData !== "string") {
+    // plugin comment will override comment fields, if provided
+    if (pluginComment) {
+      commentText = pluginComment.content || commentText;
+      nickname = pluginComment.author_name || nickname;
+      pluginData = pluginComment.plugin_data || pluginData;
+      label = pluginComment.label || null;
+      images = pluginComment.images || null;
+      geojson = pluginComment.geojson || null;
+    }
+    else if (pluginData && typeof pluginData !== "string") {
+      // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
     }
-    const nickname = (this.state.nickname === "" ? null : this.state.nickname);
     this.props.onPostComment(
-      this.state.commentText,
+      commentText,
       nickname,
-      pluginData
+      pluginData,
+      geojson,
+      label,
+      images
     );
   }
 
   getPluginData() {
+    return undefined;
+  }
+
+  getPluginComment() {
     return undefined;
   }
 

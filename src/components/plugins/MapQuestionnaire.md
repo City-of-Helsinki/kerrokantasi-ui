@@ -44,9 +44,11 @@ Host requests that the plugin sends the full JSON of all user changes (when the 
 # Post User Data
 
 	iframe -> parent:
-	{"message": "userData", "comment": {....}, "instanceId": (the instance id)}
+	{"message": "userData",
+	"comment": {....},
+	"instanceId": (the instance id)}
 
-Plugin sends the full JSON of the user comment. Can be triggered by parent request, or the iframe wishing to post a comment. Results in the parent posting the data to the API.
+Plugin sends the full JSON of the user data. Can be triggered by parent request, or the iframe wishing to post a comment. Results in the parent posting the data to the API.
 
 For `comment` object contents, see mapData above.
 

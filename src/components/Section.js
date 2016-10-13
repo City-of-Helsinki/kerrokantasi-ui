@@ -26,10 +26,11 @@ export default class Section extends React.Component {
     }
   }
 
-  onPostComment(text, authorName, pluginData) {
+  onPostComment(text, authorName, pluginData, geojson, label, images) {
     const {section} = this.props;
+    const commentData = {text, authorName, pluginData, geojson, label, images};
     if (this.props.onPostComment) {
-      this.props.onPostComment(section.id, text, authorName, pluginData);
+      this.props.onPostComment(section.id, commentData);
     }
   }
 
