@@ -31,11 +31,11 @@ class Hearing extends React.Component {
     dispatch(postSectionComment(hearingId, mainSection.id, commentData));
   }
 
-  onPostSectionComment(sectionId, commentData) {
+  onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
     const hearingId = this.props.hearingId;
     const {authCode} = this.props.location.query;
-    commentData.authCode = authCode;
+    const commentData = Object.assign({authCode}, sectionCommentData);
     dispatch(postSectionComment(hearingId, sectionId, commentData));
   }
 

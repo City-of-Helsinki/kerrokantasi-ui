@@ -76,8 +76,7 @@ class BaseCommentForm extends React.Component {
       label = pluginComment.label || null;
       images = pluginComment.images || null;
       geojson = pluginComment.geojson || null;
-    }
-    else if (pluginData && typeof pluginData !== "string") {
+    } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
     }

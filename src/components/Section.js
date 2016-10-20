@@ -5,7 +5,7 @@ import {isSpecialSectionType, userCanComment} from 'utils/section';
 import classNames from 'classnames';
 import MapdonHKRPlugin from './plugins/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/mapdon-ksv';
-import MapQuestionnaire from './plugins/MapQuestionnaire'
+import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
 
 
@@ -79,7 +79,7 @@ export default class Section extends React.Component {
 
   renderPluginContent(section) {
     const {user} = this.props;
-    const comments = this.props.comments ? this.props.comments.data : []
+    const comments = this.props.comments ? this.props.comments.data : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }

@@ -92,7 +92,7 @@ export function postSectionComment(hearingId, sectionId, commentData = {}) {
       images: commentData.images ? commentData.images : null
     };
     if (commentData.authorName) {
-      params = Object.assign(params, {author_name: authorName});
+      params = Object.assign(params, {author_name: commentData.authorName});
     }
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingId, sectionId, data}));
