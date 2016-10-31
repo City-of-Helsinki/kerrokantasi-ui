@@ -140,7 +140,8 @@ class MapQuestionnaire extends BaseCommentForm {
 
   componentDidMount() {
     super.componentDidMount();
-    const {comments} = this.props;
+    const iframe = this.refs.frame;
+    const {data, pluginPurpose, comments} = this.props;
     if (comments) {
       this.comments = comments;
     }
@@ -148,6 +149,16 @@ class MapQuestionnaire extends BaseCommentForm {
       this._messageListener = this.onReceiveMessage.bind(this);
       window.addEventListener("message", this._messageListener, false);
     }
+
+    iframe.addEventListener("load", () => {
+      this.sendMessageToPluginFrame({
+        message: "mapData",
+        data,
+        pluginPurpose,
+        comments: this.comments,
+        instanceId: this.pluginInstanceId
+      });
+    }, false);
   }
 
   componentWillUnmount() {
