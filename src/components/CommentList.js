@@ -3,7 +3,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import Icon from 'utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
-import MapdonKSVPlugin from './plugins/mapdon-ksv';
+import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 
 class CommentList extends React.Component {
 

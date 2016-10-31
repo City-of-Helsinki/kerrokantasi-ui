@@ -27,14 +27,16 @@ class Hearing extends React.Component {
     const hearingId = this.props.hearingId;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing.sections, (section) => section.type === "main");
-    dispatch(postSectionComment(hearingId, mainSection.id, text, authorName, authCode));
+    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: null};
+    dispatch(postSectionComment(hearingId, mainSection.id, commentData));
   }
 
-  onPostSectionComment(sectionId, text, authorName, pluginData) {
+  onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
     const hearingId = this.props.hearingId;
     const {authCode} = this.props.location.query;
-    dispatch(postSectionComment(hearingId, sectionId, text, authorName, pluginData, authCode));
+    const commentData = Object.assign({authCode}, sectionCommentData);
+    dispatch(postSectionComment(hearingId, sectionId, commentData));
   }
 
   onVoteComment(commentId, sectionId) {
@@ -143,6 +145,7 @@ class Hearing extends React.Component {
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostSectionComment.bind(this)}
                 loadSectionComments={this.loadSectionComments.bind(this)}
+                comments={this.props.sectionComments[mainSection.id]}
                 user={user}
               /> : null}
             </div>

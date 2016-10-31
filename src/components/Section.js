@@ -3,8 +3,9 @@ import CommentList from './CommentList';
 import Icon from 'utils/Icon';
 import {isSpecialSectionType, userCanComment} from 'utils/section';
 import classNames from 'classnames';
-import MapdonHKRPlugin from './plugins/mapdon-hkr';
-import MapdonKSVPlugin from './plugins/mapdon-ksv';
+import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
+import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
+import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
 
 
@@ -26,10 +27,11 @@ export default class Section extends React.Component {
     }
   }
 
-  onPostComment(text, authorName, pluginData) {
+  onPostComment(text, authorName, pluginData, geojson, label, images) {
     const {section} = this.props;
+    const commentData = {text, authorName, pluginData, geojson, label, images};
     if (this.props.onPostComment) {
-      this.props.onPostComment(section.id, text, authorName, pluginData);
+      this.props.onPostComment(section.id, commentData);
     }
   }
 
@@ -77,6 +79,7 @@ export default class Section extends React.Component {
 
   renderPluginContent(section) {
     const {user} = this.props;
+    const comments = this.props.comments ? this.props.comments.data : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }
@@ -95,6 +98,19 @@ export default class Section extends React.Component {
             onPostComment={this.onPostComment.bind(this)}
             pluginPurpose="postComments"
             canSetNickname={user === null}
+          />
+        );
+      case "map-questionnaire":
+        return (
+          <MapQuestionnaire
+            data={section.plugin_data}
+            onPostComment={this.onPostComment.bind(this)}
+            onPostVote={this.onPostVote.bind(this)}
+            comments={comments}
+            pluginPurpose="postComments"
+            canSetNickname={user === null}
+            displayCommentBox={false}
+            pluginSource={section.plugin_iframe_url}
           />
         );
       default:
