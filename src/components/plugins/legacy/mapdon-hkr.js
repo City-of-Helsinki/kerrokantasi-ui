@@ -1,11 +1,11 @@
-import Button from 'react-bootstrap/lib/Button';
-import BaseCommentForm from '../BaseCommentForm';
-import CommentDisclaimer from "../CommentDisclaimer";
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import Button from '../../../../node_modules/react-bootstrap/lib/Button';
+import BaseCommentForm from '../../BaseCommentForm';
+import CommentDisclaimer from "../../CommentDisclaimer";
+import FormControl from '../../../../node_modules/react-bootstrap/lib/FormControl';
+import FormGroup from '../../../../node_modules/react-bootstrap/lib/FormGroup';
 import React from 'react';
 import {injectIntl} from 'react-intl';
-import {alert} from '../../utils/notify';
+import {alert} from '../../../utils/notify';
 
 
 export class MapdonHKRPlugin extends BaseCommentForm {
