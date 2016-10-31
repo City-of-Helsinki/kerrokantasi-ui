@@ -16,6 +16,10 @@ class MapQuestionnaire extends BaseCommentForm {
     this.lastUserData = null;
     this.lastUserComment = null;
     this.submitting = false;
+    this.comments = props.comments;
+    if (!this.comments) {
+      this.comments = [];
+    }
   }
 
   render() {
@@ -136,26 +140,14 @@ class MapQuestionnaire extends BaseCommentForm {
 
   componentDidMount() {
     super.componentDidMount();
-    const iframe = this.refs.frame;
-    const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
-    if (!comments) {
-      comments = [];
+    const {comments} = this.props;
+    if (comments) {
+      this.comments = comments;
     }
     if (!this._messageListener) {
       this._messageListener = this.onReceiveMessage.bind(this);
       window.addEventListener("message", this._messageListener, false);
     }
-
-    iframe.addEventListener("load", () => {
-      this.sendMessageToPluginFrame({
-        message: "mapData",
-        data,
-        pluginPurpose,
-        comments,
-        instanceId: this.pluginInstanceId
-      });
-    }, false);
   }
 
   componentWillUnmount() {
@@ -168,9 +160,9 @@ class MapQuestionnaire extends BaseCommentForm {
 
   componentWillUpdate(nextProps, nextState) {
     const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
-    if (!comments) {
-      comments = [];
+    const {comments} = nextProps;
+    if (comments) {
+      this.comments = comments;
     }
     // do not redraw plugin contents if user has interacted with the plugin!
     if (!nextState.userDataChanged) {
@@ -178,7 +170,7 @@ class MapQuestionnaire extends BaseCommentForm {
         message: "mapData",
         data,
         pluginPurpose,
-        comments: nextProps.comments ? nextProps.comments : [],
+        comments: this.comments,
         instanceId: this.pluginInstanceId
       });
     }
