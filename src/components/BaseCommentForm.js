@@ -66,7 +66,7 @@ class BaseCommentForm extends React.Component {
     let commentText = (this.state.commentText === null ? '' : this.state.commentText);
     let geojson = null;
     let label = null;
-    let images = null;
+    let images = [];
 
     // plugin comment will override comment fields, if provided
     if (pluginComment) {
@@ -74,7 +74,7 @@ class BaseCommentForm extends React.Component {
       nickname = pluginComment.author_name || nickname;
       pluginData = pluginComment.plugin_data || pluginData;
       label = pluginComment.label || null;
-      images = pluginComment.images || null;
+      images = pluginComment.images || [];
       geojson = pluginComment.geojson || null;
     } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data
