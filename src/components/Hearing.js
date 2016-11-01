@@ -17,7 +17,7 @@ import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
 import _ from 'lodash';
 import Icon from '../utils/Icon';
-import {isSpecialSectionType, userCanComment} from '../utils/section';
+import {isSpecialSectionType, userCanComment, userCanVote} from '../utils/section';
 import config from '../config';
 
 class Hearing extends React.Component {
@@ -116,6 +116,7 @@ class Hearing extends React.Component {
     const mainSectionCommentable = hearingAllowsComments
       && userCanComment(user, mainSection)
       && !mainSection.plugin_identifier; // comment box not available for plugins
+    const mainSectionVotable = hearingAllowsComments && userCanVote(user, mainSection);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
@@ -144,6 +145,8 @@ class Hearing extends React.Component {
                 section={mainSection}
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostSectionComment.bind(this)}
+                onPostVote={onPostVote}
+                canVote={mainSectionVotable}
                 loadSectionComments={this.loadSectionComments.bind(this)}
                 comments={this.props.sectionComments[mainSection.id]}
                 user={user}
@@ -156,7 +159,7 @@ class Hearing extends React.Component {
                   nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}
                   onPostComment={this.onPostSectionComment.bind(this)}
-                  canVote={user !== null}
+                  canVote={hearingAllowsComments}
                   onPostVote={onPostVote}
                   loadSectionComments={this.loadSectionComments.bind(this)}
                   sectionComments={this.props.sectionComments}
@@ -172,7 +175,7 @@ class Hearing extends React.Component {
                           this.props.sectionComments[mainSection.id].data : []}
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostHearingComment.bind(this)}
-                canVote={user !== null}
+                canVote={mainSectionVotable}
                 onPostVote={onPostVote}
                 canSetNickname={user === null}
               />

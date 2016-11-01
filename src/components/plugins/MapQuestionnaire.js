@@ -127,7 +127,7 @@ class MapQuestionnaire extends BaseCommentForm {
     }
 
     if (payload.message === "userVote") {
-      const commentToVote = payload.comment_id;
+      const commentToVote = payload.commentId;
       this.submitVote(commentToVote);
     }
   }

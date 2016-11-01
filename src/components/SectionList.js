@@ -2,10 +2,11 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import Section from './Section';
 import Icon from 'utils/Icon';
+import {userCanComment, userCanVote} from '../utils/section';
 
 class SectionList extends React.Component {
   render() {
-    const {sections, nComments} = this.props;
+    const {sections, nComments, user} = this.props;
     if (!sections || sections.length === 0) {
       return null;
     }
@@ -21,13 +22,13 @@ class SectionList extends React.Component {
         <Section
           section={section}
           key={section.id}
-          canComment={this.props.canComment}
+          canComment={this.props.canComment && userCanComment(user, section)}
           onPostComment={this.props.onPostComment}
-          canVote={this.props.canVote}
+          canVote={this.props.canVote && userCanVote(user, section)}
           onPostVote={this.props.onPostVote}
           loadSectionComments={this.props.loadSectionComments}
           comments={this.props.sectionComments[section.id]}
-          user={this.props.user}
+          user={user}
         />))}
     </div>);
   }
