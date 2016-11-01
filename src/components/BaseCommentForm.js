@@ -74,7 +74,7 @@ class BaseCommentForm extends React.Component {
       nickname = pluginComment.author_name || nickname;
       pluginData = pluginComment.plugin_data || pluginData;
       label = pluginComment.label || null;
-      images = pluginComment.images || [];
+      images = pluginComment.image ? [pluginComment.image] : [];
       geojson = pluginComment.geojson || null;
     } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data

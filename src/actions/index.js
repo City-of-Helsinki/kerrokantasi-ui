@@ -89,7 +89,7 @@ export function postSectionComment(hearingId, sectionId, commentData = {}) {
       authorization_code: commentData.authCode ? commentData.authCode : "",
       geojson: commentData.geojson ? commentData.geojson : null,
       label: commentData.label ? commentData.label : null,
-      images: commentData.images ? commentData.images : null
+      images: commentData.images ? commentData.images : []
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
