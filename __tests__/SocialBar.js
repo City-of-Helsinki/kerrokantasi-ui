@@ -1,15 +1,15 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
-import SocialBar from 'components/SocialBar';
+import SocialBar from '../src/components/SocialBar';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, domDescribe} from './utils';
+import {wireComponent} from '../test-utils';
 
-domDescribe('SocialBar', () => {
+describe('SocialBar', () => {
   it('should have a container for Facebook Sharing', () => {
     const comp = renderIntoDocument(wireComponent({}, SocialBar));
-    expect(findDOMNode(comp).querySelector(".fb-share-button")).to.be.ok;
+    expect(findDOMNode(comp).querySelector(".fb-share-button")).toBeTruthy();
   });
   it('should have a container for tweeting', () => {
     const comp = renderIntoDocument(wireComponent({}, SocialBar));
-    expect(findDOMNode(comp).querySelector(".twitter-tweet-ctr")).to.be.ok;
+    expect(findDOMNode(comp).querySelector(".twitter-tweet-ctr")).toBeTruthy();
   });
 });

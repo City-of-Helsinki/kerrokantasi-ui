@@ -1,9 +1,9 @@
 import {renderIntoDocument} from 'react-addons-test-utils';
-import Comment from 'components/Comment';
+import Comment from '../src/components/Comment';
 import {findDOMNode} from 'react-dom';
-import {wireComponent, domDescribe} from './utils';
+import {wireComponent} from '../test-utils';
 
-domDescribe('Comment', () => {
+describe('Comment', () => {
   it('should be able to render an anonymous comment without crashing', () => {
     const anonComment = {
       "id": "f00f00",
@@ -14,7 +14,7 @@ domDescribe('Comment', () => {
       "created_at": "2015-11-16T09:25:37.625607Z"
     };
     const comp = renderIntoDocument(wireComponent({}, Comment, {data: anonComment}));
-    expect(findDOMNode(comp).className).to.contain("hearing-comment");
+    expect(findDOMNode(comp).className).toContain("hearing-comment");
   });
 
   it('should have a clickable voting thumb', () => {
@@ -28,6 +28,6 @@ domDescribe('Comment', () => {
     };
     const comp = renderIntoDocument(wireComponent({}, Comment, {data: anonComment}));
     const voteBtn = findDOMNode(comp).getElementsByClassName("hearing-comment-votes")[0];
-    expect(voteBtn.innerHTML).to.contain("button");
+    expect(voteBtn.innerHTML).toContain("button");
   });
 });

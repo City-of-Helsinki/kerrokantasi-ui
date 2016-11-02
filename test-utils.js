@@ -1,15 +1,14 @@
 import assign from 'lodash/assign';
 import noop from 'lodash/noop';
-import commonInit from 'commonInit';
+import commonInit from './src/commonInit';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
-import createStore from 'createStore';
-import messages from 'i18n';
+import createStore from './src/createStore';
+import messages from './src/i18n';
 import React from 'react';
 import express from 'express';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
-import {jsdom} from 'jsdom';
 import Response from 'node-fetch/lib/response';
 import {Readable} from 'stream';
 
@@ -79,7 +78,7 @@ function MockResponse(done = noop) {
  * @return {Promise}
  */
 export function getRenderPromise(request, initialState = {}, settings = {}) {
-  const render = require('../server/render');
+  const render = require('./server/render');
   const finalSettings = assign({}, settings, {serverRendering: true, dev: true});
   const finalRequest = assign(Object.create(express.request), assign({method: "GET"}, request));
   return new Promise((resolve) => {
@@ -87,36 +86,6 @@ export function getRenderPromise(request, initialState = {}, settings = {}) {
       resolve(res.dump());
     });
     render(finalRequest, mockResponse.writer, finalSettings, initialState);
-  });
-}
-
-/**
- * Set up or tear down the JSDOM DOM set up in global variables.
- * @param mode
- */
-export function dom(mode) {
-  if (mode) {
-    global.document = jsdom('<!doctype html><html><body></body></html>');
-    global.window = document.defaultView;
-    global.window.jsdom = true; // To disable some components that can't be really tested in this env
-    global.navigator = global.window.navigator;
-  } else {
-    global.document = undefined;
-    global.window = undefined;
-    global.navigator = undefined;
-  }
-}
-
-/**
- * Sugar for setting up a Mocha suite with a DOM for each test.
- * @param name
- * @param fn
- */
-export function domDescribe(name, fn) {
-  describe(name, () => {
-    beforeEach(() => dom(true));
-    fn();
-    afterEach(() => dom(false));
   });
 }
 
