@@ -1,5 +1,5 @@
 /* eslint-disable prefer-arrow-callback */
-import 'assets/less/app.less';
+import '../assets/less/app.less';
 import 'alertifyjs/build/css/alertify.css';
 import 'alertifyjs/build/css/themes/default.css';
 import {render} from 'react-dom';
@@ -8,6 +8,7 @@ import createStore from './createStore';
 import commonInit from './commonInit';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {reduxReactRouter} from 'redux-router';
+
 require('es6-promise').polyfill();
 
 

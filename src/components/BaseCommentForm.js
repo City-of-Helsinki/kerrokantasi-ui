@@ -3,7 +3,7 @@ import {intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import Icon from 'utils/Icon';
+import Icon from '../utils/Icon';
 import CommentDisclaimer from './CommentDisclaimer';
 
 class BaseCommentForm extends React.Component {
@@ -90,11 +90,11 @@ class BaseCommentForm extends React.Component {
     );
   }
 
-  getPluginData() {
+  getPluginData() {  // eslint-disable-line class-methods-use-this
     return undefined;
   }
 
-  getPluginComment() {
+  getPluginComment() {  // eslint-disable-line class-methods-use-this
     return undefined;
   }
 

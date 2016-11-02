@@ -1,17 +1,18 @@
-import Button from '../../../../node_modules/react-bootstrap/lib/Button';
+/* eslint-disable react/no-string-refs */
 import BaseCommentForm from '../../BaseCommentForm';
+import Button from 'react-bootstrap/lib/Button';
 import CommentDisclaimer from "../../CommentDisclaimer";
-import FormControl from '../../../../node_modules/react-bootstrap/lib/FormControl';
-import FormGroup from '../../../../node_modules/react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
-import {injectIntl} from 'react-intl';
 import {alert} from '../../../utils/notify';
+import {injectIntl} from 'react-intl';
 
 
-export class MapdonHKRPlugin extends BaseCommentForm {
+class MapdonHKRPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = "hkr" + (0 | (Math.random() * 10000000));
+    this.pluginInstanceId = "hkr" + (0 | (Math.random() * 10000000));  // eslint-disable-line no-bitwise
     this.userDataChanged = false;
     this.lastUserData = null;
     this.submitting = false;
@@ -26,7 +27,7 @@ export class MapdonHKRPlugin extends BaseCommentForm {
             src="/assets/mapdon-hkr/plugin-inlined.html"
             className="plugin-frame mapdon-hkr-plugin-frame"
             ref="frame"
-          ></iframe>
+          />
           <br/>
           <FormGroup>
             <FormControl

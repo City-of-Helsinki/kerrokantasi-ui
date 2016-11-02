@@ -5,10 +5,10 @@ import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedPlural} from 'react-intl';
-import OverviewMap from 'components/OverviewMap';
-import SocialBar from 'components/SocialBar';
+import OverviewMap from '../../components/OverviewMap';
+import SocialBar from '../../components/SocialBar';
 import formatRelativeTime from '../../utils/formatRelativeTime';
-import Icon from 'utils/Icon';
+import Icon from '../../utils/Icon';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
 

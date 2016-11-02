@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
 import messages from './i18n';
 import Helmet from 'react-helmet';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
-import {retrieveUserFromSession} from 'actions';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import {retrieveUserFromSession} from './actions';
 
 class App extends React.Component {
   getChildContext() {

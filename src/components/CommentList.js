@@ -1,6 +1,6 @@
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Icon from 'utils/Icon';
+import Icon from '../utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';

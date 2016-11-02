@@ -1,10 +1,10 @@
-import React from 'react';
+import Hearing from '../../components/Hearing';
 import Helmet from 'react-helmet';
+import LoadSpinner from '../../components/LoadSpinner';
+import React from 'react';
 import {connect} from 'react-redux';
+import {fetchHearing} from '../../actions';
 import {injectIntl, intlShape} from 'react-intl';
-import {fetchHearing} from 'actions';
-import LoadSpinner from 'components/LoadSpinner';
-import Hearing from 'components/Hearing';
 
 export class HearingView extends React.Component {
   /**
@@ -56,7 +56,7 @@ export class HearingView extends React.Component {
     ];
   }
 
-  renderSpinner() {
+  renderSpinner() {  // eslint-disable-line class-methods-use-this
     return (
       <div className="container">
         <LoadSpinner />

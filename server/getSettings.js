@@ -1,4 +1,5 @@
 import {Provider} from 'nconf';
+
 const _ = require('lodash');
 
 const defaults = {

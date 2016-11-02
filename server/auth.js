@@ -5,6 +5,7 @@ import HelsinkiStrategy from 'passport-helsinki';
 import jwt from 'jsonwebtoken';
 import merge from 'lodash/merge';
 import _debug from 'debug';
+
 const debug = _debug('auth');
 
 function generateToken(profile, options) {

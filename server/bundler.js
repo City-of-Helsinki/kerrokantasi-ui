@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const ProgressBar = require('progress');
-import _debug from 'debug';
-const debug = _debug('bundler');
+const debug = require('debug')('bundler');
 
 function getProgressPlugin() {
   const progress = new ProgressBar(

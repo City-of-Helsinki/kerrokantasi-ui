@@ -4,7 +4,7 @@ import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
 import config from '../../config';
-import {setLanguage} from 'actions';
+import {setLanguage} from '../../actions';
 
 class LanguageDropdown extends React.Component {
   render() {

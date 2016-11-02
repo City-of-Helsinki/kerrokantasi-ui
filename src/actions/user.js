@@ -1,6 +1,6 @@
-import fetch from 'mockable-fetch';
+import fetch from '../mockable-fetch';
 import {createAction} from 'redux-actions';
-import api from 'api';
+import api from '../api';
 import _ from 'lodash';
 
 export function retrieveUserFromSession() {

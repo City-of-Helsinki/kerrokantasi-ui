@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export function loadScriptThenCall(id, src, sentinel, fn) {
   if (typeof document === "undefined" || typeof window === "undefined") {
     return;
