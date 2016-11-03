@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
-import {login, logout} from 'actions';
+import {login, logout} from '../../actions';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router';
 import throttle from 'lodash/throttle';
@@ -98,7 +98,7 @@ class Header extends React.Component {
               </Link>
             </div>
             <button className="nav-toggler" onClick={toggleMobile}>
-              <span className="hamburger"></span>
+              <span className="hamburger" />
               <span className="sr-only">Menu</span>
             </button>
             <div className="nav-wrap">

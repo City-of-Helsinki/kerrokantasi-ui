@@ -1,5 +1,6 @@
-import {getRenderPromise, withAndWithoutUser} from './utils';
-import Hearing from 'views/Hearing';
+import {getRenderPromise, withAndWithoutUser} from '../test-utils';
+import Hearing from '../src/views/Hearing';
+import Helmet from 'react-helmet';
 
 const data = require('./test-hearing-data.json');
 const req = {url: "/hearing/f00f00"};
@@ -10,6 +11,14 @@ const hearingState = {
 };
 
 describe('Hearing rendered universally', () => {
+  const oldCanUseDOM = Helmet.canUseDOM;
+  beforeAll(() => {
+    Helmet.canUseDOM = false;  // Pretend we're not DOMmy, so Helmet.rewind() works
+  });
+  afterAll(() => {
+    Helmet.canUseDOM = oldCanUseDOM;
+  });
+
   withAndWithoutUser(hearingState, ({state, message}) => {
     it('should assure us that it can render given the mock state ' + message, () => {
       expect(Hearing.canRenderFully(
@@ -20,8 +29,8 @@ describe('Hearing rendered universally', () => {
     });
     it('should render something ' + message, () => {
       return getRenderPromise(req, state).then(({status, body}) => {
-        expect(status).to.equal(200);
-        expect(body).to.contain(data.title);
+        expect(status).toEqual(200);
+        expect(body).toContain(data.title);
       });
     });
   });

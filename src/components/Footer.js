@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';

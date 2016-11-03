@@ -3,7 +3,7 @@ import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
-import Icon from 'utils/Icon';
+import Icon from '../utils/Icon';
 import LabelList from './LabelList';
 import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';

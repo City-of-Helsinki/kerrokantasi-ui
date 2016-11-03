@@ -2,8 +2,8 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
-import {fetchHearingList} from 'actions';
-import OverviewMap from 'components/OverviewMap';
+import {fetchHearingList} from '../actions';
+import OverviewMap from '../components/OverviewMap';
 
 class HearingMap extends React.Component {
   // This view won't be able to successfully render on the server in any case,

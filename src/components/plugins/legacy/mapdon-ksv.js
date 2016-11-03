@@ -1,17 +1,18 @@
-import Button from '../../../../node_modules/react-bootstrap/lib/Button';
+/* eslint-disable react/no-string-refs */
 import BaseCommentForm from '../../BaseCommentForm';
+import Button from 'react-bootstrap/lib/Button';
 import CommentDisclaimer from "../../CommentDisclaimer";
-import FormControl from '../../../../node_modules/react-bootstrap/lib/FormControl';
-import FormGroup from '../../../../node_modules/react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
 import {alert} from '../../../utils/notify';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
 
 class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));
+    this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));  // eslint-disable-line no-bitwise
     this.state = Object.assign(this.state, {userDataChanged: false});
     this.lastUserData = null;
     this.submitting = false;
@@ -59,7 +60,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
             src="/assets/mapdon-ksv/plugin-inline.html"
             className="plugin-frame mapdon-ksv-plugin-frame"
             ref="frame"
-          ></iframe>
+          />
           {pluginPurpose === 'postComments' ? commentBox : null}
         </form>
       </div>

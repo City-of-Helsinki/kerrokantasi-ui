@@ -18,6 +18,11 @@ function lastActionType(state = null, action) {
 }
 
 export default combineReducers({
-  router, language, user, hearing, hearingLists, sectionComments,
-  lastActionType
+  hearing,
+  hearingLists,
+  language,
+  lastActionType,
+  router,
+  sectionComments,
+  user,
 });

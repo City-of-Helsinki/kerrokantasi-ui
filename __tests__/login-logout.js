@@ -1,6 +1,6 @@
-import {createTestStore, mockFetch, jsonResponse} from './utils';
-import {login, logout} from 'actions';
-import {replace} from 'mockable-fetch';
+import {createTestStore, mockFetch, jsonResponse} from '../test-utils';
+import {login, logout} from '../src/actions';
+import {replace} from '../src/mockable-fetch';
 
 describe('Login/logout', () => {
   afterEach(() => {
@@ -14,7 +14,7 @@ describe('Login/logout', () => {
         firstName: 'Mock',
         lastName: 'von User',
         username: 'mock.von.user',
-        provider: 'helsinki'
+        provider: 'helsinki',
       }),
       "/logout": "OK"
     });
@@ -24,12 +24,15 @@ describe('Login/logout', () => {
     // This will, in turn, dispatch fetchUserData, which will eventually dispatch receiveUserData...
     return store.dispatch(login()).then(() => {
       // ... which will have then updated our store with the data we want.
-      expect(store.getState().user).to.contain.keys("id", "displayName", "username");
+      const user = store.getState().user;
+      expect(Object.keys(user)).toContain("id");
+      expect(Object.keys(user)).toContain("displayName");
+      expect(Object.keys(user)).toContain("username");
       // now let's log out...
       return store.dispatch(logout());
     }).then(() => {
-      expect(fetcher.calls["/logout"]).to.equal(1); // The remote call was made
-      expect(store.getState().user).to.be.null; // And the local state was updated
+      expect(fetcher.calls["/logout"]).toEqual(1); // The remote call was made
+      expect(store.getState().user).toBeNull(); // And the local state was updated
     });
   });
 });

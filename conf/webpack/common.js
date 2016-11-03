@@ -34,7 +34,7 @@ module.exports = {
   ],
   resolve: {
     extensions: ['', '.js', '.json'],
-    root: [ROOT, SRC],
+    root: [ROOT],
     modulesDirectories: ['node_modules', 'app']
   }
 };

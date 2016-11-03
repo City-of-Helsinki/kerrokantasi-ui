@@ -1,7 +1,8 @@
 import {createAction} from 'redux-actions';
-import api from 'api';
+import api from '../api';
 import {alert, notifySuccess, notifyError} from '../utils/notify';
 import merge from 'lodash/merge';
+
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 

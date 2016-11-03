@@ -1,7 +1,7 @@
 import React from 'react';
 import {injectIntl} from 'react-intl';
 import Section from './Section';
-import Icon from 'utils/Icon';
+import Icon from '../utils/Icon';
 import {userCanComment, userCanVote} from '../utils/section';
 
 class SectionList extends React.Component {

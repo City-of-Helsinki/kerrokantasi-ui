@@ -1,12 +1,23 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import CommentList from './CommentList';
-import Icon from 'utils/Icon';
-import {isSpecialSectionType, userCanComment} from 'utils/section';
+import Icon from '../utils/Icon';
+import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
 import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
+
+function getImageList(section) {
+  if (section.type === "main") { // Main section images aren't rendered here atleast atm.
+    return null;
+  }
+  return section.images.map((image) => (<div key={image.url}>
+    <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
+    <div className="image-caption">{image.caption}</div>
+  </div>));
+}
 
 
 export default class Section extends React.Component {
@@ -114,7 +125,7 @@ export default class Section extends React.Component {
           />
         );
       default:
-        return <Alert>I don't know how to render the plugin {section.plugin_identifier}</Alert>;
+        return <Alert>I do not know how to render the plugin {section.plugin_identifier}</Alert>;
     }
   }
 
@@ -128,16 +139,6 @@ export default class Section extends React.Component {
     const {section} = this.props;
     const hasPlugin = !!section.plugin_identifier;
     return (this.props.canComment && !hasPlugin);
-  }
-
-  getImageList(section) {
-    if (section.type === "main") { // Main section images aren't rendered here atleast atm.
-      return null;
-    }
-    return section.images.map((image) => (<div key={image.url}>
-      <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
-      <div className="image-caption">{image.caption}</div>
-    </div>));
   }
 
   render() {
@@ -154,7 +155,7 @@ export default class Section extends React.Component {
           </div>
           <div className="section-list-item-content">
             {titleDiv}
-            <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}}></div>
+            <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}} />
           </div>
           <hr/>
         </div>
@@ -172,7 +173,7 @@ export default class Section extends React.Component {
         canSetNickname={user === null}
       />);
     }
-    const imageList = this.getImageList(section);
+    const imageList = getImageList(section);
     const sectionClass = classNames({
       'hearing-section': true,
       'closure-info': section.type === "closure-info"
@@ -182,8 +183,8 @@ export default class Section extends React.Component {
       {titleDiv}
       <div className="section-content">
         {imageList}
-        {section.type !== "main" ? <div dangerouslySetInnerHTML={{__html: section.abstract}}></div> : null}
-        <div dangerouslySetInnerHTML={{__html: section.content}}></div>
+        {section.type !== "main" ? <div dangerouslySetInnerHTML={{__html: section.abstract}} /> : null}
+        <div dangerouslySetInnerHTML={{__html: section.content}} />
         {pluginContent}
       </div>
       {commentList}

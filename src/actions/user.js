@@ -1,6 +1,6 @@
-import fetch from 'mockable-fetch';
+import fetch from '../mockable-fetch';
 import {createAction} from 'redux-actions';
-import api from 'api';
+import api from '../api';
 import _ from 'lodash';
 
 export function retrieveUserFromSession() {
@@ -38,7 +38,7 @@ export function login() {
         'location,scrollbars=on,width=720,height=600'
       );
       const wait = function wait() {
-        if (loginPopup.closed) { // Is our login popup gone?
+        if (!loginPopup || loginPopup.closed) { // Is our login popup gone (if it opened at all)?
           resolve(true);
           return;
         }

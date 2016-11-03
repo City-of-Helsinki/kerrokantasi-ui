@@ -11,8 +11,10 @@ export default function renderMiddleware(settings) {
     }
     if (
       accept.indexOf('application/json') === 0 ||
-      accept.indexOf('text/html') === -1 &&
-      accept.indexOf('*/*') === -1
+      (
+        accept.indexOf('text/html') === -1 &&
+        accept.indexOf('*/*') === -1
+      )
     ) {
       return next();
     }

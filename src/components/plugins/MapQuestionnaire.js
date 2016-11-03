@@ -11,7 +11,7 @@ import {alert} from '../../utils/notify';
 class MapQuestionnaire extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = "map" + (0 | (Math.random() * 10000000));
+    this.pluginInstanceId = "map" + Math.floor(Math.random() * 10000000);
     this.state = Object.assign(this.state, {userDataChanged: false});
     this.lastUserData = null;
     this.lastUserComment = null;
@@ -66,7 +66,7 @@ class MapQuestionnaire extends BaseCommentForm {
             src={pluginSource}
             className="plugin-frame map-plugin-frame"
             ref="frame"
-          ></iframe>
+          />
           {pluginPurpose === 'postComments' && displayCommentBox ? commentBox : null}
         </form>
       </div>

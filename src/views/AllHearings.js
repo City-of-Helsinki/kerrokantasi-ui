@@ -2,8 +2,8 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
-import {fetchHearingList} from 'actions';
-import HearingList from 'components/HearingList';
+import {fetchHearingList} from '../actions';
+import HearingList from '../components/HearingList';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
