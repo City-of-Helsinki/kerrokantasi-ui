@@ -50,5 +50,6 @@
   "publishingQueue": "Julkaisujono",
   "drafts": "Luonnokset",
   "nickname": "Nimimerkki",
-  "registered": "rekisteröitynyt"
+  "registered": "rekisteröitynyt",
+  "openFullscreenMap": "Avaa kartalla"
 }
