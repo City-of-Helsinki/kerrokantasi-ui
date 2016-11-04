@@ -1,10 +1,14 @@
+import FullscreenHearing from '../../components/FullscreenHearing';
 import Hearing from '../../components/Hearing';
 import Helmet from 'react-helmet';
 import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
 import {connect} from 'react-redux';
 import {fetchHearing} from '../../actions';
+import {getMainSection, getHearingURL} from '../../utils/hearing';
 import {injectIntl, intlShape} from 'react-intl';
+import {push} from 'redux-router';
+
 
 export class HearingView extends React.Component {
   /**
@@ -64,6 +68,17 @@ export class HearingView extends React.Component {
     );
   }
 
+  checkNeedForFullscreen(hearing) {
+    const fullscreenParam = this.props.location.query.fullscreen;
+    const requiresFullscreen = getMainSection(hearing).plugin_fullscreen;
+    if (requiresFullscreen && fullscreenParam === undefined) {
+      // Looks like we need fullscreen mode, but we aren't currently using it.
+      // Let's redirect to proper hearing URL
+      this.props.dispatch(push(getHearingURL(hearing)));
+    }
+    return fullscreenParam === "true";
+  }
+
   render() {
     const {hearingId} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
@@ -73,10 +88,13 @@ export class HearingView extends React.Component {
       return this.renderSpinner();
     }
 
+    const fullscreen = this.checkNeedForFullscreen(hearing);
+    const HearingComponent = fullscreen ? FullscreenHearing : Hearing;
+
     return (
-      <div className="container">
+      <div className={fullscreen ? "fullscreen-hearing" : "container"}>
         <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
-        <Hearing
+        <HearingComponent
           hearingId={hearingId}
           hearing={hearing}
           user={user}
@@ -98,13 +116,17 @@ HearingView.propTypes = {
   sectionComments: React.PropTypes.object,
 };
 
-const WrappedHearingView = connect((state) => ({
-  user: state.user,
-  hearing: state.hearing,
-  sectionComments: state.sectionComments,
-}))(injectIntl(HearingView));
-// We need to re-hoist the data statics to the wrapped component due to react-intl:
-WrappedHearingView.canRenderFully = HearingView.canRenderFully;
-WrappedHearingView.fetchData = HearingView.fetchData;
+export function wrapHearingView(view) {
+  const wrappedView = connect((state) => ({
+    user: state.user,
+    hearing: state.hearing,
+    sectionComments: state.sectionComments,
+  }))(injectIntl(view));
 
-export default WrappedHearingView;
+  // We need to re-hoist the data statics to the wrapped component due to react-intl:
+  wrappedView.canRenderFully = view.canRenderFully;
+  wrappedView.fetchData = view.fetchData;
+  return wrappedView;
+}
+
+export default wrapHearingView(HearingView);
