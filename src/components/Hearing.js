@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -27,6 +28,10 @@ import {isSpecialSectionType, userCanComment, userCanVote} from '../utils/sectio
 import config from '../config';
 
 export class Hearing extends React.Component {
+
+  openFullscreen(hearing) {
+    this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
+  }
 
   onPostHearingComment(text, authorName) {
     const {dispatch} = this.props;
@@ -152,6 +157,7 @@ export class Hearing extends React.Component {
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingId + '/report';
+    const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
 
     return (
       <div id="hearing-wrapper">
@@ -173,6 +179,7 @@ export class Hearing extends React.Component {
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section
+                showPlugin={!fullscreenMapPlugin}
                 section={mainSection}
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostSectionComment.bind(this)}
@@ -183,6 +190,9 @@ export class Hearing extends React.Component {
                 user={user}
               /> : null}
             </div>
+
+            {this.getLinkToFullscreen(hearing)}
+
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                 <SectionList
@@ -198,21 +208,26 @@ export class Hearing extends React.Component {
                 />
               </div>
             ))}
-            <div id="hearing-comments">
-              <CommentList
-                displayVisualization={userIsAdmin || hearing.closed}
-                section={mainSection}
-                comments={this.props.sectionComments[mainSection.id] ?
-                          this.props.sectionComments[mainSection.id].data : []}
-                canComment={mainSectionCommentable}
-                onPostComment={this.onPostHearingComment.bind(this)}
-                canVote={mainSectionVotable}
-                onPostVote={onPostVote}
-                canSetNickname={user === null}
-              />
-            </div>
-            <hr/>
-            <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+            {fullscreenMapPlugin ?
+              null :
+              <div>
+                <div id="hearing-comments">
+                  <CommentList
+                   displayVisualization={userIsAdmin || hearing.closed}
+                   section={mainSection}
+                   comments={this.props.sectionComments[mainSection.id] ?
+                             this.props.sectionComments[mainSection.id].data : []}
+                   canComment={mainSectionCommentable}
+                   onPostComment={this.onPostHearingComment.bind(this)}
+                   canVote={mainSectionVotable}
+                   onPostVote={onPostVote}
+                   canSetNickname={user === null}
+                  />
+                </div>
+                <hr/>
+                <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+              </div>
+            }
           </Col>
         </Row>
       </div>

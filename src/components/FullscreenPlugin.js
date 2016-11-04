@@ -23,7 +23,9 @@ class FullscreenPlugin extends Section {
             </Link>
           </div>
           <div className="header-title">
-            {this.props.headerTitle}
+            <Link to={this.props.detailURL}>
+              {this.props.headerTitle}
+            </Link>
           </div>
           <div className="minimize">
             <Button onClick={openDetailPage}>

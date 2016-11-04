@@ -89,6 +89,9 @@ export default class Section extends React.Component {
   }
 
   renderPluginContent(section) {
+    if (!this.props.showPlugin) {
+      return null;
+    }
     const {user} = this.props;
     const comments = this.props.comments ? this.props.comments.data : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
@@ -193,13 +196,18 @@ export default class Section extends React.Component {
   }
 }
 
+Section.defaultProps = {
+  showPlugin: true,
+};
+
 Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
-  section: React.PropTypes.object.isRequired,
+  comments: React.PropTypes.object,
+  loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
-  loadSectionComments: React.PropTypes.func,
-  comments: React.PropTypes.object,
+  section: React.PropTypes.object.isRequired,
+  showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
 };
