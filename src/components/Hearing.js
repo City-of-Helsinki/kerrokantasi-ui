@@ -17,10 +17,16 @@ import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
 import _ from 'lodash';
 import Icon from '../utils/Icon';
+import {
+  acceptsComments,
+  getHearingURL,
+  getMainSection,
+  hasFullscreenMapPlugin
+} from '../utils/hearing';
 import {isSpecialSectionType, userCanComment, userCanVote} from '../utils/section';
 import config from '../config';
 
-class Hearing extends React.Component {
+export class Hearing extends React.Component {
 
   onPostHearingComment(text, authorName) {
     const {dispatch} = this.props;
@@ -101,6 +107,33 @@ class Hearing extends React.Component {
     );
   }
 
+  getLinkToFullscreen(hearing) {
+    if (!hasFullscreenMapPlugin(hearing)) {
+      return null;
+    }
+    return (
+      <Button bsStyle="primary" bsSize="large" block onClick={() => this.openFullscreen(hearing)}>
+        <Icon name="arrows-alt" fixedWidth/>
+        <FormattedMessage id="openFullscreenMap"/>
+      </Button>
+    );
+  }
+
+  isMainSectionVotable(user) {
+    const hearing = this.props.hearing;
+    return acceptsComments(hearing) && userCanVote(user, getMainSection(hearing));
+  }
+
+  isMainSectionCommentable(user) {
+    const hearing = this.props.hearing;
+    const section = getMainSection(hearing);
+    return (
+      acceptsComments(hearing)
+      && userCanComment(user, section)
+      && !section.plugin_identifier // comment box not available for sections with plugins
+    );
+  }
+
   render() {
     const hearingId = this.props.hearingId;
     const hearing = this.props.hearing;
@@ -110,13 +143,11 @@ class Hearing extends React.Component {
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
     }
-    const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
+    const hearingAllowsComments = acceptsComments(hearing);
     const onPostVote = this.onVoteComment.bind(this);
-    const mainSection = find(hearing.sections, (section) => section.type === "main");
-    const mainSectionCommentable = hearingAllowsComments
-      && userCanComment(user, mainSection)
-      && !mainSection.plugin_identifier; // comment box not available for plugins
-    const mainSectionVotable = hearingAllowsComments && userCanVote(user, mainSection);
+    const mainSection = getMainSection(hearing);
+    const mainSectionCommentable = this.isMainSectionCommentable(hearing, user);
+    const mainSectionVotable = this.isMainSectionVotable(hearing, user);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
@@ -199,11 +230,15 @@ Hearing.propTypes = {
   sectionComments: React.PropTypes.object,
 };
 
-const WrappedHearing = connect()(injectIntl(Hearing));
-// We need to re-hoist the data statics to the wrapped component due to react-intl:
-WrappedHearing.canRenderFully = Hearing.canRenderFully;
-WrappedHearing.fetchData = Hearing.fetchData;
-export default WrappedHearing;
+export function wrapHearingComponent(component) {
+  const wrappedComponent = connect()(injectIntl(component));
+  // We need to re-hoist the data statics to the wrapped component due to react-intl:
+  wrappedComponent.canRenderFully = component.canRenderFully;
+  wrappedComponent.fetchData = component.fetchData;
+  return wrappedComponent;
+}
+
+export default wrapHearingComponent(Hearing);
 
 function groupSections(sections) {
   const sectionGroups = [];
