@@ -1,5 +1,5 @@
 import FullscreenHearing from '../../components/FullscreenHearing';
-import Hearing from '../../components/Hearing';
+import DefaultHearingComponent from '../../components/Hearing';
 import Helmet from 'react-helmet';
 import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
@@ -89,7 +89,7 @@ export class HearingView extends React.Component {
     }
 
     const fullscreen = this.checkNeedForFullscreen(hearing);
-    const HearingComponent = fullscreen ? FullscreenHearing : Hearing;
+    const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
 
     return (
       <div className={fullscreen ? "fullscreen-hearing" : "container"}>
