@@ -8,6 +8,7 @@
   "main": "Pääosio",
   "table-of-content": "Sisällys",
   "comments": "Mielipiteet",
+  "commentsOnMap": "Mielipiteet kartalla",
   "borough": "Alue",
   "timetable": "Aikajana",
   "addComment": "Vastaa",
