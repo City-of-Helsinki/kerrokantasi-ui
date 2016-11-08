@@ -139,24 +139,47 @@ export class Hearing extends React.Component {
     );
   }
 
-  render() {
-    const hearingSlug = this.props.hearingSlug;
+  getCommentList() {
     const hearing = this.props.hearing;
+    const mainSection = getMainSection(hearing);
     const user = this.props.user;
-
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
     let userIsAdmin = false;
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
     }
+    if (hasFullscreenMapPlugin(hearing)) {
+      return null;
+    }
+    return (
+      <div>
+        <div id="hearing-comments">
+          <CommentList
+           displayVisualization={userIsAdmin || hearing.closed}
+           section={mainSection}
+           comments={this.props.sectionComments[mainSection.id] ?
+                     this.props.sectionComments[mainSection.id].data : []}
+           canComment={this.isMainSectionCommentable(hearing, user)}
+           onPostComment={this.onPostHearingComment.bind(this)}
+           canVote={this.isMainSectionVotable(hearing, user)}
+           onPostVote={this.onVoteComment.bind(this)}
+           canSetNickname={user === null}
+          />
+        </div>
+        <hr/>
+        <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+      </div>
+    );
+  }
+
+  render() {
+    const hearing = this.props.hearing;
+    const user = this.props.user;
     const hearingAllowsComments = acceptsComments(hearing);
-    const onPostVote = this.onVoteComment.bind(this);
     const mainSection = getMainSection(hearing);
-    const mainSectionCommentable = this.isMainSectionCommentable(hearing, user);
-    const mainSectionVotable = this.isMainSectionVotable(hearing, user);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
 
     return (
@@ -181,10 +204,10 @@ export class Hearing extends React.Component {
               {mainSection ? <Section
                 showPlugin={!fullscreenMapPlugin}
                 section={mainSection}
-                canComment={mainSectionCommentable}
+                canComment={this.isMainSectionCommentable(hearing, user)}
                 onPostComment={this.onPostSectionComment.bind(this)}
-                onPostVote={onPostVote}
-                canVote={mainSectionVotable}
+                onPostVote={this.onVoteComment.bind(this)}
+                canVote={this.isMainSectionVotable(hearing, user)}
                 loadSectionComments={this.loadSectionComments.bind(this)}
                 comments={this.props.sectionComments[mainSection.id]}
                 user={user}
@@ -201,33 +224,14 @@ export class Hearing extends React.Component {
                   canComment={hearingAllowsComments}
                   onPostComment={this.onPostSectionComment.bind(this)}
                   canVote={hearingAllowsComments}
-                  onPostVote={onPostVote}
+                  onPostVote={this.onVoteComment.bind(this)}
                   loadSectionComments={this.loadSectionComments.bind(this)}
                   sectionComments={this.props.sectionComments}
                   user={user}
                 />
               </div>
             ))}
-            {fullscreenMapPlugin ?
-              null :
-              <div>
-                <div id="hearing-comments">
-                  <CommentList
-                   displayVisualization={userIsAdmin || hearing.closed}
-                   section={mainSection}
-                   comments={this.props.sectionComments[mainSection.id] ?
-                             this.props.sectionComments[mainSection.id].data : []}
-                   canComment={mainSectionCommentable}
-                   onPostComment={this.onPostHearingComment.bind(this)}
-                   canVote={mainSectionVotable}
-                   onPostVote={onPostVote}
-                   canSetNickname={user === null}
-                  />
-                </div>
-                <hr/>
-                <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
-              </div>
-            }
+            {this.getCommentList()}
           </Col>
         </Row>
       </div>
