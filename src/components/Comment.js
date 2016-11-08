@@ -16,12 +16,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const {data, canVote} = this.props;
-    const voteButton = (canVote ?
-      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-        <Icon name="thumbs-o-up"/> <FormattedMessage id="vote"/>
-      </Button> : null
-    );
+    const {data} = this.props;
     if (!data.content) {
       return null;
     }
@@ -48,7 +43,6 @@ class Comment extends React.Component {
       </div>
       <div className="hearing-comment-body">
         <p>{nl2br(data.content)}</p>
-        {voteButton}
       </div>
     </div>);
   }
