@@ -35,37 +35,37 @@ export class Hearing extends React.Component {
 
   onPostHearingComment(text, authorName) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing.sections, (section) => section.type === "main");
     const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
-    dispatch(postSectionComment(hearingId, mainSection.id, commentData));
+    dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
   onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
     const commentData = Object.assign({authCode}, sectionCommentData);
-    dispatch(postSectionComment(hearingId, sectionId, commentData));
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
 
   onVoteComment(commentId, sectionId) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(postVote(commentId, hearingId, sectionId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(postVote(commentId, hearingSlug, sectionId));
   }
 
   onFollowHearing() {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(followHearing(hearingId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(followHearing(hearingSlug));
   }
 
   loadSectionComments(sectionId) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(fetchSectionComments(hearingId, sectionId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(fetchSectionComments(hearingSlug, sectionId));
   }
 
   getOpenGraphMetaData(data) {
@@ -140,7 +140,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const hearing = this.props.hearing;
     const user = this.props.user;
 
@@ -156,7 +156,7 @@ export class Hearing extends React.Component {
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingId + '/report';
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
 
     return (
@@ -239,7 +239,7 @@ Hearing.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
-  hearingId: React.PropTypes.string,
+  hearingSlug: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,

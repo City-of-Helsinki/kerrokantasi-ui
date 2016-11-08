@@ -22,7 +22,7 @@ export class HearingView extends React.Component {
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return dispatch(fetchHearing(params.hearingId, location.query.preview));
+    return dispatch(fetchHearing(params.hearingSlug, location.query.preview));
   }
 
   /**
@@ -35,7 +35,7 @@ export class HearingView extends React.Component {
    * @return {boolean} Renderable?
    */
   static canRenderFully(getState, location, params) {
-    const {state, data} = (getState().hearing[params.hearingId] || {state: 'initial'});
+    const {state, data} = (getState().hearing[params.hearingSlug] || {state: 'initial'});
     return (state === 'done' && data);
   }
 
@@ -80,8 +80,8 @@ export class HearingView extends React.Component {
   }
 
   render() {
-    const {hearingId} = this.props.params;
-    const {state, data: hearing} = (this.props.hearing[hearingId] || {state: 'initial'});
+    const {hearingSlug} = this.props.params;
+    const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
     const {user} = this.props;
 
     if (state !== 'done') {
@@ -95,7 +95,7 @@ export class HearingView extends React.Component {
       <div className={fullscreen ? "fullscreen-hearing" : "container"}>
         <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
         <HearingComponent
-          hearingId={hearingId}
+          hearingSlug={hearingSlug}
           hearing={hearing}
           user={user}
           sectionComments={this.props.sectionComments}
