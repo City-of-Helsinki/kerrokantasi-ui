@@ -1,13 +1,9 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
-import {connect} from 'react-redux';
-import {pushState} from 'redux-router';
+import {getHearingURL} from '../utils/hearing';
 
 
 class OverviewMap extends React.Component {
-  navigateToHearing(id) {
-    this.props.dispatch(pushState(null, `/hearing/${id}`));
-  }
 
   getHearingMapContent(hearings) {
     const {Popup, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
@@ -17,7 +13,7 @@ class OverviewMap extends React.Component {
       const content = (this.props.enablePopups ? (<Popup>
         <div>
           <h4>
-            <a href="#" onClick={this.navigateToHearing.bind(this, hearing.id)}>{hearing.title}</a>
+            <a href={getHearingURL(hearing)}>{hearing.title}</a>
           </h4>
           <p>{hearing.abstract}</p>
         </div>
@@ -63,11 +59,10 @@ class OverviewMap extends React.Component {
 }
 
 OverviewMap.propTypes = {
-  dispatch: React.PropTypes.func,
   hearings: React.PropTypes.array.isRequired,
   style: React.PropTypes.object,
   hideIfEmpty: React.PropTypes.bool,
   enablePopups: React.PropTypes.bool
 };
 
-export default connect()(OverviewMap);
+export default OverviewMap;

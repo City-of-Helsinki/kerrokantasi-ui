@@ -24,6 +24,11 @@ class App extends React.Component {
     const links = [
       {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
     ];
+    const fullscreen = (this.props.location.query.fullscreen === "true");
+    let header = null;
+    if (!fullscreen) {
+      header = <Header slim={this.props.location.pathname !== "/"} history={this.props.history}/>;
+    }
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
@@ -32,8 +37,10 @@ class App extends React.Component {
             link={links}
             script={[{src: "/assets/js/piwik.js", type: "text/javascript"}]}
           />
-          <Header slim={this.props.location.pathname !== "/"} history={this.props.history}/>
-          <main>{this.props.children}</main>
+          {header}
+          <main className={fullscreen ? "fullscreen" : "main-content"}>
+            {this.props.children}
+          </main>
           <Footer/>
         </div>
       </IntlProvider>

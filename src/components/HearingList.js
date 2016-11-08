@@ -4,6 +4,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from '../utils/Icon';
+import {getHearingURL} from '../utils/hearing';
 import LabelList from './LabelList';
 import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
@@ -27,7 +28,7 @@ class HearingListItem extends React.Component {
         <div className="hearing-list-item-title-wrap">
           <h4 className="hearing-list-item-title">
             {!hearing.published ? <Icon name="eye-slash"/> : null}
-            <Link to={`/hearing/${hearing.id}`}>{hearing.title}</Link>
+            <Link to={getHearingURL(hearing)}>{hearing.title}</Link>
           </h4>
           <div className="hearing-list-item-comments">
             <Icon name="comment-o"/>&nbsp;{hearing.n_comments}

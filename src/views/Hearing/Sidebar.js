@@ -9,13 +9,31 @@ import OverviewMap from '../../components/OverviewMap';
 import SocialBar from '../../components/SocialBar';
 import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from '../../utils/Icon';
+import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
 
 
 class Sidebar extends React.Component {
+
+  getCommentsItem() {
+    const hearing = this.props.hearing;
+    const fullscreen = hasFullscreenMapPlugin(hearing);
+    const commentsURL = (
+      fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
+    );
+    return (
+      <ListGroupItem href={commentsURL}>
+        <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
+        <div className="comment-icon">
+          <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
+        </div>
+      </ListGroupItem>
+    );
+  }
+
   render() {
-    const {hearing, mainSection, sectionGroups} = this.props;
+    const {hearing, sectionGroups} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -55,10 +73,7 @@ class Sidebar extends React.Component {
                       <Badge>{sectionGroup.sections.length}</Badge>
                     </ListGroupItem>
                   ))}
-                  <ListGroupItem href="#hearing-comments">
-                    <FormattedMessage id="comments"/>
-                    <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{mainSection.n_comments}</div>
-                  </ListGroupItem>
+                  {this.getCommentsItem()}
                 </ListGroup>
               </div>
             </Col>

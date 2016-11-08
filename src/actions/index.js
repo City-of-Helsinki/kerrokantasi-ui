@@ -43,47 +43,47 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
-export function fetchHearing(hearingId, previewKey = null) {
+export function fetchHearing(hearingSlug, previewKey = null) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFetchHearing")({hearingId});
+    const fetchAction = createAction("beginFetchHearing")({hearingSlug});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingId + "/";
+    const url = "v1/hearing/" + hearingSlug + "/";
     const params = previewKey ? {preview: previewKey} : {};
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveHearing")({hearingId, data}));
+      dispatch(createAction("receiveHearing")({hearingSlug, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
-export function followHearing(hearingId) {
+export function followHearing(hearingSlug) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFollowHearing")({hearingId});
+    const fetchAction = createAction("beginFollowHearing")({hearingSlug});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingId + "/follow";
+    const url = "v1/hearing/" + hearingSlug + "/follow";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveFollowHearing")({hearingId, data}));
-      dispatch(fetchHearing(hearingId));
+      dispatch(createAction("receiveFollowHearing")({hearingSlug, data}));
+      dispatch(fetchHearing(hearingSlug));
       notifySuccess("Seuraat kuulemista.");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
-export function fetchSectionComments(hearingId, sectionId) {
+export function fetchSectionComments(hearingSlug, sectionId) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFetchSectionComments")({hearingId, sectionId});
+    const fetchAction = createAction("beginFetchSectionComments")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments";
+    const url = "v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments";
     return api.get(getState(), url, {include: 'plugin_data'}).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveSectionComments")({hearingId, sectionId, data}));
+      dispatch(createAction("receiveSectionComments")({hearingSlug, sectionId, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
-export function postSectionComment(hearingId, sectionId, commentData = {}) {
+export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("postingComment")({hearingId, sectionId});
+    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/");
+    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/");
     let params = {
       content: commentData.text ? commentData.text : "",
       plugin_data: commentData.pluginData ? commentData.pluginData : null,
@@ -96,23 +96,23 @@ export function postSectionComment(hearingId, sectionId, commentData = {}) {
       params = Object.assign(params, {author_name: commentData.authorName});
     }
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedComment")({hearingId, sectionId, data}));
-      dispatch(fetchHearing(hearingId));
-      dispatch(fetchSectionComments(hearingId, sectionId));
+      dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
+      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchSectionComments(hearingSlug, sectionId));
       alert("Kommenttisi on vastaanotettu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
-export function postVote(commentId, hearingId, sectionId) {
+export function postVote(commentId, hearingSlug, sectionId) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("postingCommentVote")({hearingId, sectionId});
+    const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = "/v1/hearing/" + hearingId + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
+    const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedCommentVote")({commentId, hearingId, sectionId, data}));
-      dispatch(fetchHearing(hearingId));
-      dispatch(fetchSectionComments(hearingId, sectionId));
+      dispatch(createAction("postedCommentVote")({commentId, hearingSlug, sectionId, data}));
+      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchSectionComments(hearingSlug, sectionId));
       if (data.status_code === 304) {
         notifyError("Olet jo antanut äänesi tälle kommentille.");
       } else {

@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -17,44 +18,54 @@ import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
 import _ from 'lodash';
 import Icon from '../utils/Icon';
+import {
+  acceptsComments,
+  getHearingURL,
+  getMainSection,
+  hasFullscreenMapPlugin
+} from '../utils/hearing';
 import {isSpecialSectionType, userCanComment, userCanVote} from '../utils/section';
 import config from '../config';
 
-class Hearing extends React.Component {
+export class Hearing extends React.Component {
+
+  openFullscreen(hearing) {
+    this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
+  }
 
   onPostHearingComment(text, authorName) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
     const mainSection = find(this.props.hearing.sections, (section) => section.type === "main");
     const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
-    dispatch(postSectionComment(hearingId, mainSection.id, commentData));
+    dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
   onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
     const commentData = Object.assign({authCode}, sectionCommentData);
-    dispatch(postSectionComment(hearingId, sectionId, commentData));
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
 
   onVoteComment(commentId, sectionId) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(postVote(commentId, hearingId, sectionId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(postVote(commentId, hearingSlug, sectionId));
   }
 
   onFollowHearing() {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(followHearing(hearingId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(followHearing(hearingSlug));
   }
 
   loadSectionComments(sectionId) {
     const {dispatch} = this.props;
-    const hearingId = this.props.hearingId;
-    dispatch(fetchSectionComments(hearingId, sectionId));
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(fetchSectionComments(hearingSlug, sectionId));
   }
 
   getOpenGraphMetaData(data) {
@@ -101,8 +112,35 @@ class Hearing extends React.Component {
     );
   }
 
+  getLinkToFullscreen(hearing) {
+    if (!hasFullscreenMapPlugin(hearing)) {
+      return null;
+    }
+    return (
+      <Button bsStyle="primary" bsSize="large" block onClick={() => this.openFullscreen(hearing)}>
+        <Icon name="arrows-alt" fixedWidth/>
+        <FormattedMessage id="openFullscreenMap"/>
+      </Button>
+    );
+  }
+
+  isMainSectionVotable(user) {
+    const hearing = this.props.hearing;
+    return acceptsComments(hearing) && userCanVote(user, getMainSection(hearing));
+  }
+
+  isMainSectionCommentable(user) {
+    const hearing = this.props.hearing;
+    const section = getMainSection(hearing);
+    return (
+      acceptsComments(hearing)
+      && userCanComment(user, section)
+      && !section.plugin_identifier // comment box not available for sections with plugins
+    );
+  }
+
   render() {
-    const hearingId = this.props.hearingId;
+    const hearingSlug = this.props.hearingSlug;
     const hearing = this.props.hearing;
     const user = this.props.user;
 
@@ -110,17 +148,16 @@ class Hearing extends React.Component {
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
     }
-    const hearingAllowsComments = !hearing.closed && (new Date() < new Date(hearing.close_at));
+    const hearingAllowsComments = acceptsComments(hearing);
     const onPostVote = this.onVoteComment.bind(this);
-    const mainSection = find(hearing.sections, (section) => section.type === "main");
-    const mainSectionCommentable = hearingAllowsComments
-      && userCanComment(user, mainSection)
-      && !mainSection.plugin_identifier; // comment box not available for plugins
-    const mainSectionVotable = hearingAllowsComments && userCanVote(user, mainSection);
+    const mainSection = getMainSection(hearing);
+    const mainSectionCommentable = this.isMainSectionCommentable(hearing, user);
+    const mainSectionVotable = this.isMainSectionVotable(hearing, user);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingId + '/report';
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
+    const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
 
     return (
       <div id="hearing-wrapper">
@@ -142,6 +179,7 @@ class Hearing extends React.Component {
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section
+                showPlugin={!fullscreenMapPlugin}
                 section={mainSection}
                 canComment={mainSectionCommentable}
                 onPostComment={this.onPostSectionComment.bind(this)}
@@ -152,6 +190,9 @@ class Hearing extends React.Component {
                 user={user}
               /> : null}
             </div>
+
+            {this.getLinkToFullscreen(hearing)}
+
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                 <SectionList
@@ -167,21 +208,26 @@ class Hearing extends React.Component {
                 />
               </div>
             ))}
-            <div id="hearing-comments">
-              <CommentList
-                displayVisualization={userIsAdmin || hearing.closed}
-                section={mainSection}
-                comments={this.props.sectionComments[mainSection.id] ?
-                          this.props.sectionComments[mainSection.id].data : []}
-                canComment={mainSectionCommentable}
-                onPostComment={this.onPostHearingComment.bind(this)}
-                canVote={mainSectionVotable}
-                onPostVote={onPostVote}
-                canSetNickname={user === null}
-              />
-            </div>
-            <hr/>
-            <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+            {fullscreenMapPlugin ?
+              null :
+              <div>
+                <div id="hearing-comments">
+                  <CommentList
+                   displayVisualization={userIsAdmin || hearing.closed}
+                   section={mainSection}
+                   comments={this.props.sectionComments[mainSection.id] ?
+                             this.props.sectionComments[mainSection.id].data : []}
+                   canComment={mainSectionCommentable}
+                   onPostComment={this.onPostHearingComment.bind(this)}
+                   canVote={mainSectionVotable}
+                   onPostVote={onPostVote}
+                   canSetNickname={user === null}
+                  />
+                </div>
+                <hr/>
+                <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+              </div>
+            }
           </Col>
         </Row>
       </div>
@@ -193,17 +239,21 @@ Hearing.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
-  hearingId: React.PropTypes.string,
+  hearingSlug: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
 };
 
-const WrappedHearing = connect()(injectIntl(Hearing));
-// We need to re-hoist the data statics to the wrapped component due to react-intl:
-WrappedHearing.canRenderFully = Hearing.canRenderFully;
-WrappedHearing.fetchData = Hearing.fetchData;
-export default WrappedHearing;
+export function wrapHearingComponent(component) {
+  const wrappedComponent = connect()(injectIntl(component));
+  // We need to re-hoist the data statics to the wrapped component due to react-intl:
+  wrappedComponent.canRenderFully = component.canRenderFully;
+  wrappedComponent.fetchData = component.fetchData;
+  return wrappedComponent;
+}
+
+export default wrapHearingComponent(Hearing);
 
 function groupSections(sections) {
   const sectionGroups = [];

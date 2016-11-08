@@ -27,7 +27,7 @@ export default (
     <Route path="/info" component={Info} onEnter={trackLink}/>
     <Route path="/map" component={HearingMap} onEnter={trackLink}/>
     <Route path="/hearings" component={AllHearings} onEnter={trackLink}/>
-    <Route path="/hearing/(:hearingId)" component={Hearing} onEnter={trackLink}/>
+    <Route path="/hearing/(:hearingSlug)" component={Hearing} onEnter={trackLink}/>
     <Route path="*" component={NotFound} onEnter={trackLink}/>
   </Route>
 );
