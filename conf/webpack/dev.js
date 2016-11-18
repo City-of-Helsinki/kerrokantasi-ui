@@ -23,7 +23,7 @@ module.exports = function getDevConfig(serverUrl) {
         {test: /\.js$/, include: common.paths.SRC, loader: 'eslint'}
       ],
       loaders: [
-        {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot', 'babel?cacheDirectory']}
+        {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot-loader/webpack', 'babel?cacheDirectory']}
       ]
     },
     plugins: [
