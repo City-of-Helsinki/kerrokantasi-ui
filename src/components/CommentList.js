@@ -42,13 +42,13 @@ class CommentList extends React.Component {
         <Icon name="comment-o"/>&nbsp;{comments.length}
       </div></h2>);
     const commentButton = (
-      canComment ?
+      canComment ? (
         <CommentForm
           hearingId={hearingId}
           onPostComment={this.props.onPostComment}
           canSetNickname={this.props.canSetNickname}
         />
-        : null
+      ) : null
     );
     const pluginContent = (
       displayVisualization ?
