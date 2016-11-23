@@ -1,0 +1,44 @@
+exports[`test LabelList can handle empty list 1`] = `
+<div
+  className="labels" />
+`;
+
+exports[`test LabelList can handle list of label objects 1`] = `
+<div
+  className="labels">
+  <span>
+    <span
+      className="label label-default">
+      such
+    </span>
+     
+  </span>
+  <span>
+    <span
+      className="label label-default">
+      label
+    </span>
+     
+  </span>
+</div>
+`;
+
+exports[`test LabelList can handle list of label strings 1`] = `
+<div
+  className="labels">
+  <span>
+    <span
+      className="label label-default">
+      fancy
+    </span>
+     
+  </span>
+  <span>
+    <span
+      className="label label-default">
+      test
+    </span>
+     
+  </span>
+</div>
+`;
