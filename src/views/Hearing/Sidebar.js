@@ -22,7 +22,7 @@ class Sidebar extends React.Component {
     const commentsURL = (
       fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
     );
-    if (this.props.mainSection.n_comments == 0) {
+    if (this.props.mainSection.n_comments === 0) {
       return null;
     }
     return (
