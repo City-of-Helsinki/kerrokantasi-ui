@@ -168,7 +168,7 @@ export class Hearing extends React.Component {
                      this.props.sectionComments[mainSection.id].data : []}
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
-           canVote={this.isMainSectionVotable(hearing, user)}
+           canVote={this.isMainSectionVotable(user)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
           />
