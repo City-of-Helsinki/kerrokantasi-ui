@@ -5,27 +5,34 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+
 import {
   fetchSectionComments, followHearing,
   postSectionComment, postVote
 } from '../actions';
 import CommentList from './CommentList';
-import LabelList from './LabelList';
 import HearingImageList from './HearingImageList';
-import SectionList from './SectionList';
+import LabelList from './LabelList';
 import Section from './Section';
+import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
 import _ from 'lodash';
 import Icon from '../utils/Icon';
+import config from '../config';
 import {
   acceptsComments,
+  getClosureSection,
   getHearingURL,
   getMainSection,
   hasFullscreenMapPlugin
 } from '../utils/hearing';
-import {isSpecialSectionType, userCanComment, userCanVote} from '../utils/section';
-import config from '../config';
+import {
+  isSpecialSectionType,
+  userCanComment,
+  userCanVote
+} from '../utils/section';
+
 
 export class Hearing extends React.Component {
 
@@ -37,7 +44,7 @@ export class Hearing extends React.Component {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
-    const mainSection = find(this.props.hearing.sections, (section) => section.type === "main");
+    const mainSection = getMainSection(this.props.hearing);
     const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
@@ -99,7 +106,7 @@ export class Hearing extends React.Component {
 
   getClosureInfo(hearing) {
     const {formatMessage} = this.props.intl;
-    const closureInfo = find(hearing.sections, (section) => section.type === "closure-info");
+    const closureInfo = getClosureSection(hearing);
     if (closureInfo) {
       return closureInfo;
     }
@@ -249,8 +256,8 @@ Hearing.propTypes = {
   sectionComments: React.PropTypes.object,
 };
 
-export function wrapHearingComponent(component) {
-  const wrappedComponent = connect()(injectIntl(component));
+export function wrapHearingComponent(component, pure = true) {
+  const wrappedComponent = connect(null, null, null, {pure})(injectIntl(component));
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
   wrappedComponent.canRenderFully = component.canRenderFully;
   wrappedComponent.fetchData = component.fetchData;
