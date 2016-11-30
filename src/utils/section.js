@@ -58,9 +58,9 @@ export function initNewSection(inits) {
 export function initNewSectionImage() {
   return {
     caption: "",
-    height: "",
+    height: null,
     title: "",
     url: "",
-    width: "",
+    width: null,
   };
 }
