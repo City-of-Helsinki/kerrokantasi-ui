@@ -205,7 +205,7 @@ export class Hearing extends React.Component {
             <div id="hearing">
               <div>
                 <HearingImageList images={mainSection.images}/>
-                <div className="hearing-abstract" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
+                <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section
