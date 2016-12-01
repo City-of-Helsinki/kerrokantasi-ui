@@ -1,12 +1,18 @@
-import React from 'react';
 import Helmet from 'react-helmet';
-import {injectIntl, intlShape} from 'react-intl';
+import React from 'react';
 import {connect} from 'react-redux';
-import {fetchHearingList} from '../../actions';
-import HearingList from '../../components/HearingList';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import {push} from 'redux-router';
+
+import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {Tab, Tabs} from 'react-bootstrap';
+
+import HearingList from '../../components/HearingList';
+import Icon from '../../utils/Icon';
+import {fetchHearingList} from '../../actions';
+
 
 class AdminHearings extends React.Component {
   static fetchData(dispatch) {
@@ -23,12 +29,22 @@ class AdminHearings extends React.Component {
     AdminHearings.fetchData(dispatch);
   }
 
+  toHearingCreator() {
+    this.props.dispatch(push("/hearing/new"));
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
     const {hearingLists} = this.props;
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
+
+      <div className="pull-right">
+        <Button bsStyle="primary" onClick={() => this.toHearingCreator()}>
+          <Icon name="add"/> <FormattedMessage id="createHearing"/>
+        </Button>
+      </div>
 
       {/* switching tabs doesn't seem to work if animation isn't disabled */}
       <Tabs defaultActiveKey={1} id="hearing-tabs" animation={false}>
