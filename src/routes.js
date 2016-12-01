@@ -6,7 +6,6 @@ import Hearing from './views/Hearing';
 import HearingMap from './views/HearingMap';
 import Home from './views/Home';
 import Info from './views/Info';
-import NotFound from './views/NotFound';
 import config from './config';
 
 function trackLink() {
