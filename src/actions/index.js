@@ -14,7 +14,7 @@ function checkResponseStatus(response) {
   }
 }
 
-function getResponseJSON(response) {
+export function getResponseJSON(response) {
   checkResponseStatus(response);
   if (response.status === 304) {
     return {status_code: response.status};
@@ -22,7 +22,7 @@ function getResponseJSON(response) {
   return response.json();
 }
 
-function requestErrorHandler(dispatch, fetchAction) {
+export function requestErrorHandler(dispatch, fetchAction) {
   return (err) => {
     const callName = fetchAction ? fetchAction.type : "";
     notifyError("API-kutsu " + callName + " epäonnistui: " + err + ". Kokeile pian uudelleen.");

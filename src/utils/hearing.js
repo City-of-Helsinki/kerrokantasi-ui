@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import moment from 'moment';
+
 import {initNewSection} from './section';
 
 
@@ -30,6 +32,14 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
 
 
 /*
+* Return URL to hearing management view.
+ */
+export function getHearingEditorURL(hearing) {
+  return `/hearing/${hearing.slug}/manage`;
+}
+
+
+/*
 * Returns true if hearing has a plugin that can be rendered fullscreen
 * else false.
  */
@@ -46,6 +56,18 @@ export function acceptsComments(hearing) {
   return !hearing.closed && (new Date() < new Date(hearing.close_at));
 }
 
+
+export function isOpen(hearing) {
+  const openAt = moment(hearing.open_at);
+  const closeAt = moment(hearing.close_at);
+  if (openAt.isValid() && closeAt.isValid()) {
+    const now = moment();
+    if (openAt <= now && closeAt >= now) {
+      return true;
+    }
+  }
+  return false;
+}
 
 /**
  * Get section by given ID or undefined
@@ -82,7 +104,8 @@ export function initNewHearing(inits) {
     sections: [mainSection],
     main_image: {},
     contact_persons: [],
-    n_comments: 0
+    n_comments: 0,
+    isNew: true,
   }, inits || {});
 }
 

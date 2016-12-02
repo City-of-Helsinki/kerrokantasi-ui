@@ -33,6 +33,18 @@ export function apiCall(state, endpoint, params, options = {}) {
 }
 
 export function post(state, endpoint, data, params = {}, options = {}) {
+  return jsonRequest("POST", state, endpoint, data, params, options);
+}
+
+export function put(state, endpoint, data, params = {}, options = {}) {
+  return jsonRequest("PUT", state, endpoint, data, params, options);
+}
+
+export function patch(state, endpoint, data, params = {}, options = {}) {
+  return jsonRequest("PATCH", state, endpoint, data, params, options);
+}
+
+export function jsonRequest(method, state, endpoint, data, params = {}, options = {}) {
   if (typeof data !== "string") {
     data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
     options.headers = merge(  // eslint-disable-line no-param-reassign
@@ -40,11 +52,11 @@ export function post(state, endpoint, data, params = {}, options = {}) {
       options.headers
     );
   }
-  return apiCall(state, endpoint, params, merge({body: data, method: "POST"}, options));
+  return apiCall(state, endpoint, params, merge({body: data, method}, options));
 }
 
 export function get(state, endpoint, params = {}, options = {}) {
   return apiCall(state, endpoint, params, options);
 }
 
-export default {post, get};
+export default {post, get, put, patch};

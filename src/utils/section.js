@@ -38,7 +38,7 @@ export function initNewSection(inits) {
   return _.merge({
     id: "",
     type: "",
-    commenting: "",
+    commenting: "none",
     published: false,
     title: "",
     abstract: "",
@@ -58,9 +58,9 @@ export function initNewSection(inits) {
 export function initNewSectionImage() {
   return {
     caption: "",
-    height: "",
+    height: null,
     title: "",
     url: "",
-    width: "",
+    width: null,
   };
 }
