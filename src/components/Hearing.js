@@ -188,7 +188,7 @@ export class Hearing extends React.Component {
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
-    const {language} = this.context;
+    const {language} = this.props;
 
     return (
       <div id="hearing-wrapper">
@@ -252,17 +252,14 @@ Hearing.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   hearingSlug: React.PropTypes.string,
+  language: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
 };
 
-Hearing.contextTypes = {
-  language: React.PropTypes.string
-};
-
 export function wrapHearingComponent(component, pure = true) {
-  const wrappedComponent = connect(null, null, null, {pure})(injectIntl(component));
+  const wrappedComponent = connect((state)=>({language: state.language}), null, null, {pure})(injectIntl(component));
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
   wrappedComponent.canRenderFully = component.canRenderFully;
   wrappedComponent.fetchData = component.fetchData;
