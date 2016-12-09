@@ -8,12 +8,15 @@ import {getHearingURL} from '../utils/hearing';
 import LabelList from './LabelList';
 import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
+import getAttr from '../utils/getAttr';
 
 class HearingListItem extends React.Component {
 
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
+    const {language} = this.context;
+
     return (<div className="hearing-list-item">
       <div className="hearing-list-item-image">
         {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
@@ -28,7 +31,7 @@ class HearingListItem extends React.Component {
         <div className="hearing-list-item-title-wrap">
           <h4 className="hearing-list-item-title">
             {!hearing.published ? <Icon name="eye-slash"/> : null}
-            <Link to={getHearingURL(hearing)}>{hearing.title}</Link>
+            <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
           </h4>
           <div className="hearing-list-item-comments">
             <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
@@ -48,6 +51,9 @@ class HearingListItem extends React.Component {
 }
 
 HearingListItem.propTypes = {hearing: React.PropTypes.object};
+HearingListItem.contextTypes = {
+  language: React.PropTypes.string
+};
 
 class HearingList extends React.Component {
   render() {

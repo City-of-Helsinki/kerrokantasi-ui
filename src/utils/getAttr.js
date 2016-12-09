@@ -20,5 +20,4 @@ const getAttr = (attr, lang) => {
   }
   return translated || null;
 };
-
 export default getAttr;

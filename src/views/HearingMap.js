@@ -30,7 +30,8 @@ class HearingMap extends React.Component {
 HearingMap.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object
+  hearingLists: React.PropTypes.object,
+  language: React.PropTypes.string
 };
 
-export default connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(HearingMap));
+export default connect((state) => ({hearingLists: state.hearingLists, language: state.language}))(injectIntl(HearingMap));

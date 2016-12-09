@@ -111,6 +111,7 @@ HearingView.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
+  language: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
@@ -120,6 +121,7 @@ export function wrapHearingView(view) {
   const wrappedView = connect((state) => ({
     user: state.user,
     hearing: state.hearing,
+    language: state.language,
     sectionComments: state.sectionComments,
   }))(injectIntl(view));
 
