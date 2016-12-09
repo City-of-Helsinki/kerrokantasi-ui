@@ -2,6 +2,7 @@
 import React from 'react';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
+import LanguageDropdown from './LanguageDropdown';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {login, logout} from '../../actions';
@@ -109,7 +110,7 @@ class Header extends React.Component {
               </Nav>
               <Nav className="actions" onSelect={onSelect}>
                 {userItems}
-                {/* <LanguageDropdown currentLanguage={this.props.language}/> */}
+                {<LanguageDropdown currentLanguage={this.props.language}/>}
               </Nav>
             </div>
           </div>

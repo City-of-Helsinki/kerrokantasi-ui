@@ -32,7 +32,7 @@ import {
   userCanComment,
   userCanVote
 } from '../utils/section';
-
+import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
 
@@ -188,6 +188,7 @@ export class Hearing extends React.Component {
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
+    const {language} = this.context;
 
     return (
       <div id="hearing-wrapper">
@@ -196,7 +197,7 @@ export class Hearing extends React.Component {
         <h1 className="page-title">
           {this.getFollowButton()}
           {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {hearing.title}
+          {getAttr(hearing.title, language)}
         </h1>
 
         <Row>
@@ -254,6 +255,10 @@ Hearing.propTypes = {
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+};
+
+Hearing.contextTypes = {
+  language: React.PropTypes.string
 };
 
 export function wrapHearingComponent(component, pure = true) {
