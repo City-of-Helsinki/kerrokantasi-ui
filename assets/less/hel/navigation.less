@@ -207,23 +207,7 @@
 
     .actions{
         margin-bottom: 0;
-        padding: 0;
-
-        + .actions {
-            @media (max-width: @screen-sm-max) {
-                padding: 10px 0;
-                margin-bottom: 15px;
-                border-top: 1px solid @hel-dark-blue;
-                border-bottom: 1px solid @hel-dark-blue;
-            }
-            @media (min-width: @screen-md-min) {
-                flex: 1 auto;
-                padding: 0px 30px 0px 10px;
-            }
-            @media (min-width: @screen-lg-min) {
-                padding: 0px 30px;
-            }
-        }
+        padding: 0 20px;
 
         @media (min-width: @screen-md-min) {
             margin-top: 33px;
@@ -307,6 +291,22 @@
                 }
             }
         }
+    }
+    .language-switcher {
+        padding: 20px;
+        margin-top: 0;
+
+        @media (min-width: @screen-md-min) {
+          background: @hel-dark-blue;
+          height: 100%;
+          padding-top: 33px;
+        }
+
+        @media (min-width: @screen-lg-min) {
+            padding-top: 28px;
+        }
+
+
     }
     body.nav-fixed & {
         @media (min-width: @screen-md-min) {
