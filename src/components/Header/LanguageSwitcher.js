@@ -6,30 +6,6 @@ import {intlShape} from 'react-intl';
 import config from '../../config';
 import {setLanguage} from '../../actions';
 
-// class LanguageSwitcher extends React.Component {
-//   render() {
-//     const {formatMessage} = this.context.intl;
-//     const {currentLanguage, dispatch} = this.props;
-//     const getLangName = (code) => formatMessage({id: 'lang-' + code});
-//     const langItems = config.languages.map((code) => {
-//       const style = {};
-//       if (code === currentLanguage) style.color = 'orange';
-//       return (
-//         <MenuItem
-//           key={code}
-//           style={style}
-//           onClick={() => dispatch(setLanguage(code))}
-//         >
-//           {getLangName(code)}
-//         </MenuItem>
-//       );
-//     });
-//     return (<NavSwitcher title={getLangName(currentLanguage)} id="language">
-//       {langItems}
-//     </NavSwitcher>);
-//   }
-// }
-
 const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) =>
   <Nav className="language-switcher actions" id="language">
     {config.languages
