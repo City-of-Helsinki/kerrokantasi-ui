@@ -259,7 +259,7 @@ Hearing.propTypes = {
 };
 
 export function wrapHearingComponent(component, pure = true) {
-  const wrappedComponent = connect((state)=>({language: state.language}), null, null, {pure})(injectIntl(component));
+  const wrappedComponent = connect((state) => ({language: state.language}), null, null, {pure})(injectIntl(component));
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
   wrappedComponent.canRenderFully = component.canRenderFully;
   wrappedComponent.fetchData = component.fetchData;
