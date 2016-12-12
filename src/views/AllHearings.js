@@ -44,7 +44,7 @@ AllHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearingLists: React.PropTypes.object,
-  language: React.PropTypes.string
+  language: React.PropTypes.string// To rerender when language changes
 };
 
 const WrappedAllHearings = connect((state) => ({hearingLists: state.hearingLists, language: state.language}))(injectIntl(AllHearings));

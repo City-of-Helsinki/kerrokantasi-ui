@@ -76,6 +76,7 @@ export class Hearing extends React.Component {
   }
 
   getOpenGraphMetaData(data) {
+    const {language} = this.props;
     let hostname = "http://kerrokantasi.hel.fi";
     if (typeof HOSTNAME === 'string') {
       hostname = HOSTNAME;  // eslint-disable-line no-undef
@@ -86,7 +87,7 @@ export class Hearing extends React.Component {
     return [
       {property: "og:url", content: url},
       {property: "og:type", content: "website"},
-      {property: "og:title", content: data.title}
+      {property: "og:title", content: getAttr(data.title, language)}
       // TODO: Add description and image?
     ];
   }
