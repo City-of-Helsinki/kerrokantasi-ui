@@ -78,7 +78,7 @@ export default class Section extends React.Component {
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
     return (
-      <h3 className="section-title" onClick={this.toggle.bind(this)}>
+      <h3 id={`hearing-subsection-${section.id}`} className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {getAttr(this.props.section.title, language)}
         {collapsed ? (
