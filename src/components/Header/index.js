@@ -108,9 +108,9 @@ class Header extends React.Component {
                 {this.getNavItem("hearingMap", "/map")}
                 {this.getNavItem("info", "/info")}
               </Nav>
+              <LanguageSwitcher currentLanguage={this.props.language}/>
               <Nav className="actions" onSelect={onSelect}>
                 {userItems}
-                <LanguageSwitcher currentLanguage={this.props.language}/>
               </Nav>
             </div>
           </div>

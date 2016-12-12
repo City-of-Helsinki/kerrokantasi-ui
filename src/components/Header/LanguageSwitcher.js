@@ -1,6 +1,6 @@
 import React from 'react';
 import NavItem from 'react-bootstrap/lib/MenuItem';
-// import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+import Nav from 'react-bootstrap/lib/Nav';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
 import config from '../../config';
@@ -31,7 +31,7 @@ import {setLanguage} from '../../actions';
 // }
 
 const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) =>
-  <div className="language-switcher" id="language">
+  <Nav className="language-switcher actions" id="language">
     {config.languages
       .filter((code) => code !== currentLanguage)
       .map((code) =>
@@ -43,7 +43,7 @@ const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) 
         >
           <span className="language-switcher__language-name">{formatMessage({id: `lang-${code}`})}</span>
         </NavItem>)}
-  </div>;
+  </Nav>;
 
 LanguageSwitcher.contextTypes = {
   intl: intlShape.isRequired
