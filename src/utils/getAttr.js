@@ -18,6 +18,7 @@ const getAttr = (attr, lang) => {
       }
     }
   }
-  return translated || null;
+  // FIXME return translated || null;
+  return translated ? `${translated}-${lang}` : null;
 };
 export default getAttr;
