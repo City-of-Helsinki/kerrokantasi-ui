@@ -1,5 +1,6 @@
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import sortBy from 'lodash/sortBy';
 import Icon from '../utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
@@ -70,7 +71,10 @@ class CommentList extends React.Component {
       {title}
       {pluginContent}
       {commentButton}
-      {comments.map((comment) =>
+      {sortBy(comments, [
+        (comment) => -comment.n_votes,
+        (comment) => -(new Date(comment.created_at).getTime())
+      ]).map((comment) =>
         <Comment
           data={comment}
           key={comment.id}
