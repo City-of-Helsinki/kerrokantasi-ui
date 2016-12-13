@@ -65,8 +65,15 @@
 
 .section-list-item {
     display: flex;
-    margin: 20px 0px 50px 0px;
+    margin-bottom: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
     position: relative;
+
+    &:target {
+        padding-top: 60px;
+    }
+
     @media (max-width: @screen-xs-max) {
         font-size: 1.4rem;
     }
@@ -191,6 +198,17 @@
     width: 100%;
     height: 450px;
     border: 0;
+}
+
+[id^='hearing-sectiongroup-'] {
+    border-bottom: 1px solid #ddd;
+}
+
+[id^='hearing-subsection-'] {
+    border-top: 1px solid #ddd;
+    &:target {
+        padding-top: 60px;
+    }
 }
 
 #hearing-comments,
