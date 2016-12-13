@@ -3,7 +3,9 @@ import {FormattedMessage} from 'react-intl';
 
 const ContactMethod = ({name = null, value, href}) =>
   <div className="contact-card__contact-method">
-    {name} {href ?
+    {name}
+    {name && ': '}
+    {href ?
       <a href={href}>{value}</a>
       : value
     }

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import ContactCard from './ContactCard';
 
 import {
   fetchSectionComments, followHearing,
@@ -241,6 +242,11 @@ export class Hearing extends React.Component {
               </div>
             ))}
             {this.getCommentList()}
+
+            {hearing.contact_persons && hearing.contact_persons.length ? <h2><FormattedMessage id="contactPersons"/></h2> : null}
+            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
+              <ContactCard key={index} {...person}/>
+            )}
           </Col>
         </Row>
       </div>
