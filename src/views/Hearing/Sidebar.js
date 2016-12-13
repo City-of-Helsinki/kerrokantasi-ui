@@ -12,6 +12,7 @@ import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
+import ContactCard from '../../components/ContactCard';
 
 
 class Sidebar extends React.Component {
@@ -84,6 +85,9 @@ class Sidebar extends React.Component {
               {boroughDiv}
               <SocialBar />
               {hearingMap}
+            </Col>
+            <Col sm={6} md={12}>
+              {hearing.contact_persons.map((person) => <ContactCard {...person}/>)}
             </Col>
           </Row>
         </div>
