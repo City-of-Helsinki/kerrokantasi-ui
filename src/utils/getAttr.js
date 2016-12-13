@@ -1,4 +1,4 @@
-import {keys, isObject} from 'lodash';
+import {has, isObject, keys} from 'lodash';
 
 /**
  * Tries to get translated value from the given attribute. If there's no value
@@ -6,19 +6,20 @@ import {keys, isObject} from 'lodash';
  * instead of object, the function returns the given string.
  * @param  {(object|string)} attr - Translated field retrieved from API
  * @param  {string} lang - Language code for requested language
- * @return {(string|null)} Translated value.
+ * @return {string} Translated value or empty string.
  */
 const getAttr = (attr, lang) => {
-  let translated = isObject(attr) && attr[lang] ? attr[lang] : attr;
-  if (!translated) {
-    for (let index = 0; index < keys(attr).length; index += 1) {
-      translated = attr[keys(attr)[index]];
+  let translated = isObject(attr) && has(attr, lang) ? attr[lang] : attr;
+  if (!translated || isObject(translated)) {
+    const attrKeys = keys(attr);
+    for (let index = 0; index < attrKeys.length; index += 1) {
+      translated = attrKeys[index];
       if (translated) {
         break;
       }
     }
   }
-  // FIXME return translated || null;
-  return translated ? `${translated}-${lang}` : null;
+  // FIXME return translated || '';
+  return translated ? `${translated}-${lang}` : '';
 };
 export default getAttr;
