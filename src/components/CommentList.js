@@ -1,12 +1,21 @@
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import {Button} from 'react-bootstrap';
 import sortBy from 'lodash/sortBy';
 import Icon from '../utils/Icon';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 
+const DEFAULT_COMMENT_COUNT = 10;
+
 class CommentList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      maxCommentCount: DEFAULT_COMMENT_COUNT
+    };
+  }
 
   renderPluginContent(section) {
     const {comments} = this.props;
@@ -38,7 +47,7 @@ class CommentList extends React.Component {
 
   render() {
     const {section, comments, canComment, hearingId, displayVisualization} = this.props;
-    console.log(comments);
+    const {maxCommentCount} = this.state;
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
         <Icon name="comment-o"/>&nbsp;{comments.length}
@@ -74,7 +83,7 @@ class CommentList extends React.Component {
       {sortBy(comments, [
         (comment) => -comment.n_votes,
         (comment) => -(new Date(comment.created_at).getTime())
-      ]).map((comment) =>
+      ]).slice(0, maxCommentCount).map((comment) =>
         <Comment
           data={comment}
           key={comment.id}
@@ -84,6 +93,28 @@ class CommentList extends React.Component {
           canVote={this.props.canVote}
         />
       )}
+      <div className="commentlist__load-more">
+        <p>
+          <FormattedMessage
+            id="commentsOutOf"
+            values={{
+              current: maxCommentCount < comments.length ? maxCommentCount : comments.length,
+              total: comments.length
+            }}
+          />
+        </p>
+        {
+          maxCommentCount < comments.length &&
+          <Button
+            bsStyle="link"
+            onClick={
+              () => this.setState({maxCommentCount: this.state.maxCommentCount + DEFAULT_COMMENT_COUNT})
+            }
+          >
+            <FormattedMessage id="loadMoreComments"/>
+          </Button>
+        }
+      </div>
     </div>);
   }
 }

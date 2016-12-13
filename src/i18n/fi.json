@@ -1,4 +1,5 @@
 {
+  "commentsOutOf": "Näytetään {current}/{total} mielipidettä.",
   "login": "Kirjaudu sisään",
   "logout": "Kirjaudu ulos",
   "register": "Rekisteröidy",
@@ -20,6 +21,7 @@
   "lang-fi": "Suomi",
   "lang-en": "Englanti",
   "lang-sv": "Ruotsi",
+  "loadMoreComments": "Näytä enemmän mielipiteitä",
   "welcome": "Tervetuloa!",
   "openHearings": "Avoimet kuulemiset",
   "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",

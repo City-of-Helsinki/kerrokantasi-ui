@@ -1,4 +1,5 @@
 {
+  "commentsOutOf": "Showing {current} comments out of {total}.",
   "login": "Login",
   "logout": "Logout",
   "register": "Register",
@@ -63,4 +64,6 @@
   "deleteComment": "Delete comment",
   "edit": "Edit",
   "delete": "Delete"
+  "loadMoreComments": "Show more comments",
+  "noCommentsAvailable": "No comments available"
 }
