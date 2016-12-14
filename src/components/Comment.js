@@ -45,22 +45,24 @@ class Comment extends React.Component {
         <p>{nl2br(data.content)}</p>
       </div>
       <div className="hearing-comment__images">
-        {data.images.map((image, index) =>
-          <a
-             className="hearing-comment-images-image"
-             key={index + Math.random()}
-             rel="noopener noreferrer"
-             target="_blank"
-             href={image.url}
-          >
-            <img
-               alt={image.title}
-               src={image.url}
-               width={image.width < 100 ? image.width : 100}
-               height={image.height < 100 ? image.width : 100}
-            />
-          </a>
-        )}
+        {data.images
+          ? data.images.map((image, index) =>
+            <a
+               className="hearing-comment-images-image"
+               key={index + Math.random()}
+               rel="noopener noreferrer"
+               target="_blank"
+               href={image.url}
+            >
+              <img
+                 alt={image.title}
+                 src={image.url}
+                 width={image.width < 100 ? image.width : 100}
+                 height={image.height < 100 ? image.width : 100}
+              />
+            </a>
+          )
+          : null}
       </div>
     </div>);
   }
