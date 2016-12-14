@@ -3,13 +3,19 @@ import {intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Icon from '../utils/Icon';
+import {getImageAsBase64Promise} from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
+import forEach from 'lodash/forEach';
+import round from 'lodash/round';
 
 class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: ""};
+    this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false};
+    this.imageTooBig = this.imageTooBig.bind(this);
+    this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
   componentDidMount() {
@@ -66,28 +72,41 @@ class BaseCommentForm extends React.Component {
     let commentText = (this.state.commentText === null ? '' : this.state.commentText);
     let geojson = null;
     let label = null;
-    let images = [];
+    const imagePromisesArray = [];
+    const images = [];
 
-    // plugin comment will override comment fields, if provided
-    if (pluginComment) {
-      commentText = pluginComment.content || commentText;
-      nickname = pluginComment.author_name || nickname;
-      pluginData = pluginComment.plugin_data || pluginData;
-      label = pluginComment.label || null;
-      images = pluginComment.image ? [pluginComment.image] : [];
-      geojson = pluginComment.geojson || null;
-    } else if (pluginData && typeof pluginData !== "string") {
-      // this is for old-fashioned plugins with only data
-      pluginData = JSON.stringify(pluginData);
+    for (let i = 0; i < this.refs.images.files.length; i += 1) {
+      imagePromisesArray.push(getImageAsBase64Promise(this.refs.images.files[i]));
     }
-    this.props.onPostComment(
-      commentText,
-      nickname,
-      pluginData,
-      geojson,
-      label,
-      images
-    );
+
+    Promise.all(imagePromisesArray).then((arrayOfResults) => {
+      for (let i = 0; i < this.refs.images.files.length; i += 1) {
+        const imageObject = {title: "Title", caption: "Caption"};
+
+        imageObject.image = arrayOfResults[i];
+        images.push(imageObject);
+      }
+
+      // plugin comment will override comment fields, if provided
+      if (pluginComment) {
+        commentText = pluginComment.content || commentText;
+        nickname = pluginComment.author_name || nickname;
+        pluginData = pluginComment.plugin_data || pluginData;
+        label = pluginComment.label || null;
+        geojson = pluginComment.geojson || null;
+      } else if (pluginData && typeof pluginData !== "string") {
+        // this is for old-fashioned plugins with only data
+        pluginData = JSON.stringify(pluginData);
+      }
+      this.props.onPostComment(
+        commentText,
+        nickname,
+        pluginData,
+        geojson,
+        label,
+        images
+      );
+    });
   }
 
   getPluginData() {  // eslint-disable-line class-methods-use-this
@@ -96,6 +115,29 @@ class BaseCommentForm extends React.Component {
 
   getPluginComment() {  // eslint-disable-line class-methods-use-this
     return undefined;
+  }
+
+  getSelectedImagesAsArray(files) { // eslint-disable-line class-methods-use-this
+    const imagesArray = [];
+    for (let i = 0; i < files.length; i += 1) {
+      imagesArray.push(files[i]);
+    }
+    return imagesArray;
+  }
+
+  imageTooBig(images) { // eslint-disable-line class-methods-use-this
+    let isImageTooBig = false;
+
+    forEach(images, (image) => { // eslint-disable-line consistent-return
+      if (image.size > 1000000) {
+        isImageTooBig = true;
+      }
+    });
+    if (isImageTooBig) {
+      this.setState({imageTooBig: true});
+    } else {
+      this.setState({imageTooBig: false});
+    }
   }
 
   render() {
@@ -109,6 +151,36 @@ class BaseCommentForm extends React.Component {
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}
           />
+          <FormGroup className="comment-form__file">
+            <ControlLabel><FormattedMessage id="add_images"/></ControlLabel>
+            <div className="comment-form__select-button">
+              <label className="btn btn-default btn-sm" htmlFor="fileInput">
+                <FormattedMessage id="choose_images"/>
+              </label>
+              <input
+                 type="file"
+                 ref="images"
+                 id="fileInput"
+                 multiple
+                 style={{display: 'none', visibility: 'hidden'}}
+                 onChange={(e) => this.imageTooBig(e.target.files)}
+              />
+              <div className="comment-form__selected-images">
+                {this.state.imageTooBig
+                  ? <div className="comment-form__image-too-big">
+                    <FormattedMessage id="image_too_big"/>
+                  </div>
+                  : null}
+                {this.refs.images
+                  ? this.getSelectedImagesAsArray(this.refs.images.files).map(
+                      (image) =>
+                        <p style={image.size > 1000000 ? {color: 'red'} : null}>
+                          {image.name} {round((image.size / 1000000), 3) + 'MB'}
+                        </p>)
+                  : null}
+              </div>
+            </div>
+          </FormGroup>
           {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
           {canSetNickname ? (
             <FormGroup>
@@ -127,7 +199,7 @@ class BaseCommentForm extends React.Component {
             </Button>
             <Button
               bsStyle="primary"
-              disabled={!this.state.commentText}
+              disabled={!this.state.commentText || this.state.imageTooBig}
               className="pull-right"
               onClick={this.submitComment.bind(this)}
             >
