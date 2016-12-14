@@ -75,15 +75,15 @@ class BaseCommentForm extends React.Component {
     const imagePromisesArray = [];
     const images = [];
 
-    for (let i = 0; i < this.refs.images.files.length; i += 1) {
-      imagePromisesArray.push(getImageAsBase64Promise(this.refs.images.files[i]));
+    for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
+      imagePromisesArray.push(getImageAsBase64Promise(this.refs.images.files[_i]));
     }
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      for (let i = 0; i < this.refs.images.files.length; i += 1) {
+      for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
         const imageObject = {title: "Title", caption: "Caption"};
 
-        imageObject.image = arrayOfResults[i];
+        imageObject.image = arrayOfResults[_i];
         images.push(imageObject);
       }
 
@@ -119,8 +119,8 @@ class BaseCommentForm extends React.Component {
 
   getSelectedImagesAsArray(files) { // eslint-disable-line class-methods-use-this
     const imagesArray = [];
-    for (let i = 0; i < files.length; i += 1) {
-      imagesArray.push(files[i]);
+    for (let _i = 0; _i < files.length; _i += 1) {
+      imagesArray.push(files[_i]);
     }
     return imagesArray;
   }
@@ -163,7 +163,7 @@ class BaseCommentForm extends React.Component {
                  id="fileInput"
                  multiple
                  style={{display: 'none', visibility: 'hidden'}}
-                 onChange={(e) => this.imageTooBig(e.target.files)}
+                 onChange={(event) => this.imageTooBig(event.target.files)}
               />
               <div className="comment-form__selected-images">
                 {this.state.imageTooBig
