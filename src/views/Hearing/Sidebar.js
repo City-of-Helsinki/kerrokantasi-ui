@@ -86,7 +86,7 @@ class Sidebar extends React.Component {
               <SocialBar />
               {hearingMap}
             </Col>
-            {hearing.contact_persons.map((person, index) =>
+            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
               <Col sm={6} md={12} key={index}>
                 <ContactCard {...person}/>
               </Col>)}
