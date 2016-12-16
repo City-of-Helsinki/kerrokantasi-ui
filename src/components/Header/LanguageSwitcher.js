@@ -1,5 +1,5 @@
 import React from 'react';
-import NavItem from 'react-bootstrap/lib/MenuItem';
+import NavItem from 'react-bootstrap/lib/NavItem';
 import Nav from 'react-bootstrap/lib/Nav';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
