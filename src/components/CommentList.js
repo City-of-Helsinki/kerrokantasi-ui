@@ -73,6 +73,7 @@ class CommentList extends React.Component {
         <Comment
           data={comment}
           key={comment.id}
+          onEditComment={this.props.onEditComment}
           onPostVote={this.props.onPostVote}
           canVote={this.props.canVote}
         />
@@ -89,8 +90,9 @@ CommentList.propTypes = {
   canVote: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
   onPostComment: React.PropTypes.func,
+  onEditComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
-  canSetNickname: React.PropTypes.bool,
+  canSetNickname: React.PropTypes.bool
 };
 
 export default injectIntl(CommentList);

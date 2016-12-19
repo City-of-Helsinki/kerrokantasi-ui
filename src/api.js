@@ -43,8 +43,19 @@ export function post(state, endpoint, data, params = {}, options = {}) {
   return apiCall(state, endpoint, params, merge({body: data, method: "POST"}, options));
 }
 
+export function put(state, endpoint, data, params = {}, options = {}) {
+  if (typeof data !== "string") {
+    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
+    options.headers = merge(  // eslint-disable-line no-param-reassign
+      {"Content-Type": "application/json"},
+      options.headers
+    );
+  }
+  return apiCall(state, endpoint, params, merge({body: data, method: "PUT"}, options));
+}
+
 export function get(state, endpoint, params = {}, options = {}) {
   return apiCall(state, endpoint, params, options);
 }
 
-export default {post, get};
+export default {post, put, get};

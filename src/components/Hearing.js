@@ -8,7 +8,7 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
 import {
   fetchSectionComments, followHearing,
-  postSectionComment, postVote
+  postSectionComment, editSectionComment, postVote
 } from '../actions';
 import CommentList from './CommentList';
 import HearingImageList from './HearingImageList';
@@ -55,6 +55,14 @@ export class Hearing extends React.Component {
     const {authCode} = this.props.location.query;
     const commentData = Object.assign({authCode}, sectionCommentData);
     dispatch(postSectionComment(hearingSlug, sectionId, commentData));
+  }
+
+  onEditSectionComment(sectionId, commentId, commentData) {
+    const {dispatch} = this.props;
+    const hearingSlug = this.props.hearingSlug;
+    const {authCode} = this.props.location.query;
+    Object.assign({authCode}, commentData);
+    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
   }
 
   onVoteComment(commentId, sectionId) {
@@ -169,6 +177,7 @@ export class Hearing extends React.Component {
                      this.props.sectionComments[mainSection.id].data : []}
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
+           onEditComment={this.onEditSectionComment.bind(this)}
            canVote={this.isMainSectionVotable(user)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
