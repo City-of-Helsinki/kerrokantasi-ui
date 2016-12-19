@@ -1,5 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import {Link} from 'react-router';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
@@ -50,6 +51,7 @@ class Home extends React.Component {
           <div className="list">
             <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
             <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
+            <Link className="fullwidth" to="/hearings"><FormattedMessage id="allHearings"/></Link>
           </div>
           }
         </Col>
