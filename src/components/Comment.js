@@ -45,6 +45,13 @@ class Comment extends React.Component {
     this.setState({editorOpen: false});
   }
 
+  handleDelete(event) {
+    event.preventDefault();
+    const {data} = this.props;
+    const {section, id} = data;
+    this.props.onDeleteComment(section, id);
+  }
+
   render() {
     const {data} = this.props;
     const canEdit = true;
@@ -98,7 +105,7 @@ class Comment extends React.Component {
           : null}
       </div>
       {canEdit && <div>
-        <a href="" onClick={(event) => this.toggleEditor(event)}>Edit</a> | <a>Delete</a>
+        <a href="" onClick={(event) => this.toggleEditor(event)}>Edit</a> | <a href="" onClick={(event) => this.handleDelete(event)}>Delete</a>
       </div>
       }
       {editorOpen && <form onSubmit={(event) => this.handleSubmit(event)}>
@@ -116,7 +123,8 @@ Comment.propTypes = {
   data: React.PropTypes.object,
   canVote: React.PropTypes.bool,
   onPostVote: React.PropTypes.func,
-  onEditComment: React.PropTypes.func
+  onEditComment: React.PropTypes.func,
+  onDeleteComment: React.PropTypes.func
 };
 
 export default injectIntl(Comment);

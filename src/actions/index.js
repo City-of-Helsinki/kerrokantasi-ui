@@ -120,6 +120,20 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
   };
 }
 
+export function deleteSectionComment(hearingSlug, sectionId, commentId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
+
+    return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      alert("Kommenttisi on poistettu.");
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
+
 export function postVote(commentId, hearingSlug, sectionId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});

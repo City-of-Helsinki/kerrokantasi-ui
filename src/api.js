@@ -54,8 +54,12 @@ export function put(state, endpoint, data, params = {}, options = {}) {
   return apiCall(state, endpoint, params, merge({body: data, method: "PUT"}, options));
 }
 
+export function apiDelete(state = {}, endpoint, params = {}, options = { method: "DELETE" }) {
+  return apiCall(state, endpoint, params, options);
+}
+
 export function get(state, endpoint, params = {}, options = {}) {
   return apiCall(state, endpoint, params, options);
 }
 
-export default {post, put, get};
+export default {post, put, apiDelete, get};

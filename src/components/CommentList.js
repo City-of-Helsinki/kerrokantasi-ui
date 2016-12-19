@@ -37,6 +37,7 @@ class CommentList extends React.Component {
 
   render() {
     const {section, comments, canComment, hearingId, displayVisualization} = this.props;
+    console.log(comments);
     const title = (<h2><FormattedMessage id="comments"/>
       <div className="commenticon">
         <Icon name="comment-o"/>&nbsp;{comments.length}
@@ -74,6 +75,7 @@ class CommentList extends React.Component {
           data={comment}
           key={comment.id}
           onEditComment={this.props.onEditComment}
+          onDeleteComment={this.props.onDeleteComment}
           onPostVote={this.props.onPostVote}
           canVote={this.props.canVote}
         />
@@ -91,6 +93,7 @@ CommentList.propTypes = {
   hearingId: React.PropTypes.string,
   onPostComment: React.PropTypes.func,
   onEditComment: React.PropTypes.func,
+  onDeleteComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
   canSetNickname: React.PropTypes.bool
 };

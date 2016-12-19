@@ -4,11 +4,13 @@ import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
+import {Modal} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
 import {
   fetchSectionComments, followHearing,
-  postSectionComment, editSectionComment, postVote
+  postSectionComment, editSectionComment,
+  postVote, deleteSectionComment
 } from '../actions';
 import CommentList from './CommentList';
 import HearingImageList from './HearingImageList';
@@ -35,6 +37,12 @@ import {
 import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = { showDeleteModal: false, commentToDelete: { } };
+  }
 
   openFullscreen(hearing) {
     this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
@@ -63,6 +71,18 @@ export class Hearing extends React.Component {
     const {authCode} = this.props.location.query;
     Object.assign({authCode}, commentData);
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
+  }
+
+  onDeleteComment() {
+    const {dispatch} = this.props;
+    const {sectionId, commentId} = this.state.commentToDelete;
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId));
+  }
+
+  handleDeleteClick(sectionId, commentId) {
+    this.setState({ commentToDelete: {sectionId, commentId}});
+    this.openDeleteModal();
   }
 
   onVoteComment(commentId, sectionId) {
@@ -178,6 +198,7 @@ export class Hearing extends React.Component {
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
            onEditComment={this.onEditSectionComment.bind(this)}
+           onDeleteComment={this.handleDeleteClick.bind(this)}
            canVote={this.isMainSectionVotable(user)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
@@ -187,6 +208,14 @@ export class Hearing extends React.Component {
         <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
       </div>
     );
+  }
+
+  openDeleteModal() {
+    this.setState({ showDeleteModal: true });
+  }
+
+  closeDeleteModal() {
+    this.setState({ showDeleteModal: false, commentToDelete: {} });
   }
 
   render() {
@@ -252,6 +281,11 @@ export class Hearing extends React.Component {
             {this.getCommentList()}
           </Col>
         </Row>
+        <DeleteModal
+          isOpen={this.state.showDeleteModal}
+          close={this.closeDeleteModal.bind(this)}
+          onDeleteComment={this.onDeleteComment.bind(this)}
+        />
       </div>
     );
   }
@@ -297,3 +331,20 @@ function groupSections(sections) {
   });
   return sectionGroups;
 }
+
+const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
+  <Modal show={isOpen} onHide={() => close()} animation={false}>
+    <Modal.Header closeButton>
+      <Modal.Title>Are your sure to delete the comment?</Modal.Title>
+    </Modal.Header>
+    <Modal.Footer>
+      <Button onClick={() => close()}>Close</Button>
+      <Button bsStyle="primary" onClick={() => onDeleteComment()}>Delete comment</Button>
+    </Modal.Footer>
+  </Modal>;
+
+DeleteModal.propTypes = {
+  isOpen: React.PropTypes.boolean,
+  close: React.PropTypes.func,
+  onDeleteComment: React.PropTypes.func
+};
