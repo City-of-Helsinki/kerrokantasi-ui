@@ -12,9 +12,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}) => {
     <div className={`fullwidth-hearing ${className}`} style={styles} {...rest}>
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
-          <h3 className="fullwidth-hearing-title">
+          <h2 className="fullwidth-hearing-title">
             <Link to={getHearingURL(hearing)}>{hearing.title}</Link>
-          </h3>
+          </h2>
         </div>
         <div className="fullwidth-hearing-times">
           <span>

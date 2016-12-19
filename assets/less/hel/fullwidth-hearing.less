@@ -5,6 +5,9 @@
   padding: 30px;
   width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &-header {
     padding: 10px;
@@ -13,7 +16,6 @@
   }
 
   &-title-wrap {
-    position: relative;
     padding-right: 70px;
     .fullwidth-hearing-comments {
       position: absolute;
@@ -28,9 +30,8 @@
   }
 
   &-comments {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
+    flex-shrink: 0;
+    align-self: flex-end;
     font-size: 2em;
     text-shadow: @comment-count-shadow;
   }
