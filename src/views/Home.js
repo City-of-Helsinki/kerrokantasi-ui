@@ -3,11 +3,13 @@ import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
-import {getTopHearing} from '../selectors/hearing';
+import {getTopHearing, getOpenHearings} from '../selectors/hearing';
 import HearingList from '../components/HearingList';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import FullWidthHearing from '../components//FullWidthHearing';
+import HearingCardList from '../components/HearingCardList';
+import orderBy from 'lodash/orderBy';
 
 class Home extends React.Component {
   /**
@@ -31,7 +33,7 @@ class Home extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {hearingLists, topHearing} = this.props;
+    const {hearingLists, topHearing, openHearings, language} = this.props;
     return (<div className="container">
       <Helmet title={formatMessage({id: 'welcome'})}/>
       <h1><FormattedMessage id="welcome"/></h1>
@@ -44,10 +46,12 @@ class Home extends React.Component {
             <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
             <HearingList hearings={hearingLists.nextClosingHearing} />
           </div>
+          {openHearings.state === 'done' &&
           <div className="list">
-            <h2 className="page-title"><FormattedMessage id="newestHearings"/></h2>
-            <HearingList hearings={hearingLists.newestHearings} />
+            <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
+            <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
           </div>
+          }
         </Col>
         <Col md={4} xs={12}>
           <div className="feedback-box">
@@ -65,6 +69,7 @@ Home.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearingLists: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  openHearings: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
   topHearing: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/no-unused-prop-types
   language: React.PropTypes.string, // make sure changing language refreshes
@@ -74,6 +79,7 @@ const mapStateToProps = (state) => ({
   hearingLists: state.hearingLists,
   topHearing: getTopHearing(state),
   language: state.language,
+  openHearings: getOpenHearings(state)
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));
