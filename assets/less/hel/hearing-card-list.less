@@ -1,20 +1,26 @@
 .hearing-card-list {
-  display: flex;
-  flex-wrap: wrap;
-
-  &:before {
-    // Fix flex-wrap bug with Bootstrap Row in Safari
-    content: none !important;
-  }
 
   & > [class*='col-'] {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 10px;
+    padding: 15px;
+  }
 
-    & > * {
-      flex-grow: 1;
+  @media (min-width: @screen-sm-min) {
+    display: flex;
+    flex-wrap: wrap;
+
+    &:before {
+      // Fix flex-wrap bug with Bootstrap Row in Safari
+      content: none !important;
+    }
+
+    & > [class*='col-'] {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      & > * {
+        flex-grow: 1;
+      }
     }
   }
 }
