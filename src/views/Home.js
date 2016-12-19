@@ -47,13 +47,6 @@ class Home extends React.Component {
             <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
             <HearingList hearings={hearingLists.nextClosingHearing} />
           </div>
-          {openHearings && openHearings.state === 'done' &&
-          <div className="list">
-            <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
-            <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-            <Link className="fullwidth" to="/hearings"><FormattedMessage id="allHearings"/></Link>
-          </div>
-          }
         </Col>
         <Col md={4} xs={12}>
           <div className="feedback-box">
@@ -62,6 +55,15 @@ class Home extends React.Component {
             </a>
           </div>
         </Col>
+        {openHearings && openHearings.state === 'done' &&
+          <Col xs={12}>
+            <div className="list">
+              <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
+              <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
+              <Link className="fullwidth" to="/hearings"><FormattedMessage id="allHearings"/></Link>
+            </div>
+          </Col>
+        }
       </Row>
     </div>);
   }

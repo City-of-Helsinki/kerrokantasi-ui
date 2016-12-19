@@ -1,19 +1,20 @@
 .hearing-card {
   border: 1px solid @border-color;
-  word-wrap: break-word;
   position: relative;
 
   &-image {
     height: 170px;
     background-color: @brand-gray-light;
     background-size: cover;
+    background-position: center center;
     position: relative;
 
     .hearing-card-comment-count {
       position: absolute;
       bottom: 0;
       right: 0;
-      padding: 3px;
+      padding: 3px 10px;
+      font-size: 1.5em;
       text-shadow:  1px 1px 1px @brand-gray-light,
                     -1px -1px 1px @brand-gray-light,
                     1px -1px 1px @brand-gray-light,
