@@ -22,8 +22,8 @@ class Home extends React.Component {
   static fetchData(dispatch) {
     return Promise.all([
       dispatch(fetchHearingList("nextClosingHearing", "/v1/hearing/", {next_closing: (new Date().toISOString())})),
-      dispatch(fetchHearingList("newestHearings", "/v1/hearing/", {order: "-created_at"})),
-      dispatch(fetchHearingList("topHearing", "/v1/hearing", {order: "-n_comments", open: true, limit: 1}))
+      dispatch(fetchHearingList("topHearing", "/v1/hearing", {order: "-n_comments", open: true, limit: 1})),
+      dispatch(fetchHearingList("openHearings", "/v1/hearing", {open: true}))
     ]);
   }
 
@@ -46,7 +46,7 @@ class Home extends React.Component {
             <h2 className="page-title"><FormattedMessage id="nextClosingHearing"/></h2>
             <HearingList hearings={hearingLists.nextClosingHearing} />
           </div>
-          {openHearings.state === 'done' &&
+          {openHearings && openHearings.state === 'done' &&
           <div className="list">
             <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
             <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
