@@ -12,12 +12,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}) => {
     <div className={`fullwidth-hearing ${className}`} style={styles} {...rest}>
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
-          <h4 className="fullwidth-hearing-title">
+          <h3 className="fullwidth-hearing-title">
             <Link to={getHearingURL(hearing)}>{hearing.title}</Link>
-          </h4>
-          <div className="fullwidth-hearing-comments">
-            <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
-          </div>
+          </h3>
         </div>
         <div className="fullwidth-hearing-times">
           <span>
@@ -26,6 +23,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}) => {
             {formatRelativeTime("timeClose", hearing.close_at)}.
           </span>
         </div>
+      </div>
+      <div className="fullwidth-hearing-comments">
+        <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
       </div>
     </div>
   );

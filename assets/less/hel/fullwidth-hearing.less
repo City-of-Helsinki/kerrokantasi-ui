@@ -4,6 +4,7 @@
   min-height: 250px;
   padding: 30px;
   width: 100%;
+  position: relative;
 
   &-header {
     padding: 10px;
@@ -24,5 +25,13 @@
   &-times {
       color: @text-muted;
       font-size: 1.4rem;
+  }
+
+  &-comments {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 2em;
+    text-shadow: @comment-count-shadow;
   }
 }
