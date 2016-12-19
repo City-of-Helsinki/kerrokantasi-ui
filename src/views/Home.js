@@ -21,7 +21,7 @@ class Home extends React.Component {
     return Promise.all([
       dispatch(fetchHearingList("nextClosingHearing", "/v1/hearing/", {next_closing: (new Date().toISOString())})),
       dispatch(fetchHearingList("newestHearings", "/v1/hearing/", {order: "-created_at"})),
-      dispatch(fetchHearingList("topHearing", "/v1/hearing", {order: "n_comments", closed: "false"}))
+      dispatch(fetchHearingList("topHearing", "/v1/hearing", {order: "-n_comments", open: true, limit: 1}))
     ]);
   }
 
