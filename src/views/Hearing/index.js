@@ -5,7 +5,7 @@ import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
 import {connect} from 'react-redux';
 import {fetchHearing} from '../../actions';
-import {getMainSection, getHearingURL} from '../../utils/hearing';
+import {getMainSection, getHearingURL, getOpenGraphMetaData} from '../../utils/hearing';
 import {injectIntl, intlShape} from 'react-intl';
 import {push} from 'redux-router';
 import getAttr from '../../utils/getAttr';
@@ -47,19 +47,7 @@ export class HearingView extends React.Component {
 
   getOpenGraphMetaData(data) {
     const {language} = this.props;
-    let hostname = "http://kerrokantasi.hel.fi";
-    if (typeof HOSTNAME === 'string') {
-      hostname = HOSTNAME;  // eslint-disable-line no-undef
-    } else if (typeof window !== 'undefined') {
-      hostname = window.location.protocol + "//" + window.location.host;
-    }
-    const url = hostname + this.props.location.pathname;
-    return [
-      {property: "og:url", content: url},
-      {property: "og:type", content: "website"},
-      {property: "og:title", content: getAttr(data.title, language)}
-      // TODO: Add description and image?
-    ];
+    getOpenGraphMetaData(getAttr(data.title, language), this.props.location.pathname);
   }
 
   renderSpinner() {  // eslint-disable-line class-methods-use-this

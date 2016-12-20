@@ -17,8 +17,7 @@ import LabelList from './LabelList';
 import Section from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
-import find from 'lodash/find';
-import _, {get} from 'lodash';
+import _, {get, find} from 'lodash';
 import Icon from '../utils/Icon';
 import config from '../config';
 import {
@@ -29,6 +28,7 @@ import {
   hasFullscreenMapPlugin
 } from '../utils/hearing';
 import {
+  groupSections,
   isSpecialSectionType,
   userCanComment,
   userCanVote

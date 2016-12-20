@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, {find} from 'lodash';
 
 
 const specialSectionTypes = ["main", "closure-info"];
@@ -63,4 +63,24 @@ export function initNewSectionImage() {
     url: "",
     width: "",
   };
+}
+
+export function groupSections(sections) {
+  const sectionGroups = [];
+  sections.forEach((section) => {
+    const sectionGroup = find(sectionGroups, group => section.type === group.type);
+    if (sectionGroup) {
+      sectionGroup.sections.push(section);
+      sectionGroup.n_comments += section.n_comments;
+    } else {
+      sectionGroups.push({
+        name_singular: section.type_name_singular,
+        name_plural: section.type_name_plural,
+        type: section.type,
+        sections: [section],
+        n_comments: section.n_comments,
+      });
+    }
+  });
+  return sectionGroups;
 }
