@@ -25,11 +25,11 @@ const HearingCard = ({hearing, language}) => {
           </div>
         </div>
       }
-      <div className="hearing-card-image" style={imageStyle}>
+      <Link to={getHearingURL(hearing)} className="hearing-card-image" style={imageStyle}>
         <div className="hearing-card-comment-count">
           <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
         </div>
-      </div>
+      </Link>
       <div className="hearing-card-content">
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
           {formatRelativeTime("timeClose", hearing.close_at)}
