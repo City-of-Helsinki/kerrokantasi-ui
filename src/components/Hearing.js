@@ -283,6 +283,7 @@ export class Hearing extends React.Component {
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                 <SectionList
+                  basePath={location.pathname}
                   sections={sectionGroup.sections}
                   nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import SortableCommentList from './SortableCommentList';
+import {Link, LocationDescriptor} from 'react-router';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
@@ -64,7 +65,7 @@ export default class Section extends React.Component {
   }
 
   getTitleDiv(collapsed, collapsible) {
-    const {section} = this.props;
+    const {section, linkTo} = this.props;
     const {language} = this.context;
     if (section.type === "main") {
       return null;
@@ -77,6 +78,23 @@ export default class Section extends React.Component {
       );
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
+
+    if (linkTo) {
+      return (
+        <h3 className="section-title" onClick={this.toggle.bind(this)}>
+          <Link to={linkTo}>
+            {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+            {getAttr(this.props.section.title, language)}
+          </Link>
+          {collapsed ? (
+            <div className="section-title-comments">
+              <Icon name="comment-o"/>&nbsp;{section.n_comments}
+            </div>
+          ) : null}
+        </h3>
+      );
+    }
+
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
@@ -211,6 +229,7 @@ Section.propTypes = {
   canVote: React.PropTypes.bool,
   comments: React.PropTypes.object,
   isCollapsible: React.PropTypes.bool,
+  linkTo: LocationDescriptor,
   loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,

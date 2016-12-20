@@ -53,14 +53,14 @@ class QuestionView extends Component {
 
     if (!QuestionView.canRenderFully(() => this.props)) {
       return (
-        <div className="hearing-view container">
+        <div className="question-view container">
           <LoadSpinner />
         </div>
       );
     }
 
     return (
-      <div className="hearing-view container">
+      <div className="question-view container">
         <Helmet title={hearing.title} meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}/>
         <SectionContainer
           hearingSlug={hearingSlug}
