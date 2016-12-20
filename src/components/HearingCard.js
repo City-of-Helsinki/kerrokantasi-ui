@@ -9,7 +9,7 @@ import {getHearingURL} from '../utils/hearing';
 
 const HearingCard = ({hearing, language}) => {
   const imageStyle = {
-    backgroundImage: hearing.main_image ? `url(${hearing.main_image.url})` : ''
+    backgroundImage: hearing.main_image && hearing.main_image.url ? `url(${hearing.main_image.url})` : ''
   };
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language/* , {exact: true} */);
