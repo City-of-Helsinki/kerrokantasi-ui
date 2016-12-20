@@ -86,10 +86,18 @@ class Sidebar extends React.Component {
               <SocialBar />
               {hearingMap}
             </Col>
-            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
-              <Col sm={6} md={12} key={index}>
-                <ContactCard {...person}/>
-              </Col>)}
+            {hearing.contact_persons &&
+              <Col sm={12}>
+                <div className="sidebar-section further-info">
+                  <h4><FormattedMessage id="furtherInformation"/></h4>
+                  <div className="flex">
+                    {hearing.contact_persons.map((person, index) =>
+                      <ContactCard key={index} {...person}/>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            }
           </Row>
         </div>
       </AutoAffix>
