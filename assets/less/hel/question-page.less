@@ -1,25 +1,33 @@
 .section-container {
   .section-browser {
     display: flex;
+    align-items: center;
 
-    a {
+
+    & > * {
       display: block;
     }
 
     .to-hearing {
-      align-self: flex-start;
       flex-grow: 1;
     }
 
     .previous, .next {
       margin: auto 5px;
+      padding: 5px;
+      border: 1px solid @link-color;
 
       .type-name {
         text-transform: lowercase;
       }
 
+      &:hover {
+        border-color: @link-hover-color;
+      }
+
       &.disabled {
         color: @text-muted;
+        border-color: @text-muted;
         cursor: not-allowed;
       }
     }

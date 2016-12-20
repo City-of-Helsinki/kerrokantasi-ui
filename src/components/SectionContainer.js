@@ -225,7 +225,6 @@ class SectionContainer extends React.Component {
                 <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
               </Link>
               <Link className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || ''}>
-                <Icon name="angle-left"/>&nbsp;
                 <FormattedMessage id="previous"/>&nbsp;
                 <span className="type-name">{getAttr(section.type_name_singular, language)}</span>
               </Link>
@@ -233,7 +232,6 @@ class SectionContainer extends React.Component {
               <Link className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || ''}>
                 <FormattedMessage id="next"/>&nbsp;
                 <span className="type-name">{getAttr(section.type_name_singular, language)}</span>&nbsp;
-                <Icon name="angle-right"/>
               </Link>
             </div>
             <Section
