@@ -8,6 +8,7 @@ import {fetchHearing} from '../../actions';
 import {getMainSection, getHearingURL} from '../../utils/hearing';
 import {injectIntl, intlShape} from 'react-intl';
 import {push} from 'redux-router';
+import getAttr from '../../utils/getAttr';
 
 
 export class HearingView extends React.Component {
@@ -45,6 +46,7 @@ export class HearingView extends React.Component {
   }
 
   getOpenGraphMetaData(data) {
+    const {language} = this.props;
     let hostname = "http://kerrokantasi.hel.fi";
     if (typeof HOSTNAME === 'string') {
       hostname = HOSTNAME;  // eslint-disable-line no-undef
@@ -55,7 +57,7 @@ export class HearingView extends React.Component {
     return [
       {property: "og:url", content: url},
       {property: "og:type", content: "website"},
-      {property: "og:title", content: data.title}
+      {property: "og:title", content: getAttr(data.title, language)}
       // TODO: Add description and image?
     ];
   }
@@ -82,7 +84,7 @@ export class HearingView extends React.Component {
   render() {
     const {hearingSlug} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
-    const {user} = this.props;
+    const {user, language} = this.props;
 
     if (state !== 'done') {
       return this.renderSpinner();
@@ -93,7 +95,7 @@ export class HearingView extends React.Component {
 
     return (
       <div className={fullscreen ? "fullscreen-hearing" : "container"}>
-        <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)} />
+        <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)} />
         <HearingComponent
           hearingSlug={hearingSlug}
           hearing={hearing}
@@ -111,15 +113,17 @@ HearingView.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
+  language: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
+  sectionComments: React.PropTypes.object
 };
 
 export function wrapHearingView(view) {
   const wrappedView = connect((state) => ({
     user: state.user,
     hearing: state.hearing,
+    language: state.language,
     sectionComments: state.sectionComments,
   }))(injectIntl(view));
 

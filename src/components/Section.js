@@ -8,13 +8,14 @@ import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
+import getAttr from '../utils/getAttr';
 
-function getImageList(section) {
+function getImageList(section, language) {
   if (section.type === "main") { // Main section images aren't rendered here atleast atm.
     return null;
   }
   return section.images.map((image) => (<div key={image.url}>
-    <img className="img-responsive" alt={image.title} title={image.title} src={image.url}/>
+    <img className="img-responsive" alt={getAttr(image.title, language)} title={getAttr(image.title, language)} src={image.url}/>
     <div className="image-caption">{image.caption}</div>
   </div>));
 }
@@ -64,13 +65,14 @@ export default class Section extends React.Component {
 
   getTitleDiv(collapsed, collapsible) {
     const {section} = this.props;
+    const {language} = this.context;
     if (section.type === "main") {
       return null;
     }
     if (section.type === "closure-info") {
       return (
         <h3 className="section-title">
-          {section.title}
+          {getAttr(section.title, language)}
         </h3>
       );
     }
@@ -78,7 +80,7 @@ export default class Section extends React.Component {
     return (
       <h3 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
-        {this.props.section.title}
+        {getAttr(this.props.section.title, language)}
         {collapsed ? (
           <div className="section-title-comments">
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
@@ -146,6 +148,7 @@ export default class Section extends React.Component {
 
   render() {
     const {section, user} = this.props;
+    const {language} = this.context;
     const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
@@ -158,7 +161,7 @@ export default class Section extends React.Component {
           </div>
           <div className="section-list-item-content">
             {titleDiv}
-            <div className="section-abstract" dangerouslySetInnerHTML={{__html: section.abstract}} />
+            <div className="section-abstract" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} />
           </div>
           <hr/>
         </div>
@@ -176,7 +179,7 @@ export default class Section extends React.Component {
         canSetNickname={user === null}
       />);
     }
-    const imageList = getImageList(section);
+    const imageList = getImageList(section, language);
     const sectionClass = classNames({
       'hearing-section': true,
       'closure-info': section.type === "closure-info"
@@ -187,8 +190,8 @@ export default class Section extends React.Component {
       <div className="section-content">
         {imageList}
         {section.type !== "main" ?
-          <div className="section-abstract lead" dangerouslySetInnerHTML={{__html: section.abstract}} /> : null}
-        <div dangerouslySetInnerHTML={{__html: section.content}} />
+          <div className="section-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} /> : null}
+        <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
         {pluginContent}
       </div>
       {commentList}
@@ -211,4 +214,8 @@ Section.propTypes = {
   section: React.PropTypes.object.isRequired,
   showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
+};
+
+Section.contextTypes = {
+  language: React.PropTypes.string.isRequired
 };

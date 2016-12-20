@@ -43,10 +43,11 @@ class AllHearings extends React.Component {
 AllHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object
+  hearingLists: React.PropTypes.object,
+  language: React.PropTypes.string// To rerender when language changes
 };
 
-const WrappedAllHearings = connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(AllHearings));
+const WrappedAllHearings = connect((state) => ({hearingLists: state.hearingLists, language: state.language}))(injectIntl(AllHearings));
 // We need to re-hoist the static fetchData to the wrapped component due to react-intl:
 WrappedAllHearings.fetchData = AllHearings.fetchData;
 export default WrappedAllHearings;

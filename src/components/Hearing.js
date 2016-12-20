@@ -32,7 +32,7 @@ import {
   userCanComment,
   userCanVote
 } from '../utils/section';
-
+import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
 
@@ -76,6 +76,7 @@ export class Hearing extends React.Component {
   }
 
   getOpenGraphMetaData(data) {
+    const {language} = this.props;
     let hostname = "http://kerrokantasi.hel.fi";
     if (typeof HOSTNAME === 'string') {
       hostname = HOSTNAME;  // eslint-disable-line no-undef
@@ -86,7 +87,7 @@ export class Hearing extends React.Component {
     return [
       {property: "og:url", content: url},
       {property: "og:type", content: "website"},
-      {property: "og:title", content: data.title}
+      {property: "og:title", content: getAttr(data.title, language)}
       // TODO: Add description and image?
     ];
   }
@@ -188,6 +189,7 @@ export class Hearing extends React.Component {
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
+    const {language} = this.props;
 
     return (
       <div id="hearing-wrapper">
@@ -196,7 +198,7 @@ export class Hearing extends React.Component {
         <h1 className="page-title">
           {this.getFollowButton()}
           {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {hearing.title}
+          {getAttr(hearing.title, language)}
         </h1>
 
         <Row>
@@ -251,13 +253,14 @@ Hearing.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   hearingSlug: React.PropTypes.string,
+  language: React.PropTypes.string,
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
 };
 
 export function wrapHearingComponent(component, pure = true) {
-  const wrappedComponent = connect(null, null, null, {pure})(injectIntl(component));
+  const wrappedComponent = connect((state) => ({language: state.language}), null, null, {pure})(injectIntl(component));
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
   wrappedComponent.canRenderFully = component.canRenderFully;
   wrappedComponent.fetchData = component.fetchData;

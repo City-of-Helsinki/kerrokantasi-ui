@@ -60,11 +60,12 @@ class Home extends React.Component {
 Home.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object
+  hearingLists: React.PropTypes.object,
+  language: React.PropTypes.string
 };
 Home.contextTypes = {language: React.PropTypes.string};
 
-const WrappedHome = connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(Home));
+const WrappedHome = connect((state) => ({hearingLists: state.hearingLists, language: state.language}))(injectIntl(Home));
 // We need to re-hoist the static fetchData to the wrapped component due to react-intl:
 WrappedHome.fetchData = Home.fetchData;
 export default WrappedHome;

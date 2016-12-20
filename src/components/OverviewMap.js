@@ -1,19 +1,21 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 import {getHearingURL} from '../utils/hearing';
+import getAttr from '../utils/getAttr';
 
 
 class OverviewMap extends React.Component {
 
   getHearingMapContent(hearings) {
     const {Popup, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
+    const {language} = this.context;
     const contents = [];
     hearings.forEach((hearing) => {
       const {geojson, id} = hearing;
       const content = (this.props.enablePopups ? (<Popup>
         <div>
           <h4>
-            <a href={getHearingURL(hearing)}>{hearing.title}</a>
+            <a href={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</a>
           </h4>
           <p>{hearing.abstract}</p>
         </div>
@@ -63,6 +65,10 @@ OverviewMap.propTypes = {
   style: React.PropTypes.object,
   hideIfEmpty: React.PropTypes.bool,
   enablePopups: React.PropTypes.bool
+};
+
+OverviewMap.contextTypes = {
+  language: React.PropTypes.string.isRequired
 };
 
 export default OverviewMap;
