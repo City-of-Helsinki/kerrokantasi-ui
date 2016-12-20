@@ -48,7 +48,6 @@
   "hearingMap": "Hearings on the map",
   "hearingMapHeaderText": "Map",
   "hearingMapHeaderDescription": "Browse hearings on the map",
-  "noCommentsAvailable": "No comments available",
   "downloadReport": "Download Excel report of all comments",
   "publishedHearings": "Public",
   "publishingQueue": "Publishing queue",
@@ -70,5 +69,8 @@
   "POPULARITY_ASC": "Least popular first",
   "CREATED_AT_ASC": "Oldest first",
   "CREATED_AT_DESC": "Newest first",
-  "commentOrder": "Order comments by:"
+  "commentOrder": "Order comments by:",
+  "searchTitles": "Search from titles",
+  "searchSubjects": "Search from subjects",
+  "search": "Search"
 }

@@ -1,5 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
@@ -9,6 +11,14 @@ import LabelList from './LabelList';
 import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
+import HearingsSearch from './HearingsSearch';
+
+const HearingListTabs = () =>
+  <Nav bsStyle="tabs" activeKey="1" onSelect={(event) => console.log(event.target.value)}>
+    <NavItem eventKey="1" href="/home">NavItem 1 content</NavItem>
+    <NavItem eventKey="2" title="Item">NavItem 2 content</NavItem>
+    <NavItem eventKey="3" disabled>NavItem 3 content</NavItem>
+  </Nav>;
 
 class HearingListItem extends React.Component {
 
@@ -59,7 +69,10 @@ class HearingList extends React.Component {
   render() {
     const {state, data} = (this.props.hearings || {});
     if (state !== "done") return <LoadSpinner />;
-    return (<div className="hearing-list">{data.map(
+    return (<div className="hearing-list">
+      <HearingsSearch/>
+      <HearingListTabs/>
+      {data.map(
       (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
     )}</div>);
   }

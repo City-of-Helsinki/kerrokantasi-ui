@@ -69,5 +69,8 @@
   "POPULARITY_ASC": "Vähiten suosittu ensin",
   "CREATED_AT_ASC": "Vanhin ensin",
   "CREATED_AT_DESC": "Uusin ensin",
-  "commentOrder": "Järjestä kommentit:"
+  "commentOrder": "Järjestä kommentit:",
+  "searchTitles": "Etsi otsikoista",
+  "searchSubjects": "Etsi aiheista",
+  "search": "Etsi"
 }
