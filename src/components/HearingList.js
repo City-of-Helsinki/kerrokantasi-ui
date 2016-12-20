@@ -2,6 +2,8 @@
 import React from 'react';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
@@ -14,11 +16,21 @@ import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
 
 const HearingListTabs = () =>
-  <Nav bsStyle="tabs" activeKey="1" onSelect={(event) => console.log(event.target.value)}>
-    <NavItem eventKey="1" href="/home">NavItem 1 content</NavItem>
-    <NavItem eventKey="2" title="Item">NavItem 2 content</NavItem>
-    <NavItem eventKey="3" disabled>NavItem 3 content</NavItem>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" style={{width: '100%'}} activeKey="1" pullRight={1} onSelect={(event) => console.log(event.target.value)}>
+    <NavItem eventKey="3" disabled style={{width: '70%'}}/>
+    <NavItem eventKey="1" href="/home">Lista</NavItem>
+    <NavItem eventKey="2" title="Item">Kartta</NavItem>
   </Nav>;
+
+const HearingListFilters = () =>
+  <div className="hearing-list__filter">
+    <FormGroup controlId="formControlsSelect">
+      <FormControl componentClass="select" placeholder="select">
+        <option value="newest"><FormattedMessage id="newestFirst"/></option>
+        <option value="other">...</option>
+      </FormControl>
+    </FormGroup>
+  </div>;
 
 class HearingListItem extends React.Component {
 
@@ -72,6 +84,7 @@ class HearingList extends React.Component {
     return (<div className="hearing-list">
       <HearingsSearch/>
       <HearingListTabs/>
+      <HearingListFilters/>
       {data.map(
       (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
     )}</div>);
