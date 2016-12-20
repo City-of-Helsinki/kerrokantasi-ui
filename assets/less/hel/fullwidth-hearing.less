@@ -1,0 +1,39 @@
+.fullwidth-hearing {
+  background-size: cover;
+  background-position: center center;
+  min-height: 250px;
+  padding: 30px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &-header {
+    padding: 10px;
+    width: 100%;
+    background-color: fade(@brand-gray-light, 85%);
+    margin-bottom: 60px;
+  }
+
+  &-title-wrap {
+    padding-right: 70px;
+    .fullwidth-hearing-comments {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  &-times {
+      color: @text-muted;
+      font-size: 1.4rem;
+  }
+
+  &-comments {
+    flex-shrink: 0;
+    align-self: flex-end;
+    font-size: 2em;
+    text-shadow: @comment-count-shadow;
+  }
+}
