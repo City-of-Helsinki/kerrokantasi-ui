@@ -135,9 +135,9 @@ export default class Section extends React.Component {
   }
 
   isCollapsible() {
-    const {section} = this.props;
+    const {section, isCollapsible} = this.props;
     const hasPlugin = !!section.plugin_identifier;
-    return !isSpecialSectionType(section.type) && !hasPlugin;
+    return isCollapsible && !isSpecialSectionType(section.type) && !hasPlugin;
   }
 
   isCommentable() {
@@ -205,10 +205,15 @@ Section.defaultProps = {
   showPlugin: true,
 };
 
+Section.defaultProps = {
+  isCollapsible: true
+};
+
 Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   comments: React.PropTypes.object,
+  isCollapsible: React.PropTypes.bool,
   loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,

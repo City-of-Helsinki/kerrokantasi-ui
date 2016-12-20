@@ -210,6 +210,7 @@ class SectionContainer extends React.Component {
               onPostVote={false}// this.props.onPostVote}
               comments={sectionComments}// this.props.loadSectionComments}
               user={user}
+              isCollapsible={false}
             />
           </Col>
         </Row>
