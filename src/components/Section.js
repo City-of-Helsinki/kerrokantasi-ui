@@ -203,10 +203,7 @@ export default class Section extends React.Component {
 
 Section.defaultProps = {
   showPlugin: true,
-};
-
-Section.defaultProps = {
-  isCollapsible: true
+  isCollapsible: true,
 };
 
 Section.propTypes = {
