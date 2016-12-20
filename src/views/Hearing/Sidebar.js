@@ -1,5 +1,4 @@
 import React from 'react';
-import Badge from 'react-bootstrap/lib/Badge';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
@@ -7,11 +6,13 @@ import Label from 'react-bootstrap/lib/Label';
 import {injectIntl, FormattedMessage, FormattedPlural} from 'react-intl';
 import OverviewMap from '../../components/OverviewMap';
 import SocialBar from '../../components/SocialBar';
+import SubSectionListGroup from '../../components/SubSectionListGroup';
 import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
+import getAttr from '../../utils/getAttr';
 
 
 class Sidebar extends React.Component {
@@ -37,6 +38,10 @@ class Sidebar extends React.Component {
 
   render() {
     const {hearing, sectionGroups} = this.props;
+    const {language} = this.context;
+    const TOP_OFFSET = 75;
+    const BOTTOM_OFFSET = 165;
+
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -46,8 +51,8 @@ class Sidebar extends React.Component {
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
     return (<Col md={4} lg={3}>
-      <AutoAffix viewportOffsetTop={75} offsetBottom={165} container={this.parentNode}>
-        <div className="hearing-sidebar">
+      <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
+        <div className="hearing-sidebar" style={{maxHeight: window.innerHeight - TOP_OFFSET - BOTTOM_OFFSET}}>
           <Row>
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
@@ -70,10 +75,9 @@ class Sidebar extends React.Component {
                     <FormattedMessage id="hearing"/>
                   </ListGroupItem>
                   {sectionGroups.map((sectionGroup) => (
-                    <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
-                      {sectionGroup.name_plural}
-                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                      <Badge>{sectionGroup.sections.length}</Badge>
+                    <ListGroupItem href={sectionGroup.sections ? null : "#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+                      {getAttr(sectionGroup.name_plural, language)}
+                      <SubSectionListGroup sections={sectionGroup.sections}/>
                     </ListGroupItem>
                   ))}
                   {this.getCommentsItem()}
@@ -96,6 +100,10 @@ Sidebar.propTypes = {
   hearing: React.PropTypes.object,
   mainSection: React.PropTypes.object,
   sectionGroups: React.PropTypes.array
+};
+
+Sidebar.contextTypes = {
+  language: React.PropTypes.string.isRequired
 };
 
 export default injectIntl(Sidebar);

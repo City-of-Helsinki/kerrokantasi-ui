@@ -155,7 +155,7 @@ export default class Section extends React.Component {
     let commentList = null;
     if (collapsed) {
       return (
-        <div className="section-list-item">
+        <div className="section-list-item" id={`hearing-subsection-${section.id}`}>
           <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
             {section.images.length ? <img role="presentation" src={section.images[0].url} /> : null}
           </div>
@@ -185,7 +185,7 @@ export default class Section extends React.Component {
       'closure-info': section.type === "closure-info"
     });
     const pluginContent = this.renderPluginContent(section);
-    return (<div className={sectionClass}>
+    return (<div className={sectionClass} id={`hearing-subsection-${section.id}`}>
       {titleDiv}
       <div className="section-content">
         {imageList}
