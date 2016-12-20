@@ -1,0 +1,27 @@
+.section-container {
+  .section-browser {
+    display: flex;
+
+    a {
+      display: block;
+    }
+
+    .to-hearing {
+      align-self: flex-start;
+      flex-grow: 1;
+    }
+
+    .previous, .next {
+      margin: auto 5px;
+
+      .type-name {
+        text-transform: lowercase;
+      }
+
+      &.disabled {
+        color: @text-muted;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

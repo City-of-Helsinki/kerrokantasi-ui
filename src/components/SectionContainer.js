@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
@@ -27,11 +28,13 @@ import {
   hasFullscreenMapPlugin
 } from '../utils/hearing';
 import {
+  getSectionURL,
   groupSections,
   isSpecialSectionType,
   userCanComment,
   userCanVote
 } from '../utils/section';
+import getAttr from '../utils/getAttr';
 
 
 class SectionContainer extends React.Component {
@@ -179,29 +182,60 @@ class SectionContainer extends React.Component {
     );
   }
 
+  getQuestionLinksAndStuff(sectionGroups) {
+    const {hearing: {slug: hearingSlug}, section: {id: sectionId}} = this.props;
+    const questions = sectionGroups.reduce((questionsArray, currentSection) =>
+      [...questionsArray, ...currentSection.sections], []);
+    const currentIndex = questions.findIndex((question) => question.id === sectionId);
+    const prevPath = currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
+    const nextPath = currentIndex !== questions.length - 1 ? getSectionURL(hearingSlug, questions[currentIndex + 1]) : undefined;
+    return {
+      currentNum: currentIndex + 1,
+      totalNum: questions.length,
+      prevPath,
+      nextPath
+    };
+  }
+
   render() {
-    const {hearing, section, user, sectionComments} = this.props;
+    const {hearing, section, user, sectionComments, language} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
     // const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const mainSection = getMainSection(hearing);
     const regularSections = hearing.sections.filter((sect) => !isSpecialSectionType(sect.type));
     const sectionGroups = groupSections(regularSections);
+    const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
-
     return (
-      <div id="hearing-wrapper">
+      <div className="section-container">
         <LabelList className="main-labels" labels={hearing.labels}/>
 
         <h1 className="page-title">
           {this.getFollowButton()}
           {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {hearing.title}
+          {getAttr(hearing.title, language)}
         </h1>
 
         <Row>
           <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
           <Col md={8} lg={9}>
+            <div className="section-browser">
+              <Link className="to-hearing" to={getHearingURL(hearing)}>
+                <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
+              </Link>
+              <Link className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || ''}>
+                <Icon name="angle-left"/>&nbsp;
+                <FormattedMessage id="previous"/>&nbsp;
+                <span className="type-name">{getAttr(section.type_name_singular, language)}</span>
+              </Link>
+              {sectionNav.currentNum}/{sectionNav.totalNum}
+              <Link className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || ''}>
+                <FormattedMessage id="next"/>&nbsp;
+                <span className="type-name">{getAttr(section.type_name_singular, language)}</span>&nbsp;
+                <Icon name="angle-right"/>
+              </Link>
+            </div>
             <Section
               section={section}
               canComment={false}// this.props.canComment && userCanComment(user, section)}
@@ -219,6 +253,7 @@ class SectionContainer extends React.Component {
   }
 }
 
+/* eslint-disable react/forbid-prop-types */
 SectionContainer.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
@@ -228,6 +263,7 @@ SectionContainer.propTypes = {
   user: React.PropTypes.object,
   section: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+  language: React.PropTypes.string,
 };
 
 export function wrapSectionContainer(component, pure = true) {

@@ -70,6 +70,7 @@ class QuestionView extends Component {
           section={hearing.sections.find((section) => section.id === sectionId)}
           sectionComments={sectionComments}
           location={location}
+          language={language}
         />
       </div>
     );
