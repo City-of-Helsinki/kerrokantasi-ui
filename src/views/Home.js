@@ -21,7 +21,7 @@ class Home extends React.Component {
    */
   static fetchData(dispatch) {
     return Promise.all([
-      dispatch(fetchHearingList("topHearing", "/v1/hearing", {order: "-n_comments", open: true, limit: 1})),
+      dispatch(fetchHearingList("topHearing", "/v1/hearing", {ordering: "-n_comments", open: true, limit: 1})),
       dispatch(fetchHearingList("openHearings", "/v1/hearing", {open: true}))
     ]);
   }
