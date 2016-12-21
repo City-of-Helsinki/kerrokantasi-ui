@@ -79,20 +79,23 @@ HearingListItem.contextTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {state, data} = (this.props.hearings || {});
-    if (state !== "done") return <LoadSpinner />;
+    const {hearings, isLoading, labels} = this.props;
+
+    if (isLoading) return <LoadSpinner />;
     return (<div className="hearing-list">
-      <HearingsSearch/>
+      <HearingsSearch labels={labels}/>
       <HearingListTabs/>
       <HearingListFilters/>
-      {data.map(
+      {hearings.map(
       (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
     )}</div>);
   }
 }
 
 HearingList.propTypes = {
-  hearings: React.PropTypes.object
+  hearings: React.PropTypes.object,
+  labels: React.PropTypes.object,
+  isLoading: React.PropTypes.string
 };
 
 export default (injectIntl(HearingList));

@@ -44,6 +44,17 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
+export function fetchLabels(endpoint) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction('beginFetchLabels');
+    dispatch(fetchAction);
+
+    return api.get(getState(), endpoint).then(getResponseJSON).then((data) => {
+      dispatch(createAction('receiveLabels')({ data: data.results }));
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
+
 export function fetchHearing(hearingSlug, previewKey = null) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearing")({hearingSlug});
