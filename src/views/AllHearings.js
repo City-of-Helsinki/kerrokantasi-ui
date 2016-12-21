@@ -19,11 +19,11 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {filter: 'all'};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all'};
   }
 
-  static fetchData(dispatch) {
-    return dispatch(fetchHearingList("allHearings", "/v1/hearing/"));
+  static fetchData(dispatch, sortBy) {
+    return dispatch(fetchHearingList("allHearings", "/v1/hearing/", {ordering: sortBy}));
   }
 
   static fetchLabels(dispatch) {
@@ -32,17 +32,38 @@ class AllHearings extends React.Component {
 
   getVisibleHearings() {
     const {hearings} = this.props;
+    const {hearingFilter} = this.state;
     // const hearings = {};
 
-    hearings.allHearings.data.filter(
-      (hearing) => hearing.labels.filter(
-        (label) => label.label === this.state.filter).length !== 0
-    );
+    if (hearingFilter !== 'all') {
+      return hearings.filter(
+        (hearing) => hearing.labels.filter(
+          (label) => label.label === hearingFilter
+        ).length !== 0
+      );
+    }
+
+    return hearings;
+  }
+
+  handleSort(newOrder) {
+    const {dispatch} = this.props;
+    this.setState({sortBy: newOrder});
+    AllHearings.fetchData(dispatch, newOrder);
+  }
+
+  changeFilter(newFilter) {
+    this.setState({hearingFilter: newFilter});
+  }
+
+  handleChangeFilter(filter) {
+    this.changeFilter(filter);
   }
 
   componentDidMount() {
     const {dispatch} = this.props;
-    AllHearings.fetchData(dispatch);
+    const {sortBy} = this.state;
+    AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
   }
 
@@ -54,7 +75,14 @@ class AllHearings extends React.Component {
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
       <Row>
         <Col md={8}>
-          <HearingList hearings={hearings} isLoading={isLoading} labels={labels} />
+          {console.log(hearings)}
+          <HearingList
+            hearings={this.getVisibleHearings()}
+            isLoading={isLoading}
+            labels={labels}
+            handleChangeFilter={this.handleChangeFilter.bind(this)}
+            handleSort={this.handleSort.bind(this)}
+          />
         </Col>
       </Row>
     </div>);

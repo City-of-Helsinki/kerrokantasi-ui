@@ -72,5 +72,8 @@
   "commentOrder": "Järjestä kommentit:",
   "searchTitles": "Etsi otsikoista",
   "searchSubjects": "Etsi aiheista",
-  "search": "Etsi"
+  "search": "Etsi",
+  "all": "Kaikki",
+  "sort": "Järjestä",
+  "chooseTopic": "Valitse aihe"
 }

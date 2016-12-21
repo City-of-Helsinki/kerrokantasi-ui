@@ -72,5 +72,8 @@
   "commentOrder": "Order comments by:",
   "searchTitles": "Search from titles",
   "searchSubjects": "Search from subjects",
-  "search": "Search"
+  "search": "Search",
+  "all": "All",
+  "sort": "Sort",
+  "chooseTopic": "Choose topic"
 }
