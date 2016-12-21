@@ -58,7 +58,7 @@ class Comment extends React.Component {
                  alt={image.title}
                  src={image.url}
                  width={image.width < 100 ? image.width : 100}
-                 height={image.height < 100 ? image.width : 100}
+                 height={image.height < 100 ? image.height : 100}
               />
             </a>
           )
