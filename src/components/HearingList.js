@@ -20,7 +20,7 @@ import upperFirst from 'lodash/upperFirst';
 
 
 const HearingListTabs = () =>
-  <Nav className="hearing-list__tabs" bsStyle="tabs" style={{width: '100%'}} activeKey="1" pullRight={1} onSelect={(event) => console.log(event.target.value)}>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" style={{width: '100%'}} activeKey="1" pullRight={1}>
     <NavItem eventKey="3" disabled style={{width: '70%'}}/>
     <NavItem eventKey="1" href="/home">Lista</NavItem>
     <NavItem eventKey="2" title="Item">Kartta</NavItem>
@@ -37,8 +37,8 @@ const HearingListFilters = ({labels, handleChangeFilter, handleSort}) =>
         <option value="close_at"><FormattedMessage id="firstClosing"/></option>
         <option value="-open_at"><FormattedMessage id="lastOpen"/></option>
         <option value="open_at"><FormattedMessage id="firstOpen"/></option>
-        <option value="-n_comments"><FormattedMessage id="leastCommented"/></option>
-        <option value="n_comments"><FormattedMessage id="mostCommented"/></option>
+        <option value="-n_comments"><FormattedMessage id="mostCommented"/></option>
+        <option value="n_comments"><FormattedMessage id="leastCommented"/></option>
       </FormControl>
     </FormGroup>
     {labels.length !== 0 && <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
@@ -103,13 +103,13 @@ HearingListItem.contextTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort} = this.props;
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch} = this.props;
 
     return (
       <div>
         {isLoading && <LoadSpinner />}
         <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-          <HearingsSearch/>
+          <HearingsSearch handleSearch={handleSearch}/>
           <HearingListTabs/>
           <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
           {hearings.map(
@@ -125,7 +125,8 @@ HearingList.propTypes = {
   labels: React.PropTypes.object,
   isLoading: React.PropTypes.string,
   handleChangeFilter: React.PropTypes.func,
-  handleSort: React.PropTypes.func
+  handleSort: React.PropTypes.func,
+  handleSearch: React.PropTypes.func
 };
 
 export default (injectIntl(HearingList));

@@ -75,5 +75,13 @@
   "search": "Search",
   "all": "All",
   "sort": "Sort",
-  "chooseTopic": "Choose topic"
+  "chooseTopic": "Choose topic",
+  "newestFirst": "Newest first",
+  "oldestFirst": "Oldest first",
+  "lastClosing": "Closing last",
+  "firstClosing": "Closing first",
+  "lastOpen": "Opened last",
+  "firstOpen": "Opened first",
+  "leastCommented": "Least commented",
+  "mostCommented": "Most commented"
 }

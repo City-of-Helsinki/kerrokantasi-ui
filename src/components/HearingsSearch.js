@@ -5,13 +5,18 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 class HearingsSearch extends React.Component {
 
   render() {
+    const {handleSearch} = this.props;
     return (
       <div className="hearings-search__container">
         <div className="hearings-search__content">
-          <form>
+          <form onSubmit={(event) => handleSearch(event, this.input.value)}>
             <FormGroup controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
-              <FormControl type="text" />
+              <FormControl
+                type="text"
+                inputRef={(ref) => { this.input = ref; }}
+                onChange={(event) => event.target.value === '' && handleSearch(event)}
+              />
             </FormGroup>
             <Button bsStyle="primary" type="submit"><FormattedMessage id="search"/></Button>
           </form>
@@ -21,9 +26,8 @@ class HearingsSearch extends React.Component {
   }
 }
 
-// HearingsSearch.propTypes = {
-//   labels: React.PropTypes.object,
-//   handleChange: React.PropTypes.func
-// };
+HearingsSearch.propTypes = {
+  handleSearch: React.PropTypes.func
+};
 
 export default injectIntl(HearingsSearch);

@@ -22,8 +22,9 @@ class AllHearings extends React.Component {
     this.state = {sortBy: '-created_at', hearingFilter: 'all'};
   }
 
-  static fetchData(dispatch, sortBy) {
-    return dispatch(fetchHearingList("allHearings", "/v1/hearing/", {ordering: sortBy}));
+  static fetchData(dispatch, sortBy, searchTitle) {
+    const params = searchTitle ? {title: searchTitle, ordering: sortBy} : {ordering: sortBy};
+    return dispatch(fetchHearingList("allHearings", "/v1/hearing/", params));
   }
 
   static fetchLabels(dispatch) {
@@ -33,7 +34,6 @@ class AllHearings extends React.Component {
   getVisibleHearings() {
     const {hearings} = this.props;
     const {hearingFilter} = this.state;
-    // const hearings = {};
 
     if (hearingFilter !== 'all') {
       return hearings.filter(
@@ -60,6 +60,13 @@ class AllHearings extends React.Component {
     this.changeFilter(filter);
   }
 
+  handleSearch(event, searchTitle) {
+    event.preventDefault();
+    const {dispatch} = this.props;
+    const {sortBy} = this.state;
+    AllHearings.fetchData(dispatch, sortBy, searchTitle);
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
     const {sortBy} = this.state;
@@ -69,19 +76,19 @@ class AllHearings extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {hearings, isLoading, labels} = this.props;
+    const {isLoading, labels} = this.props;
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
       <Row>
         <Col md={8}>
-          {console.log(hearings)}
           <HearingList
             hearings={this.getVisibleHearings()}
             isLoading={isLoading}
             labels={labels}
             handleChangeFilter={this.handleChangeFilter.bind(this)}
             handleSort={this.handleSort.bind(this)}
+            handleSearch={this.handleSearch.bind(this)}
           />
         </Col>
       </Row>
@@ -92,7 +99,7 @@ class AllHearings extends React.Component {
 AllHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
-  language: React.PropTypes.string,// To rerender when language changes
+  language: React.PropTypes.string, // To rerender when language changes
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
   labels: React.PropTypes.object

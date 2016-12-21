@@ -75,5 +75,13 @@
   "search": "Etsi",
   "all": "Kaikki",
   "sort": "Järjestä",
-  "chooseTopic": "Valitse aihe"
+  "chooseTopic": "Valitse aihe",
+  "newestFirst": "Uusin ensin",
+  "oldestFirst": "Vanhin ensin",
+  "lastClosing": "Viimeisenä sulkeutuva",
+  "firstClosing": "Ensimmäisenä sulkeutuva",
+  "lastOpen": "Viimeisenä auennut",
+  "firstOpen": "Ensimmäisenä auennut",
+  "leastCommented": "Vähiten kommentoitu",
+  "mostCommented": "Eniten kommentoitu"
 }
