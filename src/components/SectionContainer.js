@@ -36,6 +36,31 @@ import {
 } from '../utils/section';
 import getAttr from '../utils/getAttr';
 
+const LinkWrapper = ({disabled, to, children, ...rest}) => {
+  if (disabled) {
+    return (
+      <a href="" {...rest} onClick={(ev) => ev.preventDefault()}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={to} {...rest}>
+      {children}
+    </Link>
+  );
+};
+
+LinkWrapper.propTypes = {
+  disabled: React.PropTypes.bool,
+  children: React.PropTypes.elements,
+  to: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+    React.PropTypes.func
+  ])
+};
+
 
 class SectionContainer extends React.Component {
 
@@ -224,15 +249,15 @@ class SectionContainer extends React.Component {
               <Link className="to-hearing" to={getHearingURL(hearing)}>
                 <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
               </Link>
-              <Link className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || ''}>
+              <LinkWrapper disabled={!sectionNav.prevPath} className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || '#'}>
                 <FormattedMessage id="previous"/>&nbsp;
                 <span className="type-name">{getAttr(section.type_name_singular, language)}</span>
-              </Link>
+              </LinkWrapper>
               {sectionNav.currentNum}/{sectionNav.totalNum}
-              <Link className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || ''}>
+              <LinkWrapper disabled={!sectionNav.nextPath} className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || '#'}>
                 <FormattedMessage id="next"/>&nbsp;
                 <span className="type-name">{getAttr(section.type_name_singular, language)}</span>&nbsp;
-              </Link>
+              </LinkWrapper>
             </div>
             <Section
               section={section}
