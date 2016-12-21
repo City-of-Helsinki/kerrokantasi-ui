@@ -5,18 +5,19 @@ import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
 import getAttr from '../utils/getAttr';
-import {getHearingURL} from '../utils/hearing';
+import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import moment from 'moment';
 
-const HearingCard = ({hearing, language}) => {
+const HearingCard = ({hearing, language, className = ''}) => {
+  const backgroundImage = getHearingMainImageURL(hearing);
   const imageStyle = {
-    backgroundImage: hearing.main_image && hearing.main_image.url ? `url(${hearing.main_image.url})` : ''
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
   };
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language/* , {exact: true} */);
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
   return (
-    <div className="hearing-card">
+    <div className={`hearing-card ${className}`}>
       {
         !translationAvailable &&
         <div className="hearing-card-notice">
@@ -48,6 +49,7 @@ const HearingCard = ({hearing, language}) => {
 };
 
 HearingCard.propTypes = {
+  className: PropTypes.string,
   hearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   language: PropTypes.string
 };

@@ -2,14 +2,13 @@ import React from 'react';
 import {Link} from 'react-router';
 import Icon from '../utils/Icon';
 import formatRelativeTime from '../utils/formatRelativeTime';
-import {getHearingURL} from '../utils/hearing';
+import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 
 const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
+  const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
-    backgroundImage: hearing && hearing.main_image && hearing.main_image.url ?
-    `url(${hearing && hearing.main_image && hearing.main_image.url})` :
-    ''
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
   };
   return (
     <div className={`fullwidth-hearing ${className}`} style={styles} {...rest}>

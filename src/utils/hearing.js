@@ -28,6 +28,10 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
   return `${url}${query}`;
 }
 
+export function getHearingMainImageURL(hearing) {
+  return _.get(hearing, 'main_image.url');
+}
+
 
 /*
 * Returns true if hearing has a plugin that can be rendered fullscreen
