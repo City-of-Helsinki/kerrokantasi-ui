@@ -14,4 +14,4 @@ const receiveHearingList = (state, {payload}) => {
 export default handleActions({
   beginFetchHearingList,
   receiveHearingList
-}, { allHearings: { isFetching: false, data: [] }});
+}, { allHearings: { isFetching: false, data: [] }, openHearings: { isFetching: false, data: [] } });
