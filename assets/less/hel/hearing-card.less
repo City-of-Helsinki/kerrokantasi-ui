@@ -1,0 +1,53 @@
+.hearing-card {
+  border: 1px solid @border-color;
+  position: relative;
+
+  &-image {
+    display: block;
+    height: 170px;
+    background: @missing-image;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    color: @text-color;
+
+    .hearing-card-comment-count {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 3px 10px;
+      font-size: 1.5em;
+      text-shadow: @comment-count-shadow;
+    }
+  }
+
+  &-content {
+    padding: @padding-base-vertical @padding-base-horizontal;
+
+    .hearing-card-time {
+      color: @text-muted;
+      font-size: 1.4rem;
+
+      &.expires {
+        color: red;
+      }
+    }
+  }
+
+  &-notice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    max-width: 100%;
+
+    .hearing-card-notice-content {
+      background: @gray-light;
+      color: #fff;
+      opacity: 1;
+      padding: 5px;
+    }
+  }
+}
