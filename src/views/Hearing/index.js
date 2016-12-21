@@ -45,6 +45,10 @@ export class HearingView extends React.Component {
     HearingView.fetchData(dispatch, null, location, params);
   }
 
+  componentWillMount() {
+    window.scrollTo(0, 0);
+  }
+
   getOpenGraphMetaData(data) {
     const {language} = this.props;
     getOpenGraphMetaData(getAttr(data.title, language), this.props.location.pathname);
@@ -82,7 +86,7 @@ export class HearingView extends React.Component {
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
 
     return (
-      <div className={fullscreen ? "fullscreen-hearing" : "container"}>
+      <div key="hearing" className={fullscreen ? "fullscreen-hearing" : "container"}>
         <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)} />
         <HearingComponent
           hearingSlug={hearingSlug}

@@ -47,6 +47,10 @@ class QuestionView extends Component {
     QuestionView.fetchData(dispatch, null, location, params);
   }
 
+  componentWillMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     const {params: {hearingSlug, sectionId}, user, location, sectionComments, language} = this.props;
     const {data: hearing} = this.props.hearing || {state: 'initial'};
@@ -60,7 +64,7 @@ class QuestionView extends Component {
     }
 
     return (
-      <div className="question-view container">
+      <div key="question" className="question-view container">
         <Helmet title={hearing.title} meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}/>
         <SectionContainer
           hearingSlug={hearingSlug}

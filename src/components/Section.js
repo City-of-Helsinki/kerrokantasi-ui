@@ -229,7 +229,11 @@ Section.propTypes = {
   canVote: React.PropTypes.bool,
   comments: React.PropTypes.object,
   isCollapsible: React.PropTypes.bool,
-  linkTo: LocationDescriptor,
+  linkTo: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+    React.PropTypes.func
+  ]),
   loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
