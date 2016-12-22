@@ -126,7 +126,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
     dispatch(fetchAction);
     const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
 
-    return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+    return api.apiDelete(getState(), url).then(() => {
       dispatch(fetchHearing(hearingSlug));
       dispatch(fetchSectionComments(hearingSlug, sectionId));
       alert("Kommenttisi on poistettu.");

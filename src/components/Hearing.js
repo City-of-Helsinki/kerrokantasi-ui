@@ -78,6 +78,7 @@ export class Hearing extends React.Component {
     const {sectionId, commentId} = this.state.commentToDelete;
     const hearingSlug = this.props.hearingSlug;
     dispatch(deleteSectionComment(hearingSlug, sectionId, commentId));
+    this.forceUpdate();
   }
 
   handleDeleteClick(sectionId, commentId) {
@@ -333,13 +334,13 @@ function groupSections(sections) {
 }
 
 const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
-  <Modal show={isOpen} onHide={() => close()} animation={false}>
+  <Modal show={isOpen} onHide={() => close()} animation={false} style={{ marginTop: 300 }}>
     <Modal.Header closeButton>
-      <Modal.Title>Are your sure to delete the comment?</Modal.Title>
+      <Modal.Title><FormattedMessage id="deleteConfirmation"/></Modal.Title>
     </Modal.Header>
     <Modal.Footer>
-      <Button onClick={() => close()}>Close</Button>
-      <Button bsStyle="primary" onClick={() => onDeleteComment()}>Delete comment</Button>
+      <Button onClick={() => close()}><FormattedMessage id="cancel"/></Button>
+      <Button bsStyle="primary" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
     </Modal.Footer>
   </Modal>;
 
