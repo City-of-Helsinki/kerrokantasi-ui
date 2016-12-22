@@ -187,6 +187,7 @@ class BaseCommentForm extends React.Component {
                  onChange={(event) => this.handleChange(event)}
               />
             </div>
+            <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
           {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
           {canSetNickname ? (
