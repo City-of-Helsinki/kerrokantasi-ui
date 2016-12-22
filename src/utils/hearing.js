@@ -101,3 +101,15 @@ export function canEdit(user, hearing) {
   // If the user is an admin of the hearing's organization, allow editing
   return Boolean(user && _.includes(user.adminOrganizations || [], hearing.organization));
 }
+
+
+export function getImageAsBase64Promise(image) {
+  const reader = new FileReader();
+  reader.readAsDataURL(image);
+  return new Promise(
+    (resolve) => {
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+    });
+}

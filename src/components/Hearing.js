@@ -40,12 +40,12 @@ export class Hearing extends React.Component {
     this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
   }
 
-  onPostHearingComment(text, authorName) {
+  onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     const {authCode} = this.props.location.query;
     const mainSection = getMainSection(this.props.hearing);
-    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
+    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images};
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
