@@ -348,13 +348,13 @@ function groupSections(sections) {
 }
 
 const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
-  <Modal show={isOpen} onHide={() => close()} animation={false} style={{ marginTop: 300 }}>
+  <Modal className="delete-modal" show={isOpen} onHide={() => close()} animation={false}>
     <Modal.Header closeButton>
       <Modal.Title><FormattedMessage id="deleteConfirmation"/></Modal.Title>
     </Modal.Header>
     <Modal.Footer>
       <Button onClick={() => close()}><FormattedMessage id="cancel"/></Button>
-      <Button bsStyle="primary" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
+      <Button bsStyle="danger" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
     </Modal.Footer>
   </Modal>;
 
