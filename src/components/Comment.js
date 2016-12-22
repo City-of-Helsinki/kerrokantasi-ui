@@ -54,7 +54,7 @@ class Comment extends React.Component {
 
   render() {
     const {data} = this.props;
-    const canEdit = true;
+    const canEdit = data.can_edit;
     const {editorOpen} = this.state;
 
     if (!data.content) {
