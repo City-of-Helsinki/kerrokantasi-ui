@@ -105,12 +105,22 @@ class Comment extends React.Component {
           : null}
       </div>
       {canEdit && <div>
-        <a href="" onClick={(event) => this.toggleEditor(event)}>Edit</a> | <a href="" onClick={(event) => this.handleDelete(event)}>Delete</a>
+        <a href="" onClick={(event) => this.toggleEditor(event)} style={{ paddingRight: 10, borderRight: '1px solid black' }}>
+          Edit
+        </a>
+        <a href="" onClick={(event) => this.handleDelete(event)} style={{ paddingLeft: 10 }}>
+          Delete
+        </a>
       </div>
       }
-      {editorOpen && <form onSubmit={(event) => this.handleSubmit(event)}>
+      {editorOpen && <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
         <FormGroup controlId="formControlsTextarea">
-          <textarea defaultValue={data.content} placeholder="textarea" ref={(input) => { this.commentEditor = input; }} />
+          <textarea
+            className="form-control"
+            defaultValue={data.content}
+            placeholder="textarea"
+            ref={(input) => { this.commentEditor = input; }}
+          />
         </FormGroup>
         <Button type="submit">Save</Button>
         </form>
