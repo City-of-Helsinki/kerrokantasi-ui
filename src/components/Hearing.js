@@ -11,15 +11,17 @@ import {
   fetchSectionComments, followHearing,
   postSectionComment, editSectionComment,
   postVote, deleteSectionComment
+  fetchSectionComments, fetchMoreSectionComments, followHearing,
+  postSectionComment, editSectionComment, postVote, deleteSectionComment
 } from '../actions';
-import CommentList from './CommentList';
+import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
 import Section from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
-import _ from 'lodash';
+import _, {get} from 'lodash';
 import Icon from '../utils/Icon';
 import config from '../config';
 import {
@@ -114,9 +116,25 @@ export class Hearing extends React.Component {
 
   loadSectionComments(sectionId) {
     const {dispatch} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    dispatch(fetchSectionComments(hearingSlug, sectionId));
+    dispatch(fetchSectionComments(sectionId));
   }
+
+  loadMoreSectionComments(sectionId) {
+    const {dispatch, sectionComments} = this.props;
+    const commentsObject = get(sectionComments, `${sectionId}`);
+    const next = commentsObject && get(commentsObject, 'next');
+    console.log('fetchMore', sectionId, commentsObject, sectionComments);
+    if (next) {
+      const currentOrdering = get(commentsObject, 'ordering');
+      dispatch(fetchMoreSectionComments(sectionId, currentOrdering, next));
+    }
+  }
+
+  // loadSectionComments(sectionId) {
+  //   const {dispatch} = this.props;
+  //   const hearingSlug = this.props.hearingSlug;
+  //   dispatch(fetchSectionComments(hearingSlug, sectionId));
+  // }
 
   getOpenGraphMetaData(data) {
     const {language} = this.props;
@@ -191,7 +209,7 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const hearing = this.props.hearing;
+    const {hearing, sectionComments} = this.props;
     const mainSection = getMainSection(hearing);
     const user = this.props.user;
     const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
@@ -205,11 +223,11 @@ export class Hearing extends React.Component {
     return (
       <div>
         <div id="hearing-comments">
-          <CommentList
+          <SortableCommentList
            displayVisualization={userIsAdmin || hearing.closed}
            section={mainSection}
-           comments={this.props.sectionComments[mainSection.id] ?
-                     this.props.sectionComments[mainSection.id].data : []}
+           comments={sectionComments[mainSection.id] ?
+                     sectionComments[mainSection.id].results : []}
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
            onEditComment={this.onEditSectionComment.bind(this)}

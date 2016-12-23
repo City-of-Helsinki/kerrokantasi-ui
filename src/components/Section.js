@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import CommentList from './CommentList';
+import SortableCommentList from './SortableCommentList';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
@@ -169,9 +169,9 @@ export default class Section extends React.Component {
     }
 
     if (!isSpecialSectionType(section.type)) {
-      commentList = (<CommentList
+      commentList = (<SortableCommentList
         section={section}
-        comments={(this.props.comments ? this.props.comments.data : null) || []}
+        comments={(this.props.comments ? this.props.comments.results : null) || []}
         canComment={this.isCommentable() && userCanComment(this.props.user, section)}
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
