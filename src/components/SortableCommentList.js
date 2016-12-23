@@ -1,18 +1,21 @@
 import React, {Component, PropTypes} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
-import {get, throttle} from 'lodash';
+import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {get, keys, throttle} from 'lodash';
 import Waypoint from 'react-waypoint';
 import CommentList from './CommentList';
 import LoadSpinner from './LoadSpinner';
+import Icon from '../utils/Icon';
+import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import * as Actions from '../actions';
 
-// const ORDERING_CRITERIA = {
-//   POPULARITY_ASC: 'n_votes',
-//   POPULARITY_DESC: '-n_votes',
-//   CREATED_AT_ASC: 'created_at',
-//   CREATED_AT_DESC: '-created_at'
-// };
+const ORDERING_CRITERIA = {
+  POPULARITY_ASC: 'n_votes',
+  POPULARITY_DESC: '-n_votes',
+  CREATED_AT_ASC: 'created_at',
+  CREATED_AT_DESC: '-created_at'
+};
 
 class SortableCommentList extends Component {
 
@@ -55,7 +58,8 @@ class SortableCommentList extends Component {
 
   render() {
     const {
-      // displayVisualization,
+      displayVisualization,
+      fetchComments,
       // postComment,
       section,
       sectionComments,
@@ -64,8 +68,45 @@ class SortableCommentList extends Component {
     } = this.props;
 
     const showCommentList = section && sectionComments && get(sectionComments, 'results');
+    console.log(showCommentList, displayVisualization, get(sectionComments, 'plugin_data'));
     return (
       <div className="sortable-comment-list">
+        <h2><FormattedMessage id="comments"/>
+          <div className="commenticon">
+            <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
+          </div>
+        </h2>
+        {
+          (typeof window !== 'undefined') && showCommentList && displayVisualization && get(section, 'plugin_identifier') === 'mapdon-ksv' ?
+            <div className="comments-visualization">
+              <MapdonKSVPlugin
+                data={section.plugin_data}
+                pluginPurpose="viewComments"
+                comments={sectionComments.results}
+              />
+              <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
+              <MapdonKSVPlugin
+                data={section.plugin_data}
+                pluginPurpose="viewHeatmap"
+                comments={sectionComments.results}
+              />
+              <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
+            </div>
+            : null
+        }
+        <form className="sort-selector">
+          <FormGroup controlId="sort-select">
+            <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
+            <FormControl componentClass="select" onChange={(event) => { console.log(event.target.value); fetchComments(section.id, event.target.value); }}>
+              {keys(ORDERING_CRITERIA).map((key) =>
+                <option key={key} value={ORDERING_CRITERIA[key]} selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}>
+                  <FormattedMessage id={key}/>
+                </option>)
+              }
+            </FormControl>
+          </FormGroup>
+        </form>
+
         { showCommentList &&
           <div>
             <CommentList
@@ -106,8 +147,8 @@ const mapStateToProps = (state, {section: {id: sectionId}}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchComments: (sectionId) => dispatch(
-    Actions.fetchSectionComments(sectionId)
+  fetchComments: (sectionId, ordering) => dispatch(
+    Actions.fetchSectionComments(sectionId, ordering)
   ),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(
     Actions.fetchMoreSectionComments(sectionId, ordering, nextUrl)
