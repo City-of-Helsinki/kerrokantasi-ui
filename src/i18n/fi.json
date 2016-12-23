@@ -59,5 +59,7 @@
   "choose_images": "Valitse kuvia",
   "multipleImages": "Jos haluat lisätä useita kuvia, valitse ne kerralla klikkaamalla ja pitämällä CTRL tai CMD näppäintä painettuna saman aikaisesti."
   "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
-  "deleteComment": "Poista kommentti"
+  "deleteComment": "Poista kommentti",
+  "edit": "Muokkaa",
+  "delete": "Poista"
 }

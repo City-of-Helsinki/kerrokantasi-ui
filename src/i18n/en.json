@@ -23,5 +23,7 @@
   "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed."
   "deleteConfirmation": "Are your sure to delete the comment?",
   "deleteComment": "Delete comment",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "delete": "Delete"
 }

@@ -106,10 +106,10 @@ class Comment extends React.Component {
       </div>
       {canEdit && <div>
         <a href="" onClick={(event) => this.toggleEditor(event)} style={{ paddingRight: 10, borderRight: '1px solid black' }}>
-          Edit
+          <FormattedMessage id="edit"/>
         </a>
         <a href="" onClick={(event) => this.handleDelete(event)} style={{ paddingLeft: 10 }}>
-          Delete
+          <FormattedMessage id="delete"/>
         </a>
       </div>
       }
