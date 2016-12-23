@@ -20,7 +20,7 @@
   "image_too_big": "Image too big, maximum size of an image is 1MB",
   "add_images": "Add images to comment",
   "choose_images": "Choose images",
-  "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed."
+  "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed.",
   "deleteConfirmation": "Are your sure to delete the comment?",
   "deleteComment": "Delete comment",
   "cancel": "Cancel",
