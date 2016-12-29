@@ -104,6 +104,36 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
   };
 }
 
+export function editSectionComment(hearingSlug, sectionId, commentId, commentData = {}) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
+    const params = commentData;
+
+    return api.put(getState(), url, params).then(getResponseJSON).then((data) => {
+      dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
+      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      alert("Kommenttisi muokattu. Kiitos!");
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
+
+export function deleteSectionComment(hearingSlug, sectionId, commentId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
+
+    return api.apiDelete(getState(), url).then(() => {
+      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      alert("Kommenttisi on poistettu.");
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
+
 export function postVote(commentId, hearingSlug, sectionId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
