@@ -58,7 +58,7 @@
   "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
   "add_images": "Lisää kuvia kommenttiisi",
   "choose_images": "Valitse kuvia",
-  "multipleImages": "Jos haluat lisätä useita kuvia, valitse ne kerralla klikkaamalla ja pitämällä CTRL tai CMD näppäintä painettuna saman aikaisesti.",
+  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrol- tai komentonäppäintä painettuna.",
   "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
   "deleteComment": "Poista kommentti",
   "edit": "Muokkaa",
