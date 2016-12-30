@@ -65,5 +65,10 @@
   "edit": "Edit",
   "delete": "Delete"
   "loadMoreComments": "Show more comments",
-  "noCommentsAvailable": "No comments available"
+  "noCommentsAvailable": "No comments available",
+  "POPULARITY_DESC": "Most popular first",
+  "POPULARITY_ASC": "Least popular first",
+  "CREATED_AT_ASC": "Oldest first",
+  "CREATED_AT_DESC": "Newest first",
+  "commentOrder": "Order comments by:"
 }

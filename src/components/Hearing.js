@@ -209,10 +209,10 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const {hearing, sectionComments} = this.props;
+    const {hearing, sectionComments, location, hearingSlug} = this.props;
     const mainSection = getMainSection(hearing);
     const user = this.props.user;
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     let userIsAdmin = false;
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
@@ -224,15 +224,18 @@ export class Hearing extends React.Component {
       <div>
         <div id="hearing-comments">
           <SortableCommentList
-           displayVisualization={userIsAdmin || hearing.closed}
+            canVote={this.isMainSectionVotable(user)}
+            displayVisualization={userIsAdmin || hearing.closed}
            section={mainSection}
+           location={location}
+           mainSection={mainSection}
+           hearingSlug={hearingSlug}
            comments={sectionComments[mainSection.id] ?
                      sectionComments[mainSection.id].results : []}
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
            onEditComment={this.onEditSectionComment.bind(this)}
            onDeleteComment={this.handleDeleteClick.bind(this)}
-           canVote={this.isMainSectionVotable(user)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
           />

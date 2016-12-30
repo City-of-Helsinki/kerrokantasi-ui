@@ -27,11 +27,11 @@ export default class Section extends React.Component {
     this.state = {collapsed: true};
   }
 
-  componentDidMount() {
-    if (!this.isCollapsible()) {  // Trigger immediate comment load for uncollapsible sections
-      this.loadComments();
-    }
-  }
+  // componentDidMount() {
+  //   // if (!this.isCollapsible()) {  // Trigger immediate comment load for uncollapsible sections
+  //   //   this.loadComments();
+  //   // }
+  // }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.state.collapsed && !nextState.collapsed) {  // (Re-)load comments when uncollapsing

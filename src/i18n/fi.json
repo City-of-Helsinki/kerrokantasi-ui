@@ -60,9 +60,14 @@
   "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
   "add_images": "Lisää kuvia kommenttiisi",
   "choose_images": "Valitse kuvia",
-  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrol- tai komentonäppäintä painettuna.",
+  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
   "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
   "deleteComment": "Poista kommentti",
   "edit": "Muokkaa",
   "delete": "Poista"
+  "POPULARITY_DESC": "Suosituin ensin",
+  "POPULARITY_ASC": "Vähiten suosittu ensin",
+  "CREATED_AT_ASC": "Vanhin ensin",
+  "CREATED_AT_DESC": "Uusin ensin",
+  "commentOrder": "Järjestä kommentit:"
 }
