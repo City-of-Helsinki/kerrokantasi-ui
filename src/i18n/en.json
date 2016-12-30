@@ -32,7 +32,7 @@
   "timeOpenPast": "Opened",
   "timeOpenFuture": "Opens",
   "timeClosePast": "Closed",
-  "timeCloseFuture": "Closed",
+  "timeCloseFuture": "Closes",
   "hearingClosed": "Closed",
   "defaultClosureInfo": "This hearing is closed. You may no longer give comments or vote for them",
   "writeComment": "Comment",
