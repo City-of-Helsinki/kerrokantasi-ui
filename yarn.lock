@@ -3669,15 +3669,7 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.0, mkdirp@~0.5.1, mk
   dependencies:
     minimist "0.0.8"
 
-<<<<<<< f10d20d32b70916de92b2660fb7b46558a0fd9d9
-<<<<<<< 2d28b265538c77594f0a9dc98a077b010c0d5b0d
 moment@^2.17.1:
-=======
-moment@2.x.x, moment@^2.17.1:
->>>>>>> Refactor comment lists
-=======
-moment@^2.17.1, moment@2.x.x:
->>>>>>> Ton of refactoring
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
 
