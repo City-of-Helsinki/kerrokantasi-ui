@@ -8,9 +8,6 @@ import {Modal} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
 import {
-  fetchSectionComments, followHearing,
-  postSectionComment, editSectionComment,
-  postVote, deleteSectionComment
   fetchSectionComments, fetchMoreSectionComments, followHearing,
   postSectionComment, editSectionComment, postVote, deleteSectionComment
 } from '../actions';

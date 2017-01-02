@@ -64,7 +64,7 @@
   "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
   "deleteComment": "Poista kommentti",
   "edit": "Muokkaa",
-  "delete": "Poista"
+  "delete": "Poista",
   "POPULARITY_DESC": "Suosituin ensin",
   "POPULARITY_ASC": "Vähiten suosittu ensin",
   "CREATED_AT_ASC": "Vanhin ensin",

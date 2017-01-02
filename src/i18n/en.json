@@ -63,7 +63,7 @@
   "deleteConfirmation": "Are your sure to delete the comment?",
   "deleteComment": "Delete comment",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
   "loadMoreComments": "Show more comments",
   "noCommentsAvailable": "No comments available",
   "POPULARITY_DESC": "Most popular first",
