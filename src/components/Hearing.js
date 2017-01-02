@@ -43,20 +43,6 @@ export class Hearing extends React.Component {
     this.state = { showDeleteModal: false, commentToDelete: { } };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {dispatch, hearing, hearingSlug} = this.props;
-    const mainSection = getMainSection(hearing);
-    const sectionId = mainSection.id;
-
-    if (!this.props.user && nextProps.user) {
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
-    }
-
-    if (this.props.user && !nextProps.user) {
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
-    }
-  }
-
   openFullscreen(hearing) {
     this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
   }

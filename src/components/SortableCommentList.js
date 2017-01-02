@@ -44,13 +44,23 @@ class SortableCommentList extends Component {
 
   componentDidMount() {
     const { fetchComments, section } = this.props;
-    fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
   }
 
   componentWillReceiveProps(nextProps) {
+    const {section, fetchComments} = this.props;
+
     this.setState({
       showLoader: get(nextProps.sectionComments, 'isFetching')
     });
+
+    if (!this.props.user && nextProps.user) {
+      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
+    }
+
+    if (this.props.user && !nextProps.user) {
+      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
+    }
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line

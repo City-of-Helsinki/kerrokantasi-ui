@@ -13,8 +13,8 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   }, state);
 };
 
-const beginFetchSectionComments = (state, {payload: {sectionId, ordering}}) => {
-  if (state[sectionId] && state[sectionId].ordering === ordering) {
+const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanFetch}}) => {
+  if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
     return updeep({
       [sectionId]: {
         isFetching: true,

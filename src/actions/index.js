@@ -69,9 +69,9 @@ export function followHearing(hearingSlug) {
   };
 }
 
-export function fetchSectionComments(sectionId, ordering = '-created_at') {
+export function fetchSectionComments(sectionId, ordering = '-created_at', cleanFetch = false) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering});
+    const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
     const url = "v1/comment/";
     const params = {
@@ -142,7 +142,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(sectionId));
+      dispatch(fetchSectionComments(sectionId, undefined, true));
       alert("Kommenttisi on vastaanotettu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -158,7 +158,7 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     return api.put(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      dispatch(fetchSectionComments(sectionId, undefined, true));
       alert("Kommenttisi muokattu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -172,7 +172,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
 
     return api.apiDelete(getState(), url).then(() => {
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      dispatch(fetchSectionComments(sectionId, undefined, true));
       alert("Kommenttisi on poistettu.");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -186,12 +186,12 @@ export function postVote(commentId, hearingSlug, sectionId) {
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       dispatch(createAction("postedCommentVote")({commentId, hearingSlug, sectionId, data}));
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
+      dispatch(fetchSectionComments(sectionId, undefined, true));
       if (data.status_code === 304) {
         notifyError("Olet jo antanut äänesi tälle kommentille.");
       } else {
         notifySuccess("Ääni vastaanotettu. Kiitos!");
       }
-    }).catch(requestErrorHandler(dispatch, fetchAction));
+    }).catch(requestErrorHandler(fetchAction));
   };
 }
