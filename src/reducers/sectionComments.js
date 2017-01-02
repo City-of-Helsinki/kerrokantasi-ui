@@ -1,9 +1,8 @@
 import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
-import union from 'lodash/union';
 
 const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
-  const combinedResults = state[sectionId] ? union(state[sectionId].results, data.results) : [];
+  const combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
 
   return updeep({
     [sectionId]: {
