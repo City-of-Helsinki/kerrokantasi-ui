@@ -44,7 +44,7 @@ class SortableCommentList extends Component {
 
   componentDidMount() {
     const { fetchComments, section } = this.props;
-    fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
+    fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,11 +55,11 @@ class SortableCommentList extends Component {
     });
 
     if (!this.props.user && nextProps.user) {
-      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
+      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 
     if (this.props.user && !nextProps.user) {
-      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC, true);
+      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
   }
 
