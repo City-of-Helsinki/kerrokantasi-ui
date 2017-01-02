@@ -87,8 +87,10 @@ export function fetchSectionComments(sectionId, ordering = '-created_at', cleanF
 }
 
 export function fetchMoreSectionComments(sectionId, ordering = '-created_at', next) {
+  const cleanFetch = false;
+
   return (dispatch, getState) => {
-    const fetchAction = createAction('beginFetchSectionComments')({sectionId, ordering, false});
+    const fetchAction = createAction('beginFetchSectionComments')({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
     const url = parse(next, true);
     return api.get(getState(), 'v1/comment/', url.query).then(getResponseJSON).then((data) => {
