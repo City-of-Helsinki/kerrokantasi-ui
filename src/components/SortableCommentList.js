@@ -9,6 +9,7 @@ import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import * as Actions from '../actions';
+import CommentForm from './CommentForm';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -99,6 +100,8 @@ class SortableCommentList extends Component {
     const {
       displayVisualization,
       fetchComments,
+      hearingId,
+      canComment,
       // postComment,
       section,
       sectionComments,
@@ -134,10 +137,11 @@ class SortableCommentList extends Component {
             </div>
             : null
         }
+
         <form className="sort-selector">
           <FormGroup controlId="sort-select">
             <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
-            <FormControl componentClass="select" onChange={(event) => { console.log(event.target.value); fetchComments(section.id, event.target.value); }}>
+            <FormControl componentClass="select" onChange={(event) => { fetchComments(section.id, event.target.value); }}>
               {keys(ORDERING_CRITERIA).map((key) =>
                 <option key={key} value={ORDERING_CRITERIA[key]} selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}>
                   <FormattedMessage id={key}/>
@@ -146,6 +150,13 @@ class SortableCommentList extends Component {
             </FormControl>
           </FormGroup>
         </form>
+
+        {canComment && <CommentForm
+          hearingId={hearingId}
+          onPostComment={this.onPostHearingComment.bind(this)}
+          canSetNickname={this.props.canSetNickname}
+        />
+        }
 
         { showCommentList &&
           <div>
@@ -194,7 +205,10 @@ SortableCommentList.propTypes = {
   postVote: React.PropTypes.func,
   canVote: React.PropTypes.bool,
   mainSection: React.PropTypes.object,
-  isSectionComments: React.PropTypes.bool
+  isSectionComments: React.PropTypes.bool,
+  canSetNickname: React.PropTypes.bool,
+  canComment: React.PropTypes.bool,
+  hearingId: React.PropTypes.string
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
