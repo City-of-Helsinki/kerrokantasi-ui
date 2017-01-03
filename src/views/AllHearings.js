@@ -22,13 +22,16 @@ class AllHearings extends React.Component {
     this.state = {sortBy: '-created_at', hearingFilter: 'all'};
   }
 
-  static fetchData(dispatch, sortBy, searchTitle) {
+  static fetchData(dispatch, sortBy, searchTitle, labels) {
     const params = searchTitle ? {title: searchTitle, ordering: sortBy} : {ordering: sortBy};
+    if (labels) {
+      params.label = labels;
+    }
     return dispatch(fetchHearingList("allHearings", "/v1/hearing/", params));
   }
 
   static fetchLabels(dispatch) {
-    return dispatch(fetchLabels('/v1/label/'));
+    return dispatch(fetchLabels());
   }
 
   getVisibleHearings() {
@@ -60,11 +63,12 @@ class AllHearings extends React.Component {
     this.changeFilter(filter);
   }
 
-  handleSearch(event, searchTitle) {
+  handleSearch(event, searchTitle, labels) {
     event.preventDefault();
     const {dispatch} = this.props;
     const {sortBy} = this.state;
-    AllHearings.fetchData(dispatch, sortBy, searchTitle);
+    const labelsAsValues = labels.map((label) => label.value).toString();
+    AllHearings.fetchData(dispatch, sortBy, searchTitle, labelsAsValues);
   }
 
   componentDidMount() {

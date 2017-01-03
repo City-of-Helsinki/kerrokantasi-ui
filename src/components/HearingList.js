@@ -15,9 +15,6 @@ import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
-import toLower from 'lodash/toLower';
-import upperFirst from 'lodash/upperFirst';
-
 
 const HearingListTabs = () =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" style={{width: '100%'}} activeKey="1" pullRight={1}>
@@ -26,7 +23,7 @@ const HearingListTabs = () =>
     <NavItem eventKey="2" title="Item">Kartta</NavItem>
   </Nav>;
 
-const HearingListFilters = ({labels, handleChangeFilter, handleSort}) =>
+const HearingListFilters = ({handleSort}) =>
   <div className="hearing-list__filter-bar">
     <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
       <ControlLabel><FormattedMessage id="sort"/></ControlLabel>
@@ -41,13 +38,6 @@ const HearingListFilters = ({labels, handleChangeFilter, handleSort}) =>
         <option value="n_comments"><FormattedMessage id="leastCommented"/></option>
       </FormControl>
     </FormGroup>
-    {labels.length !== 0 && <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
-      <ControlLabel><FormattedMessage id="chooseTopic"/></ControlLabel>
-      <FormControl componentClass="select" placeholder="select" onChange={(event) => handleChangeFilter(event.target.value)}>
-        <option value="all"><FormattedMessage id="all"/></option>
-        {labels.map((label) => <option value={label.label}>{upperFirst(toLower(label.label))}</option>)}
-      </FormControl>
-    </FormGroup>}
   </div>;
 
 HearingListFilters.propTypes = {
@@ -103,13 +93,13 @@ HearingListItem.contextTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch} = this.props;
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch} = this.props;
 
     return (
       <div>
         {isLoading && <LoadSpinner />}
         <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-          <HearingsSearch handleSearch={handleSearch}/>
+          <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
           <HearingListTabs/>
           <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
           {hearings.map(
@@ -126,7 +116,8 @@ HearingList.propTypes = {
   isLoading: React.PropTypes.string,
   handleChangeFilter: React.PropTypes.func,
   handleSort: React.PropTypes.func,
-  handleSearch: React.PropTypes.func
+  handleSearch: React.PropTypes.func,
+  handleLabelSearch: React.PropTypes.func
 };
 
 export default (injectIntl(HearingList));

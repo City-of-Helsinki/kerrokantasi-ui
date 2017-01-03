@@ -84,6 +84,27 @@
 
 .hearings-search {
     &__container {
-        padding-bottom: 30px;
+        padding-bottom: 10px;
+    }
+}
+
+.hearing-labels {
+    border: 1px solid #000;
+    border-top: none;
+    position: absolute;
+    background: #fff;
+    max-height: 300px;
+    z-index: 100;
+    overflow: auto;
+    margin-right: 30px;
+
+    &__label {
+        padding: 10px;
+
+        &:hover{
+            background: #005eb8;
+            color: #fff;
+            cursor: pointer;
+        }
     }
 }

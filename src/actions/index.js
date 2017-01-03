@@ -44,12 +44,12 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
-export function fetchLabels(endpoint) {
+export function fetchLabels() {
   return (dispatch, getState) => {
     const fetchAction = createAction('beginFetchLabels');
     dispatch(fetchAction);
 
-    return api.get(getState(), endpoint).then(getResponseJSON).then((data) => {
+    return api.get(getState(), '/v1/label/').then(getResponseJSON).then((data) => {
       dispatch(createAction('receiveLabels')({ data: data.results }));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
