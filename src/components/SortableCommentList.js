@@ -103,13 +103,14 @@ class SortableCommentList extends Component {
       section,
       sectionComments,
       canVote,
+      isSectionComments,
       // voteComment,
       ...rest
     } = this.props;
 
     const showCommentList = section && sectionComments && get(sectionComments, 'results');
     return (
-      <div className="sortable-comment-list">
+      <div className="sortable-comment-list" style={isSectionComments && {background: '#f5f5f5'}}>
         <h2><FormattedMessage id="comments"/>
           <div className="commenticon">
             <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
@@ -192,7 +193,8 @@ SortableCommentList.propTypes = {
   user: React.PropTypes.object,
   postVote: React.PropTypes.func,
   canVote: React.PropTypes.bool,
-  mainSection: React.PropTypes.object
+  mainSection: React.PropTypes.object,
+  isSectionComments: React.PropTypes.bool
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({

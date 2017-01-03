@@ -21,13 +21,13 @@ const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanF
       }
     }, state);
   }
-  return ({
+  return updeep({
     [sectionId]: {
       isFetching: true,
       results: [],
       ordering
     }
-  });
+  }, state);
 };
 
 export default handleActions({

@@ -35,7 +35,7 @@ export default class Section extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (this.state.collapsed && !nextState.collapsed) {  // (Re-)load comments when uncollapsing
-      this.loadComments();
+      // this.loadComments();
     }
   }
 
@@ -177,6 +177,7 @@ export default class Section extends React.Component {
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
         canSetNickname={user === null}
+        isSectionComments={section}
       />);
     }
     const imageList = getImageList(section, language);
