@@ -64,11 +64,13 @@ class AllHearings extends React.Component {
   }
 
   handleSearch(event, searchTitle, labels) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     const {dispatch} = this.props;
     const {sortBy} = this.state;
-    const labelsAsValues = labels.map((label) => label.value).toString();
-    AllHearings.fetchData(dispatch, sortBy, searchTitle, labelsAsValues);
+    const labelIds = labels ? labels.map((label) => label.id).toString() : null;
+    AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
   }
 
   componentDidMount() {

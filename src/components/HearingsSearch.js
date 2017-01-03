@@ -11,15 +11,19 @@ class HearingsSearch extends React.Component {
     this.state = { selectedLabels: [] };
   }
 
+  handleChange(value) {
+    if (value.length !== 0) {
+      this.setState({ selectedLabels: value });
+    } else {
+      this.setState({ selectedLabels: [] });
+    }
+  }
+
   render() {
     const {handleSearch, labels} = this.props;
     const {selectedLabels} = this.state;
     const multiple = true;
-    const labelsAsOptions = labels.map((label) => { return {label: label.label, value: label.label}; });
-
-    const handleChange = (value) => {
-      this.setState({ selectedLabels: value });
-    };
+    const labelsAsOptions = labels.map((label) => { return {label: label.label, value: label.label, id: label.id}; });
 
     return (
       <div className="hearings-search__container">
@@ -30,13 +34,21 @@ class HearingsSearch extends React.Component {
               <FormControl
                 type="text"
                 inputRef={(ref) => { this.input = ref; }}
-                onChange={(event) => event.target.value === '' && handleSearch(event)}
+                onChange={(event) => handleSearch(event, event.target.value, selectedLabels)}
               />
             </FormGroup>
             <FormGroup controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchLabels"/></ControlLabel>
               {labels.length !== 0 &&
-              <Select multi={multiple} value={this.state.selectedLabels} options={labelsAsOptions} onChange={(value) => handleChange(value)} />
+              <Select
+                multi={multiple}
+                value={this.state.selectedLabels}
+                options={labelsAsOptions}
+                onChange={(value) => {
+                  this.handleChange(value);
+                  handleSearch(null, this.input.value, value);
+                }}
+              />
               }
             </FormGroup>
             <Button bsStyle="primary" type="submit"><FormattedMessage id="search"/></Button>
