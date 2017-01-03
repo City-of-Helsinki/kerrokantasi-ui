@@ -17,8 +17,8 @@ import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
 
 const HearingListTabs = () =>
-  <Nav className="hearing-list__tabs" bsStyle="tabs" style={{width: '100%'}} activeKey="1" pullRight={1}>
-    <NavItem eventKey="3" disabled style={{width: '70%'}}/>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1" pullRight={1}>
+    <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
     <NavItem eventKey="1" href="/home">Lista</NavItem>
     <NavItem eventKey="2" title="Item">Kartta</NavItem>
   </Nav>;

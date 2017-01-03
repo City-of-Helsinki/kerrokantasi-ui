@@ -71,6 +71,16 @@
 .hearing-list__tabs {
     margin-bottom: 40px;
     width: 100%;
+
+    &-empty {
+        width: 70%;
+        @media (max-width: @screen-xs-max) {
+            width: 60%;
+        }
+        @media (max-width: @screen-xs-min) {
+            width: 45%;
+        }
+    }
 }
 
 .hearing-list__filter-bar {
@@ -78,7 +88,9 @@
     &-filter {
         display: inline-block;
         margin-right: 50px;
-        width: 40%;
+        @media (min-width: @screen-sm-min) {
+            width: 40%;
+        }
     }
 }
 
