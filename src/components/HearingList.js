@@ -97,10 +97,10 @@ class HearingList extends React.Component {
 
     return (
       <div>
+        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
+        <HearingListTabs/>
         {isLoading && <LoadSpinner />}
         <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-          <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
-          <HearingListTabs/>
           <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
           {hearings.map(
           (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
