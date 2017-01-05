@@ -138,6 +138,13 @@ class SortableCommentList extends Component {
             : null
         }
 
+        {canComment && <CommentForm
+          hearingId={hearingId}
+          onPostComment={this.onPostHearingComment.bind(this)}
+          canSetNickname={this.props.canSetNickname}
+        />
+        }
+
         <form className="sort-selector">
           <FormGroup controlId="sort-select">
             <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
@@ -150,13 +157,6 @@ class SortableCommentList extends Component {
             </FormControl>
           </FormGroup>
         </form>
-
-        {canComment && <CommentForm
-          hearingId={hearingId}
-          onPostComment={this.onPostHearingComment.bind(this)}
-          canSetNickname={this.props.canSetNickname}
-        />
-        }
 
         { showCommentList &&
           <div>
