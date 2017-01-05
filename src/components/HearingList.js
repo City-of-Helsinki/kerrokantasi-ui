@@ -17,7 +17,7 @@ import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
 
 const HearingListTabs = () =>
-  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1" pullRight={1}>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1">
     <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
     <NavItem eventKey="1" href="/home">Lista</NavItem>
     <NavItem eventKey="2" title="Item">Kartta</NavItem>
@@ -26,7 +26,6 @@ const HearingListTabs = () =>
 const HearingListFilters = ({handleSort}) =>
   <div className="hearing-list__filter-bar">
     <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
-      <ControlLabel><FormattedMessage id="sort"/></ControlLabel>
       <FormControl componentClass="select" placeholder="select" onChange={(event) => handleSort(event.target.value)}>
         <option value="-created_at"><FormattedMessage id="newestFirst"/></option>
         <option value="created_at"><FormattedMessage id="oldestFirst"/></option>
@@ -38,6 +37,7 @@ const HearingListFilters = ({handleSort}) =>
         <option value="n_comments"><FormattedMessage id="leastCommented"/></option>
       </FormControl>
     </FormGroup>
+    <ControlLabel className="hearing-list__filter-bar-label"><FormattedMessage id="sort"/></ControlLabel>
   </div>;
 
 HearingListFilters.propTypes = {

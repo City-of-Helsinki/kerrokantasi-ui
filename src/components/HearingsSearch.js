@@ -29,7 +29,7 @@ class HearingsSearch extends React.Component {
       <div className="hearings-search__container">
         <div className="hearings-search__content">
           <form onSubmit={(event) => handleSearch(event, this.input.value, selectedLabels)}>
-            <FormGroup controlId="formControlsTextarea">
+            <FormGroup className="hearings-search__text" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
               <FormControl
                 type="text"
@@ -37,7 +37,7 @@ class HearingsSearch extends React.Component {
                 onChange={(event) => handleSearch(event, event.target.value, selectedLabels)}
               />
             </FormGroup>
-            <FormGroup controlId="formControlsTextarea">
+            <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchLabels"/></ControlLabel>
               {labels.length !== 0 &&
               <Select
@@ -51,7 +51,7 @@ class HearingsSearch extends React.Component {
               />
               }
             </FormGroup>
-            <Button bsStyle="primary" type="submit"><FormattedMessage id="search"/></Button>
+            <Button className="hearings-search__button" bsStyle="primary" type="submit"><FormattedMessage id="search"/></Button>
           </form>
         </div>
       </div>
