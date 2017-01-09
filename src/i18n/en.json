@@ -1,4 +1,5 @@
 {
+  "commentsOutOf": "Showing {current} comments out of {total}.",
   "login": "Login",
   "logout": "Logout",
   "register": "Register",
@@ -62,5 +63,12 @@
   "deleteConfirmation": "Are your sure to delete the comment?",
   "deleteComment": "Delete comment",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "loadMoreComments": "Show more comments",
+  "noCommentsAvailable": "No comments available",
+  "POPULARITY_DESC": "Most popular first",
+  "POPULARITY_ASC": "Least popular first",
+  "CREATED_AT_ASC": "Oldest first",
+  "CREATED_AT_DESC": "Newest first",
+  "commentOrder": "Order comments by:"
 }

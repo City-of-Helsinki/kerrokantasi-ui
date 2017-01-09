@@ -8,18 +8,17 @@ import {Modal} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
 import {
-  fetchSectionComments, followHearing,
-  postSectionComment, editSectionComment,
-  postVote, deleteSectionComment
+  fetchSectionComments, fetchMoreSectionComments, followHearing,
+  postSectionComment, editSectionComment, postVote, deleteSectionComment
 } from '../actions';
-import CommentList from './CommentList';
+import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
 import Section from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import find from 'lodash/find';
-import _ from 'lodash';
+import _, {get} from 'lodash';
 import Icon from '../utils/Icon';
 import config from '../config';
 import {
@@ -42,20 +41,6 @@ export class Hearing extends React.Component {
     super(props);
 
     this.state = { showDeleteModal: false, commentToDelete: { } };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {dispatch, hearing, hearingSlug} = this.props;
-    const mainSection = getMainSection(hearing);
-    const sectionId = mainSection.id;
-
-    if (!this.props.user && nextProps.user) {
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
-    }
-
-    if (this.props.user && !nextProps.user) {
-      dispatch(fetchSectionComments(hearingSlug, sectionId));
-    }
   }
 
   openFullscreen(hearing) {
@@ -114,9 +99,25 @@ export class Hearing extends React.Component {
 
   loadSectionComments(sectionId) {
     const {dispatch} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    dispatch(fetchSectionComments(hearingSlug, sectionId));
+    dispatch(fetchSectionComments(sectionId));
   }
+
+  loadMoreSectionComments(sectionId) {
+    const {dispatch, sectionComments} = this.props;
+    const commentsObject = get(sectionComments, `${sectionId}`);
+    const next = commentsObject && get(commentsObject, 'next');
+    console.log('fetchMore', sectionId, commentsObject, sectionComments);
+    if (next) {
+      const currentOrdering = get(commentsObject, 'ordering');
+      dispatch(fetchMoreSectionComments(sectionId, currentOrdering, next));
+    }
+  }
+
+  // loadSectionComments(sectionId) {
+  //   const {dispatch} = this.props;
+  //   const hearingSlug = this.props.hearingSlug;
+  //   dispatch(fetchSectionComments(hearingSlug, sectionId));
+  // }
 
   getOpenGraphMetaData(data) {
     const {language} = this.props;
@@ -191,10 +192,10 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const hearing = this.props.hearing;
+    const {hearing, sectionComments, location, hearingSlug} = this.props;
     const mainSection = getMainSection(hearing);
     const user = this.props.user;
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     let userIsAdmin = false;
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
@@ -205,16 +206,19 @@ export class Hearing extends React.Component {
     return (
       <div>
         <div id="hearing-comments">
-          <CommentList
-           displayVisualization={userIsAdmin || hearing.closed}
+          <SortableCommentList
+            canVote={this.isMainSectionVotable(user)}
+            displayVisualization={userIsAdmin || hearing.closed}
            section={mainSection}
-           comments={this.props.sectionComments[mainSection.id] ?
-                     this.props.sectionComments[mainSection.id].data : []}
+           location={location}
+           mainSection={mainSection}
+           hearingSlug={hearingSlug}
+           comments={sectionComments[mainSection.id] ?
+                     sectionComments[mainSection.id].results : []}
            canComment={this.isMainSectionCommentable(hearing, user)}
            onPostComment={this.onPostHearingComment.bind(this)}
            onEditComment={this.onEditSectionComment.bind(this)}
            onDeleteComment={this.handleDeleteClick.bind(this)}
-           canVote={this.isMainSectionVotable(user)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
           />
