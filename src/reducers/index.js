@@ -5,6 +5,7 @@ import user from './user';
 import hearingLists from './hearingLists';
 import hearing from './hearing';
 import sectionComments from './sectionComments';
+import labels from './labels';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -25,4 +26,5 @@ export default combineReducers({
   router,
   sectionComments,
   user,
+  labels
 });

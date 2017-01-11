@@ -1,12 +1,12 @@
 .hearing-list-item {
     display: flex;
     margin: 20px 0px 50px 0px;
-    position: relative;
+    width: 100%;
     @media (max-width: @screen-xs-max) {
         font-size: 1.4rem;
     }
     &-image {
-        flex-basis: 150px;
+        flex-basis: 200px;
         flex-shrink: 0;
         flex-grow: 0;
         @media (max-width: @screen-xs-max) {
@@ -61,5 +61,83 @@
     &-image {
         max-width: 100px;
         max-height: 100px;
+    }
+}
+
+.hearing-list-hidden {
+    display: none;
+}
+
+.hearing-list__tabs {
+    margin: 40px 0 20px;
+    width: 100%;
+
+    &-empty {
+        width: 70%;
+        @media (max-width: @screen-xs-max) {
+            width: 60%;
+        }
+        @media (max-width: @screen-xs-min) {
+            width: 45%;
+        }
+    }
+}
+
+.hearing-list__filter-bar {
+
+    &-filter {
+        float: right;
+        @media (min-width: @screen-sm-min) {
+            width: 40%;
+        }
+    }
+
+    &-label {
+        float: right;
+        padding-top: 8px;
+        margin-right: 10px;
+    }
+}
+
+.hearings-search {
+
+    &__container {
+        padding-bottom: 10px;
+        height: 80px;
+    }
+
+    &__label {
+        width: 48%;
+        float: right;
+    }
+
+    &__text {
+        width: 48%;
+        display: inline-block;
+    }
+
+    &__button {
+        float: left;
+    }
+}
+
+.hearing-labels {
+    border: 1px solid #000;
+    border-top: none;
+    position: absolute;
+    background: #fff;
+    max-height: 300px;
+    z-index: 100;
+    overflow: auto;
+    margin-right: 30px;
+
+    &__label {
+        padding: 10px;
+
+        &:hover{
+            background: #005eb8;
+            color: #fff;
+            cursor: pointer;
+        }
     }
 }

@@ -40,7 +40,7 @@ class Home extends React.Component {
       {topHearing && <FullWidthHearing hearing={topHearing}/>}
       <hr />
       <Row>
-        {openHearings && openHearings.state === 'done' &&
+        {openHearings && !openHearings.isFetching &&
           <Col xs={12}>
             <div className="list">
               <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>

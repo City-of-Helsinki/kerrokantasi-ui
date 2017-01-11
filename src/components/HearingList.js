@@ -1,5 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
@@ -9,6 +14,37 @@ import LabelList from './LabelList';
 import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
+import HearingsSearch from './HearingsSearch';
+
+const HearingListTabs = () =>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1">
+    <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
+    <NavItem eventKey="1" href="/home">Lista</NavItem>
+    <NavItem eventKey="2" title="Item">Kartta</NavItem>
+  </Nav>;
+
+const HearingListFilters = ({handleSort}) =>
+  <div className="hearing-list__filter-bar">
+    <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
+      <FormControl componentClass="select" placeholder="select" onChange={(event) => handleSort(event.target.value)}>
+        <option value="-created_at"><FormattedMessage id="newestFirst"/></option>
+        <option value="created_at"><FormattedMessage id="oldestFirst"/></option>
+        <option value="-close_at"><FormattedMessage id="lastClosing"/></option>
+        <option value="close_at"><FormattedMessage id="firstClosing"/></option>
+        <option value="-open_at"><FormattedMessage id="lastOpen"/></option>
+        <option value="open_at"><FormattedMessage id="firstOpen"/></option>
+        <option value="-n_comments"><FormattedMessage id="mostCommented"/></option>
+        <option value="n_comments"><FormattedMessage id="leastCommented"/></option>
+      </FormControl>
+    </FormGroup>
+    <ControlLabel className="hearing-list__filter-bar-label"><FormattedMessage id="sort"/></ControlLabel>
+  </div>;
+
+HearingListFilters.propTypes = {
+  labels: React.PropTypes.object,
+  handleChangeFilter: React.PropTypes.func,
+  handleSort: React.PropTypes.func
+};
 
 class HearingListItem extends React.Component {
 
@@ -57,16 +93,31 @@ HearingListItem.contextTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {state, data} = (this.props.hearings || {});
-    if (state !== "done") return <LoadSpinner />;
-    return (<div className="hearing-list">{data.map(
-      (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
-    )}</div>);
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch} = this.props;
+
+    return (
+      <div>
+        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
+        <HearingListTabs/>
+        {isLoading && <LoadSpinner />}
+        <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
+          <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
+          {hearings.map(
+          (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
+        )}</div>
+      </div>
+    );
   }
 }
 
 HearingList.propTypes = {
-  hearings: React.PropTypes.object
+  hearings: React.PropTypes.object,
+  labels: React.PropTypes.object,
+  isLoading: React.PropTypes.string,
+  handleChangeFilter: React.PropTypes.func,
+  handleSort: React.PropTypes.func,
+  handleSearch: React.PropTypes.func,
+  handleLabelSearch: React.PropTypes.func
 };
 
 export default (injectIntl(HearingList));
