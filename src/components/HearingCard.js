@@ -44,7 +44,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
           </Link>
         </h4>
         <div className="hearing-card-labels">
-          <LabelList labels={hearing.labels} language={language} />
+          <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
       </div>
     </div>
