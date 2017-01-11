@@ -81,7 +81,7 @@ class Sidebar extends React.Component {
               </div>
             </Col>
             <Col sm={6} md={12}>
-              {boroughDiv}
+              {Object.keys(hearing.borough).length !== 0 && boroughDiv}
               <SocialBar />
               {hearingMap}
             </Col>

@@ -15,6 +15,7 @@ import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
+import config from '../config';
 
 const HearingListTabs = () =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1">
@@ -52,8 +53,19 @@ class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
     const {language} = this.context;
+    const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
+    const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla Suomeksi', sv: 'Frågorna tillgängliga', en: 'Questions available in English'};
 
     return (<div className="hearing-list-item">
+      {
+        !translationAvailable &&
+        <div className="hearing-card-notice">
+          <div className="notice-content">
+            <FormattedMessage id="hearingTranslationNotAvailable"/>
+            {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
+          </div>
+        </div>
+      }
       <div className="hearing-list-item-image">
         {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
       </div>

@@ -7,7 +7,7 @@ import {fetchHearingList} from '../actions';
 import {getTopHearing, getOpenHearings} from '../selectors/hearing';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import FullWidthHearing from '../components//FullWidthHearing';
+import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 
