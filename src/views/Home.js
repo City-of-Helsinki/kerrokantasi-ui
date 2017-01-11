@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/lib/Row';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
+import OverviewMap from '../components/OverviewMap';
 
 class Home extends React.Component {
   /**
@@ -33,6 +34,12 @@ class Home extends React.Component {
   render() {
     const {formatMessage} = this.props.intl;
     const {topHearing, openHearings, language} = this.props;
+    console.log(openHearings);
+    const hearingMap = (openHearings && openHearings.data ? (<div className="sidebar-section map">
+      <h4><FormattedMessage id="open-hearings-on-map"/></h4>
+      <OverviewMap hearings={openHearings.data} style={{width: '100%', height: '40%'}} />
+    </div>) : null);
+
     return (<div className="container">
       <Helmet title={formatMessage({id: 'welcome'})}/>
       <h1><FormattedMessage id="welcome"/></h1>
@@ -56,6 +63,9 @@ class Home extends React.Component {
             </a>
           </div>
         </Col>
+      </Row>
+      <Row>
+        {hearingMap}
       </Row>
     </div>);
   }
