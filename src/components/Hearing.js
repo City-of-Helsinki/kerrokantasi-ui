@@ -238,7 +238,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, user, language} = this.props;
+    const {hearing, user, language, dispatch} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -257,7 +257,7 @@ export class Hearing extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
+          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
           <Col md={8} lg={9}>
             <div id="hearing">
               <div>
