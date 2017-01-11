@@ -36,6 +36,10 @@ const getAttr = (attr, lang, options = DefaultOptions) => {
   if (dev) {
     return `${translated}-${lang}`;
   }
+  if (isObject(translated) && keys(translated).length === 0) {
+    return null;
+  }
+
   return translated;
 };
 export default getAttr;
