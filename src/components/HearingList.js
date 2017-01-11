@@ -52,7 +52,7 @@ class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
-    const {language} = this.context;
+    const {language} = this.props;
     const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
     const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla Suomeksi', sv: 'Frågorna tillgängliga', en: 'Questions available in English'};
 
@@ -98,24 +98,24 @@ class HearingListItem extends React.Component {
   }
 }
 
-HearingListItem.propTypes = {hearing: React.PropTypes.object};
-HearingListItem.contextTypes = {
+HearingListItem.propTypes = {
+  hearing: React.PropTypes.object,
   language: React.PropTypes.string
 };
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch} = this.props;
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language} = this.props;
 
     return (
       <div>
-        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
+        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch} language={language}/>
         <HearingListTabs/>
         {isLoading && <LoadSpinner />}
         <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
           <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
           {hearings.map(
-          (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
+          (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
         )}</div>
       </div>
     );
@@ -129,7 +129,8 @@ HearingList.propTypes = {
   handleChangeFilter: React.PropTypes.func,
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
-  handleLabelSearch: React.PropTypes.func
+  handleLabelSearch: React.PropTypes.func,
+  language: React.PropTypes.string
 };
 
 export default (injectIntl(HearingList));

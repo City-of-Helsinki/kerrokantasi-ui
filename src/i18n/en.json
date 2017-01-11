@@ -83,5 +83,6 @@
   "firstOpen": "Opened first",
   "leastCommented": "Least commented",
   "mostCommented": "Most commented",
-  "hearingTranslationNotAvailable": "This hearing hasn't been published in English"
+  "hearingTranslationNotAvailable": "This hearing hasn't been published in English",
+  "searchLabels": "Search labels"
 }
