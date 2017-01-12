@@ -86,5 +86,6 @@
   "hearingTranslationNotAvailable": "This hearing hasn't been published in English",
   "searchLabels": "Search labels",
   "list": "List",
-  "map": "Map"
+  "map": "Map",
+  "showOnlyOpen": "Show only open"
 }

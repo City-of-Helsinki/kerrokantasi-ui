@@ -88,5 +88,6 @@
   "searchLabels": "Hae aiheista",
   "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
   "list": "Lista",
-  "map": "Kartta"
+  "map": "Kartta",
+  "showOnlyOpen": "Näytetään vain avoimet"
 }

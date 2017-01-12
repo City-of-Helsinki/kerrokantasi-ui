@@ -5,6 +5,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
@@ -110,11 +111,15 @@ HearingListItem.propTypes = {
 };
 
 class HearingList extends React.Component {
-  render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab, hearingMap} = this.props;
 
+  render() {
+    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab, hearingMap, showOnlyOpen, toggleShowOnlyOpen} = this.props;
+    console.log(hearingMap);
     const hearingListMap = (hearingMap && hearingMap.data ? (<div className="hearing-list-map map">
-      <h4><FormattedMessage id="open-hearings-on-map"/></h4>
+      <HearingListFilters handleSort={handleSort}/>
+      <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()}>
+        <FormattedMessage id="showOnlyOpen"/>
+      </Checkbox>
       <OverviewMap hearings={hearingMap.data} style={{width: '100%', height: '40%'}} enablePopups />
     </div>) : null);
 
@@ -125,7 +130,7 @@ class HearingList extends React.Component {
         {isLoading && <LoadSpinner />}
         {activeTab === 'list' &&
           <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-            <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
+            <HearingListFilters handleSort={handleSort}/>
             {hearings.map(
               (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
             )}
@@ -148,7 +153,9 @@ HearingList.propTypes = {
   language: React.PropTypes.string,
   activeTab: React.PropTypes.string,
   handleChangeTab: React.PropTypes.func,
-  hearingMap: React.PropTypes.object
+  hearingMap: React.PropTypes.object,
+  showOnlyOpen: React.PropTypes.bool,
+  toggleShowOnlyOpen: React.PropTypes.func
 };
 
 export default (injectIntl(HearingList));

@@ -19,7 +19,7 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all', activeTab: 'list'};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all', activeTab: 'list', showOnlyOpen: false};
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
@@ -90,6 +90,14 @@ class AllHearings extends React.Component {
     }
   }
 
+  toggleShowOnlyOpen() {
+    if (this.state.showOnlyOpen) {
+      this.setState({showOnlyOpen: false});
+    } else {
+      this.setState({showOnlyOpen: true});
+    }
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
     const {sortBy} = this.state;
@@ -118,6 +126,8 @@ class AllHearings extends React.Component {
             activeTab={this.state.activeTab}
             handleChangeTab={this.handleChangeTab.bind(this)}
             hearingMap={hearingMap}
+            showOnlyOpen={this.state.showOnlyOpen}
+            toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
           />
         </Col>
       </Row>
