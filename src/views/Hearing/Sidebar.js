@@ -12,9 +12,9 @@ import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
-import config from '../../config';
 import getAttr from '../../utils/getAttr';
 import keys from 'lodash/keys';
+import {setLanguage} from '../../actions';
 
 class Sidebar extends React.Component {
 
@@ -38,16 +38,16 @@ class Sidebar extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, activeLanguage} = this.props;
+    const {hearing, dispatch, activeLanguage} = this.props;
     const availableLanguages = { fi: 'Kuuleminen Suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
-    const languageOptionsArray = config.languages.map((lang) => {
+    const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
         return (<div className="language-link-active">
           {availableLanguages[lang]}
         </div>);
       }
 
-      if (getAttr(hearing.title, lang, {exact: true}) && keys(config.languages).filter((key) => key !== activeLanguage).length === 0) {
+      if (getAttr(hearing.title, lang, {exact: true}) && keys(hearing.title).filter((key) => key === activeLanguage).length === 0 && index === 0) {
         return (<div className="language-link-active">
           {availableLanguages[lang]}
         </div>);
@@ -55,7 +55,9 @@ class Sidebar extends React.Component {
 
       if (getAttr(hearing.title, lang, {exact: true})) {
         return (<div className="language-link">
-          {availableLanguages[lang]}
+          <a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >
+            {availableLanguages[lang]}
+          </a>
         </div>);
       }
 
