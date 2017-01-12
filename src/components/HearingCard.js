@@ -22,12 +22,12 @@ const HearingCard = ({hearing, language, className = ''}) => {
     <div className={`hearing-card ${className}`}>
       {
         !translationAvailable &&
-        <div className="hearing-card-notice">
+        <Link to={getHearingURL(hearing)} className="hearing-card-notice">
           <div className="hearing-card-notice-content">
             <FormattedMessage id="hearingTranslationNotAvailable"/>
             {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
           </div>
-        </div>
+        </Link>
       }
       <Link to={getHearingURL(hearing)} className="hearing-card-image" style={imageStyle}>
         <div className="hearing-card-comment-count">

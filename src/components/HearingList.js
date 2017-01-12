@@ -59,12 +59,12 @@ class HearingListItem extends React.Component {
     return (<div className="hearing-list-item">
       {
         !translationAvailable &&
-        <div className="hearing-card-notice">
+        <Link to={getHearingURL(hearing)} className="hearing-card-notice">
           <div className="notice-content">
             <FormattedMessage id="hearingTranslationNotAvailable"/>
             {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
           </div>
-        </div>
+        </Link>
       }
       <div className="hearing-list-item-image">
         {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
