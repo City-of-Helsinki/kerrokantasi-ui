@@ -37,10 +37,29 @@ class Sidebar extends React.Component {
     );
   }
 
-  render() {
-    const {dispatch, hearing, sectionGroups, activeLanguage} = this.props;
+  getLanguageChanger() {
+    const {hearing, activeLanguage, dispatch} = this.props;
     const availableLanguages = { fi: 'Kuuleminen Suomeksi', sv: 'Frågorna tillgängliga', en: 'Questionaire in English'};
-    console.log(hearing.sections[0]);
+    const languageOptionsArray = config.languages.map((lang) => {
+      if (getAttr(hearing.title, lang, {exact: true})) {
+        return (<div className={`language-link${lang === activeLanguage ? "-active" : ''}`}>
+          <a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >
+            {availableLanguages[lang]}
+          </a>
+        </div>);
+      }
+      return null;
+    });
+
+    if (languageOptionsArray.length > 1) {
+      return languageOptionsArray;
+    }
+
+    return null;
+  }
+
+  render() {
+    const {hearing, sectionGroups} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -85,7 +104,7 @@ class Sidebar extends React.Component {
               </div>
             </Col>
             <Col sm={6} md={12} style={{ marginBottom: 20 }}>
-              {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className={`language-link${lang === activeLanguage ? "-active" : ''}`}><a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >{availableLanguages[lang]}</a></div>; } return null; })}
+              {this.getLanguageChanger()}
             </Col>
             <Col sm={6} md={12}>
               {Object.keys(hearing.borough).length !== 0 && boroughDiv}
