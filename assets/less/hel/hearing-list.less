@@ -1,5 +1,6 @@
 .hearing-list-item {
     display: flex;
+    position: relative;
     margin: 20px 0px 50px 0px;
     width: 100%;
     @media (max-width: @screen-xs-max) {
@@ -53,6 +54,21 @@
         color: @text-muted;
         font-size: 1.4rem;
     }
+
+    .notice-content {
+        font-size: 14px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        color: #ffffff;
+        padding: 2px;
+        background: @gray-light;
+
+        .language-available-message {
+            font-size: 12px;
+        }
+    }
+
 }
 
 .hearing-comment__images {

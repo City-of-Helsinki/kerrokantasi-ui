@@ -15,6 +15,7 @@ import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
+import config from '../config';
 
 const HearingListTabs = () =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1">
@@ -51,9 +52,20 @@ class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
-    const {language} = this.context;
+    const {language} = this.props;
+    const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
+    const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla Suomeksi', sv: 'Frågorna tillgängliga', en: 'Questions available in English'};
 
     return (<div className="hearing-list-item">
+      {
+        !translationAvailable &&
+        <Link to={getHearingURL(hearing)} className="hearing-card-notice">
+          <div className="notice-content">
+            <FormattedMessage id="hearingTranslationNotAvailable"/>
+            {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
+          </div>
+        </Link>
+      }
       <div className="hearing-list-item-image">
         {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
       </div>
@@ -86,24 +98,24 @@ class HearingListItem extends React.Component {
   }
 }
 
-HearingListItem.propTypes = {hearing: React.PropTypes.object};
-HearingListItem.contextTypes = {
+HearingListItem.propTypes = {
+  hearing: React.PropTypes.object,
   language: React.PropTypes.string
 };
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch} = this.props;
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language} = this.props;
 
     return (
       <div>
-        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch}/>
+        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch} language={language}/>
         <HearingListTabs/>
         {isLoading && <LoadSpinner />}
         <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
           <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
           {hearings.map(
-          (hearing) => <HearingListItem hearing={hearing} key={hearing.id}/>
+          (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
         )}</div>
       </div>
     );
@@ -117,7 +129,8 @@ HearingList.propTypes = {
   handleChangeFilter: React.PropTypes.func,
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
-  handleLabelSearch: React.PropTypes.func
+  handleLabelSearch: React.PropTypes.func,
+  language: React.PropTypes.string
 };
 
 export default (injectIntl(HearingList));

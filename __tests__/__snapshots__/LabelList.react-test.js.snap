@@ -22,23 +22,3 @@ exports[`test LabelList can handle list of label objects 1`] = `
   </span>
 </div>
 `;
-
-exports[`test LabelList can handle list of label strings 1`] = `
-<div
-  className="labels">
-  <span>
-    <span
-      className="label label-default">
-      fancy
-    </span>
-     
-  </span>
-  <span>
-    <span
-      className="label label-default">
-      test
-    </span>
-     
-  </span>
-</div>
-`;

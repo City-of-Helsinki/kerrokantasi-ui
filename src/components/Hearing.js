@@ -238,15 +238,13 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const hearing = this.props.hearing;
-    const user = this.props.user;
+    const {hearing, user, language, dispatch} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
-    const {language} = this.props;
 
     return (
       <div id="hearing-wrapper">
@@ -259,12 +257,12 @@ export class Hearing extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
+          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
           <Col md={8} lg={9}>
             <div id="hearing">
               <div>
                 <HearingImageList images={mainSection.images}/>
-                <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: hearing.abstract}}/>
+                <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}/>
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section

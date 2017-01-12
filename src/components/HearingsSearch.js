@@ -2,6 +2,7 @@ import React from 'react';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import Select from 'react-select';
+import getAttr from '../utils/getAttr';
 
 class HearingsSearch extends React.Component {
 
@@ -20,10 +21,10 @@ class HearingsSearch extends React.Component {
   }
 
   render() {
-    const {handleSearch, labels} = this.props;
+    const {handleSearch, labels, language} = this.props;
     const {selectedLabels} = this.state;
     const multiple = true;
-    const labelsAsOptions = labels.map((label) => { return {label: label.label, value: label.label, id: label.id}; });
+    const labelsAsOptions = labels.map((label) => { return {label: getAttr(label.label, language), value: getAttr(label.label, language), id: label.id}; });
 
     return (
       <div className="hearings-search__container">
@@ -62,7 +63,8 @@ class HearingsSearch extends React.Component {
 HearingsSearch.propTypes = {
   handleSearch: React.PropTypes.func,
   handleLabelSearch: React.PropTypes.func,
-  labels: React.PropTypes.object
+  labels: React.PropTypes.object,
+  language: React.PropTypes.string
 };
 
 export default injectIntl(HearingsSearch);

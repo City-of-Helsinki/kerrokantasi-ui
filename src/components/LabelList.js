@@ -1,21 +1,21 @@
-import _ from 'lodash';
 import React from 'react';
 import Label from 'react-bootstrap/lib/Label';
+import getAttr from '../utils/getAttr';
 
 class LabelList extends React.Component {
   render() {
-    const {labels, className} = this.props;
+    const {labels, className, language} = this.props;
     /*
     * Hearing.labels
     *     Old API response: [String]
     *     New API response: [{id, label}]
-    * TODO: Remove support for old styled API response when API has changed.
+    * DONE: Remove support for old styled API response when API has changed.
      */
-    const newerLabelToHTML = ((label) => <span key={label.id}><Label>{label.label}</Label> </span>);
-    const oldLabelToHTML = ((label) => <span key={label}><Label>{label}</Label> </span>);
+    const labelToHTML = ((label) => <span key={label.id}><Label>{getAttr(label.label, language)}</Label> </span>);
+
     return (
       <div className={className}>
-        {labels.map(_.isString(labels[0]) ? oldLabelToHTML : newerLabelToHTML)}
+        {labels.map((label) => labelToHTML(label))}
       </div>
     );
   }
@@ -23,7 +23,8 @@ class LabelList extends React.Component {
 
 LabelList.propTypes = {
   labels: React.PropTypes.array,
-  className: React.PropTypes.string
+  className: React.PropTypes.string,
+  language: React.PropTypes.string
 };
 
 export default LabelList;

@@ -4,6 +4,22 @@
     font-size: 1.4rem;
     margin-bottom: 25px;
 
+    .language-link {
+        padding: 4px;
+        border-radius: 4px;
+
+        a {
+            cursor: pointer;
+        }
+
+        &-active {
+            padding: 4px;
+            border-radius: 4px;
+            background: @gray-light;
+            color: #fff;
+        }
+    }
+
     @media (max-width: @screen-sm-max) {
         position: static !important;
         width: auto !important;

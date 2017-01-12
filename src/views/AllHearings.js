@@ -82,7 +82,7 @@ class AllHearings extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {isLoading, labels} = this.props;
+    const {isLoading, labels, language} = this.props;
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
@@ -95,6 +95,7 @@ class AllHearings extends React.Component {
             handleChangeFilter={this.handleChangeFilter.bind(this)}
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
+            language={language}
           />
         </Col>
       </Row>

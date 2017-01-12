@@ -12,7 +12,9 @@ import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
-
+import getAttr from '../../utils/getAttr';
+import keys from 'lodash/keys';
+import {setLanguage} from '../../actions';
 
 class Sidebar extends React.Component {
 
@@ -33,6 +35,40 @@ class Sidebar extends React.Component {
         </div>
       </ListGroupItem>
     );
+  }
+
+  getLanguageChanger() {
+    const {hearing, dispatch, activeLanguage} = this.props;
+    const availableLanguages = { fi: 'Kuuleminen Suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
+    const languageOptionsArray = keys(hearing.title).map((lang, index) => {
+      if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
+        return (<div className="language-link-active">
+          {availableLanguages[lang]}
+        </div>);
+      }
+
+      if (getAttr(hearing.title, lang, {exact: true}) && keys(hearing.title).filter((key) => key === activeLanguage).length === 0 && index === 0) {
+        return (<div className="language-link-active">
+          {availableLanguages[lang]}
+        </div>);
+      }
+
+      if (getAttr(hearing.title, lang, {exact: true})) {
+        return (<div className="language-link">
+          <a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >
+            {availableLanguages[lang]}
+          </a>
+        </div>);
+      }
+
+      return null;
+    });
+
+    if (languageOptionsArray.length > 1) {
+      return languageOptionsArray;
+    }
+
+    return null;
   }
 
   render() {
@@ -80,8 +116,11 @@ class Sidebar extends React.Component {
                 </ListGroup>
               </div>
             </Col>
+            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
+              {this.getLanguageChanger()}
+            </Col>
             <Col sm={6} md={12}>
-              {boroughDiv}
+              {Object.keys(hearing.borough).length !== 0 && boroughDiv}
               <SocialBar />
               {hearingMap}
             </Col>
@@ -95,7 +134,9 @@ class Sidebar extends React.Component {
 Sidebar.propTypes = {
   hearing: React.PropTypes.object,
   mainSection: React.PropTypes.object,
-  sectionGroups: React.PropTypes.array
+  sectionGroups: React.PropTypes.array,
+  activeLanguage: React.PropTypes.string,
+  dispatch: React.PropTypes.func
 };
 
 export default injectIntl(Sidebar);

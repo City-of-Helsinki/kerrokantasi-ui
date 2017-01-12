@@ -7,6 +7,7 @@ import LabelList from './LabelList';
 import getAttr from '../utils/getAttr';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import moment from 'moment';
+import config from '../config';
 
 const HearingCard = ({hearing, language, className = ''}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
@@ -14,17 +15,19 @@ const HearingCard = ({hearing, language, className = ''}) => {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
   };
   // FIXME: Should there be direct linking to hearing using certain language?
-  const translationAvailable = !!getAttr(hearing.title, language/* , {exact: true} */);
+  const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
+  const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla Suomeksi', sv: 'Enkäten tillgänglig på svenska', en: 'Questionnaire available in English'};
   return (
     <div className={`hearing-card ${className}`}>
       {
         !translationAvailable &&
-        <div className="hearing-card-notice">
+        <Link to={getHearingURL(hearing)} className="hearing-card-notice">
           <div className="hearing-card-notice-content">
             <FormattedMessage id="hearingTranslationNotAvailable"/>
+            {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
           </div>
-        </div>
+        </Link>
       }
       <Link to={getHearingURL(hearing)} className="hearing-card-image" style={imageStyle}>
         <div className="hearing-card-comment-count">
@@ -41,7 +44,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
           </Link>
         </h4>
         <div className="hearing-card-labels">
-          <LabelList labels={hearing.labels}/>
+          <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
       </div>
     </div>

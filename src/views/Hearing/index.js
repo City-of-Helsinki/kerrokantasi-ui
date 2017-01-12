@@ -84,7 +84,7 @@ export class HearingView extends React.Component {
   render() {
     const {hearingSlug} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
-    const {user, language} = this.props;
+    const {user, language, dispatch} = this.props;
 
     if (state !== 'done') {
       return this.renderSpinner();
@@ -102,6 +102,7 @@ export class HearingView extends React.Component {
           user={user}
           sectionComments={this.props.sectionComments}
           location={this.props.location}
+          dispatch={dispatch}
         />
       </div>
     );
