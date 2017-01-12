@@ -16,13 +16,19 @@ import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
 import config from '../config';
+import OverviewMap from '../components/OverviewMap';
 
-const HearingListTabs = () =>
-  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey="1">
+const HearingListTabs = ({activeTab, handleChangeTab}) =>
+  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
     <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
-    <NavItem eventKey="1" href="/home">Lista</NavItem>
-    <NavItem eventKey="2" title="Item">Kartta</NavItem>
+    <NavItem eventKey="list" title="List" onClick={() => handleChangeTab('list')}><FormattedMessage id="list"/></NavItem>
+    <NavItem eventKey="map" title="Map" onClick={() => handleChangeTab('map')}><FormattedMessage id="map"/></NavItem>
   </Nav>;
+
+HearingListTabs.propTypes = {
+  activeTab: React.PropTypes.string,
+  handleChangeTab: React.PropTypes.func
+};
 
 const HearingListFilters = ({handleSort}) =>
   <div className="hearing-list__filter-bar">
@@ -105,18 +111,26 @@ HearingListItem.propTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language} = this.props;
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab} = this.props;
+    const hearingMap = (hearings && hearings.data ? (<div className="hearing-list-map map">
+      <h4><FormattedMessage id="open-hearings-on-map"/></h4>
+      <OverviewMap hearings={hearings.data} style={{width: '100%', height: '40%'}} />
+    </div>) : null);
 
     return (
       <div>
         <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch} language={language}/>
-        <HearingListTabs/>
+        <HearingListTabs activeTab={activeTab} handleChangeTab={handleChangeTab}/>
         {isLoading && <LoadSpinner />}
-        <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-          <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
-          {hearings.map(
-          (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
-        )}</div>
+        {activeTab === 'list' &&
+          <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
+            <HearingListFilters labels={labels} handleChangeFilter={handleChangeFilter} handleSort={handleSort}/>
+            {hearings.map(
+              (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
+            )}
+          </div>
+        }
+        {activeTab === 'map' && hearingMap}
       </div>
     );
   }
@@ -130,7 +144,9 @@ HearingList.propTypes = {
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
   handleLabelSearch: React.PropTypes.func,
-  language: React.PropTypes.string
+  language: React.PropTypes.string,
+  activeTab: React.PropTypes.string,
+  handleChangeTab: React.PropTypes.func
 };
 
 export default (injectIntl(HearingList));

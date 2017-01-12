@@ -19,7 +19,7 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all'};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all', activeTab: 'list'};
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
@@ -73,6 +73,19 @@ class AllHearings extends React.Component {
     AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
   }
 
+  handleChangeTab(newTab) {
+    switch (newTab) {
+      case 'map':
+        this.setState({activeTab: 'map'});
+        break;
+      case 'list':
+        this.setState({activeTab: 'list'});
+        break;
+      default:
+        return;
+    }
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
     const {sortBy} = this.state;
@@ -96,6 +109,8 @@ class AllHearings extends React.Component {
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
             language={language}
+            activeTab={this.state.activeTab}
+            handleChangeTab={this.handleChangeTab.bind(this)}
           />
         </Col>
       </Row>

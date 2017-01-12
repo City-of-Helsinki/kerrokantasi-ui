@@ -86,5 +86,7 @@
   "leastCommented": "Vähiten kommentoitu",
   "mostCommented": "Eniten kommentoitu",
   "searchLabels": "Hae aiheista",
-  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi"
+  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
+  "list": "Lista",
+  "map": "Kartta"
 }
