@@ -34,6 +34,10 @@ class AllHearings extends React.Component {
     return dispatch(fetchLabels());
   }
 
+  static fetchMap(dispatch) {
+    dispatch(fetchHearingList("hearingMap", "/v1/hearing/map/"));
+  }
+
   getVisibleHearings() {
     const {hearings} = this.props;
     const {hearingFilter} = this.state;
@@ -91,11 +95,13 @@ class AllHearings extends React.Component {
     const {sortBy} = this.state;
     AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
+    AllHearings.fetchMap(dispatch);
   }
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {isLoading, labels, language} = this.props;
+    const {isLoading, labels, language, hearingMap} = this.props;
+
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
@@ -111,6 +117,7 @@ class AllHearings extends React.Component {
             language={language}
             activeTab={this.state.activeTab}
             handleChangeTab={this.handleChangeTab.bind(this)}
+            hearingMap={hearingMap}
           />
         </Col>
       </Row>
@@ -124,14 +131,16 @@ AllHearings.propTypes = {
   language: React.PropTypes.string, // To rerender when language changes
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object
+  labels: React.PropTypes.object,
+  hearingMap: React.PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
   hearings: state.hearingLists.allHearings.data,
   isLoading: state.hearingLists.allHearings.isFetching || state.labels.isFetching,
   labels: state.labels.data,
-  language: state.language
+  language: state.language,
+  hearingMap: state.hearingLists.hearingMap
 });
 
 const WrappedAllHearings = connect(mapStateToProps)(injectIntl(AllHearings));

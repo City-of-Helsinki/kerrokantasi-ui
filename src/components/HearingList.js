@@ -111,10 +111,11 @@ HearingListItem.propTypes = {
 
 class HearingList extends React.Component {
   render() {
-    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab} = this.props;
-    const hearingMap = (hearings && hearings.data ? (<div className="hearing-list-map map">
+    const {hearings, isLoading, labels, handleChangeFilter, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab, hearingMap} = this.props;
+
+    const hearingListMap = (hearingMap && hearingMap.data ? (<div className="hearing-list-map map">
       <h4><FormattedMessage id="open-hearings-on-map"/></h4>
-      <OverviewMap hearings={hearings.data} style={{width: '100%', height: '40%'}} />
+      <OverviewMap hearings={hearingMap.data} style={{width: '100%', height: '40%'}} enablePopups />
     </div>) : null);
 
     return (
@@ -130,7 +131,7 @@ class HearingList extends React.Component {
             )}
           </div>
         }
-        {activeTab === 'map' && hearingMap}
+        {activeTab === 'map' && hearingListMap}
       </div>
     );
   }
@@ -146,7 +147,8 @@ HearingList.propTypes = {
   handleLabelSearch: React.PropTypes.func,
   language: React.PropTypes.string,
   activeTab: React.PropTypes.string,
-  handleChangeTab: React.PropTypes.func
+  handleChangeTab: React.PropTypes.func,
+  hearingMap: React.PropTypes.object
 };
 
 export default (injectIntl(HearingList));
