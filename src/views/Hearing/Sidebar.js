@@ -14,7 +14,6 @@ import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
 import config from '../../config';
 import getAttr from '../../utils/getAttr';
-import {setLanguage} from '../../actions';
 
 class Sidebar extends React.Component {
 
@@ -38,14 +37,12 @@ class Sidebar extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, activeLanguage, dispatch} = this.props;
+    const {hearing, activeLanguage} = this.props;
     const availableLanguages = { fi: 'Kuuleminen Suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = config.languages.map((lang) => {
       if (getAttr(hearing.title, lang, {exact: true})) {
         return (<div className={`language-link${lang === activeLanguage ? "-active" : ''}`}>
-          <a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >
-            {availableLanguages[lang]}
-          </a>
+          {availableLanguages[lang]}
         </div>);
       }
       return null;
