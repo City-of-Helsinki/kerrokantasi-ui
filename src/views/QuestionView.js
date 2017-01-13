@@ -65,7 +65,7 @@ class QuestionView extends Component {
 
     return (
       <div key="question" className="question-view container">
-        <Helmet title={hearing.title} meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}/>
+        <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}/>
         <SectionContainer
           hearingSlug={hearingSlug}
           sectionId={sectionId}
