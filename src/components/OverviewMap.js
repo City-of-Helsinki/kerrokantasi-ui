@@ -17,7 +17,7 @@ class OverviewMap extends React.Component {
           <h4>
             <a href={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</a>
           </h4>
-          <p>{hearing.abstract}</p>
+          <p>{getAttr(hearing.abstract, language)}</p>
         </div>
       </Popup>) : null);
       if (geojson) {
