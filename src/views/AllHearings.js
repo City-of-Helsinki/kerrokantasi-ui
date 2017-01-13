@@ -23,7 +23,7 @@ class AllHearings extends React.Component {
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
-    const params = searchTitle ? {title: searchTitle, ordering: sortBy} : {ordering: sortBy};
+    const params = searchTitle ? {title: searchTitle, ordering: sortBy, include: 'geojson'} : {ordering: sortBy, include: 'geojson'};
     if (labels) {
       params.label = labels;
     }
@@ -32,10 +32,6 @@ class AllHearings extends React.Component {
 
   static fetchLabels(dispatch) {
     return dispatch(fetchLabels());
-  }
-
-  static fetchMap(dispatch) {
-    dispatch(fetchHearingList("hearingMap", "/v1/hearing/map/"));
   }
 
   getVisibleHearings() {
@@ -103,13 +99,12 @@ class AllHearings extends React.Component {
     const {sortBy} = this.state;
     AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
-    AllHearings.fetchMap(dispatch);
   }
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {isLoading, labels, language, hearingMap} = this.props;
-
+    const {isLoading, labels, language} = this.props;
+    const {showOnlyOpen, activeTab} = this.state;
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
@@ -123,10 +118,9 @@ class AllHearings extends React.Component {
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
             language={language}
-            activeTab={this.state.activeTab}
+            activeTab={activeTab}
             handleChangeTab={this.handleChangeTab.bind(this)}
-            hearingMap={hearingMap}
-            showOnlyOpen={this.state.showOnlyOpen}
+            showOnlyOpen={showOnlyOpen}
             toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
           />
         </Col>
@@ -141,16 +135,14 @@ AllHearings.propTypes = {
   language: React.PropTypes.string, // To rerender when language changes
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object,
-  hearingMap: React.PropTypes.object
+  labels: React.PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
   hearings: state.hearingLists.allHearings.data,
   isLoading: state.hearingLists.allHearings.isFetching || state.labels.isFetching,
   labels: state.labels.data,
-  language: state.language,
-  hearingMap: state.hearingLists.hearingMap
+  language: state.language
 });
 
 const WrappedAllHearings = connect(mapStateToProps)(injectIntl(AllHearings));
