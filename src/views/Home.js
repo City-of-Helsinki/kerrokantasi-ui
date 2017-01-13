@@ -34,7 +34,6 @@ class Home extends React.Component {
   render() {
     const {formatMessage} = this.props.intl;
     const {topHearing, openHearings, language} = this.props;
-    console.log(openHearings);
     const hearingMap = (openHearings && openHearings.data ? (<div className="container map">
       <h4><FormattedMessage id="open-hearings-on-map"/></h4>
       <OverviewMap hearings={openHearings.data} style={{width: '100%', height: '40%'}} />
@@ -52,7 +51,7 @@ class Home extends React.Component {
             <div className="list">
               <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
               <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-              <Link className="fullwidth" to="/hearings"><FormattedMessage id="allHearings"/></Link>
+              <Link className="fullwidth" to="/hearings/list"><FormattedMessage id="allHearings"/></Link>
             </div>
           </Col>
         }

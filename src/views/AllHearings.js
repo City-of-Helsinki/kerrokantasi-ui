@@ -19,7 +19,7 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all', activeTab: 'list', showOnlyOpen: false};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all', showOnlyOpen: false};
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
@@ -73,19 +73,6 @@ class AllHearings extends React.Component {
     AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
   }
 
-  handleChangeTab(newTab) {
-    switch (newTab) {
-      case 'map':
-        this.setState({activeTab: 'map'});
-        break;
-      case 'list':
-        this.setState({activeTab: 'list'});
-        break;
-      default:
-        return;
-    }
-  }
-
   toggleShowOnlyOpen() {
     if (this.state.showOnlyOpen) {
       this.setState({showOnlyOpen: false});
@@ -104,7 +91,9 @@ class AllHearings extends React.Component {
   render() {
     const {formatMessage} = this.props.intl;
     const {isLoading, labels, language} = this.props;
-    const {showOnlyOpen, activeTab} = this.state;
+    const {showOnlyOpen} = this.state;
+    const activeTab = this.props.params.tab ? this.props.params.tab : 'list';
+
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
@@ -119,7 +108,6 @@ class AllHearings extends React.Component {
             handleSearch={this.handleSearch.bind(this)}
             language={language}
             activeTab={activeTab}
-            handleChangeTab={this.handleChangeTab.bind(this)}
             showOnlyOpen={showOnlyOpen}
             toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
           />
@@ -135,7 +123,8 @@ AllHearings.propTypes = {
   language: React.PropTypes.string, // To rerender when language changes
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object
+  labels: React.PropTypes.object,
+  params: React.PropTypes.object
 };
 
 const mapStateToProps = (state) => ({

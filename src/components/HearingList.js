@@ -19,11 +19,11 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 
-const HearingListTabs = ({activeTab, handleChangeTab}) =>
+const HearingListTabs = ({activeTab}) =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
     <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
-    <NavItem eventKey="list" title="List" onClick={() => handleChangeTab('list')}><FormattedMessage id="list"/></NavItem>
-    <NavItem eventKey="map" title="Map" onClick={() => handleChangeTab('map')}><FormattedMessage id="map"/></NavItem>
+    <NavItem eventKey="list" title="List"><Link to="/hearings/list"><FormattedMessage id="list"/></Link></NavItem>
+    <NavItem eventKey="map" title="Map"><Link to="/hearings/map"><FormattedMessage id="map"/></Link></NavItem>
   </Nav>;
 
 HearingListTabs.propTypes = {
@@ -113,19 +113,19 @@ HearingListItem.propTypes = {
 class HearingList extends React.Component {
 
   render() {
-    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab, showOnlyOpen, toggleShowOnlyOpen} = this.props;
+    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, activeTab, showOnlyOpen, toggleShowOnlyOpen} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
       <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()} style={{marginBottom: 10}}>
         <FormattedMessage id="showOnlyOpen"/>
       </Checkbox>
-      <OverviewMap hearings={hearingsToShow} style={{width: '100%', height: '40%'}} enablePopups />
+      <OverviewMap hearings={hearingsToShow} style={{width: '130%', height: 600}} enablePopups />
     </div>) : null);
 
     return (
       <div>
         <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch} language={language}/>
-        <HearingListTabs activeTab={activeTab} handleChangeTab={handleChangeTab}/>
+        <HearingListTabs activeTab={activeTab}/>
         {isLoading && <LoadSpinner />}
         {activeTab === 'list' &&
           <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
