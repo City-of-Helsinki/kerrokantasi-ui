@@ -4,7 +4,7 @@ import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import {Modal} from 'react-bootstrap';
+import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
 import {
@@ -28,7 +28,6 @@ import {
   hasFullscreenMapPlugin
 } from '../utils/hearing';
 import {
-  groupSections,
   isSpecialSectionType,
   userCanComment,
   userCanVote
@@ -349,20 +348,3 @@ function groupSections(sections) {
   });
   return sectionGroups;
 }
-
-const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
-  <Modal className="delete-modal" show={isOpen} onHide={() => close()} animation={false}>
-    <Modal.Header closeButton>
-      <Modal.Title><FormattedMessage id="deleteConfirmation"/></Modal.Title>
-    </Modal.Header>
-    <Modal.Footer>
-      <Button onClick={() => close()}><FormattedMessage id="cancel"/></Button>
-      <Button bsStyle="danger" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
-    </Modal.Footer>
-  </Modal>;
-
-DeleteModal.propTypes = {
-  isOpen: React.PropTypes.boolean,
-  close: React.PropTypes.func,
-  onDeleteComment: React.PropTypes.func
-};

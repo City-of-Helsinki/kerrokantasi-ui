@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-
+import DeleteModal from './DeleteModal';
 import {
   fetchSectionComments, followHearing,
-  postSectionComment, postVote
+  postSectionComment, postVote, editSectionComment,
+  deleteSectionComment
 } from '../actions';
 import CommentList from './CommentList';
 // import HearingImageList from './HearingImageList';
@@ -63,6 +64,12 @@ LinkWrapper.propTypes = {
 
 
 class SectionContainer extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {showDeleteModal: false};
+  }
 
   openFullscreen(hearing) {
     this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
@@ -174,6 +181,36 @@ class SectionContainer extends React.Component {
     );
   }
 
+  onEditSectionComment(sectionId, commentId, commentData) {
+    const {dispatch} = this.props;
+    const hearingSlug = this.props.hearingSlug;
+    const {authCode} = this.props.location.query;
+    Object.assign({authCode}, commentData);
+    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
+  }
+
+  onDeleteComment() {
+    const {dispatch} = this.props;
+    const {sectionId, commentId} = this.state.commentToDelete;
+    const hearingSlug = this.props.hearingSlug;
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId));
+    this.forceUpdate();
+  }
+
+  handleDeleteClick(sectionId, commentId) {
+    this.setState({ commentToDelete: {sectionId, commentId}});
+    this.openDeleteModal();
+  }
+
+  openDeleteModal() {
+    this.setState({ showDeleteModal: true });
+  }
+
+  closeDeleteModal() {
+    this.setState({ showDeleteModal: false, commentToDelete: {} });
+  }
+
+
   getCommentList() {
     const hearing = this.props.hearing;
     const mainSection = getMainSection(hearing);
@@ -261,16 +298,23 @@ class SectionContainer extends React.Component {
             </div>
             <Section
               section={section}
-              canComment={false}// this.props.canComment && userCanComment(user, section)}
-              onPostComment={false}// this.props.onPostComment}
+              canComment={userCanComment(user, section)}
+              onPostComment={this.onPostSectionComment.bind(this)}// this.props.onPostComment}
               canVote={false}// this.props.canVote && userCanVote(user, section)}
               onPostVote={false}// this.props.onPostVote}
               comments={sectionComments}// this.props.loadSectionComments}
+              handleDeleteClick={this.handleDeleteClick.bind(this)}
+              onEditComment={this.onEditSectionComment.bind(this)}
               user={user}
               isCollapsible={false}
             />
           </Col>
         </Row>
+        <DeleteModal
+          isOpen={this.state.showDeleteModal}
+          close={this.closeDeleteModal.bind(this)}
+          onDeleteComment={this.onDeleteComment.bind(this)}
+        />
       </div>
     );
   }
@@ -287,6 +331,7 @@ SectionContainer.propTypes = {
   section: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
   language: React.PropTypes.string,
+  canComment: React.PropTypes.bool
 };
 
 export function wrapSectionContainer(component, pure = true) {

@@ -107,6 +107,7 @@ class SortableCommentList extends Component {
       sectionComments,
       canVote,
       isSectionComments,
+      onPostComment,
       // voteComment,
       ...rest
     } = this.props;
@@ -140,7 +141,7 @@ class SortableCommentList extends Component {
 
         {canComment && <CommentForm
           hearingId={hearingId}
-          onPostComment={this.onPostHearingComment.bind(this)}
+          onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
           canSetNickname={this.props.canSetNickname}
         />
         }
@@ -208,7 +209,8 @@ SortableCommentList.propTypes = {
   isSectionComments: React.PropTypes.bool,
   canSetNickname: React.PropTypes.bool,
   canComment: React.PropTypes.bool,
-  hearingId: React.PropTypes.string
+  hearingId: React.PropTypes.string,
+  onPostComment: React.PropTypes.func
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import SortableCommentList from './SortableCommentList';
-import {Link, LocationDescriptor} from 'react-router';
+import {Link} from 'react-router';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
@@ -17,7 +17,7 @@ function getImageList(section, language) {
   }
   return section.images.map((image) => (<div key={image.url}>
     <img className="img-responsive" alt={getAttr(image.title, language)} title={getAttr(image.title, language)} src={image.url}/>
-    <div className="image-caption">{image.caption}</div>
+    <div className="image-caption">{getAttr(image.caption, language)}</div>
   </div>));
 }
 
@@ -196,6 +196,8 @@ export default class Section extends React.Component {
         onPostVote={this.onPostVote.bind(this)}
         canSetNickname={user === null}
         isSectionComments={section}
+        onDeleteComment={this.props.handleDeleteClick}
+        onEditComment={this.props.onEditComment}
       />);
     }
     const imageList = getImageList(section, language);
@@ -240,6 +242,9 @@ Section.propTypes = {
   section: React.PropTypes.object.isRequired,
   showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
+  canSetNickname: React.PropTypes.bool,
+  handleDeleteClick: React.PropTypes.func,
+  onEditComment: React.PropTypes.func
 };
 
 Section.contextTypes = {
