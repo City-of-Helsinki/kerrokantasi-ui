@@ -116,8 +116,7 @@ class HearingList extends React.Component {
     const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, handleChangeTab, activeTab, showOnlyOpen, toggleShowOnlyOpen} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
-      <HearingListFilters handleSort={handleSort}/>
-      <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()}>
+      <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()} style={{marginBottom: 10}}>
         <FormattedMessage id="showOnlyOpen"/>
       </Checkbox>
       <OverviewMap hearings={hearingsToShow} style={{width: '100%', height: '40%'}} enablePopups />
