@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import Waypoint from 'react-waypoint';
 
 import {
   fetchSectionComments, fetchMoreSectionComments, followHearing,
@@ -237,7 +238,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, user, language, dispatch} = this.props;
+    const {hearing, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -248,7 +249,7 @@ export class Hearing extends React.Component {
     return (
       <div id="hearing-wrapper">
         <LabelList className="main-labels" labels={hearing.labels}/>
-
+        <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
         <h1 className="page-title">
           {this.getFollowButton()}
           {!hearing.published ? <Icon name="eye-slash"/> : null}
@@ -256,9 +257,10 @@ export class Hearing extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
+          <Sidebar currentlyViewed={currentlyViewed} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
           <Col md={8} lg={9}>
             <div id="hearing">
+              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
               <div>
                 <HearingImageList images={mainSection.images}/>
                 <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}/>
@@ -278,7 +280,7 @@ export class Hearing extends React.Component {
             </div>
 
             {this.getLinkToFullscreen(hearing)}
-
+            {sectionGroups && <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup')}/>}
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
                 <SectionList
@@ -295,6 +297,7 @@ export class Hearing extends React.Component {
                 />
               </div>
             ))}
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')}/>
             {this.getCommentList()}
           </Col>
         </Row>
@@ -317,6 +320,8 @@ Hearing.propTypes = {
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+  changeCurrentlyViewed: React.PropTypes.func,
+  currentlyViewed: React.PropTypes.string
 };
 
 export function wrapHearingComponent(component, pure = true) {

@@ -13,13 +13,15 @@ import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
 import getAttr from '../../utils/getAttr';
+import {getSectionURL} from '../../utils/section';
 import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
+import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
 
   getCommentsItem() {
-    const hearing = this.props.hearing;
+    const {hearing, currentlyViewed} = this.props;
     const fullscreen = hasFullscreenMapPlugin(hearing);
     const commentsURL = (
       fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
@@ -28,7 +30,7 @@ class Sidebar extends React.Component {
       return null;
     }
     return (
-      <ListGroupItem href={commentsURL}>
+      <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
         <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
         <div className="comment-icon">
           <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
@@ -72,7 +74,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, sectionGroups} = this.props;
+    const {hearing, sectionGroups, currentlyViewed, isQuestionView, activeSection, activeLanguage} = this.props;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -102,17 +104,29 @@ class Sidebar extends React.Component {
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 <ListGroup>
-                  <ListGroupItem href="#hearing">
+                  {!isQuestionView && <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
                     <FormattedMessage id="hearing"/>
                   </ListGroupItem>
-                  {sectionGroups.map((sectionGroup) => (
-                    <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+                  }
+                  {isQuestionView && sectionGroups[0].sections.map((section) => (
+                    <Link to={getSectionURL(hearing.slug, section)}>
+                      <ListGroupItem className={`${section.id}${activeSection.id === section.id ? ' active' : ''}`} href={"#hearing-sectiongroup-" + section.id} key={section.id}>
+                        <div>
+                          {getAttr(section.title, activeLanguage)}
+                          {'     '}
+                          <Icon name="comment-o"/>{section.n_comments}
+                        </div>
+                      </ListGroupItem>
+                    </Link>
+                  ))}
+                  {!isQuestionView && sectionGroups.map((sectionGroup) => (
+                    <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.type}>
                       {sectionGroup.name_plural}
                       <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
                       <Badge>{sectionGroup.sections.length}</Badge>
                     </ListGroupItem>
                   ))}
-                  {this.getCommentsItem()}
+                  {!isQuestionView && this.getCommentsItem()}
                 </ListGroup>
               </div>
             </Col>
@@ -136,7 +150,10 @@ Sidebar.propTypes = {
   mainSection: React.PropTypes.object,
   sectionGroups: React.PropTypes.array,
   activeLanguage: React.PropTypes.string,
-  dispatch: React.PropTypes.func
+  dispatch: React.PropTypes.func,
+  currentlyViewed: React.PropTypes.string,
+  isQuestionView: React.PropTypes.func,
+  activeSection: React.PropTypes.object
 };
 
 export default injectIntl(Sidebar);

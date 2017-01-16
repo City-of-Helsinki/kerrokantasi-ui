@@ -268,6 +268,7 @@ class SectionContainer extends React.Component {
     const regularSections = hearing.sections.filter((sect) => !isSpecialSectionType(sect.type));
     const sectionGroups = groupSections(regularSections);
     const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
+    const isQuestionView = true;
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
       <div className="section-container">
@@ -280,7 +281,7 @@ class SectionContainer extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
+          <Sidebar currentlyViewed={'#hearing-sectiongroup'} isQuestionView={isQuestionView} activeSection={section} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
           <Col md={8} lg={9}>
             <div className="section-browser">
               <Link className="to-hearing" to={getHearingURL(hearing)}>

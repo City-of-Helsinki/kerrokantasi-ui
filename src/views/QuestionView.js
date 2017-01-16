@@ -47,6 +47,14 @@ class QuestionView extends Component {
     QuestionView.fetchData(dispatch, null, location, params);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {dispatch, params} = nextProps;
+    if (nextProps.params.sectionId !== this.props.params.sectionId) {
+      console.log('here');
+      dispatch(fetchSectionComments(params.hearingSlug, params.sectionId));
+    }
+  }
+
   componentWillMount() {
     window.scrollTo(0, 0);
   }

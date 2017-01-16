@@ -62,6 +62,10 @@ class SortableCommentList extends Component {
     if (this.props.user && !nextProps.user) {
       fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
+
+    if (section.id !== nextProps.section.id) {
+      fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    }
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line
