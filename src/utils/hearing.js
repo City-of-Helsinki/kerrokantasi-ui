@@ -47,7 +47,7 @@ export function hasFullscreenMapPlugin(hearing) {
 * else false.
  */
 export function acceptsComments(hearing) {
-  return !hearing.closed;
+  return !hearing.closed && (new Date() < new Date(hearing.close_at));
 }
 
 
