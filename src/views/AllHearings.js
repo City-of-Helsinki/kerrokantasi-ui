@@ -19,7 +19,8 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all', showOnlyOpen: false};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all', showOnlyOpen: false, isMobile: window.innerWidth < 992};
+    this.handleResize = this.handleResize.bind(this);
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
@@ -81,17 +82,26 @@ class AllHearings extends React.Component {
     }
   }
 
+  handleResize() {
+    this.setState({ isMobile: window.innerWidth < 992 });
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
     const {sortBy} = this.state;
     AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   }
 
   render() {
     const {formatMessage} = this.props.intl;
     const {isLoading, labels, language} = this.props;
-    const {showOnlyOpen} = this.state;
+    const {showOnlyOpen, isMobile} = this.state;
     const activeTab = this.props.params.tab ? this.props.params.tab : 'list';
 
     return (<div className="container">
@@ -110,6 +120,7 @@ class AllHearings extends React.Component {
             activeTab={activeTab}
             showOnlyOpen={showOnlyOpen}
             toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
+            isMobile={isMobile}
           />
         </Col>
       </Row>

@@ -113,13 +113,14 @@ HearingListItem.propTypes = {
 class HearingList extends React.Component {
 
   render() {
-    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, activeTab, showOnlyOpen, toggleShowOnlyOpen} = this.props;
+    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, activeTab, showOnlyOpen, toggleShowOnlyOpen, isMobile} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
+
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
       <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()} style={{marginBottom: 10}}>
         <FormattedMessage id="showOnlyOpen"/>
       </Checkbox>
-      <OverviewMap hearings={hearingsToShow} style={{width: '130%', height: 600}} enablePopups />
+      <OverviewMap hearings={hearingsToShow} style={{width: isMobile ? '100%' : '130%', height: isMobile ? '100%' : 600}} enablePopups />
     </div>) : null);
 
     return (
@@ -153,7 +154,8 @@ HearingList.propTypes = {
   activeTab: React.PropTypes.string,
   handleChangeTab: React.PropTypes.func,
   showOnlyOpen: React.PropTypes.bool,
-  toggleShowOnlyOpen: React.PropTypes.func
+  toggleShowOnlyOpen: React.PropTypes.func,
+  isMobile: React.PropTypes.bool
 };
 
 export default (injectIntl(HearingList));
