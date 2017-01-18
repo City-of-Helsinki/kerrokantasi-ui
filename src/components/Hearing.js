@@ -260,7 +260,7 @@ export class Hearing extends React.Component {
           <Sidebar currentlyViewed={currentlyViewed} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
           <Col md={8} lg={9}>
             <div id="hearing">
-              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
+              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'}/>
               <div>
                 <HearingImageList images={mainSection.images}/>
                 <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}/>
@@ -280,9 +280,9 @@ export class Hearing extends React.Component {
             </div>
 
             {this.getLinkToFullscreen(hearing)}
-            {sectionGroups && <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup')}/>}
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)}/>
                 <SectionList
                   basePath={location.pathname}
                   sections={sectionGroup.sections}
@@ -297,7 +297,7 @@ export class Hearing extends React.Component {
                 />
               </div>
             ))}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')}/>
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'}/>
             {this.getCommentList()}
           </Col>
         </Row>

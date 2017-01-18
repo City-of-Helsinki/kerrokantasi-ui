@@ -251,11 +251,16 @@ class SectionContainer extends React.Component {
     const currentIndex = questions.findIndex((question) => question.id === sectionId);
     const prevPath = currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
     const nextPath = currentIndex !== questions.length - 1 ? getSectionURL(hearingSlug, questions[currentIndex + 1]) : undefined;
+    const prevType = currentIndex !== 0 ? questions[currentIndex - 1].type_name_singular : undefined;
+    const nextType = currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
+
     return {
       currentNum: currentIndex + 1,
       totalNum: questions.length,
       prevPath,
-      nextPath
+      nextPath,
+      prevType,
+      nextType
     };
   }
 
@@ -289,12 +294,12 @@ class SectionContainer extends React.Component {
               </Link>
               <LinkWrapper disabled={!sectionNav.prevPath} className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || '#'}>
                 <FormattedMessage id="previous"/>&nbsp;
-                <span className="type-name">{getAttr(section.type_name_singular, language)}</span>
+                <span className="type-name">{sectionNav.prevType ? getAttr(sectionNav.prevType, language) : getAttr(section.type_name_singular, language)}</span>
               </LinkWrapper>
               {sectionNav.currentNum}/{sectionNav.totalNum}
               <LinkWrapper disabled={!sectionNav.nextPath} className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || '#'}>
                 <FormattedMessage id="next"/>&nbsp;
-                <span className="type-name">{getAttr(section.type_name_singular, language)}</span>&nbsp;
+                <span className="type-name">{sectionNav.nextType ? getAttr(sectionNav.nextType, language) : getAttr(section.type_name_singular, language)}</span>&nbsp;
               </LinkWrapper>
             </div>
             <Section

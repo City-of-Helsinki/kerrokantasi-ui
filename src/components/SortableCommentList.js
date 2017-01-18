@@ -110,7 +110,6 @@ class SortableCommentList extends Component {
       section,
       sectionComments,
       canVote,
-      isSectionComments,
       onPostComment,
       // voteComment,
       ...rest
@@ -118,7 +117,7 @@ class SortableCommentList extends Component {
 
     const showCommentList = section && sectionComments && get(sectionComments, 'results');
     return (
-      <div className="sortable-comment-list" style={isSectionComments && {background: '#f5f5f5'}}>
+      <div className="sortable-comment-list">
         <h2><FormattedMessage id="comments"/>
           <div className="commenticon">
             <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
@@ -142,7 +141,6 @@ class SortableCommentList extends Component {
             </div>
             : null
         }
-
         {canComment && <CommentForm
           hearingId={hearingId}
           onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}

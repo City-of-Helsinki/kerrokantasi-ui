@@ -81,7 +81,7 @@ export default class Section extends React.Component {
 
     if (linkTo) {
       return (
-        <h3 className="section-title" onClick={this.toggle.bind(this)}>
+        <h2 className="section-title" onClick={this.toggle.bind(this)}>
           <Link to={linkTo}>
             {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
             {getAttr(this.props.section.title, language)}
@@ -91,12 +91,12 @@ export default class Section extends React.Component {
               <Icon name="comment-o"/>&nbsp;{section.n_comments}
             </div>
           ) : null}
-        </h3>
+        </h2>
       );
     }
 
     return (
-      <h3 className="section-title" onClick={this.toggle.bind(this)}>
+      <h2 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {getAttr(this.props.section.title, language)}
         {collapsed ? (
@@ -104,7 +104,7 @@ export default class Section extends React.Component {
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
           </div>
         ) : null}
-      </h3>
+      </h2>
     );
   }
 
@@ -194,7 +194,7 @@ export default class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
-        canSetNickname={user === null}
+        canSetNickname={!user}
         isSectionComments={section}
         onDeleteComment={this.props.handleDeleteClick}
         onEditComment={this.props.onEditComment}

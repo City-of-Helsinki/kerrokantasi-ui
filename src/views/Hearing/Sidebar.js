@@ -108,7 +108,7 @@ class Sidebar extends React.Component {
                     <FormattedMessage id="hearing"/>
                   </ListGroupItem>
                   }
-                  {isQuestionView && sectionGroups[0].sections.map((section) => (
+                  {isQuestionView && sectionGroups.map((group) => group.sections.map((section) => (
                     <Link to={getSectionURL(hearing.slug, section)}>
                       <ListGroupItem className={`${section.id}${activeSection.id === section.id ? ' active' : ''}`} href={"#hearing-sectiongroup-" + section.id} key={section.id}>
                         <div>
@@ -118,9 +118,9 @@ class Sidebar extends React.Component {
                         </div>
                       </ListGroupItem>
                     </Link>
-                  ))}
+                  )))}
                   {!isQuestionView && sectionGroups.map((sectionGroup) => (
-                    <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.type}>
+                    <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.name_singular + Math.random()}>
                       {sectionGroup.name_plural}
                       <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
                       <Badge>{sectionGroup.sections.length}</Badge>
