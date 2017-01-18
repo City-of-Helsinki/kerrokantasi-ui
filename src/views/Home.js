@@ -53,7 +53,7 @@ class Home extends React.Component {
     const {topHearing, openHearings, language} = this.props;
     const {isMobile} = this.state;
     const hearingMap = (openHearings && openHearings.data ? (<div className="map">
-      <h4><FormattedMessage id="open-hearings-on-map"/></h4>
+      <h2><FormattedMessage id="open-hearings-on-map"/></h2>
       <OverviewMap hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
     </div>) : null);
 
