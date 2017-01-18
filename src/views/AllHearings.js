@@ -19,11 +19,12 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all'};
+    this.state = {sortBy: '-created_at', hearingFilter: 'all', showOnlyOpen: false, isMobile: window.innerWidth < 992};
+    this.handleResize = this.handleResize.bind(this);
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
-    const params = searchTitle ? {title: searchTitle, ordering: sortBy} : {ordering: sortBy};
+    const params = searchTitle ? {title: searchTitle, ordering: sortBy, include: 'geojson'} : {ordering: sortBy, include: 'geojson'};
     if (labels) {
       params.label = labels;
     }
@@ -73,16 +74,36 @@ class AllHearings extends React.Component {
     AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
   }
 
+  toggleShowOnlyOpen() {
+    if (this.state.showOnlyOpen) {
+      this.setState({showOnlyOpen: false});
+    } else {
+      this.setState({showOnlyOpen: true});
+    }
+  }
+
+  handleResize() {
+    this.setState({ isMobile: window.innerWidth < 992 });
+  }
+
   componentDidMount() {
     const {dispatch} = this.props;
     const {sortBy} = this.state;
     AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   }
 
   render() {
     const {formatMessage} = this.props.intl;
     const {isLoading, labels, language} = this.props;
+    const {showOnlyOpen, isMobile} = this.state;
+    const activeTab = this.props.params.tab ? this.props.params.tab : 'list';
+
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
       <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
@@ -96,6 +117,10 @@ class AllHearings extends React.Component {
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
             language={language}
+            activeTab={activeTab}
+            showOnlyOpen={showOnlyOpen}
+            toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
+            isMobile={isMobile}
           />
         </Col>
       </Row>
@@ -109,7 +134,8 @@ AllHearings.propTypes = {
   language: React.PropTypes.string, // To rerender when language changes
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object
+  labels: React.PropTypes.object,
+  params: React.PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
