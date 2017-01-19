@@ -75,6 +75,8 @@ class Sidebar extends React.Component {
 
   render() {
     const {hearing, sectionGroups, currentlyViewed, isQuestionView, activeSection, activeLanguage} = this.props;
+    const TOP_OFFSET = 75;
+    const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -84,8 +86,8 @@ class Sidebar extends React.Component {
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
     return (<Col md={4} lg={3}>
-      <AutoAffix viewportOffsetTop={75} offsetBottom={165} container={this.parentNode}>
-        <div className="hearing-sidebar">
+      <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
+        <div className="hearing-sidebar" style={{maxHeight: window.innerHeight - TOP_OFFSET}}>
           <Row>
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
