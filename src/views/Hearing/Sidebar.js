@@ -20,6 +20,29 @@ import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {mouseOnSidebar: false, scrollPosition: []};
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll(event) {
+    if (this.state.mouseOnSidebar) {
+      event.preventDefault();
+      window.scroll(...this.state.scrollPosition);
+    }
+  }
+
   getCommentsItem() {
     const {hearing, currentlyViewed} = this.props;
     const fullscreen = hasFullscreenMapPlugin(hearing);
@@ -87,7 +110,12 @@ class Sidebar extends React.Component {
     </div>) : null);
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
-        <div className="hearing-sidebar" style={{maxHeight: window.innerHeight - TOP_OFFSET}}>
+        <div
+             className="hearing-sidebar"
+             style={{maxHeight: window.innerHeight - TOP_OFFSET}}
+             onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }}
+             onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }}
+        >
           <Row>
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
