@@ -43,7 +43,7 @@ class Sidebar extends React.Component {
   // }
 
   getCommentsItem() {
-    const {hearing, currentlyViewed} = this.props;
+    const {hearing, currentlyViewed, isQuestionView} = this.props;
     const fullscreen = hasFullscreenMapPlugin(hearing);
     const commentsURL = (
       fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
@@ -51,6 +51,20 @@ class Sidebar extends React.Component {
     if (this.props.mainSection.n_comments === 0) {
       return null;
     }
+
+    if (isQuestionView) {
+      return (
+        <Link to={getHearingURL(hearing)}>
+          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
+            <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
+            <div className="comment-icon">
+              <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
+            </div>
+          </ListGroupItem>
+        </Link>
+      );
+    }
+
     return (
       <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
         <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
@@ -111,11 +125,12 @@ class Sidebar extends React.Component {
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
         <div
              className="hearing-sidebar"
-             style={{maxHeight: window.innerHeight - TOP_OFFSET}}
+             style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
              /* onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
              /* onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
+            {console.log(window.innerHeight)}
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
                 <Icon name="comment-o"/> {' '}
@@ -155,7 +170,7 @@ class Sidebar extends React.Component {
                       </ListGroupItem>
                     </Link>
                   ))}
-                  {!isQuestionView && this.getCommentsItem()}
+                  {this.getCommentsItem()}
                 </ListGroup>
               </div>
             </Col>
