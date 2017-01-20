@@ -1,5 +1,4 @@
 import React from 'react';
-import Badge from 'react-bootstrap/lib/Badge';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
@@ -13,35 +12,35 @@ import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 import Row from 'react-bootstrap/lib/Row';
 import getAttr from '../../utils/getAttr';
-import {getSectionURL} from '../../utils/section';
 import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
+import SubSectionListGroup from '../../components/SubSectionListGroup';
 import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
+  //
+  //   this.state = {mouseOnSidebar: false, scrollPosition: []};
+  //   this.handleScroll = this.handleScroll.bind(this);
+  // }
 
-    this.state = {mouseOnSidebar: false, scrollPosition: []};
-    this.handleScroll = this.handleScroll.bind(this);
-  }
 
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll(event) {
-    if (this.state.mouseOnSidebar) {
-      event.preventDefault();
-      window.scroll(...this.state.scrollPosition);
-    }
-  }
+  // componentDidMount() {
+  //   window.addEventListener('scroll', this.handleScroll);
+  // }
+  //
+  // componentWillUnmount() {
+  //   window.removeEventListener('scroll', this.handleScroll);
+  // }
+  //
+  // handleScroll(event) {
+  //   if (this.state.mouseOnSidebar) {
+  //     event.preventDefault();
+  //     window.scroll(...this.state.scrollPosition);
+  //   }
+  // }
 
   getCommentsItem() {
     const {hearing, currentlyViewed} = this.props;
@@ -97,7 +96,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, sectionGroups, currentlyViewed, isQuestionView, activeSection, activeLanguage} = this.props;
+    const {hearing, sectionGroups, currentlyViewed, isQuestionView, /* activeSection, */ activeLanguage} = this.props;
     const TOP_OFFSET = 75;
     const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
@@ -113,8 +112,8 @@ class Sidebar extends React.Component {
         <div
              className="hearing-sidebar"
              style={{maxHeight: window.innerHeight - TOP_OFFSET}}
-             onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }}
-             onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }}
+             /* onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
+             /* onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
             <Col sm={6} md={12}>
@@ -134,27 +133,27 @@ class Sidebar extends React.Component {
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 <ListGroup>
-                  {!isQuestionView && <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
-                    <FormattedMessage id="hearing"/>
-                  </ListGroupItem>
-                  }
-                  {isQuestionView && sectionGroups.map((group) => group.sections.map((section) => (
-                    <Link to={getSectionURL(hearing.slug, section)}>
-                      <ListGroupItem className={`${section.id}${activeSection.id === section.id ? ' active' : ''}`} href={"#hearing-sectiongroup-" + section.id} key={section.id}>
-                        <div>
-                          {getAttr(section.title, activeLanguage)}
-                          {'     '}
-                          <Icon name="comment-o"/>{section.n_comments}
-                        </div>
+                  {isQuestionView ? <Link to={getHearingURL(hearing)}>
+                    <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
+                      <FormattedMessage id="hearing"/>
+                    </ListGroupItem>
+                  </Link>
+                    : <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
+                      <FormattedMessage id="hearing"/>
+                    </ListGroupItem>}
+                  {sectionGroups.map((sectionGroup) => (
+                    !isQuestionView ? <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.name_singular + Math.random()}>
+                      {getAttr(sectionGroup.name_plural, activeLanguage)}
+                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+                      <SubSectionListGroup sections={sectionGroup.sections} hearing={hearing}/>
+                    </ListGroupItem>
+                    : <Link className="active-group-link" to={getHearingURL(hearing)}>
+                      <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} key={sectionGroup.name_singular + Math.random()}>
+                        {getAttr(sectionGroup.name_plural, activeLanguage)}
+                        <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+                        <SubSectionListGroup currentlyViewed={currentlyViewed} sections={sectionGroup.sections} hearing={hearing}/>
                       </ListGroupItem>
                     </Link>
-                  )))}
-                  {!isQuestionView && sectionGroups.map((sectionGroup) => (
-                    <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.name_singular + Math.random()}>
-                      {sectionGroup.name_plural}
-                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                      <Badge>{sectionGroup.sections.length}</Badge>
-                    </ListGroupItem>
                   ))}
                   {!isQuestionView && this.getCommentsItem()}
                 </ListGroup>

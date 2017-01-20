@@ -286,7 +286,7 @@ class SectionContainer extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar currentlyViewed={'#hearing-sectiongroup'} isQuestionView={isQuestionView} activeSection={section} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
+          <Sidebar currentlyViewed={section.id} isQuestionView={isQuestionView} activeSection={section} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
           <Col md={8} lg={9}>
             <div className="section-browser">
               <Link className="to-hearing" to={getHearingURL(hearing)}>
