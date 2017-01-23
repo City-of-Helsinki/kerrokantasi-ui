@@ -15,6 +15,7 @@ import Row from 'react-bootstrap/lib/Row';
 import getAttr from '../../utils/getAttr';
 import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
+import ContactCard from '../../components/ContactCard';
 
 class Sidebar extends React.Component {
 
@@ -124,6 +125,18 @@ class Sidebar extends React.Component {
               <SocialBar />
               {hearingMap}
             </Col>
+            {hearing.contact_persons &&
+              <Col sm={12}>
+                <div className="sidebar-section further-info">
+                  <h4><FormattedMessage id="furtherInformation"/></h4>
+                  <div className="flex">
+                    {hearing.contact_persons.map((person, index) =>
+                      <ContactCard key={index} {...person}/>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            }
           </Row>
         </div>
       </AutoAffix>
