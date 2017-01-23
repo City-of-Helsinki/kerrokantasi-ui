@@ -10,8 +10,16 @@ import Row from 'react-bootstrap/lib/Row';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
+import OverviewMap from '../components/OverviewMap';
 
 class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {isMobile: window.innerWidth < 768};
+    this.handleResize = this.handleResize.bind(this);
+  }
   /**
    * Return a promise that will, as it fulfills, have added requisite
    * data for the home view into the dispatch's associated store.
@@ -22,39 +30,62 @@ class Home extends React.Component {
   static fetchData(dispatch) {
     return Promise.all([
       dispatch(fetchHearingList("topHearing", "/v1/hearing", {ordering: "-n_comments", open: true, limit: 1})),
-      dispatch(fetchHearingList("openHearings", "/v1/hearing", {open: true}))
+      dispatch(fetchHearingList("openHearings", "/v1/hearing", {open: true, include: 'geojson'}))
     ]);
   }
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
+    window.addEventListener('resize', this.handleResize);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize() {
+    this.setState({ isMobile: window.innerWidth < 768 });
+  }
+
 
   render() {
     const {formatMessage} = this.props.intl;
     const {topHearing, openHearings, language} = this.props;
-    return (<div className="container">
-      <Helmet title={formatMessage({id: 'welcome'})}/>
-      <h1><FormattedMessage id="welcome"/></h1>
-      <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
-      {topHearing && <FullWidthHearing hearing={topHearing}/>}
-      <hr />
-      <Row>
-        {openHearings && !openHearings.isFetching &&
+    const {isMobile} = this.state;
+    const hearingMap = (openHearings && openHearings.data ? (<div className="map">
+      <h2><FormattedMessage id="open-hearings-on-map"/></h2>
+      <OverviewMap hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
+    </div>) : null);
+
+    return (<div>
+      <div className="container">
+        <Helmet title={formatMessage({id: 'welcome'})}/>
+        <h1><FormattedMessage id="welcome"/></h1>
+        <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
+        {topHearing && <FullWidthHearing hearing={topHearing}/>}
+        <hr />
+        <Row>
+          {openHearings && !openHearings.isFetching &&
+            <Col xs={12}>
+              <div className="list">
+                <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
+                <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
+                <Link className="fullwidth" to="/hearings/list"><FormattedMessage id="allHearings"/></Link>
+              </div>
+            </Col>
+          }
           <Col xs={12}>
-            <div className="list">
-              <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
-              <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-              <Link className="fullwidth" to="/hearings"><FormattedMessage id="allHearings"/></Link>
+            <div className="feedback-box">
+              <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+                <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
+              </a>
             </div>
           </Col>
-        }
-        <Col xs={12}>
-          <div className="feedback-box">
-            <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
-              <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
-            </a>
-          </div>
+        </Row>
+      </div>
+      <Row>
+        <Col sm={12}>
+          {hearingMap}
         </Col>
       </Row>
     </div>);

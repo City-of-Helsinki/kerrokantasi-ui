@@ -104,8 +104,8 @@ class Header extends React.Component {
             </button>
             <div className="nav-wrap">
               <Nav className="nav-items" onSelect={onSelect}>
-                {this.getNavItem("hearings", "/hearings")}
-                {this.getNavItem("hearingMap", "/map")}
+                {this.getNavItem("hearings", "/hearings/list")}
+                {this.getNavItem("hearingMap", "/hearings/map")}
                 {this.getNavItem("info", "/info")}
               </Nav>
               <LanguageSwitcher currentLanguage={this.props.language}/>

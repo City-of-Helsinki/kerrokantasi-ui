@@ -15,6 +15,7 @@
   "timetable": "Aikajana",
   "addComment": "Vastaa",
   "overview-map": "Kartta",
+  "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
   "infoHeaderText": "Tietoa palvelusta",
   "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
   "privacyPolicy": "Rekisteriseloste",
@@ -86,5 +87,8 @@
   "searchLabels": "Hae aiheista",
   "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
   "furtherInformation": "Lisätietoja",
-  "contactPersons": "Yhteyshenkilöt"
+  "contactPersons": "Yhteyshenkilöt",
+  "list": "Lista",
+  "map": "Kartta",
+  "showOnlyOpen": "Näytetään vain avoimet"
 }
