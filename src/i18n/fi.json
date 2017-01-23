@@ -21,7 +21,6 @@
   "lang-fi": "Suomi",
   "lang-en": "Englanti",
   "lang-sv": "Ruotsi",
-  "loadMoreComments": "Näytä enemmän mielipiteitä",
   "welcome": "Tervetuloa!",
   "openHearings": "Avoimet kuulemiset",
   "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
@@ -85,5 +84,7 @@
   "leastCommented": "Vähiten kommentoitu",
   "mostCommented": "Eniten kommentoitu",
   "searchLabels": "Hae aiheista",
-  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi"
+  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
+  "furtherInformation": "Lisätietoja",
+  "contactPersons": "Yhteyshenkilöt"
 }
