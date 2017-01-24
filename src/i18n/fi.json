@@ -90,5 +90,7 @@
   "contactPersons": "Yhteyshenkilöt",
   "list": "Lista",
   "map": "Kartta",
-  "showOnlyOpen": "Näytetään vain avoimet"
+  "showOnlyOpen": "Näytetään vain avoimet",
+  "previous": "Edellinen",
+  "next": "Seuraava"
 }

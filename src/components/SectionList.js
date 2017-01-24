@@ -6,7 +6,7 @@ import {userCanComment, userCanVote} from '../utils/section';
 
 class SectionList extends React.Component {
   render() {
-    const {sections, nComments, user} = this.props;
+    const {sections, nComments, user, basePath} = this.props;
     if (!sections || sections.length === 0) {
       return null;
     }
@@ -29,12 +29,14 @@ class SectionList extends React.Component {
           loadSectionComments={this.props.loadSectionComments}
           comments={this.props.sectionComments[section.id]}
           user={user}
+          linkTo={`${basePath}/${section.id}`}
         />))}
     </div>);
   }
 }
 
 SectionList.propTypes = {
+  basePath: React.PropTypes.string,
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   loadSectionComments: React.PropTypes.func,

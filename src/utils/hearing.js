@@ -102,7 +102,6 @@ export function canEdit(user, hearing) {
   return Boolean(user && _.includes(user.adminOrganizations || [], hearing.organization));
 }
 
-
 export function getImageAsBase64Promise(image) {
   const reader = new FileReader();
   reader.readAsDataURL(image);
@@ -112,4 +111,20 @@ export function getImageAsBase64Promise(image) {
         resolve(reader.result);
       };
     });
+}
+
+export function getOpenGraphMetaData(title, pathname) {
+  let hostname = "http://kerrokantasi.hel.fi";
+  if (typeof HOSTNAME === 'string') {
+    hostname = HOSTNAME;  // eslint-disable-line no-undef
+  } else if (typeof window !== 'undefined') {
+    hostname = window.location.protocol + "//" + window.location.host;
+  }
+  const url = hostname + pathname;
+  return [
+    {property: "og:url", content: url},
+    {property: "og:type", content: "website"},
+    {property: "og:title", content: title}
+    // TODO: Add description and image?
+  ];
 }

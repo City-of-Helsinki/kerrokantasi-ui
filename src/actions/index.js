@@ -15,6 +15,10 @@ function checkResponseStatus(response) {
   }
 }
 
+export function changeCurrentlyViewed(dispatch, newViewed) {
+  dispatch(createAction('changeCurrentlyViewed')({newViewed}));
+}
+
 function getResponseJSON(response) {
   checkResponseStatus(response);
   if (response.status === 304) {

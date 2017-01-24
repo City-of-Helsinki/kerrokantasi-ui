@@ -3,6 +3,33 @@
     padding: 15px;
     font-size: 1.4rem;
     margin-bottom: 25px;
+    overflow-y: scroll;
+
+    .list-group {
+        .list-group-item {
+            color: @gray-light;
+            &:hover {
+                color: #FFFFFF;
+                background: #005eb8;
+            }
+
+            .active {
+                color: #FFFFFF;
+            }
+        }
+        a {
+
+            :hover {
+                color: #FFFFFF;
+            }
+            .active {
+                color: #FFFFFF;
+            }
+        }
+        .active {
+            color: #FFFFFF;
+        }
+    }
 
     .language-link {
         padding: 4px;
@@ -239,22 +266,21 @@
 }
 
 #hearing-comments,
-[id^='hearing-sectiongroup-'] {
+[id^='hearing-sectiongroup-'],
+.commentlist {
     padding-top: 50px;
 
     h2:first-letter {
         text-transform:capitalize;
     }
-
-    .commenticon {
-        float: right;
-    }
 }
 
 .hearing-section {
-    h2 {
-        font-size: 20px;
+
+    .sortable-comment-list {
+        padding-top: 50px;
     }
+
     .commentlist {
         padding: 15px;
     }
@@ -272,4 +298,9 @@
   background: @brand-gray-light;
   padding: 20px 15px 15px;
   text-align: center;
+}
+
+
+.commenticon {
+    float: right;
 }

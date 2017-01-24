@@ -18,7 +18,14 @@ const receiveHearing = (state, {payload}) => {
   }, state);
 };
 
+const changeCurrentlyViewed = (state, {payload}) => {
+  return updeep({
+    currentlyViewed: payload.newViewed
+  }, state);
+};
+
 export default handleActions({
   beginFetchHearing,
-  receiveHearing
+  receiveHearing,
+  changeCurrentlyViewed
 }, {});

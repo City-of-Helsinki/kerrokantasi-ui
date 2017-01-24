@@ -1,5 +1,4 @@
 import React from 'react';
-import Badge from 'react-bootstrap/lib/Badge';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
@@ -16,11 +15,36 @@ import getAttr from '../../utils/getAttr';
 import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
 import ContactCard from '../../components/ContactCard';
+import SubSectionListGroup from '../../components/SubSectionListGroup';
+import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
 
+  // constructor(props) {
+  //   super(props);
+  //
+  //   this.state = {mouseOnSidebar: false, scrollPosition: []};
+  //   this.handleScroll = this.handleScroll.bind(this);
+  // }
+
+
+  // componentDidMount() {
+  //   window.addEventListener('scroll', this.handleScroll);
+  // }
+  //
+  // componentWillUnmount() {
+  //   window.removeEventListener('scroll', this.handleScroll);
+  // }
+  //
+  // handleScroll(event) {
+  //   if (this.state.mouseOnSidebar) {
+  //     event.preventDefault();
+  //     window.scroll(...this.state.scrollPosition);
+  //   }
+  // }
+
   getCommentsItem() {
-    const hearing = this.props.hearing;
+    const {hearing, currentlyViewed, isQuestionView} = this.props;
     const fullscreen = hasFullscreenMapPlugin(hearing);
     const commentsURL = (
       fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
@@ -28,8 +52,22 @@ class Sidebar extends React.Component {
     if (this.props.mainSection.n_comments === 0) {
       return null;
     }
+
+    if (isQuestionView) {
+      return (
+        <Link to={getHearingURL(hearing)}>
+          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
+            <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
+            <div className="comment-icon">
+              <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
+            </div>
+          </ListGroupItem>
+        </Link>
+      );
+    }
+
     return (
-      <ListGroupItem href={commentsURL}>
+      <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
         <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
         <div className="comment-icon">
           <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
@@ -73,7 +111,9 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, sectionGroups} = this.props;
+    const {hearing, sectionGroups, currentlyViewed, isQuestionView, /* activeSection, */ activeLanguage} = this.props;
+    const TOP_OFFSET = 75;
+    const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
       <h4><FormattedMessage id="borough"/></h4>
       <Label>{hearing.borough}</Label>
@@ -83,9 +123,15 @@ class Sidebar extends React.Component {
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
     return (<Col md={4} lg={3}>
-      <AutoAffix viewportOffsetTop={75} offsetBottom={165} container={this.parentNode}>
-        <div className="hearing-sidebar">
+      <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
+        <div
+             className="hearing-sidebar"
+             style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
+             /* onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
+             /* onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }} */
+        >
           <Row>
+            {console.log(window.innerHeight)}
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
                 <Icon name="comment-o"/> {' '}
@@ -103,15 +149,27 @@ class Sidebar extends React.Component {
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 <ListGroup>
-                  <ListGroupItem href="#hearing">
-                    <FormattedMessage id="hearing"/>
-                  </ListGroupItem>
-                  {sectionGroups.map((sectionGroup) => (
-                    <ListGroupItem href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
-                      {sectionGroup.name_plural}
-                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                      <Badge>{sectionGroup.sections.length}</Badge>
+                  {isQuestionView ? <Link to={getHearingURL(hearing)}>
+                    <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
+                      <FormattedMessage id="hearing"/>
                     </ListGroupItem>
+                  </Link>
+                    : <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
+                      <FormattedMessage id="hearing"/>
+                    </ListGroupItem>}
+                  {sectionGroups.map((sectionGroup) => (
+                    !isQuestionView ? <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} href={"#hearing-sectiongroup-part"} key={sectionGroup.name_singular + Math.random()}>
+                      {getAttr(sectionGroup.name_plural, activeLanguage)}
+                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+                      <SubSectionListGroup sections={sectionGroup.sections} hearing={hearing}/>
+                    </ListGroupItem>
+                    : <Link className="active-group-link" to={getHearingURL(hearing)}>
+                      <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} key={sectionGroup.name_singular + Math.random()}>
+                        {getAttr(sectionGroup.name_plural, activeLanguage)}
+                        <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+                        <SubSectionListGroup currentlyViewed={currentlyViewed} sections={sectionGroup.sections} hearing={hearing}/>
+                      </ListGroupItem>
+                    </Link>
                   ))}
                   {this.getCommentsItem()}
                 </ListGroup>
@@ -149,7 +207,10 @@ Sidebar.propTypes = {
   mainSection: React.PropTypes.object,
   sectionGroups: React.PropTypes.array,
   activeLanguage: React.PropTypes.string,
-  dispatch: React.PropTypes.func
+  dispatch: React.PropTypes.func,
+  currentlyViewed: React.PropTypes.string,
+  isQuestionView: React.PropTypes.func,
+  activeSection: React.PropTypes.object
 };
 
 export default injectIntl(Sidebar);

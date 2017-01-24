@@ -4,9 +4,10 @@ import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import {Modal} from 'react-bootstrap';
+import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import ContactCard from './ContactCard';
+import Waypoint from 'react-waypoint';
 
 import {
   fetchSectionComments, fetchMoreSectionComments, followHearing,
@@ -18,8 +19,7 @@ import LabelList from './LabelList';
 import Section from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
-import find from 'lodash/find';
-import _, {get} from 'lodash';
+import _, {get, find} from 'lodash';
 import Icon from '../utils/Icon';
 import config from '../config';
 import {
@@ -239,7 +239,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, user, language, dispatch} = this.props;
+    const {hearing, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -250,7 +250,7 @@ export class Hearing extends React.Component {
     return (
       <div id="hearing-wrapper">
         <LabelList className="main-labels" labels={hearing.labels}/>
-
+        <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
         <h1 className="page-title">
           {this.getFollowButton()}
           {!hearing.published ? <Icon name="eye-slash"/> : null}
@@ -258,9 +258,10 @@ export class Hearing extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
+          <Sidebar currentlyViewed={currentlyViewed} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
           <Col md={8} lg={9}>
             <div id="hearing">
+              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'}/>
               <div>
                 <HearingImageList images={mainSection.images}/>
                 <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}/>
@@ -280,10 +281,11 @@ export class Hearing extends React.Component {
             </div>
 
             {this.getLinkToFullscreen(hearing)}
-
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
+                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)}/>
                 <SectionList
+                  basePath={location.pathname}
                   sections={sectionGroup.sections}
                   nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}
@@ -296,6 +298,7 @@ export class Hearing extends React.Component {
                 />
               </div>
             ))}
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'}/>
             {this.getCommentList()}
 
             {hearing.contact_persons && hearing.contact_persons.length ? <h2><FormattedMessage id="contactPersons"/></h2> : null}
@@ -323,6 +326,8 @@ Hearing.propTypes = {
   location: React.PropTypes.object,
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+  changeCurrentlyViewed: React.PropTypes.func,
+  currentlyViewed: React.PropTypes.string
 };
 
 export function wrapHearingComponent(component, pure = true) {
@@ -354,20 +359,3 @@ function groupSections(sections) {
   });
   return sectionGroups;
 }
-
-const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
-  <Modal className="delete-modal" show={isOpen} onHide={() => close()} animation={false}>
-    <Modal.Header closeButton>
-      <Modal.Title><FormattedMessage id="deleteConfirmation"/></Modal.Title>
-    </Modal.Header>
-    <Modal.Footer>
-      <Button onClick={() => close()}><FormattedMessage id="cancel"/></Button>
-      <Button bsStyle="danger" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
-    </Modal.Footer>
-  </Modal>;
-
-DeleteModal.propTypes = {
-  isOpen: React.PropTypes.boolean,
-  close: React.PropTypes.func,
-  onDeleteComment: React.PropTypes.func
-};

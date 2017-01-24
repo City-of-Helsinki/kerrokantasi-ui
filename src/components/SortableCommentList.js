@@ -62,6 +62,10 @@ class SortableCommentList extends Component {
     if (this.props.user && !nextProps.user) {
       fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
+
+    if (section.id !== nextProps.section.id) {
+      fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    }
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line
@@ -106,14 +110,14 @@ class SortableCommentList extends Component {
       section,
       sectionComments,
       canVote,
-      isSectionComments,
+      onPostComment,
       // voteComment,
       ...rest
     } = this.props;
 
     const showCommentList = section && sectionComments && get(sectionComments, 'results');
     return (
-      <div className="sortable-comment-list" style={isSectionComments && {background: '#f5f5f5'}}>
+      <div className="sortable-comment-list">
         <h2><FormattedMessage id="comments"/>
           <div className="commenticon">
             <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
@@ -137,10 +141,9 @@ class SortableCommentList extends Component {
             </div>
             : null
         }
-
         {canComment && <CommentForm
           hearingId={hearingId}
-          onPostComment={this.onPostHearingComment.bind(this)}
+          onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
           canSetNickname={this.props.canSetNickname}
         />
         }
@@ -208,7 +211,8 @@ SortableCommentList.propTypes = {
   isSectionComments: React.PropTypes.bool,
   canSetNickname: React.PropTypes.bool,
   canComment: React.PropTypes.bool,
-  hearingId: React.PropTypes.string
+  hearingId: React.PropTypes.string,
+  onPostComment: React.PropTypes.func
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({

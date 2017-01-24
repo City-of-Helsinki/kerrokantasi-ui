@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import SortableCommentList from './SortableCommentList';
+import {Link} from 'react-router';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
@@ -16,7 +17,7 @@ function getImageList(section, language) {
   }
   return section.images.map((image) => (<div key={image.url}>
     <img className="img-responsive" alt={getAttr(image.title, language)} title={getAttr(image.title, language)} src={image.url}/>
-    <div className="image-caption">{image.caption}</div>
+    <div className="image-caption">{getAttr(image.caption, language)}</div>
   </div>));
 }
 
@@ -64,7 +65,7 @@ export default class Section extends React.Component {
   }
 
   getTitleDiv(collapsed, collapsible) {
-    const {section} = this.props;
+    const {section, linkTo} = this.props;
     const {language} = this.context;
     if (section.type === "main") {
       return null;
@@ -77,8 +78,25 @@ export default class Section extends React.Component {
       );
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
+
+    if (linkTo) {
+      return (
+        <h2 className="section-title" onClick={this.toggle.bind(this)}>
+          <Link to={linkTo}>
+            {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+            {getAttr(this.props.section.title, language)}
+          </Link>
+          {collapsed ? (
+            <div className="section-title-comments">
+              <Icon name="comment-o"/>&nbsp;{section.n_comments}
+            </div>
+          ) : null}
+        </h2>
+      );
+    }
+
     return (
-      <h3 className="section-title" onClick={this.toggle.bind(this)}>
+      <h2 className="section-title" onClick={this.toggle.bind(this)}>
         {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
         {getAttr(this.props.section.title, language)}
         {collapsed ? (
@@ -86,7 +104,7 @@ export default class Section extends React.Component {
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
           </div>
         ) : null}
-      </h3>
+      </h2>
     );
   }
 
@@ -135,9 +153,9 @@ export default class Section extends React.Component {
   }
 
   isCollapsible() {
-    const {section} = this.props;
+    const {section, isCollapsible} = this.props;
     const hasPlugin = !!section.plugin_identifier;
-    return !isSpecialSectionType(section.type) && !hasPlugin;
+    return isCollapsible && !isSpecialSectionType(section.type) && !hasPlugin;
   }
 
   isCommentable() {
@@ -176,8 +194,10 @@ export default class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
-        canSetNickname={user === null}
+        canSetNickname={!user}
         isSectionComments={section}
+        onDeleteComment={this.props.handleDeleteClick}
+        onEditComment={this.props.onEditComment}
       />);
     }
     const imageList = getImageList(section, language);
@@ -203,18 +223,28 @@ export default class Section extends React.Component {
 
 Section.defaultProps = {
   showPlugin: true,
+  isCollapsible: true,
 };
 
 Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   comments: React.PropTypes.object,
+  isCollapsible: React.PropTypes.bool,
+  linkTo: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+    React.PropTypes.func
+  ]),
   loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
   section: React.PropTypes.object.isRequired,
   showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
+  canSetNickname: React.PropTypes.bool,
+  handleDeleteClick: React.PropTypes.func,
+  onEditComment: React.PropTypes.func
 };
 
 Section.contextTypes = {
