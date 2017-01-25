@@ -17,6 +17,7 @@ import {setLanguage} from '../../actions';
 import ContactCard from '../../components/ContactCard';
 import SubSectionListGroup from '../../components/SubSectionListGroup';
 import {Link} from 'react-router';
+import config from '../../config';
 
 class Sidebar extends React.Component {
 
@@ -111,7 +112,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, sectionGroups, currentlyViewed, isQuestionView, /* activeSection, */ activeLanguage} = this.props;
+    const {hearing, hearingSlug, sectionGroups, currentlyViewed, isQuestionView, /* activeSection, */ activeLanguage} = this.props;
     const TOP_OFFSET = 75;
     const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
@@ -122,6 +123,7 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="overview-map"/></h4>
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
         <div
@@ -163,7 +165,7 @@ class Sidebar extends React.Component {
                       <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
                       <SubSectionListGroup sections={sectionGroup.sections} hearing={hearing}/>
                     </ListGroupItem>
-                    : <Link className="active-group-link" to={getHearingURL(hearing)}>
+                    : <Link className="active-group-link" to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}>
                       <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} key={sectionGroup.name_singular + Math.random()}>
                         {getAttr(sectionGroup.name_plural, activeLanguage)}
                         <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
@@ -195,6 +197,7 @@ class Sidebar extends React.Component {
                 </div>
               </Col>
             }
+            <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
           </Row>
         </div>
       </AutoAffix>
@@ -210,7 +213,8 @@ Sidebar.propTypes = {
   dispatch: React.PropTypes.func,
   currentlyViewed: React.PropTypes.string,
   isQuestionView: React.PropTypes.func,
-  activeSection: React.PropTypes.object
+  activeSection: React.PropTypes.object,
+  hearingSlug: React.PropTypes.string
 };
 
 export default injectIntl(Sidebar);

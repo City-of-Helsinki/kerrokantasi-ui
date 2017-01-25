@@ -21,7 +21,6 @@ import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import _, {get, find} from 'lodash';
 import Icon from '../utils/Icon';
-import config from '../config';
 import {
   acceptsComments,
   getClosureSection,
@@ -196,7 +195,6 @@ export class Hearing extends React.Component {
     const {hearing, sectionComments, location, hearingSlug} = this.props;
     const mainSection = getMainSection(hearing);
     const user = this.props.user;
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     let userIsAdmin = false;
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
@@ -225,7 +223,6 @@ export class Hearing extends React.Component {
           />
         </div>
         <hr/>
-        <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
       </div>
     );
   }
@@ -239,7 +236,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
+    const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -258,7 +255,15 @@ export class Hearing extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar currentlyViewed={currentlyViewed} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups} activeLanguage={language} dispatch={dispatch}/>
+          <Sidebar
+            currentlyViewed={currentlyViewed}
+            hearing={hearing}
+            mainSection={mainSection}
+            sectionGroups={sectionGroups}
+            activeLanguage={language}
+            dispatch={dispatch}
+            hearingSlug={hearingSlug}
+          />
           <Col md={8} lg={9}>
             <div id="hearing">
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'}/>
