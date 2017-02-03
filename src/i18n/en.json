@@ -15,6 +15,7 @@
   "timetable": "Timetable",
   "addComment": "Answer",
   "overview-map": "Map",
+  "open-hearings-on-map": "Open hearings on map",
   "infoHeaderText": "About the service",
   "infoHeaderDescription": "This is a prototype service. Please give us feedback to improve the service",
   "privacyPolicy": "Privacy Policy",
@@ -89,5 +90,7 @@
   "contactPersons": "Contact persons",
   "list": "List",
   "map": "Map",
-  "showOnlyOpen": "Show only open"
+  "showOnlyOpen": "Show only open",
+  "previous": "Previous",
+  "next": "Next"
 }
