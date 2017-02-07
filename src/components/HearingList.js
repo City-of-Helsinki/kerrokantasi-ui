@@ -61,7 +61,7 @@ class HearingListItem extends React.Component {
     const mainImage = hearing.main_image;
     const {language} = this.props;
     const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
-    const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla suomeksi', sv: 'Höranden tillgänglig på svenska', en: 'Questionnaire available in English'};
+    const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla suomeksi', sv: 'Hörandet tillgängligt på svenska', en: 'Questionnaire available in English'};
 
     return (<div className="hearing-list-item">
       {
