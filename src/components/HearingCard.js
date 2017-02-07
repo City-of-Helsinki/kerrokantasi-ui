@@ -17,7 +17,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
-  const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla Suomeksi', sv: 'Enkäten tillgänglig på svenska', en: 'Questionnaire available in English'};
+  const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla suomeksi', sv: 'Höranden tillgänglig på svenska', en: 'Questionnaire available in English'};
   return (
     <div className={`hearing-card ${className}`}>
       {
