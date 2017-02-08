@@ -55,17 +55,6 @@ export function jsonRequest(method, state, endpoint, data, params = {}, options 
   return apiCall(state, endpoint, params, merge({body: data, method}, options));
 }
 
-export function put(state, endpoint, data, params = {}, options = {}) {
-  if (typeof data !== "string") {
-    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
-    options.headers = merge(  // eslint-disable-line no-param-reassign
-      {"Content-Type": "application/json"},
-      options.headers
-    );
-  }
-  return apiCall(state, endpoint, params, merge({body: data, method: "PUT"}, options));
-}
-
 export function apiDelete(state = {}, endpoint, params = {}, options = { method: "DELETE" }) {
   return apiCall(state, endpoint, params, options);
 }
