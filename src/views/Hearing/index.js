@@ -95,7 +95,6 @@ export class HearingView extends React.Component {
 
     const fullscreen = this.checkNeedForFullscreen(hearing);
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
-    console.log(this.state.currentlyViewed);
 
     return (
       <div key="hearing" className={fullscreen ? "fullscreen-hearing" : "container"}>

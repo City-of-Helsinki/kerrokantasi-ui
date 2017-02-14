@@ -8,8 +8,12 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
       <Modal.Title><FormattedMessage id="deleteConfirmation"/></Modal.Title>
     </Modal.Header>
     <Modal.Footer>
-      <Button onClick={() => close()}><FormattedMessage id="cancel"/></Button>
-      <Button bsStyle="danger" onClick={() => { onDeleteComment(); close(); }}><FormattedMessage id="deleteComment"/></Button>
+      <Button onClick={() => close()}>
+        <FormattedMessage id="cancel"/>
+      </Button>
+      <Button bsStyle="danger" onClick={() => { onDeleteComment(); close(); }}>
+        <FormattedMessage id="deleteComment"/>
+      </Button>
     </Modal.Footer>
   </Modal>;
 

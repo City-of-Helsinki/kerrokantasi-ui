@@ -133,7 +133,6 @@ class Sidebar extends React.Component {
              /* onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
-            {console.log(window.innerHeight)}
             <Col sm={6} md={12}>
               <div className="sidebar-section commentNumber">
                 <Icon name="comment-o"/> {' '}
@@ -191,7 +190,7 @@ class Sidebar extends React.Component {
                   <h4><FormattedMessage id="furtherInformation"/></h4>
                   <div className="flex">
                     {hearing.contact_persons.map((person, index) =>
-                      <ContactCard key={index} {...person}/>
+                      <ContactCard key={index} {...person}/>  // eslint-disable-line react/no-array-index-key
                     )}
                   </div>
                 </div>

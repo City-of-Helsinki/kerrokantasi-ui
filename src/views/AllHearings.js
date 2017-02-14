@@ -24,7 +24,11 @@ class AllHearings extends React.Component {
   }
 
   static fetchData(dispatch, sortBy, searchTitle, labels) {
-    const params = searchTitle ? {title: searchTitle, ordering: sortBy, include: 'geojson'} : {ordering: sortBy, include: 'geojson'};
+    const params = (
+      searchTitle ?
+        {title: searchTitle, ordering: sortBy, include: 'geojson'} :
+        {ordering: sortBy, include: 'geojson'}
+    );
     if (labels) {
       params.label = labels;
     }

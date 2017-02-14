@@ -74,7 +74,7 @@ class HearingListItem extends React.Component {
         </Link>
       }
       <div className="hearing-list-item-image">
-        {mainImage ? <img role="presentation" src={mainImage.url} /> : null}
+        {mainImage ? <img alt="" src={mainImage.url} /> : null}
       </div>
       <div className="hearing-list-item-content">
         <div className="hearing-list-item-labels">
