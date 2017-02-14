@@ -30,7 +30,6 @@ HearingMap.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearingLists: React.PropTypes.object,
-  language: React.PropTypes.string
 };
 
 export default connect(

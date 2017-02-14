@@ -28,7 +28,6 @@ const HearingListTabs = ({activeTab}) =>
 
 HearingListTabs.propTypes = {
   activeTab: React.PropTypes.string,
-  handleChangeTab: React.PropTypes.func
 };
 
 const HearingListFilters = ({handleSort}) =>
@@ -49,9 +48,7 @@ const HearingListFilters = ({handleSort}) =>
   </div>;
 
 HearingListFilters.propTypes = {
-  labels: React.PropTypes.object,
-  handleChangeFilter: React.PropTypes.func,
-  handleSort: React.PropTypes.func
+  handleSort: React.PropTypes.func,
 };
 
 class HearingListItem extends React.Component {
@@ -146,13 +143,11 @@ HearingList.propTypes = {
   hearings: React.PropTypes.object,
   labels: React.PropTypes.object,
   isLoading: React.PropTypes.string,
-  handleChangeFilter: React.PropTypes.func,
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
   handleLabelSearch: React.PropTypes.func,
   language: React.PropTypes.string,
   activeTab: React.PropTypes.string,
-  handleChangeTab: React.PropTypes.func,
   showOnlyOpen: React.PropTypes.bool,
   toggleShowOnlyOpen: React.PropTypes.func,
   isMobile: React.PropTypes.bool

@@ -212,8 +212,7 @@ Sidebar.propTypes = {
   dispatch: React.PropTypes.func,
   currentlyViewed: React.PropTypes.string,
   isQuestionView: React.PropTypes.func,
-  activeSection: React.PropTypes.object,
-  hearingSlug: React.PropTypes.string
+  hearingSlug: React.PropTypes.string,
 };
 
 export default injectIntl(Sidebar);

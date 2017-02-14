@@ -242,9 +242,8 @@ Section.propTypes = {
   section: React.PropTypes.object.isRequired,
   showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
-  canSetNickname: React.PropTypes.bool,
   handleDeleteClick: React.PropTypes.func,
-  onEditComment: React.PropTypes.func
+  onEditComment: React.PropTypes.func,
 };
 
 Section.contextTypes = {

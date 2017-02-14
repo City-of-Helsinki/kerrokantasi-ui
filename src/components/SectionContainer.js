@@ -357,7 +357,6 @@ SectionContainer.propTypes = {
   section: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
   language: React.PropTypes.string,
-  canComment: React.PropTypes.bool
 };
 
 export function wrapSectionContainer(component, pure = true) {

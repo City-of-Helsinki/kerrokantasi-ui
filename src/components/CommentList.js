@@ -40,12 +40,9 @@ CommentList.propTypes = {
   comments: React.PropTypes.array,
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
-  hearingId: React.PropTypes.string,
-  onPostComment: React.PropTypes.func,
   onEditComment: React.PropTypes.func,
   onDeleteComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
-  canSetNickname: React.PropTypes.bool,
   isLoading: React.PropTypes.bool
 };
 

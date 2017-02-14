@@ -6,7 +6,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {fetchHearing, changeCurrentlyViewed} from '../../actions';
 import {getMainSection, getHearingURL, getOpenGraphMetaData} from '../../utils/hearing';
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {push} from 'redux-router';
 import getAttr from '../../utils/getAttr';
 
@@ -115,7 +115,6 @@ export class HearingView extends React.Component {
 }
 
 HearingView.propTypes = {
-  intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearing: React.PropTypes.object,
   params: React.PropTypes.object,
