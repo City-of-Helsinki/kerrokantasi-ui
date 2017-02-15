@@ -9,7 +9,11 @@ const SubSectionListGroup = ({sections, language = 'fi', hearing, currentlyViewe
   <ListGroup className="subsection-list-group">
     {sections && sections.map((section) =>
       <Link to={getSectionURL(hearing.slug, section)}>
-        <ListGroupItem className={currentlyViewed === section.id ? "subsection-list-group-item active" : "subsection-list-group-item"} key={section.id} href={`#hearing-subsection-${section.id}`}>
+        <ListGroupItem
+          className={`subsection-list-group-item ${currentlyViewed === section.id ? "active" : ""}`}
+          key={section.id}
+          href={`#hearing-subsection-${section.id}`}
+        >
           <span className="subsection-list-group-item__title">
             {getAttr(section.title, language)}
           </span>

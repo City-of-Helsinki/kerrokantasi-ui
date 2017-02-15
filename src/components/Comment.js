@@ -86,10 +86,10 @@ class Comment extends React.Component {
       </div>
       <div className="hearing-comment__images">
         {data.images
-          ? data.images.map((image, index) =>
+          ? data.images.map((image) =>
             <a
                className="hearing-comment-images-image"
-               key={index + Math.random()}
+               key={image.url}
                rel="noopener noreferrer"
                target="_blank"
                href={image.url}
@@ -105,10 +105,18 @@ class Comment extends React.Component {
           : null}
       </div>
       {canEdit && <div>
-        <a href="" onClick={(event) => this.toggleEditor(event)} style={{ paddingRight: 10, borderRight: '1px solid black' }}>
+        <a
+          href=""
+          onClick={(event) => this.toggleEditor(event)}
+          style={{ paddingRight: 10, borderRight: '1px solid black' }}
+        >
           <FormattedMessage id="edit"/>
         </a>
-        <a href="" onClick={(event) => this.handleDelete(event)} style={{ paddingLeft: 10 }}>
+        <a
+          href=""
+          onClick={(event) => this.handleDelete(event)}
+          style={{ paddingLeft: 10 }}
+        >
           <FormattedMessage id="delete"/>
         </a>
       </div>

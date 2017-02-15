@@ -124,7 +124,6 @@ Header.propTypes = {
   dispatch: React.PropTypes.func,
   history: React.PropTypes.object,
   language: React.PropTypes.string,
-  slim: React.PropTypes.bool,
   user: React.PropTypes.object,
 };
 

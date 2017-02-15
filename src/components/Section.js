@@ -175,7 +175,7 @@ export default class Section extends React.Component {
       return (
         <div className="section-list-item">
           <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
-            {section.images.length ? <img role="presentation" src={section.images[0].url} /> : null}
+            {section.images.length ? <img alt="" src={section.images[0].url} /> : null}
           </div>
           <div className="section-list-item-content">
             {titleDiv}
@@ -242,9 +242,8 @@ Section.propTypes = {
   section: React.PropTypes.object.isRequired,
   showPlugin: React.PropTypes.bool,
   user: React.PropTypes.object,
-  canSetNickname: React.PropTypes.bool,
   handleDeleteClick: React.PropTypes.func,
-  onEditComment: React.PropTypes.func
+  onEditComment: React.PropTypes.func,
 };
 
 Section.contextTypes = {

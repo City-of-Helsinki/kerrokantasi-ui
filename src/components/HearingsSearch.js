@@ -24,7 +24,13 @@ class HearingsSearch extends React.Component {
     const {handleSearch, labels, language} = this.props;
     const {selectedLabels} = this.state;
     const multiple = true;
-    const labelsAsOptions = labels.map((label) => { return {label: getAttr(label.label, language), value: getAttr(label.label, language), id: label.id}; });
+    const labelsAsOptions = labels.map((label) => {
+      return {
+        label: getAttr(label.label, language),
+        value: getAttr(label.label, language),
+        id: label.id,
+      };
+    });
 
     return (
       <div className="hearings-search__container">
@@ -52,7 +58,9 @@ class HearingsSearch extends React.Component {
               />
               }
             </FormGroup>
-            <Button className="hearings-search__button" bsStyle="primary" type="submit"><FormattedMessage id="search"/></Button>
+            <Button className="hearings-search__button" bsStyle="primary" type="submit">
+              <FormattedMessage id="search"/>
+            </Button>
           </form>
         </div>
       </div>
@@ -62,7 +70,6 @@ class HearingsSearch extends React.Component {
 
 HearingsSearch.propTypes = {
   handleSearch: React.PropTypes.func,
-  handleLabelSearch: React.PropTypes.func,
   labels: React.PropTypes.object,
   language: React.PropTypes.string
 };

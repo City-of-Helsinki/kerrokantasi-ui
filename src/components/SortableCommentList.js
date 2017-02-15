@@ -75,7 +75,6 @@ class SortableCommentList extends Component {
     const mainSection = this.props.mainSection;
     const commentData = { text, authorName, pluginData: null, authCode, geojson: null, label: null, images };
     postComment(hearingSlug, mainSection.id, commentData);
-    console.log(this.props.sectionComments);
   }
 
   onPostSectionComment(sectionId, sectionCommentData) {
@@ -151,9 +150,16 @@ class SortableCommentList extends Component {
         <form className="sort-selector">
           <FormGroup controlId="sort-select">
             <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
-            <FormControl componentClass="select" onChange={(event) => { fetchComments(section.id, event.target.value); }}>
+            <FormControl
+              componentClass="select"
+              onChange={(event) => { fetchComments(section.id, event.target.value); }}
+            >
               {keys(ORDERING_CRITERIA).map((key) =>
-                <option key={key} value={ORDERING_CRITERIA[key]} selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}>
+                <option
+                  key={key}
+                  value={ORDERING_CRITERIA[key]}
+                  selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
+                >
                   <FormattedMessage id={key}/>
                 </option>)
               }
@@ -174,7 +180,12 @@ class SortableCommentList extends Component {
               {...rest}
             />
             <p className="sortable-comment-list__count">
-              <FormattedMessage id="commentsOutOf" values={{current: sectionComments.results.length, total: sectionComments.count }}/>
+              <FormattedMessage
+                id="commentsOutOf" values={{
+                  current: sectionComments.results.length,
+                  total: sectionComments.count,
+                }}
+              />
             </p>
             <Waypoint onEnter={this.handleReachBottom}/>
           </div>

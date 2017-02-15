@@ -286,20 +286,40 @@ class SectionContainer extends React.Component {
         </h1>
 
         <Row>
-          <Sidebar currentlyViewed={section.id} isQuestionView={isQuestionView} activeSection={section} hearing={hearing} mainSection={mainSection} sectionGroups={sectionGroups}/>
+          <Sidebar
+            activeSection={section}
+            currentlyViewed={section.id}
+            hearing={hearing}
+            isQuestionView={isQuestionView}
+            mainSection={mainSection}
+            sectionGroups={sectionGroups}
+          />
           <Col md={8} lg={9}>
             <div className="section-browser">
               <Link className="to-hearing" to={getHearingURL(hearing)}>
                 <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
               </Link>
-              <LinkWrapper disabled={!sectionNav.prevPath} className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`} to={sectionNav.prevPath || '#'}>
+              <LinkWrapper
+                disabled={!sectionNav.prevPath}
+                className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`}
+                to={sectionNav.prevPath || '#'}
+              >
                 <FormattedMessage id="previous"/>&nbsp;
-                <span className="type-name">{sectionNav.prevType ? getAttr(sectionNav.prevType, language) : getAttr(section.type_name_singular, language)}</span>
+                <span className="type-name">
+                  {getAttr(sectionNav.prevType || section.type_name_singular, language)}
+                </span>
               </LinkWrapper>
               {sectionNav.currentNum}/{sectionNav.totalNum}
-              <LinkWrapper disabled={!sectionNav.nextPath} className={`next ${sectionNav.nextPath ? '' : 'disabled'}`} to={sectionNav.nextPath || '#'}>
+              <LinkWrapper
+                disabled={!sectionNav.nextPath}
+                className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}
+                to={sectionNav.nextPath || '#'}
+              >
                 <FormattedMessage id="next"/>&nbsp;
-                <span className="type-name">{sectionNav.nextType ? getAttr(sectionNav.nextType, language) : getAttr(section.type_name_singular, language)}</span>&nbsp;
+                <span className="type-name">
+                  {getAttr(sectionNav.nextType || section.type_name_singular, language)}
+                </span>
+                &nbsp;
               </LinkWrapper>
             </div>
             <Section
@@ -337,7 +357,6 @@ SectionContainer.propTypes = {
   section: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
   language: React.PropTypes.string,
-  canComment: React.PropTypes.bool
 };
 
 export function wrapSectionContainer(component, pure = true) {

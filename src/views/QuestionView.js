@@ -50,7 +50,6 @@ class QuestionView extends Component {
   componentWillReceiveProps(nextProps) {
     const {dispatch, params} = nextProps;
     if (nextProps.params.sectionId !== this.props.params.sectionId) {
-      console.log('here');
       dispatch(fetchSectionComments(params.hearingSlug, params.sectionId));
     }
   }
@@ -73,7 +72,10 @@ class QuestionView extends Component {
 
     return (
       <div key="question" className="question-view container">
-        <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}/>
+        <Helmet
+          title={getAttr(hearing.title, language)}
+          meta={getOpenGraphMetaData(getAttr(hearing.title, language), this.props.location.pathname)}
+        />
         <SectionContainer
           hearingSlug={hearingSlug}
           sectionId={sectionId}

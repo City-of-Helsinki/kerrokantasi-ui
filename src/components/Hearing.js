@@ -106,7 +106,6 @@ export class Hearing extends React.Component {
     const {dispatch, sectionComments} = this.props;
     const commentsObject = get(sectionComments, `${sectionId}`);
     const next = commentsObject && get(commentsObject, 'next');
-    console.log('fetchMore', sectionId, commentsObject, sectionComments);
     if (next) {
       const currentOrdering = get(commentsObject, 'ordering');
       dispatch(fetchMoreSectionComments(sectionId, currentOrdering, next));
@@ -308,7 +307,7 @@ export class Hearing extends React.Component {
 
             {hearing.contact_persons && hearing.contact_persons.length ? <h2><FormattedMessage id="contactPersons"/></h2> : null}
             {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
-              <ContactCard key={index} {...person}/>
+              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
             )}
           </Col>
         </Row>
