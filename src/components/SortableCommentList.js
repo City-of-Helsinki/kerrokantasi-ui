@@ -123,7 +123,10 @@ class SortableCommentList extends Component {
           </div>
         </h2>
         {
-          (typeof window !== 'undefined') && showCommentList && displayVisualization && get(section, 'plugin_identifier') === 'mapdon-ksv' ?
+          (typeof window !== 'undefined') &&
+          showCommentList &&
+          displayVisualization &&
+          get(section, 'plugin_identifier') === 'mapdon-ksv' ?
             <div className="comments-visualization">
               <MapdonKSVPlugin
                 data={section.plugin_data}

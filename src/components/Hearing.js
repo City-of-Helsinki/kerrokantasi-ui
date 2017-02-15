@@ -268,7 +268,10 @@ export class Hearing extends React.Component {
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'}/>
               <div>
                 <HearingImageList images={mainSection.images}/>
-                <div className="hearing-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}/>
+                <div
+                  className="hearing-abstract lead"
+                  dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
+                />
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section
@@ -305,7 +308,9 @@ export class Hearing extends React.Component {
             <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'}/>
             {this.getCommentList()}
 
-            {hearing.contact_persons && hearing.contact_persons.length ? <h2><FormattedMessage id="contactPersons"/></h2> : null}
+            {hearing.contact_persons && hearing.contact_persons.length ?
+              <h2><FormattedMessage id="contactPersons"/></h2> :
+              null}
             {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
               <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
             )}

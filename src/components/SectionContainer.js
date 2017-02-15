@@ -246,13 +246,18 @@ class SectionContainer extends React.Component {
 
   getQuestionLinksAndStuff(sectionGroups) {
     const {hearing: {slug: hearingSlug}, section: {id: sectionId}} = this.props;
-    const questions = sectionGroups.reduce((questionsArray, currentSection) =>
+    const questions =
+      sectionGroups.reduce((questionsArray, currentSection) =>
       [...questionsArray, ...currentSection.sections], []);
     const currentIndex = questions.findIndex((question) => question.id === sectionId);
-    const prevPath = currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
-    const nextPath = currentIndex !== questions.length - 1 ? getSectionURL(hearingSlug, questions[currentIndex + 1]) : undefined;
-    const prevType = currentIndex !== 0 ? questions[currentIndex - 1].type_name_singular : undefined;
-    const nextType = currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
+    const prevPath =
+      currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
+    const nextPath =
+      currentIndex !== questions.length - 1 ? getSectionURL(hearingSlug, questions[currentIndex + 1]) : undefined;
+    const prevType =
+      currentIndex !== 0 ? questions[currentIndex - 1].type_name_singular : undefined;
+    const nextType =
+      currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
 
     return {
       currentNum: currentIndex + 1,

@@ -16,7 +16,12 @@ function getImageList(section, language) {
     return null;
   }
   return section.images.map((image) => (<div key={image.url}>
-    <img className="img-responsive" alt={getAttr(image.title, language)} title={getAttr(image.title, language)} src={image.url}/>
+    <img
+      className="img-responsive"
+      alt={getAttr(image.title, language)}
+      title={getAttr(image.title, language)}
+      src={image.url}
+    />
     <div className="image-caption">{getAttr(image.caption, language)}</div>
   </div>));
 }
@@ -211,7 +216,11 @@ export default class Section extends React.Component {
       <div className="section-content">
         {imageList}
         {section.type !== "main" ?
-          <div className="section-abstract lead" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} /> : null}
+          <div
+            className="section-abstract lead"
+            dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
+          /> :
+          null}
         <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
         {pluginContent}
       </div>

@@ -58,7 +58,10 @@ class HearingListItem extends React.Component {
     const mainImage = hearing.main_image;
     const {language} = this.props;
     const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
-    const availableInLanguageMessages = { fi: 'Kuuleminen saatavilla suomeksi', sv: 'Hörandet tillgängligt på svenska', en: 'Questionnaire available in English'};
+    const availableInLanguageMessages = {
+      fi: 'Kuuleminen saatavilla suomeksi',
+      sv: 'Hörandet tillgängligt på svenska',
+      en: 'Questionnaire available in English'};
 
     return (<div className="hearing-list-item">
       {
@@ -66,7 +69,10 @@ class HearingListItem extends React.Component {
         <Link to={getHearingURL(hearing)} className="hearing-card-notice">
           <div className="notice-content">
             <FormattedMessage id="hearingTranslationNotAvailable"/>
-            {config.languages.map((lang) => { if (getAttr(hearing.title, lang, {exact: true})) { return <div className="language-available-message">{availableInLanguageMessages[lang]}</div>; } return null; })}
+            {config.languages.map((lang) => (
+              getAttr(hearing.title, lang, {exact: true}) ?
+                <div className="language-available-message">{availableInLanguageMessages[lang]}</div> :
+                null))}
           </div>
         </Link>
       }
@@ -110,19 +116,45 @@ HearingListItem.propTypes = {
 class HearingList extends React.Component {
 
   render() {
-    const {hearings, isLoading, labels, handleSort, handleSearch, handleLabelSearch, language, activeTab, showOnlyOpen, toggleShowOnlyOpen, isMobile} = this.props;
+    const {
+      hearings,
+      isLoading,
+      labels,
+      handleSort,
+      handleSearch,
+      handleLabelSearch,
+      language,
+      activeTab,
+      showOnlyOpen,
+      toggleShowOnlyOpen,
+      isMobile} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
 
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
-      <Checkbox inline readOnly checked={showOnlyOpen} onChange={() => toggleShowOnlyOpen()} style={{marginBottom: 10}}>
+      <Checkbox
+        inline
+        readOnly
+        checked={showOnlyOpen}
+        onChange={() => toggleShowOnlyOpen()}
+        style={{marginBottom: 10}}
+      >
         <FormattedMessage id="showOnlyOpen"/>
       </Checkbox>
-      <OverviewMap hearings={hearingsToShow} style={{width: isMobile ? '100%' : '130%', height: isMobile ? '100%' : 600}} enablePopups />
+      <OverviewMap
+        hearings={hearingsToShow}
+        style={{width: isMobile ? '100%' : '130%', height: isMobile ? '100%' : 600}}
+        enablePopups
+      />
     </div>) : null);
 
     return (
       <div>
-        <HearingsSearch handleSearch={handleSearch} labels={labels} handleLabelSearch={handleLabelSearch} language={language}/>
+        <HearingsSearch
+          handleSearch={handleSearch}
+          labels={labels}
+          handleLabelSearch={handleLabelSearch}
+          language={language}
+        />
         <HearingListTabs activeTab={activeTab}/>
         {isLoading && <LoadSpinner />}
         {activeTab === 'list' &&

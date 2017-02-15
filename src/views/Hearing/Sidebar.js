@@ -87,7 +87,9 @@ class Sidebar extends React.Component {
         </div>);
       }
 
-      if (getAttr(hearing.title, lang, {exact: true}) && keys(hearing.title).filter((key) => key === activeLanguage).length === 0 && index === 0) {
+      if (getAttr(hearing.title, lang, {exact: true}) &&
+        keys(hearing.title).filter((key) => key === activeLanguage).length === 0 &&
+        index === 0) {
         return (<div className="language-link-active">
           {availableLanguages[lang]}
         </div>);
@@ -112,7 +114,13 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, sectionGroups, currentlyViewed, isQuestionView, /* activeSection, */ activeLanguage} = this.props;
+    const {hearing,
+      hearingSlug,
+      sectionGroups,
+      currentlyViewed,
+      isQuestionView,
+      /* activeSection, */
+      activeLanguage} = this.props;
     const TOP_OFFSET = 75;
     const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
@@ -129,8 +137,10 @@ class Sidebar extends React.Component {
         <div
              className="hearing-sidebar"
              style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
-             /* onMouseEnter={() => { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
-             /* onMouseLeave={() => { this.setState({mouseOnSidebar: false}); }} */
+             /* onMouseEnter={() =>
+             { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
+             /* onMouseLeave={() =>
+             { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
             <Col sm={6} md={12}>
@@ -159,18 +169,36 @@ class Sidebar extends React.Component {
                       <FormattedMessage id="hearing"/>
                     </ListGroupItem>}
                   {sectionGroups.map((sectionGroup) => (
-                    !isQuestionView ? <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} href={"#hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.name_singular + Math.random()}>
-                      {getAttr(sectionGroup.name_plural, activeLanguage)}
-                      <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                      <SubSectionListGroup sections={sectionGroup.sections} hearing={hearing}/>
-                    </ListGroupItem>
-                    : <Link className="active-group-link" to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}>
-                      <ListGroupItem className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'} key={sectionGroup.name_singular + Math.random()}>
+                    !isQuestionView ?
+                      <ListGroupItem
+                        className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
+                        href={"#hearing-sectiongroup-" + sectionGroup.type}
+                        key={sectionGroup.name_singular + Math.random()}
+                      >
                         {getAttr(sectionGroup.name_plural, activeLanguage)}
                         <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                        <SubSectionListGroup currentlyViewed={currentlyViewed} sections={sectionGroup.sections} hearing={hearing}/>
-                      </ListGroupItem>
-                    </Link>
+                        <SubSectionListGroup
+                          sections={sectionGroup.sections}
+                          hearing={hearing}
+                        />
+                      </ListGroupItem> :
+                      <Link
+                        className="active-group-link"
+                        to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}
+                      >
+                        <ListGroupItem
+                          className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
+                          key={sectionGroup.name_singular + Math.random()}
+                        >
+                          {getAttr(sectionGroup.name_plural, activeLanguage)}
+                          <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+                          <SubSectionListGroup
+                            currentlyViewed={currentlyViewed}
+                            sections={sectionGroup.sections}
+                            hearing={hearing}
+                          />
+                        </ListGroupItem>
+                      </Link>
                   ))}
                   {this.getCommentsItem()}
                 </ListGroup>
