@@ -45,7 +45,6 @@ class TextInput extends React.Component {
     if (typeof error === "string") {
       this.setState({error});
     }
-    return;
   }
 
   getPlaceholder() {

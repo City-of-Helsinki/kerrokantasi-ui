@@ -46,13 +46,12 @@ class HearingFormStep2 extends React.Component {
   * @returns {Array} - Array of Panel elements.
    */
   getSections() {
-    const sections = [];
-    for (const section of this.props.hearing.sections) {
+    return this.props.hearing.sections.map((section) => {
       const sectionHeader = this.props.intl.formatMessage({
         id: `${section.type}Section`
       });
       const sectionID = section.id || section.frontID || "";
-      sections.push(
+      return (
         <Panel
           eventKey={sectionID}
           header={`${sectionHeader}: ${section.title}`}
@@ -67,8 +66,7 @@ class HearingFormStep2 extends React.Component {
           {this.getDeleteSectionButton(section, sectionID)}
         </Panel>
       );
-    }
-    return sections;
+    });
   }
 
   handleSelect(activeSection) {

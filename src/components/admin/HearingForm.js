@@ -1,4 +1,3 @@
-import keys from 'lodash/keys';
 import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
@@ -86,24 +85,21 @@ class HearingForm extends React.Component {
   }
 
   getErrors() {
-    const messages = [];
     const errors = this.props.errors;
-    for (const field of keys(errors)) {
-      // TODO: Improve error message format
-      messages.push(<li>{field}: {JSON.stringify(errors[field])}</li>);
+    if (!errors) {
+      return null;
     }
-    if (messages.length > 0) {
-      return (
-        <Alert bsStyle="danger">
-          <h2>
-            <FormattedMessage id="saveFailed"/>
-          </h2>
-          <FormattedMessage id="tryToFixFormErrors"/>:
-          <ul>{messages}</ul>
-        </Alert>
-      );
-    }
-    return null;
+    // TODO: Improve error message format
+    const messages = errors.map(([key, value]) => <li>{key}: {JSON.stringify(value)}</li>);
+    return (
+      <Alert bsStyle="danger">
+        <h2>
+          <FormattedMessage id="saveFailed"/>
+        </h2>
+        <FormattedMessage id="tryToFixFormErrors"/>:
+        <ul>{messages}</ul>
+      </Alert>
+    );
   }
 
   render() {
