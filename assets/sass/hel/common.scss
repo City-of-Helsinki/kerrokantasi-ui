@@ -6,7 +6,7 @@ html {
 body {
     position: relative;
     min-height: 100%;
-    @media (min-width: @screen-md-min) {
+    @media (min-width: $screen-md-min) {
         padding-bottom: 150px;
     }
 }
@@ -40,7 +40,7 @@ main {
 .lead {
     font-weight: normal;
     font-size: 18px;
-    @media (min-width: @screen-sm-min) {
+    @media (min-width: $screen-sm-min) {
         font-size: 20px;
     }
 }
@@ -64,13 +64,13 @@ main {
 .required-field {
     .control-label:before {
         content: "*";
-        color: @brand-danger;
+        color: $brand-danger;
         margin-left: 1px;
     }
 }
 
 .label {
-    border-radius: @border-radius-base;
+    border-radius: $border-radius-base;
     text-transform: uppercase;
     padding: .5em .85em .3em;
     display: inline-block;
@@ -110,15 +110,15 @@ a.list-group-item {
     &:hover, &:focus {
         > .badge {
             background: #fff;
-            color: @brand-primary;
+            color: $brand-primary;
         }
     }
 }
 
 .feedback-box {
     top: 60px;
-    background-color: @hel-yellow;
-    padding: @padding-base-horizontal @padding-base-vertical;
+    background-color: $hel-yellow;
+    padding: $padding-base-horizontal $padding-base-vertical;
     text-align: center;
     color: white;
     a {
@@ -129,8 +129,8 @@ a.list-group-item {
 a.fullwidth {
   display: block;
   width: 100%;
-  padding: @navbar-padding-vertical;
-  background: @brand-gray-light;
+  padding: $navbar-padding-vertical;
+  background: $brand-gray-light;
   text-align: center;
   margin-bottom: 15px;
 }

@@ -1,15 +1,15 @@
 footer {
-    background: @brand-gray-light;
+    background: $brand-gray-light;
     padding: 25px 0px;
 
     a {
-        color: @text-muted;
+        color: $text-muted;
         &:hover, &:focus {
-            color: @link-color;
+            color: $link-color;
         }
     }
 
-    @media (min-width: @screen-md-min) {
+    @media (min-width: $screen-md-min) {
         height: 150px;
         position: absolute;
         bottom: 0;
@@ -23,7 +23,7 @@ footer {
         white-space: nowrap;
         a {
             display: block;
-            color: @text-color;
+            color: $text-color;
         }
 
         img {
@@ -31,7 +31,7 @@ footer {
             height: 46px;
             width: auto;
             vertical-align: middle;
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 height: 70px;
             }
         }
@@ -41,7 +41,7 @@ footer {
             display: inline-block;
             font-weight: bold;
             vertical-align: middle;
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 font-size: 2.8rem;
             }
         }

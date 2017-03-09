@@ -1,5 +1,5 @@
 /* eslint-disable prefer-arrow-callback */
-import '../assets/less/app.less';
+import '../assets/sass/app.scss';
 import 'alertifyjs/build/css/alertify.css';
 import 'alertifyjs/build/css/themes/default.css';
 import {render} from 'react-dom';

@@ -1,5 +1,5 @@
 .hearing-sidebar {
-    background: @brand-gray-light;
+    background: $brand-gray-light;
     padding: 15px;
     font-size: 1.4rem;
     margin-bottom: 25px;
@@ -7,7 +7,7 @@
 
     .list-group {
         .list-group-item {
-            color: @gray-light;
+            color: $gray-light;
             &:hover {
                 color: #FFFFFF;
                 background: #005eb8;
@@ -42,19 +42,19 @@
         &-active {
             padding: 4px;
             border-radius: 4px;
-            background: @gray-light;
+            background: $gray-light;
             color: #fff;
         }
     }
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         position: static !important;
         width: auto !important;
     }
 
     .sidebar-section {
         margin-bottom: 20px;
-        color: @text-muted;
+        color: $text-muted;
 
         &.fullscreen {
             .btn .fa {
@@ -89,7 +89,7 @@
         margin-bottom: 7px;
         text-transform: uppercase;
         font-size: 1.3rem;
-        color: @text-color;
+        color: $text-color;
     }
 
     h5 {
@@ -110,7 +110,7 @@
     width: 100%;
     padding: 10px 15px;
     margin-bottom: 15px;
-    background-color: @brand-gray-light;
+    background-color: $brand-gray-light;
     font-size: 1.4rem;
 }
 
@@ -118,14 +118,14 @@
     display: flex;
     margin: 20px 0px 50px 0px;
     position: relative;
-    @media (max-width: @screen-xs-max) {
+    @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
     }
     &-image {
         flex-basis: content;
         flex-shrink: 0;
         flex-grow: 0;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             display: none;
         }
         img {
@@ -140,10 +140,10 @@
         h3 {
             margin-top: 0;
         }
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: $screen-sm-min) {
             padding-left: 25px;
         }
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             font-size: 1.5rem;
         }
     }
@@ -170,7 +170,7 @@
     }
     &-user {
         margin-right: 10px;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             display: block;
         }
         &-registered {
@@ -183,10 +183,10 @@
     &-date {
         color: #999;
         font-size: 1.4rem;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             display: block;
         }
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: $screen-sm-min) {
             &:before {
                 content: "\2022";
                 margin-right: 10px;
@@ -198,11 +198,11 @@
         padding: 0;
         border: 0;
         background: transparent;
-        color: @link-color;
+        color: $link-color;
         letter-spacing: .03em;
         &:hover, &:focus {
             background: transparent;
-            color: @brand-primary;
+            color: $brand-primary;
         }
         .fa {
             margin-right: 2px;
@@ -215,7 +215,7 @@
 }
 
 .comment-form {
-    background-color: @hel-yellow;
+    background-color: $hel-yellow;
     padding: 1em;
 
     &__file {
@@ -250,7 +250,7 @@
 }
 
 .closure-info {
-    background-color: @hel-yellow;
+    background-color: $hel-yellow;
     .section-title {
         cursor: auto;
     }
@@ -289,13 +289,13 @@
 .delete-modal {
     margin-top: 25%;
 
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: $screen-sm-max) {
         margin-top: 55%;
     }
 }
 
 .commentlist .commentlist__load-more {
-  background: @brand-gray-light;
+  background: $brand-gray-light;
   padding: 20px 15px 15px;
   text-align: center;
 }
