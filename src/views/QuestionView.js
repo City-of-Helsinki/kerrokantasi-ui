@@ -108,6 +108,7 @@ const mapStateToProps = (state, props) => {
     hearing: state.hearing[hearingSlug],
     language: state.language,
     sectionComments: state.sectionComments[sectionId],
+    user: state.user
   });
 };
 

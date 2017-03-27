@@ -136,7 +136,7 @@ export default class Section extends React.Component {
             data={section.plugin_data}
             onPostComment={this.onPostComment.bind(this)}
             pluginPurpose="postComments"
-            canSetNickname={user === null}
+            defaultNickname={user && user.displayName}
           />
         );
       case "map-questionnaire":
@@ -147,7 +147,7 @@ export default class Section extends React.Component {
             onPostVote={this.onPostVote.bind(this)}
             comments={comments}
             pluginPurpose="postComments"
-            canSetNickname={user === null}
+            defaultNickname={user && user.displayName}
             displayCommentBox={false}
             pluginSource={section.plugin_iframe_url}
           />
@@ -199,7 +199,7 @@ export default class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
-        canSetNickname={!user}
+        user={user}
         isSectionComments={section}
         onDeleteComment={this.props.handleDeleteClick}
         onEditComment={this.props.onEditComment}
