@@ -71,7 +71,7 @@ class HearingsSearch extends React.Component {
 
 HearingsSearch.propTypes = {
   handleSearch: React.PropTypes.func,
-  labels: React.PropTypes.object,
+  labels: React.PropTypes.array,
   language: React.PropTypes.string
 };
 
