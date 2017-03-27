@@ -148,25 +148,27 @@ class HearingList extends React.Component {
     </div>) : null);
 
     return (
-      <div>
-        <HearingsSearch
-          handleSearch={handleSearch}
-          labels={labels}
-          handleLabelSearch={handleLabelSearch}
-          language={language}
-        />
-        <HearingListTabs activeTab={activeTab}/>
-        {isLoading && <LoadSpinner />}
-        {activeTab === 'list' &&
-          <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-            <HearingListFilters handleSort={handleSort}/>
-            {hearings.map(
-              (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
-            )}
-          </div>
-        }
-        {activeTab === 'map' && !isLoading && hearingListMap}
-      </div>
+      labels && labels.length
+        ? <div>
+          <HearingsSearch
+            handleSearch={handleSearch}
+            labels={labels}
+            handleLabelSearch={handleLabelSearch}
+            language={language}
+          />
+          <HearingListTabs activeTab={activeTab}/>
+          {isLoading && <LoadSpinner />}
+          {activeTab === 'list' &&
+            <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
+              <HearingListFilters handleSort={handleSort}/>
+              {hearings.map(
+                (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
+              )}
+            </div>
+          }
+          {activeTab === 'map' && !isLoading && hearingListMap}
+        </div>
+        : null
     );
   }
 }
