@@ -70,6 +70,19 @@ class AllHearings extends React.Component {
     const {sortBy} = this.state;
     const labelIds = labels ? labels.map((label) => label.id).toString() : null;
     AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
+    AllHearings.updateQueryStringOnSearch(searchTitle, labels, labelIds);
+  }
+
+  static updateQueryStringOnSearch(searchTitle, labels, labelIds) {
+    if (history.pushState) {
+      const nextQuery = queryString.stringify({
+        search: searchTitle || undefined,
+        label: labels.map((label) => getAttr(label.label)) || undefined
+      });
+      const newSearch = searchTitle || labelIds ? `?${nextQuery}` : '';
+      const newurl = `${location.protocol}//${window.location.host}${window.location.pathname}${newSearch}`;
+      window.history.pushState({path: newurl}, '', newurl);
+    }
   }
 
   toggleShowOnlyOpen() {
