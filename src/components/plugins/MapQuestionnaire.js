@@ -12,7 +12,7 @@ class MapQuestionnaire extends BaseCommentForm {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "map" + Math.floor(Math.random() * 10000000);
-    this.state = Object.assign(this.state, {userDataChanged: false});
+    this.state = Object.assign(this.state, {userDataChanged: false, nickname: props.defaultNickname || ''});
     this.lastUserData = null;
     this.lastUserComment = null;
     this.submitting = false;
@@ -23,7 +23,6 @@ class MapQuestionnaire extends BaseCommentForm {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
     const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const displayCommentBox = this.props.displayCommentBox;
@@ -39,18 +38,16 @@ class MapQuestionnaire extends BaseCommentForm {
             placeholder="Kommentoi ehdotustasi tässä."
           />
         </FormGroup>
-        {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-        {canSetNickname ? (
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
-          </FormGroup>
-        ) : null}
+        <h3><FormattedMessage id="nickname"/></h3>
+        <FormGroup>
+          <FormControl
+            type="text"
+            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+            value={this.state.nickname}
+            onChange={this.handleNicknameChange.bind(this)}
+            maxLength={32}
+          />
+        </FormGroup>
         <p>
           <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
             Lähetä ehdotus
@@ -194,9 +191,13 @@ MapQuestionnaire.propTypes = {
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
   comments: React.PropTypes.array,
-  canSetNickname: React.PropTypes.bool,
+  defaultNickname: React.PropTypes.string,
   displayCommentBox: React.PropTypes.bool,
   pluginSource: React.PropTypes.string
+};
+
+MapQuestionnaire.defaultProps = {
+  defaultNickname: ''
 };
 
 export default injectIntl(MapQuestionnaire);
