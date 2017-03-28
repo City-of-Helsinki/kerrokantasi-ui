@@ -192,7 +192,7 @@ class BaseCommentForm extends React.Component {
           <FormGroup>
             <FormControl
               type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+              placeholder={this.props.nicknamePlaceholder || this.props.intl.formatMessage({id: "anonymous"})}
               value={this.state.nickname}
               onChange={this.handleNicknameChange.bind(this)}
               maxLength={32}
@@ -224,7 +224,8 @@ class BaseCommentForm extends React.Component {
 BaseCommentForm.propTypes = {
   onPostComment: React.PropTypes.func,
   intl: intlShape.isRequired,
-  defaultNickname: React.PropTypes.string.isRequired
+  defaultNickname: React.PropTypes.string.isRequired,
+  nicknamePlaceholder: React.PropTypes.string,
 };
 
 BaseCommentForm.defaultProps = {

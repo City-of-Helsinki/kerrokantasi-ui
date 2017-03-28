@@ -42,7 +42,7 @@ class MapQuestionnaire extends BaseCommentForm {
         <FormGroup>
           <FormControl
             type="text"
-            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+            placeholder={this.props.nicknamePlaceholder || this.props.intl.formatMessage({id: "anonymous"})}
             value={this.state.nickname}
             onChange={this.handleNicknameChange.bind(this)}
             maxLength={32}
@@ -191,7 +191,8 @@ MapQuestionnaire.propTypes = {
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
   comments: React.PropTypes.array,
-  defaultNickname: React.PropTypes.string,
+  defaultNickname: React.PropTypes.string.isRequired,
+  nicknamePlaceholder: React.PropTypes.string,
   displayCommentBox: React.PropTypes.bool,
   pluginSource: React.PropTypes.string
 };

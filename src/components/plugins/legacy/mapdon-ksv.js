@@ -37,7 +37,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
         <FormGroup>
           <FormControl
             type="text"
-            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+            placeholder={this.props.nicknamePlaceholder || this.props.intl.formatMessage({id: "anonymous"})}
             value={this.state.nickname}
             onChange={this.handleNicknameChange.bind(this)}
             maxLength={32}
@@ -178,7 +178,8 @@ MapdonKSVPlugin.propTypes = {
   data: React.PropTypes.string,
   pluginPurpose: React.PropTypes.string,
   comments: React.PropTypes.array,
-  defaultNickname: React.PropTypes.string
+  defaultNickname: React.PropTypes.string,
+  nicknamePlaceholder: React.PropTypes.string
 };
 
 export default injectIntl(MapdonKSVPlugin);
