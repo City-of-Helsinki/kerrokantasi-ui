@@ -6,19 +6,21 @@ exports[`test LabelList can handle empty list 1`] = `
 exports[`test LabelList can handle list of label objects 1`] = `
 <div
   className="labels">
-  <span>
+  <a
+    href="/hearings/list?label=such">
     <span
       className="label label-default">
       such
     </span>
      
-  </span>
-  <span>
+  </a>
+  <a
+    href="/hearings/list?label=label">
     <span
       className="label label-default">
       label
     </span>
      
-  </span>
+  </a>
 </div>
 `;
