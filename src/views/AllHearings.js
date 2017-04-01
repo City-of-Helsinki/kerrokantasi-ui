@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/lib/Row';
 import queryString from 'query-string';
 import {get} from 'lodash';
 import getAttr from '../utils/getAttr';
+import {labelShape, hearingShape} from '../types';
 
 class AllHearings extends React.Component {
   /**
@@ -157,9 +158,9 @@ AllHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   language: React.PropTypes.string, // To rerender when language changes
-  hearings: React.PropTypes.object,
-  isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object,
+  hearings: React.PropTypes.arrayOf(hearingShape),
+  isLoading: React.PropTypes.bool,
+  labels: React.PropTypes.arrayOf(labelShape),
   params: React.PropTypes.object,
 };
 

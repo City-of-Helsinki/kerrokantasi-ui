@@ -19,6 +19,8 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 
+import {labelShape} from '../types';
+
 const HearingListTabs = ({activeTab}) =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
     <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
@@ -174,9 +176,9 @@ class HearingList extends React.Component {
 }
 
 HearingList.propTypes = {
-  hearings: React.PropTypes.object,
-  labels: React.PropTypes.object,
-  isLoading: React.PropTypes.string,
+  hearings: React.PropTypes.array,
+  labels: React.PropTypes.arrayOf(labelShape),
+  isLoading: React.PropTypes.bool,
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
   handleLabelSearch: React.PropTypes.func,

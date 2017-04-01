@@ -11,7 +11,8 @@ import {Tab, Tabs} from 'react-bootstrap';
 
 import HearingList from '../../components/HearingList';
 import Icon from '../../utils/Icon';
-import {fetchHearingList} from '../../actions';
+import {fetchHearingList, fetchLabels} from '../../actions';
+import {labelShape} from '../../types';
 
 
 class AdminHearings extends React.Component {
@@ -26,6 +27,7 @@ class AdminHearings extends React.Component {
 
   componentDidMount() {
     const {dispatch} = this.props;
+    dispatch(fetchLabels());
     AdminHearings.fetchData(dispatch);
   }
 
@@ -35,7 +37,7 @@ class AdminHearings extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {hearingLists} = this.props;
+    const {hearingLists, language, labels} = this.props;
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
@@ -51,7 +53,12 @@ class AdminHearings extends React.Component {
         <Tab eventKey={1} title={formatMessage({id: 'publishedHearings'})}>
           <Row>
             <Col md={8}>
-              <HearingList hearings={hearingLists.publishedHearings} />
+              <HearingList
+                hearings={hearingLists.publishedHearings.data}
+                isLoading={hearingLists.publishedHearings.isLoading}
+                language={language}
+                labels={labels}
+              />
             </Col>
           </Row>
         </Tab>
@@ -77,10 +84,18 @@ class AdminHearings extends React.Component {
 AdminHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object
+  hearingLists: React.PropTypes.object,
+  language: React.PropTypes.string,
+  labels: React.PropTypes.arrayOf(labelShape)
 };
 
-const WrappedAdminHearings = connect((state) => ({hearingLists: state.hearingLists}))(injectIntl(AdminHearings));
+const mapStateToProps = (state) => ({
+  hearingLists: state.hearingLists,
+  labels: state.labels.data,
+  language: state.language
+});
+
+const WrappedAdminHearings = connect(mapStateToProps)(injectIntl(AdminHearings));
 // We need to re-hoist the static fetchData to the wrapped component due to react-intl:
 WrappedAdminHearings.fetchData = AdminHearings.fetchData;
 export default WrappedAdminHearings;
