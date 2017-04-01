@@ -1,6 +1,7 @@
 import Icon from '../../utils/Icon';
 import React from 'react';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import {get} from 'lodash';
 
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -13,6 +14,7 @@ import Dropzone from 'react-dropzone';
 import TextArea from '../forms/TextArea';
 import TextInput from '../forms/TextInput';
 import {sectionShape} from '../../types';
+import getAttr from '../../utils/getAttr';
 
 
 class SectionForm extends React.Component {
@@ -70,9 +72,14 @@ class SectionForm extends React.Component {
     return "";
   }
 
+  static getImageCaption(section, language) {
+    return getAttr(get(section.images, '[0].caption', ''), language);
+  }
+
   render() {
     const section = this.props.section;
-    const imageCaption = section.images[0] ? section.images[0].caption : "";
+    const {language} = this.context;
+    const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
     const {formatMessage} = this.props.intl;
 
@@ -109,7 +116,7 @@ class SectionForm extends React.Component {
           maxLength={this.props.maxAbstractLength}
           name="abstract"
           onBlur={this.onChange}
-          value={section.abstract}
+          value={getAttr(section.abstract, language)}
         />
 
         <TextArea
@@ -117,7 +124,7 @@ class SectionForm extends React.Component {
           name="content"
           onBlur={this.onChange}
           rows="10"
-          value={section.content}
+          value={getAttr(section.content, language)}
         />
 
         <FormGroup controlId="hearingCommenting">
@@ -148,6 +155,10 @@ SectionForm.propTypes = {
   onSectionChange: React.PropTypes.func,
   onSectionImageChange: React.PropTypes.func,
   section: sectionShape,
+};
+
+SectionForm.contextTypes = {
+  language: React.PropTypes.string
 };
 
 const WrappedSectionForm = injectIntl(SectionForm);

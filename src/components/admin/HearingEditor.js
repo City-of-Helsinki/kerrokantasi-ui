@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {push} from 'redux-router';
 
@@ -139,17 +139,13 @@ HearingEditor.propTypes = {
   dispatch: React.PropTypes.func,
   editorState: React.PropTypes.string,
   hearing: hearingShape,
-  hearingID: React.PropTypes.string,
-  intl: intlShape.isRequired,
-  location: React.PropTypes.object,
-  params: React.PropTypes.object,
-  user: userShape,
+  user: userShape
 };
 
 const WrappedHearingEditor = connect((state) => ({
   editorState: state.hearingEditor.editorState,
   hearing: state.hearingEditor.hearing,
-  user: state.user,
+  user: state.user
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;

@@ -12,6 +12,7 @@ import Row from 'react-bootstrap/lib/Row';
 
 import TextInput from '../forms/TextInput';
 import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import getAttr from '../../utils/getAttr';
 
 
 class HearingFormStep1 extends React.Component {
@@ -44,6 +45,7 @@ class HearingFormStep1 extends React.Component {
     const {formatMessage} = this.props.intl;
     const tagOptions = this.props.editorMetaData.labels || [];
     const contactOptions = this.props.editorMetaData.contacts || [];
+    const {language} = this.context;
 
     return (
       <div className="form-step">
@@ -53,7 +55,7 @@ class HearingFormStep1 extends React.Component {
           name="title"
           onBlur={this.onChange}
           placeholderId="hearingTitlePlaceholder"
-          value={hearing.title}
+          value={getAttr(hearing.title, language)}
         />
 
         <Row>
@@ -69,7 +71,7 @@ class HearingFormStep1 extends React.Component {
                 options={tagOptions}
                 placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                 simpleValue={false}
-                value={hearing.labels}
+                value={hearing.labels.map(({id, label}) => ({id, label: getAttr(label, language)}))}
                 valueKey="id"
               />
             </FormGroup>
@@ -121,6 +123,10 @@ HearingFormStep1.propTypes = {
   intl: intlShape.isRequired,
   onContinue: React.PropTypes.func,
   onHearingChange: React.PropTypes.func,
+};
+
+HearingFormStep1.contextTypes = {
+  language: React.PropTypes.string
 };
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);

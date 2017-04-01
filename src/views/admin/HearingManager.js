@@ -9,6 +9,7 @@ import {Hearing, wrapHearingComponent} from '../../components/Hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import {HearingView} from '../Hearing/index';
 import {hearingShape} from '../../types';
+import getAttr from '../../utils/getAttr';
 
 
 const HearingPreview = wrapHearingComponent(Hearing, false);
@@ -64,13 +65,14 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
+    const {language} = this.props;
     if (!hearing) {
       return this.renderSpinner();
     }
 
     return (
       <div className="container">
-        <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)}/>
+        <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)}/>
 
         <HearingEditor hearingID={hearing.id}/>
 
@@ -93,6 +95,7 @@ HearingManagementView.propTypes = {
   params: React.PropTypes.object,
   location: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+  language: React.PropTypes.string
 };
 
 
@@ -101,6 +104,7 @@ const wrappedView = connect((state) => ({
   hearing: state.hearing,
   hearingDraft: state.hearingEditor.hearing,
   sectionComments: state.sectionComments,
+  language: state.language
 }))(injectIntl(HearingManagementView));
 
 export default wrappedView;
