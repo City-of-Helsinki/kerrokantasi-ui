@@ -128,7 +128,7 @@ class AllHearings extends React.Component {
     const {formatMessage} = this.props.intl;
     const {isLoading, labels, language} = this.props;
     const {showOnlyOpen, isMobile} = this.state;
-    const activeTab = this.props.params.tab ? this.props.params.tab : 'list';
+    const initialTab = this.props.params.tab ? this.props.params.tab : 'list';
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
@@ -143,10 +143,18 @@ class AllHearings extends React.Component {
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
             language={language}
-            activeTab={activeTab}
+            initialTab={initialTab}
             showOnlyOpen={showOnlyOpen}
             toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
             isMobile={isMobile}
+            onTabChange={(value) => {
+              const url = `/hearings/${value}`;
+              if (history.pushState) {
+                history.pushState({path: url}, '', url);
+              } else {
+                window.location.href = url;
+              }
+            }}
           />
         </Col>
       </Row>

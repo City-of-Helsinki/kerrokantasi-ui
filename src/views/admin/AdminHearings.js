@@ -65,14 +65,24 @@ class AdminHearings extends React.Component {
         <Tab eventKey={2} title={formatMessage({id: 'publishingQueue'})}>
           <Row>
             <Col md={8}>
-              <HearingList hearings={hearingLists.publishingQueueHearings} />
+              <HearingList
+                hearings={hearingLists.publishingQueueHearings.data}
+                isLoading={hearingLists.publishingQueueHearings.isLoading}
+                language={language}
+                labels={labels}
+              />
             </Col>
           </Row>
         </Tab>
         <Tab eventKey={3} title={formatMessage({id: 'drafts'})}>
           <Row>
             <Col md={8}>
-              <HearingList hearings={hearingLists.draftHearings} />
+              <HearingList
+                hearings={hearingLists.draftHearings.data}
+                isLoading={hearingLists.draftHearings.isLoading}
+                language={language}
+                labels={labels}
+              />
             </Col>
           </Row>
         </Tab>
