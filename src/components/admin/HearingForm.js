@@ -16,12 +16,6 @@ import Step4 from './HearingFormStep4';
 import {hearingShape, hearingEditorMetaDataShape} from '../../types';
 
 
-if (typeof window !== "undefined") {
-  // Only loading in browser context
-  require('assets/less/hel/hearing_form.less');  // eslint-disable-line
-}
-
-
 class HearingForm extends React.Component {
 
   constructor(props) {

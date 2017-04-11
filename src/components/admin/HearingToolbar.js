@@ -10,12 +10,6 @@ import {canEdit, isOpen} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
 
 
-if (typeof window !== "undefined") {
-  // Only loading in browser context
-  require('assets/less/hel/hearing_form.less');  // eslint-disable-line
-}
-
-
 const DATE_FORMAT = "LLLL";
 
 
