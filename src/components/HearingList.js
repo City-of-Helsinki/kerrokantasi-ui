@@ -162,6 +162,7 @@ class HearingList extends React.Component {
       isMobile} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
     const {activeTab} = this.state;
+    const hasHearings = hearings && hearings.length;
 
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
       <Checkbox
@@ -192,15 +193,17 @@ class HearingList extends React.Component {
           />
           <HearingListTabs activeTab={activeTab} changeTab={this.handleTabChange} />
           {isLoading && <LoadSpinner />}
-          {activeTab === 'list' &&
+          {!isLoading && !hasHearings ? <p><FormattedMessage id="noHearings"/></p> : null}
+          {hasHearings && activeTab === 'list' ?
             <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
               <HearingListFilters handleSort={handleSort}/>
               {hearings.map(
                 (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
               )}
             </div>
+            : null
           }
-          {activeTab === 'map' && !isLoading && hearingListMap}
+          {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
         </div>
         : null
     );

@@ -41,7 +41,6 @@ class AdminHearings extends React.Component {
       ADMIN_HEARING_LISTS.map((list) => dispatch(fetchHearingList(list.list, '/v1/hearing', list.params)))
     );
   }
-  }
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -75,7 +74,7 @@ class AdminHearings extends React.Component {
                 <Col md={8}>
                   <HearingList
                     hearings={get(hearingLists, `[${list.list}].data`)}
-                    isLoading={get(hearingLists, `[${list.list}].isLoading`)}
+                    isLoading={get(hearingLists, `[${list.list}].isFetching`)}
                     language={language}
                     labels={labels}
                     handleChangeFilter={null}
