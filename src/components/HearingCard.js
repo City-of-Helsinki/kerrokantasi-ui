@@ -21,6 +21,9 @@ const HearingCard = ({hearing, language, className = ''}) => {
     { fi: 'Kuuleminen saatavilla suomeksi',
       sv: 'Hörandet tillgängligt på svenska',
       en: 'Questionnaire available in English'};
+  const commentCount = (hearing.n_comments ? (<div className="hearing-card-comment-count">
+    <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
+  </div>) : null);
   return (
     <div className={`hearing-card ${className}`}>
       {
@@ -36,9 +39,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
         </Link>
       }
       <Link to={getHearingURL(hearing)} className="hearing-card-image" style={imageStyle}>
-        <div className="hearing-card-comment-count">
-          <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
-        </div>
+        {commentCount}
       </Link>
       <div className="hearing-card-content">
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
