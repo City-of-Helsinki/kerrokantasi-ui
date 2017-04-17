@@ -68,11 +68,12 @@ class HearingFormStep1 extends React.Component {
                 multi
                 name="labels"
                 onChange={this.onTagsChange}
-                options={tagOptions}
+                options={tagOptions.map((opt) => ({id: opt.id, label: getAttr(opt.label, language)}))}
                 placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                 simpleValue={false}
                 value={hearing.labels.map(({id, label}) => ({id, label: getAttr(label, language)}))}
                 valueKey="id"
+                menuContainerStyle={{zIndex: 10}}
               />
             </FormGroup>
           </Col>
