@@ -55,7 +55,8 @@ class AdminHearings extends React.Component {
     this.activeAdminTab = DEFAULT_ACTIVE_TAB;
   }
 
-  static fetchData(dispatch, {sortBy, searchTitle = undefined, labels = undefined}) {
+  fetchData(dispatch, {sortBy, searchTitle = undefined, labels = undefined}) {
+    const list = ADMIN_HEARING_LISTS[this.activeAdminTab];
     const searchParams = {
       title: searchTitle,
       ordering: sortBy,
@@ -63,13 +64,12 @@ class AdminHearings extends React.Component {
       label: labels
     };
 
-    return Promise.all(
-      ADMIN_HEARING_LISTS.map((list) => {
-        const params = Object.assign({}, list.params, searchParams);
-
-        return dispatch(fetchHearingList(list.list, '/v1/hearing', params));
-      })
+    const params = Object.assign({},
+      list.params,
+      searchParams
     );
+
+    return dispatch(fetchHearingList(list.list, '/v1/hearing', params));
   }
 
   static updateQueryStringOnSearch(searchTitle, labels, labelIds) {
@@ -104,7 +104,7 @@ class AdminHearings extends React.Component {
         (label) => queryLabels.includes(getAttr(label.label, language))
       ).map((label) => label.id);
 
-      AdminHearings.fetchData(dispatch, {sortBy, searchTitle: undefined, labels: selectedLabels.toString()});
+      this.fetchData(dispatch, {sortBy, searchTitle: undefined, labels: selectedLabels.toString()});
     }
   }
 
@@ -125,7 +125,7 @@ class AdminHearings extends React.Component {
       event.preventDefault();
     }
 
-    AdminHearings.fetchData(dispatch, {sortBy, labels: labelIds, searchTitle});
+    this.fetchData(dispatch, {sortBy, labels: labelIds, searchTitle});
     AdminHearings.updateQueryStringOnSearch(searchTitle, labels, labelIds);
   }
 
@@ -137,7 +137,7 @@ class AdminHearings extends React.Component {
 
     this.setState(
       () => ({ sortBy: newOrder }),
-      () => AdminHearings.fetchData(dispatch, {
+      () => this.fetchData(dispatch, {
         sortBy: newOrder,
         searchTitle,
         label: labelIds
@@ -147,6 +147,16 @@ class AdminHearings extends React.Component {
 
   handleAdminTabChange(index) {
     this.activeAdminTab = index;
+    const {dispatch} = this.props;
+    const {sortBy} = this.state;
+    const searchTitle = this.props.params.search;
+    const labels = this.props.params.label;
+    const labelIds = labels ? labels.map((label) => label.id) : undefined;
+    this.fetchData(dispatch, {
+      sortBy,
+      searchTitle,
+      label: labelIds
+    });
   }
 
   render() {
