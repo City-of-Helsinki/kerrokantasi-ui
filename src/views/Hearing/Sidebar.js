@@ -181,61 +181,61 @@ class Sidebar extends React.Component {
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
     const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
-    return (<Col md={4} lg={3}>
-      <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
-        <div
-             className="hearing-sidebar"
-             style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
-             /* onMouseEnter={() =>
-             { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
-             /* onMouseLeave={() =>
-             { this.setState({mouseOnSidebar: false}); }} */
-        >
-          <Row>
-            <Col sm={6} md={12}>
-              <div className="sidebar-section commentNumber">
-                <Icon name="comment-o"/> {' '}
-                <FormattedPlural
-                  value={hearing.n_comments}
-                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
-                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
-                />
-              </div>
-              <div className="sidebar-section timetable">
-                <h4><FormattedMessage id="timetable"/></h4>
-                <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
-                <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
-              </div>
-              <div className="sidebar-section contents">
-                <h4><FormattedMessage id="table-of-content"/></h4>
-                {this.getSectionList()}
-              </div>
-            </Col>
-            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
-              {this.getLanguageChanger()}
-            </Col>
-            <Col sm={6} md={12}>
-              {Object.keys(hearing.borough).length !== 0 && boroughDiv}
-              <SocialBar />
-              {hearingMap}
-            </Col>
-            {hearing.contact_persons &&
-              <Col sm={12}>
-                <div className="sidebar-section further-info">
-                  <h4><FormattedMessage id="furtherInformation"/></h4>
-                  <div className="flex">
-                    {hearing.contact_persons.map((person, index) =>
-                      <ContactCard key={index} {...person}/>  // eslint-disable-line react/no-array-index-key
-                    )}
-                  </div>
+    return (
+      <Col md={4} lg={3}>
+        <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
+          <div
+               className="hearing-sidebar"
+               style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
+          >
+            <Row>
+              <Col sm={6} md={12}>
+                <div className="sidebar-section commentNumber">
+                  <Icon name="comment-o"/> {' '}
+                  <FormattedPlural
+                    value={hearing.n_comments}
+                    one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
+                    other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
+                  />
+                </div>
+                <div className="sidebar-section timetable">
+                  <h4><FormattedMessage id="timetable"/></h4>
+                  <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
+                  <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+                </div>
+                <div className="sidebar-section contents">
+                  <h4><FormattedMessage id="table-of-content"/></h4>
+                  {this.getSectionList()}
                 </div>
               </Col>
-            }
-            <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
-          </Row>
-        </div>
-      </AutoAffix>
-    </Col>);
+              <Col sm={6} md={12} style={{ marginBottom: 20 }}>
+                {this.getLanguageChanger()}
+              </Col>
+              {hearing.borough &&
+                <Col sm={6} md={12}>
+                  {Object.keys(hearing.borough).length !== 0 && boroughDiv}
+                  <SocialBar />
+                  {hearingMap}
+                </Col>
+              }
+              {hearing.contact_persons &&
+                <Col sm={12}>
+                  <div className="sidebar-section further-info">
+                    <h4><FormattedMessage id="furtherInformation"/></h4>
+                    <div className="flex">
+                      {hearing.contact_persons.map((person, index) =>
+                        <ContactCard key={index} {...person}/>  // eslint-disable-line react/no-array-index-key
+                      )}
+                    </div>
+                  </div>
+                </Col>
+              }
+              <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
+            </Row>
+          </div>
+        </AutoAffix>
+      </Col>
+    );
   }
 }
 

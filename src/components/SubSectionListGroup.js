@@ -8,7 +8,7 @@ import {Link} from 'react-router';
 const SubSectionListGroup = ({sections, language = 'fi', hearing, currentlyViewed}) => (
   <ListGroup className="subsection-list-group">
     {sections && sections.map((section) =>
-      <Link to={getSectionURL(hearing.slug, section)}>
+      <Link key={section.id} to={getSectionURL(hearing.slug, section)}>
         <ListGroupItem
           className={`subsection-list-group-item ${currentlyViewed === section.id ? "active" : ""}`}
           key={section.id}

@@ -65,7 +65,7 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
-    const {language} = this.props;
+    const {language, dispatch, currentlyViewed} = this.props;
     if (!hearing) {
       return this.renderSpinner();
     }
@@ -81,6 +81,9 @@ class HearingManagementView extends HearingView {
           hearing={hearing}
           sectionComments={this.props.sectionComments}
           location={this.props.location}
+          dispatch={dispatch}
+          changeCurrentlyViewed={this.changeCurrentlyViewed}
+          currentlyViewed={currentlyViewed}
         />
       </div>
     );

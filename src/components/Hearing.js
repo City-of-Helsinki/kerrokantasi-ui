@@ -212,7 +212,7 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const {hearing, sectionComments, location, hearingSlug} = this.props;
+    const {hearing, sectionComments, location, hearingSlug, intl} = this.props;
     const mainSection = getMainSection(hearing);
     const user = this.props.user;
     let userIsAdmin = false;
@@ -240,6 +240,7 @@ export class Hearing extends React.Component {
            onDeleteComment={this.handleDeleteClick.bind(this)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
+           intl={intl}
           />
         </div>
         <hr/>
