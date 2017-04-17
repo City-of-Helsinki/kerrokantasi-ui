@@ -130,7 +130,19 @@ class AdminHearings extends React.Component {
   }
 
   handleSort(newOrder) {
-    this.setState({sortBy: newOrder});
+    const {dispatch} = this.props;
+    const searchTitle = this.props.params.search;
+    const labels = this.props.params.label;
+    const labelIds = labels ? labels.map((label) => label.id) : undefined;
+
+    this.setState(
+      () => ({ sortBy: newOrder }),
+      () => AdminHearings.fetchData(dispatch, {
+        sortBy: newOrder,
+        searchTitle,
+        label: labelIds
+      })
+    );
   }
 
   handleAdminTabChange(index) {
