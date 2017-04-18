@@ -15,7 +15,7 @@ class InputBase extends React.Component {
     return (
       <small className="field-hint">
         {` (${this.props.value.length} / ${this.props.maxLength} `}
-        <FormattedMessage id="charachters"/>)
+        <FormattedMessage id="characters"/>)
       </small>
     );
   }
