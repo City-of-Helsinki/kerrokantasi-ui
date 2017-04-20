@@ -35,6 +35,7 @@ class TextArea extends React.Component {
         maxLength={this.props.maxLength}
         name={this.props.name}
         value={this.state.value}
+        required={this.props.required}
       >
         <FormControl
           componentClass="textarea"
@@ -56,6 +57,7 @@ TextArea.defaultProps = {
 TextArea.propTypes = {
   labelId: React.PropTypes.string,
   maxLength: React.PropTypes.number,
+  required: React.PropTypes.bool,
   name: React.PropTypes.string,
   onBlur: React.PropTypes.func,
   rows: React.PropTypes.string,

@@ -37,17 +37,18 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {formatMessage} = this.props.intl;
+    const {intl: {formatMessage}, hearing, hearingLanguages} = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
-    const hearing = this.props.hearing;
     const isVisible = this.state.currentStep === stepNumber;
 
     return (
       <Panel header={title} eventKey={step}>
         <PhaseTag
           hearing={hearing}
+          hearingLanguages={hearingLanguages}
+          onLanguagesChange={this.props.onLanguagesChange}
           onHearingChange={this.props.onHearingChange}
           onSectionChange={this.props.onSectionChange}
           onSectionImageChange={this.props.onSectionImageChange}
@@ -84,7 +85,7 @@ class HearingForm extends React.Component {
       return null;
     }
     // TODO: Improve error message format
-    const messages = errors.map(([key, value]) => <li>{key}: {JSON.stringify(value)}</li>);
+    const messages = Object.keys(errors).map((key) => <li key={key}>{key}: {JSON.stringify(errors[key])}</li>);
     return (
       <Alert bsStyle="danger">
         <h2>
@@ -122,12 +123,13 @@ class HearingForm extends React.Component {
 
 HearingForm.propTypes = {
   currentStep: React.PropTypes.number,
-  dispatch: React.PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
   errors: React.PropTypes.object,
   hearing: hearingShape,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
   intl: intlShape.isRequired,
   onHearingChange: React.PropTypes.func,
+  onLanguagesChange: React.PropTypes.func,
   onLeaveForm: React.PropTypes.func,
   onSaveAndPreview: React.PropTypes.func,
   onSaveChanges: React.PropTypes.func,
@@ -146,6 +148,7 @@ HearingForm.defaultProps = {
 const WrappedHearingForm = connect((state) => ({
   editorMetaData: state.hearingEditor.metaData,
   errors: state.hearingEditor.errors,
+  hearingLanguages: state.hearingEditor.languages,
 }), null, null, {pure: false})(injectIntl(HearingForm));
 
 export default WrappedHearingForm;

@@ -1,7 +1,13 @@
-import _, {find} from 'lodash';
+import _, {find, values} from 'lodash';
 
+import initAttr from './initAttr';
 
-const specialSectionTypes = ["main", "closure-info"];
+export const SectionTypes = {
+  MAIN: 'main',
+  CLOSURE: 'closure-info'
+};
+
+const specialSectionTypes = values(SectionTypes);
 
 export function isSpecialSectionType(sectionType) {
   return (specialSectionTypes.includes(sectionType));
@@ -40,9 +46,9 @@ export function initNewSection(inits) {
     type: "",
     commenting: "none",
     published: false,
-    title: "",
-    abstract: "",
-    content: "",
+    title: initAttr(),
+    abstract: initAttr(),
+    content: initAttr(),
     created_at: "",
     created_by: null,
     images: [initNewSectionImage()],
@@ -57,9 +63,9 @@ export function initNewSection(inits) {
 
 export function initNewSectionImage() {
   return {
-    caption: "",
+    caption: initAttr(),
     height: null,
-    title: "",
+    title: initAttr(),
     url: "",
     width: null,
   };

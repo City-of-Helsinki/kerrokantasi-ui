@@ -98,7 +98,8 @@ HearingManagementView.propTypes = {
   params: React.PropTypes.object,
   location: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
-  language: React.PropTypes.string
+  language: React.PropTypes.string,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 
@@ -106,8 +107,9 @@ const wrappedView = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
   hearingDraft: state.hearingEditor.hearing,
+  hearingLanguages: state.hearingEditor.languages,
   sectionComments: state.sectionComments,
-  language: state.language
+  language: state.language,
 }))(injectIntl(HearingManagementView));
 
 export default wrappedView;

@@ -92,5 +92,9 @@
   "map": "Map",
   "showOnlyOpen": "Show only open",
   "previous": "Previous",
-  "next": "Next"
+  "next": "Next",
+  "inLanguage-fi": "In Finnish",
+  "inLanguage-sv": "In Swedish",
+  "inLanguage-en": "In English",
+  "hearingLanguages": "Enter hearing content"
 }

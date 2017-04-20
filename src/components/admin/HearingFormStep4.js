@@ -10,7 +10,8 @@ import Row from 'react-bootstrap/lib/Row';
 import DateTime from 'react-datetime/DateTime';
 
 import {getClosureSection} from '../../utils/hearing';
-import TextArea from '../forms/TextArea';
+import {initNewSection, SectionTypes} from '../../utils/section';
+import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {hearingShape} from '../../types';
 
 
@@ -60,8 +61,8 @@ class HearingFormStep4 extends React.Component {
   }
 
   render() {
-    const hearing = this.props.hearing;
-    const closureInfoSection = getClosureSection(hearing) || {};
+    const {hearing, hearingLanguages, onSectionChange} = this.props;
+    const closureInfoSection = getClosureSection(hearing) || initNewSection({type: SectionTypes.CLOSURE});
 
     return (
       <div className="form-step">
@@ -92,12 +93,14 @@ class HearingFormStep4 extends React.Component {
           </Col>
         </Row>
 
-        <TextArea
+        <MultiLanguageTextField
           labelId="hearingClosureInfo"
           name="closureInfo"
-          onBlur={this.onChange}
+          onBlur={(value) => onSectionChange(closureInfoSection.id, 'content', value)}
           rows="10"
           value={closureInfoSection.content}
+          fieldType={TextFieldTypes.TEXTAREA}
+          languages={hearingLanguages}
         />
 
       </div>
@@ -113,6 +116,7 @@ HearingFormStep4.propTypes = {
   hearing: hearingShape,
   onHearingChange: React.PropTypes.func,
   onSectionChange: React.PropTypes.func,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 const WrappedHearingFormStep4 = injectIntl(HearingFormStep4);

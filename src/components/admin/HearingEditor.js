@@ -6,6 +6,7 @@ import {push} from 'redux-router';
 
 import {
   changeHearing,
+  changeHearingEditorLanguages,
   changeSection,
   changeSectionMainImage,
   closeHearing,
@@ -29,6 +30,7 @@ class HearingEditor extends React.Component {
     super(props);
     this.onCloseHearing = this.onCloseHearing.bind(this);
     this.onHearingChange = this.onHearingChange.bind(this);
+    this.onLanguagesChange = this.onLanguagesChange.bind(this);
     this.onPublish = this.onPublish.bind(this);
     this.onSaveAndPreview = this.onSaveAndPreview.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
@@ -64,6 +66,10 @@ class HearingEditor extends React.Component {
 
   onSectionImageChange(sectionID, field, value) {
     this.props.dispatch(changeSectionMainImage(sectionID, field, value));
+  }
+
+  onLanguagesChange(newLanguages) {
+    this.props.dispatch(changeHearingEditorLanguages(newLanguages));
   }
 
   onPublish() {
@@ -106,6 +112,7 @@ class HearingEditor extends React.Component {
         onSaveChanges={this.onSaveChanges}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
+        onLanguagesChange={this.onLanguagesChange}
         show={this.props.editorState === "editForm"}
       />
     );

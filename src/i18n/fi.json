@@ -146,5 +146,9 @@
   "showOnlyOpen": "Näytetään vain avoimet",
   "previous": "Edellinen",
   "next": "Seuraava",
-  "characters": "merkkiä"
+  "characters": "merkkiä",
+  "inLanguage-fi": "suomeksi",
+  "inLanguage-sv": "ruotsiksi",
+  "inLanguage-en": "englanniksi",
+  "hearingLanguages": "Kuulemisen tiedot syötetään"
 }

@@ -1,16 +1,16 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import {initNewSection} from './section';
-
+import {initNewSection, SectionTypes} from './section';
+import initAttr from './initAttr';
 
 export function getClosureSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === "closure-info");
+  return _.find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
 }
 
 
 export function getMainSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === "main");
+  return _.find(hearing.sections, (section) => section.type === SectionTypes.MAIN);
 }
 
 
@@ -98,8 +98,8 @@ export function initNewHearing(inits) {
   const mainSection = initNewSection();
   mainSection.type = "main";
   return _.merge({
-    abstract: "",
-    title: "",
+    abstract: initAttr(),
+    title: initAttr(),
     slug: "",
     labels: [],
     published: false,
