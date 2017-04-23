@@ -28,28 +28,29 @@ class HearingManagementView extends HearingView {
       this.props.dispatch(beginCreateHearing());
     } else {
       super.componentDidMount();
+      this.props.dispatch(beginEditHearing(this.props.hearingDraft));
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.isNewHearing()) {
-      // The parent class HearingView fetces the hearing (Promise) from the api
-      // and it gets passed to this view via props.
-      // Instead of editing the hearing stored in the Redux store we make
-      // a deep clone from it and store the cloned hearing into local state of this view.
-      // That cloned hearing can then be freely managed as needed.
-      const {hearingSlug} = this.props.params;
-      const {state, data: hearing} = nextProps.hearing[hearingSlug] || {state: "initial"};
-
-      const draft = this.props.hearingDraft;
-      if (state === 'done' && (!draft || (draft.id !== hearing.id))) {
-        // Make a deep local clone out of the passed hearing
-        // this.setState({hearing: cloneDeep(hearing)});
-        // Hearing is loaded and we are ready to beging editing the hearing
-        this.props.dispatch(beginEditHearing(hearing));
-      }
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!this.isNewHearing()) {
+  //     // The parent class HearingView fetces the hearing (Promise) from the api
+  //     // and it gets passed to this view via props.
+  //     // Instead of editing the hearing stored in the Redux store we make
+  //     // a deep clone from it and store the cloned hearing into local state of this view.
+  //     // That cloned hearing can then be freely managed as needed.
+  //     const {hearingSlug} = this.props.params;
+  //     const {state, data: hearing} = nextProps.hearing[hearingSlug] || {state: "initial"};
+  //
+  //     const draft = this.props.hearingDraft;
+  //     if (state === 'done' && (!draft || (draft.id !== hearing.id))) {
+  //       // Make a deep local clone out of the passed hearing
+  //       // this.setState({hearing: cloneDeep(hearing)});
+  //       // Hearing is loaded and we are ready to beging editing the hearing
+  //       this.props.dispatch(beginEditHearing(hearing));
+  //     }
+  //   }
+  // }
 
   getHearing() {
     if (this.isNewHearing()) {
@@ -65,8 +66,8 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
-    const {language, dispatch, currentlyViewed} = this.props;
-    if (!hearing) {
+    const {language, dispatch, currentlyViewed, isLoading} = this.props;
+    if (isLoading || !hearing) {
       return this.renderSpinner();
     }
 
@@ -76,15 +77,18 @@ class HearingManagementView extends HearingView {
 
         <HearingEditor hearingID={hearing.id}/>
 
-        <HearingPreview
-          hearingSlug={hearing.slug}
-          hearing={hearing}
-          sectionComments={this.props.sectionComments}
-          location={this.props.location}
-          dispatch={dispatch}
-          changeCurrentlyViewed={this.changeCurrentlyViewed}
-          currentlyViewed={currentlyViewed}
-        />
+        { Object.keys(hearing).length ?
+          <HearingPreview
+            hearingSlug={hearing.slug}
+            hearing={hearing}
+            sectionComments={this.props.sectionComments}
+            location={this.props.location}
+            dispatch={dispatch}
+            changeCurrentlyViewed={this.changeCurrentlyViewed}
+            currentlyViewed={currentlyViewed}
+          />
+          : <this.renderSpinner/>
+        }
       </div>
     );
   }
@@ -108,6 +112,7 @@ const wrappedView = connect((state) => ({
   hearing: state.hearing,
   hearingDraft: state.hearingEditor.hearing,
   hearingLanguages: state.hearingEditor.languages,
+  isLoading: state.hearingEditor.editorState === 'pending',
   sectionComments: state.sectionComments,
   language: state.language,
 }))(injectIntl(HearingManagementView));

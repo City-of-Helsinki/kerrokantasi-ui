@@ -36,8 +36,8 @@ function HearingLanguages({hearingLanguages, onChange}) {
 }
 
 HearingLanguages.propTypes = {
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default injectIntl(HearingLanguages);

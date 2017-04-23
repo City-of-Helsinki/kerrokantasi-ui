@@ -54,10 +54,19 @@ const metaData = handleActions({
   )
 }, {});
 
+const EditorStates = {
+  EDIT: 'editForm',
+  PREVIEW: 'preview',
+  PENDING: 'pending'
+};
+
 const editorState = handleActions({
-  [EditorActions.SHOW_EDITOR]: () => 'editForm',
-  [EditorActions.CLOSE_EDITOR]: () => 'preview',
-  [EditorActions.POST_HEARING_SUCCESS]: () => 'preview'
+  [EditorActions.BEGIN_CREATE_HEARING]: () => EditorStates.PENDING,
+  [EditorActions.BEGIN_EDIT_HEARING]: () => EditorStates.PENDING,
+  [EditorActions.RECEIVE_META_DATA]: (state) => (state === EditorStates.PENDING ? EditorStates.EDIT : state),
+  [EditorActions.SHOW_EDITOR]: () => EditorStates.EDIT,
+  [EditorActions.CLOSE_EDITOR]: () => EditorStates.PREVEW,
+  [EditorActions.POST_HEARING_SUCCESS]: () => EditorStates.PREVEW
 }, null);
 
 const errors = handleActions({
