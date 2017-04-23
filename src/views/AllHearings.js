@@ -6,6 +6,9 @@ import {fetchHearingList, fetchLabels} from '../actions';
 import HearingList from '../components/HearingList';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
+import queryString from 'query-string';
+import {get} from 'lodash';
+import getAttr from '../utils/getAttr';
 
 class AllHearings extends React.Component {
   /**
@@ -19,7 +22,11 @@ class AllHearings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {sortBy: '-created_at', hearingFilter: 'all', showOnlyOpen: false, isMobile: window.innerWidth < 992};
+    this.state = {
+      sortBy: '-created_at',
+      showOnlyOpen: false,
+      isMobile: window.innerWidth < 992
+    };
     this.handleResize = this.handleResize.bind(this);
   }
 
@@ -29,6 +36,7 @@ class AllHearings extends React.Component {
         {title: searchTitle, ordering: sortBy, include: 'geojson'} :
         {ordering: sortBy, include: 'geojson'}
     );
+
     if (labels) {
       params.label = labels;
     }
@@ -39,20 +47,6 @@ class AllHearings extends React.Component {
     return dispatch(fetchLabels());
   }
 
-  getVisibleHearings() {
-    const {hearings} = this.props;
-    const {hearingFilter} = this.state;
-
-    if (hearingFilter !== 'all') {
-      return hearings.filter(
-        (hearing) => hearing.labels.filter(
-          (label) => label.label === hearingFilter
-        ).length !== 0
-      );
-    }
-
-    return hearings;
-  }
 
   handleSort(newOrder) {
     const {dispatch} = this.props;
@@ -76,6 +70,19 @@ class AllHearings extends React.Component {
     const {sortBy} = this.state;
     const labelIds = labels ? labels.map((label) => label.id).toString() : null;
     AllHearings.fetchData(dispatch, sortBy, searchTitle, labelIds);
+    AllHearings.updateQueryStringOnSearch(searchTitle, labels, labelIds);
+  }
+
+  static updateQueryStringOnSearch(searchTitle, labels, labelIds) {
+    if (history.pushState) {
+      const nextQuery = queryString.stringify({
+        search: searchTitle || undefined,
+        label: labels.map((label) => getAttr(label.label)) || undefined
+      });
+      const newSearch = searchTitle || labelIds ? `?${nextQuery}` : '';
+      const newurl = `${location.protocol}//${window.location.host}${window.location.pathname}${newSearch}`;
+      window.history.pushState({path: newurl}, '', newurl);
+    }
   }
 
   toggleShowOnlyOpen() {
@@ -92,10 +99,24 @@ class AllHearings extends React.Component {
 
   componentDidMount() {
     const {dispatch} = this.props;
-    const {sortBy} = this.state;
-    AllHearings.fetchData(dispatch, sortBy);
     AllHearings.fetchLabels(dispatch);
+    // Note: Fetch hearings after label ids are usable -> componentWillReceiveProps
     window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const shouldFetchHearings = !this.props.labels.length && nextProps.labels.length;
+
+    if (shouldFetchHearings) {
+      const {dispatch, language} = this.props;
+      const {sortBy} = this.state;
+      const queryLabels = [].concat(get(queryString.parse(location.search), 'label', []));
+      const selectedLabels = nextProps.labels.filter(
+        (label) => queryLabels.includes(getAttr(label.label, language))
+      ).map((label) => label.id);
+
+      AllHearings.fetchData(dispatch, sortBy, '', selectedLabels.toString());
+    }
   }
 
   componentWillUnmount() {
@@ -114,7 +135,7 @@ class AllHearings extends React.Component {
       <Row>
         <Col md={8}>
           <HearingList
-            hearings={this.getVisibleHearings()}
+            hearings={this.props.hearings}
             isLoading={isLoading}
             labels={labels}
             handleChangeFilter={this.handleChangeFilter.bind(this)}
@@ -139,7 +160,7 @@ AllHearings.propTypes = {
   hearings: React.PropTypes.object,
   isLoading: React.PropTypes.string,
   labels: React.PropTypes.object,
-  params: React.PropTypes.object
+  params: React.PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
