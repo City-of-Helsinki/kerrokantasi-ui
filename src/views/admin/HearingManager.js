@@ -4,12 +4,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape} from 'react-intl';
 
-import {beginCreateHearing, beginEditHearing} from '../../actions/hearingEditor';
+import {fetchHearing} from '../../actions/index';
+import {initNewHearing, fetchHearingEditorMetaData} from '../../actions/hearingEditor';
 import {Hearing, wrapHearingComponent} from '../../components/Hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import {HearingView} from '../Hearing/index';
 import {hearingShape} from '../../types';
 import getAttr from '../../utils/getAttr';
+import * as HearingEditorSelector from '../../selectors/hearingEditor';
 
 
 const HearingPreview = wrapHearingComponent(Hearing, false);
@@ -22,13 +24,13 @@ class HearingManagementView extends HearingView {
   }
 
   componentDidMount() {
+    this.props.dispatch(fetchHearingEditorMetaData());
     // Hearing will be fetched from the API in the super implementation.
     // We don't want to do that when we are creating a new hearing.
     if (this.isNewHearing()) {
-      this.props.dispatch(beginCreateHearing());
+      this.props.dispatch(initNewHearing());
     } else {
-      super.componentDidMount();
-      this.props.dispatch(beginEditHearing(this.props.hearingDraft));
+      this.props.dispatch(fetchHearing(this.props.params.hearingSlug));
     }
   }
 
@@ -66,7 +68,7 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
-    const {language, dispatch, currentlyViewed, isLoading} = this.props;
+    const {language, dispatch, currentlyViewed, isLoading, hearingDraft, user} = this.props;
     if (isLoading || !hearing) {
       return this.renderSpinner();
     }
@@ -75,9 +77,12 @@ class HearingManagementView extends HearingView {
       <div className="container">
         <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)}/>
 
-        <HearingEditor hearingID={hearing.id}/>
+        <HearingEditor
+          hearing={hearingDraft}
+          user={user}
+        />
 
-        { Object.keys(hearing).length ?
+        { Object.keys(hearing).length && hearing.title ?
           <HearingPreview
             hearingSlug={hearing.slug}
             hearing={hearing}
@@ -110,9 +115,9 @@ HearingManagementView.propTypes = {
 const wrappedView = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
-  hearingDraft: state.hearingEditor.hearing,
+  hearingDraft: HearingEditorSelector.getHearing(state),
   hearingLanguages: state.hearingEditor.languages,
-  isLoading: state.hearingEditor.editorState === 'pending',
+  isLoading: HearingEditorSelector.getIsLoading(state),
   sectionComments: state.sectionComments,
   language: state.language,
 }))(injectIntl(HearingManagementView));

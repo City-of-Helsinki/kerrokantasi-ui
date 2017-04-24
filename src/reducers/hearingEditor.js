@@ -6,11 +6,14 @@ import {initNewHearing, getOrCreateSectionByID} from '../utils/hearing';
 import {EditorActions} from '../actions/hearingEditor';
 
 // TODO: Flatten the state => normalize sections & contact_persons
-const hearing = handleActions({
-  [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload}) => (
-    {hearing: payload}
+const hearingReducer = handleActions({
+  receiveHearing: (state, {payload: {data}}) => (
+    data
   ),
-  [EditorActions.BEGIN_CREATE_HEARING]: () => (initNewHearing()),
+  [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload}) => (
+    payload.hearing
+  ),
+  [EditorActions.INIT_NEW_HEARING]: () => (initNewHearing()),
   [EditorActions.EDIT_HEARING]: (state, {payload: {field, value}}) => {
     return Object.assign({}, state, {[field]: value});
   },
@@ -41,16 +44,27 @@ const hearing = handleActions({
   }
 }, {});
 
+const hearingIsFetching = handleActions({
+  beginFetchHearing: () => true,
+  receiveHearing: () => false
+}, false);
+
+const hearing = combineReducers({
+  hearing: hearingReducer,
+  isFetching: hearingIsFetching
+});
+
 const languages = handleActions({
-  [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload: {hearing: {title}}}) =>
+  receiveHearing: (state, {payload: {data: {title}}}) =>
     Object.keys(title).reduce((langArr, lang) => (title[lang] ? [...langArr, lang] : langArr), []),
   [EditorActions.SET_LANGUAGES]: (state, {payload}) => payload.languages,
-  [EditorActions.BEGIN_CREATE_HEARING]: () => ['fi']
+  [EditorActions.INIT_NEW_HEARING]: () => ['fi']
 }, []);
 
 const metaData = handleActions({
+  [EditorActions.FETCH_META_DATA]: () => ({isFetching: true}),
   [EditorActions.RECEIVE_META_DATA]: (state, {payload}) => (
-    {...payload}
+    {...payload, isFetching: false}
   )
 }, {});
 
@@ -60,14 +74,25 @@ const EditorStates = {
   PENDING: 'pending'
 };
 
+function _editorStateReceive({state, pending}) {
+  const pendingCount = pending - 1;
+  return ({
+    state: state === EditorStates.PENDING && !pendingCount ? EditorStates.EDIT : state,
+    pending: pendingCount
+  });
+}
+
 const editorState = handleActions({
-  [EditorActions.BEGIN_CREATE_HEARING]: () => EditorStates.PENDING,
-  [EditorActions.BEGIN_EDIT_HEARING]: () => EditorStates.PENDING,
-  [EditorActions.RECEIVE_META_DATA]: (state) => (state === EditorStates.PENDING ? EditorStates.EDIT : state),
+  [EditorActions.INIT_NEW_HEARING]: () => ({state: EditorStates.PENDING}),
+  [EditorActions.BEGIN_EDIT_HEARING]: () => ({state: EditorStates.PENDING}),
+  [EditorActions.RECEIVE_META_DATA]: _editorStateReceive,
+  receiveHearing: _editorStateReceive,
+  [EditorActions.FETCH_META_DATA]: ({pending}) => ({pending: pending + 1}),
+  beginFetchHearing: ({pending}) => ({pending: pending + 1, state: EditorStates.PENDING}),
   [EditorActions.SHOW_EDITOR]: () => EditorStates.EDIT,
-  [EditorActions.CLOSE_EDITOR]: () => EditorStates.PREVEW,
-  [EditorActions.POST_HEARING_SUCCESS]: () => EditorStates.PREVEW
-}, null);
+  [EditorActions.CLOSE_EDITOR]: () => EditorStates.PREVIEW,
+  [EditorActions.POST_HEARING_SUCCESS]: () => EditorStates.PREVIEW
+}, {state: null, pending: 0});
 
 const errors = handleActions({
   [EditorActions.POST_HEARING_ERROR]: (state, {payload}) =>
@@ -81,6 +106,13 @@ const isPosting = handleActions({
   [EditorActions.POST_HEARING_ERROR]: () => false
 }, false);
 
+const pendingRequests = handleActions({
+  [EditorActions.FETCH_META_DATA]: (state) => state + 1,
+  [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
+  beginFetchHearing: (state) => state + 1,
+  receiveHearing: (state) => state - 1,
+}, 0);
+
 const sections = handleActions({
 }, {});
 
@@ -91,7 +123,8 @@ const reducer = combineReducers({
   metaData,
   editorState,
   errors,
-  isPosting
+  isPosting,
+  pendingRequests
 });
 
 export default reducer;

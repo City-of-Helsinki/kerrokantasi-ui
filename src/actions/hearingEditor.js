@@ -10,8 +10,7 @@ export const EditorActions = {
   SHOW_FORM: 'showHearingForm',
   CLOSE_FORM: 'closeHearingForm',
   SET_LANGUAGES: 'setEditorLanguages',
-  BEGIN_CREATE_HEARING: 'beginCreateHearing',
-  BEGIN_EDIT_HEARING: 'beginEditHearing',
+  INIT_NEW_HEARING: 'initNewHearing',
   CLOSE_HEARING: 'closeHearing',
   EDIT_HEARING: 'changeHearing',
   POST_HEARING: 'savingNewHearing',
@@ -29,6 +28,9 @@ export const EditorActions = {
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData'
 };
 
+export function initNewHearing() {
+  return createAction(EditorActions.INIT_NEW_HEARING)();
+}
 
 function checkResponseStatus(response) {
   if (response.status >= 402) {
@@ -53,20 +55,6 @@ export function closeHearingForm() {
   };
 }
 
-
-export function beginCreateHearing() {
-  return (dispatch) => {
-    return dispatch(createAction(EditorActions.BEGIN_CREATE_HEARING)());
-  };
-}
-
-
-export function beginEditHearing(hearing) {
-  return (dispatch) => {
-    return dispatch(createAction(EditorActions.BEGIN_EDIT_HEARING)({hearing}));
-  };
-}
-
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
  * list of available labels and contact persons.
@@ -75,6 +63,7 @@ export function beginEditHearing(hearing) {
 export function fetchHearingEditorMetaData() {
   return (dispatch, getState) => {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
+    dispatch(fetchAction);
     return Promise.props({
       labels: api.get(getState(), "/v1/label/").then(getResponseJSON),
       contacts: api.get(getState(), "/v1/contact_person/").then(getResponseJSON),

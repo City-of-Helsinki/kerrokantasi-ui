@@ -11,7 +11,6 @@ import {
   changeSectionMainImage,
   closeHearing,
   closeHearingForm,
-  fetchHearingEditorMetaData,
   publishHearing,
   saveHearingChanges,
   saveNewHearing,
@@ -22,6 +21,7 @@ import HearingForm from '../../components/admin/HearingForm';
 import HearingToolbar from '../../components/admin/HearingToolbar';
 import {getHearingEditorURL} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
+import * as EditorSelector from '../../selectors/hearingEditor';
 
 
 class HearingEditor extends React.Component {
@@ -37,23 +37,6 @@ class HearingEditor extends React.Component {
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
-  }
-
-  /**
-  * Return a promise that will, as it fulfills, have added data
-  * required by the form into the dispatch's associated store.
-  *
-  * @param dispatch Redux Dispatch function
-  * @return {Promise} Data fetching promise
-  */
-  static fetchRequiredData(dispatch) {
-    return Promise.all([
-      dispatch(fetchHearingEditorMetaData())
-    ]);
-  }
-
-  componentDidMount() {
-    HearingEditor.fetchRequiredData(this.props.dispatch);
   }
 
   onHearingChange(field, value) {
@@ -137,11 +120,6 @@ class HearingEditor extends React.Component {
   }
 }
 
-HearingEditor.defaultProps = {
-  editorState: "editForm",
-  hearing: {},
-};
-
 HearingEditor.propTypes = {
   dispatch: React.PropTypes.func,
   editorState: React.PropTypes.string,
@@ -150,9 +128,7 @@ HearingEditor.propTypes = {
 };
 
 const WrappedHearingEditor = connect((state) => ({
-  editorState: state.hearingEditor.editorState,
-  hearing: state.hearingEditor.hearing,
-  user: state.user
+  editorState: EditorSelector.getEditorState(state),
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;
