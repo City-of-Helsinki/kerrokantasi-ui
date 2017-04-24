@@ -3,6 +3,7 @@ import {combineReducers} from 'redux';
 import {cloneDeep, findIndex} from 'lodash';
 
 import {initNewHearing, getOrCreateSectionByID} from '../utils/hearing';
+import {getMainImage} from '../utils/section';
 import {EditorActions} from '../actions/hearingEditor';
 
 // TODO: Flatten the state => normalize sections & contact_persons
@@ -41,7 +42,22 @@ const hearingReducer = handleActions({
       newState.sections.splice(index, 1);
     }
     return Object.assign({}, newState);
-  }
+  },
+  [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, {payload}) => {
+    const hearing = cloneDeep(state);
+    const {sectionID, field, value} = payload;
+    const section = getOrCreateSectionByID(hearing, sectionID);
+    const image = getMainImage(section);
+    if (section.images.length <= 0) {
+      section.images.push(image);
+    }
+    image[field] = value;
+    if (field === "image") {
+      // Only one of the two fields should have valid reference to an image.
+      image.url = "";
+    }
+    return Object.assign({}, state, hearing);
+  },
 }, {});
 
 const hearingIsFetching = handleActions({
