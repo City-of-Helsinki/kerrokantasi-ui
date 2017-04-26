@@ -2,12 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import {get, keys, throttle} from 'lodash';
+import {get, isEmpty, keys, throttle} from 'lodash';
 import Waypoint from 'react-waypoint';
 import CommentList from './CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
+import MapQuestionnaire from './plugins/MapQuestionnaire';
 import * as Actions from '../actions';
 import CommentForm from './CommentForm';
 
@@ -29,6 +30,7 @@ class SortableCommentList extends Component {
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
     this.handleReachBottom = this.handleReachBottom.bind(this);
+    this.fetchComments = this.fetchComments.bind(this);
   }
 
   _fetchMoreComments() {
@@ -43,33 +45,43 @@ class SortableCommentList extends Component {
     }
   }
 
+  fetchComments(sectionId, ordering) {
+    // if a plugin is involved, we must fetch all the comments for display, not just a select few
+    const {fetchComments, fetchAllComments, section, hearingSlug} = this.props;
+    if (section.plugin_identifier) {
+      return fetchAllComments(hearingSlug, sectionId, ordering);
+    }
+    return fetchComments(sectionId, ordering);
+  }
+
   componentDidMount() {
-    const { fetchComments, section } = this.props;
-    fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    console.log('list did mount');
+    const { section } = this.props;
+    this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {section, fetchComments} = this.props;
+    const {section } = this.props;
 
     this.setState({
       showLoader: get(nextProps.sectionComments, 'isFetching')
     });
 
     if (!this.props.user && nextProps.user) {
-      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 
     if (this.props.user && !nextProps.user) {
-      fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 
     if (section.id !== nextProps.section.id) {
-      fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line
-    const { postComment /* , section, fetchComments */ } = this.props;
+    const { postComment } = this.props;
     const hearingSlug = this.props.hearingSlug;
     const { authCode } = this.props.location.query;
     const mainSection = this.props.mainSection;
@@ -99,10 +111,60 @@ class SortableCommentList extends Component {
     }
   }
 
+  renderMapVisualization() {
+    const {section, sectionComments} = this.props;
+    return (
+      <div>
+        <MapQuestionnaire
+          data={section.plugin_data}
+          pluginPurpose="viewHeatmap"
+          comments={sectionComments}
+          pluginSource={section.plugin_iframe_url}
+        />
+        <div className="image-caption">Kaikkien merkintöjen ja äänien tiheyskartta.</div>
+      </div>
+    );
+  }
+
+  renderPluginContent() {
+    const {section} = this.props;
+    const {comments} = this.props.sectionComments.results;
+    if (typeof window === 'undefined' || !section.plugin_identifier) {
+      return null;
+    }
+    switch (section.plugin_identifier) {
+      case "mapdon-ksv":
+        // This is legacy support.
+        return (
+          <div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewComments"
+              comments={comments}
+            />
+            <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
+            <MapdonKSVPlugin
+              data={section.plugin_data}
+              pluginPurpose="viewHeatmap"
+              comments={comments}
+            />
+            <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
+          </div>
+        );
+      case "map-questionnaire":
+        // Only display visualization if the plugin allows non-fullscreen rendering
+        if (!section.plugin_fullscreen) {
+          return this.renderMapVisualization();
+        }
+        return null;
+      default:
+        return null; // The plugin does not support result visualization.
+    }
+  }
+
   render() {
     const {
       displayVisualization,
-      fetchComments,
       hearingId,
       canComment,
       // postComment,
@@ -114,48 +176,34 @@ class SortableCommentList extends Component {
       ...rest
     } = this.props;
 
-    const showCommentList = section && sectionComments && get(sectionComments, 'results');
+    const showCommentList = section &&
+      sectionComments &&
+      get(sectionComments, 'results') &&
+      !isEmpty(sectionComments.results);
+    const commentForm =
+      canComment ?
+        (<CommentForm
+        hearingId={hearingId}
+        onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
+        canSetNickname={this.props.canSetNickname}
+        />) : null;
+    const pluginContent = (showCommentList && displayVisualization ? this.renderPluginContent() : null);
     return (
       <div className="sortable-comment-list">
-        <h2><FormattedMessage id="comments"/>
+        {showCommentList && <h2><FormattedMessage id="comments"/>
           <div className="commenticon">
             <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
           </div>
-        </h2>
-        {
-          (typeof window !== 'undefined') &&
-          showCommentList &&
-          displayVisualization &&
-          get(section, 'plugin_identifier') === 'mapdon-ksv' ?
-            <div className="comments-visualization">
-              <MapdonKSVPlugin
-                data={section.plugin_data}
-                pluginPurpose="viewComments"
-                comments={sectionComments.results}
-              />
-              <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
-              <MapdonKSVPlugin
-                data={section.plugin_data}
-                pluginPurpose="viewHeatmap"
-                comments={sectionComments.results}
-              />
-              <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
-            </div>
-            : null
-        }
-        {canComment && <CommentForm
-          hearingId={hearingId}
-          onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
-          canSetNickname={this.props.canSetNickname}
-        />
-        }
+        </h2>}
+        {commentForm}
+        {pluginContent}
 
-        <form className="sort-selector">
+        {showCommentList && <form className="sort-selector">
           <FormGroup controlId="sort-select">
             <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
             <FormControl
               componentClass="select"
-              onChange={(event) => { fetchComments(section.id, event.target.value); }}
+              onChange={(event) => { this.fetchComments(section.id, event.target.value); }}
             >
               {keys(ORDERING_CRITERIA).map((key) =>
                 <option
@@ -168,31 +216,28 @@ class SortableCommentList extends Component {
               }
             </FormControl>
           </FormGroup>
-        </form>
-
-        { showCommentList &&
-          <div>
-            <CommentList
-              canVote={canVote}
-              section={section}
-              comments={sectionComments.results}
-              totalCount={sectionComments.count}
-              onPostComment={this.onPostHearingComment.bind(this)}
-              onPostVote={this.onVoteComment.bind(this)}
-              isLoading={this.state.showLoader}
-              {...rest}
+        </form>}
+        {showCommentList && <div>
+          <CommentList
+            canVote={canVote}
+            section={section}
+            comments={sectionComments.results}
+            totalCount={sectionComments.count}
+            onPostComment={this.onPostHearingComment.bind(this)}
+            onPostVote={this.onVoteComment.bind(this)}
+            isLoading={this.state.showLoader}
+            {...rest}
+          />
+          <p className="sortable-comment-list__count">
+            <FormattedMessage
+              id="commentsOutOf" values={{
+                current: sectionComments.results.length,
+                total: sectionComments.count,
+              }}
             />
-            <p className="sortable-comment-list__count">
-              <FormattedMessage
-                id="commentsOutOf" values={{
-                  current: sectionComments.results.length,
-                  total: sectionComments.count,
-                }}
-              />
-            </p>
-            <Waypoint onEnter={this.handleReachBottom}/>
-          </div>
-        }
+          </p>
+          <Waypoint onEnter={this.handleReachBottom}/>
+        </div>}
         {this.state.showLoader ?
           <div className="sortable-comment-list__loader">
             <LoadSpinner />
@@ -208,6 +253,7 @@ SortableCommentList.propTypes = {
   displayVisualization: PropTypes.bool,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  fetchAllComments: PropTypes.func,
   postComment: PropTypes.func,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
@@ -239,6 +285,9 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(
     Actions.fetchMoreSectionComments(sectionId, ordering, nextUrl)
+  ),
+  fetchAllComments: (hearingSlug, sectionId, ordering) => dispatch(
+    Actions.fetchAllSectionComments(hearingSlug, sectionId, ordering)
   ),
   postComment: (hearingSlug, sectionId, commentData) => dispatch(
     Actions.postSectionComment(hearingSlug, sectionId, commentData)

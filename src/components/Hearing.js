@@ -175,14 +175,19 @@ export class Hearing extends React.Component {
     );
   }
 
-  isMainSectionVotable(user) {
+  isSectionVotable(section, user) {
     const hearing = this.props.hearing;
-    return acceptsComments(hearing) && userCanVote(user, getMainSection(hearing));
+    return acceptsComments(hearing) && userCanVote(user, section);
   }
 
-  isMainSectionCommentable(user) {
+  isMainSectionVotable(user) {
     const hearing = this.props.hearing;
     const section = getMainSection(hearing);
+    return this.isSectionVotable(section, user);
+  }
+
+  isSectionCommentable(section, user) {
+    const hearing = this.props.hearing;
     return (
       acceptsComments(hearing)
       && userCanComment(user, section)
@@ -190,15 +195,22 @@ export class Hearing extends React.Component {
     );
   }
 
+  isMainSectionCommentable(user) {
+    const hearing = this.props.hearing;
+    const section = getMainSection(hearing);
+    return this.isSectionCommentable(section, user);
+  }
+
   getCommentList() {
     const {hearing, sectionComments, location, hearingSlug} = this.props;
     const mainSection = getMainSection(hearing);
+    const showPluginInline = !mainSection.plugin_fullscreen;
     const user = this.props.user;
     let userIsAdmin = false;
     if (hearing && user && _.has(user, 'adminOrganizations')) {
       userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
     }
-    if (hasFullscreenMapPlugin(hearing)) {
+    if (!showPluginInline) {
       return null;
     }
     return (
@@ -238,11 +250,10 @@ export class Hearing extends React.Component {
     const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
+    const showPluginInline = !mainSection.plugin_fullscreen;
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
-    const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
-
     return (
       <div id="hearing-wrapper">
         <LabelList className="main-labels" labels={hearing.labels}/>
@@ -275,13 +286,12 @@ export class Hearing extends React.Component {
               </div>
               {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
               {mainSection ? <Section
-                showPlugin={!fullscreenMapPlugin}
+                showPlugin={showPluginInline}
                 section={mainSection}
                 canComment={this.isMainSectionCommentable(hearing, user)}
                 onPostComment={this.onPostSectionComment.bind(this)}
                 onPostVote={this.onVoteComment.bind(this)}
                 canVote={this.isMainSectionVotable(user)}
-                loadSectionComments={this.loadSectionComments.bind(this)}
                 comments={this.props.sectionComments[mainSection.id]}
                 user={user}
               /> : null}
@@ -299,7 +309,6 @@ export class Hearing extends React.Component {
                   onPostComment={this.onPostSectionComment.bind(this)}
                   canVote={hearingAllowsComments}
                   onPostVote={this.onVoteComment.bind(this)}
-                  loadSectionComments={this.loadSectionComments.bind(this)}
                   sectionComments={this.props.sectionComments}
                   user={user}
                 />

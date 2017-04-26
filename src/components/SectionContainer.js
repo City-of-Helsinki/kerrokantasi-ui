@@ -12,15 +12,12 @@ import {
   postSectionComment, postVote, editSectionComment,
   deleteSectionComment
 } from '../actions';
-import CommentList from './CommentList';
 // import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
 import Section from './Section';
 // import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
-import _ from 'lodash';
 import Icon from '../utils/Icon';
-import config from '../config';
 import {
   acceptsComments,
   getClosureSection,
@@ -73,15 +70,6 @@ class SectionContainer extends React.Component {
 
   openFullscreen(hearing) {
     this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
-  }
-
-  onPostHearingComment(text, authorName) {
-    const {dispatch} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
-    const mainSection = getMainSection(this.props.hearing);
-    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
-    dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
   onPostSectionComment(sectionId, sectionCommentData) {
@@ -166,14 +154,13 @@ class SectionContainer extends React.Component {
     );
   }
 
-  isMainSectionVotable(user) {
+  isSectionVotable(section, user) {
     const hearing = this.props.hearing;
-    return acceptsComments(hearing) && userCanVote(user, getMainSection(hearing));
+    return acceptsComments(hearing) && userCanVote(user, section);
   }
 
-  isMainSectionCommentable(user) {
+  isSectionCommentable(section, user) {
     const hearing = this.props.hearing;
-    const section = getMainSection(hearing);
     return (
       acceptsComments(hearing)
       && userCanComment(user, section)
@@ -210,40 +197,6 @@ class SectionContainer extends React.Component {
     this.setState({ showDeleteModal: false, commentToDelete: {} });
   }
 
-
-  getCommentList() {
-    const hearing = this.props.hearing;
-    const mainSection = getMainSection(hearing);
-    const user = this.props.user;
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
-    let userIsAdmin = false;
-    if (hearing && user && _.has(user, 'adminOrganizations')) {
-      userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
-    }
-    if (hasFullscreenMapPlugin(hearing)) {
-      return null;
-    }
-    return (
-      <div>
-        <div id="hearing-comments">
-          <CommentList
-           displayVisualization={userIsAdmin || hearing.closed}
-           section={mainSection}
-           comments={this.props.sectionComments[mainSection.id] ?
-                     this.props.sectionComments[mainSection.id].data : []}
-           canComment={this.isMainSectionCommentable(hearing, user)}
-           onPostComment={this.onPostHearingComment.bind(this)}
-           canVote={this.isMainSectionVotable(user)}
-           onPostVote={this.onVoteComment.bind(this)}
-           canSetNickname={user === null}
-          />
-        </div>
-        <hr/>
-        <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
-      </div>
-    );
-  }
-
   getQuestionLinksAndStuff(sectionGroups) {
     const {hearing: {slug: hearingSlug}, section: {id: sectionId}} = this.props;
     const questions =
@@ -272,7 +225,7 @@ class SectionContainer extends React.Component {
   render() {
     const {hearing, section, user, sectionComments, language} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
-    // const closureInfoSection = this.getClosureInfo(hearing);
+    const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const mainSection = getMainSection(hearing);
     const regularSections = hearing.sections.filter((sect) => !isSpecialSectionType(sect.type));
@@ -300,6 +253,7 @@ class SectionContainer extends React.Component {
             sectionGroups={sectionGroups}
           />
           <Col md={8} lg={9}>
+            {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
             <div className="section-browser">
               <Link className="to-hearing" to={getHearingURL(hearing)}>
                 <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
@@ -329,10 +283,10 @@ class SectionContainer extends React.Component {
             </div>
             <Section
               section={section}
-              canComment={userCanComment(user, section)}
+              canComment={this.isSectionCommentable(section, user)}
               onPostComment={this.onPostSectionComment.bind(this)}// this.props.onPostComment}
-              canVote={false}// this.props.canVote && userCanVote(user, section)}
-              onPostVote={false}// this.props.onPostVote}
+              canVote={this.isSectionVotable(section, user)}// this.props.canVote && userCanVote(user, section)}
+              onPostVote={this.onVoteComment.bind(this)}// this.props.onPostVote}
               comments={sectionComments}// this.props.loadSectionComments}
               handleDeleteClick={this.handleDeleteClick.bind(this)}
               onEditComment={this.onEditSectionComment.bind(this)}

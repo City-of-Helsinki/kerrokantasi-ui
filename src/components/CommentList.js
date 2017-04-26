@@ -4,12 +4,7 @@ import Comment from './Comment';
 
 class CommentList extends React.Component {
   render() {
-    const {section, comments, canComment, displayVisualization, isLoading} = this.props;
-    const pluginContent = (
-      displayVisualization ?
-        this.renderPluginContent(section)
-        : null
-    );
+    const {comments, canComment, isLoading} = this.props;
     if (comments.length === 0) {
       if (!canComment || isLoading) {
         return null;  // No need to show a header for nothing at all.
@@ -19,7 +14,6 @@ class CommentList extends React.Component {
       </div>);
     }
     return (<div className="commentlist">
-      {pluginContent}
       {comments.map((comment) =>
         <Comment
           data={comment}

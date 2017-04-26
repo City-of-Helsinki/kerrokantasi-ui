@@ -10,6 +10,11 @@ import Icon from '../utils/Icon';
 
 class FullscreenPlugin extends Section {
 
+  componentDidMount() {
+    // full screen plugins need always display all data
+    this.loadAllComments();
+  }
+
   render() {
     const {section} = this.props;
     const pluginContent = this.renderPluginContent(section);

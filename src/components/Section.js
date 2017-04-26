@@ -27,22 +27,22 @@ function getImageList(section, language) {
 }
 
 
-export default class Section extends React.Component {
+class Section extends React.Component {
   constructor(props) {
     super(props);
     this.state = {collapsed: true};
   }
 
-  // componentDidMount() {
-  //   // if (!this.isCollapsible()) {  // Trigger immediate comment load for uncollapsible sections
-  //   //   this.loadComments();
-  //   // }
-  // }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.collapsed && !nextState.collapsed) {  // (Re-)load comments when uncollapsing
-      // this.loadComments();
+  componentDidMount() {
+    const {showPlugin} = this.props;
+    if (showPlugin) { // Plugins need all the comment data
+      this.loadAllComments();
     }
+  }
+
+  loadAllComments() {
+    const {fetchAllComments, hearing, section} = this.props;
+    fetchAllComments(section.id, hearing.slug);
   }
 
   onPostComment(text, authorName, pluginData, geojson, label, images) {
@@ -60,13 +60,6 @@ export default class Section extends React.Component {
 
   toggle() {
     this.setState({collapsed: !this.state.collapsed});
-  }
-
-  loadComments() {
-    const {section} = this.props;
-    if (this.props.loadSectionComments) {
-      this.props.loadSectionComments(section.id);
-    }
   }
 
   getTitleDiv(collapsed, collapsible) {
@@ -239,6 +232,8 @@ Section.propTypes = {
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,
   comments: React.PropTypes.object,
+  fetchComments: React.PropTypes.func,
+  fetchAllComments: React.PropTypes.func,
   isCollapsible: React.PropTypes.bool,
   linkTo: React.PropTypes.oneOfType([
     React.PropTypes.string,
@@ -258,3 +253,11 @@ Section.propTypes = {
 Section.contextTypes = {
   language: React.PropTypes.string.isRequired
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllComments: (hearingSlug, sectionId) => dispatch(
+    Actions.fetchAllSectionComments(hearingSlug, sectionId)
+  )
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SortableCommentList);
