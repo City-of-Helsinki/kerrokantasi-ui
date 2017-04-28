@@ -5,7 +5,9 @@ import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import DeleteModal from './DeleteModal';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import {injectIntl, intlShape, FormattedMessage, FormattedPlural} from 'react-intl';
+import SocialBar from '../components/SocialBar';
+import formatRelativeTime from '../utils/formatRelativeTime';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 
@@ -269,14 +271,27 @@ export class Hearing extends React.Component {
         <div className="text-right">
           {this.getManageButton()}
         </div>
-        <LabelList className="main-labels" labels={hearing.labels}/>
-        <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
-        <h1 className="page-title">
-          {this.getFollowButton()}
-          {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {getAttr(hearing.title, language)}
-        </h1>
-
+        <div className="well">
+          <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
+          <h1>
+            {this.getFollowButton()}
+            {!hearing.published ? <Icon name="eye-slash"/> : null}
+            {getAttr(hearing.title, language)}
+          </h1>
+          <LabelList className="main-labels" labels={hearing.labels}/>
+          <div className="timetable">
+            <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)} - <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+          </div>
+          <div className="commentNumber">
+            <Icon name="comment-o"/> {' '}
+            <FormattedPlural
+              value={hearing.n_comments}
+              one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
+              other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
+            />
+          </div>
+          <SocialBar />
+        </div>
         <Row>
           <Sidebar
             currentlyViewed={currentlyViewed}
