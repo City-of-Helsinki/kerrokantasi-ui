@@ -2,7 +2,7 @@
   .section-browser {
     display: flex;
     align-items: center;
-    background: @brand-gray-light;
+    background: $brand-gray-light;
     padding: 15px;
 
 
@@ -17,19 +17,19 @@
     .previous, .next {
       margin: auto 5px;
       padding: 5px;
-      border: 1px solid @link-color;
+      border: 1px solid $link-color;
 
       .type-name {
         text-transform: lowercase;
       }
 
       &:hover {
-        border-color: @link-hover-color;
+        border-color: $link-hover-color;
       }
 
       &.disabled {
-        color: @text-muted;
-        border-color: @text-muted;
+        color: $text-muted;
+        border-color: $text-muted;
         cursor: not-allowed;
       }
     }

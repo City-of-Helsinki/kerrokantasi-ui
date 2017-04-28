@@ -4,7 +4,7 @@
     padding: 15px;
   }
 
-  @media (min-width: @screen-sm-min) {
+  @media (min-width: $screen-sm-min) {
     display: flex;
     flex-wrap: wrap;
 

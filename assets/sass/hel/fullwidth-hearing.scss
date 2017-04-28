@@ -1,5 +1,5 @@
 .fullwidth-hearing {
-  background: @missing-image;
+  background: $missing-image;
   background-size: cover;
   background-position: center center;
   min-height: 250px;
@@ -13,7 +13,7 @@
   &-header {
     padding: 10px;
     width: 100%;
-    background-color: fade(@brand-gray-light, 85%);
+    background-color: rgba($brand-gray-light, .85);
     margin-bottom: 60px;
   }
 
@@ -27,7 +27,7 @@
   }
 
   &-times {
-      color: @text-muted;
+      color: $text-muted;
       font-size: 1.4rem;
   }
 
@@ -35,6 +35,6 @@
     flex-shrink: 0;
     align-self: flex-end;
     font-size: 2em;
-    text-shadow: @comment-count-shadow;
+    text-shadow: $comment-count-shadow;
   }
 }

@@ -4,7 +4,7 @@
     margin-top: 30px;
     margin-bottom: 30px;
     padding-top: 30px;
-    border-top: 1px solid @border-color;
+    border-top: 1px solid $border-color;
   }
 
     .sort-selector {
@@ -50,7 +50,7 @@
       }
       &-user {
           margin-right: 10px;
-          @media (max-width: @screen-xs-max) {
+          @media (max-width: $screen-xs-max) {
               display: block;
           }
           &-registered {
@@ -63,10 +63,10 @@
       &-date {
           color: #999;
           font-size: 1.4rem;
-          @media (max-width: @screen-xs-max) {
+          @media (max-width: $screen-xs-max) {
               display: block;
           }
-          @media (min-width: @screen-sm-min) {
+          @media (min-width: $screen-sm-min) {
               &:before {
                   content: "\2022";
                   margin-right: 10px;
@@ -78,11 +78,11 @@
           padding: 0;
           border: 0;
           background: transparent;
-          color: @link-color;
+          color: $link-color;
           letter-spacing: .03em;
           &:hover, &:focus {
               background: transparent;
-              color: @brand-primary;
+              color: $brand-primary;
           }
           .fa {
               margin-right: 2px;
@@ -92,7 +92,7 @@
   }
 
   .comment-form {
-      background-color: @hel-yellow;
+      background-color: $hel-yellow;
       padding: 1em;
 
       &__file {
@@ -127,7 +127,7 @@
   }
 
   .closure-info {
-      background-color: @hel-yellow;
+      background-color: $hel-yellow;
       .section-title {
           cursor: auto;
       }

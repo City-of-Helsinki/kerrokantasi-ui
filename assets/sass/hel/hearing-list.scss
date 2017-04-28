@@ -3,14 +3,14 @@
     position: relative;
     margin: 20px 0px 50px 0px;
     width: 100%;
-    @media (max-width: @screen-xs-max) {
+    @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
     }
     &-image {
         flex-basis: 200px;
         flex-shrink: 0;
         flex-grow: 0;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             display: none;
         }
         img {
@@ -20,7 +20,7 @@
     }
     &-content {
         flex: 1 auto;
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: $screen-sm-min) {
             padding-left: 25px;
         }
     }
@@ -41,7 +41,7 @@
     }
     &-title {
         margin-top: 0;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             font-size: 1.5rem;
         }
     }
@@ -51,7 +51,7 @@
         top: 0;
     }
     &-times {
-        color: @text-muted;
+        color: $text-muted;
         font-size: 1.4rem;
     }
 
@@ -62,7 +62,7 @@
         bottom: 0;
         color: #ffffff;
         padding: 2px;
-        background: @gray-light;
+        background: $gray-light;
 
         .language-available-message {
             font-size: 12px;
@@ -90,10 +90,10 @@
 
     &-empty {
         width: 70%;
-        @media (max-width: @screen-xs-max) {
+        @media (max-width: $screen-xs-max) {
             width: 60%;
         }
-        @media (max-width: @screen-xs-min) {
+        @media (max-width: $screen-xs-min) {
             width: 45%;
         }
     }
@@ -107,7 +107,7 @@
 
     &-filter {
         float: right;
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: $screen-sm-min) {
             width: 40%;
         }
     }

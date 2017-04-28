@@ -1,15 +1,15 @@
 .hearing-card {
-  border: 1px solid @border-color;
+  border: 1px solid $border-color;
   position: relative;
 
   &-image {
     display: block;
     height: 170px;
-    background: @missing-image;
+    background: $missing-image;
     background-size: cover;
     background-position: center center;
     position: relative;
-    color: @text-color;
+    color: $text-color;
 
     .hearing-card-comment-count {
       position: absolute;
@@ -17,15 +17,15 @@
       right: 0;
       padding: 3px 10px;
       font-size: 1.5em;
-      text-shadow: @comment-count-shadow;
+      text-shadow: $comment-count-shadow;
     }
   }
 
   &-content {
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: $padding-base-vertical $padding-base-horizontal;
 
     .hearing-card-time {
-      color: @text-muted;
+      color: $text-muted;
       font-size: 1.4rem;
 
       &.expires {
@@ -48,7 +48,7 @@
     }
 
     .hearing-card-notice-content {
-      background: @gray-light;
+      background: $gray-light;
       color: #fff;
       opacity: 1;
       padding: 5px;

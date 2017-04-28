@@ -34,7 +34,7 @@
     "babel-register": "^6.2.0",
     "bluebird": "^3.4.6",
     "body-parser": "^1.14.1",
-    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.3",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
@@ -58,8 +58,6 @@
     "json-loader": "^0.5.3",
     "jsonwebtoken": "^7.0.1",
     "leaflet": "^0.7.7",
-    "less": "^2.5.3",
-    "less-loader": "^2.2.2",
     "lodash": "^4.17.2",
     "markdown-loader": "^0.1.7",
     "minimist": "^1.2.0",
@@ -95,6 +93,8 @@
     "redux-logger": "^2.0.4",
     "redux-router": "^1.0.0-beta7",
     "redux-thunk": "^2.0.1",
+    "node-sass": "^3.7.0",
+    "sass-loader": "^4.0.0",
     "scrolltop": "0.0.1",
     "style-loader": "^0.13.0",
     "updeep": "^0.16.0",
@@ -112,7 +112,8 @@
     "jsdom": "^9.3.0",
     "react-addons-test-utils": "^15.1.0",
     "react-test-renderer": "^15.3.2",
-    "react-test-utils": "0.0.1"
+    "react-test-utils": "0.0.1",
+    "webpack": "^1.14.0"
   },
   "jest": {
     "collectCoverageFrom": [

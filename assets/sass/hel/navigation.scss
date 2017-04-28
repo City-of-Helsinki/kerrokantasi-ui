@@ -1,19 +1,19 @@
 .site-navigation {
-    @media (min-width: @screen-md-min) {
+    @media (min-width: $screen-md-min) {
         height: 175px;
     }
 
     .navigation-wrapper {
-        background: @brand-primary;
+        background: $brand-primary;
         color: #fff;
-        z-index: @zindex-navbar-fixed;
+        z-index: $zindex-navbar-fixed;
 
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             height: 175px;
         }
 
         > .container {
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -33,13 +33,13 @@
         white-space: nowrap;
         float: left;
         padding: 10px 0;
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             float: none;
             flex: 0 auto;
             padding: 0;
             padding-right: 30px;
         }
-        @media (min-width: @screen-lg-min) {
+        @media (min-width: $screen-lg-min) {
             width: 300px;
             padding-right: 50px;
         }
@@ -51,7 +51,7 @@
             height: 46px;
             width: auto;
             vertical-align: middle;
-            @media (min-width: @screen-lg-min) {
+            @media (min-width: $screen-lg-min) {
                 height: 70px;
             }
         }
@@ -61,7 +61,7 @@
             display: inline-block;
             font-weight: bold;
             vertical-align: middle;
-            @media (min-width: @screen-lg-min) {
+            @media (min-width: $screen-lg-min) {
                 font-size: 2.8rem;
             }
         }
@@ -69,15 +69,15 @@
     .nav-toggler {
         float: right;
         display: block;
-        background: @brand-primary-light;
-        border-radius: @border-radius-base;
+        background: $brand-primary-light;
+        border-radius: $border-radius-base;
         position: relative;
         height: 40px;
         width: 54px;
         cursor: pointer;
         margin-top: 13px;
         border: 0;
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             display: none;
         }
         .hamburger,
@@ -107,7 +107,7 @@
         }
     }
     .nav-wrap {
-        @media (max-width: @screen-sm-max) {
+        @media (max-width: $screen-sm-max) {
             position: relative;
             width: 100%;
             float: left;
@@ -115,7 +115,7 @@
             margin-bottom: 20px;
             display: none;
         }
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             flex: 1 auto;
             display: flex;
             justify-content: space-between;
@@ -124,22 +124,22 @@
         }
     }
     .nav-items {
-        @media (max-width: @screen-sm-max) {
+        @media (max-width: $screen-sm-max) {
             padding: 10px 0;
             margin-bottom: 15px;
-            border-top: 1px solid @hel-dark-blue;
-            border-bottom: 1px solid @hel-dark-blue;
+            border-top: 1px solid $hel-dark-blue;
+            border-bottom: 1px solid $hel-dark-blue;
         }
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             flex: 1 auto;
             padding: 0px 30px 0px 10px;
         }
-        @media (min-width: @screen-lg-min) {
+        @media (min-width: $screen-lg-min) {
             padding: 0px 30px;
         }
         li {
             width: 100%;
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 float: left;
                 width: 33.333333%;
                 display: flex;
@@ -152,13 +152,13 @@
                 span {
                     text-decoration: underline;
                 }
-                @media (min-width: @screen-md-min) {
-                    background: @brand-primary-light;
+                @media (min-width: $screen-md-min) {
+                    background: $brand-primary-light;
                     span {
                         text-decoration: none;
                     }
                     &:hover, &:active, &:focus {
-                        background: @brand-primary-light;
+                        background: $brand-primary-light;
                     }
                 }
             }
@@ -167,16 +167,16 @@
                 display: block;
                 transition: background-color 0.25s;
                 padding: 10px 0px;
-                @media (min-width: @screen-md-min) {
+                @media (min-width: $screen-md-min) {
                     height: 100%;
                     flex: 1 auto;
                     padding: 35px 15px 0px 15px;
                     &:hover, &:active, &:focus {
-                        background: @hel-dark-blue;
+                        background: $hel-dark-blue;
                         outline: 0;
                     }
                 }
-                @media (min-width: @screen-lg-min) {
+                @media (min-width: $screen-lg-min) {
                     padding: 30px 25px 0px 25px;
                 }
             }
@@ -187,7 +187,7 @@
                 font-size: 1.4rem;
                 line-height: 1;
                 vertical-align: middle;
-                @media (min-width: @screen-lg-min) {
+                @media (min-width: $screen-lg-min) {
                     font-size: 1.5rem;
                 }
             }
@@ -195,10 +195,10 @@
                 font-size: 1.2rem;
                 margin-top: 3px;
                 color: rgba(255,255,255,0.75);
-                @media (min-width: @screen-md-min) {
+                @media (min-width: $screen-md-min) {
                     margin-top: 10px;
                 }
-                @media (min-width: @screen-lg-min) {
+                @media (min-width: $screen-lg-min) {
                     font-size: 1.3rem;
                 }
             }
@@ -210,22 +210,22 @@
         padding: 0;
 
         + .actions {
-            @media (max-width: @screen-sm-max) {
+            @media (max-width: $screen-sm-max) {
                 padding: 10px 0;
                 margin-bottom: 15px;
-                border-top: 1px solid @hel-dark-blue;
-                border-bottom: 1px solid @hel-dark-blue;
+                border-top: 1px solid $hel-dark-blue;
+                border-bottom: 1px solid $hel-dark-blue;
             }
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 flex: 1 auto;
                 padding: 0px 30px 0px 10px;
             }
-            @media (min-width: @screen-lg-min) {
+            @media (min-width: $screen-lg-min) {
                 padding: 0px 30px;
             }
         }
 
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             margin-top: 33px;
             text-align: right;
             white-space: nowrap;
@@ -233,13 +233,13 @@
             align-self: flex-start;
         }
 
-        @media (min-width: @screen-lg-min) {
+        @media (min-width: $screen-lg-min) {
             margin-top: 28px;
         }
 
         > li {
             display: inline-block;
-            @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
                 display: block;
             }
             > a, > .language-switcher {
@@ -263,7 +263,7 @@
                     padding-right: 5px;
                     display: inline-block;
                 }
-                @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+                @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
                     margin: 0;
                     &:before {
                         display: none;
@@ -273,7 +273,7 @@
         }
         .dropdown-menu {
             margin-top: 5px;
-            @media (min-width: @screen-md-min) {
+            @media (min-width: $screen-md-min) {
                 left: auto;
                 right: 0;
             }
@@ -282,13 +282,13 @@
                 position: absolute;
                 bottom: 100%;
                 left: 15px;
-                @media (min-width: @screen-md-min) {
+                @media (min-width: $screen-md-min) {
                     right: 15px;
                     left: auto;
                 }
             }
             &:after {
-                border-bottom: 7px solid @border-color;
+                border-bottom: 7px solid $border-color;
                 border-left: 7px solid transparent;
                 border-right: 7px solid transparent;
                 z-index: 1;
@@ -300,16 +300,16 @@
                 z-index: 2;
             }
             > li > a {
-                color: @text-color;
+                color: $text-color;
                 &:hover, &:focus, &:active {
-                    background: @brand-gray-light;
-                    color: @brand-primary;
+                    background: $brand-gray-light;
+                    color: $brand-primary;
                 }
             }
         }
     }
     body.nav-fixed & {
-        @media (min-width: @screen-md-min) {
+        @media (min-width: $screen-md-min) {
             .navigation-wrapper {
                 position: fixed;
                 left: 0;
@@ -353,7 +353,7 @@
         }
     }
     &.mobile-on {
-        @media (max-width: @screen-sm-max) {
+        @media (max-width: $screen-sm-max) {
             .nav-toggler .hamburger {
                 background-color: transparent;
                 &:before, &:after {
