@@ -4,7 +4,7 @@
     margin-top: 30px;
     margin-bottom: 30px;
     padding-top: 30px;
-    border-top: 1px solid $border-color;
+    border-top: 1px solid $theme-primary-light;
   }
 
     .sort-selector {
@@ -82,7 +82,7 @@
           letter-spacing: .03em;
           &:hover, &:focus {
               background: transparent;
-              color: $brand-primary;
+              color: $theme-primary-dark;
           }
           .fa {
               margin-right: 2px;
@@ -92,7 +92,7 @@
   }
 
   .comment-form {
-      background-color: $hel-yellow;
+      background-color: $theme-primary-light;
       padding: 1em;
 
       &__file {
@@ -127,7 +127,7 @@
   }
 
   .closure-info {
-      background-color: $hel-yellow;
+      background-color: $theme-primary-light;
       .section-title {
           cursor: auto;
       }

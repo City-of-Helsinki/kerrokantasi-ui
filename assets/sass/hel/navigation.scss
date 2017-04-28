@@ -4,7 +4,7 @@
     }
 
     .navigation-wrapper {
-        background: $brand-primary;
+        background: $theme-primary-dark;
         color: #fff;
         z-index: $zindex-navbar-fixed;
 
@@ -69,7 +69,7 @@
     .nav-toggler {
         float: right;
         display: block;
-        background: $brand-primary-light;
+        background: $theme-primary-light;
         border-radius: $border-radius-base;
         position: relative;
         height: 40px;
@@ -127,8 +127,8 @@
         @media (max-width: $screen-sm-max) {
             padding: 10px 0;
             margin-bottom: 15px;
-            border-top: 1px solid $hel-dark-blue;
-            border-bottom: 1px solid $hel-dark-blue;
+            border-top: 1px solid $theme-secondary-dark;
+            border-bottom: 1px solid $theme-secondary-dark;
         }
         @media (min-width: $screen-md-min) {
             flex: 1 auto;
@@ -153,12 +153,12 @@
                     text-decoration: underline;
                 }
                 @media (min-width: $screen-md-min) {
-                    background: $brand-primary-light;
+                    background: $theme-primary-light;
                     span {
                         text-decoration: none;
                     }
                     &:hover, &:active, &:focus {
-                        background: $brand-primary-light;
+                        background: $theme-primary-light;
                     }
                 }
             }
@@ -172,7 +172,7 @@
                     flex: 1 auto;
                     padding: 35px 15px 0px 15px;
                     &:hover, &:active, &:focus {
-                        background: $hel-dark-blue;
+                        background: $theme-secondary-dark;
                         outline: 0;
                     }
                 }
@@ -213,8 +213,8 @@
             @media (max-width: $screen-sm-max) {
                 padding: 10px 0;
                 margin-bottom: 15px;
-                border-top: 1px solid $hel-dark-blue;
-                border-bottom: 1px solid $hel-dark-blue;
+                border-top: 1px solid $theme-secondary-dark;
+                border-bottom: 1px solid $theme-secondary-dark;
             }
             @media (min-width: $screen-md-min) {
                 flex: 1 auto;
@@ -288,7 +288,7 @@
                 }
             }
             &:after {
-                border-bottom: 7px solid $border-color;
+                border-bottom: 7px solid $gray-light;
                 border-left: 7px solid transparent;
                 border-right: 7px solid transparent;
                 z-index: 1;
@@ -302,8 +302,8 @@
             > li > a {
                 color: $text-color;
                 &:hover, &:focus, &:active {
-                    background: $brand-gray-light;
-                    color: $brand-primary;
+                    background: $gray-light;
+                    color: $theme-primary-dark;
                 }
             }
         }

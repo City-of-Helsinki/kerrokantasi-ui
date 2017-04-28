@@ -1,5 +1,5 @@
 .hearing-card {
-  border: 1px solid $border-color;
+  //border: 1px solid $border-color;
   position: relative;
 
   &-image {
@@ -13,11 +13,13 @@
 
     .hearing-card-comment-count {
       position: absolute;
-      bottom: 0;
+      top: 0;
       right: 0;
       padding: 3px 10px;
       font-size: 1.5em;
-      text-shadow: $comment-count-shadow;
+      font-weight: 500;
+      background: $theme-primary-light;
+      border-radius: 0 0 0 24px;
     }
   }
 

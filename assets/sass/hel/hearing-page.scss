@@ -1,5 +1,5 @@
 .hearing-sidebar {
-    background: $brand-gray-light;
+    background: $gray-lighter;
     padding: 15px;
     font-size: 1.4rem;
     margin-bottom: 25px;
@@ -110,7 +110,7 @@
     width: 100%;
     padding: 10px 15px;
     margin-bottom: 15px;
-    background-color: $brand-gray-light;
+    background-color: $gray-light;
     font-size: 1.4rem;
 }
 
@@ -202,7 +202,7 @@
         letter-spacing: .03em;
         &:hover, &:focus {
             background: transparent;
-            color: $brand-primary;
+            color: $theme-primary-dark;
         }
         .fa {
             margin-right: 2px;
@@ -215,7 +215,7 @@
 }
 
 .comment-form {
-    background-color: $hel-yellow;
+    background-color: $theme-primary-light;
     padding: 1em;
 
     &__file {
@@ -250,7 +250,7 @@
 }
 
 .closure-info {
-    background-color: $hel-yellow;
+    background-color: $theme-primary-light;
     .section-title {
         cursor: auto;
     }
@@ -295,7 +295,7 @@
 }
 
 .commentlist .commentlist__load-more {
-  background: $brand-gray-light;
+  background: $gray-light;
   padding: 20px 15px 15px;
   text-align: center;
 }

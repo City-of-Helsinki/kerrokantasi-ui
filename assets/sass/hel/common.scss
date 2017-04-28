@@ -110,14 +110,14 @@ a.list-group-item {
     &:hover, &:focus {
         > .badge {
             background: #fff;
-            color: $brand-primary;
+            color: $theme-highlight-dark;
         }
     }
 }
 
 .feedback-box {
     top: 60px;
-    background-color: $hel-yellow;
+    background-color: $theme-primary-light;
     padding: $padding-base-horizontal $padding-base-vertical;
     text-align: center;
     color: white;
@@ -130,7 +130,7 @@ a.fullwidth {
   display: block;
   width: 100%;
   padding: $navbar-padding-vertical;
-  background: $brand-gray-light;
+  background: $light-gray;
   text-align: center;
   margin-bottom: 15px;
 }
