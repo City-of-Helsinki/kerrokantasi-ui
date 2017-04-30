@@ -1,4 +1,5 @@
 import _, {find, values} from 'lodash';
+import uuid from 'uuid';
 
 import initAttr from './initAttr';
 
@@ -42,7 +43,7 @@ Return initialized section object.
  */
 export function initNewSection(inits) {
   return _.merge({
-    id: "",
+    id: uuid(),
     type: "",
     commenting: "none",
     published: false,

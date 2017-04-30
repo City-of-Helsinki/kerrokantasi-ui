@@ -150,11 +150,16 @@ export function saveHearingChanges(hearing) {
 
 
 export function saveNewHearing(hearing) {
+  // Clean up section IDs assigned by UI before POSTing the hearing
+  const cleanedHearing = Object.assign({}, hearing, {
+    sections: hearing.sections.reduce((sections, section) =>
+      [...sections, Object.assign({}, section, {id: ''})], [])
+  });
   return (dispatch, getState) => {
-    const preSaveAction = createAction(EditorActions.POST_HEARING)({hearing});
+    const preSaveAction = createAction(EditorActions.POST_HEARING)({hearing: cleanedHearing});
     dispatch(preSaveAction);
     const url = "/v1/hearing/";
-    return api.post(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+    return api.post(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
       if (response.status === 400) {  // Bad request with error message
         notifyError("Tarkista kuulemisen tiedot.");
         response.json().then((errors) => {
