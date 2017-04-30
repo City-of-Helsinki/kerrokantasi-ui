@@ -116,31 +116,13 @@ const errors = handleActions({
   [EditorActions.POST_HEARING_SUCCESS]: () => []
 }, null);
 
-const isPosting = handleActions({
-  [EditorActions.POST_HEARING]: () => true,
-  [EditorActions.POST_HEARING_SUCCESS]: () => false,
-  [EditorActions.POST_HEARING_ERROR]: () => false
-}, false);
-
-const pendingRequests = handleActions({
-  [EditorActions.FETCH_META_DATA]: (state) => state + 1,
-  [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
-  beginFetchHearing: (state) => state + 1,
-  receiveHearing: (state) => state - 1,
-}, 0);
-
-const sections = handleActions({
-}, {});
 
 const reducer = combineReducers({
   hearing,
-  sections,
   languages,
   metaData,
   editorState,
   errors,
-  isPosting,
-  pendingRequests
 });
 
 export default reducer;
