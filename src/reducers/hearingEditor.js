@@ -104,10 +104,11 @@ const editorState = handleActions({
   [EditorActions.RECEIVE_META_DATA]: _editorStateReceive,
   receiveHearing: _editorStateReceive,
   [EditorActions.FETCH_META_DATA]: ({pending}) => ({pending: pending + 1}),
-  beginFetchHearing: ({pending}) => ({pending: pending + 1, state: EditorStates.PENDING}),
+  beginFetchHearing: ({pending}) => ({pending: pending + 1}),
   [EditorActions.SHOW_FORM]: () => ({state: EditorStates.EDIT}),
   [EditorActions.CLOSE_FORM]: () => ({state: EditorStates.PREVIEW}),
-  [EditorActions.POST_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW})
+  [EditorActions.POST_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW}),
+  [EditorActions.SAVE_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW})
 }, {state: null, pending: 0});
 
 const errors = handleActions({
