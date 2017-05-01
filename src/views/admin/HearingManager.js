@@ -29,8 +29,16 @@ class HearingManagementView extends HearingView {
     // We don't want to do that when we are creating a new hearing.
     if (this.isNewHearing()) {
       this.props.dispatch(initNewHearing());
-    } else {
-      this.props.dispatch(fetchHearing(this.props.params.hearingSlug));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {user, dispatch, params: {hearingSlug}} = this.props;
+    // Fetch hearing only when user data is available
+    const shouldFetchHearing = !this.isNewHearing() && !user && nextProps.user;
+
+    if (shouldFetchHearing) {
+      dispatch(fetchHearing(hearingSlug));
     }
   }
 
