@@ -209,14 +209,6 @@ class Sidebar extends React.Component {
               {this.getLanguageChanger()}
             </Col>
             <Col sm={6} md={12}>
-              <div className="sidebar-section commentNumber">
-                <Icon name="comment-o"/> {' '}
-                <FormattedPlural
-                  value={hearing.n_comments}
-                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
-                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
-                />
-              </div>
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 {this.getSectionList()}
