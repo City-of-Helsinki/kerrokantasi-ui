@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+$node_modules: "../../../node_modules";
+
+@import "../../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
+>>>>>>> ffc579b... Use helsinki-bootstrap-3
 @import "variables";
 @import "../../../node_modules/react-datetime/css/react-datetime.css";
 @import "../../../node_modules/react-select/dist/react-select.css";
@@ -19,7 +25,7 @@
 
     .dropzone {
         align-items: center;
-        border-color: $border-color;
+        border-color: $theme-primary-light;
         border-radius: 5px;
         border-style: dashed;
         border-width: 2px;
@@ -77,7 +83,7 @@
 }
 
 .toolbar-bottom {
-    background: $brand-gray-light;
+    background: gray-light;
     bottom: 0;
     box-shadow: 0 0 4px rgba(0,0,0,.2);
     left: 0;

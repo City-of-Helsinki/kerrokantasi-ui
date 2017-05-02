@@ -218,7 +218,7 @@ class BaseCommentForm extends React.Component {
         </form>
       </div>);
     }
-    return (<Button onClick={this.toggle.bind(this)} bsStyle="primary">
+    return (<Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
       <Icon name="comment"/> <FormattedMessage id="addComment"/>
     </Button>);
   }

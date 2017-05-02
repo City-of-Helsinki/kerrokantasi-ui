@@ -12,7 +12,7 @@
         left: 0;
         right: 0;
         height: 66px;
-        background: $brand-primary;
+        background: $theme-primary-dark;
         padding: 0px 15px;
         color: #fff;
         display: flex;
@@ -68,7 +68,7 @@
 
             button {
                 display: block;
-                background: $brand-primary-light;
+                background: $theme-primary-dark;
                 border-radius: $border-radius-base;
                 position: relative;
                 height: 40px;

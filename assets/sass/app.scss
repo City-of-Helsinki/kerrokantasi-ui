@@ -3,10 +3,17 @@ $bootstrap-dir: "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap"
 $font-awesome-dir: "../../node_modules/font-awesome/scss";
 $leaflet-dir: "../../node_modules/leaflet/dist";
 $fa-font-path: "../../node_modules/font-awesome/fonts";
-    
-///// Local fonts and variables
-@import "hel/fonts";
+
+///// TODO:Import HelsinkiGrotesk here
+
+///// Helsinki brand variables
+@import "../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
+///// Application specific theme variables
 @import "hel/variables";
+///// Helsinki Bootstrap 3 theme variables
+@import "../../node_modules/hel-bootstrap-3/src/sass/custom-bootstrap-variables";
+
+$missing-image:               $theme-secondary-light;
 
 ///// Bootstrap
 //@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";

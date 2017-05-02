@@ -3,10 +3,8 @@ import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
-import {injectIntl, FormattedMessage, FormattedPlural} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import OverviewMap from '../../components/OverviewMap';
-import SocialBar from '../../components/SocialBar';
-import formatRelativeTime from '../../utils/formatRelativeTime';
 import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
 import AutoAffix from 'react-overlays/lib/AutoAffix';
@@ -192,31 +190,17 @@ class Sidebar extends React.Component {
              { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
+            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
+              {this.getLanguageChanger()}
+            </Col>
             <Col sm={6} md={12}>
-              <div className="sidebar-section commentNumber">
-                <Icon name="comment-o"/> {' '}
-                <FormattedPlural
-                  value={hearing.n_comments}
-                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
-                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
-                />
-              </div>
-              <div className="sidebar-section timetable">
-                <h4><FormattedMessage id="timetable"/></h4>
-                <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/>
-                <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
-              </div>
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 {this.getSectionList()}
               </div>
             </Col>
-            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
-              {this.getLanguageChanger()}
-            </Col>
             <Col sm={6} md={12}>
               {Object.keys(hearing.borough).length !== 0 && boroughDiv}
-              <SocialBar />
               {hearingMap}
             </Col>
             {hearing.contact_persons &&
@@ -228,10 +212,10 @@ class Sidebar extends React.Component {
                       <ContactCard key={index} {...person}/>  // eslint-disable-line react/no-array-index-key
                     )}
                   </div>
+                  <a href={reportUrl} className="btn btn-default btn-sm" style={{ whiteSpace: 'normal' }}><Icon name="download"/> <FormattedMessage id="downloadReport"/></a>
                 </div>
               </Col>
             }
-            <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
           </Row>
         </div>
       </AutoAffix>

@@ -13,7 +13,7 @@
   &-header {
     padding: 10px;
     width: 100%;
-    background-color: rgba($brand-gray-light, .85);
+    background-color: rgba($gray-light, .85);
     margin-bottom: 60px;
   }
 
@@ -35,6 +35,8 @@
     flex-shrink: 0;
     align-self: flex-end;
     font-size: 2em;
-    text-shadow: $comment-count-shadow;
+    font-weight: 500;
+    background: $theme-primary-light;
+    padding: 0 12px;
   }
 }

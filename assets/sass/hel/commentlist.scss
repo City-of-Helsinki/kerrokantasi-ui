@@ -4,15 +4,18 @@
     margin-top: 30px;
     margin-bottom: 30px;
     padding-top: 30px;
-    border-top: 1px solid $border-color;
+    border-top: 1px solid $theme-primary-light;
   }
 
     .sort-selector {
+        @extend .col-md-4;
+        @extend .col-md-offset-8;
+        @extend .col-sm-6;
+        @extend .col-sm-offset-6;
         font-size: 1.2rem;
         padding-top: 5px;
         padding-bottom: 5px;
         height: 50px;
-        float: right;
     }
 
   &__loader {
@@ -30,18 +33,22 @@
     margin-top: 40px;
 
   .hearing-comment {
-      margin-top: 30px;
-      border-top: 1px solid #eaeaea;
-      padding-top: 30px;
+      margin-bottom: $line-height-computed;
+      padding: $line-height-computed / 2;
+      background-color: $white;
 
+      &-header {
+          border-bottom: 1px solid $light-gray;
+      }
       &-body {
           padding-top: 15px;
-          font-size: 1.4rem;
+          //font-size: 1.2em;
       }
       &-votes {
           float: right;
           width: 20%;
           text-align: right;
+          color: $theme-highlight-dark;
       }
       &-publisher {
           width: 80%;
@@ -54,9 +61,8 @@
               display: block;
           }
           &-registered {
-              color: #999;
+              color: $theme-highlight-light;
               :not(.fa)  {
-                  font-size: 1.4rem;
               }
           }
       }
@@ -82,9 +88,10 @@
           letter-spacing: .03em;
           &:hover, &:focus {
               background: transparent;
-              color: $brand-primary;
+              color: $theme-primary-dark;
           }
           .fa {
+              color: $theme-highlight-light;
               margin-right: 2px;
               font-size: 1.4rem;
           }
@@ -92,7 +99,7 @@
   }
 
   .comment-form {
-      background-color: $hel-yellow;
+      background-color: $theme-primary-light;
       padding: 1em;
 
       &__file {
@@ -127,7 +134,7 @@
   }
 
   .closure-info {
-      background-color: $hel-yellow;
+      background-color: $theme-primary-light;
       .section-title {
           cursor: auto;
       }

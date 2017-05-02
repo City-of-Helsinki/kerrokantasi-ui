@@ -117,6 +117,16 @@ class SortableCommentList extends Component {
     const showCommentList = section && sectionComments && get(sectionComments, 'results');
     return (
       <div className="sortable-comment-list">
+        <div className="row">
+          <div className="comment-form-container">
+            {canComment && <CommentForm
+              hearingId={hearingId}
+              onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
+              canSetNickname={this.props.canSetNickname}
+            />
+            }
+          </div>
+        </div>
         <h2><FormattedMessage id="comments"/>
           <div className="commenticon">
             <Icon name="comment-o"/>&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
@@ -143,32 +153,27 @@ class SortableCommentList extends Component {
             </div>
             : null
         }
-        {canComment && <CommentForm
-          hearingId={hearingId}
-          onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
-          canSetNickname={this.props.canSetNickname}
-        />
-        }
-
-        <form className="sort-selector">
-          <FormGroup controlId="sort-select">
-            <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
-            <FormControl
-              componentClass="select"
-              onChange={(event) => { fetchComments(section.id, event.target.value); }}
-            >
-              {keys(ORDERING_CRITERIA).map((key) =>
-                <option
-                  key={key}
-                  value={ORDERING_CRITERIA[key]}
-                  selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
-                >
-                  <FormattedMessage id={key}/>
-                </option>)
-              }
-            </FormControl>
-          </FormGroup>
-        </form>
+        <div className="row">
+          <form className="sort-selector">
+            <FormGroup controlId="sort-select">
+              <ControlLabel><FormattedMessage id="commentOrder"/></ControlLabel>
+              <FormControl
+                componentClass="select"
+                onChange={(event) => { fetchComments(section.id, event.target.value); }}
+              >
+                {keys(ORDERING_CRITERIA).map((key) =>
+                  <option
+                    key={key}
+                    value={ORDERING_CRITERIA[key]}
+                    selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
+                  >
+                    <FormattedMessage id={key}/>
+                  </option>)
+                }
+              </FormControl>
+            </FormGroup>
+          </form>
+        </div>
 
         { showCommentList &&
           <div>
