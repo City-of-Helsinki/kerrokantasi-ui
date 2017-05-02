@@ -13,7 +13,9 @@ import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
 import Step4 from './HearingFormStep4';
+import LoadSpinner from '../LoadSpinner';
 import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import * as HearingEditorSelector from '../../selectors/hearingEditor';
 
 
 class HearingForm extends React.Component {
@@ -62,21 +64,28 @@ class HearingForm extends React.Component {
   }
 
   getActions() {
-    const hearing = this.props.hearing;
+    const {hearing, isSaving} = this.props;
+    let ActionButton;
+
     if (hearing.published) {
-      return (
+      ActionButton = () =>
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onSaveChanges}>
           <FormattedMessage id="saveHearingChanges"/>
-        </Button>
-      );
+        </Button>;
+    } else {
+      ActionButton = () =>
+        <ButtonToolbar className="pull-right">
+          <Button bsStyle="primary" onClick={this.props.onSaveAndPreview}>
+            <FormattedMessage id="saveAndPreviewHearing"/>
+          </Button>
+        </ButtonToolbar>;
     }
-    return (
-      <ButtonToolbar className="pull-right">
-        <Button bsStyle="primary" onClick={this.props.onSaveAndPreview}>
-          <FormattedMessage id="saveAndPreviewHearing"/>
-        </Button>
-      </ButtonToolbar>
-    );
+
+    if (!isSaving) {
+      return <ActionButton/>;
+    }
+
+    return <div className="pull-right"><LoadSpinner/></div>;
   }
 
   getErrors() {
@@ -124,6 +133,7 @@ class HearingForm extends React.Component {
 HearingForm.propTypes = {
   currentStep: React.PropTypes.number,
   editorMetaData: hearingEditorMetaDataShape,
+  isSaving: React.PropTypes.bool,
   errors: React.PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
@@ -149,6 +159,7 @@ const WrappedHearingForm = connect((state) => ({
   editorMetaData: state.hearingEditor.metaData,
   errors: state.hearingEditor.errors,
   hearingLanguages: state.hearingEditor.languages,
+  isSaving: HearingEditorSelector.getIsSaving(state),
 }), null, null, {pure: false})(injectIntl(HearingForm));
 
 export default WrappedHearingForm;

@@ -8,7 +8,13 @@ export const getIsFetchingMetaData = (state) =>
   getHearingEditor(state).metaData.isFetching;
 
 export const getIsLoading = (state) =>
-  getHearingEditor(state).editorState.pendingRequests > 0;
+  getHearingEditor(state).editorState.pending > 0;
+
+export const getShowForm = (state) =>
+  getHearingEditor(state).editorState.show;
+
+export const getIsSaving = (state) =>
+  getHearingEditor(state).editorState.isSaving;
 
 export const getHearing = (state) =>
   getHearingEditor(state).hearing.hearing;

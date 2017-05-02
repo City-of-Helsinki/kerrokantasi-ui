@@ -58,6 +58,8 @@ const hearingReducer = handleActions({
     }
     return Object.assign({}, state, hearing);
   },
+  [EditorActions.POST_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
+  [EditorActions.SAVE_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
 }, {});
 
 const hearingIsFetching = handleActions({
@@ -84,37 +86,69 @@ const metaData = handleActions({
   )
 }, {});
 
-const EditorStates = {
-  EDIT: 'editForm',
-  PREVIEW: 'preview',
-  PENDING: 'pending'
-};
+// export const EditorStates = {
+//   EDIT: 'editForm',
+//   PREVIEW: 'preview',
+//   PENDING: 'pending'
+// };
+//
+// function _editorStateReceive({state, pending}) {
+//   const pendingCount = pending - 1;
+//   return ({
+//     state: state === EditorStates.PENDING && !pendingCount ? EditorStates.EDIT : state,
+//     pending: pendingCount
+//   });
+// }
 
-function _editorStateReceive({state, pending}) {
-  const pendingCount = pending - 1;
-  return ({
-    state: state === EditorStates.PENDING && !pendingCount ? EditorStates.EDIT : state,
-    pending: pendingCount
-  });
-}
+// const editorState2 = handleActions({
+//   [EditorActions.INIT_NEW_HEARING]: () => ({state: EditorStates.PENDING}),
+//   [EditorActions.BEGIN_EDIT_HEARING]: () => ({state: EditorStates.PENDING}),
+//   [EditorActions.RECEIVE_META_DATA]: _editorStateReceive,
+//   receiveHearing: _editorStateReceive,
+//   [EditorActions.FETCH_META_DATA]: ({pending}) => ({pending: pending + 1}),
+//   beginFetchHearing: ({pending}) => ({pending: pending + 1}),
+//   [EditorActions.SHOW_FORM]: () => ({state: EditorStates.EDIT}),
+//   [EditorActions.CLOSE_FORM]: () => ({state: EditorStates.PREVIEW}),
+//   [EditorActions.POST_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW}),
+//   [EditorActions.SAVE_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW}),
+// }, {
+//   show: false,
+//   pending: 0,
+//   isSaving: false
+// });
 
-const editorState = handleActions({
-  [EditorActions.INIT_NEW_HEARING]: () => ({state: EditorStates.PENDING}),
-  [EditorActions.BEGIN_EDIT_HEARING]: () => ({state: EditorStates.PENDING}),
-  [EditorActions.RECEIVE_META_DATA]: _editorStateReceive,
-  receiveHearing: _editorStateReceive,
-  [EditorActions.FETCH_META_DATA]: ({pending}) => ({pending: pending + 1}),
-  beginFetchHearing: ({pending}) => ({pending: pending + 1}),
-  [EditorActions.SHOW_FORM]: () => ({state: EditorStates.EDIT}),
-  [EditorActions.CLOSE_FORM]: () => ({state: EditorStates.PREVIEW}),
-  [EditorActions.POST_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW}),
-  [EditorActions.SAVE_HEARING_SUCCESS]: () => ({state: EditorStates.PREVIEW})
-}, {state: null, pending: 0});
+const showEditor = handleActions({
+  [EditorActions.BEGIN_EDIT_HEARING]: () => true,
+  [EditorActions.INIT_NEW_HEARING]: () => true,
+  [EditorActions.SHOW_FORM]: () => true,
+  [EditorActions.CLOSE_FORM]: () => false,
+}, false);
+
+const editorPending = handleActions({
+  beginFetchHearing: (state) => state + 1,
+  receiveHearing: (state) => state - 1,
+  [EditorActions.FETCH_META_DATA]: (state) => state + 1,
+  [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
+}, 0);
+
+const editorIsSaving = handleActions({
+  [EditorActions.POST_HEARING]: () => true,
+  [EditorActions.SAVE_HEARING]: () => true,
+  [EditorActions.POST_HEARING_SUCCESS]: () => false,
+  [EditorActions.SAVE_HEARING_SUCCESS]: () => false,
+  [EditorActions.SAVE_HEARING_FAILED]: () => false,
+}, false);
+
+const editorState = combineReducers({
+  show: showEditor,
+  pending: editorPending,
+  isSaving: editorIsSaving
+});
 
 const errors = handleActions({
   [EditorActions.POST_HEARING_ERROR]: (state, {payload}) =>
     payload.errors,
-  [EditorActions.POST_HEARING_SUCCESS]: () => []
+  [EditorActions.POST_HEARING_SUCCESS]: () => null
 }, null);
 
 

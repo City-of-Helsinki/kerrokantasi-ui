@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {push} from 'redux-router';
 
 import {
   changeHearing,
@@ -13,13 +12,13 @@ import {
   closeHearingForm,
   publishHearing,
   saveHearingChanges,
-  saveNewHearing,
+  saveAndPreviewHearingChanges,
+  saveAndPreviewNewHearing,
   startHearingEdit,
   unPublishHearing,
 } from '../../actions/hearingEditor';
 import HearingForm from '../../components/admin/HearingForm';
 import HearingToolbar from '../../components/admin/HearingToolbar';
-import {getHearingEditorURL} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 
@@ -62,11 +61,10 @@ class HearingEditor extends React.Component {
   onSaveAndPreview() {
     const {dispatch, hearing} = this.props;
     if (hearing.isNew) {
-      dispatch(saveNewHearing(hearing));
+      dispatch(saveAndPreviewNewHearing(hearing));
     } else {
-      dispatch(saveHearingChanges(hearing));
+      dispatch(saveAndPreviewHearingChanges(hearing));
     }
-    dispatch(push(getHearingEditorURL(hearing)));
   }
 
   onSaveChanges() {
@@ -82,21 +80,23 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    if (isEmpty(this.props.hearing)) {
+    const {hearing, dispatch, show, isLoading} = this.props;
+
+    if (isEmpty(hearing)) {
       return null;
     }
     return (
       <HearingForm
         currentStep={1}
-        hearing={this.props.hearing}
+        hearing={hearing}
         onHearingChange={this.onHearingChange}
-        onLeaveForm={() => this.props.dispatch(closeHearingForm())}
+        onLeaveForm={() => dispatch(closeHearingForm())}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
         onLanguagesChange={this.onLanguagesChange}
-        show={this.props.editorState === "editForm"}
+        show={show && !isLoading}
       />
     );
   }
@@ -122,13 +122,15 @@ class HearingEditor extends React.Component {
 
 HearingEditor.propTypes = {
   dispatch: React.PropTypes.func,
-  editorState: React.PropTypes.string,
+  show: React.PropTypes.bool,
+  isLoading: React.PropTypes.bool,
   hearing: hearingShape,
   user: userShape
 };
 
 const WrappedHearingEditor = connect((state) => ({
-  editorState: EditorSelector.getEditorState(state),
+  show: EditorSelector.getShowForm(state),
+  isLoading: EditorSelector.getIsLoading(state),
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;

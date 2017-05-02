@@ -3,8 +3,11 @@ import api from '../api';
 import {notifySuccess, notifyError} from '../utils/notify';
 import moment from 'moment';
 import Promise from 'bluebird';
+import {push} from 'redux-router';
 
 import {getResponseJSON, requestErrorHandler} from './index';
+import {getHearingEditorURL} from '../utils/hearing';
+
 
 export const EditorActions = {
   SHOW_FORM: 'showHearingForm',
@@ -148,6 +151,33 @@ export function saveHearingChanges(hearing) {
   };
 }
 
+export function saveAndPreviewHearingChanges(hearing) {
+  return (dispatch, getState) => {
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({hearing});
+    dispatch(preSaveAction);
+    const url = "/v1/hearing/" + hearing.id;
+    return api.put(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+      if (response.status === 400) {  // Bad request with error message
+        notifyError("Tarkista kuulemisen tiedot.");
+        response.json().then((errors) => {
+          dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({errors}));
+        });
+      } else if (response.status === 401) {  // Unauthorized
+        notifyError("Et voi muokata tätä kuulemista.");
+      } else {
+        response.json().then((hearingJSON) => {
+          dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
+          dispatch(createAction(EditorActions.CLOSE_FORM)());
+          dispatch(push(getHearingEditorURL(hearingJSON)));
+        });
+        notifySuccess("Tallennus onnistui");
+      }
+    }).then({
+
+    }).catch(requestErrorHandler(dispatch, preSaveAction));
+  };
+}
+
 
 export function saveNewHearing(hearing) {
   // Clean up section IDs assigned by UI before POSTing the hearing
@@ -170,6 +200,36 @@ export function saveNewHearing(hearing) {
       } else {
         response.json().then((hearingJSON) => {
           dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({hearing: hearingJSON}));
+        });
+        notifySuccess("Luonti onnistui");
+      }
+    }).catch(requestErrorHandler(dispatch, preSaveAction));
+  };
+}
+
+export function saveAndPreviewNewHearing(hearing) {
+  // Clean up section IDs assigned by UI before POSTing the hearing
+  const cleanedHearing = Object.assign({}, hearing, {
+    sections: hearing.sections.reduce((sections, section) =>
+      [...sections, Object.assign({}, section, {id: ''})], [])
+  });
+  return (dispatch, getState) => {
+    const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({fyi: 'saveAndPreview'}))({hearing: cleanedHearing});
+    dispatch(preSaveAction);
+    const url = "/v1/hearing/";
+    return api.post(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
+      if (response.status === 400) {  // Bad request with error message
+        notifyError("Tarkista kuulemisen tiedot.");
+        response.json().then((errors) => {
+          dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({errors}));
+        });
+      } else if (response.status === 401) {  // Unauthorized
+        notifyError("Et voi luoda kuulemista.");
+      } else {
+        response.json().then((hearingJSON) => {
+          dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({hearing: hearingJSON}));
+          dispatch(createAction(EditorActions.CLOSE_FORM)());
+          dispatch(push(getHearingEditorURL(hearingJSON)));
         });
         notifySuccess("Luonti onnistui");
       }
