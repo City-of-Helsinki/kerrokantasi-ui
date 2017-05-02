@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
 import Label from 'react-bootstrap/lib/Label';
-import {injectIntl, FormattedMessage, FormattedPlural} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import OverviewMap from '../../components/OverviewMap';
 import Icon from '../../utils/Icon';
 import {hasFullscreenMapPlugin, getHearingURL} from '../../utils/hearing';
@@ -190,22 +190,14 @@ class Sidebar extends React.Component {
              { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>
+            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
+              {this.getLanguageChanger()}
+            </Col>
             <Col sm={6} md={12}>
-              <div className="sidebar-section commentNumber">
-                <Icon name="comment-o"/> {' '}
-                <FormattedPlural
-                  value={hearing.n_comments}
-                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
-                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
-                />
-              </div>
               <div className="sidebar-section contents">
                 <h4><FormattedMessage id="table-of-content"/></h4>
                 {this.getSectionList()}
               </div>
-            </Col>
-            <Col sm={6} md={12} style={{ marginBottom: 20 }}>
-              {this.getLanguageChanger()}
             </Col>
             <Col sm={6} md={12}>
               {Object.keys(hearing.borough).length !== 0 && boroughDiv}

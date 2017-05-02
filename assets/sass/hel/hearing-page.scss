@@ -149,74 +149,15 @@
     }
 }
 
-.hearing-comment {
-    margin-top: 30px;
-    border-top: 1px solid #eaeaea;
-    padding-top: 30px;
-
-    &-body {
-        padding-top: 15px;
-        font-size: 1.4rem;
-    }
-    &-votes {
-        float: right;
-        width: 20%;
-        text-align: right;
-    }
-    &-publisher {
-        width: 80%;
-        float: left;
-        font-weight: bold;
-    }
-    &-user {
-        margin-right: 10px;
-        @media (max-width: $screen-xs-max) {
-            display: block;
-        }
-        &-registered {
-            color: #999;
-            :not(.fa)  {
-                font-size: 1.4rem;
-            }
-        }
-    }
-    &-date {
-        color: #999;
-        font-size: 1.4rem;
-        @media (max-width: $screen-xs-max) {
-            display: block;
-        }
-        @media (min-width: $screen-sm-min) {
-            &:before {
-                content: "\2022";
-                margin-right: 10px;
-                color: #aaa;
-            }
-        }
-    }
-    &-vote-link {
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: $link-color;
-        letter-spacing: .03em;
-        &:hover, &:focus {
-            background: transparent;
-            color: $theme-primary-dark;
-        }
-        .fa {
-            margin-right: 2px;
-            font-size: 1.4rem;
-        }
-    }
-    &__edit-form {
-        padding-top: 10px;
-    }
+.comment-form-container {
+  @extend .col-xs-12;
+  margin-bottom: $line-height-computed;
 }
 
 .comment-form {
     background-color: $theme-primary-light;
     padding: 1em;
+    margin-bottom: $line-height-computed;
 
     &__file {
         margin: 10px 0;
@@ -265,10 +206,23 @@
     border: 0;
 }
 
-#hearing-comments,
-[id^='hearing-sectiongroup-'],
-.commentlist {
-    padding-top: 50px;
+[id^='hearing-sectiongroup-'] {
+    margin-bottom: $line-height-computed * 2;
+
+    h2:first-letter {
+        text-transform:capitalize;
+    }
+}
+
+#hearing-comments {
+    background-color: $theme-secondary-light;
+    padding: $line-height-computed;
+
+    h2 {
+      margin-top: 0;
+      padding-bottom: $line-height-computed / 2;
+      border-bottom: 1px solid $gray;
+    }
 
     h2:first-letter {
         text-transform:capitalize;

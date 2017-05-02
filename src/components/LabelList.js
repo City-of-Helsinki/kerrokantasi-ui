@@ -11,7 +11,7 @@ class LabelList extends React.Component {
     *     New API response: [{id, label}]
     * DONE: Remove support for old styled API response when API has changed.
      */
-    const labelToHTML = ((label) => <span key={label.id}><Label>{getAttr(label.label, language)}</Label> </span>);
+    const labelToHTML = ((label) => <span key={label.id}><Label bsStyle="default">{getAttr(label.label, language)}</Label> </span>);
 
     return (
       <div className={className}>
