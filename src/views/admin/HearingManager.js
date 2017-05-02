@@ -42,29 +42,9 @@ class HearingManagementView extends HearingView {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (!this.isNewHearing()) {
-  //     // The parent class HearingView fetces the hearing (Promise) from the api
-  //     // and it gets passed to this view via props.
-  //     // Instead of editing the hearing stored in the Redux store we make
-  //     // a deep clone from it and store the cloned hearing into local state of this view.
-  //     // That cloned hearing can then be freely managed as needed.
-  //     const {hearingSlug} = this.props.params;
-  //     const {state, data: hearing} = nextProps.hearing[hearingSlug] || {state: "initial"};
-  //
-  //     const draft = this.props.hearingDraft;
-  //     if (state === 'done' && (!draft || (draft.id !== hearing.id))) {
-  //       // Make a deep local clone out of the passed hearing
-  //       // this.setState({hearing: cloneDeep(hearing)});
-  //       // Hearing is loaded and we are ready to beging editing the hearing
-  //       this.props.dispatch(beginEditHearing(hearing));
-  //     }
-  //   }
-  // }
-
   getHearing() {
     if (this.isNewHearing()) {
-      return this.props.hearingDraft;
+      return null;
     }
     const {hearingSlug} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
@@ -77,20 +57,20 @@ class HearingManagementView extends HearingView {
   render() {
     const hearing = this.getHearing();
     const {language, dispatch, currentlyViewed, isLoading, hearingDraft, user} = this.props;
-    if (isLoading || !hearing) {
-      return this.renderSpinner();
-    }
+
+    const PreviewReplacement = () =>
+      (this.isNewHearing() ? null : <this.renderSpinner/>);
 
     return (
       <div className="container">
-        <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)}/>
+        <Helmet title={getAttr(hearingDraft.title, language)} meta={this.getOpenGraphMetaData(hearingDraft)}/>
 
         <HearingEditor
           hearing={hearingDraft}
           user={user}
         />
 
-        { Object.keys(hearing).length && hearing.title ?
+        { (isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title) ?
           <HearingPreview
             hearingSlug={hearing.slug}
             hearing={hearing}
@@ -100,7 +80,7 @@ class HearingManagementView extends HearingView {
             changeCurrentlyViewed={this.changeCurrentlyViewed}
             currentlyViewed={currentlyViewed}
           />
-          : <this.renderSpinner/>
+          : <PreviewReplacement/>
         }
       </div>
     );
