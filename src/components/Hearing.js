@@ -294,7 +294,12 @@ export class Hearing extends React.Component {
                 user={user}
               /> : null}
             </div>
-
+            {hearing.contact_persons && hearing.contact_persons.length ?
+              <h2><FormattedMessage id="contactPersons"/></h2> :
+              null}
+            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
+              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
+            )}
             {this.getLinkToFullscreen(hearing)}
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
@@ -315,12 +320,6 @@ export class Hearing extends React.Component {
             <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'}/>
             {this.getCommentList()}
 
-            {hearing.contact_persons && hearing.contact_persons.length ?
-              <h2><FormattedMessage id="contactPersons"/></h2> :
-              null}
-            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
-              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
-            )}
           </Col>
         </Row>
         <DeleteModal

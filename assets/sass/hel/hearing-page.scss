@@ -116,8 +116,10 @@
 
 .section-list-item {
     display: flex;
-    margin: 20px 0px 50px 0px;
+    margin-bottom: $line-height-computed;
     position: relative;
+    background-color: $gray-lighter;
+
     @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
     }
@@ -219,7 +221,7 @@
     }
 }
 
-#hearing-comments {
+.sortable-comment-list {
     background-color: $theme-secondary-light;
     padding: $line-height-computed;
 
@@ -231,17 +233,6 @@
 
     h2:first-letter {
         text-transform:capitalize;
-    }
-}
-
-.hearing-section {
-
-    .sortable-comment-list {
-        padding-top: 50px;
-    }
-
-    .commentlist {
-        padding: 15px;
     }
 }
 
