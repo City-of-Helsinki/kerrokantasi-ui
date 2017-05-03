@@ -2,32 +2,21 @@
     background: $gray-lighter;
     padding: 15px;
     font-size: 1.4rem;
+    font-weight: bold;
     margin-bottom: 25px;
     overflow-y: scroll;
 
-    .list-group {
-        .list-group-item {
-            //color: $gray-light;
-            &:hover {
+    .subsection-list-group {
+      margin-bottom: 0;
 
-            }
+      .subsection-list-group-item {
+        padding-left: $line-height-computed;
+        font-weight: normal;
+      }
 
-            .active {
-                //color: #FFFFFF;
-            }
-        }
-        a {
-
-            :hover {
-                //color: #FFFFFF;
-            }
-            .active {
-                //color: #FFFFFF;
-            }
-        }
-        .active {
-            //color: #FFFFFF;
-        }
+      .subsection-list-group-item:last-child {
+        border-bottom: 0;
+      }
     }
 
     .language-link {
