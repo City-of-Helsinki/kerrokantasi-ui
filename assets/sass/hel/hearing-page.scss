@@ -7,27 +7,26 @@
 
     .list-group {
         .list-group-item {
-            color: $gray-light;
+            //color: $gray-light;
             &:hover {
-                color: #FFFFFF;
-                background: #005eb8;
+
             }
 
             .active {
-                color: #FFFFFF;
+                //color: #FFFFFF;
             }
         }
         a {
 
             :hover {
-                color: #FFFFFF;
+                //color: #FFFFFF;
             }
             .active {
-                color: #FFFFFF;
+                //color: #FFFFFF;
             }
         }
         .active {
-            color: #FFFFFF;
+            //color: #FFFFFF;
         }
     }
 
