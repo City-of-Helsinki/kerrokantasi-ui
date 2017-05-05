@@ -60,11 +60,6 @@ export class HearingView extends React.Component {
     changeCurrentlyViewed(this.props.dispatch, viewedItem);
   }
 
-  getOpenGraphMetaData(data) {
-    const {language} = this.props;
-    getOpenGraphMetaData(getAttr(data.title, language), this.props.location.pathname);
-  }
-
   renderSpinner() {  // eslint-disable-line class-methods-use-this
     return (
       <div className="container">
@@ -98,7 +93,7 @@ export class HearingView extends React.Component {
 
     return (
       <div key="hearing" className={fullscreen ? "fullscreen-hearing" : "container"}>
-        <Helmet title={getAttr(hearing.title, language)} meta={this.getOpenGraphMetaData(hearing)} />
+        <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
         <HearingComponent
           hearingSlug={hearingSlug}
           hearing={hearing}
