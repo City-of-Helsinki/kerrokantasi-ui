@@ -67,11 +67,6 @@
         }
     }
 
-    .social-bar > span {
-        margin-right: 5px;
-        display: inline-block;
-    }
-
     h4 {
         margin-top: 0;
         margin-bottom: 7px;
@@ -92,6 +87,32 @@
         float: right;
         margin-left: 15px;
     }
+}
+
+.hearing-header {
+
+  h1 {
+    @media (max-width: $screen-xs-max) {
+          font-size: 3rem;
+    }
+  }
+
+  .timetable, .commentNumber {
+    margin-bottom: $line-height-computed;
+  }
+
+  .hearing-meta:before, .hearing-meta:after {
+    content: "";
+    display: block;
+    margin: 0 15px $line-height-computed;
+    border-top: 1px solid $gray-light;
+  }
+
+  .social-bar {
+    span {
+      margin-right: $line-height-computed / 2;
+    }
+  }
 }
 
 .image-caption {
