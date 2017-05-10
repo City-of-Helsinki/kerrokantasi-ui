@@ -215,11 +215,6 @@ class Sidebar extends React.Component {
               {Object.keys(hearing.borough).length !== 0 && boroughDiv}
               {hearingMap}
             </Col>
-            <Col sm={12}>
-              <div className="sidebar-section further-info">
-                <h4><FormattedMessage id="furtherInformation"/></h4>
-              </div>
-            </Col>
           </Row>
         </div>
       </AutoAffix>
