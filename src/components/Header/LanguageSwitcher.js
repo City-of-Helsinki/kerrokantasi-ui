@@ -7,7 +7,7 @@ import config from '../../config';
 import {setLanguage} from '../../actions';
 
 const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) =>
-  <Nav className="language-switcher actions" id="language">
+  <Nav pullRight className="language-switcher actions" id="language">
     {config.languages
       .filter((code) => code !== currentLanguage)
       .map((code) =>
@@ -17,7 +17,7 @@ const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) 
           className="language-switcher__language"
           onClick={() => dispatch(setLanguage(code))}
         >
-          <span className="language-switcher__language-name">{formatMessage({id: `lang-${code}`})}</span>
+          {formatMessage({id: `lang-${code}`})}
         </NavItem>)}
   </Nav>;
 
