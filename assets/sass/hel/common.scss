@@ -29,7 +29,6 @@ p {
 }
 
 main {
-    padding: 40px 0px 60px 0px;
 
     &.fullscreen {
         padding: 0;
@@ -119,9 +118,9 @@ a.list-group-item {
     background-color: $theme-primary-light;
     padding: $padding-base-horizontal $padding-base-vertical;
     text-align: center;
-    color: white;
+    color: $black;
     a {
-        color: white;
+        color: $black;
     }
 }
 

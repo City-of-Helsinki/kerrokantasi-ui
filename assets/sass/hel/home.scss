@@ -1,0 +1,18 @@
+.page-section {
+  padding-top: $line-height-computed * 2;
+  padding-bottom: $line-height-computed * 2;
+}
+
+.page-section--welcome {
+  background-color: $white;
+  color: $theme-primary-dark;
+}
+
+.page-section--hearing-card {
+  background-color: $theme-primary-light;
+}
+
+.page-section--map {
+
+}
+
