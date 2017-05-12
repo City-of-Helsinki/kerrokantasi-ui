@@ -12,15 +12,12 @@ import {
   postSectionComment, postVote, editSectionComment,
   deleteSectionComment
 } from '../actions';
-import CommentList from './CommentList';
 // import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
 import Section from './Section';
 // import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
-import _ from 'lodash';
 import Icon from '../utils/Icon';
-import config from '../config';
 import {
   acceptsComments,
   getClosureSection,
@@ -208,40 +205,6 @@ class SectionContainer extends React.Component {
 
   closeDeleteModal() {
     this.setState({ showDeleteModal: false, commentToDelete: {} });
-  }
-
-
-  getCommentList() {
-    const hearing = this.props.hearing;
-    const mainSection = getMainSection(hearing);
-    const user = this.props.user;
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + this.props.hearingSlug + '/report';
-    let userIsAdmin = false;
-    if (hearing && user && _.has(user, 'adminOrganizations')) {
-      userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
-    }
-    if (hasFullscreenMapPlugin(hearing)) {
-      return null;
-    }
-    return (
-      <div>
-        <div id="hearing-comments">
-          <CommentList
-           displayVisualization={userIsAdmin || hearing.closed}
-           section={mainSection}
-           comments={this.props.sectionComments[mainSection.id] ?
-                     this.props.sectionComments[mainSection.id].data : []}
-           canComment={this.isMainSectionCommentable(hearing, user)}
-           onPostComment={this.onPostHearingComment.bind(this)}
-           canVote={this.isMainSectionVotable(user)}
-           onPostVote={this.onVoteComment.bind(this)}
-           canSetNickname={user === null}
-          />
-        </div>
-        <hr/>
-        <a href={reportUrl}><FormattedMessage id="downloadReport"/></a>
-      </div>
-    );
   }
 
   getQuestionLinksAndStuff(sectionGroups) {

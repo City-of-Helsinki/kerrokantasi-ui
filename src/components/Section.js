@@ -10,6 +10,7 @@ import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
 import getAttr from '../utils/getAttr';
+import {getNickname, getAuthorName} from '../utils/user';
 
 function getImageList(section, language) {
   if (section.type === "main") { // Main section images aren't rendered here atleast atm.
@@ -136,7 +137,8 @@ export default class Section extends React.Component {
             data={section.plugin_data}
             onPostComment={this.onPostComment.bind(this)}
             pluginPurpose="postComments"
-            canSetNickname={user === null}
+            defaultNickname={getNickname(user)}
+            nicknamePlaceholder={getAuthorName(user)}
           />
         );
       case "map-questionnaire":
@@ -147,7 +149,8 @@ export default class Section extends React.Component {
             onPostVote={this.onPostVote.bind(this)}
             comments={comments}
             pluginPurpose="postComments"
-            canSetNickname={user === null}
+            defaultNickname={getNickname(user)}
+            nicknamePlaceholder={getAuthorName(user)}
             displayCommentBox={false}
             pluginSource={section.plugin_iframe_url}
           />
@@ -199,7 +202,7 @@ export default class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         canVote={this.props.canVote}
         onPostVote={this.onPostVote.bind(this)}
-        canSetNickname={!user}
+        user={user}
         isSectionComments={section}
         onDeleteComment={this.props.handleDeleteClick}
         onEditComment={this.props.onEditComment}

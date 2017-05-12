@@ -10,6 +10,7 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import * as Actions from '../actions';
 import CommentForm from './CommentForm';
+import {getNickname, getAuthorName} from '../utils/user';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -110,6 +111,7 @@ class SortableCommentList extends Component {
       sectionComments,
       canVote,
       onPostComment,
+      user,
       // voteComment,
       ...rest
     } = this.props;
@@ -146,7 +148,8 @@ class SortableCommentList extends Component {
         {canComment && <CommentForm
           hearingId={hearingId}
           onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
-          canSetNickname={this.props.canSetNickname}
+          defaultNickname={getNickname(user)}
+          nicknamePlaceholder={getAuthorName(user)}
         />
         }
 
@@ -223,7 +226,6 @@ SortableCommentList.propTypes = {
   canVote: React.PropTypes.bool,
   mainSection: React.PropTypes.object,
   isSectionComments: React.PropTypes.bool,
-  canSetNickname: React.PropTypes.bool,
   canComment: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
   onPostComment: React.PropTypes.func

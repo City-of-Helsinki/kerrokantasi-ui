@@ -12,7 +12,7 @@ import forEach from 'lodash/forEach';
 class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false, images: []};
+    this.state = {collapsed: true, commentText: "", nickname: this.props.defaultNickname || '', imageTooBig: false, images: []};
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
@@ -146,7 +146,6 @@ class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
     if (!this.state.collapsed) {
       return (<div className="comment-form">
         <form>
@@ -189,18 +188,16 @@ class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-          {canSetNickname ? (
-            <FormGroup>
-              <FormControl
-                type="text"
-                placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-                value={this.state.nickname}
-                onChange={this.handleNicknameChange.bind(this)}
-                maxLength={32}
-              />
-            </FormGroup>
-          ) : null}
+          <h3><FormattedMessage id="nickname"/></h3>
+          <FormGroup>
+            <FormControl
+              type="text"
+              placeholder={this.props.nicknamePlaceholder || this.props.intl.formatMessage({id: "anonymous"})}
+              value={this.state.nickname}
+              onChange={this.handleNicknameChange.bind(this)}
+              maxLength={32}
+            />
+          </FormGroup>
           <div className="comment-buttons clearfix">
             <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
               <FormattedMessage id="cancel"/>
@@ -227,7 +224,12 @@ class BaseCommentForm extends React.Component {
 BaseCommentForm.propTypes = {
   onPostComment: React.PropTypes.func,
   intl: intlShape.isRequired,
-  canSetNickname: React.PropTypes.bool,
+  defaultNickname: React.PropTypes.string.isRequired,
+  nicknamePlaceholder: React.PropTypes.string,
+};
+
+BaseCommentForm.defaultProps = {
+  defaultNickname: ''
 };
 
 BaseCommentForm.contextTypes = {
