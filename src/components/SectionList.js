@@ -1,6 +1,6 @@
 import React from 'react';
 import {injectIntl} from 'react-intl';
-import Section from './Section';
+import WrappedSection from './Section';
 import Icon from '../utils/Icon';
 import {userCanComment, userCanVote} from '../utils/section';
 
@@ -19,7 +19,7 @@ class SectionList extends React.Component {
         </div>
       </h2>
       {sections.map((section) => (
-        <Section
+        <WrappedSection
           section={section}
           key={section.id}
           canComment={this.props.canComment && userCanComment(user, section)}

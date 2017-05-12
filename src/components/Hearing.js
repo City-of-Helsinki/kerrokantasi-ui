@@ -10,16 +10,16 @@ import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 
 import {
-  fetchSectionComments, fetchMoreSectionComments, followHearing,
+  followHearing,
   postSectionComment, editSectionComment, postVote, deleteSectionComment
 } from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
-import Section from './Section';
+import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
-import _, {get, find} from 'lodash';
+import _, {find} from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
@@ -95,44 +95,6 @@ export class Hearing extends React.Component {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     dispatch(followHearing(hearingSlug));
-  }
-
-  loadSectionComments(sectionId) {
-    const {dispatch} = this.props;
-    dispatch(fetchSectionComments(sectionId));
-  }
-
-  loadMoreSectionComments(sectionId) {
-    const {dispatch, sectionComments} = this.props;
-    const commentsObject = get(sectionComments, `${sectionId}`);
-    const next = commentsObject && get(commentsObject, 'next');
-    if (next) {
-      const currentOrdering = get(commentsObject, 'ordering');
-      dispatch(fetchMoreSectionComments(sectionId, currentOrdering, next));
-    }
-  }
-
-  // loadSectionComments(sectionId) {
-  //   const {dispatch} = this.props;
-  //   const hearingSlug = this.props.hearingSlug;
-  //   dispatch(fetchSectionComments(hearingSlug, sectionId));
-  // }
-
-  getOpenGraphMetaData(data) {
-    const {language} = this.props;
-    let hostname = "http://kerrokantasi.hel.fi";
-    if (typeof HOSTNAME === 'string') {
-      hostname = HOSTNAME;  // eslint-disable-line no-undef
-    } else if (typeof window !== 'undefined') {
-      hostname = window.location.protocol + "//" + window.location.host;
-    }
-    const url = hostname + this.props.location.pathname;
-    return [
-      {property: "og:url", content: url},
-      {property: "og:type", content: "website"},
-      {property: "og:title", content: getAttr(data.title, language)}
-      // TODO: Add description and image?
-    ];
   }
 
   getFollowButton() {
@@ -250,7 +212,7 @@ export class Hearing extends React.Component {
     const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
-    const showPluginInline = !mainSection.plugin_fullscreen;
+    const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
@@ -284,8 +246,8 @@ export class Hearing extends React.Component {
                   dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
                 />
               </div>
-              {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
-              {mainSection ? <Section
+              {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false}/> : null}
+              {mainSection ? <WrappedSection
                 showPlugin={showPluginInline}
                 section={mainSection}
                 canComment={this.isMainSectionCommentable(hearing, user)}

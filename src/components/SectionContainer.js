@@ -1,20 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
-import {push} from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import DeleteModal from './DeleteModal';
 import {
-  fetchSectionComments, followHearing,
+  followHearing,
   postSectionComment, postVote, editSectionComment,
   deleteSectionComment
 } from '../actions';
 // import HearingImageList from './HearingImageList';
 import LabelList from './LabelList';
-import Section from './Section';
+import WrappedSection from './Section';
 // import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
@@ -23,7 +22,6 @@ import {
   getClosureSection,
   getHearingURL,
   getMainSection,
-  hasFullscreenMapPlugin
 } from '../utils/hearing';
 import {
   getSectionURL,
@@ -68,10 +66,6 @@ class SectionContainer extends React.Component {
     this.state = {showDeleteModal: false};
   }
 
-  openFullscreen(hearing) {
-    this.props.dispatch(push(getHearingURL(hearing, {fullscreen: true})));
-  }
-
   onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
@@ -90,28 +84,6 @@ class SectionContainer extends React.Component {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     dispatch(followHearing(hearingSlug));
-  }
-
-  loadSectionComments(sectionId) {
-    const {dispatch} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    dispatch(fetchSectionComments(hearingSlug, sectionId));
-  }
-
-  getOpenGraphMetaData(data) {
-    let hostname = "http://kerrokantasi.hel.fi";
-    if (typeof HOSTNAME === 'string') {
-      hostname = HOSTNAME;  // eslint-disable-line no-undef
-    } else if (typeof window !== 'undefined') {
-      hostname = window.location.protocol + "//" + window.location.host;
-    }
-    const url = hostname + this.props.location.pathname;
-    return [
-      {property: "og:url", content: url},
-      {property: "og:type", content: "website"},
-      {property: "og:title", content: data.title}
-      // TODO: Add description and image?
-    ];
   }
 
   getFollowButton() {
@@ -139,18 +111,6 @@ class SectionContainer extends React.Component {
       abstract: "",
       images: [],
       content: formatMessage({id: 'defaultClosureInfo'}) }
-    );
-  }
-
-  getLinkToFullscreen(hearing) {
-    if (!hasFullscreenMapPlugin(hearing)) {
-      return null;
-    }
-    return (
-      <Button bsStyle="primary" bsSize="large" block onClick={() => this.openFullscreen(hearing)}>
-        <Icon name="arrows-alt" fixedWidth/>
-        <FormattedMessage id="openFullscreenMap"/>
-      </Button>
     );
   }
 
@@ -223,7 +183,7 @@ class SectionContainer extends React.Component {
   }
 
   render() {
-    const {hearing, section, user, sectionComments, language} = this.props;
+    const {hearing, hearingSlug, section, user, sectionComments, language} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
@@ -232,6 +192,7 @@ class SectionContainer extends React.Component {
     const sectionGroups = groupSections(regularSections);
     const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
     const isQuestionView = true;
+    const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
       <div className="section-container">
@@ -253,7 +214,7 @@ class SectionContainer extends React.Component {
             sectionGroups={sectionGroups}
           />
           <Col md={8} lg={9}>
-            {hearing.closed ? <Section section={closureInfoSection} canComment={false}/> : null}
+            {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false}/> : null}
             <div className="section-browser">
               <Link className="to-hearing" to={getHearingURL(hearing)}>
                 <Icon name="angle-double-left"/>&nbsp;<FormattedMessage id="hearing"/>
@@ -281,8 +242,9 @@ class SectionContainer extends React.Component {
                 &nbsp;
               </LinkWrapper>
             </div>
-            <Section
+            <WrappedSection
               section={section}
+              hearingSlug={hearingSlug}
               canComment={this.isSectionCommentable(section, user)}
               onPostComment={this.onPostSectionComment.bind(this)}// this.props.onPostComment}
               canVote={this.isSectionVotable(section, user)}// this.props.canVote && userCanVote(user, section)}
@@ -292,6 +254,7 @@ class SectionContainer extends React.Component {
               onEditComment={this.onEditSectionComment.bind(this)}
               user={user}
               isCollapsible={false}
+              showPlugin={showPluginInline}
             />
           </Col>
         </Row>

@@ -11,7 +11,6 @@ class FullscreenHearing extends Hearing {
   render() {
     const hearing = this.props.hearing;
     const user = this.props.user;
-    const onPostVote = this.onVoteComment.bind(this);
     const mainSection = getMainSection(hearing);
     const {language} = this.context;
 
@@ -23,9 +22,8 @@ class FullscreenHearing extends Hearing {
           comments={this.props.sectionComments[mainSection.id]}
           detailURL={getHearingURL(hearing, {fullscreen: false})}
           headerTitle={getAttr(hearing.title, language)}
-          loadSectionComments={this.loadSectionComments.bind(this)}
           onPostComment={this.onPostSectionComment.bind(this)}
-          onPostVote={onPostVote}
+          onPostVote={this.onVoteComment.bind(this)}
           section={mainSection}
           user={user}
         /> : null}

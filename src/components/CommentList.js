@@ -29,8 +29,6 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
-  displayVisualization: React.PropTypes.bool,
-  section: React.PropTypes.object,
   comments: React.PropTypes.array,
   canComment: React.PropTypes.bool,
   canVote: React.PropTypes.bool,

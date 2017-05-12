@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {get, isEmpty, keys, throttle} from 'lodash';
@@ -55,7 +55,6 @@ class SortableCommentList extends Component {
   }
 
   componentDidMount() {
-    console.log('list did mount');
     const { section } = this.props;
     this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
   }
@@ -78,29 +77,6 @@ class SortableCommentList extends Component {
     if (section.id !== nextProps.section.id) {
       this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
-  }
-
-  onPostHearingComment(text, authorName, pluginData, geojson, label, images) { // eslint-disable-line
-    const { postComment } = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
-    const mainSection = this.props.mainSection;
-    const commentData = { text, authorName, pluginData: null, authCode, geojson: null, label: null, images };
-    postComment(hearingSlug, mainSection.id, commentData);
-  }
-
-  onPostSectionComment(sectionId, sectionCommentData) {
-    const {postComment} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
-    const commentData = Object.assign({authCode}, sectionCommentData);
-    postComment(hearingSlug, sectionId, commentData);
-  }
-
-  onVoteComment(commentId, sectionId) {
-    const {postVote} = this.props;
-    const hearingSlug = this.props.hearingSlug;
-    postVote(commentId, hearingSlug, sectionId);
   }
 
   handleReachBottom() {
@@ -167,13 +143,10 @@ class SortableCommentList extends Component {
       displayVisualization,
       hearingId,
       canComment,
-      // postComment,
       section,
       sectionComments,
       canVote,
       onPostComment,
-      // voteComment,
-      ...rest
     } = this.props;
 
     const showCommentList = section &&
@@ -184,7 +157,7 @@ class SortableCommentList extends Component {
       canComment ?
         (<CommentForm
         hearingId={hearingId}
-        onPostComment={!onPostComment ? this.this.onPostHearingComment.bind(this) : onPostComment}
+        onPostComment={onPostComment}
         canSetNickname={this.props.canSetNickname}
         />) : null;
     const pluginContent = (showCommentList && displayVisualization ? this.renderPluginContent() : null);
@@ -223,10 +196,10 @@ class SortableCommentList extends Component {
             section={section}
             comments={sectionComments.results}
             totalCount={sectionComments.count}
-            onPostComment={this.onPostHearingComment.bind(this)}
-            onPostVote={this.onVoteComment.bind(this)}
+            onEditComment={this.props.onEditComment}
+            onDeleteComment={this.props.onDeleteComment}
+            onPostVote={this.props.onPostVote}
             isLoading={this.state.showLoader}
-            {...rest}
           />
           <p className="sortable-comment-list__count">
             <FormattedMessage
@@ -254,25 +227,18 @@ SortableCommentList.propTypes = {
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
   fetchAllComments: PropTypes.func,
-  postComment: PropTypes.func,
+  onPostComment: React.PropTypes.func,
+  onEditComment: PropTypes.func,
+  onDeleteComment: PropTypes.func,
+  onPostVote: React.PropTypes.func,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
-  voteComment: PropTypes.func,
-  intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
   hearingSlug: React.PropTypes.string,
-  language: React.PropTypes.string,
-  location: React.PropTypes.object,
   user: React.PropTypes.object,
-  postVote: React.PropTypes.func,
   canVote: React.PropTypes.bool,
-  mainSection: React.PropTypes.object,
-  isSectionComments: React.PropTypes.bool,
   canSetNickname: React.PropTypes.bool,
   canComment: React.PropTypes.bool,
   hearingId: React.PropTypes.string,
-  onPostComment: React.PropTypes.func
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
@@ -289,12 +255,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAllComments: (hearingSlug, sectionId, ordering) => dispatch(
     Actions.fetchAllSectionComments(hearingSlug, sectionId, ordering)
   ),
-  postComment: (hearingSlug, sectionId, commentData) => dispatch(
-    Actions.postSectionComment(hearingSlug, sectionId, commentData)
-  ),
-  postVote: (commentId, hearingSlug, sectionId) => dispatch(
-    Actions.postVote(commentId, hearingSlug, sectionId)
-  )
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortableCommentList);
