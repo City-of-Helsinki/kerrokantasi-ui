@@ -8,15 +8,14 @@ Requirements
 ------------
 
 * Node.js 4.2 LTS
-* Bower
+* Yarn
 * IE11+/Chrome/Firefox/Safari
 
 Preparation
 -----------
 
 ```
-npm i
-bower i
+yarn
 ```
 
 Scripts
@@ -48,7 +47,7 @@ The known configuration variables are as follows:
 * `cold`: Set this to not use hot reloading in dev mode
 * `uiConfig`: Object that will be passed on to the UI code. The following keys inside are used:
     *`piwikUrl`: URL of the piwik php used for link tracking.
-
+     
 The canonical JSON configuration file is `kk.config` in the cwd. It might
 look something like this:
 

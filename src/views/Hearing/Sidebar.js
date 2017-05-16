@@ -43,22 +43,19 @@ class Sidebar extends React.Component {
   // }
 
   getCommentsItem() {
-    const {hearing, currentlyViewed, isQuestionView} = this.props;
-    const fullscreen = hasFullscreenMapPlugin(hearing);
-    const commentsURL = (
-      fullscreen ? getHearingURL(hearing, {fullscreen: true}) : "#hearing-comments"
-    );
-    if (this.props.mainSection.n_comments === 0) {
+    const {hearing, mainSection, currentlyViewed, isQuestionView} = this.props;
+    const showPluginInline = !mainSection.plugin_fullscreen;
+    if (mainSection.n_comments === 0 || !showPluginInline) {
       return null;
     }
 
     if (isQuestionView) {
       return (
         <Link to={getHearingURL(hearing)}>
-          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
-            <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
+          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href="#hearing-comments">
+            <FormattedMessage id="comments"/>
             <div className="comment-icon">
-              <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
+              <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
             </div>
           </ListGroupItem>
         </Link>
@@ -66,10 +63,27 @@ class Sidebar extends React.Component {
     }
 
     return (
-      <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href={commentsURL}>
-        <FormattedMessage id={fullscreen ? "commentsOnMap" : "comments"}/>
+      <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href="#hearing-comments">
+        <FormattedMessage id="comments"/>
         <div className="comment-icon">
-          <Icon name="comment-o"/>&nbsp;{this.props.mainSection.n_comments}
+          <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
+        </div>
+      </ListGroupItem>
+    );
+  }
+
+  getFullscreenItem() {
+    const {hearing, mainSection} = this.props;
+    const fullscreen = hasFullscreenMapPlugin(hearing);
+    if (!fullscreen) {
+      return null;
+    }
+    const fullscreenURL = getHearingURL(hearing, {fullscreen: true});
+    return (
+      <ListGroupItem href={fullscreenURL}>
+        <FormattedMessage id="commentsOnMap"/>
+        <div className="comment-icon">
+          <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
         </div>
       </ListGroupItem>
     );
@@ -161,6 +175,7 @@ class Sidebar extends React.Component {
               </ListGroupItem>
             </Link>
         ))}
+        {this.getFullscreenItem()}
         {this.getCommentsItem()}
       </ListGroup>
     );

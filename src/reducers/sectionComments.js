@@ -2,13 +2,26 @@ import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
 
 const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
-  const combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
-
+  // we must accept flattened as well as paginated comment listings
+  let combinedResults = [];
+  let count = 0;
+  if (Array.isArray(data)) {
+    combinedResults = data;
+    count = data.length;
+  } else {
+    combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
+    count = data.count;
+  }
+  // if ('results' in data) {
+  //   combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
+  // } else {
+  //   combinedResults = data;
+  // }
   return updeep({
     [sectionId]: {
       isFetching: false,
-      ...data,
-      results: combinedResults
+      results: combinedResults,
+      count
     }
   }, state);
 };

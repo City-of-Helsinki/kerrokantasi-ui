@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import {initNewSection} from './section';
+import getAttr from "./getAttr";
 
 
 export function getClosureSection(hearing) {
@@ -136,18 +137,19 @@ export function getImageAsBase64Promise(image) {
     });
 }
 
-export function getOpenGraphMetaData(title, pathname) {
+export function getOpenGraphMetaData(hearing, language) {
   let hostname = "http://kerrokantasi.hel.fi";
   if (typeof HOSTNAME === 'string') {
     hostname = HOSTNAME;  // eslint-disable-line no-undef
   } else if (typeof window !== 'undefined') {
     hostname = window.location.protocol + "//" + window.location.host;
   }
-  const url = hostname + pathname;
+  const url = hostname + "/" + hearing.slug;
   return [
     {property: "og:url", content: url},
     {property: "og:type", content: "website"},
-    {property: "og:title", content: title}
-    // TODO: Add description and image?
+    {property: "og:title", content: getAttr(hearing.title, language)},
+    {property: "og:image", content: hearing.main_image.url},
+    {property: "og:description", content: getAttr(hearing.abstract, language)}
   ];
 }

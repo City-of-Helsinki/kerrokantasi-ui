@@ -92,7 +92,7 @@ export function fetchSectionComments(sectionId, ordering = '-created_at', cleanF
     const params = {
       section: sectionId,
       include: 'plugin_data',
-      limit: 10,
+      limit: 100,
       ...(ordering && {ordering})
     };
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
@@ -114,31 +114,18 @@ export function fetchMoreSectionComments(sectionId, ordering = '-created_at', ne
   };
 }
 
-/**
- * fetchSectionComments
- * @param  {string} sectionId
- * @param  {string} [ordering]  eg. 'n_votes', 'created_at'
- * @return {function}
- */
-// export function fetchSectionComments(sectionId, ordering) {
-//   return (dispatch, getState) => {
-//     const fetchAction = createAction('beginFetchSectionComments')({sectionId});
-//     dispatch(fetchAction);
-//     const endpoint = 'v1/comment/';
-//     const defaultParams = {
-//       section: sectionId,
-//       include: 'plugin_data'
-//     };
-//     const params = {
-//       ...defaultParams,
-//       ...(ordering && {ordering})
-//     };
-//     return api.get(getState(), endpoint, params).then(getResponseJSON).then((data) => {
-//       debugger; // eslint-disable-line
-//       dispatch(createAction('receiveSectionComments'))({sectionId, data});
-//     });// .catch(requestErrorHandler(dispatch, fetchAction));
-//   };
-// }
+export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-created_at') {
+  const cleanFetch = true;
+
+  return (dispatch, getState) => {
+    const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
+    dispatch(fetchAction);
+    const url = "v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments";
+    return api.get(getState(), url, {include: 'plugin_data', ordering}).then(getResponseJSON).then((data) => {
+      dispatch(createAction("receiveSectionComments")({sectionId, data}));
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
 
 export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
   return (dispatch, getState) => {
