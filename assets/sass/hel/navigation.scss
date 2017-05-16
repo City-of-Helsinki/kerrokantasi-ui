@@ -1,5 +1,4 @@
 .navbar {
-  border: 0;
 
   .language-switcher {
     //display: none; //hide for testing purposes
@@ -14,12 +13,11 @@
   min-height: 30px;
   margin-bottom: 0;
   font-size: 14px;
-  border: 0;
 
   .navbar-nav > li > a {
     line-height: 1;
     padding: 0 15px;
-    margin: 10px 0 0 0;
+    margin: 8px 0;
     border-right: 1px solid $white;
   }
 
@@ -40,14 +38,13 @@
     top: 0;
     position: fixed;
     width: 100%;
-    border-bottom: 0;
     z-index: 10000;
   }
 }
 
 .navbar-right.nav-user-menu {
-  border: 1px solid $white;
-  margin-top: 6px;
+  border: 1px solid $theme-primary-dark;
+  margin-top: 10px;
   margin-right: 0;
   margin-left: 0;
 
@@ -59,4 +56,8 @@
   li > a {
     padding: 6px;
   }
+}
+
+.navbar-inverse .navbar-right.nav-user-menu {
+  border: 1px solid $white;
 }

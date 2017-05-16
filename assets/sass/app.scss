@@ -60,6 +60,9 @@ $missing-image:               $theme-secondary-light;
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
+
+@import "../../node_modules/hel-bootstrap-3/src/sass/theme-custom-styles";
+
 ///// Font Awesome
 @import "../../node_modules/font-awesome/scss/font-awesome";
 
