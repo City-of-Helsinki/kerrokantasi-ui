@@ -11,7 +11,7 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 ///// Application specific theme variables
 @import "hel/variables";
 ///// Helsinki Bootstrap 3 theme variables
-@import "../../node_modules/hel-bootstrap-3/src/sass/custom-bootstrap-variables";
+@import "../../node_modules/hel-bootstrap-3/src/sass/theme-bootstrap-variables";
 
 $missing-image:               $theme-secondary-light;
 
@@ -62,6 +62,9 @@ $missing-image:               $theme-secondary-light;
 
 ///// Font Awesome
 @import "../../node_modules/font-awesome/scss/font-awesome";
+
+///// hel-bootstrap-3 Bootstrap overrides
+@import "../../node_modules/hel-bootstrap-3/src/sass/theme-custom-styles";
 
 ///// Leaflet
 @import "../../node_modules/leaflet/dist/leaflet.css";

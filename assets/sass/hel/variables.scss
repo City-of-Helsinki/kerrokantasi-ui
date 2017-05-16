@@ -1,3 +1,16 @@
+//
+// Application specific visual customisation
+// --------------------------------------------------
+
+$theme-primary-dark:    $hel-black !default;
+$theme-primary-light:   $hel-engel !default;
+
+$theme-secondary-dark:  $hel-brick !default;
+$theme-secondary-light: $hel-fog !default;
+
+$theme-highlight-dark:  $hel-bus !default;
+$theme-highlight-light: $hel-copper !default;
+
 // Non brand colors
 
 $white:         #ffffff;
@@ -6,25 +19,13 @@ $dark-gray:     #525a65;
 $medium-gray:   #abb2bd;
 $black:         #000000;
 
-//
-// Application specific visual customisation
-// --------------------------------------------------
-
-$theme-primary-dark:    $black !default;
-$theme-primary-light:   $engel !default;
-
-$theme-secondary-dark:  $brick !default;
-$theme-secondary-light: $fog !default;
-
-$theme-highlight-dark:  $bus !default;
-$theme-highlight-light: $copper !default;
-
+$theme-success: $hel-tram;
+$theme-info:    $hel-fog;
+$theme-warning: $hel-summer;
+$theme-danger:  $hel-metro;
 
 $bootstrap-sass-asset-helper: false !default;
 
 $icon-font-path: "";
 
-$font-family-sans-serif:  "HelsinkiGrotesk", Arial, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+$font-family-sans-serif:  $hel-grotesk;
