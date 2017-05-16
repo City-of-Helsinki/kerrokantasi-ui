@@ -2515,9 +2515,9 @@ he@1.1.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.0.tgz#29319d49beec13a9b1f3c4f9b2a6dde4859bb2a7"
 
-"hel-bootstrap-3@git+https://github.com/terotic/hel-bootstrap-3.git":
-  version "0.1.0"
-  resolved "git+https://github.com/terotic/hel-bootstrap-3.git#4b11ed00a68fed89ad019699003b635a722b33a1"
+hel-bootstrap-3@^1.0.0-beta.0:
+  version "1.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/hel-bootstrap-3/-/hel-bootstrap-3-1.0.0-beta.0.tgz#9f250ec6e3c623519723fffd08e5a9a474c00572"
   dependencies:
     bootstrap-sass "^3.3.7"
 
