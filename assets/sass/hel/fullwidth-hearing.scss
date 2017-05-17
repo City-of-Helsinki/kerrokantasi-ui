@@ -1,20 +1,20 @@
 .fullwidth-hearing {
-  background: $missing-image;
-  background-size: cover;
-  background-position: center center;
-  min-height: 250px;
-  padding: 30px;
-  width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
+  &-image {
+    min-height: $line-height-computed * 10;
+    background-size: cover;
+    background-position: center center;
+  }
 
   &-header {
-    padding: 10px;
+    background: $theme-primary-dark;
+    color: $white;
+    padding: 30px;
     width: 100%;
-    background-color: rgba($gray-light, .85);
-    margin-bottom: 60px;
+    a {
+      color: $white;
+    }
   }
 
   &-title-wrap {
@@ -27,17 +27,18 @@
   }
 
   &-times {
-      color: $text-muted;
+      color: $gray-lighter;
       font-size: 1.4rem;
   }
 
   &-comments {
-    flex-shrink: 0;
-    align-self: flex-end;
-    font-size: 2em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 3px 10px;
+    font-size: 1.5em;
     font-weight: 500;
     background: $theme-secondary-light;
-    color: $black;
-    padding: 0 12px;
+    border-radius: 0 0 0 24px;
   }
 }

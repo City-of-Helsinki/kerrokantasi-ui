@@ -72,7 +72,7 @@ class Home extends React.Component {
                 <div className="list">
                   <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
                   <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-                  <p className="text-center"><Button bsStyle="primary" bsSize="large" href="/hearings/list"><FormattedMessage id="allHearings"/></Button></p>
+                  <p className="text-center"><Button bsStyle="default" href="/hearings/list"><FormattedMessage id="allHearings"/></Button></p>
                 </div>
               </Col>
             }

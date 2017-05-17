@@ -43,18 +43,6 @@ main {
     }
 }
 
-.btn {
-    &:not(.btn-default) {
-        border-color: transparent !important;
-    }
-    &.btn-sm {
-        font-size: 1.2rem;
-    }
-    &.btn-lg {
-        font-size: 1.5rem;
-    }
-}
-
 .required,
 .required-field {
     .control-label:before {
@@ -132,4 +120,9 @@ a.fullwidth {
 
 .social-bar {
   margin: 12px 0;
+}
+
+// These styles could be eventually introduced to common Bootstrap theme
+.btn.btn-default {
+  background-color: transparent;
 }
