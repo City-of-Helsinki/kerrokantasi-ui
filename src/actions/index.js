@@ -84,7 +84,7 @@ export function followHearing(hearingSlug) {
   };
 }
 
-export function fetchSectionComments(sectionId, ordering = '-created_at', cleanFetch = true) {
+export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetch = true) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
@@ -101,7 +101,7 @@ export function fetchSectionComments(sectionId, ordering = '-created_at', cleanF
   };
 }
 
-export function fetchMoreSectionComments(sectionId, ordering = '-created_at', next) {
+export function fetchMoreSectionComments(sectionId, ordering = '-n_votes', next) {
   const cleanFetch = false;
 
   return (dispatch, getState) => {
@@ -114,7 +114,7 @@ export function fetchMoreSectionComments(sectionId, ordering = '-created_at', ne
   };
 }
 
-export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-created_at') {
+export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_votes') {
   const cleanFetch = true;
 
   return (dispatch, getState) => {
