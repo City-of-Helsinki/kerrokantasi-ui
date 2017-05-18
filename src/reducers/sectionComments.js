@@ -5,12 +5,14 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   // we must accept flattened as well as paginated comment listings
   let combinedResults = [];
   let count = 0;
+  let next = null;
   if (Array.isArray(data)) {
     combinedResults = data;
     count = data.length;
   } else {
     combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
     count = data.count;
+    next = data.next;
   }
   // if ('results' in data) {
   //   combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
@@ -21,7 +23,8 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
     [sectionId]: {
       isFetching: false,
       results: combinedResults,
-      count
+      count,
+      next
     }
   }, state);
 };
