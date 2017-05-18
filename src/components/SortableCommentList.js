@@ -104,7 +104,7 @@ class SortableCommentList extends Component {
 
   renderPluginContent() {
     const {section} = this.props;
-    const {comments} = this.props.sectionComments.results;
+    const comments = this.props.sectionComments.results;
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }
