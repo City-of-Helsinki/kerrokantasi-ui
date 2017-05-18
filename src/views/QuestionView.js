@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import LoadSpinner from '../components/LoadSpinner';
 import SectionContainer from '../components/SectionContainer';
 import {injectIntl} from 'react-intl';
-import {fetchHearing, fetchSectionComments} from '../actions';
+import {fetchHearing} from '../actions';
 import {getOpenGraphMetaData} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
@@ -24,7 +24,6 @@ class QuestionView extends Component {
   static fetchData(dispatch, getState, location, params) {
     return Promise.all([
       dispatch(fetchHearing(params.hearingSlug, location.query.preview)),
-      dispatch(fetchSectionComments(params.hearingSlug, params.sectionId))
     ]);
   }
 
@@ -45,13 +44,6 @@ class QuestionView extends Component {
   componentDidMount() {
     const {dispatch, location, params} = this.props;
     QuestionView.fetchData(dispatch, null, location, params);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {dispatch, params} = nextProps;
-    if (nextProps.params.sectionId !== this.props.params.sectionId) {
-      dispatch(fetchSectionComments(params.hearingSlug, params.sectionId));
-    }
   }
 
   componentWillMount() {
