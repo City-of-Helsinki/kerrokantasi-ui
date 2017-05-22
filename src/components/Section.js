@@ -73,30 +73,34 @@ export class Section extends React.Component {
 
     if (linkTo) {
       return (
-        <h2 className="section-title" onClick={this.toggle.bind(this)}>
-          <Link to={linkTo}>
-            {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
-            {getAttr(this.props.section.title, language)}
-          </Link>
+        <div className="section-title">
+          <h4 onClick={this.toggle.bind(this)}>
+            <Link to={linkTo}>
+              {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+              {getAttr(this.props.section.title, language)}
+            </Link>
+          </h4>
           {collapsed ? (
-            <div className="section-title-comments">
+            <div className="section-comments">
               <Icon name="comment-o"/>&nbsp;{section.n_comments}
             </div>
-          ) : null}
-        </h2>
+            ) : null}
+        </div>
       );
     }
 
     return (
-      <h2 className="section-title" onClick={this.toggle.bind(this)}>
-        {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
-        {getAttr(this.props.section.title, language)}
+      <div className="section-title">
+        <h4 className="section-title" onClick={this.toggle.bind(this)}>
+          {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+          {getAttr(this.props.section.title, language)}
+        </h4>
         {collapsed ? (
-          <div className="section-title-comments">
+          <div className="section-comments">
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
           </div>
-        ) : null}
-      </h2>
+          ) : null}
+      </div>
     );
   }
 

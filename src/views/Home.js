@@ -1,12 +1,10 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import {Link} from 'react-router';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
 import {getTopHearing, getOpenHearings} from '../selectors/hearing';
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
+import {Col, Grid, Row, Button} from 'react-bootstrap';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
@@ -58,36 +56,51 @@ class Home extends React.Component {
     </div>) : null);
 
     return (<div>
-      <div className="container">
-        <Helmet title={formatMessage({id: 'welcome'})}/>
-        <h1><FormattedMessage id="welcome"/></h1>
-        <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
-        {topHearing && <FullWidthHearing hearing={topHearing}/>}
-        <hr />
-        <Row>
-          {openHearings && !openHearings.isFetching &&
+      <section className="page-section page-section--welcome">
+        <div className="container">
+          <Helmet title={formatMessage({id: 'welcome'})}/>
+          <h1><FormattedMessage id="welcome"/></h1>
+          <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
+          {topHearing && <FullWidthHearing hearing={topHearing}/>}
+        </div>
+      </section>
+      <section className="page-section page-section--hearing-card">
+        <div className="container">
+          <Row>
+            {openHearings && !openHearings.isFetching &&
+              <Col xs={12}>
+                <div className="list">
+                  <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
+                  <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
+                  <p className="text-center"><Button bsStyle="default" href="/hearings/list"><FormattedMessage id="allHearings"/></Button></p>
+                </div>
+              </Col>
+            }
+          </Row>
+        </div>
+      </section>
+      <section className="page-section page-section--feedback">
+        <Grid>
+          <Row>
             <Col xs={12}>
-              <div className="list">
-                <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
-                <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-                <Link className="fullwidth" to="/hearings/list"><FormattedMessage id="allHearings"/></Link>
+              <div className="feedback-box">
+                <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+                  <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
+                </a>
               </div>
             </Col>
-          }
-          <Col xs={12}>
-            <div className="feedback-box">
-              <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
-                <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
-              </a>
-            </div>
-          </Col>
-        </Row>
-      </div>
-      <Row>
-        <Col sm={12}>
-          {hearingMap}
-        </Col>
-      </Row>
+          </Row>
+        </Grid>
+      </section>
+      <section className="page-section page-section--map">
+        <Grid>
+          <Row>
+            <Col sm={12}>
+              {hearingMap}
+            </Col>
+          </Row>
+        </Grid>
+      </section>
     </div>);
   }
 }

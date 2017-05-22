@@ -10,6 +10,7 @@ import SocialBar from '../components/SocialBar';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
+import config from '../config';
 
 import {
   followHearing,
@@ -236,30 +237,41 @@ export class Hearing extends React.Component {
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
+    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
+
     return (
       <div id="hearing-wrapper">
         <div className="text-right">
           {this.getManageButton()}
         </div>
-        <div className="well">
+        <div className="hearing-header well">
           <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')}/>
           <h1>
             {this.getFollowButton()}
             {!hearing.published ? <Icon name="eye-slash"/> : null}
             {getAttr(hearing.title, language)}
           </h1>
-          <LabelList className="main-labels" labels={hearing.labels}/>
-          <div className="timetable">
-            <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)} - <Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
-          </div>
-          <div className="commentNumber">
-            <Icon name="comment-o"/> {' '}
-            <FormattedPlural
-              value={hearing.n_comments}
-              one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
-              other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
-            />
-          </div>
+          <Row className="hearing-meta">
+            <Col xs={12}><LabelList className="main-labels" labels={hearing.labels}/></Col>
+            <Col xs={12} sm={6}>
+              <div className="timetable">
+                <Icon name="clock-o"/> {formatRelativeTime("timeOpen", hearing.open_at)}<br/><Icon name="clock-o"/> {formatRelativeTime("timeClose", hearing.close_at)}
+              </div>
+            </Col>
+            <Col xs={12} sm={6}>
+              <div className="commentNumber">
+                <Icon name="comment-o"/> {' '}
+                <FormattedPlural
+                  value={hearing.n_comments}
+                  one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
+                  other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
+                />
+                <div>
+                  <a href={reportUrl}><small><Icon name="download"/> <FormattedMessage id="downloadReport"/></small></a>
+                </div>
+              </div>
+            </Col>
+          </Row>
           <SocialBar />
         </div>
         <Row>
@@ -294,7 +306,12 @@ export class Hearing extends React.Component {
                 user={user}
               /> : null}
             </div>
-
+            {hearing.contact_persons && hearing.contact_persons.length ?
+              <h2><FormattedMessage id="contactPersons"/></h2> :
+              null}
+            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
+              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
+            )}
             {this.getLinkToFullscreen(hearing)}
             {sectionGroups.map((sectionGroup) => (
               <div id={"hearing-sectiongroup-" + sectionGroup.type} key={sectionGroup.type}>
@@ -315,12 +332,6 @@ export class Hearing extends React.Component {
             <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'}/>
             {this.getCommentList()}
 
-            {hearing.contact_persons && hearing.contact_persons.length ?
-              <h2><FormattedMessage id="contactPersons"/></h2> :
-              null}
-            {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
-              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
-            )}
           </Col>
         </Row>
         <DeleteModal
@@ -343,7 +354,7 @@ Hearing.propTypes = {
   user: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
   changeCurrentlyViewed: React.PropTypes.func,
-  currentlyViewed: React.PropTypes.string
+  currentlyViewed: React.PropTypes.string,
 };
 
 export function wrapHearingComponent(component, pure = true) {

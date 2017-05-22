@@ -2,33 +2,21 @@
     background: $gray-lighter;
     padding: 15px;
     font-size: 1.4rem;
+    font-weight: bold;
     margin-bottom: 25px;
     overflow-y: scroll;
 
-    .list-group {
-        .list-group-item {
-            color: $gray-light;
-            &:hover {
-                color: #FFFFFF;
-                background: #005eb8;
-            }
+    .subsection-list-group {
+      margin-bottom: 0;
 
-            .active {
-                color: #FFFFFF;
-            }
-        }
-        a {
+      .subsection-list-group-item {
+        padding-left: $line-height-computed;
+        font-weight: normal;
+      }
 
-            :hover {
-                color: #FFFFFF;
-            }
-            .active {
-                color: #FFFFFF;
-            }
-        }
-        .active {
-            color: #FFFFFF;
-        }
+      .subsection-list-group-item:last-child {
+        border-bottom: 0;
+      }
     }
 
     .language-link {
@@ -79,11 +67,6 @@
         }
     }
 
-    .social-bar > span {
-        margin-right: 5px;
-        display: inline-block;
-    }
-
     h4 {
         margin-top: 0;
         margin-bottom: 7px;
@@ -106,6 +89,32 @@
     }
 }
 
+.hearing-header {
+
+  h1 {
+    @media (max-width: $screen-xs-max) {
+          font-size: 3rem;
+    }
+  }
+
+  .timetable, .commentNumber {
+    margin-bottom: $line-height-computed;
+  }
+
+  .hearing-meta:before, .hearing-meta:after {
+    content: "";
+    display: block;
+    margin: 0 15px $line-height-computed;
+    border-top: 1px solid $gray-light;
+  }
+
+  .social-bar {
+    span {
+      margin-right: $line-height-computed / 2;
+    }
+  }
+}
+
 .image-caption {
     width: 100%;
     padding: 10px 15px;
@@ -116,8 +125,10 @@
 
 .section-list-item {
     display: flex;
-    margin: 20px 0px 50px 0px;
+    margin-bottom: $line-height-computed;
     position: relative;
+    background-color: $gray-lighter;
+
     @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
     }
@@ -219,7 +230,7 @@
     }
 }
 
-#hearing-comments {
+.sortable-comment-list {
     background-color: $theme-secondary-light;
     padding: $line-height-computed;
 
@@ -231,17 +242,6 @@
 
     h2:first-letter {
         text-transform:capitalize;
-    }
-}
-
-.hearing-section {
-
-    .sortable-comment-list {
-        padding-top: 50px;
-    }
-
-    .commentlist {
-        padding: 15px;
     }
 }
 

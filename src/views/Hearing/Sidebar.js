@@ -12,10 +12,8 @@ import Row from 'react-bootstrap/lib/Row';
 import getAttr from '../../utils/getAttr';
 import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
-import ContactCard from '../../components/ContactCard';
 import SubSectionListGroup from '../../components/SubSectionListGroup';
 import {Link} from 'react-router';
-import config from '../../config';
 
 class Sidebar extends React.Component {
 
@@ -145,20 +143,21 @@ class Sidebar extends React.Component {
           </ListGroupItem>}
         {sectionGroups.map((sectionGroup) => (
           !isQuestionView ?
-            <ListGroupItem
-              className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
-              href={"#hearing-sectiongroup-" + sectionGroup.type}
-              key={sectionGroup.name_singular + Math.random()}
-            >
-              {getAttr(sectionGroup.name_plural, activeLanguage)}
-              <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
+            <div className="list-group-root">
+              <ListGroupItem
+                className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
+                href={"#hearing-sectiongroup-" + sectionGroup.type}
+                key={sectionGroup.name_singular + Math.random()}
+              >
+                {getAttr(sectionGroup.name_plural, activeLanguage)}
+              </ListGroupItem>
               <SubSectionListGroup
                 sections={sectionGroup.sections}
                 hearing={hearing}
               />
-            </ListGroupItem> :
+            </div> :
             <Link
-              className="active-group-link"
+              className="list-group-root active-group-link"
               to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}
             >
               <ListGroupItem
@@ -166,13 +165,12 @@ class Sidebar extends React.Component {
                 key={sectionGroup.name_singular + Math.random()}
               >
                 {getAttr(sectionGroup.name_plural, activeLanguage)}
-                <div className="comment-icon"><Icon name="comment-o"/>&nbsp;{sectionGroup.n_comments}</div>
-                <SubSectionListGroup
-                  currentlyViewed={currentlyViewed}
-                  sections={sectionGroup.sections}
-                  hearing={hearing}
-                />
               </ListGroupItem>
+              <SubSectionListGroup
+                currentlyViewed={currentlyViewed}
+                sections={sectionGroup.sections}
+                hearing={hearing}
+              />
             </Link>
         ))}
         {this.getFullscreenItem()}
@@ -182,7 +180,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug} = this.props;
+    const {hearing} = this.props;
     const TOP_OFFSET = 75;
     const BOTTOM_OFFSET = 165;
     const boroughDiv = (hearing.borough ? (<div>
@@ -193,7 +191,6 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="overview-map"/></h4>
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
-    const reportUrl = config.apiBaseUrl + "/v1/hearing/" + hearingSlug + '/report';
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
         <div
@@ -218,19 +215,6 @@ class Sidebar extends React.Component {
               {Object.keys(hearing.borough).length !== 0 && boroughDiv}
               {hearingMap}
             </Col>
-            {hearing.contact_persons &&
-              <Col sm={12}>
-                <div className="sidebar-section further-info">
-                  <h4><FormattedMessage id="furtherInformation"/></h4>
-                  <div className="flex">
-                    {hearing.contact_persons.map((person, index) =>
-                      <ContactCard key={index} {...person}/>  // eslint-disable-line react/no-array-index-key
-                    )}
-                  </div>
-                  <a href={reportUrl} className="btn btn-default btn-sm" style={{ whiteSpace: 'normal' }}><Icon name="download"/> <FormattedMessage id="downloadReport"/></a>
-                </div>
-              </Col>
-            }
           </Row>
         </div>
       </AutoAffix>
@@ -246,7 +230,6 @@ Sidebar.propTypes = {
   dispatch: React.PropTypes.func,
   currentlyViewed: React.PropTypes.string,
   isQuestionView: React.PropTypes.func,
-  hearingSlug: React.PropTypes.string,
 };
 
 export default injectIntl(Sidebar);

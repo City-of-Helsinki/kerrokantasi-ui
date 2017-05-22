@@ -29,7 +29,6 @@ p {
 }
 
 main {
-    padding: 40px 0px 60px 0px;
 
     &.fullscreen {
         padding: 0;
@@ -41,21 +40,6 @@ main {
     font-size: 18px;
     @media (min-width: $screen-sm-min) {
         font-size: 20px;
-    }
-}
-
-.btn {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 1.4rem;
-    &:not(.btn-default) {
-        border-color: transparent !important;
-    }
-    &.btn-sm {
-        font-size: 1.2rem;
-    }
-    &.btn-lg {
-        font-size: 1.5rem;
     }
 }
 
@@ -119,9 +103,9 @@ a.list-group-item {
     background-color: $theme-primary-light;
     padding: $padding-base-horizontal $padding-base-vertical;
     text-align: center;
-    color: white;
+    color: $black;
     a {
-        color: white;
+        color: $black;
     }
 }
 
@@ -136,4 +120,9 @@ a.fullwidth {
 
 .social-bar {
   margin: 12px 0;
+}
+
+// These styles could be eventually introduced to common Bootstrap theme
+.btn.btn-default {
+  background-color: transparent;
 }

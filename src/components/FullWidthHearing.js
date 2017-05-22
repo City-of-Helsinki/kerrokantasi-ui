@@ -11,7 +11,8 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
   };
   return (
-    <div className={`fullwidth-hearing ${className}`} style={styles} {...rest}>
+    <div className={`fullwidth-hearing ${className}`} {...rest}>
+      <div className="fullwidth-hearing-image" style={styles} />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
           <h2 className="fullwidth-hearing-title">
