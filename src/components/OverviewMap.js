@@ -2,12 +2,12 @@
 import React from 'react';
 import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
-
+import {EPSG3067} from '../utils/map';
 
 class OverviewMap extends React.Component {
 
   getHearingMapContent(hearings) {
-    const {Popup, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
+    const {Popup, GeoJSON} = require('react-leaflet');  // Late import to be isomorphic compatible
     const {language} = this.context;
     const contents = [];
     hearings.forEach((hearing) => {
@@ -21,7 +21,7 @@ class OverviewMap extends React.Component {
         </div>
       </Popup>) : null);
       if (geojson) {
-        contents.push(<GeoJson key={id} data={geojson}>{content}</GeoJson>);
+        contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });
     return contents;
@@ -36,10 +36,11 @@ class OverviewMap extends React.Component {
       return null;
     }
     const position = [60.192059, 24.945831];  // Default to Helsinki's center
+    const crs = EPSG3067();
     return (
-      <Map center={position} zoom={13} style={style} minZoom={8} scrollWheelZoom={false}>
+      <Map center={position} zoom={9} style={style} minZoom={5} scrollWheelZoom={false} crs={crs}>
         <TileLayer
-          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+          url="https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup
@@ -47,12 +48,12 @@ class OverviewMap extends React.Component {
             if (!input) return;
             const bounds = input.leafletElement.getBounds();
             if (bounds.isValid()) {
-              input.props.map.fitBounds(bounds);
+              input.context.map.fitBounds(bounds);
               const viewportBounds = [
                 [59.9, 24.59],  // SouthWest corner
                 [60.43, 25.3]  // NorthEast corner
               ];  // Wide Bounds of City of Helsinki area
-              input.props.map.setMaxBounds(viewportBounds);
+              input.context.map.setMaxBounds(viewportBounds);
             }
           }}
         >{contents}</FeatureGroup>
