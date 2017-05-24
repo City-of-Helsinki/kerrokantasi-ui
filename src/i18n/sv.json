@@ -1,6 +1,7 @@
 {
   "commentsOutOf": "Visas {current}/{total} åsikter.",
   "login": "Logga in",
+  "loginToContinue": "Log in to continue",
   "logout": "Logga ut",
   "register": "Registrera dig",
   "hearingsHeaderText": "Höranden",

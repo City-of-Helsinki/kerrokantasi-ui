@@ -1,6 +1,7 @@
 {
   "commentsOutOf": "Showing {current} comments out of {total}.",
   "login": "Login",
+  "loginToContinue": "Log in to continue",
   "logout": "Logout",
   "register": "Register",
   "hearingsHeaderText": "Hearings",

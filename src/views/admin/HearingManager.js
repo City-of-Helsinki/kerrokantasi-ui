@@ -4,7 +4,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape} from 'react-intl';
 
-import {fetchHearing} from '../../actions/index';
+import {fetchHearing, login} from '../../actions';
 import {getOpenGraphMetaData} from '../../utils/hearing';
 import {initNewHearing, fetchHearingEditorMetaData} from '../../actions/hearingEditor';
 import {Hearing, wrapHearingComponent} from '../../components/Hearing';
@@ -13,7 +13,7 @@ import {HearingView} from '../Hearing/index';
 import {hearingShape} from '../../types';
 import getAttr from '../../utils/getAttr';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-
+import PleaseLogin from '../../components/admin/PleaseLogin';
 
 const HearingPreview = wrapHearingComponent(Hearing, false);
 
@@ -58,6 +58,14 @@ class HearingManagementView extends HearingView {
   render() {
     const hearing = this.getHearing();
     const {language, dispatch, currentlyViewed, isLoading, hearingDraft, user} = this.props;
+
+    if (!user) {
+      return (
+        <div className="container">
+          <PleaseLogin login={() => dispatch(login())}/>
+        </div>
+      );
+    }
 
     const PreviewReplacement = () =>
       (this.isNewHearing() ? null : <this.renderSpinner/>);

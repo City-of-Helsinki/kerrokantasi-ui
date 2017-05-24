@@ -1,6 +1,7 @@
 {
   "commentsOutOf": "Näytetään {current}/{total} mielipidettä.",
   "login": "Kirjaudu sisään",
+  "loginToContinue": "Kirjaudu sisään jatkaaksesi",
   "logout": "Kirjaudu ulos",
   "register": "Rekisteröidy",
   "hearingsHeaderText": "Kuulemiset",

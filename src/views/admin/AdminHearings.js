@@ -12,8 +12,9 @@ import {Tab, Tabs} from 'react-bootstrap';
 import {get} from 'lodash';
 
 import HearingList from '../../components/HearingList';
+import PleaseLogin from '../../components/admin/PleaseLogin';
 import Icon from '../../utils/Icon';
-import {fetchHearingList, fetchLabels} from '../../actions';
+import {fetchHearingList, fetchLabels, login} from '../../actions';
 import {labelShape} from '../../types';
 import getAttr from '../../utils/getAttr';
 
@@ -161,8 +162,16 @@ class AdminHearings extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {hearingLists, language, labels} = this.props;
+    const {hearingLists, language, labels, user, dispatch} = this.props;
     const searchPhrase = this.props.params.search ? this.props.params.search : '';
+
+    if (!user) {
+      return (
+        <div className="container">
+          <PleaseLogin login={() => dispatch(login())}/>
+        </div>
+      );
+    }
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
@@ -206,13 +215,15 @@ AdminHearings.propTypes = {
   hearingLists: React.PropTypes.object,
   language: React.PropTypes.string,
   labels: React.PropTypes.arrayOf(labelShape),
-  params: React.PropTypes.object
+  params: React.PropTypes.object,
+  user: React.PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   hearingLists: state.hearingLists,
   labels: state.labels.data,
-  language: state.language
+  language: state.language,
+  user: state.user
 });
 
 const WrappedAdminHearings = connect(mapStateToProps)(injectIntl(AdminHearings));
