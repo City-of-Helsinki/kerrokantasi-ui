@@ -1,0 +1,10 @@
+.hearing-languages {
+  $gutter: 6px;
+  &__row .hearing-languages__language {
+    padding-right: 4 * $gutter;
+
+    input {
+      margin-left: $gutter;
+    }
+  }
+}

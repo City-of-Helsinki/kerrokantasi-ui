@@ -185,7 +185,7 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const {hearing, sectionComments, location, hearingSlug} = this.props;
+    const {hearing, sectionComments, location, hearingSlug, intl} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = !mainSection.plugin_fullscreen;
     const user = this.props.user;
@@ -214,6 +214,7 @@ export class Hearing extends React.Component {
            onDeleteComment={this.handleDeleteClick.bind(this)}
            onPostVote={this.onVoteComment.bind(this)}
            canSetNickname={user === null}
+           intl={intl}
           />
         </div>
         <hr/>

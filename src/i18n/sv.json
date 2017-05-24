@@ -92,5 +92,9 @@
   "map": "Karta",
   "showOnlyOpen": "Endast öppna visas",
   "previous": "Föregående",
-  "next": "Följande"
+  "next": "Följande",
+  "inLanguage-fi": "på finska",
+  "inLanguage-sv": "på svenska",
+  "inLanguage-en": "på engelska",
+  "hearingLanguages": "TODO"
 }

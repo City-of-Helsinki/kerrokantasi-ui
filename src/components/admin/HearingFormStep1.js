@@ -10,8 +10,10 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Row from 'react-bootstrap/lib/Row';
 
-import TextInput from '../forms/TextInput';
+import HearingLanguages from './HearingLanguages';
+import MultiLanguageTextField from '../forms/MultiLanguageTextField';
 import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import getAttr from '../../utils/getAttr';
 
 
 class HearingFormStep1 extends React.Component {
@@ -40,20 +42,33 @@ class HearingFormStep1 extends React.Component {
   }
 
   render() {
-    const hearing = this.props.hearing;
-    const {formatMessage} = this.props.intl;
-    const tagOptions = this.props.editorMetaData.labels || [];
-    const contactOptions = this.props.editorMetaData.contacts || [];
+    const {
+      hearing,
+      hearingLanguages,
+      intl: {formatMessage},
+      editorMetaData: {labels: tagOptions, contacts: contactOptions},
+      onHearingChange,
+      onLanguagesChange,
+    } = this.props;
+    const {language} = this.context;
 
     return (
       <div className="form-step">
-        <TextInput
+
+        <HearingLanguages
+          hearingLanguages={hearingLanguages}
+          onChange={onLanguagesChange}
+        />
+
+        <MultiLanguageTextField
+          languages={hearingLanguages}
+          onBlur={(value) => onHearingChange('title', value)}
           labelId="hearingTitle"
           maxLength={200}
-          name="title"
-          onBlur={this.onChange}
-          placeholderId="hearingTitlePlaceholder"
           value={hearing.title}
+          name="title"
+          placeholderId="hearingTitlePlaceholder"
+          required
         />
 
         <Row>
@@ -66,11 +81,12 @@ class HearingFormStep1 extends React.Component {
                 multi
                 name="labels"
                 onChange={this.onTagsChange}
-                options={tagOptions}
+                options={tagOptions.map((opt) => ({id: opt.id, label: getAttr(opt.label, language)}))}
                 placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                 simpleValue={false}
-                value={hearing.labels}
+                value={hearing.labels.map((label) => ({id: label.id, label: getAttr(label.label, language)}))}
                 valueKey="id"
+                menuContainerStyle={{zIndex: 10}}
               />
             </FormGroup>
           </Col>
@@ -116,11 +132,23 @@ class HearingFormStep1 extends React.Component {
 
 HearingFormStep1.propTypes = {
   editorMetaData: hearingEditorMetaDataShape,
-  errors: React.PropTypes.object,
   hearing: hearingShape,
   intl: intlShape.isRequired,
   onContinue: React.PropTypes.func,
   onHearingChange: React.PropTypes.func,
+  onLanguagesChange: React.PropTypes.func,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string)
+};
+
+HearingFormStep1.defaultProps = {
+  editorMetaData: {
+    contacts: [],
+    labels: [],
+  },
+};
+
+HearingFormStep1.contextTypes = {
+  language: React.PropTypes.string
 };
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);

@@ -18,7 +18,7 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
   </Modal>;
 
 DeleteModal.propTypes = {
-  isOpen: React.PropTypes.boolean,
+  isOpen: React.PropTypes.bool,
   close: React.PropTypes.func,
   onDeleteComment: React.PropTypes.func
 };

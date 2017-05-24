@@ -12,7 +12,7 @@ import {addSection, removeSection} from '../../actions/hearingEditor';
 import {getMainSection} from '../../utils/hearing';
 import {hearingShape} from '../../types';
 import {initNewSection} from '../../utils/section';
-
+import getAttr from '../../utils/getAttr';
 
 class HearingFormStep2 extends React.Component {
 
@@ -46,6 +46,8 @@ class HearingFormStep2 extends React.Component {
   * @returns {Array} - Array of Panel elements.
    */
   getSections() {
+    const {language} = this.context;
+    const {hearingLanguages} = this.props;
     return this.props.hearing.sections.map((section) => {
       const sectionHeader = this.props.intl.formatMessage({
         id: `${section.type}Section`
@@ -54,13 +56,14 @@ class HearingFormStep2 extends React.Component {
       return (
         <Panel
           eventKey={sectionID}
-          header={`${sectionHeader}: ${section.title}`}
+          header={`${sectionHeader}: ${getAttr(section.title, language)}`}
           key={sectionID}
         >
           <SectionForm
             section={section}
             onSectionChange={this.props.onSectionChange}
             onSectionImageChange={this.props.onSectionImageChange}
+            sectionLanguages={hearingLanguages}
           />
           <hr/>
           {this.getDeleteSectionButton(section, sectionID)}
@@ -132,11 +135,15 @@ class HearingFormStep2 extends React.Component {
 HearingFormStep2.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: hearingShape,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
   intl: intlShape.isRequired,
   onContinue: React.PropTypes.func,
-  onHearingChange: React.PropTypes.func,
   onSectionChange: React.PropTypes.func,
   onSectionImageChange: React.PropTypes.func,
+};
+
+HearingFormStep2.contextTypes = {
+  language: React.PropTypes.string
 };
 
 const WrappedHearingFormStep2 = connect()(injectIntl(HearingFormStep2));

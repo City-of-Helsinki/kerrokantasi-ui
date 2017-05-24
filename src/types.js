@@ -1,4 +1,5 @@
 import {PropTypes} from 'react';
+import {languages} from './config';
 
 
 export const geoJSONshape = PropTypes.shape({
@@ -15,10 +16,17 @@ export const geoJSONshape = PropTypes.shape({
   )
 });
 
+export const translatedShape = PropTypes.oneOfType([
+  PropTypes.shape(
+    languages.reduce((shape, lang) =>
+      Object.assign({}, shape, {[lang]: PropTypes.string}), {})
+  ),
+  PropTypes.string
+]);
 
 export const labelShape = PropTypes.shape({
   id: PropTypes.number,
-  label: PropTypes.string,
+  label: translatedShape,
 });
 
 
@@ -28,17 +36,17 @@ export const contactShape = PropTypes.shape({
   name: PropTypes.string,
   ornaization: PropTypes.string,
   phone: PropTypes.string,
-  title: PropTypes.string,
+  title: translatedShape,
 });
 
 
 export const sectionImageShape = PropTypes.shape({
   id: PropTypes.number,
-  title: PropTypes.string,
+  title: translatedShape,
   url: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
-  caption: PropTypes.string,
+  caption: translatedShape,
 });
 
 
@@ -48,9 +56,9 @@ export const sectionShape = PropTypes.shape({
   commenting: PropTypes.string,
   voting: PropTypes.string,
   published: PropTypes.bool,
-  title: PropTypes.string,
-  abstract: PropTypes.string,
-  content: PropTypes.string,
+  title: translatedShape,
+  abstract: translatedShape,
+  content: translatedShape,
   created_at: PropTypes.string,
   created_by: PropTypes.string,
   images: PropTypes.arrayOf(sectionImageShape),
@@ -71,11 +79,11 @@ export const hearingEditorMetaDataShape = PropTypes.shape({
 
 
 export const hearingShape = PropTypes.shape({
-  abstract: PropTypes.string,
-  title: PropTypes.string,
+  abstract: translatedShape,
+  title: translatedShape,
   slug: PropTypes.string,
   id: PropTypes.string,
-  borough: PropTypes.string,
+  borough: translatedShape,
   n_comments: PropTypes.number,
   published: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),

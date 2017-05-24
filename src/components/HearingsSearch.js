@@ -11,7 +11,8 @@ class HearingsSearch extends React.Component {
   constructor(props) {
     super(props);
     const labels = get(queryString.parse(location.search), 'label', []);
-    this.state = { selectedLabels: labels };
+    const searchPhrase = get(queryString.parse(location.search), 'search', '');
+    this.state = { selectedLabels: labels, searchPhrase };
   }
 
   handleChange(value) {
@@ -24,7 +25,7 @@ class HearingsSearch extends React.Component {
 
   render() {
     const {handleSearch, labels, language} = this.props;
-    const {selectedLabels} = this.state;
+    const {selectedLabels, searchPhrase} = this.state;
     const labelsAsOptions = labels.map((label) => {
       return {
         label: getAttr(label.label, language),
@@ -42,7 +43,11 @@ class HearingsSearch extends React.Component {
               <FormControl
                 type="text"
                 inputRef={(ref) => { this.input = ref; }}
-                onChange={(event) => handleSearch(event, event.target.value, selectedLabels)}
+                onChange={(event) => {
+                  this.setState({searchPhrase: event.value});
+                  // handleSearch(event, event.target.value, selectedLabels);
+                }}
+                value={searchPhrase}
               />
             </FormGroup>
             <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
@@ -72,7 +77,7 @@ class HearingsSearch extends React.Component {
 HearingsSearch.propTypes = {
   handleSearch: React.PropTypes.func,
   labels: React.PropTypes.array,
-  language: React.PropTypes.string
+  language: React.PropTypes.string,
 };
 
 export default injectIntl(HearingsSearch);
