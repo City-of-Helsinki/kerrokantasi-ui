@@ -1,4 +1,6 @@
 /* eslint-disable */
+// By akx, to allow runtime importing of Proj4 and Leaflet for isomorphic applications
+// https://gist.github.com/akx/a9576715bd857d8c5e874ec9aa7ef947
 // usage:
 // import addProj4Leaflet from './byol-proj4leaflet';
 // later ... ...
