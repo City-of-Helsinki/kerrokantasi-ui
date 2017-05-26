@@ -7,6 +7,7 @@ import {getSectionURL} from '../utils/section';
 const SubSectionListGroup = ({sections, language = 'fi', hearing, currentlyViewed}) => (
   <ListGroup className="subsection-list-group">
     {sections && sections.map((section) =>
+// <<<<<<< HEAD
       <ListGroupItem
         className={`subsection-list-group-item ${currentlyViewed === section.id ? "active" : ""}`}
         key={section.id}
@@ -19,6 +20,22 @@ const SubSectionListGroup = ({sections, language = 'fi', hearing, currentlyViewe
           <Icon name="comment-o"/>&nbsp;{section.n_comments}
         </div>
       </ListGroupItem>
+// =======
+//       <Link key={section.id} to={getSectionURL(hearing.slug, section)}>
+//         <ListGroupItem
+//           className={`subsection-list-group-item ${currentlyViewed === section.id ? "active" : ""}`}
+//           key={section.id}
+//           href={`#hearing-subsection-${section.id}`}
+//         >
+//           <span className="subsection-list-group-item__title">
+//             {getAttr(section.title, language)}
+//           </span>
+//           <div className="subsection-list-group-item__comments comment-icon">
+//             <Icon name="comment-o"/>&nbsp;{section.n_comments}
+//           </div>
+//         </ListGroupItem>
+//       </Link>
+// >>>>>>> epic/hearing-manager
     )}
   </ListGroup>);
 

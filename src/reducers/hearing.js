@@ -2,6 +2,8 @@ import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
 import {has, isEmpty} from 'lodash';
 
+import {EditorActions} from '../actions/hearingEditor';
+
 
 const beginFetchHearing = (state, {payload}) => {
   if (state[payload.hearingSlug]) {
@@ -18,6 +20,12 @@ const beginFetchHearing = (state, {payload}) => {
 const receiveHearing = (state, {payload}) => {
   return updeep({
     [payload.hearingSlug]: {state: "done", data: payload.data}
+  }, state);
+};
+
+const savedHearing = (state, {payload: {hearing}}) => {
+  return updeep({
+    [hearing.slug]: {state: 'done', data: hearing}
   }, state);
 };
 
@@ -46,4 +54,6 @@ export default handleActions({
   changeCurrentlyViewed,
   savedHearingChange,
   savedNewHearing: savedHearingChange,
+  [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
+  [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
 }, {});

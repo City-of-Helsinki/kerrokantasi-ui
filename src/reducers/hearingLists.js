@@ -1,6 +1,13 @@
 import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
 
+const hearingListSkeleton = {
+  isFetching: false, data: []
+};
+
+const createHearingLists = (listNames) =>
+  listNames.reduce((listState, name) => Object.assign({}, listState, {[name]: hearingListSkeleton}), {});
+
 const beginFetchHearingList = (state, {payload}) => (updeep({
   [payload.listId]: {isFetching: true}
 }, state));
@@ -14,4 +21,10 @@ const receiveHearingList = (state, {payload}) => {
 export default handleActions({
   beginFetchHearingList,
   receiveHearingList
-}, { allHearings: { isFetching: false, data: [] }, openHearings: { isFetching: false, data: [] } });
+}, createHearingLists([
+  'allHearings',
+  'openHearings',
+  'publishedHearings',
+  'publishingQueueHearings',
+  'draftHearings'
+]));

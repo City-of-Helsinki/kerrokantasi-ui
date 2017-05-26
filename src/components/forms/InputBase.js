@@ -9,13 +9,23 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 class InputBase extends React.Component {
 
   getLabelHint() {
-    if (!this.props.maxLength || !this.props.value) {
-      return null;
-    }
+    const {maxLength, value, required} = this.props;
+
+    const LengthHint = () => (maxLength && value ? (
+      <span>
+        {` (${value.length} / ${maxLength} `}
+        <FormattedMessage id="characters"/>)
+      </span>
+    ) : null);
+
+    const RequiredHint = () => (required ? (
+      <span>*</span>
+    ) : null);
+
     return (
       <small className="field-hint">
-        {` (${this.props.value.length} / ${this.props.maxLength} `}
-        <FormattedMessage id="charachters"/>)
+        <LengthHint/>
+        <RequiredHint/>
       </small>
     );
   }
@@ -41,6 +51,7 @@ InputBase.propTypes = {
   error: React.PropTypes.string,
   labelId: React.PropTypes.string,
   maxLength: React.PropTypes.number,
+  required: React.PropTypes.bool,
   name: React.PropTypes.string,
   value: React.PropTypes.string,
 };

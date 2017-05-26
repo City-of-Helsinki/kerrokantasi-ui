@@ -18,16 +18,33 @@ import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
+import {keys, capitalize} from 'lodash';
 
-const HearingListTabs = ({activeTab}) =>
+import {labelShape} from '../types';
+
+const HEARING_LIST_TABS = {
+  LIST: 'list',
+  MAP: 'map'
+};
+
+const HearingListTabs = ({activeTab, changeTab}) =>
   <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
     <NavItem eventKey="3" disabled className="hearing-list__tabs-empty"/>
-    <NavItem eventKey="list" title="List"><Link to="/hearings/list"><FormattedMessage id="list"/></Link></NavItem>
-    <NavItem eventKey="map" title="Map"><Link to="/hearings/map"><FormattedMessage id="map"/></Link></NavItem>
+    {
+      keys(HEARING_LIST_TABS).map((key) => {
+        const value = HEARING_LIST_TABS[key];
+        return (
+          <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)}>
+            <FormattedMessage id={value}/>
+          </NavItem>
+        );
+      })
+    }
   </Nav>;
 
 HearingListTabs.propTypes = {
   activeTab: React.PropTypes.string,
+  changeTab: React.PropTypes.func
 };
 
 const HearingListFilters = ({handleSort}) =>
@@ -115,6 +132,21 @@ HearingListItem.propTypes = {
 
 class HearingList extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {activeTab: props.initialTab};
+
+    this.handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  handleTabChange(tabName) {
+    if (typeof this.props.onTabChange === 'function') {
+      this.props.onTabChange(tabName);
+    }
+    this.setState({activeTab: tabName});
+  }
+
   render() {
     const {
       hearings,
@@ -123,12 +155,14 @@ class HearingList extends React.Component {
       handleSort,
       handleSearch,
       handleLabelSearch,
+      searchPhrase,
       language,
-      activeTab,
       showOnlyOpen,
       toggleShowOnlyOpen,
       isMobile} = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
+    const {activeTab} = this.state;
+    const hasHearings = hearings && hearings.length;
 
     const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
       <Checkbox
@@ -155,18 +189,21 @@ class HearingList extends React.Component {
             labels={labels}
             handleLabelSearch={handleLabelSearch}
             language={language}
+            searchPhrase={searchPhrase}
           />
-          <HearingListTabs activeTab={activeTab}/>
+          <HearingListTabs activeTab={activeTab} changeTab={this.handleTabChange} />
           {isLoading && <LoadSpinner />}
-          {activeTab === 'list' &&
+          {!isLoading && !hasHearings ? <p><FormattedMessage id="noHearings"/></p> : null}
+          {hasHearings && activeTab === 'list' ?
             <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
               <HearingListFilters handleSort={handleSort}/>
               {hearings.map(
                 (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
               )}
             </div>
+            : null
           }
-          {activeTab === 'map' && !isLoading && hearingListMap}
+          {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
         </div>
         : null
     );
@@ -174,17 +211,23 @@ class HearingList extends React.Component {
 }
 
 HearingList.propTypes = {
-  hearings: React.PropTypes.object,
-  labels: React.PropTypes.object,
-  isLoading: React.PropTypes.string,
+  hearings: React.PropTypes.array,
+  labels: React.PropTypes.arrayOf(labelShape),
+  isLoading: React.PropTypes.bool,
   handleSort: React.PropTypes.func,
   handleSearch: React.PropTypes.func,
   handleLabelSearch: React.PropTypes.func,
   language: React.PropTypes.string,
-  activeTab: React.PropTypes.string,
+  initialTab: React.PropTypes.string.isRequired,
+  onTabChange: React.PropTypes.func,
   showOnlyOpen: React.PropTypes.bool,
   toggleShowOnlyOpen: React.PropTypes.func,
+  searchPhrase: React.PropTypes.string,
   isMobile: React.PropTypes.bool
+};
+
+HearingList.defaultProps = {
+  initialTab: HEARING_LIST_TABS.LIST
 };
 
 export default (injectIntl(HearingList));

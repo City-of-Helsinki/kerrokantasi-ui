@@ -1,17 +1,17 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import {initNewSection} from './section';
-import getAttr from "./getAttr";
-
+import {initNewSection, SectionTypes} from './section';
+import initAttr from './initAttr';
+import getAttr from './getAttr';
 
 export function getClosureSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === "closure-info");
+  return _.find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
 }
 
 
 export function getMainSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === "main");
+  return _.find(hearing.sections, (section) => section.type === SectionTypes.MAIN);
 }
 
 
@@ -99,8 +99,8 @@ export function initNewHearing(inits) {
   const mainSection = initNewSection();
   mainSection.type = "main";
   return _.merge({
-    abstract: "",
-    title: "",
+    abstract: initAttr(),
+    title: initAttr(),
     slug: "",
     labels: [],
     published: false,
@@ -149,7 +149,7 @@ export function getOpenGraphMetaData(hearing, language) {
     {property: "og:url", content: url},
     {property: "og:type", content: "website"},
     {property: "og:title", content: getAttr(hearing.title, language)},
-    {property: "og:image", content: hearing.main_image.url},
+    {property: "og:image", content: _.get(hearing, 'main_image.url', '')},
     {property: "og:description", content: getAttr(hearing.abstract, language)}
   ];
 }

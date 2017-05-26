@@ -1,6 +1,7 @@
 import Icon from '../../utils/Icon';
 import React from 'react';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import {get} from 'lodash';
 
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -10,8 +11,7 @@ import Image from 'react-bootstrap/lib/Image';
 
 import Dropzone from 'react-dropzone';
 
-import TextArea from '../forms/TextArea';
-import TextInput from '../forms/TextInput';
+import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 
 
@@ -63,16 +63,21 @@ class SectionForm extends React.Component {
 
   getImage() {
     const images = this.props.section.images;
-    if (images) {
+    if (images && images.length) {
       // Image property may contain the base64 encoded image
       return images[0].image || images[0].url;
     }
     return "";
   }
 
+  static getImageCaption(section) {
+    return get(section.images, '[0].caption', {});
+  }
+
   render() {
-    const section = this.props.section;
-    const imageCaption = section.images[0] ? section.images[0].caption : "";
+    const {section, onSectionChange, sectionLanguages} = this.props;
+    const {language} = this.context;
+    const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
     const {formatMessage} = this.props.intl;
 
@@ -97,27 +102,32 @@ class SectionForm extends React.Component {
           <HelpBlock><FormattedMessage id="sectionImageHelpText"/></HelpBlock>
         </FormGroup>
 
-        <TextInput
+        <MultiLanguageTextField
           labelId="sectionImageCaption"
           name="imageCaption"
-          onBlur={this.onChange}
+          onBlur={(value) => onSectionChange(section.id, 'imageCaption', value)}
           value={imageCaption}
+          languages={sectionLanguages}
         />
 
-        <TextArea
+        <MultiLanguageTextField
           labelId="sectionAbstract"
           maxLength={this.props.maxAbstractLength}
           name="abstract"
-          onBlur={this.onChange}
+          onBlur={(value) => onSectionChange(section.id, 'abstract', value)}
           value={section.abstract}
+          languages={sectionLanguages}
+          fieldType={TextFieldTypes.TEXTAREA}
         />
 
-        <TextArea
+        <MultiLanguageTextField
           labelId="sectionContent"
           name="content"
-          onBlur={this.onChange}
+          onBlur={(value) => onSectionChange(section.id, 'content', value)}
           rows="10"
           value={section.content}
+          languages={sectionLanguages}
+          fieldType={TextFieldTypes.TEXTAREA}
         />
 
         <FormGroup controlId="hearingCommenting">
@@ -148,6 +158,11 @@ SectionForm.propTypes = {
   onSectionChange: React.PropTypes.func,
   onSectionImageChange: React.PropTypes.func,
   section: sectionShape,
+  sectionLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
+};
+
+SectionForm.contextTypes = {
+  language: React.PropTypes.string
 };
 
 const WrappedSectionForm = injectIntl(SectionForm);

@@ -1,14 +1,12 @@
-<<<<<<< HEAD
-=======
 $node_modules: "../../../node_modules";
 
-@import "../../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
->>>>>>> ffc579b... Use helsinki-bootstrap-3
+@import "../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
 @import "variables";
-@import "../../../node_modules/react-datetime/css/react-datetime.css";
-@import "../../../node_modules/react-select/dist/react-select.css";
-@import "../../../node_modules/react-datetime/css/react-datetime.css";
-@import "../../../node_modules/leaflet-draw/dist/leaflet.draw.css";
+@import "../../node_modules/react-datetime/css/react-datetime.css";
+@import "../../node_modules/react-select/dist/react-select.css";
+@import "../../node_modules/react-datetime/css/react-datetime.css";
+@import "../../node_modules/leaflet-draw/dist/leaflet.draw.css";
+@import "hearing-languages";
 
 
 .form-modal {
@@ -79,6 +77,15 @@ $node_modules: "../../../node_modules";
     .hearing-map {
         width: 100%;
         height: 500px;
+    }
+
+    .hearing-languages-selector {
+      display: flex;
+      flex-direction: row;
+
+      & > span {
+        flex: 0;
+      }
     }
 }
 

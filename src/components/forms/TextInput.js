@@ -64,6 +64,7 @@ class TextInput extends React.Component {
         name={this.props.name}
         validate={this.props.validate}
         value={this.state.value}
+        required={this.props.required}
       >
         <FormControl
           defaultValue={this.props.value}
@@ -84,9 +85,9 @@ TextInput.propTypes = {
   intl: intlShape.isRequired,
   labelId: React.PropTypes.string,
   maxLength: React.PropTypes.number,
+  required: React.PropTypes.bool,
   name: React.PropTypes.string,
   onBlur: React.PropTypes.func,
-  onChange: React.PropTypes.func,
   placeholderId: React.PropTypes.string,
   validate: React.PropTypes.func,
   value: React.PropTypes.string,

@@ -92,7 +92,7 @@ class Sidebar extends React.Component {
     const availableLanguages = { fi: 'Kuuleminen Suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
-        return (<div className="language-link-active">
+        return (<div className="language-link-active" key={lang}>
           {availableLanguages[lang]}
         </div>);
       }
@@ -100,13 +100,13 @@ class Sidebar extends React.Component {
       if (getAttr(hearing.title, lang, {exact: true}) &&
         keys(hearing.title).filter((key) => key === activeLanguage).length === 0 &&
         index === 0) {
-        return (<div className="language-link-active">
+        return (<div className="language-link-active" key={lang}>
           {availableLanguages[lang]}
         </div>);
       }
 
       if (getAttr(hearing.title, lang, {exact: true})) {
-        return (<div className="language-link">
+        return (<div className="language-link" key={lang}>
           <a onClick={(event) => { event.preventDefault(); dispatch(setLanguage(lang)); }} href="" >
             {availableLanguages[lang]}
           </a>
@@ -143,7 +143,7 @@ class Sidebar extends React.Component {
           </ListGroupItem>}
         {sectionGroups.map((sectionGroup) => (
           !isQuestionView ?
-            <div className="list-group-root">
+            <div className="list-group-root" key={`${sectionGroup.name_singular}-${sectionGroup.name_plural}-${sectionGroup.type}`}>
               <ListGroupItem
                 className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
                 href={"#hearing-sectiongroup-" + sectionGroup.type}
@@ -159,6 +159,7 @@ class Sidebar extends React.Component {
             <Link
               className="list-group-root active-group-link"
               to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}
+              key={`${sectionGroup.name_singular}-${sectionGroup.name_plural}-${sectionGroup.type}`}
             >
               <ListGroupItem
                 className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}

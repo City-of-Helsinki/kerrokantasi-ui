@@ -1,26 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {push} from 'redux-router';
 
 import {
   changeHearing,
+  changeHearingEditorLanguages,
   changeSection,
   changeSectionMainImage,
   closeHearing,
   closeHearingForm,
-  fetchHearingEditorMetaData,
   publishHearing,
   saveHearingChanges,
-  saveNewHearing,
+  saveAndPreviewHearingChanges,
+  saveAndPreviewNewHearing,
   startHearingEdit,
   unPublishHearing,
 } from '../../actions/hearingEditor';
 import HearingForm from '../../components/admin/HearingForm';
 import HearingToolbar from '../../components/admin/HearingToolbar';
-import {getHearingEditorURL} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
+import * as EditorSelector from '../../selectors/hearingEditor';
 
 
 class HearingEditor extends React.Component {
@@ -29,29 +29,13 @@ class HearingEditor extends React.Component {
     super(props);
     this.onCloseHearing = this.onCloseHearing.bind(this);
     this.onHearingChange = this.onHearingChange.bind(this);
+    this.onLanguagesChange = this.onLanguagesChange.bind(this);
     this.onPublish = this.onPublish.bind(this);
     this.onSaveAndPreview = this.onSaveAndPreview.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
-  }
-
-  /**
-  * Return a promise that will, as it fulfills, have added data
-  * required by the form into the dispatch's associated store.
-  *
-  * @param dispatch Redux Dispatch function
-  * @return {Promise} Data fetching promise
-  */
-  static fetchRequiredData(dispatch) {
-    return Promise.all([
-      dispatch(fetchHearingEditorMetaData())
-    ]);
-  }
-
-  componentDidMount() {
-    HearingEditor.fetchRequiredData(this.props.dispatch);
   }
 
   onHearingChange(field, value) {
@@ -66,6 +50,10 @@ class HearingEditor extends React.Component {
     this.props.dispatch(changeSectionMainImage(sectionID, field, value));
   }
 
+  onLanguagesChange(newLanguages) {
+    this.props.dispatch(changeHearingEditorLanguages(newLanguages));
+  }
+
   onPublish() {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
@@ -73,11 +61,10 @@ class HearingEditor extends React.Component {
   onSaveAndPreview() {
     const {dispatch, hearing} = this.props;
     if (hearing.isNew) {
-      dispatch(saveNewHearing(hearing));
+      dispatch(saveAndPreviewNewHearing(hearing));
     } else {
-      dispatch(saveHearingChanges(hearing));
+      dispatch(saveAndPreviewHearingChanges(hearing));
     }
-    dispatch(push(getHearingEditorURL(hearing)));
   }
 
   onSaveChanges() {
@@ -93,20 +80,23 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    if (isEmpty(this.props.hearing)) {
+    const {hearing, dispatch, show, isLoading} = this.props;
+
+    if (isEmpty(hearing)) {
       return null;
     }
     return (
       <HearingForm
         currentStep={1}
-        hearing={this.props.hearing}
+        hearing={hearing}
         onHearingChange={this.onHearingChange}
-        onLeaveForm={() => this.props.dispatch(closeHearingForm())}
+        onLeaveForm={() => dispatch(closeHearingForm())}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
-        show={this.props.editorState === "editForm"}
+        onLanguagesChange={this.onLanguagesChange}
+        show={show && !isLoading}
       />
     );
   }
@@ -130,26 +120,17 @@ class HearingEditor extends React.Component {
   }
 }
 
-HearingEditor.defaultProps = {
-  editorState: "editForm",
-  hearing: {},
-};
-
 HearingEditor.propTypes = {
   dispatch: React.PropTypes.func,
-  editorState: React.PropTypes.string,
+  show: React.PropTypes.bool,
+  isLoading: React.PropTypes.bool,
   hearing: hearingShape,
-  hearingID: React.PropTypes.string,
-  intl: intlShape.isRequired,
-  location: React.PropTypes.object,
-  params: React.PropTypes.object,
-  user: userShape,
+  user: userShape
 };
 
 const WrappedHearingEditor = connect((state) => ({
-  editorState: state.hearingEditor.editorState,
-  hearing: state.hearingEditor.hearing,
-  user: state.user,
+  show: EditorSelector.getShowForm(state),
+  isLoading: EditorSelector.getIsLoading(state),
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;

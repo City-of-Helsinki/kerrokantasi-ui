@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/lib/Row';
 import queryString from 'query-string';
 import {get} from 'lodash';
 import getAttr from '../utils/getAttr';
+import {labelShape, hearingShape} from '../types';
 
 class AllHearings extends React.Component {
   /**
@@ -74,14 +75,17 @@ class AllHearings extends React.Component {
   }
 
   static updateQueryStringOnSearch(searchTitle, labels, labelIds) {
+    const nextQuery = queryString.stringify({
+      search: searchTitle || undefined,
+      label: labels.map((label) => getAttr(label.label)) || undefined
+    });
+    const newSearch = searchTitle || labelIds ? `?${nextQuery}` : '';
+    const newurl = `${location.protocol}//${window.location.host}${window.location.pathname}${newSearch}`;
+
     if (history.pushState) {
-      const nextQuery = queryString.stringify({
-        search: searchTitle || undefined,
-        label: labels.map((label) => getAttr(label.label)) || undefined
-      });
-      const newSearch = searchTitle || labelIds ? `?${nextQuery}` : '';
-      const newurl = `${location.protocol}//${window.location.host}${window.location.pathname}${newSearch}`;
-      window.history.pushState({path: newurl}, '', newurl);
+      history.pushState({path: newurl}, '', newurl);
+    } else {
+      window.location.href = newurl;
     }
   }
 
@@ -127,7 +131,8 @@ class AllHearings extends React.Component {
     const {formatMessage} = this.props.intl;
     const {isLoading, labels, language} = this.props;
     const {showOnlyOpen, isMobile} = this.state;
-    const activeTab = this.props.params.tab ? this.props.params.tab : 'list';
+    const initialTab = this.props.params.tab ? this.props.params.tab : 'list';
+    const searchPhrase = this.props.params.search ? this.props.params.search : '';
 
     return (<div className="container">
       <Helmet title={formatMessage({id: 'allHearings'})}/>
@@ -142,10 +147,19 @@ class AllHearings extends React.Component {
             handleSort={this.handleSort.bind(this)}
             handleSearch={this.handleSearch.bind(this)}
             language={language}
-            activeTab={activeTab}
+            initialTab={initialTab}
+            searchPhrase={searchPhrase}
             showOnlyOpen={showOnlyOpen}
             toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
             isMobile={isMobile}
+            onTabChange={(value) => {
+              const url = `/hearings/${value}`;
+              if (history.pushState) {
+                history.pushState({path: url}, '', url);
+              } else {
+                window.location.href = url;
+              }
+            }}
           />
         </Col>
       </Row>
@@ -157,9 +171,9 @@ AllHearings.propTypes = {
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   language: React.PropTypes.string, // To rerender when language changes
-  hearings: React.PropTypes.object,
-  isLoading: React.PropTypes.string,
-  labels: React.PropTypes.object,
+  hearings: React.PropTypes.arrayOf(hearingShape),
+  isLoading: React.PropTypes.bool,
+  labels: React.PropTypes.arrayOf(labelShape),
   params: React.PropTypes.object,
 };
 

@@ -4,12 +4,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape} from 'react-intl';
 
-import {beginCreateHearing, beginEditHearing} from '../../actions/hearingEditor';
+import {fetchHearing, login} from '../../actions';
+import {getOpenGraphMetaData} from '../../utils/hearing';
+import {initNewHearing, fetchHearingEditorMetaData} from '../../actions/hearingEditor';
 import {Hearing, wrapHearingComponent} from '../../components/Hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import {HearingView} from '../Hearing/index';
 import {hearingShape} from '../../types';
-
+import getAttr from '../../utils/getAttr';
+import * as HearingEditorSelector from '../../selectors/hearingEditor';
+import PleaseLogin from '../../components/admin/PleaseLogin';
 
 const HearingPreview = wrapHearingComponent(Hearing, false);
 
@@ -21,38 +25,27 @@ class HearingManagementView extends HearingView {
   }
 
   componentDidMount() {
+    this.props.dispatch(fetchHearingEditorMetaData());
     // Hearing will be fetched from the API in the super implementation.
     // We don't want to do that when we are creating a new hearing.
     if (this.isNewHearing()) {
-      this.props.dispatch(beginCreateHearing());
-    } else {
-      super.componentDidMount();
+      this.props.dispatch(initNewHearing());
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.isNewHearing()) {
-      // The parent class HearingView fetces the hearing (Promise) from the api
-      // and it gets passed to this view via props.
-      // Instead of editing the hearing stored in the Redux store we make
-      // a deep clone from it and store the cloned hearing into local state of this view.
-      // That cloned hearing can then be freely managed as needed.
-      const {hearingSlug} = this.props.params;
-      const {state, data: hearing} = nextProps.hearing[hearingSlug] || {state: "initial"};
+    const {user, dispatch, params: {hearingSlug}} = this.props;
+    // Fetch hearing only when user data is available
+    const shouldFetchHearing = !this.isNewHearing() && !user && nextProps.user;
 
-      const draft = this.props.hearingDraft;
-      if (state === 'done' && (!draft || (draft.id !== hearing.id))) {
-        // Make a deep local clone out of the passed hearing
-        // this.setState({hearing: cloneDeep(hearing)});
-        // Hearing is loaded and we are ready to beging editing the hearing
-        this.props.dispatch(beginEditHearing(hearing));
-      }
+    if (shouldFetchHearing) {
+      dispatch(fetchHearing(hearingSlug));
     }
   }
 
   getHearing() {
     if (this.isNewHearing()) {
-      return this.props.hearingDraft;
+      return null;
     }
     const {hearingSlug} = this.props.params;
     const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
@@ -64,22 +57,40 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
-    if (!hearing) {
-      return this.renderSpinner();
+    const {language, dispatch, currentlyViewed, isLoading, hearingDraft, user} = this.props;
+
+    if (!user) {
+      return (
+        <div className="container">
+          <PleaseLogin login={() => dispatch(login())}/>
+        </div>
+      );
     }
+
+    const PreviewReplacement = () =>
+      (this.isNewHearing() ? null : <this.renderSpinner/>);
 
     return (
       <div className="container">
-        <Helmet title={hearing.title} meta={this.getOpenGraphMetaData(hearing)}/>
+        <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)}/>
 
-        <HearingEditor hearingID={hearing.id}/>
-
-        <HearingPreview
-          hearingSlug={hearing.slug}
-          hearing={hearing}
-          sectionComments={this.props.sectionComments}
-          location={this.props.location}
+        <HearingEditor
+          hearing={hearingDraft}
+          user={user}
         />
+
+        { (isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title) ?
+          <HearingPreview
+            hearingSlug={hearing.slug}
+            hearing={hearing}
+            sectionComments={this.props.sectionComments}
+            location={this.props.location}
+            dispatch={dispatch}
+            changeCurrentlyViewed={this.changeCurrentlyViewed}
+            currentlyViewed={currentlyViewed}
+          />
+          : <PreviewReplacement/>
+        }
       </div>
     );
   }
@@ -93,14 +104,19 @@ HearingManagementView.propTypes = {
   params: React.PropTypes.object,
   location: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
+  language: React.PropTypes.string,
+  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 
 const wrappedView = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
-  hearingDraft: state.hearingEditor.hearing,
+  hearingDraft: HearingEditorSelector.getHearing(state),
+  hearingLanguages: state.hearingEditor.languages,
+  isLoading: HearingEditorSelector.getIsLoading(state),
   sectionComments: state.sectionComments,
+  language: state.language,
 }))(injectIntl(HearingManagementView));
 
 export default wrappedView;
