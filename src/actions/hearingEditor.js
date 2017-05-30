@@ -120,6 +120,16 @@ export function changeHearingEditorLanguages(languages) {
     dispatch(createAction(EditorActions.SET_LANGUAGES)({languages}));
 }
 
+const cleanHearingSectionIds = (hearing, originalSections) => (
+  {
+    ...hearing,
+    sections: hearing.sections.map((section) => ({
+      ...section,
+      id: originalSections.find(({id}) => id === section.id) ? section.id : '',
+    })),
+  }
+);
+
 
 /*
 * Save changes made to an existing hearing.
@@ -128,10 +138,11 @@ export function changeHearingEditorLanguages(languages) {
  */
 export function saveHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({hearing});
+    const cleanedHearing = cleanHearingSectionIds(hearing, getState().hearing[hearing.slug].data.sections);
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({cleanedHearing});
     dispatch(preSaveAction);
-    const url = "/v1/hearing/" + hearing.id;
-    return api.put(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+    const url = "/v1/hearing/" + cleanedHearing.id;
+    return api.put(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
       if (response.status === 400) {  // Bad request with error message
         notifyError("Tarkista kuulemisen tiedot.");
         response.json().then((errors) => {
@@ -153,10 +164,12 @@ export function saveHearingChanges(hearing) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({hearing});
+    const cleanedHearing = cleanHearingSectionIds(hearing, getState().hearing[hearing.slug].data.sections);
+
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({cleanedHearing});
     dispatch(preSaveAction);
-    const url = "/v1/hearing/" + hearing.id;
-    return api.put(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+    const url = "/v1/hearing/" + cleanedHearing.id;
+    return api.put(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
       if (response.status === 400) {  // Bad request with error message
         notifyError("Tarkista kuulemisen tiedot.");
         response.json().then((errors) => {
