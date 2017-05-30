@@ -13,6 +13,7 @@ import Dropzone from 'react-dropzone';
 
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
+import {isSpecialSectionType} from '../../utils/section';
 
 
 class SectionForm extends React.Component {
@@ -84,6 +85,18 @@ class SectionForm extends React.Component {
     return (
       <div className="form-step">
         <FormGroup controlId="image">
+
+          {
+            !isSpecialSectionType(section.type) ?
+              <MultiLanguageTextField
+                labelId="sectionTitle"
+                name="title"
+                onBlur={(value) => onSectionChange(section.id, 'title', value)}
+                value={section.title}
+                languages={sectionLanguages}
+              /> : null
+          }
+
           <ControlLabel><FormattedMessage id="sectionImage"/></ControlLabel>
           <Dropzone
             accept="image/*"
