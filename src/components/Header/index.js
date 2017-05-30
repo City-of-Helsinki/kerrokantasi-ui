@@ -119,7 +119,7 @@ Header.contextTypes = {
 };
 
 export default connect((state) => ({
-  user: state.user,  // User dropdown requires this state
+  user: state.user.data,  // User dropdown requires this state
   language: state.language,  // Language switch requires this state
   router: state.router, // Navigation activity requires this state
 }))(Header);

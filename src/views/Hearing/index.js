@@ -122,7 +122,7 @@ HearingView.propTypes = {
 
 export function wrapHearingView(view) {
   const wrappedView = connect((state) => ({
-    user: state.user,
+    user: state.user.data,
     hearing: state.hearing,
     language: state.language,
     sectionComments: state.sectionComments,

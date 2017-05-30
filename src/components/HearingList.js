@@ -91,7 +91,7 @@ class HearingListItem extends React.Component {
             <FormattedMessage id="hearingTranslationNotAvailable"/>
             {config.languages.map((lang) => (
               getAttr(hearing.title, lang, {exact: true}) ?
-                <div className="language-available-message">{availableInLanguageMessages[lang]}</div> :
+                <div key={lang} className="language-available-message">{availableInLanguageMessages[lang]}</div> :
                 null))}
           </div>
         </Link>

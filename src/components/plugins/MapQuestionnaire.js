@@ -24,7 +24,7 @@ class MapQuestionnaire extends BaseCommentForm {
 
   render() {
     const canSetNickname = this.props.canSetNickname;
-    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
+    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.user.dataDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const displayCommentBox = this.props.displayCommentBox;
     const pluginSource = this.props.pluginSource;

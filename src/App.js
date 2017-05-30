@@ -60,4 +60,4 @@ App.childContextTypes = {
   language: React.PropTypes.string,
   user: React.PropTypes.object
 };
-export default connect((state) => ({user: state.user, language: state.language}))(App);
+export default connect((state) => ({user: state.user.data, language: state.language}))(App);

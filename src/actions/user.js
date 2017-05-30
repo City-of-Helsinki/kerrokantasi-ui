@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
+    dispatch(createAction('fetchUserData')());
     return fetch('/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
       return response.json();
     }).then((user) => {

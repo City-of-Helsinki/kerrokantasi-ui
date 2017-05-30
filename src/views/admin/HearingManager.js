@@ -136,6 +136,7 @@ HearingManagementView.propTypes = {
 const wrappedView = connect((state) => ({
   contactPersons: HearingEditorSelector.getContactPersons(state),
   user: state.user,
+  // user: state.user.data,
   hearing: state.hearing,
   hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,

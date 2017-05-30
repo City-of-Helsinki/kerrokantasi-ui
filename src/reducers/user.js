@@ -1,11 +1,21 @@
 import {handleActions} from 'redux-actions';
 
+const INITIAL_STATE = {
+  isFetching: false,
+  data: null
+};
+
+const fetchUserData = (state) => ({
+  ...state,
+  isFetching: true
+});
+
 const receiveUserData = (state, {payload}) => {
   if (payload && payload.id) {
-    return payload;
+    return {isFetching: false, data: payload};
   }
-  return null;
+  return INITIAL_STATE;
 };
-const clearUserData = (/* state, action */) => null;
+const clearUserData = (/* state, action */) => INITIAL_STATE;
 
-export default handleActions({receiveUserData, clearUserData}, null);
+export default handleActions({fetchUserData, receiveUserData, clearUserData}, INITIAL_STATE);
