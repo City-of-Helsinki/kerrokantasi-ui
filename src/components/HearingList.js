@@ -1,9 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
-import formatRelativeTime from '../utils/formatRelativeTime';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import {getHearingURL} from '../utils/hearing';
 import LabelList from './LabelList';
@@ -37,8 +38,8 @@ const HearingListTabs = ({activeTab, changeTab}) =>
   </Nav>;
 
 HearingListTabs.propTypes = {
-  activeTab: React.PropTypes.string,
-  changeTab: React.PropTypes.func
+  activeTab: PropTypes.string,
+  changeTab: PropTypes.func
 };
 
 const HearingListFilters = ({handleSort}) =>
@@ -59,7 +60,7 @@ const HearingListFilters = ({handleSort}) =>
   </div>;
 
 HearingListFilters.propTypes = {
-  handleSort: React.PropTypes.func,
+  handleSort: PropTypes.func,
 };
 
 class HearingListItem extends React.Component {
@@ -115,10 +116,10 @@ class HearingListItem extends React.Component {
         </div>
         <div className="hearing-list-item-times">
           <div>
-            {formatRelativeTime("timeOpen", hearing.open_at)}
+            <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
           </div>
           <div>
-            {formatRelativeTime("timeClose", hearing.close_at)}
+            <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
           </div>
         </div>
       </div>
@@ -127,8 +128,8 @@ class HearingListItem extends React.Component {
 }
 
 HearingListItem.propTypes = {
-  hearing: React.PropTypes.object,
-  language: React.PropTypes.string
+  hearing: PropTypes.object,
+  language: PropTypes.string
 };
 
 class HearingList extends React.Component {
@@ -232,19 +233,19 @@ class HearingList extends React.Component {
 }
 
 HearingList.propTypes = {
-  hearings: React.PropTypes.array,
-  labels: React.PropTypes.arrayOf(labelShape),
-  isLoading: React.PropTypes.bool,
-  handleSort: React.PropTypes.func,
-  handleSearch: React.PropTypes.func,
-  handleLabelSearch: React.PropTypes.func,
-  language: React.PropTypes.string,
-  initialTab: React.PropTypes.string.isRequired,
-  onTabChange: React.PropTypes.func,
-  showOnlyOpen: React.PropTypes.bool,
-  toggleShowOnlyOpen: React.PropTypes.func,
-  searchPhrase: React.PropTypes.string,
-  isMobile: React.PropTypes.bool
+  hearings: PropTypes.array,
+  labels: PropTypes.arrayOf(labelShape),
+  isLoading: PropTypes.bool,
+  handleSort: PropTypes.func,
+  handleSearch: PropTypes.func,
+  handleLabelSearch: PropTypes.func,
+  language: PropTypes.string,
+  initialTab: PropTypes.string.isRequired,
+  onTabChange: PropTypes.func,
+  showOnlyOpen: PropTypes.bool,
+  toggleShowOnlyOpen: PropTypes.func,
+  searchPhrase: PropTypes.string,
+  isMobile: PropTypes.bool
 };
 
 HearingList.defaultProps = {

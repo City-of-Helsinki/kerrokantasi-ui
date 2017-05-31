@@ -1,5 +1,6 @@
 import Icon from '../../utils/Icon';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {get} from 'lodash';
 
@@ -167,15 +168,15 @@ SectionForm.defaultProps = {
 
 SectionForm.propTypes = {
   intl: intlShape.isRequired,
-  maxAbstractLength: React.PropTypes.number,
-  onSectionChange: React.PropTypes.func,
-  onSectionImageChange: React.PropTypes.func,
+  maxAbstractLength: PropTypes.number,
+  onSectionChange: PropTypes.func,
+  onSectionImageChange: PropTypes.func,
   section: sectionShape,
-  sectionLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
+  sectionLanguages: PropTypes.arrayOf(PropTypes.string),
 };
 
 SectionForm.contextTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 const WrappedSectionForm = injectIntl(SectionForm);

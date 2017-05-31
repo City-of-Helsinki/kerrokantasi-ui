@@ -1,9 +1,10 @@
 import Button from 'react-bootstrap/lib/Button';
-import BaseCommentForm from '../BaseCommentForm';
+import {BaseCommentForm} from '../BaseCommentForm';
 import CommentDisclaimer from "../CommentDisclaimer";
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {alert} from '../../utils/notify';
 
@@ -187,14 +188,14 @@ class MapQuestionnaire extends BaseCommentForm {
 }
 
 MapQuestionnaire.propTypes = {
-  onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  data: React.PropTypes.string,
-  pluginPurpose: React.PropTypes.string,
-  comments: React.PropTypes.array,
-  canSetNickname: React.PropTypes.bool,
-  displayCommentBox: React.PropTypes.bool,
-  pluginSource: React.PropTypes.string
+  onPostComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  data: PropTypes.string,
+  pluginPurpose: PropTypes.string,
+  comments: PropTypes.array,
+  canSetNickname: PropTypes.bool,
+  displayCommentBox: PropTypes.bool,
+  pluginSource: PropTypes.string
 };
 
 export default injectIntl(MapQuestionnaire);

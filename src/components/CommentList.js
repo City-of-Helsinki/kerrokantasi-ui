@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Comment from './Comment';
 
@@ -29,13 +30,13 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
-  comments: React.PropTypes.array,
-  canComment: React.PropTypes.bool,
-  canVote: React.PropTypes.bool,
-  onEditComment: React.PropTypes.func,
-  onDeleteComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  isLoading: React.PropTypes.bool
+  comments: PropTypes.array,
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  onEditComment: PropTypes.func,
+  onDeleteComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  isLoading: PropTypes.bool
 };
 
 export default injectIntl(CommentList);

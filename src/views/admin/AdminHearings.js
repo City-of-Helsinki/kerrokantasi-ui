@@ -1,5 +1,6 @@
 import Helmet from 'react-helmet';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {push} from 'redux-router';
@@ -211,12 +212,12 @@ class AdminHearings extends React.Component {
 
 AdminHearings.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object,
-  language: React.PropTypes.string,
-  labels: React.PropTypes.arrayOf(labelShape),
-  params: React.PropTypes.object,
-  user: React.PropTypes.object,
+  dispatch: PropTypes.func,
+  hearingLists: PropTypes.object,
+  language: PropTypes.string,
+  labels: PropTypes.arrayOf(labelShape),
+  params: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

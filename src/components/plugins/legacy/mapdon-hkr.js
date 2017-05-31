@@ -1,10 +1,11 @@
 /* eslint-disable react/no-string-refs */
-import BaseCommentForm from '../../BaseCommentForm';
+import {BaseCommentForm} from '../../BaseCommentForm';
 import Button from 'react-bootstrap/lib/Button';
 import CommentDisclaimer from "../../CommentDisclaimer";
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {alert} from '../../../utils/notify';
 import {injectIntl} from 'react-intl';
 
@@ -121,8 +122,8 @@ class MapdonHKRPlugin extends BaseCommentForm {
 }
 
 MapdonHKRPlugin.propTypes = {
-  onPostComment: React.PropTypes.func,
-  data: React.PropTypes.string
+  onPostComment: PropTypes.func,
+  data: PropTypes.string
 };
 
 export default injectIntl(MapdonHKRPlugin);

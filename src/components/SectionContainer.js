@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
@@ -48,12 +49,12 @@ const LinkWrapper = ({disabled, to, children, ...rest}) => {
 };
 
 LinkWrapper.propTypes = {
-  disabled: React.PropTypes.bool,
-  children: React.PropTypes.array,
-  to: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object,
-    React.PropTypes.func
+  disabled: PropTypes.bool,
+  children: PropTypes.elements,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
   ])
 };
 
@@ -273,14 +274,14 @@ class SectionContainer extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 SectionContainer.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
-  hearingSlug: React.PropTypes.string,
-  location: React.PropTypes.object,
-  user: React.PropTypes.object,
-  section: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  language: React.PropTypes.string,
+  dispatch: PropTypes.func,
+  hearing: PropTypes.object,
+  hearingSlug: PropTypes.string,
+  location: PropTypes.object,
+  user: PropTypes.object,
+  section: PropTypes.object,
+  sectionComments: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export function wrapSectionContainer(component, pure = true) {

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import Button from 'react-bootstrap/lib/Button';
@@ -81,10 +82,10 @@ class HearingToolbar extends React.Component {
 
 HearingToolbar.propTypes = {
   hearing: hearingShape,
-  onCloseHearing: React.PropTypes.func,
-  onEdit: React.PropTypes.func,
-  onPublish: React.PropTypes.func,
-  onRevertPublishing: React.PropTypes.func,
+  onCloseHearing: PropTypes.func,
+  onEdit: PropTypes.func,
+  onPublish: PropTypes.func,
+  onRevertPublishing: PropTypes.func,
   user: userShape,
 };
 

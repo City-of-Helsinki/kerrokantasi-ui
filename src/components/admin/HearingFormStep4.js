@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import Col from 'react-bootstrap/lib/Col';
@@ -108,9 +109,9 @@ class HearingFormStep4 extends React.Component {
 HearingFormStep4.propTypes = {
   dispatch: React.PropTypes.func,
   hearing: hearingShape,
-  onHearingChange: React.PropTypes.func,
-  onSectionChange: React.PropTypes.func,
-  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
+  onHearingChange: PropTypes.func,
+  onSectionChange: PropTypes.func,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
 };
 
 const WrappedHearingFormStep4 = connect()(injectIntl(HearingFormStep4));

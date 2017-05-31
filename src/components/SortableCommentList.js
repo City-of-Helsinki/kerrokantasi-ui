@@ -10,7 +10,7 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import * as Actions from '../actions';
-import CommentForm from './CommentForm';
+import CommentForm from './BaseCommentForm';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',

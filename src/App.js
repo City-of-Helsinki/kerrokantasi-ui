@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
 import messages from './i18n';
@@ -49,15 +50,15 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: React.PropTypes.node,
-  history: React.PropTypes.object,
-  language: React.PropTypes.string,
-  location: React.PropTypes.object,
-  user: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  children: PropTypes.node,
+  history: PropTypes.object,
+  language: PropTypes.string,
+  location: PropTypes.object,
+  user: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 App.childContextTypes = {
-  language: React.PropTypes.string,
-  user: React.PropTypes.object
+  language: PropTypes.string,
+  user: PropTypes.object
 };
 export default connect((state) => ({user: state.user.data, language: state.language}))(App);

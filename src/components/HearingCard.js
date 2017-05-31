@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
-import formatRelativeTime from '../utils/formatRelativeTime';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
 import getAttr from '../utils/getAttr';
@@ -43,7 +44,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
       </Link>
       <div className="hearing-card-content">
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
-          {formatRelativeTime("timeClose", hearing.close_at)}
+          <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
         </div>
         <h4 className="hearing-card-title">
           <Link to={getHearingURL(hearing)}>

@@ -3,6 +3,7 @@ import DefaultHearingComponent from '../../components/Hearing';
 import Helmet from 'react-helmet';
 import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {fetchHearing, changeCurrentlyViewed} from '../../actions';
 import {getMainSection, getHearingURL, getOpenGraphMetaData} from '../../utils/hearing';
@@ -110,14 +111,14 @@ export class HearingView extends React.Component {
 }
 
 HearingView.propTypes = {
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
-  params: React.PropTypes.object,
-  language: React.PropTypes.string,
-  location: React.PropTypes.object,
-  user: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  currentlyViewed: React.PropTypes.string
+  dispatch: PropTypes.func,
+  hearing: PropTypes.object,
+  params: PropTypes.object,
+  language: PropTypes.string,
+  location: PropTypes.object,
+  user: PropTypes.object,
+  sectionComments: PropTypes.object,
+  currentlyViewed: PropTypes.string
 };
 
 export function wrapHearingView(view) {

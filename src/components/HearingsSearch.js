@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import Select from 'react-select';
@@ -75,9 +76,9 @@ class HearingsSearch extends React.Component {
 }
 
 HearingsSearch.propTypes = {
-  handleSearch: React.PropTypes.func,
-  labels: React.PropTypes.array,
-  language: React.PropTypes.string,
+  handleSearch: PropTypes.func,
+  labels: PropTypes.array,
+  language: PropTypes.string,
 };
 
 export default injectIntl(HearingsSearch);

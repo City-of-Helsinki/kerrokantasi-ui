@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import LanguageSwitcher from './LanguageSwitcher';
 import {FormattedMessage} from 'react-intl';
@@ -108,14 +109,14 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  dispatch: React.PropTypes.func,
-  history: React.PropTypes.object,
-  language: React.PropTypes.string,
-  user: React.PropTypes.object,
+  dispatch: PropTypes.func,
+  history: PropTypes.object,
+  language: PropTypes.string,
+  user: PropTypes.object,
 };
 
 Header.contextTypes = {
-  history: React.PropTypes.object
+  history: PropTypes.object
 };
 
 export default connect((state) => ({

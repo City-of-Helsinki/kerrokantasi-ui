@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
@@ -172,12 +173,12 @@ class AllHearings extends React.Component {
 
 AllHearings.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  language: React.PropTypes.string, // To rerender when language changes
-  hearings: React.PropTypes.arrayOf(hearingShape),
-  isLoading: React.PropTypes.bool,
-  labels: React.PropTypes.arrayOf(labelShape),
-  params: React.PropTypes.object,
+  dispatch: PropTypes.func,
+  language: PropTypes.string, // To rerender when language changes
+  hearings: PropTypes.arrayOf(hearingShape),
+  isLoading: PropTypes.bool,
+  labels: PropTypes.arrayOf(labelShape),
+  params: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

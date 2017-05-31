@@ -121,15 +121,15 @@ class HearingManagementView extends HearingView {
 HearingManagementView.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
+  dispatch: PropTypes.func,
   hearing: hearingShape,
   hearingDraft: hearingShape,
   labels: PropTypes.arrayOf(labelShape),
-  params: React.PropTypes.object,
-  location: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  language: React.PropTypes.string,
-  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string)
+  params: PropTypes.object,
+  location: PropTypes.object,
+  sectionComments: PropTypes.object,
+  language: PropTypes.string,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
 };
 
 

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import {EPSG3067} from '../utils/map';
@@ -62,14 +63,14 @@ class OverviewMap extends React.Component {
 }
 
 OverviewMap.propTypes = {
-  hearings: React.PropTypes.array.isRequired,
-  style: React.PropTypes.object,
-  hideIfEmpty: React.PropTypes.bool,
-  enablePopups: React.PropTypes.bool
+  hearings: PropTypes.array.isRequired,
+  style: PropTypes.object,
+  hideIfEmpty: PropTypes.bool,
+  enablePopups: PropTypes.bool
 };
 
 OverviewMap.contextTypes = {
-  language: React.PropTypes.string.isRequired
+  language: PropTypes.string.isRequired
 };
 
 export default OverviewMap;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 import WrappedSection from './Section';
 import Icon from '../utils/Icon';
@@ -36,16 +37,16 @@ class SectionList extends React.Component {
 }
 
 SectionList.propTypes = {
-  basePath: React.PropTypes.string,
-  canComment: React.PropTypes.bool,
-  canVote: React.PropTypes.bool,
-  loadSectionComments: React.PropTypes.func,
-  onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  sections: React.PropTypes.array,
-  sectionComments: React.PropTypes.object,
-  nComments: React.PropTypes.number,
-  user: React.PropTypes.object,
+  basePath: PropTypes.string,
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  loadSectionComments: PropTypes.func,
+  onPostComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  sections: PropTypes.array,
+  sectionComments: PropTypes.object,
+  nComments: PropTypes.number,
+  user: PropTypes.object,
 };
 
 export default (injectIntl(SectionList));

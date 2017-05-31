@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
@@ -108,11 +109,11 @@ class Home extends React.Component {
 
 Home.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  openHearings: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  topHearing: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func,
+  openHearings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/no-unused-prop-types
-  language: React.PropTypes.string, // make sure changing language refreshes
+  language: PropTypes.string, // make sure changing language refreshes
 };
 
 const mapStateToProps = (state) => ({

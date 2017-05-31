@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
 
-export default function formatRelativeTime(messagePrefix, timeVal) {
+function FormatRelativeTime({messagePrefix, timeVal}) {
   if (!timeVal) {
     return "";
   }
@@ -10,3 +11,10 @@ export default function formatRelativeTime(messagePrefix, timeVal) {
   const messageId = messagePrefix + (isPast ? "Past" : "Future");
   return (<span><FormattedMessage id={messageId}/> <FormattedRelative value={timeVal}/></span>);
 }
+
+FormatRelativeTime.propTypes = {
+  messagePrefix: PropTypes.string,
+  timeVal: PropTypes.string,
+};
+
+export default FormatRelativeTime;

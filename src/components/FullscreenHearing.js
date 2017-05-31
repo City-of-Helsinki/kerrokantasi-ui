@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {intlShape} from 'react-intl';
 import FullscreenPlugin from './FullscreenPlugin';
 import {getHearingURL, getMainSection} from '../utils/hearing';
@@ -33,17 +34,17 @@ class FullscreenHearing extends Hearing {
 }
 
 FullscreenHearing.propTypes = {
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
-  hearingId: React.PropTypes.string,
+  dispatch: PropTypes.func,
+  hearing: PropTypes.object,
+  hearingId: PropTypes.string,
   intl: intlShape.isRequired,
-  location: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  user: React.PropTypes.object,
+  location: PropTypes.object,
+  sectionComments: PropTypes.object,
+  user: PropTypes.object,
 };
 
 FullscreenHearing.contextTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 export default wrapHearingComponent(FullscreenHearing);
