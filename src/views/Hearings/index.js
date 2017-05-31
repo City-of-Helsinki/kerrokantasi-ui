@@ -19,8 +19,6 @@ import getAttr from '../../utils/getAttr';
 
 const now = () => new Date().toISOString();
 
-const now = () => new Date().toISOString();
-
 const HearingLists = {
   ALL: {
     list: 'allHearings',
@@ -96,10 +94,6 @@ class Hearings extends React.Component {
 
   componentDidMount() {
     const {fetchLabels} = this.props;
-<<<<<<< HEAD
-=======
-    this.fetchHearingList();
->>>>>>> Fix default parameters for fetching hearing lists
     fetchLabels();
     // Hearing List is fetched when labels are available -> componentWillReceiveProps
   }
@@ -110,11 +104,7 @@ class Hearings extends React.Component {
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
     const shouldFetchHearings = !labels.length && nextProps.labels.length;
 
-<<<<<<< HEAD
     if (shouldSetAdminFilter) {
-=======
-    if (!user.data && isAdmin(nextProps.user.data)) {
->>>>>>> Fix default parameters for fetching hearing lists
       this.setAdminFilter(AdminFilters[0].list);
     }
 
@@ -137,11 +127,7 @@ class Hearings extends React.Component {
     const {user} = this.props;
     const {adminFilter} = this.state;
 
-<<<<<<< HEAD
     return isAdmin(user.data) ? adminFilter : HearingLists.ALL.list;
-=======
-    return isAdmin(user.data) ? adminFilter : HearingLists.DEFAULT.list;
->>>>>>> Fix default parameters for fetching hearing lists
   }
 
   getIsLoading() {
@@ -150,7 +136,6 @@ class Hearings extends React.Component {
     return get(hearingLists, [this.getHearingListName(), 'isFetching'], true);
   }
 
-<<<<<<< HEAD
   getSearchParams() {
     const {labels, location: {query: {search, label: selectedLabels}}} = this.props;
     const selectedLabelsArr = [].concat(selectedLabels);
@@ -165,12 +150,6 @@ class Hearings extends React.Component {
     this.setState(
       () => ({adminFilter: filter}),
       () => this.fetchHearingList(this.getSearchParams())
-=======
-  setAdminFilter(filter) {
-    this.setState(
-      () => ({adminFilter: filter}),
-      () => this.fetchHearingList()
->>>>>>> Fix default parameters for fetching hearing lists
     );
   }
 
@@ -183,10 +162,7 @@ class Hearings extends React.Component {
       {},
       options,
       getHearingListParams(list),
-<<<<<<< HEAD
       { ordering: sortBy },
-=======
->>>>>>> Fix default parameters for fetching hearing lists
     );
 
     fetchHearingList(list, params);
