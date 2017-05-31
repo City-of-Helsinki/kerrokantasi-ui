@@ -45,7 +45,7 @@ class HearingsSearch extends React.Component {
                 type="text"
                 inputRef={(ref) => { this.input = ref; }}
                 onChange={(event) => {
-                  this.setState({searchPhrase: event.value});
+                  this.setState({searchPhrase: event.target.value});
                   // handleSearch(event, event.target.value, selectedLabels);
                 }}
                 value={searchPhrase}

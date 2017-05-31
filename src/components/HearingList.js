@@ -157,7 +157,6 @@ class HearingList extends React.Component {
       handleSort,
       handleSearch,
       handleLabelSearch,
-      searchPhrase,
       language,
       showOnlyOpen,
       toggleShowOnlyOpen,
@@ -197,7 +196,6 @@ class HearingList extends React.Component {
                     labels={labels}
                     handleLabelSearch={handleLabelSearch}
                     language={language}
-                    searchPhrase={searchPhrase}
                   />
                 </Col>
               </Row>
@@ -244,7 +242,6 @@ HearingList.propTypes = {
   onTabChange: PropTypes.func,
   showOnlyOpen: PropTypes.bool,
   toggleShowOnlyOpen: PropTypes.func,
-  searchPhrase: PropTypes.string,
   isMobile: PropTypes.bool
 };
 
