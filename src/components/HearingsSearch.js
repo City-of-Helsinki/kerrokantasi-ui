@@ -1,39 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import Select from 'react-select';
 import getAttr from '../utils/getAttr';
-import {get} from 'lodash';
-import queryString from 'query-string';
+import {labelShape} from '../types';
 
 class HearingsSearch extends React.Component {
 
-  constructor(props) {
-    super(props);
-    const labels = get(queryString.parse(location.search), 'label', []);
-    const searchPhrase = get(queryString.parse(location.search), 'search', '');
-    this.state = { selectedLabels: labels, searchPhrase };
-  }
-
-  handleChange(value) {
-    if (value.length !== 0) {
-      this.setState({ selectedLabels: value });
-    } else {
-      this.setState({ selectedLabels: [] });
-    }
-  }
-
   render() {
-    const {handleSearch, labels, language} = this.props;
-    const {selectedLabels, searchPhrase} = this.state;
-    const labelsAsOptions = labels.map((label) => {
-      return {
-        label: getAttr(label.label, language),
-        value: getAttr(label.label, language),
-        id: label.id,
-      };
-    });
+    const {
+      handleSearch,
+      labels,
+      language,
+      searchPhrase,
+      selectedLabels
+    } = this.props;
+
+    const labelsAsOptions = labels.map(({label, id}) => ({
+      label: getAttr(label, language),
+      value: getAttr(label, language),
+      id,
+    }));
 
     return (
       <div className="hearings-search__container">
@@ -44,11 +32,7 @@ class HearingsSearch extends React.Component {
               <FormControl
                 type="text"
                 inputRef={(ref) => { this.input = ref; }}
-                onChange={(event) => {
-                  this.setState({searchPhrase: event.target.value});
-                  // handleSearch(event, event.target.value, selectedLabels);
-                }}
-                value={searchPhrase}
+                defaultValue={searchPhrase}
               />
             </FormGroup>
             <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
@@ -56,12 +40,9 @@ class HearingsSearch extends React.Component {
               {labels.length !== 0 &&
               <Select
                 multi
-                value={this.state.selectedLabels}
+                value={selectedLabels}
                 options={labelsAsOptions}
-                onChange={(value) => {
-                  this.handleChange(value);
-                  handleSearch(null, this.input.value, value);
-                }}
+                onChange={(value) => handleSearch(null, this.input.value, value)}
               />
               }
             </FormGroup>
@@ -77,8 +58,10 @@ class HearingsSearch extends React.Component {
 
 HearingsSearch.propTypes = {
   handleSearch: PropTypes.func,
-  labels: PropTypes.array,
+  labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
+  searchPhrase: PropTypes.string,
+  selectedLabels: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default injectIntl(HearingsSearch);
+export default HearingsSearch;

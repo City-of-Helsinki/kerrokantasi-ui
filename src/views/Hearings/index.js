@@ -8,7 +8,6 @@ import {
   Row,
 } from 'react-bootstrap';
 import {get, find} from 'lodash';
-import queryString from 'query-string';
 
 import * as Actions from '../../actions';
 import {isAdmin} from '../../utils/user';
@@ -80,21 +79,6 @@ const getHearingListParams = (listName) => {
 
 class Hearings extends React.Component {
 
-  static updateQueryStringOnSearch(searchTitle, labels, labelIds) {
-    const nextQuery = queryString.stringify({
-      search: searchTitle || undefined,
-      label: labels.map((label) => getAttr(label.label)) || undefined
-    });
-    const newSearch = searchTitle || labelIds ? `?${nextQuery}` : '';
-    const newurl = `${location.protocol}//${window.location.host}${window.location.pathname}${newSearch}`;
-
-    if (history.pushState) {
-      history.pushState({path: newurl}, '', newurl);
-    } else {
-      window.location.href = newurl;
-    }
-  }
-
   constructor(props) {
     super(props);
 
@@ -132,7 +116,6 @@ class Hearings extends React.Component {
       this.fetchHearingList(this.getSearchParams());
     }
   }
-
 
   getHearings() {
     const {hearingLists} = this.props;

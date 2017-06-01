@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
@@ -151,16 +151,18 @@ class HearingList extends React.Component {
 
   render() {
     const {
+      handleSearch,
+      handleSort,
       hearings,
       isLoading,
+      isMobile,
       labels,
-      handleSort,
-      handleSearch,
-      handleLabelSearch,
       language,
+      searchPhrase,
+      selectedLabels,
       showOnlyOpen,
       toggleShowOnlyOpen,
-      isMobile} = this.props;
+    } = this.props;
     const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
     const {activeTab} = this.state;
     const hasHearings = hearings && hearings.length;
@@ -194,8 +196,9 @@ class HearingList extends React.Component {
                   <HearingsSearch
                     handleSearch={handleSearch}
                     labels={labels}
-                    handleLabelSearch={handleLabelSearch}
                     language={language}
+                    searchPhrase={searchPhrase}
+                    selectedLabels={selectedLabels}
                   />
                 </Col>
               </Row>
@@ -231,22 +234,23 @@ class HearingList extends React.Component {
 }
 
 HearingList.propTypes = {
-  hearings: PropTypes.array,
-  labels: PropTypes.arrayOf(labelShape),
-  isLoading: PropTypes.bool,
-  handleSort: PropTypes.func,
   handleSearch: PropTypes.func,
-  handleLabelSearch: PropTypes.func,
-  language: PropTypes.string,
+  handleSort: PropTypes.func,
+  hearings: PropTypes.array,
   initialTab: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  labels: PropTypes.arrayOf(labelShape),
+  language: PropTypes.string,
   onTabChange: PropTypes.func,
+  searchPhrase: PropTypes.string,
+  selectedLabels: PropTypes.arrayOf(PropTypes.string),
   showOnlyOpen: PropTypes.bool,
   toggleShowOnlyOpen: PropTypes.func,
-  isMobile: PropTypes.bool
 };
 
 HearingList.defaultProps = {
   initialTab: HEARING_LIST_TABS.LIST
 };
 
-export default (injectIntl(HearingList));
+export default HearingList;
