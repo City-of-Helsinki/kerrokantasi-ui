@@ -311,7 +311,11 @@ export class Hearing extends React.Component {
               <h2><FormattedMessage id="contactPersons"/></h2> :
               null}
             {hearing.contact_persons && hearing.contact_persons.map((person, index) =>
-              <ContactCard key={index} {...person}/> // eslint-disable-line react/no-array-index-key
+              <ContactCard
+                key={index} // eslint-disable-line react/no-array-index-key
+                activeLanguage={language}
+                {...person}
+              />
             )}
             {this.getLinkToFullscreen(hearing)}
             {sectionGroups.map((sectionGroup) => (

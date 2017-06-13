@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Icon from '../utils/Icon';
+import getAttr from '../utils/getAttr';
 
 const ContactMethod = ({icon, value, href}) =>
   <div className="contact-card__contact-method">
@@ -17,13 +18,13 @@ ContactMethod.propTypes = {
   href: PropTypes.string
 };
 
-const ContactCard = ({className = '', name, title, phone, email, organization, ...rest}) =>
+const ContactCard = ({className = '', activeLanguage, name, title, phone, email, organization, ...rest}) =>
   <div className={`contact-card ${className}`} {...rest}>
     <header>
       {name && <h5 style={{marginBottom: 5}}>{name}</h5>}
       {title || organization ?
         <div>
-          {title ? <span>{title}</span> : null}
+          {title ? <span>{getAttr(title, activeLanguage)}</span> : null}
           {title && organization ? <br/> : null}
           {organization ? <span>{organization}</span> : null}
         </div>
@@ -37,8 +38,9 @@ const ContactCard = ({className = '', name, title, phone, email, organization, .
 
 ContactCard.propTypes = {
   className: PropTypes.string,
+  activeLanguage: React.PropTypes.string,
   name: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.object,
   phone: PropTypes.string,
   email: PropTypes.string,
   organization: PropTypes.string
