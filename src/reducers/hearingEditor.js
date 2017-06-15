@@ -1,3 +1,4 @@
+// @flow
 import {handleActions} from 'redux-actions';
 import {combineReducers} from 'redux';
 import {cloneDeep, findIndex} from 'lodash';
