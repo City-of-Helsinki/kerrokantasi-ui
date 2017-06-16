@@ -28,8 +28,13 @@ export const EditorActions = {
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
-  RECEIVE_META_DATA: 'receiveHearingEditorMetaData'
+  RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  RECEIVE_HEARING: 'editorReceiveHearing',
 };
+
+export function receiveHearing(normalizedHearing) {
+  return createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
+}
 
 export function initNewHearing() {
   return createAction(EditorActions.INIT_NEW_HEARING)();

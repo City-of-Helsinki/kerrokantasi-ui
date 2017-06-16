@@ -75,6 +75,7 @@
     "progress": "^1.1.8",
     "proj4": "^2.4.3",
     "query-string": "^4.3.2",
+    "ramda": "^0.24.1",
     "react": "^15.1.0",
     "react-bootstrap": "^0.30.7",
     "react-datetime": "^2.3.2",

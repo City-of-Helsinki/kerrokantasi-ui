@@ -1,5 +1,5 @@
 
-const getHearingEditor = (state) =>
+export const getHearingEditor = (state) =>
   state.hearingEditor;
 
 export const getIsFetchingHearing = (state) =>
@@ -22,3 +22,5 @@ export const getHearing = (state) =>
 
 export const getEditorState = (state) =>
   getHearingEditor(state).editorState.state;
+
+export * from './section';

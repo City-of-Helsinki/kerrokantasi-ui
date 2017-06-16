@@ -6,11 +6,12 @@ import {cloneDeep, findIndex} from 'lodash';
 import {initNewHearing, getOrCreateSectionByID} from '../utils/hearing';
 import {getMainImage} from '../utils/section';
 import {EditorActions} from '../actions/hearingEditor';
+import {fillFrontIdsForAttributes} from '../utils/hearingEditor';
 
 // TODO: Flatten the state => normalize sections & contact_persons
 const hearingReducer = handleActions({
   receiveHearing: (state, {payload: {data}}) => (
-    data
+    fillFrontIdsForAttributes(data)
   ),
   [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload}) => (
     payload.hearing

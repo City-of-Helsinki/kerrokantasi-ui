@@ -1,4 +1,6 @@
+// @flow
 import {PropTypes} from 'react';
+import {schema} from 'normalizr';
 import {languages} from './config';
 
 
@@ -127,3 +129,36 @@ export const commentShape = PropTypes.shape({
   label: labelShape,
   plugin_data: PropTypes.string,  // Not sure about this
 });
+
+export const labelSchema = new schema.Entity('labels', {}, {idAttribute: 'frontId'});
+export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
+export const contactPersonSchema = new schema.Entity('contactPerson', {}, {idAttribute: 'frontId'});
+export const hearingSchema = new schema.Entity('hearing', {
+  labels: new schema.Array(labelSchema),
+  sections: new schema.Array(sectionSchema),
+  contact_persons: new schema.Array(contactPersonSchema),
+});
+
+export type DefaultEntityState = {
+  byId: Object,
+  all: Array<string>,
+  isFetching: boolean,
+};
+
+export type SectionState = DefaultEntityState;
+export type LabelState = DefaultEntityState;
+export type ContactPersonState = DefaultEntityState;
+
+
+export type AppState = {
+  hearingEditor: {
+    hearing: Object,
+    sections: SectionState,
+    labels: LabelState,
+    contactPersons: ContactPersonState,
+    languages: Array<string>,
+    metaData: Object,
+    editorState: Object,
+    errors: any
+  },
+};

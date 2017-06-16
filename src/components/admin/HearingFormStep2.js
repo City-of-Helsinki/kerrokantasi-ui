@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import uuid from 'uuid/v1';
 
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
@@ -52,7 +53,7 @@ class HearingFormStep2 extends React.Component {
       const sectionHeader = this.props.intl.formatMessage({
         id: `${section.type}Section`
       });
-      const sectionID = section.id || section.frontID || "";
+      const sectionID = section.frontId;
       return (
         <Panel
           eventKey={sectionID}
@@ -82,7 +83,7 @@ class HearingFormStep2 extends React.Component {
    */
   addSection(type) {
     const newSection = initNewSection();
-    newSection.frontID = (this.sectionSequence += 1).toString();
+    newSection.frontId = uuid();
     newSection.type = type;
     this.props.dispatch(addSection(newSection));
     this.setState({activeSection: newSection.frontID});

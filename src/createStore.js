@@ -3,10 +3,11 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
 import routes from './routes';
+import hearingEditorMiddlware from './middleware/hearingEditor';
 
 import identity from 'lodash/identity';
 
-const middleware = [thunk];
+const middleware = [thunk, ...hearingEditorMiddlware];
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
   middleware.push(require('redux-logger')());
