@@ -72,7 +72,7 @@ class HearingManagementView extends HearingView {
 
     return (
       <div className="container">
-        <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)}/>
+        <Helmet title={hearingDraft ? getAttr(hearingDraft.title, language) : 'TODO UUSI KUULEMINNE'} meta={getOpenGraphMetaData(hearingDraft, language)}/>
 
         <HearingEditor
           hearing={hearingDraft}

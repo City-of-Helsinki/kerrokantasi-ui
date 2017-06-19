@@ -2,7 +2,7 @@
 import {get} from 'lodash';
 import {normalize} from 'normalizr';
 
-import {EditorActions, receiveHearing} from '../actions/hearingEditor';
+import {EditorActions, receiveHearing, updateHearingAfterSave} from '../actions/hearingEditor';
 import {fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
 import {labelResultsSchema, contactPersonResultsSchema} from '../types';
 
@@ -42,21 +42,14 @@ export const normalizeReceiveEditorMetaData =
   };
 
 export const normalizeSavedHearing =
-  () => (next: () => any) => (action: FSA) => {
+  ({dispatch}: {dispatch: () => void}) => (next: () => any) => (action: FSA) => {
     const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
 
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.hearing');
-      next({
-        ...action,
-        payload: {
-          ...action.payload,
-          hearing: fillFrontIdsAndNormalizeHearing(hearing),
-        },
-      });
-    } else {
-      next(action);
+      dispatch(updateHearingAfterSave(fillFrontIdsAndNormalizeHearing(hearing)));
     }
+    next(action);
   };
 
 export const sectionFrontIds = () => (next: () => any) => (action: FSA) => {

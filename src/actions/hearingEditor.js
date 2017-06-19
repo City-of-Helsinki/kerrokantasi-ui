@@ -6,7 +6,8 @@ import Promise from 'bluebird';
 import {push} from 'redux-router';
 
 import {getResponseJSON, requestErrorHandler} from './index';
-import {getHearingEditorURL} from '../utils/hearing';
+import {getHearingEditorURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
+import {fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
 
 
 export const EditorActions = {
@@ -30,6 +31,7 @@ export const EditorActions = {
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
   RECEIVE_HEARING: 'editorReceiveHearing',
+  UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
 };
 
 export function receiveHearing(normalizedHearing) {
@@ -37,7 +39,7 @@ export function receiveHearing(normalizedHearing) {
 }
 
 export function initNewHearing() {
-  return createAction(EditorActions.INIT_NEW_HEARING)();
+  return createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
 }
 
 function checkResponseStatus(response) {
@@ -314,4 +316,8 @@ export function unPublishHearing(hearing) {
       }
     }).catch(requestErrorHandler(dispatch, preUnPublishAction));
   };
+}
+
+export function updateHearingAfterSave(normalizedHearing) {
+  return createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
 }

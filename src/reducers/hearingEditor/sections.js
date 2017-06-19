@@ -1,6 +1,6 @@
 // @flow
 import {combineReducers} from 'redux';
-import {handleActions} from 'redux-actions';
+import {combineActions, handleActions} from 'redux-actions';
 
 import {EditorActions} from '../../actions/hearingEditor';
 import {getMainImage} from '../../utils/section';
@@ -13,7 +13,10 @@ const SECTIONS = 'sections';
 /* REDUCERS */
 
 const byId = handleActions({
-  [EditorActions.RECEIVE_HEARING]: (state, {payload: {entities}}) => entities[SECTIONS] || {},
+  [combineActions(
+    EditorActions.RECEIVE_HEARING,
+    EditorActions.INIT_NEW_HEARING,
+  )]: (state, {payload: {entities}}) => entities[SECTIONS] || {},
   [EditorActions.EDIT_SECTION]: (state, {payload: {sectionID, field, value}}) =>
   (
     {
@@ -52,12 +55,17 @@ const byId = handleActions({
 }, {});
 
 const all = handleActions({
-  [EditorActions.RECEIVE_HEARING]: (state, {payload: {entities}}) =>
+  [combineActions(
+    EditorActions.RECEIVE_HEARING,
+    EditorActions.INIT_NEW_HEARING,
+  )]: (state, {payload: {entities}}) =>
     Object.keys(entities.sections).map((key) => entities.sections[key].frontId),
   [EditorActions.ADD_SECTION]: (state, {payload: {section}}) => [
     ...state,
     section.frontId
-  ]
+  ],
+  [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {entities}}) =>
+    [...new Set([...state, ...entities.sections.map(({frontId}) => frontId)])]
 }, []);
 
 const isFetching = () => false;

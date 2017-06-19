@@ -1,9 +1,9 @@
 // @flow
 import {combineReducers} from 'redux';
 import {combineActions, handleActions} from 'redux-actions';
+import {head} from 'lodash';
 
 import {EditorActions} from '../../actions/hearingEditor';
-import {initNewHearing} from '../../utils/hearing';
 
 // const getNormalizedHearing = (rawHearing) => {
 //   const normalizedHearing = normalize(rawHearing, hearingSchema);
@@ -11,15 +11,12 @@ import {initNewHearing} from '../../utils/hearing';
 // };
 
 const data = handleActions({
-  [combineActions(
-    EditorActions.RECEIVE_HEARING,
-    EditorActions.POST_HEARING_SUCCESS,
-    EditorActions.SAVE_HEARING_SUCCESS,
-  )]: (state, {payload: {result, entities}}) => entities.hearing[result],
+  [EditorActions.RECEIVE_HEARING]: (state, {payload: {result, entities}}) => entities.hearing[result],
   [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload}) => (
     payload.hearing
   ),
-  [EditorActions.INIT_NEW_HEARING]: () => (initNewHearing()),
+  // Weird way of getting the normalized hearing when the hearing actually was normalized without any identifier
+  [EditorActions.INIT_NEW_HEARING]: (state, {payload: {entities}}) => entities.hearing[head(Object.keys(entities.hearing))],
   [EditorActions.EDIT_HEARING]: (state, {payload: {field, value}}) => {
     return Object.assign({}, state, {[field]: value});
   },
@@ -31,8 +28,10 @@ const data = handleActions({
     ...state,
     sections: state.sections.filter((id) => id !== sectionID)
   }),
-  [EditorActions.POST_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
-  [EditorActions.SAVE_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
+  [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {result, entities}}) => ({
+    ...state,
+    ...entities.hearing[result],
+  }),
 }, null);
 
 const isFetching = handleActions({

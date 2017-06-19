@@ -8,7 +8,7 @@ export const getIsFetchingHearing = (state: AppState) =>
   getHearingEditor(state).hearing.isFetching;
 
 export const getIsFetchingMetaData = (state: AppState) =>
-  true || !!state; // getHearingEditor(state).metaData.isFetching;
+  getHearingEditor(state).labels.isFetching || getHearingEditor(state).contactPersons.isFetching;
 
 export const getIsLoading = (state: AppState) =>
   getHearingEditor(state).editorState.pending > 0;

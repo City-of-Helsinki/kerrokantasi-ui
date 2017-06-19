@@ -20,7 +20,7 @@ class HearingFormStep2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSection: getMainSection(this.props.hearing).id
+      activeSection: getMainSection(props.hearing).frontId
     };
     this.addSection = this.addSection.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
