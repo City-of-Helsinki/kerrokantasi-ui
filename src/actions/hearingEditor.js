@@ -114,7 +114,7 @@ export function addSection(section) {
 
 /*
 * Removes section from hearing
-* @param {str} sectionID - Is compared to section.id and section.frontID in that order
+* @param {str} sectionID - Is compared to section.id and section.frontId in that order
  */
 export function removeSection(sectionID) {
   return (dispatch) => {

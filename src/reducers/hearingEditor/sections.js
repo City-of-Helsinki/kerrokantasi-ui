@@ -36,7 +36,7 @@ const byId = handleActions({
     delete newState[sectionID];
     return newState;
   },
-  [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, {sectionID, field, value}) => {
+  [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, {payload: {sectionID, field, value}}) => {
     const section = {...state[sectionID]};
     const image = getMainImage(section);
     if (section.images.length <= 0) {
