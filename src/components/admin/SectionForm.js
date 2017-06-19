@@ -76,7 +76,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, sectionLanguages} = this.props;
+    const {section, onSectionChange, onSectionImageChange, sectionLanguages} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -118,7 +118,7 @@ class SectionForm extends React.Component {
         <MultiLanguageTextField
           labelId="sectionImageCaption"
           name="imageCaption"
-          onBlur={(value) => onSectionChange(section.frontId, 'imageCaption', value)}
+          onBlur={(value) => onSectionImageChange(section.frontId, 'caption', value)}
           value={imageCaption}
           languages={sectionLanguages}
         />
