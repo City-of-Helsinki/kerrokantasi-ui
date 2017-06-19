@@ -74,6 +74,7 @@
     "postcss-loader": "^0.9.1",
     "progress": "^1.1.8",
     "proj4": "^2.4.3",
+    "prop-types": "^15.5.10",
     "query-string": "^4.3.2",
     "ramda": "^0.24.1",
     "react": "^15.1.0",

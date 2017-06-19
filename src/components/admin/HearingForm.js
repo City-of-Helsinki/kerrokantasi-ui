@@ -15,7 +15,6 @@ import Step3 from './HearingFormStep3';
 import Step4 from './HearingFormStep4';
 import LoadSpinner from '../LoadSpinner';
 import {hearingShape, hearingEditorMetaDataShape} from '../../types';
-import * as HearingEditorSelector from '../../selectors/hearingEditor';
 
 
 class HearingForm extends React.Component {
@@ -148,18 +147,6 @@ HearingForm.propTypes = {
   show: React.PropTypes.bool,
 };
 
-HearingForm.defaultProps = {
-  editorMetaData: {
-    contacts: [],
-    labels: [],
-  },
-};
-
-const WrappedHearingForm = connect((state) => ({
-  editorMetaData: state.hearingEditor.metaData,
-  errors: state.hearingEditor.errors,
-  hearingLanguages: state.hearingEditor.languages,
-  isSaving: HearingEditorSelector.getIsSaving(state),
-}), null, null, {pure: false})(injectIntl(HearingForm));
+const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));
 
 export default WrappedHearingForm;

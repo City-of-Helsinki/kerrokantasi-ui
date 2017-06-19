@@ -1,5 +1,6 @@
 import Helmet from 'react-helmet';
 import React from 'react';
+import PropTypes from 'prop-types';
 // import {cloneDeep} from 'lodash';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape} from 'react-intl';
@@ -10,7 +11,7 @@ import {initNewHearing, fetchHearingEditorMetaData} from '../../actions/hearingE
 import {Hearing, wrapHearingComponent} from '../../components/Hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import {HearingView} from '../Hearing/index';
-import {hearingShape} from '../../types';
+import {contactShape, hearingShape, labelShape} from '../../types';
 import getAttr from '../../utils/getAttr';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import PleaseLogin from '../../components/admin/PleaseLogin';
@@ -57,7 +58,15 @@ class HearingManagementView extends HearingView {
 
   render() {
     const hearing = this.getHearing();
-    const {language, dispatch, currentlyViewed, isLoading, hearingDraft, user} = this.props;
+    const {
+      language,
+      dispatch,
+      currentlyViewed,
+      isLoading,
+      hearingDraft,
+      user,
+      hearingLanguages,
+    } = this.props;
 
     if (!user) {
       return (
@@ -76,6 +85,7 @@ class HearingManagementView extends HearingView {
 
         <HearingEditor
           hearing={hearingDraft}
+          hearingLanguages={hearingLanguages}
           user={user}
         />
 
@@ -97,10 +107,12 @@ class HearingManagementView extends HearingView {
 }
 
 HearingManagementView.propTypes = {
+  contactPersons: PropTypes.arrayOf(contactShape),
   intl: intlShape.isRequired,
   dispatch: React.PropTypes.func,
   hearing: hearingShape,
   hearingDraft: hearingShape,
+  labels: PropTypes.arrayOf(labelShape),
   params: React.PropTypes.object,
   location: React.PropTypes.object,
   sectionComments: React.PropTypes.object,
@@ -110,13 +122,17 @@ HearingManagementView.propTypes = {
 
 
 const wrappedView = connect((state) => ({
+  contactPersons: HearingEditorSelector.getContactPersons(state),
   user: state.user,
   hearing: state.hearing,
   hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,
   isLoading: HearingEditorSelector.getIsLoading(state),
+  labels: HearingEditorSelector.getLabels(state),
   sectionComments: state.sectionComments,
   language: state.language,
+  errors: state.hearingEditor.errors,
+  isSaving: HearingEditorSelector.getIsSaving(state)
 }))(injectIntl(HearingManagementView));
 
 export default wrappedView;

@@ -8,13 +8,13 @@ import {labelResultsSchema, contactPersonResultsSchema} from '../types';
 
 type FSA = {|
   type: string,
-  payload: ?any,
-  error: ?boolean,
-  meta: ?any,
+  payload?: any,
+  error?: boolean,
+  meta?: any,
 |};
 
 export const normalizeReceivedHearing =
-  ({dispatch}: {dispatch: () => void}) => (next: () => any) => (action: FSA) => {
+  ({dispatch}: {dispatch: (action: FSA) => void}) => (next: (action: FSA) => any) => (action: FSA) => {
     const NORMALIZE_ACTIONS = ['receiveHearing'];
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.data');
@@ -24,7 +24,7 @@ export const normalizeReceivedHearing =
   };
 
 export const normalizeReceiveEditorMetaData =
-  () => (next: () => any) => (action: FSA) => {
+  () => (next: (action: FSA) => any) => (action: FSA) => {
     if (action.type === EditorActions.RECEIVE_META_DATA) {
       const labels = get(action, 'payload.labels');
       const contacts = get(action, 'payload.contactPersons');
@@ -33,7 +33,7 @@ export const normalizeReceiveEditorMetaData =
         contactPersons: normalize(fillFrontIds(contacts), contactPersonResultsSchema),
       };
       next({
-        ...action,
+        type: action.type,
         payload: normalizedMetaData,
       });
     } else {
@@ -42,7 +42,7 @@ export const normalizeReceiveEditorMetaData =
   };
 
 export const normalizeSavedHearing =
-  ({dispatch}: {dispatch: () => void}) => (next: () => any) => (action: FSA) => {
+  ({dispatch}: {dispatch: (action: FSA) => void}) => (next: (action: FSA) => any) => (action: FSA) => {
     const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
 
     if (NORMALIZE_ACTIONS.includes(action.type)) {
@@ -52,14 +52,14 @@ export const normalizeSavedHearing =
     next(action);
   };
 
-export const sectionFrontIds = () => (next: () => any) => (action: FSA) => {
+export const sectionFrontIds = () => (next: (action: FSA) => any) => (action: FSA) => {
   const SECTION_ACTIONS = [
     EditorActions.ADD_SECTION,
   ];
 
   if (SECTION_ACTIONS.includes(action.type)) {
     next({
-      ...action,
+      type: action.type,
       payload: {
         ...action.payload,
         section: fillFrontId(get(action, 'payload.section'))

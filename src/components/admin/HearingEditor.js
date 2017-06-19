@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
@@ -80,7 +81,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {hearing, dispatch, show, isLoading} = this.props;
+    const {hearing, hearingLanguages, dispatch, show, isLoading} = this.props;
 
     if (isEmpty(hearing)) {
       return null;
@@ -89,6 +90,7 @@ class HearingEditor extends React.Component {
       <HearingForm
         currentStep={1}
         hearing={hearing}
+        hearingLanguages={hearingLanguages}
         onHearingChange={this.onHearingChange}
         onLeaveForm={() => dispatch(closeHearingForm())}
         onSaveAndPreview={this.onSaveAndPreview}
@@ -125,6 +127,7 @@ HearingEditor.propTypes = {
   show: React.PropTypes.bool,
   isLoading: React.PropTypes.bool,
   hearing: hearingShape,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   user: userShape
 };
 
