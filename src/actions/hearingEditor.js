@@ -79,7 +79,7 @@ export function fetchHearingEditorMetaData() {
       dispatch(createAction(EditorActions.RECEIVE_META_DATA)({
         // Unwrap the DRF responses:
         labels: labels.results,
-        contacts: contacts.results,
+        contactPersons: contacts.results,
       }));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };

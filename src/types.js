@@ -131,13 +131,20 @@ export const commentShape = PropTypes.shape({
 });
 
 export const labelSchema = new schema.Entity('labels', {}, {idAttribute: 'frontId'});
+export const labelResultsSchema = new schema.Array(labelSchema);
 export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
-export const contactPersonSchema = new schema.Entity('contactPerson', {}, {idAttribute: 'frontId'});
+export const contactPersonSchema = new schema.Entity('contactPersons', {}, {idAttribute: 'frontId'});
+export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
 export const hearingSchema = new schema.Entity('hearing', {
-  labels: new schema.Array(labelSchema),
+  labels: labelResultsSchema,
   sections: new schema.Array(sectionSchema),
-  contact_persons: new schema.Array(contactPersonSchema),
+  contact_persons: contactPersonResultsSchema,
 });
+
+export type EntityResult = {
+  entities: {[string]: {[string]: Object}},
+  result: Array<string>,
+};
 
 export type DefaultEntityState = {
   byId: Object,
@@ -150,15 +157,22 @@ export type LabelState = DefaultEntityState;
 export type ContactPersonState = DefaultEntityState;
 
 
+export type HearingState = {
+  data: Object | null,
+  isFetching: boolean,
+};
+
+export type HearingEditorState = {
+  contactPersons: ContactPersonState,
+  hearing: HearingState,
+  labels: LabelState,
+  sections: SectionState,
+  languages: Array<string>,
+  metaData: Object,
+  editorState: Object,
+  errors: any,
+};
+
 export type AppState = {
-  hearingEditor: {
-    hearing: Object,
-    sections: SectionState,
-    labels: LabelState,
-    contactPersons: ContactPersonState,
-    languages: Array<string>,
-    metaData: Object,
-    editorState: Object,
-    errors: any
-  },
+  hearingEditor: HearingEditorState,
 };

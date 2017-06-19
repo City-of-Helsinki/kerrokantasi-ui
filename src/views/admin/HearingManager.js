@@ -112,7 +112,7 @@ HearingManagementView.propTypes = {
 const wrappedView = connect((state) => ({
   user: state.user,
   hearing: state.hearing,
-  hearingDraft: HearingEditorSelector.getHearing(state),
+  hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,
   isLoading: HearingEditorSelector.getIsLoading(state),
   sectionComments: state.sectionComments,

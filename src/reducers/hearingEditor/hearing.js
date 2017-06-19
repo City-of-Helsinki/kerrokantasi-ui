@@ -1,5 +1,6 @@
 // @flow
-import {handleActions} from 'redux-actions';
+import {combineReducers} from 'redux';
+import {combineActions, handleActions} from 'redux-actions';
 
 import {EditorActions} from '../../actions/hearingEditor';
 import {initNewHearing} from '../../utils/hearing';
@@ -9,8 +10,12 @@ import {initNewHearing} from '../../utils/hearing';
 //   return normalizedHearing.entities.hearing[rawHearing.id];
 // };
 
-const reducer = handleActions({
-  [EditorActions.RECEIVE_HEARING]: (state, {payload: {result, entities}}) => entities.hearing[result],
+const data = handleActions({
+  [combineActions(
+    EditorActions.RECEIVE_HEARING,
+    EditorActions.POST_HEARING_SUCCESS,
+    EditorActions.SAVE_HEARING_SUCCESS,
+  )]: (state, {payload: {result, entities}}) => entities.hearing[result],
   [EditorActions.BEGIN_EDIT_HEARING]: (state, {payload}) => (
     payload.hearing
   ),
@@ -29,5 +34,15 @@ const reducer = handleActions({
   [EditorActions.POST_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
   [EditorActions.SAVE_HEARING_SUCCESS]: (state, {payload: {hearing}}) => hearing,
 }, null);
+
+const isFetching = handleActions({
+  [combineActions('beginFetchHearing')]: () => true,
+  [combineActions('receiveHearing')]: () => false,
+}, false);
+
+const reducer = combineReducers({
+  data,
+  isFetching,
+});
 
 export default reducer;

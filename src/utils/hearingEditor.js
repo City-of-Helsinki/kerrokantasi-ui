@@ -12,13 +12,14 @@ const ATTR_WITH_FRONT_ID = [
 ];
 
 export const fillFrontId = (
-  {frontId, id, ...rest}: {frontId: ?string, id: ?string},
+  obj: {frontId: ?string, id: ?string},
   idGenerator: () => string = uuid
-): {frontId: string} =>
-  ({
-    ...rest,
-    frontId: frontId || id || idGenerator(),
-  });
+) => (
+  {
+    ...obj,
+    frontId: obj.frontId || obj.id || idGenerator(),
+  }
+);
 
 export const fillFrontIds = (thingz: Array<Object>, idGenerator: () => string = uuid) =>
   thingz.map((thing) => fillFrontId(thing, idGenerator));

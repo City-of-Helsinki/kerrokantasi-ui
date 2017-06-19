@@ -13,10 +13,9 @@ const SECTIONS = 'sections';
 /* REDUCERS */
 
 const byId = handleActions({
-  [EditorActions.RECEIVE_HEARING]: (state, {payload: {entities}}) => entities[SECTIONS],
-  [EditorActions.EDIT_SECTION]: (state, {payload: {sectionID, field, value}}) => {
-  // debugger; // eslint-disable-line
-    return (
+  [EditorActions.RECEIVE_HEARING]: (state, {payload: {entities}}) => entities[SECTIONS] || {},
+  [EditorActions.EDIT_SECTION]: (state, {payload: {sectionID, field, value}}) =>
+  (
     {
       ...state,
       [sectionID]: {
@@ -24,8 +23,7 @@ const byId = handleActions({
         [field]: value,
       }
     }
-    );
-  },
+  ),
   [EditorActions.ADD_SECTION]: (state, {payload: {section}}) => ({
     ...state,
     [section.frontId]: section,
