@@ -86,7 +86,7 @@ class HearingFormStep2 extends React.Component {
     newSection.frontId = uuid();
     newSection.type = type;
     this.props.dispatch(addSection(newSection));
-    this.setState({activeSection: newSection.frontID});
+    this.setState({activeSection: newSection.frontId});
   }
 
   /*
