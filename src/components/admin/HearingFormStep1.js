@@ -39,11 +39,11 @@ class HearingFormStep1 extends React.Component {
   }
 
   onTagsChange(selectedTags) {
-    this.props.onHearingChange("labels", selectedTags);
+    this.props.onHearingChange("labels", selectedTags.map(({id}) => id));
   }
 
   onContactsChange(selectedContacts) {
-    this.props.onHearingChange("contact_persons", selectedContacts);
+    this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
   render() {
@@ -87,11 +87,11 @@ class HearingFormStep1 extends React.Component {
                 multi
                 name="labels"
                 onChange={this.onTagsChange}
-                options={tagOptions.map((opt) => ({id: opt.id, label: getAttr(opt.label, language)}))}
+                options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
                 placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                 simpleValue={false}
-                value={hearing.labels.map((label) => ({id: label.id, label: getAttr(label.label, language)}))}
-                valueKey="id"
+                value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                valueKey="frontId"
                 menuContainerStyle={{zIndex: 10}}
               />
             </FormGroup>
@@ -124,7 +124,7 @@ class HearingFormStep1 extends React.Component {
             placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
             simpleValue={false}
             value={hearing.contact_persons}
-            valueKey="id"
+            valueKey="frontId"
           />
         </FormGroup>
         <hr/>
