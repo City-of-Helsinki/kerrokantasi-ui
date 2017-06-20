@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import uuid from 'uuid/v1';
+import {head} from 'lodash';
 
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
@@ -73,8 +74,17 @@ class HearingFormStep2 extends React.Component {
     });
   }
 
+  static scrollModalToTop = () => {
+    if (document && document.getElementsByClassName) {
+      const modal = head(document.getElementsByClassName('modal'));
+      if (modal) {
+        modal.scrollTop = 0;
+      }
+    }
+  };
+
   handleSelect(activeSection) {
-    this.setState({activeSection});
+    this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
   }
 
   /*
@@ -86,7 +96,7 @@ class HearingFormStep2 extends React.Component {
     newSection.frontId = uuid();
     newSection.type = type;
     this.props.dispatch(addSection(newSection));
-    this.setState({activeSection: newSection.frontId});
+    this.setState({activeSection: newSection.frontId}, HearingFormStep2.scrollModalToTop);
   }
 
   /*
