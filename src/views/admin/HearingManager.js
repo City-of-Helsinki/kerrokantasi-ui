@@ -78,12 +78,20 @@ class HearingManagementView extends HearingView {
       );
     }
 
+    if (isLoading || !hearingDraft) {
+      return (
+        <div className="container">
+          <this.renderSpinner/>
+        </div>
+      );
+    }
+
     const PreviewReplacement = () =>
       (this.isNewHearing() ? null : <this.renderSpinner/>);
 
     return (
       <div className="container">
-        <Helmet title={hearingDraft ? getAttr(hearingDraft.title, language) : 'TODO UUSI KUULEMINNE'} meta={getOpenGraphMetaData(hearingDraft, language)}/>
+        <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)}/>
 
         <HearingEditor
           hearing={hearingDraft}
