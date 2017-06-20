@@ -41,4 +41,21 @@ export const fillFrontIdsForAttributes = (data: Object, attrKeys: Array<string> 
   }), {})
 });
 
+export const removeFrontId = (obj: Object) => {
+  const result = {...obj};
+  delete result.frontId;
+  return result;
+};
+
+export const filterFrontIds = (thingz: Array<Object>) =>
+  thingz.map(removeFrontId);
+
+export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => ({
+  ...data,
+  ...attrKeys.reduce((filtered, key) => ({
+    ...filtered,
+    [key]: filterFrontIds(data[key]),
+  }), {})
+});
+
 export const fillFrontIdsAndNormalizeHearing = compose(normalizeHearing, fillFrontIdsForAttributes);

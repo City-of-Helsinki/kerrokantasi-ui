@@ -7,7 +7,7 @@ import {push} from 'redux-router';
 
 import {getResponseJSON, requestErrorHandler} from './index';
 import {getHearingEditorURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
-import {fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
+import {fillFrontIdsAndNormalizeHearing, filterFrontIdsFromAttributes} from '../utils/hearingEditor';
 
 
 export const EditorActions = {
@@ -127,17 +127,6 @@ export function changeHearingEditorLanguages(languages) {
     dispatch(createAction(EditorActions.SET_LANGUAGES)({languages}));
 }
 
-const cleanHearingSectionIds = (hearing, originalSections) => (
-  {
-    ...hearing,
-    sections: hearing.sections.map((section) => ({
-      ...section,
-      id: originalSections.find(({id}) => id === section.id) ? section.id : '',
-    })),
-  }
-);
-
-
 /*
 * Save changes made to an existing hearing.
 * Passed hearing should represent the new state of the hearing.
@@ -145,7 +134,7 @@ const cleanHearingSectionIds = (hearing, originalSections) => (
  */
 export function saveHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const cleanedHearing = cleanHearingSectionIds(hearing, getState().hearing[hearing.slug].data.sections);
+    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
     const preSaveAction = createAction(EditorActions.SAVE_HEARING)({cleanedHearing});
     dispatch(preSaveAction);
     const url = "/v1/hearing/" + cleanedHearing.id;
@@ -171,8 +160,7 @@ export function saveHearingChanges(hearing) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const cleanedHearing = cleanHearingSectionIds(hearing, getState().hearing[hearing.slug].data.sections);
-
+    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
     const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({cleanedHearing});
     dispatch(preSaveAction);
     const url = "/v1/hearing/" + cleanedHearing.id;
@@ -201,10 +189,7 @@ export function saveAndPreviewHearingChanges(hearing) {
 
 export function saveNewHearing(hearing) {
   // Clean up section IDs assigned by UI before POSTing the hearing
-  const cleanedHearing = Object.assign({}, hearing, {
-    sections: hearing.sections.reduce((sections, section) =>
-      [...sections, Object.assign({}, section, {id: ''})], [])
-  });
+  const cleanedHearing = filterFrontIdsFromAttributes(hearing);
   return (dispatch, getState) => {
     const preSaveAction = createAction(EditorActions.POST_HEARING)({hearing: cleanedHearing});
     dispatch(preSaveAction);
@@ -319,5 +304,6 @@ export function unPublishHearing(hearing) {
 }
 
 export function updateHearingAfterSave(normalizedHearing) {
+  debugger; // eslint-disable-line
   return createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
 }

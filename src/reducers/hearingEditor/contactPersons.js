@@ -9,7 +9,7 @@ const byId = handleActions({
 }, {});
 
 const all = handleActions({
-  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {contactPersons}}) => contactPersons.result
+  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {contactPersons}}) => contactPersons.result.map(key => key.toString())
 }, []);
 
 const isFetching = handleActions({

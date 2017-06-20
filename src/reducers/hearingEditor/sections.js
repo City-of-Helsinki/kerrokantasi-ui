@@ -59,13 +59,15 @@ const all = handleActions({
     EditorActions.RECEIVE_HEARING,
     EditorActions.INIT_NEW_HEARING,
   )]: (state, {payload: {entities}}) =>
-    Object.keys(entities.sections).map((key) => entities.sections[key].frontId),
+    Object.keys(entities.sections),
   [EditorActions.ADD_SECTION]: (state, {payload: {section}}) => [
     ...state,
     section.frontId
   ],
-  [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {entities}}) =>
-    [...new Set([...state, ...entities.sections.map(({frontId}) => frontId)])]
+  [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {entities}}) => {
+    debugger; // eslint-disable-line
+    return [...new Set([...state, ...Object.keys(entities.sections)])];
+  }
 }, []);
 
 const isFetching = () => false;

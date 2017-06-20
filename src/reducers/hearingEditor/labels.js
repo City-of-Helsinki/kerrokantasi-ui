@@ -13,11 +13,11 @@ const byId = handleActions({
 }, {});
 
 const all = handleActions({
-  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {labels}}) => labels.result,
+  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {labels}}) => labels.result.map(key => key.toString()),
   [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {entities}}) =>
     [...new Set([
       ...state,
-      ...entities.labels.map((label) => label.frontId)
+      ...Object.keys(entities.labels),
     ])],
 }, []);
 
