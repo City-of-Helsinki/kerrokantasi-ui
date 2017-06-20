@@ -59,11 +59,13 @@ class HearingManagementView extends HearingView {
   render() {
     const hearing = this.getHearing();
     const {
+      contactPersons,
       language,
       dispatch,
       currentlyViewed,
       isLoading,
       hearingDraft,
+      labels,
       user,
       hearingLanguages,
     } = this.props;
@@ -86,7 +88,9 @@ class HearingManagementView extends HearingView {
         <HearingEditor
           hearing={hearingDraft}
           hearingLanguages={hearingLanguages}
+          labels={labels}
           user={user}
+          contactPersons={contactPersons}
         />
 
         { (isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title) ?

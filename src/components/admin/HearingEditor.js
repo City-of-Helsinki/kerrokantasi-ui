@@ -20,7 +20,7 @@ import {
 } from '../../actions/hearingEditor';
 import HearingForm from '../../components/admin/HearingForm';
 import HearingToolbar from '../../components/admin/HearingToolbar';
-import {hearingShape, userShape} from '../../types';
+import {contactShape, hearingShape, labelShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 
 
@@ -81,16 +81,18 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {hearing, hearingLanguages, dispatch, show, isLoading} = this.props;
+    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, isLoading} = this.props;
 
     if (isEmpty(hearing)) {
       return null;
     }
     return (
       <HearingForm
+        contactPersons={contactPersons}
         currentStep={1}
         hearing={hearing}
         hearingLanguages={hearingLanguages}
+        labels={labels}
         onHearingChange={this.onHearingChange}
         onLeaveForm={() => dispatch(closeHearingForm())}
         onSaveAndPreview={this.onSaveAndPreview}
@@ -123,11 +125,13 @@ class HearingEditor extends React.Component {
 }
 
 HearingEditor.propTypes = {
+  contactPersons: PropTypes.arrayOf(contactShape),
   dispatch: React.PropTypes.func,
   show: React.PropTypes.bool,
   isLoading: React.PropTypes.bool,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
+  labels: PropTypes.arrayOf(labelShape),
   user: userShape
 };
 

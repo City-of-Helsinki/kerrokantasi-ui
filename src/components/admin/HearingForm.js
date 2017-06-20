@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
@@ -14,7 +15,12 @@ import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
 import Step4 from './HearingFormStep4';
 import LoadSpinner from '../LoadSpinner';
-import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  hearingEditorMetaDataShape,
+  labelShape,
+} from '../../types';
 
 
 class HearingForm extends React.Component {
@@ -38,7 +44,7 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {intl: {formatMessage}, hearing, hearingLanguages} = this.props;
+    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages} = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
@@ -47,8 +53,10 @@ class HearingForm extends React.Component {
     return (
       <Panel header={title} eventKey={step}>
         <PhaseTag
+          contactPersons={contactPersons}
           hearing={hearing}
           hearingLanguages={hearingLanguages}
+          labels={labels}
           onLanguagesChange={this.props.onLanguagesChange}
           onHearingChange={this.props.onHearingChange}
           onSectionChange={this.props.onSectionChange}
@@ -130,6 +138,7 @@ class HearingForm extends React.Component {
 }
 
 HearingForm.propTypes = {
+  contactPersons: PropTypes.arrayOf(contactShape),
   currentStep: React.PropTypes.number,
   editorMetaData: hearingEditorMetaDataShape,
   isSaving: React.PropTypes.bool,
@@ -137,6 +146,7 @@ HearingForm.propTypes = {
   hearing: hearingShape,
   hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
   intl: intlShape.isRequired,
+  labels: PropTypes.arrayOf(labelShape),
   onHearingChange: React.PropTypes.func,
   onLanguagesChange: React.PropTypes.func,
   onLeaveForm: React.PropTypes.func,

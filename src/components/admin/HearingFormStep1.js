@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
@@ -12,7 +13,11 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
-import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  labelShape
+} from '../../types';
 import getAttr from '../../utils/getAttr';
 
 
@@ -46,7 +51,8 @@ class HearingFormStep1 extends React.Component {
       hearing,
       hearingLanguages,
       intl: {formatMessage},
-      editorMetaData: {labels: tagOptions, contacts: contactOptions},
+      labels: tagOptions,
+      contactPersons: contactOptions,
       onHearingChange,
       onLanguagesChange,
     } = this.props;
@@ -131,9 +137,10 @@ class HearingFormStep1 extends React.Component {
 }
 
 HearingFormStep1.propTypes = {
-  editorMetaData: hearingEditorMetaDataShape,
+  contactPersons: PropTypes.arrayOf(contactShape),
   hearing: hearingShape,
   intl: intlShape.isRequired,
+  labels: PropTypes.arrayOf(labelShape),
   onContinue: React.PropTypes.func,
   onHearingChange: React.PropTypes.func,
   onLanguagesChange: React.PropTypes.func,
