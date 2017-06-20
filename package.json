@@ -70,7 +70,7 @@
     "node-sass": "^3.7.0",
     "normalizr": "^3.2.3",
     "passport": "^0.3.2",
-    "passport-helsinki": "City-of-Helsinki/passport-helsinki#fec48d78e0258aa1472369014ffc01cd98c7cdc6",
+    "passport-helsinki": "git://github.com/City-of-Helsinki/passport-helsinki#fec48d78e0258aa1472369014ffc01cd98c7cdc6",
     "postcss-loader": "^0.9.1",
     "progress": "^1.1.8",
     "proj4": "^2.4.3",

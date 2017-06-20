@@ -13,7 +13,7 @@ import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
 import {getMainSection} from '../../utils/hearing';
 import {hearingShape} from '../../types';
-import {initNewSection} from '../../utils/section';
+import {initNewSection, SectionTypes} from '../../utils/section';
 import getAttr from '../../utils/getAttr';
 
 class HearingFormStep2 extends React.Component {
@@ -50,28 +50,30 @@ class HearingFormStep2 extends React.Component {
   getSections() {
     const {language} = this.context;
     const {hearingLanguages} = this.props;
-    return this.props.hearing.sections.map((section) => {
-      const sectionHeader = this.props.intl.formatMessage({
-        id: `${section.type}Section`
+    return this.props.hearing.sections
+      .filter(({type}) => type !== SectionTypes.CLOSURE)
+      .map((section) => {
+        const sectionHeader = this.props.intl.formatMessage({
+          id: `${section.type}Section`
+        });
+        const sectionID = section.frontId;
+        return (
+          <Panel
+            eventKey={sectionID}
+            header={`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
+            key={sectionID}
+          >
+            <SectionForm
+              section={section}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              sectionLanguages={hearingLanguages}
+            />
+            <hr/>
+            {this.getDeleteSectionButton(section, sectionID)}
+          </Panel>
+        );
       });
-      const sectionID = section.frontId;
-      return (
-        <Panel
-          eventKey={sectionID}
-          header={`${sectionHeader}: ${getAttr(section.title, language)}`}
-          key={sectionID}
-        >
-          <SectionForm
-            section={section}
-            onSectionChange={this.props.onSectionChange}
-            onSectionImageChange={this.props.onSectionImageChange}
-            sectionLanguages={hearingLanguages}
-          />
-          <hr/>
-          {this.getDeleteSectionButton(section, sectionID)}
-        </Panel>
-      );
-    });
   }
 
   static scrollModalToTop = () => {
