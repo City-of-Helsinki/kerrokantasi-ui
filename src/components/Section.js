@@ -32,13 +32,6 @@ export class Section extends React.Component {
     this.state = {collapsed: true};
   }
 
-  componentDidMount() {
-    const {showPlugin, hearingSlug, section} = this.props;
-    if (showPlugin) { // Plugins need all the comment data
-      this.props.fetchAllComments(hearingSlug, section.id);
-    }
-  }
-
   onPostComment(text, authorName, pluginData, geojson, label, images) {
     const {section} = this.props;
     const commentData = {text, authorName, pluginData, geojson, label, images};
@@ -117,7 +110,7 @@ export class Section extends React.Component {
   }
 
   render() {
-    const {section, user, comments} = this.props;
+    const {section, user, comments, hearingSlug} = this.props;
     const {language} = this.context;
     const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
@@ -157,8 +150,10 @@ export class Section extends React.Component {
     });
     const pluginContent = (this.props.showPlugin ?
       (<PluginContent
+        hearingSlug={hearingSlug}
         section={section}
         comments={comments}
+        fetchAllComments={this.props.fetchAllComments}
         onPostComment={this.onPostComment.bind(this)}
         onPostVote={this.onPostVote.bind(this)}
         user={user}

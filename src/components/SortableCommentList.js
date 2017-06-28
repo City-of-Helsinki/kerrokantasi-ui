@@ -61,9 +61,11 @@ class SortableCommentList extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {section } = this.props;
+    const isFetching = get(nextProps.sectionComments, 'isFetching');
+    const results = get(nextProps.sectionComments, 'results');
 
     this.setState({
-      showLoader: get(nextProps.sectionComments, 'isFetching')
+      showLoader: isFetching
     });
 
     if (!this.props.user && nextProps.user) {
@@ -76,6 +78,11 @@ class SortableCommentList extends Component {
 
     if (section.id !== nextProps.section.id) {
       this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    }
+
+    if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+      // comments have to be reloaded due to posting
+      this.fetchComments(nextProps.section.id, nextProps.sectionComments.ordering);
     }
   }
 
@@ -94,7 +101,7 @@ class SortableCommentList extends Component {
         <MapQuestionnaire
           data={section.plugin_data}
           pluginPurpose="viewHeatmap"
-          comments={sectionComments}
+          comments={sectionComments.results}
           pluginSource={section.plugin_iframe_url}
         />
         <div className="image-caption">Kaikkien merkintöjen ja äänien tiheyskartta.</div>

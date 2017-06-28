@@ -6,8 +6,37 @@ import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import Alert from 'react-bootstrap/lib/Alert';
+import {get} from 'lodash';
 
 export default class PluginContent extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      showLoader: false
+    };
+  }
+
+  componentDidMount() {
+    const {hearingSlug, section} = this.props;
+    this.props.fetchAllComments(hearingSlug, section.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {hearingSlug, section} = this.props;
+    const isFetching = get(nextProps.comments, 'isFetching');
+    const results = get(nextProps.comments, 'results');
+
+    this.setState({
+      showLoader: isFetching
+    });
+
+    if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+      // comments have to be reloaded due to posting
+      this.props.fetchAllComments(hearingSlug, nextProps.section.id, nextProps.comments.ordering);
+    }
+  }
 
   render() {
     const {user, section, onPostComment, onPostVote} = this.props;
@@ -52,7 +81,9 @@ export default class PluginContent extends React.Component {
 }
 
 PluginContent.propTypes = {
+  hearingSlug: React.PropTypes.string,
   comments: React.PropTypes.object,
+  fetchAllComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,
   onPostVote: React.PropTypes.func,
   section: React.PropTypes.object.isRequired,

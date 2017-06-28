@@ -12,15 +12,8 @@ import {fetchAllSectionComments} from "../actions/index";
 
 class FullscreenPlugin extends Section {
 
-  componentDidMount() {
-    const {showPlugin, hearingSlug, section} = this.props;
-    if (showPlugin) { // Plugins need all the comment data
-      this.props.fetchAllComments(hearingSlug, section.id);
-    }
-  }
-
   render() {
-    const {section, comments, user} = this.props;
+    const {section, comments, user, hearingSlug} = this.props;
     const openDetailPage = () => this.props.dispatch(push(this.props.detailURL));
     return (
       <div>
@@ -43,6 +36,8 @@ class FullscreenPlugin extends Section {
         </div>
         <div className="plugin-content">
           <PluginContent
+            hearingSlug={hearingSlug}
+            fetchAllComments={this.props.fetchAllComments}
             section={section}
             comments={comments}
             onPostComment={this.onPostComment.bind(this)}
@@ -67,6 +62,7 @@ FullscreenPlugin.propTypes = {
   detailURL: React.PropTypes.string.isRequired,
   dispatch: React.PropTypes.func,
   headerTitle: React.PropTypes.string,
+  hearingSlug: React.PropTypes.string,
   intl: intlShape.isRequired,
   loadSectionComments: React.PropTypes.func,
   onPostComment: React.PropTypes.func,

@@ -144,10 +144,10 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
     }
-    return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
+    return api.post(getState(), url, params).then(getResponseJSON).then(() => {
+      dispatch(createAction("postedComment")({sectionId}));
+      // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(sectionId));
       alert("Kommenttisi on vastaanotettu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -160,10 +160,8 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
     const params = commentData;
 
-    return api.put(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedComment")({hearingSlug, sectionId, data}));
-      dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(sectionId));
+    return api.put(getState(), url, params).then(getResponseJSON).then(() => {
+      dispatch(createAction("postedComment")({sectionId}));
       alert("Kommenttisi muokattu. Kiitos!");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -176,8 +174,9 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
     const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
 
     return api.apiDelete(getState(), url).then(() => {
+      dispatch(createAction("postedComment")({sectionId}));
+      // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(sectionId));
       alert("Kommenttisi on poistettu.");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
@@ -189,12 +188,10 @@ export function postVote(commentId, hearingSlug, sectionId) {
     dispatch(fetchAction);
     const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedCommentVote")({commentId, hearingSlug, sectionId, data}));
-      dispatch(fetchHearing(hearingSlug));
-      dispatch(fetchSectionComments(sectionId));
       if (data.status_code === 304) {
         notifyError("Olet jo antanut äänesi tälle kommentille.");
       } else {
+        dispatch(createAction("postedCommentVote")({commentId, sectionId}));
         notifySuccess("Ääni vastaanotettu. Kiitos!");
       }
     }).catch(requestErrorHandler(fetchAction));

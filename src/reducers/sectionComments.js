@@ -29,6 +29,32 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   }, state);
 };
 
+const postedComment = (state, {payload: {sectionId}}) => {
+  // whenever we post, we want the newly posted comment displayed first and results reloaded
+  return updeep({
+    [sectionId]: {
+      results: [],
+      ordering: '-created_at'
+    }
+  }, state);
+};
+
+const postedCommentVote = (state, {payload: {commentId, sectionId}}) => {
+  // the vote went through
+  const increment = (votes) => { return votes + 1; };
+  const commentIndex = state[sectionId].results.findIndex(
+    (comment) => { return comment.id === commentId; });
+  return updeep({
+    [sectionId]: {
+      results: {
+        [commentIndex]: {
+          n_votes: increment
+        }
+      }
+    }
+  }, state);
+};
+
 const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanFetch}}) => {
   if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
     return updeep({
@@ -48,5 +74,7 @@ const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanF
 
 export default handleActions({
   receiveSectionComments,
-  beginFetchSectionComments
+  beginFetchSectionComments,
+  postedComment,
+  postedCommentVote,
 }, {});
