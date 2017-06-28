@@ -17,8 +17,8 @@ class FullscreenHearing extends Hearing {
     return (
       <div id="hearing">
         {mainSection ? <FullscreenPlugin
-          canComment={this.isMainSectionCommentable}
-          canVote={this.isMainSectionVotable}
+          canComment={this.isMainSectionCommentable(user)}
+          canVote={this.isMainSectionVotable(user)}
           comments={this.props.sectionComments[mainSection.id]}
           detailURL={getHearingURL(hearing, {fullscreen: false})}
           headerTitle={getAttr(hearing.title, language)}
