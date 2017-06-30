@@ -143,11 +143,11 @@ class Sidebar extends React.Component {
           </ListGroupItem>}
         {sectionGroups.map((sectionGroup) => (
           !isQuestionView ?
-            <div className="list-group-root" key={`${sectionGroup.name_singular}-${sectionGroup.name_plural}-${sectionGroup.type}`}>
+            <div className="list-group-root" key={sectionGroup.type}>
               <ListGroupItem
-                className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
+                className={currentlyViewed === '#hearing-sectiongroup-' + sectionGroup.type && 'active'}
+                key={sectionGroup.type}
                 href={"#hearing-sectiongroup-" + sectionGroup.type}
-                key={sectionGroup.name_singular + Math.random()}
               >
                 {getAttr(sectionGroup.name_plural, activeLanguage)}
               </ListGroupItem>
@@ -156,23 +156,21 @@ class Sidebar extends React.Component {
                 hearing={hearing}
               />
             </div> :
-            <Link
-              className="list-group-root active-group-link"
-              to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type}
-              key={`${sectionGroup.name_singular}-${sectionGroup.name_plural}-${sectionGroup.type}`}
-            >
-              <ListGroupItem
-                className={currentlyViewed === '#hearing-sectiongroup' + sectionGroup.name_singular && 'active'}
-                key={sectionGroup.name_singular + Math.random()}
-              >
-                {getAttr(sectionGroup.name_plural, activeLanguage)}
-              </ListGroupItem>
+            <div className="list-group-root active-group-link" key={sectionGroup.type}>
+              <Link to={getHearingURL(hearing) + '#hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
+                <ListGroupItem
+                  className={currentlyViewed === '#hearing-sectiongroup-' + sectionGroup.type && 'active'}
+                  key={sectionGroup.type}
+                >
+                  {getAttr(sectionGroup.name_plural, activeLanguage)}
+                </ListGroupItem>
+              </Link>
               <SubSectionListGroup
                 currentlyViewed={currentlyViewed}
                 sections={sectionGroup.sections}
                 hearing={hearing}
               />
-            </Link>
+            </div>
         ))}
         {this.getFullscreenItem()}
         {this.getCommentsItem()}
