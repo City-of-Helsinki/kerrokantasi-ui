@@ -50,7 +50,7 @@ class Sidebar extends React.Component {
     if (isQuestionView) {
       return (
         <Link to={getHearingURL(hearing)}>
-          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href="#hearing-comments">
+          <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'}>
             <FormattedMessage id="comments"/>
             <div className="comment-icon">
               <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
@@ -78,12 +78,14 @@ class Sidebar extends React.Component {
     }
     const fullscreenURL = getHearingURL(hearing, {fullscreen: true});
     return (
-      <ListGroupItem href={fullscreenURL}>
-        <FormattedMessage id="commentsOnMap"/>
-        <div className="comment-icon">
-          <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
-        </div>
-      </ListGroupItem>
+      <Link to={fullscreenURL}>
+        <ListGroupItem>
+          <FormattedMessage id="commentsOnMap"/>
+          <div className="comment-icon">
+            <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
+          </div>
+        </ListGroupItem>
+      </Link>
     );
   }
 
@@ -134,7 +136,7 @@ class Sidebar extends React.Component {
       <ListGroup>
         {isQuestionView ?
           <Link to={getHearingURL(hearing)}>
-            <ListGroupItem className={currentlyViewed === '#hearing' && 'active'} href="#hearing">
+            <ListGroupItem className={currentlyViewed === '#hearing' && 'active'}>
               <FormattedMessage id="hearing"/>
             </ListGroupItem>
           </Link>

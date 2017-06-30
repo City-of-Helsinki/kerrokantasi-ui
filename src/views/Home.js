@@ -9,6 +9,7 @@ import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
+import {Link} from 'react-router';
 
 class Home extends React.Component {
 
@@ -72,7 +73,7 @@ class Home extends React.Component {
                 <div className="list">
                   <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
                   <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-                  <p className="text-center"><Button bsStyle="default" href="/hearings/list"><FormattedMessage id="allHearings"/></Button></p>
+                  <p className="text-center"><Link to="/hearings/list"><Button bsStyle="default"><FormattedMessage id="allHearings"/></Button></Link></p>
                 </div>
               </Col>
             }
