@@ -49,7 +49,7 @@ class Sidebar extends React.Component {
 
     if (isQuestionView) {
       return (
-        <Link to={getHearingURL(hearing)}>
+        <Link to={getHearingURL(hearing) + "#hearing-comments"}>
           <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'}>
             <FormattedMessage id="comments"/>
             <div className="comment-icon">
@@ -135,7 +135,7 @@ class Sidebar extends React.Component {
     return (
       <ListGroup>
         {isQuestionView ?
-          <Link to={getHearingURL(hearing)}>
+          <Link to={getHearingURL(hearing) + "#hearing"}>
             <ListGroupItem className={currentlyViewed === '#hearing' && 'active'}>
               <FormattedMessage id="hearing"/>
             </ListGroupItem>
