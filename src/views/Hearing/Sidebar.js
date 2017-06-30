@@ -230,7 +230,7 @@ Sidebar.propTypes = {
   activeLanguage: React.PropTypes.string,
   dispatch: React.PropTypes.func,
   currentlyViewed: React.PropTypes.string,
-  isQuestionView: React.PropTypes.func,
+  isQuestionView: React.PropTypes.bool,
 };
 
 export default injectIntl(Sidebar);

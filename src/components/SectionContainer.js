@@ -49,7 +49,7 @@ const LinkWrapper = ({disabled, to, children, ...rest}) => {
 
 LinkWrapper.propTypes = {
   disabled: React.PropTypes.bool,
-  children: React.PropTypes.elements,
+  children: React.PropTypes.array,
   to: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.object,
@@ -183,7 +183,7 @@ class SectionContainer extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, section, user, sectionComments, language} = this.props;
+    const {hearing, hearingSlug, section, user, sectionComments, language, dispatch} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
@@ -212,6 +212,8 @@ class SectionContainer extends React.Component {
             isQuestionView={isQuestionView}
             mainSection={mainSection}
             sectionGroups={sectionGroups}
+            dispatch={dispatch}
+            activeLanguage={language}
           />
           <Col md={8} lg={9}>
             {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false}/> : null}
