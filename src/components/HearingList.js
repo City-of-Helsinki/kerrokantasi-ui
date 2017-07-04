@@ -152,6 +152,7 @@ class HearingList extends React.Component {
   render() {
     const {
       handleSearch,
+      handleSelectLabels,
       handleSort,
       hearings,
       isLoading,
@@ -195,6 +196,7 @@ class HearingList extends React.Component {
                 <Col md={10} mdPush={1}>
                   <HearingsSearch
                     handleSearch={handleSearch}
+                    handleSelectLabels={handleSelectLabels}
                     labels={labels}
                     language={language}
                     searchPhrase={searchPhrase}
@@ -235,6 +237,7 @@ class HearingList extends React.Component {
 
 HearingList.propTypes = {
   handleSearch: PropTypes.func,
+  handleSelectLabels: PropTypes.func,
   handleSort: PropTypes.func,
   hearings: PropTypes.array,
   initialTab: PropTypes.string.isRequired,

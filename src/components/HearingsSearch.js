@@ -11,6 +11,7 @@ class HearingsSearch extends React.Component {
   render() {
     const {
       handleSearch,
+      handleSelectLabels,
       labels,
       language,
       searchPhrase,
@@ -26,13 +27,14 @@ class HearingsSearch extends React.Component {
     return (
       <div className="hearings-search__container">
         <div className="hearings-search__content">
-          <form onSubmit={(event) => handleSearch(event, this.input.value, selectedLabels)}>
+          <form onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value); }}>
             <FormGroup className="hearings-search__text" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
               <FormControl
                 type="text"
                 inputRef={(ref) => { this.input = ref; }}
                 defaultValue={searchPhrase}
+                onBlur={() => handleSearch(this.input.value)}
               />
             </FormGroup>
             <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
@@ -42,7 +44,7 @@ class HearingsSearch extends React.Component {
                 multi
                 value={selectedLabels}
                 options={labelsAsOptions}
-                onChange={(value) => handleSearch(null, this.input.value, value)}
+                onChange={(value) => handleSelectLabels(value)}
               />
               }
             </FormGroup>
@@ -58,6 +60,7 @@ class HearingsSearch extends React.Component {
 
 HearingsSearch.propTypes = {
   handleSearch: PropTypes.func,
+  handleSelectLabels: PropTypes.func,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
   searchPhrase: PropTypes.string,

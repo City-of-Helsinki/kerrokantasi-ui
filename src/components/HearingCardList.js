@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col} from 'react-bootstrap';
 import HearingCard from './HearingCard';
+import {hearingShape} from '../types';
 
 const HearingCardList = ({hearings, language}) =>
   <Row className="hearing-card-list">
@@ -13,7 +14,7 @@ const HearingCardList = ({hearings, language}) =>
   </Row>;
 
 HearingCardList.propTypes = {
-  hearings: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  hearings: PropTypes.arrayOf(hearingShape),
   language: PropTypes.string
 };
 
