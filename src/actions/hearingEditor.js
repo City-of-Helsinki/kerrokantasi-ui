@@ -97,7 +97,11 @@ export function fetchHearingEditorMetaData() {
     }).catch(err => {
       dispatch(createAction(EditorActions.ERROR_META_DATA)({err}));
       return err;
-    }).then((err) => requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err)));
+    }).then((err) => {
+      if (err) {
+        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+      }
+    });
   };
 }
 
