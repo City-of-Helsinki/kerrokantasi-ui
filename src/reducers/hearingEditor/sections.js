@@ -65,7 +65,6 @@ const all = handleActions({
     section.frontId
   ],
   [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, {payload: {entities}}) => {
-    debugger; // eslint-disable-line
     return [...new Set([...state, ...Object.keys(entities.sections)])];
   }
 }, []);

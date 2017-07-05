@@ -15,6 +15,7 @@ const all = handleActions({
 const isFetching = handleActions({
   [EditorActions.FETCH_META_DATA]: () => true,
   [EditorActions.RECEIVE_META_DATA]: () => false,
+  [EditorActions.ERROR_META_DATA]: () => false,
 }, false);
 
 export default combineReducers({

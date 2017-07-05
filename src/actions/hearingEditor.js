@@ -5,7 +5,7 @@ import moment from 'moment';
 import Promise from 'bluebird';
 import {push} from 'redux-router';
 
-import {getResponseJSON, requestErrorHandler} from './index';
+import {requestErrorHandler} from './index';
 import {getHearingEditorURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
 import {fillFrontIdsAndNormalizeHearing, filterFrontIdsFromAttributes} from '../utils/hearingEditor';
 
@@ -30,6 +30,7 @@ export const EditorActions = {
   REMOVE_SECTION: 'removeSection',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  ERROR_META_DATA: 'errorHearingEditorMetaData',
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
 };
@@ -65,6 +66,16 @@ export function closeHearingForm() {
   };
 }
 
+// export const getAllFromEndpoint = (endpoint, actions, params = {limit: 2}, options = {}) => {
+//   return (dispatch, getState) => {
+//     const fetchAction = createAction(actions.fetch)();
+//     dispatch(fetchAction);
+//     api.getAllFromEndpoint(getState(), endpoint, params, options)
+//       .then((labels) => dispatch(createAction(actions.success)({labels})))
+//       .catch((error) => dispatch(createAction(actions.error)({error})));
+//   };
+// };
+
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
  * list of available labels and contact persons.
@@ -75,15 +86,18 @@ export function fetchHearingEditorMetaData() {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
     dispatch(fetchAction);
     return Promise.props({
-      labels: api.get(getState(), "/v1/label/").then(getResponseJSON),
-      contacts: api.get(getState(), "/v1/contact_person/").then(getResponseJSON),
+      labels: api.getAllFromEndpoint(getState(), '/v1/label/'),
+      contacts: api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
     }).then(({labels, contacts}) => {
       dispatch(createAction(EditorActions.RECEIVE_META_DATA)({
         // Unwrap the DRF responses:
-        labels: labels.results,
-        contactPersons: contacts.results,
+        labels,
+        contactPersons: contacts,
       }));
-    }).catch(requestErrorHandler(dispatch, fetchAction));
+    }).catch(err => {
+      dispatch(createAction(EditorActions.ERROR_META_DATA)({err}));
+      return err;
+    }).then((err) => requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err)));
   };
 }
 
@@ -304,6 +318,5 @@ export function unPublishHearing(hearing) {
 }
 
 export function updateHearingAfterSave(normalizedHearing) {
-  debugger; // eslint-disable-line
   return createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
 }
