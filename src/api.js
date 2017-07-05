@@ -2,6 +2,7 @@ import fetch from './mockable-fetch';
 import config from './config';
 import merge from 'lodash/merge';
 import qs from 'querystring';
+import urlUtil from 'url';
 
 function getApiURL(endpoint, params = null) {
   let url = (config.apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
@@ -63,4 +64,33 @@ export function get(state, endpoint, params = {}, options = {}) {
   return apiCall(state, endpoint, params, options);
 }
 
-export default {post, put, apiDelete, get};
+export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) => {
+  const getPaginated = (results, paramsForPage = params) =>
+    get(state, endpoint, paramsForPage, options).then((response) => {
+      const responseOk = response.status >= 200 && response.status < 300;
+      const data = response.json();
+      if (!responseOk) {
+        return data.then(err => {
+          const error = {
+            ...err,
+            status: response.status,
+          };
+
+          throw error;
+        });
+      }
+      return data;
+    }).then((data) => {
+      const updatedResults = [...results, ...data.results];
+      if (data.next) {
+        const nextParams = urlUtil.parse(data.next, true).query;
+        return getPaginated(updatedResults, {...paramsForPage, ...nextParams});
+      }
+
+      return updatedResults;
+    });
+
+  return getPaginated([], params);
+};
+
+export default {post, put, apiDelete, get, getAllFromEndpoint};

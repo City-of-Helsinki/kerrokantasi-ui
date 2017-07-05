@@ -97,5 +97,11 @@
   "inLanguage-fi": "In Finnish",
   "inLanguage-sv": "In Swedish",
   "inLanguage-en": "In English",
-  "hearingLanguages": "Enter hearing content"
+  "hearingLanguages": "Enter hearing content",
+  "sectionAbstract": "Abstract",
+  "sectionContent": "Text content",
+  "sectionImage": "Image",
+  "sectionImageHelpText": "Recommended image size is 960 × 720.",
+  "sectionImageCaption": "Caption",
+  "sectionTitle": "Section title"
 }

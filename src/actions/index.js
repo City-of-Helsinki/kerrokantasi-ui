@@ -53,8 +53,8 @@ export function fetchLabels() {
     const fetchAction = createAction('beginFetchLabels');
     dispatch(fetchAction);
 
-    return api.get(getState(), '/v1/label/').then(getResponseJSON).then((data) => {
-      dispatch(createAction('receiveLabels')({ data: data.results }));
+    return api.getAllFromEndpoint(getState(), '/v1/label/').then((data) => {
+      dispatch(createAction('receiveLabels')({ data }));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }

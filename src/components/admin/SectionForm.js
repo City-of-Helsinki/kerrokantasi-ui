@@ -13,6 +13,7 @@ import Dropzone from 'react-dropzone';
 
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
+import {isSpecialSectionType} from '../../utils/section';
 
 
 class SectionForm extends React.Component {
@@ -34,10 +35,10 @@ class SectionForm extends React.Component {
     const section = this.props.section;
     switch (field) {
       case "imageCaption":
-        this.props.onSectionImageChange(section.id, "caption", value);
+        this.props.onSectionImageChange(section.frontId, "caption", value);
         break;
       default:
-        this.props.onSectionChange(section.id, field, value);
+        this.props.onSectionChange(section.frontId, field, value);
     }
   }
 
@@ -47,7 +48,7 @@ class SectionForm extends React.Component {
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
       if (this.props.onSectionImageChange) {
-        this.props.onSectionImageChange(section.id, "image", fileReader.result);
+        this.props.onSectionImageChange(section.frontId, "image", fileReader.result);
       }
       this.setState({image: fileReader.result});
     }, false);
@@ -75,7 +76,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, sectionLanguages} = this.props;
+    const {section, onSectionChange, onSectionImageChange, sectionLanguages} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -84,6 +85,18 @@ class SectionForm extends React.Component {
     return (
       <div className="form-step">
         <FormGroup controlId="image">
+
+          {
+            !isSpecialSectionType(section.type) ?
+              <MultiLanguageTextField
+                labelId="sectionTitle"
+                name="title"
+                onBlur={(value) => onSectionChange(section.frontId, 'title', value)}
+                value={section.title}
+                languages={sectionLanguages}
+              /> : null
+          }
+
           <ControlLabel><FormattedMessage id="sectionImage"/></ControlLabel>
           <Dropzone
             accept="image/*"
@@ -105,7 +118,7 @@ class SectionForm extends React.Component {
         <MultiLanguageTextField
           labelId="sectionImageCaption"
           name="imageCaption"
-          onBlur={(value) => onSectionChange(section.id, 'imageCaption', value)}
+          onBlur={(value) => onSectionImageChange(section.frontId, 'caption', value)}
           value={imageCaption}
           languages={sectionLanguages}
         />
@@ -114,7 +127,7 @@ class SectionForm extends React.Component {
           labelId="sectionAbstract"
           maxLength={this.props.maxAbstractLength}
           name="abstract"
-          onBlur={(value) => onSectionChange(section.id, 'abstract', value)}
+          onBlur={(value) => onSectionChange(section.frontId, 'abstract', value)}
           value={section.abstract}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
@@ -123,7 +136,7 @@ class SectionForm extends React.Component {
         <MultiLanguageTextField
           labelId="sectionContent"
           name="content"
-          onBlur={(value) => onSectionChange(section.id, 'content', value)}
+          onBlur={(value) => onSectionChange(section.frontId, 'content', value)}
           rows="10"
           value={section.content}
           languages={sectionLanguages}

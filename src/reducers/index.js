@@ -28,5 +28,5 @@ export default combineReducers({
   router,
   sectionComments,
   user,
-  labels
+  labels,
 });

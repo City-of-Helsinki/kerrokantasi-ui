@@ -1,4 +1,6 @@
+// @flow
 import {PropTypes} from 'react';
+import {schema} from 'normalizr';
 import {languages} from './config';
 
 
@@ -127,3 +129,50 @@ export const commentShape = PropTypes.shape({
   label: labelShape,
   plugin_data: PropTypes.string,  // Not sure about this
 });
+
+export const labelSchema = new schema.Entity('labels', {}, {idAttribute: 'frontId'});
+export const labelResultsSchema = new schema.Array(labelSchema);
+export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
+export const contactPersonSchema = new schema.Entity('contactPersons', {}, {idAttribute: 'frontId'});
+export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
+export const hearingSchema = new schema.Entity('hearing', {
+  labels: labelResultsSchema,
+  sections: new schema.Array(sectionSchema),
+  contact_persons: contactPersonResultsSchema,
+});
+
+export type EntityResult = {
+  entities: {[string]: {[string]: Object}},
+  result: Array<string>,
+};
+
+export type DefaultEntityState = {
+  byId: Object,
+  all: Array<string>,
+  isFetching: boolean,
+};
+
+export type SectionState = DefaultEntityState;
+export type LabelState = DefaultEntityState;
+export type ContactPersonState = DefaultEntityState;
+
+
+export type HearingState = {
+  data: Object | null,
+  isFetching: boolean,
+};
+
+export type HearingEditorState = {
+  contactPersons: ContactPersonState,
+  hearing: HearingState,
+  labels: LabelState,
+  sections: SectionState,
+  languages: Array<string>,
+  metaData: Object,
+  editorState: Object,
+  errors: any,
+};
+
+export type AppState = {
+  hearingEditor: HearingEditorState,
+};
