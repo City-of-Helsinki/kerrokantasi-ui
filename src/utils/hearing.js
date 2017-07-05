@@ -97,7 +97,9 @@ Return initialized Hearing object representation.
  */
 export function initNewHearing(inits) {
   const mainSection = initNewSection();
-  mainSection.type = "main";
+  mainSection.type = SectionTypes.MAIN;
+  const closureSection = initNewSection();
+  closureSection.type = SectionTypes.CLOSURE;
   return _.merge({
     abstract: initAttr(),
     title: initAttr(),
@@ -106,7 +108,7 @@ export function initNewHearing(inits) {
     published: false,
     open_at: null,
     close_at: null,
-    sections: [mainSection],
+    sections: [mainSection, closureSection],
     main_image: {},
     contact_persons: [],
     n_comments: 0,

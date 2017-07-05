@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React from 'react';
+import {connect} from 'react-redux';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import Col from 'react-bootstrap/lib/Col';
@@ -13,6 +14,7 @@ import {getClosureSection} from '../../utils/hearing';
 import {initNewSection, SectionTypes} from '../../utils/section';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {hearingShape} from '../../types';
+import {addSection} from '../../actions/hearingEditor';
 
 
 class HearingFormStep4 extends React.Component {
@@ -24,23 +26,18 @@ class HearingFormStep4 extends React.Component {
     this.time_format = "";
     this.onChangeStart = this.onChangeStart.bind(this);
     this.onChangeEnd = this.onChangeEnd.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.onClosureSectionChange = this.onClosureSectionChange.bind(this);
     moment.locale("fi-FI");
   }
 
-  onChange(event) {
-    if (this.props.onHearingChange) {
-      // Propagate interestin changes to parent components
-      const {name: field, value} = event.target;
-      switch (field) {
-        case "closureInfo": {
-          const closureInfoSection = getClosureSection(this.props.hearing) || {};
-          this.props.onSectionChange(closureInfoSection.id, "content", value);
-          break;
-        }
-        default:
-          this.props.onHearingChange(field, value);
-      }
+  onClosureSectionChange(value) {
+    const {hearing, onSectionChange, dispatch} = this.props;
+    const closureInfoSection = getClosureSection(hearing);
+
+    if (closureInfoSection) {
+      onSectionChange(closureInfoSection.id, 'content', value);
+    } else {
+      dispatch(addSection(initNewSection({type: SectionTypes.CLOSURE, content: value})));
     }
   }
 
@@ -61,7 +58,7 @@ class HearingFormStep4 extends React.Component {
   }
 
   render() {
-    const {hearing, hearingLanguages, onSectionChange} = this.props;
+    const {hearing, hearingLanguages} = this.props;
     const closureInfoSection = getClosureSection(hearing) || initNewSection({type: SectionTypes.CLOSURE});
 
     return (
@@ -96,7 +93,7 @@ class HearingFormStep4 extends React.Component {
         <MultiLanguageTextField
           labelId="hearingClosureInfo"
           name="closureInfo"
-          onBlur={(value) => onSectionChange(closureInfoSection.id, 'content', value)}
+          onBlur={this.onClosureSectionChange}
           rows="10"
           value={closureInfoSection.content}
           fieldType={TextFieldTypes.TEXTAREA}
@@ -108,17 +105,14 @@ class HearingFormStep4 extends React.Component {
   }
 }
 
-HearingFormStep4.defaultProps = {
-  onChange: () => {}
-};
-
 HearingFormStep4.propTypes = {
+  dispatch: React.PropTypes.func,
   hearing: hearingShape,
   onHearingChange: React.PropTypes.func,
   onSectionChange: React.PropTypes.func,
   hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
-const WrappedHearingFormStep4 = injectIntl(HearingFormStep4);
+const WrappedHearingFormStep4 = connect()(injectIntl(HearingFormStep4));
 
 export default WrappedHearingFormStep4;

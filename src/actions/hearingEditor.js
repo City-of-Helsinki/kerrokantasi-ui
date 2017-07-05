@@ -5,8 +5,9 @@ import moment from 'moment';
 import Promise from 'bluebird';
 import {push} from 'redux-router';
 
-import {getResponseJSON, requestErrorHandler} from './index';
-import {getHearingEditorURL} from '../utils/hearing';
+import {requestErrorHandler} from './index';
+import {getHearingEditorURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
+import {fillFrontIdsAndNormalizeHearing, filterFrontIdsFromAttributes} from '../utils/hearingEditor';
 
 
 export const EditorActions = {
@@ -28,11 +29,18 @@ export const EditorActions = {
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
-  RECEIVE_META_DATA: 'receiveHearingEditorMetaData'
+  RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  ERROR_META_DATA: 'errorHearingEditorMetaData',
+  RECEIVE_HEARING: 'editorReceiveHearing',
+  UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
 };
 
+export function receiveHearing(normalizedHearing) {
+  return createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
+}
+
 export function initNewHearing() {
-  return createAction(EditorActions.INIT_NEW_HEARING)();
+  return createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
 }
 
 function checkResponseStatus(response) {
@@ -58,6 +66,16 @@ export function closeHearingForm() {
   };
 }
 
+// export const getAllFromEndpoint = (endpoint, actions, params = {limit: 2}, options = {}) => {
+//   return (dispatch, getState) => {
+//     const fetchAction = createAction(actions.fetch)();
+//     dispatch(fetchAction);
+//     api.getAllFromEndpoint(getState(), endpoint, params, options)
+//       .then((labels) => dispatch(createAction(actions.success)({labels})))
+//       .catch((error) => dispatch(createAction(actions.error)({error})));
+//   };
+// };
+
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
  * list of available labels and contact persons.
@@ -68,15 +86,22 @@ export function fetchHearingEditorMetaData() {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
     dispatch(fetchAction);
     return Promise.props({
-      labels: api.get(getState(), "/v1/label/").then(getResponseJSON),
-      contacts: api.get(getState(), "/v1/contact_person/").then(getResponseJSON),
+      labels: api.getAllFromEndpoint(getState(), '/v1/label/'),
+      contacts: api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
     }).then(({labels, contacts}) => {
       dispatch(createAction(EditorActions.RECEIVE_META_DATA)({
         // Unwrap the DRF responses:
-        labels: labels.results,
-        contacts: contacts.results,
+        labels,
+        contactPersons: contacts,
       }));
-    }).catch(requestErrorHandler(dispatch, fetchAction));
+    }).catch(err => {
+      dispatch(createAction(EditorActions.ERROR_META_DATA)({err}));
+      return err;
+    }).then((err) => {
+      if (err) {
+        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+      }
+    });
   };
 }
 
@@ -107,7 +132,7 @@ export function addSection(section) {
 
 /*
 * Removes section from hearing
-* @param {str} sectionID - Is compared to section.id and section.frontID in that order
+* @param {str} sectionID - Is compared to section.id and section.frontId in that order
  */
 export function removeSection(sectionID) {
   return (dispatch) => {
@@ -120,7 +145,6 @@ export function changeHearingEditorLanguages(languages) {
     dispatch(createAction(EditorActions.SET_LANGUAGES)({languages}));
 }
 
-
 /*
 * Save changes made to an existing hearing.
 * Passed hearing should represent the new state of the hearing.
@@ -128,10 +152,11 @@ export function changeHearingEditorLanguages(languages) {
  */
 export function saveHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({hearing});
+    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({cleanedHearing});
     dispatch(preSaveAction);
-    const url = "/v1/hearing/" + hearing.id;
-    return api.put(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+    const url = "/v1/hearing/" + cleanedHearing.id;
+    return api.put(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
       if (response.status === 400) {  // Bad request with error message
         notifyError("Tarkista kuulemisen tiedot.");
         response.json().then((errors) => {
@@ -153,10 +178,11 @@ export function saveHearingChanges(hearing) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({hearing});
+    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({cleanedHearing});
     dispatch(preSaveAction);
-    const url = "/v1/hearing/" + hearing.id;
-    return api.put(getState(), url, hearing).then(checkResponseStatus).then((response) => {
+    const url = "/v1/hearing/" + cleanedHearing.id;
+    return api.put(getState(), url, cleanedHearing).then(checkResponseStatus).then((response) => {
       if (response.status === 400) {  // Bad request with error message
         notifyError("Tarkista kuulemisen tiedot.");
         response.json().then((errors) => {
@@ -181,10 +207,7 @@ export function saveAndPreviewHearingChanges(hearing) {
 
 export function saveNewHearing(hearing) {
   // Clean up section IDs assigned by UI before POSTing the hearing
-  const cleanedHearing = Object.assign({}, hearing, {
-    sections: hearing.sections.reduce((sections, section) =>
-      [...sections, Object.assign({}, section, {id: ''})], [])
-  });
+  const cleanedHearing = filterFrontIdsFromAttributes(hearing);
   return (dispatch, getState) => {
     const preSaveAction = createAction(EditorActions.POST_HEARING)({hearing: cleanedHearing});
     dispatch(preSaveAction);
@@ -296,4 +319,8 @@ export function unPublishHearing(hearing) {
       }
     }).catch(requestErrorHandler(dispatch, preUnPublishAction));
   };
+}
+
+export function updateHearingAfterSave(normalizedHearing) {
+  return createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
 }

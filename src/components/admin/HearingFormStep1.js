@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 
@@ -12,7 +13,11 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
-import {hearingShape, hearingEditorMetaDataShape} from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  labelShape
+} from '../../types';
 import getAttr from '../../utils/getAttr';
 
 
@@ -34,11 +39,11 @@ class HearingFormStep1 extends React.Component {
   }
 
   onTagsChange(selectedTags) {
-    this.props.onHearingChange("labels", selectedTags);
+    this.props.onHearingChange("labels", selectedTags.map(({id}) => id));
   }
 
   onContactsChange(selectedContacts) {
-    this.props.onHearingChange("contact_persons", selectedContacts);
+    this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
   render() {
@@ -46,7 +51,8 @@ class HearingFormStep1 extends React.Component {
       hearing,
       hearingLanguages,
       intl: {formatMessage},
-      editorMetaData: {labels: tagOptions, contacts: contactOptions},
+      labels: tagOptions,
+      contactPersons: contactOptions,
       onHearingChange,
       onLanguagesChange,
     } = this.props;
@@ -81,11 +87,11 @@ class HearingFormStep1 extends React.Component {
                 multi
                 name="labels"
                 onChange={this.onTagsChange}
-                options={tagOptions.map((opt) => ({id: opt.id, label: getAttr(opt.label, language)}))}
+                options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
                 placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                 simpleValue={false}
-                value={hearing.labels.map((label) => ({id: label.id, label: getAttr(label.label, language)}))}
-                valueKey="id"
+                value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                valueKey="frontId"
                 menuContainerStyle={{zIndex: 10}}
               />
             </FormGroup>
@@ -118,7 +124,7 @@ class HearingFormStep1 extends React.Component {
             placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
             simpleValue={false}
             value={hearing.contact_persons}
-            valueKey="id"
+            valueKey="frontId"
           />
         </FormGroup>
         <hr/>
@@ -131,9 +137,10 @@ class HearingFormStep1 extends React.Component {
 }
 
 HearingFormStep1.propTypes = {
-  editorMetaData: hearingEditorMetaDataShape,
+  contactPersons: PropTypes.arrayOf(contactShape),
   hearing: hearingShape,
   intl: intlShape.isRequired,
+  labels: PropTypes.arrayOf(labelShape),
   onContinue: React.PropTypes.func,
   onHearingChange: React.PropTypes.func,
   onLanguagesChange: React.PropTypes.func,

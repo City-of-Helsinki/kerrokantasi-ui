@@ -48,6 +48,7 @@
   "sectionImage": "Kuva",
   "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720.",
   "sectionImageCaption": "Kuvateksti",
+  "sectionTitle": "Osa-alueen otsikko",
   "selectOrDropImage": "Valitse tai pudota kuva",
   "selectAnotherImage": "Valitse toinen kuva",
   "hearingAbstract": "Lyhyt johdanto",
