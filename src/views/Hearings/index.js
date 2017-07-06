@@ -12,6 +12,7 @@ import {get, find} from 'lodash';
 import * as Actions from '../../actions';
 import {isAdmin} from '../../utils/user';
 import HearingList from '../../components/HearingList';
+import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import {hearingShape, labelShape, userShape} from '../../types';
@@ -242,7 +243,7 @@ class Hearings extends React.Component {
       />) : null;
 
     if (user.isFetching) {
-      return <h3>Such user is being waited</h3>; // TODO
+      return <LoadSpinner/>;
     }
 
     return (
