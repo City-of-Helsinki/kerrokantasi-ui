@@ -85,11 +85,13 @@ class Hearings extends React.Component {
     this.state = {
       sortBy: '-created_at',
       adminFilter: isAdmin(props.user) ? AdminFilters[0] : null,
+      showOnlyOpen: false,
     };
 
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelectLabels = this.handleSelectLabels.bind(this);
     this.setAdminFilter = this.setAdminFilter.bind(this);
+    this.toggleShowOnlyOpen = this.toggleShowOnlyOpen.bind(this);
   }
 
   componentDidMount() {
@@ -201,6 +203,10 @@ class Hearings extends React.Component {
     });
   }
 
+  toggleShowOnlyOpen() {
+    this.setState(({showOnlyOpen}) => ({showOnlyOpen: !showOnlyOpen}));
+  }
+
   render() {
     const {
       intl: {formatMessage},
@@ -210,6 +216,7 @@ class Hearings extends React.Component {
       location: {query: {search: searchTitle, label: selectedLabels}},
       user,
     } = this.props;
+    const {showOnlyOpen} = this.state;
     const hearings = this.getHearings();
 
     const createHearingButton = isAdmin(user.data) ? <CreateHearingButton onClick={() => console.log('todo create hearing button')}/> : null;
@@ -241,12 +248,12 @@ class Hearings extends React.Component {
               searchPhrase={searchTitle}
               isLoading={this.getIsLoading()}
               labels={labels}
-              showOnlyOpen={false /* TODO */}
+              showOnlyOpen={showOnlyOpen}
               handleChangeFilter={() => console.log('todo')}
               handleSort={() => console.log('todo')}
               handleSearch={this.handleSearch}
               handleSelectLabels={this.handleSelectLabels}
-              toggleShowOnlyOpen={this.toggleShoOnlyOpen}
+              toggleShowOnlyOpen={this.toggleShowOnlyOpen}
               language={language}
               initialTab={tab}
               onTabChange={(value) => {

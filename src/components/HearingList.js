@@ -174,7 +174,7 @@ class HearingList extends React.Component {
           inline
           readOnly
           checked={showOnlyOpen}
-          onChange={() => toggleShowOnlyOpen()}
+          onChange={toggleShowOnlyOpen}
           style={{marginBottom: 10}}
         >
           <FormattedMessage id="showOnlyOpen"/>
