@@ -5,7 +5,7 @@ import {Button} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
 const CreateHearingButton = ({onClick}) => (
-  <div className="pull-right create-hearing-button-container">
+  <div className="pull-right create-hearing-button-container" style={{marginTop: '-66px'}}>
     <Button bsStyle="primary" onClick={onClick}>
       <Icon name="add"/><FormattedMessage id="createHearing"/>
     </Button>

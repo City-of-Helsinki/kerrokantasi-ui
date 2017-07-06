@@ -223,6 +223,7 @@ class Hearings extends React.Component {
 
   render() {
     const {
+      history,
       intl: {formatMessage},
       labels,
       language,
@@ -233,7 +234,7 @@ class Hearings extends React.Component {
     const {showOnlyOpen} = this.state;
     const hearings = this.getHearings();
 
-    const createHearingButton = isAdmin(user.data) ? <CreateHearingButton onClick={() => console.log('todo create hearing button')}/> : null;
+    const createHearingButton = isAdmin(user.data) ? <CreateHearingButton onClick={() => history.pushState(null, '/hearing/new')}/> : null;
     const adminFilterSelector = isAdmin(user.data) ?
       (<AdminFilterSelector
         onSelect={this.setAdminFilter}
