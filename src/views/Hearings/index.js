@@ -104,7 +104,8 @@ class Hearings extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {user, labels} = this.props;
-    const shouldSetAdminFilter = !user.data && isAdmin(nextProps.user.data);
+    const {adminFilter} = this.state;
+    const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
     const shouldFetchHearings = !labels.length && nextProps.labels.length;
 
@@ -136,8 +137,8 @@ class Hearings extends React.Component {
 
   getIsLoading() {
     const {hearingLists} = this.props;
-
-    return get(hearingLists, [this.getHearingListName(), 'isFetching'], true);
+    const name = this.getHearingListName();
+    return get(hearingLists, [name, 'isFetching'], true);
   }
 
   getSearchParams() {
