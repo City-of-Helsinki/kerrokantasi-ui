@@ -7,6 +7,7 @@ import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
+import admin from './admin';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -29,4 +30,5 @@ export default combineReducers({
   sectionComments,
   user,
   labels,
+  admin
 });
