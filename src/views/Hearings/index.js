@@ -85,7 +85,7 @@ class Hearings extends React.Component {
 
     this.state = {
       sortBy: '-created_at',
-      adminFilter: isAdmin(props.user) ? AdminFilters[0] : null,
+      adminFilter: isAdmin(props.user) ? AdminFilters[0].list : null,
       showOnlyOpen: false,
     };
 
@@ -171,7 +171,7 @@ class Hearings extends React.Component {
     fetchHearingList(list, params);
   }
 
-  static getLabelsFromQuery = (labelsInQuery = [], labels, language) =>
+  static getLabelsFromQuery = (labelsInQuery = [], labels = [], language) =>
     labels.filter(({label}) => labelsInQuery.includes(getAttr(label, language)));
 
   handleSearch(searchTitle, force = false) {
@@ -269,11 +269,11 @@ class Hearings extends React.Component {
               handleSelectLabels={this.handleSelectLabels}
               toggleShowOnlyOpen={this.toggleShowOnlyOpen}
               language={language}
-              initialTab={tab}
+              tab={tab}
               onTabChange={(value) => {
                 const url = `/hearings/${value}`;
                 if (history.pushState) {
-                  history.pushState({path: url}, '', url);
+                  history.pushState(null, url);
                 } else {
                   window.location.href = url;
                 }
