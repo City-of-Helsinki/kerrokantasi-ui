@@ -321,6 +321,7 @@ Hearings.propTypes = {
 const mapStateToProps = (state) => ({
   hearingLists: state.hearingLists,
   labels: state.labels.data,
+  language: state.language,
   user: state.user,
 });
 
