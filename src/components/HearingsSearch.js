@@ -27,7 +27,7 @@ class HearingsSearch extends React.Component {
     return (
       <div className="hearings-search__container">
         <div className="hearings-search__content">
-          <form onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value); }}>
+          <form onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value, true); }}>
             <FormGroup className="hearings-search__text" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
               <FormControl

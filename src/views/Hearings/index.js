@@ -173,20 +173,22 @@ class Hearings extends React.Component {
   static getLabelsFromQuery = (labelsInQuery = [], labels, language) =>
     labels.filter(({label}) => labelsInQuery.includes(getAttr(label, language)));
 
-  handleSearch(searchTitle) {
+  handleSearch(searchTitle, force = false) {
     const {history, location: {query}, labels, language} = this.props;
+    const searchPhraseUpdated = query.search !== searchTitle;
+    if (searchPhraseUpdated || force) {
+      const labelIds = Hearings.getLabelsFromQuery(query.label, labels, language).map(({id}) => id);
 
-    const labelIds = Hearings.getLabelsFromQuery(query.label, labels, language).map(({id}) => id);
+      this.fetchHearingList({
+        title: searchTitle,
+        label: labelIds,
+      });
 
-    this.fetchHearingList({
-      title: searchTitle,
-      label: labelIds,
-    });
-
-    history.pushState(null, window.location.pathname, {
-      ...query,
-      search: searchTitle !== '' ? searchTitle : undefined,
-    });
+      history.pushState(null, window.location.pathname, {
+        ...query,
+        search: searchTitle !== '' ? searchTitle : undefined,
+      });
+    }
   }
 
   handleSelectLabels(labels) {
