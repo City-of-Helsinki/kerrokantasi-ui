@@ -90,6 +90,7 @@ class Hearings extends React.Component {
 
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSelectLabels = this.handleSelectLabels.bind(this);
+    this.handleSort = this.handleSort.bind(this);
     this.setAdminFilter = this.setAdminFilter.bind(this);
     this.toggleShowOnlyOpen = this.toggleShowOnlyOpen.bind(this);
   }
@@ -139,12 +140,11 @@ class Hearings extends React.Component {
   }
 
   getSearchParams() {
-    const {labels, location: {query: {search, label: selectedLabels}}} = this.props;
-    const selectedLabelsArr = [].concat(selectedLabels);
+    const {labels, language, location: {query: {search, label: selectedLabels}}} = this.props;
 
     return ({
       title: search || '',
-      label: labels.filter(({label}) => selectedLabelsArr.includes(label))
+      label: Hearings.getLabelsFromQuery(selectedLabels, labels, language).map(({id}) => id),
     });
   }
 
@@ -170,18 +170,19 @@ class Hearings extends React.Component {
     fetchHearingList(list, params);
   }
 
+  static getLabelsFromQuery = (labelsInQuery = [], labels, language) =>
+    labels.filter(({label}) => labelsInQuery.includes(getAttr(label, language)));
+
   handleSearch(searchTitle) {
     const {history, location: {query}, labels, language} = this.props;
-    const labelNames = query.label || [];
-    const selectedLabels = labels.filter((label) => labelNames.includes(getAttr(label.label, language)));
 
-    const labelIds = selectedLabels.length ? selectedLabels.map((label) => label.id).toString() : undefined;
+    const labelIds = Hearings.getLabelsFromQuery(query.label, labels, language).map(({id}) => id);
 
     this.fetchHearingList({
       title: searchTitle,
       label: labelIds,
     });
-    // Hearings.updateQueryStringOnSearch(searchTitle, labels, labelIds);
+
     history.pushState(null, window.location.pathname, {
       ...query,
       search: searchTitle !== '' ? searchTitle : undefined,
@@ -200,6 +201,16 @@ class Hearings extends React.Component {
     history.pushState(null, window.location.pathname, {
       ...query,
       label: labels.map(({label}) => label),
+    });
+  }
+
+  handleSort(sortBy) {
+    this.setState(() => ({sortBy}), () => {
+      const {labels, language, location: {query}} = this.props;
+      this.fetchHearingList({
+        title: query.search,
+        label: Hearings.getLabelsFromQuery(query.label, labels, language).map(({id}) => id),
+      });
     });
   }
 
@@ -249,8 +260,7 @@ class Hearings extends React.Component {
               isLoading={this.getIsLoading()}
               labels={labels}
               showOnlyOpen={showOnlyOpen}
-              handleChangeFilter={() => console.log('todo')}
-              handleSort={() => console.log('todo')}
+              handleSort={this.handleSort}
               handleSearch={this.handleSearch}
               handleSelectLabels={this.handleSelectLabels}
               toggleShowOnlyOpen={this.toggleShowOnlyOpen}
