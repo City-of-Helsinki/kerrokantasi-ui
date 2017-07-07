@@ -36,11 +36,11 @@ class Home extends React.Component {
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
-    typeof window !== 'undefined' && window.addEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
-    typeof window !== 'undefined' && window.removeEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize() {

@@ -101,7 +101,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
     const self = this;
     if (!self._messageListener) {
       self._messageListener = this.onReceiveMessage.bind(self);
-      typeof window !== 'undefined' && window.addEventListener("message", self._messageListener, false);
+      if (typeof window !== 'undefined') window.addEventListener("message", self._messageListener, false);
     }
 
     iframe.addEventListener("load", () => {
@@ -115,7 +115,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
 
   componentWillUnmount() {
     if (this._messageListener) {
-      typeof window !== 'undefined' && window.removeEventListener("message", this._messageListener, false);
+      if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;
     }
   }

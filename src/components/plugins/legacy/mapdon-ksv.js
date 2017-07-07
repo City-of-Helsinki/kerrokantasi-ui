@@ -135,7 +135,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
     if (!this._messageListener) {
       this._messageListener = this.onReceiveMessage.bind(this);
-      typeof window !== 'undefined' && window.addEventListener("message", this._messageListener, false);
+      if (typeof window !== 'undefined') window.addEventListener("message", this._messageListener, false);
     }
 
     iframe.addEventListener("load", () => {
@@ -152,7 +152,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   componentWillUnmount() {
     super.componentWillUnmount();
     if (this._messageListener) {
-      typeof window !== 'undefined' && window.removeEventListener("message", this._messageListener, false);
+      if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;
     }
   }

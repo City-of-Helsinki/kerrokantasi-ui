@@ -105,7 +105,7 @@ class AllHearings extends React.Component {
     const {dispatch} = this.props;
     AllHearings.fetchLabels(dispatch);
     // Note: Fetch hearings after label ids are usable -> componentWillReceiveProps
-    typeof window !== 'undefined' && window.addEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -124,7 +124,7 @@ class AllHearings extends React.Component {
   }
 
   componentWillUnmount() {
-    typeof window !== 'undefined' && window.removeEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
   }
 
   render() {

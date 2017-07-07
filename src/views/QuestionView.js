@@ -47,7 +47,7 @@ class QuestionView extends Component {
   }
 
   componentWillMount() {
-    typeof window !== 'undefined' && window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
   }
 
   render() {

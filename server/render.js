@@ -64,24 +64,19 @@ function renderState(settings, store, routerState, bundleSrc = "/app.js") {
     }
     const promises = getDataDependencies(store);
     Promise.all(promises).then(() => {
-      try {
-        const status = getStatusFromRoutes(routerState.routes);
-        const appContent = renderToString(getRoot(store));
-        const state = {}; // TODO: Should probably use store.getState(), but it seems to break things
-        const head = Helmet.rewind();
-        const html = renderToStaticMarkup((<Html
-          head={head}
-          content={appContent}
-          initialState={state}
-          bundleSrc={bundleSrc}
-          apiBaseUrl={settings.apiBaseUrl}
-          uiConfig={settings.uiConfig}
-        />));
-        resolve({status, html});
-      } catch(err) {
-        console.log(err);
-        throw err;
-      }
+      const status = getStatusFromRoutes(routerState.routes);
+      const appContent = renderToString(getRoot(store));
+      const state = {}; // TODO: Should probably use store.getState(), but it seems to break things
+      const head = Helmet.rewind();
+      const html = renderToStaticMarkup((<Html
+        head={head}
+        content={appContent}
+        initialState={state}
+        bundleSrc={bundleSrc}
+        apiBaseUrl={settings.apiBaseUrl}
+        uiConfig={settings.uiConfig}
+      />));
+      resolve({status, html});
     }).catch((err) => {
       reject(err);
     });
