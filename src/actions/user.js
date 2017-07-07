@@ -11,7 +11,7 @@ export function retrieveUserFromSession() {
     }).then((user) => {
       if (user.token) { // If the user is registered, check admin organizations
         const url = "v1/users/" + user.id + "/";
-        return api.get({user}, url, {}).then((democracyUser) => {
+        return api.get({user: {data: user}}, url, {}).then((democracyUser) => {
           return democracyUser.json();
         }).then((democracyUserJSON) => {
           const userWithOrganization = Object.assign({},
