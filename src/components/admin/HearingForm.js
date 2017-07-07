@@ -65,6 +65,7 @@ class HearingForm extends React.Component {
           visible={isVisible}
           editorMetaData={this.props.editorMetaData}
           errors={this.props.errors}
+          dispatch={this.props.dispatch}
         />
       </Panel>
     );
@@ -140,6 +141,7 @@ class HearingForm extends React.Component {
 HearingForm.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   currentStep: React.PropTypes.number,
+  dispatch: React.PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
   isSaving: React.PropTypes.bool,
   errors: React.PropTypes.object,
