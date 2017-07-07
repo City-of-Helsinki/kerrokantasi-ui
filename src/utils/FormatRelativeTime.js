@@ -4,7 +4,7 @@ import {FormattedMessage, FormattedRelative} from 'react-intl';
 
 function FormatRelativeTime({messagePrefix, timeVal}) {
   if (!timeVal) {
-    return "";
+    return <span/>;
   }
   const time = new Date(timeVal);
   const isPast = (+time < +new Date());
