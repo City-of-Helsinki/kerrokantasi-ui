@@ -109,3 +109,42 @@ $node_modules: "../../../node_modules";
       background: #fff;
     }
 }
+
+.contact-elements {
+  display: flex;
+
+  > .Select {
+    flex-basis: 20%;
+    flex-grow: 2;
+  }
+
+  .add-contact-button {
+    margin-left: 5px;
+    width: 38px;
+  }
+}
+
+.checkbox-container {
+  display: inline-block;
+  margin-right: 25px;
+
+  > span {
+    font-weight: bold;
+  }
+
+  > input {
+    margin-left: 6px;
+  }
+}
+
+.input-container {
+  margin-bottom: 28px;
+
+  .title-inputs > .title-input-container {
+    margin-top: 20px;
+
+    span {
+      font-weight: bold;
+    }
+  }
+}
