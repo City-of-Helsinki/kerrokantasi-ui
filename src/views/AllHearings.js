@@ -26,7 +26,7 @@ class AllHearings extends React.Component {
     this.state = {
       sortBy: '-created_at',
       showOnlyOpen: false,
-      isMobile: window.innerWidth < 992
+      isMobile: typeof window !== 'undefined' && window.innerWidth < 992,
     };
     this.handleResize = this.handleResize.bind(this);
   }
@@ -98,14 +98,14 @@ class AllHearings extends React.Component {
   }
 
   handleResize() {
-    this.setState({ isMobile: window.innerWidth < 992 });
+    this.setState({ isMobile: typeof window !== 'undefined' && window.innerWidth < 992 });
   }
 
   componentDidMount() {
     const {dispatch} = this.props;
     AllHearings.fetchLabels(dispatch);
     // Note: Fetch hearings after label ids are usable -> componentWillReceiveProps
-    window.addEventListener('resize', this.handleResize);
+    typeof window !== 'undefined' && window.addEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -124,7 +124,7 @@ class AllHearings extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    typeof window !== 'undefined' && window.removeEventListener('resize', this.handleResize);
   }
 
   render() {

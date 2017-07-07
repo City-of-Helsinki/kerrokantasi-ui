@@ -12,7 +12,7 @@ export default class Twitter extends React.Component {
   }
 
   setupTwitterWidget(twttr) {
-    twttr.widgets.createShareButton(window.location.href, this.refs.container, {});
+    twttr.widgets.createShareButton(typeof window !== 'undefined' ? window.location.href : '', this.refs.container, {});
   }
 
   render() {

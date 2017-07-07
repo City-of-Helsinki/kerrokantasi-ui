@@ -329,7 +329,7 @@ export class Hearing extends React.Component {
               <div id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
                 <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)} />
                 <SectionList
-                  basePath={location.pathname}
+                  basePath={window ? window.location.pathname : ''}
                   sections={sectionGroup.sections}
                   nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}

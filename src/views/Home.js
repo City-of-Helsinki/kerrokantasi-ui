@@ -17,7 +17,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {isMobile: window.innerWidth < 768};
+    this.state = {isMobile: typeof window !== 'undefined' && window.innerWidth < 768};
     this.handleResize = this.handleResize.bind(this);
   }
   /**
@@ -36,15 +36,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
-    window.addEventListener('resize', this.handleResize);
+    typeof window !== 'undefined' && window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    typeof window !== 'undefined' && window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize() {
-    this.setState({ isMobile: window.innerWidth < 768 });
+    this.setState({ isMobile: typeof window !== 'undefined' && window.innerWidth < 768 });
   }
 
 

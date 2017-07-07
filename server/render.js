@@ -64,19 +64,24 @@ function renderState(settings, store, routerState, bundleSrc = "/app.js") {
     }
     const promises = getDataDependencies(store);
     Promise.all(promises).then(() => {
-      const status = getStatusFromRoutes(routerState.routes);
-      const appContent = renderToString(getRoot(store));
-      const state = {}; // TODO: Should probably use store.getState(), but it seems to break things
-      const head = Helmet.rewind();
-      const html = renderToStaticMarkup((<Html
-        head={head}
-        content={appContent}
-        initialState={state}
-        bundleSrc={bundleSrc}
-        apiBaseUrl={settings.apiBaseUrl}
-        uiConfig={settings.uiConfig}
-      />));
-      resolve({status, html});
+      try {
+        const status = getStatusFromRoutes(routerState.routes);
+        const appContent = renderToString(getRoot(store));
+        const state = {}; // TODO: Should probably use store.getState(), but it seems to break things
+        const head = Helmet.rewind();
+        const html = renderToStaticMarkup((<Html
+          head={head}
+          content={appContent}
+          initialState={state}
+          bundleSrc={bundleSrc}
+          apiBaseUrl={settings.apiBaseUrl}
+          uiConfig={settings.uiConfig}
+        />));
+        resolve({status, html});
+      } catch(err) {
+        console.log(err);
+        throw err;
+      }
     }).catch((err) => {
       reject(err);
     });
@@ -111,6 +116,8 @@ export default function render(req, res, settings, initialState = {}) {
   // And this bit replaces the actual React mounting.
   store.dispatch(match(req.url, (error, redirectLocation, routerState) => {
     if (error) {
+      console.log('1', error);
+      console.trace();
       res.status(500).send(error.message);
       return;
     }
@@ -121,6 +128,8 @@ export default function render(req, res, settings, initialState = {}) {
     renderState(settings, store, routerState, bundleSrc).then(({status, html}) => {
       res.status(status || 200).send(html);
     }, (err) => {
+      console.log('2', err);
+      console.trace();
       res.status(500).send(err);
     });
   }));
