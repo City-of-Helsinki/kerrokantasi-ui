@@ -103,5 +103,11 @@
   "sectionImage": "Image",
   "sectionImageHelpText": "Recommended image size is 960 × 720.",
   "sectionImageCaption": "Caption",
-  "sectionTitle": "Section title"
+  "sectionTitle": "Section title",
+  "createContact": "Create a new contact",
+  "create": "Create",
+  "name": "Name",
+  "phone": "Phone number",
+  "email": "Email",
+  "title": "Title"
 }

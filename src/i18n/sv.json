@@ -97,5 +97,11 @@
   "inLanguage-fi": "på finska",
   "inLanguage-sv": "på svenska",
   "inLanguage-en": "på engelska",
-  "hearingLanguages": "TODO"
+  "hearingLanguages": "TODO",
+  "createContact": "Skapa en ny kontakt",
+  "create": "Skapa",
+  "name": "Namn",
+  "phone": "Telefonnummer",
+  "email": "E-post",
+  "title": "Rubrik"
 }

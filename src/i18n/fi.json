@@ -29,7 +29,7 @@
   "addSection": "Lisää osa-alue",
   "deleteSection": "Poista osio",
   "addOption": "Lisää vaihtoehto",
-  "hearingTitle": "Otsikko",
+  "title": "Otsikko",
   "hearingTitlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
   "hearingTags": "Tagit",
   "hearingTagsPlaceholder": "Valitse kuulemiselle sopivat tagit",
@@ -152,5 +152,11 @@
   "inLanguage-fi": "suomeksi",
   "inLanguage-sv": "ruotsiksi",
   "inLanguage-en": "englanniksi",
-  "hearingLanguages": "Kuulemisen tiedot syötetään"
+  "hearingLanguages": "Kuulemisen tiedot syötetään",
+  "createContact": "Luo uusi yhteyshenkilö",
+  "create": "Luo",
+  "name": "Nimi",
+  "phone": "Puhelinnumero",
+  "email": "Sähköposti",
+  "contactTitlePlaceholder": "Anna yhteyshenkilölle kuvaava otsikko..."
 }
