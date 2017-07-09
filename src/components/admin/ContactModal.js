@@ -93,7 +93,7 @@ class ContactModal extends React.Component {
               onChange={(event) => this.onContactTitleChange(key, event.target.value)}
               value={contact.title[key] || ''}
               placeholder={intl.formatMessage({ id: 'contactTitlePlaceholder' })}
-              maxLength="200"
+              maxLength="250"
             />
           </div>
         );
@@ -137,6 +137,7 @@ class ContactModal extends React.Component {
           <div className="input-container email-input">
             <h4><FormattedMessage id="email"/></h4>
             <input
+              type="email"
               className="form-control"
               onChange={(event) => this.onContactChange('email', event.target.value)}
               value={contact.email}
