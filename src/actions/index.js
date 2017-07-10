@@ -1,6 +1,7 @@
 import {createAction} from 'redux-actions';
 import api from '../api';
-import {alert, notifySuccess, notifyError} from '../utils/notify';
+import {localizedAlert, localizedNotifySuccess, localizedNotifyError, notifyError} from '../utils/notify';
+import getMessage from '../utils/getMessage';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 
@@ -30,7 +31,7 @@ export function getResponseJSON(response) {
 export function requestErrorHandler(dispatch, fetchAction) {
   return (err) => {
     const callName = fetchAction ? fetchAction.type : "";
-    notifyError("API-kutsu " + callName + " epäonnistui: " + err + ". Kokeile pian uudelleen.");
+    notifyError(getMessage("APICallFailed").replace('{callName}', callName).replace('{err}', err));
   };
 }
 
@@ -80,7 +81,7 @@ export function followHearing(hearingSlug) {
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveFollowHearing")({hearingSlug, data}));
       dispatch(fetchHearing(hearingSlug));
-      notifySuccess("Seuraat kuulemista.");
+      localizedNotifySuccess("followingHearing");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
@@ -148,7 +149,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
-      alert("Kommenttisi on vastaanotettu. Kiitos!");
+      localizedAlert("commentReceived");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
@@ -162,7 +163,7 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
 
     return api.put(getState(), url, params).then(getResponseJSON).then(() => {
       dispatch(createAction("postedComment")({sectionId}));
-      alert("Kommenttisi muokattu. Kiitos!");
+      localizedAlert("commentEdited");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
@@ -177,7 +178,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
-      alert("Kommenttisi on poistettu.");
+      localizedAlert("commentDeleted");
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
@@ -189,10 +190,10 @@ export function postVote(commentId, hearingSlug, sectionId) {
     const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
-        notifyError("Olet jo antanut äänesi tälle kommentille.");
+        localizedNotifyError("alreadyVoted");
       } else {
         dispatch(createAction("postedCommentVote")({commentId, sectionId}));
-        notifySuccess("Ääni vastaanotettu. Kiitos!");
+        localizedNotifySuccess("voteReceived");
       }
     }).catch(requestErrorHandler(fetchAction));
   };

@@ -152,5 +152,12 @@
   "inLanguage-fi": "suomeksi",
   "inLanguage-sv": "ruotsiksi",
   "inLanguage-en": "englanniksi",
-  "hearingLanguages": "Kuulemisen tiedot syötetään"
+  "hearingLanguages": "Kuulemisen tiedot syötetään",
+  "APICallFailed": "API-kutsu {callName} epäonnistui: {err}. Kokeile pian uudelleen.",
+  "followingHearing": "Seuraat kuulemista.",
+  "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
+  "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+  "commentDeleted": "Kommenttisi on poistettu.",
+  "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
+  "voteReceived": "Ääni vastaanotettu. Kiitos!"
 }

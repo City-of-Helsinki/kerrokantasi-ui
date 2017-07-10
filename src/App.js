@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import {retrieveUserFromSession} from './actions';
+import config from './config';
 
 class App extends React.Component {
   getChildContext() {
@@ -17,6 +18,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(retrieveUserFromSession());
+    config.activeLanguage = this.props.language; // for non react-intl localizations
   }
 
   render() {
