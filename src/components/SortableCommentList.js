@@ -25,7 +25,8 @@ class SortableCommentList extends Component {
     super();
 
     this.state = {
-      showLoader: false
+      showLoader: false,
+      collapseForm: false
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
@@ -65,7 +66,8 @@ class SortableCommentList extends Component {
     const results = get(nextProps.sectionComments, 'results');
 
     this.setState({
-      showLoader: isFetching
+      showLoader: isFetching,
+      collapseForm: false // whenever things change, no longer force the form to collapse
     });
 
     if (!this.props.user && nextProps.user) {
@@ -81,8 +83,11 @@ class SortableCommentList extends Component {
     }
 
     if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
-      // comments have to be reloaded due to posting
+      // comments have to be reloaded and form collapsed due to posting
       this.fetchComments(nextProps.section.id, nextProps.sectionComments.ordering);
+      this.setState({
+        collapseForm: true
+      });
     }
   }
 
@@ -168,6 +173,7 @@ class SortableCommentList extends Component {
               hearingId={hearingId}
               onPostComment={onPostComment}
               canSetNickname={this.props.canSetNickname}
+              collapseForm={this.state.collapseForm}
             />
           </div>
         </div>) : null;
