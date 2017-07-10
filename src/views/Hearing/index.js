@@ -4,20 +4,19 @@ import Helmet from 'react-helmet';
 import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {fetchHearing, changeCurrentlyViewed} from '../../actions';
-import {getMainSection, getHearingURL, getOpenGraphMetaData} from '../../utils/hearing';
-import {injectIntl} from 'react-intl';
-import {push} from 'redux-router';
+import { connect } from 'react-redux';
+import { fetchHearing, changeCurrentlyViewed } from '../../actions';
+import { getMainSection, getHearingURL, getOpenGraphMetaData } from '../../utils/hearing';
+import { injectIntl } from 'react-intl';
+import { push } from 'redux-router';
+import { getUser } from '../../selectors/user';
 import getAttr from '../../utils/getAttr';
 
-
 export class HearingView extends React.Component {
-
   constructor(props) {
     super(props);
 
-    this.state = {currentlyViewed: 'hearing'};
+    this.state = { currentlyViewed: 'hearing' };
     this.changeCurrentlyViewed = this.changeCurrentlyViewed.bind(this);
   }
   /**
@@ -44,12 +43,12 @@ export class HearingView extends React.Component {
    * @return {boolean} Renderable?
    */
   static canRenderFully(getState, location, params) {
-    const {state, data} = (getState().hearing[params.hearingSlug] || {state: 'initial'});
-    return (state === 'done' && data);
+    const { state, data } = getState().hearing[params.hearingSlug] || { state: 'initial' };
+    return state === 'done' && data;
   }
 
   componentDidMount() {
-    const {dispatch, params, location} = this.props;
+    const { dispatch, params, location } = this.props;
     HearingView.fetchData(dispatch, null, location, params);
   }
 
@@ -61,7 +60,8 @@ export class HearingView extends React.Component {
     changeCurrentlyViewed(this.props.dispatch, viewedItem);
   }
 
-  renderSpinner() {  // eslint-disable-line class-methods-use-this
+  // eslint-disable-next-line class-methods-use-this
+  renderSpinner() {
     return (
       <div className="container">
         <LoadSpinner />
@@ -77,13 +77,13 @@ export class HearingView extends React.Component {
       // Let's redirect to proper hearing URL
       this.props.dispatch(push(getHearingURL(hearing)));
     }
-    return fullscreenParam === "true";
+    return fullscreenParam === 'true';
   }
 
   render() {
-    const {hearingSlug} = this.props.params;
-    const {state, data: hearing} = (this.props.hearing[hearingSlug] || {state: 'initial'});
-    const {user, language, dispatch, currentlyViewed} = this.props;
+    const { hearingSlug } = this.props.params;
+    const { state, data: hearing } = this.props.hearing[hearingSlug] || { state: 'initial' };
+    const { user, language, dispatch, currentlyViewed } = this.props;
 
     if (state !== 'done') {
       return this.renderSpinner();
@@ -93,7 +93,7 @@ export class HearingView extends React.Component {
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
 
     return (
-      <div key="hearing" className={fullscreen ? "fullscreen-hearing" : "container"}>
+      <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'container'}>
         <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
         <HearingComponent
           hearingSlug={hearingSlug}
@@ -118,16 +118,16 @@ HearingView.propTypes = {
   location: PropTypes.object,
   user: PropTypes.object,
   sectionComments: PropTypes.object,
-  currentlyViewed: PropTypes.string
+  currentlyViewed: PropTypes.string,
 };
 
 export function wrapHearingView(view) {
-  const wrappedView = connect((state) => ({
-    user: state.user.data,
+  const wrappedView = connect(state => ({
+    user: getUser(state),
     hearing: state.hearing,
     language: state.language,
     sectionComments: state.sectionComments,
-    currentlyViewed: state.hearing.currentlyViewed
+    currentlyViewed: state.hearing.currentlyViewed,
   }))(injectIntl(view));
 
   // We need to re-hoist the data statics to the wrapped component due to react-intl:

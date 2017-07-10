@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {IntlProvider} from 'react-intl';
+import { connect } from 'react-redux';
+import { IntlProvider } from 'react-intl';
 import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import {retrieveUserFromSession} from './actions';
+import { retrieveUserFromSession } from './actions';
+import { getUser } from './selectors/user';
 
 class App extends React.Component {
   getChildContext() {
     return {
       language: this.props.language,
-      user: this.props.user
+      user: this.props.user,
     };
   }
 
@@ -22,13 +23,11 @@ class App extends React.Component {
 
   render() {
     const locale = this.props.language;
-    const links = [
-      {rel: "shortcut icon", type: "image/x-icon", href: "/assets/images/favicon.ico"}
-    ];
-    const fullscreen = (this.props.location.query.fullscreen === "true");
+    const links = [{ rel: 'shortcut icon', type: 'image/x-icon', href: '/assets/images/favicon.ico' }];
+    const fullscreen = this.props.location.query.fullscreen === 'true';
     let header = null;
     if (!fullscreen) {
-      header = <Header slim={this.props.location.pathname !== "/"} history={this.props.history}/>;
+      header = <Header slim={this.props.location.pathname !== '/'} history={this.props.history} />;
     }
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
@@ -36,13 +35,13 @@ class App extends React.Component {
           <Helmet
             titleTemplate="%s - Kerro Kantasi"
             link={links}
-            script={[{src: "/assets/js/piwik.js", type: "text/javascript"}]}
+            script={[{ src: '/assets/js/piwik.js', type: 'text/javascript' }]}
           />
           {header}
-          <main className={fullscreen ? "fullscreen" : "main-content"}>
+          <main className={fullscreen ? 'fullscreen' : 'main-content'}>
             {this.props.children}
           </main>
-          <Footer/>
+          <Footer />
         </div>
       </IntlProvider>
     );
@@ -59,6 +58,6 @@ App.propTypes = {
 };
 App.childContextTypes = {
   language: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.object,
 };
-export default connect((state) => ({user: state.user.data, language: state.language}))(App);
+export default connect(state => ({ user: getUser(state), language: state.language }))(App);
