@@ -10,6 +10,7 @@ import config from '../../config';
 class ContactModal extends React.Component {
   constructor(props) {
     super(props);
+    this.submitForm = this.submitForm.bind(this);
     this.state = {
       contact: {
         name: '',
@@ -65,6 +66,12 @@ class ContactModal extends React.Component {
     }));
   }
 
+  submitForm(event) {
+    event.preventDefault();
+    this.props.onCreateContact(this.state.contact);
+    this.props.close();
+  }
+
   generateCheckBoxes() {
     const checkBoxes = map(config.languages, (language) => (
       <div key={language} className={'checkbox-container'}>
@@ -103,7 +110,7 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, close, onCreateContact, intl } = this.props;
+    const { isOpen, close, intl } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
     const titleInputs = this.generateTitleInputs(intl);
@@ -114,48 +121,54 @@ class ContactModal extends React.Component {
           <Modal.Title><FormattedMessage id="createContact"/></Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="input-container name-input">
-            <h4><FormattedMessage id="name"/></h4>
-            <input
-              className="form-control"
-              onChange={(event) => this.onContactChange('name', event.target.value)}
-              value={contact.name}
-              placeholder={'Nimi'}
-              maxLength="50"
-            />
-          </div>
-          <div className="input-container phone-input">
-            <h4><FormattedMessage id="phone"/></h4>
-            <input
-              className="form-control"
-              onChange={(event) => this.onContactChange('phone', event.target.value)}
-              value={contact.phone}
-              placeholder={'Puhelinnumero'}
-              maxLength="50"
-            />
-          </div>
-          <div className="input-container email-input">
-            <h4><FormattedMessage id="email"/></h4>
-            <input
-              type="email"
-              className="form-control"
-              onChange={(event) => this.onContactChange('email', event.target.value)}
-              value={contact.email}
-              placeholder={'Sähköposti'}
-              maxLength="50"
-            />
-          </div>
-          <div className="input-container title-input">
-            <h4><FormattedMessage id="title"/></h4>
-            {checkBoxes}
-            {titleInputs}
-          </div>
+          <form ref={(form) => { this.contactForm = form; }} onSubmit={this.submitForm}>
+            <div className="input-container name-input">
+              <h4><FormattedMessage id="name"/></h4>
+              <input
+                className="form-control"
+                onChange={(event) => this.onContactChange('name', event.target.value)}
+                value={contact.name}
+                placeholder={'Nimi'}
+                maxLength="50"
+                required
+              />
+            </div>
+            <div className="input-container phone-input">
+              <h4><FormattedMessage id="phone"/></h4>
+              <input
+                className="form-control"
+                onChange={(event) => this.onContactChange('phone', event.target.value)}
+                value={contact.phone}
+                placeholder={'Puhelinnumero'}
+                maxLength="50"
+                required
+              />
+            </div>
+            <div className="input-container email-input">
+              <h4><FormattedMessage id="email"/></h4>
+              <input
+                type="email"
+                className="form-control"
+                onChange={(event) => this.onContactChange('email', event.target.value)}
+                value={contact.email}
+                placeholder={'Sähköposti'}
+                maxLength="50"
+                required
+              />
+            </div>
+            <div className="input-container title-input">
+              <h4><FormattedMessage id="title"/></h4>
+              {checkBoxes}
+              {titleInputs}
+            </div>
+            <input type="submit" style={{ display: 'none'}} /> {/* Used to trigger submit remotely. */}
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => close()}>
             <FormattedMessage id="cancel"/>
           </Button>
-          <Button bsStyle="primary" onClick={() => { onCreateContact(this.state.contact); close(); }}>
+          <Button bsStyle="primary" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
             <FormattedMessage id="create"/>
           </Button>
         </Modal.Footer>
