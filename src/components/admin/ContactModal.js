@@ -155,7 +155,7 @@ class ContactModal extends React.Component {
           <Button onClick={() => close()}>
             <FormattedMessage id="cancel"/>
           </Button>
-          <Button bsStyle="primary" onClick={() => { onCreateContact(); close(); }}>
+          <Button bsStyle="primary" onClick={() => { onCreateContact(this.state.contact); close(); }}>
             <FormattedMessage id="create"/>
           </Button>
         </Modal.Footer>
