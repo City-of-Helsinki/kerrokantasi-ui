@@ -22,7 +22,7 @@ import {
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 
-import {addContact, fetchHearingEditorMetaData} from '../../actions/hearingEditor';
+import {addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
 
@@ -53,8 +53,6 @@ class HearingFormStep1 extends React.Component {
 
   onCreateContact(contact) {
     this.props.dispatch(addContact(contact));
-    this.props.dispatch(fetchHearingEditorMetaData());
-    this.forceUpdate();
   }
 
   openContactModal() {

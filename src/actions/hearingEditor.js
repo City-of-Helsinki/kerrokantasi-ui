@@ -127,7 +127,7 @@ export function addContact(contact) {
         });
         notifySuccess("Luonti onnistui");
       }
-    }).catch(requestErrorHandler(dispatch, postContactAction));
+    }).then(() => dispatch(fetchHearingEditorMetaData())).catch(requestErrorHandler(dispatch, postContactAction));
   };
 }
 
