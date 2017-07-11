@@ -21,7 +21,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
 
   render() {
     const canSetNickname = this.props.canSetNickname;
-    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.user.dataDataChanged);
+    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
       <div>
