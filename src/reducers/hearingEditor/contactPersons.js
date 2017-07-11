@@ -5,7 +5,7 @@ import {handleActions} from 'redux-actions';
 import {EditorActions} from '../../actions/hearingEditor';
 
 const byId = handleActions({
-  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {contactPersons}}) => contactPersons.entities.contactPersons
+  [EditorActions.RECEIVE_META_DATA]: (state, {payload: {contactPersons}}) => { console.log(contactPersons); return contactPersons.entities.contactPersons; }
 }, {});
 
 const all = handleActions({
@@ -18,8 +18,16 @@ const isFetching = handleActions({
   [EditorActions.ERROR_META_DATA]: () => false,
 }, false);
 
+const contactPersons = handleActions({
+  [EditorActions.ADD_CONTACT]: () => true,
+  [EditorActions.ADD_CONTACT_FAILED]: (state, {payload}) => payload.errors,
+  [EditorActions.ADD_CONTACT_SUCCESS]: () => null
+}, {});
+
+
 export default combineReducers({
   byId,
   all,
   isFetching,
+  contactPersons
 });
