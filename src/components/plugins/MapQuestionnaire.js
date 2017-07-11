@@ -139,7 +139,6 @@ class MapQuestionnaire extends BaseCommentForm {
   }
 
   componentDidMount() {
-    super.componentDidMount();
     const iframe = this.refs.frame;
     const {data, pluginPurpose, comments} = this.props;
     if (comments) {
@@ -162,7 +161,6 @@ class MapQuestionnaire extends BaseCommentForm {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount();
     if (this._messageListener) {
       window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;
