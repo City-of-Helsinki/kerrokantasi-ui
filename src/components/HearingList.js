@@ -1,14 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox} from 'react-bootstrap';
+import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from '../utils/Icon';
-import Col from 'react-bootstrap/lib/Col';
 import {getHearingURL} from '../utils/hearing';
 import LabelList from './LabelList';
-import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
@@ -103,7 +101,7 @@ class HearingListItem extends React.Component {
         <div className="hearing-list-item-labels">
           <LabelList labels={hearing.labels} className="hearing-list-item-labellist"/>
           <div className="hearing-list-item-closed">
-            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : <p>&nbsp;</p>}
+            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : null}
           </div>
         </div>
         <div className="hearing-list-item-title-wrap">
@@ -191,15 +189,17 @@ class HearingList extends React.Component {
         ? <div>
           <section className="page-section--hearings-search">
             <div className="container">
-              <Col xs={12}>
-                <HearingsSearch
-                  handleSearch={handleSearch}
-                  labels={labels}
-                  handleLabelSearch={handleLabelSearch}
-                  language={language}
-                  searchPhrase={searchPhrase}
-                />
-              </Col>
+              <Row>
+                <Col md={10} mdPush={1}>
+                  <HearingsSearch
+                    handleSearch={handleSearch}
+                    labels={labels}
+                    handleLabelSearch={handleLabelSearch}
+                    language={language}
+                    searchPhrase={searchPhrase}
+                  />
+                </Col>
+              </Row>
             </div>
           </section>
           <section className="page-section--hearings-tabs">

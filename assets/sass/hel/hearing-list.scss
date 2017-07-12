@@ -21,9 +21,7 @@
     }
     &-content {
         flex: 1 auto;
-        @media (min-width: $screen-sm-min) {
-            padding: $line-height-computed;
-        }
+        padding: $line-height-computed;
     }
     &-labels {
         .label {
