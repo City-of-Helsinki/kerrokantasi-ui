@@ -1,18 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import Checkbox from 'react-bootstrap/lib/Checkbox';
+import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router';
 import formatRelativeTime from '../utils/formatRelativeTime';
 import Icon from '../utils/Icon';
 import {getHearingURL} from '../utils/hearing';
 import LabelList from './LabelList';
-import Label from 'react-bootstrap/lib/Label';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
 import HearingsSearch from './HearingsSearch';
@@ -73,6 +67,15 @@ class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
+    let mainImageStyle = {
+      backgroundImage: 'url(/assets/images/default-image.svg)'
+    };
+    if (hearing.main_image) {
+      mainImageStyle = {
+        backgroundImage: 'url("' + mainImage.url + '")'
+      };
+    }
+
     const {language} = this.props;
     const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
     const availableInLanguageMessages = {
@@ -93,14 +96,12 @@ class HearingListItem extends React.Component {
           </div>
         </Link>
       }
-      <div className="hearing-list-item-image">
-        {mainImage ? <img alt="" src={mainImage.url} /> : null}
-      </div>
+      <div className="hearing-list-item-image" style={mainImageStyle} />
       <div className="hearing-list-item-content">
         <div className="hearing-list-item-labels">
           <LabelList labels={hearing.labels} className="hearing-list-item-labellist"/>
           <div className="hearing-list-item-closed">
-            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : <p>&nbsp;</p>}
+            {hearing.closed ? <Label><FormattedMessage id="hearingClosed"/></Label> : null}
           </div>
         </div>
         <div className="hearing-list-item-title-wrap">
@@ -164,46 +165,66 @@ class HearingList extends React.Component {
     const {activeTab} = this.state;
     const hasHearings = hearings && hearings.length;
 
-    const hearingListMap = (hearingsToShow ? (<div className="hearing-list-map map">
-      <Checkbox
-        inline
-        readOnly
-        checked={showOnlyOpen}
-        onChange={() => toggleShowOnlyOpen()}
-        style={{marginBottom: 10}}
-      >
-        <FormattedMessage id="showOnlyOpen"/>
-      </Checkbox>
-      <OverviewMap
-        hearings={hearingsToShow}
-        style={{width: isMobile ? '100%' : '130%', height: isMobile ? '100%' : 600}}
-        enablePopups
-      />
-    </div>) : null);
+    const hearingListMap = (hearingsToShow ? (<Col xs={12}>
+      <div className="hearing-list-map map">
+        <Checkbox
+          inline
+          readOnly
+          checked={showOnlyOpen}
+          onChange={() => toggleShowOnlyOpen()}
+          style={{marginBottom: 10}}
+        >
+          <FormattedMessage id="showOnlyOpen"/>
+        </Checkbox>
+        <OverviewMap
+          hearings={hearingsToShow}
+          style={{width: '100%', height: isMobile ? '100%' : 600}}
+          enablePopups
+        />
+      </div>
+    </Col>) : null);
 
     return (
       labels && labels.length
         ? <div>
-          <HearingsSearch
-            handleSearch={handleSearch}
-            labels={labels}
-            handleLabelSearch={handleLabelSearch}
-            language={language}
-            searchPhrase={searchPhrase}
-          />
-          <HearingListTabs activeTab={activeTab} changeTab={this.handleTabChange} />
-          {isLoading && <LoadSpinner />}
-          {!isLoading && !hasHearings ? <p><FormattedMessage id="noHearings"/></p> : null}
-          {hasHearings && activeTab === 'list' ?
-            <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
-              <HearingListFilters handleSort={handleSort}/>
-              {hearings.map(
-                (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
-              )}
+          <section className="page-section--hearings-search">
+            <div className="container">
+              <Row>
+                <Col md={10} mdPush={1}>
+                  <HearingsSearch
+                    handleSearch={handleSearch}
+                    labels={labels}
+                    handleLabelSearch={handleLabelSearch}
+                    language={language}
+                    searchPhrase={searchPhrase}
+                  />
+                </Col>
+              </Row>
             </div>
-            : null
-          }
-          {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
+          </section>
+          <section className="page-section--hearings-tabs">
+            <div className="container">
+              <HearingListTabs activeTab={activeTab} changeTab={this.handleTabChange} />
+            </div>
+          </section>
+          <section className="page-section page-section--hearings-list">
+            <div className="container">
+              {isLoading && <LoadSpinner />}
+              {!isLoading && !hasHearings ? <p><FormattedMessage id="noHearings"/></p> : null}
+              {hasHearings && activeTab === 'list' ?
+                <Col md={8} mdPush={2}>
+                  <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
+                    <HearingListFilters handleSort={handleSort}/>
+                    {hearings.map(
+                      (hearing) => <HearingListItem hearing={hearing} key={hearing.id} language={language}/>
+                    )}
+                  </div>
+                </Col>
+                : null
+              }
+              {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
+            </div>
+          </section>
         </div>
         : null
     );
