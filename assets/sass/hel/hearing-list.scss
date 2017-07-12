@@ -24,6 +24,7 @@
         padding: $line-height-computed;
     }
     &-labels {
+        @extend .clearfix;
         .label {
             margin-bottom: 12px;
         }
