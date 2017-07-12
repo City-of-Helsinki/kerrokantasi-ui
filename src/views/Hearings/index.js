@@ -8,7 +8,6 @@ import { get, find } from 'lodash';
 
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
-import { getUser } from '../../selectors/user';
 import HearingList from '../../components/HearingList';
 import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
@@ -310,7 +309,7 @@ const mapStateToProps = state => ({
   hearingLists: state.hearingLists,
   labels: state.labels.data,
   language: state.language,
-  user: getUser(state),
+  user: state.user, // Using this on purpose without selector
 });
 
 const mapDispatchToProps = dispatch => ({
