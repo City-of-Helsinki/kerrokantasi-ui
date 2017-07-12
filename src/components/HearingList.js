@@ -70,7 +70,7 @@ class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
-      backgroundImage: 'url(/assets/images/default-image.svg'
+      backgroundImage: 'url(/assets/images/default-image.svg)'
     };
     if (hearing.main_image) {
       mainImageStyle = {
