@@ -1,29 +1,26 @@
-import _, {find, values} from 'lodash';
+import _, { find, values } from 'lodash';
 // import uuid from 'uuid/v1';
 
 import initAttr from './initAttr';
 
 export const SectionTypes = {
   MAIN: 'main',
-  CLOSURE: 'closure-info'
+  CLOSURE: 'closure-info',
 };
 
 const specialSectionTypes = values(SectionTypes);
 
 export function isSpecialSectionType(sectionType) {
-  return (specialSectionTypes.includes(sectionType));
+  return specialSectionTypes.includes(sectionType);
 }
-
 
 export function userCanComment(user, section) {
-  return section.commenting === "open" || (section.commenting === "registered" && user !== null);
+  return section.commenting === 'open' || (section.commenting === 'registered' && user !== null);
 }
-
 
 export function userCanVote(user, section) {
-  return section.voting === "open" || (section.voting === "registered" && user !== null);
+  return section.voting === 'open' || (section.voting === 'registered' && user !== null);
 }
-
 
 /**
  * Get the "main" image of given section.
@@ -42,24 +39,27 @@ Return initialized section object.
 @return {object}
  */
 export function initNewSection(inits) {
-  return _.merge({
-    id: '',
-    type: "",
-    commenting: "none",
-    published: false,
-    title: initAttr(),
-    abstract: initAttr(),
-    content: initAttr(),
-    created_at: "",
-    created_by: null,
-    images: [initNewSectionImage()],
-    n_comments: 0,
-    plugin_identifier: "",
-    plugin_data: "",
-    type_name_singular: "",
-    type_name_plural: "",
-    hearing: ""
-  }, inits || {});
+  return _.merge(
+    {
+      id: '',
+      type: '',
+      commenting: 'none',
+      published: false,
+      title: initAttr(),
+      abstract: initAttr(),
+      content: initAttr(),
+      created_at: '',
+      created_by: null,
+      images: [],
+      n_comments: 0,
+      plugin_identifier: '',
+      plugin_data: '',
+      type_name_singular: '',
+      type_name_plural: '',
+      hearing: '',
+    },
+    inits || {},
+  );
 }
 
 export function initNewSectionImage() {
@@ -67,14 +67,14 @@ export function initNewSectionImage() {
     caption: initAttr(),
     height: null,
     title: initAttr(),
-    url: "",
+    url: '',
     width: null,
   };
 }
 
 export function groupSections(sections) {
   const sectionGroups = [];
-  sections.forEach((section) => {
+  sections.forEach(section => {
     const sectionGroup = find(sectionGroups, group => section.type === group.type);
     if (sectionGroup) {
       sectionGroup.sections.push(section);
