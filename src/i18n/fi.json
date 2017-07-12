@@ -159,5 +159,5 @@
   "phone": "Puhelinnumero",
   "email": "Sähköposti",
   "title": "Virkanimike tai tehtäväkuvaus",
-  "contactTitlePlaceholder": "Anna yhteyshenkilölle kuvaava otsikko..."
+  "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus..."
 }
