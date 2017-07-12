@@ -29,7 +29,7 @@
   "addSection": "Lisää osa-alue",
   "deleteSection": "Poista osio",
   "addOption": "Lisää vaihtoehto",
-  "title": "Otsikko",
+  "hearingTitle": "Otsikko",
   "hearingTitlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
   "hearingTags": "Tagit",
   "hearingTagsPlaceholder": "Valitse kuulemiselle sopivat tagit",
@@ -158,5 +158,6 @@
   "name": "Nimi",
   "phone": "Puhelinnumero",
   "email": "Sähköposti",
+  "title": "Virkanimike tai tehtäväkuvaus",
   "contactTitlePlaceholder": "Anna yhteyshenkilölle kuvaava otsikko..."
 }
