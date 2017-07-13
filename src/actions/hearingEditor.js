@@ -31,6 +31,9 @@ export const EditorActions = {
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
+  ADD_CONTACT: 'addContact',
+  ADD_CONTACT_FAILED: 'addContactFailed',
+  ADD_CONTACT_SUCCESS: 'addContactSuccess',
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
 };
@@ -104,6 +107,32 @@ export function fetchHearingEditorMetaData() {
     });
   };
 }
+
+export function addContact(contact, selectedContacts) {
+  return (dispatch, getState) => {
+    const postContactAction = createAction(EditorActions.ADD_CONTACT)();
+    dispatch(postContactAction);
+    const url = "/v1/contact_person/";
+    return api.post(getState(), url, contact).then(checkResponseStatus).then((response) => {
+      if (response.status === 400) {  // Bad request with error message
+        notifyError("Tarkista yhteyshenkilön tiedot.");
+        response.json().then((errors) => {
+          dispatch(createAction(EditorActions.ADD_CONTACT_FAILED)({errors}));
+        });
+      } else if (response.status === 401) {  // Unauthorized
+        notifyError("Et voi luoda yhteyshenkilöä.");
+      } else {
+        response.json().then((contactJSON) => {
+          selectedContacts.push(contactJSON.id);
+          dispatch(changeHearing("contact_persons", selectedContacts));
+          dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({contact: contactJSON}));
+        });
+        notifySuccess("Luonti onnistui");
+      }
+    }).then(() => dispatch(fetchHearingEditorMetaData())).catch(requestErrorHandler(dispatch, postContactAction));
+  };
+}
+
 
 export function changeHearing(field, value) {
   return (dispatch) => {

@@ -2767,6 +2767,12 @@ ignore@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.0.tgz#8d88f03c3002a0ac52114db25d2c673b0bf1e435"
 
+immutability-helper@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.2.3.tgz#681a0ec9ba2a243b9898564e39623c83d9ce1985"
+  dependencies:
+    invariant "^2.2.0"
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"

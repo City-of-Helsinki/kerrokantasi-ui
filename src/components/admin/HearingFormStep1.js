@@ -13,13 +13,16 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
+import ContactModal from './ContactModal';
 import {
   contactShape,
   hearingShape,
   labelShape
 } from '../../types';
 import getAttr from '../../utils/getAttr';
+import Icon from '../../utils/Icon';
 
+import {addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
 
@@ -28,6 +31,11 @@ class HearingFormStep1 extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
+
+    this.state = {
+      showContactModal: false,
+      selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
+    };
   }
 
   onChange(event) {
@@ -43,7 +51,20 @@ class HearingFormStep1 extends React.Component {
   }
 
   onContactsChange(selectedContacts) {
+    this.setState({ selectedContacts });
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
+  }
+
+  onCreateContact(contact) {
+    this.props.dispatch(addContact(contact, this.state.selectedContacts));
+  }
+
+  openContactModal() {
+    this.setState({ showContactModal: true });
+  }
+
+  closeContactModal() {
+    this.setState({ showContactModal: false });
   }
 
   render() {
@@ -69,11 +90,11 @@ class HearingFormStep1 extends React.Component {
         <MultiLanguageTextField
           languages={hearingLanguages}
           onBlur={(value) => onHearingChange('title', value)}
-          labelId="hearingTitle"
+          labelId="title"
           maxLength={200}
           value={hearing.title}
           name="title"
-          placeholderId="hearingTitlePlaceholder"
+          placeholderId="titlePlaceholder"
           required
         />
 
@@ -115,22 +136,32 @@ class HearingFormStep1 extends React.Component {
 
         <FormGroup controlId="hearingContacts">
           <ControlLabel><FormattedMessage id="hearingContacts"/></ControlLabel>
-          <Select
-            labelKey="name"
-            multi
-            name="contacts"
-            onChange={this.onContactsChange}
-            options={contactOptions}
-            placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
-            simpleValue={false}
-            value={hearing.contact_persons}
-            valueKey="frontId"
-          />
+          <div className="contact-elements">
+            <Select
+              labelKey="name"
+              multi
+              name="contacts"
+              onChange={this.onContactsChange}
+              options={contactOptions}
+              placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
+              simpleValue={false}
+              value={hearing.contact_persons}
+              valueKey="id"
+            />
+            <Button bsStyle="primary" className="pull-right add-contact-button" onClick={() => this.openContactModal()}>
+              <Icon className="icon" name="plus"/>
+            </Button>
+          </div>
         </FormGroup>
         <hr/>
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
+        <ContactModal
+          isOpen={this.state.showContactModal}
+          close={this.closeContactModal.bind(this)}
+          onCreateContact={this.onCreateContact.bind(this)}
+        />
       </div>
     );
   }
@@ -138,6 +169,7 @@ class HearingFormStep1 extends React.Component {
 
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
+  dispatch: React.PropTypes.func,
   hearing: hearingShape,
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
