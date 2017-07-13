@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -18,9 +19,9 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) =>
   </Modal>;
 
 DeleteModal.propTypes = {
-  isOpen: React.PropTypes.bool,
-  close: React.PropTypes.func,
-  onDeleteComment: React.PropTypes.func
+  isOpen: PropTypes.bool,
+  close: PropTypes.func,
+  onDeleteComment: PropTypes.func
 };
 
 export default DeleteModal;

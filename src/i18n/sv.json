@@ -103,5 +103,7 @@
   "name": "Namn",
   "phone": "Telefonnummer",
   "email": "E-post",
-  "hearingTitle": "Rubrik"
+  "hearingTitle": "Rubrik",
+  "noHearings": "TODO",
+  "createHearing": "TODO"
 }

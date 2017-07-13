@@ -159,5 +159,7 @@
   "phone": "Puhelinnumero",
   "email": "Sähköposti",
   "title": "Virkanimike tai tehtäväkuvaus",
-  "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus..."
+  "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
+  "noHearings": "Kuulemisia ei löytynyt",
+  "createHearing": "Luo uusi kuuleminen"
 }

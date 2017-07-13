@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
 
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -83,14 +84,14 @@ class TextInput extends React.Component {
 
 TextInput.propTypes = {
   intl: intlShape.isRequired,
-  labelId: React.PropTypes.string,
-  maxLength: React.PropTypes.number,
-  required: React.PropTypes.bool,
-  name: React.PropTypes.string,
-  onBlur: React.PropTypes.func,
-  placeholderId: React.PropTypes.string,
-  validate: React.PropTypes.func,
-  value: React.PropTypes.string,
+  labelId: PropTypes.string,
+  maxLength: PropTypes.number,
+  required: PropTypes.bool,
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
+  placeholderId: PropTypes.string,
+  validate: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default injectIntl(TextInput);

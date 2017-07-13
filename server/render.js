@@ -111,6 +111,8 @@ export default function render(req, res, settings, initialState = {}) {
   // And this bit replaces the actual React mounting.
   store.dispatch(match(req.url, (error, redirectLocation, routerState) => {
     if (error) {
+      console.log('1', error);
+      console.trace();
       res.status(500).send(error.message);
       return;
     }
@@ -121,6 +123,8 @@ export default function render(req, res, settings, initialState = {}) {
     renderState(settings, store, routerState, bundleSrc).then(({status, html}) => {
       res.status(status || 200).send(html);
     }, (err) => {
+      console.log('2', err);
+      console.trace();
       res.status(500).send(err);
     });
   }));

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SortableCommentList from './SortableCommentList';
 import {Link} from 'react-router';
@@ -184,28 +185,28 @@ Section.defaultProps = {
 };
 
 Section.propTypes = {
-  canComment: React.PropTypes.bool,
-  canVote: React.PropTypes.bool,
-  comments: React.PropTypes.object,
-  fetchAllComments: React.PropTypes.func,
-  hearingSlug: React.PropTypes.string,
-  isCollapsible: React.PropTypes.bool,
-  linkTo: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object,
-    React.PropTypes.func
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  comments: PropTypes.object,
+  fetchAllComments: PropTypes.func,
+  hearingSlug: PropTypes.string,
+  isCollapsible: PropTypes.bool,
+  linkTo: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
   ]),
-  onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  section: React.PropTypes.object.isRequired,
-  showPlugin: React.PropTypes.bool,
-  user: React.PropTypes.object,
-  handleDeleteClick: React.PropTypes.func,
-  onEditComment: React.PropTypes.func,
+  onPostComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  section: PropTypes.object.isRequired,
+  showPlugin: PropTypes.bool,
+  user: PropTypes.object,
+  handleDeleteClick: PropTypes.func,
+  onEditComment: PropTypes.func,
 };
 
 Section.contextTypes = {
-  language: React.PropTypes.string.isRequired
+  language: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

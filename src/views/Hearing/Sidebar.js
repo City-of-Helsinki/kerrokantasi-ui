@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import Col from 'react-bootstrap/lib/Col';
@@ -224,13 +225,13 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-  hearing: React.PropTypes.object,
-  mainSection: React.PropTypes.object,
-  sectionGroups: React.PropTypes.array,
-  activeLanguage: React.PropTypes.string,
-  dispatch: React.PropTypes.func,
-  currentlyViewed: React.PropTypes.string,
-  isQuestionView: React.PropTypes.bool,
+  hearing: PropTypes.object,
+  mainSection: PropTypes.object,
+  sectionGroups: PropTypes.array,
+  activeLanguage: PropTypes.string,
+  dispatch: PropTypes.func,
+  currentlyViewed: PropTypes.string,
+  isQuestionView: PropTypes.func,
 };
 
 export default injectIntl(Sidebar);
