@@ -105,5 +105,12 @@
   "email": "E-post",
   "title": "Rubrik",
   "noHearings": "TODO",
-  "createHearing": "TODO"
+  "createHearing": "TODO",
+  "APICallFailed": "API-anropet {callName} misslyckades: {err}. Försök igen snart.",
+  "followingHearing": "Du följer hörandet.",
+  "commentReceived": "Din kommentar har mottagits. Tack!",
+  "commentEdited": "Din kommentar har redigerats. Tack!",
+  "commentDeleted": "Din kommentar har strukits.",
+  "alreadyVoted": "Du har redan röstat för denna kommentar.",
+  "voteReceived": "Rösten mottagen. Tack!"
 }

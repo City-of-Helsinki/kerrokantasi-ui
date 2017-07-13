@@ -10,7 +10,7 @@ import identity from 'lodash/identity';
 const middleware = [thunk, ...hearingEditorMiddlware];
 
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
-  // middleware.push(require('redux-logger')());
+  middleware.push(require('redux-logger')());
 }
 
 export default function createAppStore(router, createHistory, initialState = null) {
