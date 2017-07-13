@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
@@ -16,7 +17,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {isMobile: window.innerWidth < 768};
+    this.state = {isMobile: typeof window !== 'undefined' && window.innerWidth < 768};
     this.handleResize = this.handleResize.bind(this);
   }
   /**
@@ -35,15 +36,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
-    window.addEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize() {
-    this.setState({ isMobile: window.innerWidth < 768 });
+    this.setState({ isMobile: typeof window !== 'undefined' && window.innerWidth < 768 });
   }
 
 
@@ -108,11 +109,11 @@ class Home extends React.Component {
 
 Home.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  openHearings: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  topHearing: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  dispatch: PropTypes.func,
+  openHearings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/no-unused-prop-types
-  language: React.PropTypes.string, // make sure changing language refreshes
+  language: PropTypes.string, // make sure changing language refreshes
 };
 
 const mapStateToProps = (state) => ({

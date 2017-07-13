@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HearingImage from './HearingImage';
 
 class HearingImageList extends React.Component {
@@ -11,7 +12,7 @@ class HearingImageList extends React.Component {
 }
 
 HearingImageList.propTypes = {
-  images: React.PropTypes.array
+  images: PropTypes.array
 };
 
 export default HearingImageList;

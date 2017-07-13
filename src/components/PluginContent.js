@@ -2,6 +2,7 @@
  * Created by riku on 11.5.2017.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
@@ -81,11 +82,11 @@ export default class PluginContent extends React.Component {
 }
 
 PluginContent.propTypes = {
-  hearingSlug: React.PropTypes.string,
-  comments: React.PropTypes.object,
-  fetchAllComments: React.PropTypes.func,
-  onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  section: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object
+  hearingSlug: PropTypes.string,
+  fetchAllComments: PropTypes.func,
+  comments: PropTypes.object,
+  onPostComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  section: PropTypes.object.isRequired,
+  user: PropTypes.object
 };

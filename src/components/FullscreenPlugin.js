@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'redux-router';
 import {Section} from './Section';
@@ -56,19 +57,18 @@ FullscreenPlugin.defaultProps = {
 };
 
 FullscreenPlugin.propTypes = {
-  canComment: React.PropTypes.bool,
-  canVote: React.PropTypes.bool,
-  comments: React.PropTypes.object,
-  detailURL: React.PropTypes.string.isRequired,
-  dispatch: React.PropTypes.func,
-  headerTitle: React.PropTypes.string,
-  hearingSlug: React.PropTypes.string,
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  comments: PropTypes.object,
+  detailURL: PropTypes.string.isRequired,
+  dispatch: PropTypes.func,
+  headerTitle: PropTypes.string,
   intl: intlShape.isRequired,
-  loadSectionComments: React.PropTypes.func,
-  onPostComment: React.PropTypes.func,
-  onPostVote: React.PropTypes.func,
-  section: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object,
+  loadSectionComments: PropTypes.func,
+  onPostComment: PropTypes.func,
+  onPostVote: PropTypes.func,
+  section: PropTypes.object.isRequired,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch) => ({

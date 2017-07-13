@@ -156,5 +156,14 @@
   "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
   "eyeTooltipOpens": " Tämä kuuleminen julkaistaan",
   "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
-  "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä."
+  "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
+  "APICallFailed": "API-kutsu {callName} epäonnistui: {err}. Kokeile pian uudelleen.",
+  "followingHearing": "Seuraat kuulemista.",
+  "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
+  "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+  "commentDeleted": "Kommenttisi on poistettu.",
+  "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
+  "voteReceived": "Ääni vastaanotettu. Kiitos!",
+  "noHearings": "Kuulemisia ei löytynyt",
+  "createHearing": "Luo uusi kuuleminen"
 }

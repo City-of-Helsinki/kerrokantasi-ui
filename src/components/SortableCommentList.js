@@ -10,7 +10,7 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import * as Actions from '../actions';
-import CommentForm from './CommentForm';
+import CommentForm from './BaseCommentForm';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -77,7 +77,7 @@ class SortableCommentList extends Component {
       this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 
-    if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+    if (!isFetching && results && results.length === 0 && nextProps.section.n_comments !== 0) {
       // comments have to be reloaded and form collapsed due to posting
       this.fetchComments(nextProps.section.id, nextProps.sectionComments.ordering);
       this.setState({

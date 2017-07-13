@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Nav from 'react-bootstrap/lib/Nav';
 import {connect} from 'react-redux';
@@ -26,8 +27,8 @@ LanguageSwitcher.contextTypes = {
 };
 
 LanguageSwitcher.propTypes = {
-  dispatch: React.PropTypes.func,
-  currentLanguage: React.PropTypes.string
+  dispatch: PropTypes.func,
+  currentLanguage: PropTypes.string
 };
 
 export default connect()(LanguageSwitcher);

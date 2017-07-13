@@ -5,12 +5,13 @@ import _ from 'lodash';
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
+    dispatch(createAction('fetchUserData')());
     return fetch('/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
       return response.json();
     }).then((user) => {
       if (user.token) { // If the user is registered, check admin organizations
         const url = "v1/users/" + user.id + "/";
-        return api.get({user}, url, {}).then((democracyUser) => {
+        return api.get({user: {data: user}}, url, {}).then((democracyUser) => {
           return democracyUser.json();
         }).then((democracyUserJSON) => {
           const userWithOrganization = Object.assign({},

@@ -2,7 +2,8 @@
 // https://github.com/andreypopp/react-fa/blob/fc873dd92fbfb0adfeb6d41210c28658aa5d8ba1/src/Icon.js
 // React-FA is copyright 2015, Andrey Popp <8mayday@gmail.com>, licensed under the MIT license
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Icon extends React.Component {
   render() {

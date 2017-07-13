@@ -1,5 +1,6 @@
 import React from 'react';
-import {intlShape, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -9,7 +10,7 @@ import {getImageAsBase64Promise} from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
 
-class BaseCommentForm extends React.Component {
+export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false, images: []};
@@ -201,10 +202,10 @@ class BaseCommentForm extends React.Component {
 }
 
 BaseCommentForm.propTypes = {
-  onPostComment: React.PropTypes.func,
+  onPostComment: PropTypes.func,
   intl: intlShape.isRequired,
-  canSetNickname: React.PropTypes.bool,
-  collapseForm: React.PropTypes.bool
+  canSetNickname: PropTypes.bool,
+  collapseForm: PropTypes.bool
 };
 
-export default BaseCommentForm;
+export default injectIntl(BaseCommentForm);

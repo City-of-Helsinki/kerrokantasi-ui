@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
@@ -12,9 +13,9 @@ import {
   deleteSectionComment
 } from '../actions';
 // import HearingImageList from './HearingImageList';
-import LabelList from './LabelList';
 import WrappedSection from './Section';
 // import SectionList from './SectionList';
+import Header from '../views/Hearing/Header';
 import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
 import {
@@ -48,12 +49,12 @@ const LinkWrapper = ({disabled, to, children, ...rest}) => {
 };
 
 LinkWrapper.propTypes = {
-  disabled: React.PropTypes.bool,
-  children: React.PropTypes.array,
-  to: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object,
-    React.PropTypes.func
+  disabled: PropTypes.bool,
+  children: PropTypes.elements,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
   ])
 };
 
@@ -195,15 +196,14 @@ class SectionContainer extends React.Component {
     const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
-      <div className="section-container">
-        <LabelList className="main-labels" labels={hearing.labels}/>
-
-        <h1 className="page-title">
+      <div className="hearing-wrapper section-container">
+        <div className="text-right">
           {this.getFollowButton()}
-          {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {getAttr(hearing.title, language)}
-        </h1>
-
+        </div>
+        <Header
+          hearing={hearing}
+          activeLanguage={language}
+        />
         <Row>
           <Sidebar
             activeSection={section}
@@ -273,14 +273,14 @@ class SectionContainer extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 SectionContainer.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
-  hearingSlug: React.PropTypes.string,
-  location: React.PropTypes.object,
-  user: React.PropTypes.object,
-  section: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  language: React.PropTypes.string,
+  dispatch: PropTypes.func,
+  hearing: PropTypes.object,
+  hearingSlug: PropTypes.string,
+  location: PropTypes.object,
+  user: PropTypes.object,
+  section: PropTypes.object,
+  sectionComments: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export function wrapSectionContainer(component, pure = true) {

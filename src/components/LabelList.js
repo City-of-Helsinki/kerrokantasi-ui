@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Label from 'react-bootstrap/lib/Label';
 import getAttr from '../utils/getAttr';
 
@@ -23,9 +24,9 @@ class LabelList extends React.Component {
 }
 
 LabelList.propTypes = {
-  labels: React.PropTypes.array,
-  className: React.PropTypes.string,
-  language: React.PropTypes.string
+  labels: PropTypes.array,
+  className: PropTypes.string,
+  language: PropTypes.string
 };
 
 export default LabelList;

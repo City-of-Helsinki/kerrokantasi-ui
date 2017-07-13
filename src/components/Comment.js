@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -138,11 +139,11 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  data: React.PropTypes.object,
-  canVote: React.PropTypes.bool,
-  onPostVote: React.PropTypes.func,
-  onEditComment: React.PropTypes.func,
-  onDeleteComment: React.PropTypes.func
+  data: PropTypes.object,
+  canVote: PropTypes.bool,
+  onPostVote: PropTypes.func,
+  onEditComment: PropTypes.func,
+  onDeleteComment: PropTypes.func
 };
 
 export default injectIntl(Comment);
