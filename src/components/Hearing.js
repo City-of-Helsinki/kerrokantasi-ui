@@ -254,7 +254,7 @@ export class Hearing extends React.Component {
           hearing={hearing}
           reportUrl={reportUrl}
           activeLanguage={language}
-          getEyeTooltip={eyeTooltip}
+          eyeTooltip={eyeTooltip}
         />
         <Row>
           <Sidebar
