@@ -31,14 +31,14 @@ const all = handleActions(
   [],
 );
 
-const isFetching = handleActions(
-  {
-    [EditorActions.FETCH_META_DATA]: () => true,
-    [EditorActions.RECEIVE_META_DATA]: () => false,
-    [EditorActions.ERROR_META_DATA]: () => false,
-  },
-  false,
-);
+// const isFetching = handleActions(
+//   {
+//     [EditorActions.FETCH_META_DATA]: () => true,
+//     [EditorActions.RECEIVE_META_DATA]: () => false,
+//     [EditorActions.ERROR_META_DATA]: () => false,
+//   },
+//   false,
+// );
 
 const contactPersons = handleActions({
   [EditorActions.ADD_CONTACT]: () => true,
@@ -50,6 +50,6 @@ const contactPersons = handleActions({
 export default combineReducers({
   byId,
   all,
-  isFetching,
+  // isFetching,
   contactPersons
 });
