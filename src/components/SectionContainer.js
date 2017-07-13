@@ -13,9 +13,9 @@ import {
   deleteSectionComment
 } from '../actions';
 // import HearingImageList from './HearingImageList';
-import LabelList from './LabelList';
 import WrappedSection from './Section';
 // import SectionList from './SectionList';
+import Header from '../views/Hearing/Header';
 import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
 import {
@@ -196,15 +196,14 @@ class SectionContainer extends React.Component {
     const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
-      <div className="section-container">
-        <LabelList className="main-labels" labels={hearing.labels}/>
-
-        <h1 className="page-title">
+      <div className="hearing-wrapper section-container">
+        <div className="text-right">
           {this.getFollowButton()}
-          {!hearing.published ? <Icon name="eye-slash"/> : null}
-          {getAttr(hearing.title, language)}
-        </h1>
-
+        </div>
+        <Header
+          hearing={hearing}
+          activeLanguage={language}
+        />
         <Row>
           <Sidebar
             activeSection={section}
