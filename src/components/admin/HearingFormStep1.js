@@ -32,7 +32,10 @@ class HearingFormStep1 extends React.Component {
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
 
-    this.state = {showContactModal: false};
+    this.state = {
+      showContactModal: false,
+      selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
+    };
   }
 
   onChange(event) {
@@ -48,11 +51,12 @@ class HearingFormStep1 extends React.Component {
   }
 
   onContactsChange(selectedContacts) {
+    this.setState({ selectedContacts });
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
   onCreateContact(contact) {
-    this.props.dispatch(addContact(contact));
+    this.props.dispatch(addContact(contact, this.state.selectedContacts));
   }
 
   openContactModal() {

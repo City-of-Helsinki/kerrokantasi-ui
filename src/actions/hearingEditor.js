@@ -108,7 +108,7 @@ export function fetchHearingEditorMetaData() {
   };
 }
 
-export function addContact(contact) {
+export function addContact(contact, selectedContacts) {
   return (dispatch, getState) => {
     const postContactAction = createAction(EditorActions.ADD_CONTACT)();
     dispatch(postContactAction);
@@ -123,6 +123,8 @@ export function addContact(contact) {
         notifyError("Et voi luoda yhteyshenkilöä.");
       } else {
         response.json().then((contactJSON) => {
+          selectedContacts.push(contactJSON.id);
+          dispatch(changeHearing("contact_persons", selectedContacts));
           dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({contact: contactJSON}));
         });
         notifySuccess("Luonti onnistui");
