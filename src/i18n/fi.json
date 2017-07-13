@@ -152,5 +152,7 @@
   "inLanguage-fi": "suomeksi",
   "inLanguage-sv": "ruotsiksi",
   "inLanguage-en": "englanniksi",
-  "hearingLanguages": "Kuulemisen tiedot syötetään"
+  "hearingLanguages": "Kuulemisen tiedot syötetään",
+  "noHearings": "Kuulemisia ei löytynyt",
+  "createHearing": "Luo uusi kuuleminen"
 }

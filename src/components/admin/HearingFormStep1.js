@@ -141,10 +141,10 @@ HearingFormStep1.propTypes = {
   hearing: hearingShape,
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
-  onContinue: React.PropTypes.func,
-  onHearingChange: React.PropTypes.func,
-  onLanguagesChange: React.PropTypes.func,
-  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string)
+  onContinue: PropTypes.func,
+  onHearingChange: PropTypes.func,
+  onLanguagesChange: PropTypes.func,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
 };
 
 HearingFormStep1.defaultProps = {
@@ -155,7 +155,7 @@ HearingFormStep1.defaultProps = {
 };
 
 HearingFormStep1.contextTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);

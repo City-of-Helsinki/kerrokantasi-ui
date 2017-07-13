@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -25,7 +26,7 @@ class Info extends React.Component {
 }
 
 Info.propTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 export default connect((state) => ({language: state.language}))(Info);

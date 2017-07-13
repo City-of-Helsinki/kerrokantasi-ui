@@ -126,9 +126,9 @@ class HearingEditor extends React.Component {
 
 HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
-  dispatch: React.PropTypes.func,
-  show: React.PropTypes.bool,
-  isLoading: React.PropTypes.bool,
+  dispatch: PropTypes.func,
+  show: PropTypes.bool,
+  isLoading: PropTypes.bool,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),

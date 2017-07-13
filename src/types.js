@@ -162,6 +162,22 @@ export type HearingState = {
   isFetching: boolean,
 };
 
+export type User = {
+  id: string,
+  displayName: string,
+  firstname: string,
+  lastname: string,
+  username: string,
+  provider: string,
+  token: string,
+  adminOrganizations: ?Array<string>,
+};
+
+export type UserState = {
+  isFetching: boolean,
+  data: User,
+};
+
 export type HearingEditorState = {
   contactPersons: ContactPersonState,
   hearing: HearingState,
@@ -175,4 +191,5 @@ export type HearingEditorState = {
 
 export type AppState = {
   hearingEditor: HearingEditorState,
+  user: UserState,
 };

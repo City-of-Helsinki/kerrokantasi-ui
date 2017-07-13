@@ -97,5 +97,7 @@
   "inLanguage-fi": "på finska",
   "inLanguage-sv": "på svenska",
   "inLanguage-en": "på engelska",
-  "hearingLanguages": "TODO"
+  "hearingLanguages": "TODO",
+  "noHearings": "TODO",
+  "createHearing": "TODO"
 }

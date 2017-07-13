@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -47,13 +48,13 @@ class InputBase extends React.Component {
 }
 
 InputBase.propTypes = {
-  children: React.PropTypes.element,
-  error: React.PropTypes.string,
-  labelId: React.PropTypes.string,
-  maxLength: React.PropTypes.number,
-  required: React.PropTypes.bool,
-  name: React.PropTypes.string,
-  value: React.PropTypes.string,
+  children: PropTypes.element,
+  error: PropTypes.string,
+  labelId: PropTypes.string,
+  maxLength: PropTypes.number,
+  required: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default injectIntl(InputBase);

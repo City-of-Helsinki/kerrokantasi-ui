@@ -105,8 +105,8 @@ export function withAndWithoutUser(state = null, fn = null) {
     state = {};  // eslint-disable-line no-param-reassign
   }
   [
-    {state: assign({}, state, {user: null}), message: "when not logged in"},
-    {state: assign({}, state, {user: mockUser}), message: "when logged in"}
+    {state: assign({}, state, {user: {data: null, isFetching: false}}), message: "when not logged in"},
+    {state: assign({}, state, {user: {data: mockUser, isFecting: false}}), message: "when logged in"}
   ].forEach(fn);
 }
 

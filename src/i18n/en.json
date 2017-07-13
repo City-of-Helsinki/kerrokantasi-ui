@@ -103,5 +103,7 @@
   "sectionImage": "Image",
   "sectionImageHelpText": "Recommended image size is 960 × 720.",
   "sectionImageCaption": "Caption",
-  "sectionTitle": "Section title"
+  "sectionTitle": "Section title",
+  "noHearings": "Couldn't find any hearings",
+  "createHearing": "Create new hearing"
 }

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import Icon from '../utils/Icon';
-import formatRelativeTime from '../utils/formatRelativeTime';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 
@@ -21,9 +22,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
         </div>
         <div className="fullwidth-hearing-times">
           <span>
-            {formatRelativeTime("timeOpen", hearing.open_at)}.
+            <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>.
           </span> <span>
-            {formatRelativeTime("timeClose", hearing.close_at)}.
+            <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>.
           </span>
         </div>
       </div>
@@ -35,12 +36,12 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
 };
 
 FullWidthHearing.propTypes = {
-  className: React.PropTypes.string,
-  hearing: React.PropTypes.object // eslint-disable-line react/forbid-prop-types
+  className: PropTypes.string,
+  hearing: PropTypes.object // eslint-disable-line react/forbid-prop-types
 };
 
 FullWidthHearing.contextTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 export default FullWidthHearing;

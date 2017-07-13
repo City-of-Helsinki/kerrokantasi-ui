@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
@@ -7,7 +8,7 @@ import Row from 'react-bootstrap/lib/Row';
 import DeleteModal from './DeleteModal';
 import { injectIntl, intlShape, FormattedMessage, FormattedPlural } from 'react-intl';
 import SocialBar from '../components/SocialBar';
-import formatRelativeTime from '../utils/formatRelativeTime';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
@@ -249,9 +250,9 @@ export class Hearing extends React.Component {
             </Col>
             <Col xs={12} sm={6}>
               <div className="timetable">
-                <Icon name="clock-o" /> {formatRelativeTime('timeOpen', hearing.open_at)}
-                <br />
-                <Icon name="clock-o" /> {formatRelativeTime('timeClose', hearing.close_at)}
+                <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
+                <br/>
+                <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
               </div>
             </Col>
             <Col xs={12} sm={6}>
@@ -328,7 +329,7 @@ export class Hearing extends React.Component {
               <div id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
                 <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)} />
                 <SectionList
-                  basePath={location.pathname}
+                  basePath={window ? window.location.pathname : ''}
                   sections={sectionGroup.sections}
                   nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}
@@ -356,15 +357,15 @@ export class Hearing extends React.Component {
 
 Hearing.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearing: React.PropTypes.object,
-  hearingSlug: React.PropTypes.string,
-  language: React.PropTypes.string,
-  location: React.PropTypes.object,
-  user: React.PropTypes.object,
-  sectionComments: React.PropTypes.object,
-  changeCurrentlyViewed: React.PropTypes.func,
-  currentlyViewed: React.PropTypes.string,
+  dispatch: PropTypes.func,
+  hearing: PropTypes.object,
+  hearingSlug: PropTypes.string,
+  language: PropTypes.string,
+  location: PropTypes.object,
+  user: PropTypes.object,
+  sectionComments: PropTypes.object,
+  changeCurrentlyViewed: PropTypes.func,
+  currentlyViewed: PropTypes.string,
 };
 
 export function wrapHearingComponent(component, pure = true) {
