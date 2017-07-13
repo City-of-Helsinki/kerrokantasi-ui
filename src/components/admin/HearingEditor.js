@@ -101,6 +101,7 @@ class HearingEditor extends React.Component {
         onSectionImageChange={this.onSectionImageChange}
         onLanguagesChange={this.onLanguagesChange}
         show={show && !isLoading}
+        dispatch={this.props.dispatch}
       />
     );
   }
