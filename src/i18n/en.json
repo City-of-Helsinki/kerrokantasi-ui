@@ -109,7 +109,7 @@
   "name": "Name",
   "phone": "Phone number",
   "email": "Email",
-  "hearingTitle": "Title",
+  "title": "Title",
   "noHearings": "Couldn't find any hearings",
   "createHearing": "Create new hearing"
 }

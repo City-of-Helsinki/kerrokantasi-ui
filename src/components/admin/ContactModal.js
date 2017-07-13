@@ -157,7 +157,7 @@ class ContactModal extends React.Component {
               />
             </div>
             <div className="input-container title-input">
-              <h4><FormattedMessage id="title"/></h4>
+              <h4><FormattedMessage id="contactTitle"/></h4>
               {checkBoxes}
               {titleInputs}
             </div>

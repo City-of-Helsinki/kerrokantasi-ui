@@ -86,11 +86,11 @@ class HearingFormStep1 extends React.Component {
         <MultiLanguageTextField
           languages={hearingLanguages}
           onBlur={(value) => onHearingChange('title', value)}
-          labelId="hearingTitle"
+          labelId="title"
           maxLength={200}
           value={hearing.title}
           name="title"
-          placeholderId="hearingTitlePlaceholder"
+          placeholderId="titlePlaceholder"
           required
         />
 
