@@ -82,7 +82,9 @@ main {
 }
 
 .loader-wrap {
-    padding: 15px 0px;
+    padding: $line-height-computed * 3;
+    text-align: center;
+    color: $medium-gray;
 }
 
 textarea {

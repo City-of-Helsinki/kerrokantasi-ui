@@ -4,8 +4,7 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList, fetchLabels} from '../actions';
 import HearingList from '../components/HearingList';
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
+import {Row, Col} from 'react-bootstrap';
 import queryString from 'query-string';
 import {get} from 'lodash';
 import getAttr from '../utils/getAttr';
@@ -134,35 +133,39 @@ class AllHearings extends React.Component {
     const initialTab = this.props.params.tab ? this.props.params.tab : 'list';
     const searchPhrase = this.props.params.search ? this.props.params.search : '';
 
-    return (<div className="container">
-      <Helmet title={formatMessage({id: 'allHearings'})}/>
-      <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
-      <Row>
-        <Col md={8}>
-          <HearingList
-            hearings={this.props.hearings}
-            isLoading={isLoading}
-            labels={labels}
-            handleChangeFilter={this.handleChangeFilter.bind(this)}
-            handleSort={this.handleSort.bind(this)}
-            handleSearch={this.handleSearch.bind(this)}
-            language={language}
-            initialTab={initialTab}
-            searchPhrase={searchPhrase}
-            showOnlyOpen={showOnlyOpen}
-            toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
-            isMobile={isMobile}
-            onTabChange={(value) => {
-              const url = `/hearings/${value}`;
-              if (history.pushState) {
-                history.pushState({path: url}, '', url);
-              } else {
-                window.location.href = url;
-              }
-            }}
-          />
-        </Col>
-      </Row>
+    return (<div>
+      <section className="page-section page-section--all-hearings-header">
+        <div className="container">
+          <Row>
+            <Col md={12} mdPush={1}>
+              <Helmet title={formatMessage({id: 'allHearings'})}/>
+              <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
+            </Col>
+          </Row>
+        </div>
+      </section>
+      <HearingList
+        hearings={this.props.hearings}
+        isLoading={isLoading}
+        labels={labels}
+        handleChangeFilter={this.handleChangeFilter.bind(this)}
+        handleSort={this.handleSort.bind(this)}
+        handleSearch={this.handleSearch.bind(this)}
+        language={language}
+        initialTab={initialTab}
+        searchPhrase={searchPhrase}
+        showOnlyOpen={showOnlyOpen}
+        toggleShowOnlyOpen={this.toggleShowOnlyOpen.bind(this)}
+        isMobile={isMobile}
+        onTabChange={(value) => {
+          const url = `/hearings/${value}`;
+          if (history.pushState) {
+            history.pushState({path: url}, '', url);
+          } else {
+            window.location.href = url;
+          }
+        }}
+      />
     </div>);
   }
 }
