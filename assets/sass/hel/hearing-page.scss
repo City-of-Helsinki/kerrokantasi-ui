@@ -1,3 +1,7 @@
+.hearing-wrapper {
+  margin-top: $line-height-computed * 1;
+}
+
 .hearing-sidebar {
     background: $gray-lighter;
     padding: 15px;
@@ -97,7 +101,8 @@
     }
   }
 
-  .timetable, .commentNumber {
+  .timetable,
+  .comment-summary {
     margin-bottom: $line-height-computed;
   }
 

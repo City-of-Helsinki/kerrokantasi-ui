@@ -2,24 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'redux-router';
-import Button from 'react-bootstrap/lib/Button';
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
+import { Button, Col, Row } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
-import { injectIntl, intlShape, FormattedMessage, FormattedPlural } from 'react-intl';
-import SocialBar from '../components/SocialBar';
-import FormatRelativeTime from '../utils/FormatRelativeTime';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
-
 import { followHearing, postSectionComment, editSectionComment, postVote, deleteSectionComment } from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
-import LabelList from './LabelList';
 import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
+import Header from '../views/Hearing/Header';
 import _, { find } from 'lodash';
 import Icon from '../utils/Icon';
 import {
@@ -233,50 +228,15 @@ export class Hearing extends React.Component {
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearingSlug + '/report';
 
     return (
-      <div id="hearing-wrapper">
+      <div className="hearing-wrapper" id="hearing-wrapper">
         <div className="text-right">
           {this.getManageButton()}
         </div>
-        <div className="hearing-header well">
-          <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} />
-          <h1>
-            {this.getFollowButton()}
-            {!hearing.published ? <Icon name="eye-slash" /> : null}
-            {getAttr(hearing.title, language)}
-          </h1>
-          <Row className="hearing-meta">
-            <Col xs={12}>
-              <LabelList className="main-labels" labels={hearing.labels} />
-            </Col>
-            <Col xs={12} sm={6}>
-              <div className="timetable">
-                <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
-                <br/>
-                <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
-              </div>
-            </Col>
-            <Col xs={12} sm={6}>
-              {hearing.n_comments
-                ? <div className="commentNumber">
-                  <Icon name="comment-o" /> {' '}
-                  <FormattedPlural
-                      value={hearing.n_comments}
-                      one={<FormattedMessage id="totalSubmittedComment" values={{ n: hearing.n_comments }} />}
-                      other={<FormattedMessage id="totalSubmittedComments" values={{ n: hearing.n_comments }} />}
-                  />
-                  <div>
-                    <a href={reportUrl}>
-                      <small>
-                        <Icon name="download" /> <FormattedMessage id="downloadReport" />
-                      </small>
-                    </a>
-                  </div>
-                </div>
-                : null}
-            </Col>
-          </Row>
-          <SocialBar />
-        </div>
+        <Header
+          hearing={hearing}
+          reportUrl={reportUrl}
+          activeLanguage={language}
+        />
         <Row>
           <Sidebar
             currentlyViewed={currentlyViewed}
