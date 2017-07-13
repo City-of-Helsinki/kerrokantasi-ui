@@ -110,5 +110,7 @@
   "commentEdited": "Your comment has been edited. Thank you!",
   "commentDeleted": "Your comment has been deleted.",
   "alreadyVoted": "You have already voted for this comment.",
-  "voteReceived": "Vote received. Thank you!"
+  "voteReceived": "Vote received. Thank you!",
+  "noHearings": "Couldn't find any hearings",
+  "createHearing": "Create new hearing"
 }

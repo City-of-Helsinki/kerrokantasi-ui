@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import Button from 'react-bootstrap/lib/Button';
@@ -135,9 +136,9 @@ class HearingFormStep3 extends React.Component {
 
 HearingFormStep3.propTypes = {
   hearing: hearingShape,
-  onContinue: React.PropTypes.func,
-  onHearingChange: React.PropTypes.func,
-  visible: React.PropTypes.bool,
+  onContinue: PropTypes.func,
+  onHearingChange: PropTypes.func,
+  visible: PropTypes.bool,
 };
 
 const WrappedHearingFormStep3 = injectIntl(HearingFormStep3);

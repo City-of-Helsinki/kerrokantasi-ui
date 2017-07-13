@@ -37,7 +37,7 @@ export function requestErrorHandler(dispatch, fetchAction) {
 
 export function fetchHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFetchHearingList")({listId});
+    const fetchAction = createAction("beginFetchHearingList")({listId, params});
     dispatch(fetchAction);
 
     // make sure the results won't get paginated

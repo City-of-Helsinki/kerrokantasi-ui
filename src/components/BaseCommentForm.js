@@ -1,5 +1,6 @@
 import React from 'react';
-import {intlShape, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -9,41 +10,17 @@ import {getImageAsBase64Promise} from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
 
-class BaseCommentForm extends React.Component {
+export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false, images: []};
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
-  componentDidMount() {
-    const store = this.context.store;
-    if (store) {
-      /*
-      This is slightly dark magic that sidesteps the usual rules of
-      Redux componentry, but I sincerely believe this is for the better.
-      (The alternative would be to store the comment text in the global
-       store, which seems very unnecessary, plus the cleanup of having to
-       remember to empty the comment text from the global store when the user
-       "leaves" the hearing view for another seems even more cumbersome.)
-
-      Basically, this component subscribes to the state of the global store
-      but ONLY to notice when the "postedComment" action has been dispatched,
-      so it can modify its local state to clear the comment text.
-      */
-      this.unsubscribe = store.subscribe(() => {
-        if (store.getState().lastActionType === "postedComment") {
-          this.clearCommentText();
-          this.toggle();
-        }
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-      this.unsubscribe = null;
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.collapseForm && nextProps.collapseForm) {
+      this.clearCommentText();
+      this.toggle();
     }
   }
 
@@ -225,13 +202,10 @@ class BaseCommentForm extends React.Component {
 }
 
 BaseCommentForm.propTypes = {
-  onPostComment: React.PropTypes.func,
+  onPostComment: PropTypes.func,
   intl: intlShape.isRequired,
-  canSetNickname: React.PropTypes.bool,
+  canSetNickname: PropTypes.bool,
+  collapseForm: PropTypes.bool
 };
 
-BaseCommentForm.contextTypes = {
-  store: React.PropTypes.object,  // See `componentDidMount`.
-};
-
-export default BaseCommentForm;
+export default injectIntl(BaseCommentForm);

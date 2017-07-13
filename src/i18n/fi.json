@@ -159,5 +159,7 @@
   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
   "commentDeleted": "Kommenttisi on poistettu.",
   "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
-  "voteReceived": "Ääni vastaanotettu. Kiitos!"
+  "voteReceived": "Ääni vastaanotettu. Kiitos!",
+  "noHearings": "Kuulemisia ei löytynyt",
+  "createHearing": "Luo uusi kuuleminen"
 }

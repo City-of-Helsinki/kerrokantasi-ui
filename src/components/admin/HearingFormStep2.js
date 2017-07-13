@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import uuid from 'uuid/v1';
@@ -146,17 +147,17 @@ class HearingFormStep2 extends React.Component {
 
 
 HearingFormStep2.propTypes = {
-  dispatch: React.PropTypes.func,
+  dispatch: PropTypes.func,
   hearing: hearingShape,
-  hearingLanguages: React.PropTypes.arrayOf(React.PropTypes.string),
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
-  onContinue: React.PropTypes.func,
-  onSectionChange: React.PropTypes.func,
-  onSectionImageChange: React.PropTypes.func,
+  onContinue: PropTypes.func,
+  onSectionChange: PropTypes.func,
+  onSectionImageChange: PropTypes.func,
 };
 
 HearingFormStep2.contextTypes = {
-  language: React.PropTypes.string
+  language: PropTypes.string
 };
 
 const WrappedHearingFormStep2 = connect()(injectIntl(HearingFormStep2));

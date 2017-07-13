@@ -97,7 +97,6 @@
   "inLanguage-fi": "på finska",
   "inLanguage-sv": "på svenska",
   "inLanguage-en": "på engelska",
-  "hearingLanguages": "TODO",
   "APICallFailed": "API-anropet {callName} misslyckades: {err}. Försök igen snart.",
   "followingHearing": "Du följer hörandet.",
   "commentReceived": "Din kommentar har mottagits. Tack!",

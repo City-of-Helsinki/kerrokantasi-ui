@@ -1,10 +1,11 @@
 /* eslint-disable react/no-string-refs */
-import BaseCommentForm from '../../BaseCommentForm';
+import {BaseCommentForm} from '../../BaseCommentForm';
 import Button from 'react-bootstrap/lib/Button';
 import CommentDisclaimer from "../../CommentDisclaimer";
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {alert} from '../../../utils/notify';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
@@ -134,7 +135,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
     if (!this._messageListener) {
       this._messageListener = this.onReceiveMessage.bind(this);
-      window.addEventListener("message", this._messageListener, false);
+      if (typeof window !== 'undefined') window.addEventListener("message", this._messageListener, false);
     }
 
     iframe.addEventListener("load", () => {
@@ -151,7 +152,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   componentWillUnmount() {
     super.componentWillUnmount();
     if (this._messageListener) {
-      window.removeEventListener("message", this._messageListener, false);
+      if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;
     }
   }
@@ -176,11 +177,11 @@ class MapdonKSVPlugin extends BaseCommentForm {
 }
 
 MapdonKSVPlugin.propTypes = {
-  onPostComment: React.PropTypes.func,
-  data: React.PropTypes.string,
-  pluginPurpose: React.PropTypes.string,
-  comments: React.PropTypes.array,
-  canSetNickname: React.PropTypes.bool,
+  onPostComment: PropTypes.func,
+  data: PropTypes.string,
+  pluginPurpose: PropTypes.string,
+  comments: PropTypes.array,
+  canSetNickname: PropTypes.bool,
 };
 
 export default injectIntl(MapdonKSVPlugin);

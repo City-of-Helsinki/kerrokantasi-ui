@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
@@ -28,8 +29,8 @@ class HearingMap extends React.Component {
 
 HearingMap.propTypes = {
   intl: intlShape.isRequired,
-  dispatch: React.PropTypes.func,
-  hearingLists: React.PropTypes.object,
+  dispatch: PropTypes.func,
+  hearingLists: PropTypes.object,
 };
 
 export default connect(

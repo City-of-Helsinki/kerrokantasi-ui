@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -55,13 +56,13 @@ TextArea.defaultProps = {
 };
 
 TextArea.propTypes = {
-  labelId: React.PropTypes.string,
-  maxLength: React.PropTypes.number,
-  required: React.PropTypes.bool,
-  name: React.PropTypes.string,
-  onBlur: React.PropTypes.func,
-  rows: React.PropTypes.string,
-  value: React.PropTypes.string,
+  labelId: PropTypes.string,
+  maxLength: PropTypes.number,
+  required: PropTypes.bool,
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
+  rows: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default injectIntl(TextArea);
