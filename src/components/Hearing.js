@@ -4,6 +4,8 @@ import { push } from 'redux-router';
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import DeleteModal from './DeleteModal';
 import { injectIntl, intlShape, FormattedMessage, FormattedPlural } from 'react-intl';
 import SocialBar from '../components/SocialBar';
@@ -11,6 +13,7 @@ import formatRelativeTime from '../utils/formatRelativeTime';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
+import moment from 'moment';
 
 import { followHearing, postSectionComment, editSectionComment, postVote, deleteSectionComment } from '../actions';
 import SortableCommentList from './SortableCommentList';
@@ -221,6 +224,21 @@ export class Hearing extends React.Component {
     this.setState({ showDeleteModal: false, commentToDelete: {} });
   }
 
+  getEyeTooltip() { // eslint-disable-line class-methods-use-this
+    const { formatMessage } = this.props.intl;
+    const openingTime = moment(this.props.hearing.open_at);
+    let text = <FormattedMessage id="eyeTooltip" />;
+    if (openingTime > moment()) {
+      const duration = moment.duration(openingTime.diff(moment()));
+      const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
+      const differenceText = duration < 24 ? "eyeTooltipOpensHours" : "eyeTooltipOpensDays";
+      text = `${formatMessage({id: 'eyeTooltipOpens'})} ${Math.ceil(durationAs)} ${formatMessage({id: differenceText})}`;
+    }
+    return (
+      <Tooltip id="eye-tooltip">{text}</Tooltip>
+    );
+  }
+
   render() {
     const { hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed } = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
@@ -230,6 +248,7 @@ export class Hearing extends React.Component {
     const regularSections = hearing.sections.filter(section => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearingSlug + '/report';
+    const eyeTooltip = this.getEyeTooltip();
 
     return (
       <div id="hearing-wrapper">
@@ -240,7 +259,9 @@ export class Hearing extends React.Component {
           <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} />
           <h1>
             {this.getFollowButton()}
-            {!hearing.published ? <Icon name="eye-slash" /> : null}
+            {!hearing.published
+              ? <OverlayTrigger placement="bottom" overlay={eyeTooltip}><Icon name="eye-slash"/></OverlayTrigger>
+              : null}
             {getAttr(hearing.title, language)}
           </h1>
           <Row className="hearing-meta">
