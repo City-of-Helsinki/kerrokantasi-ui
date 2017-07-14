@@ -71,10 +71,10 @@ class HearingToolbar extends React.Component {
 
     return (
       <div className="toolbar-bottom">
-        <Col md={6} mdOffset={3}>
+        <Col md={4} mdOffset={4}>
           <span className="status-label">{statusLabel}</span>
         </Col>
-        <Col md={3}>
+        <Col md={4}>
           <ButtonToolbar className="actions pull-right">
             {actions}
           </ButtonToolbar>
