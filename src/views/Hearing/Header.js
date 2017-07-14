@@ -17,6 +17,7 @@ class Header extends React.Component {
           {!hearing.published
             ? <OverlayTrigger placement="bottom" overlay={eyeTooltip}><Icon name="eye-slash"/></OverlayTrigger>
             : null}
+          {' '}
           {getAttr(hearing.title, activeLanguage)}
         </h1>
         <Row className="hearing-meta">
