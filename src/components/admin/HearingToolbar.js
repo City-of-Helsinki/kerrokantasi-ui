@@ -39,6 +39,11 @@ class HearingToolbar extends React.Component {
     if (open && hearing.published) {
       statusLabel = <FormattedMessage id="published"/>;
       actions.push(
+        <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
+          <FormattedMessage id="revertPublishing"/>
+        </Button>
+      );
+      actions.push(
         <Button bsStyle="danger" onClick={this.props.onCloseHearing} key="close">
           <FormattedMessage id="closeHearing"/>
         </Button>
