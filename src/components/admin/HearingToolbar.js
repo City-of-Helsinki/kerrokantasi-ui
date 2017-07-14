@@ -58,9 +58,13 @@ class HearingToolbar extends React.Component {
       );
     } else {
       statusLabel = <FormattedMessage id="draft"/>;
+      let publishText = <FormattedMessage id="publishHearing"/>;
+      if (moment(hearing.open_at).diff(moment()) < 0) {
+        publishText = <FormattedMessage id="publishHearingNow"/>;
+      }
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onPublish} key="publish">
-          <FormattedMessage id="publishHearing"/>
+          {publishText}
         </Button>
       );
     }
