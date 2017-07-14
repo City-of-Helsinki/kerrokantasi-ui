@@ -6,8 +6,9 @@ import Icon from '../../utils/Icon';
 
 const CreateHearingButton = ({onClick}) => (
   <div className="pull-right create-hearing-button-container" style={{marginTop: '-66px'}}>
-    <Button bsStyle="primary" onClick={onClick}>
-      <Icon name="add"/><FormattedMessage id="createHearing"/>
+    <Button bsStyle="success" onClick={onClick}>
+      <Icon name="plus"/>&nbsp;&nbsp;
+      <FormattedMessage id="createHearing"/>
     </Button>
   </div>
 );

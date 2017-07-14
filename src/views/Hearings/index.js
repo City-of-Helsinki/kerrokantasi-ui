@@ -235,41 +235,43 @@ class Hearings extends React.Component {
     }
 
     return (
-      <div className="hearings container">
-        <Helmet title={formatMessage({ id: 'allHearings' })} />
-        <h1 className="page-title">
-          <FormattedMessage id="allHearings" />
-        </h1>
+      <div className="hearings">
+        <section className="page-section page-section--all-hearings-header">
+          <div className="container">
+            <Row>
+              <Col md={10} mdPush={1}>
+                <Helmet title={formatMessage({id: 'allHearings'})}/>
+                <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
+                {adminFilterSelector}
+                {createHearingButton}
+              </Col>
+            </Row>
+          </div>
+        </section>
 
-        {createHearingButton}
+        <HearingList
+          hearings={hearings}
+          selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
+          searchPhrase={searchTitle}
+          isLoading={this.getIsLoading()}
+          labels={labels}
+          showOnlyOpen={showOnlyOpen}
+          handleSort={this.handleSort}
+          handleSearch={this.handleSearch}
+          handleSelectLabels={this.handleSelectLabels}
+          toggleShowOnlyOpen={this.toggleShowOnlyOpen}
+          language={language}
+          tab={tab}
+          onTabChange={value => {
+            const url = `/hearings/${value}`;
+            if (history.pushState) {
+              history.pushState(null, url);
+            } else {
+              window.location.href = url;
+            }
+          }}
+        />
 
-        <Row>
-          <Col md={8}>
-            {adminFilterSelector}
-            <HearingList
-              hearings={hearings}
-              selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
-              searchPhrase={searchTitle}
-              isLoading={this.getIsLoading()}
-              labels={labels}
-              showOnlyOpen={showOnlyOpen}
-              handleSort={this.handleSort}
-              handleSearch={this.handleSearch}
-              handleSelectLabels={this.handleSelectLabels}
-              toggleShowOnlyOpen={this.toggleShowOnlyOpen}
-              language={language}
-              tab={tab}
-              onTabChange={value => {
-                const url = `/hearings/${value}`;
-                if (history.pushState) {
-                  history.pushState(null, url);
-                } else {
-                  window.location.href = url;
-                }
-              }}
-            />
-          </Col>
-        </Row>
       </div>
     );
   }
