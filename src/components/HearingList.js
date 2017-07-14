@@ -109,6 +109,7 @@ class HearingListItem extends React.Component {
         <div className="hearing-list-item-title-wrap">
           <h4 className="hearing-list-item-title">
             {!hearing.published ? <Icon name="eye-slash"/> : null}
+            {' '}
             <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
           </h4>
           <div className="hearing-list-item-comments">

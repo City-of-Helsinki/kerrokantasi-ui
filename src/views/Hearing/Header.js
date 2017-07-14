@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, OverlayTrigger } from 'react-bootstrap';
 import { injectIntl, FormattedPlural, FormattedMessage } from 'react-intl';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import LabelList from '../../components/LabelList';
@@ -10,11 +10,14 @@ import getAttr from '../../utils/getAttr';
 class Header extends React.Component {
 
   render() {
-    const { hearing, activeLanguage, reportUrl } = this.props;
+    const { hearing, activeLanguage, reportUrl, eyeTooltip } = this.props;
     return (
       <div className="hearing-header well">
         <h1>
-          {!hearing.published ? <Icon name="eye-slash" /> : null}
+          {!hearing.published
+            ? <OverlayTrigger placement="bottom" overlay={eyeTooltip}><Icon name="eye-slash"/></OverlayTrigger>
+            : null}
+          {' '}
           {getAttr(hearing.title, activeLanguage)}
         </h1>
         <Row className="hearing-meta">
@@ -59,6 +62,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  eyeTooltip: React.PropTypes.element,
   hearing: React.PropTypes.object,
   reportUrl: React.PropTypes.string,
   activeLanguage: React.PropTypes.string,
