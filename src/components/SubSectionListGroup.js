@@ -14,12 +14,12 @@ const SubSectionListGroup = ({sections, language = 'fi', hearing, currentlyViewe
           className={`subsection-list-group-item ${currentlyViewed === section.id ? "active" : ""}`}
           key={section.id}
         >
-          <span className="subsection-list-group-item__title">
-            {getAttr(section.title, language)}
-          </span>
           <div className="subsection-list-group-item__comments comment-icon">
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
           </div>
+          <span className="subsection-list-group-item__title">
+            {getAttr(section.title, language)}
+          </span>
         </ListGroupItem>
       </Link>
     )}

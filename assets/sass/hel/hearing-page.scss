@@ -10,17 +10,39 @@
     margin-bottom: 25px;
     overflow-y: scroll;
 
+    a {
+      text-decoration: none;
+    }
+
+    .list-group-item {
+      margin-bottom: 0;
+      border: 0;
+      border-bottom: 1px solid $gray-lighter;
+      color: $dark-gray;
+
+      &:hover {
+        color: $theme-primary-dark;
+        background-color: #f5f5f5;
+      }
+
+      &.active {
+        color: $black;
+        &:hover {
+          background-color: $theme-highlight-light;
+        }
+      }
+    }
+
     .subsection-list-group {
       margin-bottom: 0;
+      border-bottom: 1px solid $gray-lighter;
 
       .subsection-list-group-item {
         padding-left: $line-height-computed;
         font-weight: normal;
+        border: 0;
       }
 
-      .subsection-list-group-item:last-child {
-        border-bottom: 0;
-      }
     }
 
     .language-link {

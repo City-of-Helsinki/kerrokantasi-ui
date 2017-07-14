@@ -52,10 +52,10 @@ class Sidebar extends React.Component {
       return (
         <Link to={getHearingURL(hearing) + "#hearing-comments"}>
           <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'}>
-            <FormattedMessage id="comments"/>
             <div className="comment-icon">
               <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
             </div>
+            <FormattedMessage id="comments"/>
           </ListGroupItem>
         </Link>
       );
@@ -63,10 +63,10 @@ class Sidebar extends React.Component {
 
     return (
       <ListGroupItem className={currentlyViewed === '#hearing-comments' && 'active'} href="#hearing-comments">
-        <FormattedMessage id="comments"/>
         <div className="comment-icon">
           <Icon name="comment-o"/>&nbsp;{mainSection.n_comments}
         </div>
+        <FormattedMessage id="comments"/>
       </ListGroupItem>
     );
   }
