@@ -107,7 +107,9 @@ class HearingFormStep2 extends React.Component {
   * @param {str} sectionID
    */
   deleteSection(sectionID) {
+    const { sections } = this.props.hearing;
     this.props.dispatch(removeSection(sectionID));
+    this.setState({activeSection: sections[sections.length - 2].frontId}, HearingFormStep2.scrollModalToTop);
   }
 
   render() {
