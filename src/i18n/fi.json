@@ -168,5 +168,6 @@
   "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
   "voteReceived": "Ääni vastaanotettu. Kiitos!",
   "noHearings": "Kuulemisia ei löytynyt",
-  "createHearing": "Luo uusi kuuleminen"
+  "createHearing": "Luo uusi kuuleminen",
+  "draftNotPublished": "Luonnos, ei julkaistu"
 }

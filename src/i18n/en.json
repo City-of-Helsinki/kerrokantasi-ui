@@ -118,5 +118,6 @@
   "alreadyVoted": "You have already voted for this comment.",
   "voteReceived": "Vote received. Thank you!",
   "noHearings": "Couldn't find any hearings",
-  "createHearing": "Create new hearing"
+  "createHearing": "Create new hearing",
+  "draftNotPublished": "Draft, not published"
 }

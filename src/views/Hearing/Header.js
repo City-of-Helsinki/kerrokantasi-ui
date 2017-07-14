@@ -8,6 +8,24 @@ import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
 
 class Header extends React.Component {
+  getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
+    if (!hearing.published) {
+      return (
+        <div className="timetable">
+          <Icon name="clock-o"/> <del><FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/></del> (<FormattedMessage id="draftNotPublished" />)
+          <br/>
+          <Icon name="clock-o"/> <del><FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/></del>
+        </div>
+      );
+    }
+    return (
+      <div className="timetable">
+        <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
+        <br/>
+        <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
+      </div>
+    );
+  }
 
   render() {
     const { hearing, activeLanguage, reportUrl } = this.props;
@@ -22,11 +40,7 @@ class Header extends React.Component {
             <LabelList className="main-labels" labels={hearing.labels} />
           </Col>
           <Col xs={12} sm={6}>
-            <div className="timetable">
-              <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
-              <br/>
-              <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
-            </div>
+            {this.getTimetableText(hearing)}
           </Col>
           <Col xs={12} sm={6}>
             <div className="comment-summary">
