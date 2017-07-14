@@ -1,36 +1,19 @@
 .section-container {
   .section-browser {
-    display: flex;
-    align-items: center;
-    background: $gray-light;
-    padding: 15px;
+    @extend .clearfix;
+    margin-bottom: $line-height-computed *2;
 
+    .pager {
+      margin: 0;
 
-    & > * {
-      display: block;
-    }
-
-    .to-hearing {
-      flex-grow: 1;
-    }
-
-    .previous, .next {
-      margin: auto 5px;
-      padding: 5px;
-      border: 1px solid $link-color;
-
-      .type-name {
-        text-transform: lowercase;
+      .pager-counter {
+        line-height: 2;
+        color: $theme-primary-dark;
+        font-weight: 700;
       }
 
-      &:hover {
-        border-color: $link-hover-color;
-      }
-
-      &.disabled {
-        color: $text-muted;
-        border-color: $text-muted;
-        cursor: not-allowed;
+      .disabled {
+        visibility: hidden;
       }
     }
   }
