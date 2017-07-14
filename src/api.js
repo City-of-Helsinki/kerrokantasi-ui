@@ -94,4 +94,4 @@ export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) =
   return getPaginated([], params);
 };
 
-export default {post, put, apiDelete, get, getAllFromEndpoint};
+export default {post, put, patch, apiDelete, get, getAllFromEndpoint};
