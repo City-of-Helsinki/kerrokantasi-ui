@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
-import {Button, Row, Col, Pager} from 'react-bootstrap';
+import {Button, Row, Col} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import DeleteModal from './DeleteModal';
 import {
@@ -216,36 +216,46 @@ class SectionContainer extends React.Component {
           <Col md={8} lg={9}>
             {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false}/> : null}
             <div className="section-browser">
-              <Pager>
+              <ul className="pager">
                 {!sectionNav.prevPath
-                  ? <Pager.Item previous href={getHearingURL(hearing)}>
-                    <FormattedMessage id="hearing"/>
-                  </Pager.Item>
+                  ? <li className="previous">
+                    <Link to={getHearingURL(hearing)}>
+                      <FormattedMessage id="hearing"/>
+                    </Link>
+                  </li>
 
-                  : <Pager.Item previous href={sectionNav.prevPath || '#'}>
-                    <span aria-hidden>&larr; </span>
-                    <FormattedMessage id="previous"/>&nbsp;
-                    <span className="type-name hidden-xs">
-                      {getAttr(sectionNav.prevType || section.type_name_singular, language)}
-                    </span>
-                  </Pager.Item>
+                  : <li className="previous">
+                    <LinkWrapper
+                      disabled={!sectionNav.prevPath}
+                      to={sectionNav.prevPath || '#'}
+                    >
+                      <span aria-hidden>&larr; </span>
+                      <FormattedMessage id="previous"/>&nbsp;
+                      <span className="type-name hidden-xs">
+                        {getAttr(sectionNav.prevType || section.type_name_singular, language)}
+                      </span>
+                    </LinkWrapper>
+                  </li>
                 }
 
                 <li className="pager-counter">
                   ({sectionNav.currentNum}/{sectionNav.totalNum})
                 </li>
-                <Pager.Item
-                  next
-                  disabled={!sectionNav.nextPath}
-                  href={sectionNav.nextPath || '#'}
+                <li
+                  className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}
                 >
-                  <FormattedMessage id="next"/>&nbsp;
-                  <span className="type-name hidden-xs">
-                    {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-                  </span>
-                  <span aria-hidden> &rarr;</span>
-                </Pager.Item>
-              </Pager>
+                  <LinkWrapper
+                    disabled={!sectionNav.nextPath}
+                    to={sectionNav.nextPath || '#'}
+                  >
+                    <FormattedMessage id="next"/>&nbsp;
+                    <span className="type-name hidden-xs">
+                      {getAttr(sectionNav.nextType || section.type_name_singular, language)}
+                    </span>
+                    <span aria-hidden> &rarr;</span>
+                  </LinkWrapper>
+                </li>
+              </ul>
             </div>
             <WrappedSection
               section={section}

@@ -11,6 +11,10 @@
         color: $theme-primary-dark;
         font-weight: 700;
       }
+
+      .disabled {
+        visibility: hidden;
+      }
     }
   }
 }
