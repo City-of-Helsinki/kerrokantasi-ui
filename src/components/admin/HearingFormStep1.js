@@ -13,6 +13,7 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
+import TagModal from './TagModal';
 import ContactModal from './ContactModal';
 import {
   contactShape,
@@ -22,7 +23,7 @@ import {
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 
-import {addContact} from '../../actions/hearingEditor';
+import {addTag, addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
 
@@ -33,7 +34,9 @@ class HearingFormStep1 extends React.Component {
     this.onContactsChange = this.onContactsChange.bind(this);
 
     this.state = {
+      showTagModal: false,
       showContactModal: false,
+      selectedTags: this.props.hearing.labels.map(({id}) => id),
       selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
     };
   }
@@ -47,6 +50,7 @@ class HearingFormStep1 extends React.Component {
   }
 
   onTagsChange(selectedTags) {
+    this.setState({ selectedTags });
     this.props.onHearingChange("labels", selectedTags.map(({id}) => id));
   }
 
@@ -55,8 +59,20 @@ class HearingFormStep1 extends React.Component {
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
+  onCreateTag(tag) {
+    this.props.dispatch(addTag(tag, this.state.selectedTags));
+  }
+
   onCreateContact(contact) {
     this.props.dispatch(addContact(contact, this.state.selectedContacts));
+  }
+
+  openTagModal() {
+    this.setState({ showTagModal: true });
+  }
+
+  closeTagModal() {
+    this.setState({ showTagModal: false });
   }
 
   openContactModal() {
@@ -101,20 +117,23 @@ class HearingFormStep1 extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup controlId="hearingTags">
-              <ControlLabel>
-                <FormattedMessage id="hearingTags"/>
-              </ControlLabel>
-              <Select
-                multi
-                name="labels"
-                onChange={this.onTagsChange}
-                options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
-                placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
-                simpleValue={false}
-                value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
-                valueKey="frontId"
-                menuContainerStyle={{zIndex: 10}}
-              />
+              <ControlLabel><FormattedMessage id="hearingTags"/></ControlLabel>
+              <div className="tag-elements">
+                <Select
+                  multi
+                  name="labels"
+                  onChange={this.onTagsChange}
+                  options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
+                  placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
+                  simpleValue={false}
+                  value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                  valueKey="frontId"
+                  menuContainerStyle={{zIndex: 10}}
+                />
+                <Button bsStyle="primary" className="pull-right add-tag-button" onClick={() => this.openTagModal()}>
+                  <Icon className="icon" name="plus"/>
+                </Button>
+              </div>
             </FormGroup>
           </Col>
           <Col md={6}>
@@ -157,6 +176,11 @@ class HearingFormStep1 extends React.Component {
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
+        <TagModal
+          isOpen={this.state.showTagModal}
+          close={this.closeTagModal.bind(this)}
+          onCreateTag={this.onCreateTag.bind(this)}
+        />
         <ContactModal
           isOpen={this.state.showContactModal}
           close={this.closeContactModal.bind(this)}
