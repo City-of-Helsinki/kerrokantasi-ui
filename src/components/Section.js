@@ -133,7 +133,6 @@ export class Section extends React.Component {
             {titleDiv}
             <div className="section-abstract" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} />
           </div>
-          <hr/>
         </div>
       );
     }
@@ -180,7 +179,6 @@ export class Section extends React.Component {
         {pluginContent}
       </div>
       {commentList}
-      <hr/>
     </div>);
   }
 }

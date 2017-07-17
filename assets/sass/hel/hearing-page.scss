@@ -142,8 +142,12 @@
   }
 }
 
+.hearing-content {
+  margin-bottom: $line-height-computed * 2;
+}
+
 .hearing-image-list {
-  margin-bottom: $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
 }
 
 .image-caption {
@@ -152,6 +156,20 @@
     margin-bottom: 15px;
     background-color: $gray-lighter;
     font-size: 1.4rem;
+}
+
+.hearing-contacts {
+  border: 1px solid $gray-light;
+  padding: 0 $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
+
+  .contact-card {
+    margin-bottom: $line-height-computed;
+  }
+}
+
+.hearing-section-group {
+  margin-bottom: $line-height-computed;
 }
 
 .section-list-item {
