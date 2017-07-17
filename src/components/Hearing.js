@@ -21,7 +21,6 @@ import _, { find } from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
-  canEdit,
   getClosureSection,
   getHearingEditorURL,
   getHearingURL,
@@ -36,13 +35,6 @@ export class Hearing extends React.Component {
     super(props);
 
     this.state = { showDeleteModal: false, commentToDelete: {} };
-  }
-
-  componentWillMount() {
-    const { user, hearing } = this.props;
-    if (canEdit(user, hearing)) {
-      this.toHearingEditor(hearing);
-    }
   }
 
   openFullscreen(hearing) {
@@ -116,18 +108,6 @@ export class Hearing extends React.Component {
       </span>
     );
   }
-
-  // getManageButton() {
-  //   const { user, hearing } = this.props;
-  //   if (canEdit(user, hearing)) {
-  //     return (
-  //       <Button bsStyle="primary" onClick={() => this.toHearingEditor(hearing)}>
-  //         <Icon name="edit" /> <FormattedMessage id="editHearing" />
-  //       </Button>
-  //     );
-  //   }
-  //   return null;
-  // }
 
   getClosureInfo(hearing) {
     const { formatMessage } = this.props.intl;
@@ -254,9 +234,6 @@ export class Hearing extends React.Component {
 
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
-        {/* <div className="text-right">
-          {this.getManageButton()}
-        </div> */}
         <Header
           hearing={hearing}
           reportUrl={reportUrl}
