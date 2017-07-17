@@ -56,7 +56,7 @@ class TagModal extends React.Component {
   submitForm(event) {
     event.preventDefault();
     this.props.onCreateTag(this.state.tag);
-    this.props.close();
+    this.props.onClose();
   }
 
   generateCheckBoxes() {
@@ -73,8 +73,9 @@ class TagModal extends React.Component {
     return <div className="label-checkboxes">{checkBoxes}</div>;
   }
 
-  generateLabelInputs(intl) {
+  generateLabelInputs() {
     const { tag, labelLanguages } = this.state;
+    const { intl } = this.props;
     const labelInputs = [];
 
     forEach(labelLanguages, (language, key) => {
@@ -97,12 +98,12 @@ class TagModal extends React.Component {
   }
 
   render() {
-    const { isOpen, close, intl } = this.props;
+    const { isOpen, onClose } = this.props;
     const checkBoxes = this.generateCheckBoxes();
-    const labelInputs = this.generateLabelInputs(intl);
+    const labelInputs = this.generateLabelInputs();
 
     return (
-      <Modal className="tag-modal" show={isOpen} onHide={() => close()} animation={false}>
+      <Modal className="tag-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title><FormattedMessage id="createLabel"/></Modal.Title>
         </Modal.Header>
@@ -116,7 +117,7 @@ class TagModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => close()}>
+          <Button onClick={() => onClose()}>
             <FormattedMessage id="cancel"/>
           </Button>
           <Button bsStyle="primary" onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}>
@@ -131,7 +132,7 @@ class TagModal extends React.Component {
 TagModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: React.PropTypes.bool,
-  close: React.PropTypes.func,
+  onClose: React.PropTypes.func,
   onCreateTag: React.PropTypes.func
 };
 

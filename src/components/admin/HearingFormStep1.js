@@ -178,12 +178,12 @@ class HearingFormStep1 extends React.Component {
         </Button>
         <TagModal
           isOpen={this.state.showTagModal}
-          close={this.closeTagModal.bind(this)}
+          onClose={this.closeTagModal.bind(this)}
           onCreateTag={this.onCreateTag.bind(this)}
         />
         <ContactModal
           isOpen={this.state.showContactModal}
-          close={this.closeContactModal.bind(this)}
+          onClose={this.closeContactModal.bind(this)}
           onCreateContact={this.onCreateContact.bind(this)}
         />
       </div>

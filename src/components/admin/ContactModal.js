@@ -69,7 +69,7 @@ class ContactModal extends React.Component {
   submitForm(event) {
     event.preventDefault();
     this.props.onCreateContact(this.state.contact);
-    this.props.close();
+    this.props.onClose();
   }
 
   generateCheckBoxes() {
@@ -86,8 +86,9 @@ class ContactModal extends React.Component {
     return <div className="title-checkboxes">{checkBoxes}</div>;
   }
 
-  generateTitleInputs(intl) {
+  generateTitleInputs() {
     const { contact, titleLanguages } = this.state;
+    const { intl } = this.props;
     const titleInputs = [];
 
     forEach(titleLanguages, (language, key) => {
@@ -110,13 +111,13 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, close, intl } = this.props;
+    const { isOpen, onClose } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
-    const titleInputs = this.generateTitleInputs(intl);
+    const titleInputs = this.generateTitleInputs();
 
     return (
-      <Modal className="contact-modal" show={isOpen} onHide={() => close()} animation={false}>
+      <Modal className="contact-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title><FormattedMessage id="createContact"/></Modal.Title>
         </Modal.Header>
@@ -165,7 +166,7 @@ class ContactModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => close()}>
+          <Button onClick={() => onClose()}>
             <FormattedMessage id="cancel"/>
           </Button>
           <Button bsStyle="primary" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
@@ -180,7 +181,7 @@ class ContactModal extends React.Component {
 ContactModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: React.PropTypes.bool,
-  close: React.PropTypes.func,
+  onClose: React.PropTypes.func,
   onCreateContact: React.PropTypes.func
 };
 
