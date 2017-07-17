@@ -112,5 +112,7 @@
   "commentEdited": "Din kommentar har redigerats. Tack!",
   "commentDeleted": "Din kommentar har strukits.",
   "alreadyVoted": "Du har redan röstat för denna kommentar.",
-  "voteReceived": "Rösten mottagen. Tack!"
+  "voteReceived": "Rösten mottagen. Tack!",
+  "createLabel": "TODO",
+  "labelPlaceholder": "TODO"
 }
