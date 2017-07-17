@@ -68,12 +68,12 @@ export class Section extends React.Component {
     if (linkTo) {
       return (
         <div className="section-title">
-          <h4 onClick={this.toggle.bind(this)}>
+          <h3 onClick={this.toggle.bind(this)}>
             <Link to={linkTo}>
               {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
               {getAttr(this.props.section.title, language)}
             </Link>
-          </h4>
+          </h3>
           {collapsed ? (
             <div className="section-comments">
               <Icon name="comment-o"/>&nbsp;{section.n_comments}
@@ -85,10 +85,10 @@ export class Section extends React.Component {
 
     return (
       <div className="section-title">
-        <h4 className="section-title" onClick={this.toggle.bind(this)}>
+        <h3 className="section-title" onClick={this.toggle.bind(this)}>
           {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
           {getAttr(this.props.section.title, language)}
-        </h4>
+        </h3>
         {collapsed ? (
           <div className="section-comments">
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
@@ -116,13 +116,19 @@ export class Section extends React.Component {
     const collapsible = this.isCollapsible();
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
+    let sectionImageStyle = {
+      backgroundImage: 'url(/assets/images/default-image.svg)'
+    };
+    if (section.images.length) {
+      sectionImageStyle = {
+        backgroundImage: 'url("' + section.images[0].url + '")'
+      };
+    }
     let commentList = null;
     if (collapsed) {
       return (
         <div className="section-list-item">
-          <div className="section-list-item-image" onClick={this.toggle.bind(this)}>
-            {section.images.length ? <img alt="" src={section.images[0].url} /> : null}
-          </div>
+          <div className="section-list-item-image" style={sectionImageStyle} onClick={this.toggle.bind(this)}/>
           <div className="section-list-item-content">
             {titleDiv}
             <div className="section-abstract" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} />
