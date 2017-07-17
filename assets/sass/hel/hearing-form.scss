@@ -110,6 +110,20 @@ $node_modules: "../../../node_modules";
     }
 }
 
+.tag-elements {
+  display: flex;
+
+  > .Select {
+    flex-basis: 20%;
+    flex-grow: 2;
+  }
+
+  .add-tag-button {
+    margin-left: 5px;
+    width: 38px;
+  }
+}
+
 .contact-elements {
   display: flex;
 
@@ -140,7 +154,8 @@ $node_modules: "../../../node_modules";
 .input-container {
   margin-bottom: 28px;
 
-  .title-inputs > .title-input-container {
+  .title-inputs > .title-input-container,
+  .label-inputs > .label-input-container {
     margin-top: 20px;
 
     span {
