@@ -310,7 +310,6 @@ export class Hearing extends React.Component {
                 <SectionList
                   basePath={window ? window.location.pathname : ''}
                   sections={sectionGroup.sections}
-                  nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}
                   onPostComment={this.onPostSectionComment.bind(this)}
                   canVote={hearingAllowsComments}
