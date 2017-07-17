@@ -142,11 +142,15 @@
   }
 }
 
+.hearing-image-list {
+  margin-bottom: $line-height-computed;
+}
+
 .image-caption {
     width: 100%;
     padding: 10px 15px;
     margin-bottom: 15px;
-    background-color: $gray-light;
+    background-color: $gray-lighter;
     font-size: 1.4rem;
 }
 

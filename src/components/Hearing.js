@@ -269,13 +269,13 @@ export class Hearing extends React.Component {
           <Col md={8} lg={9}>
             <div id="hearing">
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
-              <div>
-                <HearingImageList images={mainSection.images} />
-                <div
-                  className="hearing-abstract lead"
-                  dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }}
-                />
-              </div>
+
+              <HearingImageList images={mainSection.images} />
+              <div
+                className="hearing-abstract lead"
+                dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }}
+              />
+
               {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
               {mainSection
                 ? <WrappedSection
