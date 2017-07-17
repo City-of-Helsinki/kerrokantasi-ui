@@ -152,7 +152,6 @@ export function addTag(label, selectedLabels) {
       } else {
         response.json().then((labelJSON) => {
           selectedLabels.push(labelJSON.id);
-          debugger; // eslint-disable-line
           dispatch(changeHearing("labels", selectedLabels));
           dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({label: labelJSON}));
         });
