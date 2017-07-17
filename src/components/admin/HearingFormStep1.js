@@ -13,7 +13,7 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
-import TagModal from './TagModal';
+import LabelModal from './LabelModal';
 import ContactModal from './ContactModal';
 import {
   contactShape,
@@ -23,20 +23,20 @@ import {
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 
-import {addTag, addContact} from '../../actions/hearingEditor';
+import {addLabel, addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
 
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.onTagsChange = this.onTagsChange.bind(this);
+    this.onLabelsChange = this.onLabelsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
 
     this.state = {
-      showTagModal: false,
+      showLabelModal: false,
       showContactModal: false,
-      selectedTags: this.props.hearing.labels.map(({id}) => id),
+      selectedLabels: this.props.hearing.labels.map(({id}) => id),
       selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
     };
   }
@@ -49,9 +49,9 @@ class HearingFormStep1 extends React.Component {
     }
   }
 
-  onTagsChange(selectedTags) {
-    this.setState({ selectedTags });
-    this.props.onHearingChange("labels", selectedTags.map(({id}) => id));
+  onLabelsChange(selectedLabels) {
+    this.setState({ selectedLabels });
+    this.props.onHearingChange("labels", selectedLabels.map(({id}) => id));
   }
 
   onContactsChange(selectedContacts) {
@@ -59,20 +59,20 @@ class HearingFormStep1 extends React.Component {
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
-  onCreateTag(tag) {
-    this.props.dispatch(addTag(tag, this.state.selectedTags));
+  onCreateLabel(label) {
+    this.props.dispatch(addLabel(label, this.state.selectedLabels));
   }
 
   onCreateContact(contact) {
     this.props.dispatch(addContact(contact, this.state.selectedContacts));
   }
 
-  openTagModal() {
-    this.setState({ showTagModal: true });
+  openLabelModal() {
+    this.setState({ showLabelModal: true });
   }
 
-  closeTagModal() {
-    this.setState({ showTagModal: false });
+  closeLabelModal() {
+    this.setState({ showLabelModal: false });
   }
 
   openContactModal() {
@@ -118,11 +118,11 @@ class HearingFormStep1 extends React.Component {
           <Col md={6}>
             <FormGroup controlId="hearingTags">
               <ControlLabel><FormattedMessage id="hearingTags"/></ControlLabel>
-              <div className="tag-elements">
+              <div className="label-elements">
                 <Select
                   multi
                   name="labels"
-                  onChange={this.onTagsChange}
+                  onChange={this.onLabelsChange}
                   options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
                   placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
                   simpleValue={false}
@@ -130,7 +130,7 @@ class HearingFormStep1 extends React.Component {
                   valueKey="frontId"
                   menuContainerStyle={{zIndex: 10}}
                 />
-                <Button bsStyle="primary" className="pull-right add-tag-button" onClick={() => this.openTagModal()}>
+                <Button bsStyle="primary" className="pull-right add-label-button" onClick={() => this.openLabelModal()}>
                   <Icon className="icon" name="plus"/>
                 </Button>
               </div>
@@ -176,10 +176,10 @@ class HearingFormStep1 extends React.Component {
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
-        <TagModal
-          isOpen={this.state.showTagModal}
-          onClose={this.closeTagModal.bind(this)}
-          onCreateTag={this.onCreateTag.bind(this)}
+        <LabelModal
+          isOpen={this.state.showLabelModal}
+          onClose={this.closeLabelModal.bind(this)}
+          onCreateLabel={this.onCreateLabel.bind(this)}
         />
         <ContactModal
           isOpen={this.state.showContactModal}

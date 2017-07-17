@@ -7,12 +7,12 @@ import update from 'immutability-helper';
 
 import config from '../../config';
 
-class TagModal extends React.Component {
+class LabelModal extends React.Component {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
     this.state = {
-      tag: {
+      label: {
         label: {}
       },
       labelLanguages: this.constructor.initializeLanguages()
@@ -33,7 +33,7 @@ class TagModal extends React.Component {
 
   onLabelChange(language, value) {
     this.setState(update(this.state, {
-      tag: {
+      label: {
         label: {
           [language]: {
             $set: value
@@ -55,7 +55,7 @@ class TagModal extends React.Component {
 
   submitForm(event) {
     event.preventDefault();
-    this.props.onCreateTag(this.state.tag);
+    this.props.onCreateLabel(this.state.label);
     this.props.onClose();
   }
 
@@ -74,7 +74,7 @@ class TagModal extends React.Component {
   }
 
   generateLabelInputs() {
-    const { tag, labelLanguages } = this.state;
+    const { label, labelLanguages } = this.state;
     const { intl } = this.props;
     const labelInputs = [];
 
@@ -86,7 +86,7 @@ class TagModal extends React.Component {
             <input
               className="form-control"
               onChange={(event) => this.onLabelChange(key, event.target.value)}
-              value={tag.label[key] || ''}
+              value={label.label[key] || ''}
               placeholder={intl.formatMessage({ id: 'labelPlaceholder' })}
               maxLength="200"
             />
@@ -103,13 +103,13 @@ class TagModal extends React.Component {
     const labelInputs = this.generateLabelInputs();
 
     return (
-      <Modal className="tag-modal" show={isOpen} onHide={() => onClose()} animation={false}>
+      <Modal className="label-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title><FormattedMessage id="createLabel"/></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form ref={(form) => { this.labelForm = form; }} onSubmit={this.submitForm}>
-            <div className="input-container tag-input">
+            <div className="input-container label-input">
               {checkBoxes}
               {labelInputs}
             </div>
@@ -129,11 +129,11 @@ class TagModal extends React.Component {
   }
 }
 
-TagModal.propTypes = {
+LabelModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: React.PropTypes.bool,
   onClose: React.PropTypes.func,
-  onCreateTag: React.PropTypes.func
+  onCreateLabel: React.PropTypes.func
 };
 
-export default injectIntl(TagModal);
+export default injectIntl(LabelModal);

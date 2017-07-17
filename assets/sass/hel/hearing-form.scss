@@ -110,7 +110,7 @@ $node_modules: "../../../node_modules";
     }
 }
 
-.tag-elements {
+.label-elements {
   display: flex;
 
   > .Select {
@@ -118,7 +118,7 @@ $node_modules: "../../../node_modules";
     flex-grow: 2;
   }
 
-  .add-tag-button {
+  .add-label-button {
     margin-left: 5px;
     width: 38px;
   }

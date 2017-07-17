@@ -136,7 +136,7 @@ export function addContact(contact, selectedContacts) {
   };
 }
 
-export function addTag(label, selectedLabels) {
+export function addLabel(label, selectedLabels) {
   return (dispatch, getState) => {
     const postLabelAction = createAction(EditorActions.ADD_LABEL)();
     dispatch(postLabelAction);
