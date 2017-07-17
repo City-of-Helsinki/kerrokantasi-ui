@@ -35,8 +35,15 @@ const all = handleActions(
 //   false,
 // );
 
+const labels = handleActions({
+  [EditorActions.ADD_LABEL]: () => true,
+  [EditorActions.ADD_LABEL_FAILED]: (state, {payload}) => payload.errors,
+  [EditorActions.ADD_LABEL_SUCCESS]: () => null
+}, {});
+
 export default combineReducers({
   byId,
   all,
   // isFetching,
+  labels
 });

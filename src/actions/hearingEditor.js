@@ -31,6 +31,9 @@ export const EditorActions = {
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
+  ADD_LABEL: 'addLabel',
+  ADD_LABEL_FAILED: 'addLabelFailed',
+  ADD_LABEL_SUCCESS: 'addLabelSuccess',
   ADD_CONTACT: 'addContact',
   ADD_CONTACT_FAILED: 'addContactFailed',
   ADD_CONTACT_SUCCESS: 'addContactSuccess',
@@ -130,6 +133,32 @@ export function addContact(contact, selectedContacts) {
         notifySuccess("Luonti onnistui");
       }
     }).then(() => dispatch(fetchHearingEditorMetaData())).catch(requestErrorHandler(dispatch, postContactAction));
+  };
+}
+
+export function addTag(label, selectedLabels) {
+  return (dispatch, getState) => {
+    const postLabelAction = createAction(EditorActions.ADD_LABEL)();
+    dispatch(postLabelAction);
+    const url = "/v1/label/";
+    return api.post(getState(), url, label).then(checkResponseStatus).then((response) => {
+      if (response.status === 400) {  // Bad request with error message
+        notifyError("Tarkista tagin tiedot.");
+        response.json().then((errors) => {
+          dispatch(createAction(EditorActions.ADD_LABEL_FAILED)({errors}));
+        });
+      } else if (response.status === 401) {  // Unauthorized
+        notifyError("Et voi luoda tagia.");
+      } else {
+        response.json().then((labelJSON) => {
+          selectedLabels.push(labelJSON.id);
+          debugger; // eslint-disable-line
+          dispatch(changeHearing("labels", selectedLabels));
+          dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({label: labelJSON}));
+        });
+        notifySuccess("Luonti onnistui");
+      }
+    }).then(() => dispatch(fetchHearingEditorMetaData())).catch(requestErrorHandler(dispatch, postLabelAction));
   };
 }
 
