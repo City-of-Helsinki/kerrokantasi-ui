@@ -88,7 +88,7 @@ class HearingFormStep1 extends React.Component {
       hearing,
       hearingLanguages,
       intl: {formatMessage},
-      labels: tagOptions,
+      labels: labelOptions,
       contactPersons: contactOptions,
       onHearingChange,
       onLanguagesChange,
@@ -116,15 +116,15 @@ class HearingFormStep1 extends React.Component {
 
         <Row>
           <Col md={6}>
-            <FormGroup controlId="hearingTags">
-              <ControlLabel><FormattedMessage id="hearingTags"/></ControlLabel>
+            <FormGroup controlId="hearingLabels">
+              <ControlLabel><FormattedMessage id="hearingLabels"/></ControlLabel>
               <div className="label-elements">
                 <Select
                   multi
                   name="labels"
                   onChange={this.onLabelsChange}
-                  options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
-                  placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
+                  options={labelOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
+                  placeholder={formatMessage({id: "hearingLabelsPlaceholder"})}
                   simpleValue={false}
                   value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
                   valueKey="frontId"
