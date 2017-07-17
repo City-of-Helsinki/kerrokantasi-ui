@@ -212,11 +212,11 @@
 
 .comment-form-container {
   @extend .col-xs-12;
-  margin-bottom: $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
 }
 
 .comment-form {
-    background-color: $theme-primary-light;
+    background-color: $white;
     padding: 1em;
     margin-bottom: $line-height-computed;
 
@@ -238,6 +238,19 @@
         padding-top: 10px;
     }
 
+    .comment-buttons {
+      text-align: right;
+      margin: $line-height-computed 0;
+
+      .btn {
+        margin-right: 1em;
+      }
+
+      .btn:last-child {
+        margin-right: 0;
+      }
+    }
+
     textarea {
       height: 7em;
       line-height: 1em;
@@ -245,6 +258,7 @@
 }
 
 .comment-conditions {
+    border-top: 1px solid $gray-light;
     padding-top: 15px;
     font-size: 1.4rem;
 }

@@ -179,13 +179,15 @@ export class BaseCommentForm extends React.Component {
             </FormGroup>
           ) : null}
           <div className="comment-buttons clearfix">
-            <Button bsStyle="warning" onClick={this.toggle.bind(this)}>
+            <Button
+              bsStyle="default"
+              onClick={this.toggle.bind(this)}
+            >
               <FormattedMessage id="cancel"/>
             </Button>
             <Button
               bsStyle="primary"
               disabled={!this.state.commentText || this.state.imageTooBig}
-              className="pull-right"
               onClick={this.submitComment.bind(this)}
             >
               <FormattedMessage id="submit"/>
