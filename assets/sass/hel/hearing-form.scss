@@ -102,6 +102,10 @@ $node_modules: "../../../node_modules";
     .alert {
         margin-bottom: 0;
         font-weight: bold;
+
+        &.alert-success {
+          color: $white;
+        }
     }
 
     .btn-toolbar {
