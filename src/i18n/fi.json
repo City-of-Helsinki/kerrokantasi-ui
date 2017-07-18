@@ -21,7 +21,8 @@
   "revertPublishing": "Peru julkaisu",
   "closeHearing": "Sulje kuuleminen",
   "closedHearing": "Suljettu",
-  "publishHearing": "Hyväksy luonnos",
+  "publishHearing": "Hyväksy julkaistavaksi",
+  "publishHearingNow": "Julkaise kuuleminen",
   "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
   "saveHearingChanges": "Tallenna muutokset",
   "hearingChangesSaved": "Muutokset tallennettu",
@@ -172,5 +173,6 @@
   "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
   "voteReceived": "Ääni vastaanotettu. Kiitos!",
   "noHearings": "Kuulemisia ei löytynyt",
-  "createHearing": "Luo uusi kuuleminen"
+  "createHearing": "Luo uusi kuuleminen",
+  "draftNotPublished": "Luonnos, ei julkaistu"
 }
