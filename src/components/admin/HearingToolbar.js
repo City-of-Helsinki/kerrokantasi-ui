@@ -6,6 +6,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Col from 'react-bootstrap/lib/Col';
+import Icon from '../../utils/Icon';
 
 import {canEdit, isOpen} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
@@ -32,7 +33,7 @@ class HearingToolbar extends React.Component {
     const openingTime = moment(hearing.open_at);
     const actions = [
       <Button bsStyle="default" onClick={this.props.onEdit} key="edit">
-        <FormattedMessage id="editHearing"/>
+        <Icon name="pencil-square-o"/> <FormattedMessage id="editHearing"/>
       </Button>
     ];
     const open = isOpen(hearing);
@@ -40,12 +41,12 @@ class HearingToolbar extends React.Component {
       statusLabel = <FormattedMessage id="published"/>;
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
-          <FormattedMessage id="revertPublishing"/>
+          <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
         </Button>
       );
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onCloseHearing} key="close">
-          <FormattedMessage id="closeHearing"/>
+          <Icon name="ban"/> <FormattedMessage id="closeHearing"/>
         </Button>
       );
     } else if (!open && hearing.published && moment(hearing.close_at) <= moment()) {
@@ -53,12 +54,12 @@ class HearingToolbar extends React.Component {
     } else if (!open && hearing.published) {
       statusLabel = (
         <span>
-          <FormattedMessage id="toBePublishedHearing"/> {openingTime.format(DATE_FORMAT)}
+          <Icon name="clock-o"/> <FormattedMessage id="toBePublishedHearing"/> {openingTime.format(DATE_FORMAT)}
         </span>
       );
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
-          <FormattedMessage id="revertPublishing"/>
+          <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
         </Button>
       );
     } else {
@@ -69,7 +70,7 @@ class HearingToolbar extends React.Component {
       }
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onPublish} key="publish">
-          {publishText}
+          <Icon name="eye"/> {publishText}
         </Button>
       );
     }
