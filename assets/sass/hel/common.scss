@@ -7,7 +7,7 @@ body {
     position: relative;
     min-height: 100%;
     @media (min-width: $screen-md-min) {
-        padding-bottom: 150px;
+        padding-bottom: $site-footer-height + ($line-height-computed * 3);
     }
 }
 
