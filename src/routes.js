@@ -4,7 +4,7 @@ import App from './App';
 import Hearings from './views/Hearings';
 // import AllHearings from './views/AllHearings';
 // import AdminHearings from './views/admin/AdminHearings';
-import HearingManager from './views/admin/HearingManager';
+// import HearingManager from './views/admin/HearingManager';
 import Hearing from './views/Hearing';
 import HearingMap from './views/HearingMap';
 import Home from './views/Home';
@@ -28,14 +28,14 @@ function trackLink() {
 export default (
   <Route path="/" component={App} onEnter={trackLink}>
     <IndexRoute component={Home} onEnter={trackLink}/>
-    <Route path="/hearing/(:hearingSlug)/manage" component={HearingManager} onEnter={trackLink}/>
-    <Route path="/hearing/new" component={HearingManager} onEnter={trackLink}/>
+    <Route path="/hearing/new" component={Hearing} onEnter={trackLink}/>
     <Route path="/info" component={Info} onEnter={trackLink}/>
     <Route path="/map" component={HearingMap} onEnter={trackLink}/>
     <Redirect from="/hearings" to="hearings/list"/>
     <Route path="/hearings/:tab" component={Hearings} onEnter={trackLink}/>
-    <Route path="/hearing/(:hearingSlug)" component={Hearing} onEnter={trackLink}/>
+    <Route path="/hearing/:hearingSlug" component={Hearing} onEnter={trackLink}/>
     <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
-    <Route path="/(:hearingSlug)" component={Hearing} onEnter={trackLink}/>
+    <Route path="/:hearingSlug" component={Hearing} onEnter={trackLink}/>
+    <Route path="/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
   </Route>
 );

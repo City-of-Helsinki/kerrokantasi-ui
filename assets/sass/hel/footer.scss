@@ -1,52 +1,90 @@
-footer {
-    background: $gray-light;
-    padding: 25px 0px;
+.site-footer {
+  background-color: $gray-dark;
+  color: $white;
+  margin-top: 4em;
+  min-height: 20em;
+  padding: 4em 0;
+
+  @media (min-width: $screen-md-min) {
+      height: $site-footer-height;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 0px;
+  }
+
+  .site-footer-block {
+    margin-bottom: 2em;
+    @media (max-width: $screen-xs-max) {
+      text-align: center;
+    }
+  }
+
+  .footer-header {
+    font-weight: 800;
+    margin-bottom: 1em;
+    @media (max-width: $screen-xs-max) {
+      text-align: center;
+    }
+  }
+
+  .footer-links {
+    list-style: none;
+    padding-left: 0;
+    .icon {
+      font-size: 1.2em;
+      margin-right: .25em;;
+    }
 
     a {
-        color: $text-muted;
-        &:hover, &:focus {
-            color: $link-color;
-        }
+      color: $white;
+    }
+  }
+}
+
+.footer-branding {
+  margin-bottom: 2em;
+
+  @media (max-width: $screen-xs-max) {
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin: 0 auto 1em;
+    max-width: 9em;
+  }
+}
+
+.site-footer-small-print {
+  margin-top: 2em;
+  text-align: right;
+
+  .small-print-nav {
+    @extend .list-inline;
+    color: $gray-lighter;
+    font-size: 14px;
+
+    a {
+      color: $gray-lighter;
     }
 
-    @media (min-width: $screen-md-min) {
-        height: 150px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 40px 0px;
+    li {
+      padding: 0;
     }
-    .logo {
-        float: left;
-        padding-right: 50px;
-        white-space: nowrap;
-        a {
-            display: block;
-            color: $text-color;
-        }
 
-        img {
-            display: inline-block;
-            height: 46px;
-            width: auto;
-            vertical-align: middle;
-            @media (min-width: $screen-md-min) {
-                height: 70px;
-            }
-        }
-        span {
-            font-size: 2.1rem;
-            margin-left: 25px;
-            display: inline-block;
-            font-weight: bold;
-            vertical-align: middle;
-            @media (min-width: $screen-md-min) {
-                font-size: 2.8rem;
-            }
-        }
+    li::before {
+      color: $gray-light;
+      content: '|';
+      margin: 0 .5em;
     }
-    .links {
-        float: right;
+
+    li:first-child::before {
+      content: none;
     }
+
+    @media screen and (max-width: $screen-sm-max) {
+      text-align: center;
+    }
+  }
 }

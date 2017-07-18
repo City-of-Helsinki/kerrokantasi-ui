@@ -39,6 +39,11 @@ class HearingToolbar extends React.Component {
     if (open && hearing.published) {
       statusLabel = <FormattedMessage id="published"/>;
       actions.push(
+        <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
+          <FormattedMessage id="revertPublishing"/>
+        </Button>
+      );
+      actions.push(
         <Button bsStyle="danger" onClick={this.props.onCloseHearing} key="close">
           <FormattedMessage id="closeHearing"/>
         </Button>
@@ -58,19 +63,23 @@ class HearingToolbar extends React.Component {
       );
     } else {
       statusLabel = <FormattedMessage id="draft"/>;
+      let publishText = <FormattedMessage id="publishHearing"/>;
+      if (moment(hearing.open_at).diff(moment()) < 0) {
+        publishText = <FormattedMessage id="publishHearingNow"/>;
+      }
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onPublish} key="publish">
-          <FormattedMessage id="publishHearing"/>
+          {publishText}
         </Button>
       );
     }
 
     return (
       <div className="toolbar-bottom">
-        <Col md={6} mdOffset={3}>
+        <Col md={2} mdOffset={5}>
           <span className="status-label">{statusLabel}</span>
         </Col>
-        <Col md={3}>
+        <Col md={5}>
           <ButtonToolbar className="actions pull-right">
             {actions}
           </ButtonToolbar>

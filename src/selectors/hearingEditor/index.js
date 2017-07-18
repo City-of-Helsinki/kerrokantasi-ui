@@ -13,8 +13,9 @@ export const getIsFetchingHearing = (state: AppState) =>
 export const getIsFetchingMetaData = (state: AppState) =>
   getHearingEditor(state).labels.isFetching || getHearingEditor(state).contactPersons.isFetching;
 
-export const getIsLoading = (state: AppState) =>
-  getHearingEditor(state).editorState.pending > 0;
+export const getIsLoading = (state: AppState) => {
+  return getHearingEditor(state).editorState.pending > 0;
+};
 
 export const getShowForm = (state: AppState) =>
   getHearingEditor(state).editorState.show;

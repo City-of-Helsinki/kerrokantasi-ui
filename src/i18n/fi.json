@@ -21,7 +21,8 @@
   "revertPublishing": "Peru julkaisu",
   "closeHearing": "Sulje kuuleminen",
   "closedHearing": "Suljettu",
-  "publishHearing": "Hyväksy luonnos",
+  "publishHearing": "Hyväksy julkaistavaksi",
+  "publishHearingNow": "Julkaise kuuleminen",
   "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
   "saveHearingChanges": "Tallenna muutokset",
   "hearingChangesSaved": "Muutokset tallennettu",
@@ -174,5 +175,6 @@
   "noHearings": "Kuulemisia ei löytynyt",
   "createHearing": "Luo uusi kuuleminen",
   "createLabel": "Luo uusi tagi",
-  "labelPlaceholder": "Anna tagin nimi..."
+  "labelPlaceholder": "Anna tagin nimi...",
+  "draftNotPublished": "Luonnos, ei julkaistu"
 }

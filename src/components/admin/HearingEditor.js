@@ -81,7 +81,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, isLoading} = this.props;
+    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show} = this.props;
 
     if (isEmpty(hearing)) {
       return null;
@@ -100,7 +100,7 @@ class HearingEditor extends React.Component {
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
         onLanguagesChange={this.onLanguagesChange}
-        show={show && !isLoading}
+        show={show}
         dispatch={this.props.dispatch}
       />
     );
@@ -138,7 +138,6 @@ HearingEditor.propTypes = {
 
 const WrappedHearingEditor = connect((state) => ({
   show: EditorSelector.getShowForm(state),
-  isLoading: EditorSelector.getIsLoading(state),
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;

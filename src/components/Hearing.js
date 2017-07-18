@@ -21,7 +21,6 @@ import _, { find } from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
-  canEdit,
   getClosureSection,
   getHearingEditorURL,
   getHearingURL,
@@ -110,18 +109,6 @@ export class Hearing extends React.Component {
     );
   }
 
-  getManageButton() {
-    const { user, hearing } = this.props;
-    if (canEdit(user, hearing)) {
-      return (
-        <Button bsStyle="primary" onClick={() => this.toHearingEditor(hearing)}>
-          <Icon name="edit" /> <FormattedMessage id="editHearing" />
-        </Button>
-      );
-    }
-    return null;
-  }
-
   getClosureInfo(hearing) {
     const { formatMessage } = this.props.intl;
     const closureInfo = getClosureSection(hearing);
@@ -206,7 +193,6 @@ export class Hearing extends React.Component {
             intl={intl}
           />
         </div>
-        <hr />
       </div>
     );
   }
@@ -247,9 +233,6 @@ export class Hearing extends React.Component {
 
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
-        <div className="text-right">
-          {this.getManageButton()}
-        </div>
         <Header
           hearing={hearing}
           reportUrl={reportUrl}
@@ -267,15 +250,15 @@ export class Hearing extends React.Component {
             hearingSlug={hearingSlug}
           />
           <Col md={8} lg={9}>
-            <div id="hearing">
+            <div id="hearing" className="hearing-content">
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
-              <div>
-                <HearingImageList images={mainSection.images} />
-                <div
-                  className="hearing-abstract lead"
-                  dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }}
-                />
-              </div>
+
+              <HearingImageList images={mainSection.images} />
+              <div
+                className="hearing-abstract lead"
+                dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }}
+              />
+
               {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
               {mainSection
                 ? <WrappedSection
@@ -290,27 +273,30 @@ export class Hearing extends React.Component {
                 />
                 : null}
             </div>
-            {hearing.contact_persons && hearing.contact_persons.length
-              ? <h2>
-                <FormattedMessage id="contactPersons" />
-              </h2>
-              : null}
-            {hearing.contact_persons &&
-              hearing.contact_persons.map((person, index) =>
-                <ContactCard
-                  key={index} // eslint-disable-line react/no-array-index-key
-                  activeLanguage={language}
-                  {...person}
-                />,
-              )}
+            <div className="hearing-contacts">
+              {hearing.contact_persons && hearing.contact_persons.length
+                ? <h3>
+                  <FormattedMessage id="contactPersons" />
+                </h3>
+                : null}
+              <Row>
+                {hearing.contact_persons &&
+                  hearing.contact_persons.map((person, index) =>
+                    <Col xs={6} md={4}><ContactCard
+                      key={index} // eslint-disable-line react/no-array-index-key
+                      activeLanguage={language}
+                      {...person}
+                    /></Col>,
+                  )}
+              </Row>
+            </div>
             {this.getLinkToFullscreen(hearing)}
             {sectionGroups.map(sectionGroup =>
-              <div id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
+              <div className="hearing-section-group" id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
                 <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)} />
                 <SectionList
                   basePath={window ? window.location.pathname : ''}
                   sections={sectionGroup.sections}
-                  nComments={sectionGroup.n_comments}
                   canComment={hearingAllowsComments}
                   onPostComment={this.onPostSectionComment.bind(this)}
                   canVote={hearingAllowsComments}
