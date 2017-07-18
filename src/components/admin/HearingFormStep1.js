@@ -13,6 +13,7 @@ import Row from 'react-bootstrap/lib/Row';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
+import LabelModal from './LabelModal';
 import ContactModal from './ContactModal';
 import {
   contactShape,
@@ -22,18 +23,20 @@ import {
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 
-import {addContact} from '../../actions/hearingEditor';
+import {addLabel, addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
 
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.onTagsChange = this.onTagsChange.bind(this);
+    this.onLabelsChange = this.onLabelsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
 
     this.state = {
+      showLabelModal: false,
       showContactModal: false,
+      selectedLabels: this.props.hearing.labels.map(({id}) => id),
       selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
     };
   }
@@ -46,8 +49,9 @@ class HearingFormStep1 extends React.Component {
     }
   }
 
-  onTagsChange(selectedTags) {
-    this.props.onHearingChange("labels", selectedTags.map(({id}) => id));
+  onLabelsChange(selectedLabels) {
+    this.setState({ selectedLabels });
+    this.props.onHearingChange("labels", selectedLabels.map(({id}) => id));
   }
 
   onContactsChange(selectedContacts) {
@@ -55,8 +59,20 @@ class HearingFormStep1 extends React.Component {
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
+  onCreateLabel(label) {
+    this.props.dispatch(addLabel(label, this.state.selectedLabels));
+  }
+
   onCreateContact(contact) {
     this.props.dispatch(addContact(contact, this.state.selectedContacts));
+  }
+
+  openLabelModal() {
+    this.setState({ showLabelModal: true });
+  }
+
+  closeLabelModal() {
+    this.setState({ showLabelModal: false });
   }
 
   openContactModal() {
@@ -72,7 +88,7 @@ class HearingFormStep1 extends React.Component {
       hearing,
       hearingLanguages,
       intl: {formatMessage},
-      labels: tagOptions,
+      labels: labelOptions,
       contactPersons: contactOptions,
       onHearingChange,
       onLanguagesChange,
@@ -100,21 +116,24 @@ class HearingFormStep1 extends React.Component {
 
         <Row>
           <Col md={6}>
-            <FormGroup controlId="hearingTags">
-              <ControlLabel>
-                <FormattedMessage id="hearingTags"/>
-              </ControlLabel>
-              <Select
-                multi
-                name="labels"
-                onChange={this.onTagsChange}
-                options={tagOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
-                placeholder={formatMessage({id: "hearingTagsPlaceholder"})}
-                simpleValue={false}
-                value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
-                valueKey="frontId"
-                menuContainerStyle={{zIndex: 10}}
-              />
+            <FormGroup controlId="hearingLabels">
+              <ControlLabel><FormattedMessage id="hearingLabels"/></ControlLabel>
+              <div className="label-elements">
+                <Select
+                  multi
+                  name="labels"
+                  onChange={this.onLabelsChange}
+                  options={labelOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
+                  placeholder={formatMessage({id: "hearingLabelsPlaceholder"})}
+                  simpleValue={false}
+                  value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                  valueKey="frontId"
+                  menuContainerStyle={{zIndex: 10}}
+                />
+                <Button bsStyle="primary" className="pull-right add-label-button" onClick={() => this.openLabelModal()}>
+                  <Icon className="icon" name="plus"/>
+                </Button>
+              </div>
             </FormGroup>
           </Col>
           <Col md={6}>
@@ -157,9 +176,14 @@ class HearingFormStep1 extends React.Component {
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
+        <LabelModal
+          isOpen={this.state.showLabelModal}
+          onClose={this.closeLabelModal.bind(this)}
+          onCreateLabel={this.onCreateLabel.bind(this)}
+        />
         <ContactModal
           isOpen={this.state.showContactModal}
-          close={this.closeContactModal.bind(this)}
+          onClose={this.closeContactModal.bind(this)}
           onCreateContact={this.onCreateContact.bind(this)}
         />
       </div>

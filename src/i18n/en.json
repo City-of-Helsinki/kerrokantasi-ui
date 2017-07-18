@@ -119,5 +119,7 @@
   "voteReceived": "Vote received. Thank you!",
   "noHearings": "Couldn't find any hearings",
   "createHearing": "Create new hearing",
+  "createLabel": "Create a new tag",
+  "labelPlaceholder": "Name of tag here...",
   "draftNotPublished": "Draft, not published"
 }

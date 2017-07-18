@@ -32,8 +32,8 @@
   "addOption": "Lisää vaihtoehto",
   "title": "Otsikko",
   "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
-  "hearingTags": "Tagit",
-  "hearingTagsPlaceholder": "Valitse kuulemiselle sopivat tagit",
+  "hearingLabels": "Tagit",
+  "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat tagit",
   "hearingSlug": "WWW-osoite",
   "hearingSlugPlaceholder": "esimerkki-kuuleminen",
   "hearingCommenting": "Kommentointi",
@@ -174,5 +174,7 @@
   "voteReceived": "Ääni vastaanotettu. Kiitos!",
   "noHearings": "Kuulemisia ei löytynyt",
   "createHearing": "Luo uusi kuuleminen",
+  "createLabel": "Luo uusi tagi",
+  "labelPlaceholder": "Anna tagin nimi...",
   "draftNotPublished": "Luonnos, ei julkaistu"
 }
