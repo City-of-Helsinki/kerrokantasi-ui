@@ -3,9 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
-import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import Col from 'react-bootstrap/lib/Col';
+import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
 import {canEdit, isOpen} from '../../utils/hearing';
@@ -38,7 +36,7 @@ class HearingToolbar extends React.Component {
     ];
     const open = isOpen(hearing);
     if (open && hearing.published) {
-      statusLabel = <FormattedMessage id="published"/>;
+      statusLabel = (<Alert bsStyle="success"><Icon name="eye"/> <FormattedMessage id="published"/></Alert>);
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
           <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
@@ -50,12 +48,12 @@ class HearingToolbar extends React.Component {
         </Button>
       );
     } else if (!open && hearing.published && moment(hearing.close_at) <= moment()) {
-      statusLabel = <FormattedMessage id="closedHearing"/>;
+      statusLabel = (<Alert bsStyle="danger"><Icon name="ban"/> <FormattedMessage id="closedHearing"/></Alert>);
     } else if (!open && hearing.published) {
       statusLabel = (
-        <span>
+        <Alert bsStyle="warning">
           <Icon name="clock-o"/> <FormattedMessage id="toBePublishedHearing"/> {openingTime.format(DATE_FORMAT)}
-        </span>
+        </Alert>
       );
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
@@ -63,7 +61,7 @@ class HearingToolbar extends React.Component {
         </Button>
       );
     } else {
-      statusLabel = <FormattedMessage id="draft"/>;
+      statusLabel = (<Alert bsStyle="info"><Icon name="pencil"/> <FormattedMessage id="draft"/></Alert>);
       let publishText = <FormattedMessage id="publishHearing"/>;
       if (moment(hearing.open_at).diff(moment()) < 0) {
         publishText = <FormattedMessage id="publishHearingNow"/>;
@@ -77,14 +75,16 @@ class HearingToolbar extends React.Component {
 
     return (
       <div className="toolbar-bottom">
-        <Col md={2} mdOffset={5}>
-          <span className="status-label">{statusLabel}</span>
-        </Col>
-        <Col md={5}>
-          <ButtonToolbar className="actions pull-right">
-            {actions}
-          </ButtonToolbar>
-        </Col>
+        <Row>
+          <Col md={6}>
+            {statusLabel}
+          </Col>
+          <Col md={6}>
+            <ButtonToolbar className="actions pull-right">
+              {actions}
+            </ButtonToolbar>
+          </Col>
+        </Row>
       </div>
     );
   }
