@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 import WrappedSection from './Section';
-import Icon from '../utils/Icon';
 import {userCanComment, userCanVote} from '../utils/section';
 
 class SectionList extends React.Component {
   render() {
-    const {sections, nComments, user, basePath} = this.props;
+    const {sections, user, basePath} = this.props;
     if (!sections || sections.length === 0) {
       return null;
     }
@@ -15,9 +14,6 @@ class SectionList extends React.Component {
       <h2>{sections.length === 1 ?
         sections[0].type_name_singular :
         sections[0].type_name_plural}
-        <div className="section-title-comments">
-          <Icon name="comment-o"/>&nbsp;{nComments}
-        </div>
       </h2>
       {sections.map((section) => (
         <WrappedSection
@@ -45,7 +41,6 @@ SectionList.propTypes = {
   onPostVote: PropTypes.func,
   sections: PropTypes.array,
   sectionComments: PropTypes.object,
-  nComments: PropTypes.number,
   user: PropTypes.object,
 };
 

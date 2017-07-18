@@ -12,9 +12,14 @@ import config from '../config';
 
 const HearingCard = ({hearing, language, className = ''}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
-  const imageStyle = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
+  let cardImageStyle = {
+    backgroundImage: 'url(/assets/images/default-image.svg)'
   };
+  if (backgroundImage) {
+    cardImageStyle = {
+      backgroundImage: 'url("' + backgroundImage + '")'
+    };
+  }
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
@@ -39,7 +44,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
           </div>
         </Link>
       }
-      <Link to={getHearingURL(hearing)} className="hearing-card-image" style={imageStyle}>
+      <Link to={getHearingURL(hearing)} className="hearing-card-image" style={cardImageStyle}>
         {commentCount}
       </Link>
       <div className="hearing-card-content">

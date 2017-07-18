@@ -8,10 +8,10 @@ class HearingImage extends React.Component {
     const {language} = this.context;
     const title = getAttr(data.title, language);
     return (
-      <div>
+      <figure>
         <img className="img-responsive" title={title} alt={title} src={data.url}/>
-        <div className="image-caption">{getAttr(data.caption, language)}</div>
-      </div>
+        <figcaption className="image-caption">{getAttr(data.caption, language)}</figcaption>
+      </figure>
     );
   }
 }

@@ -142,12 +142,34 @@
   }
 }
 
+.hearing-content, .section-content {
+  margin-bottom: $line-height-computed * 2;
+}
+
+.hearing-image-list {
+  margin-bottom: $line-height-computed * 2;
+}
+
 .image-caption {
     width: 100%;
     padding: 10px 15px;
     margin-bottom: 15px;
-    background-color: $gray-light;
+    background-color: $gray-lighter;
     font-size: 1.4rem;
+}
+
+.hearing-contacts {
+  border: 1px solid $gray-light;
+  padding: 0 $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
+
+  .contact-card {
+    margin-bottom: $line-height-computed;
+  }
+}
+
+.hearing-section-group {
+  margin-bottom: $line-height-computed;
 }
 
 .section-list-item {
@@ -163,18 +185,19 @@
         flex-basis: content;
         flex-shrink: 0;
         flex-grow: 0;
+        width: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
         @media (max-width: $screen-xs-max) {
             display: none;
-        }
-        img {
-            max-width: 150px;
-            max-height: 100%;
         }
         float: left;
         cursor: pointer;
     }
     &-content {
         flex: 1 auto;
+        padding: $line-height-computed;
         h3 {
             margin-top: 0;
         }
@@ -189,11 +212,11 @@
 
 .comment-form-container {
   @extend .col-xs-12;
-  margin-bottom: $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
 }
 
 .comment-form {
-    background-color: $theme-primary-light;
+    background-color: $white;
     padding: 1em;
     margin-bottom: $line-height-computed;
 
@@ -215,6 +238,19 @@
         padding-top: 10px;
     }
 
+    .comment-buttons {
+      text-align: right;
+      margin: $line-height-computed 0;
+
+      .btn {
+        margin-right: 1em;
+      }
+
+      .btn:last-child {
+        margin-right: 0;
+      }
+    }
+
     textarea {
       height: 7em;
       line-height: 1em;
@@ -222,6 +258,7 @@
 }
 
 .comment-conditions {
+    border-top: 1px solid $gray-light;
     padding-top: 15px;
     font-size: 1.4rem;
 }
