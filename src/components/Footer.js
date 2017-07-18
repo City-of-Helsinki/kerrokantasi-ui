@@ -20,9 +20,9 @@ export default function Footer() {
             <div className="site-footer-block">
               <div className="footer-header">Kerro kantasi</div>
               <ul className="footer-links">
-                <li><Link to={"hearings"}><FormattedMessage id={"hearingsHeaderText"}/></Link></li>
-                <li><Link to={"hearingMap"}><FormattedMessage id={"hearingMapHeaderText"}/></Link></li>
-                <li><Link to={"info"}><FormattedMessage id={"infoHeaderText"}/></Link></li>
+                <li><Link to={"/hearings/list"}><FormattedMessage id={"hearingsHeaderText"}/></Link></li>
+                <li><Link to={"/hearings/map"}><FormattedMessage id={"hearingMapHeaderText"}/></Link></li>
+                <li><Link to={"/info"}><FormattedMessage id={"infoHeaderText"}/></Link></li>
               </ul>
             </div>
           </Col>

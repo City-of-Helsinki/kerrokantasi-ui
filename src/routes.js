@@ -6,7 +6,6 @@ import Hearings from './views/Hearings';
 // import AdminHearings from './views/admin/AdminHearings';
 // import HearingManager from './views/admin/HearingManager';
 import Hearing from './views/Hearing';
-import HearingMap from './views/HearingMap';
 import Home from './views/Home';
 import Info from './views/Info';
 import QuestionView from './views/QuestionView';
@@ -30,7 +29,6 @@ export default (
     <IndexRoute component={Home} onEnter={trackLink}/>
     <Route path="/hearing/new" component={Hearing} onEnter={trackLink}/>
     <Route path="/info" component={Info} onEnter={trackLink}/>
-    <Route path="/map" component={HearingMap} onEnter={trackLink}/>
     <Redirect from="/hearings" to="hearings/list"/>
     <Route path="/hearings/:tab" component={Hearings} onEnter={trackLink}/>
     <Route path="/hearing/:hearingSlug" component={Hearing} onEnter={trackLink}/>
