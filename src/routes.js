@@ -33,8 +33,9 @@ export default (
     <Route path="/map" component={HearingMap} onEnter={trackLink}/>
     <Redirect from="/hearings" to="hearings/list"/>
     <Route path="/hearings/:tab" component={Hearings} onEnter={trackLink}/>
-    <Route path="/hearing/(:hearingSlug)" component={Hearing} onEnter={trackLink}/>
+    <Route path="/hearing/:hearingSlug" component={Hearing} onEnter={trackLink}/>
     <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
-    <Route path="/(:hearingSlug)" component={Hearing} onEnter={trackLink}/>
+    <Route path="/:hearingSlug" component={Hearing} onEnter={trackLink}/>
+    <Route path="/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
   </Route>
 );

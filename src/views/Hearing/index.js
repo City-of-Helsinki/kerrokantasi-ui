@@ -148,15 +148,14 @@ export class HearingView extends React.Component {
       user, language, dispatch, currentlyViewed, params,
       contactPersons, isLoading, hearingDraft, labels, hearingLanguages
     } = this.props;
-
-    if (!hearing && !hearingDraft) {
-      return this.renderSpinner();
-    }
     const fullscreen = this.checkNeedForFullscreen();
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
 
     if (!this.state.manager) {
       // this is the standard hearing view with no wrappers around it
+      if (!hearing) {
+        return this.renderSpinner();
+      }
       return (
         <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'container'}>
           <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)}/>

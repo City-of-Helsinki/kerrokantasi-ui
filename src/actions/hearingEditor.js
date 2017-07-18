@@ -6,7 +6,7 @@ import Promise from 'bluebird';
 import {push} from 'redux-router';
 
 import {requestErrorHandler} from './index';
-import {getHearingEditorURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
+import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
 import {fillFrontIdsAndNormalizeHearing, filterFrontIdsFromAttributes} from '../utils/hearingEditor';
 
 
@@ -223,7 +223,7 @@ export function saveAndPreviewHearingChanges(hearing) {
         response.json().then((hearingJSON) => {
           dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
           dispatch(createAction(EditorActions.CLOSE_FORM)());
-          dispatch(push(getHearingEditorURL(hearingJSON)));
+          dispatch(push(getHearingURL(hearingJSON)));
         });
         notifySuccess("Tallennus onnistui");
       }
@@ -282,7 +282,7 @@ export function saveAndPreviewNewHearing(hearing) {
         response.json().then((hearingJSON) => {
           dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({hearing: hearingJSON}));
           dispatch(createAction(EditorActions.CLOSE_FORM)());
-          dispatch(push(getHearingEditorURL(hearingJSON)));
+          dispatch(push(getHearingURL(hearingJSON)));
         });
         notifySuccess("Luonti onnistui");
       }
