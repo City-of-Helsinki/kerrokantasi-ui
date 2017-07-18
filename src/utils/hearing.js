@@ -20,7 +20,7 @@ export function getMainSection(hearing) {
 * to force fullscreen query parameter.
  */
 export function getHearingURL(hearing, {fullscreen} = {}) {
-  const url = `/hearing/${hearing.slug}`;
+  const url = `/${hearing.slug}`;
   let query = "";
   if (typeof fullscreen !== "undefined") {
     query = `?fullscreen=${fullscreen}`;
@@ -34,15 +34,6 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
 export function getHearingMainImageURL(hearing) {
   return _.get(hearing, 'main_image.url');
 }
-
-
-/*
-* Return URL to hearing management view.
- */
-export function getHearingEditorURL(hearing) {
-  return `/hearing/${hearing.slug}/manage`;
-}
-
 
 /*
 * Returns true if hearing has a plugin that can be rendered fullscreen

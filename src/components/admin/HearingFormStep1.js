@@ -121,7 +121,7 @@ class HearingFormStep1 extends React.Component {
             <FormGroup controlId="hearingSlug">
               <ControlLabel><FormattedMessage id="hearingSlug"/></ControlLabel>
               <InputGroup>
-                <InputGroup.Addon>{`${window.document.origin}/hearing/`}</InputGroup.Addon>
+                <InputGroup.Addon>{`${window.document.origin}/`}</InputGroup.Addon>
                 <FormControl
                   type="text"
                   name="slug"

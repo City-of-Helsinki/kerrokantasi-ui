@@ -123,6 +123,7 @@ class HearingForm extends React.Component {
         onHide={this.props.onLeaveForm}
         show={this.props.show}
       >
+        <Modal.Header closeButton bsClass="hearing-modal-header" />
         {this.getErrors()}
         <form>
           <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>

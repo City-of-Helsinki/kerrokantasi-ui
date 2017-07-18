@@ -93,5 +93,5 @@ export function groupSections(sections) {
 }
 
 export function getSectionURL(hearingSlug, section) {
-  return `/hearing/${hearingSlug}/${section.id}`;
+  return `/${hearingSlug}/${section.id}`;
 }
