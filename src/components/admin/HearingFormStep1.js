@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import map from 'lodash/map';
 
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
@@ -36,8 +37,8 @@ class HearingFormStep1 extends React.Component {
     this.state = {
       showLabelModal: false,
       showContactModal: false,
-      selectedLabels: this.props.hearing.labels.map(({id}) => id),
-      selectedContacts: this.props.hearing.contact_persons.map(({id}) => id)
+      selectedLabels: map(this.props.hearing.labels, ({id}) => id),
+      selectedContacts: map(this.props.hearing.contact_persons, ({id}) => id)
     };
   }
 
