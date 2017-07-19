@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Button} from 'react-bootstrap';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
 const CreateHearingButton = ({onClick}) => (
-  <div className="pull-right create-hearing-button-container" style={{marginTop: '-66px'}}>
-    <Button bsStyle="success" onClick={onClick}>
-      <Icon name="plus"/>&nbsp;&nbsp;
-      <FormattedMessage id="createHearing"/>
-    </Button>
+  <div className="toolbar-bottom create-hearing-button-container">
+    <ButtonToolbar className="actions pull-right">
+      <Button bsStyle="success" onClick={onClick}>
+        <Icon name="plus"/>&nbsp;&nbsp;
+        <FormattedMessage id="createHearing"/>
+      </Button>
+    </ButtonToolbar>
   </div>
 );
 
