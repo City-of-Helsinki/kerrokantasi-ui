@@ -3,7 +3,7 @@ import getMessage from "./getMessage";
 
 export function alert(message, title = "Kerro Kantasi") {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").alert(title, message);
+    require("alertifyjs").alert(title, message).setting({transition: 'slide'});
   }
 }
 
