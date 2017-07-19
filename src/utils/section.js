@@ -2,6 +2,7 @@ import _, { find, values } from 'lodash';
 // import uuid from 'uuid/v1';
 
 import initAttr from './initAttr';
+import {acceptsComments} from "./hearing";
 
 export const SectionTypes = {
   MAIN: 'main',
@@ -15,11 +16,21 @@ export function isSpecialSectionType(sectionType) {
 }
 
 export function userCanComment(user, section) {
-  return section.commenting === 'open' || (section.commenting === 'registered' && user !== null);
+  return section.commenting === 'open' || (section.commenting === 'registered' && Boolean(user));
 }
 
 export function userCanVote(user, section) {
-  return section.voting === 'open' || (section.voting === 'registered' && user !== null);
+  return section.voting === 'open' || (section.voting === 'registered' && Boolean(user));
+}
+
+export function isSectionVotable(hearing, section, user) {
+  return acceptsComments(hearing) && userCanVote(user, section);
+}
+
+export function isSectionCommentable(hearing, section, user) {
+  return (
+    acceptsComments(hearing) && userCanComment(user, section) && !section.plugin_identifier // comment box not available for sections with plugins
+  );
 }
 
 /**

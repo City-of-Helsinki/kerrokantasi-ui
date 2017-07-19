@@ -22,12 +22,11 @@ import Icon from '../utils/Icon';
 import {
   acceptsComments,
   getClosureSection,
-  getHearingEditorURL,
   getHearingURL,
   getMainSection,
-  hasFullscreenMapPlugin,
+  hasFullscreenMapPlugin
 } from '../utils/hearing';
-import { isSpecialSectionType, userCanComment, userCanVote } from '../utils/section';
+import { isSpecialSectionType, isSectionCommentable, isSectionVotable } from '../utils/section';
 import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
@@ -39,10 +38,6 @@ export class Hearing extends React.Component {
 
   openFullscreen(hearing) {
     this.props.dispatch(push(getHearingURL(hearing, { fullscreen: true })));
-  }
-
-  toHearingEditor(hearing) {
-    this.props.dispatch(push(getHearingEditorURL(hearing)));
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) {
@@ -137,28 +132,16 @@ export class Hearing extends React.Component {
     );
   }
 
-  isSectionVotable(section, user) {
-    const hearing = this.props.hearing;
-    return acceptsComments(hearing) && userCanVote(user, section);
-  }
-
   isMainSectionVotable(user) {
     const hearing = this.props.hearing;
     const section = getMainSection(hearing);
-    return this.isSectionVotable(section, user);
-  }
-
-  isSectionCommentable(section, user) {
-    const hearing = this.props.hearing;
-    return (
-      acceptsComments(hearing) && userCanComment(user, section) && !section.plugin_identifier // comment box not available for sections with plugins
-    );
+    return isSectionVotable(hearing, section, user);
   }
 
   isMainSectionCommentable(user) {
     const hearing = this.props.hearing;
     const section = getMainSection(hearing);
-    return this.isSectionCommentable(section, user);
+    return isSectionCommentable(hearing, section, user);
   }
 
   getCommentList() {

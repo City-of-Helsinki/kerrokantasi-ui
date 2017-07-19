@@ -17,7 +17,6 @@ import Header from '../views/Hearing/Header';
 import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
 import {
-  acceptsComments,
   getClosureSection,
   getHearingURL,
   getMainSection,
@@ -25,9 +24,7 @@ import {
 import {
   getSectionURL,
   groupSections,
-  isSpecialSectionType,
-  userCanComment,
-  userCanVote
+  isSpecialSectionType, isSectionCommentable, isSectionVotable
 } from '../utils/section';
 import getAttr from '../utils/getAttr';
 
@@ -110,20 +107,6 @@ class SectionContainer extends React.Component {
       abstract: "",
       images: [],
       content: formatMessage({id: 'defaultClosureInfo'}) }
-    );
-  }
-
-  isSectionVotable(section, user) {
-    const hearing = this.props.hearing;
-    return acceptsComments(hearing) && userCanVote(user, section);
-  }
-
-  isSectionCommentable(section, user) {
-    const hearing = this.props.hearing;
-    return (
-      acceptsComments(hearing)
-      && userCanComment(user, section)
-      && !section.plugin_identifier // comment box not available for sections with plugins
     );
   }
 
@@ -260,9 +243,9 @@ class SectionContainer extends React.Component {
             <WrappedSection
               section={section}
               hearingSlug={hearingSlug}
-              canComment={this.isSectionCommentable(section, user)}
+              canComment={isSectionCommentable(hearing, section, user)}
               onPostComment={this.onPostSectionComment.bind(this)}// this.props.onPostComment}
-              canVote={this.isSectionVotable(section, user)}// this.props.canVote && userCanVote(user, section)}
+              canVote={isSectionVotable(hearing, section, user)}// this.props.canVote && userCanVote(user, section)}
               onPostVote={this.onVoteComment.bind(this)}// this.props.onPostVote}
               comments={sectionComments}// this.props.loadSectionComments}
               handleDeleteClick={this.handleDeleteClick.bind(this)}

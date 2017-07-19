@@ -46,7 +46,7 @@ class Header extends React.Component {
 
   getUserItems() {
     const {user} = this.props;
-    if (user !== null) {
+    if (user) {
       return [
         <NavItem key="profile" eventKey="profile" href="#">{user.displayName}</NavItem>,
         <NavItem key="logout" eventKey="logout" href="#"><FormattedMessage id="logout"/></NavItem>

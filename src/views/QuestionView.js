@@ -7,6 +7,7 @@ import {injectIntl} from 'react-intl';
 import {fetchHearing} from '../actions';
 import {getOpenGraphMetaData} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
+import {getUser} from "../selectors/user";
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
 class QuestionView extends Component {
@@ -99,6 +100,7 @@ const mapStateToProps = (state, props) => {
   return ({
     hearing: state.hearing[hearingSlug],
     language: state.language,
+    user: getUser(state),
     sectionComments: state.sectionComments[sectionId],
   });
 };
