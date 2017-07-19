@@ -1,7 +1,6 @@
 /* eslint-disable prefer-arrow-callback */
-import '../assets/sass/app.scss';
 import 'alertifyjs/build/css/alertify.css';
-import 'alertifyjs/build/css/themes/default.css';
+import '../assets/sass/app.scss';
 import {render} from 'react-dom';
 import getRoot from './getRoot';
 import createStore from './createStore';

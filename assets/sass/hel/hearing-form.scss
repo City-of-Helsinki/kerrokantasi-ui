@@ -92,21 +92,29 @@ $node_modules: "../../../node_modules";
 .toolbar-bottom {
     background: $light-gray;
     bottom: 0;
-    box-shadow: 0 0 4px rgba(0,0,0,.2);
+    box-shadow: 0 0 5px rgba(0,0,0,.33);
     left: 0;
-    padding: 30px;
+    padding: $line-height-computed;
     position: fixed;
-    text-align: center;
     width: 100%;
     z-index: 1002;
 
-    .status-label {
+    .alert {
+        margin-bottom: 0;
         font-weight: bold;
-        font-size: 27px;
+
+        &.alert-success {
+          color: $white;
+        }
     }
 
-    .btn.btn-default {
-      background: #fff;
+    .btn-toolbar {
+      padding: $line-height-computed / 2 $line-height-computed / 2 0 $line-height-computed / 2;
+      background-color: $white;
+
+      .btn {
+        margin-bottom: $line-height-computed / 2;
+      }
     }
 }
 
