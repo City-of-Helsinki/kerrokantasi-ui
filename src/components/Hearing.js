@@ -158,7 +158,7 @@ export class Hearing extends React.Component {
     }
     return (
       <div>
-        <div id="hearing-comments">
+        <div className="hearing-comment-section" id="hearing-comments">
           <SortableCommentList
             canVote={this.isMainSectionVotable(user)}
             displayVisualization={userIsAdmin || hearing.closed}
@@ -235,7 +235,6 @@ export class Hearing extends React.Component {
           <Col md={8} lg={9}>
             <div id="hearing" className="hearing-content">
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
-
               <HearingImageList images={mainSection.images} />
               <div
                 className="hearing-abstract lead"
@@ -276,7 +275,7 @@ export class Hearing extends React.Component {
             {this.getLinkToFullscreen(hearing)}
             {sectionGroups.map(sectionGroup =>
               <div className="hearing-section-group" id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
-                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup' + sectionGroup.name_singular)} />
+                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup-' + sectionGroup.type)} />
                 <SectionList
                   basePath={window ? window.location.pathname : ''}
                   sections={sectionGroup.sections}
@@ -289,7 +288,7 @@ export class Hearing extends React.Component {
                 />
               </div>,
             )}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-300px'} />
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
             {this.getCommentList()}
           </Col>
         </Row>
