@@ -264,11 +264,7 @@ class Hearings extends React.Component {
           tab={tab}
           onTabChange={value => {
             const url = `/hearings/${value}`;
-            if (history.pushState) {
-              history.pushState(null, url);
-            } else {
-              window.location.href = url;
-            }
+            history.pushState(null, url, {search: searchTitle, label: selectedLabels});
           }}
         />
 
