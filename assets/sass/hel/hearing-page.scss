@@ -170,6 +170,7 @@
 
 .hearing-section-group {
   margin-bottom: $line-height-computed;
+  padding-top: $navbar-height;
 }
 
 .section-list-item {
@@ -208,6 +209,10 @@
             font-size: 1.5rem;
         }
     }
+}
+
+.hearing-comment-section {
+  padding-top: $navbar-height;
 }
 
 .comment-form-container {
