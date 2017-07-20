@@ -57,11 +57,14 @@ export class Section extends React.Component {
       return null;
     }
     if (section.type === "closure-info") {
-      return (
-        <h3 className="section-title">
-          {getAttr(section.title, language)}
-        </h3>
-      );
+      if (section.title) {
+        return (
+          <h3 className="section-title">
+            {getAttr(section.title, language)}
+          </h3>
+        );
+      }
+      return null;
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
 
@@ -169,7 +172,7 @@ export class Section extends React.Component {
       {titleDiv}
       <div className="section-content">
         {imageList}
-        {section.type !== "main" ?
+        {section.type !== "main" && section.abstract ?
           <div
             className="section-abstract lead"
             dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
