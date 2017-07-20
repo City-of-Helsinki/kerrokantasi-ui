@@ -105,8 +105,6 @@ export class HearingView extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     const { dispatch } = this.props;
-    console.log('are we human or are we manager');
-    console.log(nextState.manager);
     if (nextState.manager) {
       // the manager needs its metadata to devour
       const shouldFetchMetadata = !nextProps.isLoading && (!nextProps.labels.length || !nextProps.contactPersons.length);
