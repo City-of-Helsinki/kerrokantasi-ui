@@ -1,7 +1,7 @@
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
 
@@ -82,7 +82,9 @@ class LabelModal extends React.Component {
       if (language) {
         labelInputs.push(
           <div key={key} className="label-input-container">
-            <FormattedMessage id={`inLanguage-${key}`}/>
+            <ControlLabel>
+              <FormattedMessage id={`inLanguage-${key}`}/>
+            </ControlLabel>
             <input
               className="form-control"
               onChange={(event) => this.onLabelChange(key, event.target.value)}
