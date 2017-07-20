@@ -6,7 +6,7 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Link} from 'react-router';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
-import {getHearingURL} from '../utils/hearing';
+import {getHearingURL, isPublic} from '../utils/hearing';
 import LabelList from './LabelList';
 import LoadSpinner from './LoadSpinner';
 import getAttr from '../utils/getAttr';
@@ -108,7 +108,7 @@ class HearingListItem extends React.Component {
         </div>
         <div className="hearing-list-item-title-wrap">
           <h4 className="hearing-list-item-title">
-            {!hearing.published ? <Icon name="eye-slash"/> : null}
+            {!isPublic(hearing) ? <Icon name="eye-slash"/> : null}
             {' '}
             <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
           </h4>

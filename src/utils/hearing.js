@@ -52,13 +52,14 @@ export function acceptsComments(hearing) {
   return !hearing.closed && (new Date() < new Date(hearing.close_at));
 }
 
-
-export function isOpen(hearing) {
+/*
+ * Returns true if the hearing is visible to everybody.
+ */
+export function isPublic(hearing) {
   const openAt = moment(hearing.open_at);
-  const closeAt = moment(hearing.close_at);
-  if (openAt.isValid() && closeAt.isValid()) {
+  if (openAt.isValid()) {
     const now = moment();
-    if (openAt <= now && closeAt >= now) {
+    if (openAt <= now && hearing.published) {
       return true;
     }
   }

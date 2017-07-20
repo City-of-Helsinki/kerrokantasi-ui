@@ -6,6 +6,7 @@ import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
+import {isPublic} from "../../utils/hearing";
 
 class Header extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -32,7 +33,7 @@ class Header extends React.Component {
     return (
       <div className="hearing-header well">
         <h1>
-          {!hearing.published
+          {!isPublic(hearing)
             ? <OverlayTrigger placement="bottom" overlay={eyeTooltip}><Icon name="eye-slash"/></OverlayTrigger>
             : null}
           {' '}

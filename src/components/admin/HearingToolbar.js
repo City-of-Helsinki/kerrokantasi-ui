@@ -6,7 +6,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
-import {canEdit, isOpen} from '../../utils/hearing';
+import {canEdit} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
 
 
@@ -34,8 +34,7 @@ class HearingToolbar extends React.Component {
         <Icon name="pencil-square-o"/> <FormattedMessage id="editHearing"/>
       </Button>
     ];
-    const open = isOpen(hearing);
-    if (open && hearing.published) {
+    if (!hearing.closed && hearing.published) {
       statusLabel = (<Alert bsStyle="success"><Icon name="eye"/> <FormattedMessage id="published"/></Alert>);
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
@@ -47,9 +46,9 @@ class HearingToolbar extends React.Component {
           <Icon name="ban"/> <FormattedMessage id="closeHearing"/>
         </Button>
       );
-    } else if (!open && hearing.published && moment(hearing.close_at) <= moment()) {
+    } else if (hearing.closed && hearing.published && moment(hearing.close_at) <= moment()) {
       statusLabel = (<Alert bsStyle="danger"><Icon name="ban"/> <FormattedMessage id="closedHearing"/></Alert>);
-    } else if (!open && hearing.published) {
+    } else if (hearing.closed && hearing.published) {
       statusLabel = (
         <Alert bsStyle="warning">
           <Icon name="clock-o"/> <FormattedMessage id="toBePublishedHearing"/> {openingTime.format(DATE_FORMAT)}
