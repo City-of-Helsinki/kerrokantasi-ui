@@ -48,12 +48,18 @@ const savedHearingChange = (state, {payload}) => {
   return state;
 };
 
+const clearNonPublicHearings = (state) => {
+  const clearNonPublic = (hearing) => ((hearing.data && !hearing.data.published) ? {state: "pending"} : hearing);
+  return updeep.map(clearNonPublic, state);
+};
+
 export default handleActions({
   beginFetchHearing,
   receiveHearing,
   changeCurrentlyViewed,
   savedHearingChange,
   savedNewHearing: savedHearingChange,
+  clearNonPublicHearings,
   [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
   [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
 }, {});

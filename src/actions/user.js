@@ -58,6 +58,8 @@ export function logout() {
     return new Promise((resolve) => {
       fetch('/logout', {method: 'POST', credentials: 'same-origin'});  // Fire-and-forget
       dispatch(createAction('clearUserData')());
+      // the store may contain hearings not fit for nonauthorized eyes!
+      dispatch(createAction('clearNonPublicHearings')());
       resolve();
     });
   };

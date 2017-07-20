@@ -75,29 +75,43 @@ export class HearingView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {params} = this.props;
+    const { dispatch, params, location } = this.props;
     if (!this.isNewHearing()) {
-      const {data: hearing} = nextProps.hearing[params.hearingSlug];
-      // go to manager mode when authorized user is received
-      if (!this.state.manager && nextProps.user && hearing && canEdit(nextProps.user, hearing)) {
-        this.setState({manager: true});
+      const {state: receivedHearingState, data: receivedHearing} = nextProps.hearing[params.hearingSlug];
+      const existingUser = this.props.user;
+      const receivedUser = nextProps.user;
+      // check manager and hearing status whenever user or hearing is received
+      if ((!existingUser && receivedUser) ||
+        (!this.getHearing() && receivedHearingState === 'done')) {
+        // the hearing might not be present yet, if it is invisible without login
+        if (receivedHearingState === 'done') {
+          if (canEdit(receivedUser, receivedHearing)) {
+            this.setState({manager: true});
+          }
+        } else {
+          HearingView.fetchData(dispatch, null, location, params);
+        }
+      }
+      // go to regular mode if the authorized user logged out
+      if (this.state.manager && receivedHearingState === 'done' && (!receivedUser || !canEdit(receivedUser, receivedHearing))) {
+        this.setState({manager: false});
+      }
+      // after logging out, the hearing might not be available anymore
+      if (existingUser && !receivedUser) {
+        HearingView.fetchData(dispatch, null, location, params);
       }
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { dispatch, params, user } = this.props;
-    const hearing = this.getHearing();
+    const { dispatch } = this.props;
+    console.log('are we human or are we manager');
+    console.log(nextState.manager);
     if (nextState.manager) {
       // the manager needs its metadata to devour
       const shouldFetchMetadata = !nextProps.isLoading && (!nextProps.labels.length || !nextProps.contactPersons.length);
       if (shouldFetchMetadata) {
-        this.props.dispatch(fetchHearingEditorMetaData());
-      }
-      // Fetch potentially missing hearing for the manager only when user data is available, in case
-      const shouldFetchHearing = !this.isNewHearing() && !user && nextProps.user && !hearing;
-      if (shouldFetchHearing) {
-        dispatch(fetchHearing(params.hearingSlug));
+        dispatch(fetchHearingEditorMetaData());
       }
     }
   }
