@@ -75,7 +75,7 @@ BlockStyleControls.propTypes = {
 const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div className="RichEditor-controls">
+    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}

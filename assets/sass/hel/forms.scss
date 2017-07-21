@@ -31,12 +31,34 @@ fieldset {
   }
 
   &-styleButton {
-    background: #999;
-    border-radius: 3px;
-    color: #fff;
+    background: #fff;
+    border: 1px solid #999;
+    color: #000;
     cursor: pointer;
     display: inline-block;
-    margin-right: 6px;
+    font-size: 14px;
+    margin-right: 4px;
     padding: 1px 4px;
+    transition: background .2s;
+
+
+    &:hover() {
+      background: #D6D6D6;
+    }
+  }
+}
+
+.hyperlink-button, {
+  display: inline-block;
+
+  > div,
+  .url-input-container {
+    display: inline-block;
+  }
+
+  .url-input {
+    height: 22px;
+    margin-right: 4px;
+    padding: 1px;
   }
 }
