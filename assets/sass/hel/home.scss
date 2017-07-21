@@ -16,3 +16,10 @@
 
 }
 
+.home-logo {
+  @include helsinki-logo($hel-coat);
+  background-position: right;
+  float: right;
+  height: $line-height-computed * 3;
+  width: 125px;
+}

@@ -60,10 +60,22 @@ class Home extends React.Component {
     return (<div>
       <section className="page-section page-section--welcome">
         <div className="container">
-          <Helmet title={formatMessage({id: 'welcome'})}/>
-          <h1><FormattedMessage id="welcome"/></h1>
-          <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
-          {topHearing && <FullWidthHearing hearing={topHearing}/>}
+          <Row>
+            <Col xs={8}>
+              <Helmet title={formatMessage({id: 'welcome'})}/>
+              <h1><FormattedMessage id="welcome"/></h1>
+              <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
+            </Col>
+            <Col xs={4}>
+              <div className="home-logo" />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              {topHearing && <FullWidthHearing hearing={topHearing}/>
+              }
+            </Col>
+          </Row>
         </div>
       </section>
       <section className="page-section page-section--hearing-card">
