@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import TextInput from './TextInput';
 import TextArea from './TextArea';
+import RichTextEditor from '../RichTextEditor';
 
 export const TextFieldTypes = {
   INPUT: 'input',
@@ -42,6 +43,7 @@ class MultiLanguageTextField extends React.Component {
       value,
       labelId,
       required,
+      richTextEditor,
       // Remove event listeners from ...rest
       onBlur, // eslint-disable-line
       onChange, // eslint-disable-line
@@ -58,6 +60,17 @@ class MultiLanguageTextField extends React.Component {
         </legend>
         {languages.map((lang) => {
           const currentValue = value[lang];
+          if (richTextEditor) {
+            return (
+              <RichTextEditor
+                key={lang}
+                labelId={`inLanguage-${lang}`}
+                value={currentValue}
+                onChange={(ev) => this.onChange(ev, lang)}
+                onBlur={(ev) => this.onBlur(ev, lang)}
+              />
+            );
+          }
           return (
             <TextField
               key={lang}
@@ -73,7 +86,6 @@ class MultiLanguageTextField extends React.Component {
       </fieldset>
     );
   }
-
 }
 
 MultiLanguageTextField.propTypes = {
@@ -84,6 +96,7 @@ MultiLanguageTextField.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   required: PropTypes.bool,
+  richTextEditor: PropTypes.bool,
   value: PropTypes.object, // TODO: create shape
 };
 

@@ -135,6 +135,7 @@ class SectionForm extends React.Component {
         />
 
         <MultiLanguageTextField
+          richTextEditor
           labelId="sectionContent"
           name="content"
           onBlur={(value) => onSectionChange(section.frontId, 'content', value)}
