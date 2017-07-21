@@ -276,13 +276,17 @@
 }
 
 .closure-info {
+    padding: $line-height-computed;
+    margin-bottom: $line-height-computed;
     background-color: $theme-primary-light;
+
     .section-title {
         cursor: auto;
     }
-    padding-right: 1em;
-    padding-left: 1em;
-    padding-top: 1px;
+
+    .section-content {
+      margin: 0;
+    }
 }
 
 .plugin-frame {

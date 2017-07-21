@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
 import {fetchAllSectionComments} from "../actions/index";
+import {isEmpty} from "lodash";
 
 function getImageList(section, language) {
   if (section.type === "main") { // Main section images aren't rendered here atleast atm.
@@ -57,11 +58,14 @@ export class Section extends React.Component {
       return null;
     }
     if (section.type === "closure-info") {
-      return (
-        <h3 className="section-title">
-          {getAttr(section.title, language)}
-        </h3>
-      );
+      if (!isEmpty(section.title)) {
+        return (
+          <h3 className="section-title">
+            {getAttr(section.title, language)}
+          </h3>
+        );
+      }
+      return null;
     }
     const iconName = (collapsed ? "chevron-right" : "chevron-down");
 
@@ -169,7 +173,7 @@ export class Section extends React.Component {
       {titleDiv}
       <div className="section-content">
         {imageList}
-        {section.type !== "main" ?
+        {section.type !== "main" && !isEmpty(section.abstract) ?
           <div
             className="section-abstract lead"
             dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
