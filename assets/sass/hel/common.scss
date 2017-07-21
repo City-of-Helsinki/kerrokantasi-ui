@@ -103,9 +103,14 @@ a.list-group-item {
 .feedback-box {
     top: 60px;
     background-color: $theme-primary-light;
-    padding: $padding-base-horizontal $padding-base-vertical;
+    padding: $line-height-computed;
     text-align: center;
     color: $black;
+
+    .feedback-prompt {
+      margin: 0;
+    }
+
     a {
         color: $black;
     }
