@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -31,9 +30,6 @@ module.exports = {
       {test: /\.md$/, loader: 'html!markdown'},
     ]
   },
-  postcss: [
-    autoprefixer({browsers: ['last 2 version', 'ie 9']})
-  ],
   resolve: {
     extensions: ['', '.js', '.json'],
     root: [ROOT],

@@ -1,5 +1,5 @@
-// flow-typed signature: 21f65c0cb79564d865cdb7e4a39e81e4
-// flow-typed version: fcaf13fb04/jest_v16.x.x/flow_>=v0.33.x
+// flow-typed signature: 7eadf0e39b5b3393a2b447fb25af0561
+// flow-typed version: b43dff3e0e/jest_v16.x.x/flow_>=v0.16.x
 
 type JestMockFn = {
   (...args: Array<any>): any;
