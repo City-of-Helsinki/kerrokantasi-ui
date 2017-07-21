@@ -8,9 +8,9 @@ import {
   ContentState,
   CompositeDecorator,
   RichUtils,
-  convertFromHTML,
-  convertToRaw
+  convertFromHTML
 } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
 
 import { BlockStyleControls, InlineStyleControls } from './EditorControls';
 
@@ -71,6 +71,7 @@ class RichTextEditor extends React.Component {
     this.focus = () => this.refs.editor.focus();
     this.onChange = this.onChange.bind(this);
     this.onURLChange = this.onURLChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.onTab = this.onTab.bind(this);
     this.toggleBlockType = this.toggleBlockType.bind(this);
@@ -104,12 +105,20 @@ class RichTextEditor extends React.Component {
 
   onChange(editorState) {
     this.setState({ editorState });
-    const rawContent = convertToRaw(editorState.getCurrentContent());
-    this.props.onChange(rawContent);
+    const contentState = editorState.getCurrentContent();
+    const html = stateToHTML(contentState);
+    this.props.onChange(html);
   }
 
   onURLChange(event) {
     this.setState({ urlValue: event.target.value });
+  }
+
+  onBlur() {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const html = stateToHTML(contentState);
+    this.props.onBlur(html);
   }
 
   /* HYPERLINK CONTROLS */
@@ -256,7 +265,7 @@ class RichTextEditor extends React.Component {
           editorState={editorState}
           handleKeyCommand={this.handleKeyCommand}
           onChange={this.onChange}
-          onBlur={this.props.onBlur}
+          onBlur={this.onBlur}
           onTab={this.onTab}
         />
       </div>

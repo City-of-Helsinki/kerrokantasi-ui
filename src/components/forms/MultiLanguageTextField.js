@@ -28,6 +28,14 @@ class MultiLanguageTextField extends React.Component {
     }
   }
 
+  proxyInputNonEvent(newValue, handler, lang) {
+    const {value} = this.props;
+
+    if (typeof handler === 'function') {
+      handler(Object.assign({}, value, {[lang]: newValue}));
+    }
+  }
+
   onChange(event, lang) {
     this.proxyInputEvent(event, this.props.onChange, lang);
   }
@@ -66,8 +74,8 @@ class MultiLanguageTextField extends React.Component {
                 key={lang}
                 labelId={`inLanguage-${lang}`}
                 value={currentValue}
-                onChange={(ev) => this.onChange(ev, lang)}
-                onBlur={(ev) => this.onBlur(ev, lang)}
+                onChange={(newValue) => this.proxyInputNonEvent(newValue, this.props.onChange, lang)}
+                onBlur={(newValue) => this.proxyInputNonEvent(newValue, this.props.onBlur, lang)}
               />
             );
           }
