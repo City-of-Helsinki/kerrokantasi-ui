@@ -1,5 +1,6 @@
 .hearing-card {
   //border: 1px solid $border-color;
+  @extend .clearfix;
   background-color: $white;
   position: relative;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
