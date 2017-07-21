@@ -12,7 +12,6 @@ exports[`test LabelList can handle list of label objects 1`] = `
       className="label label-info">
       such
     </span>
-     
   </a>
   <a
     href="/hearings/list?label=label">
@@ -20,7 +19,6 @@ exports[`test LabelList can handle list of label objects 1`] = `
       className="label label-info">
       label
     </span>
-     
   </a>
 </div>
 `;
