@@ -1,4 +1,5 @@
-{
+module.exports = {
+  "root": true,
   "extends": [
     "airbnb",
     "plugin:flowtype/recommended"
@@ -43,6 +44,7 @@
     "react/no-unused-prop-types": 1,
     "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,
+    "react/jsx-wrap-multilines": 0,  // TODO: Remove me!
     "react/sort-comp": 0,
   }
-}
+};
