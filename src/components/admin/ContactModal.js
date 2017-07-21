@@ -4,6 +4,7 @@ import forEach from 'lodash/forEach';
 import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
+import PropTypes from 'prop-types';
 
 import config from '../../config';
 
@@ -182,9 +183,9 @@ class ContactModal extends React.Component {
 
 ContactModal.propTypes = {
   intl: intlShape.isRequired,
-  isOpen: React.PropTypes.bool,
-  onClose: React.PropTypes.func,
-  onCreateContact: React.PropTypes.func
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onCreateContact: PropTypes.func
 };
 
 export default injectIntl(ContactModal);
