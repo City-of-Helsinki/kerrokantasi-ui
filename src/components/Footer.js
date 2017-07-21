@@ -12,7 +12,7 @@ export default function Footer() {
           <Col md={3} sm={4}>
             <div className="footer-branding footer-branding-helsinki">
               <a href="http://www.hel.fi">
-                <img alt="Helsingin kaupunki" src="/assets/images/helsinki-logo-white.svg" className="footer-logo footer-logo-helsinki" aria-hidden="true" />
+                <img alt="Helsinki" src="/assets/images/helsinki-logo-white.svg" className="footer-logo footer-logo-helsinki" />
               </a>
             </div>
           </Col>
