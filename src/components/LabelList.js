@@ -13,7 +13,7 @@ class LabelList extends React.Component {
     * DONE: Remove support for old styled API response when API has changed.
      */
     // FIXME: add routing context or something similar to use react-router Link
-    const labelToHTML = ((label) => <a href={`/hearings/list?label=${getAttr(label.label, language)}`} key={label.id}><Label>{getAttr(label.label, language)}</Label> </a>);
+    const labelToHTML = ((label) => <a href={`/hearings/list?label=${getAttr(label.label, language)}`} key={label.id}><Label bsStyle="info">{getAttr(label.label, language)}</Label> </a>);
 
     return (
       <div className={className}>
