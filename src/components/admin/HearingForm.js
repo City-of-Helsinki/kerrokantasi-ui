@@ -117,7 +117,7 @@ class HearingForm extends React.Component {
   render() {
     return (
       <Modal
-        backdrop
+        backdrop="static"
         bsSize="large"
         dialogClassName="form-modal"
         onHide={this.props.onLeaveForm}
