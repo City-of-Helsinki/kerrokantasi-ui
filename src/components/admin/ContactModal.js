@@ -1,7 +1,7 @@
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
 
@@ -95,7 +95,9 @@ class ContactModal extends React.Component {
       if (language) {
         titleInputs.push(
           <div key={key} className="title-input-container">
-            <FormattedMessage id={`inLanguage-${key}`}/>
+            <ControlLabel>
+              <FormattedMessage id={`inLanguage-${key}`}/>
+            </ControlLabel>
             <input
               className="form-control"
               onChange={(event) => this.onContactTitleChange(key, event.target.value)}

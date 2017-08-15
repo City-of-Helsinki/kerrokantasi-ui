@@ -92,6 +92,7 @@ class HearingFormStep4 extends React.Component {
         </Row>
 
         <MultiLanguageTextField
+          richTextEditor
           labelId="hearingClosureInfo"
           name="closureInfo"
           onBlur={this.onClosureSectionChange}
