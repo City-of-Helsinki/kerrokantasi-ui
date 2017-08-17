@@ -2,18 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const BLOCK_TYPES = [
-  {label: 'H2', style: 'header-two'},
-  {label: 'H3', style: 'header-three'},
-  {label: 'H4', style: 'header-four'},
-  {label: 'Blockquote', style: 'blockquote'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
+  {label: 'Väliotsikko', style: 'header-four'},
+  {label: 'Lista', style: 'unordered-list-item'},
+  {label: 'Numeroitu lista', style: 'ordered-list-item'},
 ];
 
 const INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
+  {label: 'Lihavointi', style: 'BOLD'},
 ];
 
 class StyleButton extends React.Component {
