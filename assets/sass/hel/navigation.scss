@@ -19,6 +19,10 @@
     padding: 0 15px;
     margin: 8px 0;
     border-right: 1px solid $white;
+
+    &:hover:after {
+      border: 0;
+    }
   }
 
   .navbar-nav > li:last-child > a {
@@ -43,7 +47,7 @@
 }
 
 .navbar-right.nav-user-menu {
-  border: 1px solid $theme-primary-dark;
+  border: 1px solid $black;
   margin-top: 10px;
   margin-right: 0;
   margin-left: 0;
@@ -55,6 +59,10 @@
 
   li > a {
     padding: 6px;
+
+    &:hover:after {
+      border: 0;
+    }
   }
 }
 

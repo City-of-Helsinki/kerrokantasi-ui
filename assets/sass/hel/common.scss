@@ -63,6 +63,11 @@ main {
 
 .main-labels {
     margin-bottom: 10px;
+
+    a {
+      text-decoration: none;
+    }
+
     .label {
         font-size: 75%;
         margin-right: 10px;

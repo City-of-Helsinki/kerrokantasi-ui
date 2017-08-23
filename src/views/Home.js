@@ -79,6 +79,7 @@ class Home extends React.Component {
         </div>
       </section>
       <section className="page-section page-section--hearing-card">
+        <div className="hearings-koro__top"/>
         <div className="container">
           <Row>
             {openHearings && !openHearings.isFetching &&
@@ -92,6 +93,7 @@ class Home extends React.Component {
             }
           </Row>
         </div>
+        <div className="hearings-koro__bottom"/>
       </section>
       <section className="page-section page-section--feedback">
         <Grid>

@@ -19,15 +19,20 @@ $dark-gray:     #525a65;
 $medium-gray:   #abb2bd;
 $black:         #000000;
 
-$theme-success: $hel-tram;
-$theme-info:    $hel-fog;
-$theme-warning: $hel-summer;
-$theme-danger:  $hel-metro;
+$theme-success:       $hel-tram;
+$theme-success-light: $hel-copper;
+$theme-info:          $hel-coat;
+$theme-info-light:    $hel-fog;
+$theme-warning:       $hel-summer;
+$theme-warning-light: $hel-engel;
+$theme-danger:        $hel-metro;
+$theme-danger-light:  $hel-suomenlinna;
 
 $bootstrap-sass-asset-helper: false !default;
 
 $icon-font-path: "";
 
 $font-family-sans-serif:  $hel-grotesk;
+$font-family-serif:       'Noto Serif', serif;
 
 $site-footer-height: 400px;

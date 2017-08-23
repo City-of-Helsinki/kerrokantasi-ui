@@ -79,10 +79,10 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <Navbar inverse className="navbar-secondary hidden-xs">
+        <Navbar inverse fluid className="navbar-secondary hidden-xs">
           <LanguageSwitcher currentLanguage={this.props.language}/>
         </Navbar>
-        <Navbar default collapseOnSelect className="navbar-primary">
+        <Navbar default fluid collapseOnSelect className="navbar-primary">
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/" className="navbar-brand">Kerrokantasi</Link>
