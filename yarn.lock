@@ -2678,9 +2678,9 @@ he@1.1.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.0.tgz#29319d49beec13a9b1f3c4f9b2a6dde4859bb2a7"
 
-hel-bootstrap-3@^1.0.0-beta.2:
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/hel-bootstrap-3/-/hel-bootstrap-3-1.0.0-beta.2.tgz#3fd98387448f1cbd3224764201c0e53895807d44"
+hel-bootstrap-3@1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/hel-bootstrap-3/-/hel-bootstrap-3-1.0.0-beta.4.tgz#dfc03f6e6289bdb6551b9ac35af3bc60bdf5d2b6"
   dependencies:
     bootstrap-sass "^3.3.7"
 
