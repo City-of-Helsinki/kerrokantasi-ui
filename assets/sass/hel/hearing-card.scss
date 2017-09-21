@@ -30,6 +30,11 @@
   &-content {
     padding: $padding-base-vertical $padding-base-horizontal;
 
+    .hearing-card-title {
+      a {
+        text-decoration: none;
+      }
+    }
     .hearing-card-time {
       color: $text-muted;
       font-size: 1.4rem;

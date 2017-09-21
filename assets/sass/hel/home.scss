@@ -4,12 +4,36 @@
 }
 
 .page-section--welcome {
-  background-color: $white;
+  background-color: $hel-fog;
   color: $black;
 }
 
 .page-section--hearing-card {
+  position: relative;
+  padding: $line-height-computed * 5 0;
   background-color: $theme-primary-light;
+}
+
+.hearings-koro {
+  &__top {
+    @include koro("storm", $hel-fog, 400);
+    background-color: $hel-engel;
+    width: 100%;
+    height: $line-height-computed * 3;
+    position: absolute;
+    top: 0;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+
+  &__bottom {
+    @include koro("storm", $white, 400);
+    background-color: $hel-engel;
+    width: 100%;
+    height: $line-height-computed * 3;
+    position: absolute;
+    bottom: 0;
+  }
 }
 
 .page-section--map {
@@ -17,7 +41,7 @@
 }
 
 .home-logo {
-  @include helsinki-logo($hel-coat);
+  @include helsinki-logo($black);
   background-position: right;
   float: right;
   height: $line-height-computed * 3;

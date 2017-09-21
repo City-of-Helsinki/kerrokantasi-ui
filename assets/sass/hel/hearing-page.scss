@@ -18,18 +18,15 @@
       margin-bottom: 0;
       border: 0;
       border-bottom: 1px solid $gray-lighter;
-      color: $dark-gray;
+      color: $black;
 
       &:hover {
-        color: $theme-primary-dark;
-        background-color: #f5f5f5;
+        color: $black;
+        background-color: lighten($gray-lighter, 5%);
       }
 
       &.active {
-        color: $black;
-        &:hover {
-          background-color: $theme-highlight-light;
-        }
+
       }
     }
 
@@ -178,6 +175,10 @@
     margin-bottom: $line-height-computed;
     position: relative;
     background-color: $gray-lighter;
+
+    a {
+      text-decoration: none;
+    }
 
     @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;

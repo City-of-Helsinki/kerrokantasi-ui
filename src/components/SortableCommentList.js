@@ -181,22 +181,24 @@ class SortableCommentList extends Component {
                 <ControlLabel>
                   <FormattedMessage id="commentOrder" />
                 </ControlLabel>
-                <FormControl
-                  componentClass="select"
-                  onChange={event => {
-                    this.fetchComments(section.id, event.target.value);
-                  }}
-                >
-                  {keys(ORDERING_CRITERIA).map(key =>
-                    <option
-                      key={key}
-                      value={ORDERING_CRITERIA[key]}
-                      selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
-                    >
-                      <FormattedMessage id={key} />
-                    </option>,
-                  )}
-                </FormControl>
+                <div className="select">
+                  <FormControl
+                    componentClass="select"
+                    onChange={event => {
+                      this.fetchComments(section.id, event.target.value);
+                    }}
+                  >
+                    {keys(ORDERING_CRITERIA).map(key =>
+                      <option
+                        key={key}
+                        value={ORDERING_CRITERIA[key]}
+                        selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
+                      >
+                        <FormattedMessage id={key} />
+                      </option>,
+                    )}
+                  </FormControl>
+                </div>
               </FormGroup>
             </form>
           </div>}

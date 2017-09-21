@@ -2,7 +2,7 @@
   background-color: $gray-dark;
   color: $white;
   margin-top: 4em;
-  min-height: 20em;
+  min-height: 15em;
   padding: 4em 0;
 
   @media (min-width: $screen-md-min) {
@@ -39,6 +39,7 @@
 
     a {
       color: $white;
+      text-decoration: none;
     }
   }
 }
@@ -67,6 +68,7 @@
 
     a {
       color: $gray-lighter;
+      text-decoration: none;
     }
 
     li {

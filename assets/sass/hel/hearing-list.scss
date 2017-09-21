@@ -8,6 +8,11 @@
     @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
     }
+
+    a {
+      text-decoration: none;
+    }
+
     &-image {
         flex-basis: 200px;
         flex-shrink: 0;
@@ -142,6 +147,15 @@
     &__container {
         padding-bottom: 10px;
         height: 80px;
+
+        .Select-control, .is-open .Select-control, .Select-menu {
+            border: 2px solid $black;
+            border-radius: 0;
+        }
+
+        .Select-control {
+          background-color: transparent;
+        }
     }
 
     &__label {
@@ -157,6 +171,7 @@
     &__button {
         float: left;
     }
+
 }
 
 .hearing-labels {
