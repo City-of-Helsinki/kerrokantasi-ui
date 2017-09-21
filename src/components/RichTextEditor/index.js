@@ -8,9 +8,11 @@ import {
   ContentState,
   CompositeDecorator,
   RichUtils,
-  convertFromHTML
+  convertFromHTML,
+  DefaultDraftBlockRenderMap,
 } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
+import { Map } from 'immutable';
 
 import { BlockStyleControls, InlineStyleControls } from './EditorControls';
 
@@ -20,6 +22,14 @@ const getBlockStyle = (block) => {
     default: return null;
   }
 };
+
+const kerrokantasiBlockRenderMap = Map({
+  unstyled: {
+    element: 'p',
+  }
+});
+
+const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
 
 const findLinkEntities = (contentBlock, callback, contentState) => {
   contentBlock.findEntityRanges(
@@ -221,7 +231,7 @@ class RichTextEditor extends React.Component {
             onChange={this.onURLChange}
           />
           <span className="RichEditor-styleButton" onMouseDown={this.confirmLink}>
-            Confirm
+            OK
           </span>
         </div>
       );
@@ -231,10 +241,10 @@ class RichTextEditor extends React.Component {
       <div className="hyperlink-button">
         <div>
           <span className="RichEditor-styleButton" onMouseDown={this.promptForLink}>
-            Add Link
+            Lisää linkki
           </span>
           <span className="RichEditor-styleButton" onMouseDown={this.removeLink}>
-            Remove Link
+            Poista linkki
           </span>
         </div>
         {urlInput}
@@ -262,6 +272,7 @@ class RichTextEditor extends React.Component {
         <Editor
           ref="editor"
           blockStyleFn={getBlockStyle}
+          blockRenderMap={blockRenderMap}
           editorState={editorState}
           handleKeyCommand={this.handleKeyCommand}
           onChange={this.onChange}
