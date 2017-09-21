@@ -1,5 +1,7 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const webpack = require('webpack');
+
 const ROOT = path.resolve(__dirname, '../..');
 const SRC = path.resolve(ROOT, 'src');
 const ASSETS = path.resolve(ROOT, 'assets');
@@ -36,5 +38,6 @@ module.exports = {
     extensions: ['', '.js', '.json'],
     root: [ROOT],
     modulesDirectories: ['node_modules', 'app']
-  }
+  },
+  plugins: [new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/)],
 };
