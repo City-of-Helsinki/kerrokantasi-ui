@@ -26,22 +26,29 @@ const getBlockStyle = (block) => {
 const kerrokantasiBlockRenderMap = Map({
   unstyled: {
     element: 'p',
+  },
+  lead: {
+    element: 'p'
   }
 });
 
 const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
 
-const findLinkEntities = (contentBlock, callback, contentState) => {
+const findEntities = (contentBlock, callback, contentState, entityType) => {
   contentBlock.findEntityRanges(
     (character) => {
       const entityKey = character.getEntity();
       return (
         entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === 'LINK'
+        contentState.getEntity(entityKey).getType() === entityType
       );
     },
     callback
   );
+};
+
+const findLinkEntities = (contentBlock, callback, contentState) => {
+  findEntities(contentBlock, callback, contentState, 'LINK');
 };
 
 const Link = (props) => {
@@ -59,21 +66,63 @@ Link.propTypes = {
   entityKey: PropTypes.string
 };
 
+const checkLeadParagraphicity = (contentBlock, callback, contentState) => {
+  //findEntities(contentBlock, callback, contentState, 'LEAD');
+  // can we get away with just
+  return contentBlock.getType() === 'LEAD';
+};
+
+const LeadParagraph = (props) => {
+  return (
+    <p className="lead">
+      {props.children}
+    </p>
+  );
+};
+
+LeadParagraph.propTyes = {
+  children: PropTypes.array
+};
+
+const getLeadParagraphs = (HTML) => {
+  // returns an array containing the plain text paragraphs to be rendered as lead
+};
+
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    const linkDecorator = new CompositeDecorator([
+    const customDecorator = new CompositeDecorator([
       {
         strategy: findLinkEntities,
         component: Link,
+      },
+      {
+        strategy: checkLeadParagraphicity,
+        component: LeadParagraph,
       },
     ]);
     const createEditorState = () => {
       if (this.props.value) {
         const blocksFromHTML = convertFromHTML(this.props.value);
+        // decorate blocksFromHTML entityMap with LEAD type by scanning this.props.value
+        for (leadParagraph in getLeadParagraphs(this.props.value)) {
+          for (block in blocksFromHTML.contentBlocks) {
+            if (block.getText() == leadParagraph) {
+              block = new ContentBlock({type: 'LEAD',});
+              // TODO: replace block in content blocks
+              leadEntity = contentState.createEntity(
+                'LEAD',
+                'MUTABLE',
+                null
+              );
+              // TODO: add created entity to entityMap
+              break;
+            };
+          };
+        };
         const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
-        return EditorState.createWithContent(contentState, linkDecorator);
+        return EditorState.createWithContent(contentState, customDecorator);
       }
       return EditorState.createEmpty();
     };
@@ -216,6 +265,23 @@ class RichTextEditor extends React.Component {
     );
   }
 
+  toggleLeadParagraph(event) {
+    event.preventDefault();
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const location = editorState.getSelection().getStartKey();
+    const blockToToggle = contentState.getBlockForKey(location);
+    if (!checkLeadParagraphicity(blockToToggle, null, contentState)) {
+      const contentStateWithEntity = contentState.createEntity(
+        'LEAD',
+        'MUTABLE',
+        null
+      );
+    } else {
+      contentState.removeLeadToBlock(blockToToggle)
+    }
+  }
+
   /* RENDERING */
   renderHyperlinkButton() {
     let urlInput;
@@ -252,6 +318,16 @@ class RichTextEditor extends React.Component {
     );
   }
 
+  renderLeadParagraphButton() {
+    return (
+      <div className="leadParagraph-button">
+        <span className="RichEditor-styleButton" onMouseDown={this.toggleLeadParagraph}>
+          Korostettu kappale
+        </span>
+      </div>
+    );
+  };
+
   render() {
     const { editorState } = this.state;
 
@@ -260,6 +336,7 @@ class RichTextEditor extends React.Component {
         <ControlLabel>
           <FormattedMessage id={this.props.labelId}/>
         </ControlLabel>
+        {this.renderLeadParagraphButton()}
         <BlockStyleControls
           editorState={editorState}
           onToggle={this.toggleBlockType}
