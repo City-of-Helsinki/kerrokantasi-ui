@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node server --server-rendering",
+    "start": "node server",
     "build": "true",
     "dev": "node server --dev",
     "lint": "eslint src server test",
