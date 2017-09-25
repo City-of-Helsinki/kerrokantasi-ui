@@ -193,11 +193,16 @@ class Sidebar extends React.Component {
       <h4><FormattedMessage id="overview-map"/></h4>
       <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
     </div>) : null);
+    const sidebarStyle = (
+      (typeof window !== 'undefined') && window.innerWidth >= 992 ?
+        {maxHeight: window.innerHeight - TOP_OFFSET}
+        : null
+    );
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
         <div
              className="hearing-sidebar"
-             style={window.innerWidth >= 992 && {maxHeight: window.innerHeight - TOP_OFFSET}}
+             style={sidebarStyle}
              /* onMouseEnter={() =>
              { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
              /* onMouseLeave={() =>
