@@ -9,7 +9,7 @@ import identity from 'lodash/identity';
 
 const middleware = [thunk, ...hearingEditorMiddlware];
 
-if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+if (typeof window !== "undefined" && process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test") {
   middleware.push(require('redux-logger')());
 }
 

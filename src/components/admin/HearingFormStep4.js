@@ -108,7 +108,7 @@ class HearingFormStep4 extends React.Component {
 }
 
 HearingFormStep4.propTypes = {
-  dispatch: React.PropTypes.func,
+  dispatch: PropTypes.func,
   hearing: hearingShape,
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,

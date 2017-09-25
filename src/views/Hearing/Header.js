@@ -7,6 +7,7 @@ import SocialBar from '../../components/SocialBar';
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
+import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -77,10 +78,10 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  eyeTooltip: React.PropTypes.element,
-  hearing: React.PropTypes.object,
-  reportUrl: React.PropTypes.string,
-  activeLanguage: React.PropTypes.string,
+  eyeTooltip: PropTypes.element,
+  hearing: PropTypes.object,
+  reportUrl: PropTypes.string,
+  activeLanguage: PropTypes.string,
 };
 
 export default injectIntl(Header);

@@ -19,9 +19,6 @@ module.exports = function getDevConfig(serverUrl) {
       filename: 'app.js'
     },
     module: {
-      preLoaders: [
-        {test: /\.js$/, include: common.paths.SRC, loader: 'eslint'}
-      ],
       loaders: [
         {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot-loader/webpack', 'babel?cacheDirectory']}
       ]

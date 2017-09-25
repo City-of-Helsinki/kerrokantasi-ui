@@ -1,5 +1,5 @@
-// flow-typed signature: 53d38673005a1da818eedc3c186a0941
-// flow-typed version: 61221c4fd8/history_v1.x.x/flow_>=v0.43.x
+// flow-typed signature: 2f075602ec251a0edec47492222a4dac
+// flow-typed version: b43dff3e0e/history_v1.x.x/flow_>=v0.22.x
 
 
 // https://github.com/ReactTraining/history

@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { get, isEmpty, keys, throttle } from 'lodash';
 import Waypoint from 'react-waypoint';
+import PropTypes from 'prop-types';
 import CommentList from './CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';

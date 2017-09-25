@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
 
@@ -31,10 +32,10 @@ export default class Html extends React.Component {
 }
 
 Html.propTypes = {
-  apiBaseUrl: React.PropTypes.string,
-  uiConfig: React.PropTypes.object,
-  bundleSrc: React.PropTypes.string.isRequired,
-  content: React.PropTypes.string,
-  head: React.PropTypes.object,
-  initialState: React.PropTypes.object
+  apiBaseUrl: PropTypes.string,
+  uiConfig: PropTypes.object,
+  bundleSrc: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  head: PropTypes.object,
+  initialState: PropTypes.object
 };

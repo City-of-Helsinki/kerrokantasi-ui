@@ -39,7 +39,7 @@ const ContactCard = ({className = '', activeLanguage, name, title, phone, email,
 
 ContactCard.propTypes = {
   className: PropTypes.string,
-  activeLanguage: React.PropTypes.string,
+  activeLanguage: PropTypes.string,
   name: PropTypes.string,
   title: PropTypes.object,
   phone: PropTypes.string,

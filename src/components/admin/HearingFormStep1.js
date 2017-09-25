@@ -194,7 +194,7 @@ class HearingFormStep1 extends React.Component {
 
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
-  dispatch: React.PropTypes.func,
+  dispatch: PropTypes.func,
   hearing: hearingShape,
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
