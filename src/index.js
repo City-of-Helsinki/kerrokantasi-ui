@@ -18,5 +18,11 @@ commonInit(function initReady() {
     (typeof window !== "undefined" ? window.STATE : {})
   );
   const root = getRoot(store);
-  render(root, document.getElementById('root'));
+  let rootEl = document.getElementById('root');
+  if (!rootEl) {
+    rootEl = document.createElement('div');
+    rootEl.id = 'root';
+    document.body.appendChild(rootEl);
+  }
+  render(root, rootEl);
 });
