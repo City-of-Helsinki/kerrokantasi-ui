@@ -12,7 +12,6 @@ import {getUser} from "../selectors/user";
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
 class QuestionView extends Component {
-
   /**
    * Return a promise that will, as it fulfills, have added requisite
    * data for the HearingView view into the dispatch's associated store.

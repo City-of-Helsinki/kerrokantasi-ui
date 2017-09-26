@@ -17,7 +17,6 @@ import SubSectionListGroup from '../../components/SubSectionListGroup';
 import {Link} from 'react-router';
 
 class Sidebar extends React.Component {
-
   // constructor(props) {
   //   super(props);
   //
@@ -201,11 +200,11 @@ class Sidebar extends React.Component {
     return (<Col md={4} lg={3}>
       <AutoAffix viewportOffsetTop={TOP_OFFSET} offsetBottom={BOTTOM_OFFSET} container={this.parentNode}>
         <div
-             className="hearing-sidebar"
-             style={sidebarStyle}
-             /* onMouseEnter={() =>
+          className="hearing-sidebar"
+          style={sidebarStyle}
+          /* onMouseEnter={() =>
              { this.setState({mouseOnSidebar: true, scrollPosition: [window.pageXOffset, window.pageYOffset]}); }} */
-             /* onMouseLeave={() =>
+          /* onMouseLeave={() =>
              { this.setState({mouseOnSidebar: false}); }} */
         >
           <Row>

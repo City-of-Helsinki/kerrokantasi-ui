@@ -82,7 +82,7 @@ export class Section extends React.Component {
             <div className="section-comments">
               <Icon name="comment-o"/>&nbsp;{section.n_comments}
             </div>
-            ) : null}
+          ) : null}
         </div>
       );
     }
@@ -97,7 +97,7 @@ export class Section extends React.Component {
           <div className="section-comments">
             <Icon name="comment-o"/>&nbsp;{section.n_comments}
           </div>
-          ) : null}
+        ) : null}
       </div>
     );
   }

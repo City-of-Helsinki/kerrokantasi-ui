@@ -203,6 +203,24 @@ export class HearingView extends React.Component {
     }
 
     const PreviewReplacement = () => (this.isNewHearing() ? null : <this.renderSpinner />);
+    let hearingComponent;
+    if ((isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title)) {
+      hearingComponent = (
+        <HearingComponent
+          hearingSlug={params.hearingSlug}
+          hearing={hearing}
+          user={user}
+          sectionComments={this.props.sectionComments}
+          location={this.props.location}
+          dispatch={dispatch}
+          changeCurrentlyViewed={this.changeCurrentlyViewed}
+          currentlyViewed={currentlyViewed}
+        />
+      );
+    } else {
+      hearingComponent = <PreviewReplacement/>;
+    }
+
 
     return (
       <div className="container">
@@ -217,19 +235,7 @@ export class HearingView extends React.Component {
           contactPersons={contactPersons}
         />
 
-        {(isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title)
-          ?
-            <HearingComponent
-              hearingSlug={params.hearingSlug}
-              hearing={hearing}
-              user={user}
-              sectionComments={this.props.sectionComments}
-              location={this.props.location}
-              dispatch={dispatch}
-              changeCurrentlyViewed={this.changeCurrentlyViewed}
-              currentlyViewed={currentlyViewed}
-            /> : <PreviewReplacement />
-        }
+        {hearingComponent}
       </div>
     );
   }

@@ -244,14 +244,14 @@ export class Hearing extends React.Component {
               {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
               {mainSection
                 ? <WrappedSection
-                    showPlugin={showPluginInline}
-                    section={mainSection}
-                    canComment={this.isMainSectionCommentable(hearing, user)}
-                    onPostComment={this.onPostSectionComment.bind(this)}
-                    onPostVote={this.onVoteComment.bind(this)}
-                    canVote={this.isMainSectionVotable(user)}
-                    comments={this.props.sectionComments[mainSection.id]}
-                    user={user}
+                  showPlugin={showPluginInline}
+                  section={mainSection}
+                  canComment={this.isMainSectionCommentable(hearing, user)}
+                  onPostComment={this.onPostSectionComment.bind(this)}
+                  onPostVote={this.onVoteComment.bind(this)}
+                  canVote={this.isMainSectionVotable(user)}
+                  comments={this.props.sectionComments[mainSection.id]}
+                  user={user}
                 />
                 : null}
             </div>

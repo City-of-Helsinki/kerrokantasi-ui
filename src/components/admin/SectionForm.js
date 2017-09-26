@@ -18,7 +18,6 @@ import {isSpecialSectionType} from '../../utils/section';
 
 
 class SectionForm extends React.Component {
-
   constructor(props) {
     super(props);
     this.onFileDrop = this.onFileDrop.bind(this);

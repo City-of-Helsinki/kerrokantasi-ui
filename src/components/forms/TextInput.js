@@ -13,7 +13,6 @@ import InputBase from './InputBase';
 * be shown as an error message.
  */
 class TextInput extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

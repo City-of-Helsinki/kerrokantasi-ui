@@ -12,7 +12,6 @@ import {fetchAllSectionComments} from "../actions/index";
 
 
 class FullscreenPlugin extends Section {
-
   render() {
     const {section, comments, user, hearingSlug} = this.props;
     const openDetailPage = () => this.props.dispatch(push(this.props.detailURL));

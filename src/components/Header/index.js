@@ -12,7 +12,6 @@ import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 
 class Header extends React.Component {
-
   componentDidMount() {
     if (typeof window !== 'undefined') {
       this._handleNavFix = throttle(() => {

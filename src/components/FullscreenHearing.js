@@ -8,7 +8,6 @@ import getAttr from '../utils/getAttr';
 
 
 class FullscreenHearing extends Hearing {
-
   render() {
     const hearing = this.props.hearing;
     const user = this.props.user;

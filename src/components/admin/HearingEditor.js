@@ -25,7 +25,6 @@ import * as EditorSelector from '../../selectors/hearingEditor';
 
 
 class HearingEditor extends React.Component {
-
   constructor(props) {
     super(props);
     this.onCloseHearing = this.onCloseHearing.bind(this);

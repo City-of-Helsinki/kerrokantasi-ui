@@ -13,7 +13,6 @@ import OverviewMap from '../components/OverviewMap';
 import {Link} from 'react-router';
 
 class Home extends React.Component {
-
   constructor(props) {
     super(props);
 

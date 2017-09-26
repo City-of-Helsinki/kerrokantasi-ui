@@ -14,7 +14,6 @@ const DATE_FORMAT = "LLLL";
 
 
 class HearingToolbar extends React.Component {
-
   constructor(props) {
     super(props);
     moment.locale("fi-FI");

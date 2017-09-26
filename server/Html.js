@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
-
   render() {
     const {head, bundleSrc, content, initialState, apiBaseUrl, uiConfig} = this.props;
     const initialStateHtml = `

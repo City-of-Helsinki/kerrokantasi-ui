@@ -6,7 +6,6 @@ import getAttr from '../utils/getAttr';
 import {EPSG3067} from '../utils/map';
 
 class OverviewMap extends React.Component {
-
   getHearingMapContent(hearings) {
     const {Popup, GeoJSON} = require('react-leaflet');  // Late import to be isomorphic compatible
     const {language} = this.context;

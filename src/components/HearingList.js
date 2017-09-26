@@ -67,7 +67,6 @@ HearingListFilters.propTypes = {
 };
 
 class HearingListItem extends React.Component {
-
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;

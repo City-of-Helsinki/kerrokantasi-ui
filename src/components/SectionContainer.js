@@ -55,7 +55,6 @@ LinkWrapper.propTypes = {
 
 
 class SectionContainer extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -143,7 +142,7 @@ class SectionContainer extends React.Component {
     const {hearing: {slug: hearingSlug}, section: {id: sectionId}} = this.props;
     const questions =
       sectionGroups.reduce((questionsArray, currentSection) =>
-      [...questionsArray, ...currentSection.sections], []);
+        [...questionsArray, ...currentSection.sections], []);
     const currentIndex = questions.findIndex((question) => question.id === sectionId);
     const prevPath =
       currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;

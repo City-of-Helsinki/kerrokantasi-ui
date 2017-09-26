@@ -223,10 +223,10 @@ class Hearings extends React.Component {
       : null;
     const adminFilterSelector = isAdmin(user.data)
       ? (<AdminFilterSelector
-          onSelect={this.setAdminFilter}
-          options={AdminFilters}
-          valueKey="list"
-          active={this.getHearingListName()}
+        onSelect={this.setAdminFilter}
+        options={AdminFilters}
+        valueKey="list"
+        active={this.getHearingListName()}
       />)
       : null;
 

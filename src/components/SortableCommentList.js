@@ -156,10 +156,10 @@ class SortableCommentList extends Component {
       ? (<div className="row">
         <div className="comment-form-container">
           <CommentForm
-              hearingId={hearingId}
-              onPostComment={onPostComment}
-              canSetNickname={this.props.canSetNickname}
-              collapseForm={this.state.collapseForm}
+            hearingId={hearingId}
+            onPostComment={onPostComment}
+            canSetNickname={this.props.canSetNickname}
+            collapseForm={this.state.collapseForm}
           />
         </div>
       </div>)
