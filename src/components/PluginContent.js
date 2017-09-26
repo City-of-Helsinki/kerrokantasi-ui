@@ -10,7 +10,6 @@ import Alert from 'react-bootstrap/lib/Alert';
 import {get} from 'lodash';
 
 export default class PluginContent extends React.Component {
-
   constructor() {
     super();
 

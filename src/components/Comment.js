@@ -9,7 +9,6 @@ import {notifyError} from '../utils/notify';
 import forEach from 'lodash/forEach';
 
 class Comment extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -76,7 +75,7 @@ class Comment extends React.Component {
                 <Icon name="user"/>&nbsp;
                 <FormattedMessage id="registered"/>:&nbsp;
               </span>
-            : null}
+              : null}
             {data.author_name || <FormattedMessage id="anonymous"/>}
           </span>
           <span className="hearing-comment-date"><FormattedRelative value={data.created_at}/></span>
@@ -89,17 +88,17 @@ class Comment extends React.Component {
         {data.images
           ? data.images.map((image) =>
             <a
-               className="hearing-comment-images-image"
-               key={image.url}
-               rel="noopener noreferrer"
-               target="_blank"
-               href={image.url}
+              className="hearing-comment-images-image"
+              key={image.url}
+              rel="noopener noreferrer"
+              target="_blank"
+              href={image.url}
             >
               <img
-                 alt={image.title}
-                 src={image.url}
-                 width={image.width < 100 ? image.width : 100}
-                 height={image.height < 100 ? image.height : 100}
+                alt={image.title}
+                src={image.url}
+                width={image.width < 100 ? image.width : 100}
+                height={image.height < 100 ? image.height : 100}
               />
             </a>
           )
@@ -132,7 +131,7 @@ class Comment extends React.Component {
           />
         </FormGroup>
         <Button type="submit">Save</Button>
-        </form>
+      </form>
       }
     </div>);
   }

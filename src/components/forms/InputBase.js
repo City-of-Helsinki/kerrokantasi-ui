@@ -8,7 +8,6 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
 
 class InputBase extends React.Component {
-
   getLabelHint() {
     const {maxLength, value, required} = this.props;
 

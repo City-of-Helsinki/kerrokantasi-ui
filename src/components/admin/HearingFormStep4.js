@@ -19,8 +19,6 @@ import {addSection} from '../../actions/hearingEditor';
 
 
 class HearingFormStep4 extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.date_format = "llll";

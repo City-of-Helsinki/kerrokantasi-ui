@@ -7,7 +7,6 @@ import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
 
 class HearingsSearch extends React.Component {
-
   render() {
     const {
       handleSearch,

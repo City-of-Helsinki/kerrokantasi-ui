@@ -18,7 +18,6 @@ import {initNewSection, SectionTypes} from '../../utils/section';
 import getAttr from '../../utils/getAttr';
 
 class HearingFormStep2 extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
