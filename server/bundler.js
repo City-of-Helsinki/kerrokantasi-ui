@@ -22,7 +22,7 @@ function sortChunks(chunk1, chunk2) {
 export function getCompiler(settings, withProgress) {
   let config;
   if (settings.dev) {
-    config = require('../conf/webpack/dev')(settings.serverUrl);
+    config = require('../conf/webpack/dev')();
   } else {
     config = require('../conf/webpack/prod');
   }
