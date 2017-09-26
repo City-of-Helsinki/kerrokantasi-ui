@@ -1,35 +1,42 @@
 /* eslint-disable no-var, object-shorthand */
 
-var common = require('./common');
 var merge = require('webpack-merge');
 var webpack = require('webpack');
+var common = require('./common');
+var paths = require('../paths');
 
-module.exports = function getDevConfig(serverUrl) {
+module.exports = function getDevConfig() {
   return merge(common, {
-    serverUrl: serverUrl,
     entry: [
       'webpack-hot-middleware/client',
-      common.paths.ENTRY
+      paths.ENTRY,
     ],
-    debug: true,
     devtool: 'cheap-module-eval-source-map',
-    output: {
-      path: common.paths.OUTPUT,
-      publicPath: '/',
-      filename: 'app.js'
-    },
     module: {
-      loaders: [
-        {test: /\.js$/, include: common.paths.SRC, loaders: ['react-hot-loader/webpack', 'babel?cacheDirectory']}
-      ]
+      rules: [
+        {
+          test: /\.js$/,
+          include: paths.SRC,
+          use: [
+            {
+              loader: 'react-hot-loader/webpack',
+            },
+            {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true,
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
         __DEVTOOLS__: true,
         'process.env': {NODE_ENV: JSON.stringify('development')}
       }),
-      new webpack.HotModuleReplacementPlugin()
-      // new webpack.NoErrorsPlugin()  // https://github.com/MoOx/eslint-loader#noerrorsplugin
-    ]
+      new webpack.HotModuleReplacementPlugin(),
+    ],
   });
 };
