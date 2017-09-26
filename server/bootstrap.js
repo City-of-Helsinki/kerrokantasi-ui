@@ -3,12 +3,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
-import getSettings from './getSettings';
-import {getCompiler, applyCompilerMiddleware} from './bundler';
+import getSettings from '../conf/getSettings';
 import {getPassport, addAuth} from './auth';
 import {inspect} from 'util';
 import morgan from 'morgan';
-import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 
 function ignition() {
@@ -19,7 +17,6 @@ function ignition() {
     console.log("Settings:\n", inspect(settings, {colors: true}));
   }
   const server = express();
-  let compiler = getCompiler(settings, true);
   const passport = getPassport(settings);
 
   server.use('/', express.static(paths.OUTPUT));
@@ -39,27 +36,9 @@ function ignition() {
   server.use(passport.session());
   addAuth(server, passport, settings);
 
-  if (settings.dev) {
-    applyCompilerMiddleware(server, compiler, settings);
-  }
-  server.use(renderMiddleware(settings));
-
-
-  function run() {
-    // Hello? Anyone there?
-    server.listen(settings.port, settings.hostname, () => {
-      console.log(`[***] Listening on ${settings.hostname}:${settings.port}.`);
-    });
-  }
-
-  compiler.run((err, stats) => {
-    if (err) throw new Error(`Webpack error: ${err}`);
-    console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
-    // Throw the webpack into the well (if this was the last reference
-    // to it, we reclaim plenty of memory)
-    compiler = null;
+  server.listen(settings.port, settings.hostname, () => {
+    console.log(`[***] Listening on ${settings.hostname}:${settings.port}.`);
   });
-  run();
 }
 
 export default ignition;

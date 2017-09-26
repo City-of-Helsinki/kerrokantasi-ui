@@ -8,7 +8,7 @@ Kerro Kantasi UI
 Requirements
 ------------
 
-* Node.js 4.2 LTS
+* Node.js 4.x LTS
 * Yarn
 * IE11+/Chrome/Firefox/Safari
 
@@ -19,12 +19,26 @@ Preparation
 yarn
 ```
 
-Scripts
--------
+Development
+-----------
 
-* `npm run dev`: development mode (hot reloading and all that jazz)
-* `npm start`: production mode
-* `npm run test`: run tests
+```
+yarn start  # start the authentication server
+yarn dev    # start webpack-dev-server for the frontend
+            # (proxies to the authentication server)
+            # ... add `--hot` for hot reloading
+            # ... add `--open` to automagically open a browser  
+yarn lint   # lint all the things
+yarn test   # run tests
+```
+
+Production
+----------
+
+```
+yarn build  # build an optimized webpack bundle under dist/
+yarn start  # start the authentication server (it will serve dist/ and assets/ too as static files)
+```
 
 Configuration
 -------------
@@ -43,9 +57,6 @@ The known configuration variables are as follows:
 * `jwtAudience`: The audience to set for the JWT auth token for backend communication
 * `jwtKey`: The key to use for the backend communication JWT auth token -- **required in production**
 * `sessionSecret`: The secret used for signing the session cookie -- **required in production**
-* `dev`: Set this to enter development mode
-* `serverRendering`: Whether server (isomorphic) rendering should be on. This is implicitly passed by `npm start`.
-* `cold`: Set this to not use hot reloading in dev mode
 * `uiConfig`: Object that will be passed on to the UI code. The following keys inside are used:
     *`piwikUrl`: URL of the piwik php used for link tracking.
      

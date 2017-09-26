@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "build": "true",
-    "dev": "node server --dev",
+    "build": "webpack --config conf/webpack.conf.js --progress --env production",
+    "dev": "webpack-dev-server --config conf/webpack.conf.js --progress --env development",
     "lint": "eslint src server test",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -54,6 +54,7 @@
     "hel-bootstrap-3": "1.0.0-beta.4",
     "history": "^1.13.0",
     "html-loader": "^0.5.1",
+    "html-webpack-plugin": "^2.30.1",
     "immutability-helper": "^2.3.0",
     "immutable": "^3.7.6",
     "intl": "^1.1.0",
@@ -109,8 +110,6 @@
     "url-parse": "^1.1.9",
     "uuid": "^3.1.0",
     "webpack": "^3.6.0",
-    "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.4.1",
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
@@ -124,7 +123,8 @@
     "jsdom": "^9.3.0",
     "react-addons-test-utils": "^15.6.0",
     "react-test-renderer": "^15.6.1",
-    "react-test-utils": "0.0.1"
+    "react-test-utils": "0.0.1",
+    "webpack-dev-server": "^2.8.2"
   },
   "jest": {
     "collectCoverageFrom": [
