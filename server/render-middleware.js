@@ -1,4 +1,18 @@
-import render from "./render";
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import Html from './Html';
+
+
+function renderHTMLSkeleton(req, res, settings) {
+  const html = renderToStaticMarkup(
+    <Html
+      bundleSrc={settings.bundleSrc || '/app.js'}
+      apiBaseUrl={settings.apiBaseUrl}
+      uiConfig={settings.uiConfig}
+    />
+  );
+  res.status(200).send(html);
+}
 
 export default function renderMiddleware(settings) {
   return (req, res, next) => {
@@ -21,6 +35,6 @@ export default function renderMiddleware(settings) {
     if (req.url.indexOf(".") > -1) {
       return next();
     }
-    return render(req, res, settings);
+    return renderHTMLSkeleton(req, res, settings);
   };
 }
