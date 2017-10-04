@@ -58,8 +58,8 @@ function ignition() {
     // Throw the webpack into the well (if this was the last reference
     // to it, we reclaim plenty of memory)
     compiler = null;
+    run();
   });
-  run();
 }
 
 export default ignition;
