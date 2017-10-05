@@ -54,7 +54,7 @@
   "selectAnotherImage": "Valitse toinen kuva",
   "hearingAbstract": "Lyhyt johdanto",
   "hearingMainContent": "Kuulemisen esittelyteksti",
-  "hearingArea": "Kuulemisen alue",
+  "hearingArea": "Jos kuuleminen ei koske koko kaupunkia, piirrä kuulemisen tarkka alue kartalle",
   "hearingClosureInfo": "Sulkeutumistiedote",
   "hearingOpeningTime": "Avautumisaika",
   "hearingClosingTime": "Sulkeutumisaika",
