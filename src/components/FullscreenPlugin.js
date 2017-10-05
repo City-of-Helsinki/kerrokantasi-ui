@@ -16,7 +16,7 @@ class FullscreenPlugin extends Section {
         <div className="fullscreen-navigation">
           <div className="logo">
             <Link to="/">
-              <img alt="Helsinki" src="/assets/images/helsinki-logo-white.svg" className="logo" />
+              <img alt="Helsinki" src="/assets/images/helsinki-logo-black.svg" className="logo" />
             </Link>
           </div>
           <div className="header-title">
