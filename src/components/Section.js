@@ -223,8 +223,4 @@ Section.contextTypes = {
   language: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
-});
-
-export default connect(null, mapDispatchToProps)(Section);
+export default Section;
