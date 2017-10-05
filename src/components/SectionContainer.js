@@ -274,6 +274,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
+  dispatch,
 });
 
 export function wrapSectionContainer(component, pure = true) {
