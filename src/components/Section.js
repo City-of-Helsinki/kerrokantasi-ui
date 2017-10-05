@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import SortableCommentList from './SortableCommentList';
 import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
@@ -9,7 +8,6 @@ import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
-import {fetchAllSectionComments} from '../actions/index';
 import {isEmpty} from 'lodash';
 
 function getImageList(section, language) {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { connect } from 'react-redux';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { get, isEmpty, keys, throttle } from 'lodash';
+import React, {Component} from 'react';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {connect} from 'react-redux';
+import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {get, isEmpty, keys, throttle} from 'lodash';
 import Waypoint from 'react-waypoint';
 import PropTypes from 'prop-types';
 import CommentList from './CommentList';
@@ -10,7 +10,6 @@ import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
-import * as Actions from '../actions';
 import CommentForm from './BaseCommentForm';
 
 const ORDERING_CRITERIA = {
@@ -35,7 +34,7 @@ class SortableCommentList extends Component {
   }
 
   _fetchMoreComments() {
-    const { section: { id: sectionId }, sectionComments: { ordering, next }, fetchMoreComments } = this.props;
+    const {section: {id: sectionId}, sectionComments: {ordering, next}, fetchMoreComments} = this.props;
 
     if (next) {
       fetchMoreComments(sectionId, ordering, next);
@@ -44,7 +43,7 @@ class SortableCommentList extends Component {
 
   fetchComments(sectionId, ordering) {
     // if a plugin is involved, we must fetch all the comments for display, not just a select few
-    const { fetchComments, fetchAllComments, section, hearingSlug } = this.props;
+    const {fetchComments, fetchAllComments, section, hearingSlug} = this.props;
     if (section.plugin_identifier) {
       return fetchAllComments(hearingSlug, sectionId, ordering);
     }
@@ -52,12 +51,12 @@ class SortableCommentList extends Component {
   }
 
   componentDidMount() {
-    const { section } = this.props;
+    const {section} = this.props;
     this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { section } = this.props;
+    const {section} = this.props;
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
 
@@ -88,15 +87,15 @@ class SortableCommentList extends Component {
   }
 
   handleReachBottom() {
-    const { sectionComments } = this.props;
+    const {sectionComments} = this.props;
     if (sectionComments && sectionComments.count !== sectionComments.results.length) {
       setTimeout(() => this.fetchMoreComments(), 1000);
-      this.setState({ showLoader: true });
+      this.setState({showLoader: true});
     }
   }
 
   renderMapVisualization() {
-    const { section, sectionComments } = this.props;
+    const {section, sectionComments} = this.props;
     return (
       <div className="comments-visualization">
         <MapQuestionnaire
@@ -111,7 +110,7 @@ class SortableCommentList extends Component {
   }
 
   renderPluginContent() {
-    const { section } = this.props;
+    const {section} = this.props;
     const comments = this.props.sectionComments.results;
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
@@ -152,18 +151,18 @@ class SortableCommentList extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = canComment
-      ? (<div className="row">
+    const commentForm = canComment ? (
+      <div className="row">
         <div className="comment-form-container">
           <CommentForm
-              hearingId={hearingId}
-              onPostComment={onPostComment}
-              canSetNickname={this.props.canSetNickname}
-              collapseForm={this.state.collapseForm}
+            hearingId={hearingId}
+            onPostComment={onPostComment}
+            canSetNickname={this.props.canSetNickname}
+            collapseForm={this.state.collapseForm}
           />
         </div>
-      </div>)
-      : null;
+      </div>
+    ) : null;
     const pluginContent = showCommentList && displayVisualization ? this.renderPluginContent() : null;
     return (
       <div className="sortable-comment-list">
@@ -175,7 +174,7 @@ class SortableCommentList extends Component {
           </div>
         </h2>
         {pluginContent}
-        {showCommentList &&
+        {showCommentList && (
           <div className="row">
             <form className="sort-selector">
               <FormGroup controlId="sort-select">
@@ -189,22 +188,23 @@ class SortableCommentList extends Component {
                       this.fetchComments(section.id, event.target.value);
                     }}
                   >
-                    {keys(ORDERING_CRITERIA).map(key =>
+                    {keys(ORDERING_CRITERIA).map(key => (
                       <option
                         key={key}
                         value={ORDERING_CRITERIA[key]}
                         selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
                       >
                         <FormattedMessage id={key} />
-                      </option>,
-                    )}
+                      </option>
+                    ))}
                   </FormControl>
                 </div>
               </FormGroup>
             </form>
-          </div>}
+          </div>
+        )}
 
-        {showCommentList &&
+        {showCommentList && (
           <div>
             <CommentList
               canVote={canVote}
@@ -218,12 +218,13 @@ class SortableCommentList extends Component {
               intl={intl}
             />
             <Waypoint onEnter={this.handleReachBottom} />
-          </div>}
-        {this.state.showLoader
-          ? <div className="sortable-comment-list__loader">
+          </div>
+        )}
+        {this.state.showLoader ? (
+          <div className="sortable-comment-list__loader">
             <LoadSpinner />
           </div>
-          : null}
+        ) : null}
       </div>
     );
   }
@@ -249,16 +250,8 @@ SortableCommentList.propTypes = {
   hearingId: PropTypes.string,
 };
 
-const mapStateToProps = (state, { section: { id: sectionId } }) => ({
+const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchComments: (sectionId, ordering) => dispatch(Actions.fetchSectionComments(sectionId, ordering)),
-  fetchMoreComments: (sectionId, ordering, nextUrl) =>
-    dispatch(Actions.fetchMoreSectionComments(sectionId, ordering, nextUrl)),
-  fetchAllComments: (hearingSlug, sectionId, ordering) =>
-    dispatch(Actions.fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SortableCommentList));
+export default connect(mapStateToProps)(injectIntl(SortableCommentList));

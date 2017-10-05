@@ -17,7 +17,9 @@ import {
   editSectionComment,
   postVote,
   deleteSectionComment,
+  fetchSectionComments,
   fetchAllSectionComments,
+  fetchMoreSectionComments,
 } from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
@@ -181,6 +183,9 @@ export class Hearing extends React.Component {
             onDeleteComment={this.handleDeleteClick.bind(this)}
             onPostVote={this.onVoteComment.bind(this)}
             canSetNickname={user === null}
+            fetchComments={this.props.fetchCommentForSortableList}
+            fetchAllComments={this.props.fetchAllComments}
+            fetchMoreComments={this.props.fetchMoreComments}
             intl={intl}
           />
         </div>
@@ -331,11 +336,17 @@ Hearing.propTypes = {
   changeCurrentlyViewed: PropTypes.func,
   currentlyViewed: PropTypes.string,
   history: PropTypes.object,
-  fetchAllComment: PropTypes.func,
+  fetchAllComments: PropTypes.func,
+  fetchCommentForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
+
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
+  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
+  fetchCommentForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
 });
 
 export function wrapHearingComponent(component, pure = true) {
