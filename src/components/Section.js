@@ -156,6 +156,8 @@ export class Section extends React.Component {
           isSectionComments={section}
           onDeleteComment={this.props.handleDeleteClick}
           onEditComment={this.props.onEditComment}
+          fetchComments={this.props.fetchCommentsForSortableList}
+          fetchMoreComments={this.props.fetchMoreComments}
         />
       );
     }
@@ -215,6 +217,8 @@ Section.propTypes = {
   user: PropTypes.object,
   handleDeleteClick: PropTypes.func,
   onEditComment: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
 };
 
 Section.contextTypes = {

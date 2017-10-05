@@ -183,7 +183,7 @@ export class Hearing extends React.Component {
             onDeleteComment={this.handleDeleteClick.bind(this)}
             onPostVote={this.onVoteComment.bind(this)}
             canSetNickname={user === null}
-            fetchComments={this.props.fetchCommentForSortableList}
+            fetchComments={this.props.fetchCommentsForSortableList}
             fetchAllComments={this.props.fetchAllComments}
             fetchMoreComments={this.props.fetchMoreComments}
             intl={intl}
@@ -337,7 +337,7 @@ Hearing.propTypes = {
   currentlyViewed: PropTypes.string,
   history: PropTypes.object,
   fetchAllComments: PropTypes.func,
-  fetchCommentForSortableList: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
 
 };
@@ -345,7 +345,7 @@ Hearing.propTypes = {
 const mapDispatchToProps = dispatch => ({
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-  fetchCommentForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
 });
 
