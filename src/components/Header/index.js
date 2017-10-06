@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, NavItem, Nav } from 'react-bootstrap';
+import {Navbar, NavItem, Nav} from 'react-bootstrap';
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -62,26 +62,13 @@ class Header extends React.Component {
     ];
   }
 
-  getNavItem(id, url) {
-    const {history} = this.props;
-    const active = history && history.location.pathname === url;
-    const navItem = (
-      <NavItem key={id} eventKey={id} href="#" active={active}>
-        <FormattedMessage id={id + 'HeaderText'} />
-      </NavItem>
-    );
-    if (url) {
-      return <LinkContainer to={url}>{navItem}</LinkContainer>;
-    }
-    return navItem;
-  }
-
   render() {
     const header = this;
     const onSelect = eventKey => {
       header.onSelect(eventKey);
     };
     const userItems = this.getUserItems();
+    const {history} = this.props;
     return (
       <div>
         <Navbar inverse fluid className="navbar-secondary hidden-xs">
@@ -98,9 +85,17 @@ class Header extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              {this.getNavItem('hearings', '/hearings/list')}
-              {this.getNavItem('hearingMap', '/hearings/map')}
-              {this.getNavItem('info', '/info')}
+              <NavigationItem
+                isActive={history && history.isActive('/hearings/list')}
+                url={'/hearings/list'}
+                id={'hearings'}
+              />
+              <NavigationItem
+                isActive={history && history.isActive('/hearings/map')}
+                url={'/hearings/map'}
+                id={'hearingMap'}
+              />
+              <NavigationItem isActive={history && history.isActive('/info')} url={'/info'} id={'info'} />
             </Nav>
             <Nav pullRight onSelect={onSelect} className="nav-user-menu">
               {userItems}
@@ -131,3 +126,23 @@ export default withRouter(connect(state => ({
   language: state.language, // Language switch requires this state
   router: state.router, // Navigation activity requires this state
 }))(Header));
+
+const NavigationItem = ({id, url, isActive}) => {
+  return url ? (
+    <LinkContainer to={url}>
+      <NavItem key={id} eventKey={id} href="#" active={isActive}>
+        <FormattedMessage id={id + 'HeaderText'} />
+      </NavItem>
+    </LinkContainer>
+  ) : (
+    <NavItem key={id} eventKey={id} href="#" active={isActive}>
+      <FormattedMessage id={id + 'HeaderText'} />
+    </NavItem>
+  );
+};
+
+NavigationItem.propTypes = {
+  id: PropTypes.string,
+  url: PropTypes.string,
+  isActive: PropTypes.bool,
+};
