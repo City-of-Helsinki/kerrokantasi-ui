@@ -43,32 +43,12 @@ class Header extends React.Component {
     }
   }
 
-  getUserItems() {
-    const {user} = this.props;
-    if (user) {
-      return [
-        <NavItem key="profile" eventKey="profile" href="#">
-          {user.displayName}
-        </NavItem>,
-        <NavItem key="logout" eventKey="logout" href="#">
-          <FormattedMessage id="logout" />
-        </NavItem>,
-      ];
-    }
-    return [
-      <NavItem key="login" eventKey="login" href="#" className="login-link">
-        <FormattedMessage id="login" />
-      </NavItem>,
-    ];
-  }
-
   render() {
     const header = this;
     const onSelect = eventKey => {
       header.onSelect(eventKey);
     };
-    const userItems = this.getUserItems();
-    const {history} = this.props;
+    const {history, user} = this.props;
     return (
       <div>
         <Navbar inverse fluid className="navbar-secondary hidden-xs">
@@ -97,9 +77,7 @@ class Header extends React.Component {
               />
               <NavigationItem isActive={history && history.isActive('/info')} url={'/info'} id={'info'} />
             </Nav>
-            <Nav pullRight onSelect={onSelect} className="nav-user-menu">
-              {userItems}
-            </Nav>
+            <UserNav onSelect={onSelect} user={user} />
             <span className="visible-xs-block">
               <LanguageSwitcher currentLanguage={this.props.language} />
             </span>
@@ -145,4 +123,28 @@ NavigationItem.propTypes = {
   id: PropTypes.string,
   url: PropTypes.string,
   isActive: PropTypes.bool,
+};
+
+const UserNav = ({user, onSelect}) => {
+  return user ? (
+    <Nav pullRight onSelect={onSelect} className="nav-user-menu">
+      <NavItem key="profile" eventKey="profile" href="#">
+        {console.log(user.displayName)}
+      </NavItem>
+      <NavItem key="logout" eventKey="logout" href="#">
+        <FormattedMessage id="logout" />
+      </NavItem>
+    </Nav>
+  ) : (
+    <Nav pullRight onSelect={onSelect} className="nav-user-menu">
+      <NavItem key="login" eventKey="login" href="#" className="login-link">
+        <FormattedMessage id="login" />
+      </NavItem>
+    </Nav>
+  );
+};
+
+UserNav.propTypes = {
+  user: PropTypes.object,
+  onSelect: PropTypes.func,
 };
