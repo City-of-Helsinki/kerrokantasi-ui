@@ -6,28 +6,41 @@ import {injectIntl, intlShape} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../utils/Icon';
 import PluginContent from './PluginContent';
+import FullscreenNavigation from './FullscreenNavigation';
 
 class FullscreenPlugin extends Section {
+  onLogin = () => {
+    this.props.dispatch(login());
+  };
+
+  onSelect = eventKey => {
+    switch (eventKey) {
+      case 'login':
+        // TODO: Actual login flow
+        this.props.dispatch(login());
+        break;
+      case 'logout':
+        // TODO: Actual logout flow
+        this.props.dispatch(logout());
+        break;
+      default:
+      // Not sure what to do here
+    }
+  };
+
   render() {
-    const {section, comments, user, hearingSlug} = this.props;
-    const openDetailPage = () => this.props.history.push(this.props.detailURL);
+    const {section, comments, user, hearingSlug, headerTitle, detailURL} = this.props;
+    const openDetailPage = () => this.props.dispatch(push(this.props.detailURL));
     return (
       <div>
-        <div className="fullscreen-navigation">
-          <div className="logo">
-            <Link to="/">
-              <img alt="Helsinki" src="/assets/images/helsinki-logo-black.svg" className="logo" />
-            </Link>
-          </div>
-          <div className="header-title">
-            <Link to={this.props.detailURL}>{this.props.headerTitle}</Link>
-          </div>
-          <div className="minimize">
-            <Button onClick={openDetailPage}>
-              <Icon name="compress" />
-            </Button>
-          </div>
-        </div>
+        <FullscreenNavigation
+          headerTitle={headerTitle}
+          onLogin={this.onSelect}
+          detailURL={detailURL}
+          openDetailPage={openDetailPage}
+          user={user}
+        />
+        {/* <FullscreenMobileNavigation headerTitle={headerTitle} onSelect={this.onSelect} detailURL={detailURL} /> */}
         <div className="plugin-content">
           <PluginContent
             hearingSlug={hearingSlug}

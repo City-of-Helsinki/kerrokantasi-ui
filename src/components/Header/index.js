@@ -129,7 +129,7 @@ const UserNav = ({user, onSelect}) => {
   return user ? (
     <Nav pullRight onSelect={onSelect} className="nav-user-menu">
       <NavItem key="profile" eventKey="profile" href="#">
-        {console.log(user.displayName)}
+        {user.displayName}
       </NavItem>
       <NavItem key="logout" eventKey="logout" href="#">
         <FormattedMessage id="logout" />
