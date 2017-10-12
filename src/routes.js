@@ -1,6 +1,6 @@
 import React from 'react';
-import {Route, IndexRoute, Redirect} from 'react-router';
-import App from './App';
+import { Route } from 'react-router-dom';
+import { App } from './App';
 import Hearings from './views/Hearings';
 // import AllHearings from './views/AllHearings';
 // import AdminHearings from './views/admin/AdminHearings';
@@ -10,7 +10,6 @@ import Home from './views/Home';
 import Info from './views/Info';
 import QuestionView from './views/QuestionView';
 import config from './config';
-
 
 function trackLink() {
   /* global Piwik */
@@ -24,16 +23,17 @@ function trackLink() {
   }
 }
 
-export default (
-  <Route path="/" component={App} onEnter={trackLink}>
-    <IndexRoute component={Home} onEnter={trackLink}/>
-    <Route path="/hearing/new" component={Hearing} onEnter={trackLink}/>
-    <Route path="/info" component={Info} onEnter={trackLink}/>
-    <Redirect from="/hearings" to="hearings/list"/>
-    <Route path="/hearings/:tab" component={Hearings} onEnter={trackLink}/>
-    <Route path="/hearing/:hearingSlug" component={Hearing} onEnter={trackLink}/>
-    <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
-    <Route path="/:hearingSlug" component={Hearing} onEnter={trackLink}/>
-    <Route path="/:hearingSlug/:sectionId" component={QuestionView} onEnter={trackLink}/>
-  </Route>
+const Routes = () => (
+  <div>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/hearing/new" component={Hearing} />
+    <Route exact path="/info" component={Info} />
+    <Route exact path="/hearings/:tab" component={Hearings} />
+    <Route exact path="/hearing/:hearingSlug" component={Hearing} />
+    <Route exact path="/hearing/:hearingSlug/:sectionId" component={QuestionView} />
+    <Route exact path="/:hearingSlug" component={Hearing} />
+    <Route exact path="/:hearingSlug/:sectionId" component={QuestionView} />
+  </div>
 );
+
+export default Routes;

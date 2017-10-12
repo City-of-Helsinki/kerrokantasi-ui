@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
@@ -9,7 +9,7 @@ import getAttr from '../utils/getAttr';
 const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : ''
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : '',
   };
   return (
     <div className={`fullwidth-hearing ${className}`} {...rest}>
@@ -22,14 +22,15 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
         </div>
         <div className="fullwidth-hearing-times">
           <span>
-            <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>.
-          </span> <span>
-            <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>.
+            <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />.
+          </span>{' '}
+          <span>
+            <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />.
           </span>
         </div>
       </div>
       <div className="fullwidth-hearing-comments">
-        <Icon name="comment-o"/>&nbsp;{hearing.n_comments}
+        <Icon name="comment-o" />&nbsp;{hearing.n_comments}
       </div>
     </div>
   );
@@ -37,11 +38,11 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
 
 FullWidthHearing.propTypes = {
   className: PropTypes.string,
-  hearing: PropTypes.object // eslint-disable-line react/forbid-prop-types
+  hearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 FullWidthHearing.contextTypes = {
-  language: PropTypes.string
+  language: PropTypes.string,
 };
 
 export default FullWidthHearing;

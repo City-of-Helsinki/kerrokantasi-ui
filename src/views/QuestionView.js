@@ -1,18 +1,19 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import LoadSpinner from '../components/LoadSpinner';
 import SectionContainer from '../components/SectionContainer';
-import {injectIntl} from 'react-intl';
-import {fetchHearing} from '../actions';
-import {getOpenGraphMetaData} from '../utils/hearing';
+import { injectIntl } from 'react-intl';
+import { fetchHearing } from '../actions';
+import { getOpenGraphMetaData } from '../utils/hearing';
 import getAttr from '../utils/getAttr';
-import {getUser} from "../selectors/user";
+import { getUser } from '../selectors/user';
+import { withRouter } from 'react-router-dom';
+import qs from 'qs';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
 class QuestionView extends Component {
-
   /**
    * Return a promise that will, as it fulfills, have added requisite
    * data for the HearingView view into the dispatch's associated store.
@@ -24,9 +25,7 @@ class QuestionView extends Component {
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return Promise.all([
-      dispatch(fetchHearing(params.hearingSlug, location.query.preview)),
-    ]);
+    return Promise.all([dispatch(fetchHearing(params.hearingSlug, qs.parse(location.search).preview))]);
   }
 
   /**
@@ -39,12 +38,12 @@ class QuestionView extends Component {
    * @return {boolean} Renderable?
    */
   static canRenderFully(getState) {
-    const {state, data} = (getState().hearing || {state: 'initial'});
-    return (state === 'done' && data);
+    const { state, data } = getState().hearing || { state: 'initial' };
+    return state === 'done' && data;
   }
 
   componentDidMount() {
-    const {dispatch, location, params} = this.props;
+    const { dispatch, location, match: { params } } = this.props;
     QuestionView.fetchData(dispatch, null, location, params);
   }
 
@@ -53,8 +52,8 @@ class QuestionView extends Component {
   }
 
   render() {
-    const {params: {hearingSlug, sectionId}, user, location, sectionComments, language} = this.props;
-    const {data: hearing} = this.props.hearing || {state: 'initial'};
+    const { match: { params: { hearingSlug, sectionId } }, user, location, sectionComments, language } = this.props;
+    const { data: hearing } = this.props.hearing || { state: 'initial' };
 
     if (!QuestionView.canRenderFully(() => this.props)) {
       return (
@@ -66,16 +65,13 @@ class QuestionView extends Component {
 
     return (
       <div key="question" className="question-view container">
-        <Helmet
-          title={getAttr(hearing.title, language)}
-          meta={getOpenGraphMetaData(hearing, language)}
-        />
+        <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
         <SectionContainer
           hearingSlug={hearingSlug}
           sectionId={sectionId}
           hearing={hearing}
           user={user}
-          section={hearing.sections.find((section) => section.id === sectionId)}
+          section={hearing.sections.find(section => section.id === sectionId)}
           sectionComments={sectionComments}
           location={location}
           language={language}
@@ -93,17 +89,17 @@ QuestionView.propTypes = {
   location: PropTypes.object,
   params: PropTypes.object,
   sectionComments: PropTypes.object,
-  user: PropTypes.object
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state, props) => {
-  const {hearingSlug, sectionId} = props.params;
-  return ({
+  const { hearingSlug, sectionId } = props.match.params;
+  return {
     hearing: state.hearing[hearingSlug],
     language: state.language,
     user: getUser(state),
     sectionComments: state.sectionComments[sectionId],
-  });
+  };
 };
 
 export function wrapQuestionView(view) {
@@ -113,4 +109,4 @@ export function wrapQuestionView(view) {
   return wrappedView;
 }
 
-export default wrapQuestionView(QuestionView);
+export default withRouter(wrapQuestionView(QuestionView));

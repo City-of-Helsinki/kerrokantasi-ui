@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import {Passport} from 'passport';
+import { Passport } from 'passport';
 import HelsinkiStrategy from 'passport-helsinki';
 import jwt from 'jsonwebtoken';
 import merge from 'lodash/merge';
@@ -11,7 +11,7 @@ const debug = _debug('auth');
 function generateToken(profile, options) {
   return jwt.sign(merge({}, profile), options.key, {
     subject: profile.id,
-    audience: options.audience
+    audience: options.audience,
   });
 }
 
@@ -27,42 +27,45 @@ MockStrategy.prototype.authenticate = function mockAuthenticate() {
     firstName: 'Mock',
     lastName: 'von User',
     username: 'mock.von.user',
-    provider: 'helsinki'
+    provider: 'helsinki',
   };
   profile.token = generateToken(profile, this.options);
   debug('mock strategy success:', profile);
   this.success(profile);
 };
 
-
 export function getPassport(settings) {
   const getTokenFromAPI = true;
-  const jwtOptions = {key: settings.jwtKey, audience: 'kerrokantasi'};
+  const jwtOptions = { key: settings.jwtKey, audience: 'kerrokantasi' };
   const passport = new Passport();
-  const helsinkiStrategy = new HelsinkiStrategy({
-    clientID: settings.helsinkiAuthId,
-    clientSecret: settings.helsinkiAuthSecret,
-    callbackURL: settings.publicUrl + '/login/helsinki/return'
-  }, (accessToken, refreshToken, profile, done) => {
-    debug('access token:', accessToken);
-    debug('refresh token:', refreshToken);
-    if (getTokenFromAPI) {
-      debug('acquiring token from api...');
-      helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, (token) => {
-        profile.token = token;
-        return done(null, profile);
-      });
-    } else {
-      if (profile._json) delete profile._json;
-      if (profile._raw) delete profile._raw;
-      profile.token = generateToken(profile, jwtOptions);
-      debug('token generated with options:', jwtOptions);
-      debug('profile:', profile);
-      done(null, profile);
-    }
-  });
+  const helsinkiStrategy = new HelsinkiStrategy(
+    {
+      clientID: settings.helsinkiAuthId,
+      clientSecret: settings.helsinkiAuthSecret,
+      callbackURL: settings.publicUrl + '/login/helsinki/return',
+    },
+    (accessToken, refreshToken, profile, done) => {
+      debug('access token:', accessToken);
+      debug('refresh token:', refreshToken);
+      if (getTokenFromAPI) {
+        debug('acquiring token from api...');
+        helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, token => {
+          profile.token = token;
+          return done(null, profile);
+        });
+      } else {
+        if (profile._json) delete profile._json;
+        if (profile._raw) delete profile._raw;
+        profile.token = generateToken(profile, jwtOptions);
+        debug('token generated with options:', jwtOptions);
+        debug('profile:', profile);
+        done(null, profile);
+      }
+    },
+  );
   passport.use(helsinkiStrategy);
-  if (settings.dev && false) { // preferably develop using SSO
+  if (settings.dev && false) {
+    // preferably develop using SSO
     passport.use(new MockStrategy(jwtOptions));
   }
   passport.serializeUser((user, done) => {
@@ -85,7 +88,8 @@ export function addAuth(server, passport, settings) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
-  if (settings.dev && false) {  // preferably develop using SSO
+  if (settings.dev && false) {
+    // preferably develop using SSO
     server.get('/login/mock', passport.authenticate('mock'), successfulLoginHandler);
   }
   server.get('/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);

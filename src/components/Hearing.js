@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'redux-router';
+import {withRouter} from 'react-router-dom';
+// import { push } from 'redux-router';
 import { Button, Col, Row, Tooltip } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -37,7 +38,7 @@ export class Hearing extends React.Component {
   }
 
   openFullscreen(hearing) {
-    this.props.dispatch(push(getHearingURL(hearing, { fullscreen: true })));
+    this.props.history.push(getHearingURL(hearing, { fullscreen: true }));
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) {
@@ -325,7 +326,7 @@ export function wrapHearingComponent(component, pure = true) {
   return wrappedComponent;
 }
 
-export default wrapHearingComponent(Hearing);
+export default withRouter(wrapHearingComponent(Hearing));
 
 function groupSections(sections) {
   const sectionGroups = [];

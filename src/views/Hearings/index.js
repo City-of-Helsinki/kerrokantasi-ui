@@ -5,7 +5,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import { Col, Row } from 'react-bootstrap';
 import { get, find } from 'lodash';
-
+import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
 import HearingList from '../../components/HearingList';
@@ -14,6 +14,7 @@ import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import { hearingShape, labelShape, userShape } from '../../types';
 import getAttr from '../../utils/getAttr';
+import parseUrlSearch from '../../utils/parseUrlSearch';
 
 const now = () => new Date().toISOString();
 
@@ -130,7 +131,7 @@ class Hearings extends React.Component {
   }
 
   getSearchParams() {
-    const { labels, language, location: { query: { search, label: selectedLabels } } } = this.props;
+    const { labels, language, location: { search, label: selectedLabels } } = this.props;
 
     return {
       title: search || '',
@@ -156,35 +157,35 @@ class Hearings extends React.Component {
     labels.filter(({ label }) => labelsInQuery.includes(getAttr(label, language)));
 
   handleSearch(searchTitle, force = false) {
-    const { history, location: { query }, labels, language } = this.props;
-    const searchPhraseUpdated = query.search !== searchTitle;
+    const { history, location, labels, language } = this.props;
+    const label = location.search !== '' ? parseUrlSearch(location.search).label.split(',') : [];
+    console.log(label);
+    const searchPhraseUpdated = parseUrlSearch(location.search) !== searchTitle;
     if (searchPhraseUpdated || force) {
-      const labelIds = Hearings.getLabelsFromQuery(query.label, labels, language).map(({ id }) => id);
+      const labelIds = Hearings.getLabelsFromQuery(label, labels, language).map(({ id }) => id);
 
       this.fetchHearingList({
         title: searchTitle,
         label: labelIds,
       });
-
-      history.pushState(null, window.location.pathname, {
-        ...query,
-        search: searchTitle !== '' ? searchTitle : undefined,
+      history.push({
+        path: location.path,
+        search: searchTitle !== '' ? `?search=${searchTitle}` : undefined,
       });
     }
   }
 
   handleSelectLabels(labels) {
-    const { history, location: { query } } = this.props;
+    const { history, location, match } = this.props;
     const labelIds = labels ? labels.map(label => label.id).toString() : undefined;
-
     this.fetchHearingList({
-      title: query.search,
+      title: parseUrlSearch(location.search).search,
       label: labelIds,
     });
 
-    history.pushState(null, window.location.pathname, {
-      ...query,
-      label: labels.map(({ label }) => label),
+    history.push({
+      path: location.pathname,
+      search: labels.length > 0 ? `?label=${labels.map(({ label }) => label)}` : null,
     });
   }
 
@@ -192,10 +193,10 @@ class Hearings extends React.Component {
     this.setState(
       () => ({ sortBy }),
       () => {
-        const { labels, language, location: { query } } = this.props;
+        const { labels, language, location: { search, label } } = this.props;
         this.fetchHearingList({
-          title: query.search,
-          label: Hearings.getLabelsFromQuery(query.label, labels, language).map(({ id }) => id),
+          title: search,
+          label: Hearings.getLabelsFromQuery(label, labels, language).map(({ id }) => id),
         });
       },
     );
@@ -211,24 +212,26 @@ class Hearings extends React.Component {
       intl: { formatMessage },
       labels,
       language,
-      params: { tab },
-      location: { query: { search: searchTitle, label: selectedLabels } },
+      match: { params: { tab } },
+      location,
       user,
     } = this.props;
+    const selectedLabels = parseUrlSearch(location.search).label && parseUrlSearch(location.search).label.split(',');
+    const searchTitle = parseUrlSearch(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
 
-    const createHearingButton = isAdmin(user.data)
-      ? <CreateHearingButton onClick={() => history.pushState(null, '/hearing/new')} />
-      : null;
-    const adminFilterSelector = isAdmin(user.data)
-      ? (<AdminFilterSelector
-          onSelect={this.setAdminFilter}
-          options={AdminFilters}
-          valueKey="list"
-          active={this.getHearingListName()}
-      />)
-      : null;
+    const createHearingButton = isAdmin(user.data) ? (
+      <CreateHearingButton onClick={() => history.push('/hearing/new')} />
+    ) : null;
+    const adminFilterSelector = isAdmin(user.data) ? (
+      <AdminFilterSelector
+        onSelect={this.setAdminFilter}
+        options={AdminFilters}
+        valueKey="list"
+        active={this.getHearingListName()}
+      />
+    ) : null;
 
     if (user.isFetching) {
       return <LoadSpinner />;
@@ -240,8 +243,10 @@ class Hearings extends React.Component {
           <div className="container">
             <Row>
               <Col md={10} mdPush={1}>
-                <Helmet title={formatMessage({id: 'allHearings'})}/>
-                <h1 className="page-title"><FormattedMessage id="allHearings"/></h1>
+                <Helmet title={formatMessage({ id: 'allHearings' })} />
+                <h1 className="page-title">
+                  <FormattedMessage id="allHearings" />
+                </h1>
                 {adminFilterSelector}
                 {createHearingButton}
               </Col>
@@ -264,10 +269,12 @@ class Hearings extends React.Component {
           tab={tab}
           onTabChange={value => {
             const url = `/hearings/${value}`;
-            history.pushState(null, url, {search: searchTitle, label: selectedLabels});
+            history.push({
+              pathname: url,
+              search: location.search,
+            });
           }}
         />
-
       </div>
     );
   }
@@ -283,7 +290,7 @@ Hearings.propTypes = {
     }),
   ),
   history: PropTypes.shape({
-    pushState: PropTypes.func,
+    push: PropTypes.func,
   }),
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
@@ -294,8 +301,10 @@ Hearings.propTypes = {
       search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
     }),
   }),
-  params: PropTypes.shape({
-    tab: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      tab: PropTypes.string,
+    }),
   }),
   user: PropTypes.shape({
     data: userShape,
@@ -315,4 +324,4 @@ const mapDispatchToProps = dispatch => ({
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Hearings));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(injectIntl(Hearings)));

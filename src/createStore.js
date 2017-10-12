@@ -9,16 +9,15 @@ import identity from 'lodash/identity';
 
 const middleware = [thunk, ...hearingEditorMiddlware];
 
-if (typeof window !== "undefined" && process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test") {
+if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(require('redux-logger')());
 }
 
-export default function createAppStore(router, createHistory, initialState = null) {
+export default function createAppStore(createHistory, initialState = null) {
   // Have to pass in the router to support isomorphic rendering
   const augmentedCreateStore = compose(
     applyMiddleware(...middleware),
-    router({routes, createHistory}),
-    (typeof window !== 'undefined' && window.devToolsExtension ? window.devToolsExtension() : identity)
+    typeof window !== 'undefined' && window.devToolsExtension ? window.devToolsExtension() : identity,
   )(createStore);
   return augmentedCreateStore(rootReducer, initialState || {});
 }
