@@ -10,7 +10,7 @@ import { getOpenGraphMetaData } from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import { getUser } from '../selectors/user';
 import { withRouter } from 'react-router-dom';
-import qs from 'qs';
+import { parseQuery } from '../utils/urlQuery';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
 class QuestionView extends Component {
@@ -25,7 +25,7 @@ class QuestionView extends Component {
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return Promise.all([dispatch(fetchHearing(params.hearingSlug, qs.parse(location.search).preview))]);
+    return Promise.all([dispatch(fetchHearing(params.hearingSlug, parseQuery(location.search).preview))]);
   }
 
   /**

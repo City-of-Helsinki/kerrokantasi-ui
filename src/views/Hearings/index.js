@@ -14,7 +14,7 @@ import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import { hearingShape, labelShape, userShape } from '../../types';
 import getAttr from '../../utils/getAttr';
-import parseUrlSearch from '../../utils/parseUrlSearch';
+import { parseQuery, stringifyQuery } from '../../utils/urlQuery';
 
 const now = () => new Date().toISOString();
 
@@ -158,9 +158,8 @@ class Hearings extends React.Component {
 
   handleSearch(searchTitle, force = false) {
     const { history, location, labels, language } = this.props;
-    const label = location.search !== '' ? parseUrlSearch(location.search).label.split(',') : [];
-    console.log(label);
-    const searchPhraseUpdated = parseUrlSearch(location.search) !== searchTitle;
+    const label = location.search !== '' ? parseQuery(location.search).label : [];
+    const searchPhraseUpdated = parseQuery(location.search).search !== searchTitle;
     if (searchPhraseUpdated || force) {
       const labelIds = Hearings.getLabelsFromQuery(label, labels, language).map(({ id }) => id);
 
@@ -170,7 +169,7 @@ class Hearings extends React.Component {
       });
       history.push({
         path: location.path,
-        search: searchTitle !== '' ? `?search=${searchTitle}` : undefined,
+        search: searchTitle !== '' ? stringifyQuery({ search: searchTitle, label }) : undefined,
       });
     }
   }
@@ -179,13 +178,16 @@ class Hearings extends React.Component {
     const { history, location, match } = this.props;
     const labelIds = labels ? labels.map(label => label.id).toString() : undefined;
     this.fetchHearingList({
-      title: parseUrlSearch(location.search).search,
+      title: parseQuery(location.search).search,
       label: labelIds,
     });
 
     history.push({
       path: location.pathname,
-      search: labels.length > 0 ? `?label=${labels.map(({ label }) => label)}` : null,
+      search:
+        labels.length > 0
+          ? stringifyQuery({ search: parseQuery(location.search).search, label: labels.map(({ label }) => label) })
+          : stringifyQuery({ search: parseQuery(location.search).search }),
     });
   }
 
@@ -216,8 +218,8 @@ class Hearings extends React.Component {
       location,
       user,
     } = this.props;
-    const selectedLabels = parseUrlSearch(location.search).label && parseUrlSearch(location.search).label.split(',');
-    const searchTitle = parseUrlSearch(location.search).search;
+    const selectedLabels = parseQuery(location.search).label && parseQuery(location.search).label;
+    const searchTitle = parseQuery(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
 

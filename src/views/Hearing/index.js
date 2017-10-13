@@ -16,7 +16,7 @@ import { withRouter } from 'react-router-dom';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getAttr from '../../utils/getAttr';
 import PleaseLogin from '../../components/admin/PleaseLogin';
-import qs from 'qs';
+import { parseQuery } from '../../utils/urlQuery';
 
 export class HearingView extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ export class HearingView extends React.Component {
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return dispatch(fetchHearing(params.hearingSlug, qs.parse(location.search).preview));
+    return dispatch(fetchHearing(params.hearingSlug, parseQuery(location.search).preview));
   }
 
   /**
@@ -58,8 +58,6 @@ export class HearingView extends React.Component {
   }
 
   componentWillMount() {
-    console.log('here');
-
     const { dispatch, match: { params }, location } = this.props;
     // The manager might not have a hearing yet
     if (location.pathname === '/hearing/new') {
@@ -138,7 +136,7 @@ export class HearingView extends React.Component {
     if (!hearing) {
       return false;
     }
-    const fullscreenParam = qs.parse(this.props.location.search).fullscreen;
+    const fullscreenParam = parseQuery(this.props.location.search).fullscreen;
     const requiresFullscreen = getMainSection(hearing).plugin_fullscreen;
     if (requiresFullscreen && fullscreenParam === undefined) {
       // Looks like we need fullscreen mode, but we aren't currently using it.
