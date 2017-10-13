@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { App } from './App';
 import Hearings from './views/Hearings';
 // import AllHearings from './views/AllHearings';
@@ -24,16 +24,17 @@ function trackLink() {
 }
 
 const Routes = () => (
-  <div>
+  <Switch>
     <Route exact path="/" component={Home} />
-    <Route exact path="/hearing/new" component={Hearing} />
-    <Route exact path="/info" component={Info} />
-    <Route exact path="/hearings/:tab" component={Hearings} />
-    <Route exact path="/hearing/:hearingSlug" component={Hearing} />
-    <Route exact path="/hearing/:hearingSlug/:sectionId" component={QuestionView} />
-    <Route exact path="/:hearingSlug" component={Hearing} />
-    <Route exact path="/:hearingSlug/:sectionId" component={QuestionView} />
-  </div>
+    <Route path="/hearing/new" component={Hearing} />
+    <Route path="/info" component={Info} />
+    <Route path="/hearings/:tab" component={Hearings} />
+    <Route path="/hearing/:hearingSlug" component={Hearing} />
+    <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} />
+    <Route path="/:hearingSlug" component={Hearing} />
+    <Route path="/:hearingSlug/:sectionId" component={QuestionView} />
+    <Route render={() => <div>404 mofo</div>} />
+  </Switch>
 );
 
 export default Routes;
