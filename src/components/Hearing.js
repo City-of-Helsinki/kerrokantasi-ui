@@ -10,7 +10,7 @@ import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
 import moment from 'moment';
-
+import { parseQuery } from '../utils/urlQuery';
 import { followHearing, postSectionComment, editSectionComment, postVote, deleteSectionComment } from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
@@ -45,7 +45,7 @@ export class Hearing extends React.Component {
     // eslint-disable-line
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     const mainSection = getMainSection(this.props.hearing);
     const commentData = { text, authorName, pluginData: null, authCode, geojson: null, label: null, images };
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
@@ -54,7 +54,7 @@ export class Hearing extends React.Component {
   onPostSectionComment(sectionId, sectionCommentData) {
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     const commentData = Object.assign({ authCode }, sectionCommentData);
     dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
@@ -62,7 +62,7 @@ export class Hearing extends React.Component {
   onEditSectionComment(sectionId, commentId, commentData) {
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     Object.assign({ authCode }, commentData);
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
   }

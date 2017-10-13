@@ -21,6 +21,7 @@ import {
   isSectionVotable,
 } from '../utils/section';
 import getAttr from '../utils/getAttr';
+import { parseQuery } from '../utils/urlQuery';
 
 const LinkWrapper = ({disabled, to, children, ...rest}) => {
   if (disabled) {
@@ -53,7 +54,7 @@ class SectionContainer extends React.Component {
   onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
+    const {authCode} = parseQuery(this.props.location.search);
     const commentData = Object.assign({authCode}, sectionCommentData);
     dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
@@ -102,7 +103,7 @@ class SectionContainer extends React.Component {
   onEditSectionComment(sectionId, commentId, commentData) {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
+    const {authCode} = parseQuery(this.props.location.search);
     Object.assign({authCode}, commentData);
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
   }
