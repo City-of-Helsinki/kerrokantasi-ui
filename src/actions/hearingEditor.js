@@ -3,7 +3,7 @@ import api from '../api';
 import {notifySuccess, notifyError} from '../utils/notify';
 import moment from 'moment';
 import Promise from 'bluebird';
-// import {push} from 'redux-router';
+import { push } from 'react-router-redux';
 
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
@@ -276,7 +276,7 @@ export function saveAndPreviewHearingChanges(hearing) {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
             dispatch(createAction(EditorActions.CLOSE_FORM)());
-            // dispatch(push(getHearingURL(hearingJSON)));
+            dispatch(push(getHearingURL(hearingJSON)));
           });
           notifySuccess('Tallennus onnistui');
         }
@@ -345,7 +345,7 @@ export function saveAndPreviewNewHearing(hearing) {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({hearing: hearingJSON}));
             dispatch(createAction(EditorActions.CLOSE_FORM)());
-            // dispatch(push(getHearingURL(hearingJSON)));
+            dispatch(push(getHearingURL(hearingJSON)));
           });
           notifySuccess('Luonti onnistui');
         }
