@@ -1,13 +1,13 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Navbar, NavItem, Nav} from 'react-bootstrap';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import LanguageSwitcher from './LanguageSwitcher';
-import {FormattedMessage} from 'react-intl';
-import {connect} from 'react-redux';
-import {login, logout} from '../../actions';
-import {LinkContainer} from 'react-router-bootstrap';
-import {Link} from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { login, logout } from '../../actions';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 
@@ -64,7 +64,9 @@ class Header extends React.Component {
 
   getNavItem(id, url) {
     const {history} = this.props;
-    const active = history && history.location.pahtname === url;
+    const active = history && history.location.pathname === url;
+    console.log('histoy: ', history);
+    console.log('url: ', url)
     const navItem = (
       <NavItem key={id} eventKey={id} href="#" active={active}>
         <FormattedMessage id={id + 'HeaderText'} />
@@ -126,8 +128,8 @@ Header.contextTypes = {
   history: PropTypes.object,
 };
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
   user: state.user.data, // User dropdown requires this state
   language: state.language, // Language switch requires this state
   router: state.router, // Navigation activity requires this state
-}))(Header);
+}))(Header));
