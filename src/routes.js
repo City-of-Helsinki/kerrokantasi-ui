@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { App } from './App';
 import Hearings from './views/Hearings';
 // import AllHearings from './views/AllHearings';
 // import AdminHearings from './views/admin/AdminHearings';
