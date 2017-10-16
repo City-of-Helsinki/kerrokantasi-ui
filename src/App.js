@@ -26,7 +26,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const locale = this.props.language;
     const favlinks = [
       {rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/favicon/apple-touch-icon.png'},

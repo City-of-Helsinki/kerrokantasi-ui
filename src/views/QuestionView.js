@@ -11,6 +11,7 @@ import getAttr from '../utils/getAttr';
 import { getUser } from '../selectors/user';
 import { withRouter } from 'react-router-dom';
 import { parseQuery } from '../utils/urlQuery';
+import trackLink from '../utils/trackLink';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
 class QuestionView extends Component {
@@ -45,6 +46,7 @@ class QuestionView extends Component {
   componentDidMount() {
     const { dispatch, location, match: { params } } = this.props;
     QuestionView.fetchData(dispatch, null, location, params);
+    trackLink();
   }
 
   componentWillMount() {

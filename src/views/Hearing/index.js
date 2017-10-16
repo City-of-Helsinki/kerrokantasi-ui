@@ -17,6 +17,7 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getAttr from '../../utils/getAttr';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 import { parseQuery } from '../../utils/urlQuery';
+import trackLink from '../../utils/trackLink';
 
 export class HearingView extends React.Component {
   constructor(props) {
@@ -72,6 +73,7 @@ export class HearingView extends React.Component {
     if (this.isNewHearing()) {
       this.props.dispatch(initNewHearing());
     }
+    trackLink();
   }
 
   componentWillReceiveProps(nextProps) {

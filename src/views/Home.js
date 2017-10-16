@@ -11,6 +11,7 @@ import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
 import {Link} from 'react-router-dom';
+import trackLink from '../utils/trackLink';
 
 class Home extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Home extends React.Component {
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
     if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
+    trackLink();
   }
 
   componentWillUnmount() {
