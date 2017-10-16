@@ -1,15 +1,16 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {ConnectedRouter} from 'react-router-redux';
 import App from './App';
+import {history} from './createStore';
 
 export default function getRoot(store) {
   return (
     <div>
       <Provider store={store}>
-        <Router>
+        <ConnectedRouter history={history}>
           <App />
-        </Router>
+        </ConnectedRouter>
       </Provider>
     </div>
   );

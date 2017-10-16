@@ -316,6 +316,7 @@ Hearing.propTypes = {
   sectionComments: PropTypes.object,
   changeCurrentlyViewed: PropTypes.func,
   currentlyViewed: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export function wrapHearingComponent(component, pure = true) {

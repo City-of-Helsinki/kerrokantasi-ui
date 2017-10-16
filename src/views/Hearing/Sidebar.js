@@ -155,7 +155,7 @@ class Sidebar extends React.Component {
         )}
         {sectionGroups.map(
           sectionGroup =>
-            !isQuestionView ? (
+            (!isQuestionView ? (
               <div className="list-group-root" key={sectionGroup.type}>
                 <ListGroupItem
                   className={currentlyViewed === '#hearing-sectiongroup-' + sectionGroup.type && 'active'}
@@ -184,7 +184,7 @@ class Sidebar extends React.Component {
                   sections={sectionGroup.sections}
                   hearing={hearing}
                 />
-              </div>
+              </div>)
             ),
         )}
         {this.getFullscreenItem()}

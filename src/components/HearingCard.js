@@ -41,9 +41,9 @@ const HearingCard = ({hearing, language, className = ''}) => {
             <FormattedMessage id="hearingTranslationNotAvailable" />
             {config.languages.map(
               lang =>
-                getAttr(hearing.title, lang, {exact: true}) ? (
+                (getAttr(hearing.title, lang, {exact: true}) ? (
                   <div className="language-available-message">{availableInLanguageMessages[lang]}</div>
-                ) : null,
+                ) : null)
             )}
           </div>
         </Link>

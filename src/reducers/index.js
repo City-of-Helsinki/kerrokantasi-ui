@@ -6,6 +6,7 @@ import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
+import {routerReducer} from 'react-router-redux';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -27,4 +28,5 @@ export default combineReducers({
   sectionComments,
   user,
   labels,
+  router: routerReducer
 });

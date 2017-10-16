@@ -65,8 +65,6 @@ class Header extends React.Component {
   getNavItem(id, url) {
     const {history} = this.props;
     const active = history && history.location.pathname === url;
-    console.log('histoy: ', history);
-    console.log('url: ', url)
     const navItem = (
       <NavItem key={id} eventKey={id} href="#" active={active}>
         <FormattedMessage id={id + 'HeaderText'} />

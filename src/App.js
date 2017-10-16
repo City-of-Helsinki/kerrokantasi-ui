@@ -65,7 +65,6 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: PropTypes.node,
   history: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,

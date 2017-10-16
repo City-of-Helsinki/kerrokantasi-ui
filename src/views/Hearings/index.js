@@ -175,7 +175,7 @@ class Hearings extends React.Component {
   }
 
   handleSelectLabels(labels) {
-    const { history, location, match } = this.props;
+    const { history, location } = this.props;
     const labelIds = labels ? labels.map(label => label.id).toString() : undefined;
     this.fetchHearingList({
       title: parseQuery(location.search).search,

@@ -89,9 +89,9 @@ QuestionView.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
-  params: PropTypes.object,
   sectionComments: PropTypes.object,
   user: PropTypes.object,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = (state, props) => {
