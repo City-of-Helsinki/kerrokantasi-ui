@@ -169,7 +169,7 @@ class Hearings extends React.Component {
       });
       history.push({
         path: location.path,
-        search: searchTitle !== '' ? stringifyQuery({ search: searchTitle, label }) : undefined,
+        search: searchTitle !== '' ? stringifyQuery({ search: searchTitle, label }) : stringifyQuery({ label }),
       });
     }
   }
