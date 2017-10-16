@@ -2,14 +2,14 @@ import {compose, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import hearingEditorMiddlware from './middleware/hearingEditor';
+import hearingEditorMiddleware from './middleware/hearingEditor';
 
 import identity from 'lodash/identity';
 import {routerMiddleware} from 'react-router-redux';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 export const history = createBrowserHistory();
-const middleware = [thunk, routerMiddleware(history), ...hearingEditorMiddlware];
+const middleware = [thunk, routerMiddleware(history), ...hearingEditorMiddleware];
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(require('redux-logger')());

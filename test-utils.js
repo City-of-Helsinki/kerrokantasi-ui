@@ -1,7 +1,6 @@
 import assign from 'lodash/assign';
 import noop from 'lodash/noop';
 import commonInit from './src/commonInit';
-import createMemoryHistory from 'history/createMemoryHistory';
 import createStore from './src/createStore';
 import messages from './src/i18n';
 import React from 'react';
@@ -36,7 +35,7 @@ export function wireComponent(store, type, props = {}, children = []) {
 
 export function createTestStore(state) {
   commonInit();
-  return createStore(createMemoryHistory, state || {});
+  return createStore(state || {});
 }
 
 /**
