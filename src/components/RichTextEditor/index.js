@@ -75,7 +75,7 @@ class RichTextEditor extends React.Component {
         const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
         return EditorState.createWithContent(contentState, linkDecorator);
       }
-      return EditorState.createEmpty();
+      return EditorState.createEmpty(linkDecorator);
     };
 
     this.focus = () => this.refs.editor.focus();
