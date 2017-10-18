@@ -96,7 +96,7 @@ class HearingFormStep3 extends React.Component {
         // onResize={this.invalidateMap.bind(this)}
         center={position}
         zoom={11}
-        zoomControl={false}
+        zoomControl
         className="hearing-map"
       >
         <TileLayer
