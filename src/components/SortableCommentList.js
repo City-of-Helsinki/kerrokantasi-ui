@@ -165,66 +165,71 @@ class SortableCommentList extends Component {
     ) : null;
     const pluginContent = showCommentList && displayVisualization ? this.renderPluginContent() : null;
     return (
-      <div className="sortable-comment-list">
-        {commentForm}
-        <h2>
-          <FormattedMessage id="comments" />
-          <div className="commenticon">
-            <Icon name="comment-o" />&nbsp;{get(sectionComments, 'count') ? sectionComments.count : ''}
-          </div>
-        </h2>
-        {pluginContent}
-        {showCommentList && (
-          <div className="row">
-            <form className="sort-selector">
-              <FormGroup controlId="sort-select">
-                <ControlLabel>
-                  <FormattedMessage id="commentOrder" />
-                </ControlLabel>
-                <div className="select">
-                  <FormControl
-                    componentClass="select"
-                    onChange={event => {
-                      this.fetchComments(section.id, event.target.value);
-                    }}
-                  >
-                    {keys(ORDERING_CRITERIA).map(key => (
-                      <option
-                        key={key}
-                        value={ORDERING_CRITERIA[key]}
-                        selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
-                      >
-                        <FormattedMessage id={key} />
-                      </option>
-                    ))}
-                  </FormControl>
+      <div>
+        {canComment || showCommentList ?
+          <div className="sortable-comment-list">
+            {commentForm}
+            <div>
+              {showCommentList &&
+              <h2>
+                <FormattedMessage id="comments" />
+                <div className="commenticon">
+                  <Icon name="comment-o" />&nbsp;{get(sectionComments, 'count') ? sectionComments.count : '0'}
                 </div>
-              </FormGroup>
-            </form>
-          </div>
-        )}
+              </h2>}
+              {pluginContent}
+              {showCommentList &&
+                <div className="row">
+                  <form className="sort-selector">
+                    <FormGroup controlId="sort-select">
+                      <ControlLabel>
+                        <FormattedMessage id="commentOrder" />
+                      </ControlLabel>
+                      <div className="select">
+                        <FormControl
+                          componentClass="select"
+                          onChange={event => {
+                            this.fetchComments(section.id, event.target.value);
+                          }}
+                        >
+                          {keys(ORDERING_CRITERIA).map(key =>
+                            <option
+                              key={key}
+                              value={ORDERING_CRITERIA[key]}
+                              selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
+                            >
+                              <FormattedMessage id={key} />
+                            </option>,
+                          )}
+                        </FormControl>
+                      </div>
+                    </FormGroup>
+                  </form>
+                </div>}
 
-        {showCommentList && (
-          <div>
-            <CommentList
-              canVote={canVote}
-              section={section}
-              comments={sectionComments.results}
-              totalCount={sectionComments.count}
-              onEditComment={this.props.onEditComment}
-              onDeleteComment={this.props.onDeleteComment}
-              onPostVote={this.props.onPostVote}
-              isLoading={this.state.showLoader}
-              intl={intl}
-            />
-            <Waypoint onEnter={this.handleReachBottom} />
+              {showCommentList &&
+                <div>
+                  <CommentList
+                    canVote={canVote}
+                    section={section}
+                    comments={sectionComments.results}
+                    totalCount={sectionComments.count}
+                    onEditComment={this.props.onEditComment}
+                    onDeleteComment={this.props.onDeleteComment}
+                    onPostVote={this.props.onPostVote}
+                    isLoading={this.state.showLoader}
+                    intl={intl}
+                  />
+                  <Waypoint onEnter={this.handleReachBottom} />
+                </div>}
+              {this.state.showLoader
+                ? <div className="sortable-comment-list__loader">
+                  <LoadSpinner />
+                </div>
+                : null}
+            </div>
           </div>
-        )}
-        {this.state.showLoader ? (
-          <div className="sortable-comment-list__loader">
-            <LoadSpinner />
-          </div>
-        ) : null}
+      : null}
       </div>
     );
   }
