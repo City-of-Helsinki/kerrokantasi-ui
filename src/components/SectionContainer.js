@@ -5,7 +5,16 @@ import {connect} from 'react-redux';
 import {Button, Row, Col} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import DeleteModal from './DeleteModal';
-import {followHearing, postSectionComment, postVote, editSectionComment, deleteSectionComment} from '../actions';
+import {
+  followHearing,
+  postSectionComment,
+  postVote,
+  editSectionComment,
+  deleteSectionComment,
+  fetchSectionComments,
+  fetchAllSectionComments,
+  fetchMoreSectionComments,
+} from '../actions';
 // import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
 // import SectionList from './SectionList';
@@ -228,6 +237,9 @@ class SectionContainer extends React.Component {
               user={user}
               isCollapsible={false}
               showPlugin={showPluginInline}
+              fetchAllComments={this.props.fetchAllComments}
+              fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
+              fetchMoreComments={this.props.fetchMoreComments}
             />
           </Col>
         </Row>
@@ -252,10 +264,21 @@ SectionContainer.propTypes = {
   section: PropTypes.object,
   sectionComments: PropTypes.object,
   language: PropTypes.string,
+  fetchAllComments: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
 };
 
+const mapDispatchToProps = dispatch => ({
+  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
+  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
+  dispatch,
+});
+
 export function wrapSectionContainer(component, pure = true) {
-  const wrappedComponent = connect(null, null, null, {pure})(injectIntl(component));
+  const wrappedComponent = connect(null, mapDispatchToProps, null, {pure})(injectIntl(component));
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
   wrappedComponent.canRenderFully = component.canRenderFully;
   wrappedComponent.fetchData = component.fetchData;

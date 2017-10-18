@@ -5,20 +5,29 @@ import { withRouter } from 'react-router-dom';
 // import { push } from 'redux-router';
 import { Button, Col, Row, Tooltip } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
 import moment from 'moment';
 import { parseQuery } from '../utils/urlQuery';
-import { followHearing, postSectionComment, editSectionComment, postVote, deleteSectionComment } from '../actions';
+import {
+  followHearing,
+  postSectionComment,
+  editSectionComment,
+  postVote,
+  deleteSectionComment,
+  fetchSectionComments,
+  fetchAllSectionComments,
+  fetchMoreSectionComments,
+} from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import Header from '../views/Hearing/Header';
-import _, { find } from 'lodash';
+import _, {find} from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
@@ -27,14 +36,14 @@ import {
   getMainSection,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';
-import { isSpecialSectionType, isSectionCommentable, isSectionVotable } from '../utils/section';
+import {isSpecialSectionType, isSectionCommentable, isSectionVotable} from '../utils/section';
 import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { showDeleteModal: false, commentToDelete: {} };
+    this.state = {showDeleteModal: false, commentToDelete: {}};
   }
 
   openFullscreen(hearing) {
@@ -43,16 +52,16 @@ export class Hearing extends React.Component {
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) {
     // eslint-disable-line
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     const { authCode } = parseQuery(this.props.location.search);
     const mainSection = getMainSection(this.props.hearing);
-    const commentData = { text, authorName, pluginData: null, authCode, geojson: null, label: null, images };
+    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images};
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
   onPostSectionComment(sectionId, sectionCommentData) {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     const { authCode } = parseQuery(this.props.location.search);
     const commentData = Object.assign({ authCode }, sectionCommentData);
@@ -60,7 +69,7 @@ export class Hearing extends React.Component {
   }
 
   onEditSectionComment(sectionId, commentId, commentData) {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     const { authCode } = parseQuery(this.props.location.search);
     Object.assign({ authCode }, commentData);
@@ -68,26 +77,26 @@ export class Hearing extends React.Component {
   }
 
   onDeleteComment() {
-    const { dispatch } = this.props;
-    const { sectionId, commentId } = this.state.commentToDelete;
+    const {dispatch} = this.props;
+    const {sectionId, commentId} = this.state.commentToDelete;
     const hearingSlug = this.props.hearingSlug;
     dispatch(deleteSectionComment(hearingSlug, sectionId, commentId));
     this.forceUpdate();
   }
 
   handleDeleteClick(sectionId, commentId) {
-    this.setState({ commentToDelete: { sectionId, commentId } });
+    this.setState({commentToDelete: {sectionId, commentId}});
     this.openDeleteModal();
   }
 
   onVoteComment(commentId, sectionId) {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     dispatch(postVote(commentId, hearingSlug, sectionId));
   }
 
   onFollowHearing() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
     dispatch(followHearing(hearingSlug));
   }
@@ -106,7 +115,7 @@ export class Hearing extends React.Component {
   }
 
   getClosureInfo(hearing) {
-    const { formatMessage } = this.props.intl;
+    const {formatMessage} = this.props.intl;
     const closureInfo = getClosureSection(hearing);
     if (closureInfo) {
       return closureInfo;
@@ -117,7 +126,7 @@ export class Hearing extends React.Component {
       title: '',
       abstract: '',
       images: [],
-      content: formatMessage({ id: 'defaultClosureInfo' }),
+      content: formatMessage({id: 'defaultClosureInfo'}),
     };
   }
 
@@ -146,7 +155,7 @@ export class Hearing extends React.Component {
   }
 
   getCommentList() {
-    const { hearing, sectionComments, location, hearingSlug, intl } = this.props;
+    const {hearing, sectionComments, location, hearingSlug, intl} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = !mainSection.plugin_fullscreen;
     const user = this.props.user;
@@ -174,6 +183,9 @@ export class Hearing extends React.Component {
             onDeleteComment={this.handleDeleteClick.bind(this)}
             onPostVote={this.onVoteComment.bind(this)}
             canSetNickname={user === null}
+            fetchComments={this.props.fetchCommentsForSortableList}
+            fetchAllComments={this.props.fetchAllComments}
+            fetchMoreComments={this.props.fetchMoreComments}
             intl={intl}
           />
         </div>
@@ -182,23 +194,23 @@ export class Hearing extends React.Component {
   }
 
   openDeleteModal() {
-    this.setState({ showDeleteModal: true });
+    this.setState({showDeleteModal: true});
   }
 
   closeDeleteModal() {
-    this.setState({ showDeleteModal: false, commentToDelete: {} });
+    this.setState({showDeleteModal: false, commentToDelete: {}});
   }
 
   getEyeTooltip() {
     // eslint-disable-line class-methods-use-this
-    const { formatMessage } = this.props.intl;
+    const {formatMessage} = this.props.intl;
     const openingTime = moment(this.props.hearing.open_at);
     let text = <FormattedMessage id="eyeTooltip" />;
     if (this.props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
       const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
       const differenceText = duration < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
-      text = `${formatMessage({ id: 'eyeTooltipOpens' })} ${Math.ceil(durationAs)} ${formatMessage({
+      text = `${formatMessage({id: 'eyeTooltipOpens'})} ${Math.ceil(durationAs)} ${formatMessage({
         id: differenceText,
       })}`;
     }
@@ -206,7 +218,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const { hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed } = this.props;
+    const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
@@ -235,10 +247,16 @@ export class Hearing extends React.Component {
               <HearingImageList images={mainSection.images} />
               <div
                 className="hearing-abstract lead"
-                dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }}
+                dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
               />
 
-              {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
+              {hearing.closed ? (
+                <WrappedSection
+                  fetchAllComments={this.props.fetchAllComments}
+                  section={closureInfoSection}
+                  canComment={false}
+                />
+              ) : null}
               {mainSection ? (
                 <WrappedSection
                   showPlugin={showPluginInline}
@@ -249,6 +267,7 @@ export class Hearing extends React.Component {
                   canVote={this.isMainSectionVotable(user)}
                   comments={this.props.sectionComments[mainSection.id]}
                   user={user}
+                  fetchAllComments={this.props.fetchAllComments}
                 />
               ) : null}
             </div>
@@ -317,10 +336,21 @@ Hearing.propTypes = {
   changeCurrentlyViewed: PropTypes.func,
   currentlyViewed: PropTypes.string,
   history: PropTypes.object,
+  fetchAllComments: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
+
 };
 
+const mapDispatchToProps = dispatch => ({
+  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
+  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
+});
+
 export function wrapHearingComponent(component, pure = true) {
-  const wrappedComponent = connect(state => ({ language: state.language }), null, null, { pure })(
+  const wrappedComponent = connect(state => ({language: state.language}), mapDispatchToProps, null, {pure})(
     injectIntl(component),
   );
   // We need to re-hoist the data statics to the wrapped component due to react-intl:

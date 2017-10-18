@@ -8,7 +8,6 @@ import {injectIntl, intlShape} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../utils/Icon';
 import PluginContent from './PluginContent';
-import {fetchAllSectionComments} from '../actions/index';
 
 class FullscreenPlugin extends Section {
   render() {
@@ -65,11 +64,7 @@ FullscreenPlugin.propTypes = {
   onPostVote: PropTypes.func,
   section: PropTypes.object.isRequired,
   user: PropTypes.object,
+  fetchAllComment: PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
-  dispatch,
-});
-
-export default withRouter(connect(null, mapDispatchToProps)(injectIntl(FullscreenPlugin)));
+export default injectIntl(FullscreenPlugin);

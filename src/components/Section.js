@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import SortableCommentList from './SortableCommentList';
 import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
@@ -9,7 +8,6 @@ import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
-import {fetchAllSectionComments} from '../actions/index';
 import {isEmpty} from 'lodash';
 
 function getImageList(section, language) {
@@ -158,6 +156,8 @@ export class Section extends React.Component {
           isSectionComments={section}
           onDeleteComment={this.props.handleDeleteClick}
           onEditComment={this.props.onEditComment}
+          fetchComments={this.props.fetchCommentsForSortableList}
+          fetchMoreComments={this.props.fetchMoreComments}
         />
       );
     }
@@ -217,14 +217,12 @@ Section.propTypes = {
   user: PropTypes.object,
   handleDeleteClick: PropTypes.func,
   onEditComment: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
 };
 
 Section.contextTypes = {
   language: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
-});
-
-export default connect(null, mapDispatchToProps)(Section);
+export default Section;
