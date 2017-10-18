@@ -10,10 +10,10 @@ import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
+import trackLink from '../utils/trackLink';
 
 class Home extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -29,14 +29,15 @@ class Home extends React.Component {
    */
   static fetchData(dispatch) {
     return Promise.all([
-      dispatch(fetchHearingList("topHearing", "/v1/hearing", {ordering: "-n_comments", open: true, limit: 1})),
-      dispatch(fetchHearingList("openHearings", "/v1/hearing", {open: true, include: 'geojson'}))
+      dispatch(fetchHearingList('topHearing', '/v1/hearing', {ordering: '-n_comments', open: true, limit: 1})),
+      dispatch(fetchHearingList('openHearings', '/v1/hearing', {open: true, include: 'geojson'})),
     ]);
   }
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
     if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
+    trackLink();
   }
 
   componentWillUnmount() {
@@ -44,80 +45,99 @@ class Home extends React.Component {
   }
 
   handleResize() {
-    this.setState({ isMobile: typeof window !== 'undefined' && window.innerWidth < 768 });
+    this.setState({isMobile: typeof window !== 'undefined' && window.innerWidth < 768});
   }
-
 
   render() {
     const {formatMessage} = this.props.intl;
     const {topHearing, openHearings, language} = this.props;
     const {isMobile} = this.state;
-    const hearingMap = (openHearings && openHearings.data ? (<div className="map">
-      <h2><FormattedMessage id="open-hearings-on-map"/></h2>
-      <OverviewMap hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
-    </div>) : null);
-
-    return (<div>
-      <section className="page-section page-section--welcome">
-        <div className="container">
-          <Row>
-            <Col xs={8}>
-              <Helmet title={formatMessage({id: 'welcome'})}/>
-              <h1><FormattedMessage id="welcome"/></h1>
-              <p className="lead"><FormattedMessage id="welcomeMessage"/></p>
-            </Col>
-            <Col xs={4}>
-              <div className="home-logo" />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              {topHearing && <FullWidthHearing hearing={topHearing}/>
-              }
-            </Col>
-          </Row>
+    const hearingMap =
+      openHearings && openHearings.data ? (
+        <div className="map">
+          <h2>
+            <FormattedMessage id="open-hearings-on-map" />
+          </h2>
+          <OverviewMap hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
         </div>
-      </section>
-      <section className="page-section page-section--hearing-card">
-        <div className="hearings-koro__top"/>
-        <div className="container">
-          <Row>
-            {openHearings && !openHearings.isFetching &&
+      ) : null;
+
+    return (
+      <div>
+        <section className="page-section page-section--welcome">
+          <div className="container">
+            <Row>
+              <Col xs={8}>
+                <Helmet title={formatMessage({id: 'welcome'})} />
+                <h1>
+                  <FormattedMessage id="welcome" />
+                </h1>
+                <p className="lead">
+                  <FormattedMessage id="welcomeMessage" />
+                </p>
+              </Col>
+              <Col xs={4}>
+                <div className="home-logo" />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>{topHearing && <FullWidthHearing hearing={topHearing} />}</Col>
+            </Row>
+          </div>
+        </section>
+        <section className="page-section page-section--hearing-card">
+          <div className="hearings-koro__top" />
+          <div className="container">
+            <Row>
+              {openHearings &&
+                !openHearings.isFetching && (
+                  <Col xs={12}>
+                    <div className="list">
+                      <h2 className="page-title">
+                        <FormattedMessage id="openHearings" />
+                      </h2>
+                      <HearingCardList
+                        hearings={orderBy(openHearings.data, ['close_at'], ['desc'])}
+                        language={language}
+                      />
+                      <p className="text-center">
+                        <Link to="/hearings/list">
+                          <Button bsStyle="default">
+                            <FormattedMessage id="allHearings" />
+                          </Button>
+                        </Link>
+                      </p>
+                    </div>
+                  </Col>
+                )}
+            </Row>
+          </div>
+          <div className="hearings-koro__bottom" />
+        </section>
+        <section className="page-section page-section--feedback">
+          <Grid>
+            <Row>
               <Col xs={12}>
-                <div className="list">
-                  <h2 className="page-title"><FormattedMessage id="openHearings"/></h2>
-                  <HearingCardList hearings={orderBy(openHearings.data, ['close_at'], ['desc'])} language={language}/>
-                  <p className="text-center"><Link to="/hearings/list"><Button bsStyle="default"><FormattedMessage id="allHearings"/></Button></Link></p>
+                <div className="feedback-box">
+                  <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+                    <h2 className="feedback-prompt">
+                      <FormattedMessage id="feedbackPrompt" />
+                    </h2>
+                  </a>
                 </div>
               </Col>
-            }
-          </Row>
-        </div>
-        <div className="hearings-koro__bottom"/>
-      </section>
-      <section className="page-section page-section--feedback">
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <div className="feedback-box">
-                <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
-                  <h2 className="feedback-prompt"><FormattedMessage id="feedbackPrompt"/></h2>
-                </a>
-              </div>
-            </Col>
-          </Row>
-        </Grid>
-      </section>
-      <section className="page-section page-section--map">
-        <Grid>
-          <Row>
-            <Col sm={12}>
-              {hearingMap}
-            </Col>
-          </Row>
-        </Grid>
-      </section>
-    </div>);
+            </Row>
+          </Grid>
+        </section>
+        <section className="page-section page-section--map">
+          <Grid>
+            <Row>
+              <Col sm={12}>{hearingMap}</Col>
+            </Row>
+          </Grid>
+        </section>
+      </div>
+    );
   }
 }
 
@@ -130,10 +150,10 @@ Home.propTypes = {
   language: PropTypes.string, // make sure changing language refreshes
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   topHearing: getTopHearing(state),
   language: state.language,
-  openHearings: getOpenHearings(state)
+  openHearings: getOpenHearings(state),
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));

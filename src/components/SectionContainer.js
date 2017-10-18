@@ -1,37 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Button, Row, Col} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import DeleteModal from './DeleteModal';
-import {
-  followHearing,
-  postSectionComment, postVote, editSectionComment,
-  deleteSectionComment
-} from '../actions';
+import {followHearing, postSectionComment, postVote, editSectionComment, deleteSectionComment} from '../actions';
 // import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
 // import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
 import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
-import {
-  getClosureSection,
-  getHearingURL,
-  getMainSection,
-} from '../utils/hearing';
+import {getClosureSection, getHearingURL, getMainSection} from '../utils/hearing';
 import {
   getSectionURL,
   groupSections,
-  isSpecialSectionType, isSectionCommentable, isSectionVotable
+  isSpecialSectionType,
+  isSectionCommentable,
+  isSectionVotable,
 } from '../utils/section';
 import getAttr from '../utils/getAttr';
+import { parseQuery } from '../utils/urlQuery';
 
 const LinkWrapper = ({disabled, to, children, ...rest}) => {
   if (disabled) {
     return (
-      <a href="" {...rest} onClick={(ev) => ev.preventDefault()}>
+      <a href="" {...rest} onClick={ev => ev.preventDefault()}>
         {children}
       </a>
     );
@@ -46,16 +41,10 @@ const LinkWrapper = ({disabled, to, children, ...rest}) => {
 LinkWrapper.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.elements,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ])
+  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.func]),
 };
 
-
 class SectionContainer extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -65,7 +54,7 @@ class SectionContainer extends React.Component {
   onPostSectionComment(sectionId, sectionCommentData) {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
+    const {authCode} = parseQuery(this.props.location.search);
     const commentData = Object.assign({authCode}, sectionCommentData);
     dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
@@ -89,7 +78,7 @@ class SectionContainer extends React.Component {
     return (
       <span className="pull-right">
         <Button bsStyle="primary" onClick={this.onFollowHearing.bind(this)}>
-          <Icon name="bell-o"/> <FormattedMessage id="follow"/>
+          <Icon name="bell-o" /> <FormattedMessage id="follow" />
         </Button>
       </span>
     );
@@ -102,18 +91,19 @@ class SectionContainer extends React.Component {
       return closureInfo;
     }
     // Render default closure info if no custom section is specified
-    return ({ type: "closure-info",
-      title: "",
-      abstract: "",
+    return {
+      type: 'closure-info',
+      title: '',
+      abstract: '',
       images: [],
-      content: formatMessage({id: 'defaultClosureInfo'}) }
-    );
+      content: formatMessage({id: 'defaultClosureInfo'}),
+    };
   }
 
   onEditSectionComment(sectionId, commentId, commentData) {
     const {dispatch} = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const {authCode} = this.props.location.query;
+    const {authCode} = parseQuery(this.props.location.search);
     Object.assign({authCode}, commentData);
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
   }
@@ -127,32 +117,30 @@ class SectionContainer extends React.Component {
   }
 
   handleDeleteClick(sectionId, commentId) {
-    this.setState({ commentToDelete: {sectionId, commentId}});
+    this.setState({commentToDelete: {sectionId, commentId}});
     this.openDeleteModal();
   }
 
   openDeleteModal() {
-    this.setState({ showDeleteModal: true });
+    this.setState({showDeleteModal: true});
   }
 
   closeDeleteModal() {
-    this.setState({ showDeleteModal: false, commentToDelete: {} });
+    this.setState({showDeleteModal: false, commentToDelete: {}});
   }
 
   getQuestionLinksAndStuff(sectionGroups) {
     const {hearing: {slug: hearingSlug}, section: {id: sectionId}} = this.props;
-    const questions =
-      sectionGroups.reduce((questionsArray, currentSection) =>
-      [...questionsArray, ...currentSection.sections], []);
-    const currentIndex = questions.findIndex((question) => question.id === sectionId);
-    const prevPath =
-      currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
+    const questions = sectionGroups.reduce(
+      (questionsArray, currentSection) => [...questionsArray, ...currentSection.sections],
+      [],
+    );
+    const currentIndex = questions.findIndex(question => question.id === sectionId);
+    const prevPath = currentIndex !== 0 ? getSectionURL(hearingSlug, questions[currentIndex - 1]) : undefined;
     const nextPath =
       currentIndex !== questions.length - 1 ? getSectionURL(hearingSlug, questions[currentIndex + 1]) : undefined;
-    const prevType =
-      currentIndex !== 0 ? questions[currentIndex - 1].type_name_singular : undefined;
-    const nextType =
-      currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
+    const prevType = currentIndex !== 0 ? questions[currentIndex - 1].type_name_singular : undefined;
+    const nextType = currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
 
     return {
       currentNum: currentIndex + 1,
@@ -160,7 +148,7 @@ class SectionContainer extends React.Component {
       prevPath,
       nextPath,
       prevType,
-      nextType
+      nextType,
     };
   }
 
@@ -170,7 +158,7 @@ class SectionContainer extends React.Component {
     const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
     const mainSection = getMainSection(hearing);
-    const regularSections = hearing.sections.filter((sect) => !isSpecialSectionType(sect.type));
+    const regularSections = hearing.sections.filter(sect => !isSpecialSectionType(sect.type));
     const sectionGroups = groupSections(regularSections);
     const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
     const isQuestionView = true;
@@ -178,13 +166,8 @@ class SectionContainer extends React.Component {
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
       <div className="hearing-wrapper section-container">
-        <div className="text-right">
-          {this.getFollowButton()}
-        </div>
-        <Header
-          hearing={hearing}
-          activeLanguage={language}
-        />
+        <div className="text-right">{this.getFollowButton()}</div>
+        <Header hearing={hearing} activeLanguage={language} />
         <Row>
           <Sidebar
             activeSection={section}
@@ -197,41 +180,33 @@ class SectionContainer extends React.Component {
             activeLanguage={language}
           />
           <Col md={8} lg={9}>
-            {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false}/> : null}
+            {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
             <div className="section-browser">
               <ul className="pager">
-                {!sectionNav.prevPath
-                  ? <li className="previous">
+                {!sectionNav.prevPath ? (
+                  <li className="previous">
                     <Link to={getHearingURL(hearing)}>
-                      <FormattedMessage id="hearing"/>
+                      <FormattedMessage id="hearing" />
                     </Link>
                   </li>
-
-                  : <li className="previous">
-                    <LinkWrapper
-                      disabled={!sectionNav.prevPath}
-                      to={sectionNav.prevPath || '#'}
-                    >
+                ) : (
+                  <li className="previous">
+                    <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
                       <span aria-hidden>&larr; </span>
-                      <FormattedMessage id="previous"/>&nbsp;
+                      <FormattedMessage id="previous" />&nbsp;
                       <span className="type-name hidden-xs">
                         {getAttr(sectionNav.prevType || section.type_name_singular, language)}
                       </span>
                     </LinkWrapper>
                   </li>
-                }
+                )}
 
                 <li className="pager-counter">
                   ({sectionNav.currentNum}/{sectionNav.totalNum})
                 </li>
-                <li
-                  className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}
-                >
-                  <LinkWrapper
-                    disabled={!sectionNav.nextPath}
-                    to={sectionNav.nextPath || '#'}
-                  >
-                    <FormattedMessage id="next"/>&nbsp;
+                <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
+                  <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
+                    <FormattedMessage id="next" />&nbsp;
                     <span className="type-name hidden-xs">
                       {getAttr(sectionNav.nextType || section.type_name_singular, language)}
                     </span>
@@ -244,10 +219,10 @@ class SectionContainer extends React.Component {
               section={section}
               hearingSlug={hearingSlug}
               canComment={isSectionCommentable(hearing, section, user)}
-              onPostComment={this.onPostSectionComment.bind(this)}// this.props.onPostComment}
-              canVote={isSectionVotable(hearing, section, user)}// this.props.canVote && userCanVote(user, section)}
-              onPostVote={this.onVoteComment.bind(this)}// this.props.onPostVote}
-              comments={sectionComments}// this.props.loadSectionComments}
+              onPostComment={this.onPostSectionComment.bind(this)} // this.props.onPostComment}
+              canVote={isSectionVotable(hearing, section, user)} // this.props.canVote && userCanVote(user, section)}
+              onPostVote={this.onVoteComment.bind(this)} // this.props.onPostVote}
+              comments={sectionComments} // this.props.loadSectionComments}
               handleDeleteClick={this.handleDeleteClick.bind(this)}
               onEditComment={this.onEditSectionComment.bind(this)}
               user={user}

@@ -19,6 +19,56 @@ class MapdonKSVPlugin extends BaseCommentForm {
     this.submitting = false;
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+    const iframe = this.refs.frame;
+    const {data, pluginPurpose} = this.props;
+    let {comments} = this.props;
+    if (!comments) {
+      comments = [];
+    }
+    if (!this._messageListener) {
+      this._messageListener = this.onReceiveMessage.bind(this);
+      if (typeof window !== 'undefined') window.addEventListener("message", this._messageListener, false);
+    }
+
+    iframe.addEventListener("load", () => {
+      this.sendMessageToPluginFrame({
+        message: "mapData",
+        data,
+        pluginPurpose,
+        comments,
+        instanceId: this.pluginInstanceId
+      });
+    }, false);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount();
+    if (this._messageListener) {
+      if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
+      this._messageListener = null;
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const {data, pluginPurpose} = this.props;
+    let {comments} = this.props;
+    if (!comments) {
+      comments = [];
+    }
+    // do not redraw plugin contents if user has interacted with the plugin!
+    if (!nextState.userDataChanged) {
+      this.sendMessageToPluginFrame({
+        message: "mapData",
+        data,
+        pluginPurpose,
+        comments,
+        instanceId: this.pluginInstanceId
+      });
+    }
+  }
+
   render() {
     const canSetNickname = this.props.canSetNickname;
     const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
@@ -123,56 +173,6 @@ class MapdonKSVPlugin extends BaseCommentForm {
     // after successful posting, user data shall be decimated from the map
     this.setState({userDataChanged: false});
     super.clearCommentText();
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    const iframe = this.refs.frame;
-    const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
-    if (!comments) {
-      comments = [];
-    }
-    if (!this._messageListener) {
-      this._messageListener = this.onReceiveMessage.bind(this);
-      if (typeof window !== 'undefined') window.addEventListener("message", this._messageListener, false);
-    }
-
-    iframe.addEventListener("load", () => {
-      this.sendMessageToPluginFrame({
-        message: "mapData",
-        data,
-        pluginPurpose,
-        comments,
-        instanceId: this.pluginInstanceId
-      });
-    }, false);
-  }
-
-  componentWillUnmount() {
-    super.componentWillUnmount();
-    if (this._messageListener) {
-      if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
-      this._messageListener = null;
-    }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
-    if (!comments) {
-      comments = [];
-    }
-    // do not redraw plugin contents if user has interacted with the plugin!
-    if (!nextState.userDataChanged) {
-      this.sendMessageToPluginFrame({
-        message: "mapData",
-        data,
-        pluginPurpose,
-        comments,
-        instanceId: this.pluginInstanceId
-      });
-    }
   }
 }
 

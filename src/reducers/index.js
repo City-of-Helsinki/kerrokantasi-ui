@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-import {routerStateReducer as router} from 'redux-router';
 import language from './language';
 import user from './user';
 import hearingLists from './hearingLists';
@@ -7,6 +6,7 @@ import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
+import {routerReducer} from 'react-router-redux';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -16,7 +16,7 @@ This is _strictly_ meant to let local-state-containing components
 such as CommentForm pseudo-subscribe to actions.
 */
 function lastActionType(state = null, action) {
-  return (action ? action.type : state);
+  return action ? action.type : state;
 }
 
 export default combineReducers({
@@ -25,8 +25,8 @@ export default combineReducers({
   hearingLists,
   language,
   lastActionType,
-  router,
   sectionComments,
   user,
-  labels
+  labels,
+  router: routerReducer
 });

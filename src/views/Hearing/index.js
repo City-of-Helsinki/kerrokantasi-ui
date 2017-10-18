@@ -11,17 +11,19 @@ import { getMainSection, canEdit, getHearingURL, getOpenGraphMetaData } from '..
 import HearingEditor from '../../components/admin/HearingEditor';
 import { contactShape, hearingShape, labelShape } from '../../types';
 import { injectIntl, intlShape } from 'react-intl';
-import { push } from 'redux-router';
 import { getUser } from '../../selectors/user';
+import { withRouter } from 'react-router-dom';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getAttr from '../../utils/getAttr';
 import PleaseLogin from '../../components/admin/PleaseLogin';
+import { parseQuery } from '../../utils/urlQuery';
+import trackLink from '../../utils/trackLink';
 
 export class HearingView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { currentlyViewed: 'hearing', manager: false};
+    this.state = { currentlyViewed: 'hearing', manager: false };
     this.changeCurrentlyViewed = this.changeCurrentlyViewed.bind(this);
   }
   /**
@@ -31,11 +33,11 @@ export class HearingView extends React.Component {
    * @param dispatch Redux Dispatch function
    * @param getState Redux state getter
    * @param location Router location
-   * @param params Router params
+   * @param params Router match.params
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch, getState, location, params) {
-    return dispatch(fetchHearing(params.hearingSlug, location.query.preview));
+    return dispatch(fetchHearing(params.hearingSlug, parseQuery(location.search).preview));
   }
 
   /**
@@ -44,7 +46,7 @@ export class HearingView extends React.Component {
    *
    * @param getState State getter
    * @param location Router location
-   * @param params Router params
+   * @param params Router match.params
    * @return {boolean} Renderable?
    */
   static canRenderFully(getState, location, params) {
@@ -53,15 +55,14 @@ export class HearingView extends React.Component {
   }
 
   isNewHearing() {
-    return !this.props.params.hearingSlug;
+    return !this.props.match.params.hearingSlug;
   }
 
-
   componentWillMount() {
-    const {dispatch, params, location} = this.props;
+    const { dispatch, match: { params }, location } = this.props;
     // The manager might not have a hearing yet
     if (location.pathname === '/hearing/new') {
-      this.setState({manager: true});
+      this.setState({ manager: true });
     } else if (!this.state.manager) {
       HearingView.fetchData(dispatch, null, location, params);
     }
@@ -72,29 +73,33 @@ export class HearingView extends React.Component {
     if (this.isNewHearing()) {
       this.props.dispatch(initNewHearing());
     }
+    trackLink();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, params, location } = this.props;
+    const { dispatch, match: { params }, location } = this.props;
     if (!this.isNewHearing()) {
-      const {state: receivedHearingState, data: receivedHearing} = nextProps.hearing[params.hearingSlug];
+      const { state: receivedHearingState, data: receivedHearing } = nextProps.hearing[params.hearingSlug];
       const existingUser = this.props.user;
       const receivedUser = nextProps.user;
       // check manager and hearing status whenever user or hearing is received
-      if ((!existingUser && receivedUser) ||
-        (!this.getHearing() && receivedHearingState === 'done')) {
+      if ((!existingUser && receivedUser) || (!this.getHearing() && receivedHearingState === 'done')) {
         // the hearing might not be present yet, if it is invisible without login
         if (receivedHearingState === 'done') {
           if (canEdit(receivedUser, receivedHearing)) {
-            this.setState({manager: true});
+            this.setState({ manager: true });
           }
         } else {
           HearingView.fetchData(dispatch, null, location, params);
         }
       }
       // go to regular mode if the authorized user logged out
-      if (this.state.manager && receivedHearingState === 'done' && (!receivedUser || !canEdit(receivedUser, receivedHearing))) {
-        this.setState({manager: false});
+      if (
+        this.state.manager &&
+        receivedHearingState === 'done' &&
+        (!receivedUser || !canEdit(receivedUser, receivedHearing))
+      ) {
+        this.setState({ manager: false });
       }
       // after logging out, the hearing might not be available anymore
       if (existingUser && !receivedUser) {
@@ -107,7 +112,8 @@ export class HearingView extends React.Component {
     const { dispatch } = this.props;
     if (nextState.manager) {
       // the manager needs its metadata to devour
-      const shouldFetchMetadata = !nextProps.isLoading && (!nextProps.labels.length || !nextProps.contactPersons.length);
+      const shouldFetchMetadata =
+        !nextProps.isLoading && (!nextProps.labels.length || !nextProps.contactPersons.length);
       if (shouldFetchMetadata) {
         dispatch(fetchHearingEditorMetaData());
       }
@@ -132,12 +138,12 @@ export class HearingView extends React.Component {
     if (!hearing) {
       return false;
     }
-    const fullscreenParam = this.props.location.query.fullscreen;
+    const fullscreenParam = parseQuery(this.props.location.search).fullscreen;
     const requiresFullscreen = getMainSection(hearing).plugin_fullscreen;
     if (requiresFullscreen && fullscreenParam === undefined) {
       // Looks like we need fullscreen mode, but we aren't currently using it.
       // Let's redirect to proper hearing URL
-      this.props.dispatch(push(getHearingURL(hearing)));
+      this.props.history.push(getHearingURL(hearing));
     }
     return fullscreenParam === 'true';
   }
@@ -146,7 +152,7 @@ export class HearingView extends React.Component {
     if (this.isNewHearing()) {
       return null;
     }
-    const { hearingSlug } = this.props.params;
+    const { hearingSlug } = this.props.match.params;
     const { state, data: hearing } = this.props.hearing[hearingSlug] || { state: 'initial' };
     if (state === 'done') {
       return hearing;
@@ -157,12 +163,19 @@ export class HearingView extends React.Component {
   render() {
     const hearing = this.getHearing();
     const {
-      user, language, dispatch, currentlyViewed, params,
-      contactPersons, isLoading, hearingDraft, labels, hearingLanguages
+      user,
+      language,
+      dispatch,
+      currentlyViewed,
+      match: { params },
+      contactPersons,
+      isLoading,
+      hearingDraft,
+      labels,
+      hearingLanguages,
     } = this.props;
     const fullscreen = this.checkNeedForFullscreen();
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
-
     if (!this.state.manager) {
       // this is the standard hearing view with no wrappers around it
       if (!hearing) {
@@ -170,7 +183,7 @@ export class HearingView extends React.Component {
       }
       return (
         <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'container'}>
-          <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)}/>
+          <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
           <HearingComponent
             hearingSlug={params.hearingSlug}
             hearing={hearing}
@@ -189,7 +202,7 @@ export class HearingView extends React.Component {
     if (!user) {
       return (
         <div className="container">
-          <PleaseLogin login={() => dispatch(login())}/>
+          <PleaseLogin login={() => dispatch(login())} />
         </div>
       );
     }
@@ -206,7 +219,7 @@ export class HearingView extends React.Component {
 
     return (
       <div className="container">
-        <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)}/>
+        <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)} />
 
         <HearingEditor
           hearing={hearingDraft}
@@ -217,19 +230,20 @@ export class HearingView extends React.Component {
           contactPersons={contactPersons}
         />
 
-        {(isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title)
-          ?
-            <HearingComponent
-              hearingSlug={params.hearingSlug}
-              hearing={hearing}
-              user={user}
-              sectionComments={this.props.sectionComments}
-              location={this.props.location}
-              dispatch={dispatch}
-              changeCurrentlyViewed={this.changeCurrentlyViewed}
-              currentlyViewed={currentlyViewed}
-            /> : <PreviewReplacement />
-        }
+        {(isLoading && !hearingDraft) || (hearing && Object.keys(hearing).length && hearing.title) ? (
+          <HearingComponent
+            hearingSlug={params.hearingSlug}
+            hearing={hearing}
+            user={user}
+            sectionComments={this.props.sectionComments}
+            location={this.props.location}
+            dispatch={dispatch}
+            changeCurrentlyViewed={this.changeCurrentlyViewed}
+            currentlyViewed={currentlyViewed}
+          />
+        ) : (
+          <PreviewReplacement />
+        )}
       </div>
     );
   }
@@ -238,7 +252,7 @@ export class HearingView extends React.Component {
 HearingView.propTypes = {
   dispatch: PropTypes.func,
   hearing: hearingShape,
-  params: PropTypes.object,
+  match: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   user: PropTypes.object,
@@ -250,6 +264,7 @@ HearingView.propTypes = {
   hearingDraft: hearingShape,
   labels: PropTypes.arrayOf(labelShape),
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.object,
 };
 
 export function wrapHearingView(view) {
@@ -265,7 +280,7 @@ export function wrapHearingView(view) {
     language: state.language,
     errors: state.hearingEditor.errors,
     isSaving: HearingEditorSelector.getIsSaving(state),
-    currentlyViewed: state.hearing.currentlyViewed
+    currentlyViewed: state.hearing.currentlyViewed,
   }))(injectIntl(view));
 
   // We need to re-hoist the data statics to the wrapped component due to react-intl:
@@ -274,4 +289,4 @@ export function wrapHearingView(view) {
   return wrappedView;
 }
 
-export default wrapHearingView(HearingView);
+export default withRouter(wrapHearingView(HearingView));

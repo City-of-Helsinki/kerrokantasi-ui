@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'redux-router';
+import { withRouter } from 'react-router-dom';
+// import { push } from 'redux-router';
 import { Button, Col, Row, Tooltip } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -9,7 +10,7 @@ import ContactCard from './ContactCard';
 import Waypoint from 'react-waypoint';
 import config from '../config';
 import moment from 'moment';
-
+import { parseQuery } from '../utils/urlQuery';
 import { followHearing, postSectionComment, editSectionComment, postVote, deleteSectionComment } from '../actions';
 import SortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
@@ -24,7 +25,7 @@ import {
   getClosureSection,
   getHearingURL,
   getMainSection,
-  hasFullscreenMapPlugin
+  hasFullscreenMapPlugin,
 } from '../utils/hearing';
 import { isSpecialSectionType, isSectionCommentable, isSectionVotable } from '../utils/section';
 import getAttr from '../utils/getAttr';
@@ -37,14 +38,14 @@ export class Hearing extends React.Component {
   }
 
   openFullscreen(hearing) {
-    this.props.dispatch(push(getHearingURL(hearing, { fullscreen: true })));
+    this.props.history.push(getHearingURL(hearing, { fullscreen: true }));
   }
 
   onPostHearingComment(text, authorName, pluginData, geojson, label, images) {
     // eslint-disable-line
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     const mainSection = getMainSection(this.props.hearing);
     const commentData = { text, authorName, pluginData: null, authCode, geojson: null, label: null, images };
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
@@ -53,7 +54,7 @@ export class Hearing extends React.Component {
   onPostSectionComment(sectionId, sectionCommentData) {
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     const commentData = Object.assign({ authCode }, sectionCommentData);
     dispatch(postSectionComment(hearingSlug, sectionId, commentData));
   }
@@ -61,7 +62,7 @@ export class Hearing extends React.Component {
   onEditSectionComment(sectionId, commentId, commentData) {
     const { dispatch } = this.props;
     const hearingSlug = this.props.hearingSlug;
-    const { authCode } = this.props.location.query;
+    const { authCode } = parseQuery(this.props.location.search);
     Object.assign({ authCode }, commentData);
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData));
   }
@@ -188,19 +189,20 @@ export class Hearing extends React.Component {
     this.setState({ showDeleteModal: false, commentToDelete: {} });
   }
 
-  getEyeTooltip() { // eslint-disable-line class-methods-use-this
+  getEyeTooltip() {
+    // eslint-disable-line class-methods-use-this
     const { formatMessage } = this.props.intl;
     const openingTime = moment(this.props.hearing.open_at);
     let text = <FormattedMessage id="eyeTooltip" />;
     if (this.props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
       const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
-      const differenceText = duration < 24 ? "eyeTooltipOpensHours" : "eyeTooltipOpensDays";
-      text = `${formatMessage({id: 'eyeTooltipOpens'})} ${Math.ceil(durationAs)} ${formatMessage({id: differenceText})}`;
+      const differenceText = duration < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
+      text = `${formatMessage({ id: 'eyeTooltipOpens' })} ${Math.ceil(durationAs)} ${formatMessage({
+        id: differenceText,
+      })}`;
     }
-    return (
-      <Tooltip id="eye-tooltip">{text}</Tooltip>
-    );
+    return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
 
   render() {
@@ -216,12 +218,7 @@ export class Hearing extends React.Component {
 
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
-        <Header
-          hearing={hearing}
-          reportUrl={reportUrl}
-          activeLanguage={language}
-          eyeTooltip={eyeTooltip}
-        />
+        <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
         <Row>
           <Sidebar
             currentlyViewed={currentlyViewed}
@@ -242,39 +239,45 @@ export class Hearing extends React.Component {
               />
 
               {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
-              {mainSection
-                ? <WrappedSection
-                    showPlugin={showPluginInline}
-                    section={mainSection}
-                    canComment={this.isMainSectionCommentable(hearing, user)}
-                    onPostComment={this.onPostSectionComment.bind(this)}
-                    onPostVote={this.onVoteComment.bind(this)}
-                    canVote={this.isMainSectionVotable(user)}
-                    comments={this.props.sectionComments[mainSection.id]}
-                    user={user}
+              {mainSection ? (
+                <WrappedSection
+                  showPlugin={showPluginInline}
+                  section={mainSection}
+                  canComment={this.isMainSectionCommentable(hearing, user)}
+                  onPostComment={this.onPostSectionComment.bind(this)}
+                  onPostVote={this.onVoteComment.bind(this)}
+                  canVote={this.isMainSectionVotable(user)}
+                  comments={this.props.sectionComments[mainSection.id]}
+                  user={user}
                 />
-                : null}
+              ) : null}
             </div>
             <div className="hearing-contacts">
-              {hearing.contact_persons && hearing.contact_persons.length
-                ? <h3>
+              {hearing.contact_persons && hearing.contact_persons.length ? (
+                <h3>
                   <FormattedMessage id="contactPersons" />
                 </h3>
-                : null}
+              ) : null}
               <Row>
                 {hearing.contact_persons &&
-                  hearing.contact_persons.map((person, index) =>
-                    <Col xs={6} md={4}><ContactCard
+                  hearing.contact_persons.map((person, index) => (
+                    <Col
+                      xs={6}
                       key={index} // eslint-disable-line react/no-array-index-key
-                      activeLanguage={language}
-                      {...person}
-                    /></Col>,
-                  )}
+                      md={4}
+                    >
+                      <ContactCard activeLanguage={language} {...person} />
+                    </Col>
+                  ))}
               </Row>
             </div>
             {this.getLinkToFullscreen(hearing)}
-            {sectionGroups.map(sectionGroup =>
-              <div className="hearing-section-group" id={'hearing-sectiongroup-' + sectionGroup.type} key={sectionGroup.type}>
+            {sectionGroups.map(sectionGroup => (
+              <div
+                className="hearing-section-group"
+                id={'hearing-sectiongroup-' + sectionGroup.type}
+                key={sectionGroup.type}
+              >
                 <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup-' + sectionGroup.type)} />
                 <SectionList
                   basePath={window ? window.location.pathname : ''}
@@ -286,8 +289,8 @@ export class Hearing extends React.Component {
                   sectionComments={this.props.sectionComments}
                   user={user}
                 />
-              </div>,
-            )}
+              </div>
+            ))}
             <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
             {this.getCommentList()}
           </Col>
@@ -313,6 +316,7 @@ Hearing.propTypes = {
   sectionComments: PropTypes.object,
   changeCurrentlyViewed: PropTypes.func,
   currentlyViewed: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export function wrapHearingComponent(component, pure = true) {
@@ -325,7 +329,7 @@ export function wrapHearingComponent(component, pure = true) {
   return wrappedComponent;
 }
 
-export default wrapHearingComponent(Hearing);
+export default withRouter(wrapHearingComponent(Hearing));
 
 function groupSections(sections) {
   const sectionGroups = [];

@@ -3,30 +3,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SortableCommentList from './SortableCommentList';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
-import {fetchAllSectionComments} from "../actions/index";
-import {isEmpty} from "lodash";
+import {fetchAllSectionComments} from '../actions/index';
+import {isEmpty} from 'lodash';
 
 function getImageList(section, language) {
-  if (section.type === "main") { // Main section images aren't rendered here atleast atm.
+  if (section.type === 'main') {
+    // Main section images aren't rendered here atleast atm.
     return null;
   }
-  return section.images.map((image) => (<div key={image.url}>
-    <img
-      className="img-responsive"
-      alt={getAttr(image.title, language)}
-      title={getAttr(image.title, language)}
-      src={image.url}
-    />
-    <div className="image-caption">{getAttr(image.caption, language)}</div>
-  </div>));
+  return section.images.map(image => (
+    <div key={image.url}>
+      <img
+        className="img-responsive"
+        alt={getAttr(image.title, language)}
+        title={getAttr(image.title, language)}
+        src={image.url}
+      />
+      <div className="image-caption">{getAttr(image.caption, language)}</div>
+    </div>
+  ));
 }
-
 
 export class Section extends React.Component {
   constructor(props) {
@@ -54,35 +56,35 @@ export class Section extends React.Component {
   getTitleDiv(collapsed, collapsible) {
     const {section, linkTo} = this.props;
     const {language} = this.context;
-    if (section.type === "main") {
+    if (section.type === 'main') {
       return null;
     }
-    if (section.type === "closure-info") {
+    if (section.type === 'closure-info') {
       if (!isEmpty(section.title)) {
-        return (
-          <h3 className="section-title">
-            {getAttr(section.title, language)}
-          </h3>
-        );
+        return <h3 className="section-title">{getAttr(section.title, language)}</h3>;
       }
       return null;
     }
-    const iconName = (collapsed ? "chevron-right" : "chevron-down");
+    const iconName = collapsed ? 'chevron-right' : 'chevron-down';
 
     if (linkTo) {
       return (
         <div className="section-title">
           <h3 onClick={this.toggle.bind(this)}>
             <Link to={linkTo}>
-              {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+              {collapsible ? (
+                <span>
+                  <Icon name={iconName} />&nbsp;
+                </span>
+              ) : null}
               {getAttr(this.props.section.title, language)}
             </Link>
           </h3>
           {collapsed ? (
             <div className="section-comments">
-              <Icon name="comment-o"/>&nbsp;{section.n_comments}
+              <Icon name="comment-o" />&nbsp;{section.n_comments}
             </div>
-            ) : null}
+          ) : null}
         </div>
       );
     }
@@ -90,14 +92,18 @@ export class Section extends React.Component {
     return (
       <div className="section-title">
         <h3 className="section-title" onClick={this.toggle.bind(this)}>
-          {collapsible ? (<span><Icon name={iconName}/>&nbsp;</span>) : null}
+          {collapsible ? (
+            <span>
+              <Icon name={iconName} />&nbsp;
+            </span>
+          ) : null}
           {getAttr(this.props.section.title, language)}
         </h3>
         {collapsed ? (
           <div className="section-comments">
-            <Icon name="comment-o"/>&nbsp;{section.n_comments}
+            <Icon name="comment-o" />&nbsp;{section.n_comments}
           </div>
-          ) : null}
+        ) : null}
       </div>
     );
   }
@@ -111,7 +117,7 @@ export class Section extends React.Component {
   isCommentable() {
     const {section} = this.props;
     const hasPlugin = !!section.plugin_identifier;
-    return (this.props.canComment && !hasPlugin);
+    return this.props.canComment && !hasPlugin;
   }
 
   render() {
@@ -121,18 +127,18 @@ export class Section extends React.Component {
     const collapsed = collapsible && this.state.collapsed;
     const titleDiv = this.getTitleDiv(collapsed, collapsible);
     let sectionImageStyle = {
-      backgroundImage: 'url(/assets/images/default-image.svg)'
+      backgroundImage: 'url(/assets/images/default-image.svg)',
     };
     if (section.images.length) {
       sectionImageStyle = {
-        backgroundImage: 'url("' + section.images[0].url + '")'
+        backgroundImage: 'url("' + section.images[0].url + '")',
       };
     }
     let commentList = null;
     if (collapsed) {
       return (
         <div className="section-list-item">
-          <div className="section-list-item-image" style={sectionImageStyle} onClick={this.toggle.bind(this)}/>
+          <div className="section-list-item-image" style={sectionImageStyle} onClick={this.toggle.bind(this)} />
           <div className="section-list-item-content">
             {titleDiv}
             <div className="section-abstract" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} />
@@ -141,25 +147,27 @@ export class Section extends React.Component {
       );
     }
     if (!isSpecialSectionType(section.type)) {
-      commentList = (<SortableCommentList
-        section={section}
-        canComment={this.isCommentable() && userCanComment(this.props.user, section)}
-        onPostComment={this.onPostComment.bind(this)}
-        canVote={this.props.canVote}
-        onPostVote={this.onPostVote.bind(this)}
-        canSetNickname={!user}
-        isSectionComments={section}
-        onDeleteComment={this.props.handleDeleteClick}
-        onEditComment={this.props.onEditComment}
-      />);
+      commentList = (
+        <SortableCommentList
+          section={section}
+          canComment={this.isCommentable() && userCanComment(this.props.user, section)}
+          onPostComment={this.onPostComment.bind(this)}
+          canVote={this.props.canVote}
+          onPostVote={this.onPostVote.bind(this)}
+          canSetNickname={!user}
+          isSectionComments={section}
+          onDeleteComment={this.props.handleDeleteClick}
+          onEditComment={this.props.onEditComment}
+        />
+      );
     }
     const imageList = getImageList(section, language);
     const sectionClass = classNames({
       'hearing-section': true,
-      'closure-info': section.type === "closure-info"
+      'closure-info': section.type === 'closure-info',
     });
-    const pluginContent = (this.props.showPlugin ?
-      (<PluginContent
+    const pluginContent = this.props.showPlugin ? (
+      <PluginContent
         hearingSlug={hearingSlug}
         section={section}
         comments={comments}
@@ -167,23 +175,25 @@ export class Section extends React.Component {
         onPostComment={this.onPostComment.bind(this)}
         onPostVote={this.onPostVote.bind(this)}
         user={user}
-      />)
-      : null);
-    return (<div className={sectionClass}>
-      {titleDiv}
-      <div className="section-content">
-        {imageList}
-        {section.type !== "main" && !isEmpty(section.abstract) ?
-          <div
-            className="section-abstract lead"
-            dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
-          /> :
-          null}
-        <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
-        {pluginContent}
+      />
+    ) : null;
+    return (
+      <div className={sectionClass}>
+        {titleDiv}
+        <div className="section-content">
+          {imageList}
+          {section.type !== 'main' && !isEmpty(section.abstract) ? (
+            <div
+              className="section-abstract lead"
+              dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
+            />
+          ) : null}
+          <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
+          {pluginContent}
+        </div>
+        {commentList}
       </div>
-      {commentList}
-    </div>);
+    );
   }
 }
 
@@ -199,11 +209,7 @@ Section.propTypes = {
   fetchAllComments: PropTypes.func,
   hearingSlug: PropTypes.string,
   isCollapsible: PropTypes.bool,
-  linkTo: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
+  linkTo: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.func]),
   onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
   section: PropTypes.object.isRequired,
@@ -214,13 +220,11 @@ Section.propTypes = {
 };
 
 Section.contextTypes = {
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchAllComments: (hearingSlug, sectionId) => dispatch(
-    fetchAllSectionComments(hearingSlug, sectionId)
-  )
+const mapDispatchToProps = dispatch => ({
+  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
 });
 
 export default connect(null, mapDispatchToProps)(Section);

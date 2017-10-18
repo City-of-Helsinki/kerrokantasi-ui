@@ -1,14 +1,12 @@
 import assign from 'lodash/assign';
 import noop from 'lodash/noop';
 import commonInit from './src/commonInit';
-import createMemoryHistory from 'history/lib/createMemoryHistory';
 import createStore from './src/createStore';
 import messages from './src/i18n';
 import React from 'react';
 import express from 'express';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
-import {reduxReactRouter} from 'redux-router';
 import Response from 'node-fetch/lib/response';
 import {Readable} from 'stream';
 
@@ -37,7 +35,7 @@ export function wireComponent(store, type, props = {}, children = []) {
 
 export function createTestStore(state) {
   commonInit();
-  return createStore(reduxReactRouter, createMemoryHistory, state || {});
+  return createStore(state || {});
 }
 
 /**

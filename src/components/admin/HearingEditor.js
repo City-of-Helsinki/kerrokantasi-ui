@@ -129,7 +129,6 @@ HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   dispatch: PropTypes.func,
   show: PropTypes.bool,
-  isLoading: PropTypes.bool,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
