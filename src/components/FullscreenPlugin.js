@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {Section} from './Section';
 import {injectIntl, intlShape} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import Icon from '../utils/Icon';
 import PluginContent from './PluginContent';
 import FullscreenNavigation from './FullscreenNavigation';
 
