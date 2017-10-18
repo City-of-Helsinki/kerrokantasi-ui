@@ -31,6 +31,7 @@ export function getResponseJSON(response) {
 export function requestErrorHandler(dispatch, fetchAction) {
   return (err) => {
     const callName = fetchAction ? fetchAction.type : "";
+    Raven.captureException(err);
     notifyError(getMessage("APICallFailed").replace('{callName}', callName).replace('{err}', err));
   };
 }
