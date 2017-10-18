@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router-dom';
 // import {push} from 'redux-router';
 import {Section} from './Section';
@@ -67,4 +66,4 @@ FullscreenPlugin.propTypes = {
   fetchAllComment: PropTypes.func,
 };
 
-export default injectIntl(FullscreenPlugin);
+export default withRouter(injectIntl(FullscreenPlugin));
