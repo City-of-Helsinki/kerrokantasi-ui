@@ -11,6 +11,7 @@ require('es6-promise').polyfill();
 
 commonInit(function initReady() {
   try {
+    // eslint-disable-next-line
     Raven.config(config.uiConfig.sentryDns).install();
   } catch (err) {
     console.log(err);
