@@ -101,6 +101,7 @@
     "redux": "^3.0.4",
     "redux-actions": "0.13.0",
     "redux-logger": "^2.0.4",
+    "redux-raven-middleware": "^1.2.0",
     "redux-thunk": "^2.0.1",
     "sass-loader": "^4.1.1",
     "scrolltop": "0.0.1",
