@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withRouter, Link} from 'react-router-dom';
-// import {push} from 'redux-router';
+import {Link} from 'react-router-dom';
 import {Section} from './Section';
 import {injectIntl, intlShape} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
