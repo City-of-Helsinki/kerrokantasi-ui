@@ -56,7 +56,7 @@ export class Hearing extends React.Component {
     const hearingSlug = this.props.hearingSlug;
     const { authCode } = parseQuery(this.props.location.search);
     const mainSection = getMainSection(this.props.hearing);
-    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images};
+    const commentData = {text, authorName, pluginData: null, authCode, geojson: null, label: null, images: []};
     dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   }
 
