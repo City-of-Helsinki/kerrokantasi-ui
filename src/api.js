@@ -34,6 +34,22 @@ export function apiCall(state, endpoint, params, options = {}) {
   return fetch(url, options);
 }
 
+export function apiCallWithUrl(state, url, options = {}) {
+  if (typeof state !== "object") {
+    throw new Error("API calls require redux state for authentication");
+  }
+  const user = getUser(state);
+  options = merge({method: "GET", credentials: "include"}, options);  // eslint-disable-line no-param-reassign
+  const defaultHeaders = {
+    "Accept": "application/json"  // eslint-disable-line quote-props
+  };
+  if (user && user.token) {
+    defaultHeaders.Authorization = "JWT " + user.token;
+  }
+  options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
+  return fetch(url, options);
+}
+
 export function post(state, endpoint, data, params = {}, options = {}) {
   return jsonRequest("POST", state, endpoint, data, params, options);
 }
@@ -94,4 +110,4 @@ export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) =
   return getPaginated([], params);
 };
 
-export default {post, put, patch, apiDelete, get, getAllFromEndpoint};
+export default {post, put, patch, apiDelete, get, getAllFromEndpoint, apiCallWithUrl};
