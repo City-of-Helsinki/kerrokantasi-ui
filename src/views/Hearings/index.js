@@ -208,6 +208,20 @@ class Hearings extends React.Component {
     this.setState(({ showOnlyOpen }) => ({ showOnlyOpen: !showOnlyOpen }));
   }
 
+  handleReachBottom = () => {
+    const {fetchMoreHearings, hearingLists} = this.props;
+    const list = this.getHearingListName();
+
+    if (
+      hearingLists[list] &&
+      hearingLists[list].count > hearingLists[list].data.length &&
+      typeof hearingLists[list].next === 'string' &&
+      !hearingLists[list].isLoading
+    ) {
+      setTimeout(() => fetchMoreHearings(list), 10);
+    }
+  }
+
   render() {
     const {
       history,
@@ -269,6 +283,7 @@ class Hearings extends React.Component {
           toggleShowOnlyOpen={this.toggleShowOnlyOpen}
           language={language}
           tab={tab}
+          handleReachBottom={this.handleReachBottom}
           onTabChange={value => {
             const url = `/hearings/${value}`;
             history.push({
@@ -322,7 +337,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchHearingList: (listName, params) => dispatch(Actions.fetchHearingList(listName, '/v1/hearing/', params)),
+  fetchInitialHearingList: (listName, params) => dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
+  fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
 
