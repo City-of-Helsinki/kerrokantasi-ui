@@ -40,8 +40,9 @@ export function getHearingMainImageURL(hearing) {
 * else false.
  */
 export function hasFullscreenMapPlugin(hearing) {
-  // For now, fullscreen is supported only on map-questionnaire
-  return getMainSection(hearing).plugin_identifier === "map-questionnaire";
+  // For now, fullscreen is actually supported by all map plugins
+  const identifier = getMainSection(hearing).plugin_identifier
+  return identifier !== null && identifier !== '';
 }
 
 /*
