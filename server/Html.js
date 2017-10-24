@@ -14,10 +14,6 @@ export default class Html extends React.Component {
     return (
       <html lang="fi">
         <head>
-          <script
-          src="https://cdn.ravenjs.com/3.17.0/raven.min.js"
-          crossOrigin="anonymous"
-          />
           <meta charSet="utf-8"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta content="width=device-width, initial-scale=1" name="viewport"/>
