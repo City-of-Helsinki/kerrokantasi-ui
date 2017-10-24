@@ -66,16 +66,16 @@ class Header extends React.Component {
           <Navbar.Collapse>
             <Nav>
               <NavigationItem
-                isActive={history && history.isActive('/hearings/list')}
+                isActive={history && history.location.pathname === '/hearings/list'}
                 url={'/hearings/list'}
                 id={'hearings'}
               />
               <NavigationItem
-                isActive={history && history.isActive('/hearings/map')}
+                isActive={history && history.location.pathname === '/hearings/map'}
                 url={'/hearings/map'}
                 id={'hearingMap'}
               />
-              <NavigationItem isActive={history && history.isActive('/info')} url={'/info'} id={'info'} />
+              <NavigationItem isActive={history && history.location.pathname === '/info'} url={'/info'} id={'info'} />
             </Nav>
             <UserNav onSelect={onSelect} user={user} />
             <span className="visible-xs-block">
