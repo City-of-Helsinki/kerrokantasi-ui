@@ -3,6 +3,7 @@ import api from '../api';
 import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../utils/notify';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
+import Raven from 'raven-js';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
@@ -29,7 +30,6 @@ export function getResponseJSON(response) {
 
 export function requestErrorHandler() {
   return (err) => {
-    // eslint-disable-next-line
     Raven.captureException(err);
     localizedNotifyError("APICallFailed");
   };
