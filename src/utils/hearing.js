@@ -41,7 +41,7 @@ export function getHearingMainImageURL(hearing) {
  */
 export function hasFullscreenMapPlugin(hearing) {
   // For now, fullscreen is actually supported by all map plugins
-  const identifier = getMainSection(hearing).plugin_identifier
+  const identifier = getMainSection(hearing).plugin_identifier;
   return identifier !== null && identifier !== '';
 }
 
