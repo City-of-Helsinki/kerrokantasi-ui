@@ -6,13 +6,13 @@ import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
+import Raven from 'raven-js';
 
 require('es6-promise').polyfill();
 
 commonInit(function initReady() {
   try {
-    // eslint-disable-next-line
-    Raven.config(config.uiConfig.sentryDns).install();
+    if (config.uiConfig && config.uiConfig.sentryDns) Raven.config(config.uiConfig.sentryDns).install();
   } catch (err) {
     console.log(err);
   }

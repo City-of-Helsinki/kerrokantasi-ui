@@ -1,6 +1,6 @@
 import {compose, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-
+import {localizedNotifyError} from './utils/notify';
 import rootReducer from './reducers';
 import hearingEditorMiddleware from './middleware/hearingEditor';
 
@@ -11,7 +11,8 @@ import config from './config';
 import RavenMiddleWare from 'redux-raven-middleware';
 
 export const history = createBrowserHistory();
-const middleware = [RavenMiddleWare(config.uiConfig.sentryDns), thunk, routerMiddleware(history), ...hearingEditorMiddleware];
+const middleware = [thunk, routerMiddleware(history), ...hearingEditorMiddleware];
+if (config.uiConfig && config.uiConfig.sentryDns) middleware.unshift(RavenMiddleWare(config.uiConfig.sentryDns, null, {logger: () => localizedNotifyError("APICallFailed")}));
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(require('redux-logger')());
