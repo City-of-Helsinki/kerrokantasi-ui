@@ -12,15 +12,24 @@ const beginFetchHearingList = (state, {payload}) => (updeep({
   [payload.listId]: {isFetching: true}
 }, state));
 
-const receiveHearingList = (state, {payload}) => {
+const receiveMoreHearings = (state, { payload: { listId, data } }) => {
+  const combinedResults = state[listId].data.length > 0 ? [...state[listId].data, ...data.results] : data.results;
+
   return updeep({
-    [payload.listId]: {isFetching: false, data: payload.data}
+    [listId]: {isFetching: false, data: combinedResults, count: data.count, next: data.next}
+  }, state);
+};
+
+const receiveHearingList = (state, {payload: {listId, data}}) => {
+  return updeep({
+    [listId]: {isFetching: false, data: data.results, count: data.count, next: data.next}
   }, state);
 };
 
 export default handleActions({
   beginFetchHearingList,
-  receiveHearingList
+  receiveHearingList,
+  receiveMoreHearings
 }, createHearingLists([
   'allHearings',
   'openHearings',

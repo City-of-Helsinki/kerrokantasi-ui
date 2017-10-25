@@ -92,11 +92,11 @@ class Hearings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user, labels } = this.props;
+    const { user, labels, location } = this.props;
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
-    const shouldFetchHearings = !labels.length && nextProps.labels.length;
+    const shouldFetchHearings = (!labels.length && nextProps.labels.length) || (nextProps.labels.length && location.search !== nextProps.location.search);
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
@@ -107,7 +107,7 @@ class Hearings extends React.Component {
     }
 
     if (shouldFetchHearings) {
-      this.fetchHearingList(this.getSearchParams());
+      this.fetchHearingList(nextProps);
     }
   }
 
@@ -130,43 +130,39 @@ class Hearings extends React.Component {
     return get(hearingLists, [name, 'isFetching'], true);
   }
 
-  getSearchParams() {
-    const { labels, language, location: { search, label: selectedLabels } } = this.props;
+  static getSearchParams(props) {
+    const { labels, language, location } = props;
+    const params = {};
 
-    return {
-      title: search || '',
-      label: Hearings.getLabelsFromQuery(selectedLabels, labels, language).map(({ id }) => id),
-    };
+    if (parseQuery(location.search).search) Object.assign(params, {title: parseQuery(location.search).search});
+    if (parseQuery(location.search).label) Object.assign(params, {label: Hearings.getLabelsFromQuery(parseQuery(location.search).label, labels, language).map(({ id }) => id).toString()});
+    return params;
   }
 
   setAdminFilter(filter) {
-    this.setState(() => ({ adminFilter: filter }), () => this.fetchHearingList(this.getSearchParams()));
+    this.setState(() => ({ adminFilter: filter }));
   }
 
-  fetchHearingList(options) {
-    const { fetchHearingList } = this.props;
+  fetchHearingList(props = this.props) {
+    const { fetchInitialHearingList } = props;
     const { sortBy } = this.state;
     const list = this.getHearingListName();
+    const params = Object.assign({}, getHearingListParams(list), { ordering: sortBy }, Hearings.getSearchParams(props));
 
-    const params = Object.assign({}, options, getHearingListParams(list), { ordering: sortBy });
-
-    fetchHearingList(list, params);
+    fetchInitialHearingList(list, params);
   }
 
-  static getLabelsFromQuery = (labelsInQuery = [], labels = [], language) =>
-    labels.filter(({ label }) => labelsInQuery.includes(getAttr(label, language)));
+  static getLabelsFromQuery = (labelsInQuery = [], labels = [], language) => {
+    if (Array.isArray(labelsInQuery)) return labels.filter(({ label }) => labelsInQuery.includes(getAttr(label, language)));
+
+    return labels.filter(({ label }) => labelsInQuery === getAttr(label, language));
+  };
 
   handleSearch(searchTitle, force = false) {
-    const { history, location, labels, language } = this.props;
+    const { history, location } = this.props;
     const label = location.search !== '' ? parseQuery(location.search).label : [];
     const searchPhraseUpdated = parseQuery(location.search).search !== searchTitle;
     if (searchPhraseUpdated || force) {
-      const labelIds = Hearings.getLabelsFromQuery(label, labels, language).map(({ id }) => id);
-
-      this.fetchHearingList({
-        title: searchTitle,
-        label: labelIds,
-      });
       history.push({
         path: location.path,
         search: searchTitle !== '' ? stringifyQuery({ search: searchTitle, label }) : stringifyQuery({ label }),
@@ -176,11 +172,6 @@ class Hearings extends React.Component {
 
   handleSelectLabels(labels) {
     const { history, location } = this.props;
-    const labelIds = labels ? labels.map(label => label.id).toString() : undefined;
-    this.fetchHearingList({
-      title: parseQuery(location.search).search,
-      label: labelIds,
-    });
 
     history.push({
       path: location.pathname,
@@ -195,17 +186,27 @@ class Hearings extends React.Component {
     this.setState(
       () => ({ sortBy }),
       () => {
-        const { labels, language, location: { search, label } } = this.props;
-        this.fetchHearingList({
-          title: search,
-          label: Hearings.getLabelsFromQuery(label, labels, language).map(({ id }) => id),
-        });
+        this.fetchHearingList();
       },
     );
   }
 
   toggleShowOnlyOpen() {
     this.setState(({ showOnlyOpen }) => ({ showOnlyOpen: !showOnlyOpen }));
+  }
+
+  handleReachBottom = () => {
+    const {fetchMoreHearings, hearingLists} = this.props;
+    const list = this.getHearingListName();
+
+    if (
+      hearingLists[list] &&
+      hearingLists[list].count > hearingLists[list].data.length &&
+      typeof hearingLists[list].next === 'string' &&
+      !hearingLists[list].isLoading
+    ) {
+      setTimeout(() => fetchMoreHearings(list), 10);
+    }
   }
 
   render() {
@@ -269,6 +270,7 @@ class Hearings extends React.Component {
           toggleShowOnlyOpen={this.toggleShowOnlyOpen}
           language={language}
           tab={tab}
+          handleReachBottom={this.handleReachBottom}
           onTabChange={value => {
             const url = `/hearings/${value}`;
             history.push({
@@ -283,7 +285,8 @@ class Hearings extends React.Component {
 }
 
 Hearings.propTypes = {
-  fetchHearingList: PropTypes.func,
+  fetchInitialHearingList: PropTypes.func,
+  fetchMoreHearings: PropTypes.func,
   fetchLabels: PropTypes.func,
   hearingLists: PropTypes.objectOf(
     PropTypes.shape({
@@ -298,10 +301,7 @@ Hearings.propTypes = {
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
   location: PropTypes.shape({
-    query: PropTypes.shape({
-      label: PropTypes.string,
-      search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-    }),
+    search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -322,7 +322,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchHearingList: (listName, params) => dispatch(Actions.fetchHearingList(listName, '/v1/hearing/', params)),
+  fetchInitialHearingList: (listName, params) => dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
+  fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
 

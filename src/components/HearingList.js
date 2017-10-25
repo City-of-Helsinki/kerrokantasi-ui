@@ -14,6 +14,7 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
+import Waypoint from 'react-waypoint';
 
 import {labelShape} from '../types';
 
@@ -162,6 +163,7 @@ const HearingList = ({
   showOnlyOpen,
   tab: activeTab,
   toggleShowOnlyOpen,
+  handleReachBottom
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = hearings && hearings.length;
@@ -202,7 +204,6 @@ const HearingList = ({
       </section>
       <section className="page-section page-section--hearings-list">
         <div className="container">
-          {isLoading && <LoadSpinner />}
           {!isLoading && !hasHearings ? (
             <p>
               <FormattedMessage id="noHearings" />
@@ -210,9 +211,11 @@ const HearingList = ({
           ) : null}
           {hasHearings && activeTab === 'list' ? (
             <Col md={8} mdPush={2}>
-              <div className={`hearing-list${isLoading ? '-hidden' : ''}`}>
+              <div className={`hearing-list`}>
                 <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                 {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
+                {isLoading && <LoadSpinner />}
+                {!isLoading && <Waypoint onEnter={handleReachBottom} />}
               </div>
             </Col>
           ) : null}
@@ -239,6 +242,7 @@ HearingList.propTypes = {
   showOnlyOpen: PropTypes.bool,
   tab: PropTypes.string.isRequired,
   toggleShowOnlyOpen: PropTypes.func,
+  handleReachBottom: PropTypes.func,
 };
 
 HearingList.defaultProps = {

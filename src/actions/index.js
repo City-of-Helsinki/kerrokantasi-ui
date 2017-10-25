@@ -35,6 +35,20 @@ export function requestErrorHandler(dispatch, fetchAction) {
   };
 }
 
+export function fetchInitialHearingList(listId, endpoint, params) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("beginFetchHearingList")({listId, params});
+    dispatch(fetchAction);
+
+    // make sure the results will get paginated
+    const paramsWithLimit = merge({limit: 10}, params);
+
+    return api.get(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
+      dispatch(createAction("receiveHearingList")({listId, data}));
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+}
+
 export function fetchHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId, params});
@@ -44,10 +58,24 @@ export function fetchHearingList(listId, endpoint, params) {
     const paramsWithLimit = merge({limit: 99998}, params);
 
     return api.get(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveHearingList")({listId, data: data.results}));
+      dispatch(createAction("receiveHearingList")({listId, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
+
+
+export const fetchMoreHearings = (listId) => {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("beginFetchHearingList")({listId});
+    dispatch(fetchAction);
+
+    const url = parse(getState().hearingLists[listId].next, true);
+
+    return api.get(getState(), 'v1/hearing/', url.query).then(getResponseJSON).then((data) => {
+      dispatch(createAction('receiveMoreHearings')({listId, data}));
+    }).catch(requestErrorHandler(dispatch, fetchAction));
+  };
+};
 
 export function fetchLabels() {
   return (dispatch, getState) => {
