@@ -69,8 +69,10 @@ export const fetchMoreHearings = (listId) => {
     const fetchAction = createAction("beginFetchHearingList")({listId});
     dispatch(fetchAction);
 
-    return api.apiCallWithUrl(getState(), getState().hearingLists[listId].next).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveMoreHearings")({listId, data}));
+    const url = parse(getState().hearingLists[listId].next, true);
+
+    return api.get(getState(), 'v1/hearing/', url.query).then(getResponseJSON).then((data) => {
+      dispatch(createAction('receiveMoreHearings')({listId, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 };
