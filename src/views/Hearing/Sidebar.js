@@ -257,7 +257,7 @@ Sidebar.propTypes = {
   activeLanguage: PropTypes.string,
   dispatch: PropTypes.func,
   currentlyViewed: PropTypes.string,
-  isQuestionView: PropTypes.func,
+  isQuestionView: PropTypes.bool,
 };
 
 export default injectIntl(Sidebar);
