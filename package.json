@@ -34,7 +34,7 @@
     "body-parser": "^1.17.2",
     "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.3",
-    "codecov": "^2.3.0",
+    "codecov": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
     "cookie-session": "^2.0.0-alpha.1",
