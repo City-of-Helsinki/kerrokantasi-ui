@@ -53,6 +53,11 @@ class QuestionView extends Component {
     if (typeof window !== 'undefined') window.scrollTo(0, 0);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { dispatch, location, match: { params } } = this.props;
+    if (!this.props.user && nextProps.user) QuestionView.fetchData(dispatch, null, location, params);
+  }
+
   render() {
     const { match: { params: { hearingSlug, sectionId } }, user, location, sectionComments, language } = this.props;
     const { data: hearing } = this.props.hearing || { state: 'initial' };
