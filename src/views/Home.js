@@ -58,7 +58,7 @@ class Home extends React.Component {
           <h2>
             <FormattedMessage id="open-hearings-on-map" />
           </h2>
-          <OverviewMap hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
+          <OverviewMap enablePopups hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
         </div>
       ) : null;
 
