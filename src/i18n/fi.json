@@ -165,7 +165,7 @@
   "email": "Sähköposti",
   "contactTitle": "Virkanimike tai tehtäväkuvaus",
   "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
-  "APICallFailed": "API-kutsu {callName} epäonnistui: {err}. Kokeile pian uudelleen.",
+  "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
   "followingHearing": "Seuraat kuulemista.",
   "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
   "commentEdited": "Kommenttisi on muokattu. Kiitos!",

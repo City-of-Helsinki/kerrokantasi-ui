@@ -110,7 +110,7 @@
   "phone": "Phone number",
   "email": "Email",
   "title": "Title",
-  "APICallFailed": "API call {callName} failed: {err}. Try again soon.",
+  "APICallFailed": "Something went wrong. Try again soon or refresh your browser.",
   "followingHearing": "You are following the hearing.",
   "commentReceived": "Your comment has been received. Thank you!",
   "commentEdited": "Your comment has been edited. Thank you!",
