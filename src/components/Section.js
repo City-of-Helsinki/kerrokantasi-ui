@@ -29,10 +29,6 @@ function getImageList(section, language) {
 }
 
 export class Section extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {collapsed: true};
-  }
 
   onPostComment(text, authorName, pluginData, geojson, label, images) {
     const {section} = this.props;
@@ -47,11 +43,7 @@ export class Section extends React.Component {
     this.props.onPostVote(commentId, section.id);
   }
 
-  toggle() {
-    this.setState({collapsed: !this.state.collapsed});
-  }
-
-  getTitleDiv(collapsed, collapsible) {
+  getTitleDiv(collapsible) {
     const {section, linkTo} = this.props;
     const {language} = this.context;
     if (section.type === 'main') {
@@ -63,12 +55,12 @@ export class Section extends React.Component {
       }
       return null;
     }
-    const iconName = collapsed ? 'chevron-right' : 'chevron-down';
+    const iconName = 'chevron-right';
 
     if (linkTo) {
       return (
         <div className="section-title">
-          <h3 onClick={this.toggle.bind(this)}>
+          <h3>
             <Link to={linkTo}>
               {collapsible ? (
                 <span>
@@ -78,18 +70,16 @@ export class Section extends React.Component {
               {getAttr(this.props.section.title, language)}
             </Link>
           </h3>
-          {collapsed ? (
-            <div className="section-comments">
-              <Icon name="comment-o" />&nbsp;{section.n_comments}
-            </div>
-          ) : null}
+          <div className="section-comments">
+            <Icon name="comment-o" />&nbsp;{section.n_comments}
+          </div>
         </div>
       );
     }
 
     return (
       <div className="section-title">
-        <h3 className="section-title" onClick={this.toggle.bind(this)}>
+        <h3 className="section-title">
           {collapsible ? (
             <span>
               <Icon name={iconName} />&nbsp;
@@ -97,11 +87,9 @@ export class Section extends React.Component {
           ) : null}
           {getAttr(this.props.section.title, language)}
         </h3>
-        {collapsed ? (
-          <div className="section-comments">
-            <Icon name="comment-o" />&nbsp;{section.n_comments}
-          </div>
-        ) : null}
+        <div className="section-comments">
+          <Icon name="comment-o" />&nbsp;{section.n_comments}
+        </div>
       </div>
     );
   }
@@ -122,8 +110,7 @@ export class Section extends React.Component {
     const {section, user, comments, hearingSlug} = this.props;
     const {language} = this.context;
     const collapsible = this.isCollapsible();
-    const collapsed = collapsible && this.state.collapsed;
-    const titleDiv = this.getTitleDiv(collapsed, collapsible);
+    const titleDiv = this.getTitleDiv(collapsible);
     let sectionImageStyle = {
       backgroundImage: 'url(/assets/images/default-image.svg)',
     };
@@ -133,10 +120,10 @@ export class Section extends React.Component {
       };
     }
     let commentList = null;
-    if (collapsed) {
+    if (collapsible) {
       return (
         <div className="section-list-item">
-          <div className="section-list-item-image" style={sectionImageStyle} onClick={this.toggle.bind(this)} />
+          <div className="section-list-item-image" style={sectionImageStyle} />
           <div className="section-list-item-content">
             {titleDiv}
             <div className="section-abstract" dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}} />
