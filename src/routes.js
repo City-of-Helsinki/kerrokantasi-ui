@@ -17,7 +17,7 @@ const Routes = () => (
     <Route path="/hearings/:tab" component={Hearings} />
     <Route path="/hearing/:hearingSlug" component={Hearing} />
     <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} />
-    <Route path="/:hearingSlug" component={Hearing} />
+    <Route exact path="/:hearingSlug" component={Hearing} />
     <Route path="/:hearingSlug/:sectionId" component={QuestionView} />
   </Switch>
 );
