@@ -23,6 +23,12 @@ const receiveHearing = (state, {payload}) => {
   }, state);
 };
 
+const receiveHearingError = (state, {payload}) => {
+  return updeep({
+    [payload.hearingSlug]: {state: "error"}
+  }, state);
+};
+
 const savedHearing = (state, {payload: {hearing}}) => {
   return updeep({
     [hearing.slug]: {state: 'done', data: hearing}
@@ -56,6 +62,7 @@ const clearNonPublicHearings = (state) => {
 export default handleActions({
   beginFetchHearing,
   receiveHearing,
+  receiveHearingError,
   changeCurrentlyViewed,
   savedHearingChange,
   savedNewHearing: savedHearingChange,

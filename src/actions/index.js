@@ -96,7 +96,10 @@ export function fetchHearing(hearingSlug, previewKey = null) {
     const params = previewKey ? {preview: previewKey} : {};
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearing")({hearingSlug, data}));
-    }).catch(requestErrorHandler());
+    }).catch(() => {
+      dispatch(createAction("receiveHearingError")({hearingSlug}));
+      requestErrorHandler();
+    });
     // FIXME: Somehow .catch catches errors also from components' render methods
   };
 }
