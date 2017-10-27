@@ -121,5 +121,6 @@
   "createHearing": "Create new hearing",
   "createLabel": "Create a new tag",
   "labelPlaceholder": "Name of tag here...",
-  "draftNotPublished": "Draft, not published"
+  "draftNotPublished": "Draft, not published",
+  "hearingNotFound": "Hearing was not found."
 }

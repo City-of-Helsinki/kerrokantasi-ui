@@ -10,7 +10,7 @@ import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearin
 import { getMainSection, canEdit, getHearingURL, getOpenGraphMetaData } from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import { contactShape, hearingShape, labelShape } from '../../types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { getUser } from '../../selectors/user';
 import { withRouter } from 'react-router-dom';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
@@ -176,11 +176,19 @@ export class HearingView extends React.Component {
     } = this.props;
     const fullscreen = this.checkNeedForFullscreen();
     const HearingComponent = fullscreen ? FullscreenHearing : DefaultHearingComponent;
+    const hearingState = this.props.hearing[params.hearingSlug] ? this.props.hearing[params.hearingSlug].state : '';
     if (!this.state.manager) {
       // this is the standard hearing view with no wrappers around it
-      if (!hearing) {
+      if (!hearing && hearingState !== 'error') {
         return this.renderSpinner();
       }
+      if (hearingState === 'error') {
+        return (
+          <div className="closure-info">
+            <FormattedMessage id="hearingNotFound" />
+          </div>);
+      }
+
       return (
         <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'container'}>
           <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
