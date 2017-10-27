@@ -114,5 +114,6 @@
   "alreadyVoted": "Du har redan röstat för denna kommentar.",
   "voteReceived": "Rösten mottagen. Tack!",
   "createLabel": "TODO",
-  "labelPlaceholder": "TODO"
+  "labelPlaceholder": "TODO",
+  "hearingNotFound": "Hörandet kunde inte hittas."
 }

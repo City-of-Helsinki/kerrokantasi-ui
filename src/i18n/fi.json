@@ -176,5 +176,6 @@
   "createHearing": "Luo uusi kuuleminen",
   "createLabel": "Luo uusi tagi",
   "labelPlaceholder": "Anna tagin nimi...",
-  "draftNotPublished": "Luonnos, ei julkaistu"
+  "draftNotPublished": "Luonnos, ei julkaistu",
+  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt."
 }
