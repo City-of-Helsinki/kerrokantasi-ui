@@ -40,6 +40,7 @@ const isFetching = handleActions(
   {
     [combineActions('beginFetchHearing')]: () => true,
     [combineActions('receiveHearing')]: () => false,
+    [combineActions('receiveHearingError')]: () => false
   },
   false,
 );

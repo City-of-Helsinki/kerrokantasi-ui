@@ -16,6 +16,7 @@ const showEditor = handleActions({
 const editorPending = handleActions({
   beginFetchHearing: (state) => state + 1,
   receiveHearing: (state) => state - 1,
+  receiveHearingError: (state) => state - 1,
   [EditorActions.FETCH_META_DATA]: (state) => state + 1,
   [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
 }, 0);
