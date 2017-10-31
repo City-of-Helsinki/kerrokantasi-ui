@@ -209,7 +209,7 @@ export class Hearing extends React.Component {
     if (this.props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
       const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
-      const differenceText = duration < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
+      const differenceText = duration.asHours() < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
       text = `${formatMessage({id: 'eyeTooltipOpens'})} ${Math.ceil(durationAs)} ${formatMessage({
         id: differenceText,
       })}`;
