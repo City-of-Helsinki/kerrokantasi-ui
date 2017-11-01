@@ -1,0 +1,108 @@
+exports[`test Home component should render as expected 1`] = `
+<div>
+  <section
+    className="page-section page-section--welcome">
+    <div
+      className="container">
+      <Row
+        bsClass="row"
+        componentClass="div">
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={8}>
+          <HelmetWrapper
+            title="translatedText" />
+          <h1>
+            <FormattedMessage
+              id="welcome"
+              tagName="span"
+              values={Object {}} />
+          </h1>
+          <p
+            className="lead">
+            <FormattedMessage
+              id="welcomeMessage"
+              tagName="span"
+              values={Object {}} />
+          </p>
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={4}>
+          <div
+            className="home-logo" />
+        </Col>
+      </Row>
+      <Row
+        bsClass="row"
+        componentClass="div">
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12} />
+      </Row>
+    </div>
+  </section>
+  <section
+    className="page-section page-section--hearing-card">
+    <div
+      className="hearings-koro__top" />
+    <div
+      className="container">
+      <Row
+        bsClass="row"
+        componentClass="div" />
+    </div>
+    <div
+      className="hearings-koro__bottom" />
+  </section>
+  <section
+    className="page-section page-section--feedback">
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}>
+      <Row
+        bsClass="row"
+        componentClass="div">
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12}>
+          <div
+            className="feedback-box">
+            <a
+              href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+              <h2
+                className="feedback-prompt">
+                <FormattedMessage
+                  id="feedbackPrompt"
+                  tagName="span"
+                  values={Object {}} />
+              </h2>
+            </a>
+          </div>
+        </Col>
+      </Row>
+    </Grid>
+  </section>
+  <section
+    className="page-section page-section--map">
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}>
+      <Row
+        bsClass="row"
+        componentClass="div">
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={12} />
+      </Row>
+    </Grid>
+  </section>
+</div>
+`;

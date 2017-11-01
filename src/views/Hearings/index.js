@@ -68,7 +68,7 @@ const getHearingListParams = listName => {
   return params;
 };
 
-class Hearings extends React.Component {
+export class Hearings extends React.Component {
   constructor(props) {
     super(props);
 

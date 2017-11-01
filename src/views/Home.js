@@ -13,7 +13,7 @@ import OverviewMap from '../components/OverviewMap';
 import {Link} from 'react-router-dom';
 import trackLink from '../utils/trackLink';
 
-class Home extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
 
