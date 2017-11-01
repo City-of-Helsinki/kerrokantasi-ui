@@ -121,6 +121,9 @@
     "babel-jest": "^16.0.0",
     "babel-preset-flow": "^6.23.0",
     "coveralls": "^2.13.1",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-15": "^1.0.3",
+    "enzyme-to-json": "^3.1.4",
     "eslint-plugin-flowtype": "^2.36.0",
     "flow-bin": "^0.50.0",
     "flow-typed": "^2.1.5",
@@ -135,6 +138,7 @@
     "collectCoverageFrom": [
       "server/**/*.{js,jsx}",
       "src/**/*.{js,jsx}"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./test-setup.js"
   }
 }
