@@ -256,8 +256,7 @@ export class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-
-        <HearingList
+        {labels && labels.length && <HearingList
           hearings={hearings}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
@@ -270,6 +269,7 @@ export class Hearings extends React.Component {
           toggleShowOnlyOpen={this.toggleShowOnlyOpen}
           language={language}
           tab={tab}
+          intl={this.props.intl}
           handleReachBottom={this.handleReachBottom}
           onTabChange={value => {
             const url = `/hearings/${value}`;
@@ -278,7 +278,7 @@ export class Hearings extends React.Component {
               search: location.search,
             });
           }}
-        />
+        />}
       </div>
     );
   }
