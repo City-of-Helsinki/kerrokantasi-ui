@@ -178,3 +178,138 @@ export function jsonResponse(content, status = 200) {
     }
   );
 }
+
+export const getIntlAsProp = () => {
+  const intlProvider = new IntlProvider({ locale: 'fi', messages: messages.fi}, {});
+  return intlProvider.getChildContext().intl;
+}
+
+// Contains ready to use mock data & functions for testing purposes
+export const mockStore = {
+  dispatch: () => {},
+  fetchLabels: () => {},
+  match: {
+    params: {
+      tab: 'list'
+    }
+  },
+  location: {
+    search: ''
+  },
+  labels: {
+    data: [{id: 1, label: {fi: 'Mock Von Label'}}, {id: 2, label: {fi: 'Mock Don Label'}}]
+  },
+  user: { },
+  hearingLists: {
+    allHearings: {
+      data: [{
+        abstract: {
+          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+        },
+        id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
+        n_comments: 1,
+        published: true,
+        labels: [],
+        open_at: '2017-10-22T21:00:00Z',
+        close_at: '2017-11-28T22:00:00Z',
+        created_at: '2017-10-23T11:07:26.630423Z',
+        servicemap_url: '',
+        closed: false,
+        geojson: {
+          type: 'LineString',
+          coordinates: [
+            [
+              25.039301,
+              60.106147
+            ],
+            [
+              25.036554,
+              60.101441
+            ],
+            [
+              25.040932,
+              60.093996
+            ],
+            [
+              25.045481,
+              60.093268
+            ],
+            [
+              25.05209,
+              60.094595
+            ],
+            [
+              25.05621,
+              60.09759
+            ],
+            [
+              25.060673,
+              60.098745
+            ],
+            [
+              25.063419,
+              60.096905
+            ],
+            [
+              25.080328,
+              60.108114
+            ],
+            [
+              25.075006,
+              60.108927
+            ],
+            [
+              25.0702,
+              60.108157
+            ],
+            [
+              25.06711,
+              60.106061
+            ],
+            [
+              25.062819,
+              60.106874
+            ],
+            [
+              25.058956,
+              60.106959
+            ],
+            [
+              25.057325,
+              60.106189
+            ],
+            [
+              25.053034,
+              60.106788
+            ],
+            [
+              25.04797,
+              60.105804
+            ],
+            [
+              25.039473,
+              60.106147
+            ]
+          ]
+        },
+        organization: 'Mock Inc',
+        slug: 'mockHearing',
+        main_image: {
+          id: 92,
+          url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+          width: 893,
+          height: 631,
+          title: {},
+          caption: {
+            fi: 'Wonderfull caption'
+          }
+        },
+        default_to_fullscreen: false,
+        title: {
+          fi: 'Mock Hearing'
+        },
+        borough: {}
+      }]
+    }
+  }
+};
