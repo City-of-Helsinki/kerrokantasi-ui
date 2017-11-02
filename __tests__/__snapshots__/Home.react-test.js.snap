@@ -1,86 +1,113 @@
-exports[`test Home component should render as expected 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home component should render as expected 1`] = `
 <div>
   <section
-    className="page-section page-section--welcome">
+    className="page-section page-section--welcome"
+  >
     <div
-      className="container">
+      className="container"
+    >
       <Row
         bsClass="row"
-        componentClass="div">
+        componentClass="div"
+      >
         <Col
           bsClass="col"
           componentClass="div"
-          xs={8}>
+          xs={8}
+        >
           <HelmetWrapper
-            title="translatedText" />
+            title="Tervetuloa!"
+          />
           <h1>
             <FormattedMessage
               id="welcome"
               tagName="span"
-              values={Object {}} />
+              values={Object {}}
+            />
           </h1>
           <p
-            className="lead">
+            className="lead"
+          >
             <FormattedMessage
               id="welcomeMessage"
               tagName="span"
-              values={Object {}} />
+              values={Object {}}
+            />
           </p>
         </Col>
         <Col
           bsClass="col"
           componentClass="div"
-          xs={4}>
+          xs={4}
+        >
           <div
-            className="home-logo" />
+            className="home-logo"
+          />
         </Col>
       </Row>
       <Row
         bsClass="row"
-        componentClass="div">
+        componentClass="div"
+      >
         <Col
           bsClass="col"
           componentClass="div"
-          xs={12} />
+          xs={12}
+        />
       </Row>
     </div>
   </section>
   <section
-    className="page-section page-section--hearing-card">
+    className="page-section page-section--hearing-card"
+  >
     <div
-      className="hearings-koro__top" />
+      className="hearings-koro__top"
+    />
     <div
-      className="container">
+      className="container"
+    >
       <Row
         bsClass="row"
-        componentClass="div" />
+        componentClass="div"
+      />
     </div>
     <div
-      className="hearings-koro__bottom" />
+      className="hearings-koro__bottom"
+    />
   </section>
   <section
-    className="page-section page-section--feedback">
+    className="page-section page-section--feedback"
+  >
     <Grid
       bsClass="container"
       componentClass="div"
-      fluid={false}>
+      fluid={false}
+    >
       <Row
         bsClass="row"
-        componentClass="div">
+        componentClass="div"
+      >
         <Col
           bsClass="col"
           componentClass="div"
-          xs={12}>
+          xs={12}
+        >
           <div
-            className="feedback-box">
+            className="feedback-box"
+          >
             <a
-              href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+              href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute"
+            >
               <h2
-                className="feedback-prompt">
+                className="feedback-prompt"
+              >
                 <FormattedMessage
                   id="feedbackPrompt"
                   tagName="span"
-                  values={Object {}} />
+                  values={Object {}}
+                />
               </h2>
             </a>
           </div>
@@ -89,18 +116,22 @@ exports[`test Home component should render as expected 1`] = `
     </Grid>
   </section>
   <section
-    className="page-section page-section--map">
+    className="page-section page-section--map"
+  >
     <Grid
       bsClass="container"
       componentClass="div"
-      fluid={false}>
+      fluid={false}
+    >
       <Row
         bsClass="row"
-        componentClass="div">
+        componentClass="div"
+      >
         <Col
           bsClass="col"
           componentClass="div"
-          sm={12} />
+          sm={12}
+        />
       </Row>
     </Grid>
   </section>

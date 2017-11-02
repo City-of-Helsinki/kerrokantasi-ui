@@ -1,22 +1,30 @@
-exports[`test LabelList can handle empty list 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabelList can handle empty list 1`] = `
 <div
-  className="labels" />
+  className="labels"
+/>
 `;
 
-exports[`test LabelList can handle list of label objects 1`] = `
+exports[`LabelList can handle list of label objects 1`] = `
 <div
-  className="labels">
+  className="labels"
+>
   <a
-    href="/hearings/list?label=such">
+    href="/hearings/list?label=such"
+  >
     <span
-      className="label label-info">
+      className="label label-info"
+    >
       such
     </span>
   </a>
   <a
-    href="/hearings/list?label=label">
+    href="/hearings/list?label=label"
+  >
     <span
-      className="label label-info">
+      className="label label-info"
+    >
       label
     </span>
   </a>
