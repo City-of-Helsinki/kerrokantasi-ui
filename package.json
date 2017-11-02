@@ -127,7 +127,7 @@
     "eslint-plugin-flowtype": "^2.36.0",
     "flow-bin": "^0.50.0",
     "flow-typed": "^2.1.5",
-    "jest": "^16.0.2",
+    "jest": "^21.2.1",
     "jsdom": "^9.3.0",
     "react-addons-test-utils": "^15.6.0",
     "react-test-renderer": "^15.6.1",
