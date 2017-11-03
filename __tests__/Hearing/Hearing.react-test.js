@@ -1,8 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import {Hearings} from '../../src/views/Hearings/index';
-import {HearingList} from '../../src/components/HearingList';
+import {HearingView} from '../../src/views/Hearing/index';
 import {MemoryRouter} from 'react-router-dom';
 import {mockStore, getIntlAsProp} from '../../test-utils';
 
@@ -15,7 +14,7 @@ const setup = propOverrides => {
     ...rest
   }, propOverrides);
 
-  const wrapper = shallow(<MemoryRouter><Hearings intl={getIntlAsProp()} {...props} /></MemoryRouter>);
+  const wrapper = shallow(<MemoryRouter><HearingView intl={getIntlAsProp()} {...props} /></MemoryRouter>);
 
   return {
     props,
@@ -27,9 +26,4 @@ test('Hearings component should render as expected', () => {
   const {wrapper} = setup();
   const tree = toJson(wrapper.dive().dive());
   expect(tree).toMatchSnapshot();
-});
-
-test('Hearings component will render HearingList when labels are present', () => {
-  const {wrapper} = setup();
-  expect(wrapper.dive().dive().find(HearingList)).toHaveLength(1);
 });
