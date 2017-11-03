@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HearingCard component should render as expected 1`] = `
+<div
+  className="hearing-card "
+>
+  <Link
+    className="hearing-card-image"
+    replace={false}
+    style={
+      Object {
+        "backgroundImage": "url(\\"https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg\\")",
+      }
+    }
+    to="/mockHearing"
+  >
+    <div
+      className="hearing-card-comment-count"
+    >
+      <Icon
+        Component="span"
+        name="comment-o"
+      />
+       
+      1
+    </div>
+  </Link>
+  <div
+    className="hearing-card-content"
+  >
+    <div
+      className="hearing-card-time "
+    >
+      <FormatRelativeTime
+        messagePrefix="timeClose"
+        timeVal="2017-11-28T22:00:00Z"
+      />
+    </div>
+    <h4
+      className="hearing-card-title"
+    >
+      <Link
+        replace={false}
+        to="/mockHearing"
+      >
+        Mock Hearing
+      </Link>
+    </h4>
+    <div
+      className="hearing-card-labels"
+    >
+      <LabelList
+        className="hearing-list-item-labellist"
+        labels={Array []}
+        language="fi"
+      />
+    </div>
+  </div>
+</div>
+`;

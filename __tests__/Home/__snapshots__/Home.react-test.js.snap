@@ -1,0 +1,349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home component should render as expected 1`] = `
+<div>
+  <section
+    className="page-section page-section--welcome"
+  >
+    <div
+      className="container"
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={8}
+        >
+          <HelmetWrapper
+            title="Tervetuloa!"
+          />
+          <h1>
+            <FormattedMessage
+              id="welcome"
+              tagName="span"
+              values={Object {}}
+            />
+          </h1>
+          <p
+            className="lead"
+          >
+            <FormattedMessage
+              id="welcomeMessage"
+              tagName="span"
+              values={Object {}}
+            />
+          </p>
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={4}
+        >
+          <div
+            className="home-logo"
+          />
+        </Col>
+      </Row>
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12}
+        >
+          <FullWidthHearing
+            hearing={
+              Object {
+                "abstract": Object {
+                  "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                },
+                "borough": Object {},
+                "close_at": "2017-11-28T22:00:00Z",
+                "closed": false,
+                "created_at": "2017-10-23T11:07:26.630423Z",
+                "default_to_fullscreen": false,
+                "geojson": Object {
+                  "coordinates": Array [
+                    Array [
+                      25.039301,
+                      60.106147,
+                    ],
+                    Array [
+                      25.036554,
+                      60.101441,
+                    ],
+                  ],
+                  "type": "LineString",
+                },
+                "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+                "labels": Array [],
+                "main_image": Object {
+                  "caption": Object {
+                    "fi": "Wonderfull caption",
+                  },
+                  "height": 631,
+                  "id": 92,
+                  "title": Object {},
+                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                  "width": 893,
+                },
+                "n_comments": 1,
+                "open_at": "2017-10-22T21:00:00Z",
+                "organization": "Mock Inc",
+                "published": true,
+                "servicemap_url": "",
+                "slug": "mockHearing",
+                "title": Object {
+                  "fi": "Mock Hearing",
+                },
+              }
+            }
+          />
+        </Col>
+      </Row>
+    </div>
+  </section>
+  <section
+    className="page-section page-section--hearing-card"
+  >
+    <div
+      className="hearings-koro__top"
+    />
+    <div
+      className="container"
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12}
+        >
+          <div
+            className="list"
+          >
+            <h2
+              className="page-title"
+            >
+              <FormattedMessage
+                id="openHearings"
+                tagName="span"
+                values={Object {}}
+              />
+            </h2>
+            <HearingCardList
+              hearings={
+                Array [
+                  Object {
+                    "abstract": Object {
+                      "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                    },
+                    "borough": Object {},
+                    "close_at": "2017-11-28T22:00:00Z",
+                    "closed": false,
+                    "created_at": "2017-10-23T11:07:26.630423Z",
+                    "default_to_fullscreen": false,
+                    "geojson": Object {
+                      "coordinates": Array [
+                        Array [
+                          25.039301,
+                          60.106147,
+                        ],
+                        Array [
+                          25.036554,
+                          60.101441,
+                        ],
+                      ],
+                      "type": "LineString",
+                    },
+                    "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+                    "labels": Array [],
+                    "main_image": Object {
+                      "caption": Object {
+                        "fi": "Wonderfull caption",
+                      },
+                      "height": 631,
+                      "id": 92,
+                      "title": Object {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                      "width": 893,
+                    },
+                    "n_comments": 1,
+                    "open_at": "2017-10-22T21:00:00Z",
+                    "organization": "Mock Inc",
+                    "published": true,
+                    "servicemap_url": "",
+                    "slug": "mockHearing",
+                    "title": Object {
+                      "fi": "Mock Hearing",
+                    },
+                  },
+                ]
+              }
+            />
+            <p
+              className="text-center"
+            >
+              <Link
+                replace={false}
+                to="/hearings/list"
+              >
+                <Button
+                  active={false}
+                  block={false}
+                  bsClass="btn"
+                  bsStyle="default"
+                  disabled={false}
+                >
+                  <FormattedMessage
+                    id="allHearings"
+                    tagName="span"
+                    values={Object {}}
+                  />
+                </Button>
+              </Link>
+            </p>
+          </div>
+        </Col>
+      </Row>
+    </div>
+    <div
+      className="hearings-koro__bottom"
+    />
+  </section>
+  <section
+    className="page-section page-section--feedback"
+  >
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12}
+        >
+          <div
+            className="feedback-box"
+          >
+            <a
+              href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute"
+            >
+              <h2
+                className="feedback-prompt"
+              >
+                <FormattedMessage
+                  id="feedbackPrompt"
+                  tagName="span"
+                  values={Object {}}
+                />
+              </h2>
+            </a>
+          </div>
+        </Col>
+      </Row>
+    </Grid>
+  </section>
+  <section
+    className="page-section page-section--map"
+  >
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={12}
+        >
+          <div
+            className="map"
+          >
+            <h2>
+              <FormattedMessage
+                id="open-hearings-on-map"
+                tagName="span"
+                values={Object {}}
+              />
+            </h2>
+            <OverviewMap
+              enablePopups={true}
+              hearings={
+                Array [
+                  Object {
+                    "abstract": Object {
+                      "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                    },
+                    "borough": Object {},
+                    "close_at": "2017-11-28T22:00:00Z",
+                    "closed": false,
+                    "created_at": "2017-10-23T11:07:26.630423Z",
+                    "default_to_fullscreen": false,
+                    "geojson": Object {
+                      "coordinates": Array [
+                        Array [
+                          25.039301,
+                          60.106147,
+                        ],
+                        Array [
+                          25.036554,
+                          60.101441,
+                        ],
+                      ],
+                      "type": "LineString",
+                    },
+                    "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+                    "labels": Array [],
+                    "main_image": Object {
+                      "caption": Object {
+                        "fi": "Wonderfull caption",
+                      },
+                      "height": 631,
+                      "id": 92,
+                      "title": Object {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                      "width": 893,
+                    },
+                    "n_comments": 1,
+                    "open_at": "2017-10-22T21:00:00Z",
+                    "organization": "Mock Inc",
+                    "published": true,
+                    "servicemap_url": "",
+                    "slug": "mockHearing",
+                    "title": Object {
+                      "fi": "Mock Hearing",
+                    },
+                  },
+                ]
+              }
+              style={
+                Object {
+                  "height": 600,
+                  "width": "100%",
+                }
+              }
+            />
+          </div>
+        </Col>
+      </Row>
+    </Grid>
+  </section>
+</div>
+`;
