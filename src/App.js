@@ -48,7 +48,7 @@ class App extends React.Component {
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
           <Helmet
-            titleTemplate="%s - Kerro Kantasi"
+            titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
             script={[{src: '/assets/js/piwik.js', type: 'text/javascript'}]}

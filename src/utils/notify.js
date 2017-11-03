@@ -1,7 +1,7 @@
 // This module uses `require` and late imports to support isomorphic rendering.
 import getMessage from "./getMessage";
 
-export function alert(message, title = "Kerro Kantasi") {
+export function alert(message, title = "Kerrokantasi") {
   if (typeof window !== 'undefined') {
     require("alertifyjs").alert(title, message).setting({transition: 'slide'});
   }

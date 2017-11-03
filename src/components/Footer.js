@@ -22,7 +22,7 @@ export default function Footer() {
           </Col>
           <Col md={3} sm={4}>
             <div className="site-footer-block">
-              <div className="footer-header">Kerro kantasi</div>
+              <div className="footer-header">Kerrokantasi</div>
               <ul className="footer-links">
                 <li>
                   <Link to={'/hearings/list'}>
@@ -53,7 +53,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">Palaute</a>
+                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
                 </li>
                 <li>2017 Helsingin kaupunki</li>
               </ul>

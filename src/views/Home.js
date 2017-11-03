@@ -119,7 +119,7 @@ class Home extends React.Component {
             <Row>
               <Col xs={12}>
                 <div className="feedback-box">
-                  <a href="mailto:dev@hel.fi?subject=Kerro kantasi -palaute">
+                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">
                     <h2 className="feedback-prompt">
                       <FormattedMessage id="feedbackPrompt" />
                     </h2>
