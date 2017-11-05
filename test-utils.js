@@ -186,6 +186,104 @@ export const getIntlAsProp = () => {
 
 // Contains ready to use mock data & functions for testing purposes
 export const mockStore = {
+  hearing: {
+    mockHearing: {
+      state: 'done',
+      data: {
+        'abstract': {
+          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+        },
+        id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
+        n_comments: 1,
+        published: true,
+        labels: [],
+        open_at: '2017-10-22T21:00:00Z',
+        close_at: '2017-11-28T22:00:00Z',
+        created_at: '2017-10-23T11:07:26.630423Z',
+        servicemap_url: '',
+        sections: [
+          {
+            id: '7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK',
+            type: 'main',
+            commenting: 'open',
+            voting: 'registered',
+            published: false,
+            created_at: '2017-10-23T11:07:26.668934Z',
+            images: [
+              {
+                id: 92,
+                url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+                width: 893,
+                height: 631,
+                title: {},
+                caption: {
+                  fi: 'A Wonderfull caption'
+                }
+              }
+            ],
+            n_comments: 1,
+            type_name_singular: 'pääosio',
+            type_name_plural: 'pääosiot',
+            plugin_identifier: '',
+            plugin_data: '',
+            plugin_iframe_url: '',
+            plugin_fullscreen: false,
+            title: {},
+            'abstract': {
+              fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+            },
+            content: {
+              fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>'
+            }
+          }
+        ],
+        closed: false,
+        geojson: {
+          type: 'LineString',
+          coordinates: [
+            [
+              25.039301,
+              60.106147
+            ],
+            [
+              25.036554,
+              60.101441
+            ]
+          ]
+        },
+        organization: 'Kaupunkisuunnitteluvirasto',
+        slug: 'isosaari',
+        main_image: {
+          id: 92,
+          url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+          width: 893,
+          height: 631,
+          title: {},
+          caption: {
+            fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala'
+          }
+        },
+        contact_persons: [
+          {
+            id: 'KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X',
+            name: 'Seija Suunnittelija',
+            phone: '09 123 456',
+            email: 'seija.suunnittelija@hel.fi',
+            organization: 'Kaupunkisuunnitteluvirasto',
+            title: {
+              fi: 'arkkitehti'
+            }
+          }
+        ],
+        default_to_fullscreen: false,
+        title: {
+          fi: 'Ideoi Isosaaren tulevaisuutta'
+        },
+        borough: {}
+      }
+    },
+    currentlyViewed: '#hearing'
+  },
   dispatch: () => {},
   fetchLabels: () => {},
   match: {
@@ -237,7 +335,7 @@ export const mockStore = {
           height: 631,
           title: {},
           caption: {
-            fi: 'Wonderfull caption'
+            fi: 'A Wonderfull caption'
           }
         },
         default_to_fullscreen: false,
@@ -246,6 +344,32 @@ export const mockStore = {
         },
         borough: {}
       }]
+    }
+  },
+  sectionComments: {
+    sectionId: '7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK',
+    data: {
+      count: 1,
+      next: null,
+      previous: null,
+      results: [
+        {
+          section: '7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK',
+          language_code: '',
+          id: 2615,
+          content: 'Testi',
+          author_name: 'Mikko Uro',
+          n_votes: 0,
+          created_at: '2017-10-23T11:23:47.475069Z',
+          is_registered: true,
+          can_edit: false,
+          geojson: null,
+          images: [],
+          label: null,
+          hearing: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
+          plugin_data: ''
+        }
+      ]
     }
   }
 };
