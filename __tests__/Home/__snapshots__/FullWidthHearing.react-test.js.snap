@@ -3,8 +3,6 @@
 exports[`FullWidthHearing component should render as expected 1`] = `
 <div
   className="fullwidth-hearing "
-  dispatch={[Function]}
-  fetchLabels={[Function]}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -200,37 +198,6 @@ exports[`FullWidthHearing component should render as expected 1`] = `
       "now": [Function],
     }
   }
-  labels={
-    Object {
-      "data": Array [
-        Object {
-          "id": 1,
-          "label": Object {
-            "fi": "Mock Von Label",
-          },
-        },
-        Object {
-          "id": 2,
-          "label": Object {
-            "fi": "Mock Don Label",
-          },
-        },
-      ],
-    }
-  }
-  location={
-    Object {
-      "search": "",
-    }
-  }
-  match={
-    Object {
-      "params": Object {
-        "tab": "list",
-      },
-    }
-  }
-  user={Object {}}
 >
   <div
     className="fullwidth-hearing-image"

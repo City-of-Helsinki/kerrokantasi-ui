@@ -11,7 +11,6 @@ const setup = propOverrides => {
   const {hearingLists: {allHearings}, ...rest} = mockStore;
   const props = Object.assign({
     hearing: allHearings.data[0],
-    ...rest
   }, propOverrides);
 
   const wrapper = shallow(<MemoryRouter><FullWidthHearing intl={getIntlAsProp()} {...props} /></MemoryRouter>);

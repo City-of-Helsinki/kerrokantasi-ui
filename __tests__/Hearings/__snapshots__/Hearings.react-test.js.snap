@@ -69,7 +69,7 @@ exports[`Hearings component should render as expected 1`] = `
           "labels": Array [],
           "main_image": Object {
             "caption": Object {
-              "fi": "Wonderfull caption",
+              "fi": "A Wonderfull caption",
             },
             "height": 631,
             "id": 92,

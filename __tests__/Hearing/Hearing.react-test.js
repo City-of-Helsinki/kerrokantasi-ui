@@ -8,10 +8,21 @@ import {mockStore, getIntlAsProp} from '../../test-utils';
 // Renders the Hearings component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
-  const {labels, ...rest} = mockStore;
+  const {labels, sectionComments, hearingLists: {allHearings}, hearing, dispatch} = mockStore;
   const props = Object.assign({
     labels: labels.data,
-    ...rest
+    hearing,
+    hearingDraft: {},
+    match: {
+      params: {
+        hearingSlug: allHearings.data[0].slug
+      }
+    },
+    location: {
+      pathname: '/' + allHearings.data[0].slug
+    },
+    sectionComments,
+    dispatch
   }, propOverrides);
 
   const wrapper = shallow(<MemoryRouter><HearingView intl={getIntlAsProp()} {...props} /></MemoryRouter>);
@@ -22,8 +33,9 @@ const setup = propOverrides => {
   };
 };
 
-test('Hearings component should render as expected', () => {
-  const {wrapper} = setup();
+test('HearingView component should render as expected', () => {
+  const {wrapper, props} = setup();
+  console.log(props);
   const tree = toJson(wrapper.dive().dive());
   expect(tree).toMatchSnapshot();
 });

@@ -7,11 +7,10 @@ import HearingCard from '../../src/components/HearingCard';
 // Renders the Hearings component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
-  const {hearingLists: {allHearings}, ...rest} = mockStore;
+  const {hearingLists: {allHearings}} = mockStore;
   const props = Object.assign({
     hearing: allHearings.data[0],
     language: 'fi',
-    ...rest
   }, propOverrides);
 
   const wrapper = shallow(<HearingCard intl={getIntlAsProp()} {...props} />);
