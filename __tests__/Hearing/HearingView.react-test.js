@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import {Hearing} from '../../src/components/Hearing';
+import {HearingView} from '../../src/views/Hearing/index';
 import {MemoryRouter} from 'react-router-dom';
 import {mockStore, getIntlAsProp} from '../../test-utils';
 
@@ -11,8 +11,7 @@ const setup = propOverrides => {
   const {labels, sectionComments, hearingLists: {allHearings}, hearing, dispatch} = mockStore;
   const props = Object.assign({
     labels: labels.data,
-    hearing: hearing.mockHearing.data,
-    hearingSlug: hearing.slug,
+    hearing,
     hearingDraft: {},
     match: {
       params: {
@@ -26,7 +25,7 @@ const setup = propOverrides => {
     dispatch
   }, propOverrides);
 
-  const wrapper = shallow(<MemoryRouter><Hearing intl={getIntlAsProp()} {...props} /></MemoryRouter>);
+  const wrapper = shallow(<MemoryRouter><HearingView intl={getIntlAsProp()} {...props} /></MemoryRouter>);
 
   return {
     props,
@@ -34,7 +33,7 @@ const setup = propOverrides => {
   };
 };
 
-test('Hearing component should render as expected', () => {
+test('HearingView component should render as expected', () => {
   const {wrapper} = setup();
   const tree = toJson(wrapper.dive().dive());
   expect(tree).toMatchSnapshot();

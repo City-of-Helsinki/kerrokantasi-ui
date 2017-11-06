@@ -190,7 +190,7 @@ export const mockStore = {
     mockHearing: {
       state: 'done',
       data: {
-        'abstract': {
+        abstract: {
           fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
         },
         id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
