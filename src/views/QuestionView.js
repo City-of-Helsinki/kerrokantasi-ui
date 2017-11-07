@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import LoadSpinner from '../components/LoadSpinner';
-import SectionContainer from '../components/SectionContainer';
+import WrappedSectionContainer from '../components/SectionContainer';
 import { injectIntl } from 'react-intl';
 import { fetchHearing } from '../actions';
 import { getOpenGraphMetaData } from '../utils/hearing';
@@ -73,7 +73,7 @@ export class QuestionView extends Component {
     return (
       <div key="question" className="question-view container">
         <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
-        <SectionContainer
+        <WrappedSectionContainer
           hearingSlug={hearingSlug}
           sectionId={sectionId}
           hearing={hearing}
