@@ -682,7 +682,7 @@ exports[`SectionContainer component should render as expected 1`] = `
         canVote={false}
         comments={
           Object {
-            "data": Object {
+            "mock": Object {
               "count": 1,
               "next": null,
               "previous": null,
@@ -705,7 +705,6 @@ exports[`SectionContainer component should render as expected 1`] = `
                 },
               ],
             },
-            "sectionId": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
           }
         }
         handleDeleteClick={[Function]}

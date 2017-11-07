@@ -19,7 +19,7 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
-class SortableCommentList extends Component {
+export class SortableCommentList extends Component {
   constructor() {
     super();
 

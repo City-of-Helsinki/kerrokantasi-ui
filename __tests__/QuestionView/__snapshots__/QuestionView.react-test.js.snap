@@ -232,7 +232,7 @@ exports[`QuestionView component should render as expected 1`] = `
     }
     sectionComments={
       Object {
-        "data": Object {
+        "mock": Object {
           "count": 1,
           "next": null,
           "previous": null,
@@ -255,7 +255,6 @@ exports[`QuestionView component should render as expected 1`] = `
             },
           ],
         },
-        "sectionId": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
       }
     }
   />

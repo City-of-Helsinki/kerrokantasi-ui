@@ -512,8 +512,7 @@ export const mockStore = {
     }
   },
   sectionComments: {
-    sectionId: '7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK',
-    data: {
+    mock: {
       count: 1,
       next: null,
       previous: null,
