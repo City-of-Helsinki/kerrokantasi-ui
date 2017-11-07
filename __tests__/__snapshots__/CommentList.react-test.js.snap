@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommentList component should render as expected 1`] = `
+<div
+  className="commentlist"
+>
+  <InjectIntl(Comment)
+    data={
+      Object {
+        "author_name": "Mikko Uro",
+        "can_edit": false,
+        "content": "Testi",
+        "created_at": "2017-10-23T11:23:47.475069Z",
+        "geojson": null,
+        "hearing": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+        "id": 2615,
+        "images": Array [],
+        "is_registered": true,
+        "label": null,
+        "language_code": "",
+        "n_votes": 0,
+        "plugin_data": "",
+        "section": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+      }
+    }
+    key="2615.19859782441"
+  />
+</div>
+`;
+
+exports[`CommentList should render a message if no comments were found 1`] = `
+<div
+  className="commentlist"
+>
+  <p>
+    <FormattedMessage
+      id="noCommentsAvailable"
+      tagName="span"
+      values={Object {}}
+    />
+  </p>
+</div>
+`;
