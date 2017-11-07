@@ -186,6 +186,171 @@ export const getIntlAsProp = () => {
 
 // Contains ready to use mock data & functions for testing purposes
 export const mockStore = {
+  hearingWithSections: {
+    mockHearingWithSections: {
+      state: 'done',
+      data: {
+        abstract: {
+          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+        },
+        id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
+        n_comments: 1,
+        published: true,
+        labels: [],
+        open_at: '2017-10-22T21:00:00Z',
+        close_at: '2017-11-28T22:00:00Z',
+        created_at: '2017-10-23T11:07:26.630423Z',
+        servicemap_url: '',
+        sections: [
+          {
+            id: '7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK',
+            type: 'main',
+            commenting: 'open',
+            voting: 'registered',
+            published: false,
+            created_at: '2017-10-23T11:07:26.668934Z',
+            images: [
+              {
+                id: 92,
+                url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+                width: 893,
+                height: 631,
+                title: {},
+                caption: {
+                  fi: 'A Wonderfull caption'
+                }
+              }
+            ],
+            n_comments: 1,
+            type_name_singular: 'pääosio',
+            type_name_plural: 'pääosiot',
+            plugin_identifier: '',
+            plugin_data: '',
+            plugin_iframe_url: '',
+            plugin_fullscreen: false,
+            title: {},
+            abstract: {
+              fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+            },
+            content: {
+              fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>'
+            }
+          },
+          {
+            id: 'asuminen-a-asuinalueiden-elinvoi',
+            type: 'part',
+            commenting: 'open',
+            voting: 'registered',
+            published: true,
+            created_at: '2016-01-15T08:31:03.264760Z',
+            images: [
+              {
+                id: 24,
+                url: 'https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png',
+                width: 1211,
+                height: 1067,
+                title: {},
+                caption: {
+                  fi: 'Asuinalueiden elinvoimaisuus.'
+                }
+              }
+            ],
+            n_comments: 59,
+            type_name_singular: 'osa-alue',
+            type_name_plural: 'osa-alueet',
+            plugin_identifier: '',
+            plugin_data: '',
+            plugin_iframe_url: '',
+            plugin_fullscreen: false,
+            title: {
+              fi: 'A. Asuinalueiden elinvoimaisuus'
+            },
+            abstract: {},
+            content: {
+              fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>'
+            }
+          },
+          {
+            id: 'asuminen-b-asuinalueiden-elinvoi',
+            type: 'part',
+            commenting: 'open',
+            voting: 'registered',
+            published: true,
+            created_at: '2016-01-15T08:31:03.264760Z',
+            images: [
+              {
+                id: 24,
+                url: 'https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png',
+                width: 1211,
+                height: 1067,
+                title: {},
+                caption: {
+                  fi: 'Asuinalueiden elinvoimaisuus.'
+                }
+              }
+            ],
+            n_comments: 59,
+            type_name_singular: 'osa-alue',
+            type_name_plural: 'osa-alueet',
+            plugin_identifier: '',
+            plugin_data: '',
+            plugin_iframe_url: '',
+            plugin_fullscreen: false,
+            title: {
+              fi: 'A. Asuinalueiden elinvoimaisuus'
+            },
+            'abstract': {},
+            content: {
+              fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>'
+            }
+          },
+        ],
+        closed: false,
+        geojson: {
+          type: 'LineString',
+          coordinates: [
+            [
+              25.039301,
+              60.106147
+            ],
+            [
+              25.036554,
+              60.101441
+            ]
+          ]
+        },
+        organization: 'Kaupunkisuunnitteluvirasto',
+        slug: 'isosaari',
+        main_image: {
+          id: 92,
+          url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+          width: 893,
+          height: 631,
+          title: {},
+          caption: {
+            fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala'
+          }
+        },
+        contact_persons: [
+          {
+            id: 'KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X',
+            name: 'Seija Suunnittelija',
+            phone: '09 123 456',
+            email: 'seija.suunnittelija@hel.fi',
+            organization: 'Kaupunkisuunnitteluvirasto',
+            title: {
+              fi: 'arkkitehti'
+            }
+          }
+        ],
+        default_to_fullscreen: false,
+        title: {
+          fi: 'Ideoi Isosaaren tulevaisuutta'
+        },
+        borough: {}
+      }
+    }
+  },
   hearing: {
     mockHearing: {
       state: 'done',
@@ -229,7 +394,7 @@ export const mockStore = {
             plugin_iframe_url: '',
             plugin_fullscreen: false,
             title: {},
-            'abstract': {
+            abstract: {
               fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
             },
             content: {

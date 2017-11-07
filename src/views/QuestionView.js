@@ -14,7 +14,7 @@ import { parseQuery } from '../utils/urlQuery';
 import trackLink from '../utils/trackLink';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
-class QuestionView extends Component {
+export class QuestionView extends Component {
   /**
    * Return a promise that will, as it fulfills, have added requisite
    * data for the HearingView view into the dispatch's associated store.
