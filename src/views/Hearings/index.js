@@ -209,7 +209,7 @@ export class Hearings extends React.Component {
       typeof hearingLists[list].next === 'string' &&
       !hearingLists[list].isLoading
     ) {
-      setTimeout(() => fetchMoreHearings(list), 10);
+      fetchMoreHearings(list);
     }
   }
 
