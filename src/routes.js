@@ -1,24 +1,24 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Hearings from './views/Hearings';
+import HearingsContainer from './views/Hearings';
 // import AllHearings from './views/AllHearings';
 // import AdminHearings from './views/admin/AdminHearings';
 // import HearingManager from './views/admin/HearingManager';
 import Hearing from './views/Hearing';
-import Home from './views/Home';
+import HomeContainer from './views/Home';
 import Info from './views/Info';
-import QuestionView from './views/QuestionView';
+import QuestionViewContainer from './views/QuestionView';
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <Route exact path="/" component={HomeContainer} />
     <Route path="/hearing/new" component={Hearing} />
     <Route path="/info" component={Info} />
-    <Route path="/hearings/:tab" component={Hearings} />
+    <Route path="/hearings/:tab" component={HearingsContainer} />
     <Route path="/hearing/:hearingSlug" component={Hearing} />
-    <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionView} />
+    <Route path="/hearing/:hearingSlug/:sectionId" component={QuestionViewContainer} />
     <Route exact path="/:hearingSlug" component={Hearing} />
-    <Route path="/:hearingSlug/:sectionId" component={QuestionView} />
+    <Route path="/:hearingSlug/:sectionId" component={QuestionViewContainer} />
   </Switch>
 );
 

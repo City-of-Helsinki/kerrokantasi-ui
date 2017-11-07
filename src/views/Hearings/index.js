@@ -8,7 +8,7 @@ import { get, find } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
-import HearingList from '../../components/HearingList';
+import WrappedHearingList from '../../components/HearingList';
 import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
@@ -92,7 +92,7 @@ export class Hearings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user, labels, location } = this.props;
+    const { user, location } = this.props;
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
@@ -260,7 +260,7 @@ export class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-        {labels && labels.length && <HearingList
+        {labels && labels.length && <WrappedHearingList
           hearings={hearings}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
