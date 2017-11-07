@@ -96,7 +96,11 @@ export class Hearings extends React.Component {
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
-    const shouldFetchHearings = (!labels.length && nextProps.labels.length) || (nextProps.labels.length && location.search !== nextProps.location.search);
+    const shouldFetchHearings = (
+      (!this.props.labels.length && nextProps.labels.length) ||
+      (nextProps.labels.length && location.search !== nextProps.location.search) ||
+      (!this.props.user && nextProps.user) ||
+      (this.props.user && !nextProps.user));
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
