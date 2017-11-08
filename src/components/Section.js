@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import SortableCommentList from './SortableCommentList';
+import WrappedSortableCommentList from './SortableCommentList';
 import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
 import {isSpecialSectionType, userCanComment} from '../utils/section';
@@ -132,7 +132,7 @@ export class Section extends React.Component {
     }
     if (!isSpecialSectionType(section.type)) {
       commentList = (
-        <SortableCommentList
+        <WrappedSortableCommentList
           section={section}
           canComment={this.isCommentable() && userCanComment(this.props.user, section)}
           onPostComment={this.onPostComment.bind(this)}

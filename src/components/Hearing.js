@@ -21,7 +21,7 @@ import {
   fetchAllSectionComments,
   fetchMoreSectionComments,
 } from '../actions';
-import SortableCommentList from './SortableCommentList';
+import WrappedSortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
 import SectionList from './SectionList';
@@ -169,7 +169,7 @@ export class Hearing extends React.Component {
     return (
       <div>
         <div className="hearing-comment-section" id="hearing-comments">
-          <SortableCommentList
+          <WrappedSortableCommentList
             canVote={this.isMainSectionVotable(user)}
             displayVisualization={userIsAdmin || hearing.closed}
             section={mainSection}
