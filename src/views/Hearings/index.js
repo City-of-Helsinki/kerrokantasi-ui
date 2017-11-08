@@ -140,7 +140,7 @@ class Hearings extends React.Component {
   }
 
   setAdminFilter(filter) {
-    this.setState(() => ({ adminFilter: filter }));
+    this.setState({ adminFilter: filter }, () => this.fetchHearingList());
   }
 
   fetchHearingList(props = this.props) {
