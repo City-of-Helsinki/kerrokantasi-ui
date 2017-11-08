@@ -250,7 +250,7 @@ export class Hearing extends React.Component {
                 dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
               />
 
-              {hearing.closed ? (
+              {hearing.closed && hearing.published ? (
                 <WrappedSection
                   fetchAllComments={this.props.fetchAllComments}
                   section={closureInfoSection}
