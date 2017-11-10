@@ -53,12 +53,12 @@ class Header extends React.Component {
                 ? <div className="commentNumber">
                   <Icon name="comment-o" /> {' '}
                   <FormattedPlural
-                      value={hearing.n_comments}
-                      one={<FormattedMessage id="totalSubmittedComment" values={{ n: hearing.n_comments }} />}
-                      other={<FormattedMessage id="totalSubmittedComments" values={{ n: hearing.n_comments }} />}
+                    value={hearing.n_comments}
+                    one={<FormattedMessage id="totalSubmittedComment" values={{ n: hearing.n_comments }} />}
+                    other={<FormattedMessage id="totalSubmittedComments" values={{ n: hearing.n_comments }} />}
                   />
                 </div>
-              : null}
+                : null}
               {reportUrl
                 ? <div className="report-download">
                   <a href={reportUrl}>
@@ -67,7 +67,7 @@ class Header extends React.Component {
                     </small>
                   </a>
                 </div>
-              : null}
+                : null}
             </div>
           </Col>
         </Row>

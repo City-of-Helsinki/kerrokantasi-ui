@@ -29,7 +29,6 @@ function getImageList(section, language) {
 }
 
 export class Section extends React.Component {
-
   onPostComment(text, authorName, pluginData, geojson, label, images) {
     const {section} = this.props;
     const commentData = {text, authorName, pluginData, geojson, label, images};

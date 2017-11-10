@@ -27,7 +27,6 @@ import Icon from '../../utils/Icon';
 import {addLabel, addContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
-
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);

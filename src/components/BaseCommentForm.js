@@ -140,14 +140,14 @@ export class BaseCommentForm extends React.Component {
                 <FormattedMessage id="image_too_big"/>
               </div>
               : this.state.images.map(
-              (image) =>
-                <img
-                  style={{ marginRight: 10 }}
-                  alt={image.title}
-                  src={image.image}
-                  width={image.width < 100 ? image.width : 100}
-                  height={image.height < 100 ? image.width : 100}
-                />)
+                (image) =>
+                  <img
+                    style={{ marginRight: 10 }}
+                    alt={image.title}
+                    src={image.image}
+                    width={image.width < 100 ? image.width : 100}
+                    height={image.height < 100 ? image.width : 100}
+                  />)
             }
           </div>
           <FormGroup className="comment-form__file">
@@ -157,12 +157,12 @@ export class BaseCommentForm extends React.Component {
                 <FormattedMessage id="choose_images"/>
               </label>
               <input
-                 type="file"
-                 ref="images"
-                 id="fileInput"
-                 multiple
-                 style={{display: 'none', visibility: 'hidden'}}
-                 onChange={(event) => this.handleChange(event)}
+                type="file"
+                ref="images"
+                id="fileInput"
+                multiple
+                style={{display: 'none', visibility: 'hidden'}}
+                onChange={(event) => this.handleChange(event)}
               />
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>

@@ -39,7 +39,6 @@ function getFirstGeometry(featureCollectionGeoJSON) {
 
 
 class HearingFormStep3 extends React.Component {
-
   constructor(props) {
     super(props);
     this.onDrawCreated = this.onDrawCreated.bind(this);

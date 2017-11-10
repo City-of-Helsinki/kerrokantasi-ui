@@ -7,12 +7,6 @@ module.exports = {
   "env": {"browser": true, "node": true},
   "globals": {"__DEVTOOLS__": true},
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true,
-      "experimentalObjectRestSpread": true
-    }
-  },
   "plugins": [
     "react",
     "import",
@@ -26,12 +20,14 @@ module.exports = {
     "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],
     "import/first": 0,
     "import/no-named-as-default-member": 0,
+    "jsx-a11y/href-no-hash": 0,  // TODO: Remove me!
     "jsx-a11y/iframe-has-title": 0,  // TODO: Remove me!
     "jsx-a11y/no-noninteractive-element-interactions": 0,  // TODO: Remove me!
     "jsx-a11y/no-static-element-interactions": 0,  // TODO: Remove me!
     "max-len": [1, 120],
     "new-cap": [2, {"capIsNew": false, "newIsCap": true}],
     "newline-per-chained-call": 0,
+    "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "no-underscore-dangle": 0,
     "no-use-before-define": [2, "nofunc"],
     "object-curly-spacing": 0,

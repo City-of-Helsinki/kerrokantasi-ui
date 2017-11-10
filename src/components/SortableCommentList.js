@@ -229,7 +229,7 @@ class SortableCommentList extends Component {
                 : null}
             </div>
           </div>
-      : null}
+          : null}
       </div>
     );
   }

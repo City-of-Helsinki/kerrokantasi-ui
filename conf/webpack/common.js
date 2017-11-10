@@ -1,39 +1,31 @@
-const path = require('path');
 const webpack = require('webpack');
-
-const ROOT = path.resolve(__dirname, '../..');
-const SRC = path.resolve(ROOT, 'src');
-const ASSETS = path.resolve(ROOT, 'assets');
+const paths = require('../paths');
 
 module.exports = {
+  context: paths.ROOT,
   entry: [
-    'babel-polyfill'
+    'babel-polyfill',
   ],
-  paths: {
-    ROOT,
-    SRC,
-    ASSETS,
-    ENTRY: path.resolve(SRC, 'index.js'),
-    OUTPUT: path.resolve(ROOT, 'dist')
+  output: {
+    path: paths.OUTPUT,
+    publicPath: '/',
+    filename: 'app.[hash].js'
   },
   module: {
-    loaders: [
-      {test: /\.png$/, loader: 'url?limit=100000&mimetype=image/png'},
-      {test: /\.svg(\?v=.+)?$/, loader: 'url?limit=100000&mimetype=image/svg+xml'},
-      {test: /\.gif$/, loader: 'url?limit=100000&mimetype=image/gif'},
-      {test: /\.jpg$/, loader: 'file'},
-      {test: /\.woff(2)?(\?v=.+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
-      {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file'},
-      {test: /\.css$/, loader: 'style!css!postcss'},
-      {test: /\.scss$/, loader: 'style!css!postcss!sass'},
-      {test: /\.json$/, loader: 'json'},
-      {test: /\.md$/, loader: 'html!markdown'},
+    rules: [
+      {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
+      {test: /\.svg(\?v=.+)?$/, loader: 'url-loader?limit=100000&mimetype=image/svg+xml'},
+      {test: /\.gif$/, loader: 'url-loader?limit=100000&mimetype=image/gif'},
+      {test: /\.jpg$/, loader: 'file-loader'},
+      {test: /\.woff(2)?(\?v=.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
+      {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file-loader'},
+      {test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
+      {test: /\.scss$/, loader: 'style-loader!css-loader!postcss-loader!sass-loader'},
+      {test: /\.md$/, loader: 'html-loader!markdown-loader'},
     ]
   },
-  resolve: {
-    extensions: ['', '.js', '.json'],
-    root: [ROOT],
-    modulesDirectories: ['node_modules', 'app']
-  },
-  plugins: [new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/)],
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
+  ],
 };
