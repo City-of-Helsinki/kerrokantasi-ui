@@ -2,7 +2,6 @@ import {createAction} from 'redux-actions';
 import api from '../api';
 import {notifySuccess, notifyError} from '../utils/notify';
 import moment from 'moment';
-import Promise from 'bluebird';
 import { push } from 'react-router-redux';
 
 import {requestErrorHandler} from './index';
@@ -88,11 +87,11 @@ export function fetchHearingEditorMetaData() {
   return (dispatch, getState) => {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
     dispatch(fetchAction);
-    return Promise.props({
-      labels: api.getAllFromEndpoint(getState(), '/v1/label/'),
-      contacts: api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
-    })
-      .then(({labels, contacts}) => {
+    return Promise.all([
+      /* labels */ api.getAllFromEndpoint(getState(), '/v1/label/'),
+      /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
+    ])
+      .then(([labels, contacts]) => {
         dispatch(
           createAction(EditorActions.RECEIVE_META_DATA)({
             // Unwrap the DRF responses:
