@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {get, find, merge, includes} from 'lodash';
 import moment from 'moment';
 
 import {initNewSection, SectionTypes} from './section';
@@ -6,12 +6,12 @@ import initAttr from './initAttr';
 import getAttr from './getAttr';
 
 export function getClosureSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
+  return find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
 }
 
 
 export function getMainSection(hearing) {
-  return _.find(hearing.sections, (section) => section.type === SectionTypes.MAIN);
+  return find(hearing.sections, (section) => section.type === SectionTypes.MAIN);
 }
 
 
@@ -32,7 +32,7 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
 }
 
 export function getHearingMainImageURL(hearing) {
-  return _.get(hearing, 'main_image.url');
+  return get(hearing, 'main_image.url');
 }
 
 /*
@@ -71,7 +71,7 @@ export function isPublic(hearing) {
  * @return {object} Section object
  */
 export function getSectionByID(hearing, sectionID) {
-  return _.find(hearing.sections, (section) => section.id === sectionID);
+  return find(hearing.sections, (section) => section.id === sectionID);
 }
 
 /**
@@ -92,7 +92,7 @@ export function initNewHearing(inits) {
   mainSection.type = SectionTypes.MAIN;
   const closureSection = initNewSection();
   closureSection.type = SectionTypes.CLOSURE;
-  return _.merge({
+  return merge({
     abstract: initAttr(),
     title: initAttr(),
     slug: "",
@@ -117,7 +117,7 @@ Return true if use can edit given hearing.
  */
 export function canEdit(user, hearing) {
   // If the user is an admin of the hearing's organization, allow editing
-  return Boolean(user && _.includes(user.adminOrganizations || [], hearing.organization));
+  return Boolean(user && includes(user.adminOrganizations || [], hearing.organization));
 }
 
 export function getImageAsBase64Promise(image) {
@@ -143,7 +143,7 @@ export function getOpenGraphMetaData(hearing, language) {
     {property: "og:url", content: url},
     {property: "og:type", content: "website"},
     {property: "og:title", content: getAttr(hearing.title, language)},
-    {property: "og:image", content: _.get(hearing, 'main_image.url', '')},
+    {property: "og:image", content: get(hearing, 'main_image.url', '')},
     {property: "og:description", content: getAttr(hearing.abstract, language)}
   ];
 }

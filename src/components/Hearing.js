@@ -27,7 +27,7 @@ import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import Header from '../views/Hearing/Header';
-import _, {find} from 'lodash';
+import {find, has, includes} from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
@@ -160,8 +160,8 @@ export class Hearing extends React.Component {
     const showPluginInline = !mainSection.plugin_fullscreen;
     const user = this.props.user;
     let userIsAdmin = false;
-    if (hearing && user && _.has(user, 'adminOrganizations')) {
-      userIsAdmin = _.includes(user.adminOrganizations, hearing.organization);
+    if (hearing && user && has(user, 'adminOrganizations')) {
+      userIsAdmin = includes(user.adminOrganizations, hearing.organization);
     }
     if (!showPluginInline) {
       return null;
