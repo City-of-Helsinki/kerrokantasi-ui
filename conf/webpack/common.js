@@ -1,5 +1,16 @@
 const webpack = require('webpack');
 const paths = require('../paths');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const plugins = [
+  new webpack.NamedModulesPlugin(),
+  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
+];
+
+if(process.env.BUNDLE_ANALYZER) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
+
 
 module.exports = {
   context: paths.ROOT,
@@ -24,8 +35,5 @@ module.exports = {
       {test: /\.md$/, loader: 'html-loader!markdown-loader'},
     ]
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
-  ],
+  plugins: plugins,
 };

@@ -61,3 +61,5 @@ look something like this:
   "jwtKey": "key"
 }
 ```
+
+For development, bundle size analysis is available (by way of the `webpack-bundle-analyzer` plugin) if the `BUNDLE_ANALYZER` environment variable is set.
