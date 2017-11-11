@@ -1,8 +1,28 @@
 {
-  "presets": ["react", "env", "flow"],
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "flow"
+  ],
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
     "add-module-exports"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "react",
+        [
+          "env", {}
+        ],
+        "flow"
+      ]
+    }
+  }
 }
