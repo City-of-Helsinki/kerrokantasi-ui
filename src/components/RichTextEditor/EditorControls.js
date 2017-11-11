@@ -40,7 +40,7 @@ StyleButton.propTypes = {
   style: PropTypes.string
 };
 
-const BlockStyleControls = (props) => {
+export const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
@@ -67,7 +67,7 @@ BlockStyleControls.propTypes = {
   onToggle: PropTypes.func
 };
 
-const InlineStyleControls = (props) => {
+export const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
     <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
@@ -88,5 +88,3 @@ InlineStyleControls.propTypes = {
   editorState: PropTypes.object,
   onToggle: PropTypes.func
 };
-
-export default { BlockStyleControls, InlineStyleControls };

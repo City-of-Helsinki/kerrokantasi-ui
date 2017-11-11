@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
-import {languages} from '../../config';
+import config from '../../config';
 
 function HearingLanguages({hearingLanguages, onChange}) {
   return (
     <fieldset className="hearing-languages">
       <legend><FormattedMessage id="hearingLanguages"/></legend>
       <div className="hearing-languages__row">
-        {languages.map((lang) => {
+        {config.languages.map((lang) => {
           const langIndex = hearingLanguages.indexOf(lang);
           const checked = langIndex !== -1;
           const onChangeValues = checked ?
