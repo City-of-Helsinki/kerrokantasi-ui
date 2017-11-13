@@ -5,4 +5,4 @@ try {
 }
 
 require('babel-register');
-require('./bootstrap')();
+require('./bootstrap').default();
