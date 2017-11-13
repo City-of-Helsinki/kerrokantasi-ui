@@ -1,8 +1,9 @@
 // @flow
 import PropTypes from 'prop-types';
 import {schema} from 'normalizr';
-import {languages} from './config';
+import config from './config';
 
+const languages = config.languages;
 
 export const geoJSONshape = PropTypes.shape({
   type: PropTypes.string,

@@ -1,7 +1,7 @@
 import fetch from '../mockable-fetch';
 import {createAction} from 'redux-actions';
 import api from '../api';
-import _ from 'lodash';
+import {get} from 'lodash';
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
@@ -16,7 +16,7 @@ export function retrieveUserFromSession() {
         }).then((democracyUserJSON) => {
           const userWithOrganization = Object.assign({},
             user,
-            {adminOrganizations: _.get(democracyUserJSON, 'admin_organizations', null)});
+            {adminOrganizations: get(democracyUserJSON, 'admin_organizations', null)});
           return dispatch(createAction('receiveUserData')(userWithOrganization));
         });
       }

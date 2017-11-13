@@ -1,8 +1,41 @@
 {
-  "presets": ["react", "env", "flow"],
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "flow"
+  ],
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
-    "add-module-exports"
-  ]
+    "add-module-exports",
+    [
+      "transform-imports",
+      {
+        "react-bootstrap": {
+          "transform": "react-bootstrap/lib/${member}",
+          "preventFullImport": true
+        },
+        "lodash": {
+          "transform": "lodash/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "react",
+        [
+          "env", {}
+        ],
+        "flow"
+      ]
+    }
+  }
 }

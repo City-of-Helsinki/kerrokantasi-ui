@@ -1,6 +1,6 @@
-import {languages} from '../config';
+import config from '../config';
 
-const INIT_ATTR = languages.reduce((attr, lang) => {
+const INIT_ATTR = config.languages.reduce((attr, lang) => {
   const temp = Object.assign({}, attr);
   temp[lang] = '';
   return temp;

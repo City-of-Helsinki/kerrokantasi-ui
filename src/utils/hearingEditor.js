@@ -1,7 +1,7 @@
 // @flow
 import {normalize} from 'normalizr';
 import uuid from 'uuid/v1';
-import {compose} from 'ramda';
+import {flowRight} from 'lodash';
 
 import {hearingSchema} from '../types';
 
@@ -58,4 +58,4 @@ export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<strin
   }), {})
 });
 
-export const fillFrontIdsAndNormalizeHearing = compose(normalizeHearing, fillFrontIdsForAttributes);
+export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
