@@ -77,6 +77,7 @@
     "postcss-loader": "^2.0.6",
     "progress": "^1.1.8",
     "proj4": "^2.4.3",
+    "proj4leaflet": "^1.0.2",
     "prop-types": "^15.5.10",
     "qs": "^6.5.1",
     "query-string": "^4.3.4",

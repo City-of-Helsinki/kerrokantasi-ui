@@ -1,9 +1,9 @@
-import addProj4Leaflet from '../utils/byol-proj4leaflet';
+/* eslint-disable id-length */
+import L from 'leaflet';
+import 'proj4'; // import required for side effect
+import 'proj4leaflet'; // import required for side effect
 
 export function EPSG3067() { // eslint-disable-line
-  const L = require('leaflet'); // eslint-disable-line
-  const proj4 = require('proj4');
-  addProj4Leaflet(L, proj4);
   const crsName = 'EPSG:3067';
   const projDef = '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
   const bounds = L.bounds(L.point(-548576, 6291456), L.point(1548576, 8388608));
