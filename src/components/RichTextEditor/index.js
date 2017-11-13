@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
-  Editor,
   EditorState,
   ContentState,
   CompositeDecorator,
@@ -11,10 +10,14 @@ import {
   convertFromHTML,
   DefaultDraftBlockRenderMap,
 } from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+import createImagePlugin from 'draft-js-image-plugin';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
 import { BlockStyleControls, InlineStyleControls } from './EditorControls';
+
+const imagePlugin = createImagePlugin();
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -270,6 +273,7 @@ class RichTextEditor extends React.Component {
         />
         {this.renderHyperlinkButton()}
         <Editor
+          plugins={[imagePlugin]}
           ref="editor"
           blockStyleFn={getBlockStyle}
           blockRenderMap={blockRenderMap}

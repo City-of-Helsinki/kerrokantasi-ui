@@ -1837,6 +1837,10 @@ decompress-response@^3.2.0:
   dependencies:
     mimic-response "^1.0.0"
 
+decorate-component-with-props@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/decorate-component-with-props/-/decorate-component-with-props-1.1.0.tgz#b496c814c6a2aba0cf2ad26e44cbedb8ead42f15"
+
 deep-diff@0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.4.tgz#aac5c39952236abe5f037a2349060ba01b00ae48"
@@ -1958,6 +1962,26 @@ draft-js-export-html@^0.5.4:
   resolved "https://registry.yarnpkg.com/draft-js-export-html/-/draft-js-export-html-0.5.4.tgz#e24927da3efe6f3df17f1d7606a9dc6141dbf72d"
   dependencies:
     draft-js-utils "^0.1.5"
+
+draft-js-image-plugin@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/draft-js-image-plugin/-/draft-js-image-plugin-2.0.1.tgz#08b4c33b8d795d673512cdbf6eb2c02f748455c9"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    find-with-regex "^1.0.2"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-plugins-editor@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.0.2.tgz#a3c1da8a9f10dd27b323829fcac0b11a4bb4968d"
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    find-with-regex "^1.0.2"
+    immutable "^3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
 
 draft-js-utils@^0.1.5:
   version "0.1.7"
@@ -2595,6 +2619,10 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
+find-with-regex@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.0.2.tgz#d3b36286539f14c527e31f194159c6d251651a45"
+
 flat-cache@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-1.3.0.tgz#d3030b32b38154f4e3b7e9c709f490f7ef97c481"
@@ -3163,6 +3191,10 @@ immutability-helper@^2.3.0:
   resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.5.0.tgz#01ea7204334997c645bdfa7eb22e8b84c970946e"
   dependencies:
     invariant "^2.2.0"
+
+immutable@^3.7.4:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 immutable@~3.7.4:
   version "3.7.6"
@@ -6693,6 +6725,10 @@ uncontrollable@^4.0.1:
   resolved "https://registry.yarnpkg.com/uncontrollable/-/uncontrollable-4.1.0.tgz#e0358291252e1865222d90939b19f2f49f81c1a9"
   dependencies:
     invariant "^2.1.0"
+
+union-class-names@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/union-class-names/-/union-class-names-1.0.0.tgz#9259608adacc39094a2b0cfe16c78e6200617847"
 
 uniq@^1.0.1:
   version "1.0.1"
