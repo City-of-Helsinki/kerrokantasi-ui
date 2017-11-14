@@ -22,6 +22,7 @@ const imagePlugin = createImagePlugin();
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
+    case 'lead': return 'lead';
     default: return null;
   }
 };
