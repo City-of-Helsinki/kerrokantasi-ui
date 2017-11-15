@@ -5,7 +5,7 @@ const BLOCK_TYPES = [
   {label: 'Väliotsikko', style: 'header-four'},
   {label: 'Lista', style: 'unordered-list-item'},
   {label: 'Numeroitu lista', style: 'ordered-list-item'},
-  {label: 'Johdanto', style: 'lead'},
+  {label: 'Johdanto', style: 'LEAD'}
 ];
 
 const INLINE_STYLES = [

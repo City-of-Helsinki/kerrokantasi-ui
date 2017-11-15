@@ -22,7 +22,7 @@ const imagePlugin = createImagePlugin();
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
-    case 'lead': return 'lead';
+    case 'LEAD': return 'lead';
     default: return null;
   }
 };
@@ -32,6 +32,14 @@ const kerrokantasiBlockRenderMap = Map({
     element: 'p',
   }
 });
+
+const htmlOptions = {
+  blockStyleFn: (block) => {
+    if (block.getType() === 'LEAD') {
+      return {attributes: {className: 'lead'}};
+    }
+  }
+};
 
 const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
 
@@ -120,7 +128,7 @@ class RichTextEditor extends React.Component {
   onChange(editorState) {
     this.setState({ editorState });
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState);
+    const html = stateToHTML(contentState, htmlOptions);
     this.props.onChange(html);
   }
 
@@ -131,7 +139,7 @@ class RichTextEditor extends React.Component {
   onBlur() {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState);
+    const html = stateToHTML(contentState, htmlOptions);
     this.props.onBlur(html);
   }
 
