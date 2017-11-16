@@ -5,19 +5,15 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   Editor,
   EditorState,
-  ContentState,
   CompositeDecorator,
   RichUtils,
   DefaultDraftBlockRenderMap
 } from 'draft-js';
 import { convertFromHTML } from 'draft-convert';
-import createImagePlugin from 'draft-js-image-plugin';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
 import { BlockStyleControls, InlineStyleControls } from './EditorControls';
-
-const imagePlugin = createImagePlugin();
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -38,6 +34,7 @@ const htmlOptions = {
     if (block.getType() === 'LEAD') {
       return {attributes: {className: 'lead'}};
     }
+    return null;
   }
 };
 
@@ -88,6 +85,7 @@ class RichTextEditor extends React.Component {
             if (node.className === 'lead') {
               return {type: 'LEAD', data: {}};
             }
+            return null;
           },
           htmlToEntity: (nodeName, node, createEntity) => {
             if (nodeName === 'a') {
@@ -95,8 +93,9 @@ class RichTextEditor extends React.Component {
                 'LINK',
                 'MUTABLE',
                 {url: node.href}
-              )
+              );
             }
+            return null;
           },
         })(this.props.value);
         return EditorState.createWithContent(contentState, linkDecorator);
