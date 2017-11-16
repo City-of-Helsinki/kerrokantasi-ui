@@ -5,12 +5,11 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   Editor,
   EditorState,
-  ContentState,
   CompositeDecorator,
   RichUtils,
-  convertFromHTML,
-  DefaultDraftBlockRenderMap,
+  DefaultDraftBlockRenderMap
 } from 'draft-js';
+import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
@@ -19,6 +18,7 @@ import { BlockStyleControls, InlineStyleControls } from './EditorControls';
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
+    case 'LEAD': return 'lead';
     default: return null;
   }
 };
@@ -28,6 +28,15 @@ const kerrokantasiBlockRenderMap = Map({
     element: 'p',
   }
 });
+
+const htmlOptions = {
+  blockStyleFn: (block) => {
+    if (block.getType() === 'LEAD') {
+      return {attributes: {className: 'lead'}};
+    }
+    return null;
+  }
+};
 
 const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
 
@@ -71,8 +80,24 @@ class RichTextEditor extends React.Component {
     ]);
     const createEditorState = () => {
       if (this.props.value) {
-        const blocksFromHTML = convertFromHTML(this.props.value);
-        const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+        const contentState = convertFromHTML({
+          htmlToBlock: (nodeName, node) => {
+            if (node.className === 'lead') {
+              return {type: 'LEAD', data: {}};
+            }
+            return null;
+          },
+          htmlToEntity: (nodeName, node, createEntity) => {
+            if (nodeName === 'a') {
+              return createEntity(
+                'LINK',
+                'MUTABLE',
+                {url: node.href}
+              );
+            }
+            return null;
+          },
+        })(this.props.value);
         return EditorState.createWithContent(contentState, linkDecorator);
       }
       return EditorState.createEmpty(linkDecorator);
@@ -116,7 +141,7 @@ class RichTextEditor extends React.Component {
   onChange(editorState) {
     this.setState({ editorState });
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState);
+    const html = stateToHTML(contentState, htmlOptions);
     this.props.onChange(html);
   }
 
@@ -127,7 +152,7 @@ class RichTextEditor extends React.Component {
   onBlur() {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState);
+    const html = stateToHTML(contentState, htmlOptions);
     this.props.onBlur(html);
   }
 
