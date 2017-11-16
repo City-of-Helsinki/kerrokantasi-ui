@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const BLOCK_TYPES = [
+  {label: 'Korostettu kappale', style: 'lead'},
   {label: 'Väliotsikko', style: 'header-four'},
   {label: 'Lista', style: 'unordered-list-item'},
   {label: 'Numeroitu lista', style: 'ordered-list-item'},
