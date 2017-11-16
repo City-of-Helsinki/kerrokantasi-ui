@@ -38,6 +38,7 @@ module.exports = function getDevConfig() {
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
+      new webpack.LoaderOptionsPlugin({debug: true}),
     ],
   });
 };
