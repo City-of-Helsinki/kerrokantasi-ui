@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
+  Editor,
   EditorState,
   ContentState,
   CompositeDecorator,
   RichUtils,
-  convertFromHTML,
-  DefaultDraftBlockRenderMap,
+  DefaultDraftBlockRenderMap
 } from 'draft-js';
-import Editor from 'draft-js-plugins-editor';
+import { convertFromHTML } from 'draft-convert';
 import createImagePlugin from 'draft-js-image-plugin';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
@@ -83,8 +83,22 @@ class RichTextEditor extends React.Component {
     ]);
     const createEditorState = () => {
       if (this.props.value) {
-        const blocksFromHTML = convertFromHTML(this.props.value);
-        const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+        const contentState = convertFromHTML({
+          htmlToBlock: (nodeName, node) => {
+            if (node.className === 'lead') {
+              return {type: 'LEAD', data: {}};
+            }
+          },
+          htmlToEntity: (nodeName, node, createEntity) => {
+            if (nodeName === 'a') {
+              return createEntity(
+                'LINK',
+                'MUTABLE',
+                {url: node.href}
+              )
+            }
+          },
+        })(this.props.value);
         return EditorState.createWithContent(contentState, linkDecorator);
       }
       return EditorState.createEmpty(linkDecorator);
@@ -282,7 +296,6 @@ class RichTextEditor extends React.Component {
         />
         {this.renderHyperlinkButton()}
         <Editor
-          plugins={[imagePlugin]}
           ref="editor"
           blockStyleFn={getBlockStyle}
           blockRenderMap={blockRenderMap}
