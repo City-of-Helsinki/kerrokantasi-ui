@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const paths = require('../paths');
 
 const plugins = [
-  new webpack.NamedModulesPlugin(),
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
 ];
 

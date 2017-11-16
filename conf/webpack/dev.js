@@ -36,6 +36,7 @@ module.exports = function getDevConfig() {
         __DEVTOOLS__: true,
         'process.env': {NODE_ENV: JSON.stringify('development')}
       }),
+      new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
     ],
   });
