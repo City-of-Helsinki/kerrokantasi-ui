@@ -63,16 +63,22 @@ class HearingEditor extends React.Component {
     const {dispatch} = this.props;
 
     if (isEmpty(hearing.title) || values(hearing.title).filter((value) => value !== '').length <= 0) {
-      return notifyError('Aseta kuulemiselle otsikko.')
+      return notifyError('Aseta otsikko ennen tallentamista.')
+    }
+    if (!isEmpty(hearing.labels)) {
+      return notifyError('Aseta ainakin yksi tagi.')
     }
     if (hearing.slug === '') {
-      return notifyError('Aseta kuulemiselle osoite ennen tallentamista.')
+      return notifyError('Aseta osoite ennen tallentamista.')
+    }
+    if (!isEmpty(hearing.contact_persons)) {
+      return notifyError('Aseta ainakin yksi yhteyshenkilö.')
     }
     if (!hearing.open_at) {
-      return notifyError('Aseta kuulemiselle avautumisaika ennen tallentamista.')
+      return notifyError('Aseta avautumisaika ennen tallentamista.')
     }
     if (!hearing.close_at) {
-      return notifyError('Aseta kuulemiselle sulkeutumisaika ennen tallentamista.')
+      return notifyError('Aseta sulkeutumisaika ennen tallentamista.')
     }
     return dispatch(callbackAction(hearing));
   }
