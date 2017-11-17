@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
-import {isEmpty} from 'lodash';
-
+import {isEmpty, values} from 'lodash';
+import {notifyError} from '../../utils/notify';
 import {
   changeHearing,
   changeHearingEditorLanguages,
@@ -58,17 +58,36 @@ class HearingEditor extends React.Component {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
 
+  // Check if the hearing has all the required properties. Returns with error message to user if not, else dispatches and action as a callback.
+  validateHearing = (hearing, callbackAction) => {
+    const {dispatch} = this.props;
+
+    if (isEmpty(hearing.title) || values(hearing.title).filter((value) => value !== '').length <= 0) {
+      return notifyError('Aseta kuulemiselle otsikko.')
+    }
+    if (hearing.slug === '') {
+      return notifyError('Aseta kuulemiselle osoite ennen tallentamista.')
+    }
+    if (!hearing.open_at) {
+      return notifyError('Aseta kuulemiselle avautumisaika ennen tallentamista.')
+    }
+    if (!hearing.close_at) {
+      return notifyError('Aseta kuulemiselle sulkeutumisaika ennen tallentamista.')
+    }
+    return dispatch(callbackAction(hearing));
+  }
+
   onSaveAndPreview() {
-    const {dispatch, hearing} = this.props;
+    const {hearing} = this.props;
     if (hearing.isNew) {
-      dispatch(saveAndPreviewNewHearing(hearing));
+      this.validateHearing(hearing, saveAndPreviewNewHearing);
     } else {
-      dispatch(saveAndPreviewHearingChanges(hearing));
+      this.validateHearing(hearing, saveAndPreviewHearingChanges);
     }
   }
 
   onSaveChanges() {
-    this.props.dispatch(saveHearingChanges(this.props.hearing));
+    this.validateHearing(this.props.hearing, saveHearingChanges);
   }
 
   onUnPublish() {
