@@ -65,7 +65,7 @@ class HearingFormStep4 extends React.Component {
         <Row>
           <Col md={3}>
             <FormGroup controlId="hearingOpeningTime">
-              <ControlLabel><FormattedMessage id="hearingOpeningTime"/></ControlLabel>
+              <ControlLabel><FormattedMessage id="hearingOpeningTime"/>*</ControlLabel>
               <DateTime
                 name="open_at"
                 dateFormat={this.date_format}
@@ -77,7 +77,7 @@ class HearingFormStep4 extends React.Component {
           </Col>
           <Col md={3}>
             <FormGroup controlId="hearingClosingTime">
-              <ControlLabel><FormattedMessage id="hearingClosingTime"/></ControlLabel>
+              <ControlLabel><FormattedMessage id="hearingClosingTime"/>*</ControlLabel>
               <DateTime
                 name="close_at"
                 dateFormat={this.date_format}

@@ -117,7 +117,7 @@ class HearingFormStep1 extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup controlId="hearingLabels">
-              <ControlLabel><FormattedMessage id="hearingLabels"/></ControlLabel>
+              <ControlLabel><FormattedMessage id="hearingLabels"/>*</ControlLabel>
               <div className="label-elements">
                 <Select
                   multi
@@ -138,7 +138,7 @@ class HearingFormStep1 extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup controlId="hearingSlug">
-              <ControlLabel><FormattedMessage id="hearingSlug"/></ControlLabel>
+              <ControlLabel><FormattedMessage id="hearingSlug"/>*</ControlLabel>
               <InputGroup>
                 <InputGroup.Addon>{`${window.document.origin}/`}</InputGroup.Addon>
                 <FormControl
@@ -154,7 +154,7 @@ class HearingFormStep1 extends React.Component {
         </Row>
 
         <FormGroup controlId="hearingContacts">
-          <ControlLabel><FormattedMessage id="hearingContacts"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="hearingContacts"/>*</ControlLabel>
           <div className="contact-elements">
             <Select
               labelKey="name"
