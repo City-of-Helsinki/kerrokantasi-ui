@@ -530,6 +530,7 @@ exports[`Hearing component should render as expected 1`] = `
                   "hearingMap": "Kuulemiset kartalla",
                   "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
                   "hearingMapHeaderText": "Kartta",
+                  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
                   "hearingOpeningTime": "Avautumisaika",
                   "hearingSavingFailed": "Tallentaminen epäonnistui",
                   "hearingSlug": "Kuulemisen osoite (täytä osoitteen loppuosa)",
