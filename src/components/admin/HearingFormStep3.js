@@ -1,12 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import Leaflet from 'leaflet';
 
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import isEmpty from 'lodash/isEmpty';
 
 import {hearingShape} from '../../types';
+
+Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
+  iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+  shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
+  iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+  iconSize: [25, 41],
+  iconAnchor: [13, 41],
+})
 
 
 function getHearingArea(hearing) {
@@ -14,17 +24,34 @@ function getHearingArea(hearing) {
   if (!hearing || !hearing.geojson) return null;
 
   const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
-  const {Polygon, GeoJson} = require('react-leaflet');  // Late import to be isomorphic compatible
+  const {Polygon, GeoJSON, Marker} = require('react-leaflet');  // Late import to be isomorphic compatible
   const {geojson} = hearing;
+  console.log(geojson, hearing);
   switch (geojson.type) {
     case "Polygon": {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon
       const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
       return <Polygon positions={latLngs}/>;
     }
+    case "Point": {
+      const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
+      console.log('You have a point');
+      return (
+        <Marker
+          position={latLngs}
+          icon={new Leaflet.Icon({
+            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
+            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
+            iconSize: [25, 41],
+            iconAnchor: [13, 41]
+          })}
+        />
+      );
+    }
     default:
       // TODO: Implement support for other geometries too (markers, square, circle)
-      return (<GeoJson data={geojson}/>);
+      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
   }
 }
 
@@ -60,6 +87,7 @@ class HearingFormStep3 extends React.Component {
   onDrawCreated(event) {
     // TODO: Implement proper onDrawCreated functionality
     console.log("hearing: drawCreated", event, this.props.hearing);
+    console.log('GEOMETRYYYY: ', event.layer.toGeoJSON().geometry);
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
@@ -77,6 +105,34 @@ class HearingFormStep3 extends React.Component {
       setTimeout(() => {
         map.leafletElement.invalidateSize();
       }, 200);  // Short delay to wait for the animation to end
+    }
+  }
+
+  getDrawOptions() {
+    const {geojson} = this.props.hearing;
+
+    if (!geojson || isEmpty(geojson)) {
+      return {
+        circle: false,
+        circlemarker: false,
+        marker: {
+          icon: new Leaflet.Icon({
+            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
+            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+          })
+        }
+      }
+    }
+    return {
+      circle: false,
+      circlemarker: false,
+      marker: false,
+      polyline: false,
+      polygon: false,
+      rectangle: false,
     }
   }
 
@@ -108,6 +164,7 @@ class HearingFormStep3 extends React.Component {
             onEdited={this.onDrawEdited}
             onCreated={this.onDrawCreated}
             onDeleted={this.onDrawDeleted}
+            draw={this.getDrawOptions()}
           />
           {getHearingArea(hearing)}
         </FeatureGroup>
