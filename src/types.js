@@ -10,10 +10,12 @@ export const geoJSONshape = PropTypes.shape({
   coordinates: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.arrayOf(PropTypes.number)
-      ])
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.arrayOf(PropTypes.number)
+        ])
+      )
     ])
   )
 });
