@@ -7,9 +7,12 @@
     "build": "true",
     "dev": "node server --dev",
     "lint": "eslint src server test",
+    "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -34,7 +37,7 @@
     "body-parser": "^1.17.2",
     "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.3",
-    "codecov": "^2.3.0",
+    "codecov": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
     "cookie-session": "^2.0.0-alpha.1",
@@ -109,13 +112,14 @@
     "scrolltop": "0.0.1",
     "style-loader": "^0.18.2",
     "updeep": "^0.16.0",
-    "url-loader": "^0.5.9",
+    "url-loader": "^0.6.0",
     "url-parse": "^1.1.9",
     "uuid": "^3.1.0",
     "webpack": "^3.6.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "snyk": "^1.49.4"
   },
   "devDependencies": {
     "babel-jest": "^16.0.0",
@@ -140,5 +144,6 @@
       "src/**/*.{js,jsx}"
     ],
     "setupTestFrameworkScriptFile": "./test-setup.js"
-  }
+  },
+  "snyk": true
 }
