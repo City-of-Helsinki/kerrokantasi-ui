@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HearingsList component should render as expected 1`] = `
+<div>
+  <section
+    className="page-section--hearings-search"
+  >
+    <div
+      className="container"
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          md={10}
+          mdPush={1}
+        >
+          <HearingsSearch
+            labels={
+              Array [
+                Object {
+                  "id": 1,
+                  "label": Object {
+                    "fi": "Mock Von Label",
+                  },
+                },
+                Object {
+                  "id": 2,
+                  "label": Object {
+                    "fi": "Mock Don Label",
+                  },
+                },
+              ]
+            }
+          />
+        </Col>
+      </Row>
+    </div>
+  </section>
+  <section
+    className="page-section--hearings-tabs"
+  >
+    <div
+      className="container"
+    >
+      <HearingListTabs
+        activeTab="list"
+      />
+    </div>
+  </section>
+  <section
+    className="page-section page-section--hearings-list"
+  >
+    <div
+      className="container"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        md={8}
+        mdPush={2}
+      >
+        <div
+          className="hearing-list"
+        >
+          <HearingListFilters
+            formatMessage={[Function]}
+          />
+          <HearingListItem
+            hearing={
+              Object {
+                "abstract": Object {
+                  "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                },
+                "borough": Object {},
+                "close_at": "2017-11-28T22:00:00Z",
+                "closed": false,
+                "created_at": "2017-10-23T11:07:26.630423Z",
+                "default_to_fullscreen": false,
+                "geojson": Object {
+                  "coordinates": Array [
+                    Array [
+                      25.039301,
+                      60.106147,
+                    ],
+                    Array [
+                      25.036554,
+                      60.101441,
+                    ],
+                  ],
+                  "type": "LineString",
+                },
+                "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+                "labels": Array [],
+                "main_image": Object {
+                  "caption": Object {
+                    "fi": "A Wonderfull caption",
+                  },
+                  "height": 631,
+                  "id": 92,
+                  "title": Object {},
+                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                  "width": 893,
+                },
+                "n_comments": 1,
+                "open_at": "2017-10-22T21:00:00Z",
+                "organization": "Mock Inc",
+                "published": true,
+                "servicemap_url": "",
+                "slug": "mockHearing",
+                "title": Object {
+                  "fi": "Mock Hearing",
+                },
+              }
+            }
+            key="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+          />
+          <Waypoint
+            bottomOffset="0px"
+            fireOnRapidScroll={true}
+            horizontal={false}
+            onEnter={[Function]}
+            onLeave={[Function]}
+            onPositionChange={[Function]}
+            throttleHandler={[Function]}
+            topOffset="0px"
+          />
+        </div>
+      </Col>
+    </div>
+  </section>
+</div>
+`;

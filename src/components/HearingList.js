@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
@@ -69,7 +69,7 @@ HearingListFilters.propTypes = {
   formatMessage: PropTypes.func,
 };
 
-class HearingListItem extends React.Component {
+export class HearingListItem extends React.Component {
   render() {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
@@ -147,7 +147,7 @@ HearingListItem.propTypes = {
   language: PropTypes.string,
 };
 
-const HearingList = ({
+export const HearingList = ({
   handleSearch,
   handleSelectLabels,
   handleSort,
@@ -179,7 +179,7 @@ const HearingList = ({
     </Col>
   ) : null;
 
-  return labels && labels.length ? (
+  return (
     <div>
       <section className="page-section--hearings-search">
         <div className="container">
@@ -223,7 +223,7 @@ const HearingList = ({
         </div>
       </section>
     </div>
-  ) : null;
+  );
 };
 
 HearingList.propTypes = {
@@ -249,4 +249,4 @@ HearingList.defaultProps = {
   tab: HEARING_LIST_TABS.LIST,
 };
 
-export default injectIntl(HearingList);
+export default HearingList;

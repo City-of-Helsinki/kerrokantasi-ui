@@ -49,11 +49,11 @@ const LinkWrapper = ({disabled, to, children, ...rest}) => {
 
 LinkWrapper.propTypes = {
   disabled: PropTypes.bool,
-  children: PropTypes.elements,
+  children: PropTypes.array,
   to: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.func]),
 };
 
-class SectionContainer extends React.Component {
+export class SectionContainer extends React.Component {
   constructor(props) {
     super(props);
 

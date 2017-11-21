@@ -5,7 +5,7 @@ import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {get, isEmpty, keys, throttle} from 'lodash';
 import Waypoint from 'react-waypoint';
 import PropTypes from 'prop-types';
-import CommentList from './CommentList';
+import WrappedCommentList from './CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
@@ -19,7 +19,7 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
-class SortableCommentList extends Component {
+export class SortableCommentList extends Component {
   constructor() {
     super();
 
@@ -209,7 +209,7 @@ class SortableCommentList extends Component {
 
               {showCommentList &&
                 <div>
-                  <CommentList
+                  <WrappedCommentList
                     canVote={canVote}
                     section={section}
                     comments={sectionComments.results}

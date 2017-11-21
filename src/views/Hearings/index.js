@@ -8,7 +8,7 @@ import { get, find } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
-import HearingList from '../../components/HearingList';
+import WrappedHearingList from '../../components/HearingList';
 import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
@@ -68,7 +68,7 @@ const getHearingListParams = listName => {
   return params;
 };
 
-class Hearings extends React.Component {
+export class Hearings extends React.Component {
   constructor(props) {
     super(props);
 
@@ -92,11 +92,15 @@ class Hearings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user, labels, location } = this.props;
+    const { user, location } = this.props;
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
-    const shouldFetchHearings = (!labels.length && nextProps.labels.length) || (nextProps.labels.length && location.search !== nextProps.location.search);
+    const shouldFetchHearings = (
+      (!this.props.labels.length && nextProps.labels.length) ||
+      (nextProps.labels.length && location.search !== nextProps.location.search) ||
+      (!this.props.user && nextProps.user) ||
+      (this.props.user && !nextProps.user));
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
@@ -205,7 +209,7 @@ class Hearings extends React.Component {
       typeof hearingLists[list].next === 'string' &&
       !hearingLists[list].isLoading
     ) {
-      setTimeout(() => fetchMoreHearings(list), 10);
+      fetchMoreHearings(list);
     }
   }
 
@@ -256,8 +260,7 @@ class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-
-        <HearingList
+        {labels && labels.length && <WrappedHearingList
           hearings={hearings}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
@@ -270,6 +273,7 @@ class Hearings extends React.Component {
           toggleShowOnlyOpen={this.toggleShowOnlyOpen}
           language={language}
           tab={tab}
+          intl={this.props.intl}
           handleReachBottom={this.handleReachBottom}
           onTabChange={value => {
             const url = `/hearings/${value}`;
@@ -278,7 +282,7 @@ class Hearings extends React.Component {
               search: location.search,
             });
           }}
-        />
+        />}
       </div>
     );
   }

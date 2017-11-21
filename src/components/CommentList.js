@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Comment from './Comment';
 
-class CommentList extends React.Component {
+export class CommentList extends React.Component {
   render() {
     const {comments, canComment, isLoading} = this.props;
     if (comments.length === 0) {

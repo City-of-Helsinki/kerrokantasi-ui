@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import LoadSpinner from '../components/LoadSpinner';
-import SectionContainer from '../components/SectionContainer';
+import WrappedSectionContainer from '../components/SectionContainer';
 import { injectIntl } from 'react-intl';
 import { fetchHearing } from '../actions';
 import { getOpenGraphMetaData } from '../utils/hearing';
@@ -14,7 +14,7 @@ import { parseQuery } from '../utils/urlQuery';
 import trackLink from '../utils/trackLink';
 // import {groupSections, isSpecialSectionType} from '../utils/section';
 
-class QuestionView extends Component {
+export class QuestionView extends Component {
   /**
    * Return a promise that will, as it fulfills, have added requisite
    * data for the HearingView view into the dispatch's associated store.
@@ -73,7 +73,7 @@ class QuestionView extends Component {
     return (
       <div key="question" className="question-view container">
         <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
-        <SectionContainer
+        <WrappedSectionContainer
           hearingSlug={hearingSlug}
           sectionId={sectionId}
           hearing={hearing}
