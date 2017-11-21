@@ -65,13 +65,13 @@ class HearingEditor extends React.Component {
     if (isEmpty(hearing.title) || values(hearing.title).filter((value) => value !== '').length <= 0) {
       return notifyError('Aseta otsikko ennen tallentamista.')
     }
-    if (!isEmpty(hearing.labels)) {
+    if (isEmpty(hearing.labels)) {
       return notifyError('Aseta ainakin yksi tagi.')
     }
     if (hearing.slug === '') {
       return notifyError('Aseta osoite ennen tallentamista.')
     }
-    if (!isEmpty(hearing.contact_persons)) {
+    if (isEmpty(hearing.contact_persons)) {
       return notifyError('Aseta ainakin yksi yhteyshenkilö.')
     }
     if (!hearing.open_at) {
