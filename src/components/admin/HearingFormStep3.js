@@ -24,7 +24,7 @@ function getHearingArea(hearing) {
   if (!hearing || !hearing.geojson) return null;
 
   const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
-  const {Polygon, GeoJSON, Marker} = require('react-leaflet');  // Late import to be isomorphic compatible
+  const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
   const {geojson} = hearing;
   console.log(geojson, hearing);
   switch (geojson.type) {
@@ -49,6 +49,10 @@ function getHearingArea(hearing) {
         />
       );
     }
+    case "LineString": {
+      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+      return (<Polyline positions={latLngs}/>);
+    }
     default:
       // TODO: Implement support for other geometries too (markers, square, circle)
       return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
@@ -71,6 +75,8 @@ class HearingFormStep3 extends React.Component {
     this.onDrawCreated = this.onDrawCreated.bind(this);
     this.onDrawDeleted = this.onDrawDeleted.bind(this);
     this.onDrawEdited = this.onDrawEdited.bind(this);
+    // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
+    this.state = {isEdited: false};
   }
 
   componentDidUpdate() {
@@ -81,6 +87,7 @@ class HearingFormStep3 extends React.Component {
     // TODO: Implement proper onDrawEdited functionality
     console.log("hearing: drawEdited", event, this.props.hearing);
     console.log(getFirstGeometry(event.layers.toGeoJSON()));
+    this.setState({isEdited: true});
     this.props.onHearingChange("geojson", getFirstGeometry(event.layers.toGeoJSON()));
   }
 
@@ -88,6 +95,7 @@ class HearingFormStep3 extends React.Component {
     // TODO: Implement proper onDrawCreated functionality
     console.log("hearing: drawCreated", event, this.props.hearing);
     console.log('GEOMETRYYYY: ', event.layer.toGeoJSON().geometry);
+    this.setState({isEdited: true});
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
@@ -95,12 +103,13 @@ class HearingFormStep3 extends React.Component {
     // TODO: Implement proper onDrawDeleted functionality
     console.log("hearing: drawDeleted", event, this.props.hearing);
     this.props.onHearingChange("geojson", null);
+    this.setState({isEdited: true});
   }
 
   invalidateMap() {
     // Map size needs to be invalidated after dynamically resizing
     // the map container.
-    const map = this.refs.map;
+    const map = this.map;
     if (map && this.props.visible) {
       setTimeout(() => {
         map.leafletElement.invalidateSize();
@@ -136,50 +145,44 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
-  getMap() {
-    if (!this.props.visible) {
-      return null;
-    }
-
-    const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
-    const {EditControl} = require("react-leaflet-draw");
-    const position = [60.192059, 24.945831];  // Default to Helsinki's center
-    const hearing = this.props.hearing;
-    return (
-      <Map
-        ref="map"
-        // onResize={this.invalidateMap.bind(this)}
-        center={position}
-        zoom={11}
-        zoomControl
-        className="hearing-map"
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        />
-        <FeatureGroup>
-          <EditControl
-            position="topleft"
-            onEdited={this.onDrawEdited}
-            onCreated={this.onDrawCreated}
-            onDeleted={this.onDrawDeleted}
-            draw={this.getDrawOptions()}
-          />
-          {getHearingArea(hearing)}
-        </FeatureGroup>
-      </Map>
-    );
+  refCallBack = (el) => {
+    this.map = el;
   }
 
   render() {
     if (typeof window === "undefined") return null;  // Skip rendering outside of browser context
+    const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
+    const {EditControl} = require("react-leaflet-draw");
+    const position = [60.192059, 24.945831];  // Default to Helsinki's center
+    const hearing = this.props.hearing;
 
     return (
       <div className="form-step">
         <FormGroup controlId="hearingArea">
           <ControlLabel><FormattedMessage id="hearingArea"/></ControlLabel>
-          {this.getMap()}
+          <Map
+            ref={this.refCallBack}
+            // onResize={this.invalidateMap.bind(this)}
+            center={position}
+            zoom={11}
+            zoomControl
+            className="hearing-map"
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+            />
+            <FeatureGroup>
+              <EditControl
+                position="topleft"
+                onEdited={this.onDrawEdited}
+                onCreated={this.onDrawCreated}
+                onDeleted={this.onDrawDeleted}
+                draw={this.getDrawOptions()}
+              />
+              {!this.state.isEdited && getHearingArea(hearing)}
+            </FeatureGroup>
+          </Map>
         </FormGroup>
         <hr/>
         <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
