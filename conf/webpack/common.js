@@ -7,7 +7,7 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
 ];
 
-if(process.env.BUNDLE_ANALYZER) {
+if (process.env.BUNDLE_ANALYZER) {
   plugins.push(new BundleAnalyzerPlugin());
 }
 
