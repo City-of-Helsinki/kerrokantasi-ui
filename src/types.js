@@ -8,14 +8,13 @@ const languages = config.languages;
 export const geoJSONshape = PropTypes.shape({
   type: PropTypes.string,
   coordinates: PropTypes.arrayOf(
-    PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.number,
       PropTypes.oneOfType([
         PropTypes.number,
-        PropTypes.arrayOf(
-          PropTypes.number
-        )
+        PropTypes.arrayOf(PropTypes.number)
       ])
-    )
+    ])
   )
 });
 
