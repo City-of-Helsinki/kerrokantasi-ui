@@ -56,7 +56,7 @@ class OverviewMap extends React.Component {
               input.context.map.setMaxBounds(viewportBounds);
             }
           }}
-        >{contents}</FeatureGroup>
+        ><div>{contents}</div></FeatureGroup>
       </Map>);
   }
 }
