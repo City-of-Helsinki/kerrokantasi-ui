@@ -27,6 +27,7 @@ import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Sidebar from '../views/Hearing/Sidebar';
 import Header from '../views/Hearing/Header';
+import WrappedCarousel from './Carousel';
 import {find, has, includes} from 'lodash';
 import Icon from '../utils/Icon';
 import {
@@ -231,6 +232,7 @@ export class Hearing extends React.Component {
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
         <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
+        <WrappedCarousel hearing={hearing} />
         <Row>
           <Sidebar
             currentlyViewed={currentlyViewed}
