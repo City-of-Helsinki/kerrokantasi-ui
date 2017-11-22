@@ -16,7 +16,7 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon.png'),
   iconSize: [25, 41],
   iconAnchor: [13, 41],
-})
+});
 
 
 function getHearingArea(hearing) {
@@ -85,23 +85,18 @@ class HearingFormStep3 extends React.Component {
 
   onDrawEdited(event) {
     // TODO: Implement proper onDrawEdited functionality
-    console.log("hearing: drawEdited", event, this.props.hearing);
-    console.log(getFirstGeometry(event.layers.toGeoJSON()));
     this.setState({isEdited: true});
     this.props.onHearingChange("geojson", getFirstGeometry(event.layers.toGeoJSON()));
   }
 
   onDrawCreated(event) {
     // TODO: Implement proper onDrawCreated functionality
-    console.log("hearing: drawCreated", event, this.props.hearing);
-    console.log('GEOMETRYYYY: ', event.layer.toGeoJSON().geometry);
     this.setState({isEdited: true});
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
   onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
-    console.log("hearing: drawDeleted", event, this.props.hearing);
     this.props.onHearingChange("geojson", null);
     this.setState({isEdited: true});
   }
@@ -133,7 +128,7 @@ class HearingFormStep3 extends React.Component {
             iconAnchor: [13, 41],
           })
         }
-      }
+      };
     }
     return {
       circle: false,
@@ -142,7 +137,7 @@ class HearingFormStep3 extends React.Component {
       polyline: false,
       polygon: false,
       rectangle: false,
-    }
+    };
   }
 
   refCallBack = (el) => {
