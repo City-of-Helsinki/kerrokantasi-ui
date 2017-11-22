@@ -41,7 +41,7 @@ exports[`HearingView component should render as expected 1`] = `
           "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
         },
         "borough": Object {},
-        "close_at": "2017-11-28T22:00:00Z",
+        "close_at": "2200-11-28T22:00:00Z",
         "closed": false,
         "contact_persons": Array [
           Object {
@@ -57,19 +57,7 @@ exports[`HearingView component should render as expected 1`] = `
         ],
         "created_at": "2017-10-23T11:07:26.630423Z",
         "default_to_fullscreen": false,
-        "geojson": Object {
-          "coordinates": Array [
-            Array [
-              25.039301,
-              60.106147,
-            ],
-            Array [
-              25.036554,
-              60.101441,
-            ],
-          ],
-          "type": "LineString",
-        },
+        "geojson": null,
         "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
         "labels": Array [],
         "main_image": Object {
