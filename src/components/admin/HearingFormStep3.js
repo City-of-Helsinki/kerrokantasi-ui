@@ -26,7 +26,6 @@ function getHearingArea(hearing) {
   const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
   const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
   const {geojson} = hearing;
-  console.log(geojson, hearing);
   switch (geojson.type) {
     case "Polygon": {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon
@@ -35,7 +34,6 @@ function getHearingArea(hearing) {
     }
     case "Point": {
       const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
-      console.log('You have a point');
       return (
         <Marker
           position={latLngs}

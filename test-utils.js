@@ -198,7 +198,7 @@ export const mockStore = {
         published: true,
         labels: [],
         open_at: '2017-10-22T21:00:00Z',
-        close_at: '2017-11-28T22:00:00Z',
+        close_at: '2200-11-28T22:00:00Z',
         created_at: '2017-10-23T11:07:26.630423Z',
         servicemap_url: '',
         sections: [
@@ -306,19 +306,7 @@ export const mockStore = {
           },
         ],
         closed: false,
-        geojson: {
-          type: 'LineString',
-          coordinates: [
-            [
-              25.039301,
-              60.106147
-            ],
-            [
-              25.036554,
-              60.101441
-            ]
-          ]
-        },
+        geojson: null,
         organization: 'Kaupunkisuunnitteluvirasto',
         slug: 'isosaari',
         main_image: {
@@ -363,7 +351,7 @@ export const mockStore = {
         published: true,
         labels: [],
         open_at: '2017-10-22T21:00:00Z',
-        close_at: '2017-11-28T22:00:00Z',
+        close_at: '2200-11-28T22:00:00Z',
         created_at: '2017-10-23T11:07:26.630423Z',
         servicemap_url: '',
         sections: [
@@ -403,19 +391,7 @@ export const mockStore = {
           }
         ],
         closed: false,
-        geojson: {
-          type: 'LineString',
-          coordinates: [
-            [
-              25.039301,
-              60.106147
-            ],
-            [
-              25.036554,
-              60.101441
-            ]
-          ]
-        },
+        geojson: null,
         organization: 'Kaupunkisuunnitteluvirasto',
         slug: 'isosaari',
         main_image: {
@@ -474,23 +450,11 @@ export const mockStore = {
         published: true,
         labels: [],
         open_at: '2017-10-22T21:00:00Z',
-        close_at: '2017-11-28T22:00:00Z',
+        close_at: '2200-11-28T22:00:00Z',
         created_at: '2017-10-23T11:07:26.630423Z',
         servicemap_url: '',
         closed: false,
-        geojson: {
-          type: 'LineString',
-          coordinates: [
-            [
-              25.039301,
-              60.106147
-            ],
-            [
-              25.036554,
-              60.101441
-            ]
-          ]
-        },
+        geojson: null,
         organization: 'Mock Inc',
         slug: 'mockHearing',
         main_image: {
