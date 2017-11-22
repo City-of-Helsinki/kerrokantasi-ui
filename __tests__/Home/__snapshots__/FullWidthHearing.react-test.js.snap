@@ -239,7 +239,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
       <span>
         <FormatRelativeTime
           messagePrefix="timeClose"
-          timeVal="2017-11-28T22:00:00Z"
+          timeVal="2200-11-28T22:00:00Z"
         />
         .
       </span>
