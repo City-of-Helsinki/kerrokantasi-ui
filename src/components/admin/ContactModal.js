@@ -75,7 +75,7 @@ class ContactModal extends React.Component {
 
   generateCheckBoxes() {
     const checkBoxes = map(config.languages, (language) => (
-      <div key={language} className={'checkbox-container'}>
+      <div key={language} className="checkbox-container">
         <FormattedMessage id={`inLanguage-${language}`}/>
         <input
           type="checkbox"
@@ -132,7 +132,7 @@ class ContactModal extends React.Component {
                 className="form-control"
                 onChange={(event) => this.onContactChange('name', event.target.value)}
                 value={contact.name}
-                placeholder={'Nimi'}
+                placeholder="Nimi"
                 maxLength="50"
                 required
               />
@@ -143,7 +143,7 @@ class ContactModal extends React.Component {
                 className="form-control"
                 onChange={(event) => this.onContactChange('phone', event.target.value)}
                 value={contact.phone}
-                placeholder={'Puhelinnumero'}
+                placeholder="Puhelinnumero"
                 maxLength="50"
                 required
               />
@@ -155,7 +155,7 @@ class ContactModal extends React.Component {
                 className="form-control"
                 onChange={(event) => this.onContactChange('email', event.target.value)}
                 value={contact.email}
-                placeholder={'Sähköposti'}
+                placeholder="Sähköposti"
                 maxLength="50"
                 required
               />
