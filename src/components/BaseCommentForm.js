@@ -82,7 +82,7 @@ export class BaseCommentForm extends React.Component {
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
       for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
-        const imageObject = { title: "Title", caption: "Caption" };
+        const imageObject = {title: "Title", caption: "Caption"};
 
         imageObject.image = arrayOfResults[_i];
         images.push(imageObject);
@@ -125,8 +125,15 @@ export class BaseCommentForm extends React.Component {
 
   render() {
     const canSetNickname = this.props.canSetNickname;
-    if (!this.state.collapsed) {
-      return (<div className="comment-form">
+    if (this.state.collapsed) {
+      return (
+        <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
+          <Icon name="comment"/> <FormattedMessage id="addComment"/>
+        </Button>
+      );
+    }
+    return (
+      <div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
           <FormControl
@@ -136,9 +143,11 @@ export class BaseCommentForm extends React.Component {
           />
           <div className="comment-form__selected-images">
             {this.state.imageTooBig
-              ? <div className="comment-form__image-too-big">
-                <FormattedMessage id="image_too_big"/>
-              </div>
+              ? (
+                <div className="comment-form__image-too-big">
+                  <FormattedMessage id="image_too_big"/>
+                </div>
+              )
               : this.state.images.map(
                 (image) =>
                   <img
@@ -196,11 +205,8 @@ export class BaseCommentForm extends React.Component {
           </div>
           <CommentDisclaimer/>
         </form>
-      </div>);
-    }
-    return (<Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-      <Icon name="comment"/> <FormattedMessage id="addComment"/>
-    </Button>);
+      </div>
+    );
   }
 }
 

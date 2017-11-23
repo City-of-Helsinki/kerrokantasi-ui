@@ -5,9 +5,11 @@ import HearingImage from './HearingImage';
 class HearingImageList extends React.Component {
   render() {
     const {images} = this.props;
-    return (<div className="hearing-image-list">
-      {images.map((image) => <HearingImage data={image} key={image.url}/>)}
-    </div>);
+    return (
+      <div className="hearing-image-list">
+        {images.map((image) => <HearingImage data={image} key={image.url}/>)}
+      </div>
+    );
   }
 }
 

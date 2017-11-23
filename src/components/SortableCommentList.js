@@ -222,11 +222,11 @@ export class SortableCommentList extends Component {
                   />
                   <Waypoint onEnter={this.handleReachBottom} />
                 </div>}
-              {this.state.showLoader
-                ? <div className="sortable-comment-list__loader">
+              {this.state.showLoader ? (
+                <div className="sortable-comment-list__loader">
                   <LoadSpinner />
                 </div>
-                : null}
+              ) : null}
             </div>
           </div>
           : null}

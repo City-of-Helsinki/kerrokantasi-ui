@@ -12,14 +12,18 @@ class OverviewMap extends React.Component {
     const contents = [];
     hearings.forEach((hearing) => {
       const {geojson, id} = hearing;
-      const content = (this.props.enablePopups ? (<Popup>
-        <div>
-          <h4>
-            <a href={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</a>
-          </h4>
-          <p>{getAttr(hearing.abstract, language)}</p>
-        </div>
-      </Popup>) : null);
+      const content = (
+        this.props.enablePopups ? (
+          <Popup>
+            <div>
+              <h4>
+                <a href={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</a>
+              </h4>
+              <p>{getAttr(hearing.abstract, language)}</p>
+            </div>
+          </Popup>
+        ) : null
+      );
       if (geojson) {
         contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
@@ -56,7 +60,8 @@ class OverviewMap extends React.Component {
               input.context.map.setMaxBounds(viewportBounds);
             }
           }}
-        ><div>{contents}</div>
+        >
+          <div>{contents}</div>
         </FeatureGroup>
       </Map>);
   }

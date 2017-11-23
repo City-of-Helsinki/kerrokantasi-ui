@@ -1,6 +1,6 @@
 import React from 'react';
-import { Col, Row, OverlayTrigger } from 'react-bootstrap';
-import { injectIntl, FormattedPlural, FormattedMessage } from 'react-intl';
+import {Col, Row, OverlayTrigger} from 'react-bootstrap';
+import {injectIntl, FormattedPlural, FormattedMessage} from 'react-intl';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
@@ -11,20 +11,25 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
+    const openMessage = <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>;
+    const closeMessage = <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>;
     if (!hearing.published) {
       return (
         <div className="timetable">
-          <Icon name="clock-o"/> <del><FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/></del> (<FormattedMessage id="draftNotPublished" />)
+          <Icon name="clock-o"/>
+          <del>{openMessage}</del>
+          (<FormattedMessage id="draftNotPublished"/>)
           <br/>
-          <Icon name="clock-o"/> <del><FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/></del>
+          <Icon name="clock-o"/>
+          <del>{closeMessage}</del>
         </div>
       );
     }
     return (
       <div className="timetable">
-        <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>
+        <Icon name="clock-o"/> {openMessage}
         <br/>
-        <Icon name="clock-o"/> <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>
+        <Icon name="clock-o"/> {closeMessage}
       </div>
     );
   }
@@ -49,25 +54,25 @@ class Header extends React.Component {
           </Col>
           <Col xs={12} sm={6}>
             <div className="comment-summary">
-              {hearing.n_comments
-                ? <div className="commentNumber">
-                  <Icon name="comment-o" /> {' '}
+              {hearing.n_comments ? (
+                <div className="commentNumber">
+                  <Icon name="comment-o"/> {' '}
                   <FormattedPlural
                     value={hearing.n_comments}
-                    one={<FormattedMessage id="totalSubmittedComment" values={{ n: hearing.n_comments }} />}
-                    other={<FormattedMessage id="totalSubmittedComments" values={{ n: hearing.n_comments }} />}
+                    one={<FormattedMessage id="totalSubmittedComment" values={{n: hearing.n_comments}}/>}
+                    other={<FormattedMessage id="totalSubmittedComments" values={{n: hearing.n_comments}}/>}
                   />
                 </div>
-                : null}
-              {reportUrl
-                ? <div className="report-download">
+              ) : null}
+              {reportUrl ? (
+                <div className="report-download">
                   <a href={reportUrl}>
                     <small>
                       <Icon name="download" /> <FormattedMessage id="downloadReport" />
                     </small>
                   </a>
                 </div>
-                : null}
+              ) : null}
             </div>
           </Col>
         </Row>

@@ -20,13 +20,15 @@ class Info extends React.Component {
 
   render() {
     const content = getContent(this.props.language);
-    return (<div className="container">
-      <Row>
-        <Col md={8}>
-          <div dangerouslySetInnerHTML={{__html: content}} />
-        </Col>
-      </Row>
-    </div>);
+    return (
+      <div className="container">
+        <Row>
+          <Col md={8}>
+            <div dangerouslySetInnerHTML={{__html: content}}/>
+          </Col>
+        </Row>
+      </div>
+    );
   }
 }
 
