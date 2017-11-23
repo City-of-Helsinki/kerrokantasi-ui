@@ -62,7 +62,7 @@ class LabelModal extends React.Component {
 
   generateCheckBoxes() {
     const checkBoxes = map(config.languages, (language) => (
-      <div key={language} className={'checkbox-container'}>
+      <div key={language} className="checkbox-container">
         <FormattedMessage id={`inLanguage-${language}`}/>
         <input
           type="checkbox"

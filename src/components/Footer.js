@@ -25,18 +25,18 @@ export default function Footer() {
               <div className="footer-header">Kerrokantasi</div>
               <ul className="footer-links">
                 <li>
-                  <Link to={'/hearings/list'}>
-                    <FormattedMessage id={'hearingsHeaderText'} />
+                  <Link to="/hearings/list">
+                    <FormattedMessage id="hearingsHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/hearings/map'}>
-                    <FormattedMessage id={'hearingMapHeaderText'} />
+                  <Link to="/hearings/map">
+                    <FormattedMessage id="hearingMapHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/info'}>
-                    <FormattedMessage id={'infoHeaderText'} />
+                  <Link to="/info">
+                    <FormattedMessage id="infoHeaderText" />
                   </Link>
                 </li>
               </ul>

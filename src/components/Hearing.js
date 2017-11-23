@@ -243,7 +243,7 @@ export class Hearing extends React.Component {
           />
           <Col md={8} lg={9}>
             <div id="hearing" className="hearing-content">
-              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
+              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset="-30%" />
               <HearingImageList images={mainSection.images} />
               <div
                 className="hearing-abstract lead"
@@ -310,7 +310,7 @@ export class Hearing extends React.Component {
                 />
               </div>
             ))}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset="-600px" />
             {this.getCommentList()}
           </Col>
         </Row>

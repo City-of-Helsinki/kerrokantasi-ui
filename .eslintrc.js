@@ -16,10 +16,12 @@ module.exports = {
     "arrow-body-style": 0,
     "arrow-parens": 0,
     "comma-dangle": 0,
+    "function-paren-newline": "off",
     "global-require": 0,
     "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],
     "import/first": 0,
     "import/no-named-as-default-member": 0,
+    "jsx-a11y/anchor-is-valid": 0,  // TODO: Remove me!
     "jsx-a11y/href-no-hash": 0,  // TODO: Remove me!
     "jsx-a11y/iframe-has-title": 0,  // TODO: Remove me!
     "jsx-a11y/no-noninteractive-element-interactions": 0,  // TODO: Remove me!
@@ -30,7 +32,9 @@ module.exports = {
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "no-underscore-dangle": 0,
     "no-use-before-define": [2, "nofunc"],
+    "object-curly-newline": "off",
     "object-curly-spacing": 0,
+    "prefer-destructuring": 0,
     "prefer-template": 0,
     "quotes": 0,
     "react/forbid-prop-types": 0,
@@ -41,6 +45,7 @@ module.exports = {
     "react/jsx-tag-spacing": 0,
     "react/jsx-wrap-multilines": 0,  // TODO: Remove me!
     "react/no-string-refs": 0,
+    "react/no-typos": 0,  // Disabled due to https://github.com/yannickcr/eslint-plugin-react/issues/1389
     "react/no-unused-prop-types": 1,
     "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,

@@ -213,7 +213,7 @@ export const HearingList = ({
           ) : null}
           {hasHearings && activeTab === 'list' ? (
             <Col md={8} mdPush={2}>
-              <div className={`hearing-list`}>
+              <div className="hearing-list">
                 <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                 {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
                 {isLoading && <LoadSpinner />}
