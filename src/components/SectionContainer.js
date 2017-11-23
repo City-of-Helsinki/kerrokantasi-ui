@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Button, Row, Col} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import WrappedCarousel from '../components/Carousel';
 import DeleteModal from './DeleteModal';
 import {
   followHearing,
@@ -177,6 +178,7 @@ export class SectionContainer extends React.Component {
       <div className="hearing-wrapper section-container">
         <div className="text-right">{this.getFollowButton()}</div>
         <Header hearing={hearing} activeLanguage={language} />
+        <WrappedCarousel language={language} hearing={hearing} />
         <Row>
           <Sidebar
             activeSection={section}
