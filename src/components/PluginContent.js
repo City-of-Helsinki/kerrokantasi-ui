@@ -6,8 +6,12 @@ import PropTypes from 'prop-types';
 import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
-import Alert from 'react-bootstrap/lib/Alert';
 import {get} from 'lodash';
+
+const pluginUrls = {
+  'map-bikeracks': '/assets/plugins/kerrokantasi-bikeracks/plugin.html',
+  'map-winterbiking': '/assets/plugins/kerrokantasi-winterbiking/plugin.html'
+};
 
 export default class PluginContent extends React.Component {
   constructor() {
@@ -45,6 +49,7 @@ export default class PluginContent extends React.Component {
       return <div />;
     }
     switch (section.plugin_identifier) {
+      // reserved word for legacy plugin
       case "mapdon-hkr":
         return (
           <MapdonHKRPlugin
@@ -52,6 +57,7 @@ export default class PluginContent extends React.Component {
             onPostComment={onPostComment}
           />
         );
+      // reserved word for legacy plugin
       case "mapdon-ksv":
         return (
           <MapdonKSVPlugin
@@ -61,7 +67,8 @@ export default class PluginContent extends React.Component {
             canSetNickname={user === null}
           />
         );
-      case "map-questionnaire":
+      // include here any other matching criteria, e.g. for non-map plugins
+      default:
         return (
           <MapQuestionnaire
             data={section.plugin_data}
@@ -71,11 +78,9 @@ export default class PluginContent extends React.Component {
             pluginPurpose="postComments"
             canSetNickname={user === null}
             displayCommentBox={false}
-            pluginSource={section.plugin_iframe_url}
+            pluginSource={pluginUrls[section.plugin_identifier]} //
           />
         );
-      default:
-        return <Alert>I do not know how to render the plugin {section.plugin_identifier}</Alert>;
     }
   }
 }
