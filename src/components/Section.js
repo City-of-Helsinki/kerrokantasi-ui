@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
 import {isEmpty} from 'lodash';
+import SectionBrowser from './SectionBrowser';
 
 function getSectionImage(section, language) {
   if (section.type === 'main' || section.type === 'closure-info') {
@@ -109,7 +110,7 @@ export class Section extends React.Component {
   }
 
   render() {
-    const {section, user, comments, hearingSlug} = this.props;
+    const {section, user, comments, hearingSlug, sectionNav, hearingUrl, isQuestionView} = this.props;
     const {language} = this.context;
     const collapsible = this.isCollapsible();
     const titleDiv = this.getTitleDiv(collapsible);
@@ -180,6 +181,14 @@ export class Section extends React.Component {
           <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
           {pluginContent}
         </div>
+        {isQuestionView &&
+          <SectionBrowser
+            sectionNav={sectionNav}
+            section={section}
+            language={language}
+            hearingUrl={hearingUrl}
+          />
+        }
         {commentList}
       </div>
     );
