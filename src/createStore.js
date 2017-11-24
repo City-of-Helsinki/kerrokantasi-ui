@@ -12,10 +12,18 @@ import RavenMiddleWare from 'redux-raven-middleware';
 
 export const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history), ...hearingEditorMiddleware];
-if (config.uiConfig && config.uiConfig.sentryDns) middleware.unshift(RavenMiddleWare(config.uiConfig.sentryDns, null, {logger: () => localizedNotifyError("APICallFailed")}));
+if (config.uiConfig && config.uiConfig.sentryDns) {
+  middleware.unshift(RavenMiddleWare(
+    config.uiConfig.sentryDns,
+    null,
+    {logger: () => localizedNotifyError("APICallFailed")}
+  ));
+}
 
-if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
-  middleware.push(require('redux-logger')());
+if (typeof window !== 'undefined') {
+  if (!(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test')) {
+    middleware.push(require('redux-logger')());
+  }
 }
 
 export default function createAppStore(initialState = null) {

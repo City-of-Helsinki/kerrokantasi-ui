@@ -1,13 +1,13 @@
 const webpack = require('webpack');
 const paths = require('../paths');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const plugins = [
-  new webpack.NamedModulesPlugin(),
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
 ];
 
 if (process.env.BUNDLE_ANALYZER) {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
   plugins.push(new BundleAnalyzerPlugin());
 }
 
