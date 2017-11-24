@@ -33,27 +33,6 @@ import {
 import getAttr from '../utils/getAttr';
 import { parseQuery } from '../utils/urlQuery';
 
-const LinkWrapper = ({disabled, to, children, ...rest}) => {
-  if (disabled) {
-    return (
-      <a href="" {...rest} onClick={ev => ev.preventDefault()}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <Link to={to} {...rest}>
-      {children}
-    </Link>
-  );
-};
-
-LinkWrapper.propTypes = {
-  disabled: PropTypes.bool,
-  children: PropTypes.array,
-  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.func]),
-};
-
 export class SectionContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -180,53 +159,10 @@ export class SectionContainer extends React.Component {
         <Header hearing={hearing} activeLanguage={language} />
         <WrappedCarousel language={language} hearing={hearing} />
         <Row>
-          <Sidebar
-            activeSection={section}
-            currentlyViewed={section.id}
-            hearing={hearing}
-            isQuestionView={isQuestionView}
-            mainSection={mainSection}
-            sectionGroups={sectionGroups}
-            dispatch={dispatch}
-            activeLanguage={language}
-          />
-          <Col md={8} lg={9}>
+          <Col md={12} lg={12}>
             {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
-            <div className="section-browser">
-              <ul className="pager">
-                {!sectionNav.prevPath ? (
-                  <li className="previous">
-                    <Link to={getHearingURL(hearing)}>
-                      <FormattedMessage id="hearing" />
-                    </Link>
-                  </li>
-                ) : (
-                  <li className="previous">
-                    <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
-                      <span aria-hidden>&larr; </span>
-                      <FormattedMessage id="previous" />&nbsp;
-                      <span className="type-name hidden-xs">
-                        {getAttr(sectionNav.prevType || section.type_name_singular, language)}
-                      </span>
-                    </LinkWrapper>
-                  </li>
-                )}
-
-                <li className="pager-counter">
-                  ({sectionNav.currentNum}/{sectionNav.totalNum})
-                </li>
-                <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-                  <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
-                    <FormattedMessage id="next" />&nbsp;
-                    <span className="type-name hidden-xs">
-                      {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-                    </span>
-                    <span aria-hidden> &rarr;</span>
-                  </LinkWrapper>
-                </li>
-              </ul>
-            </div>
             <WrappedSection
+              isQuestionView
               section={section}
               hearingSlug={hearingSlug}
               canComment={isSectionCommentable(hearing, section, user)}
@@ -242,6 +178,8 @@ export class SectionContainer extends React.Component {
               fetchAllComments={this.props.fetchAllComments}
               fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
               fetchMoreComments={this.props.fetchMoreComments}
+              sectionNav={sectionNav}
+              hearingUrl={getHearingURL(hearing)}
             />
           </Col>
         </Row>
