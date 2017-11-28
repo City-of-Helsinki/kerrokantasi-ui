@@ -41,7 +41,7 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl}) => {
       </ul>
     </div>
   );
-}
+};
 
 export default SectionBrowser;
 

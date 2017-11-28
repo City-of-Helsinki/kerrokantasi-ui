@@ -25,7 +25,6 @@ import WrappedSortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
 import SectionList from './SectionList';
-import Sidebar from '../views/Hearing/Sidebar';
 import Header from '../views/Hearing/Header';
 import WrappedCarousel from './Carousel';
 import {find, has, includes} from 'lodash';
@@ -219,7 +218,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
+    const {hearing, hearingSlug, user, language, changeCurrentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
@@ -234,16 +233,7 @@ export class Hearing extends React.Component {
         <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
         <WrappedCarousel hearing={hearing} />
         <Row>
-          <Sidebar
-            currentlyViewed={currentlyViewed}
-            hearing={hearing}
-            mainSection={mainSection}
-            sectionGroups={sectionGroups}
-            activeLanguage={language}
-            dispatch={dispatch}
-            hearingSlug={hearingSlug}
-          />
-          <Col md={8} lg={9}>
+          <Col lg={12}>
             <div id="hearing" className="hearing-content">
               <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
               <HearingImageList images={mainSection.images} />
