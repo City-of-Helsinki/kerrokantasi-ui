@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
 import {isEmpty} from 'lodash';
-import SectionBrowser from './SectionBrowser';
+import WrappedSectionBrowser from './SectionBrowser';
 
 function getImageList(section, language) {
   if (section.type === 'main') {
@@ -179,7 +179,7 @@ export class Section extends React.Component {
           {pluginContent}
         </div>
         {isQuestionView &&
-          <SectionBrowser
+          <WrappedSectionBrowser
             sectionNav={sectionNav}
             section={section}
             language={language}
@@ -214,6 +214,9 @@ Section.propTypes = {
   onEditComment: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  sectionNav: PropTypes.object,
+  hearingUrl: PropTypes.string,
+  isQuestionView: PropTypes.bool
 };
 
 Section.contextTypes = {

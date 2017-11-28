@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Button, Row, Col} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
@@ -20,9 +19,8 @@ import {
 import WrappedSection from './Section';
 // import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
-import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
-import {getClosureSection, getHearingURL, getMainSection} from '../utils/hearing';
+import {getClosureSection, getHearingURL} from '../utils/hearing';
 import {
   getSectionURL,
   groupSections,
@@ -30,7 +28,6 @@ import {
   isSectionCommentable,
   isSectionVotable,
 } from '../utils/section';
-import getAttr from '../utils/getAttr';
 import { parseQuery } from '../utils/urlQuery';
 
 export class SectionContainer extends React.Component {
@@ -142,15 +139,13 @@ export class SectionContainer extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, section, user, sectionComments, language, dispatch} = this.props;
+    const {hearing, hearingSlug, section, user, sectionComments, language} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
-    const mainSection = getMainSection(hearing);
     const regularSections = hearing.sections.filter(sect => !isSpecialSectionType(sect.type));
     const sectionGroups = groupSections(regularSections);
     const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
-    const isQuestionView = true;
     const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
