@@ -7,7 +7,6 @@ import findIndex from 'lodash/findIndex';
 import {getSectionURL} from '../utils/section';
 import {Link, withRouter} from 'react-router-dom';
 import OverviewMap from './OverviewMap';
-import {FormattedMessage} from 'react-intl';
 
 export class SectionCarousel extends React.Component {
   state = {
@@ -40,7 +39,6 @@ export class SectionCarousel extends React.Component {
             focusOnSelect
             slidesToShow={isMobile ? 1 : 4}
             autoplay={false}
-            afterChange={(index) => { console.log(index) }}
             initialSlide={params.sectionSlug ? findIndex(hearing.sections, (section) => section.id === params.sectionSlug) : 0}
             ref={slider => {
               this.slider = slider;
@@ -56,7 +54,9 @@ export class SectionCarousel extends React.Component {
 }
 
 SectionCarousel.propTypes = {
-  hearing: PropTypes.object
+  hearing: PropTypes.object,
+  match: PropTypes.object,
+  language: PropTypes.string
 };
 
 export default withRouter(SectionCarousel);
