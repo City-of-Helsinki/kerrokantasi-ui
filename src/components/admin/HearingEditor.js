@@ -105,7 +105,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show} = this.props;
+    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
     if (isEmpty(hearing)) {
       return null;
@@ -126,6 +126,7 @@ class HearingEditor extends React.Component {
         onLanguagesChange={this.onLanguagesChange}
         show={show}
         dispatch={this.props.dispatch}
+        language={language}
       />
     );
   }
@@ -156,11 +157,13 @@ HearingEditor.propTypes = {
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
-  user: userShape
+  user: userShape,
+  language: PropTypes.string
 };
 
 const WrappedHearingEditor = connect((state) => ({
   show: EditorSelector.getShowForm(state),
+  language: state.language
 }))(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;
