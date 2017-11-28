@@ -112,6 +112,7 @@ exports[`Hearing component should render as expected 1`] = `
     }
     reportUrl="http://localhost:8000//v1/hearing/undefined/report"
   />
+<<<<<<< HEAD
   <Row
     bsClass="row"
     componentClass="div"
@@ -146,121 +147,121 @@ exports[`Hearing component should render as expected 1`] = `
           "main_image": Object {
             "caption": Object {
               "fi": "Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala",
+=======
+  <withRouter(SectionCarousel)
+    hearing={
+      Object {
+        "abstract": Object {
+          "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+        },
+        "borough": Object {},
+        "close_at": "2017-11-28T22:00:00Z",
+        "closed": false,
+        "contact_persons": Array [
+          Object {
+            "email": "seija.suunnittelija@hel.fi",
+            "id": "KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X",
+            "name": "Seija Suunnittelija",
+            "organization": "Kaupunkisuunnitteluvirasto",
+            "phone": "09 123 456",
+            "title": Object {
+              "fi": "arkkitehti",
             },
-            "height": 631,
-            "id": 92,
-            "title": Object {},
-            "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
-            "width": 893,
           },
-          "n_comments": 1,
-          "open_at": "2017-10-22T21:00:00Z",
-          "organization": "Kaupunkisuunnitteluvirasto",
-          "published": true,
-          "sections": Array [
-            Object {
-              "abstract": Object {
-                "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
-              },
-              "commenting": "open",
-              "content": Object {
-                "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
-<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
-<ul>
-  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
-  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
-  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
-</ul>
-<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
-<p>Lisätietoja:</p>
-<p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
-              },
-              "created_at": "2017-10-23T11:07:26.668934Z",
-              "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
-              "images": Array [
-                Object {
-                  "caption": Object {
-                    "fi": "A Wonderfull caption",
-                  },
-                  "height": 631,
-                  "id": 92,
-                  "title": Object {},
-                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
-                  "width": 893,
-                },
-              ],
-              "n_comments": 1,
-              "plugin_data": "",
-              "plugin_fullscreen": false,
-              "plugin_identifier": "",
-              "plugin_iframe_url": "",
-              "published": false,
-              "title": Object {},
-              "type": "main",
-              "type_name_plural": "pääosiot",
-              "type_name_singular": "pääosio",
-              "voting": "registered",
-            },
+        ],
+        "created_at": "2017-10-23T11:07:26.630423Z",
+        "default_to_fullscreen": false,
+        "geojson": Object {
+          "coordinates": Array [
+            Array [
+              25.039301,
+              60.106147,
+            ],
+            Array [
+              25.036554,
+              60.101441,
+            ],
           ],
-          "servicemap_url": "",
-          "slug": "isosaari",
-          "title": Object {
-            "fi": "Ideoi Isosaaren tulevaisuutta",
+          "type": "LineString",
+        },
+        "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+        "labels": Array [],
+        "main_image": Object {
+          "caption": Object {
+            "fi": "Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala",
           },
-        }
-      }
-      mainSection={
-        Object {
-          "abstract": Object {
-            "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
-          },
-          "commenting": "open",
-          "content": Object {
-            "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
-<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
-<ul>
-  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
-  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
-  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
-</ul>
-<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
-<p>Lisätietoja:</p>
-<p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
-          },
-          "created_at": "2017-10-23T11:07:26.668934Z",
-          "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
-          "images": Array [
-            Object {
-              "caption": Object {
-                "fi": "A Wonderfull caption",
-              },
-              "height": 631,
-              "id": 92,
-              "title": Object {},
-              "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
-              "width": 893,
-            },
-          ],
-          "n_comments": 1,
-          "plugin_data": "",
-          "plugin_fullscreen": false,
-          "plugin_identifier": "",
-          "plugin_iframe_url": "",
-          "published": false,
+          "height": 631,
+          "id": 92,
           "title": Object {},
-          "type": "main",
-          "type_name_plural": "pääosiot",
-          "type_name_singular": "pääosio",
-          "voting": "registered",
-        }
+          "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+          "width": 893,
+        },
+        "n_comments": 1,
+        "open_at": "2017-10-22T21:00:00Z",
+        "organization": "Kaupunkisuunnitteluvirasto",
+        "published": true,
+        "sections": Array [
+          Object {
+            "abstract": Object {
+              "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+>>>>>>> Update snapshots
+            },
+            "commenting": "open",
+            "content": Object {
+              "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
+            },
+            "created_at": "2017-10-23T11:07:26.668934Z",
+            "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+            "images": Array [
+              Object {
+                "caption": Object {
+                  "fi": "A Wonderfull caption",
+                },
+                "height": 631,
+                "id": 92,
+                "title": Object {},
+                "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                "width": 893,
+              },
+            ],
+            "n_comments": 1,
+            "plugin_data": "",
+            "plugin_fullscreen": false,
+            "plugin_identifier": "",
+            "plugin_iframe_url": "",
+            "published": false,
+            "title": Object {},
+            "type": "main",
+            "type_name_plural": "pääosiot",
+            "type_name_singular": "pääosio",
+            "voting": "registered",
+          },
+        ],
+        "servicemap_url": "",
+        "slug": "isosaari",
+        "title": Object {
+          "fi": "Ideoi Isosaaren tulevaisuutta",
+        },
       }
-      sectionGroups={Array []}
-    />
+    }
+  />
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
     <Col
       bsClass="col"
       componentClass="div"
-      lg={9}
-      md={8}
+      lg={12}
     >
       <div
         className="hearing-content"
