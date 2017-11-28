@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Leaflet from 'leaflet';
-
+import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -17,7 +17,6 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
-
 
 function getHearingArea(hearing) {
   if (typeof window === "undefined") return null;
@@ -75,6 +74,18 @@ class HearingFormStep3 extends React.Component {
     this.onDrawEdited = this.onDrawEdited.bind(this);
     // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
     this.state = {isEdited: false};
+  }
+
+  componentDidMount() {
+    Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {language} = this.props;
+
+    if (nextProps.language !== language) {
+      Leaflet.drawLocal = getTranslatedTooltips(nextProps.language);
+    }
   }
 
   componentDidUpdate() {
@@ -191,6 +202,7 @@ HearingFormStep3.propTypes = {
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   visible: PropTypes.bool,
+  language: PropTypes.string
 };
 
 const WrappedHearingFormStep3 = injectIntl(HearingFormStep3);
