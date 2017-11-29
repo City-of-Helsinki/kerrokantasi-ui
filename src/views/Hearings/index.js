@@ -92,7 +92,7 @@ export class Hearings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user, location } = this.props;
+    const { user, location, match: {params: {tab}} } = this.props;
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
@@ -100,7 +100,7 @@ export class Hearings extends React.Component {
       (!this.props.labels.length && nextProps.labels.length) ||
       (nextProps.labels.length && location.search !== nextProps.location.search) ||
       (!this.props.user && nextProps.user) ||
-      (this.props.user && !nextProps.user));
+      (this.props.user && !nextProps.user)) || nextProps.match.params.tab !== tab;
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
@@ -148,12 +148,16 @@ export class Hearings extends React.Component {
   }
 
   fetchHearingList(props = this.props) {
-    const { fetchInitialHearingList } = props;
+    const {fetchInitialHearingList, fetchAllHearings, match: {params: {tab}}} = props;
     const { sortBy } = this.state;
     const list = this.getHearingListName();
     const params = Object.assign({}, getHearingListParams(list), { ordering: sortBy }, Hearings.getSearchParams(props));
 
-    fetchInitialHearingList(list, params);
+    if (tab === 'map') {
+      fetchAllHearings(list, params);
+    } else {
+      fetchInitialHearingList(list, params);
+    }
   }
 
   static getLabelsFromQuery = (labelsInQuery = [], labels = [], language) => {
@@ -327,6 +331,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchInitialHearingList: (listName, params) => dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
+  fetchAllHearings: (list, params) => dispatch(Actions.fetchHearingList(list, '/v1/hearing', params)),
   fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
