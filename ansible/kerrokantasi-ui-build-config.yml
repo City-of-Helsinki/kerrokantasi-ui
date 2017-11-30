@@ -1,0 +1,16 @@
+node_container_nginx_disabled: yes
+node_container_name: kerrokantasi-ui
+
+node_container:
+  name: kerrokantasi-ui
+  user: kerrokantasi-ui
+  webname: kerrokantasi.hel.fi
+  nodeversion: v8
+  entrypoint: server
+  upgrade_npm: yes
+  use_yarn: yes
+  project_server: yes
+  use_init: no
+  git:
+    url: https://github.com/City-of-Helsinki/kerrokantasi-ui
+    version: master

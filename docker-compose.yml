@@ -1,0 +1,9 @@
+version: '2'
+services:
+  ui:
+    user: kerrokantasi-ui
+    restart: on-failure
+    image: helsinki/kerrokantasi-ui
+    entrypoint: /docker-entrypoint.sh
+    ports:
+      - "8080:8080"

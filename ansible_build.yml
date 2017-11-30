@@ -1,0 +1,65 @@
+---
+- name: Create base image
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Create container for building image
+    docker_container:
+      name: kerrokantasi_ui_builder
+      image: ubuntu:16.04
+      interactive: true
+      hostname: kerrokantasi-ui
+      state: started
+      recreate: "{{ recreate_image|default(true) }}"
+    register: container_creation
+  - name: Add container to dynamic inventory
+    add_host:
+      name: kerrokantasi_ui_builder
+      ansible_connection: docker
+      ansible_user: root
+
+- name: Prepare base image
+  hosts: kerrokantasi_ui_builder
+  gather_facts: no
+  become: yes
+  become_method: su
+  tasks:
+    - name: fixup sources.list using raw command
+      raw: sed s/archive.ubuntu.com/fi.archive.ubuntu.com/ -i /etc/apt/sources.list
+      when: recreate_image|default(true)
+    - name: Install python in container using raw command
+      raw: apt update && apt-get install -y python-minimal
+      when: recreate_image|default(true)
+    - name: Install base system packages
+      apt: name={{item}} state=present
+      with_items:
+        - ca-certificates
+        - apt-transport-https
+        - curl
+
+- name: Build kerrokantasi in container
+  hosts: kerrokantasi_ui_builder
+  become: yes
+  become_method: su
+  vars_files:
+    - ansible/kerrokantasi-ui-build-config.yml
+  roles:
+    - node-container
+  tasks:
+    - name: Insert entrypoint into docker_container
+      template:
+        src: ansible/files/docker-entrypoint.sh
+        dest: /docker-entrypoint.sh
+        mode: 0755
+
+- name: Finalize container
+  hosts: localhost
+  become: no
+  tasks:
+    - name: Commit and define entrypoint in image
+      command: docker commit --change "USER kerrokantasi-ui" --change "ENTRYPOINT /docker-entrypoint.sh" kerrokantasi_ui_builder helsinki/kerrokantasi-ui
+    - name: Destroy the build container
+      docker_container:
+        name: kerrokantasi_ui_builder
+        state: absent
+      when: recreate_image|default(true)
