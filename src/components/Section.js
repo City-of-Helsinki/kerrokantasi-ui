@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import WrappedSortableCommentList from './SortableCommentList';
 import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
-import {isSpecialSectionType, userCanComment, getSectionURL} from '../utils/section';
+import {isSpecialSectionType, userCanComment} from '../utils/section';
 import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
