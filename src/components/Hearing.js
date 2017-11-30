@@ -27,7 +27,7 @@ import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
 import WrappedCarousel from './Carousel';
-import {find, has, includes, get} from 'lodash';
+import {find, has, includes} from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
