@@ -135,6 +135,7 @@ export class SectionContainer extends React.Component {
       nextPath,
       prevType,
       nextType,
+      shouldShowBrowser: true
     };
   }
 
