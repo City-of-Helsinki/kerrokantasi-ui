@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import WrappedSortableCommentList from './SortableCommentList';
 import {Link} from 'react-router-dom';
 import Icon from '../utils/Icon';
-import {isSpecialSectionType, userCanComment} from '../utils/section';
+import {isSpecialSectionType, userCanComment, getSectionURL} from '../utils/section';
 import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
@@ -178,14 +178,13 @@ export class Section extends React.Component {
           <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
           {pluginContent}
         </div>
-        {isQuestionView &&
-          <WrappedSectionBrowser
-            sectionNav={sectionNav}
-            section={section}
-            language={language}
-            hearingUrl={hearingUrl}
-          />
-        }
+        {sectionNav.shouldShowBrowser && <WrappedSectionBrowser
+          sectionNav={sectionNav}
+          section={section}
+          language={language}
+          hearingUrl={hearingUrl}
+          isMainSection={!isQuestionView}
+        />}
         {commentList}
       </div>
     );

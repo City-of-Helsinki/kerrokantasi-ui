@@ -4,41 +4,60 @@ import {Link} from 'react-router-dom';
 import getAttr from '../utils/getAttr';
 import {FormattedMessage} from 'react-intl';
 
-export const SectionBrowser = ({sectionNav, section, language, hearingUrl}) => {
+export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMainSection}) => {
   return (
     <div className="section-browser">
-      <ul className="pager">
-        {!sectionNav.prevPath ? (
-          <li className="previous">
-            <Link to={hearingUrl}>
-              <FormattedMessage id="hearing" />
-            </Link>
+      {!isMainSection ?
+        <ul className="pager">
+          {!sectionNav.prevPath ? (
+            <li className="previous">
+              <Link to={hearingUrl}>
+                <FormattedMessage id="hearing" />
+              </Link>
+            </li>
+          ) : (
+            <li className="previous">
+              <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
+                <span aria-hidden>&larr; </span>
+                <FormattedMessage id="previous" />&nbsp;
+                <span className="type-name hidden-xs">
+                  {getAttr(sectionNav.prevType || section.type_name_singular, language)}
+                </span>
+              </LinkWrapper>
+            </li>
+          )}
+
+          <li className="pager-counter">
+            ({sectionNav.currentNum}/{sectionNav.totalNum})
           </li>
-        ) : (
-          <li className="previous">
-            <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
-              <span aria-hidden>&larr; </span>
-              <FormattedMessage id="previous" />&nbsp;
+          <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
+              <FormattedMessage id="next" />&nbsp;
               <span className="type-name hidden-xs">
-                {getAttr(sectionNav.prevType || section.type_name_singular, language)}
+                {getAttr(sectionNav.nextType || section.type_name_singular, language)}
               </span>
+              <span aria-hidden> &rarr;</span>
             </LinkWrapper>
           </li>
-        )}
+        </ul>
+        :
+        <ul className="pager" style={{textAlign: 'center'}}>
+          <li className="previous" style={{width: 175, height: 30, display: 'inline-block'}} />
 
-        <li className="pager-counter">
-          ({sectionNav.currentNum}/{sectionNav.totalNum})
-        </li>
-        <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-          <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
-            <FormattedMessage id="next" />&nbsp;
-            <span className="type-name hidden-xs">
-              {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-            </span>
-            <span aria-hidden> &rarr;</span>
-          </LinkWrapper>
-        </li>
-      </ul>
+          <li className="pager-counter" style={{fontWeight: 700, lineHeight: 2, color: '#0072c6'}}>
+            ({sectionNav.currentNum}/{sectionNav.totalNum})
+          </li>
+          <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
+              <FormattedMessage id="next" />&nbsp;
+              <span className="type-name hidden-xs">
+                {getAttr(sectionNav.nextType || section.type_name_singular, language)}
+              </span>
+              <span aria-hidden> &rarr;</span>
+            </LinkWrapper>
+          </li>
+        </ul>
+      }
     </div>
   );
 };
@@ -50,6 +69,7 @@ SectionBrowser.propTypes = {
   section: PropTypes.obj,
   language: PropTypes.string,
   hearingUrl: PropTypes.string,
+  isMainSection: PropTypes.bool
 };
 
 
