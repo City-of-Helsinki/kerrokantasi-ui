@@ -27,7 +27,7 @@ import WrappedSection from './Section';
 import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
 import WrappedCarousel from './Carousel';
-import {find, has, includes} from 'lodash';
+import {find, has, includes, get} from 'lodash';
 import Icon from '../utils/Icon';
 import {
   acceptsComments,
@@ -36,7 +36,7 @@ import {
   getMainSection,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';
-import {isSpecialSectionType, isSectionCommentable, isSectionVotable} from '../utils/section';
+import {isSpecialSectionType, isSectionCommentable, isSectionVotable, getSectionURL} from '../utils/section';
 import getAttr from '../utils/getAttr';
 
 export class Hearing extends React.Component {
@@ -217,6 +217,30 @@ export class Hearing extends React.Component {
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
 
+  getQuestionLinksAndStuff(sectionGroups) {
+    const {hearing: {slug: hearingSlug}} = this.props;
+
+    const questions = sectionGroups.reduce(
+      (questionsArray, currentSection) => [...questionsArray, ...currentSection.sections],
+      [],
+    );
+
+    const prevPath = undefined;
+    const nextPath = questions.length > 0 ? getSectionURL(hearingSlug, questions[0]) : undefined;
+    const prevType = undefined;
+    const nextType = questions.length > 0 ? questions[1].type_name_singular : undefined;
+
+    return {
+      currentNum: 1,
+      totalNum: questions.length + 1,
+      prevPath,
+      nextPath,
+      prevType,
+      nextType,
+      shouldShowBrowser: questions.length > 0
+    };
+  }
+
   render() {
     const {hearing, hearingSlug, user, language, changeCurrentlyViewed} = this.props;
     const hearingAllowsComments = acceptsComments(hearing);
@@ -225,6 +249,7 @@ export class Hearing extends React.Component {
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter(section => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
+    const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearingSlug + '/report';
     const eyeTooltip = this.getEyeTooltip();
 
@@ -247,10 +272,13 @@ export class Hearing extends React.Component {
                   fetchAllComments={this.props.fetchAllComments}
                   section={closureInfoSection}
                   canComment={false}
+                  sectionNav={sectionNav}
                 />
               ) : null}
               {mainSection ? (
                 <WrappedSection
+                  sectionNav={sectionNav}
+                  hearingSlug={hearing.slug}
                   showPlugin={showPluginInline}
                   section={mainSection}
                   canComment={this.isMainSectionCommentable(hearing, user)}
