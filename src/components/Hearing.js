@@ -24,13 +24,11 @@ import {
 import WrappedSortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
-import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
 import WrappedCarousel from './Carousel';
 import {find, has, includes} from 'lodash';
 import Icon from '../utils/Icon';
 import {
-  acceptsComments,
   getClosureSection,
   getHearingURL,
   getMainSection,
@@ -38,6 +36,7 @@ import {
 } from '../utils/hearing';
 import {isSpecialSectionType, isSectionCommentable, isSectionVotable, getSectionURL} from '../utils/section';
 import getAttr from '../utils/getAttr';
+import WrappedClosureInfo from './ClosureInfo';
 
 export class Hearing extends React.Component {
   constructor(props) {
@@ -243,7 +242,6 @@ export class Hearing extends React.Component {
 
   render() {
     const {hearing, hearingSlug, user, language, changeCurrentlyViewed} = this.props;
-    const hearingAllowsComments = acceptsComments(hearing);
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -268,12 +266,7 @@ export class Hearing extends React.Component {
               />
 
               {hearing.closed && hearing.published ? (
-                <WrappedSection
-                  fetchAllComments={this.props.fetchAllComments}
-                  section={closureInfoSection}
-                  canComment={false}
-                  sectionNav={sectionNav}
-                />
+                <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content)} />
               ) : null}
               {mainSection ? (
                 <WrappedSection
@@ -311,26 +304,7 @@ export class Hearing extends React.Component {
               </Row>
             </div>
             {this.getLinkToFullscreen(hearing)}
-            {sectionGroups.map(sectionGroup => (
-              <div
-                className="hearing-section-group"
-                id={'hearing-sectiongroup-' + sectionGroup.type}
-                key={sectionGroup.type}
-              >
-                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup-' + sectionGroup.type)} />
-                <SectionList
-                  basePath={window ? window.location.pathname : ''}
-                  sections={sectionGroup.sections}
-                  canComment={hearingAllowsComments}
-                  onPostComment={this.onPostSectionComment.bind(this)}
-                  canVote={hearingAllowsComments}
-                  onPostVote={this.onVoteComment.bind(this)}
-                  sectionComments={this.props.sectionComments}
-                  user={user}
-                />
-              </div>
-            ))}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset="-600px" />
+            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
             {this.getCommentList()}
           </Col>
         </Row>

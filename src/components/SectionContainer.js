@@ -17,7 +17,6 @@ import {
 } from '../actions';
 // import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
-// import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
 import Icon from '../utils/Icon';
 import {getClosureSection, getHearingURL} from '../utils/hearing';
@@ -29,6 +28,8 @@ import {
   isSectionVotable,
 } from '../utils/section';
 import { parseQuery } from '../utils/urlQuery';
+import WrappedClosureInfo from './ClosureInfo';
+import getAttr from '../utils/getAttr';
 
 export class SectionContainer extends React.Component {
   constructor(props) {
@@ -129,8 +130,8 @@ export class SectionContainer extends React.Component {
     const nextType = currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
 
     return {
-      currentNum: currentIndex + 1,
-      totalNum: questions.length,
+      currentNum: currentIndex + 2,
+      totalNum: questions.length + 1,
       prevPath,
       nextPath,
       prevType,
@@ -156,7 +157,7 @@ export class SectionContainer extends React.Component {
         <WrappedCarousel language={language} hearing={hearing} />
         <Row>
           <Col md={12} lg={12}>
-            {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
+            {hearing.closed ? <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content, language)} /> : null}
             <WrappedSection
               isQuestionView
               section={section}

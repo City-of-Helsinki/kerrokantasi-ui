@@ -65,8 +65,8 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
 export default SectionBrowser;
 
 SectionBrowser.propTypes = {
-  sectionNav: PropTypes.obj,
-  section: PropTypes.obj,
+  sectionNav: PropTypes.object,
+  section: PropTypes.object,
   language: PropTypes.string,
   hearingUrl: PropTypes.string,
   isMainSection: PropTypes.bool
