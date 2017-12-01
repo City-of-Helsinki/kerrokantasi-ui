@@ -25,8 +25,11 @@ const setup = propOverrides => {
     isCollapsible: false,
     canVote: true,
     canComment: true,
-    section: hearingWithSections.mockHearingWithSections.data.sections[1],
-    language: 'fi'
+    section: hearingWithSections.mockHearingWithSections.data.sections[0],
+    language: 'fi',
+    sectionNav: {
+      shouldShowBrowser: true
+    }
   }, propOverrides);
 
   const wrapper = shallow(<MemoryRouter><Section intl={getIntlAsProp()} {...props} /></MemoryRouter>);
