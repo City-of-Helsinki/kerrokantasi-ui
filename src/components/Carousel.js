@@ -26,8 +26,9 @@ export class SectionCarousel extends React.Component {
   }
 
   render() {
-    const {hearing, match: params, language} = this.props;
+    const {hearing, match: {params}, language} = this.props;
     const {isMobile} = this.state;
+    const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'CLOSURE');
 
     return (
       <div className="carousel-container">
@@ -35,16 +36,16 @@ export class SectionCarousel extends React.Component {
         <div className="slider-container">
           <Slider
             className="slider"
+            ref={slider => {
+              this.slider = slider;
+            }}
             infinite={false}
             focusOnSelect
             slidesToShow={isMobile ? 1 : 4}
             autoplay={false}
-            initialSlide={params.sectionSlug ? findIndex(hearing.sections, (section) => section.id === params.sectionSlug) : 0}
-            ref={slider => {
-              this.slider = slider;
-            }}
+            initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId) : 0}
           >
-            {hearing.sections.map(
+            {sectionsWithoutClosure.map(
               (section) => <div key={section.id}><SliderItem hearingTitle={hearing.title} url={section.type === 'main' ? `/${hearing.slug}` : getSectionURL(hearing.slug, section)} language={language} section={section} /></div>)}
           </Slider>
         </div>
