@@ -255,6 +255,7 @@ exports[`Hearing component should render as expected 1`] = `
         <Section
           canComment={true}
           canVote={false}
+          hearingSlug="isosaari"
           isCollapsible={true}
           onPostComment={[Function]}
           onPostVote={[Function]}
@@ -301,6 +302,17 @@ exports[`Hearing component should render as expected 1`] = `
               "type_name_plural": "pääosiot",
               "type_name_singular": "pääosio",
               "voting": "registered",
+            }
+          }
+          sectionNav={
+            Object {
+              "currentNum": 1,
+              "nextPath": undefined,
+              "nextType": undefined,
+              "prevPath": undefined,
+              "prevType": undefined,
+              "shouldShowBrowser": false,
+              "totalNum": 1,
             }
           }
           showPlugin={false}
