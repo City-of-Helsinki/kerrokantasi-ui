@@ -213,12 +213,110 @@ const EN = {
 };
 
 const SV = {
-  polyline: 'Piirrä vapaa viiva',
-  polygon: 'Piirrä monikulmio',
-  rectangle: 'Piirrä neliö',
-  marker: 'Piirrä merkki',
-  delete: 'Poista piirros',
-  edit: 'Muokkaa piirrosta'
+  draw: {
+    toolbar: {
+      actions: {
+        title: 'Avbryt ritning',
+        text: 'Avbryt'
+      },
+      finish: {
+        title: 'Avsluta ritning',
+        text: 'Avsluta'
+      },
+      undo: {
+        title: 'Radera sista punkten ritad',
+        text: 'Radera sista punkten'
+      },
+      buttons: {
+        polyline: 'Rita en bana',
+        polygon: 'Rita en polygon',
+        rectangle: 'Rita en rektangel',
+        circle: 'Rita en cirkel',
+        marker: 'Lägga till en markör',
+        circlemarker: 'Lägga till en cirkelmarkör'
+      }
+    },
+    handlers: {
+      circle: {
+        tooltip: {
+          start: 'Klicka och dra för att rita en cirkel'
+        },
+        radius: 'Radie'
+      },
+      circlemarker: {
+        tooltip: {
+          start: 'Klicka på kartan för att placera cirkelmarkören'
+        }
+      },
+      marker: {
+        tooltip: {
+          start: 'Klicka på kartan för att placera markören'
+        }
+      },
+      polygon: {
+        tooltip: {
+          start: 'Klicka för att börja rita en form.',
+          cont: 'Klicka för att fortsätta rita formen.',
+          end: 'Klicka första punkten för att stänga formen.'
+        }
+      },
+      polyline: {
+        error: '<strong>Error:</strong> formen kan inte korsas!',
+        tooltip: {
+          start: 'Klicka för att börja rita banan.',
+          cont: 'Klicka för att fortsätta rita banan.',
+          end: 'Klicka på sista punkten för att sluta banan.'
+        }
+      },
+      rectangle: {
+        tooltip: {
+          start: 'Klicka och dra för att rita en rektangel'
+        }
+      },
+      simpleshape: {
+        tooltip: {
+          end: 'Släpp musnappen för att slutföra'
+        }
+      }
+    }
+  },
+  edit: {
+    toolbar: {
+      actions: {
+        save: {
+          title: 'Spara ändringar',
+          text: 'Spara'
+        },
+        cancel: {
+          title: 'Avbryt redigering, ignorera ändringar',
+          text: 'Avbryt'
+        },
+        clearAll: {
+          title: 'Rensa alla lagrar',
+          text: 'Rensa alla'
+        }
+      },
+      buttons: {
+        edit: 'Redigera lagrar',
+        editDisabled: 'Inga lagrar att redigera',
+        remove: 'Radera lagrar',
+        removeDisabled: 'Inga lagrar att radera'
+      }
+    },
+    handlers: {
+      edit: {
+        tooltip: {
+          text: 'Dra handtag eller markörer för att redigera funktioner.',
+          subtext: 'Klicka Avbryt för att ångra ändringar'
+        }
+      },
+      remove: {
+        tooltip: {
+          text: 'Klicka på en funktion för att radera'
+        }
+      }
+    }
+  }
 };
 
 
