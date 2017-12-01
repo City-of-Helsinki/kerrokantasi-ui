@@ -489,12 +489,13 @@ exports[`SectionContainer component should render as expected 1`] = `
         }
         sectionNav={
           Object {
-            "currentNum": 1,
+            "currentNum": 2,
             "nextPath": "/isosaari/asuminen-b-asuinalueiden-elinvoi",
             "nextType": "osa-alue",
             "prevPath": undefined,
             "prevType": undefined,
-            "totalNum": 2,
+            "shouldShowBrowser": true,
+            "totalNum": 3,
           }
         }
         showPlugin={false}
