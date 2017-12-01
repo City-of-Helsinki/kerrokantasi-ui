@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClosureInfo component should render as expected 1`] = `
+<div
+  className="hearing-section closure-info"
+>
+  <div
+    className="section-content"
+  >
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p>A very awesome closure info here.</p>",
+        }
+      }
+    />
+  </div>
+</div>
+`;
