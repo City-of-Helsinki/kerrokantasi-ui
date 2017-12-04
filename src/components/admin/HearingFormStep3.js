@@ -10,6 +10,9 @@ import isEmpty from 'lodash/isEmpty';
 
 import {hearingShape} from '../../types';
 
+// This is needed for the invalidateMap not to fire after the component has dismounted and causing error.
+let mapInvalidator;
+
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
   shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
@@ -92,6 +95,10 @@ class HearingFormStep3 extends React.Component {
     this.invalidateMap();
   }
 
+  componentWillUnmount() {
+    clearTimeout(mapInvalidator);
+  }
+
   onDrawEdited(event) {
     // TODO: Implement proper onDrawEdited functionality
     this.setState({isEdited: true});
@@ -115,7 +122,7 @@ class HearingFormStep3 extends React.Component {
     // the map container.
     const map = this.map;
     if (map && this.props.visible) {
-      setTimeout(() => {
+      mapInvalidator = setTimeout(() => {
         map.leafletElement.invalidateSize();
       }, 200);  // Short delay to wait for the animation to end
     }
