@@ -1,13 +1,21 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import HearingsContainer from './views/Hearings';
 // import AllHearings from './views/AllHearings';
 // import AdminHearings from './views/admin/AdminHearings';
 // import HearingManager from './views/admin/HearingManager';
-import Hearing from './views/Hearing';
-import HomeContainer from './views/Home';
-import Info from './views/Info';
-import QuestionViewContainer from './views/QuestionView';
+
+import Async from 'react-code-splitting';
+
+const HomeContainer = () =>
+  <Async load={import(/* webpackChunkName: "home" */ './views/Home')} />;
+const Hearing = () =>
+  <Async load={import(/* webpackChunkName: "hearing" */'./views/Hearing')} />;
+const HearingsContainer = () =>
+  <Async load={import(/* webpackChunkName: "hearings" */'./views/Hearings')} />;
+const Info = () =>
+  <Async load={/* webpackChunkName: "info" */import('./views/Info')} />;
+const QuestionViewContainer = () =>
+  <Async load={import(/* webpackChunkName: "questionview" */'./views/QuestionView')} />;
 
 const Routes = () => (
   <Switch>

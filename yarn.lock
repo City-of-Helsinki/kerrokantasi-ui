@@ -599,6 +599,10 @@ babel-plugin-syntax-class-properties@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
 
+babel-plugin-syntax-dynamic-import@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-dynamic-import/-/babel-plugin-syntax-dynamic-import-6.18.0.tgz#8d6a26229c83745a9982a441051572caa179b1da"
+
 babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-exponentiation-operator/-/babel-plugin-syntax-exponentiation-operator-6.13.0.tgz#9ee7e8337290da95288201a6a57f4170317830de"
@@ -5612,6 +5616,14 @@ react-bootstrap@^0.30.7:
     react-prop-types "^0.4.0"
     uncontrollable "^4.0.1"
     warning "^3.0.0"
+
+react-code-splitting@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-code-splitting/-/react-code-splitting-1.2.0.tgz#83f21083db26dbbaa874e1064a3e5d0e6c9796c9"
+  dependencies:
+    prop-types "^15.5.8"
+    react "^15.6.1"
+    react-dom "^15.6.1"
 
 react-datetime@^2.8.10:
   version "2.11.0"

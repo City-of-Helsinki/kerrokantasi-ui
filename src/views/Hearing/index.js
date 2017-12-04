@@ -8,16 +8,21 @@ import { connect } from 'react-redux';
 import { fetchHearing, changeCurrentlyViewed, login } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import { getMainSection, canEdit, getHearingURL, getOpenGraphMetaData } from '../../utils/hearing';
-import HearingEditor from '../../components/admin/HearingEditor';
 import { contactShape, hearingShape, labelShape } from '../../types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { getUser } from '../../selectors/user';
 import { withRouter } from 'react-router-dom';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getAttr from '../../utils/getAttr';
-import PleaseLogin from '../../components/admin/PleaseLogin';
 import { parseQuery } from '../../utils/urlQuery';
 import trackLink from '../../utils/trackLink';
+
+import Async from 'react-code-splitting';
+
+const HearingEditor = () =>
+  <Async load={import(/* webpackChunkName: "HearingEditor" */ '../../components/admin/HearingEditor')} />;
+const PleaseLogin = () =>
+  <Async load={import(/* webpackChunkName: "HearingEditor" */ '../../components/admin/PleaseLogin')} />;
 
 export class HearingView extends React.Component {
   constructor(props) {

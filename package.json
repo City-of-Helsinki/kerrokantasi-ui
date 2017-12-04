@@ -87,6 +87,7 @@
     "raven-js": "^3.19.1",
     "react": "^15.6.1",
     "react-bootstrap": "^0.30.7",
+    "react-code-splitting": "1.2.0",
     "react-datetime": "^2.8.10",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.13.3",
@@ -110,6 +111,7 @@
     "redux-thunk": "^2.0.1",
     "sass-loader": "^6.0.6",
     "scrolltop": "0.0.1",
+    "snyk": "^1.49.4",
     "style-loader": "^0.18.2",
     "updeep": "^0.16.0",
     "url-loader": "^0.6.0",
@@ -118,11 +120,12 @@
     "webpack": "^3.6.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1",
-    "webpack-merge": "^4.1.0",
-    "snyk": "^1.49.4"
+    "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
     "babel-jest": "^16.0.0",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-flow": "^6.23.0",
     "coveralls": "^2.13.1",
     "enzyme": "^3.1.0",
@@ -145,8 +148,7 @@
     ],
     "setupTestFrameworkScriptFile": "./test-setup.js",
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },

@@ -22,6 +22,7 @@ module.exports = merge(common, {
       __DEVTOOLS__: false,
       'process.env': {NODE_ENV: JSON.stringify('production')}
     }),
+    new webpack.optimize.CommonsChunkPlugin({minChunks: 3, children: true, async: "common"}),
     new webpack.optimize.UglifyJsPlugin({output: {comments: false}}),
     new webpack.LoaderOptionsPlugin({minimize: true}),
   ]
