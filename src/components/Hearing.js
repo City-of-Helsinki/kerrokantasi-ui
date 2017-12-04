@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 // import { push } from 'redux-router';
-import { Button, Col, Row, Tooltip } from 'react-bootstrap';
+import { Button, Col, Row, Tooltip, Grid } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import ContactCard from './ContactCard';
@@ -253,61 +253,69 @@ export class Hearing extends React.Component {
 
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
-        <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
-        <WrappedCarousel hearing={hearing} />
-        <Row>
-          <Col lg={12}>
-            <div id="hearing" className="hearing-content">
-              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset="-30%" />
-              <HearingImageList images={mainSection.images} />
-              <div
-                className="hearing-abstract lead"
-                dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
-              />
+        <div className="header-section">
+          <Grid>
+            <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
+            <WrappedCarousel hearing={hearing} />
+          </Grid>
+        </div>
+        <div className="hearing-content-section">
+          <Grid>
+            <Row>
+              <Col md={8} mdOffset={2}>
+                <div id="hearing" className="hearing-content">
+                  <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
+                  <HearingImageList images={mainSection.images} />
+                  <div
+                    className="hearing-abstract lead"
+                    dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
+                  />
 
-              {hearing.closed && hearing.published ? (
-                <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content)} />
-              ) : null}
-              {mainSection ? (
-                <WrappedSection
-                  sectionNav={sectionNav}
-                  hearingSlug={hearing.slug}
-                  showPlugin={showPluginInline}
-                  section={mainSection}
-                  canComment={this.isMainSectionCommentable(hearing, user)}
-                  onPostComment={this.onPostSectionComment.bind(this)}
-                  onPostVote={this.onVoteComment.bind(this)}
-                  canVote={this.isMainSectionVotable(user)}
-                  comments={this.props.sectionComments[mainSection.id]}
-                  user={user}
-                  fetchAllComments={this.props.fetchAllComments}
-                />
-              ) : null}
-            </div>
-            <div className="hearing-contacts">
-              {hearing.contact_persons && hearing.contact_persons.length ? (
-                <h3>
-                  <FormattedMessage id="contactPersons" />
-                </h3>
-              ) : null}
-              <Row>
-                {hearing.contact_persons &&
-                  hearing.contact_persons.map((person, index) => (
-                    <Col
-                      xs={6}
-                      key={index} // eslint-disable-line react/no-array-index-key
-                      md={4}
-                    >
-                      <ContactCard activeLanguage={language} {...person} />
-                    </Col>
-                  ))}
-              </Row>
-            </div>
-            {this.getLinkToFullscreen(hearing)}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
-            {this.getCommentList()}
-          </Col>
-        </Row>
+                  {hearing.closed && hearing.published ? (
+                    <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content)} />
+                  ) : null}
+                  {mainSection ? (
+                    <WrappedSection
+                      sectionNav={sectionNav}
+                      hearingSlug={hearing.slug}
+                      showPlugin={showPluginInline}
+                      section={mainSection}
+                      canComment={this.isMainSectionCommentable(hearing, user)}
+                      onPostComment={this.onPostSectionComment.bind(this)}
+                      onPostVote={this.onVoteComment.bind(this)}
+                      canVote={this.isMainSectionVotable(user)}
+                      comments={this.props.sectionComments[mainSection.id]}
+                      user={user}
+                      fetchAllComments={this.props.fetchAllComments}
+                    />
+                  ) : null}
+                </div>
+                <div className="hearing-contacts">
+                  {hearing.contact_persons && hearing.contact_persons.length ? (
+                    <h3>
+                      <FormattedMessage id="contactPersons" />
+                    </h3>
+                  ) : null}
+                  <Row>
+                    {hearing.contact_persons &&
+                      hearing.contact_persons.map((person, index) => (
+                        <Col
+                          xs={6}
+                          key={index} // eslint-disable-line react/no-array-index-key
+                          md={4}
+                        >
+                          <ContactCard activeLanguage={language} {...person} />
+                        </Col>
+                      ))}
+                  </Row>
+                </div>
+                {this.getLinkToFullscreen(hearing)}
+                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
+                {this.getCommentList()}
+              </Col>
+            </Row>
+          </Grid>
+        </div>
         <DeleteModal
           isOpen={this.state.showDeleteModal}
           close={this.closeDeleteModal.bind(this)}

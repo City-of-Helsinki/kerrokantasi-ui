@@ -71,7 +71,7 @@ export class QuestionView extends Component {
     }
 
     return (
-      <div key="question" className="question-view container">
+      <div key="question" className="question-view">
         <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
         <WrappedSectionContainer
           hearingSlug={hearingSlug}

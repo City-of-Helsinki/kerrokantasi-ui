@@ -37,7 +37,7 @@ class Header extends React.Component {
   render() {
     const { hearing, activeLanguage, reportUrl, eyeTooltip } = this.props;
     return (
-      <div className="hearing-header well">
+      <div className="hearing-header">
         <h1>
           {!isPublic(hearing)
             ? <OverlayTrigger placement="bottom" overlay={eyeTooltip}><Icon name="eye-slash"/></OverlayTrigger>
