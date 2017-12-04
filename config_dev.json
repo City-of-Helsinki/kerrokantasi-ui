@@ -1,0 +1,8 @@
+{
+    "api_base": "https://api.hel.fi/linkedevents-test/v1",
+    "helsinkiAuthId": "replace-me-with-real-auth-id-for-authentication-to-work",
+    "helsinkiAuthSecret": "replace-me-with-real-auth-secret-for-authentication-to-work",
+    "helsinkiTargetApp": "replace-me-with-real-target-app-for-authentication-to-work",
+    "publicUrl": "http://localhost:8080",
+    "sessionSecret": "dev-secret-do-not-use-in-production"
+}
