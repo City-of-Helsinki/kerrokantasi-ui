@@ -82,6 +82,9 @@ export class HearingView extends React.Component {
       const { state: receivedHearingState, data: receivedHearing } = nextProps.hearing[params.hearingSlug];
       const existingUser = this.props.user;
       const receivedUser = nextProps.user;
+      if (!this.state.manager && canEdit(receivedUser, receivedHearing)) {
+        this.setState({ manager: true });
+      }
       // check manager and hearing status whenever user or hearing is received
       if ((!existingUser && receivedUser) || (!this.getHearing() && receivedHearingState === 'done')) {
         // the hearing might not be present yet, if it is invisible without login

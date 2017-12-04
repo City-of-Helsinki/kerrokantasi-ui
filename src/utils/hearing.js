@@ -118,6 +118,9 @@ Return true if use can edit given hearing.
  */
 export function canEdit(user, hearing) {
   // If the user is an admin of the hearing's organization, allow editing
+  if (!user.adminOrganizations || !hearing.organization) {
+    return false;
+  }
   return Boolean(user && includes(user.adminOrganizations || [], hearing.organization));
 }
 
