@@ -146,14 +146,15 @@ class SectionForm extends React.Component {
 
         <FormGroup controlId="hearingCommenting">
           <ControlLabel><FormattedMessage id="hearingCommenting"/></ControlLabel>
+          {console.log(section)}
           <FormControl
             componentClass="select"
             name="commenting"
             onChange={this.onChange}
           >
-            <option value="none">{formatMessage({id: "noCommenting"})}</option>
-            <option value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-            <option value="open">{formatMessage({id: "openCommenting"})}</option>
+            <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+            <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
+            <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
           </FormControl>
         </FormGroup>
 
