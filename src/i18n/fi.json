@@ -47,7 +47,7 @@
   "sectionAbstract": "Lyhyt johdanto",
   "sectionContent": "Tekstisisältö",
   "sectionImage": "Kuva",
-  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720.",
+  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720. (Max. 1MB)",
   "sectionImageCaption": "Kuvateksti",
   "sectionTitle": "Osa-alueen otsikko",
   "selectOrDropImage": "Valitse tai pudota kuva",
@@ -177,5 +177,6 @@
   "createLabel": "Luo uusi tagi",
   "labelPlaceholder": "Anna tagin nimi...",
   "draftNotPublished": "Luonnos, ei julkaistu",
-  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt."
+  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
+  "imageSizeError": "Kuva liian suuri, maksimikoko 1MB."
 }

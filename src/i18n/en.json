@@ -101,7 +101,7 @@
   "sectionAbstract": "Abstract",
   "sectionContent": "Text content",
   "sectionImage": "Image",
-  "sectionImageHelpText": "Recommended image size is 960 × 720.",
+  "sectionImageHelpText": "Recommended image size is 960 × 720. (Max. 1MB)",
   "sectionImageCaption": "Caption",
   "sectionTitle": "Section title",
   "createContact": "Create a new contact",
