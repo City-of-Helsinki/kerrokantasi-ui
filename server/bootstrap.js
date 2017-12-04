@@ -12,10 +12,9 @@ import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 
 function ignition() {
-  const args = require('minimist')(process.argv.slice(2));
-
   const settings = getSettings();
-  if (settings.dev || args.dump) {
+
+  if (settings.dev) {
     console.log("Settings:\n", inspect(settings, {colors: true}));
   }
   const server = express();
