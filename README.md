@@ -40,7 +40,6 @@ The known configuration variables are as follows:
 * `helsinkiAuthId`: The OAuth2 app ID for Helsinki Auth -- **required in production**
 * `helsinkiAuthSecret`: The OAuth2 app secret for Helsinki Auth -- **required in production**
 * `helsinkiTargetApp`: The "target app" entry for Helsinki Auth
-* `jwtAudience`: The audience to set for the JWT auth token for backend communication
 * `jwtKey`: The key to use for the backend communication JWT auth token -- **required in production**
 * `sessionSecret`: The secret used for signing the session cookie -- **required in production**
 * `dev`: Set this to enter development mode
