@@ -127,7 +127,7 @@ export class HearingView extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   renderSpinner() {
     return (
-      <div className="container">
+      <div className="hearing-page">
         <LoadSpinner />
       </div>
     );
@@ -190,7 +190,7 @@ export class HearingView extends React.Component {
       }
 
       return (
-        <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'container'}>
+        <div key="hearing" className={fullscreen ? 'fullscreen-hearing' : 'hearing-page'}>
           <Helmet title={getAttr(hearing.title, language)} meta={getOpenGraphMetaData(hearing, language)} />
           <HearingComponent
             hearingSlug={params.hearingSlug}
@@ -209,7 +209,7 @@ export class HearingView extends React.Component {
     // this is the manager
     if (!user) {
       return (
-        <div className="container">
+        <div className="hearing-page">
           <PleaseLogin login={() => dispatch(login())} />
         </div>
       );
@@ -217,7 +217,7 @@ export class HearingView extends React.Component {
 
     if (!hearingDraft) {
       return (
-        <div className="container">
+        <div className="hearing-page">
           <this.renderSpinner />
         </div>
       );
@@ -244,7 +244,7 @@ export class HearingView extends React.Component {
 
 
     return (
-      <div className="container">
+      <div className="hearing-page">
         <Helmet title={getAttr(hearingDraft.title, language)} meta={getOpenGraphMetaData(hearingDraft, language)} />
 
         <HearingEditor

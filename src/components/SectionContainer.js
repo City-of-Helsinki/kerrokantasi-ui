@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Button, Row, Col} from 'react-bootstrap';
+import {Button, Row, Col, Grid} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import WrappedCarousel from '../components/Carousel';
 import DeleteModal from './DeleteModal';
@@ -151,35 +151,43 @@ export class SectionContainer extends React.Component {
     const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
-      <div className="hearing-wrapper section-container">
-        <div className="text-right">{this.getFollowButton()}</div>
-        <Header hearing={hearing} activeLanguage={language} />
-        <WrappedCarousel language={language} hearing={hearing} />
-        <Row>
-          <Col md={12} lg={12}>
-            {hearing.closed ? <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content, language)} /> : null}
-            <WrappedSection
-              isQuestionView
-              section={section}
-              hearingSlug={hearingSlug}
-              canComment={isSectionCommentable(hearing, section, user)}
-              onPostComment={this.onPostSectionComment.bind(this)} // this.props.onPostComment}
-              canVote={isSectionVotable(hearing, section, user)} // this.props.canVote && userCanVote(user, section)}
-              onPostVote={this.onVoteComment.bind(this)} // this.props.onPostVote}
-              comments={sectionComments} // this.props.loadSectionComments}
-              handleDeleteClick={this.handleDeleteClick.bind(this)}
-              onEditComment={this.onEditSectionComment.bind(this)}
-              user={user}
-              isCollapsible={false}
-              showPlugin={showPluginInline}
-              fetchAllComments={this.props.fetchAllComments}
-              fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
-              fetchMoreComments={this.props.fetchMoreComments}
-              sectionNav={sectionNav}
-              hearingUrl={getHearingURL(hearing)}
-            />
-          </Col>
-        </Row>
+      <div className="hearing-wrapper">
+        <div className="header-section">
+          <Grid>
+            <div className="text-right">{this.getFollowButton()}</div>
+            <Header hearing={hearing} activeLanguage={language} />
+            <WrappedCarousel language={language} hearing={hearing} />
+          </Grid>
+        </div>
+        <div className="hearing-content-section">
+          <Grid>
+            <Row>
+              <Col md={8} mdOffset={2}>
+                {hearing.closed ? <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content, language)} /> : null}
+                <WrappedSection
+                  isQuestionView
+                  section={section}
+                  hearingSlug={hearingSlug}
+                  canComment={isSectionCommentable(hearing, section, user)}
+                  onPostComment={this.onPostSectionComment.bind(this)} // this.props.onPostComment}
+                  canVote={isSectionVotable(hearing, section, user)} // this.props.canVote && userCanVote(user, section)}
+                  onPostVote={this.onVoteComment.bind(this)} // this.props.onPostVote}
+                  comments={sectionComments} // this.props.loadSectionComments}
+                  handleDeleteClick={this.handleDeleteClick.bind(this)}
+                  onEditComment={this.onEditSectionComment.bind(this)}
+                  user={user}
+                  isCollapsible={false}
+                  showPlugin={showPluginInline}
+                  fetchAllComments={this.props.fetchAllComments}
+                  fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
+                  fetchMoreComments={this.props.fetchMoreComments}
+                  sectionNav={sectionNav}
+                  hearingUrl={getHearingURL(hearing)}
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
         <DeleteModal
           isOpen={this.state.showDeleteModal}
           close={this.closeDeleteModal.bind(this)}
