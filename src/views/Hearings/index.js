@@ -92,19 +92,15 @@ export class Hearings extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-<<<<<<< HEAD
-    const { user, location, match: {params: {tab}} } = this.props;
-=======
-    const { user, location, labels } = this.props;
->>>>>>> Fix #433
+    const { user, location, match: {params: {tab}}, labels } = this.props;
     const { adminFilter } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
-    const shouldFetchHearings = labels && (
+    const shouldFetchHearings = labels && ((
       (!this.props.labels.length && nextProps.labels.length) ||
       (nextProps.labels.length && location.search !== nextProps.location.search) ||
       (!this.props.user && nextProps.user) ||
-      (this.props.user && !nextProps.user)) || nextProps.match.params.tab !== tab;
+      (this.props.user && !nextProps.user)) || nextProps.match.params.tab !== tab);
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
