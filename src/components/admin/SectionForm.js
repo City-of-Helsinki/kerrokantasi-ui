@@ -157,9 +157,9 @@ class SectionForm extends React.Component {
             name="commenting"
             onChange={this.onChange}
           >
-            <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
-            <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
             <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
+            <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
+            <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
           </FormControl>
         </FormGroup>
 
