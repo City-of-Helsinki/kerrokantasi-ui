@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {get} from 'lodash';
+import {localizedNotifyError} from '../../utils/notify';
 
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -16,6 +17,7 @@ import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageText
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 
+const MAX_IMAGE_SIZE = 999999;
 
 class SectionForm extends React.Component {
   constructor(props) {
@@ -43,6 +45,10 @@ class SectionForm extends React.Component {
   }
 
   onFileDrop(files) {
+    if (files[0].size > MAX_IMAGE_SIZE) {
+      localizedNotifyError('imageSizeError');
+      return;
+    }
     const section = this.props.section;
     const file = files[0];  // Only one file is supported for now.
     const fileReader = new FileReader();
@@ -146,7 +152,6 @@ class SectionForm extends React.Component {
 
         <FormGroup controlId="hearingCommenting">
           <ControlLabel><FormattedMessage id="hearingCommenting"/></ControlLabel>
-          {console.log(section)}
           <FormControl
             componentClass="select"
             name="commenting"
