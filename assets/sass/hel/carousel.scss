@@ -1,9 +1,6 @@
 .carousel-container {
-  margin: 0 auto;
-  padding: 20px 20px;
+  margin: 0 auto $line-height-computed * 2;
   width: 100%;
-  color: #333;
-  background: #ebedf1;
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
