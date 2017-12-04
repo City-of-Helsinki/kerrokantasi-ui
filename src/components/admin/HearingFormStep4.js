@@ -3,11 +3,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-
+import i18n from '../../i18n';
+import getAttr from '../../utils/getAttr';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Row from 'react-bootstrap/lib/Row';
+import {isEmpty} from 'lodash';
 
 import DateTime from 'react-datetime/DateTime';
 
@@ -58,7 +60,7 @@ class HearingFormStep4 extends React.Component {
 
   render() {
     const {hearing, hearingLanguages} = this.props;
-    const closureInfoSection = getClosureSection(hearing) || initNewSection({type: SectionTypes.CLOSURE});
+    const closureInfoContent = getClosureSection(hearing) && !isEmpty(getAttr(getClosureSection(hearing).content)) ? getClosureSection(hearing).content : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
 
     return (
       <div className="form-step">
@@ -95,7 +97,7 @@ class HearingFormStep4 extends React.Component {
           name="closureInfo"
           onBlur={this.onClosureSectionChange}
           rows="10"
-          value={closureInfoSection.content}
+          value={closureInfoContent}
           fieldType={TextFieldTypes.TEXTAREA}
           languages={hearingLanguages}
         />
@@ -111,6 +113,7 @@ HearingFormStep4.propTypes = {
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
+  language: PropTypes.string
 };
 
 const WrappedHearingFormStep4 = connect()(injectIntl(HearingFormStep4));
