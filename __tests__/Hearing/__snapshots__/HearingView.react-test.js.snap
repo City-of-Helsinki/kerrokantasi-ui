@@ -2,7 +2,7 @@
 
 exports[`HearingView component should render as expected 1`] = `
 <div
-  className="container"
+  className="hearing-page"
   key="hearing"
 >
   <HelmetWrapper

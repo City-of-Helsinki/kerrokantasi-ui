@@ -2,7 +2,7 @@
 
 exports[`QuestionView component should render as expected 1`] = `
 <div
-  className="question-view container"
+  className="question-view"
   key="question"
 >
   <HelmetWrapper
