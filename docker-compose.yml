@@ -6,4 +6,4 @@ services:
     image: helsinki/kerrokantasi-ui
     entrypoint: /docker-entrypoint.sh
     ports:
-      - "8080:8080"
+      - "8086:8086"
