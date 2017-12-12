@@ -90,7 +90,7 @@ class Sidebar extends React.Component {
 
   getLanguageChanger() {
     const {hearing, dispatch, activeLanguage} = this.props;
-    const availableLanguages = {fi: 'Kuuleminen Suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
+    const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
         return (
