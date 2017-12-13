@@ -2,6 +2,9 @@
 import {normalize} from 'normalizr';
 import uuid from 'uuid/v1';
 import {flowRight} from 'lodash';
+import pickBy from 'lodash/pickBy';
+import includes from 'lodash/includes';
+import assign from 'lodash/assign';
 
 import {hearingSchema} from '../types';
 
@@ -57,5 +60,24 @@ export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<strin
     [key]: filterFrontIds(data[key]),
   }), {})
 });
+
+const filterTitleByLanguages = (title, languages) => pickBy(title, (value, key) => includes(languages, key));
+const filterSectionsContentByLanguages = (sections, languages) => {
+  return sections.map((section) => assign(
+    section,
+    {
+      title: pickBy(section.title, (value, key) => includes(languages, key)),
+      content: pickBy(section.content, (value, key) => includes(languages, key)),
+    }
+  ));
+};
+
+export const filterTitleAndContentByLanguage = (data, languages) => assign(
+  data,
+  {
+    title: filterTitleByLanguages(data.title, languages),
+    sections: filterSectionsContentByLanguages(data.sections, languages),
+  }
+);
 
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
