@@ -31,7 +31,7 @@ const data = handleActions(
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { result, entities } }) => ({
       ...state,
       ...entities.hearing[result],
-    }),
+    })
   },
   null,
 );

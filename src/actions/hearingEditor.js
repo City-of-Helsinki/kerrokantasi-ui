@@ -6,7 +6,11 @@ import { push } from 'react-router-redux';
 
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
-import {fillFrontIdsAndNormalizeHearing, filterFrontIdsFromAttributes} from '../utils/hearingEditor';
+import {
+  fillFrontIdsAndNormalizeHearing,
+  filterFrontIdsFromAttributes,
+  filterTitleAndContentByLanguage
+} from '../utils/hearingEditor';
 
 export const EditorActions = {
   SHOW_FORM: 'showHearingForm',
@@ -221,7 +225,10 @@ export function changeHearingEditorLanguages(languages) {
  */
 export function saveHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
+    const cleanedHearing = filterTitleAndContentByLanguage(
+      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+    );
+
     const preSaveAction = createAction(EditorActions.SAVE_HEARING)({cleanedHearing});
     dispatch(preSaveAction);
     const url = '/v1/hearing/' + cleanedHearing.id;
@@ -252,7 +259,9 @@ export function saveHearingChanges(hearing) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const cleanedHearing = filterFrontIdsFromAttributes(hearing);
+    const cleanedHearing = filterTitleAndContentByLanguage(
+      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+    );
     const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({fyi: 'saveAndPreview'}))({
       cleanedHearing,
     });
@@ -286,9 +295,11 @@ export function saveAndPreviewHearingChanges(hearing) {
 }
 
 export function saveNewHearing(hearing) {
-  // Clean up section IDs assigned by UI before POSTing the hearing
-  const cleanedHearing = filterFrontIdsFromAttributes(hearing);
   return (dispatch, getState) => {
+    // Clean up section IDs assigned by UI before POSTing the hearing
+    const cleanedHearing = filterTitleAndContentByLanguage(
+      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+    );
     const preSaveAction = createAction(EditorActions.POST_HEARING)({hearing: cleanedHearing});
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
