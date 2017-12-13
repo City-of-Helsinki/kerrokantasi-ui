@@ -10,7 +10,6 @@ import PluginContent from './PluginContent';
 class FullscreenPlugin extends Section {
   render() {
     const {section, comments, user, hearingSlug} = this.props;
-    const openDetailPage = () => this.props.history.push(this.props.detailURL);
     return (
       <div>
         <div className="fullscreen-navigation">
@@ -23,9 +22,11 @@ class FullscreenPlugin extends Section {
             <Link to={this.props.detailURL}>{this.props.headerTitle}</Link>
           </div>
           <div className="minimize">
-            <Button onClick={openDetailPage}>
-              <Icon name="compress" />
-            </Button>
+            <Link to={this.props.detailURL}>
+              <Button>
+                <Icon name="compress" />
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="plugin-content">

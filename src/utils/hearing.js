@@ -26,7 +26,8 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
     query = `?fullscreen=${fullscreen}`;
   } else if (hearing.default_to_fullscreen) {
     // Hearing should always have default_to_fullscreen param
-    query = "?fullscreen=true";
+    // query = "?fullscreen=true";
+    query = "?fullscreen=false";
   }
   return `${url}${query}`;
 }
