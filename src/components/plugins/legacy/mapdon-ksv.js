@@ -14,7 +14,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));  // eslint-disable-line no-bitwise
-    this.state = Object.assign(this.state, {userDataChanged: false, nickname: this.props.defaultNickname || ''});
+    this.state = Object.assign(this.state, {userDataChanged: false});
     this.lastUserData = null;
     this.submitting = false;
   }
@@ -82,16 +82,6 @@ class MapdonKSVPlugin extends BaseCommentForm {
             onChange={this.handleTextChange.bind(this)}
             value={this.state.commentText}
             placeholder="Kommentoi ehdotustasi tässä."
-          />
-        </FormGroup>
-        <h3><FormattedMessage id="nickname"/></h3>
-        <FormGroup>
-          <FormControl
-            type="text"
-            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-            value={this.state.nickname}
-            onChange={this.handleNicknameChange.bind(this)}
-            maxLength={32}
           />
         </FormGroup>
         <p>
