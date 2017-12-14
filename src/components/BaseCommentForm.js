@@ -13,7 +13,7 @@ import forEach from 'lodash/forEach';
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || 'Mörö', imageTooBig: false, images: []};
+    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || '', imageTooBig: false, images: []};
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
