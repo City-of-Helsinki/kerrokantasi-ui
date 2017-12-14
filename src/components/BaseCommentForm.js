@@ -13,7 +13,7 @@ import forEach from 'lodash/forEach';
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false, images: []};
+    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || 'Mörö', imageTooBig: false, images: []};
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
@@ -21,6 +21,9 @@ export class BaseCommentForm extends React.Component {
     if (!this.props.collapseForm && nextProps.collapseForm) {
       this.clearCommentText();
       this.toggle();
+    }
+    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '') {
+      this.setState({nickname: nextProps.defaultNickname});
     }
   }
 
@@ -124,16 +127,8 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
-    if (this.state.collapsed) {
-      return (
-        <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-          <Icon name="comment"/> <FormattedMessage id="addComment"/>
-        </Button>
-      );
-    }
-    return (
-      <div className="comment-form">
+    if (!this.state.collapsed) {
+      return (<div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
           <FormControl
@@ -176,18 +171,16 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-          {canSetNickname ? (
-            <FormGroup>
-              <FormControl
-                type="text"
-                placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-                value={this.state.nickname}
-                onChange={this.handleNicknameChange.bind(this)}
-                maxLength={32}
-              />
-            </FormGroup>
-          ) : null}
+          <h3><FormattedMessage id="nickname"/></h3>
+          <FormGroup>
+            <FormControl
+              type="text"
+              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+              value={this.state.nickname}
+              onChange={this.handleNicknameChange.bind(this)}
+              maxLength={32}
+            />
+          </FormGroup>
           <div className="comment-buttons clearfix">
             <Button
               bsStyle="default"
@@ -213,8 +206,13 @@ export class BaseCommentForm extends React.Component {
 BaseCommentForm.propTypes = {
   onPostComment: PropTypes.func,
   intl: intlShape.isRequired,
-  canSetNickname: PropTypes.bool,
-  collapseForm: PropTypes.bool
+  collapseForm: PropTypes.bool,
+  defaultNickname: React.PropTypes.string.isRequired,
+  nicknamePlaceholder: React.PropTypes.string
+};
+
+BaseCommentForm.defaultProps = {
+  defaultNickname: ''
 };
 
 export default injectIntl(BaseCommentForm);

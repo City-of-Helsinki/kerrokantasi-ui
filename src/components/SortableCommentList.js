@@ -11,6 +11,8 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import CommentForm from './BaseCommentForm';
+import {getNickname, getAuthorName} from '../utils/user';
+
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -147,6 +149,7 @@ export class SortableCommentList extends Component {
       sectionComments,
       canVote,
       onPostComment,
+      user
     } = this.props;
 
     const showCommentList =
@@ -157,7 +160,8 @@ export class SortableCommentList extends Component {
           <CommentForm
             hearingId={hearingId}
             onPostComment={onPostComment}
-            canSetNickname={this.props.canSetNickname}
+            defaultNickname={getNickname(user)}
+            nicknamePlaceholder={getAuthorName(user)}
             collapseForm={this.state.collapseForm}
           />
         </div>
@@ -250,13 +254,13 @@ SortableCommentList.propTypes = {
   hearingSlug: PropTypes.string,
   user: PropTypes.object,
   canVote: PropTypes.bool,
-  canSetNickname: PropTypes.bool,
   canComment: PropTypes.bool,
   hearingId: PropTypes.string,
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
+  user: get(state, 'user').data,
 });
 
 export default connect(mapStateToProps)(injectIntl(SortableCommentList));
