@@ -407,7 +407,6 @@ exports[`Hearing component should render as expected 1`] = `
         >
           <Connect(InjectIntl(SortableCommentList))
             canComment={true}
-            canSetNickname={false}
             canVote={false}
             comments={Array []}
             displayVisualization={false}
