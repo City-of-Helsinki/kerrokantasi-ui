@@ -59,7 +59,6 @@ exports[`Section component should render as expected 1`] = `
   </div>
   <Connect(InjectIntl(SortableCommentList))
     canComment={true}
-    canSetNickname={true}
     canVote={true}
     isSectionComments={
       Object {

@@ -12,8 +12,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <InjectIntl(BaseCommentForm)
-          canSetNickname={true}
           collapseForm={false}
+          defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
         />
       </div>
