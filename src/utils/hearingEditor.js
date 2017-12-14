@@ -61,13 +61,16 @@ export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<strin
   }), {})
 });
 
-const filterTitleByLanguages = (title, languages) => pickBy(title, (value, key) => includes(languages, key));
+const filterSingleKeyByLanguages = (key, languages) => pickBy(key, (value, key) => includes(languages, key));
+
 const filterSectionsContentByLanguages = (sections, languages) => {
   return sections.map((section) => assign(
     section,
     {
-      title: pickBy(section.title, (value, key) => includes(languages, key)),
-      content: pickBy(section.content, (value, key) => includes(languages, key)),
+      abstract: filterSingleKeyByLanguages(section.abstract, languages),
+      content: filterSingleKeyByLanguages(section.content, languages),
+      images: section.images.map((image) => assign(image, filterSingleKeyByLanguages(image.abstract))),
+      title: filterSingleKeyByLanguages(section.title, languages)
     }
   ));
 };
@@ -75,7 +78,9 @@ const filterSectionsContentByLanguages = (sections, languages) => {
 export const filterTitleAndContentByLanguage = (data, languages) => assign(
   data,
   {
-    title: filterTitleByLanguages(data.title, languages),
+    abstract: filterSingleKeyByLanguages(data.title, languages),
+    main_image: assign(data.main_image, filterSingleKeyByLanguages(data.main_image.caption, languages)),
+    title: filterSingleKeyByLanguages(data.title, languages),
     sections: filterSectionsContentByLanguages(data.sections, languages),
   }
 );
