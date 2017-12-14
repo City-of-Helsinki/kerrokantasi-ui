@@ -1,11 +1,7 @@
-import Button from 'react-bootstrap/lib/Button';
 import {BaseCommentForm} from '../BaseCommentForm';
-import CommentDisclaimer from "../CommentDisclaimer";
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {alert} from '../../utils/notify';
 
 
@@ -24,39 +20,8 @@ class MapQuestionnaire extends BaseCommentForm {
   }
 
   render() {
-    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
-    const pluginPurpose = this.props.pluginPurpose;
-    const displayCommentBox = this.props.displayCommentBox;
     const pluginSource = this.props.pluginSource;
-    const commentBox = (
-      <div>
-        <br/>
-        <FormGroup>
-          <FormControl
-            componentClass="textarea"
-            onChange={this.handleTextChange.bind(this)}
-            value={this.state.commentText}
-            placeholder="Kommentoi ehdotustasi tässä."
-          />
-        </FormGroup>
-        <h3><FormattedMessage id="nickname"/></h3>
-        <FormGroup>
-          <FormControl
-            type="text"
-            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-            value={this.state.nickname}
-            onChange={this.handleNicknameChange.bind(this)}
-            maxLength={32}
-          />
-        </FormGroup>
-        <p>
-          <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
-            Lähetä ehdotus
-          </Button>
-        </p>
-        <CommentDisclaimer/>
-      </div>
-    );
+
     return (
       <div className="plugin-comment-form map-plugin-comment-form">
         <form>
@@ -65,7 +30,6 @@ class MapQuestionnaire extends BaseCommentForm {
             className="plugin-frame map-plugin-frame"
             ref="frame"
           />
-          {pluginPurpose === 'postComments' && displayCommentBox ? commentBox : null}
         </form>
       </div>
     );
@@ -190,7 +154,6 @@ MapQuestionnaire.propTypes = {
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,
-  displayCommentBox: PropTypes.bool,
   defaultNickname: React.PropTypes.string.isRequired,
   nicknamePlaceholder: React.PropTypes.string,
   pluginSource: PropTypes.string
