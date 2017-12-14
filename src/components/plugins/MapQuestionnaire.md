@@ -5,13 +5,13 @@
 	"data": {....},
 	"instanceId": ....,
 	"pluginPurpose": ....,
-	"canSetNickname": ....,
+	"defaultNickname:": ....,
 	"comments": [....]}
 
 Host posts the configuration data to the plugin.
 instanceId: an unique identifier for this map instance. A string. This is required to identify separate instances of the plugin in a single host page.
 pluginPurpose: `postComments`, `viewComments` or `viewHeatmap`, depending on which plugin feature we want displayed. The plugin is only allowed to post data if called with `postComments`.
-canSetNickname: true or false, depending on if the user is allowed to type their nickname, or it is provided by authentication.
+defaultNickname: String containing the possible default nickname.
 comments: Array of objects. Must be present if `pluginPurpose` contains `viewComments` or `viewHeatmap`.
 
 The `data` object is always present and may contain the following keys:

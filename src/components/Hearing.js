@@ -182,7 +182,7 @@ export class Hearing extends React.Component {
             onEditComment={this.onEditSectionComment.bind(this)}
             onDeleteComment={this.handleDeleteClick.bind(this)}
             onPostVote={this.onVoteComment.bind(this)}
-            canSetNickname={user === null}
+            user={user}
             fetchComments={this.props.fetchCommentsForSortableList}
             fetchAllComments={this.props.fetchAllComments}
             fetchMoreComments={this.props.fetchMoreComments}

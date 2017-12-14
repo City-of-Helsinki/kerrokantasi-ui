@@ -14,7 +14,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
     this.pluginInstanceId = "ksv" + (0 | (Math.random() * 10000000));  // eslint-disable-line no-bitwise
-    this.state = Object.assign(this.state, {userDataChanged: false});
+    this.state = Object.assign(this.state, {userDataChanged: false, nickname: this.props.defaultNickname || ''});
     this.lastUserData = null;
     this.submitting = false;
   }
@@ -70,13 +70,13 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
     const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
       <div>
         <br/>
         <FormGroup>
+          <h3><FormattedMessage id="writeComment"/></h3>
           <FormControl
             componentClass="textarea"
             onChange={this.handleTextChange.bind(this)}
@@ -84,18 +84,16 @@ class MapdonKSVPlugin extends BaseCommentForm {
             placeholder="Kommentoi ehdotustasi tässä."
           />
         </FormGroup>
-        {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-        {canSetNickname ? (
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
-          </FormGroup>
-        ) : null}
+        <h3><FormattedMessage id="nickname"/></h3>
+        <FormGroup>
+          <FormControl
+            type="text"
+            placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+            value={this.state.nickname}
+            onChange={this.handleNicknameChange.bind(this)}
+            maxLength={32}
+          />
+        </FormGroup>
         <p>
           <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
             Lähetä ehdotus
@@ -181,7 +179,8 @@ MapdonKSVPlugin.propTypes = {
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,
-  canSetNickname: PropTypes.bool,
+  defaultNickname: React.PropTypes.string,
+  nicknamePlaceholder: React.PropTypes.string
 };
 
 export default injectIntl(MapdonKSVPlugin);
