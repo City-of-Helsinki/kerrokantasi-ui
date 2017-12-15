@@ -5,6 +5,9 @@ exports[`Carousel component should render as expected 1`] = `
   className="carousel-container"
 >
   <div
+    id="start"
+  />
+  <div
     className="slider-container"
   >
     <Slider
