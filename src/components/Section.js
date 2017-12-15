@@ -175,6 +175,7 @@ export class Section extends React.Component {
               dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
             />
           ) : null}
+          <div id="end" />
           <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
           {pluginContent}
         </div>
