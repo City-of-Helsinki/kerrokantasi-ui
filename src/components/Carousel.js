@@ -54,6 +54,7 @@ export class SectionCarousel extends React.Component {
     return (
       <div className="carousel-container">
         {hearing.geojson && <HearingMap hearing={hearing} />}
+        <div id="start" />
         <div className="slider-container">
           <Slider
             className="slider"
