@@ -159,7 +159,7 @@ export class SectionContainer extends React.Component {
             <WrappedCarousel language={language} hearing={hearing} />
           </Grid>
         </div>
-        <div id="start" className="hearing-content-section">
+        <div className="hearing-content-section">
           <Grid>
             <Row>
               <Col md={8} mdOffset={2}>

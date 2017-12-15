@@ -259,7 +259,7 @@ export class Hearing extends React.Component {
             <WrappedCarousel hearing={hearing} />
           </Grid>
         </div>
-        <div id="start" className="hearing-content-section">
+        <div className="hearing-content-section">
           <Grid>
             <Row>
               <Col md={8} mdOffset={2}>
