@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import getAttr from '../utils/getAttr';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,13 +11,13 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
         <ul className="pager">
           {!sectionNav.prevPath ? (
             <li className="previous">
-              <Link to={hearingUrl}>
+              <Link to={hearingUrl + '#end'}>
                 <FormattedMessage id="hearing" />
               </Link>
             </li>
           ) : (
             <li className="previous">
-              <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
+              <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath + '#end' || '#'}>
                 <span aria-hidden>&larr; </span>
                 <FormattedMessage id="previous" />&nbsp;
                 <span className="type-name hidden-xs">
@@ -31,7 +31,7 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
             ({sectionNav.currentNum}/{sectionNav.totalNum})
           </li>
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#end' || '#'}>
               <FormattedMessage id="next" />&nbsp;
               <span className="type-name hidden-xs">
                 {getAttr(sectionNav.nextType || section.type_name_singular, language)}
@@ -48,7 +48,7 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
             ({sectionNav.currentNum}/{sectionNav.totalNum})
           </li>
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#end' || '#'}>
               <FormattedMessage id="next" />&nbsp;
               <span className="type-name hidden-xs">
                 {getAttr(sectionNav.nextType || section.type_name_singular, language)}
