@@ -9,8 +9,12 @@ import {Link, withRouter} from 'react-router-dom';
 import OverviewMap from './OverviewMap';
 
 export class SectionCarousel extends React.Component {
-  state = {
-    isMobile: typeof window !== 'undefined' && window.innerWidth < 768
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      slideCount: this.getSlideCount()
+    };
   }
 
   componentDidMount() {
@@ -22,12 +26,28 @@ export class SectionCarousel extends React.Component {
   }
 
   handleResize = () => {
-    this.setState({isMobile: typeof window !== 'undefined' && window.innerWidth < 768});
+    this.setState({slideCount: this.getSlideCount()});
+  }
+
+  getSlideCount = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 400) {
+      return 1;
+    }
+
+    if (typeof window !== 'undefined' && window.innerWidth < 500) {
+      return 2;
+    }
+
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return 3;
+    }
+
+    return 4;
   }
 
   render() {
     const {hearing, match: {params}, language} = this.props;
-    const {isMobile} = this.state;
+    const {slideCount} = this.state;
     const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'CLOSURE');
 
     return (
@@ -41,7 +61,7 @@ export class SectionCarousel extends React.Component {
             }}
             infinite={false}
             focusOnSelect
-            slidesToShow={isMobile ? 1 : 4}
+            slidesToShow={slideCount}
             autoplay={false}
             initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId) : 0}
           >
