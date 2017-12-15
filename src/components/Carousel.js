@@ -5,7 +5,8 @@ import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
 import findIndex from 'lodash/findIndex';
 import {getSectionURL} from '../utils/section';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import OverviewMap from './OverviewMap';
 
 export class SectionCarousel extends React.Component {
@@ -48,7 +49,7 @@ export class SectionCarousel extends React.Component {
   render() {
     const {hearing, match: {params}, language} = this.props;
     const {slideCount} = this.state;
-    const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'CLOSURE');
+    const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
 
     return (
       <div className="carousel-container">
@@ -66,7 +67,7 @@ export class SectionCarousel extends React.Component {
             initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId) : 0}
           >
             {sectionsWithoutClosure.map(
-              (section) => <div key={section.id}><SliderItem hearingTitle={hearing.title} url={section.type === 'main' ? `/${hearing.slug}` : getSectionURL(hearing.slug, section)} language={language} section={section} /></div>)}
+              (section) => <div key={section.id}><SliderItem hearingTitle={hearing.title} url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'} language={language} section={section} /></div>)}
           </Slider>
         </div>
       </div>
