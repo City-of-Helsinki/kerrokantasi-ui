@@ -8,6 +8,9 @@ exports[`Section component should render as expected 1`] = `
     className="section-content"
   >
     <div
+      id="end"
+    />
+    <div
       dangerouslySetInnerHTML={
         Object {
           "__html": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
