@@ -7,7 +7,7 @@ const defaults = {
   listen_address: 'localhost',
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
-  api_base: 'http://localhost:8000',
+  apiBaseUrl: 'http://localhost:8000',
   // URL this frontend runs at, for callbacks
   publicUrl: 'http://localhost:8080',
   // Client Identifier in the Helsinki SSO system
@@ -26,7 +26,7 @@ const defaults = {
   cold: false,
 };
 
-const optionalKeys = ["listen_address", "listen_port", "api_base", "publicUrl", "uiConfig", "dev", "cold"];
+const optionalKeys = ["listen_address", "listen_port", "apiBaseUrl", "publicUrl", "uiConfig", "dev", "cold"];
 const mandatoryKeys = ["helsinkiAuthId", "helsinkiAuthSecret", "helsinkiTargetApp", "sessionSecret"];
 
 export default function getOptions() {

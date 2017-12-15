@@ -46,8 +46,8 @@ function ignition() {
 
   function run() {
     // Hello? Anyone there?
-    server.listen(settings.port, settings.hostname, () => {
-      console.log(`[***] Listening on ${settings.hostname}:${settings.port}.`);
+    server.listen(settings.listen_port, settings.listen_address, () => {
+      console.log(`[***] Listening on ${settings.listen_address}:${settings.listen_port}.`);
     });
   }
 
