@@ -217,6 +217,7 @@ exports[`Hearing component should render as expected 1`] = `
   </div>
   <div
     className="hearing-content-section"
+    id="start"
   >
     <Grid
       bsClass="container"
