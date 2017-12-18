@@ -53,7 +53,6 @@ export class SectionCarousel extends React.Component {
 
     return (
       <div className="carousel-container">
-        {hearing.geojson && <HearingMap hearing={hearing} />}
         <div id="start" />
         <div className="slider-container">
           <Slider
@@ -63,10 +62,28 @@ export class SectionCarousel extends React.Component {
             }}
             infinite={false}
             focusOnSelect
-            slidesToShow={slideCount}
             autoplay={false}
+            centerMode={true}
+            centerPadding= '50px'
+            responsive={[{
+              breakpoint: 768,
+              settings: { slidesToShow: 1 }
+              },
+              {
+              breakpoint: 1200,
+              settings: { slidesToShow: 3 }
+              },
+              {
+              breakpoint: 100000,
+              settings: { slidesToShow: 5 }
+              }]}
             initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId) : 0}
           >
+            <div>
+              <div className="slider-item">
+                  {hearing.geojson && <HearingMap hearing={hearing} />}
+              </div>
+            </div>
             {sectionsWithoutClosure.map(
               (section) => <div key={section.id}><SliderItem hearingTitle={hearing.title} url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'} language={language} section={section} /></div>)}
           </Slider>
@@ -88,7 +105,7 @@ const HearingMap = ({hearing}) => {
   return (
     <div className="carousel-map-container">
       <div className="carousel-map">
-        <OverviewMap hearings={[hearing]} style={{width: '100%', height: '200px'}} hideIfEmpty />
+        <OverviewMap hearings={[hearing]} style={{width: '100%', height: '100%'}} hideIfEmpty />
       </div>
     </div>
   );
@@ -99,10 +116,18 @@ HearingMap.propTypes = {
 };
 
 const SliderItem = ({section, url, language, hearingTitle}) => {
+  let cardImageStyle = {
+    backgroundImage: 'url(/assets/images/default-image.svg)',
+  };
+  if (!isEmpty(section.images)) {
+    cardImageStyle = {
+      backgroundImage: 'url("' + section.images[0].url + '")',
+    };
+  }
   return (
     <div className="slider-item">
       <Link to={url}>
-        {!isEmpty(section.images) && <img className="slider-image" src={section.images[0].url} alt="Section"/>}
+        <div className="slider-image" style={cardImageStyle}></div>
         <div className="slider-item-content">
           <div className="slider-item-title">{section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}</div>
         </div>
