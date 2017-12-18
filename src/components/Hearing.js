@@ -256,6 +256,10 @@ export class Hearing extends React.Component {
         <div className="header-section">
           <Grid>
             <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
+          </Grid>
+        </div>
+        <div className="subnav-section">
+          <Grid>
             <WrappedCarousel hearing={hearing} />
           </Grid>
         </div>

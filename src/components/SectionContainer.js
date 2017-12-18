@@ -156,6 +156,10 @@ export class SectionContainer extends React.Component {
           <Grid>
             <div className="text-right">{this.getFollowButton()}</div>
             <Header hearing={hearing} activeLanguage={language} />
+          </Grid>
+        </div>
+        <div className="subnav-section">
+          <Grid>
             <WrappedCarousel language={language} hearing={hearing} />
           </Grid>
         </div>
