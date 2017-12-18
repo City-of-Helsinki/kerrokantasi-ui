@@ -77,13 +77,13 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onSaveChanges}>
+        <Button bsStyle="primary" className="pull-right" onMouseDown={this.props.onSaveChanges}>
           <FormattedMessage id="saveHearingChanges"/>
         </Button>;
     } else {
       ActionButton = () =>
         <ButtonToolbar className="pull-right">
-          <Button bsStyle="primary" onClick={this.props.onSaveAndPreview}>
+          <Button bsStyle="primary" onMouseDown={this.props.onSaveAndPreview}>
             <FormattedMessage id="saveAndPreviewHearing"/>
           </Button>
         </ButtonToolbar>;
