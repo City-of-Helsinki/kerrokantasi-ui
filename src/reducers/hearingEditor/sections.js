@@ -36,16 +36,14 @@ const byId = handleActions(
       return newState;
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
-      const section = { ...state[sectionID] };
-      const image = getMainImage(section);
-      if (section.images.length <= 0) {
-        section.images.push(image);
-      }
+      const section = {...state[sectionID], images: [...state[sectionID].images]};
+      const image = {...getMainImage(section)};
       image[field] = value;
       if (field === 'image') {
         // Only one of the two fields should have valid reference to an image.
         image.url = '';
       }
+      section.images = [image];
       return {
         ...state,
         [sectionID]: section,
