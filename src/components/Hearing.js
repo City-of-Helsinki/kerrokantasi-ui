@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 // import { push } from 'redux-router';
-import { Button, Col, Row, Tooltip } from 'react-bootstrap';
+import { Button, Col, Row, Tooltip, Grid } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import ContactCard from './ContactCard';
@@ -24,20 +24,19 @@ import {
 import WrappedSortableCommentList from './SortableCommentList';
 import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
-import SectionList from './SectionList';
-import Sidebar from '../views/Hearing/Sidebar';
 import Header from '../views/Hearing/Header';
+import WrappedCarousel from './Carousel';
 import {find, has, includes} from 'lodash';
 import Icon from '../utils/Icon';
 import {
-  acceptsComments,
   getClosureSection,
   getHearingURL,
   getMainSection,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';
-import {isSpecialSectionType, isSectionCommentable, isSectionVotable} from '../utils/section';
+import {isSpecialSectionType, isSectionCommentable, isSectionVotable, getSectionURL} from '../utils/section';
 import getAttr from '../utils/getAttr';
+import WrappedClosureInfo from './ClosureInfo';
 
 export class Hearing extends React.Component {
   constructor(props) {
@@ -217,103 +216,110 @@ export class Hearing extends React.Component {
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
 
+  getQuestionLinksAndStuff(sectionGroups) {
+    const {hearing: {slug: hearingSlug}} = this.props;
+
+    const questions = sectionGroups.reduce(
+      (questionsArray, currentSection) => [...questionsArray, ...currentSection.sections],
+      [],
+    );
+
+    const prevPath = undefined;
+    const nextPath = questions.length > 0 ? getSectionURL(hearingSlug, questions[0]) : undefined;
+    const prevType = undefined;
+    const nextType = questions.length > 0 ? questions[1].type_name_singular : undefined;
+
+    return {
+      currentNum: 1,
+      totalNum: questions.length + 1,
+      prevPath,
+      nextPath,
+      prevType,
+      nextType,
+      shouldShowBrowser: questions.length > 0
+    };
+  }
+
   render() {
-    const {hearing, hearingSlug, user, language, dispatch, changeCurrentlyViewed, currentlyViewed} = this.props;
-    const hearingAllowsComments = acceptsComments(hearing);
+    const {hearing, hearingSlug, user, language, changeCurrentlyViewed} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
     const regularSections = hearing.sections.filter(section => !isSpecialSectionType(section.type));
     const sectionGroups = groupSections(regularSections);
+    const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearingSlug + '/report';
     const eyeTooltip = this.getEyeTooltip();
 
     return (
       <div className="hearing-wrapper" id="hearing-wrapper">
-        <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
-        <Row>
-          <Sidebar
-            currentlyViewed={currentlyViewed}
-            hearing={hearing}
-            mainSection={mainSection}
-            sectionGroups={sectionGroups}
-            activeLanguage={language}
-            dispatch={dispatch}
-            hearingSlug={hearingSlug}
-          />
-          <Col md={8} lg={9}>
-            <div id="hearing" className="hearing-content">
-              <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
-              <HearingImageList images={mainSection.images} />
-              <div
-                className="hearing-abstract lead"
-                dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
-              />
+        <div className="header-section">
+          <Grid>
+            <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
+          </Grid>
+        </div>
+        <div className="subnav-section">
+          <Grid>
+            <WrappedCarousel hearing={hearing} />
+          </Grid>
+        </div>
+        <div className="hearing-content-section">
+          <Grid>
+            <Row>
+              <Col md={8} mdOffset={2}>
+                <div id="hearing" className="hearing-content">
+                  <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
+                  <HearingImageList images={mainSection.images} />
+                  <div
+                    className="hearing-abstract lead"
+                    dangerouslySetInnerHTML={{__html: getAttr(hearing.abstract, language)}}
+                  />
 
-              {hearing.closed && hearing.published ? (
-                <WrappedSection
-                  fetchAllComments={this.props.fetchAllComments}
-                  section={closureInfoSection}
-                  canComment={false}
-                />
-              ) : null}
-              {mainSection ? (
-                <WrappedSection
-                  showPlugin={showPluginInline}
-                  section={mainSection}
-                  canComment={this.isMainSectionCommentable(hearing, user)}
-                  onPostComment={this.onPostSectionComment.bind(this)}
-                  onPostVote={this.onVoteComment.bind(this)}
-                  canVote={this.isMainSectionVotable(user)}
-                  comments={this.props.sectionComments[mainSection.id]}
-                  user={user}
-                  fetchAllComments={this.props.fetchAllComments}
-                />
-              ) : null}
-            </div>
-            <div className="hearing-contacts">
-              {hearing.contact_persons && hearing.contact_persons.length ? (
-                <h3>
-                  <FormattedMessage id="contactPersons" />
-                </h3>
-              ) : null}
-              <Row>
-                {hearing.contact_persons &&
-                  hearing.contact_persons.map((person, index) => (
-                    <Col
-                      xs={6}
-                      key={index} // eslint-disable-line react/no-array-index-key
-                      md={4}
-                    >
-                      <ContactCard activeLanguage={language} {...person} />
-                    </Col>
-                  ))}
-              </Row>
-            </div>
-            {this.getLinkToFullscreen(hearing)}
-            {sectionGroups.map(sectionGroup => (
-              <div
-                className="hearing-section-group"
-                id={'hearing-sectiongroup-' + sectionGroup.type}
-                key={sectionGroup.type}
-              >
-                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-sectiongroup-' + sectionGroup.type)} />
-                <SectionList
-                  basePath={window ? window.location.pathname : ''}
-                  sections={sectionGroup.sections}
-                  canComment={hearingAllowsComments}
-                  onPostComment={this.onPostSectionComment.bind(this)}
-                  canVote={hearingAllowsComments}
-                  onPostVote={this.onVoteComment.bind(this)}
-                  sectionComments={this.props.sectionComments}
-                  user={user}
-                />
-              </div>
-            ))}
-            <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
-            {this.getCommentList()}
-          </Col>
-        </Row>
+                  {hearing.closed && hearing.published ? (
+                    <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content)} />
+                  ) : null}
+                  {mainSection ? (
+                    <WrappedSection
+                      sectionNav={sectionNav}
+                      hearingSlug={hearing.slug}
+                      showPlugin={showPluginInline}
+                      section={mainSection}
+                      canComment={this.isMainSectionCommentable(hearing, user)}
+                      onPostComment={this.onPostSectionComment.bind(this)}
+                      onPostVote={this.onVoteComment.bind(this)}
+                      canVote={this.isMainSectionVotable(user)}
+                      comments={this.props.sectionComments[mainSection.id]}
+                      user={user}
+                      fetchAllComments={this.props.fetchAllComments}
+                    />
+                  ) : null}
+                </div>
+                <div className="hearing-contacts">
+                  {hearing.contact_persons && hearing.contact_persons.length ? (
+                    <h3>
+                      <FormattedMessage id="contactPersons" />
+                    </h3>
+                  ) : null}
+                  <Row>
+                    {hearing.contact_persons &&
+                      hearing.contact_persons.map((person, index) => (
+                        <Col
+                          xs={6}
+                          key={index} // eslint-disable-line react/no-array-index-key
+                          md={4}
+                        >
+                          <ContactCard activeLanguage={language} {...person} />
+                        </Col>
+                      ))}
+                  </Row>
+                </div>
+                {this.getLinkToFullscreen(hearing)}
+                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
+                {this.getCommentList()}
+              </Col>
+            </Row>
+          </Grid>
+        </div>
         <DeleteModal
           isOpen={this.state.showDeleteModal}
           close={this.closeDeleteModal.bind(this)}

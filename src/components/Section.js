@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
 import {isEmpty} from 'lodash';
+import WrappedSectionBrowser from './SectionBrowser';
 
 function getImageList(section, language) {
   if (section.type === 'main') {
@@ -106,7 +107,7 @@ export class Section extends React.Component {
   }
 
   render() {
-    const {section, user, comments, hearingSlug} = this.props;
+    const {section, user, comments, hearingSlug, sectionNav, hearingUrl, isQuestionView} = this.props;
     const {language} = this.context;
     const collapsible = this.isCollapsible();
     const titleDiv = this.getTitleDiv(collapsible);
@@ -177,6 +178,13 @@ export class Section extends React.Component {
           <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
           {pluginContent}
         </div>
+        {sectionNav.shouldShowBrowser && <WrappedSectionBrowser
+          sectionNav={sectionNav}
+          section={section}
+          language={language}
+          hearingUrl={hearingUrl}
+          isMainSection={!isQuestionView}
+        />}
         {commentList}
       </div>
     );
@@ -205,6 +213,9 @@ Section.propTypes = {
   onEditComment: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  sectionNav: PropTypes.object,
+  hearingUrl: PropTypes.string,
+  isQuestionView: PropTypes.bool
 };
 
 Section.contextTypes = {

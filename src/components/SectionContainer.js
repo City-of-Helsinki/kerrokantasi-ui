@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {Button, Row, Col} from 'react-bootstrap';
+import {Button, Row, Col, Grid} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import WrappedCarousel from '../components/Carousel';
 import DeleteModal from './DeleteModal';
 import {
   followHearing,
@@ -17,11 +17,9 @@ import {
 } from '../actions';
 // import HearingImageList from './HearingImageList';
 import WrappedSection from './Section';
-// import SectionList from './SectionList';
 import Header from '../views/Hearing/Header';
-import Sidebar from '../views/Hearing/Sidebar';
 import Icon from '../utils/Icon';
-import {getClosureSection, getHearingURL, getMainSection} from '../utils/hearing';
+import {getClosureSection, getHearingURL} from '../utils/hearing';
 import {
   getSectionURL,
   groupSections,
@@ -29,29 +27,9 @@ import {
   isSectionCommentable,
   isSectionVotable,
 } from '../utils/section';
-import getAttr from '../utils/getAttr';
 import { parseQuery } from '../utils/urlQuery';
-
-const LinkWrapper = ({disabled, to, children, ...rest}) => {
-  if (disabled) {
-    return (
-      <a href="" {...rest} onClick={ev => ev.preventDefault()}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <Link to={to} {...rest}>
-      {children}
-    </Link>
-  );
-};
-
-LinkWrapper.propTypes = {
-  disabled: PropTypes.bool,
-  children: PropTypes.array,
-  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.func]),
-};
+import WrappedClosureInfo from './ClosureInfo';
+import getAttr from '../utils/getAttr';
 
 export class SectionContainer extends React.Component {
   constructor(props) {
@@ -152,97 +130,68 @@ export class SectionContainer extends React.Component {
     const nextType = currentIndex !== questions.length - 1 ? questions[currentIndex + 1].type_name_singular : undefined;
 
     return {
-      currentNum: currentIndex + 1,
-      totalNum: questions.length,
+      currentNum: currentIndex + 2,
+      totalNum: questions.length + 1,
       prevPath,
       nextPath,
       prevType,
       nextType,
+      shouldShowBrowser: true
     };
   }
 
   render() {
-    const {hearing, hearingSlug, section, user, sectionComments, language, dispatch} = this.props;
+    const {hearing, hearingSlug, section, user, sectionComments, language} = this.props;
     // const hearingAllowsComments = acceptsComments(hearing);
     const closureInfoSection = this.getClosureInfo(hearing);
     // const regularSections = hearing.sections.filter((section) => !isSpecialSectionType(section.type));
-    const mainSection = getMainSection(hearing);
     const regularSections = hearing.sections.filter(sect => !isSpecialSectionType(sect.type));
     const sectionGroups = groupSections(regularSections);
     const sectionNav = this.getQuestionLinksAndStuff(sectionGroups);
-    const isQuestionView = true;
     const showPluginInline = Boolean(!section.plugin_fullscreen && section.plugin_identifier);
     // const fullscreenMapPlugin = hasFullscreenMapPlugin(hearing);
     return (
-      <div className="hearing-wrapper section-container">
-        <div className="text-right">{this.getFollowButton()}</div>
-        <Header hearing={hearing} activeLanguage={language} />
-        <Row>
-          <Sidebar
-            activeSection={section}
-            currentlyViewed={section.id}
-            hearing={hearing}
-            isQuestionView={isQuestionView}
-            mainSection={mainSection}
-            sectionGroups={sectionGroups}
-            dispatch={dispatch}
-            activeLanguage={language}
-          />
-          <Col md={8} lg={9}>
-            {hearing.closed ? <WrappedSection section={closureInfoSection} canComment={false} /> : null}
-            <div className="section-browser">
-              <ul className="pager">
-                {!sectionNav.prevPath ? (
-                  <li className="previous">
-                    <Link to={getHearingURL(hearing)}>
-                      <FormattedMessage id="hearing" />
-                    </Link>
-                  </li>
-                ) : (
-                  <li className="previous">
-                    <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath || '#'}>
-                      <span aria-hidden>&larr; </span>
-                      <FormattedMessage id="previous" />&nbsp;
-                      <span className="type-name hidden-xs">
-                        {getAttr(sectionNav.prevType || section.type_name_singular, language)}
-                      </span>
-                    </LinkWrapper>
-                  </li>
-                )}
-
-                <li className="pager-counter">
-                  ({sectionNav.currentNum}/{sectionNav.totalNum})
-                </li>
-                <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-                  <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath || '#'}>
-                    <FormattedMessage id="next" />&nbsp;
-                    <span className="type-name hidden-xs">
-                      {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-                    </span>
-                    <span aria-hidden> &rarr;</span>
-                  </LinkWrapper>
-                </li>
-              </ul>
-            </div>
-            <WrappedSection
-              section={section}
-              hearingSlug={hearingSlug}
-              canComment={isSectionCommentable(hearing, section, user)}
-              onPostComment={this.onPostSectionComment.bind(this)} // this.props.onPostComment}
-              canVote={isSectionVotable(hearing, section, user)} // this.props.canVote && userCanVote(user, section)}
-              onPostVote={this.onVoteComment.bind(this)} // this.props.onPostVote}
-              comments={sectionComments} // this.props.loadSectionComments}
-              handleDeleteClick={this.handleDeleteClick.bind(this)}
-              onEditComment={this.onEditSectionComment.bind(this)}
-              user={user}
-              isCollapsible={false}
-              showPlugin={showPluginInline}
-              fetchAllComments={this.props.fetchAllComments}
-              fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
-              fetchMoreComments={this.props.fetchMoreComments}
-            />
-          </Col>
-        </Row>
+      <div className="hearing-wrapper">
+        <div className="header-section">
+          <Grid>
+            <div className="text-right">{this.getFollowButton()}</div>
+            <Header hearing={hearing} activeLanguage={language} />
+          </Grid>
+        </div>
+        <div className="subnav-section">
+          <Grid>
+            <WrappedCarousel language={language} hearing={hearing} />
+          </Grid>
+        </div>
+        <div className="hearing-content-section">
+          <Grid>
+            <Row>
+              <Col md={8} mdOffset={2}>
+                {hearing.closed ? <WrappedClosureInfo closureInfo={getAttr(closureInfoSection.content, language)} /> : null}
+                <WrappedSection
+                  isQuestionView
+                  section={section}
+                  hearingSlug={hearingSlug}
+                  canComment={isSectionCommentable(hearing, section, user)}
+                  onPostComment={this.onPostSectionComment.bind(this)} // this.props.onPostComment}
+                  canVote={isSectionVotable(hearing, section, user)} // this.props.canVote && userCanVote(user, section)}
+                  onPostVote={this.onVoteComment.bind(this)} // this.props.onPostVote}
+                  comments={sectionComments} // this.props.loadSectionComments}
+                  handleDeleteClick={this.handleDeleteClick.bind(this)}
+                  onEditComment={this.onEditSectionComment.bind(this)}
+                  user={user}
+                  isCollapsible={false}
+                  showPlugin={showPluginInline}
+                  fetchAllComments={this.props.fetchAllComments}
+                  fetchCommentsForSortableList={this.props.fetchCommentsForSortableList}
+                  fetchMoreComments={this.props.fetchMoreComments}
+                  sectionNav={sectionNav}
+                  hearingUrl={getHearingURL(hearing)}
+                />
+              </Col>
+            </Row>
+          </Grid>
+        </div>
         <DeleteModal
           isOpen={this.state.showDeleteModal}
           close={this.closeDeleteModal.bind(this)}

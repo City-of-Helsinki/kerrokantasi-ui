@@ -1,5 +1,10 @@
-.hearing-wrapper {
-  margin-top: $line-height-computed * 1;
+.header-section {
+  background-color: $hel-silver;
+  padding: $line-height-computed * 2 0;
+}
+
+.hearing-content-section {
+  padding-top: $line-height-computed * 2;
 }
 
 .hearing-sidebar {
