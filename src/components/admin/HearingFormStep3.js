@@ -183,13 +183,19 @@ class HearingFormStep3 extends React.Component {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
             />
-            <FeatureGroup>
+            <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
                 position="topleft"
                 onEdited={this.onDrawEdited}
                 onCreated={this.onDrawCreated}
                 onDeleted={this.onDrawDeleted}
                 draw={this.getDrawOptions()}
+                edit={
+                  {
+                    featureGroup: this.featureGroup,
+                    edit: false
+                  }
+                }
               />
               {!this.state.isEdited && getHearingArea(hearing)}
             </FeatureGroup>
