@@ -12,16 +12,40 @@ exports[`Carousel component should render as expected 1`] = `
   >
     <Slider
       autoplay={false}
+      centerMode={true}
+      centerPadding="50px"
       className="slider"
       focusOnSelect={true}
       infinite={false}
-      initialSlide={1}
-      slidesToShow={4}
+      initialSlide={2}
+      responsive={
+        Array [
+          Object {
+            "breakpoint": 768,
+            "settings": Object {
+              "slidesToShow": 1,
+            },
+          },
+          Object {
+            "breakpoint": 1200,
+            "settings": Object {
+              "slidesToShow": 3,
+            },
+          },
+          Object {
+            "breakpoint": 100000,
+            "settings": Object {
+              "slidesToShow": 5,
+            },
+          },
+        ]
+      }
     >
       <div
         key="7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK"
       >
         <SliderItem
+          active={false}
           hearingTitle={
             Object {
               "fi": "Ideoi Isosaaren tulevaisuutta",
@@ -80,6 +104,7 @@ exports[`Carousel component should render as expected 1`] = `
         key="asuminen-a-asuinalueiden-elinvoi"
       >
         <SliderItem
+          active={true}
           hearingTitle={
             Object {
               "fi": "Ideoi Isosaaren tulevaisuutta",
@@ -139,6 +164,7 @@ exports[`Carousel component should render as expected 1`] = `
         key="asuminen-b-asuinalueiden-elinvoi"
       >
         <SliderItem
+          active={false}
           hearingTitle={
             Object {
               "fi": "Ideoi Isosaaren tulevaisuutta",

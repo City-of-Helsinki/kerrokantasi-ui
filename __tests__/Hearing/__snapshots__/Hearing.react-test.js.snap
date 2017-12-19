@@ -408,6 +408,16 @@ exports[`Hearing component should render as expected 1`] = `
         }
         reportUrl="http://localhost:8000//v1/hearing/undefined/report"
       />
+    </Grid>
+  </div>
+  <div
+    className="subnav-section"
+  >
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
+    >
       <withRouter(SectionCarousel)
         hearing={
           Object {
