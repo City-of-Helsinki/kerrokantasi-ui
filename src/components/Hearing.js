@@ -7,7 +7,6 @@ import { Button, Col, Row, Tooltip, Grid } from 'react-bootstrap';
 import DeleteModal from './DeleteModal';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import ContactCard from './ContactCard';
-import Waypoint from 'react-waypoint';
 import config from '../config';
 import moment from 'moment';
 import { parseQuery } from '../utils/urlQuery';
@@ -241,7 +240,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, user, language, changeCurrentlyViewed} = this.props;
+    const {hearing, hearingSlug, user, language} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -268,7 +267,6 @@ export class Hearing extends React.Component {
             <Row>
               <Col md={8} mdOffset={2}>
                 <div id="hearing" className="hearing-content">
-                  <Waypoint onEnter={() => changeCurrentlyViewed('#hearing')} topOffset={'-30%'} />
                   <HearingImageList images={mainSection.images} />
                   <div
                     className="hearing-abstract lead"
@@ -314,7 +312,6 @@ export class Hearing extends React.Component {
                   </Row>
                 </div>
                 {this.getLinkToFullscreen(hearing)}
-                <Waypoint onEnter={() => changeCurrentlyViewed('#hearing-comments')} topOffset={'-600px'} />
                 {this.getCommentList()}
               </Col>
             </Row>
@@ -339,8 +336,6 @@ Hearing.propTypes = {
   location: PropTypes.object,
   user: PropTypes.object,
   sectionComments: PropTypes.object,
-  changeCurrentlyViewed: PropTypes.func,
-  currentlyViewed: PropTypes.string,
   history: PropTypes.object,
   fetchAllComments: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
