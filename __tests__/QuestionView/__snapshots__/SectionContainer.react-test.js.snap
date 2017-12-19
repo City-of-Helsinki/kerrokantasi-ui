@@ -220,6 +220,16 @@ exports[`SectionContainer component should render as expected 1`] = `
           }
         }
       />
+    </Grid>
+  </div>
+  <div
+    className="subnav-section"
+  >
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
+    >
       <withRouter(SectionCarousel)
         hearing={
           Object {

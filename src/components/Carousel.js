@@ -9,89 +9,61 @@ import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import OverviewMap from './OverviewMap';
 
-export class SectionCarousel extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      slideCount: this.getSlideCount()
-    };
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
-  handleResize = () => {
-    this.setState({slideCount: this.getSlideCount()});
-  }
-
-  getSlideCount = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 400) {
-      return 1;
-    }
-
-    if (typeof window !== 'undefined' && window.innerWidth < 500) {
-      return 2;
-    }
-
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      return 3;
-    }
-
-    return 4;
-  }
-
-  render() {
-    const {hearing, match: {params}, language} = this.props;
-    const {slideCount} = this.state;
-    const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
-
-    return (
-      <div className="carousel-container">
-        <div id="start" />
-        <div className="slider-container">
-          <Slider
-            className="slider"
-            ref={slider => {
-              this.slider = slider;
-            }}
-            infinite={false}
-            focusOnSelect
-            autoplay={false}
-            centerMode={true}
-            centerPadding= '50px'
-            responsive={[{
-              breakpoint: 768,
-              settings: { slidesToShow: 1 }
-              },
-              {
-              breakpoint: 1200,
-              settings: { slidesToShow: 3 }
-              },
-              {
-              breakpoint: 100000,
-              settings: { slidesToShow: 5 }
-              }]}
-            initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId) : 0}
-          >
-            <div>
-              <div className="slider-item">
-                  {hearing.geojson && <HearingMap hearing={hearing} />}
-              </div>
-            </div>
-            {sectionsWithoutClosure.map(
-              (section) => <div key={section.id}><SliderItem hearingTitle={hearing.title} url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'} language={language} section={section} /></div>)}
-          </Slider>
-        </div>
+export const SectionCarousel = ({hearing, match: {params}, language}) => {
+  const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
+  const slides = sectionsWithoutClosure.map(
+    (section) =>
+      <div key={section.id}>
+        <SliderItem
+          active={(params.sectionId && section.id === params.sectionId.split('#')[0]) || (!params.sectionId && section.type === 'main')}
+          hearingTitle={hearing.title}
+          url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'}
+          language={language}
+          section={section}
+        />
+      </div>);
+  if (hearing.geojson) {
+    slides.unshift(<div key="map">
+      <div className="slider-item">
+        <HearingMap hearing={hearing} />
       </div>
-    );
+    </div>);
   }
-}
+
+  return (
+    <div className="carousel-container">
+      <div id="start" />
+      <div className="slider-container">
+        <Slider
+          className="slider"
+          ref={slider => {
+            this.slider = slider;
+          }}
+          initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId.split('#')[0]) + 1 : 1}
+          infinite={false}
+          focusOnSelect
+          autoplay={false}
+          centerMode
+          centerPadding="50px"
+          responsive={[{
+            breakpoint: 768,
+            settings: { slidesToShow: 1 }
+          },
+          {
+            breakpoint: 1200,
+            settings: { slidesToShow: 3 }
+          },
+          {
+            breakpoint: 100000,
+            settings: { slidesToShow: 5 }
+          }]}
+        >
+          {slides}
+        </Slider>
+      </div>
+    </div>
+  );
+};
 
 SectionCarousel.propTypes = {
   hearing: PropTypes.object,
@@ -115,19 +87,15 @@ HearingMap.propTypes = {
   hearing: PropTypes.object
 };
 
-const SliderItem = ({section, url, language, hearingTitle}) => {
-  let cardImageStyle = {
-    backgroundImage: 'url(/assets/images/default-image.svg)',
+const SliderItem = ({section, url, language, hearingTitle, active}) => {
+  const cardImageStyle = {
+    backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : 'url(/assets/images/default-image.svg)'
   };
-  if (!isEmpty(section.images)) {
-    cardImageStyle = {
-      backgroundImage: 'url("' + section.images[0].url + '")',
-    };
-  }
+
   return (
-    <div className="slider-item">
+    <div className={active ? "slider-item-current" : "slider-item"}>
       <Link to={url}>
-        <div className="slider-image" style={cardImageStyle}></div>
+        <div className="slider-image" style={cardImageStyle} />
         <div className="slider-item-content">
           <div className="slider-item-title">{section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}</div>
         </div>
@@ -141,5 +109,6 @@ SliderItem.propTypes = {
   section: PropTypes.object,
   url: PropTypes.string,
   language: PropTypes.string,
-  hearingTitle: PropTypes.object
+  hearingTitle: PropTypes.object,
+  active: PropTypes.bool
 };
