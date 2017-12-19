@@ -5,7 +5,7 @@ import LoadSpinner from '../../components/LoadSpinner';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchHearing, changeCurrentlyViewed, login } from '../../actions';
+import { fetchHearing, login } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import { getMainSection, canEdit, getHearingURL, getOpenGraphMetaData } from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
@@ -24,7 +24,6 @@ export class HearingView extends React.Component {
     super(props);
 
     this.state = { manager: false };
-    this.changeCurrentlyViewed = this.changeCurrentlyViewed.bind(this);
   }
   /**
    * Return a promise that will, as it fulfills, have added requisite
@@ -123,10 +122,6 @@ export class HearingView extends React.Component {
     }
   }
 
-  changeCurrentlyViewed(viewedItem) {
-    changeCurrentlyViewed(this.props.dispatch, viewedItem);
-  }
-
   // eslint-disable-next-line class-methods-use-this
   renderSpinner() {
     return (
@@ -169,7 +164,6 @@ export class HearingView extends React.Component {
       user,
       language,
       dispatch,
-      currentlyViewed,
       match: { params },
       contactPersons,
       isLoading,
@@ -202,8 +196,6 @@ export class HearingView extends React.Component {
             sectionComments={this.props.sectionComments}
             location={this.props.location}
             dispatch={dispatch}
-            changeCurrentlyViewed={this.changeCurrentlyViewed}
-            currentlyViewed={currentlyViewed}
           />
         </div>
       );
@@ -237,8 +229,6 @@ export class HearingView extends React.Component {
           sectionComments={this.props.sectionComments}
           location={this.props.location}
           dispatch={dispatch}
-          changeCurrentlyViewed={this.changeCurrentlyViewed}
-          currentlyViewed={currentlyViewed}
         />
       );
     } else {
@@ -273,7 +263,6 @@ HearingView.propTypes = {
   location: PropTypes.object,
   user: PropTypes.object,
   sectionComments: PropTypes.object,
-  currentlyViewed: PropTypes.string,
   contactPersons: PropTypes.arrayOf(contactShape),
   isLoading: PropTypes.bool,
   hearingDraft: hearingShape,
@@ -295,7 +284,6 @@ export function wrapHearingView(view) {
     language: state.language,
     errors: state.hearingEditor.errors,
     isSaving: HearingEditorSelector.getIsSaving(state),
-    currentlyViewed: state.hearing.currentlyViewed,
   }))(injectIntl(view));
 
   // We need to re-hoist the data statics to the wrapped component due to react-intl:

@@ -35,12 +35,6 @@ const savedHearing = (state, {payload: {hearing}}) => {
   }, state);
 };
 
-const changeCurrentlyViewed = (state, {payload}) => {
-  return updeep({
-    currentlyViewed: payload.newViewed
-  }, state);
-};
-
 const savedHearingChange = (state, {payload}) => {
   const hearing = payload.hearing;
   if (has(state, hearing.slug) || isEmpty(state)) {
@@ -63,7 +57,6 @@ export default handleActions({
   beginFetchHearing,
   receiveHearing,
   receiveHearingError,
-  changeCurrentlyViewed,
   savedHearingChange,
   savedNewHearing: savedHearingChange,
   clearNonPublicHearings,

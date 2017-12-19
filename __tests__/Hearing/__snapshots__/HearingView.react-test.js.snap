@@ -33,7 +33,6 @@ exports[`HearingView component should render as expected 1`] = `
     title="Ideoi Isosaaren tulevaisuutta"
   />
   <withRouter(Connect(InjectIntl(Hearing)))
-    changeCurrentlyViewed={[Function]}
     dispatch={[Function]}
     hearing={
       Object {

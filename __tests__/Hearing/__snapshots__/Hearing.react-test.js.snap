@@ -535,16 +535,6 @@ exports[`Hearing component should render as expected 1`] = `
             className="hearing-content"
             id="hearing"
           >
-            <Waypoint
-              bottomOffset="0px"
-              fireOnRapidScroll={true}
-              horizontal={false}
-              onEnter={[Function]}
-              onLeave={[Function]}
-              onPositionChange={[Function]}
-              throttleHandler={[Function]}
-              topOffset="-30%"
-            />
             <HearingImageList
               images={
                 Array [
@@ -671,16 +661,6 @@ exports[`Hearing component should render as expected 1`] = `
               </Col>
             </Row>
           </div>
-          <Waypoint
-            bottomOffset="0px"
-            fireOnRapidScroll={true}
-            horizontal={false}
-            onEnter={[Function]}
-            onLeave={[Function]}
-            onPositionChange={[Function]}
-            throttleHandler={[Function]}
-            topOffset="-600px"
-          />
           <div>
             <div
               className="hearing-comment-section"
