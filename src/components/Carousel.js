@@ -47,7 +47,9 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
             <div className="slider-item-content">
               <div className="slider-item-title">
                 <FormattedMessage id="openFullscreenMap" />
-                <Icon name="arrows-alt" fixedWidth />
+                <div style={{marginTop: '15px'}}>
+                  <Icon name="arrows-alt" fixedWidth />
+                </div>
               </div>
             </div>
           </Link>
