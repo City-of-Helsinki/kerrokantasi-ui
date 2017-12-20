@@ -1,0 +1,17 @@
+version: '2'
+services:
+  ui:
+    environment:
+      listen_address: 'address you want to listen, typically 0.0.0.0'
+      listen_ports: 'port you want to listen to, typically 8080'
+      apiBaseUrl: 'api address, test is at: https://api.hel.fi/kerrokantasi-test'
+      publicUrl: 'authentication callbacks: typically http://localhost:8080, depends on docker ports'
+      helsinkiAuthId: 'oauth id in your authentication solution'
+      helsinkiAuthSecret: 'oauth shared secret in your authentication solution'
+      helsinkiTargetApp: 'API the JWT token audience will be for'
+      sessionSecret: 'session secret for the expressJS'
+      uiConfig: '{ "sentryDns":"your sentry URL" }'
+# What volumes you would like
+#    volumes:
+#      - .:/home/kerrokantasi-ui/kerrokantasi-ui
+#      - /home/kerrokantasi-ui/kerrokantasi-ui/node_modules
