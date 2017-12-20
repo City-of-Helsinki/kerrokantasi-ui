@@ -3,14 +3,23 @@ import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
-import findIndex from 'lodash/findIndex';
 import {getSectionURL} from '../utils/section';
+import {
+  getHearingURL,
+  hasFullscreenMapPlugin,
+} from '../utils/hearing';
+import {getInitialSlideIndex} from '../utils/carousel';
 import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 import OverviewMap from './OverviewMap';
+import {FormattedMessage, intlShape} from 'react-intl';
+import Icon from '../utils/Icon';
 
 export const SectionCarousel = ({hearing, match: {params}, language}) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
+  /* Add slide per every section and map as first item if the hearing has geojson and fullscreen link as last item if
+   * the hearing in question has fullscreen plugin
+   */
   const slides = sectionsWithoutClosure.map(
     (section) =>
       <div key={section.id}>
@@ -29,6 +38,23 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
       </div>
     </div>);
   }
+  if (hasFullscreenMapPlugin(hearing)) {
+    slides.push(
+      <div key="fullscreen">
+        <div className="slider-item">
+          <Link to={getHearingURL(hearing, {fullscreen: true})}>
+            <div className="slider-image" />
+            <div className="slider-item-content">
+              <div className="slider-item-title">
+                <FormattedMessage id="openFullscreenMap" />
+                <Icon name="arrows-alt" fixedWidth />
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="carousel-container">
@@ -39,7 +65,7 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
           ref={slider => {
             this.slider = slider;
           }}
-          initialSlide={params.sectionId ? findIndex(sectionsWithoutClosure, (section) => section.id === params.sectionId.split('#')[0]) + 1 : 1}
+          initialSlide={getInitialSlideIndex(hearing, params)}
           infinite={false}
           focusOnSelect
           autoplay={false}
@@ -68,7 +94,8 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
 SectionCarousel.propTypes = {
   hearing: PropTypes.object,
   match: PropTypes.object,
-  language: PropTypes.string
+  language: PropTypes.string,
+  intl: intlShape.isRequired
 };
 
 export default withRouter(SectionCarousel);

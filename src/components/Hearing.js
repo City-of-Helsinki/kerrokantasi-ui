@@ -240,7 +240,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, user, language} = this.props;
+    const {hearing, hearingSlug, user, language, intl} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -259,7 +259,7 @@ export class Hearing extends React.Component {
         </div>
         <div className="subnav-section">
           <Grid>
-            <WrappedCarousel hearing={hearing} />
+            <WrappedCarousel hearing={hearing} intl={intl} />
           </Grid>
         </div>
         <div className="hearing-content-section">
