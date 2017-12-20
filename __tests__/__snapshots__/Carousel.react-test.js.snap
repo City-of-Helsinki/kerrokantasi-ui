@@ -17,7 +17,7 @@ exports[`Carousel component should render as expected 1`] = `
       className="slider"
       focusOnSelect={true}
       infinite={false}
-      initialSlide={2}
+      initialSlide={1}
       responsive={
         Array [
           Object {
