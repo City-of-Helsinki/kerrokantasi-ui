@@ -115,5 +115,6 @@
   "voteReceived": "Rösten mottagen. Tack!",
   "createLabel": "TODO",
   "labelPlaceholder": "TODO",
-  "hearingNotFound": "Hörandet kunde inte hittas."
+  "hearingNotFound": "Hörandet kunde inte hittas.",
+  "sessionExpired": "Sessionen har gått ut, logga in igen."
 }

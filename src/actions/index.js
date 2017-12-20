@@ -4,15 +4,21 @@ import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../u
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
+import {logout} from './user';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
-    const err = new Error("Bad response from server");
-    err.response = response;
-    throw err;
+    if (response.status === 401) {
+      const err = new Error('tokenError');
+      throw err;
+    } else {
+      const err = new Error("Bad response from server");
+      err.response = response;
+      throw err;
+    }
   }
 }
 
@@ -28,10 +34,15 @@ export function getResponseJSON(response) {
   return response.json();
 }
 
-export function requestErrorHandler() {
-  return (err) => {
-    Raven.captureException(err);
-    localizedNotifyError("APICallFailed");
+export function requestErrorHandler(dispatch) {
+  return async (err) => {
+    if (err.message === 'tokenError') {
+      localizedNotifyError("sessionExpired");
+      dispatch(logout());
+    } else {
+      Raven.captureException(err);
+      localizedNotifyError("APICallFailed");
+    }
   };
 }
 
@@ -59,7 +70,7 @@ export function fetchHearingList(listId, endpoint, params) {
 
     return api.get(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearingList")({listId, data}));
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -81,10 +92,9 @@ export function fetchLabels() {
   return (dispatch, getState) => {
     const fetchAction = createAction('beginFetchLabels');
     dispatch(fetchAction);
-
     return api.getAllFromEndpoint(getState(), '/v1/label/').then((data) => {
       dispatch(createAction('receiveLabels')({ data }));
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -96,9 +106,9 @@ export function fetchHearing(hearingSlug, previewKey = null) {
     const params = previewKey ? {preview: previewKey} : {};
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearing")({hearingSlug, data}));
-    }).catch(() => {
+    }).catch((err) => {
       dispatch(createAction("receiveHearingError")({hearingSlug}));
-      requestErrorHandler();
+      requestErrorHandler(err, dispatch);
     });
     // FIXME: Somehow .catch catches errors also from components' render methods
   };
@@ -113,7 +123,7 @@ export function followHearing(hearingSlug) {
       dispatch(createAction("receiveFollowHearing")({hearingSlug, data}));
       dispatch(fetchHearing(hearingSlug));
       localizedNotifySuccess("followingHearing");
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -130,7 +140,7 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
     };
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({sectionId, data}));
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -143,7 +153,7 @@ export function fetchMoreSectionComments(sectionId, ordering = '-n_votes', next)
     const url = parse(next, true);
     return api.get(getState(), 'v1/comment/', url.query).then(getResponseJSON).then((data) => {
       dispatch(createAction('receiveSectionComments')({sectionId, data}));
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -156,7 +166,7 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
     const url = "v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments";
     return api.get(getState(), url, {include: 'plugin_data', ordering}).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({sectionId, data}));
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -181,7 +191,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentReceived");
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -195,7 +205,7 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     return api.put(getState(), url, params).then(getResponseJSON).then(() => {
       dispatch(createAction("postedComment")({sectionId}));
       localizedAlert("commentEdited");
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -210,7 +220,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentDeleted");
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }
 
@@ -226,6 +236,6 @@ export function postVote(commentId, hearingSlug, sectionId) {
         dispatch(createAction("postedCommentVote")({commentId, sectionId}));
         localizedNotifySuccess("voteReceived");
       }
-    }).catch(requestErrorHandler());
+    }).catch(requestErrorHandler(dispatch));
   };
 }

@@ -68,6 +68,9 @@ export function get(state, endpoint, params = {}, options = {}) {
 export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) => {
   const getPaginated = (results, paramsForPage = params) =>
     get(state, endpoint, paramsForPage, options).then((response) => {
+      if (response.status === 401) {
+        throw new Error('tokenError');
+      }
       const responseOk = response.status >= 200 && response.status < 300;
       const data = response.json();
       if (!responseOk) {

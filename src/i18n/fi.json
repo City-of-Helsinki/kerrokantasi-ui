@@ -178,5 +178,6 @@
   "labelPlaceholder": "Anna tagin nimi...",
   "draftNotPublished": "Luonnos, ei julkaistu",
   "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
-  "imageSizeError": "Kuva liian suuri, maksimikoko 1MB."
+  "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
+  "sessionExpired": "Sessio on vanhentunut, kirjaudu uudelleen sisään."
 }
