@@ -62,4 +62,4 @@
       docker_container:
         name: kerrokantasi_ui_builder
         state: absent
-      when: recreate_image|default(true)
+      when: ( recreate_image|default(true) == "true" )
