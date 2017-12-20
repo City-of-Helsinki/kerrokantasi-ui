@@ -11,13 +11,13 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
         <ul className="pager">
           {!sectionNav.prevPath ? (
             <li className="previous">
-              <Link to={hearingUrl + '#end'}>
+              <Link to={hearingUrl + '#start'}>
                 <FormattedMessage id="hearing" />
               </Link>
             </li>
           ) : (
             <li className="previous">
-              <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath + '#end' || '#'}>
+              <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath + '#start' || '#'}>
                 <span aria-hidden>&larr; </span>
                 <FormattedMessage id="previous" />&nbsp;
                 <span className="type-name hidden-xs">
@@ -31,7 +31,7 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
             ({sectionNav.currentNum}/{sectionNav.totalNum})
           </li>
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#end' || '#'}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#start' || '#'}>
               <FormattedMessage id="next" />&nbsp;
               <span className="type-name hidden-xs">
                 {getAttr(sectionNav.nextType || section.type_name_singular, language)}
@@ -48,7 +48,7 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
             ({sectionNav.currentNum}/{sectionNav.totalNum})
           </li>
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#end' || '#'}>
+            <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#start' || '#'}>
               <FormattedMessage id="next" />&nbsp;
               <span className="type-name hidden-xs">
                 {getAttr(sectionNav.nextType || section.type_name_singular, language)}
