@@ -43,8 +43,10 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
       <div key="fullscreen">
         <div className="slider-item">
           <Link to={getHearingURL(hearing, {fullscreen: true})}>
-            <div className="slider-image" />
-            <div className="slider-item-content">
+            <div
+              className="slider-item-content carousel-fullscreenbutton"
+              style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '191px'}}
+            >
               <div className="slider-item-title">
                 <FormattedMessage id="openFullscreenMap" />
                 <div style={{marginTop: '15px'}}>
