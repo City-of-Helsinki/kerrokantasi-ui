@@ -1,5 +1,6 @@
 node_container_nginx_disabled: yes
 node_container_name: kerrokantasi-ui
+node_container_clean_caches: yes
 
 node_container:
   name: kerrokantasi-ui
