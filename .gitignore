@@ -30,6 +30,5 @@ node_modules
 
 /dist
 /.idea
-bower_components
-/kk.config
 /config_dev.toml
+/docker-compose.override.yml
