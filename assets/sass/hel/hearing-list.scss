@@ -27,6 +27,8 @@
     &-content {
         flex: 1 auto;
         padding: $line-height-computed;
+        max-width: 73%;
+        overflow: hidden;
     }
     &-labels {
         @extend .clearfix;
