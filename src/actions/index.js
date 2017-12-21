@@ -35,7 +35,7 @@ export function getResponseJSON(response) {
 }
 
 export function requestErrorHandler(dispatch) {
-  return async (err) => {
+  return (err) => {
     if (err.message === 'tokenError') {
       localizedNotifyError("sessionExpired");
       dispatch(logout());
