@@ -23,6 +23,7 @@ import {
 } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
+import {getDocumentOrigin} from '../../utils/hearingEditor'
 
 import {addLabel, addContact} from '../../actions/hearingEditor';
 
@@ -140,7 +141,7 @@ class HearingFormStep1 extends React.Component {
             <FormGroup controlId="hearingSlug">
               <ControlLabel><FormattedMessage id="hearingSlug"/>*</ControlLabel>
               <InputGroup>
-                <InputGroup.Addon>{`${window.document.origin}/`}</InputGroup.Addon>
+                <InputGroup.Addon>{getDocumentOrigin()}</InputGroup.Addon>
                 <FormControl
                   type="text"
                   name="slug"

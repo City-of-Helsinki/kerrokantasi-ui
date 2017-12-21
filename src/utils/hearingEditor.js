@@ -86,3 +86,7 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
 );
 
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
+
+export const getDocumentOrigin = () => {
+  return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/';
+};
