@@ -163,7 +163,8 @@ export const HearingList = ({
   showOnlyOpen,
   tab: activeTab,
   toggleShowOnlyOpen,
-  handleReachBottom
+  handleReachBottom,
+  intl
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = hearings && hearings.length;
@@ -192,6 +193,7 @@ export const HearingList = ({
                 language={language}
                 searchPhrase={searchPhrase}
                 selectedLabels={selectedLabels}
+                intl={intl}
               />
             </Col>
           </Row>
