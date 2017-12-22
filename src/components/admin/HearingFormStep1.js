@@ -23,7 +23,7 @@ import {
 } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
-import {getDocumentOrigin} from '../../utils/hearingEditor'
+import {getDocumentOrigin} from '../../utils/hearingEditor';
 
 import {addLabel, addContact} from '../../actions/hearingEditor';
 

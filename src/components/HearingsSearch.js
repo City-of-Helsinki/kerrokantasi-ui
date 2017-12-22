@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
-import {FormattedMessage, formatMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import Select from 'react-select';
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
@@ -66,6 +66,7 @@ HearingsSearch.propTypes = {
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
+  intl: intlShape.isRequired
 };
 
-export default injectIntl(HearingsSearch);
+export default HearingsSearch;
