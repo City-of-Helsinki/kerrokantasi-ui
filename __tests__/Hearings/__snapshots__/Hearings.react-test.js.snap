@@ -239,6 +239,7 @@ exports[`Hearings component should render as expected 1`] = `
           "scenarioSection": "Vaihtoehto",
           "search": "Etsi",
           "searchLabels": "Hae aiheista",
+          "searchPlaceholder": "Etsi...",
           "searchSubjects": "Etsi aiheista",
           "searchTitles": "Etsi otsikoista",
           "sectionAbstract": "Lyhyt johdanto",
