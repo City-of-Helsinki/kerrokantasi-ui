@@ -110,10 +110,9 @@ class HearingFormStep4 extends React.Component {
 HearingFormStep4.propTypes = {
   dispatch: PropTypes.func,
   hearing: hearingShape,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  language: PropTypes.string
 };
 
 const WrappedHearingFormStep4 = connect()(injectIntl(HearingFormStep4));
