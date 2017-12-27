@@ -23,7 +23,7 @@ export class HearingView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { currentlyViewed: 'hearing', manager: false };
+    this.state = { manager: false };
     this.changeCurrentlyViewed = this.changeCurrentlyViewed.bind(this);
   }
   /**
