@@ -196,19 +196,12 @@ HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   dispatch: PropTypes.func,
   hearing: hearingShape,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
-};
-
-HearingFormStep1.defaultProps = {
-  editorMetaData: {
-    contacts: [],
-    labels: [],
-  },
 };
 
 HearingFormStep1.contextTypes = {
