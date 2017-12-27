@@ -1,3 +1,5 @@
+// TODO: remove this disable once https://github.com/yannickcr/eslint-plugin-react/pull/1628 lands
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
