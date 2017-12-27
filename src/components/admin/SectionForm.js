@@ -56,7 +56,6 @@ class SectionForm extends React.Component {
       if (this.props.onSectionImageChange) {
         this.props.onSectionImageChange(section.frontId, "image", fileReader.result);
       }
-      this.setState({image: fileReader.result});
     }, false);
     fileReader.readAsDataURL(file);
   }
