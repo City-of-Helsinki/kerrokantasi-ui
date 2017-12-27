@@ -11,7 +11,6 @@ class TextArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
       value: this.props.value,
     };
     this.onBlur = this.onBlur.bind(this);
