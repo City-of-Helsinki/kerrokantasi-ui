@@ -10,7 +10,7 @@ import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearin
 import { getMainSection, canEdit, getHearingURL, getOpenGraphMetaData } from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import { contactShape, hearingShape, labelShape } from '../../types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { getUser } from '../../selectors/user';
 import { withRouter } from 'react-router-dom';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
@@ -275,7 +275,6 @@ HearingView.propTypes = {
   sectionComments: PropTypes.object,
   currentlyViewed: PropTypes.string,
   contactPersons: PropTypes.arrayOf(contactShape),
-  intl: intlShape.isRequired,
   isLoading: PropTypes.bool,
   hearingDraft: hearingShape,
   labels: PropTypes.arrayOf(labelShape),
