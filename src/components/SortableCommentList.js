@@ -161,7 +161,7 @@ export class SortableCommentList extends Component {
             hearingId={hearingId}
             onPostComment={onPostComment}
             defaultNickname={getNickname(user)}
-            nicknamePlaceholder={getAuthorName(user)}
+            nicknamePlaceholder={this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
           />
         </div>
