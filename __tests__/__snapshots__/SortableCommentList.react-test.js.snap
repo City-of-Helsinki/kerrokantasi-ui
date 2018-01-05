@@ -15,6 +15,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
           collapseForm={false}
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+          nicknamePlaceholder="Anonyymi"
         />
       </div>
     </div>
