@@ -46,7 +46,7 @@ export class BaseCommentForm extends React.Component {
   submitComment() {
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
-    let nickname = (this.state.nickname === "" ? null : this.state.nickname);
+    let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
     let commentText = (this.state.commentText === null ? '' : this.state.commentText);
     let geojson = null;
     let label = null;
@@ -127,6 +127,13 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
+    if (this.state.collapsed) {
+      return (
+        <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
+          <Icon name="comment"/> <FormattedMessage id="addComment"/>
+        </Button>
+      );
+    }
     if (!this.state.collapsed) {
       return (<div className="comment-form">
         <form>
@@ -175,7 +182,7 @@ export class BaseCommentForm extends React.Component {
           <FormGroup>
             <FormControl
               type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
+              placeholder={this.props.nicknamePlaceholder}
               value={this.state.nickname}
               onChange={this.handleNicknameChange.bind(this)}
               maxLength={32}
@@ -198,8 +205,8 @@ export class BaseCommentForm extends React.Component {
           </div>
           <CommentDisclaimer/>
         </form>
-      </div>
-    );
+      </div>);
+    }
   }
 }
 
