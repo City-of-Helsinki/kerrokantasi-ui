@@ -11,7 +11,7 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import CommentForm from './BaseCommentForm';
-import {getNickname, getAuthorName} from '../utils/user';
+import {getNickname} from '../utils/user';
 
 
 const ORDERING_CRITERIA = {

@@ -134,79 +134,77 @@ export class BaseCommentForm extends React.Component {
         </Button>
       );
     }
-    if (!this.state.collapsed) {
-      return (<div className="comment-form">
-        <form>
-          <h3><FormattedMessage id="writeComment"/></h3>
-          <FormControl
-            componentClass="textarea"
-            value={this.state.commentText}
-            onChange={this.handleTextChange.bind(this)}
-          />
-          <div className="comment-form__selected-images">
-            {this.state.imageTooBig
-              ? (
-                <div className="comment-form__image-too-big">
-                  <FormattedMessage id="image_too_big"/>
-                </div>
-              )
-              : this.state.images.map(
-                (image) =>
-                  <img
-                    style={{ marginRight: 10 }}
-                    alt={image.title}
-                    src={image.image}
-                    width={image.width < 100 ? image.width : 100}
-                    height={image.height < 100 ? image.width : 100}
-                  />)
-            }
-          </div>
-          <FormGroup className="comment-form__file">
-            <ControlLabel><FormattedMessage id="add_images"/></ControlLabel>
-            <div className="comment-form__select-button">
-              <label className="btn btn-default btn-sm" htmlFor="fileInput">
-                <FormattedMessage id="choose_images"/>
-              </label>
-              <input
-                type="file"
-                ref="images"
-                id="fileInput"
-                multiple
-                style={{display: 'none', visibility: 'hidden'}}
-                onChange={(event) => this.handleChange(event)}
-              />
-            </div>
-            <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
-          </FormGroup>
-          <h3><FormattedMessage id="nickname"/></h3>
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.nicknamePlaceholder}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
+    return (<div className="comment-form">
+      <form>
+        <h3><FormattedMessage id="writeComment"/></h3>
+        <FormControl
+          componentClass="textarea"
+          value={this.state.commentText}
+          onChange={this.handleTextChange.bind(this)}
+        />
+        <div className="comment-form__selected-images">
+          {this.state.imageTooBig
+            ? (
+              <div className="comment-form__image-too-big">
+                <FormattedMessage id="image_too_big"/>
+              </div>
+            )
+            : this.state.images.map(
+              (image) =>
+                <img
+                  style={{ marginRight: 10 }}
+                  alt={image.title}
+                  src={image.image}
+                  width={image.width < 100 ? image.width : 100}
+                  height={image.height < 100 ? image.width : 100}
+                />)
+          }
+        </div>
+        <FormGroup className="comment-form__file">
+          <ControlLabel><FormattedMessage id="add_images"/></ControlLabel>
+          <div className="comment-form__select-button">
+            <label className="btn btn-default btn-sm" htmlFor="fileInput">
+              <FormattedMessage id="choose_images"/>
+            </label>
+            <input
+              type="file"
+              ref="images"
+              id="fileInput"
+              multiple
+              style={{display: 'none', visibility: 'hidden'}}
+              onChange={(event) => this.handleChange(event)}
             />
-          </FormGroup>
-          <div className="comment-buttons clearfix">
-            <Button
-              bsStyle="default"
-              onClick={this.toggle.bind(this)}
-            >
-              <FormattedMessage id="cancel"/>
-            </Button>
-            <Button
-              bsStyle="primary"
-              disabled={!this.state.commentText || this.state.imageTooBig}
-              onClick={this.submitComment.bind(this)}
-            >
-              <FormattedMessage id="submit"/>
-            </Button>
           </div>
-          <CommentDisclaimer/>
-        </form>
-      </div>);
-    }
+          <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
+        </FormGroup>
+        <h3><FormattedMessage id="nickname"/></h3>
+        <FormGroup>
+          <FormControl
+            type="text"
+            placeholder={this.props.nicknamePlaceholder}
+            value={this.state.nickname}
+            onChange={this.handleNicknameChange.bind(this)}
+            maxLength={32}
+          />
+        </FormGroup>
+        <div className="comment-buttons clearfix">
+          <Button
+            bsStyle="default"
+            onClick={this.toggle.bind(this)}
+          >
+            <FormattedMessage id="cancel"/>
+          </Button>
+          <Button
+            bsStyle="primary"
+            disabled={!this.state.commentText || this.state.imageTooBig}
+            onClick={this.submitComment.bind(this)}
+          >
+            <FormattedMessage id="submit"/>
+          </Button>
+        </div>
+        <CommentDisclaimer/>
+      </form>
+    </div>);
   }
 }
 
