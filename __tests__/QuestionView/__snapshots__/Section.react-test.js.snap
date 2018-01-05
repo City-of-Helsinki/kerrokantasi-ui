@@ -24,16 +24,10 @@ exports[`Section component should render as expected 1`] = `
       }
     />
   </div>
-<<<<<<< HEAD
   <Connect(InjectIntl(SortableCommentList))
     canComment={true}
     canVote={true}
     isSectionComments={
-=======
-  <SectionBrowser
-    isMainSection={true}
-    section={
->>>>>>> Add tests for new components and update snapshots
       Object {
         "abstract": Object {
           "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
