@@ -14,6 +14,7 @@ exports[`Hearing component should render as expected 1`] = `
       fluid={false}
     >
       <InjectIntl(Header)
+        dispatch={[Function]}
         eyeTooltip={
           <Tooltip
             bsClass="tooltip"
