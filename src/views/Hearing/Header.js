@@ -8,6 +8,8 @@ import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
+import keys from 'lodash/keys';
+import {setLanguage} from '../../actions';
 
 class Header extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -32,6 +34,55 @@ class Header extends React.Component {
         <Icon name="clock-o"/> {closeMessage}
       </div>
     );
+  }
+
+  getLanguageChanger() {
+    const {hearing, dispatch, activeLanguage} = this.props;
+    const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
+    const languageOptionsArray = keys(hearing.title).map((lang, index) => {
+      if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
+        return (
+          <div className="language-link-active" key={lang}>
+            {availableLanguages[lang]}
+          </div>
+        );
+      }
+
+      if (
+        getAttr(hearing.title, lang, {exact: true}) &&
+        keys(hearing.title).filter(key => key === activeLanguage).length === 0 &&
+        index === 0
+      ) {
+        return (
+          <div className="language-link-active" key={lang}>
+            {availableLanguages[lang]}
+          </div>
+        );
+      }
+
+      if (getAttr(hearing.title, lang, {exact: true})) {
+        return (
+          <div className="language-link" key={lang}>
+            <a
+              onClick={event => {
+                event.preventDefault();
+                dispatch(setLanguage(lang));
+              }}
+            >
+              {availableLanguages[lang]}
+            </a>
+          </div>
+        );
+      }
+
+      return null;
+    });
+
+    if (languageOptionsArray.length > 1) {
+      return languageOptionsArray;
+    }
+
+    return null;
   }
 
   render() {
@@ -76,7 +127,14 @@ class Header extends React.Component {
             </div>
           </Col>
         </Row>
-        <SocialBar />
+        <Row>
+          <Col lg={6}>
+            <SocialBar />
+          </Col>
+          <Col lg={6}>
+            {this.getLanguageChanger()}
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -87,6 +145,7 @@ Header.propTypes = {
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
+  dispatch: PropTypes.func
 };
 
 export default injectIntl(Header);

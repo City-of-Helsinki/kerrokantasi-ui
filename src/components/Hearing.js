@@ -240,7 +240,7 @@ export class Hearing extends React.Component {
   }
 
   render() {
-    const {hearing, hearingSlug, user, language, intl} = this.props;
+    const {hearing, hearingSlug, user, language, intl, dispatch} = this.props;
     const mainSection = getMainSection(hearing);
     const showPluginInline = Boolean(!mainSection.plugin_fullscreen && mainSection.plugin_identifier);
     const closureInfoSection = this.getClosureInfo(hearing);
@@ -254,7 +254,7 @@ export class Hearing extends React.Component {
       <div className="hearing-wrapper" id="hearing-wrapper">
         <div className="header-section">
           <Grid>
-            <Header hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
+            <Header dispatch={dispatch} hearing={hearing} reportUrl={reportUrl} activeLanguage={language} eyeTooltip={eyeTooltip} />
           </Grid>
         </div>
         <div className="subnav-section">
