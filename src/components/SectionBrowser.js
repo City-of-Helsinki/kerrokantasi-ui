@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { HashLink as Link } from 'react-router-hash-link';
-import getAttr from '../utils/getAttr';
 import {FormattedMessage} from 'react-intl';
 
-export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMainSection}) => {
+export const SectionBrowser = ({sectionNav, hearingUrl, isMainSection}) => {
   return (
     <div className="section-browser">
       {!isMainSection ?
@@ -12,7 +11,8 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
           {!sectionNav.prevPath ? (
             <li className="previous">
               <Link to={hearingUrl + '#start'}>
-                <FormattedMessage id="hearing" />
+                <span aria-hidden>&larr; </span>
+                <FormattedMessage id="previous" />&nbsp;
               </Link>
             </li>
           ) : (
@@ -20,9 +20,6 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
               <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath + '#start' || '#'}>
                 <span aria-hidden>&larr; </span>
                 <FormattedMessage id="previous" />&nbsp;
-                <span className="type-name hidden-xs">
-                  {getAttr(sectionNav.prevType || section.type_name_singular, language)}
-                </span>
               </LinkWrapper>
             </li>
           )}
@@ -33,9 +30,6 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
             <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#start' || '#'}>
               <FormattedMessage id="next" />&nbsp;
-              <span className="type-name hidden-xs">
-                {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-              </span>
               <span aria-hidden> &rarr;</span>
             </LinkWrapper>
           </li>
@@ -50,9 +44,6 @@ export const SectionBrowser = ({sectionNav, section, language, hearingUrl, isMai
           <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
             <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#start' || '#'}>
               <FormattedMessage id="next" />&nbsp;
-              <span className="type-name hidden-xs">
-                {getAttr(sectionNav.nextType || section.type_name_singular, language)}
-              </span>
               <span aria-hidden> &rarr;</span>
             </LinkWrapper>
           </li>
@@ -66,8 +57,6 @@ export default SectionBrowser;
 
 SectionBrowser.propTypes = {
   sectionNav: PropTypes.object,
-  section: PropTypes.object,
-  language: PropTypes.string,
   hearingUrl: PropTypes.string,
   isMainSection: PropTypes.bool
 };

@@ -183,8 +183,6 @@ export class Section extends React.Component {
         </div>
         {sectionNav.shouldShowBrowser && <WrappedSectionBrowser
           sectionNav={sectionNav}
-          section={section}
-          language={language}
           hearingUrl={hearingUrl}
           isMainSection={!isQuestionView}
         />}

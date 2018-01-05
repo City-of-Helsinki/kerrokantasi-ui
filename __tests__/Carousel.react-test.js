@@ -18,7 +18,6 @@ const setup = propOverrides => {
     },
     language: 'fi'
   }, propOverrides);
-  console.log(props.hearing)
 
   const wrapper = shallow(<MemoryRouter><SectionCarousel {...props} /></MemoryRouter>);
 
