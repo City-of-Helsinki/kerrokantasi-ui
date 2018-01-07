@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import HelpOutline from 'material-ui-icons/HelpOutline';
 
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
@@ -123,7 +124,20 @@ class HearingForm extends React.Component {
         onHide={this.props.onLeaveForm}
         show={this.props.show}
       >
-        <Modal.Header closeButton bsClass="hearing-modal-header" />
+        <Modal.Header closeButton bsClass="hearing-modal-header">
+          <a
+            style={{textDecoration: 'none'}}
+            href="https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Button bsStyle="info" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <div>Info</div>
+              <HelpOutline style={{width: '18px', height: '18px', marginLeft: '3px'}}/>
+            </Button>
+          </a>
+
+        </Modal.Header>
         {this.getErrors()}
         <form>
           <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
