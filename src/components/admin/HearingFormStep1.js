@@ -174,7 +174,7 @@ class HearingFormStep1 extends React.Component {
           </div>
         </FormGroup>
         <hr/>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
+        <Button bsStyle="primary" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
         <LabelModal

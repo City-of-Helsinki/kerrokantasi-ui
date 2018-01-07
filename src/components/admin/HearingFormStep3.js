@@ -202,7 +202,7 @@ class HearingFormStep3 extends React.Component {
           </Map>
         </FormGroup>
         <hr/>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
+        <Button bsStyle="primary" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
       </div>
