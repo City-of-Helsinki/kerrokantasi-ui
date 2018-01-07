@@ -68,6 +68,10 @@ class Header extends React.Component {
                 event.preventDefault();
                 dispatch(setLanguage(lang));
               }}
+              onKeyPress={event => {
+                event.preventDefault();
+                dispatch(setLanguage(lang));
+              }}
             >
               {availableLanguages[lang]}
             </a>

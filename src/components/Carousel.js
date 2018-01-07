@@ -32,11 +32,13 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
         />
       </div>);
   if (hearing.geojson) {
-    slides.unshift(<div key="map">
-      <div className="slider-item">
-        <HearingMap hearing={hearing} />
+    slides.unshift(
+      <div key="map">
+        <div className="slider-item">
+          <HearingMap hearing={hearing} />
+        </div>
       </div>
-    </div>);
+    );
   }
   if (hasFullscreenMapPlugin(hearing)) {
     slides.push(
