@@ -137,8 +137,8 @@ export function addContact(contact, selectedContacts) {
         } else {
           response.json().then(contactJSON => {
             selectedContacts.push(contactJSON.id);
-            dispatch(changeHearing('contact_persons', selectedContacts));
             dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({contact: contactJSON}));
+            dispatch(changeHearing('contact_persons', selectedContacts));
           });
           notifySuccess('Luonti onnistui');
         }
@@ -169,8 +169,8 @@ export function addLabel(label, selectedLabels) {
         } else {
           response.json().then(labelJSON => {
             selectedLabels.push(labelJSON.id);
-            dispatch(changeHearing('labels', selectedLabels));
             dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({label: labelJSON}));
+            dispatch(changeHearing('labels', selectedLabels));
           });
           notifySuccess('Luonti onnistui');
         }

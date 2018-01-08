@@ -12,6 +12,7 @@ const byId = handleActions(
       ...state,
       ...entities.labels,
     }),
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...state, [label.id]: {...label, frontId: label.id}})
   },
   {},
 );
@@ -22,6 +23,7 @@ const all = handleActions(
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { entities } }) => [
       ...new Set([...state, ...Object.keys(get(entities, 'labels', {}))]),
     ],
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => [...state, label.id.toString()]
   },
   [],
 );
