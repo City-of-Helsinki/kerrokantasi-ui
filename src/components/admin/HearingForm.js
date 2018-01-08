@@ -23,6 +23,8 @@ import {
   labelShape,
 } from '../../types';
 
+const ADMIN_HELP_URL = 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw';
+
 
 class HearingForm extends React.Component {
   constructor(props) {
@@ -127,7 +129,7 @@ class HearingForm extends React.Component {
         <Modal.Header closeButton bsClass="hearing-modal-header">
           <a
             style={{textDecoration: 'none'}}
-            href="https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
+            href={ADMIN_HELP_URL}
             rel="noopener noreferrer"
             target="_blank"
           >
