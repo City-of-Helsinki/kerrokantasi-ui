@@ -86,7 +86,11 @@ class HearingFormStep2 extends React.Component {
   };
 
   handleSelect(activeSection) {
-    this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
+    if (activeSection === this.state.activeSection) {
+      this.setState({activeSection: ''}, HearingFormStep2.scrollModalToTop);
+    } else {
+      this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
+    }
   }
 
   /*
