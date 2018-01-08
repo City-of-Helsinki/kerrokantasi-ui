@@ -123,5 +123,6 @@
   "labelPlaceholder": "Name of tag here...",
   "draftNotPublished": "Draft, not published",
   "hearingNotFound": "Hearing was not found.",
-  "searchPlaceholder": "Search..."
+  "searchPlaceholder": "Search...",
+  "help": "Help"
 }

@@ -134,7 +134,7 @@ class HearingForm extends React.Component {
             target="_blank"
           >
             <Button bsStyle="info" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <div>Info</div>
+              <FormattedMessage id="help" />
               <HelpOutline style={{width: '18px', height: '18px', marginLeft: '3px'}}/>
             </Button>
           </a>
