@@ -107,6 +107,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "hearings": "Kuulemiset",
         "hearingsHeaderDescription": "Antamalla mielipiteesi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
         "hearingsHeaderText": "Kuulemiset",
+        "help": "Ohjeet",
         "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
         "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
         "inLanguage-en": "englanniksi",
