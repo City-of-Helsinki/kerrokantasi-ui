@@ -111,10 +111,12 @@ class HearingFormStep3 extends React.Component {
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
-  onDrawDeleted() {
+  onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
-    this.props.onHearingChange("geojson", null);
-    this.setState({isEdited: true});
+    if (event.layers && !isEmpty(event.layers._layers)) {
+      this.props.onHearingChange("geojson", null);
+      this.setState({isEdited: true});
+    }
   }
 
   invalidateMap() {
