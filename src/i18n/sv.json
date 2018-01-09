@@ -116,5 +116,7 @@
   "createLabel": "TODO",
   "labelPlaceholder": "TODO",
   "hearingNotFound": "Hörandet kunde inte hittas.",
-  "searchPlaceholder": "Söka..."
+  "searchPlaceholder": "Söka...",
+  "moveUp": "Flytta upp",
+  "moveDown": "Flytta ner"
 }
