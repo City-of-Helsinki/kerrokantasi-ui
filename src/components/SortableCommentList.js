@@ -11,7 +11,7 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import CommentForm from './BaseCommentForm';
-import {getNickname} from '../utils/user';
+import {getNickname, getAuthorDisplayName} from '../utils/user';
 
 
 const ORDERING_CRITERIA = {
@@ -161,7 +161,7 @@ export class SortableCommentList extends Component {
             hearingId={hearingId}
             onPostComment={onPostComment}
             defaultNickname={getNickname(user)}
-            nicknamePlaceholder={this.props.intl.formatMessage({id: "anonymous"})}
+            nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
           />
         </div>
