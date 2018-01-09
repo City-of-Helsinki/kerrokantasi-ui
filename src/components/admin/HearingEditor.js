@@ -17,6 +17,8 @@ import {
   saveAndPreviewNewHearing,
   startHearingEdit,
   unPublishHearing,
+  sectionMoveUp,
+  sectionMoveDown
 } from '../../actions/hearingEditor';
 import HearingForm from '../../components/admin/HearingForm';
 import HearingToolbar from '../../components/admin/HearingToolbar';
@@ -104,6 +106,14 @@ class HearingEditor extends React.Component {
     this.props.dispatch(closeHearing(this.props.hearing));
   }
 
+  sectionMoveUp = (sectionId) => {
+    this.props.dispatch(sectionMoveUp(sectionId));
+  }
+
+  sectionMoveDown = (sectionId) => {
+    this.props.dispatch(sectionMoveDown(sectionId));
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -127,6 +137,9 @@ class HearingEditor extends React.Component {
         show={show}
         dispatch={this.props.dispatch}
         language={language}
+        sectionMoveUp={this.sectionMoveUp}
+        sectionMoveDown={this.sectionMoveDown}
+        sections={hearing.sections}
       />
     );
   }
