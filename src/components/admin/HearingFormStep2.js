@@ -49,10 +49,10 @@ class HearingFormStep2 extends React.Component {
    */
   getSections() {
     const {language} = this.context;
-    const {hearingLanguages} = this.props;
-    return this.props.hearing.sections
+    const {hearing, hearingLanguages, sectionMoveUp, sectionMoveDown} = this.props;
+    return hearing.sections
       .filter(({type}) => type !== SectionTypes.CLOSURE)
-      .map((section) => {
+      .map((section, index) => {
         const sectionHeader = this.props.intl.formatMessage({
           id: `${section.type}Section`
         });
@@ -68,6 +68,10 @@ class HearingFormStep2 extends React.Component {
               onSectionChange={this.props.onSectionChange}
               onSectionImageChange={this.props.onSectionImageChange}
               sectionLanguages={hearingLanguages}
+              sectionMoveUp={sectionMoveUp}
+              sectionMoveDown={sectionMoveDown}
+              isFirstSubsection={index === 1}
+              isLastSubsection={index === (hearing.sections.length - 1)}
             />
             <hr/>
             {this.getDeleteSectionButton(section, sectionID)}
@@ -159,6 +163,8 @@ HearingFormStep2.propTypes = {
   onContinue: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func
 };
 
 HearingFormStep2.contextTypes = {
