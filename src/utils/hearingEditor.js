@@ -90,3 +90,14 @@ export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fill
 export const getDocumentOrigin = () => {
   return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/';
 };
+
+export const moveSubsectionInArray = (array, index, delta) => {
+  const newArray = array.slice();
+  const newIndex = index + delta;
+  if (newIndex < 1 || newIndex === array.length) {
+    return newArray;
+  } // Already at the top or bottom.
+  const indexes = [index, newIndex].sort(); // Sort the indexes
+  newArray.splice(indexes[0], 2, newArray[indexes[1]], newArray[indexes[0]]); // Replace from lowest index, two elements, reverting the order
+  return newArray;
+};
