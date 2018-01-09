@@ -179,5 +179,7 @@
   "draftNotPublished": "Luonnos, ei julkaistu",
   "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
   "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
-  "searchPlaceholder": "Etsi..."
+  "searchPlaceholder": "Etsi...",
+  "moveUp": "Siirrä ylös",
+  "moveDown": "Siirrä alas"
 }
