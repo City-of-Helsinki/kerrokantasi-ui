@@ -9,9 +9,11 @@ import {routerMiddleware} from 'react-router-redux';
 import createBrowserHistory from 'history/createBrowserHistory';
 import config from './config';
 import RavenMiddleWare from 'redux-raven-middleware';
+import languageMiddleware from './middleware/language';
 
 export const history = createBrowserHistory();
-const middleware = [thunk, routerMiddleware(history), ...hearingEditorMiddleware];
+
+const middleware = [thunk, routerMiddleware(history), languageMiddleware, ...hearingEditorMiddleware];
 if (config.uiConfig && config.uiConfig.sentryDns) {
   middleware.unshift(RavenMiddleWare(
     config.uiConfig.sentryDns,
