@@ -66,7 +66,7 @@ class HearingEditor extends React.Component {
       return notifyError('Aseta otsikko ennen tallentamista.');
     }
     if (isEmpty(hearing.labels)) {
-      return notifyError('Aseta ainakin yksi tagi.');
+      return notifyError('Aseta ainakin yksi asiasana.');
     }
     if (hearing.slug === '') {
       return notifyError('Aseta osoite ennen tallentamista.');
