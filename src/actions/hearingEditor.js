@@ -41,6 +41,8 @@ export const EditorActions = {
   ADD_CONTACT_SUCCESS: 'addContactSuccess',
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
+  SECTION_MOVE_UP: 'sectionMoveUp',
+  SECTION_MOVE_DOWN: 'sectionMoveDown'
 };
 
 export function receiveHearing(normalizedHearing) {
@@ -70,6 +72,14 @@ export function closeHearingForm() {
   return dispatch => {
     return dispatch(createAction(EditorActions.CLOSE_FORM)());
   };
+}
+
+export function sectionMoveUp(sectionId) {
+  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
+}
+
+export function sectionMoveDown(sectionId) {
+  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
 }
 
 // export const getAllFromEndpoint = (endpoint, actions, params = {limit: 2}, options = {}) => {

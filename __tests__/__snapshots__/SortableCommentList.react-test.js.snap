@@ -12,9 +12,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <InjectIntl(BaseCommentForm)
-          canSetNickname={true}
           collapseForm={false}
+          defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+          nicknamePlaceholder="Anonyymi"
         />
       </div>
     </div>
@@ -262,6 +263,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "mainSection": "Pääosio",
                 "map": "Kartta",
                 "mostCommented": "Eniten kommentoitu",
+                "moveDown": "Siirrä alas",
+                "moveUp": "Siirrä ylös",
                 "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                 "name": "Nimi",
                 "newHearingPageTitle": "Uusi kuuleminen",

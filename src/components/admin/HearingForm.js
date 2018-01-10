@@ -46,7 +46,7 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language} = this.props;
+    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown} = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
@@ -69,6 +69,8 @@ class HearingForm extends React.Component {
           errors={this.props.errors}
           dispatch={this.props.dispatch}
           language={language}
+          sectionMoveUp={sectionMoveUp}
+          sectionMoveDown={sectionMoveDown}
         />
       </Panel>
     );
@@ -174,7 +176,9 @@ HearingForm.propTypes = {
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   show: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

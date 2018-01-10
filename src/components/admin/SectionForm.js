@@ -10,6 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
+import Button from 'react-bootstrap/lib/Button';
 
 import Dropzone from 'react-dropzone';
 
@@ -81,7 +82,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, onSectionImageChange, sectionLanguages} = this.props;
+    const {section, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -89,6 +90,29 @@ class SectionForm extends React.Component {
 
     return (
       <div className="form-step">
+        {section.type !== 'closure-info' && section.type !== 'main' &&
+        <div>
+          <Button
+            bsStyle="default"
+            className="btn"
+            type="button"
+            onClick={() => sectionMoveUp(section.id)}
+            disabled={isFirstSubsection}
+            style={{marginRight: '10px'}}
+          >
+            &uarr; <FormattedMessage id="moveUp" />
+          </Button>
+          <Button
+            bsStyle="default"
+            className="btn"
+            type="button"
+            onClick={() => sectionMoveDown(section.id)}
+            disabled={isLastSubsection}
+          >
+            <FormattedMessage id="moveDown" /> &darr;
+          </Button>
+        </div>
+        }
         <FormGroup controlId="image">
 
           {
@@ -178,6 +202,10 @@ SectionForm.propTypes = {
   onSectionImageChange: PropTypes.func,
   section: sectionShape,
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func,
+  isFirstSubsection: PropTypes.bool,
+  isLastSubsection: PropTypes.bool
 };
 
 SectionForm.contextTypes = {

@@ -145,6 +145,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "mainSection": "Pääosio",
                   "map": "Kartta",
                   "mostCommented": "Eniten kommentoitu",
+                  "moveDown": "Siirrä alas",
+                  "moveUp": "Siirrä ylös",
                   "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                   "name": "Nimi",
                   "newHearingPageTitle": "Uusi kuuleminen",

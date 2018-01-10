@@ -180,5 +180,7 @@
   "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
   "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
   "searchPlaceholder": "Etsi...",
-  "help": "Ohjeet"
+  "help": "Ohjeet",
+  "moveUp": "Siirrä ylös",
+  "moveDown": "Siirrä alas"
 }

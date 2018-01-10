@@ -1,7 +1,8 @@
 // @flow
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, merge } from 'lodash';
+import { head, findIndex, merge } from 'lodash';
+import { moveSubsectionInArray } from '../../utils/hearingEditor';
 
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -9,6 +10,18 @@ import { EditorActions } from '../../actions/hearingEditor';
 //   const normalizedHearing = normalize(rawHearing, hearingSchema);
 //   return normalizedHearing.entities.hearing[rawHearing.id];
 // };
+
+const sectionMoveUp = (sections, sectionId) => {
+  const sectionIndex = findIndex(sections, (el) => el === sectionId);
+  const sortedSubsections = moveSubsectionInArray(sections, sectionIndex, -1);
+  return sortedSubsections;
+};
+
+const sectionMoveDown = (sections, sectionId) => {
+  const sectionIndex = findIndex(sections, (el) => el === sectionId);
+  const sortedSubsections = moveSubsectionInArray(sections, sectionIndex, 1);
+  return sortedSubsections;
+};
 
 const data = handleActions(
   {
@@ -32,7 +45,15 @@ const data = handleActions(
       ...state,
       ...entities.hearing[result],
     }),
-    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})})
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})}),
+    [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => ({...merge(
+      state,
+      {sections: sectionMoveUp(state.sections, sectionId)}
+    )}),
+    [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) => ({...merge(
+      state,
+      {sections: sectionMoveDown(state.sections, sectionId)}
+    )})
   },
   null,
 );
@@ -50,5 +71,6 @@ const reducer = combineReducers({
   data,
   isFetching,
 });
+
 
 export default reducer;

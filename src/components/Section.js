@@ -141,7 +141,7 @@ export class Section extends React.Component {
           onPostComment={this.onPostComment.bind(this)}
           canVote={this.props.canVote}
           onPostVote={this.onPostVote.bind(this)}
-          canSetNickname={!user}
+          defaultNickname={user && user.displayName}
           isSectionComments={section}
           onDeleteComment={this.props.handleDeleteClick}
           onEditComment={this.props.onEditComment}
