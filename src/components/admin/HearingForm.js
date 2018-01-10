@@ -71,6 +71,7 @@ class HearingForm extends React.Component {
           language={language}
           sectionMoveUp={sectionMoveUp}
           sectionMoveDown={sectionMoveDown}
+          formatMessage={formatMessage}
         />
       </Panel>
     );

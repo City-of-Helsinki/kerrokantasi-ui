@@ -76,6 +76,7 @@ class MultiLanguageTextField extends React.Component {
                 value={currentValue}
                 onChange={(newValue) => this.proxyInputNonEvent(newValue, this.props.onChange, lang)}
                 onBlur={(newValue) => this.proxyInputNonEvent(newValue, this.props.onBlur, lang)}
+                {...rest}
               />
             );
           }
@@ -105,6 +106,7 @@ MultiLanguageTextField.propTypes = {
   onChange: PropTypes.func,
   required: PropTypes.bool,
   richTextEditor: PropTypes.bool,
+  placeholderId: PropTypes.string,
   value: PropTypes.object, // TODO: create shape
 };
 
