@@ -1,7 +1,7 @@
 // @flow
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
-import { head } from 'lodash';
+import { head, merge } from 'lodash';
 
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -31,7 +31,8 @@ const data = handleActions(
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { result, entities } }) => ({
       ...state,
       ...entities.hearing[result],
-    })
+    }),
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})})
   },
   null,
 );

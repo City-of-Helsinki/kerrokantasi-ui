@@ -51,7 +51,7 @@ class HearingFormStep1 extends React.Component {
   }
 
   onLabelsChange(selectedLabels) {
-    this.setState({ selectedLabels });
+    this.setState({selectedLabels: selectedLabels.map(({id}) => id)});
     this.props.onHearingChange("labels", selectedLabels.map(({id}) => id));
   }
 
