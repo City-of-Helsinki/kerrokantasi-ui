@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   Editor,
@@ -277,6 +277,14 @@ class RichTextEditor extends React.Component {
     );
   }
 
+  getPlaceholder() {
+    const {formatMessage} = this.props.intl;
+    if (this.props.placeholderId) {
+      return formatMessage({id: this.props.placeholderId});
+    }
+    return "";
+  }
+
   render() {
     const { editorState } = this.state;
 
@@ -303,6 +311,7 @@ class RichTextEditor extends React.Component {
           onChange={this.onChange}
           onBlur={this.onBlur}
           onTab={this.onTab}
+          placeholder={this.getPlaceholder()}
         />
       </div>
     );
@@ -313,7 +322,10 @@ RichTextEditor.propTypes = {
   labelId: PropTypes.string,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string
+  value: PropTypes.string,
+  formatMessage: PropTypes.func,
+  placeholderId: PropTypes.string,
+  intl: intlShape.isRequired
 };
 
 export default RichTextEditor;
