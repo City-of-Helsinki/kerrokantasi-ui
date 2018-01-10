@@ -45,6 +45,7 @@ const data = handleActions(
       ...state,
       ...entities.hearing[result],
     }),
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})}),
     [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => ({...merge(
       state,
       {sections: sectionMoveUp(state.sections, sectionId)}

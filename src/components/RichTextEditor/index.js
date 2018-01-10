@@ -92,7 +92,7 @@ class RichTextEditor extends React.Component {
               return createEntity(
                 'LINK',
                 'MUTABLE',
-                {url: node.href}
+                {url: node.href, target: '_blank'}
               );
             }
             return null;
@@ -188,7 +188,7 @@ class RichTextEditor extends React.Component {
     const contentStateWithEntity = contentState.createEntity(
       'LINK',
       'MUTABLE',
-      { url: urlValue }
+      { url: urlValue, target: '_blank' }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });

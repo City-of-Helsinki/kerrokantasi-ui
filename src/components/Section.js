@@ -10,22 +10,25 @@ import PluginContent from './PluginContent';
 import getAttr from '../utils/getAttr';
 import {isEmpty} from 'lodash';
 
-function getImageList(section, language) {
-  if (section.type === 'main') {
+function getSectionImage(section, language) {
+  if (section.type === 'main' || section.type === 'closure-info') {
     // Main section images aren't rendered here atleast atm.
     return null;
   }
-  return section.images.map(image => (
-    <div key={image.url}>
-      <img
-        className="img-responsive"
-        alt={getAttr(image.title, language)}
-        title={getAttr(image.title, language)}
-        src={image.url}
-      />
-      <div className="image-caption">{getAttr(image.caption, language)}</div>
-    </div>
-  ));
+  const image = section.images[0];
+  return (
+    image ?
+      <div key={image.url}>
+        <img
+          className="img-responsive"
+          alt={getAttr(image.title, language)}
+          title={getAttr(image.title, language)}
+          src={image.url}
+        />
+        <div className="image-caption">{getAttr(image.caption, language)}</div>
+      </div>
+      : null
+  );
 }
 
 export class Section extends React.Component {
@@ -147,7 +150,7 @@ export class Section extends React.Component {
         />
       );
     }
-    const imageList = getImageList(section, language);
+    const image = getSectionImage(section, language);
     const sectionClass = classNames({
       'hearing-section': true,
       'closure-info': section.type === 'closure-info',
@@ -167,7 +170,7 @@ export class Section extends React.Component {
       <div className={sectionClass}>
         {titleDiv}
         <div className="section-content">
-          {imageList}
+          {image}
           {section.type !== 'main' && !isEmpty(section.abstract) ? (
             <div
               className="section-abstract lead"

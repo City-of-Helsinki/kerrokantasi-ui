@@ -33,7 +33,6 @@ class HearingFormStep2 extends React.Component {
       return (
         <Button
           bsStyle="danger"
-          className="pull-right"
           onClick={() => this.deleteSection(sectionID)}
         >
           <FormattedMessage id="deleteSection"/>
@@ -126,24 +125,21 @@ class HearingFormStep2 extends React.Component {
           {this.getSections()}
         </Accordion>
         <hr/>
-        <ButtonToolbar className="pull-right">
+        <ButtonToolbar>
           <Button
             bsStyle="primary"
-            className="pull-right"
             onClick={this.props.onContinue}
           >
             <FormattedMessage id="hearingFormNext"/>
           </Button>
           <Button
             bsStyle="default"
-            className="pull-right"
             onClick={() => this.addSection("part")}
           >
             <FormattedMessage id="addSection"/>
           </Button>
           <Button
             bsStyle="default"
-            className="pull-right"
             onClick={() => this.addSection("scenario")}
           >
             <FormattedMessage id="addOption"/>

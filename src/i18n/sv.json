@@ -117,6 +117,7 @@
   "labelPlaceholder": "TODO",
   "hearingNotFound": "Hörandet kunde inte hittas.",
   "searchPlaceholder": "Söka...",
+  "help": "Hjälp",
   "moveUp": "Flytta upp",
   "moveDown": "Flytta ner"
 }

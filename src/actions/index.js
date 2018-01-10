@@ -31,7 +31,8 @@ export function getResponseJSON(response) {
 export function requestErrorHandler() {
   return (err) => {
     Raven.captureException(err);
-    localizedNotifyError("APICallFailed");
+    localizedNotifyError(err.message);
+    // localizedNotifyError("APICallFailed");
   };
 }
 

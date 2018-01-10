@@ -111,10 +111,12 @@ class HearingFormStep3 extends React.Component {
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
-  onDrawDeleted() {
+  onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
-    this.props.onHearingChange("geojson", null);
-    this.setState({isEdited: true});
+    if (event.layers && !isEmpty(event.layers._layers)) {
+      this.props.onHearingChange("geojson", null);
+      this.setState({isEdited: true});
+    }
   }
 
   invalidateMap() {
@@ -135,6 +137,7 @@ class HearingFormStep3 extends React.Component {
       return {
         circle: false,
         circlemarker: false,
+        polyline: false,
         marker: {
           icon: new Leaflet.Icon({
             iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
@@ -202,7 +205,7 @@ class HearingFormStep3 extends React.Component {
           </Map>
         </FormGroup>
         <hr/>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
+        <Button bsStyle="primary" onClick={this.props.onContinue}>
           <FormattedMessage id="hearingFormNext"/>
         </Button>
       </div>
