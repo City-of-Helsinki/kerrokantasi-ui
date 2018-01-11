@@ -14,6 +14,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 import OverviewMap from './OverviewMap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Icon from '../utils/Icon';
+import {Grid} from 'react-bootstrap';
 
 export const SectionCarousel = ({hearing, match: {params}, language}) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
@@ -63,36 +64,40 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
   }
 
   return (
-    <div className="carousel-container">
-      <div id="start" />
-      <div className="slider-container">
-        <Slider
-          className="slider"
-          ref={slider => {
-            this.slider = slider;
-          }}
-          initialSlide={getInitialSlideIndex(hearing, params)}
-          infinite={false}
-          focusOnSelect
-          autoplay={false}
-          centerMode
-          centerPadding="50px"
-          responsive={[{
-            breakpoint: 768,
-            settings: { slidesToShow: 1 }
-          },
-          {
-            breakpoint: 1200,
-            settings: { slidesToShow: 3 }
-          },
-          {
-            breakpoint: 100000,
-            settings: { slidesToShow: 5 }
-          }]}
-        >
-          {slides}
-        </Slider>
-      </div>
+    <div className="subnav-section">
+      <Grid>
+        <div className="carousel-container">
+          <div id="start" />
+          <div className="slider-container">
+            <Slider
+              className="slider"
+              ref={slider => {
+                this.slider = slider;
+              }}
+              initialSlide={getInitialSlideIndex(hearing, params)}
+              infinite={false}
+              focusOnSelect
+              autoplay={false}
+              centerMode
+              centerPadding="50px"
+              responsive={[{
+                breakpoint: 768,
+                settings: { slidesToShow: 1 }
+              },
+              {
+                breakpoint: 1200,
+                settings: { slidesToShow: 3 }
+              },
+              {
+                breakpoint: 100000,
+                settings: { slidesToShow: 5 }
+              }]}
+            >
+              {slides}
+            </Slider>
+          </div>
+        </div>
+      </Grid>
     </div>
   );
 };
