@@ -7,9 +7,9 @@ const defaults = {
   listen_address: 'localhost',
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
-  apiBaseUrl: 'http://localhost:8000',
+  api_base_url: 'http://localhost:8000',
   // URL this frontend runs at, for callbacks
-  publicUrl: 'http://localhost:8080',
+  public_url: 'http://localhost:8080',
   // Client Identifier in the Helsinki SSO system
   helsinkiAuthId: null,
   // Shared secret in the Helsinki SSO system
