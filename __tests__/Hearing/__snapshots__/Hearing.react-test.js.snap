@@ -13,7 +13,7 @@ exports[`Hearing component should render as expected 1`] = `
       componentClass="div"
       fluid={false}
     >
-      <InjectIntl(Header)
+      <withRouter(InjectIntl(Header))
         dispatch={[Function]}
         eyeTooltip={
           <Tooltip
