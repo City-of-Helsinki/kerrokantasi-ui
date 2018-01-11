@@ -60,294 +60,6 @@ exports[`Hearing component should render as expected 1`] = `
               "height": 631,
               "id": 92,
               "title": Object {},
-<<<<<<< HEAD
-<<<<<<< HEAD
-              "type": "main",
-              "type_name_plural": "pääosiot",
-              "type_name_singular": "pääosio",
-              "voting": "registered",
-            }
-          }
-          sectionNav={
-            Object {
-              "currentNum": 1,
-              "nextPath": undefined,
-              "nextType": undefined,
-              "prevPath": undefined,
-              "prevType": undefined,
-              "shouldShowBrowser": false,
-              "totalNum": 1,
-            }
-          }
-          showPlugin={false}
-        />
-      </div>
-      <div
-        className="hearing-contacts"
-      >
-        <h3>
-          <FormattedMessage
-            id="contactPersons"
-            tagName="span"
-            values={Object {}}
-          />
-        </h3>
-        <Row
-          bsClass="row"
-          componentClass="div"
-        >
-          <Col
-            bsClass="col"
-            componentClass="div"
-            key="0"
-            md={4}
-            xs={6}
-          >
-            <ContactCard
-              email="seija.suunnittelija@hel.fi"
-              id="KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X"
-              name="Seija Suunnittelija"
-              organization="Kaupunkisuunnitteluvirasto"
-              phone="09 123 456"
-              title={
-                Object {
-                  "fi": "arkkitehti",
-                }
-              }
-            />
-          </Col>
-        </Row>
-      </div>
-      <Waypoint
-        bottomOffset="0px"
-        fireOnRapidScroll={true}
-        horizontal={false}
-        onEnter={[Function]}
-        onLeave={[Function]}
-        onPositionChange={[Function]}
-        throttleHandler={[Function]}
-        topOffset="-600px"
-      />
-      <div>
-        <div
-          className="hearing-comment-section"
-          id="hearing-comments"
-        >
-          <Connect(InjectIntl(SortableCommentList))
-            canComment={true}
-            canVote={false}
-            comments={Array []}
-            displayVisualization={false}
-            intl={
-              Object {
-                "defaultFormats": Object {},
-                "defaultLocale": "en",
-                "formatDate": [Function],
-                "formatHTMLMessage": [Function],
-                "formatMessage": [Function],
-                "formatNumber": [Function],
-                "formatPlural": [Function],
-                "formatRelative": [Function],
-                "formatTime": [Function],
-                "formats": Object {},
-                "locale": "fi",
-                "messages": Object {
-                  "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
-                  "CREATED_AT_ASC": "Vanhin ensin",
-                  "CREATED_AT_DESC": "Uusin ensin",
-                  "POPULARITY_ASC": "Vähiten suosittu ensin",
-                  "POPULARITY_DESC": "Suosituin ensin",
-                  "addComment": "Vastaa",
-                  "addOption": "Lisää vaihtoehto",
-                  "addSection": "Lisää osa-alue",
-                  "add_images": "Lisää kuvia kommenttiisi",
-                  "all": "Kaikki",
-                  "allHearings": "Kaikki kuulemiset",
-                  "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
-                  "anonymous": "Anonyymi",
-                  "asOpenData": "avoimena datana",
-                  "borough": "Alue",
-                  "cancel": "Peru",
-                  "characters": "merkkiä",
-                  "chooseTopic": "Valitse aihe",
-                  "choose_images": "Valitse kuvia",
-                  "closeHearing": "Sulje kuuleminen",
-                  "closedHearing": "Suljettu",
-                  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Voit jättää kommenttisi nimettömänä, jos et ole kirjautunut sisään. Lisäksi tekstejä tarvittaessa muokataan loukkaavan tai muutoin törkeän kielenkäytön osalta.",
-                  "commentDeleted": "Kommenttisi on poistettu.",
-                  "commentEdited": "Kommenttisi on muokattu. Kiitos!",
-                  "commentOrder": "Järjestä kommentit:",
-                  "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
-                  "comments": "Mielipiteet",
-                  "commentsOnMap": "Kartta koko näytöllä",
-                  "commentsOutOf": "Näytetään {current}/{total} mielipidettä.",
-                  "contactPersons": "Yhteyshenkilöt",
-                  "contactTitle": "Virkanimike tai tehtäväkuvaus",
-                  "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
-                  "create": "Luo",
-                  "createContact": "Luo uusi yhteyshenkilö",
-                  "createHearing": "Luo uusi kuuleminen",
-                  "createLabel": "Luo uusi asiasana",
-                  "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
-                  "delete": "Poista",
-                  "deleteComment": "Poista kommentti",
-                  "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
-                  "deleteSection": "Poista osio",
-                  "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa",
-                  "draft": "Luonnos",
-                  "draftNotPublished": "Luonnos, ei julkaistu",
-                  "drafts": "Luonnokset",
-                  "edit": "Muokkaa",
-                  "editHearing": "Muokkaa",
-                  "email": "Sähköposti",
-                  "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
-                  "eyeTooltipOpens": "Tämä kuuleminen julkaistaan",
-                  "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
-                  "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
-                  "feedbackPrompt": "Kerro meille, miten tätä palvelua pitäisi kehittää!",
-                  "firstClosing": "Ensimmäisenä sulkeutuva",
-                  "firstOpen": "Ensimmäisenä auennut",
-                  "follow": "Seuraa",
-                  "followingHearing": "Seuraat kuulemista.",
-                  "furtherInformation": "Lisätietoja",
-                  "hearing": "Kuuleminen",
-                  "hearingAbstract": "Lyhyt johdanto",
-                  "hearingArea": "Jos kuuleminen ei koske koko kaupunkia, piirrä kuulemisen tarkka alue kartalle",
-                  "hearingChangesSaved": "Muutokset tallennettu",
-                  "hearingClosed": "Sulkeutunut",
-                  "hearingClosingTime": "Sulkeutumisaika",
-                  "hearingClosureInfo": "Sulkeutumistiedote",
-                  "hearingCommenting": "Kommentointi",
-                  "hearingContacts": "Yhteyshenkilöt",
-                  "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
-                  "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
-                  "hearingFormHeaderStep2": "2. Sisältö",
-                  "hearingFormHeaderStep3": "3. Kartta",
-                  "hearingFormHeaderStep4": "4. Julkaisutiedot",
-                  "hearingFormNext": "Jatka",
-                  "hearingImage": "Kuulemisen kuva",
-                  "hearingLabels": "Asiasanat",
-                  "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
-                  "hearingLanguages": "Kuulemisen tiedot syötetään",
-                  "hearingMainContent": "Kuulemisen esittelyteksti",
-                  "hearingMap": "Kuulemiset kartalla",
-                  "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
-                  "hearingMapHeaderText": "Kartta",
-                  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
-                  "hearingOpeningTime": "Avautumisaika",
-                  "hearingSavingFailed": "Tallentaminen epäonnistui",
-                  "hearingSlug": "Kuulemisen osoite (täytä osoitteen loppuosa)",
-                  "hearingSlugPlaceholder": "esimerkki-osoite",
-                  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
-                  "hearings": "Kuulemiset",
-                  "hearingsHeaderDescription": "Antamalla mielipiteesi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
-                  "hearingsHeaderText": "Kuulemiset",
-                  "help": "Ohjeet",
-                  "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
-                  "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
-                  "inLanguage-en": "englanniksi",
-                  "inLanguage-fi": "suomeksi",
-                  "inLanguage-sv": "ruotsiksi",
-                  "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
-                  "infoHeaderText": "Tietoa palvelusta",
-                  "labelPlaceholder": "Anna asiasanan nimi...",
-                  "lang-en": "English",
-                  "lang-fi": "Suomi",
-                  "lang-sv": "Svenska",
-                  "lastClosing": "Viimeisenä sulkeutuva",
-                  "lastOpen": "Viimeisenä auennut",
-                  "leastCommented": "Vähiten kommentoitu",
-                  "list": "Lista",
-                  "login": "Kirjaudu sisään",
-                  "loginToContinue": "Kirjaudu sisään jatkaaksesi",
-                  "logout": "Kirjaudu ulos",
-                  "mainSection": "Pääosio",
-                  "map": "Kartta",
-                  "mostCommented": "Eniten kommentoitu",
-                  "moveDown": "Siirrä alas",
-                  "moveUp": "Siirrä ylös",
-                  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
-                  "name": "Nimi",
-                  "newHearingPageTitle": "Uusi kuuleminen",
-                  "newestFirst": "Uusin ensin",
-                  "newestHearings": "Uusimmat kuulemiset",
-                  "next": "Seuraava",
-                  "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
-                  "nickname": "Nimimerkki",
-                  "noCommenting": "Ei kommentointia",
-                  "noCommentsAvailable": "Ei mielipiteitä",
-                  "noHearings": "Kuulemisia ei löytynyt",
-                  "oldestFirst": "Vanhin ensin",
-                  "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
-                  "openCommenting": "Avoin kommentointi",
-                  "openFullscreenMap": "Kartta koko näytöllä",
-                  "openHearings": "Avoimet kuulemiset",
-                  "overview-map": "Kartta",
-                  "partSection": "Osa-alue",
-                  "phone": "Puhelinnumero",
-                  "previous": "Edellinen",
-                  "privacyPolicy": "Rekisteriseloste",
-                  "publishHearing": "Hyväksy julkaistavaksi",
-                  "publishHearingNow": "Julkaise kuuleminen",
-                  "published": "Julkaistu",
-                  "publishedHearings": "Julkiset",
-                  "publishingQueue": "Julkaisujono",
-                  "register": "Rekisteröidy",
-                  "registered": "rekisteröitynyt",
-                  "registeredUsersOnly": "Vain rekisteröityneet käyttäjät",
-                  "removeImage": "Poista kuva",
-                  "revertPublishing": "Peru julkaisu",
-                  "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
-                  "saveFailed": "Tallentaminen epäonnistui",
-                  "saveHearingChanges": "Tallenna muutokset",
-                  "scenarioSection": "Vaihtoehto",
-                  "search": "Etsi",
-                  "searchLabels": "Hae aiheista",
-                  "searchPlaceholder": "Etsi...",
-                  "searchSubjects": "Etsi aiheista",
-                  "searchTitles": "Etsi otsikoista",
-                  "sectionAbstract": "Lyhyt johdanto",
-                  "sectionContent": "Tekstisisältö",
-                  "sectionImage": "Kuva",
-                  "sectionImageCaption": "Kuvateksti",
-                  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720. (Max. 1MB)",
-                  "sectionTitle": "Osa-alueen otsikko",
-                  "selectAnotherImage": "Valitse toinen kuva",
-                  "selectOrDropImage": "Valitse tai pudota kuva",
-                  "showOnlyOpen": "Näytetään vain avoimet",
-                  "sort": "Järjestä",
-                  "submit": "Lähetä",
-                  "table-of-content": "Sisällys",
-                  "timeCloseFuture": "Sulkeutuu",
-                  "timeClosePast": "Sulkeutui",
-                  "timeOpenFuture": "Avautuu",
-                  "timeOpenPast": "Avautui",
-                  "timetable": "Aikajana",
-                  "title": "Otsikko",
-                  "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
-                  "toBePublishedHearing": "Kuuleminen julkaistaan",
-                  "totalSubmittedComment": "Yhteensä {n} mielipide",
-                  "totalSubmittedComments": "Yhteensä {n} mielipidettä",
-                  "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
-                  "vote": "Äänestä",
-                  "voteReceived": "Ääni vastaanotettu. Kiitos!",
-                  "welcome": "Tervetuloa!",
-                  "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
-                  "withOpenLicense": "avoimella lisenssillä",
-                  "writeComment": "Kommentti",
-                },
-                "now": [Function],
-              }
-            }
-            location={
-              Object {
-                "pathname": "/mockHearing",
-              }
-            }
-            mainSection={
-=======
-=======
->>>>>>> Make slidecount scale more smoothly with screen size
               "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
               "width": 893,
             },
@@ -560,7 +272,7 @@ exports[`Hearing component should render as expected 1`] = `
               "create": "Luo",
               "createContact": "Luo uusi yhteyshenkilö",
               "createHearing": "Luo uusi kuuleminen",
-              "createLabel": "Luo uusi tagi",
+              "createLabel": "Luo uusi asiasana",
               "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
               "delete": "Poista",
               "deleteComment": "Poista kommentti",
@@ -599,8 +311,8 @@ exports[`Hearing component should render as expected 1`] = `
               "hearingFormHeaderStep4": "4. Julkaisutiedot",
               "hearingFormNext": "Jatka",
               "hearingImage": "Kuulemisen kuva",
-              "hearingLabels": "Tagit",
-              "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat tagit",
+              "hearingLabels": "Asiasanat",
+              "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
               "hearingLanguages": "Kuulemisen tiedot syötetään",
               "hearingMainContent": "Kuulemisen esittelyteksti",
               "hearingMap": "Kuulemiset kartalla",
@@ -615,6 +327,7 @@ exports[`Hearing component should render as expected 1`] = `
               "hearings": "Kuulemiset",
               "hearingsHeaderDescription": "Antamalla mielipiteesi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
               "hearingsHeaderText": "Kuulemiset",
+              "help": "Ohjeet",
               "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
               "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
               "inLanguage-en": "englanniksi",
@@ -622,7 +335,7 @@ exports[`Hearing component should render as expected 1`] = `
               "inLanguage-sv": "ruotsiksi",
               "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
               "infoHeaderText": "Tietoa palvelusta",
-              "labelPlaceholder": "Anna tagin nimi...",
+              "labelPlaceholder": "Anna asiasanan nimi...",
               "lang-en": "English",
               "lang-fi": "Suomi",
               "lang-sv": "Svenska",
@@ -636,6 +349,8 @@ exports[`Hearing component should render as expected 1`] = `
               "mainSection": "Pääosio",
               "map": "Kartta",
               "mostCommented": "Eniten kommentoitu",
+              "moveDown": "Siirrä alas",
+              "moveUp": "Siirrä ylös",
               "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
               "name": "Nimi",
               "newHearingPageTitle": "Uusi kuuleminen",
@@ -867,7 +582,6 @@ exports[`Hearing component should render as expected 1`] = `
             >
               <Connect(InjectIntl(SortableCommentList))
                 canComment={true}
-                canSetNickname={false}
                 canVote={false}
                 comments={Array []}
                 displayVisualization={false}
@@ -920,7 +634,7 @@ exports[`Hearing component should render as expected 1`] = `
                       "create": "Luo",
                       "createContact": "Luo uusi yhteyshenkilö",
                       "createHearing": "Luo uusi kuuleminen",
-                      "createLabel": "Luo uusi tagi",
+                      "createLabel": "Luo uusi asiasana",
                       "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
                       "delete": "Poista",
                       "deleteComment": "Poista kommentti",
@@ -959,8 +673,8 @@ exports[`Hearing component should render as expected 1`] = `
                       "hearingFormHeaderStep4": "4. Julkaisutiedot",
                       "hearingFormNext": "Jatka",
                       "hearingImage": "Kuulemisen kuva",
-                      "hearingLabels": "Tagit",
-                      "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat tagit",
+                      "hearingLabels": "Asiasanat",
+                      "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
                       "hearingLanguages": "Kuulemisen tiedot syötetään",
                       "hearingMainContent": "Kuulemisen esittelyteksti",
                       "hearingMap": "Kuulemiset kartalla",
@@ -975,6 +689,7 @@ exports[`Hearing component should render as expected 1`] = `
                       "hearings": "Kuulemiset",
                       "hearingsHeaderDescription": "Antamalla mielipiteesi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
                       "hearingsHeaderText": "Kuulemiset",
+                      "help": "Ohjeet",
                       "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
                       "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
                       "inLanguage-en": "englanniksi",
@@ -982,7 +697,7 @@ exports[`Hearing component should render as expected 1`] = `
                       "inLanguage-sv": "ruotsiksi",
                       "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
                       "infoHeaderText": "Tietoa palvelusta",
-                      "labelPlaceholder": "Anna tagin nimi...",
+                      "labelPlaceholder": "Anna asiasanan nimi...",
                       "lang-en": "English",
                       "lang-fi": "Suomi",
                       "lang-sv": "Svenska",
@@ -996,6 +711,8 @@ exports[`Hearing component should render as expected 1`] = `
                       "mainSection": "Pääosio",
                       "map": "Kartta",
                       "mostCommented": "Eniten kommentoitu",
+                      "moveDown": "Siirrä alas",
+                      "moveUp": "Siirrä ylös",
                       "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                       "name": "Nimi",
                       "newHearingPageTitle": "Uusi kuuleminen",
