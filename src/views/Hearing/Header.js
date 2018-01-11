@@ -7,9 +7,10 @@ import SocialBar from '../../components/SocialBar';
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
+import {stringifyQuery} from '../../utils/urlQuery';
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
-import {setLanguage} from '../../actions';
+import {withRouter} from 'react-router-dom';
 
 class Header extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -37,7 +38,7 @@ class Header extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, dispatch, activeLanguage} = this.props;
+    const {hearing, activeLanguage, location, history} = this.props;
     const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
@@ -66,11 +67,11 @@ class Header extends React.Component {
             <a
               onClick={event => {
                 event.preventDefault();
-                dispatch(setLanguage(lang));
+                history.push({location: location.pathname, search: stringifyQuery({lang})});
               }}
               onKeyPress={event => {
                 event.preventDefault();
-                dispatch(setLanguage(lang));
+                history.push({location: location.pathname, search: stringifyQuery({lang})});
               }}
             >
               {availableLanguages[lang]}
@@ -149,7 +150,8 @@ Header.propTypes = {
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
-  dispatch: PropTypes.func
+  location: PropTypes.object,
+  history: PropTypes.object
 };
 
-export default injectIntl(Header);
+export default withRouter(injectIntl(Header));
