@@ -259,7 +259,7 @@ export class Hearing extends React.Component {
         </div>
         <div className="subnav-section">
           <Grid>
-            <WrappedCarousel hearing={hearing} intl={intl} />
+            <WrappedCarousel hearing={hearing} intl={intl} language={language} />
           </Grid>
         </div>
         <div className="hearing-content-section">
