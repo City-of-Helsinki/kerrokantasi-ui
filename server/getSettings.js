@@ -33,11 +33,19 @@ export default function getOptions() {
   const nconf = new Provider();
 
   nconf.env(optionalKeys.concat(mandatoryKeys));
+  // We spefically want to read configuration file ONLY in development mode
+  // There have been quite a few unfortunate accidents with production running
+  // on a leftover configuration file. Thus only environmental variable there.
   if (defaults.dev) {
-    // Note that 'file' will read in any keys whatsoever
-    nconf.file('config_dev.json');
+    // TOML can be used similarly to an 'env'-file (key=value pairs), although
+    // it is really extended INI-like format
+    nconf.file('toml',{file: 'config_dev.toml', format: require('nconf-toml')})
+    // JSON is kept for backwards compabitibility, to not to annoy the developer
+    // using it
+    nconf.file('json',{file: 'config_dev.json'})
   } else {
-    // We want somewhere to store uiConfig
+    // We want somewhere to store uiConfig, without file we have only
+    // read-only stores
     nconf.use('memory');
   }
   nconf.defaults(defaults);
