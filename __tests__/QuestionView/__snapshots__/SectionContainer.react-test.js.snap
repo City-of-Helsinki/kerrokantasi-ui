@@ -39,7 +39,7 @@ exports[`SectionContainer component should render as expected 1`] = `
           </Button>
         </span>
       </div>
-      <InjectIntl(Header)
+      <withRouter(InjectIntl(Header))
         hearing={
           Object {
             "abstract": Object {
