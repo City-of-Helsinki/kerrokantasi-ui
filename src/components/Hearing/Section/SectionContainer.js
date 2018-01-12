@@ -11,24 +11,26 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
 import SectionClosureInfo from './SectionClosureInfo';
-import SectionContacts from './SectionContacts';
 import SectionBrowser from '../../SectionBrowser';
 import ContactList from '../ContactList';
 import getAttr from '../../../utils/getAttr';
 import {SectionTypes} from '../../../utils/section';
 import {injectIntl} from 'react-intl';
+import {withRouter} from 'react-router-dom';
 
 export class SectionContainer extends React.Component {
 
-  componentWillMount() {
-    const {sections, match, history} = this.props;
-    if (isEmpty(match.params.sectionId) || isEmpty(sections.find(sec => sec.id === match.params.sectionId))) history.push(`/${match.params.hearingSlug}/${sections.find(sec => sec.type === SectionTypes.MAIN).id}`);
+  componentWillReceiveProps(nextProps) {
+    const {sections, match: {params}, history} = nextProps;
+    if (isEmpty(sections.find(section => section.id === params.sectionId))) {
+      history.push(`/${params.hearingSlug}/` + sections.find(sec => sec.type === SectionTypes.MAIN).id);
+    }
   }
 
   getSectionNav = () => {
-    const {sections, location, match} = this.props;
+    const {sections, match} = this.props;
     const filteredSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
-    const currentSectionIndex = filteredSections.findIndex(section => section.id === match.params.sectionId);
+    const currentSectionIndex = match.params.sectionId ? filteredSections.findIndex(section => section.id === match.params.sectionId) : 0;
     const prevPath = currentSectionIndex - 1 >= 0 ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id : undefined;
     const nextPath = currentSectionIndex + 1 < filteredSections.length ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id : undefined;
 
@@ -42,7 +44,7 @@ export class SectionContainer extends React.Component {
 
   render() {
     const {showClosureInfo, sections, match, language, contacts, intl: {formatMessage}} = this.props;
-    const section = sections.find(sec => sec.id === match.params.sectionId) || {};
+    const section = sections.find(sec => sec.id === match.params.sectionId) || sections.find(sec => sec.type === SectionTypes.MAIN);
     const sectionImage = section.images[0];
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
@@ -107,4 +109,4 @@ SectionContainer.propTypes = {
   contacts: PropTypes.array
 };
 
-export default injectIntl(connect(mapStateToProps)(SectionContainer));
+export default withRouter(injectIntl(connect(mapStateToProps)(SectionContainer)));

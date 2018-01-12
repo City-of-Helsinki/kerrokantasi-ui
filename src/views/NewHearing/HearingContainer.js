@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Section from '../../components/Hearing/Section/SectionContainer';
 import Header from '../../components/Hearing/Header';
 import WrappedCarousel from '../../components/Carousel';
@@ -10,6 +10,7 @@ import {fetchHearing as fetchHearingAction} from '../../actions';
 import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import {SectionTypes} from '../../utils/section';
 
 export class HearingContainer extends React.Component {
   componentWillMount() {
@@ -26,7 +27,10 @@ export class HearingContainer extends React.Component {
           <div className="hearing-wrapper" id="hearing-wrapper">
             <Header hearing={hearing} activeLanguage={language} intl={intl}/>
             <WrappedCarousel hearing={hearing} intl={intl} language={language} match={match}/>
-            <Route path="/:hearingSlug/:sectionId" component={Section} />
+            <Switch>
+              <Route exact path="/:hearingSlug" component={Section} />
+              <Route path="/:hearingSlug/:sectionId" component={Section} />
+            </Switch>
           </div>
         : <LoadSpinner />
       }
