@@ -529,9 +529,7 @@ exports[`Hearing component should render as expected 1`] = `
                 Object {
                   "currentNum": 1,
                   "nextPath": undefined,
-                  "nextType": undefined,
                   "prevPath": undefined,
-                  "prevType": undefined,
                   "shouldShowBrowser": false,
                   "totalNum": 1,
                 }
