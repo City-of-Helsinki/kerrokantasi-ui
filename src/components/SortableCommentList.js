@@ -195,15 +195,12 @@ export class SortableCommentList extends Component {
                           onChange={event => {
                             this.fetchComments(section.id, event.target.value);
                           }}
+                          value={get(sectionComments, 'ordering')}
                         >
                           {keys(ORDERING_CRITERIA).map(key =>
-                            <option
-                              key={key}
-                              value={ORDERING_CRITERIA[key]}
-                              selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
-                            >
-                              <FormattedMessage id={key} />
-                            </option>,
+                              <FormattedMessage id={key} key={key}>
+                                {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
+                              </FormattedMessage>
                           )}
                         </FormControl>
                       </div>
