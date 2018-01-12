@@ -23,3 +23,13 @@ export const getSections = (state, hearingSlug) => {
   if (!state.hearing[hearingSlug]) return undefined;
   return state.hearing[hearingSlug].data.sections;
 };
+
+export const getIsHearingClosed = (state, hearingSlug) => {
+  if (!state.hearing[hearingSlug]) return undefined;
+  return state.hearing[hearingSlug].data.closed;
+};
+
+export const getIsHearingPublished = (state, hearingSlug) => {
+  if (!state.hearing[hearingSlug]) return undefined;
+  return state.hearing[hearingSlug].data.published;
+};
