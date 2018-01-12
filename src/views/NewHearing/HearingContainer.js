@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import Section from '../../components/Hearing/Section/SectionContainer';
 import Header from '../../components/Hearing/Header';
 import WrappedCarousel from '../../components/Carousel';
@@ -20,6 +20,7 @@ export class HearingContainer extends React.Component {
 
   render() {
     const {hearing, intl, language, match} = this.props;
+    const mainSectionId = !isEmpty(hearing) ? hearing.sections.find(section => section.type === SectionTypes.MAIN).id : null;
     console.log(hearing)
     return (
       <div className="hearing-page">
@@ -28,8 +29,8 @@ export class HearingContainer extends React.Component {
             <Header hearing={hearing} activeLanguage={language} intl={intl}/>
             <WrappedCarousel hearing={hearing} intl={intl} language={language} match={match}/>
             <Switch>
-              <Route exact path="/:hearingSlug" component={Section} />
               <Route path="/:hearingSlug/:sectionId" component={Section} />
+              <Redirect from="/:hearingSlug" to={`/${match.params.hearingSlug}/${mainSectionId}`} />
             </Switch>
           </div>
         : <LoadSpinner />
