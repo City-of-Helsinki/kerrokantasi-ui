@@ -225,16 +225,12 @@ export class Hearing extends React.Component {
 
     const prevPath = undefined;
     const nextPath = questions.length > 0 ? getSectionURL(hearingSlug, questions[0]) : undefined;
-    const prevType = undefined;
-    const nextType = questions.length > 0 ? questions[1].type_name_singular : undefined;
 
     return {
       currentNum: 1,
       totalNum: questions.length + 1,
       prevPath,
       nextPath,
-      prevType,
-      nextType,
       shouldShowBrowser: questions.length > 0
     };
   }
