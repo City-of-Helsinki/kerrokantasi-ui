@@ -33,3 +33,8 @@ export const getIsHearingPublished = (state, hearingSlug) => {
   if (!state.hearing[hearingSlug]) return undefined;
   return state.hearing[hearingSlug].data.published;
 };
+
+export const getHearingContacts = (state, hearingSlug) => {
+  if (!state.hearing[hearingSlug]) return undefined;
+  return state.hearing[hearingSlug].data.contact_persons;
+};
