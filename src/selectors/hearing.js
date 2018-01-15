@@ -41,20 +41,18 @@ export const getHearingContacts = (state, hearingSlug) => {
 };
 
 export const getMainSection = (state, hearingSlug) => {
-  if (!state.hearing[hearingSlug]) return undefined;
+  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data)) return undefined;
   return state.hearing[hearingSlug].data.sections.find(section => section.type === SectionTypes.MAIN);
-}
+};
 
-export const getSectionComments = (state, hearingSlug, sectionId) => {
+export const getSectionCommentsById = (state, sectionId) => {
   if (isEmpty(state.sectionComments[sectionId])) return undefined;
-  const section = state.hearing[hearingSlug].data.sections.find(sec => sec.id === sectionId);
-  if (!section) return undefined;
-  return section;
-}
+  return state.sectionComments[sectionId];
+};
 
 export const getMainSectionComments = (state, hearingSlug) => {
-  if (!state.hearing[hearingSlug]) return undefined;
-  const section = state.hearing[hearingSlug].data.sections.find(sec => sec.type === SectionTypes.MAIN);
-  if (!section) return undefined;
-  return section;
-}
+  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data)) return undefined;
+  const comments = state.sectionComments[state.hearing[hearingSlug].data.sections.find(sec => sec.type === SectionTypes.MAIN).id];
+  if (!comments) return undefined;
+  return comments;
+};
