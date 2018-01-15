@@ -6,19 +6,44 @@ import {
   getSections,
   getIsHearingPublished,
   getIsHearingClosed,
-  getHearingContacts
+  getHearingContacts,
+  getHearingWithSlug,
+  getSectionComments
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
 import SectionClosureInfo from './SectionClosureInfo';
 import SectionBrowser from '../../SectionBrowser';
 import ContactList from '../ContactList';
+import SortableCommentList from '../../SortableCommentList';
+import FullscreenPlugin from '../../FullscreenPlugin';
 import getAttr from '../../../utils/getAttr';
-import {SectionTypes} from '../../../utils/section';
+import {getHearingURL} from '../../../utils/hearing';
+import {
+  SectionTypes,
+  userCanComment,
+  isSectionVotable,
+  isSectionCommentable
+} from '../../../utils/section';
 import {injectIntl} from 'react-intl';
 import {withRouter} from 'react-router-dom';
+import {parseQuery} from '../../../utils/urlQuery';
+import {
+  postSectionComment,
+  postVote,
+  editSectionComment,
+  deleteSectionComment,
+  fetchAllSectionComments,
+  fetchSectionComments,
+  fetchMoreSectionComments,
+} from '../../../actions';
 
 export class SectionContainer extends React.Component {
+
+  state = {
+    showDeleteModal: false,
+    commentToDelete: {}
+  };
 
   componentWillReceiveProps(nextProps) {
     const {sections, match: {params}, history} = nextProps;
@@ -39,14 +64,74 @@ export class SectionContainer extends React.Component {
       nextPath,
       currentNum: currentSectionIndex + 1,
       totalNum: filteredSections.length
-    }
+    };
+  }
+
+  onPostComment = (sectionId, sectionCommentData) => { // Done
+    const {match, location} = this.props;
+    const hearingSlug = match.params.hearingSlug;
+    const {authCode} = parseQuery(location.search);
+    const commentData = Object.assign({authCode}, sectionCommentData);
+    this.props.postSectionComment(hearingSlug, sectionId, commentData);
+  }
+
+  onVoteComment = (commentId, sectionId) => {
+    const {match} = this.props;
+    const hearingSlug = match.params.hearingSlug;
+    this.props.postVote(commentId, hearingSlug, sectionId);
+  }
+
+  onEditSectionComment = (sectionId, commentId, commentData) => {
+    const {match, location} = this.props;
+    const hearingSlug = match.params.hearingSlug;
+    const {authCode} = parseQuery(location.search);
+    Object.assign({authCode}, commentData);
+    this.props.editSectionComment(hearingSlug, sectionId, commentId, commentData);
+  }
+
+  onDeleteComment = () => {
+    const {match} = this.props;
+    const {sectionId, commentId} = this.state.commentToDelete;
+    const hearingSlug = match.params.hearingSlug;
+    this.props.deleteSectionComment(hearingSlug, sectionId, commentId);
+    this.forceUpdate();
+  }
+
+  handleDeleteClick = (sectionId, commentId) => {
+    this.setState({commentToDelete: {sectionId, commentId}});
+    this.openDeleteModal();
+  }
+
+  openDeleteModal = () => {
+    this.setState({showDeleteModal: true});
+  }
+
+  closeDeleteModal = () => {
+    this.setState({showDeleteModal: false, commentToDelete: {}});
+  }
+
+  isCommentable = (section) => {
+    const {hearing, user} = this.props;
+    const hasPlugin = !!section.plugin_identifier;
+    return isSectionCommentable(hearing, section, user) && !hasPlugin;
   }
 
   render() {
-    const {showClosureInfo, sections, match, language, contacts, intl: {formatMessage}} = this.props;
-    const section = sections.find(sec => sec.id === match.params.sectionId) || sections.find(sec => sec.type === SectionTypes.MAIN);
+    const {
+      hearing,
+      showClosureInfo,
+      sections,
+      match,
+      language,
+      contacts,
+      intl,
+      user,
+      fetchAllComments,
+    } = this.props;
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
-    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : formatMessage({id: 'defaultClosureInfo'});
+    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
     console.log(section);
 
@@ -82,7 +167,20 @@ export class SectionContainer extends React.Component {
                     }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
                     <ContactList contacts={contacts} />
-                    {/* <SortableCommentList /> */}
+                    <SortableCommentList
+                      section={section}
+                      canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
+                      onPostComment={this.onPostComment}
+                      canVote={isSectionVotable(hearing, section, user)}
+                      onPostVote={this.onPostVote}
+                      defaultNickname={user && user.displayName}
+                      isSectionComments={section}
+                      onDeleteComment={this.handleDeleteClick}
+                      onEditComment={this.props.onEditComment}
+                      fetchAllComments={fetchAllComments}
+                      fetchComments={this.props.fetchCommentsForSortableList}
+                      fetchMoreComments={this.props.fetchMoreComments}
+                    />
                   </Col>
                 </Row>
               </Grid>
@@ -95,10 +193,25 @@ export class SectionContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
   showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug) && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
   sections: getSections(state, ownProps.match.params.hearingSlug),
+  sectionComments: state.sectionComments,
   language: state.language,
-  contacts: getHearingContacts(state, ownProps.match.params.hearingSlug)
+  contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
+  user: state.user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  editSectionComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
+  deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
+  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
+  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
+
 });
 
 SectionContainer.propTypes = {
@@ -109,4 +222,4 @@ SectionContainer.propTypes = {
   contacts: PropTypes.array
 };
 
-export default withRouter(injectIntl(connect(mapStateToProps)(SectionContainer)));
+export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainer)));

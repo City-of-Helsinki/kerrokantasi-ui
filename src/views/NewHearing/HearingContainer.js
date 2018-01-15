@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import {fetchHearing as fetchHearingAction} from '../../actions';
 import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import {SectionTypes} from '../../utils/section';
 
 export class HearingContainer extends React.Component {
@@ -21,13 +21,13 @@ export class HearingContainer extends React.Component {
   render() {
     const {hearing, intl, language, match} = this.props;
     const mainSectionId = !isEmpty(hearing) ? hearing.sections.find(section => section.type === SectionTypes.MAIN).id : null;
-    console.log(hearing)
+
     return (
       <div className="hearing-page">
         {!isEmpty(hearing) ?
           <div className="hearing-wrapper" id="hearing-wrapper">
             <Header hearing={hearing} activeLanguage={language} intl={intl}/>
-            <WrappedCarousel hearing={hearing} intl={intl} language={language} match={match}/>
+            <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
             <Switch>
               <Route path="/:hearingSlug/:sectionId" component={Section} />
               <Redirect from="/:hearingSlug" to={`/${match.params.hearingSlug}/${mainSectionId}`} />

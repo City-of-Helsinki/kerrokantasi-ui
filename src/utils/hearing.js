@@ -32,6 +32,19 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
   return `${url}${query}`;
 }
 
+export function getMainSectionURL(hearing, {fullscreen} = {}) {
+  const url = `/${hearing.slug}/${hearing.sections.find(sec => sec.type === SectionTypes.MAIN).id}`;
+  let query = "";
+  if (typeof fullscreen !== "undefined") {
+    query = `?fullscreen=${fullscreen}`;
+  } else if (hearing.default_to_fullscreen) {
+    // Hearing should always have default_to_fullscreen param
+    // query = "?fullscreen=true";
+    query = "?fullscreen=false";
+  }
+  return `${url}${query}`;
+}
+
 export function getHearingMainImageURL(hearing) {
   return get(hearing, 'main_image.url');
 }

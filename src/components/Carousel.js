@@ -5,7 +5,7 @@ import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
 import {getSectionURL} from '../utils/section';
 import {
-  getHearingURL,
+  getMainSectionURL,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';
 import {getInitialSlideIndex} from '../utils/carousel';
@@ -25,9 +25,9 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
     (section) =>
       <div key={section.id}>
         <SliderItem
-          active={(params.sectionId && section.id === params.sectionId.split('#')[0]) || (!params.sectionId && section.type === 'main')}
+          active={params.sectionId && section.id === params.sectionId.split('#')[0]}
           hearingTitle={hearing.title}
-          url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'}
+          url={getSectionURL(hearing.slug, section) + '#start'}
           language={language}
           section={section}
         />
@@ -45,7 +45,7 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
     slides.push(
       <div key="fullscreen">
         <div className="slider-item">
-          <Link to={getHearingURL(hearing, {fullscreen: true})}>
+          <Link to={getMainSectionURL(hearing, {fullscreen: true})}>
             <div
               className="slider-item-content carousel-fullscreenbutton"
               style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '191px'}}
