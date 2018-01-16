@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import {getSectionURL} from '../utils/section';
 import {
   getMainSectionURL,
+  getHearingURL,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';
 import {getInitialSlideIndex} from '../utils/carousel';
@@ -45,7 +46,7 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
     slides.push(
       <div key="fullscreen">
         <div className="slider-item">
-          <Link to={getMainSectionURL(hearing, {fullscreen: true})}>
+          <Link to={getHearingURL(hearing, {fullscreen: true})}>
             <div
               className="slider-item-content carousel-fullscreenbutton"
               style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '191px'}}

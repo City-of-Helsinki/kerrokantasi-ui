@@ -20,8 +20,8 @@ import {
   sectionMoveUp,
   sectionMoveDown
 } from '../../actions/hearingEditor';
-import HearingForm from '../../components/admin/HearingForm';
-import HearingToolbar from '../../components/admin/HearingToolbar';
+import HearingForm from './HearingForm';
+import HearingToolbar from './HearingToolbar';
 import {contactShape, hearingShape, labelShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 

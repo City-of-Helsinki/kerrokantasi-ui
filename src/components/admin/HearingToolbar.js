@@ -20,11 +20,7 @@ class HearingToolbar extends React.Component {
   }
 
   render() {
-    const user = this.props.user;
     const hearing = this.props.hearing;
-    if (!canEdit(user, hearing)) {
-      return null;
-    }
 
     let statusLabel = "";
     const openingTime = moment(hearing.open_at);
