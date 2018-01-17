@@ -10,11 +10,12 @@ import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 
 export class NewHearingContainerComponent extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const {fetchEditorMetaData, initHearing} = this.props;
-    fetchEditorMetaData();
     initHearing();
+    fetchEditorMetaData();
   }
+
   render() {
     const {
       hearingDraft,
@@ -34,7 +35,7 @@ export class NewHearingContainerComponent extends React.Component {
             </div>
           :
             <div>
-              {hearingDraft
+              {(hearingDraft && user)
                 ? <HearingEditor
                       hearing={hearingDraft}
                       hearingLanguages={hearingLanguages}
