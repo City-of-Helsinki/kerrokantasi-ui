@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component should render as expected 1`] = `
+<div
+  className="header-section"
+>
+  <Grid
+    bsClass="container"
+    componentClass="div"
+    fluid={false}
+  >
+    <div
+      className="hearing-header"
+    >
+      <h1>
+         
+        Ideoi Isosaaren tulevaisuutta
+      </h1>
+      <Row
+        bsClass="row"
+        className="hearing-meta"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          xs={12}
+        >
+          <LabelList
+            className="main-labels"
+            labels={Array []}
+          />
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={6}
+          xs={12}
+        >
+          <div
+            className="timetable"
+          >
+            <Icon
+              Component="span"
+              name="clock-o"
+            />
+             
+            <FormatRelativeTime
+              messagePrefix="timeOpen"
+              timeVal="2017-10-22T21:00:00Z"
+            />
+            <br />
+            <Icon
+              Component="span"
+              name="clock-o"
+            />
+             
+            <FormatRelativeTime
+              messagePrefix="timeClose"
+              timeVal="2200-11-28T22:00:00Z"
+            />
+          </div>
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          sm={6}
+          xs={12}
+        >
+          <div
+            className="comment-summary"
+          >
+            <div
+              className="commentNumber"
+            >
+              <Icon
+                Component="span"
+                name="comment-o"
+              />
+               
+               
+              <FormattedPlural
+                one={
+                  <FormattedMessage
+                    id="totalSubmittedComment"
+                    tagName="span"
+                    values={
+                      Object {
+                        "n": 1,
+                      }
+                    }
+                  />
+                }
+                other={
+                  <FormattedMessage
+                    id="totalSubmittedComments"
+                    tagName="span"
+                    values={
+                      Object {
+                        "n": 1,
+                      }
+                    }
+                  />
+                }
+                style="cardinal"
+                value={1}
+              />
+            </div>
+            <div
+              className="report-download"
+            >
+              <a
+                href="http://www.report.com"
+              >
+                <small>
+                  <Icon
+                    Component="span"
+                    name="download"
+                  />
+                   
+                  <FormattedMessage
+                    id="downloadReport"
+                    tagName="span"
+                    values={Object {}}
+                  />
+                </small>
+              </a>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          lg={6}
+        >
+          <SocialBar />
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          lg={6}
+        />
+      </Row>
+    </div>
+  </Grid>
+</div>
+`;
