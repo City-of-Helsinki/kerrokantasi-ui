@@ -66,50 +66,30 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 componentClass="select"
                 onChange={[Function]}
               >
-                <option
+                <FormattedMessage
+                  id="CREATED_AT_DESC"
                   key="CREATED_AT_DESC"
-                  selected={false}
-                  value="-created_at"
-                >
-                  <FormattedMessage
-                    id="CREATED_AT_DESC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
-                  selected={false}
-                  value="created_at"
-                >
-                  <FormattedMessage
-                    id="CREATED_AT_ASC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
-                  selected={false}
-                  value="-n_votes"
-                >
-                  <FormattedMessage
-                    id="POPULARITY_DESC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
-                  selected={false}
-                  value="n_votes"
-                >
-                  <FormattedMessage
-                    id="POPULARITY_ASC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
+                  tagName="span"
+                  values={Object {}}
+                />
               </FormControl>
             </div>
           </FormGroup>
