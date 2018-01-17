@@ -391,6 +391,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "now": [Function],
           }
         }
+        reportUrl="http://localhost:8000//v1/hearing/isosaari/report"
       />
       <withRouter(SectionCarousel)
         hearing={
