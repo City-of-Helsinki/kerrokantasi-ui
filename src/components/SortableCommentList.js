@@ -198,9 +198,9 @@ export class SortableCommentList extends Component {
                           value={get(sectionComments, 'ordering')}
                         >
                           {keys(ORDERING_CRITERIA).map(key =>
-                              <FormattedMessage id={key} key={key}>
-                                {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
-                              </FormattedMessage>
+                            <FormattedMessage id={key} key={key}>
+                              {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
+                            </FormattedMessage>
                           )}
                         </FormControl>
                       </div>
