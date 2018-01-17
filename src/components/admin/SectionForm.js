@@ -123,6 +123,7 @@ class SectionForm extends React.Component {
                 onBlur={(value) => onSectionChange(section.frontId, 'title', value)}
                 value={section.title}
                 languages={sectionLanguages}
+                placeholderId="sectionTitlePlaceholder"
               /> : null
           }
 
@@ -150,6 +151,7 @@ class SectionForm extends React.Component {
           onBlur={(value) => onSectionImageChange(section.frontId, 'caption', value)}
           value={imageCaption}
           languages={sectionLanguages}
+          placeholderId="sectionImagePlaceholder"
         />
 
         <MultiLanguageTextField
@@ -160,6 +162,7 @@ class SectionForm extends React.Component {
           value={section.abstract}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
+          placeholderId="sectionAbstractPlaceholder"
         />
 
         <MultiLanguageTextField
@@ -171,6 +174,7 @@ class SectionForm extends React.Component {
           value={section.content}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
+          placeholderId="sectionContentPlaceholder"
         />
 
         <FormGroup controlId="hearingCommenting">
