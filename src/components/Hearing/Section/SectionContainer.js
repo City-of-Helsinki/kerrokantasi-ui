@@ -13,7 +13,7 @@ import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
 import SectionClosureInfo from './SectionClosureInfo';
 import SectionBrowser from '../../SectionBrowser';
-import ContactList from '../ContactList';
+import ContactList from './ContactList';
 import SortableCommentList from '../../SortableCommentList';
 import DeleteModal from '../../DeleteModal';
 import getAttr from '../../../utils/getAttr';

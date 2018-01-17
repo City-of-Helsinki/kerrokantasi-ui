@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col} from 'react-bootstrap';
-import ContactCard from '../ContactCard';
+import ContactCard from '../../ContactCard';
 import {FormattedMessage} from 'react-intl';
 
 export const ContactListComponent = ({contacts, language}) => {
