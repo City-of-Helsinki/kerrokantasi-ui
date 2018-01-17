@@ -8,7 +8,6 @@ import {head} from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
 
@@ -130,20 +129,20 @@ class HearingFormStep2 extends React.Component {
         </Accordion>
         <div className="new-section-toolbar">
           <ButtonToolbar>
-              <Button
-                bsSize="small"
-                bsStyle="default"
-                onClick={() => this.addSection("part")}
-              >
-                <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
-              </Button>
-              <Button
-                bsSize="small"
-                bsStyle="default"
-                onClick={() => this.addSection("scenario")}
-              >
-                <Icon className="icon" name="plus"/> <FormattedMessage id="addOption"/>
-              </Button>
+            <Button
+              bsSize="small"
+              bsStyle="default"
+              onClick={() => this.addSection("part")}
+            >
+              <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
+            </Button>
+            <Button
+              bsSize="small"
+              bsStyle="default"
+              onClick={() => this.addSection("scenario")}
+            >
+              <Icon className="icon" name="plus"/> <FormattedMessage id="addOption"/>
+            </Button>
           </ButtonToolbar>
         </div>
         <div className="step-footer">
