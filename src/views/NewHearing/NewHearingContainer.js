@@ -28,21 +28,27 @@ export class NewHearingContainerComponent extends React.Component {
     } = this.props;
     return (
       <div>
-        {!user
-          ?
-            <div className="hearing-page">
-              <PleaseLogin login={loginAction} />
-            </div>
+        {isLoading
+          ? <LoadSpinner />
           :
-            <HearingEditor
-              hearing={hearingDraft}
-              hearingLanguages={hearingLanguages}
-              labels={labels}
-              user={user}
-              isLoading={isLoading}
-              contactPersons={contactPersons}
-              isNewHearing
-            />
+          <div>
+            {!user
+              ?
+                <div className="hearing-page">
+                  <PleaseLogin login={loginAction} />
+                </div>
+              :
+                <HearingEditor
+                  hearing={hearingDraft}
+                  hearingLanguages={hearingLanguages}
+                  labels={labels}
+                  user={user}
+                  isLoading={isLoading}
+                  contactPersons={contactPersons}
+                  isNewHearing
+                />
+            }
+          </div>
         }
       </div>
     );
