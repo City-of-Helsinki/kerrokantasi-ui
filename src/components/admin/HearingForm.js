@@ -129,13 +129,13 @@ class HearingForm extends React.Component {
         show={this.props.show}
       >
         <Modal.Header closeButton bsClass="hearing-modal-header">
+          <h2><FormattedMessage id="editHearing" /></h2>
           <a
             style={{textDecoration: 'none'}}
             href={ADMIN_HELP_URL}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <h2><FormattedMessage id="editHearing" /></h2>
             <Button bsStyle="link">
               <FormattedMessage id="help" /> <Icon className="icon" name="external-link"/>
             </Button>
