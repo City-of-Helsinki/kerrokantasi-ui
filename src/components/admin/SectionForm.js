@@ -94,25 +94,25 @@ class SectionForm extends React.Component {
         {section.type !== 'closure-info' && section.type !== 'main' &&
         <div className="section-toolbar">
           <ButtonGroup bsSize="small">
-          <Button
-            bsStyle="default"
-            className="btn"
-            type="button"
-            onClick={() => sectionMoveUp(section.id)}
-            disabled={isFirstSubsection}
-            style={{marginRight: '10px'}}
-          >
-            &uarr; <FormattedMessage id="moveUp" />
-          </Button>
-          <Button
-            bsStyle="default"
-            className="btn"
-            type="button"
-            onClick={() => sectionMoveDown(section.id)}
-            disabled={isLastSubsection}
-          >
-            <FormattedMessage id="moveDown" /> &darr;
-          </Button>
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveUp(section.id)}
+              disabled={isFirstSubsection}
+              style={{marginRight: '10px'}}
+            >
+              &uarr; <FormattedMessage id="moveUp" />
+            </Button>
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveDown(section.id)}
+              disabled={isLastSubsection}
+            >
+              <FormattedMessage id="moveDown" /> &darr;
+            </Button>
           </ButtonGroup>
         </div>
         }
