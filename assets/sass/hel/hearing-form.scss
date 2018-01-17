@@ -13,12 +13,59 @@ $node_modules: "../../../node_modules";
     width: 80%;
 
     .modal-content {
-        padding: 20px;
+      padding: 20px;
+      background: $gray-lighter;
+    }
+
+    .panel {
+      border: 0;
+    }
+
+    .panel-heading {
+      background: $hel-engel;
+      padding: $line-height-computed / 2;
+    }
+
+    .panel-info .panel-heading {
+      background: $hel-fog;
     }
 
     .panel-heading a {
         cursor: pointer;
         font-weight: bold;
+    }
+
+    .panel-title {
+      margin: 0;
+    }
+
+    .step-footer {
+      text-align: right;
+      margin-top: $line-height-computed * 2;
+    }
+
+    legend {
+      border: 0;
+      margin-bottom: 0;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .is-open > .Select-control {
+      border-color: $black;
+    }
+
+    .Select-control {
+      border: 2px solid $black;
+      border-radius: 0;
+
+      .Select-arrow {
+        display: none;
+      }
+    }
+
+    .Select-menu-outer {
+      border: 2px solid $black;
     }
 
     .dropzone {
@@ -87,6 +134,32 @@ $node_modules: "../../../node_modules";
         flex: 0;
       }
     }
+
+  .rich-text-editor {
+    .DraftEditor-editorContainer {
+      border: 2px solid $black;
+    }
+  }
+
+  .editor-footer {
+    background: $gray-lighter;
+    padding: 6px;
+    text-align: right;
+  }
+
+  .section-toolbar {
+    padding: 6px;
+    margin-bottom: $line-height-computed;
+    text-align: center;
+    //background: $gray-lighter;
+  }
+
+  .new-section-toolbar {
+    padding: 6px;
+    margin-bottom: $line-height-computed;
+    text-align: center;
+    background: lighten($hel-fog, 10%);
+  }
 }
 
 .toolbar-bottom {
@@ -94,7 +167,7 @@ $node_modules: "../../../node_modules";
     bottom: 0;
     box-shadow: 0 0 5px rgba(0,0,0,.33);
     left: 0;
-    padding: $line-height-computed;
+    padding: $line-height-computed / 2;
     position: fixed;
     width: 100%;
     z-index: 1002;
@@ -135,6 +208,10 @@ $node_modules: "../../../node_modules";
 .hearing-modal-header {
   border: 0;
   padding: 0;
+
+  h2 {
+    margin-top: 0;
+  }
 }
 
 .contact-elements {
