@@ -16,6 +16,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
           nicknamePlaceholder="Anonyymi"
+          onPostComment={[Function]}
         />
       </div>
     </div>

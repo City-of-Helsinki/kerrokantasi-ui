@@ -2,64 +2,72 @@
 
 exports[`Carousel component should render as expected 1`] = `
 <div
-  className="carousel-container"
+  className="subnav-section"
 >
-  <div
-    id="start"
-  />
-  <div
-    className="slider-container"
+  <Grid
+    bsClass="container"
+    componentClass="div"
+    fluid={false}
   >
-    <Slider
-      autoplay={false}
-      centerMode={true}
-      centerPadding="50px"
-      className="slider"
-      focusOnSelect={true}
-      infinite={false}
-      initialSlide={1}
-      responsive={
-        Array [
-          Object {
-            "breakpoint": 768,
-            "settings": Object {
-              "slidesToShow": 1,
-            },
-          },
-          Object {
-            "breakpoint": 1200,
-            "settings": Object {
-              "slidesToShow": 3,
-            },
-          },
-          Object {
-            "breakpoint": 100000,
-            "settings": Object {
-              "slidesToShow": 5,
-            },
-          },
-        ]
-      }
+    <div
+      className="carousel-container"
     >
       <div
-        key="7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK"
+        id="start"
+      />
+      <div
+        className="slider-container"
       >
-        <SliderItem
-          active={false}
-          hearingTitle={
-            Object {
-              "fi": "Ideoi Isosaaren tulevaisuutta",
-            }
-          }
-          language="fi"
-          section={
-            Object {
-              "abstract": Object {
-                "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+        <Slider
+          autoplay={false}
+          centerMode={true}
+          centerPadding="50px"
+          className="slider"
+          focusOnSelect={true}
+          infinite={false}
+          initialSlide={1}
+          responsive={
+            Array [
+              Object {
+                "breakpoint": 768,
+                "settings": Object {
+                  "slidesToShow": 1,
+                },
               },
-              "commenting": "open",
-              "content": Object {
-                "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+              Object {
+                "breakpoint": 1200,
+                "settings": Object {
+                  "slidesToShow": 3,
+                },
+              },
+              Object {
+                "breakpoint": 100000,
+                "settings": Object {
+                  "slidesToShow": 5,
+                },
+              },
+            ]
+          }
+        >
+          <div
+            key="7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK"
+          >
+            <SliderItem
+              active={false}
+              hearingTitle={
+                Object {
+                  "fi": "Ideoi Isosaaren tulevaisuutta",
+                }
+              }
+              language="fi"
+              section={
+                Object {
+                  "abstract": Object {
+                    "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                  },
+                  "commenting": "open",
+                  "content": Object {
+                    "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
 <p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
 <ul>
   <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
@@ -69,54 +77,54 @@ exports[`Carousel component should render as expected 1`] = `
 <p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
 <p>Lisätietoja:</p>
 <p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
-              },
-              "created_at": "2017-10-23T11:07:26.668934Z",
-              "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
-              "images": Array [
-                Object {
-                  "caption": Object {
-                    "fi": "A Wonderfull caption",
                   },
-                  "height": 631,
-                  "id": 92,
+                  "created_at": "2017-10-23T11:07:26.668934Z",
+                  "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                  "images": Array [
+                    Object {
+                      "caption": Object {
+                        "fi": "A Wonderfull caption",
+                      },
+                      "height": 631,
+                      "id": 92,
+                      "title": Object {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                      "width": 893,
+                    },
+                  ],
+                  "n_comments": 1,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": false,
                   "title": Object {},
-                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
-                  "width": 893,
-                },
-              ],
-              "n_comments": 1,
-              "plugin_data": "",
-              "plugin_fullscreen": false,
-              "plugin_identifier": "",
-              "plugin_iframe_url": "",
-              "published": false,
-              "title": Object {},
-              "type": "main",
-              "type_name_plural": "pääosiot",
-              "type_name_singular": "pääosio",
-              "voting": "registered",
-            }
-          }
-          url="/isosaari#start"
-        />
-      </div>
-      <div
-        key="asuminen-a-asuinalueiden-elinvoi"
-      >
-        <SliderItem
-          active={true}
-          hearingTitle={
-            Object {
-              "fi": "Ideoi Isosaaren tulevaisuutta",
-            }
-          }
-          language="fi"
-          section={
-            Object {
-              "abstract": Object {},
-              "commenting": "open",
-              "content": Object {
-                "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
+                  "type": "main",
+                  "type_name_plural": "pääosiot",
+                  "type_name_singular": "pääosio",
+                  "voting": "registered",
+                }
+              }
+              url="/isosaari/7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK#start"
+            />
+          </div>
+          <div
+            key="asuminen-a-asuinalueiden-elinvoi"
+          >
+            <SliderItem
+              active={true}
+              hearingTitle={
+                Object {
+                  "fi": "Ideoi Isosaaren tulevaisuutta",
+                }
+              }
+              language="fi"
+              section={
+                Object {
+                  "abstract": Object {},
+                  "commenting": "open",
+                  "content": Object {
+                    "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
 
@@ -127,56 +135,56 @@ exports[`Carousel component should render as expected 1`] = `
 <p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>
 
 <p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>",
-              },
-              "created_at": "2016-01-15T08:31:03.264760Z",
-              "id": "asuminen-a-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
-                    "fi": "Asuinalueiden elinvoimaisuus.",
                   },
-                  "height": 1067,
-                  "id": 24,
-                  "title": Object {},
-                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
-                  "width": 1211,
-                },
-              ],
-              "n_comments": 59,
-              "plugin_data": "",
-              "plugin_fullscreen": false,
-              "plugin_identifier": "",
-              "plugin_iframe_url": "",
-              "published": true,
-              "title": Object {
-                "fi": "A. Asuinalueiden elinvoimaisuus",
-              },
-              "type": "part",
-              "type_name_plural": "osa-alueet",
-              "type_name_singular": "osa-alue",
-              "voting": "registered",
-            }
-          }
-          url="/isosaari/asuminen-a-asuinalueiden-elinvoi#start"
-        />
-      </div>
-      <div
-        key="asuminen-b-asuinalueiden-elinvoi"
-      >
-        <SliderItem
-          active={false}
-          hearingTitle={
-            Object {
-              "fi": "Ideoi Isosaaren tulevaisuutta",
-            }
-          }
-          language="fi"
-          section={
-            Object {
-              "abstract": Object {},
-              "commenting": "open",
-              "content": Object {
-                "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
+                  "created_at": "2016-01-15T08:31:03.264760Z",
+                  "id": "asuminen-a-asuinalueiden-elinvoi",
+                  "images": Array [
+                    Object {
+                      "caption": Object {
+                        "fi": "Asuinalueiden elinvoimaisuus.",
+                      },
+                      "height": 1067,
+                      "id": 24,
+                      "title": Object {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
+                      "width": 1211,
+                    },
+                  ],
+                  "n_comments": 59,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": true,
+                  "title": Object {
+                    "fi": "A. Asuinalueiden elinvoimaisuus",
+                  },
+                  "type": "part",
+                  "type_name_plural": "osa-alueet",
+                  "type_name_singular": "osa-alue",
+                  "voting": "registered",
+                }
+              }
+              url="/isosaari/asuminen-a-asuinalueiden-elinvoi#start"
+            />
+          </div>
+          <div
+            key="asuminen-b-asuinalueiden-elinvoi"
+          >
+            <SliderItem
+              active={false}
+              hearingTitle={
+                Object {
+                  "fi": "Ideoi Isosaaren tulevaisuutta",
+                }
+              }
+              language="fi"
+              section={
+                Object {
+                  "abstract": Object {},
+                  "commenting": "open",
+                  "content": Object {
+                    "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
 
@@ -187,40 +195,42 @@ exports[`Carousel component should render as expected 1`] = `
 <p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>
 
 <p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>",
-              },
-              "created_at": "2016-01-15T08:31:03.264760Z",
-              "id": "asuminen-b-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
-                    "fi": "Asuinalueiden elinvoimaisuus.",
                   },
-                  "height": 1067,
-                  "id": 24,
-                  "title": Object {},
-                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
-                  "width": 1211,
-                },
-              ],
-              "n_comments": 59,
-              "plugin_data": "",
-              "plugin_fullscreen": false,
-              "plugin_identifier": "",
-              "plugin_iframe_url": "",
-              "published": true,
-              "title": Object {
-                "fi": "A. Asuinalueiden elinvoimaisuus",
-              },
-              "type": "part",
-              "type_name_plural": "osa-alueet",
-              "type_name_singular": "osa-alue",
-              "voting": "registered",
-            }
-          }
-          url="/isosaari/asuminen-b-asuinalueiden-elinvoi#start"
-        />
+                  "created_at": "2016-01-15T08:31:03.264760Z",
+                  "id": "asuminen-b-asuinalueiden-elinvoi",
+                  "images": Array [
+                    Object {
+                      "caption": Object {
+                        "fi": "Asuinalueiden elinvoimaisuus.",
+                      },
+                      "height": 1067,
+                      "id": 24,
+                      "title": Object {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
+                      "width": 1211,
+                    },
+                  ],
+                  "n_comments": 59,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": true,
+                  "title": Object {
+                    "fi": "A. Asuinalueiden elinvoimaisuus",
+                  },
+                  "type": "part",
+                  "type_name_plural": "osa-alueet",
+                  "type_name_singular": "osa-alue",
+                  "voting": "registered",
+                }
+              }
+              url="/isosaari/asuminen-b-asuinalueiden-elinvoi#start"
+            />
+          </div>
+        </Slider>
       </div>
-    </Slider>
-  </div>
+    </div>
+  </Grid>
 </div>
 `;
