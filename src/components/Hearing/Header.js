@@ -37,7 +37,7 @@ export class HeaderComponent extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, dispatch, activeLanguage, setLanguage} = this.props;
+    const {hearing, activeLanguage, setLanguage} = this.props;
     const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
@@ -168,7 +168,6 @@ HeaderComponent.propTypes = {
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
-  dispatch: PropTypes.func,
   intl: intlShape.isRequired,
   setLanguage: PropTypes.func,
 };
