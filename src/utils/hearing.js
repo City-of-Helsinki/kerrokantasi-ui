@@ -4,6 +4,7 @@ import moment from 'moment';
 import {initNewSection, SectionTypes} from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';
+import i18n from '../i18n';
 
 export function getClosureSection(hearing) {
   return find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
@@ -91,6 +92,11 @@ export function initNewHearing(inits) {
   mainSection.type = SectionTypes.MAIN;
   const closureSection = initNewSection();
   closureSection.type = SectionTypes.CLOSURE;
+  closureSection.content = {
+    fi: i18n.fi.defaultClosureInfo || '',
+    sv: i18n.sv.defaultClosureInfo || '',
+    en: i18n.en.defaultClosureInfo || ''
+  };
   return merge({
     abstract: initAttr(),
     title: initAttr(),
