@@ -8,7 +8,7 @@ import Hearing from './views/Hearing';
 import HomeContainer from './views/Home';
 import Info from './views/Info';
 import QuestionViewContainer from './views/QuestionView';
-import HearingContainer from './views/NewHearing/HearingContainer';
+import HearingContainer from './views/Hearing/HearingContainer';
 import NewHearingContainer from './views/NewHearing/NewHearingContainer';
 import FullscreenHearingContainer from './views/FullscreenHearing/FullscreenHearingContainer';
 
