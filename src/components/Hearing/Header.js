@@ -9,7 +9,6 @@ import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
-import {setLanguage} from '../../actions';
 import moment from 'moment';
 
 export class HeaderComponent extends React.Component {
@@ -38,7 +37,7 @@ export class HeaderComponent extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, dispatch, activeLanguage} = this.props;
+    const {hearing, dispatch, activeLanguage, setLanguage} = this.props;
     const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
@@ -67,11 +66,11 @@ export class HeaderComponent extends React.Component {
             <a
               onClick={event => {
                 event.preventDefault();
-                dispatch(setLanguage(lang));
+                setLanguage(lang);
               }}
               onKeyPress={event => {
                 event.preventDefault();
-                dispatch(setLanguage(lang));
+                setLanguage(lang);
               }}
             >
               {availableLanguages[lang]}
@@ -170,7 +169,8 @@ HeaderComponent.propTypes = {
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
   dispatch: PropTypes.func,
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  setLanguage: PropTypes.func,
 };
 
 export default injectIntl(HeaderComponent);

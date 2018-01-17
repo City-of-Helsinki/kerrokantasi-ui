@@ -6,7 +6,7 @@ import Header from '../../components/Hearing/Header';
 import WrappedCarousel from '../../components/Carousel';
 import {getHearingWithSlug} from '../../selectors/hearing';
 import PropTypes from 'prop-types';
-import {fetchHearing as fetchHearingAction} from '../../actions';
+import {fetchHearing as fetchHearingAction, setLanguage as setLanguageAction} from '../../actions';
 import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
 import { injectIntl, intlShape } from 'react-intl';
@@ -36,7 +36,8 @@ export class HearingContainerComponent extends React.Component {
       hearingDraft,
       hearingLanguages,
       isLoading,
-      contactPersons
+      contactPersons,
+      setLanguage
     } = this.props;
     const mainSectionId = !isEmpty(hearing) ? hearing.sections.find(section => section.type === SectionTypes.MAIN).id : null;
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
@@ -57,7 +58,13 @@ export class HearingContainerComponent extends React.Component {
               />
             }
             <div className="hearing-wrapper" id="hearing-wrapper">
-              <Header hearing={hearing} activeLanguage={language} intl={intl} reportUrl={reportUrl}/>
+              <Header
+                hearing={hearing}
+                activeLanguage={language}
+                intl={intl}
+                reportUrl={reportUrl}
+                setLanguage={setLanguage}
+              />
               <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
               <Switch>
                 <Route path="/:hearingSlug/:sectionId" component={Section} />
@@ -86,6 +93,7 @@ HearingContainerComponent.propTypes = {
   contactPersons: PropTypes.array,
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
+  setLanguage: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -101,7 +109,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
-  fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData())
+  fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
+  setLanguage: (lang) => dispatch(setLanguageAction(lang))
 });
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent));
