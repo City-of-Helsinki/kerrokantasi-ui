@@ -34,20 +34,15 @@ export class NewHearingContainerComponent extends React.Component {
               <PleaseLogin login={loginAction} />
             </div>
           :
-            <div>
-              {(hearingDraft && user)
-                ? <HearingEditor
-                      hearing={hearingDraft}
-                      hearingLanguages={hearingLanguages}
-                      labels={labels}
-                      user={user}
-                      isLoading={isLoading}
-                      contactPersons={contactPersons}
-                      isNewHearing
-                />
-                : <LoadSpinner />
-              }
-            </div>
+            <HearingEditor
+              hearing={hearingDraft}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              user={user}
+              isLoading={isLoading}
+              contactPersons={contactPersons}
+              isNewHearing
+            />
         }
       </div>
     );
