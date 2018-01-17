@@ -12,7 +12,7 @@ import keys from 'lodash/keys';
 import {setLanguage} from '../../actions';
 import moment from 'moment';
 
-class Header extends React.Component {
+class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
     const openMessage = <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>;
     const closeMessage = <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>;
@@ -165,7 +165,7 @@ class Header extends React.Component {
   }
 }
 
-Header.propTypes = {
+HeaderComponent.propTypes = {
   eyeTooltip: PropTypes.element,
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
@@ -174,4 +174,4 @@ Header.propTypes = {
   intl: intlShape.isRequired
 };
 
-export default injectIntl(Header);
+export default injectIntl(HeaderComponent);

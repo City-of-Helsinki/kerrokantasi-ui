@@ -4,7 +4,7 @@ import {Row, Col} from 'react-bootstrap';
 import ContactCard from '../ContactCard';
 import {FormattedMessage} from 'react-intl';
 
-export const ContactList = ({contacts, language}) => {
+export const ContactListComponent = ({contacts, language}) => {
   return (
     <div className="hearing-contacts">
       <h3>
@@ -26,9 +26,9 @@ export const ContactList = ({contacts, language}) => {
   );
 };
 
-ContactList.propTypes = {
+ContactListComponent.propTypes = {
   contacts: PropTypes.array,
   language: PropTypes.string
 };
 
-export default ContactList;
+export default ContactListComponent;

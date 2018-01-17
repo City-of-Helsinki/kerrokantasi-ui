@@ -5,7 +5,6 @@ import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
 import {getSectionURL} from '../utils/section';
 import {
-  getMainSectionURL,
   getHearingURL,
   hasFullscreenMapPlugin,
 } from '../utils/hearing';

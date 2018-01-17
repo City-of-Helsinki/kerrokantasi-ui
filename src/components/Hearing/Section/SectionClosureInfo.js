@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const SectionClosureInfo = ({content}) => {
+export const SectionClosureInfoComponent = ({content}) => {
   return (
     <div className="closure-info">
       {content}
@@ -9,8 +9,8 @@ export const SectionClosureInfo = ({content}) => {
   );
 };
 
-SectionClosureInfo.propTypes = {
+SectionClosureInfoComponent.propTypes = {
   content: PropTypes.string
 };
 
-export default SectionClosureInfo;
+export default SectionClosureInfoComponent;

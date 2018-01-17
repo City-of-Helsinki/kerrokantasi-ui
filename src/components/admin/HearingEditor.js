@@ -145,19 +145,21 @@ class HearingEditor extends React.Component {
   }
 
   render() {
-    const {hearing} = this.props;
+    const {hearing, isNewHearing} = this.props;
     return (
       <div className="hearing-editor">
         {this.getHearingForm()}
 
-        <HearingToolbar
-          hearing={hearing}
-          onCloseHearing={this.onCloseHearing}
-          onEdit={() => this.props.dispatch(startHearingEdit())}
-          onPublish={this.onPublish}
-          onRevertPublishing={this.onUnPublish}
-          user={this.props.user}
-        />
+        {!isNewHearing &&
+          <HearingToolbar
+            hearing={hearing}
+            onCloseHearing={this.onCloseHearing}
+            onEdit={() => this.props.dispatch(startHearingEdit())}
+            onPublish={this.onPublish}
+            onRevertPublishing={this.onUnPublish}
+            user={this.props.user}
+          />
+        }
       </div>
     );
   }
@@ -171,7 +173,8 @@ HearingEditor.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
   user: userShape,
-  language: PropTypes.string
+  language: PropTypes.string,
+  isNewHearing: PropTypes.bool
 };
 
 const WrappedHearingEditor = connect((state) => ({

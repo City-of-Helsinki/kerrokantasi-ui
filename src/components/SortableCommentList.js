@@ -21,7 +21,7 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
-export class SortableCommentList extends Component {
+export class SortableCommentListComponent extends Component {
   constructor() {
     super();
 
@@ -246,7 +246,7 @@ export class SortableCommentList extends Component {
   }
 }
 
-SortableCommentList.propTypes = {
+SortableCommentListComponent.propTypes = {
   displayVisualization: PropTypes.bool,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
@@ -270,4 +270,4 @@ const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   user: get(state, 'user').data,
 });
 
-export default connect(mapStateToProps)(injectIntl(SortableCommentList));
+export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));

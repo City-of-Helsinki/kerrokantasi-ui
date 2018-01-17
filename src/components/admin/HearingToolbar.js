@@ -6,7 +6,6 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
-import {canEdit} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
 
 

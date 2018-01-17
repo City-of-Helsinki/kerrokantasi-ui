@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const SectionImage = ({image, caption, title}) => {
+export const SectionImageComponent = ({image, caption, title}) => {
   return (
     <div key={image.url}>
       <img
@@ -15,10 +15,10 @@ export const SectionImage = ({image, caption, title}) => {
   );
 };
 
-SectionImage.propTypes = {
+SectionImageComponent.propTypes = {
   image: PropTypes.object,
   caption: PropTypes.string,
   title: PropTypes.string
 };
 
-export default SectionImage;
+export default SectionImageComponent;

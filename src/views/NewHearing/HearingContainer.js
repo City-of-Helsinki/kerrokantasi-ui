@@ -14,10 +14,10 @@ import {SectionTypes} from '../../utils/section';
 import {canEdit} from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
+import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import {getUser} from '../../selectors/user';
 
-export class HearingContainer extends React.Component {
+export class HearingContainerComponent extends React.Component {
   componentWillMount() {
     const {fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
@@ -71,11 +71,19 @@ export class HearingContainer extends React.Component {
   }
 }
 
-HearingContainer.propTypes = {
+HearingContainerComponent.propTypes = {
   hearing: PropTypes.object,
   intl: intlShape.isRequired,
   language: PropTypes.string,
-  match: PropTypes.object
+  match: PropTypes.object,
+  user: PropTypes.object,
+  labels: PropTypes.array,
+  hearingDraft: PropTypes.object,
+  hearingLanguages: PropTypes.array,
+  isLoading: PropTypes.bool,
+  contactPersons: PropTypes.array,
+  fetchHearing: PropTypes.func,
+  fetchEditorMetaData: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -94,4 +102,4 @@ const mapDispatchToProps = dispatch => ({
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData())
 });
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainer));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent));

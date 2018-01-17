@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { HashLink as Link } from 'react-router-hash-link';
 import {FormattedMessage} from 'react-intl';
 
-export const SectionBrowser = ({sectionNav}) => {
+export const SectionBrowserComponent = ({sectionNav}) => {
   return (
     <div className="section-browser">
       <ul className="pager">
@@ -27,9 +27,9 @@ export const SectionBrowser = ({sectionNav}) => {
   );
 };
 
-export default SectionBrowser;
+export default SectionBrowserComponent;
 
-SectionBrowser.propTypes = {
+SectionBrowserComponent.propTypes = {
   sectionNav: PropTypes.object
 };
 

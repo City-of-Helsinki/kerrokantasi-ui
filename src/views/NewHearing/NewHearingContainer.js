@@ -1,11 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import HearingEditor from '../../components/admin/HearingEditor';
+import { login } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import {getUser} from '../../selectors/user';
+import LoadSpinner from '../../components/LoadSpinner';
+import PleaseLogin from '../../components/admin/PleaseLogin';
 
-export class NewHearingContainer extends React.Component {
+export class NewHearingContainerComponent extends React.Component {
   componentWillMount() {
     const {fetchEditorMetaData, initHearing} = this.props;
     fetchEditorMetaData();
@@ -18,23 +22,48 @@ export class NewHearingContainer extends React.Component {
       labels,
       user,
       isLoading,
-      contactPersons
+      contactPersons,
+      loginAction
     } = this.props;
     return (
       <div>
-        {hearingDraft &&
-        <HearingEditor
-          hearing={hearingDraft}
-          hearingLanguages={hearingLanguages}
-          labels={labels}
-          user={user}
-          isLoading={isLoading}
-          contactPersons={contactPersons}
-        />}
+        {!user
+          ?
+            <div className="hearing-page">
+              <PleaseLogin login={loginAction} />
+            </div>
+          :
+            <div>
+              {hearingDraft
+                ? <HearingEditor
+                      hearing={hearingDraft}
+                      hearingLanguages={hearingLanguages}
+                      labels={labels}
+                      user={user}
+                      isLoading={isLoading}
+                      contactPersons={contactPersons}
+                      isNewHearing
+                />
+                : <LoadSpinner />
+              }
+            </div>
+        }
       </div>
     );
   }
 }
+
+NewHearingContainerComponent.propTypes = {
+  hearingDraft: PropTypes.object,
+  hearingLanguages: PropTypes.array,
+  labels: PropTypes.array,
+  user: PropTypes.object,
+  isLoading: PropTypes.bool,
+  contactPersons: PropTypes.array,
+  loginAction: PropTypes.func,
+  fetchEditorMetaData: PropTypes.func,
+  initHearing: PropTypes.func,
+};
 
 const mapStateToProps = (state) => ({
   language: state.language,
@@ -48,7 +77,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
-  initHearing: () => dispatch(initNewHearing())
+  initHearing: () => dispatch(initNewHearing()),
+  loginAction: () => dispatch(login())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewHearingContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NewHearingContainerComponent);

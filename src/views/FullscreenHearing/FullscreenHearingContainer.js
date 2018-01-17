@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
 import {getHearingURL} from '../../utils/hearing';
+import {parseQuery} from '../../utils/urlQuery';
 import {
   fetchHearing as fetchHearingAction,
   postSectionComment,
@@ -20,7 +21,7 @@ import {Link} from 'react-router-dom';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../../utils/Icon';
 
-export class FullscreenHearingContainer extends React.Component {
+export class FullscreenHearingContainerComponent extends React.Component {
   componentWillMount() {
     const {hearing, fetchHearing, match: {params}} = this.props;
     if (isEmpty(hearing)) {
@@ -48,7 +49,6 @@ export class FullscreenHearingContainer extends React.Component {
       mainSection,
       mainSectionComments,
       user,
-      sectionComments,
       match,
       fetchAllComments,
       language
@@ -96,8 +96,19 @@ export class FullscreenHearingContainer extends React.Component {
   }
 }
 
-FullscreenHearingContainer.propTypes = {
+FullscreenHearingContainerComponent.propTypes = {
   intl: intlShape.isRequired,
+  hearing: PropTypes.object,
+  match: PropTypes.object,
+  location: PropTypes.object,
+  mainSection: PropTypes.object,
+  user: PropTypes.object,
+  mainSectionComments: PropTypes.object,
+  fetchHearing: PropTypes.func,
+  postSectionComment: PropTypes.func,
+  postVote: PropTypes.func,
+  fetchAllComments: PropTypes.func,
+  language: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -117,4 +128,4 @@ const mapDispatchToProps = dispatch => ({
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
 });
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(FullscreenHearingContainer));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(FullscreenHearingContainerComponent));

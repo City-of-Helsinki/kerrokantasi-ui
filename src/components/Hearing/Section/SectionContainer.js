@@ -8,7 +8,6 @@ import {
   getIsHearingClosed,
   getHearingContacts,
   getHearingWithSlug,
-  getSectionComments
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
@@ -16,17 +15,15 @@ import SectionClosureInfo from './SectionClosureInfo';
 import SectionBrowser from '../../SectionBrowser';
 import ContactList from '../ContactList';
 import SortableCommentList from '../../SortableCommentList';
-import FullscreenPlugin from '../../FullscreenPlugin';
 import DeleteModal from '../../DeleteModal';
 import getAttr from '../../../utils/getAttr';
-import {getHearingURL} from '../../../utils/hearing';
 import {
   SectionTypes,
   userCanComment,
   isSectionVotable,
   isSectionCommentable
 } from '../../../utils/section';
-import {injectIntl} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 import {withRouter} from 'react-router-dom';
 import {parseQuery} from '../../../utils/urlQuery';
 import {
@@ -39,8 +36,7 @@ import {
   fetchMoreSectionComments,
 } from '../../../actions';
 
-export class SectionContainer extends React.Component {
-
+export class SectionContainerComponent extends React.Component {
   state = {
     showDeleteModal: false,
     commentToDelete: {}
@@ -220,12 +216,24 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
-SectionContainer.propTypes = {
+SectionContainerComponent.propTypes = {
   sections: PropTypes.array,
   match: PropTypes.object,
+  history: PropTypes.object,
+  location: PropTypes.object,
   language: PropTypes.string,
   showClosureInfo: PropTypes.bool,
-  contacts: PropTypes.array
+  contacts: PropTypes.array,
+  postSectionComment: PropTypes.func,
+  postVote: PropTypes.func,
+  editComment: PropTypes.func,
+  deleteSectionComment: PropTypes.func,
+  hearing: PropTypes.object,
+  user: PropTypes.object,
+  intl: intlShape.isRequired,
+  fetchAllComments: PropTypes.func,
+  fetchCommentsForSortableList: PropTypes.func,
+  fetchMoreComments: PropTypes.func,
 };
 
-export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainer)));
+export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));
