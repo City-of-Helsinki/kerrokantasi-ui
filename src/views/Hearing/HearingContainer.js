@@ -16,6 +16,7 @@ import HearingEditor from '../../components/admin/HearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import {getUser} from '../../selectors/user';
+import config from '../../config';
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
@@ -38,6 +39,7 @@ export class HearingContainerComponent extends React.Component {
       contactPersons
     } = this.props;
     const mainSectionId = !isEmpty(hearing) ? hearing.sections.find(section => section.type === SectionTypes.MAIN).id : null;
+    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
 
     return (
       <div className="hearing-page">
@@ -55,7 +57,7 @@ export class HearingContainerComponent extends React.Component {
               />
             }
             <div className="hearing-wrapper" id="hearing-wrapper">
-              <Header hearing={hearing} activeLanguage={language} intl={intl}/>
+              <Header hearing={hearing} activeLanguage={language} intl={intl} reportUrl={reportUrl}/>
               <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
               <Switch>
                 <Route path="/:hearingSlug/:sectionId" component={Section} />
