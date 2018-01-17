@@ -17,6 +17,7 @@ import SectionBrowser from '../../SectionBrowser';
 import ContactList from '../ContactList';
 import SortableCommentList from '../../SortableCommentList';
 import FullscreenPlugin from '../../FullscreenPlugin';
+import DeleteModal from '../../DeleteModal';
 import getAttr from '../../../utils/getAttr';
 import {getHearingURL} from '../../../utils/hearing';
 import {
@@ -81,12 +82,12 @@ export class SectionContainer extends React.Component {
     this.props.postVote(commentId, hearingSlug, sectionId);
   }
 
-  onEditSectionComment = (sectionId, commentId, commentData) => {
+  onEditComment = (sectionId, commentId, commentData) => {
     const {match, location} = this.props;
     const hearingSlug = match.params.hearingSlug;
     const {authCode} = parseQuery(location.search);
     Object.assign({authCode}, commentData);
-    this.props.editSectionComment(hearingSlug, sectionId, commentId, commentData);
+    this.props.editComment(hearingSlug, sectionId, commentId, commentData);
   }
 
   onDeleteComment = () => {
@@ -176,7 +177,7 @@ export class SectionContainer extends React.Component {
                       defaultNickname={user && user.displayName}
                       isSectionComments={section}
                       onDeleteComment={this.handleDeleteClick}
-                      onEditComment={this.props.onEditComment}
+                      onEditComment={this.onEditComment}
                       fetchAllComments={fetchAllComments}
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
@@ -185,6 +186,11 @@ export class SectionContainer extends React.Component {
                 </Row>
               </Grid>
             </div>
+            <DeleteModal
+              isOpen={this.state.showDeleteModal}
+              close={this.closeDeleteModal}
+              onDeleteComment={this.onDeleteComment}
+            />
           </div>
         }
       </div>
@@ -205,7 +211,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
-  editSectionComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
+  editComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
   deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
