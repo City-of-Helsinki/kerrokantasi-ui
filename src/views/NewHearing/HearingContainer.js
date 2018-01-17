@@ -15,6 +15,7 @@ import {canEdit} from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
+import {getUser} from '../../selectors/user';
 
 export class HearingContainer extends React.Component {
   componentWillMount() {
@@ -83,7 +84,7 @@ const mapStateToProps = (state, ownProps) => ({
   hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,
   labels: HearingEditorSelector.getLabels(state),
-  user: state.user,
+  user: getUser(state),
   isLoading: HearingEditorSelector.getIsLoading(state),
   contactPersons: HearingEditorSelector.getContactPersons(state)
 });
