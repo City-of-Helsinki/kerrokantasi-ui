@@ -18,7 +18,6 @@ export const languageFromUrlMiddleware = store => next => action => {
   // This will add the language query to url if missing or replace invalid language with the current one
   if (isEmpty(parseQuery(action.payload.search).lang) || isEmpty(find(config.languages, (lang) => lang === parseQuery(action.payload.search).lang))) {
     store.dispatch(push({location: action.payload.pathname, search: stringifyQuery(merge(parseQuery(action.payload.search), {lang: store.getState().language}))}));
-    if (store.getState().routerHistory.current !== action.payload.pathname) store.dispatch(updateHistory(action.payload.pathname));
     return next(action);
   }
   // This will change the current language to store if new is legit and different than current one
