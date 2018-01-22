@@ -25,11 +25,6 @@ export function getHearingURL(hearing, {fullscreen} = {}) {
   return url;
 }
 
-export function getMainSectionURL(hearing) {
-  const url = `/${hearing.slug}/${hearing.sections.find(sec => sec.type === SectionTypes.MAIN).id}`;
-  return url;
-}
-
 export function getHearingMainImageURL(hearing) {
   return get(hearing, 'main_image.url');
 }
