@@ -130,7 +130,6 @@ export class SectionContainerComponent extends React.Component {
     const sectionImage = section.images[0];
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
-    console.log(section);
 
     return (
       <div>
