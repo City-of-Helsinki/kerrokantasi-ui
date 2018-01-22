@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Section from '../../components/Hearing/Section/SectionContainer';
 import Header from '../../components/Hearing/Header';
 import WrappedCarousel from '../../components/Carousel';
@@ -36,7 +36,6 @@ export class HearingContainerComponent extends React.Component {
       hearing,
       intl,
       language,
-      match,
       user,
       labels,
       hearingDraft,
@@ -45,7 +44,6 @@ export class HearingContainerComponent extends React.Component {
       contactPersons,
       setLanguage
     } = this.props;
-    const mainSectionId = !isEmpty(hearing) ? hearing.sections.find(section => section.type === SectionTypes.MAIN).id : null;
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
 
     return (
