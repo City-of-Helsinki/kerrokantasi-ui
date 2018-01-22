@@ -21,7 +21,7 @@ export function getMainSection(hearing) {
 * to force fullscreen query parameter.
  */
 export function getHearingURL(hearing, {fullscreen} = {}) {
-  const url = `/${hearing.slug}${fullscreen ? '/fullscreen' : ''}`;
+  const url = `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
   return url;
 }
 
