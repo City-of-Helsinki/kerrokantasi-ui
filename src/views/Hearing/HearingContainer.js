@@ -25,6 +25,12 @@ export class HearingContainerComponent extends React.Component {
     fetchEditorMetaData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen) {
+      this.history.push(`/${nextProps.hearing.hearing.slug}/fullscreen`);
+    }
+  }
+
   render() {
     const {
       hearing,
