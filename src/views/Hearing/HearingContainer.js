@@ -74,7 +74,7 @@ export class HearingContainerComponent extends React.Component {
               <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
               <Switch>
                 <Route path="/:hearingSlug/:sectionId" component={Section} />
-                <Redirect from="/:hearingSlug" to={`/${match.params.hearingSlug}/${mainSectionId}`} />
+                <Route path="/:hearingSlug" component={Section} />
               </Switch>
             </div>
           </div>

@@ -21,7 +21,8 @@ import {
   SectionTypes,
   userCanComment,
   isSectionVotable,
-  isSectionCommentable
+  isSectionCommentable,
+  isMainSection
 } from '../../../utils/section';
 import {injectIntl, intlShape} from 'react-intl';
 import {withRouter} from 'react-router-dom';
@@ -42,18 +43,16 @@ export class SectionContainerComponent extends React.Component {
     commentToDelete: {}
   };
 
-  componentWillReceiveProps(nextProps) {
-    const {sections, match: {params}, history} = nextProps;
-    if (isEmpty(sections.find(section => section.id === params.sectionId))) {
-      history.push(`/${params.hearingSlug}/` + sections.find(sec => sec.type === SectionTypes.MAIN).id);
-    }
-  }
-
   getSectionNav = () => {
     const {sections, match} = this.props;
     const filteredSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
     const currentSectionIndex = match.params.sectionId ? filteredSections.findIndex(section => section.id === match.params.sectionId) : 0;
-    const prevPath = currentSectionIndex - 1 >= 0 ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id : undefined;
+    let prevPath;
+    if (filteredSections[currentSectionIndex - 1] && isMainSection(filteredSections[currentSectionIndex - 1])) {
+      prevPath = `/${match.params.hearingSlug}/`;
+    } else {
+      prevPath = currentSectionIndex - 1 >= 0 ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id : undefined;
+    }
     const nextPath = currentSectionIndex + 1 < filteredSections.length ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id : undefined;
 
     return {

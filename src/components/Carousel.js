@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
-import {getSectionURL} from '../utils/section';
+import {getSectionURL, isMainSection} from '../utils/section';
 import {
   getHearingURL,
   hasFullscreenMapPlugin,
@@ -25,9 +25,9 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
     (section) =>
       <div key={section.id}>
         <SliderItem
-          active={params.sectionId && section.id === params.sectionId.split('#')[0]}
+          active={(isMainSection(section) && !params.sectionId) || (params.sectionId && section.id === params.sectionId.split('#')[0])}
           hearingTitle={hearing.title}
-          url={getSectionURL(hearing.slug, section) + '#start'}
+          url={isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section) + '#start'}
           language={language}
           section={section}
         />
