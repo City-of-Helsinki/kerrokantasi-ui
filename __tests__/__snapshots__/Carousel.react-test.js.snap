@@ -105,7 +105,7 @@ exports[`Carousel component should render as expected 1`] = `
                   "voting": "registered",
                 }
               }
-              url="/isosaari/7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK#start"
+              url="/isosaari"
             />
           </div>
           <div

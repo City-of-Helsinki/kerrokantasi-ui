@@ -127,6 +127,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               onDeleteComment={[Function]}
               onEditComment={[Function]}
               onPostComment={[Function]}
+              onPostVote={[Function]}
               section={
                 Object {
                   "abstract": Object {

@@ -793,10 +793,9 @@ exports[`HearingContainer component should render as expected 1`] = `
           component={[Function]}
           path="/:hearingSlug/:sectionId"
         />
-        <Redirect
-          from="/:hearingSlug"
-          push={false}
-          to="/mockHearing/7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK"
+        <Route
+          component={[Function]}
+          path="/:hearingSlug"
         />
       </Switch>
     </div>
