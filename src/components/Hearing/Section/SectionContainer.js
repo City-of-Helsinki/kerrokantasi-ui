@@ -168,7 +168,7 @@ export class SectionContainerComponent extends React.Component {
                       canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
                       onPostComment={this.onPostComment}
                       canVote={isSectionVotable(hearing, section, user)}
-                      onPostVote={this.onPostVote}
+                      onPostVote={this.onVoteComment}
                       defaultNickname={user && user.displayName}
                       isSectionComments={section}
                       onDeleteComment={this.handleDeleteClick}
