@@ -29,12 +29,13 @@ export class FullscreenHearingContainerComponent extends React.Component {
     }
   }
 
-  onPostComment = (sectionId, sectionCommentData) => { // Done
-    const {match, location} = this.props;
+  onPostComment = (text, authorName, pluginData, geojson, label, images) => { // Done
+    const sectionCommentData = {text, authorName, pluginData, geojson, label, images};
+    const {match, location, mainSection} = this.props;
     const hearingSlug = match.params.hearingSlug;
     const {authCode} = parseQuery(location.search);
     const commentData = Object.assign({authCode}, sectionCommentData);
-    this.props.postSectionComment(hearingSlug, sectionId, commentData);
+    this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   }
 
   onVoteComment = (commentId, sectionId) => {

@@ -10,7 +10,6 @@ import {fetchHearing as fetchHearingAction, setLanguage as setLanguageAction} fr
 import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
 import { injectIntl, intlShape } from 'react-intl';
-import {SectionTypes} from '../../utils/section';
 import {canEdit} from '../../utils/hearing';
 import HearingEditor from '../../components/admin/HearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
