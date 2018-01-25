@@ -10,6 +10,8 @@ import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
 import moment from 'moment';
+import {stringifyQuery} from '../../utils/urlQuery';
+import {withRouter} from 'react-router-dom';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -37,7 +39,7 @@ export class HeaderComponent extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, activeLanguage, setLanguage} = this.props;
+    const {hearing, activeLanguage, location, history} = this.props;
     const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
     const languageOptionsArray = keys(hearing.title).map((lang, index) => {
       if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
@@ -66,11 +68,11 @@ export class HeaderComponent extends React.Component {
             <a
               onClick={event => {
                 event.preventDefault();
-                setLanguage(lang);
+                history.push({location: location.pathname, search: stringifyQuery({lang})});
               }}
               onKeyPress={event => {
                 event.preventDefault();
-                setLanguage(lang);
+                history.push({location: location.pathname, search: stringifyQuery({lang})});
               }}
             >
               {availableLanguages[lang]}
@@ -169,7 +171,8 @@ HeaderComponent.propTypes = {
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
   intl: intlShape.isRequired,
-  setLanguage: PropTypes.func,
+  location: PropTypes.object,
+  history: PropTypes.object
 };
 
-export default injectIntl(HeaderComponent);
+export default withRouter(injectIntl(HeaderComponent));
