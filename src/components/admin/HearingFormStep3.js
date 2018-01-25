@@ -204,10 +204,14 @@ class HearingFormStep3 extends React.Component {
             </FeatureGroup>
           </Map>
         </FormGroup>
-        <hr/>
-        <Button bsStyle="primary" onClick={this.props.onContinue}>
-          <FormattedMessage id="hearingFormNext"/>
-        </Button>
+        <div className="step-footer">
+          <Button
+            bsStyle="default"
+            onClick={this.props.onContinue}
+          >
+            <FormattedMessage id="hearingFormNext"/>
+          </Button>
+        </div>
       </div>
     );
   }

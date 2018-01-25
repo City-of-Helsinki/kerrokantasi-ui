@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import HelpOutline from 'material-ui-icons/HelpOutline';
 
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
+import Icon from '../../utils/Icon';
 
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
@@ -83,16 +82,14 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="primary" className="pull-right" onMouseDown={this.props.onSaveChanges}>
-          <FormattedMessage id="saveHearingChanges"/>
+        <Button bsStyle="success" onMouseDown={this.props.onSaveChanges}>
+          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveHearingChanges"/>
         </Button>;
     } else {
       ActionButton = () =>
-        <ButtonToolbar className="pull-right">
-          <Button bsStyle="primary" onMouseDown={this.props.onSaveAndPreview}>
-            <FormattedMessage id="saveAndPreviewHearing"/>
-          </Button>
-        </ButtonToolbar>;
+        <Button bsStyle="success" onMouseDown={this.props.onSaveAndPreview}>
+          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveAndPreviewHearing"/>
+        </Button>;
     }
 
     if (!isSaving) {
@@ -130,15 +127,15 @@ class HearingForm extends React.Component {
         show={this.props.show}
       >
         <Modal.Header closeButton bsClass="hearing-modal-header">
+          <h2><FormattedMessage id="editHearing" /></h2>
           <a
             style={{textDecoration: 'none'}}
             href={ADMIN_HELP_URL}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Button bsStyle="info" style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <FormattedMessage id="help" />
-              <HelpOutline style={{width: '18px', height: '18px', marginLeft: '3px'}}/>
+            <Button bsStyle="link">
+              <FormattedMessage id="help" /> <Icon className="icon" name="external-link"/>
             </Button>
           </a>
 
@@ -151,7 +148,7 @@ class HearingForm extends React.Component {
             {this.getFormStep(3)}
             {this.getFormStep(4)}
           </Accordion>
-          <div className="clearfix">{this.getActions()}</div>
+          <div className="editor-footer">{this.getActions()}</div>
         </form>
       </Modal>
     );

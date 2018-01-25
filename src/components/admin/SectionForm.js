@@ -11,6 +11,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
 import Button from 'react-bootstrap/lib/Button';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import Dropzone from 'react-dropzone';
 
@@ -91,26 +92,28 @@ class SectionForm extends React.Component {
     return (
       <div className="form-step">
         {section.type !== 'closure-info' && section.type !== 'main' &&
-        <div>
-          <Button
-            bsStyle="default"
-            className="btn"
-            type="button"
-            onClick={() => sectionMoveUp(section.id)}
-            disabled={isFirstSubsection}
-            style={{marginRight: '10px'}}
-          >
-            &uarr; <FormattedMessage id="moveUp" />
-          </Button>
-          <Button
-            bsStyle="default"
-            className="btn"
-            type="button"
-            onClick={() => sectionMoveDown(section.id)}
-            disabled={isLastSubsection}
-          >
-            <FormattedMessage id="moveDown" /> &darr;
-          </Button>
+        <div className="section-toolbar">
+          <ButtonGroup bsSize="small">
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveUp(section.id)}
+              disabled={isFirstSubsection}
+              style={{marginRight: '10px'}}
+            >
+              &uarr; <FormattedMessage id="moveUp" />
+            </Button>
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveDown(section.id)}
+              disabled={isLastSubsection}
+            >
+              <FormattedMessage id="moveDown" /> &darr;
+            </Button>
+          </ButtonGroup>
         </div>
         }
         <FormGroup controlId="image">
@@ -179,15 +182,17 @@ class SectionForm extends React.Component {
 
         <FormGroup controlId="hearingCommenting">
           <ControlLabel><FormattedMessage id="hearingCommenting"/></ControlLabel>
-          <FormControl
-            componentClass="select"
-            name="commenting"
-            onChange={this.onChange}
-          >
-            <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
-            <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-            <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
-          </FormControl>
+          <div className="select">
+            <FormControl
+              componentClass="select"
+              name="commenting"
+              onChange={this.onChange}
+            >
+              <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
+              <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
+              <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+            </FormControl>
+          </div>
         </FormGroup>
 
       </div>

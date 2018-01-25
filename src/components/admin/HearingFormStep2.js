@@ -9,6 +9,7 @@ import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
+import Icon from '../../utils/Icon';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
@@ -35,7 +36,7 @@ class HearingFormStep2 extends React.Component {
           bsStyle="danger"
           onClick={() => this.deleteSection(sectionID)}
         >
-          <FormattedMessage id="deleteSection"/>
+          <Icon className="icon" name="trash"/> <FormattedMessage id="deleteSection"/>
         </Button>
       );
     }
@@ -61,6 +62,7 @@ class HearingFormStep2 extends React.Component {
             eventKey={sectionID}
             header={`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
             key={sectionID}
+            bsStyle="info"
           >
             <SectionForm
               section={section}
@@ -72,8 +74,9 @@ class HearingFormStep2 extends React.Component {
               isFirstSubsection={index === 1}
               isLastSubsection={index === (hearing.sections.length - 1)}
             />
-            <hr/>
-            {this.getDeleteSectionButton(section, sectionID)}
+            <div className="section-toolbar">
+              {this.getDeleteSectionButton(section, sectionID)}
+            </div>
           </Panel>
         );
       });
@@ -124,27 +127,32 @@ class HearingFormStep2 extends React.Component {
         <Accordion activeKey={this.state.activeSection} onSelect={this.handleSelect}>
           {this.getSections()}
         </Accordion>
-        <hr/>
-        <ButtonToolbar>
+        <div className="new-section-toolbar">
+          <ButtonToolbar>
+            <Button
+              bsSize="small"
+              bsStyle="default"
+              onClick={() => this.addSection("part")}
+            >
+              <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
+            </Button>
+            <Button
+              bsSize="small"
+              bsStyle="default"
+              onClick={() => this.addSection("scenario")}
+            >
+              <Icon className="icon" name="plus"/> <FormattedMessage id="addOption"/>
+            </Button>
+          </ButtonToolbar>
+        </div>
+        <div className="step-footer">
           <Button
-            bsStyle="primary"
+            bsStyle="default"
             onClick={this.props.onContinue}
           >
             <FormattedMessage id="hearingFormNext"/>
           </Button>
-          <Button
-            bsStyle="default"
-            onClick={() => this.addSection("part")}
-          >
-            <FormattedMessage id="addSection"/>
-          </Button>
-          <Button
-            bsStyle="default"
-            onClick={() => this.addSection("scenario")}
-          >
-            <FormattedMessage id="addOption"/>
-          </Button>
-        </ButtonToolbar>
+        </div>
       </div>
     );
   }

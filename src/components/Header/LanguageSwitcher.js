@@ -5,9 +5,17 @@ import Nav from 'react-bootstrap/lib/Nav';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
 import config from '../../config';
-import {setLanguage} from '../../actions';
+import {withRouter} from 'react-router-dom';
+import { stringifyQuery } from '../../utils/urlQuery';
 
-const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) =>
+const changeLang = (history, location, nextLang) => {
+  history.push({
+    path: location.pathname,
+    search: stringifyQuery({ lang: nextLang })
+  });
+};
+
+const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMessage}}) =>
   <Nav pullRight className="language-switcher actions" id="language">
     {config.languages
       .filter((code) => code !== currentLanguage)
@@ -16,7 +24,7 @@ const LanguageSwitcher = ({dispatch, currentLanguage}, {intl: {formatMessage}}) 
           href=""
           key={code}
           className="language-switcher__language"
-          onClick={() => dispatch(setLanguage(code))}
+          onClick={() => changeLang(history, location, code)}
         >
           {formatMessage({id: `lang-${code}`})}
         </NavItem>)}
@@ -27,8 +35,9 @@ LanguageSwitcher.contextTypes = {
 };
 
 LanguageSwitcher.propTypes = {
-  dispatch: PropTypes.func,
-  currentLanguage: PropTypes.string
+  currentLanguage: PropTypes.string,
+  location: PropTypes.object,
+  history: PropTypes.object
 };
 
-export default connect()(LanguageSwitcher);
+export default withRouter(connect()(LanguageSwitcher));
