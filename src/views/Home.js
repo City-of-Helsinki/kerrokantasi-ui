@@ -10,7 +10,7 @@ import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
-import {Link} from 'react-router-dom';
+import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
 
 export class Home extends React.Component {
@@ -101,7 +101,7 @@ export class Home extends React.Component {
                         language={language}
                       />
                       <p className="text-center">
-                        <Link to="/hearings/list">
+                        <Link to={{path: "/hearings/list"}}>
                           <Button bsStyle="default">
                             <FormattedMessage id="allHearings" />
                           </Button>

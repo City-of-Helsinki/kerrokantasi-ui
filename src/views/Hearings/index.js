@@ -175,25 +175,28 @@ export class Hearings extends React.Component {
 
   handleSearch(searchTitle, force = false) {
     const { history, location } = this.props;
-    const label = location.search !== '' ? parseQuery(location.search).label : [];
+    const searchParams = parseQuery(location.search);
     const searchPhraseUpdated = parseQuery(location.search).search !== searchTitle;
+    if (searchTitle === '') {
+      delete searchParams.search;
+    } else {
+      searchParams.search = searchTitle;
+    }
     if (searchPhraseUpdated || force) {
       history.push({
         path: location.path,
-        search: searchTitle !== '' ? stringifyQuery({ search: searchTitle, label }) : stringifyQuery({ label }),
+        search: stringifyQuery(searchParams),
       });
     }
   }
 
   handleSelectLabels(labels) {
     const { history, location } = this.props;
-
+    const searchParams = parseQuery(location.search);
+    searchParams.label = labels.map(({ label }) => label);
     history.push({
       path: location.pathname,
-      search:
-        labels.length > 0
-          ? stringifyQuery({ search: parseQuery(location.search).search, label: labels.map(({ label }) => label) })
-          : stringifyQuery({ search: parseQuery(location.search).search }),
+      search: stringifyQuery(searchParams)
     });
   }
 
@@ -240,7 +243,7 @@ export class Hearings extends React.Component {
     const hearings = this.getHearings();
 
     const createHearingButton = isAdmin(user.data) ? (
-      <CreateHearingButton onClick={() => history.push('/hearing/new')} />
+      <CreateHearingButton to={{path: '/hearing/new'}} />
     ) : null;
     const adminFilterSelector = isAdmin(user.data) ? (
       <AdminFilterSelector
