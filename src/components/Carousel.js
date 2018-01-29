@@ -10,7 +10,7 @@ import {
 } from '../utils/hearing';
 import {getInitialSlideIndex} from '../utils/carousel';
 import {withRouter} from 'react-router-dom';
-import { HashLink as Link } from 'react-router-hash-link';
+import Link from './LinkWithLang';
 import OverviewMap from './OverviewMap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Icon from '../utils/Icon';
@@ -37,7 +37,7 @@ export class SectionCarousel extends React.Component {
           <SliderItem
             active={(isMainSection(section) && !params.sectionId) || (params.sectionId && section.id === params.sectionId.split('#')[0])}
             hearingTitle={hearing.title}
-            url={isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section) + '#start'}
+            to={{path: isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section), hash: '#start'}}
             language={language}
             section={section}
           />
@@ -55,7 +55,7 @@ export class SectionCarousel extends React.Component {
       slides.push(
         <div key="fullscreen">
           <div className="slider-item">
-            <Link to={getHearingURL(hearing, {fullscreen: true})}>
+            <Link to={{path: getHearingURL(hearing, {fullscreen: true})}}>
               <div
                 className="slider-item-content carousel-fullscreenbutton"
                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '191px'}}
@@ -142,7 +142,7 @@ HearingMap.propTypes = {
   hearing: PropTypes.object
 };
 
-const SliderItem = ({section, url, language, hearingTitle, active}) => {
+const SliderItem = ({section, to, language, hearingTitle, active}) => {
   const cardImageStyle = {
     backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : 'url(/assets/images/default-image.svg)'
   };
@@ -155,7 +155,7 @@ const SliderItem = ({section, url, language, hearingTitle, active}) => {
 
   return (
     <div className={active ? "slider-item-current" : "slider-item"}>
-      <Link to={url}>
+      <Link to={to}>
         {commentCount}
         <div className="slider-image" style={cardImageStyle} />
         <div className="slider-item-content">
@@ -169,7 +169,7 @@ const SliderItem = ({section, url, language, hearingTitle, active}) => {
 
 SliderItem.propTypes = {
   section: PropTypes.object,
-  url: PropTypes.string,
+  to: PropTypes.object,
   language: PropTypes.string,
   hearingTitle: PropTypes.object,
   active: PropTypes.bool

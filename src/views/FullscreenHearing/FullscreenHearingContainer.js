@@ -7,7 +7,6 @@ import {getHearingWithSlug, getMainSection, getMainSectionComments} from '../../
 import isEmpty from 'lodash/isEmpty';
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
-import {getHearingURL} from '../../utils/hearing';
 import {parseQuery} from '../../utils/urlQuery';
 import {
   fetchHearing as fetchHearingAction,
@@ -17,7 +16,7 @@ import {
   fetchSectionComments,
   fetchMoreSectionComments,
 } from '../../actions';
-import {Link} from 'react-router-dom';
+import Link from '../../components/LinkWithLang';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../../utils/Icon';
 
@@ -54,7 +53,7 @@ export class FullscreenHearingContainerComponent extends React.Component {
       fetchAllComments,
       language
     } = this.props;
-    const detailURL = getHearingURL(hearing);
+    const detailURL = '/' + hearing.slug;
 
     return (
       <div id="hearing">
@@ -64,15 +63,15 @@ export class FullscreenHearingContainerComponent extends React.Component {
         <div className="fullscreen-hearing">
           <div className="fullscreen-navigation">
             <div className="logo">
-              <Link to="/">
+              <Link to={{path: "/"}}>
                 <img alt="Helsinki" src="/assets/images/helsinki-logo-white.svg" className="logo" />
               </Link>
             </div>
             <div className="header-title">
-              <Link to={detailURL}>{getAttr(hearing.title, language)}</Link>
+              <Link to={{path: detailURL, state: {fromFullscreen: true}}}>{getAttr(hearing.title, language)}</Link>
             </div>
             <div className="minimize">
-              <Link to={detailURL}>
+              <Link to={{path: detailURL, state: {fromFullscreen: true}}}>
                 <Button>
                   <Icon name="compress" />
                 </Button>

@@ -25,8 +25,8 @@ export class HearingContainerComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen) {
-      this.history.push(`/${nextProps.hearing.hearing.slug}/fullscreen`);
+    if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen && !this.props.location.state.fromFullscreen) {
+      this.props.history.push({location: `/${nextProps.hearing.slug}/fullscreen`, search: `?lang=${this.props.language}`});
     }
     if (isEmpty(this.props.user) && isEmpty(this.props.hearing) && !isEmpty(nextProps.user)) {
       this.props.fetchHearing(nextProps.match.params.hearingSlug);
@@ -100,6 +100,8 @@ HearingContainerComponent.propTypes = {
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
+  history: PropTypes.object,
+  location: PropTypes
 };
 
 const mapStateToProps = (state, ownProps) => ({

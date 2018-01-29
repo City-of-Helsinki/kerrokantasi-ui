@@ -8,7 +8,8 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { login, logout } from '../../actions';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 
@@ -64,7 +65,7 @@ class Header extends React.Component {
   }
 
   getNavItem(id, url) {
-    const {history} = this.props;
+    const {history, language} = this.props;
     const active = history && history.location.pathname === url;
     const navItem = (
       <NavItem key={id} eventKey={id} href="#" active={active}>
@@ -72,7 +73,8 @@ class Header extends React.Component {
       </NavItem>
     );
     if (url) {
-      return <LinkContainer to={url}>{navItem}</LinkContainer>;
+      // Can't use custom link component here because it will break the navigation, so LinkContainer must contain same logic
+      return <LinkContainer to={url + '?lang=' + language}>{navItem}</LinkContainer>;
     }
     return navItem;
   }
@@ -91,7 +93,7 @@ class Header extends React.Component {
         <Navbar default fluid collapseOnSelect className="navbar-primary">
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/" className="navbar-brand">
+              <Link to={{path: "/"}} className="navbar-brand">
                 Kerrokantasi
               </Link>
             </Navbar.Brand>
@@ -121,6 +123,7 @@ Header.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
+  location: PropTypes.object
 };
 
 Header.contextTypes = {

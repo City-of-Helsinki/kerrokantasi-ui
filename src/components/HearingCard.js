@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import Link from './LinkWithLang';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
@@ -36,7 +36,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
   return (
     <div className={`hearing-card ${className}`}>
       {!translationAvailable && (
-        <Link to={getHearingURL(hearing)} className="hearing-card-notice">
+        <Link to={{path: getHearingURL(hearing)}} className="hearing-card-notice">
           <div className="hearing-card-notice-content">
             <FormattedMessage id="hearingTranslationNotAvailable" />
             {config.languages.map(
@@ -48,7 +48,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
           </div>
         </Link>
       )}
-      <Link to={getHearingURL(hearing)} className="hearing-card-image" style={cardImageStyle}>
+      <Link to={{path: getHearingURL(hearing)}} className="hearing-card-image" style={cardImageStyle}>
         {commentCount}
       </Link>
       <div className="hearing-card-content">
@@ -56,7 +56,7 @@ const HearingCard = ({hearing, language, className = ''}) => {
           <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
         </div>
         <h4 className="hearing-card-title">
-          <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
+          <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
         </h4>
         <div className="hearing-card-labels">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
