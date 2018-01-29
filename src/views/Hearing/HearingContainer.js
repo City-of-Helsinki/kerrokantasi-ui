@@ -101,7 +101,7 @@ HearingContainerComponent.propTypes = {
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
   history: PropTypes.object,
-  location: PropTypes
+  location: PropTypes.object
 };
 
 const mapStateToProps = (state, ownProps) => ({
