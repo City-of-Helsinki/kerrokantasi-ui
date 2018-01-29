@@ -4,6 +4,7 @@ import moment from 'moment';
 import {initNewSection, SectionTypes} from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';
+import i18n from '../i18n';
 
 export function getClosureSection(hearing) {
   return find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
@@ -20,16 +21,8 @@ export function getMainSection(hearing) {
 * to force fullscreen query parameter.
  */
 export function getHearingURL(hearing, {fullscreen} = {}) {
-  const url = `/${hearing.slug}`;
-  let query = "";
-  if (typeof fullscreen !== "undefined") {
-    query = `?fullscreen=${fullscreen}`;
-  } else if (hearing.default_to_fullscreen) {
-    // Hearing should always have default_to_fullscreen param
-    // query = "?fullscreen=true";
-    query = "?fullscreen=false";
-  }
-  return `${url}${query}`;
+  const url = `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
+  return url;
 }
 
 export function getHearingMainImageURL(hearing) {
@@ -94,6 +87,11 @@ export function initNewHearing(inits) {
   mainSection.type = SectionTypes.MAIN;
   const closureSection = initNewSection();
   closureSection.type = SectionTypes.CLOSURE;
+  closureSection.content = {
+    fi: i18n.fi.defaultClosureInfo || '',
+    sv: i18n.sv.defaultClosureInfo || '',
+    en: i18n.en.defaultClosureInfo || ''
+  };
   return merge({
     abstract: initAttr(),
     title: initAttr(),

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import getAttr from '../utils/getAttr';
 import isEmpty from 'lodash/isEmpty';
-import {getSectionURL} from '../utils/section';
+import {getSectionURL, isMainSection} from '../utils/section';
 import {
   getHearingURL,
   hasFullscreenMapPlugin,
@@ -14,6 +14,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 import OverviewMap from './OverviewMap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Icon from '../utils/Icon';
+import {Grid} from 'react-bootstrap';
 
 export const SectionCarousel = ({hearing, match: {params}, language}) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
@@ -24,9 +25,9 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
     (section) =>
       <div key={section.id}>
         <SliderItem
-          active={(params.sectionId && section.id === params.sectionId.split('#')[0]) || (!params.sectionId && section.type === 'main')}
+          active={(isMainSection(section) && !params.sectionId) || (params.sectionId && section.id === params.sectionId.split('#')[0])}
           hearingTitle={hearing.title}
-          url={section.type === 'main' ? `/${hearing.slug}#start` : getSectionURL(hearing.slug, section) + '#start'}
+          url={isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section) + '#start'}
           language={language}
           section={section}
         />
@@ -63,36 +64,40 @@ export const SectionCarousel = ({hearing, match: {params}, language}) => {
   }
 
   return (
-    <div className="carousel-container">
-      <div id="start" />
-      <div className="slider-container">
-        <Slider
-          className="slider"
-          ref={slider => {
-            this.slider = slider;
-          }}
-          initialSlide={getInitialSlideIndex(hearing, params)}
-          infinite={false}
-          focusOnSelect
-          autoplay={false}
-          centerMode
-          centerPadding="50px"
-          responsive={[{
-            breakpoint: 768,
-            settings: { slidesToShow: 1 }
-          },
-          {
-            breakpoint: 1200,
-            settings: { slidesToShow: 3 }
-          },
-          {
-            breakpoint: 100000,
-            settings: { slidesToShow: 5 }
-          }]}
-        >
-          {slides}
-        </Slider>
-      </div>
+    <div className="subnav-section">
+      <Grid>
+        <div className="carousel-container">
+          <div id="start" />
+          <div className="slider-container">
+            <Slider
+              className="slider"
+              ref={slider => {
+                this.slider = slider;
+              }}
+              initialSlide={getInitialSlideIndex(hearing, params)}
+              infinite={false}
+              focusOnSelect
+              autoplay={false}
+              centerMode
+              centerPadding="50px"
+              responsive={[{
+                breakpoint: 768,
+                settings: { slidesToShow: 1 }
+              },
+              {
+                breakpoint: 1200,
+                settings: { slidesToShow: 3 }
+              },
+              {
+                breakpoint: 100000,
+                settings: { slidesToShow: 5 }
+              }]}
+            >
+              {slides}
+            </Slider>
+          </div>
+        </div>
+      </Grid>
     </div>
   );
 };
