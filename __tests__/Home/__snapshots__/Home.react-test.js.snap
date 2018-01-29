@@ -169,9 +169,12 @@ exports[`Home component should render as expected 1`] = `
             <p
               className="text-center"
             >
-              <Link
-                replace={false}
-                to="/hearings/list"
+              <withRouter(Connect(LinkWithLangComponent))
+                to={
+                  Object {
+                    "path": "/hearings/list",
+                  }
+                }
               >
                 <Button
                   active={false}
@@ -186,7 +189,7 @@ exports[`Home component should render as expected 1`] = `
                     values={Object {}}
                   />
                 </Button>
-              </Link>
+              </withRouter(Connect(LinkWithLangComponent))>
             </p>
           </div>
         </Col>

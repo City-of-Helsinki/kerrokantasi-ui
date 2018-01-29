@@ -105,7 +105,12 @@ exports[`Carousel component should render as expected 1`] = `
                   "voting": "registered",
                 }
               }
-              url="/isosaari"
+              to={
+                Object {
+                  "hash": "#start",
+                  "path": "/isosaari",
+                }
+              }
             />
           </div>
           <div
@@ -165,7 +170,12 @@ exports[`Carousel component should render as expected 1`] = `
                   "voting": "registered",
                 }
               }
-              url="/isosaari/asuminen-a-asuinalueiden-elinvoi#start"
+              to={
+                Object {
+                  "hash": "#start",
+                  "path": "/isosaari/asuminen-a-asuinalueiden-elinvoi",
+                }
+              }
             />
           </div>
           <div
@@ -225,7 +235,12 @@ exports[`Carousel component should render as expected 1`] = `
                   "voting": "registered",
                 }
               }
-              url="/isosaari/asuminen-b-asuinalueiden-elinvoi#start"
+              to={
+                Object {
+                  "hash": "#start",
+                  "path": "/isosaari/asuminen-b-asuinalueiden-elinvoi",
+                }
+              }
             />
           </div>
         </Slider>

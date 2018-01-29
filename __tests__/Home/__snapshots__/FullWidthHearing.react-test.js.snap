@@ -230,7 +230,11 @@ exports[`FullWidthHearing component should render as expected 1`] = `
       >
         <Link
           replace={false}
-          to="/mockHearing"
+          to={
+            Object {
+              "path": "/mockHearing",
+            }
+          }
         >
           Mock Hearing
         </Link>
