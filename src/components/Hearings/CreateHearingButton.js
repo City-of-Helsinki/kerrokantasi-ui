@@ -19,7 +19,6 @@ const CreateHearingButton = ({to}) => (
 );
 
 CreateHearingButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
   to: PropTypes.object.isRequired
 };
 
