@@ -228,8 +228,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
       <h2
         className="fullwidth-hearing-title"
       >
-        <Link
-          replace={false}
+        <withRouter(Connect(LinkWithLangComponent))
           to={
             Object {
               "path": "/mockHearing",
@@ -237,7 +236,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
           }
         >
           Mock Hearing
-        </Link>
+        </withRouter(Connect(LinkWithLangComponent))>
       </h2>
     </div>
     <div
