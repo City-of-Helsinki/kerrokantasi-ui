@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 
+/*
+ * THIS COMPONENT SHOULD BE ALWAYS USED INSTEAD OF VANILLA <Link /> from react-router.
+ * Purpose of this component is to allow url's search to change and represent current
+ * language without having to use redirection (which will make navigating with browsers
+ * back button awkward or impossible) and without breaking old links.
+ */
+
 class LinkWithLangComponent extends React.Component {
   render() {
     const {to, className, children, language} = this.props;
