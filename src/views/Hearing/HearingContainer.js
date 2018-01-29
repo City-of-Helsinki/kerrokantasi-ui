@@ -25,8 +25,12 @@ export class HearingContainerComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen && !this.props.location.state.fromFullscreen) {
-      this.props.history.push({location: `/${nextProps.hearing.slug}/fullscreen`, search: `?lang=${this.props.language}`});
+    if (nextProps.location.state) {
+      if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen && !nextProps.location.state.fromFullscreen) {
+        this.props.history.push({pathname: `/${nextProps.hearing.slug}/fullscreen`, search: `?lang=${this.props.language}`});
+      }
+    } else if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen) {
+      this.props.history.push({pathname: `/${nextProps.hearing.slug}/fullscreen`, search: `?lang=${this.props.language}`});
     }
     if (isEmpty(this.props.user) && isEmpty(this.props.hearing) && !isEmpty(nextProps.user)) {
       this.props.fetchHearing(nextProps.match.params.hearingSlug);
