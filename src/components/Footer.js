@@ -53,7 +53,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
+                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
                 </li>
                 <li>2017 Helsingin kaupunki</li>
               </ul>
