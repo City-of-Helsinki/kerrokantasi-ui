@@ -38,6 +38,9 @@
     }
     &-labellist {
         float: left;
+        a {
+            text-decoration: none;
+        }
     }
     &-closed {
         text-align: right;

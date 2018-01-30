@@ -15,7 +15,7 @@ class LabelList extends React.Component {
     // FIXME: add routing context or something similar to use react-router Link
     const labelToHTML = (label) => (
       <a href={`/hearings/list?label=${getAttr(label.label, language)}`} key={label.id || label}>
-        <Label bsStyle="info">{getAttr(label.label, language)}</Label>
+        <Label bsStyle="info">{getAttr(label.label, language)}</Label>{' '}
       </a>
     );
 
