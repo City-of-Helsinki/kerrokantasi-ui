@@ -1,7 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, NavItem, Nav } from 'react-bootstrap';
+import { Navbar, NavItem, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import Icon from '../../utils/Icon';
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -47,16 +48,16 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user) {
       return [
-        <NavItem key="profile" eventKey="profile" href="#">
-          {user.displayName}
-        </NavItem>,
-        <NavItem key="logout" eventKey="logout" href="#">
-          <FormattedMessage id="logout" />
-        </NavItem>,
+        <NavDropdown key="profile" eventKey="profile" title={ <span><Icon name="user-o" className="user-nav-icon"/>{user.displayName} </span>}>
+          <MenuItem key="logout" eventKey="logout">
+            <FormattedMessage id="logout" />
+          </MenuItem>
+        </NavDropdown>,
       ];
     }
     return [
       <NavItem key="login" eventKey="login" href="#" className="login-link">
+        <Icon name="user-o" className="user-nav-icon"/>
         <FormattedMessage id="login" />
       </NavItem>,
     ];
