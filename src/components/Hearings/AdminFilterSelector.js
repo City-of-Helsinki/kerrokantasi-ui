@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '../../utils/Icon';
 import {Nav, NavItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -14,22 +15,26 @@ import {FormattedMessage} from 'react-intl';
 const AdminFilterSelector = ({
   active,
   messageKey = 'formattedMessage',
+  iconKey = 'iconName',
   onSelect,
   options,
   valueKey
 }) => {
   let values = options;
   let messages = options;
+  let icons = options;
 
   if (valueKey) {
     values = options.map((option) => option[valueKey]);
     messages = options.map((option) => option[messageKey]);
+    icons = options.map((option) => option[iconKey]);
   }
 
   return (
     <Nav bsStyle="pills" activeKey={active} className="admin-filter-selector" onSelect={onSelect}>
       {values.map((filter, index) =>
         <NavItem key={filter} eventKey={filter}>
+          <Icon name={icons[index]}/>{' '}
           <FormattedMessage id={messages[index]}/>
         </NavItem>
       )}
