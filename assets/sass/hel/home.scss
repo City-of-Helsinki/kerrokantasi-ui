@@ -43,7 +43,8 @@
 .home-logo {
   @include helsinki-logo($black);
   background-position: right;
-  float: right;
+  margin-left: auto;
+  margin-top: -24px;
   height: $line-height-computed * 3;
   width: 125px;
 }

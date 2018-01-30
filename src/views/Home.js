@@ -67,7 +67,10 @@ export class Home extends React.Component {
         <section className="page-section page-section--welcome">
           <div className="container">
             <Row>
-              <Col xs={8}>
+              <Col md={4} mdPush={8}>
+                <div className="home-logo" />
+              </Col>
+              <Col md={8} mdPull={4}>
                 <Helmet title={formatMessage({id: 'welcome'})} />
                 <h1>
                   <FormattedMessage id="welcome" />
@@ -75,9 +78,6 @@ export class Home extends React.Component {
                 <p className="lead">
                   <FormattedMessage id="welcomeMessage" />
                 </p>
-              </Col>
-              <Col xs={4}>
-                <div className="home-logo" />
               </Col>
             </Row>
             <Row>
