@@ -45,6 +45,7 @@ const AdminFilterSelector = ({
 AdminFilterSelector.propTypes = {
   active: PropTypes.string,
   messageKey: PropTypes.string,
+  iconKey: PropTypes.string,
   onSelect: PropTypes.func,
   options: PropTypes.oneOfType([
     PropTypes.string,
