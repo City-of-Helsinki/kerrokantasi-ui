@@ -47,7 +47,6 @@
 }
 
 .navbar-right.nav-user-menu {
-  border: 1px solid $black;
   margin-top: 10px;
   margin-right: 0;
   margin-left: 0;
@@ -57,6 +56,11 @@
     margin-left: -15px;
   }
 
+  .user-nav-icon {
+    font-size: 1.2em;
+    margin-right: .5em;
+  }
+
   li > a {
     padding: 6px;
 
@@ -64,8 +68,4 @@
       border: 0;
     }
   }
-}
-
-.navbar-inverse .navbar-right.nav-user-menu {
-  border: 1px solid $white;
 }
