@@ -48,7 +48,7 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user) {
       return [
-        <NavDropdown key="profile" eventKey="profile" title={ <span><Icon name="user-o" className="user-nav-icon"/>{user.displayName} </span>}>
+        <NavDropdown key="profile" eventKey="profile" title={<span><Icon name="user-o" className="user-nav-icon"/>{user.displayName} </span>}>
           <MenuItem key="logout" eventKey="logout">
             <FormattedMessage id="logout" />
           </MenuItem>
