@@ -82,12 +82,12 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="success" onMouseDown={this.props.onSaveChanges}>
+        <Button bsStyle="success" onClick={this.props.onSaveChanges}>
           <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveHearingChanges"/>
         </Button>;
     } else {
       ActionButton = () =>
-        <Button bsStyle="success" onMouseDown={this.props.onSaveAndPreview}>
+        <Button bsStyle="success" onClick={this.props.onSaveAndPreview}>
           <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveAndPreviewHearing"/>
         </Button>;
     }
