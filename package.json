@@ -87,7 +87,7 @@
     "query-string": "^4.3.4",
     "raven-js": "^3.19.1",
     "react": "^15.6.1",
-    "react-bootstrap": "^0.30.7",
+    "react-bootstrap": "0.32.1",
     "react-datetime": "^2.8.10",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.13.3",
