@@ -28,6 +28,9 @@ export class HearingContainerComponent extends React.Component {
     if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen) {
       this.history.push(`/${nextProps.hearing.hearing.slug}/fullscreen`);
     }
+    if (isEmpty(this.props.user) && isEmpty(this.props.hearing) && !isEmpty(nextProps.user)) {
+      this.props.fetchHearing(nextProps.match.params.hearingSlug);
+    }
   }
 
   render() {
