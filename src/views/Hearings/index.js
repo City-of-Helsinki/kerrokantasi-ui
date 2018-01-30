@@ -25,26 +25,31 @@ const HearingLists = {
     list: 'allHearings',
     params: {},
     formattedMessage: 'allHearings',
+    iconName: 'globe'
   },
   OPEN: {
     list: 'openHearings',
     params: {},
     formattedMessage: 'openHearings',
+    iconName: 'commenting-o'
   },
   PUBLISHED: {
     list: 'publishedHearings',
     params: { published: 'True' },
     formattedMessage: 'publishedHearings',
+    iconName: 'eye'
   },
   QUEUE: {
     list: 'publishingQueueHearings',
     params: { published: 'True' },
     formattedMessage: 'publishingQueue',
+    iconName: 'calendar-check-o'
   },
   DRAFTS: {
     list: 'draftHearings',
     params: { published: 'False' },
     formattedMessage: 'drafts',
+    iconName: 'pencil-square-o'
   },
 };
 
