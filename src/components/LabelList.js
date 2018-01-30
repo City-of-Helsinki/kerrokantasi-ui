@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Label from 'react-bootstrap/lib/Label';
 import getAttr from '../utils/getAttr';
+import Link from './LinkWithLang';
 
 class LabelList extends React.Component {
   render() {
@@ -12,11 +13,10 @@ class LabelList extends React.Component {
     *     New API response: [{id, label}]
     * DONE: Remove support for old styled API response when API has changed.
      */
-    // FIXME: add routing context or something similar to use react-router Link
     const labelToHTML = (label) => (
-      <a href={`/hearings/list?label=${getAttr(label.label, language)}`} key={label.id || label}>
-        <Label bsStyle="info">{getAttr(label.label, language)}</Label>{' '}
-      </a>
+      <Link to={{path: '/hearings/list', search: `?label=${getAttr(label.label, language)}`}} key={label.id || label}>
+        <Label bsStyle="info">{getAttr(label.label, language)}</Label>
+      </Link>
     );
 
     return (
