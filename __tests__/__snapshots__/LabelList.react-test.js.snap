@@ -10,25 +10,37 @@ exports[`LabelList can handle list of label objects 1`] = `
 <div
   className="labels"
 >
-  <a
-    href="/hearings/list?label=such"
+  <withRouter(Connect(LinkWithLangComponent))
+    key="1"
+    to={
+      Object {
+        "path": "/hearings/list",
+        "search": "?label=such",
+      }
+    }
   >
-    <span
-      className="label label-info"
+    <Label
+      bsClass="label"
+      bsStyle="info"
     >
       such
-    </span>
-     
-  </a>
-  <a
-    href="/hearings/list?label=label"
+    </Label>
+  </withRouter(Connect(LinkWithLangComponent))>
+  <withRouter(Connect(LinkWithLangComponent))
+    key="2"
+    to={
+      Object {
+        "path": "/hearings/list",
+        "search": "?label=label",
+      }
+    }
   >
-    <span
-      className="label label-info"
+    <Label
+      bsClass="label"
+      bsStyle="info"
     >
       label
-    </span>
-     
-  </a>
+    </Label>
+  </withRouter(Connect(LinkWithLangComponent))>
 </div>
 `;
