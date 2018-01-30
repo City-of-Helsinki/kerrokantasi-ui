@@ -133,6 +133,9 @@ const SliderItem = ({section, url, language, hearingTitle, active}) => {
   return (
     <div className={active ? "slider-item-current" : "slider-item"}>
       <Link to={url}>
+        <div className="hearing-card-comment-count">
+          <Icon name="comment-o" />&nbsp;{section.n_comments}
+        </div>
         <div className="slider-image" style={cardImageStyle} />
         <div className="slider-item-content">
           <div className="slider-item-title">{section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}</div>
