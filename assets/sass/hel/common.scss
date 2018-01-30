@@ -117,6 +117,11 @@ a.list-group-item {
 
     a {
         color: $black;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background-color: lighten($theme-primary-light, 5%);
     }
 }
 
