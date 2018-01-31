@@ -185,7 +185,7 @@
   "moveDown": "Siirrä alas",
   "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
   "sectionImagePlaceholder": "Selitä tai täydennä kuvaa kuvatekstillä. Mainitse kuvaajan nimi, jos tarpeellista.",
-  "sectionAbstractPlaceholder": "Kuvaa kuulemisen pääasia lyhyesti. Näytetään kuulemisen alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
+  "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
   "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
   "hearingOpeningTimePlaceholder": "Valitse...",
   "hearingClosingTimePlaceholder": "Valitse..."
