@@ -18,6 +18,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     >
       such
     </span>
+     
   </a>
   <a
     href="/hearings/list?label=label"
@@ -27,6 +28,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     >
       label
     </span>
+     
   </a>
 </div>
 `;
