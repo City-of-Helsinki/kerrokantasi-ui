@@ -260,7 +260,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 SectionContainerComponent.propTypes = {
   sections: PropTypes.array,
-  mainSectionComments: PropTypes.array,
+  mainSectionComments: PropTypes.object,
   match: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
