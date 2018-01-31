@@ -136,13 +136,6 @@ class HearingFormStep2 extends React.Component {
             >
               <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
             </Button>
-            <Button
-              bsSize="small"
-              bsStyle="default"
-              onClick={() => this.addSection("scenario")}
-            >
-              <Icon className="icon" name="plus"/> <FormattedMessage id="addOption"/>
-            </Button>
           </ButtonToolbar>
         </div>
         <div className="step-footer">
