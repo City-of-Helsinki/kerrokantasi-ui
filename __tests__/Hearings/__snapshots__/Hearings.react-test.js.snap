@@ -248,7 +248,7 @@ exports[`Hearings component should render as expected 1`] = `
           "searchSubjects": "Etsi aiheista",
           "searchTitles": "Etsi otsikoista",
           "sectionAbstract": "Lyhyt johdanto",
-          "sectionAbstractPlaceholder": "Kuvaa kuulemisen pääasia lyhyesti. Näytetään kuulemisen alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
+          "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
           "sectionContent": "Tekstisisältö",
           "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
           "sectionImage": "Kuva",
