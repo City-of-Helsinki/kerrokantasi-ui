@@ -188,5 +188,6 @@
   "sectionAbstractPlaceholder": "Kuvaa kuulemisen pääasia lyhyesti. Näytetään kuulemisen alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
   "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
   "hearingOpeningTimePlaceholder": "Valitse...",
-  "hearingClosingTimePlaceholder": "Valitse..."
+  "hearingClosingTimePlaceholder": "Valitse...",
+  "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin."
 }
