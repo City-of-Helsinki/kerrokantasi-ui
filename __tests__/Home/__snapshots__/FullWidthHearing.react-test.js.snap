@@ -186,6 +186,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "selectAnotherImage": "Valitse toinen kuva",
         "selectOrDropImage": "Valitse tai pudota kuva",
         "showOnlyOpen": "Näytetään vain avoimet",
+        "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
         "sort": "Järjestä",
         "submit": "Lähetä",
         "table-of-content": "Sisällys",
