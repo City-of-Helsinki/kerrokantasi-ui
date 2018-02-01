@@ -108,9 +108,11 @@ export class SectionContainerComponent extends React.Component {
     this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   }
 
-  onVotePluginComment = (commentId, sectionId) => {
-    const {match} = this.props;
+  onVotePluginComment = (commentId) => {
+    const {match, sections} = this.props;
     const hearingSlug = match.params.hearingSlug;
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const sectionId = mainSection.id;
     this.props.postVote(commentId, hearingSlug, sectionId);
   }
 
