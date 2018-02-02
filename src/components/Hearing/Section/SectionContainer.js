@@ -220,6 +220,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchAllComments={fetchAllComments}
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
+                      displayVisualization
                     />
                   </Col>
                 </Row>
