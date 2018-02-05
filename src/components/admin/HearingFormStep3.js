@@ -119,6 +119,23 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
+  onUploadGeoJSON = (event) => {
+    // console.log(JSON.parse(event.target.files[0]))
+    this.readTextFile(event.target.files[0], (json) => console.log(JSON.parse(json)));
+    /* if (!isEmpty(event.target.files)) {
+      const geoJSON = JSON.parse(event.target.files[0]);
+      this.props.onHearingChange("geojson", geoJSON);
+    } */
+  }
+
+  readTextFile = (file, callback) => {
+    const reader = new FileReader();
+
+    reader.onload = () => callback(reader.result);
+
+    reader.readAsText(file);
+  }
+
   invalidateMap() {
     // Map size needs to be invalidated after dynamically resizing
     // the map container.
@@ -205,6 +222,10 @@ class HearingFormStep3 extends React.Component {
           </Map>
         </FormGroup>
         <div className="step-footer">
+          <label htmlFor="geojsonUploader">
+            <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{display: 'none'}} />
+            Upload GeoJSON
+          </label>
           <Button
             bsStyle="default"
             onClick={this.props.onContinue}
