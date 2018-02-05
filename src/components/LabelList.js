@@ -14,7 +14,7 @@ class LabelList extends React.Component {
     * DONE: Remove support for old styled API response when API has changed.
      */
     const labelToHTML = (label) => (
-      <Link to={{path: '/hearings/list', search: `?label=${getAttr(label.label, language)}`}} key={label.id || label}>
+      <Link to={{path: '/hearings/list', search: `?label=${label.id}`}} key={label.id || label}>
         <Label bsStyle="info">{getAttr(label.label, language)}</Label>
       </Link>
     );
