@@ -88,7 +88,7 @@ class Header extends React.Component {
         <Navbar inverse fluid className="navbar-secondary hidden-xs">
           <LanguageSwitcher currentLanguage={this.props.language} />
         </Navbar>
-        <Navbar default fluid collapseOnSelect className="navbar-primary">
+        <Navbar default fluid collapseOnSelect id="nav" className="navbar-primary">
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/" className="navbar-brand">

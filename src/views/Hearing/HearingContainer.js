@@ -16,8 +16,13 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import {getUser} from '../../selectors/user';
 import config from '../../config';
+import getAttr from '../../utils/getAttr';
+import Waypoint from 'react-waypoint';
 
 export class HearingContainerComponent extends React.Component {
+  state = {
+    headerCollapsed: false
+  }
   componentWillMount() {
     const {fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
@@ -27,6 +32,15 @@ export class HearingContainerComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!isEmpty(nextProps.hearing) && nextProps.hearing.default_to_fullscreen) {
       this.history.push(`/${nextProps.hearing.hearing.slug}/fullscreen`);
+    }
+  }
+
+  handleCollapseHeader = (waypointObj) => {
+    console.log(waypointObj)
+    if (waypointObj.currentPosition === 'above') {
+      this.setState({headerCollapsed: true});
+    } else {
+      this.setState({headerCollapsed: false});
     }
   }
 
@@ -43,6 +57,7 @@ export class HearingContainerComponent extends React.Component {
       contactPersons,
       setLanguage
     } = this.props;
+    const {headerCollapsed} = this.state;
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
 
     return (
@@ -68,6 +83,30 @@ export class HearingContainerComponent extends React.Component {
                 reportUrl={reportUrl}
                 setLanguage={setLanguage}
               />
+              <Waypoint onEnter={(obj) => this.handleCollapseHeader(obj)} onLeave={(obj) => this.handleCollapseHeader(obj)} />
+              {headerCollapsed &&
+                <div
+                  style={
+                    {
+                      background: 'orange',
+                      minHeight: '30px',
+                      color: 'black',
+                      position: 'fixed',
+                      left: '20px',
+                      right: '20px',
+                      top: document.getElementById('nav').offsetHeight,
+                      zIndex: 1001,
+                      padding: '0 20px',
+                      display: 'flex',
+                      alignItems: 'space-between',
+                      flexDirection: 'row'
+                    }
+                  }
+                >
+                  <h3>{getAttr(hearing.title)}</h3>
+                  <div style={{fontSize: '20px'}}>&uarr;</div>
+                </div>
+              }
               <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
               <Switch>
                 <Route path="/:hearingSlug/:sectionId" component={Section} />
