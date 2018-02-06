@@ -146,7 +146,8 @@ const SliderItem = ({section, url, language, hearingTitle, active}) => {
   const cardImageStyle = {
     backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : 'url(/assets/images/default-image.svg)'
   };
-  const commentCount = ((section.commenting == 'none') ? null :
+  const commentCount = ((section.commenting === 'none') ?
+    null :
     <div className="hearing-card-comment-count">
       <Icon name="comment-o" />&nbsp;{section.n_comments}
     </div>
