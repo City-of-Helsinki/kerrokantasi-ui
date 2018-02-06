@@ -10,6 +10,7 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import includes from 'lodash/includes';
 import {localizedNotifyError} from '../../utils/notify';
+import Icon from '../../utils/Icon';
 
 import {hearingShape} from '../../types';
 
@@ -240,11 +241,14 @@ class HearingFormStep3 extends React.Component {
             </FeatureGroup>
           </Map>
         </FormGroup>
-        <div className="step-footer">
-          <label htmlFor="geojsonUploader">
+        <div className="step-control">
+          <label className="geojson_button" htmlFor="geojsonUploader">
             <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{display: 'none'}} />
-            Upload GeoJSON
+            <Icon className="icon" name="upload" style={{marginRight: '5px'}}/>
+            <FormattedMessage id="addGeojson"/>
           </label>
+        </div>
+        <div className="step-footer">
           <Button
             bsStyle="default"
             onClick={this.props.onContinue}
