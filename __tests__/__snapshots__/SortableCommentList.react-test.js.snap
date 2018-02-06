@@ -138,6 +138,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "POPULARITY_ASC": "Vähiten suosittu ensin",
                 "POPULARITY_DESC": "Suosituin ensin",
                 "addComment": "Vastaa",
+                "addGeojson": "Lisää geojson tiedostona",
                 "addOption": "Lisää vaihtoehto",
                 "addSection": "Lisää osa-alue",
                 "add_images": "Lisää kuvia kommenttiisi",
