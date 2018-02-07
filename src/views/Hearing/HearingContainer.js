@@ -105,11 +105,7 @@ HearingContainerComponent.propTypes = {
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
   history: PropTypes.object,
-<<<<<<< HEAD
   location: PropTypes.object
-=======
-  location: PropTypes
->>>>>>> Use LinkWithLang instead of Link and force use of to as object instead of string
 };
 
 const mapStateToProps = (state, ownProps) => ({
