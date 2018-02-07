@@ -52,26 +52,35 @@ class HearingForm extends React.Component {
     const isVisible = this.state.currentStep === stepNumber;
 
     return (
-      <Panel header={title} eventKey={step}>
-        <PhaseTag
-          contactPersons={contactPersons}
-          hearing={hearing}
-          hearingLanguages={hearingLanguages}
-          labels={labels}
-          onLanguagesChange={this.props.onLanguagesChange}
-          onHearingChange={this.props.onHearingChange}
-          onSectionChange={this.props.onSectionChange}
-          onSectionImageChange={this.props.onSectionImageChange}
-          onContinue={this.nextStep}
-          visible={isVisible}
-          editorMetaData={this.props.editorMetaData}
-          errors={this.props.errors}
-          dispatch={this.props.dispatch}
-          language={language}
-          sectionMoveUp={sectionMoveUp}
-          sectionMoveDown={sectionMoveDown}
-          formatMessage={formatMessage}
-        />
+      <Panel eventKey={step}>
+        <Panel.Heading>
+          <Panel.Title toggle>
+            {title}
+          </Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+          <Panel.Body>
+            <PhaseTag
+              contactPersons={contactPersons}
+              hearing={hearing}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              onLanguagesChange={this.props.onLanguagesChange}
+              onHearingChange={this.props.onHearingChange}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              onContinue={this.nextStep}
+              visible={isVisible}
+              editorMetaData={this.props.editorMetaData}
+              errors={this.props.errors}
+              dispatch={this.props.dispatch}
+              language={language}
+              sectionMoveUp={sectionMoveUp}
+              sectionMoveDown={sectionMoveDown}
+              formatMessage={formatMessage}
+            />
+          </Panel.Body>
+        </Panel.Collapse>
       </Panel>
     );
   }
