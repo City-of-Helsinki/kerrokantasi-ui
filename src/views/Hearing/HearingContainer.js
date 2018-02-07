@@ -36,11 +36,10 @@ export class HearingContainerComponent extends React.Component {
   }
 
   handleCollapseHeader = (waypointObj) => {
-    console.log(waypointObj)
-    if (waypointObj.currentPosition === 'above') {
-      this.setState({headerCollapsed: true});
-    } else {
+    if (waypointObj.currentPosition !== 'above') {
       this.setState({headerCollapsed: false});
+    } else {
+      this.setState({headerCollapsed: true});
     }
   }
 
@@ -92,19 +91,22 @@ export class HearingContainerComponent extends React.Component {
                       minHeight: '30px',
                       color: 'black',
                       position: 'fixed',
-                      left: '20px',
-                      right: '20px',
+                      left: '0',
+                      right: '0',
                       top: document.getElementById('nav').offsetHeight,
                       zIndex: 1001,
-                      padding: '0 20px',
+                      padding: '10px 30px',
                       display: 'flex',
-                      alignItems: 'space-between',
-                      flexDirection: 'row'
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexDirection: 'row',
+                      fontSize: '28px',
+                      fontWeight: '600'
                     }
                   }
                 >
-                  <h3>{getAttr(hearing.title)}</h3>
-                  <div style={{fontSize: '20px'}}>&uarr;</div>
+                  <div>{getAttr(hearing.title)}</div>
+                  <div>&uarr;</div>
                 </div>
               }
               <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
