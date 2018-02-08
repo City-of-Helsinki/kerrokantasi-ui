@@ -32,7 +32,7 @@ class OverviewMap extends React.Component {
           case "Polygon": {
             // XXX: This only supports the _first_ ring of coordinates in a Polygon
             const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(<Polygon positions={latLngs}>{content}</Polygon>);
+            contents.push(<Polygon key={Math.random()} positions={latLngs}>{content}</Polygon>);
           }
             break;
           case "Point": {
@@ -40,6 +40,7 @@ class OverviewMap extends React.Component {
             contents.push(
               <Marker
                 position={latLngs}
+                key={Math.random()}
                 icon={new Leaflet.Icon({
                   iconUrl: require('../../assets/images/leaflet/marker-icon.png'),
                   shadowUrl: require('../../assets/images/leaflet/marker-shadow.png'),
@@ -53,7 +54,7 @@ class OverviewMap extends React.Component {
             break;
           case "LineString": {
             const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(<Polyline positions={latLngs}>{content}</Polyline>);
+            contents.push(<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
           }
             break;
           default:
