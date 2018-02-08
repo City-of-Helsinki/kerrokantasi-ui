@@ -56,7 +56,7 @@ class HearingFormStep1 extends React.Component {
   }
 
   onContactsChange(selectedContacts) {
-    this.setState({ selectedContacts });
+    this.setState({ selectedContacts: selectedContacts.map(({id}) => id) });
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
