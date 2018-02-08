@@ -70,6 +70,15 @@ class ContactModal extends React.Component {
   submitForm(event) {
     event.preventDefault();
     this.props.onCreateContact(this.state.contact);
+    this.setState({
+      contact: {
+        name: '',
+        phone: '',
+        email: '',
+        title: {}
+      },
+      titleLanguages: this.constructor.initializeLanguages()
+    });
     this.props.onClose();
   }
 
