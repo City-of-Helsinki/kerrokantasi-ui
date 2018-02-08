@@ -243,9 +243,6 @@ export class Hearings extends React.Component {
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
 
-    const createHearingButton = isAdmin(user.data) ? (
-      <CreateHearingButton to={{path: '/hearing/new'}} />
-    ) : null;
     const adminFilterSelector = isAdmin(user.data) ? (
       <AdminFilterSelector
         onSelect={this.setAdminFilter}
@@ -270,7 +267,7 @@ export class Hearings extends React.Component {
                   <FormattedMessage id="allHearings" />
                 </h1>
                 {adminFilterSelector}
-                {createHearingButton}
+                {isAdmin(user.data) && <CreateHearingButton to={{path: '/hearing/new'}} />}
               </Col>
             </Row>
           </div>
