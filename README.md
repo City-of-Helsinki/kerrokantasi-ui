@@ -54,7 +54,7 @@ Kerrokantasi-ui always builds itself on start. You can use your favorite
 process manager to either run `npm start` or server(/index.js)
 
 Questionnaires can make use of plugins. A default set of plugins can be
-installed using `npm run fetch-plugins { target_directory }`. By default,
+installed using `npm run fetch-plugins -- { target_directory }`. By default,
 the plugins are installed in `assets/plugins` and served out in
 `assets/plugins` URL prefix by kerrokantasi-ui.
 
