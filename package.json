@@ -5,8 +5,8 @@
   "scripts": {
     "start": "NODE_ENV=production node server",
     "build": "true",
-    "fetch-plugins-dev": "node deploy/fetch_plugins.js",
-    "dev": "node server",
+    "fetch-plugins": "node deploy/fetch_plugins.js",
+    "dev": "node server --dev",
     "lint": "eslint src server test",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",
