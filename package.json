@@ -5,6 +5,7 @@
   "scripts": {
     "start": "NODE_ENV=production node server",
     "build": "true",
+    "fetch-plugins-dev": "node deploy/fetch_plugins.js",
     "dev": "node server",
     "lint": "eslint src server test",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
@@ -118,6 +119,7 @@
     "redux-thunk": "^2.0.1",
     "sass-loader": "^6.0.6",
     "scrolltop": "0.0.1",
+    "simple-git": "^1.89.0",
     "slick-carousel": "^1.8.1",
     "snyk": "^1.49.4",
     "style-loader": "^0.18.2",
