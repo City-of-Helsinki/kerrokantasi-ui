@@ -15,6 +15,7 @@ import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
 import Waypoint from 'react-waypoint';
+import Helmet from 'react-helmet';
 
 import {labelShape} from '../types';
 
@@ -171,6 +172,7 @@ export const HearingList = ({
 
   const hearingListMap = hearingsToShow ? (
     <Col xs={12}>
+      <Helmet title={formatMessage({ id: 'mapView' })} />
       <div className="hearing-list-map map">
         <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
           <FormattedMessage id="showOnlyOpen" />

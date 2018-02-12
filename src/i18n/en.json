@@ -126,5 +126,7 @@
   "searchPlaceholder": "Search...",
   "help": "Help",
   "moveUp": "Move up",
-  "moveDown": "Move down"
+  "moveDown": "Move down",
+  "infoPage": "About service",
+  "mapView": "All hearings on map"
 }

@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import trackLink from '../../utils/trackLink';
+import {injectIntl, intlShape} from 'react-intl';
+import Helmet from 'react-helmet';
 
 function getContent(language) {
   if (typeof window === "undefined") return "";
@@ -20,8 +22,10 @@ class Info extends React.Component {
 
   render() {
     const content = getContent(this.props.language);
+    const {intl} = this.props;
     return (
       <div className="container">
+        <Helmet title={intl.formatMessage({ id: 'infoPage' })} />
         <Row>
           <Col md={8}>
             <div dangerouslySetInnerHTML={{__html: content}}/>
@@ -33,7 +37,8 @@ class Info extends React.Component {
 }
 
 Info.propTypes = {
-  language: PropTypes.string
+  language: PropTypes.string,
+  intl: intlShape
 };
 
-export default connect((state) => ({language: state.language}))(Info);
+export default injectIntl(connect((state) => ({language: state.language}))(Info));
