@@ -52,26 +52,35 @@ class HearingForm extends React.Component {
     const isVisible = this.state.currentStep === stepNumber;
 
     return (
-      <Panel header={title} eventKey={step}>
-        <PhaseTag
-          contactPersons={contactPersons}
-          hearing={hearing}
-          hearingLanguages={hearingLanguages}
-          labels={labels}
-          onLanguagesChange={this.props.onLanguagesChange}
-          onHearingChange={this.props.onHearingChange}
-          onSectionChange={this.props.onSectionChange}
-          onSectionImageChange={this.props.onSectionImageChange}
-          onContinue={this.nextStep}
-          visible={isVisible}
-          editorMetaData={this.props.editorMetaData}
-          errors={this.props.errors}
-          dispatch={this.props.dispatch}
-          language={language}
-          sectionMoveUp={sectionMoveUp}
-          sectionMoveDown={sectionMoveDown}
-          formatMessage={formatMessage}
-        />
+      <Panel eventKey={step}>
+        <Panel.Heading>
+          <Panel.Title toggle>
+            {title}
+          </Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+          <Panel.Body>
+            <PhaseTag
+              contactPersons={contactPersons}
+              hearing={hearing}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              onLanguagesChange={this.props.onLanguagesChange}
+              onHearingChange={this.props.onHearingChange}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              onContinue={this.nextStep}
+              visible={isVisible}
+              editorMetaData={this.props.editorMetaData}
+              errors={this.props.errors}
+              dispatch={this.props.dispatch}
+              language={language}
+              sectionMoveUp={sectionMoveUp}
+              sectionMoveDown={sectionMoveDown}
+              formatMessage={formatMessage}
+            />
+          </Panel.Body>
+        </Panel.Collapse>
       </Panel>
     );
   }
@@ -82,12 +91,12 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="success" onMouseDown={this.props.onSaveChanges}>
+        <Button bsStyle="success" onClick={this.props.onSaveChanges}>
           <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveHearingChanges"/>
         </Button>;
     } else {
       ActionButton = () =>
-        <Button bsStyle="success" onMouseDown={this.props.onSaveAndPreview}>
+        <Button bsStyle="success" onClick={this.props.onSaveAndPreview}>
           <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveAndPreviewHearing"/>
         </Button>;
     }

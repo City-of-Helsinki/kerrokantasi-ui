@@ -14,7 +14,7 @@ import FullscreenHearingContainer from './views/FullscreenHearing/FullscreenHear
 const Redirector = ({match}) => {
   return (
     <div>
-      <Redirect to={'/' + match.params.hearingSlug} />
+      <Redirect to={{path: '/' + match.params.hearingSlug}} />
     </div>
   );
 };

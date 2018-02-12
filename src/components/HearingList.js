@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
-import {Link} from 'react-router-dom';
+import Link from './LinkWithLang';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import {getHearingURL, isPublic} from '../utils/hearing';
@@ -93,7 +93,7 @@ export class HearingListItem extends React.Component {
     return (
       <div className="hearing-list-item">
         {!translationAvailable && (
-          <Link to={getHearingURL(hearing)} className="hearing-card-notice">
+          <Link to={{path: getHearingURL(hearing)}} className="hearing-card-notice">
             <div className="notice-content">
               <FormattedMessage id="hearingTranslationNotAvailable" />
               {config.languages.map(
@@ -110,7 +110,7 @@ export class HearingListItem extends React.Component {
         <div className="hearing-list-item-image" style={mainImageStyle} />
         <div className="hearing-list-item-content">
           <div className="hearing-list-item-labels">
-            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" />
+            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
             <div className="hearing-list-item-closed">
               {hearing.closed ? (
                 <Label>
@@ -122,7 +122,7 @@ export class HearingListItem extends React.Component {
           <div className="hearing-list-item-title-wrap">
             <h4 className="hearing-list-item-title">
               {!isPublic(hearing) ? <Icon name="eye-slash" /> : null}{' '}
-              <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
+              <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
             </h4>
             <div className="hearing-list-item-comments">
               <Icon name="comment-o" />&nbsp;{hearing.n_comments}

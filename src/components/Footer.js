@@ -2,7 +2,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Row, Col} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import Link from './LinkWithLang';
 
 export default function Footer() {
   return (
@@ -25,17 +25,17 @@ export default function Footer() {
               <div className="footer-header">Kerrokantasi</div>
               <ul className="footer-links">
                 <li>
-                  <Link to="/hearings/list">
+                  <Link to={{path: "/hearings/list"}}>
                     <FormattedMessage id="hearingsHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to="/hearings/map">
+                  <Link to={{path: "/hearings/map"}}>
                     <FormattedMessage id="hearingMapHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to="/info">
+                  <Link to={{path: "/info"}}>
                     <FormattedMessage id="infoHeaderText" />
                   </Link>
                 </li>
@@ -53,7 +53,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
+                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
                 </li>
                 <li>2017 Helsingin kaupunki</li>
               </ul>

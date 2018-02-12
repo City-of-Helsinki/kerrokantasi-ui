@@ -59,23 +59,31 @@ class HearingFormStep2 extends React.Component {
         return (
           <Panel
             eventKey={sectionID}
-            header={`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
             key={sectionID}
             bsStyle="info"
           >
-            <SectionForm
-              section={section}
-              onSectionChange={this.props.onSectionChange}
-              onSectionImageChange={this.props.onSectionImageChange}
-              sectionLanguages={hearingLanguages}
-              sectionMoveUp={sectionMoveUp}
-              sectionMoveDown={sectionMoveDown}
-              isFirstSubsection={index === 1}
-              isLastSubsection={sectionID === last(hearing.sections).frontId}
-            />
-            <div className="section-toolbar">
-              {this.getDeleteSectionButton(section, sectionID)}
-            </div>
+            <Panel.Heading>
+              <Panel.Title toggle>
+                {`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
+              </Panel.Title>
+            </Panel.Heading>
+            <Panel.Collapse>
+              <Panel.Body>
+                <SectionForm
+                  section={section}
+                  onSectionChange={this.props.onSectionChange}
+                  onSectionImageChange={this.props.onSectionImageChange}
+                  sectionLanguages={hearingLanguages}
+                  sectionMoveUp={sectionMoveUp}
+                  sectionMoveDown={sectionMoveDown}
+                  isFirstSubsection={index === 1}
+                  isLastSubsection={sectionID === last(hearing.sections).frontId}
+                />
+                <div className="section-toolbar">
+                  {this.getDeleteSectionButton(section, sectionID)}
+                </div>
+              </Panel.Body>
+            </Panel.Collapse>
           </Panel>
         );
       });
@@ -134,13 +142,6 @@ class HearingFormStep2 extends React.Component {
               onClick={() => this.addSection("part")}
             >
               <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
-            </Button>
-            <Button
-              bsSize="small"
-              bsStyle="default"
-              onClick={() => this.addSection("scenario")}
-            >
-              <Icon className="icon" name="plus"/> <FormattedMessage id="addOption"/>
             </Button>
           </ButtonToolbar>
         </div>

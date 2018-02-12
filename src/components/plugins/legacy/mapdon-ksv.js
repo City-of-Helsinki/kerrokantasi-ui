@@ -20,7 +20,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    // super.componentDidMount();
     const iframe = this.refs.frame;
     const {data, pluginPurpose} = this.props;
     let {comments} = this.props;
@@ -44,7 +44,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount();
+    // super.componentWillUnmount();
     if (this._messageListener) {
       if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;

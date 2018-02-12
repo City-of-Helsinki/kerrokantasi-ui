@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import {
   getSections,
   getIsHearingPublished,
   getIsHearingClosed,
   getHearingContacts,
   getHearingWithSlug,
+  getMainSectionComments
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
+import has from 'lodash/has';
+import includes from 'lodash/includes';
 import SectionImage from './SectionImage';
 import SectionClosureInfo from './SectionClosureInfo';
+import PluginContent from '../../PluginContent';
 import SectionBrowser from '../../SectionBrowser';
 import ContactList from './ContactList';
 import SortableCommentList from '../../SortableCommentList';
@@ -24,7 +28,9 @@ import {
   isSectionCommentable,
   isMainSection
 } from '../../../utils/section';
-import {injectIntl, intlShape} from 'react-intl';
+import {hasFullscreenMapPlugin} from '../../../utils/hearing';
+import Icon from '../../../utils/Icon';
+import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {withRouter} from 'react-router-dom';
 import {parseQuery} from '../../../utils/urlQuery';
 import {
@@ -36,6 +42,7 @@ import {
   fetchSectionComments,
   fetchMoreSectionComments,
 } from '../../../actions';
+import Link from '../../LinkWithLang';
 
 export class SectionContainerComponent extends React.Component {
   state = {
@@ -93,6 +100,24 @@ export class SectionContainerComponent extends React.Component {
     this.forceUpdate();
   }
 
+  onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => { // Done
+    const sectionCommentData = {text, authorName, pluginData, geojson, label, images};
+    const {match, location, sections} = this.props;
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const hearingSlug = match.params.hearingSlug;
+    const {authCode} = parseQuery(location.search);
+    const commentData = Object.assign({authCode}, sectionCommentData);
+    this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
+  }
+
+  onVotePluginComment = (commentId) => {
+    const {match, sections} = this.props;
+    const hearingSlug = match.params.hearingSlug;
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const sectionId = mainSection.id;
+    this.props.postVote(commentId, hearingSlug, sectionId);
+  }
+
   handleDeleteClick = (sectionId, commentId) => {
     this.setState({commentToDelete: {sectionId, commentId}});
     this.openDeleteModal();
@@ -123,12 +148,17 @@ export class SectionContainerComponent extends React.Component {
       intl,
       user,
       fetchAllComments,
+      mainSectionComments
     } = this.props;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
+    let userIsAdmin = false;
+    if (hearing && user) {
+      userIsAdmin = has(user, 'adminOrganizations') && includes(user.adminOrganizations, hearing.organization);
+    }
 
     return (
       <div>
@@ -160,8 +190,29 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
+                    {hasFullscreenMapPlugin(hearing) &&
+                      <div className="plugin-content">
+                        <PluginContent
+                          hearingSlug={match.params.hearingSlug}
+                          fetchAllComments={fetchAllComments}
+                          section={mainSection}
+                          comments={mainSectionComments}
+                          onPostComment={this.onPostPluginComment}
+                          onPostVote={this.onVotePluginComment}
+                          user={user}
+                        />
+                      </div>
+                    }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
                     <ContactList contacts={contacts} />
+                    {hasFullscreenMapPlugin(hearing) &&
+                      <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
+                        <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
+                          <Icon name="arrows-alt" fixedWidth />
+                          <FormattedMessage id="openFullscreenMap" />
+                        </Button>
+                      </Link>
+                    }
                     <SortableCommentList
                       section={section}
                       canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
@@ -175,6 +226,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchAllComments={fetchAllComments}
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
+                      displayVisualization={userIsAdmin || hearing.closed}
                     />
                   </Col>
                 </Row>
@@ -197,6 +249,7 @@ const mapStateToProps = (state, ownProps) => ({
   showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug) && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
   sections: getSections(state, ownProps.match.params.hearingSlug),
   sectionComments: state.sectionComments,
+  mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
   user: state.user
@@ -216,6 +269,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 SectionContainerComponent.propTypes = {
   sections: PropTypes.array,
+  mainSectionComments: PropTypes.object,
   match: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,

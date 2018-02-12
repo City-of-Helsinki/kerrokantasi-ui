@@ -122,7 +122,7 @@ export class HeaderComponent extends React.Component {
             </h1>
             <Row className="hearing-meta">
               <Col xs={12}>
-                <LabelList className="main-labels" labels={hearing.labels} />
+                <LabelList className="main-labels" labels={hearing.labels} language={activeLanguage} />
               </Col>
               <Col xs={12} sm={6}>
                 {this.getTimetableText(hearing)}

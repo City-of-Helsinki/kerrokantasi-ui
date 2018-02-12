@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HashLink as Link } from 'react-router-hash-link';
+import Link from './LinkWithLang';
 import {FormattedMessage} from 'react-intl';
 
 export const SectionBrowserComponent = ({sectionNav}) => {
@@ -8,7 +8,7 @@ export const SectionBrowserComponent = ({sectionNav}) => {
     <div className="section-browser">
       <ul className="pager">
         <li className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`}>
-          <LinkWrapper disabled={!sectionNav.prevPath} to={sectionNav.prevPath + '#start' || '#'}>
+          <LinkWrapper disabled={!sectionNav.prevPath} to={{path: sectionNav.prevPath || '#', hash: '#start'}}>
             <span aria-hidden>&larr; </span>
             <FormattedMessage id="previous" />&nbsp;
           </LinkWrapper>
@@ -17,7 +17,7 @@ export const SectionBrowserComponent = ({sectionNav}) => {
           ({sectionNav.currentNum}/{sectionNav.totalNum})
         </li>
         <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-          <LinkWrapper disabled={!sectionNav.nextPath} to={sectionNav.nextPath + '#start' || '#'}>
+          <LinkWrapper disabled={!sectionNav.nextPath} to={{path: sectionNav.nextPath || '#', hash: '#start'}}>
             <FormattedMessage id="next" />&nbsp;
             <span aria-hidden> &rarr;</span>
           </LinkWrapper>

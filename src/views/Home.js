@@ -10,7 +10,7 @@ import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
-import {Link} from 'react-router-dom';
+import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
 
 export class Home extends React.Component {
@@ -67,7 +67,10 @@ export class Home extends React.Component {
         <section className="page-section page-section--welcome">
           <div className="container">
             <Row>
-              <Col xs={8}>
+              <Col md={4} mdPush={8}>
+                <div className="home-logo" />
+              </Col>
+              <Col md={8} mdPull={4}>
                 <Helmet title={formatMessage({id: 'welcome'})} />
                 <h1>
                   <FormattedMessage id="welcome" />
@@ -75,9 +78,6 @@ export class Home extends React.Component {
                 <p className="lead">
                   <FormattedMessage id="welcomeMessage" />
                 </p>
-              </Col>
-              <Col xs={4}>
-                <div className="home-logo" />
               </Col>
             </Row>
             <Row>
@@ -101,7 +101,7 @@ export class Home extends React.Component {
                         language={language}
                       />
                       <p className="text-center">
-                        <Link to="/hearings/list">
+                        <Link to={{path: "/hearings/list"}}>
                           <Button bsStyle="default">
                             <FormattedMessage id="allHearings" />
                           </Button>
@@ -119,7 +119,7 @@ export class Home extends React.Component {
             <Row>
               <Col xs={12}>
                 <div className="feedback-box">
-                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">
+                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">
                     <h2 className="feedback-prompt">
                       <FormattedMessage id="feedbackPrompt" />
                     </h2>
