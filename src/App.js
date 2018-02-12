@@ -11,6 +11,7 @@ import config from './config';
 import {getUser} from './selectors/user';
 import Routes from './routes';
 import {withRouter} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
 
 class App extends React.Component {
   getChildContext() {
@@ -58,6 +59,7 @@ class App extends React.Component {
             <Routes />
           </main>
           <Footer />
+          <ToastContainer />
         </div>
       </IntlProvider>
     );
