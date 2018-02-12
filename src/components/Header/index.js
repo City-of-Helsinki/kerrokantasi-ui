@@ -14,11 +14,16 @@ import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 
 class Header extends React.Component {
+
   componentDidMount() {
     if (typeof window !== 'undefined') {
       this._handleNavFix = throttle(() => {
         const scrollY = scrolltop();
-        document.body.classList.toggle('nav-fixed', scrollY > 115);
+        if (scrollY > 115) {
+          document.body.classList.add('nav-fixed');
+        } else {
+          document.body.classList.remove('nav-fixed');
+        }
       }, 25);
       window.addEventListener('scroll', this._handleNavFix, false);
     }
