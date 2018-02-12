@@ -135,6 +135,8 @@ a.fullwidth {
 }
 
 .social-bar {
+  display: flex;
+  flex-direction: row;
   margin: 12px 0;
 }
 

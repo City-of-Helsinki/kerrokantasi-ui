@@ -106,6 +106,7 @@
     "react-select": "^1.0.0-rc.2",
     "react-slick": "^0.15.4",
     "react-toastify": "^3.3.2",
+    "react-twitter-widgets": "^1.7.1",
     "react-waypoint": "^4.1.0",
     "redux": "^3.0.4",
     "redux-actions": "0.13.0",
