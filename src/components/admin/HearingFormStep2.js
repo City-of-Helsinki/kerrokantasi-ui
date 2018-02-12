@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import uuid from 'uuid/v1';
-import {head} from 'lodash';
-
+import {head, last} from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
@@ -72,7 +71,7 @@ class HearingFormStep2 extends React.Component {
               sectionMoveUp={sectionMoveUp}
               sectionMoveDown={sectionMoveDown}
               isFirstSubsection={index === 1}
-              isLastSubsection={index === (hearing.sections.length - 1)}
+              isLastSubsection={sectionID === last(hearing.sections).frontId}
             />
             <div className="section-toolbar">
               {this.getDeleteSectionButton(section, sectionID)}
