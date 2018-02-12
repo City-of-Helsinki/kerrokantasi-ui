@@ -177,7 +177,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "publishingQueue": "Julkaisujono",
                   "register": "Rekisteröidy",
                   "registered": "rekisteröitynyt",
-                  "registeredUsersOnly": "Vain rekisteröityneet käyttäjät",
+                  "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                   "removeImage": "Poista kuva",
                   "revertPublishing": "Peru julkaisu",
                   "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
