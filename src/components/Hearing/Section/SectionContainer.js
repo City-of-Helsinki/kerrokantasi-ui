@@ -198,7 +198,7 @@ export class SectionContainerComponent extends React.Component {
                       </div>
                     }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
-                    <ContactList contacts={contacts} />
+                    {section.id === mainSection.id && <ContactList contacts={contacts} />}
                     {hasFullscreenMapPlugin(hearing) &&
                       <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
                         <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
