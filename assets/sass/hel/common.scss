@@ -6,9 +6,9 @@ html {
 body {
     position: relative;
     min-height: 100%;
-    @media (min-width: $screen-md-min) {
+    /* @media (min-width: $screen-md-min) {
         padding-bottom: $site-footer-height + ($line-height-computed * 3);
-    }
+    } */
 }
 
 p {

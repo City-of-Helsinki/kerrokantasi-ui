@@ -45,7 +45,8 @@ import Link from '../../LinkWithLang';
 export class SectionContainerComponent extends React.Component {
   state = {
     showDeleteModal: false,
-    commentToDelete: {}
+    commentToDelete: {},
+    showLightbox: false
   };
 
   getSectionNav = () => {
@@ -135,6 +136,14 @@ export class SectionContainerComponent extends React.Component {
     return isSectionCommentable(hearing, section, user) && !hasPlugin;
   }
 
+  openLightbox = () => {
+    this.setState({showLightbox: true});
+  }
+
+  closeLightbox = () => {
+    this.setState({showLightbox: false});
+  }
+
   render() {
     const {
       hearing,
@@ -148,6 +157,7 @@ export class SectionContainerComponent extends React.Component {
       fetchAllComments,
       mainSectionComments
     } = this.props;
+    const {showLightbox} = this.state;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
@@ -169,6 +179,9 @@ export class SectionContainerComponent extends React.Component {
                         image={sectionImage}
                         caption={getAttr(sectionImage.caption, language)}
                         title={getAttr(sectionImage.title, language)}
+                        showLightbox={showLightbox}
+                        openLightbox={this.openLightbox}
+                        closeLightbox={this.closeLightbox}
                       />
                     }
                     {!isEmpty(section.abstract) &&

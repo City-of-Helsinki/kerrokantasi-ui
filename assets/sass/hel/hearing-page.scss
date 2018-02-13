@@ -5,6 +5,10 @@
 
 .hearing-content-section {
   padding-top: $line-height-computed * 2;
+
+  .section-image:hover {
+    cursor: pointer;
+  }
 }
 
 .hearing-header {
