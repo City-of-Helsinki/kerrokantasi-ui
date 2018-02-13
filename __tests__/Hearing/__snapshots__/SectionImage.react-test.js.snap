@@ -2,6 +2,7 @@
 
 exports[`SectionImage component should render as expected 1`] = `
 <div
+  className="section-image"
   key="https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg"
 >
   <img
@@ -9,6 +10,32 @@ exports[`SectionImage component should render as expected 1`] = `
     className="img-responsive"
     src="https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg"
     title="Amazing Title"
+  />
+  <Lightbox
+    closeButtonTitle="Close (Esc)"
+    currentImage={0}
+    enableKeyboardInput={true}
+    imageCountSeparator=" of "
+    images={
+      Array [
+        Object {
+          "src": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+        },
+      ]
+    }
+    leftArrowTitle="Previous (Left arrow key)"
+    onClickShowNextImage={true}
+    preloadNextImage={true}
+    preventScroll={true}
+    rightArrowTitle="Next (Right arrow key)"
+    showCloseButton={true}
+    showImageCount={true}
+    spinner={[Function]}
+    spinnerColor="white"
+    spinnerSize={100}
+    theme={Object {}}
+    thumbnailOffset={2}
+    width={1024}
   />
   <div
     className="image-caption"
