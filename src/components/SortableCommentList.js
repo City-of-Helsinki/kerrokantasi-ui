@@ -230,14 +230,14 @@ export class SortableCommentListComponent extends Component {
                   />
                   <Waypoint onEnter={this.handleReachBottom} />
                 </div>}
-              {this.state.showLoader ? (
-                <div className="sortable-comment-list__loader">
-                  <LoadSpinner />
-                </div>
-              ) : null}
             </div>
           </div>
           : null}
+        {this.state.showLoader && (
+          <div className="sortable-comment-list__loader">
+            <LoadSpinner />
+          </div>
+        )}
       </div>
     );
   }
