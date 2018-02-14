@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import isEmpty from 'lodash/isEmpty';
+import {ZoomControl} from 'react-leaflet';
 
 import {hearingShape} from '../../types';
 
@@ -177,11 +178,12 @@ class HearingFormStep3 extends React.Component {
           <Map
             ref={this.refCallBack}
             // onResize={this.invalidateMap.bind(this)}
+            zoomControl={false}
             center={position}
             zoom={11}
-            zoomControl
             className="hearing-map"
           >
+            <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
