@@ -26,6 +26,12 @@ exports[`Carousel component should render as expected 1`] = `
           focusOnSelect={true}
           infinite={false}
           initialSlide={1}
+          prevArrow={
+            <PrevButton
+              currentSlide={undefined}
+              slidePrev={undefined}
+            />
+          }
           responsive={
             Array [
               Object {
