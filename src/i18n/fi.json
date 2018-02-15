@@ -189,5 +189,6 @@
   "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
   "hearingOpeningTimePlaceholder": "Valitse...",
   "hearingClosingTimePlaceholder": "Valitse...",
-  "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin."
+  "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
+  "addGeojson": "Lisää geojson tiedostona"
 }
