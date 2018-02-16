@@ -8,6 +8,10 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import isEmpty from 'lodash/isEmpty';
 import {ZoomControl} from 'react-leaflet';
+import keys from 'lodash/keys';
+import includes from 'lodash/includes';
+import {localizedNotifyError} from '../../utils/notify';
+import Icon from '../../utils/Icon';
 
 import {hearingShape} from '../../types';
 
@@ -120,6 +124,39 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
+  onUploadGeoJSON = (event) => {
+    this.readTextFile(event.target.files[0], (json) => {
+      try {
+        const featureCollection = JSON.parse(json);
+        if (
+          !isEmpty(featureCollection.features) &&
+          Array.isArray(featureCollection.features) &&
+          includes(keys(featureCollection.features[0]), 'geometry') &&
+          includes(keys(featureCollection.features[0].geometry), 'type') &&
+          includes(keys(featureCollection.features[0].geometry), 'coordinates')
+        ) {
+          this.props.onHearingChange("geojson", featureCollection.features[0].geometry);
+        } else {
+          localizedNotifyError('Virheellinen tiedosto.');
+        }
+      } catch (err) {
+        localizedNotifyError('Virheellinen tiedosto.');
+      }
+    });
+  }
+
+  readTextFile = (file, callback) => {
+    try {
+      const reader = new FileReader();
+
+      reader.onload = () => callback(reader.result);
+
+      reader.readAsText(file);
+    } catch (err) {
+      localizedNotifyError('Virheellinen tiedosto.');
+    }
+  }
+
   invalidateMap() {
     // Map size needs to be invalidated after dynamically resizing
     // the map container.
@@ -206,6 +243,13 @@ class HearingFormStep3 extends React.Component {
             </FeatureGroup>
           </Map>
         </FormGroup>
+        <div className="step-control">
+          <label className="geojson_button" htmlFor="geojsonUploader">
+            <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{display: 'none'}} />
+            <Icon className="icon" name="upload" style={{marginRight: '5px'}}/>
+            <FormattedMessage id="addGeojson"/>
+          </label>
+        </div>
         <div className="step-footer">
           <Button
             bsStyle="default"

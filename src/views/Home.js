@@ -5,6 +5,7 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
 import {getTopHearing, getOpenHearings} from '../selectors/hearing';
+import {getUser} from '../selectors/user';
 import {Col, Grid, Row, Button} from 'react-bootstrap';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
@@ -12,6 +13,8 @@ import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
 import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
+import CreateHearingButton from '../components/Hearings/CreateHearingButton';
+import { isAdmin } from '../utils/user';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -50,7 +53,7 @@ export class Home extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {topHearing, openHearings, language} = this.props;
+    const {topHearing, openHearings, language, user} = this.props;
     const {isMobile} = this.state;
     const hearingMap =
       openHearings && openHearings.data ? (
@@ -136,6 +139,7 @@ export class Home extends React.Component {
             </Row>
           </Grid>
         </section>
+        {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
       </div>
     );
   }
@@ -148,12 +152,14 @@ Home.propTypes = {
   topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/no-unused-prop-types
   language: PropTypes.string, // make sure changing language refreshes
+  user: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   topHearing: getTopHearing(state),
   language: state.language,
   openHearings: getOpenHearings(state),
+  user: getUser(state)
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));

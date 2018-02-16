@@ -191,5 +191,6 @@
   "hearingClosingTimePlaceholder": "Valitse...",
   "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
   "infoPage": "Tietoa palvelusta",
-  "mapView": "Kaikki kuulemiset kartalla"
+  "mapView": "Kaikki kuulemiset kartalla",
+  "addGeojson": "Lisää geojson tiedostona"
 }
