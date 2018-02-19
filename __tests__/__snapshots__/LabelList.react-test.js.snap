@@ -15,7 +15,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     to={
       Object {
         "path": "/hearings/list",
-        "search": "?label=such",
+        "search": "?label=1",
       }
     }
   >
@@ -31,7 +31,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     to={
       Object {
         "path": "/hearings/list",
-        "search": "?label=label",
+        "search": "?label=2",
       }
     }
   >

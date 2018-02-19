@@ -193,5 +193,6 @@
   "infoPage": "Tietoa palvelusta",
   "mapView": "Kaikki kuulemiset kartalla",
   "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
-  "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia."
+  "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
+  "addGeojson": "Lisää geojson tiedostona"
 }

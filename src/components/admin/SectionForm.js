@@ -98,7 +98,7 @@ class SectionForm extends React.Component {
               bsStyle="default"
               className="btn"
               type="button"
-              onClick={() => sectionMoveUp(section.id)}
+              onClick={() => sectionMoveUp(section.frontId)}
               disabled={isFirstSubsection}
               style={{marginRight: '10px'}}
             >
@@ -108,7 +108,7 @@ class SectionForm extends React.Component {
               bsStyle="default"
               className="btn"
               type="button"
-              onClick={() => sectionMoveDown(section.id)}
+              onClick={() => sectionMoveDown(section.frontId)}
               disabled={isLastSubsection}
             >
               <FormattedMessage id="moveDown" /> &darr;

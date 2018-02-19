@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import { Col, Row } from 'react-bootstrap';
-import { get, find } from 'lodash';
+import { get, find, includes } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
@@ -142,11 +142,11 @@ export class Hearings extends React.Component {
   }
 
   static getSearchParams(props) {
-    const { labels, language, location } = props;
+    const { location } = props;
     const params = {};
 
     if (parseQuery(location.search).search) Object.assign(params, {title: parseQuery(location.search).search});
-    if (parseQuery(location.search).label) Object.assign(params, {label: Hearings.getLabelsFromQuery(parseQuery(location.search).label, labels, language).map(({ id }) => id).toString()});
+    if (parseQuery(location.search).label) Object.assign(params, {label: Hearings.getLabelsFromQuery(parseQuery(location.search).label.toString())});
     return params;
   }
 
@@ -167,10 +167,10 @@ export class Hearings extends React.Component {
     }
   }
 
-  static getLabelsFromQuery = (labelsInQuery = [], labels = [], language) => {
-    if (Array.isArray(labelsInQuery)) return labels.filter(({ label }) => labelsInQuery.includes(getAttr(label, language)));
+  static getLabelsFromQuery = (labelsInQuery = []) => {
+    if (Array.isArray(labelsInQuery)) return labelsInQuery;
 
-    return labels.filter(({ label }) => labelsInQuery === getAttr(label, language));
+    return [labelsInQuery];
   };
 
   handleSearch(searchTitle, force = false) {
@@ -193,7 +193,7 @@ export class Hearings extends React.Component {
   handleSelectLabels(labels) {
     const { history, location } = this.props;
     const searchParams = parseQuery(location.search);
-    searchParams.label = labels.map(({ label }) => label);
+    searchParams.label = labels.map(({ id }) => id);
     history.push({
       path: location.pathname,
       search: stringifyQuery(searchParams)
@@ -237,14 +237,12 @@ export class Hearings extends React.Component {
       location,
       user,
     } = this.props;
-    const selectedLabels = parseQuery(location.search).label && parseQuery(location.search).label;
+    const labelsInQuery = Array.isArray(parseQuery(location.search).label) ? parseQuery(location.search).label : [parseQuery(location.search).label];
+    const selectedLabels = labels.filter(label => includes(labelsInQuery, label.id.toString())).map(label => getAttr(label.label, language));
     const searchTitle = parseQuery(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
 
-    const createHearingButton = isAdmin(user.data) ? (
-      <CreateHearingButton to={{path: '/hearing/new'}} />
-    ) : null;
     const adminFilterSelector = isAdmin(user.data) ? (
       <AdminFilterSelector
         onSelect={this.setAdminFilter}
@@ -269,7 +267,7 @@ export class Hearings extends React.Component {
                   <FormattedMessage id="allHearings" />
                 </h1>
                 {adminFilterSelector}
-                {createHearingButton}
+                {isAdmin(user.data) && <CreateHearingButton to={{path: '/hearing/new'}} />}
               </Col>
             </Row>
           </div>

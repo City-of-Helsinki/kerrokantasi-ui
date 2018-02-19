@@ -11,6 +11,8 @@ import {
   getMainSectionComments
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
+import has from 'lodash/has';
+import includes from 'lodash/includes';
 import SectionImage from './SectionImage';
 import SectionClosureInfo from './SectionClosureInfo';
 import PluginContent from '../../PluginContent';
@@ -163,6 +165,10 @@ export class SectionContainerComponent extends React.Component {
     const sectionImage = section.images[0];
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
+    let userIsAdmin = false;
+    if (hearing && user) {
+      userIsAdmin = has(user, 'adminOrganizations') && includes(user.adminOrganizations, hearing.organization);
+    }
 
     return (
       <div>
@@ -233,6 +239,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchAllComments={fetchAllComments}
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
+                      displayVisualization={userIsAdmin || hearing.closed}
                     />
                   </Col>
                 </Row>

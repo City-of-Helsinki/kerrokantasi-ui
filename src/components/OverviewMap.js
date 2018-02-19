@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import {EPSG3067} from '../utils/map';
+import Leaflet from 'leaflet';
 
 class OverviewMap extends React.Component {
   getHearingMapContent(hearings) {
@@ -25,6 +26,41 @@ class OverviewMap extends React.Component {
         ) : null
       );
       if (geojson) {
+        const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
+        const {Polygon, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
+        switch (geojson.type) {
+          case "Polygon": {
+            // XXX: This only supports the _first_ ring of coordinates in a Polygon
+            const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+            contents.push(<Polygon key={Math.random()} positions={latLngs}>{content}</Polygon>);
+          }
+            break;
+          case "Point": {
+            const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
+            contents.push(
+              <Marker
+                position={latLngs}
+                key={Math.random()}
+                icon={new Leaflet.Icon({
+                  iconUrl: require('../../assets/images/leaflet/marker-icon.png'),
+                  shadowUrl: require('../../assets/images/leaflet/marker-shadow.png'),
+                  iconRetinaUrl: require('../../assets/images/leaflet/marker-icon-2x.png'),
+                  iconSize: [25, 41],
+                  iconAnchor: [13, 41]
+                })}
+              />
+            );
+          }
+            break;
+          case "LineString": {
+            const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+            contents.push(<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
+          }
+            break;
+          default:
+            // TODO: Implement support for other geometries too (markers, square, circle)
+            contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
+        }
         contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });

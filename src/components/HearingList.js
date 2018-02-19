@@ -111,7 +111,7 @@ export class HearingListItem extends React.Component {
         <div className="hearing-list-item-image" style={mainImageStyle} />
         <div className="hearing-list-item-content">
           <div className="hearing-list-item-labels">
-            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" />
+            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
             <div className="hearing-list-item-closed">
               {hearing.closed ? (
                 <Label>
