@@ -32,6 +32,28 @@ export function requestErrorHandler() {
   };
 }
 
+export const postCommentErrorHandler = () => {
+  return (err) => {
+    Raven.captureException(err);
+    if (err.response.status === 403) {
+      localizedNotifyError("loginToComment");
+    } else {
+      localizedNotifyError(err.message);
+    }
+  };
+};
+
+export const voteCommentErrorHandler = () => {
+  return (err) => {
+    Raven.captureException(err);
+    if (err.response.status === 403) {
+      localizedNotifyError("loginToVoteComment");
+    } else {
+      localizedNotifyError(err.message);
+    }
+  };
+};
+
 export function fetchInitialHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId, params});
@@ -178,7 +200,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentReceived");
-    }).catch(requestErrorHandler());
+    }).catch(postCommentErrorHandler());
   };
 }
 
@@ -223,6 +245,6 @@ export function postVote(commentId, hearingSlug, sectionId) {
         dispatch(createAction("postedCommentVote")({commentId, sectionId}));
         localizedNotifySuccess("voteReceived");
       }
-    }).catch(requestErrorHandler());
+    }).catch(voteCommentErrorHandler());
   };
 }

@@ -121,5 +121,7 @@
   "moveUp": "Flytta upp",
   "moveDown": "Flytta ner",
   "infoPage": "Information om tjänsten",
-  "mapView": "Alla höranden på kartan"
+  "mapView": "Alla höranden på kartan",
+  "loginToComment": "Logga in för att kommentera.",
+  "logintToVoteComment": "Logga in för att rösta på kommentaren."
 }

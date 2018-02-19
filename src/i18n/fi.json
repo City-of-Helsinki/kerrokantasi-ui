@@ -191,5 +191,7 @@
   "hearingClosingTimePlaceholder": "Valitse...",
   "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
   "infoPage": "Tietoa palvelusta",
-  "mapView": "Kaikki kuulemiset kartalla"
+  "mapView": "Kaikki kuulemiset kartalla",
+  "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
+  "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia."
 }
