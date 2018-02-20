@@ -20,6 +20,7 @@ const setup = propOverrides => {
     hearingId: mockHearingWithSections.data.id,
     section: mockHearingWithSections.data.sections[1],
     language: 'fi',
+    published: true,
     fetchComments: () => {}
   }, propOverrides);
 
