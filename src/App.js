@@ -59,7 +59,14 @@ class App extends React.Component {
             <Routes />
           </main>
           <Footer />
-          <ToastContainer />
+          <ToastContainer
+            bodyClassName={
+              {
+                padding: '7px 7px 7px 12px',
+                fontFamily: '"HelsinkiGrotesk", Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif'
+              }
+            }
+          />
         </div>
       </IntlProvider>
     );

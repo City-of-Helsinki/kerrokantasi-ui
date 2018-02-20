@@ -5,7 +5,7 @@ import {toast} from 'react-toastify';
 const successOptions = {
   autoClose: 6000,
   type: toast.TYPE.SUCCESS,
-  hideProgressBar: false,
+  hideProgressBar: true,
   position: toast.POSITION.BOTTOM_RIGHT,
   pauseOnHover: true,
 };
@@ -13,7 +13,7 @@ const successOptions = {
 const errorOptions = {
   autoClose: false,
   type: toast.TYPE.ERROR,
-  hideProgressBar: false,
+  hideProgressBar: true,
   position: toast.POSITION.BOTTOM_RIGHT,
 };
 
