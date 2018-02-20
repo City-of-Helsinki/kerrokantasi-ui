@@ -162,7 +162,7 @@ export class SortableCommentListComponent extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = canComment ? (
+    const commentForm = canComment && published ? (
       <div className="row">
         <div className="comment-form-container">
           <CommentForm
@@ -178,7 +178,7 @@ export class SortableCommentListComponent extends Component {
     const pluginContent = showCommentList && displayVisualization ? this.renderPluginContent() : null;
     return (
       <div>
-        {(section.commenting !== 'none' && published) &&
+        {section.commenting !== 'none' &&
         <div className="sortable-comment-list">
           {commentForm}
           <div>
