@@ -132,6 +132,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               onEditComment={[Function]}
               onPostComment={[Function]}
               onPostVote={[Function]}
+              published={true}
               section={
                 Object {
                   "abstract": Object {

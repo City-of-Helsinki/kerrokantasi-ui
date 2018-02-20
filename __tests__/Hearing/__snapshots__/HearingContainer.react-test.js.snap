@@ -5,6 +5,9 @@ exports[`HearingContainer component should render as expected 1`] = `
   className="hearing-page"
 >
   <div>
+    <HelmetWrapper
+      title="Ideoi Isosaaren tulevaisuutta"
+    />
     <div
       className="hearing-wrapper"
       id="hearing-wrapper"
