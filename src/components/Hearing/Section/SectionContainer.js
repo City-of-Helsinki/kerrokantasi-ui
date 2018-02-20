@@ -240,6 +240,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
                       displayVisualization={userIsAdmin || hearing.closed}
+                      published={hearing.published} // Needed so comments are not diplayed in hearing drafts
                     />
                   </Col>
                 </Row>
