@@ -12,10 +12,9 @@ import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 
 function ignition() {
-  const args = require('minimist')(process.argv.slice(2));
-
   const settings = getSettings();
-  if (settings.dev || args.dump) {
+
+  if (settings.dev) {
     console.log("Settings:\n", inspect(settings, {colors: true}));
   }
   const server = express();
@@ -34,7 +33,7 @@ function ignition() {
       next();
     }
   });
-  server.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
+  server.use(cookieSession({name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000}));
   server.use(passport.initialize());
   server.use(passport.session());
   addAuth(server, passport, settings);
@@ -47,8 +46,8 @@ function ignition() {
 
   function run() {
     // Hello? Anyone there?
-    server.listen(settings.port, settings.hostname, () => {
-      console.log(`[***] Listening on ${settings.hostname}:${settings.port}.`);
+    server.listen(settings.listen_port, settings.listen_address, () => {
+      console.log(`[***] Listening on ${settings.listen_address}:${settings.listen_port}.`);
     });
   }
 
