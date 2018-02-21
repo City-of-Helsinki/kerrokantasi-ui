@@ -42,7 +42,7 @@ export default function getOptions() {
   // on a leftover configuration file. Thus only environmental variable there.
   // Sadly development mode is broken and developers develop in production mode.
   // Thus always read the configuration file
-  if (defaults.dev||true) {
+  if (defaults.dev || true) {
     // TOML can be used similarly to an 'env'-file (key=value pairs), although
     // it is really extended INI-like format
     nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
