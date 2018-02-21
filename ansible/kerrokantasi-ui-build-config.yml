@@ -1,17 +1,25 @@
-node_container_nginx_disabled: yes
-node_container_name: kerrokantasi-ui
-node_container_clean_caches: yes
+---
+########################### Meta-variables ############################
+deployment_name: kerrokantasi-ui
+# Name of the directory containing wsgi.py
+wsgi_entrypoint: respa
+# Do we use geography?
+geography_usage: yes
+# dev, test or production
+deployment_state: production
 
-node_container:
-  name: kerrokantasi-ui
-  user: kerrokantasi-ui
-  webname: kerrokantasi.hel.fi
-  nodeversion: v8
-  entrypoint: server
-  upgrade_npm: yes
-  use_yarn: yes
-  project_server: yes
-  use_init: no
-  git:
-    url: https://github.com/City-of-Helsinki/kerrokantasi-ui
-    version: master
+############################ JS-app-config ############################
+heljs_name: "{{ deployment_name }}"
+heljs_user: "{{ deployment_name }}"
+heljs_nodeversion: v8
+heljs_upgrade_npm: yes_please
+heljs_use_yarn: yes
+heljs_git_repository: https://github.com/City-of-Helsinki/kerrokantasi-ui
+heljs_git_version: master
+# Run pm2
+heljs_project_server: yes
+# ...and direct it to server/index.js
+# (sadly pm2 is unable to run npm commands with app.json)
+heljs_entrypoint: server
+# Do not start pm2 with system init (we're in docker)
+heljs_use_init: no

@@ -1,0 +1,7 @@
+# specifies required roles, that have been galaxified
+# and separated into their own repositories
+
+# ansible.cfg directs these to roles/external
+
+# Javascript application install & optional PM2:ing
+- src: https://github.com/City-of-Helsinki/ansible-hel-javascript-app.git
