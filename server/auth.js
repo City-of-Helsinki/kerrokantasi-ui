@@ -40,16 +40,16 @@ export function getPassport(settings) {
   const passport = new Passport();
   const helsinkiStrategy = new HelsinkiStrategy(
     {
-      clientID: settings.helsinkiAuthId,
-      clientSecret: settings.helsinkiAuthSecret,
-      callbackURL: settings.publicUrl + '/login/helsinki/return',
+      clientID: settings.auth_client_id,
+      clientSecret: settings.auth_shared_secret,
+      callbackURL: settings.public_url + '/login/helsinki/return',
     },
     (accessToken, refreshToken, profile, done) => {
       debug('access token:', accessToken);
       debug('refresh token:', refreshToken);
       if (getTokenFromAPI) {
         debug('acquiring token from api...');
-        helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, token => {
+        helsinkiStrategy.getAPIToken(accessToken, settings.kerrokantasi_api_jwt_audience, token => {
           profile.token = token;
           return done(null, profile);
         });

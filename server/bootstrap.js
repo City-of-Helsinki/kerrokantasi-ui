@@ -33,7 +33,7 @@ function ignition() {
       next();
     }
   });
-  server.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
+  server.use(cookieSession({name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000}));
   server.use(passport.initialize());
   server.use(passport.session());
   addAuth(server, passport, settings);

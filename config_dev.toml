@@ -1,0 +1,14 @@
+# Base URL of the API, without version or trailing slash (/)
+kerrokantasi_api_base="https://api.hel.fi/kerrokantasi-test"
+# JWT aud(ience)-field that we will request from the SSO. Each API instance
+# will require a specific audience
+kerrokantasi_api_jwt_audience="replace-me-with-real-target-app-for-authentication-to-work"
+# Our own client identifier in the SSO system, SSO uses this to decide
+# which authentication methods are available and which (API) audiences are allowed
+auth_client_id="replace-me-with-real-auth-id-for-authentication-to-work"
+# Shared secret for proving that we are the client_id
+auth_shared_secret="replace-me-with-real-auth-secret-for-authentication-to-work"
+# Specifies the canonical URL for this service. Kerrokantasi-UI currently
+# uses this for generating the requested callback address from SSO
+public_url="http://localhost:8086"
+expressjs_session_secret="dev-secret-do-not-use-in-production"

@@ -72,6 +72,7 @@
     "moment": "^2.18.1",
     "morgan": "^1.8.2",
     "nconf": "^0.9.1",
+    "nconf-toml": "^0.0.2",
     "node-fetch": "^1.7.1",
     "node-sass": "^4.5.3",
     "normalizr": "^3.2.3",
@@ -110,6 +111,7 @@
     "redux-thunk": "^2.0.1",
     "sass-loader": "^6.0.6",
     "scrolltop": "0.0.1",
+    "snyk": "^1.49.4",
     "style-loader": "^0.18.2",
     "updeep": "^0.16.0",
     "url-loader": "^0.6.0",
@@ -118,8 +120,7 @@
     "webpack": "^3.6.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1",
-    "webpack-merge": "^4.1.0",
-    "snyk": "^1.49.4"
+    "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
     "babel-jest": "^16.0.0",

@@ -7,27 +7,27 @@ const defaults = {
   listen_address: 'localhost',
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
-  api_base_url: 'http://localhost:8000',
+  kerrokantasi_api_base: 'http://localhost:8000',
+  // We'll request access to KK API instance identified by this
+  kerrokantasi_api_jwt_audience: null,
   // URL this frontend runs at, for callbacks
   public_url: 'http://localhost:8080',
   // Client Identifier in the Helsinki SSO system
-  helsinkiAuthId: null,
+  auth_client_id: null,
   // Shared secret in the Helsinki SSO system
-  helsinkiAuthSecret: null,
-  // We'll request access to the API identified by this
-  helsinkiTargetApp: null,
+  auth_shared_secret: null,
   // cookie signing secret (among other things) for ExpressJS
-  sessionSecret: null,
+  expressjs_session_secret: null,
   // only used to pass Sentry DSN as JSON structure
-  uiConfig: null,
+  ui_config: null,
   // this sets dev stuff, can be overridden from environment 'dev'
   dev: process.env.NODE_ENV !== 'production',
   // disables hot reloading middleware
   cold: false,
 };
 
-const optionalKeys = ["listen_address", "listen_port", "apiBaseUrl", "publicUrl", "uiConfig", "dev", "cold"];
-const mandatoryKeys = ["helsinkiAuthId", "helsinkiAuthSecret", "helsinkiTargetApp", "sessionSecret"];
+const optionalKeys = ["listen_address", "listen_port", "kerrokantasi_api_url", "public_url", "ui_config", "dev", "cold"];
+const mandatoryKeys = ["auth_client_id", "auth_shared_secret", "kerrokantasi_api_jwt_audience", "expressjs_session_secret"];
 
 export default function getOptions() {
   const nconf = new Provider();
@@ -39,12 +39,12 @@ export default function getOptions() {
   if (defaults.dev) {
     // TOML can be used similarly to an 'env'-file (key=value pairs), although
     // it is really extended INI-like format
-    nconf.file('toml',{file: 'config_dev.toml', format: require('nconf-toml')})
+    nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
     // JSON is kept for backwards compabitibility, to not to annoy the developer
     // using it
-    nconf.file('json',{file: 'config_dev.json'})
+    nconf.file('json',{file: 'config_dev.json'});
   } else {
-    // We want somewhere to store uiConfig, without file we have only
+    // We want somewhere to store ui_config, without file we have only
     // read-only stores
     nconf.use('memory');
   }
@@ -52,9 +52,9 @@ export default function getOptions() {
 
   nconf.required(mandatoryKeys);
 
-  const uiConfig = nconf.get('uiConfig');
+  const uiConfig = nconf.get('ui_config');
   if (_.isString(uiConfig)) {
-    nconf.set('uiConfig', JSON.parse(uiConfig));
+    nconf.set('ui_config', JSON.parse(uiConfig));
   }
 
   if (nconf.get('serverRendering')) {
