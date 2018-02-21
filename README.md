@@ -17,11 +17,20 @@ supported by Kerrokantasi API.
 
 ### Configuration
 
-config_dev.json contains partially working settings giving you read only access
-to our test API. If you have your own API and/or authentication credentials you
-can change the relevant settings therein. See section "Available settings".
+`config_dev.toml` is used for configuration when NODE_ENV != "production". It
+is in TOML-format, which for our purposes is `Key=Value` format.
 
-Using your own authentication server requires code changes in server/auth.js.
+When NODE_ENV=="production", only environment variables are used for
+configuration. The environment variables are named identically to the
+ones used in config_dev.toml. Do note that the variables are case
+insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
+
+In the repository root there is `config_dev.toml.example` which contains
+every setting and comments explaining their use. If you only want to give
+kerrokantasi-ui a test, all you need to do is:
+`mv config_dev.toml.example to config_dev.toml`
+That will give you a partially working configuration for browsing test
+questionnaires in our test API.
 
 ### Running development server
 
@@ -36,18 +45,3 @@ No separate build step is currently available.
 * `yarn run test`: run tests
 
 Bundle size analysis is available (by way of the `webpack-bundle-analyzer` plugin) if the `BUNDLE_ANALYZER` environment variable is set.
-
-## Available settings
-
-* `serverUrl`: The URL an port to bind the server to; defaults to `localhost:8086`
-* `publicUrl`: The public URL of the server; defaults to `serverUrl` if not set
-* `helsinkiAuthId`: The OAuth2 app ID for Helsinki Auth -- **required in production**
-* `helsinkiAuthSecret`: The OAuth2 app secret for Helsinki Auth -- **required in production**
-* `helsinkiTargetApp`: The "target app" entry for Helsinki Auth
-* `jwtKey`: The key to use for the backend communication JWT auth token -- **required in production**
-* `sessionSecret`: The secret used for signing the session cookie -- **required in production**
-* `dev`: Set this to enter development mode (on by default)
-* `cold`: Set this to not use hot reloading in dev mode
-* `uiConfig`: Object that will be passed on to the UI code. The following keys inside are used:
-    *`piwikUrl`: URL of the piwik php used for link tracking.
-    *`sentryDns`: URL for reporting exceptions to sentry.
