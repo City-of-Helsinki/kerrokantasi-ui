@@ -45,3 +45,10 @@ No separate build step is currently available.
 * `yarn run test`: run tests
 
 Bundle size analysis is available (by way of the `webpack-bundle-analyzer` plugin) if the `BUNDLE_ANALYZER` environment variable is set.
+
+## Production installation
+
+Production installation is very similar to a development installation, as
+there is no way to create a static build of kerrokantasi-ui currently. Just
+specify NODE_ENV=production in the environment to enable any node
+optimizations, although they don't really matter.
