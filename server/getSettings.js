@@ -42,7 +42,7 @@ export default function getOptions() {
     nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
     // JSON is kept for backwards compabitibility, to not to annoy the developer
     // using it
-    nconf.file('json',{file: 'config_dev.json'});
+    nconf.file('json', {file: 'config_dev.json'});
   } else {
     // We want somewhere to store ui_config, without file we have only
     // read-only stores
