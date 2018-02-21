@@ -94,10 +94,10 @@ export const getDocumentOrigin = () => {
 export const moveSubsectionInArray = (array, index, delta) => {
   const newArray = array.slice();
   const newIndex = index + delta;
-  if (newIndex < 1 || newIndex === array.length) {
+  if (newIndex < 1 || newIndex === array.length || newIndex === index) {
     return newArray;
-  } // Already at the top or bottom.
-  const indexes = [index, newIndex].sort(); // Sort the indexes
+  } // Already at the top or bottom, or delta was zero
+  const indexes = index < newIndex ? [index, newIndex] : [newIndex, index] // sort indices by integer value!!!
   newArray.splice(indexes[0], 2, newArray[indexes[1]], newArray[indexes[0]]); // Replace from lowest index, two elements, reverting the order
   return newArray;
 };
