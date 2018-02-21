@@ -15,4 +15,6 @@ auth_shared_secret="replace-me-with-real-auth-secret-for-authentication-to-work"
 # Specifies the canonical URL for this service. Kerrokantasi-UI currently
 # uses this for generating the requested callback address from SSO
 public_url="http://localhost:8086"
+# ExpressJS uses this secret for purposes. We are not sure if kerrokantasi-ui
+# actually uses it for something. It is still required
 expressjs_session_secret="dev-secret-do-not-use-in-production"
