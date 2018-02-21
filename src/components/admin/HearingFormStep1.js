@@ -23,6 +23,7 @@ import {
 } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
+import {getDocumentOrigin} from '../../utils/hearingEditor';
 
 import {addLabel, addContact} from '../../actions/hearingEditor';
 
@@ -50,12 +51,12 @@ class HearingFormStep1 extends React.Component {
   }
 
   onLabelsChange(selectedLabels) {
-    this.setState({ selectedLabels });
+    this.setState({selectedLabels: selectedLabels.map(({id}) => id)});
     this.props.onHearingChange("labels", selectedLabels.map(({id}) => id));
   }
 
   onContactsChange(selectedContacts) {
-    this.setState({ selectedContacts });
+    this.setState({ selectedContacts: selectedContacts.map(({id}) => id) });
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
@@ -121,12 +122,14 @@ class HearingFormStep1 extends React.Component {
               <div className="label-elements">
                 <Select
                   multi
+                  clearAllText="Poista"
+                  clearValueText="Poista"
                   name="labels"
                   onChange={this.onLabelsChange}
-                  options={labelOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
+                  options={labelOptions.map((opt) => ({...opt, title: getAttr(opt.label, language), label: getAttr(opt.label, language)}))}
                   placeholder={formatMessage({id: "hearingLabelsPlaceholder"})}
                   simpleValue={false}
-                  value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                  value={hearing.labels.map((label) => ({...label, title: 'Poista', label: getAttr(label.label, language)}))}
                   valueKey="frontId"
                   menuContainerStyle={{zIndex: 10}}
                 />
@@ -140,7 +143,7 @@ class HearingFormStep1 extends React.Component {
             <FormGroup controlId="hearingSlug">
               <ControlLabel><FormattedMessage id="hearingSlug"/>*</ControlLabel>
               <InputGroup>
-                <InputGroup.Addon>{`${window.document.origin}/`}</InputGroup.Addon>
+                <InputGroup.Addon>{getDocumentOrigin()}</InputGroup.Addon>
                 <FormControl
                   type="text"
                   name="slug"
@@ -159,12 +162,14 @@ class HearingFormStep1 extends React.Component {
             <Select
               labelKey="name"
               multi
+              clearAllText="Poista"
+              clearValueText="Poista"
               name="contacts"
               onChange={this.onContactsChange}
               options={contactOptions}
               placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
               simpleValue={false}
-              value={hearing.contact_persons}
+              value={hearing.contact_persons.map(person => ({...person, title: 'Poista'}))}
               valueKey="id"
             />
             <Button bsStyle="primary" className="pull-right add-contact-button" onClick={() => this.openContactModal()}>
@@ -172,10 +177,11 @@ class HearingFormStep1 extends React.Component {
             </Button>
           </div>
         </FormGroup>
-        <hr/>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
-          <FormattedMessage id="hearingFormNext"/>
-        </Button>
+        <div className="step-footer">
+          <Button bsStyle="default" onClick={this.props.onContinue}>
+            <FormattedMessage id="hearingFormNext"/>
+          </Button>
+        </div>
         <LabelModal
           isOpen={this.state.showLabelModal}
           onClose={this.closeLabelModal.bind(this)}
@@ -195,19 +201,12 @@ HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   dispatch: PropTypes.func,
   hearing: hearingShape,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
-};
-
-HearingFormStep1.defaultProps = {
-  editorMetaData: {
-    contacts: [],
-    labels: [],
-  },
 };
 
 HearingFormStep1.contextTypes = {

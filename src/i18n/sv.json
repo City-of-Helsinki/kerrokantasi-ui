@@ -115,5 +115,9 @@
   "voteReceived": "Rösten mottagen. Tack!",
   "createLabel": "TODO",
   "labelPlaceholder": "TODO",
-  "hearingNotFound": "Hörandet kunde inte hittas."
+  "hearingNotFound": "Hörandet kunde inte hittas.",
+  "searchPlaceholder": "Söka...",
+  "help": "Hjälp",
+  "moveUp": "Flytta upp",
+  "moveDown": "Flytta ner"
 }

@@ -9,7 +9,7 @@ export function alert(message, title = "Kerrokantasi") {
 
 export function notifyError(message) {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").notify(message, 'error', 5);
+    require("alertifyjs").notify(message, 'error', 0);
   }
 }
 

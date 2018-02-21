@@ -10,22 +10,26 @@ export class CommentList extends React.Component {
       if (!canComment || isLoading) {
         return null;  // No need to show a header for nothing at all.
       }
-      return (<div className="commentlist">
-        <p><FormattedMessage id="noCommentsAvailable"/></p>
-      </div>);
+      return (
+        <div className="commentlist">
+          <p><FormattedMessage id="noCommentsAvailable"/></p>
+        </div>
+      );
     }
-    return (<div className="commentlist">
-      {comments.map((comment) =>
-        <Comment
-          data={comment}
-          onEditComment={this.props.onEditComment}
-          onDeleteComment={this.props.onDeleteComment}
-          key={comment.id + Math.random()}
-          onPostVote={this.props.onPostVote}
-          canVote={this.props.canVote}
-        />
-      )}
-    </div>);
+    return (
+      <div className="commentlist">
+        {comments.map((comment) =>
+          <Comment
+            data={comment}
+            onEditComment={this.props.onEditComment}
+            onDeleteComment={this.props.onDeleteComment}
+            key={comment.id + Math.random()}
+            onPostVote={this.props.onPostVote}
+            canVote={this.props.canVote}
+          />
+        )}
+      </div>
+    );
   }
 }
 

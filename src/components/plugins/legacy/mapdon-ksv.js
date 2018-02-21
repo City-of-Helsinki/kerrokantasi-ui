@@ -20,7 +20,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    // super.componentDidMount();
     const iframe = this.refs.frame;
     const {data, pluginPurpose} = this.props;
     let {comments} = this.props;
@@ -44,7 +44,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount();
+    // super.componentWillUnmount();
     if (this._messageListener) {
       if (typeof window !== 'undefined') window.removeEventListener("message", this._messageListener, false);
       this._messageListener = null;
@@ -70,13 +70,13 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
     const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
     const pluginPurpose = this.props.pluginPurpose;
     const commentBox = (
       <div>
         <br/>
         <FormGroup>
+          <h3><FormattedMessage id="writeComment"/></h3>
           <FormControl
             componentClass="textarea"
             onChange={this.handleTextChange.bind(this)}
@@ -84,18 +84,6 @@ class MapdonKSVPlugin extends BaseCommentForm {
             placeholder="Kommentoi ehdotustasi tässä."
           />
         </FormGroup>
-        {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-        {canSetNickname ? (
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
-          </FormGroup>
-        ) : null}
         <p>
           <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
             Lähetä ehdotus
@@ -181,7 +169,8 @@ MapdonKSVPlugin.propTypes = {
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,
-  canSetNickname: PropTypes.bool,
+  defaultNickname: React.PropTypes.string,
+  nicknamePlaceholder: React.PropTypes.string
 };
 
 export default injectIntl(MapdonKSVPlugin);

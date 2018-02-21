@@ -16,10 +16,6 @@ function checkResponseStatus(response) {
   }
 }
 
-export function changeCurrentlyViewed(dispatch, newViewed) {
-  dispatch(createAction('changeCurrentlyViewed')({newViewed}));
-}
-
 export function getResponseJSON(response) {
   checkResponseStatus(response);
   if (response.status === 304) {
@@ -31,7 +27,8 @@ export function getResponseJSON(response) {
 export function requestErrorHandler() {
   return (err) => {
     Raven.captureException(err);
-    localizedNotifyError("APICallFailed");
+    localizedNotifyError(err.message);
+    // localizedNotifyError("APICallFailed");
   };
 }
 

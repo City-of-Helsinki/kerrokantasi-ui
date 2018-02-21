@@ -1,9 +1,8 @@
 import {createAction} from 'redux-actions';
 import api from '../api';
-import {notifySuccess, notifyError} from '../utils/notify';
+import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
 import { push } from 'react-router-redux';
-
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
 import {
@@ -41,6 +40,8 @@ export const EditorActions = {
   ADD_CONTACT_SUCCESS: 'addContactSuccess',
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
+  SECTION_MOVE_UP: 'sectionMoveUp',
+  SECTION_MOVE_DOWN: 'sectionMoveDown'
 };
 
 export function receiveHearing(normalizedHearing) {
@@ -70,6 +71,14 @@ export function closeHearingForm() {
   return dispatch => {
     return dispatch(createAction(EditorActions.CLOSE_FORM)());
   };
+}
+
+export function sectionMoveUp(sectionId) {
+  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
+}
+
+export function sectionMoveDown(sectionId) {
+  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
 }
 
 // export const getAllFromEndpoint = (endpoint, actions, params = {limit: 2}, options = {}) => {
@@ -137,8 +146,8 @@ export function addContact(contact, selectedContacts) {
         } else {
           response.json().then(contactJSON => {
             selectedContacts.push(contactJSON.id);
-            dispatch(changeHearing('contact_persons', selectedContacts));
             dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({contact: contactJSON}));
+            dispatch(changeHearing('contact_persons', selectedContacts));
           });
           notifySuccess('Luonti onnistui');
         }
@@ -159,18 +168,18 @@ export function addLabel(label, selectedLabels) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
-          notifyError('Tarkista tagin tiedot.');
+          notifyError('Tarkista asiasanan tiedot.');
           response.json().then(errors => {
             dispatch(createAction(EditorActions.ADD_LABEL_FAILED)({errors}));
           });
         } else if (response.status === 401) {
           // Unauthorized
-          notifyError('Et voi luoda tagia.');
+          notifyError('Et voi luoda asiasanaa.');
         } else {
           response.json().then(labelJSON => {
             selectedLabels.push(labelJSON.id);
-            dispatch(changeHearing('labels', selectedLabels));
             dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({label: labelJSON}));
+            dispatch(changeHearing('labels', selectedLabels));
           });
           notifySuccess('Luonti onnistui');
         }
@@ -248,6 +257,11 @@ export function saveHearingChanges(hearing) {
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
+            dispatch(closeHearingForm());
+            dispatch(push('/' + hearingJSON.slug + '?lang=' + getState().language));
+            if (hearing.slug !== hearingJSON.slug) {
+              localizedNotifyError("slugInUse");
+            }
           });
           notifySuccess('Tallennus onnistui');
         }

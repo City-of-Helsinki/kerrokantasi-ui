@@ -14,14 +14,6 @@ const pluginUrls = {
 };
 
 export default class PluginContent extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      showLoader: false
-    };
-  }
-
   componentDidMount() {
     const {hearingSlug, section} = this.props;
     this.props.fetchAllComments(hearingSlug, section.id);
@@ -31,10 +23,6 @@ export default class PluginContent extends React.Component {
     const {hearingSlug, section} = this.props;
     const isFetching = get(nextProps.comments, 'isFetching');
     const results = get(nextProps.comments, 'results');
-
-    this.setState({
-      showLoader: isFetching
-    });
 
     if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
       // comments have to be reloaded due to posting

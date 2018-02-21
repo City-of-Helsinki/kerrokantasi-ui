@@ -1,12 +1,12 @@
+[submodule "assets/plugins/kerrokantasi-citybikes"]
+	path = assets/plugins/kerrokantasi-citybikes
+	url = https://github.com/jvanamo/kerrokantasi-citybikes
+[submodule "assets/plugins/kerrokantasi-budgeting"]
+	path = assets/plugins/kerrokantasi-budgeting
+	url = https://github.com/jvanamo/kerrokantasi-budgeting
+[submodule "assets/plugins/kerrokantasi-bikeracks"]
+	path = assets/plugins/kerrokantasi-bikeracks
+	url = https://github.com/jvanamo/kerrokantasi-bikeracks
 [submodule "assets/plugins/kerrokantasi-winterbiking"]
 	path = assets/plugins/kerrokantasi-winterbiking
 	url = https://github.com/City-of-Helsinki/kerrokantasi-winterbiking
-[submodule "assets/plugins/kerrokantasi-bikeracks"]
-	path = assets/plugins/kerrokantasi-bikeracks
-	url = https://github.com/City-of-Helsinki/kerrokantasi-bikeracks
-[submodule "assets/plugins/kerrokantasi-budgeting"]
-	path = assets/mapdon-hkr
-	url = https://github.com/jvanamo/kerrokantasi-budgeting
-[submodule "assets/plugins/kerrokantasi-citybikes"]
-	path = assets/mapdon-ksv
-	url = https://github.com/jvanamo/kerrokantasi-citybikes

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 
 import FormControl from 'react-bootstrap/lib/FormControl';
 
@@ -11,7 +11,6 @@ class TextArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
       value: this.props.value,
     };
     this.onBlur = this.onBlur.bind(this);
@@ -27,6 +26,13 @@ class TextArea extends React.Component {
     this.setState({value});
   }
 
+  getPlaceholder() {
+    const {formatMessage} = this.props.intl;
+    if (this.props.placeholderId) {
+      return formatMessage({id: this.props.placeholderId});
+    }
+    return "";
+  }
 
   render() {
     return (
@@ -44,6 +50,7 @@ class TextArea extends React.Component {
           onBlur={this.onBlur}
           rows={this.props.rows}
           defaultValue={this.props.value}
+          placeholder={this.getPlaceholder()}
         />
       </InputBase>
     );
@@ -62,6 +69,8 @@ TextArea.propTypes = {
   onBlur: PropTypes.func,
   rows: PropTypes.string,
   value: PropTypes.string,
+  intl: intlShape.isRequired,
+  placeholderId: PropTypes.string,
 };
 
 export default injectIntl(TextArea);

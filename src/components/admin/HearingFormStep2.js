@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import uuid from 'uuid/v1';
-import {head} from 'lodash';
-
+import {head, last} from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
+import Icon from '../../utils/Icon';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
@@ -33,10 +33,9 @@ class HearingFormStep2 extends React.Component {
       return (
         <Button
           bsStyle="danger"
-          className="pull-right"
           onClick={() => this.deleteSection(sectionID)}
         >
-          <FormattedMessage id="deleteSection"/>
+          <Icon className="icon" name="trash"/> <FormattedMessage id="deleteSection"/>
         </Button>
       );
     }
@@ -49,10 +48,10 @@ class HearingFormStep2 extends React.Component {
    */
   getSections() {
     const {language} = this.context;
-    const {hearingLanguages} = this.props;
-    return this.props.hearing.sections
+    const {hearing, hearingLanguages, sectionMoveUp, sectionMoveDown} = this.props;
+    return hearing.sections
       .filter(({type}) => type !== SectionTypes.CLOSURE)
-      .map((section) => {
+      .map((section, index) => {
         const sectionHeader = this.props.intl.formatMessage({
           id: `${section.type}Section`
         });
@@ -60,17 +59,31 @@ class HearingFormStep2 extends React.Component {
         return (
           <Panel
             eventKey={sectionID}
-            header={`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
             key={sectionID}
+            bsStyle="info"
           >
-            <SectionForm
-              section={section}
-              onSectionChange={this.props.onSectionChange}
-              onSectionImageChange={this.props.onSectionImageChange}
-              sectionLanguages={hearingLanguages}
-            />
-            <hr/>
-            {this.getDeleteSectionButton(section, sectionID)}
+            <Panel.Heading>
+              <Panel.Title toggle>
+                {`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
+              </Panel.Title>
+            </Panel.Heading>
+            <Panel.Collapse>
+              <Panel.Body>
+                <SectionForm
+                  section={section}
+                  onSectionChange={this.props.onSectionChange}
+                  onSectionImageChange={this.props.onSectionImageChange}
+                  sectionLanguages={hearingLanguages}
+                  sectionMoveUp={sectionMoveUp}
+                  sectionMoveDown={sectionMoveDown}
+                  isFirstSubsection={index === 1}
+                  isLastSubsection={sectionID === last(hearing.sections).frontId}
+                />
+                <div className="section-toolbar">
+                  {this.getDeleteSectionButton(section, sectionID)}
+                </div>
+              </Panel.Body>
+            </Panel.Collapse>
           </Panel>
         );
       });
@@ -86,7 +99,11 @@ class HearingFormStep2 extends React.Component {
   };
 
   handleSelect(activeSection) {
-    this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
+    if (activeSection === this.state.activeSection) {
+      this.setState({activeSection: ''}, HearingFormStep2.scrollModalToTop);
+    } else {
+      this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
+    }
   }
 
   /*
@@ -117,30 +134,25 @@ class HearingFormStep2 extends React.Component {
         <Accordion activeKey={this.state.activeSection} onSelect={this.handleSelect}>
           {this.getSections()}
         </Accordion>
-        <hr/>
-        <ButtonToolbar className="pull-right">
+        <div className="new-section-toolbar">
+          <ButtonToolbar>
+            <Button
+              bsSize="small"
+              bsStyle="default"
+              onClick={() => this.addSection("part")}
+            >
+              <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
+            </Button>
+          </ButtonToolbar>
+        </div>
+        <div className="step-footer">
           <Button
-            bsStyle="primary"
-            className="pull-right"
+            bsStyle="default"
             onClick={this.props.onContinue}
           >
             <FormattedMessage id="hearingFormNext"/>
           </Button>
-          <Button
-            bsStyle="default"
-            className="pull-right"
-            onClick={() => this.addSection("part")}
-          >
-            <FormattedMessage id="addSection"/>
-          </Button>
-          <Button
-            bsStyle="default"
-            className="pull-right"
-            onClick={() => this.addSection("scenario")}
-          >
-            <FormattedMessage id="addOption"/>
-          </Button>
-        </ButtonToolbar>
+        </div>
       </div>
     );
   }
@@ -155,6 +167,8 @@ HearingFormStep2.propTypes = {
   onContinue: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func
 };
 
 HearingFormStep2.contextTypes = {

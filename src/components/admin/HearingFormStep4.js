@@ -59,7 +59,7 @@ class HearingFormStep4 extends React.Component {
   }
 
   render() {
-    const {hearing, hearingLanguages} = this.props;
+    const {hearing, hearingLanguages, formatMessage} = this.props;
     const closureInfoContent = getClosureSection(hearing) && !isEmpty(getAttr(getClosureSection(hearing).content)) ? getClosureSection(hearing).content : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
 
     return (
@@ -74,6 +74,7 @@ class HearingFormStep4 extends React.Component {
                 timeFormat={this.time_format}
                 value={this.formatDateTime(hearing.open_at)}
                 onChange={this.onChangeStart}
+                inputProps={{placeholder: formatMessage({id: "hearingClosingTimePlaceholder"})}}
               />
             </FormGroup>
           </Col>
@@ -86,6 +87,7 @@ class HearingFormStep4 extends React.Component {
                 timeFormat={this.time_format}
                 value={this.formatDateTime(hearing.close_at)}
                 onChange={this.onChangeEnd}
+                inputProps={{placeholder: formatMessage({id: "hearingClosingTimePlaceholder"})}}
               />
             </FormGroup>
           </Col>
@@ -110,10 +112,10 @@ class HearingFormStep4 extends React.Component {
 HearingFormStep4.propTypes = {
   dispatch: PropTypes.func,
   hearing: hearingShape,
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  language: PropTypes.string
+  formatMessage: PropTypes.func
 };
 
 const WrappedHearingFormStep4 = connect()(injectIntl(HearingFormStep4));

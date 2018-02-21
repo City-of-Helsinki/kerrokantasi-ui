@@ -6,9 +6,9 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import Button from 'react-bootstrap/lib/Button';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
+import Icon from '../../utils/Icon';
 
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
@@ -21,6 +21,8 @@ import {
   hearingEditorMetaDataShape,
   labelShape,
 } from '../../types';
+
+const ADMIN_HELP_URL = 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw';
 
 
 class HearingForm extends React.Component {
@@ -43,30 +45,42 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language} = this.props;
+    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown} = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
 
     return (
-      <Panel header={title} eventKey={step}>
-        <PhaseTag
-          contactPersons={contactPersons}
-          hearing={hearing}
-          hearingLanguages={hearingLanguages}
-          labels={labels}
-          onLanguagesChange={this.props.onLanguagesChange}
-          onHearingChange={this.props.onHearingChange}
-          onSectionChange={this.props.onSectionChange}
-          onSectionImageChange={this.props.onSectionImageChange}
-          onContinue={this.nextStep}
-          visible={isVisible}
-          editorMetaData={this.props.editorMetaData}
-          errors={this.props.errors}
-          dispatch={this.props.dispatch}
-          language={language}
-        />
+      <Panel eventKey={step}>
+        <Panel.Heading>
+          <Panel.Title toggle>
+            {title}
+          </Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+          <Panel.Body>
+            <PhaseTag
+              contactPersons={contactPersons}
+              hearing={hearing}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              onLanguagesChange={this.props.onLanguagesChange}
+              onHearingChange={this.props.onHearingChange}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              onContinue={this.nextStep}
+              visible={isVisible}
+              editorMetaData={this.props.editorMetaData}
+              errors={this.props.errors}
+              dispatch={this.props.dispatch}
+              language={language}
+              sectionMoveUp={sectionMoveUp}
+              sectionMoveDown={sectionMoveDown}
+              formatMessage={formatMessage}
+            />
+          </Panel.Body>
+        </Panel.Collapse>
       </Panel>
     );
   }
@@ -77,16 +91,14 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onSaveChanges}>
-          <FormattedMessage id="saveHearingChanges"/>
+        <Button bsStyle="success" onClick={this.props.onSaveChanges}>
+          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveHearingChanges"/>
         </Button>;
     } else {
       ActionButton = () =>
-        <ButtonToolbar className="pull-right">
-          <Button bsStyle="primary" onClick={this.props.onSaveAndPreview}>
-            <FormattedMessage id="saveAndPreviewHearing"/>
-          </Button>
-        </ButtonToolbar>;
+        <Button bsStyle="success" onClick={this.props.onSaveAndPreview}>
+          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveAndPreviewHearing"/>
+        </Button>;
     }
 
     if (!isSaving) {
@@ -123,7 +135,20 @@ class HearingForm extends React.Component {
         onHide={this.props.onLeaveForm}
         show={this.props.show}
       >
-        <Modal.Header closeButton bsClass="hearing-modal-header" />
+        <Modal.Header closeButton bsClass="hearing-modal-header">
+          <h2><FormattedMessage id="editHearing" /></h2>
+          <a
+            style={{textDecoration: 'none'}}
+            href={ADMIN_HELP_URL}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Button bsStyle="link">
+              <FormattedMessage id="help" /> <Icon className="icon" name="external-link"/>
+            </Button>
+          </a>
+
+        </Modal.Header>
         {this.getErrors()}
         <form>
           <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
@@ -132,7 +157,7 @@ class HearingForm extends React.Component {
             {this.getFormStep(3)}
             {this.getFormStep(4)}
           </Accordion>
-          <div className="clearfix">{this.getActions()}</div>
+          <div className="editor-footer">{this.getActions()}</div>
         </form>
       </Modal>
     );
@@ -158,7 +183,9 @@ HearingForm.propTypes = {
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   show: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

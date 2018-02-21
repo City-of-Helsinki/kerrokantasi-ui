@@ -17,9 +17,11 @@ import {
   saveAndPreviewNewHearing,
   startHearingEdit,
   unPublishHearing,
+  sectionMoveUp,
+  sectionMoveDown
 } from '../../actions/hearingEditor';
-import HearingForm from '../../components/admin/HearingForm';
-import HearingToolbar from '../../components/admin/HearingToolbar';
+import HearingForm from './HearingForm';
+import HearingToolbar from './HearingToolbar';
 import {contactShape, hearingShape, labelShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 
@@ -66,7 +68,7 @@ class HearingEditor extends React.Component {
       return notifyError('Aseta otsikko ennen tallentamista.');
     }
     if (isEmpty(hearing.labels)) {
-      return notifyError('Aseta ainakin yksi tagi.');
+      return notifyError('Aseta ainakin yksi asiasana.');
     }
     if (hearing.slug === '') {
       return notifyError('Aseta osoite ennen tallentamista.');
@@ -104,6 +106,14 @@ class HearingEditor extends React.Component {
     this.props.dispatch(closeHearing(this.props.hearing));
   }
 
+  sectionMoveUp = (sectionId) => {
+    this.props.dispatch(sectionMoveUp(sectionId));
+  }
+
+  sectionMoveDown = (sectionId) => {
+    this.props.dispatch(sectionMoveDown(sectionId));
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -127,24 +137,29 @@ class HearingEditor extends React.Component {
         show={show}
         dispatch={this.props.dispatch}
         language={language}
+        sectionMoveUp={this.sectionMoveUp}
+        sectionMoveDown={this.sectionMoveDown}
+        sections={hearing.sections}
       />
     );
   }
 
   render() {
-    const {hearing} = this.props;
+    const {hearing, isNewHearing} = this.props;
     return (
       <div className="hearing-editor">
         {this.getHearingForm()}
 
-        <HearingToolbar
-          hearing={hearing}
-          onCloseHearing={this.onCloseHearing}
-          onEdit={() => this.props.dispatch(startHearingEdit())}
-          onPublish={this.onPublish}
-          onRevertPublishing={this.onUnPublish}
-          user={this.props.user}
-        />
+        {!isNewHearing &&
+          <HearingToolbar
+            hearing={hearing}
+            onCloseHearing={this.onCloseHearing}
+            onEdit={() => this.props.dispatch(startHearingEdit())}
+            onPublish={this.onPublish}
+            onRevertPublishing={this.onUnPublish}
+            user={this.props.user}
+          />
+        }
       </div>
     );
   }
@@ -158,7 +173,8 @@ HearingEditor.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
   user: userShape,
-  language: PropTypes.string
+  language: PropTypes.string,
+  isNewHearing: PropTypes.bool
 };
 
 const WrappedHearingEditor = connect((state) => ({

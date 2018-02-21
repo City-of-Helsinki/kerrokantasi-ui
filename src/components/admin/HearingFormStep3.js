@@ -7,6 +7,10 @@ import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import isEmpty from 'lodash/isEmpty';
+import keys from 'lodash/keys';
+import includes from 'lodash/includes';
+import {localizedNotifyError} from '../../utils/notify';
+import Icon from '../../utils/Icon';
 
 import {hearingShape} from '../../types';
 
@@ -111,10 +115,45 @@ class HearingFormStep3 extends React.Component {
     this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
   }
 
-  onDrawDeleted() {
+  onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
-    this.props.onHearingChange("geojson", null);
-    this.setState({isEdited: true});
+    if (event.layers && !isEmpty(event.layers._layers)) {
+      this.props.onHearingChange("geojson", null);
+      this.setState({isEdited: true});
+    }
+  }
+
+  onUploadGeoJSON = (event) => {
+    this.readTextFile(event.target.files[0], (json) => {
+      try {
+        const featureCollection = JSON.parse(json);
+        if (
+          !isEmpty(featureCollection.features) &&
+          Array.isArray(featureCollection.features) &&
+          includes(keys(featureCollection.features[0]), 'geometry') &&
+          includes(keys(featureCollection.features[0].geometry), 'type') &&
+          includes(keys(featureCollection.features[0].geometry), 'coordinates')
+        ) {
+          this.props.onHearingChange("geojson", featureCollection.features[0].geometry);
+        } else {
+          localizedNotifyError('Virheellinen tiedosto.');
+        }
+      } catch (err) {
+        localizedNotifyError('Virheellinen tiedosto.');
+      }
+    });
+  }
+
+  readTextFile = (file, callback) => {
+    try {
+      const reader = new FileReader();
+
+      reader.onload = () => callback(reader.result);
+
+      reader.readAsText(file);
+    } catch (err) {
+      localizedNotifyError('Virheellinen tiedosto.');
+    }
   }
 
   invalidateMap() {
@@ -135,6 +174,7 @@ class HearingFormStep3 extends React.Component {
       return {
         circle: false,
         circlemarker: false,
+        polyline: false,
         marker: {
           icon: new Leaflet.Icon({
             iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
@@ -183,22 +223,39 @@ class HearingFormStep3 extends React.Component {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
             />
-            <FeatureGroup>
+            <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
                 position="topleft"
                 onEdited={this.onDrawEdited}
                 onCreated={this.onDrawCreated}
                 onDeleted={this.onDrawDeleted}
                 draw={this.getDrawOptions()}
+                edit={
+                  {
+                    featureGroup: this.featureGroup,
+                    edit: false
+                  }
+                }
               />
               {!this.state.isEdited && getHearingArea(hearing)}
             </FeatureGroup>
           </Map>
         </FormGroup>
-        <hr/>
-        <Button bsStyle="primary" className="pull-right" onClick={this.props.onContinue}>
-          <FormattedMessage id="hearingFormNext"/>
-        </Button>
+        <div className="step-control">
+          <label className="geojson_button" htmlFor="geojsonUploader">
+            <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{display: 'none'}} />
+            <Icon className="icon" name="upload" style={{marginRight: '5px'}}/>
+            <FormattedMessage id="addGeojson"/>
+          </label>
+        </div>
+        <div className="step-footer">
+          <Button
+            bsStyle="default"
+            onClick={this.props.onContinue}
+          >
+            <FormattedMessage id="hearingFormNext"/>
+          </Button>
+        </div>
       </div>
     );
   }

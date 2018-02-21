@@ -1,115 +1,10 @@
-.hearing-wrapper {
-  margin-top: $line-height-computed * 1;
+.header-section {
+  background-color: $hel-silver;
+  padding: $line-height-computed * 2 0;
 }
 
-.hearing-sidebar {
-    background: $gray-lighter;
-    padding: 15px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 25px;
-    overflow-y: scroll;
-
-    a {
-      text-decoration: none;
-    }
-
-    .list-group-item {
-      margin-bottom: 0;
-      border: 0;
-      border-bottom: 1px solid $gray-lighter;
-      color: $black;
-
-      &:hover {
-        color: $black;
-        background-color: lighten($gray-lighter, 5%);
-      }
-
-      &.active {
-
-      }
-    }
-
-    .subsection-list-group {
-      margin-bottom: 0;
-      border-bottom: 1px solid $gray-lighter;
-
-      .subsection-list-group-item {
-        padding-left: $line-height-computed;
-        font-weight: normal;
-        border: 0;
-      }
-
-    }
-
-    .language-link {
-        padding: 4px;
-        border-radius: 4px;
-
-        a {
-            cursor: pointer;
-        }
-
-        &-active {
-            padding: 4px;
-            border-radius: 4px;
-            background: $gray-light;
-            color: #fff;
-        }
-    }
-
-    @media (max-width: $screen-sm-max) {
-        position: static !important;
-        width: auto !important;
-    }
-
-    .sidebar-section {
-        margin-bottom: 20px;
-        color: $text-muted;
-
-        &.fullscreen {
-            .btn .fa {
-                margin-right: 5px;
-            }
-        }
-
-        &.map {
-            margin: 20px auto;
-        }
-        .list-group-item:first-letter {
-            text-transform:capitalize;
-        }
-
-        &.further-info .flex {
-          display: flex;
-          flex-wrap: wrap;
-
-          & > div {
-              margin-right: 20px;
-          }
-        }
-    }
-
-    h4 {
-        margin-top: 0;
-        margin-bottom: 7px;
-        text-transform: uppercase;
-        font-size: 1.3rem;
-        color: $text-color;
-    }
-
-    h5 {
-      font-size: 1.4rem;
-    }
-
-    .list-group .badge {
-        font-size: 1.1rem;
-    }
-
-    .comment-icon {
-        float: right;
-        margin-left: 15px;
-    }
+.hearing-content-section {
+  padding-top: $line-height-computed * 2;
 }
 
 .hearing-header {
@@ -136,6 +31,23 @@
     span {
       margin-right: $line-height-computed / 2;
     }
+  }
+
+  .language-link {
+      padding: 4px;
+      border-radius: 4px;
+
+      a {
+          text-decoration: none;
+          cursor: pointer;
+      }
+
+      &-active {
+          padding: 4px;
+          border-radius: 4px;
+          background: $gray-light;
+          color: #fff;
+      }
   }
 }
 

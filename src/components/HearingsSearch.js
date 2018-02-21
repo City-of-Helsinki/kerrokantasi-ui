@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import Select from 'react-select';
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
@@ -14,7 +14,8 @@ class HearingsSearch extends React.Component {
       labels,
       language,
       searchPhrase,
-      selectedLabels
+      selectedLabels,
+      intl
     } = this.props;
 
     const labelsAsOptions = labels.map(({label, id}) => ({
@@ -44,6 +45,7 @@ class HearingsSearch extends React.Component {
                 value={selectedLabels}
                 options={labelsAsOptions}
                 onChange={(value) => handleSelectLabels(value)}
+                placeholder={intl.formatMessage({id: 'searchPlaceholder'})}
               />
               }
             </FormGroup>
@@ -64,6 +66,7 @@ HearingsSearch.propTypes = {
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
+  intl: intlShape.isRequired
 };
 
 export default HearingsSearch;

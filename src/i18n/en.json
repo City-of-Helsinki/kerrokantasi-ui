@@ -122,5 +122,9 @@
   "createLabel": "Create a new tag",
   "labelPlaceholder": "Name of tag here...",
   "draftNotPublished": "Draft, not published",
-  "hearingNotFound": "Hearing was not found."
+  "hearingNotFound": "Hearing was not found.",
+  "searchPlaceholder": "Search...",
+  "help": "Help",
+  "moveUp": "Move up",
+  "moveDown": "Move down"
 }

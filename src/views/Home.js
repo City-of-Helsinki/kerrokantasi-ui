@@ -5,13 +5,16 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
 import {getTopHearing, getOpenHearings} from '../selectors/hearing';
+import {getUser} from '../selectors/user';
 import {Col, Grid, Row, Button} from 'react-bootstrap';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
-import {Link} from 'react-router-dom';
+import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
+import CreateHearingButton from '../components/Hearings/CreateHearingButton';
+import { isAdmin } from '../utils/user';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -50,7 +53,7 @@ export class Home extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {topHearing, openHearings, language} = this.props;
+    const {topHearing, openHearings, language, user} = this.props;
     const {isMobile} = this.state;
     const hearingMap =
       openHearings && openHearings.data ? (
@@ -67,7 +70,10 @@ export class Home extends React.Component {
         <section className="page-section page-section--welcome">
           <div className="container">
             <Row>
-              <Col xs={8}>
+              <Col md={4} mdPush={8}>
+                <div className="home-logo" />
+              </Col>
+              <Col md={8} mdPull={4}>
                 <Helmet title={formatMessage({id: 'welcome'})} />
                 <h1>
                   <FormattedMessage id="welcome" />
@@ -75,9 +81,6 @@ export class Home extends React.Component {
                 <p className="lead">
                   <FormattedMessage id="welcomeMessage" />
                 </p>
-              </Col>
-              <Col xs={4}>
-                <div className="home-logo" />
               </Col>
             </Row>
             <Row>
@@ -101,7 +104,7 @@ export class Home extends React.Component {
                         language={language}
                       />
                       <p className="text-center">
-                        <Link to="/hearings/list">
+                        <Link to={{path: "/hearings/list"}}>
                           <Button bsStyle="default">
                             <FormattedMessage id="allHearings" />
                           </Button>
@@ -119,7 +122,7 @@ export class Home extends React.Component {
             <Row>
               <Col xs={12}>
                 <div className="feedback-box">
-                  <a href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute">
+                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">
                     <h2 className="feedback-prompt">
                       <FormattedMessage id="feedbackPrompt" />
                     </h2>
@@ -136,6 +139,7 @@ export class Home extends React.Component {
             </Row>
           </Grid>
         </section>
+        {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
       </div>
     );
   }
@@ -148,12 +152,14 @@ Home.propTypes = {
   topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   // eslint-disable-next-line react/no-unused-prop-types
   language: PropTypes.string, // make sure changing language refreshes
+  user: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   topHearing: getTopHearing(state),
   language: state.language,
   openHearings: getOpenHearings(state),
+  user: getUser(state)
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));

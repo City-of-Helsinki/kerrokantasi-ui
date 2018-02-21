@@ -4,15 +4,18 @@ exports[`HearingCard component should render as expected 1`] = `
 <div
   className="hearing-card "
 >
-  <Link
+  <withRouter(Connect(LinkWithLangComponent))
     className="hearing-card-image"
-    replace={false}
     style={
       Object {
         "backgroundImage": "url(\\"https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg\\")",
       }
     }
-    to="/mockHearing"
+    to={
+      Object {
+        "path": "/mockHearing",
+      }
+    }
   >
     <div
       className="hearing-card-comment-count"
@@ -24,7 +27,7 @@ exports[`HearingCard component should render as expected 1`] = `
        
       1
     </div>
-  </Link>
+  </withRouter(Connect(LinkWithLangComponent))>
   <div
     className="hearing-card-content"
   >
@@ -39,12 +42,15 @@ exports[`HearingCard component should render as expected 1`] = `
     <h4
       className="hearing-card-title"
     >
-      <Link
-        replace={false}
-        to="/mockHearing"
+      <withRouter(Connect(LinkWithLangComponent))
+        to={
+          Object {
+            "path": "/mockHearing",
+          }
+        }
       >
         Mock Hearing
-      </Link>
+      </withRouter(Connect(LinkWithLangComponent))>
     </h4>
     <div
       className="hearing-card-labels"

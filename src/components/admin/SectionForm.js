@@ -10,6 +10,8 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
+import Button from 'react-bootstrap/lib/Button';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import Dropzone from 'react-dropzone';
 
@@ -56,7 +58,6 @@ class SectionForm extends React.Component {
       if (this.props.onSectionImageChange) {
         this.props.onSectionImageChange(section.frontId, "image", fileReader.result);
       }
-      this.setState({image: fileReader.result});
     }, false);
     fileReader.readAsDataURL(file);
   }
@@ -82,7 +83,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, onSectionImageChange, sectionLanguages} = this.props;
+    const {section, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -90,6 +91,31 @@ class SectionForm extends React.Component {
 
     return (
       <div className="form-step">
+        {section.type !== 'closure-info' && section.type !== 'main' &&
+        <div className="section-toolbar">
+          <ButtonGroup bsSize="small">
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveUp(section.frontId)}
+              disabled={isFirstSubsection}
+              style={{marginRight: '10px'}}
+            >
+              &uarr; <FormattedMessage id="moveUp" />
+            </Button>
+            <Button
+              bsStyle="default"
+              className="btn"
+              type="button"
+              onClick={() => sectionMoveDown(section.frontId)}
+              disabled={isLastSubsection}
+            >
+              <FormattedMessage id="moveDown" /> &darr;
+            </Button>
+          </ButtonGroup>
+        </div>
+        }
         <FormGroup controlId="image">
 
           {
@@ -100,6 +126,7 @@ class SectionForm extends React.Component {
                 onBlur={(value) => onSectionChange(section.frontId, 'title', value)}
                 value={section.title}
                 languages={sectionLanguages}
+                placeholderId="sectionTitlePlaceholder"
               /> : null
           }
 
@@ -127,6 +154,7 @@ class SectionForm extends React.Component {
           onBlur={(value) => onSectionImageChange(section.frontId, 'caption', value)}
           value={imageCaption}
           languages={sectionLanguages}
+          placeholderId="sectionImagePlaceholder"
         />
 
         <MultiLanguageTextField
@@ -137,6 +165,7 @@ class SectionForm extends React.Component {
           value={section.abstract}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
+          placeholderId="sectionAbstractPlaceholder"
         />
 
         <MultiLanguageTextField
@@ -148,19 +177,22 @@ class SectionForm extends React.Component {
           value={section.content}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
+          placeholderId="sectionContentPlaceholder"
         />
 
         <FormGroup controlId="hearingCommenting">
           <ControlLabel><FormattedMessage id="hearingCommenting"/></ControlLabel>
-          <FormControl
-            componentClass="select"
-            name="commenting"
-            onChange={this.onChange}
-          >
-            <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
-            <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-            <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
-          </FormControl>
+          <div className="select">
+            <FormControl
+              componentClass="select"
+              name="commenting"
+              onChange={this.onChange}
+            >
+              <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
+              <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
+              <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+            </FormControl>
+          </div>
         </FormGroup>
 
       </div>
@@ -179,6 +211,10 @@ SectionForm.propTypes = {
   onSectionImageChange: PropTypes.func,
   section: sectionShape,
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
+  sectionMoveUp: PropTypes.func,
+  sectionMoveDown: PropTypes.func,
+  isFirstSubsection: PropTypes.bool,
+  isLastSubsection: PropTypes.bool
 };
 
 SectionForm.contextTypes = {

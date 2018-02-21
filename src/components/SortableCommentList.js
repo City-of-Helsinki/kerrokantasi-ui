@@ -11,6 +11,8 @@ import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import CommentForm from './BaseCommentForm';
+import {getNickname, getAuthorDisplayName} from '../utils/user';
+
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -19,7 +21,7 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
-export class SortableCommentList extends Component {
+export class SortableCommentListComponent extends Component {
   constructor() {
     super();
 
@@ -86,6 +88,14 @@ export class SortableCommentList extends Component {
     }
   }
 
+  onPostComment = (text, authorName, pluginData, geojson, label, images) => {
+    const {section} = this.props;
+    const commentData = {text, authorName, pluginData, geojson, label, images};
+    if (this.props.onPostComment) {
+      this.props.onPostComment(section.id, commentData);
+    }
+  }
+
   handleReachBottom() {
     const {sectionComments} = this.props;
     if (sectionComments && sectionComments.count !== sectionComments.results.length) {
@@ -146,7 +156,7 @@ export class SortableCommentList extends Component {
       section,
       sectionComments,
       canVote,
-      onPostComment,
+      user
     } = this.props;
 
     const showCommentList =
@@ -156,8 +166,9 @@ export class SortableCommentList extends Component {
         <div className="comment-form-container">
           <CommentForm
             hearingId={hearingId}
-            onPostComment={onPostComment}
-            canSetNickname={this.props.canSetNickname}
+            onPostComment={this.onPostComment}
+            defaultNickname={getNickname(user)}
+            nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
           />
         </div>
@@ -191,15 +202,12 @@ export class SortableCommentList extends Component {
                           onChange={event => {
                             this.fetchComments(section.id, event.target.value);
                           }}
+                          value={get(sectionComments, 'ordering')}
                         >
                           {keys(ORDERING_CRITERIA).map(key =>
-                            <option
-                              key={key}
-                              value={ORDERING_CRITERIA[key]}
-                              selected={ORDERING_CRITERIA[key] === get(sectionComments, 'ordering')}
-                            >
-                              <FormattedMessage id={key} />
-                            </option>,
+                            <FormattedMessage id={key} key={key}>
+                              {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
+                            </FormattedMessage>
                           )}
                         </FormControl>
                       </div>
@@ -222,11 +230,11 @@ export class SortableCommentList extends Component {
                   />
                   <Waypoint onEnter={this.handleReachBottom} />
                 </div>}
-              {this.state.showLoader
-                ? <div className="sortable-comment-list__loader">
+              {this.state.showLoader ? (
+                <div className="sortable-comment-list__loader">
                   <LoadSpinner />
                 </div>
-                : null}
+              ) : null}
             </div>
           </div>
           : null}
@@ -235,7 +243,7 @@ export class SortableCommentList extends Component {
   }
 }
 
-SortableCommentList.propTypes = {
+SortableCommentListComponent.propTypes = {
   displayVisualization: PropTypes.bool,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
@@ -250,13 +258,13 @@ SortableCommentList.propTypes = {
   hearingSlug: PropTypes.string,
   user: PropTypes.object,
   canVote: PropTypes.bool,
-  canSetNickname: PropTypes.bool,
   canComment: PropTypes.bool,
   hearingId: PropTypes.string,
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
+  user: get(state, 'user').data,
 });
 
-export default connect(mapStateToProps)(injectIntl(SortableCommentList));
+export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));

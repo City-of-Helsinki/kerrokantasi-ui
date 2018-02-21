@@ -13,7 +13,7 @@ import forEach from 'lodash/forEach';
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: "", imageTooBig: false, images: []};
+    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || '', imageTooBig: false, images: []};
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
@@ -21,6 +21,9 @@ export class BaseCommentForm extends React.Component {
     if (!this.props.collapseForm && nextProps.collapseForm) {
       this.clearCommentText();
       this.toggle();
+    }
+    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '') {
+      this.setState({nickname: nextProps.defaultNickname});
     }
   }
 
@@ -43,7 +46,7 @@ export class BaseCommentForm extends React.Component {
   submitComment() {
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
-    let nickname = (this.state.nickname === "" ? null : this.state.nickname);
+    let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
     let commentText = (this.state.commentText === null ? '' : this.state.commentText);
     let geojson = null;
     let label = null;
@@ -82,7 +85,7 @@ export class BaseCommentForm extends React.Component {
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
       for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
-        const imageObject = { title: "Title", caption: "Caption" };
+        const imageObject = {title: "Title", caption: "Caption"};
 
         imageObject.image = arrayOfResults[_i];
         images.push(imageObject);
@@ -124,9 +127,15 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const canSetNickname = this.props.canSetNickname;
-    if (!this.state.collapsed) {
-      return (<div className="comment-form">
+    if (this.state.collapsed) {
+      return (
+        <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
+          <Icon name="comment"/> <FormattedMessage id="addComment"/>
+        </Button>
+      );
+    }
+    return (
+      <div className="comment-form">
         <form>
           <h3><FormattedMessage id="writeComment"/></h3>
           <FormControl
@@ -136,17 +145,20 @@ export class BaseCommentForm extends React.Component {
           />
           <div className="comment-form__selected-images">
             {this.state.imageTooBig
-              ? <div className="comment-form__image-too-big">
-                <FormattedMessage id="image_too_big"/>
-              </div>
+              ? (
+                <div className="comment-form__image-too-big">
+                  <FormattedMessage id="image_too_big"/>
+                </div>
+              )
               : this.state.images.map(
-                (image) =>
+                (image, key) =>
                   <img
                     style={{ marginRight: 10 }}
                     alt={image.title}
                     src={image.image}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.width : 100}
+                    key={key + Math.random()} //eslint-disable-line
                   />)
             }
           </div>
@@ -167,18 +179,16 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          {canSetNickname ? <h3><FormattedMessage id="nickname"/></h3> : null}
-          {canSetNickname ? (
-            <FormGroup>
-              <FormControl
-                type="text"
-                placeholder={this.props.intl.formatMessage({id: "anonymous"})}
-                value={this.state.nickname}
-                onChange={this.handleNicknameChange.bind(this)}
-                maxLength={32}
-              />
-            </FormGroup>
-          ) : null}
+          <h3><FormattedMessage id="nickname"/></h3>
+          <FormGroup>
+            <FormControl
+              type="text"
+              placeholder={this.props.nicknamePlaceholder}
+              value={this.state.nickname}
+              onChange={this.handleNicknameChange.bind(this)}
+              maxLength={32}
+            />
+          </FormGroup>
           <div className="comment-buttons clearfix">
             <Button
               bsStyle="default"
@@ -196,19 +206,21 @@ export class BaseCommentForm extends React.Component {
           </div>
           <CommentDisclaimer/>
         </form>
-      </div>);
-    }
-    return (<Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-      <Icon name="comment"/> <FormattedMessage id="addComment"/>
-    </Button>);
+      </div>
+    );
   }
 }
 
 BaseCommentForm.propTypes = {
   onPostComment: PropTypes.func,
   intl: intlShape.isRequired,
-  canSetNickname: PropTypes.bool,
-  collapseForm: PropTypes.bool
+  collapseForm: PropTypes.bool,
+  defaultNickname: React.PropTypes.string,
+  nicknamePlaceholder: React.PropTypes.string
+};
+
+BaseCommentForm.defaultProps = {
+  defaultNickname: ''
 };
 
 export default injectIntl(BaseCommentForm);

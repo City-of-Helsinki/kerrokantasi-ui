@@ -15,7 +15,18 @@ exports[`Home component should render as expected 1`] = `
         <Col
           bsClass="col"
           componentClass="div"
-          xs={8}
+          md={4}
+          mdPush={8}
+        >
+          <div
+            className="home-logo"
+          />
+        </Col>
+        <Col
+          bsClass="col"
+          componentClass="div"
+          md={8}
+          mdPull={4}
         >
           <HelmetWrapper
             title="Tervetuloa!"
@@ -36,15 +47,6 @@ exports[`Home component should render as expected 1`] = `
               values={Object {}}
             />
           </p>
-        </Col>
-        <Col
-          bsClass="col"
-          componentClass="div"
-          xs={4}
-        >
-          <div
-            className="home-logo"
-          />
         </Col>
       </Row>
       <Row
@@ -167,9 +169,12 @@ exports[`Home component should render as expected 1`] = `
             <p
               className="text-center"
             >
-              <Link
-                replace={false}
-                to="/hearings/list"
+              <withRouter(Connect(LinkWithLangComponent))
+                to={
+                  Object {
+                    "path": "/hearings/list",
+                  }
+                }
               >
                 <Button
                   active={false}
@@ -184,7 +189,7 @@ exports[`Home component should render as expected 1`] = `
                     values={Object {}}
                   />
                 </Button>
-              </Link>
+              </withRouter(Connect(LinkWithLangComponent))>
             </p>
           </div>
         </Col>
@@ -215,7 +220,7 @@ exports[`Home component should render as expected 1`] = `
             className="feedback-box"
           >
             <a
-              href="mailto:dev@hel.fi?subject=Kerrokantasi-palaute"
+              href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute"
             >
               <h2
                 className="feedback-prompt"

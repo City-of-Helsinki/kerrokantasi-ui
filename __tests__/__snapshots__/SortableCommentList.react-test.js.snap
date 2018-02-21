@@ -12,9 +12,11 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <InjectIntl(BaseCommentForm)
-          canSetNickname={true}
           collapseForm={false}
+          defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+          nicknamePlaceholder="Anonyymi"
+          onPostComment={[Function]}
         />
       </div>
     </div>
@@ -64,50 +66,30 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 componentClass="select"
                 onChange={[Function]}
               >
-                <option
+                <FormattedMessage
+                  id="CREATED_AT_DESC"
                   key="CREATED_AT_DESC"
-                  selected={false}
-                  value="-created_at"
-                >
-                  <FormattedMessage
-                    id="CREATED_AT_DESC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
-                  selected={false}
-                  value="created_at"
-                >
-                  <FormattedMessage
-                    id="CREATED_AT_ASC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
-                  selected={false}
-                  value="-n_votes"
-                >
-                  <FormattedMessage
-                    id="POPULARITY_DESC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
-                <option
+                  tagName="span"
+                  values={Object {}}
+                />
+                <FormattedMessage
+                  id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
-                  selected={false}
-                  value="n_votes"
-                >
-                  <FormattedMessage
-                    id="POPULARITY_ASC"
-                    tagName="span"
-                    values={Object {}}
-                  />
-                </option>
+                  tagName="span"
+                  values={Object {}}
+                />
               </FormControl>
             </div>
           </FormGroup>
@@ -156,6 +138,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "POPULARITY_ASC": "Vähiten suosittu ensin",
                 "POPULARITY_DESC": "Suosituin ensin",
                 "addComment": "Vastaa",
+                "addGeojson": "Lisää geojson tiedostona",
                 "addOption": "Lisää vaihtoehto",
                 "addSection": "Lisää osa-alue",
                 "add_images": "Lisää kuvia kommenttiisi",
@@ -178,20 +161,20 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
                 "comments": "Mielipiteet",
                 "commentsOnMap": "Kartta koko näytöllä",
-                "commentsOutOf": "Näytetään {current}/{total} mielipidettä.",
+                "commentsOutOf": "Näytetään {current}/{total} kommenttia.",
                 "contactPersons": "Yhteyshenkilöt",
                 "contactTitle": "Virkanimike tai tehtäväkuvaus",
                 "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
                 "create": "Luo",
                 "createContact": "Luo uusi yhteyshenkilö",
                 "createHearing": "Luo uusi kuuleminen",
-                "createLabel": "Luo uusi tagi",
+                "createLabel": "Luo uusi asiasana",
                 "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
                 "delete": "Poista",
                 "deleteComment": "Poista kommentti",
                 "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
                 "deleteSection": "Poista osio",
-                "downloadReport": "Lataa yhteenveto mielipiteistä Excel-muodossa",
+                "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
                 "draft": "Luonnos",
                 "draftNotPublished": "Luonnos, ei julkaistu",
                 "drafts": "Luonnokset",
@@ -214,6 +197,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "hearingChangesSaved": "Muutokset tallennettu",
                 "hearingClosed": "Sulkeutunut",
                 "hearingClosingTime": "Sulkeutumisaika",
+                "hearingClosingTimePlaceholder": "Valitse...",
                 "hearingClosureInfo": "Sulkeutumistiedote",
                 "hearingCommenting": "Kommentointi",
                 "hearingContacts": "Yhteyshenkilöt",
@@ -224,8 +208,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "hearingFormHeaderStep4": "4. Julkaisutiedot",
                 "hearingFormNext": "Jatka",
                 "hearingImage": "Kuulemisen kuva",
-                "hearingLabels": "Tagit",
-                "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat tagit",
+                "hearingLabels": "Asiasanat",
+                "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
                 "hearingLanguages": "Kuulemisen tiedot syötetään",
                 "hearingMainContent": "Kuulemisen esittelyteksti",
                 "hearingMap": "Kuulemiset kartalla",
@@ -233,13 +217,15 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "hearingMapHeaderText": "Kartta",
                 "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
                 "hearingOpeningTime": "Avautumisaika",
+                "hearingOpeningTimePlaceholder": "Valitse...",
                 "hearingSavingFailed": "Tallentaminen epäonnistui",
                 "hearingSlug": "Kuulemisen osoite (täytä osoitteen loppuosa)",
                 "hearingSlugPlaceholder": "esimerkki-osoite",
                 "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
                 "hearings": "Kuulemiset",
-                "hearingsHeaderDescription": "Antamalla mielipiteesi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
+                "hearingsHeaderDescription": "Antamalla kommenttisi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
                 "hearingsHeaderText": "Kuulemiset",
+                "help": "Ohjeet",
                 "imageSizeError": "Kuva liian suuri, maksimikoko 1MB.",
                 "image_too_big": "Kuva liian suuri, kuvan suurin sallitu koko on 1MB",
                 "inLanguage-en": "englanniksi",
@@ -247,7 +233,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "inLanguage-sv": "ruotsiksi",
                 "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
                 "infoHeaderText": "Tietoa palvelusta",
-                "labelPlaceholder": "Anna tagin nimi...",
+                "labelPlaceholder": "Anna asiasanan nimi...",
                 "lang-en": "English",
                 "lang-fi": "Suomi",
                 "lang-sv": "Svenska",
@@ -261,6 +247,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "mainSection": "Pääosio",
                 "map": "Kartta",
                 "mostCommented": "Eniten kommentoitu",
+                "moveDown": "Siirrä alas",
+                "moveUp": "Siirrä ylös",
                 "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                 "name": "Nimi",
                 "newHearingPageTitle": "Uusi kuuleminen",
@@ -270,7 +258,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
                 "nickname": "Nimimerkki",
                 "noCommenting": "Ei kommentointia",
-                "noCommentsAvailable": "Ei mielipiteitä",
+                "noCommentsAvailable": "Ei kommentteja",
                 "noHearings": "Kuulemisia ei löytynyt",
                 "oldestFirst": "Vanhin ensin",
                 "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
@@ -298,17 +286,23 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "scenarioSection": "Vaihtoehto",
                 "search": "Etsi",
                 "searchLabels": "Hae aiheista",
+                "searchPlaceholder": "Etsi...",
                 "searchSubjects": "Etsi aiheista",
                 "searchTitles": "Etsi otsikoista",
                 "sectionAbstract": "Lyhyt johdanto",
+                "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
                 "sectionContent": "Tekstisisältö",
+                "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
                 "sectionImage": "Kuva",
                 "sectionImageCaption": "Kuvateksti",
                 "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720. (Max. 1MB)",
+                "sectionImagePlaceholder": "Selitä tai täydennä kuvaa kuvatekstillä. Mainitse kuvaajan nimi, jos tarpeellista.",
                 "sectionTitle": "Osa-alueen otsikko",
+                "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
                 "selectAnotherImage": "Valitse toinen kuva",
                 "selectOrDropImage": "Valitse tai pudota kuva",
                 "showOnlyOpen": "Näytetään vain avoimet",
+                "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
                 "sort": "Järjestä",
                 "submit": "Lähetä",
                 "table-of-content": "Sisällys",
@@ -320,8 +314,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "title": "Otsikko",
                 "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
                 "toBePublishedHearing": "Kuuleminen julkaistaan",
-                "totalSubmittedComment": "Yhteensä {n} mielipide",
-                "totalSubmittedComments": "Yhteensä {n} mielipidettä",
+                "totalSubmittedComment": "Yhteensä {n} kommentti",
+                "totalSubmittedComments": "Yhteensä {n} kommenttia",
                 "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                 "vote": "Äänestä",
                 "voteReceived": "Ääni vastaanotettu. Kiitos!",

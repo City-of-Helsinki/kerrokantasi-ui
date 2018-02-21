@@ -27,6 +27,8 @@
     &-content {
         flex: 1 auto;
         padding: $line-height-computed;
+        max-width: 73%;
+        overflow: hidden;
     }
     &-labels {
         @extend .clearfix;
@@ -36,6 +38,9 @@
     }
     &-labellist {
         float: left;
+        a {
+            text-decoration: none;
+        }
     }
     &-closed {
         text-align: right;
@@ -99,7 +104,18 @@
 
 .hearing-list__tabs {
     margin-top: 40px;
+    margin-bottom: -2px;
+    border-bottom: 0;
     width: 100%;
+
+    > li {
+      margin-bottom: -2px;
+    }
+
+    > li.active > a, > li.active > a:hover {
+      border: 2px solid $black;
+      border-bottom: transparent;
+    }
 
     &-empty {
         width: 70%;
@@ -140,6 +156,7 @@
 
 .page-section--hearings-tabs {
     background-color: $light-gray;
+    border-bottom: 2px solid $black;
 }
 
 .hearings-search {
@@ -193,4 +210,10 @@
             cursor: pointer;
         }
     }
+}
+
+.admin-filter-selector {
+  > li > a {
+    border: solid 2px $black;
+  }
 }

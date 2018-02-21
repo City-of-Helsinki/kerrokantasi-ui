@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import Link from './LinkWithLang';
 import Icon from '../utils/Icon';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
@@ -17,7 +17,7 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
           <h2 className="fullwidth-hearing-title">
-            <Link to={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</Link>
+            <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
           </h2>
         </div>
         <div className="fullwidth-hearing-times">
