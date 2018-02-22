@@ -5,6 +5,8 @@
 
 .page-section--welcome {
   background-color: $hel-fog;
+  background-size: cover;
+  background-position: center;
   color: $black;
 }
 
@@ -38,13 +40,4 @@
 
 .page-section--map {
 
-}
-
-.home-logo {
-  @include helsinki-logo($black);
-  background-position: right;
-  margin-left: auto;
-  margin-top: -24px;
-  height: $line-height-computed * 3;
-  width: 125px;
 }
