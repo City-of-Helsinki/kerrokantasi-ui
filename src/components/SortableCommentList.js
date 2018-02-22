@@ -185,7 +185,7 @@ export class SortableCommentListComponent extends Component {
             <h2>
               <FormattedMessage id="comments" />
               <div className="commenticon">
-                <Icon name="comment-o" />&nbsp;{get(sectionComments, 'count') ? sectionComments.count : '0'}
+                <Icon name="comment-o" />&nbsp;{section.n_comments}
               </div>
             </h2>
             {pluginContent}
@@ -194,7 +194,7 @@ export class SortableCommentListComponent extends Component {
                 <LoadSpinner />
               </div>
             )}
-            {showCommentList && !this.state.showLoader &&
+            {showCommentList &&
               <div className="row">
                 <form className="sort-selector">
                   <FormGroup controlId="sort-select">
