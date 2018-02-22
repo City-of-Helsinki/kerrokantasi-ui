@@ -35,7 +35,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
             name="comment-o"
           />
            
-          1
+          59
         </div>
       </h2>
       <div
