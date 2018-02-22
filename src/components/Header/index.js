@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, NavItem, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, NavItem, Nav, Button, DropdownButton, NavDropdown, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
@@ -53,18 +53,18 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user) {
       return [
-        <NavDropdown key="profile" eventKey="profile" id="userMenu" title={<span><Icon name="user-o" className="user-nav-icon"/>{user.displayName} </span>}>
+        <DropdownButton pullRight key="profile" id="userMenu" className="user-menu" title={<span><Icon name="user-o" className="user-nav-icon"/><span className="user-name">{user.displayName}</span></span>}>
           <MenuItem key="logout" eventKey="logout">
             <FormattedMessage id="logout" />
           </MenuItem>
-        </NavDropdown>,
+        </DropdownButton>,
       ];
     }
     return [
-      <NavItem key="login" eventKey="login" href="#" className="login-link">
+      <Button key="login" href="#" className="user-menu login-link" onClick={ this.props.dispatch(login()) }>
         <Icon name="user-o" className="user-nav-icon"/>
-        <FormattedMessage id="login" />
-      </NavItem>,
+        <span className="user-name"><FormattedMessage id="login" /></span>
+      </Button>,
     ];
   }
 
@@ -91,13 +91,22 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <Navbar inverse fluid className="navbar-secondary hidden-xs">
-          <LanguageSwitcher currentLanguage={this.props.language} />
+        <Navbar fluid staticTop defaultExpanded className="navbar-helsinki">
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to={{path: "/"}} className="navbar-logo" />
+            </Navbar.Brand>
+          </Navbar.Header>
+
+          <div onSelect={onSelect} className="nav-user-menu navbar-right">
+            <LanguageSwitcher currentLanguage={this.props.language} />
+            {userItems}
+          </div>
         </Navbar>
         <Navbar default fluid collapseOnSelect className="navbar-primary">
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to={{path: "/"}} className="navbar-brand">
+              <Link to={{path: "/"}}>
                 Kerrokantasi
               </Link>
             </Navbar.Brand>
@@ -109,12 +118,6 @@ class Header extends React.Component {
               {this.getNavItem('hearingMap', '/hearings/map')}
               {this.getNavItem('info', '/info')}
             </Nav>
-            <Nav pullRight onSelect={onSelect} className="nav-user-menu">
-              {userItems}
-            </Nav>
-            <span className="visible-xs-block">
-              <LanguageSwitcher currentLanguage={this.props.language} />
-            </span>
           </Navbar.Collapse>
         </Navbar>
       </div>

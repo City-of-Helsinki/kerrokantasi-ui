@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import Nav from 'react-bootstrap/lib/Nav';
+import {Nav, NavItem, DropdownButton, MenuItem} from 'react-bootstrap';
+import Icon from '../../utils/Icon';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
 import config from '../../config';
@@ -16,19 +16,21 @@ const changeLang = (history, location, nextLang) => {
 };
 
 const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMessage}}) =>
-  <Nav pullRight className="language-switcher actions" id="language">
+  <DropdownButton pullRight className="language-switcher" id="language" eventKey="language" title={<span><Icon name="globe" className="user-nav-icon"/>{currentLanguage} </span>}>
     {config.languages
-      .filter((code) => code !== currentLanguage)
       .map((code) =>
-        <NavItem
+        <MenuItem
           href=""
           key={code}
           className="language-switcher__language"
           onClick={() => changeLang(history, location, code)}
+          active={code == currentLanguage}
         >
           {formatMessage({id: `lang-${code}`})}
-        </NavItem>)}
-  </Nav>;
+        </MenuItem>)}
+  </DropdownButton>;
+
+      //.filter((code) => code !== currentLanguage)
 
 LanguageSwitcher.contextTypes = {
   intl: intlShape.isRequired

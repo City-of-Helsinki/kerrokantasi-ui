@@ -1,40 +1,69 @@
-.navbar {
-
-  .language-switcher {
-    //display: none; //hide for testing purposes
-  }
-}
-
-.navbar-brand {
-  font-weight: 600;
-}
-
-.navbar-secondary {
-  min-height: 30px;
+.navbar-helsinki {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 2;
   margin-bottom: 0;
-  font-size: 14px;
 
-  .navbar-nav > li > a {
-    line-height: 1;
-    padding: 0 15px;
-    margin: 8px 0;
-    border-right: 1px solid $white;
+  .navbar-logo.navbar-brand {
+    @include helsinki-logo($black);
+    background-position: 15px;
+    margin-top: 12px;
+    height: 36px;
+    width: 125px;
+  }
 
-    &:hover:after {
-      border: 0;
+  .navbar-right {
+    float: right !important;
+  }
+
+  .navbar-header {
+    float: left !important;
+  }
+
+  .btn-group.open .dropdown-toggle {
+    box-shadow: none;
+    color: $brand-primary;
+  }
+
+  .btn-default {
+    border: 0;
+
+    &:active {
+      box-shadow: none;
+      background-color: $white;
+      color: $brand-primary;
     }
   }
+}
 
-  .navbar-nav > li:last-child > a {
-    border-right: 0;
+.language-switcher {
+  text-transform: uppercase;
+
+  &.active > a:after{
+    display: none;
+  }
+}
+
+.user-menu {
+  .user-name {
+    display: none;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    .user-name {
+      display: inline-block;
+    }
   }
 }
 
 .navbar-primary {
   margin-bottom: 0;
-  .language-switcher {
-    //display: none;
-  }
+  background-color: $hel-fog;
+}
+
+.navbar-brand {
+  margin-right: 24px;
+  font-size: 21px;
+  letter-spacing: 0.02em;
 }
 
 .nav-fixed {
