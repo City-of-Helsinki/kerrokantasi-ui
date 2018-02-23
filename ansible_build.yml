@@ -44,7 +44,7 @@
   vars_files:
     - ansible/kerrokantasi-ui-build-config.yml
   roles:
-    - node-container
+    - ansible-hel-javascript-app
   tasks:
     - name: Insert entrypoint into docker_container
       template:
