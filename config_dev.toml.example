@@ -1,20 +1,30 @@
 # Address and port the server will listen to. The ones below are defaults
-# useful for development
+# useful for development. On a more formal occasion you will likely to want
+# change these.
 #listen_address=localhost
 #listen_port=8086
+
 # Base URL of the API, without version or trailing slash (/)
 kerrokantasi_api_base="https://api.hel.fi/kerrokantasi-test"
+
 # JWT aud(ience)-field that we will request from the SSO. Each API instance
-# will require a specific audience
+# will require a specific audience. This means that this value will need
+# to match what the API specified in kerrokantasi_api_base wants.
 kerrokantasi_api_jwt_audience="replace-me-with-real-target-app-for-authentication-to-work"
+
 # Our own client identifier in the SSO system, SSO uses this to decide
 # which authentication methods are available and which (API) audiences are allowed
 auth_client_id="replace-me-with-real-auth-id-for-authentication-to-work"
-# Shared secret for proving that we are the client_id
+
+# Shared secret for proving to the SSO we really are the client specified
+# in auth_client_id
 auth_shared_secret="replace-me-with-real-auth-secret-for-authentication-to-work"
+
 # Specifies the canonical URL for this service. Kerrokantasi-UI currently
-# uses this for generating the requested callback address from SSO
+# uses this for generating the requested callback address from SSO. This
+# will need to match whatever you enter in the address bar of the browser.
 public_url="http://localhost:8086"
+
 # ExpressJS uses this secret for purposes. We are not sure if kerrokantasi-ui
 # actually uses it for something. It is still required
 expressjs_session_secret="dev-secret-do-not-use-in-production"
