@@ -22,7 +22,9 @@ auth_shared_secret="replace-me-with-real-auth-secret-for-authentication-to-work"
 
 # Specifies the canonical URL for this service. Kerrokantasi-UI currently
 # uses this for generating the requested callback address from SSO. This
-# will need to match whatever you enter in the address bar of the browser.
+# will need to match whatever you enter in the browser address bar to reach
+# the UI and the SSO must also be configured to accept this.
+# Default is again for development.
 public_url="http://localhost:8086"
 
 # ExpressJS uses this secret for purposes. We are not sure if kerrokantasi-ui
