@@ -34,7 +34,8 @@ LinkWithLangComponent.propTypes = {
   }).isRequired,
   children: PropTypes.any,
   className: PropTypes.string,
-  language: PropTypes.string
+  language: PropTypes.string,
+  style: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
