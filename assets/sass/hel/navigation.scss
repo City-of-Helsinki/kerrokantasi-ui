@@ -75,6 +75,14 @@
   }
 }
 
+.navbar-default .navbar-collapse {
+  border-top-color: rgba($dark-gray, .2);
+
+  .nav {
+    border-bottom-color: rgba($dark-gray, .2);
+  }
+}
+
 .navbar-right.nav-user-menu {
   margin-top: 10px;
   margin-right: 0;

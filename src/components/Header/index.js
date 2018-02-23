@@ -53,15 +53,24 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user) {
       return [
-        <DropdownButton pullRight key="profile" id="userMenu" className="user-menu" title={<span><Icon name="user-o" className="user-nav-icon"/><span className="user-name">{user.displayName}</span></span>}>
-          <MenuItem key="logout" eventKey="logout">
+        <DropdownButton pullRight key="profile" id="userMenu" className="user-menu user-menu--logged" title={<span><Icon name="user" className="user-nav-icon"/><span className="user-name">{user.displayName}</span></span>}>
+          <MenuItem 
+            key="logout"
+            eventKey="logout"
+            onClick={() => this.onSelect('logout')}
+          >
             <FormattedMessage id="logout" />
           </MenuItem>
         </DropdownButton>,
       ];
     }
     return [
-      <Button key="login" href="#" className="user-menu login-link" onClick={ this.props.dispatch(login()) }>
+      <Button
+        key="login"
+        href=""
+        className="user-menu user-menu--unlogged"
+        onClick={() => this.onSelect('login')}
+      >
         <Icon name="user-o" className="user-nav-icon"/>
         <span className="user-name"><FormattedMessage id="login" /></span>
       </Button>,
