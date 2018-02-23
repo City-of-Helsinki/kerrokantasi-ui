@@ -23,3 +23,5 @@ heljs_project_server: yes
 heljs_entrypoint: server
 # Do not start pm2 with system init (we're in docker)
 heljs_use_init: no
+# Clean caches (like yarn)
+heljs_clean_caches: yes
