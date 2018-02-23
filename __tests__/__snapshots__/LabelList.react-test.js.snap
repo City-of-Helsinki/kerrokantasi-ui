@@ -25,6 +25,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     >
       such
     </Label>
+     
   </withRouter(Connect(LinkWithLangComponent))>
   <withRouter(Connect(LinkWithLangComponent))
     key="2"
@@ -41,6 +42,7 @@ exports[`LabelList can handle list of label objects 1`] = `
     >
       label
     </Label>
+     
   </withRouter(Connect(LinkWithLangComponent))>
 </div>
 `;
