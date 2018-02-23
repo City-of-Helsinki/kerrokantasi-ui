@@ -9,7 +9,7 @@ import getAttr from '../utils/getAttr';
 const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : '',
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'url(/assets/images/default-image.svg)',
   };
   return (
     <div className={`fullwidth-hearing ${className}`} {...rest}>
