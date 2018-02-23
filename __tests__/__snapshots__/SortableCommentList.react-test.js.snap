@@ -35,7 +35,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
             name="comment-o"
           />
            
-          1
+          59
         </div>
       </h2>
       <div
@@ -233,6 +233,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "inLanguage-sv": "ruotsiksi",
                 "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
                 "infoHeaderText": "Tietoa palvelusta",
+                "infoPage": "Tietoa palvelusta",
                 "labelPlaceholder": "Anna asiasanan nimi...",
                 "lang-en": "English",
                 "lang-fi": "Suomi",
@@ -242,10 +243,13 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "leastCommented": "Vähiten kommentoitu",
                 "list": "Lista",
                 "login": "Kirjaudu sisään",
+                "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
+                "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
                 "logout": "Kirjaudu ulos",
                 "mainSection": "Pääosio",
                 "map": "Kartta",
+                "mapView": "Kaikki kuulemiset kartalla",
                 "mostCommented": "Eniten kommentoitu",
                 "moveDown": "Siirrä alas",
                 "moveUp": "Siirrä ylös",
@@ -277,7 +281,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "publishingQueue": "Julkaisujono",
                 "register": "Rekisteröidy",
                 "registered": "rekisteröitynyt",
-                "registeredUsersOnly": "Vain rekisteröityneet käyttäjät",
+                "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                 "removeImage": "Poista kuva",
                 "revertPublishing": "Peru julkaisu",
                 "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",

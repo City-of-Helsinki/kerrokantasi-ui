@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 export const SectionClosureInfoComponent = ({content}) => {
   return (
-    <div className="closure-info">
-      {content}
-    </div>
+    <div className="closure-info" dangerouslySetInnerHTML={{__html: content}} />
   );
 };
 

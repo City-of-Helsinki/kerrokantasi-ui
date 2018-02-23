@@ -11,6 +11,11 @@ export default class Facebook extends React.Component {
     loadScriptThenCall("facebook-jssdk", "//connect.facebook.net/en_US/sdk.js", "FB", setup);
   }
 
+  componentDidUpdate() {
+    const setup = this.setupFacebookWidget.bind(this);
+    loadScriptThenCall("facebook-jssdk", "//connect.facebook.net/en_US/sdk.js", "FB", setup);
+  }
+
   setupFacebookWidget(FB) {
     FB.init({version: 'v2.4'});
     FB.XFBML.parse(this.refs.container);

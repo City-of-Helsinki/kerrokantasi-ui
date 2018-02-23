@@ -126,5 +126,9 @@
   "searchPlaceholder": "Search...",
   "help": "Help",
   "moveUp": "Move up",
-  "moveDown": "Move down"
+  "moveDown": "Move down",
+  "infoPage": "About service",
+  "mapView": "All hearings on map",
+  "loginToComment": "Login to comment this hearing.",
+  "logintToVoteComment": "Login to vote a comment."
 }

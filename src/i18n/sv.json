@@ -119,5 +119,9 @@
   "searchPlaceholder": "Söka...",
   "help": "Hjälp",
   "moveUp": "Flytta upp",
-  "moveDown": "Flytta ner"
+  "moveDown": "Flytta ner",
+  "infoPage": "Information om tjänsten",
+  "mapView": "Alla höranden på kartan",
+  "loginToComment": "Logga in för att kommentera.",
+  "logintToVoteComment": "Logga in för att rösta på kommentaren."
 }

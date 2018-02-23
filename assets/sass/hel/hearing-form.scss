@@ -153,6 +153,7 @@ $node_modules: "../../../node_modules";
   .rich-text-editor {
     .DraftEditor-editorContainer {
       border: 2px solid $black;
+      min-height: 90px;
     }
   }
 

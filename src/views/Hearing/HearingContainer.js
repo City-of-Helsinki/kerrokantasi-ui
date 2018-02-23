@@ -16,6 +16,8 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import {getUser} from '../../selectors/user';
 import config from '../../config';
+import getAttr from '../../utils/getAttr';
+import Helmet from 'react-helmet';
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
@@ -57,6 +59,7 @@ export class HearingContainerComponent extends React.Component {
 
         {!isEmpty(hearing) ?
           <div>
+            <Helmet title={getAttr(hearing.title, language)} />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
               <HearingEditor
                 hearing={hearingDraft}
