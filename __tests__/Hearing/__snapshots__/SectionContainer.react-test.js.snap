@@ -25,6 +25,7 @@ exports[`SectionContainer component should render as expected 1`] = `
           >
             <SectionImageComponent
               caption="A Wonderfull caption"
+              closeLightbox={[Function]}
               image={
                 Object {
                   "caption": Object {
@@ -37,6 +38,8 @@ exports[`SectionContainer component should render as expected 1`] = `
                   "width": 893,
                 }
               }
+              openLightbox={[Function]}
+              showLightbox={false}
             />
             <div
               className="section-abstract lead"
@@ -129,6 +132,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               onEditComment={[Function]}
               onPostComment={[Function]}
               onPostVote={[Function]}
+              published={true}
               section={
                 Object {
                   "abstract": Object {

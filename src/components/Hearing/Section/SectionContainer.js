@@ -47,7 +47,8 @@ import Link from '../../LinkWithLang';
 export class SectionContainerComponent extends React.Component {
   state = {
     showDeleteModal: false,
-    commentToDelete: {}
+    commentToDelete: {},
+    showLightbox: false
   };
 
   getSectionNav = () => {
@@ -137,6 +138,14 @@ export class SectionContainerComponent extends React.Component {
     return isSectionCommentable(hearing, section, user) && !hasPlugin;
   }
 
+  openLightbox = () => {
+    this.setState({showLightbox: true});
+  }
+
+  closeLightbox = () => {
+    this.setState({showLightbox: false});
+  }
+
   render() {
     const {
       hearing,
@@ -150,6 +159,7 @@ export class SectionContainerComponent extends React.Component {
       fetchAllComments,
       mainSectionComments
     } = this.props;
+    const {showLightbox} = this.state;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
@@ -175,6 +185,9 @@ export class SectionContainerComponent extends React.Component {
                         image={sectionImage}
                         caption={getAttr(sectionImage.caption, language)}
                         title={getAttr(sectionImage.title, language)}
+                        showLightbox={showLightbox}
+                        openLightbox={this.openLightbox}
+                        closeLightbox={this.closeLightbox}
                       />
                     }
                     {!isEmpty(section.abstract) &&
@@ -204,7 +217,7 @@ export class SectionContainerComponent extends React.Component {
                       </div>
                     }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
-                    <ContactList contacts={contacts} />
+                    {section.id === mainSection.id && <ContactList contacts={contacts} />}
                     {hasFullscreenMapPlugin(hearing) &&
                       <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
                         <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
@@ -227,6 +240,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchComments={this.props.fetchCommentsForSortableList}
                       fetchMoreComments={this.props.fetchMoreComments}
                       displayVisualization={userIsAdmin || hearing.closed}
+                      published={hearing.published} // Needed so comments are not diplayed in hearing drafts
                     />
                   </Col>
                 </Row>

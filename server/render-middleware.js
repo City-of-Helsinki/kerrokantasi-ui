@@ -7,7 +7,7 @@ function renderHTMLSkeleton(req, res, settings) {
   const html = renderToStaticMarkup(
     <Html
       bundleSrc={settings.bundleSrc || '/app.js'}
-      apiBaseUrl={settings.apiBaseUrl}
+      apiBaseUrl={settings.kerrokantasi_api_base}
       uiConfig={settings.uiConfig}
     />
   );

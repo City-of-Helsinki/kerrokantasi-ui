@@ -16,6 +16,24 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import Icon from '../utils/Icon';
 import {Grid} from 'react-bootstrap';
 
+// Custom prev button is used because for some reason Slicks default button is always disabled...
+const PrevButton = ({slidePrev, currentSlide}) => (
+  <button
+    className={currentSlide === 0 ? "slick-arrow slick-prev slick-disabled" : "slick-arrow slick-prev"}
+    type="button"
+    onClick={() => {
+      if (currentSlide !== 0) slidePrev();
+    }}
+  >
+    Prev
+  </button>
+);
+
+PrevButton.propTypes = {
+  slidePrev: PropTypes.func,
+  currentSlide: PropTypes.number
+};
+
 export class SectionCarousel extends React.Component {
   componentWillReceiveProps(nextProps) {
     const {hearing, match: {params}} = this.props;
@@ -90,6 +108,7 @@ export class SectionCarousel extends React.Component {
                 ref={slider => {
                   this.slider = slider;
                 }}
+                prevArrow={<PrevButton slidePrev={this.slider && (() => this.slider.slickPrev())} currentSlide={this.slider && this.slider.state.currentSlide} />}
                 initialSlide={getInitialSlideIndex(hearing, params)}
                 infinite={false}
                 focusOnSelect
@@ -165,7 +184,6 @@ const SliderItem = ({section, to, language, hearingTitle, active}) => {
     </div>
   );
 };
-
 
 SliderItem.propTypes = {
   section: PropTypes.object,

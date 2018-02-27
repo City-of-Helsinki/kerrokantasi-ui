@@ -13,7 +13,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 
 class LinkWithLangComponent extends React.Component {
   render() {
-    const {to, className, children, language} = this.props;
+    const {to, className, children, language, style} = this.props;
     const newTo = {
       pathname: to.path,
       search: `${to.search ? to.search + `&lang=${language}` : `?lang=${language}`}`,
@@ -22,7 +22,7 @@ class LinkWithLangComponent extends React.Component {
     };
 
     return (
-      <Link className={className} to={newTo}>{children}</Link>
+      <Link className={className} to={newTo} style={style}>{children}</Link>
     );
   }
 }
@@ -34,7 +34,8 @@ LinkWithLangComponent.propTypes = {
   }).isRequired,
   children: PropTypes.any,
   className: PropTypes.string,
-  language: PropTypes.string
+  language: PropTypes.string,
+  style: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({

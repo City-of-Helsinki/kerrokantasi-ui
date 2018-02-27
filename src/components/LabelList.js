@@ -15,7 +15,7 @@ class LabelList extends React.Component {
      */
     const labelToHTML = (label) => (
       <Link to={{path: '/hearings/list', search: `?label=${label.id}`}} key={label.id || label}>
-        <Label bsStyle="info">{getAttr(label.label, language)}</Label>
+        <Label bsStyle="info">{getAttr(label.label, language)}</Label>{' '}
       </Link>
     );
 
