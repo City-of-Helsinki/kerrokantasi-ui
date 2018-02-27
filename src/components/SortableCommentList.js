@@ -21,7 +21,7 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
-export class SortableCommentList extends Component {
+export class SortableCommentListComponent extends Component {
   constructor() {
     super();
 
@@ -88,6 +88,14 @@ export class SortableCommentList extends Component {
     }
   }
 
+  onPostComment = (text, authorName, pluginData, geojson, label, images) => {
+    const {section} = this.props;
+    const commentData = {text, authorName, pluginData, geojson, label, images};
+    if (this.props.onPostComment) {
+      this.props.onPostComment(section.id, commentData);
+    }
+  }
+
   handleReachBottom() {
     const {sectionComments} = this.props;
     if (sectionComments && sectionComments.count !== sectionComments.results.length) {
@@ -148,7 +156,6 @@ export class SortableCommentList extends Component {
       section,
       sectionComments,
       canVote,
-      onPostComment,
       user
     } = this.props;
 
@@ -159,7 +166,7 @@ export class SortableCommentList extends Component {
         <div className="comment-form-container">
           <CommentForm
             hearingId={hearingId}
-            onPostComment={onPostComment}
+            onPostComment={this.onPostComment}
             defaultNickname={getNickname(user)}
             nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
@@ -236,7 +243,7 @@ export class SortableCommentList extends Component {
   }
 }
 
-SortableCommentList.propTypes = {
+SortableCommentListComponent.propTypes = {
   displayVisualization: PropTypes.bool,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
@@ -260,4 +267,4 @@ const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   user: get(state, 'user').data,
 });
 
-export default connect(mapStateToProps)(injectIntl(SortableCommentList));
+export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));

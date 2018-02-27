@@ -6,7 +6,6 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
-import {canEdit} from '../../utils/hearing';
 import {hearingShape, userShape} from '../../types';
 
 
@@ -20,11 +19,7 @@ class HearingToolbar extends React.Component {
   }
 
   render() {
-    const user = this.props.user;
     const hearing = this.props.hearing;
-    if (!canEdit(user, hearing)) {
-      return null;
-    }
 
     let statusLabel = "";
     const openingTime = moment(hearing.open_at);

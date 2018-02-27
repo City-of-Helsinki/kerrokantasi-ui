@@ -151,13 +151,14 @@ export class BaseCommentForm extends React.Component {
                 </div>
               )
               : this.state.images.map(
-                (image) =>
+                (image, key) =>
                   <img
                     style={{ marginRight: 10 }}
                     alt={image.title}
                     src={image.image}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.width : 100}
+                    key={key + Math.random()} //eslint-disable-line
                   />)
             }
           </div>

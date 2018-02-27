@@ -8,9 +8,9 @@ import {mockStore} from '../test-utils';
 // Renders the Hearings component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
-  const {hearingWithSections} = mockStore;
+  const {mockHearingWithSections} = mockStore;
   const props = Object.assign({
-    hearing: hearingWithSections.mockHearingWithSections.data,
+    hearing: mockHearingWithSections.data,
     match: {
       params: {
         sectionId: 'asuminen-a-asuinalueiden-elinvoi'

@@ -44,6 +44,21 @@ $node_modules: "../../../node_modules";
       margin-top: $line-height-computed * 2;
     }
 
+    .step-control {
+      .geojson_button {
+        border-radius: 5px;
+        border: 2px solid black;
+        margin: 0 10px;
+        padding: 4px 8px;
+        font-weight: 500;
+        vertical-align: middle;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
     legend {
       border: 0;
       margin-bottom: 0;

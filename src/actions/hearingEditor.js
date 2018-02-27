@@ -1,9 +1,8 @@
 import {createAction} from 'redux-actions';
 import api from '../api';
-import {notifySuccess, notifyError} from '../utils/notify';
+import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
 import { push } from 'react-router-redux';
-
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
 import {
@@ -258,6 +257,11 @@ export function saveHearingChanges(hearing) {
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
+            dispatch(closeHearingForm());
+            dispatch(push('/' + hearingJSON.slug + '?lang=' + getState().language));
+            if (hearing.slug !== hearingJSON.slug) {
+              localizedNotifyError("slugInUse");
+            }
           });
           notifySuccess('Tallennus onnistui');
         }

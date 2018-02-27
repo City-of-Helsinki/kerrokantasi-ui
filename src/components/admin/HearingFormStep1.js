@@ -56,7 +56,7 @@ class HearingFormStep1 extends React.Component {
   }
 
   onContactsChange(selectedContacts) {
-    this.setState({ selectedContacts });
+    this.setState({ selectedContacts: selectedContacts.map(({id}) => id) });
     this.props.onHearingChange("contact_persons", selectedContacts.map(({id}) => id));
   }
 
@@ -122,12 +122,14 @@ class HearingFormStep1 extends React.Component {
               <div className="label-elements">
                 <Select
                   multi
+                  clearAllText="Poista"
+                  clearValueText="Poista"
                   name="labels"
                   onChange={this.onLabelsChange}
-                  options={labelOptions.map((opt) => ({...opt, label: getAttr(opt.label, language)}))}
+                  options={labelOptions.map((opt) => ({...opt, title: getAttr(opt.label, language), label: getAttr(opt.label, language)}))}
                   placeholder={formatMessage({id: "hearingLabelsPlaceholder"})}
                   simpleValue={false}
-                  value={hearing.labels.map((label) => ({...label, label: getAttr(label.label, language)}))}
+                  value={hearing.labels.map((label) => ({...label, title: 'Poista', label: getAttr(label.label, language)}))}
                   valueKey="frontId"
                   menuContainerStyle={{zIndex: 10}}
                 />
@@ -160,12 +162,14 @@ class HearingFormStep1 extends React.Component {
             <Select
               labelKey="name"
               multi
+              clearAllText="Poista"
+              clearValueText="Poista"
               name="contacts"
               onChange={this.onContactsChange}
               options={contactOptions}
               placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
               simpleValue={false}
-              value={hearing.contact_persons}
+              value={hearing.contact_persons.map(person => ({...person, title: 'Poista'}))}
               valueKey="id"
             />
             <Button bsStyle="primary" className="pull-right add-contact-button" onClick={() => this.openContactModal()}>

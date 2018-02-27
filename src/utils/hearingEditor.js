@@ -79,7 +79,7 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
   data,
   {
     abstract: filterObjectByLanguages(data.title, languages),
-    main_image: assign(data.main_image, filterObjectByLanguages(data.main_image.caption, languages)),
+    main_image: data.main_image ? assign(data.main_image, filterObjectByLanguages(data.main_image.caption, languages)) : null,
     title: filterObjectByLanguages(data.title, languages),
     sections: filterSectionsContentByLanguages(data.sections, languages)
   }

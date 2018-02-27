@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactCard component should render as expected 1`] = `
+<div
+  className="contact-card "
+  id="KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X"
+>
+  <header>
+    <h5
+      style={
+        Object {
+          "marginBottom": 5,
+        }
+      }
+    >
+      Seija Suunnittelija
+    </h5>
+    <div>
+      <span>
+        arkkitehti
+      </span>
+      <br />
+      <span>
+        Kaupunkisuunnitteluvirasto
+      </span>
+    </div>
+  </header>
+  <div
+    className="contact-card__information"
+  >
+    <ContactMethod
+      href="tel:09 123 456"
+      icon="phone"
+      value="09 123 456"
+    />
+    <ContactMethod
+      href="mailto:seija.suunnittelija@hel.fi"
+      icon="envelope-o"
+      value="seija.suunnittelija@hel.fi"
+    />
+  </div>
+</div>
+`;

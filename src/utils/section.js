@@ -11,6 +11,10 @@ export const SectionTypes = {
 
 const specialSectionTypes = values(SectionTypes);
 
+export const isMainSection = (section) => {
+  return section.type === SectionTypes.MAIN;
+};
+
 export function isSpecialSectionType(sectionType) {
   return specialSectionTypes.includes(sectionType);
 }
