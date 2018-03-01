@@ -23,6 +23,16 @@ const receiveHearing = (state, {payload}) => {
   }, state);
 };
 
+const deletingHearingDraft = (state, {payload}) => {
+  return updeep({
+    [payload.hearingSlug]: {state: "pending"}
+  }, state);
+};
+
+const draftDeleted = (state, {payload}) => {
+  return updeep(updeep.omit(state, [payload.hearingSlug]));
+};
+
 const receiveHearingError = (state, {payload}) => {
   return updeep({
     [payload.hearingSlug]: {state: "error"}
@@ -62,4 +72,6 @@ export default handleActions({
   clearNonPublicHearings,
   [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
   [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
+  deletingHearingDraft,
+  draftDeleted
 }, {});

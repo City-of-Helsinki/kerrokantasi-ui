@@ -248,3 +248,18 @@ export function postVote(commentId, hearingSlug, sectionId) {
     }).catch(voteCommentErrorHandler());
   };
 }
+
+export function deleteHearingDraft(hearingId, hearingSlug) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("deletingHearingDraft")({hearingId, hearingSlug});
+    dispatch(fetchAction);
+    const url = "/v1/hearing/" + hearingSlug;
+    console.log(url)
+    return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+      dispatch(createAction("deleteHearingDraft")({hearingId}));
+      localizedNotifySuccess("draftDeleted");
+    }).catch(
+      requestErrorHandler()
+    );
+  };
+}

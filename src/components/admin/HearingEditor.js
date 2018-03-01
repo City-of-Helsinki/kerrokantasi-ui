@@ -20,6 +20,7 @@ import {
   sectionMoveUp,
   sectionMoveDown
 } from '../../actions/hearingEditor';
+import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
 import {contactShape, hearingShape, labelShape, userShape} from '../../types';
@@ -114,6 +115,11 @@ class HearingEditor extends React.Component {
     this.props.dispatch(sectionMoveDown(sectionId));
   }
 
+  onDeleteHearingDraft = () => {
+    const {hearing} = this.props;
+    this.props.dispatch(deleteHearingDraft(hearing.id, hearing.slug));
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -158,6 +164,7 @@ class HearingEditor extends React.Component {
             onPublish={this.onPublish}
             onRevertPublishing={this.onUnPublish}
             user={this.props.user}
+            onDeleteHearingDraft={this.onDeleteHearingDraft}
           />
         }
       </div>

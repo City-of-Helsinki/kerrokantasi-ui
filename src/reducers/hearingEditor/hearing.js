@@ -1,9 +1,9 @@
 // @flow
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, merge } from 'lodash';
+import { head, findIndex } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
-import updeep from 'updeep'
+import updeep from 'updeep';
 
 import { EditorActions } from '../../actions/hearingEditor';
 
