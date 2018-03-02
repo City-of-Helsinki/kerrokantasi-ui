@@ -1,6 +1,6 @@
 import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
-import {has, isEmpty} from 'lodash';
+import {has, isEmpty, omit} from 'lodash';
 
 import {EditorActions} from '../actions/hearingEditor';
 
@@ -29,8 +29,8 @@ const deletingHearingDraft = (state, {payload}) => {
   }, state);
 };
 
-const draftDeleted = (state, {payload}) => {
-  return updeep(updeep.omit(state, [payload.hearingSlug]));
+const deletedHearingDraft = (state, {payload}) => {
+  return omit(state, [payload.hearingSlug]);
 };
 
 const receiveHearingError = (state, {payload}) => {
@@ -73,5 +73,5 @@ export default handleActions({
   [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
   [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
   deletingHearingDraft,
-  draftDeleted
+  deletedHearingDraft
 }, {});

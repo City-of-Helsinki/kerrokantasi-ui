@@ -4,6 +4,7 @@ import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../u
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
+import { push } from 'react-router-redux';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
@@ -254,10 +255,10 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
     const fetchAction = createAction("deletingHearingDraft")({hearingId, hearingSlug});
     dispatch(fetchAction);
     const url = "/v1/hearing/" + hearingSlug;
-    console.log(url)
     return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
-      dispatch(createAction("deleteHearingDraft")({hearingId}));
+      dispatch(createAction("deletedHearingDraft")({hearingSlug}));
       localizedNotifySuccess("draftDeleted");
+      dispatch(push('/hearings/list?lang=' + getState().language));
     }).catch(
       requestErrorHandler()
     );
