@@ -6,7 +6,7 @@ import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
-import isInWebView from './isInWebView';
+import headless from './headless';
 import {routerReducer} from 'react-router-redux';
 
 /**
@@ -25,7 +25,7 @@ export default combineReducers({
   hearingEditor,
   hearingLists,
   language,
-  isInWebView,
+  headless,
   lastActionType,
   sectionComments,
   user,

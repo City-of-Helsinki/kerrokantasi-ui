@@ -42,9 +42,9 @@ class App extends React.Component {
       {name: 'theme-color', content: '#ffffff'},
     ];
     const fullscreen = this.props.match.params.fullscreen === 'true';
-    const isInWebview = parseQuery(this.props.location.search).headless === 'true';
+    const headless = parseQuery(this.props.location.search).headless === 'true';
     let header = null;
-    if (!fullscreen && !isInWebview) {
+    if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
     return (
