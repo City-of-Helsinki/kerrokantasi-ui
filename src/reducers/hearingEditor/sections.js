@@ -5,6 +5,7 @@ import keys from 'lodash/keys';
 
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
+import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
 // import {getOrCreateSectionByID} from '../../utils/hearing';
 // import type {SectionState} from '../../types';
 
@@ -34,6 +35,27 @@ const byId = handleActions(
       const newState = { ...state };
       delete newState[sectionID];
       return newState;
+    },
+    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: [initSingleChoiceQuestion()]};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
+    },
+    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion()]};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
+    },
+    [EditorActions.CLEAR_QUESTIONS]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: []};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
       const section = {...state[sectionID], images: [...state[sectionID].images]};
