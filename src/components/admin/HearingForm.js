@@ -78,6 +78,9 @@ class HearingForm extends React.Component {
               sectionMoveUp={sectionMoveUp}
               sectionMoveDown={sectionMoveDown}
               formatMessage={formatMessage}
+              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+              clearQuestions={this.props.clearQuestions}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -185,7 +188,10 @@ HearingForm.propTypes = {
   show: PropTypes.bool,
   language: PropTypes.string,
   sectionMoveUp: PropTypes.func,
-  sectionMoveDown: PropTypes.func
+  sectionMoveDown: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

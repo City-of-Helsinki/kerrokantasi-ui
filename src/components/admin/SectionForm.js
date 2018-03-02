@@ -12,6 +12,7 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import Radio from 'react-bootstrap/lib/Radio';
 
 import Dropzone from 'react-dropzone';
 
@@ -194,7 +195,17 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
-
+        <FormGroup>
+          <Radio name="radioGroup" onClick={() => this.props.clearQuestions(section.id)} inline>
+            {formatMessage({id: "noQuestion"})}
+          </Radio>{' '}
+          <Radio name="radioGroup" onClick={() => this.props.initSingleChoiceQuestion(section.id)} inline>
+            {formatMessage({id: "singleChoiceQuestion"})}
+          </Radio>{' '}
+          <Radio name="radioGroup" onClick={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
+            {formatMessage({id: "multipleChoiceQuestion"})}
+          </Radio>
+        </FormGroup>
       </div>
     );
   }
@@ -214,7 +225,10 @@ SectionForm.propTypes = {
   sectionMoveUp: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool
+  isLastSubsection: PropTypes.bool,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
 };
 
 SectionForm.contextTypes = {
