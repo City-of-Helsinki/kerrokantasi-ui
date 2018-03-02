@@ -2,7 +2,7 @@ import {checkHeadless} from '../actions';
 import {parseQuery} from '../utils/urlQuery';
 
 export const headlessFromUrlMiddleware = store => next => action => {
-  if (action.type === 'checkHeadless') {
+  if (action.type === '@@router/LOCATION_CHANGE') {
     store.dispatch(checkHeadless(parseQuery(window.location.search).headless === 'true'));
   }
   return next(action);
