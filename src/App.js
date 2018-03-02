@@ -12,7 +12,7 @@ import {getUser} from './selectors/user';
 import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
-import {parseQuery, stringifyQuery} from './utils/urlQuery';
+import {parseQuery} from './utils/urlQuery';
 
 class App extends React.Component {
   getChildContext() {

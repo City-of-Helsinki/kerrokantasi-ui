@@ -13,14 +13,18 @@ import { HashLink as Link } from 'react-router-hash-link';
 
 class LinkWithLangComponent extends React.Component {
   render() {
-    const {to, className, children, language, style} = this.props;
+    const {to, className, children, language, style, isInWebView} = this.props;
+    let searchString = to.search;
+    // update search string with headless param preserved if site is being rendered in webview
+    if (isInWebView) {
+      searchString = `${searchString ? searchString + `&headless=true` : `?headless=true`}`;
+    }
     const newTo = {
       pathname: to.path,
-      search: `${to.search ? to.search + `&lang=${language}` : `?lang=${language}`}`,
+      search: `${searchString ? searchString + `&lang=${language}` : `?lang=${language}`}`,
       hash: to.hash || '',
       state: to.state || {}
     };
-
     return (
       <Link className={className} to={newTo} style={style}>{children}</Link>
     );
@@ -35,11 +39,13 @@ LinkWithLangComponent.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,
   language: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
+  isInWebView: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language
+  language: state.language,
+  isInWebView: state.isInWebView
 });
 
 export default withRouter(connect(mapStateToProps)(LinkWithLangComponent));
