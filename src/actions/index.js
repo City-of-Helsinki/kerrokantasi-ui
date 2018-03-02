@@ -7,6 +7,7 @@ import Raven from 'raven-js';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
+export const checkHeadless = createAction('checkHeadless');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {

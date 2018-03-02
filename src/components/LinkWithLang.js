@@ -45,7 +45,7 @@ LinkWithLangComponent.propTypes = {
 
 const mapStateToProps = (state) => ({
   language: state.language,
-  headless: state.isInWebView
+  headless: state.headless
 });
 
 export default withRouter(connect(mapStateToProps)(LinkWithLangComponent));
