@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
-import {checkHeadlessParam} from '../utils/urlQuery';
+import {parseQuery} from '../utils/urlQuery';
 
 /*
  * THIS COMPONENT SHOULD BE ALWAYS USED INSTEAD OF VANILLA <Link /> from react-router.
@@ -16,9 +16,10 @@ class LinkWithLangComponent extends React.Component {
   render() {
     const {to, className, children, language, style, headless} = this.props;
     let searchString = to.search;
+    const urlHeadless = parseQuery(searchString).headless;
     // update search string with headless param preserved if site is being rendered in webview
-    if (headless) {
-      searchString = `${searchString ? searchString + `&headless=true` : `?headless=true`}`;
+    if (!urlHeadless || urlHeadless !== 'true' || urlHeadless !== 'false') {
+      searchString = `${searchString ? searchString + `&headless=${headless}` : `?headless=${language}`}`;
     }
     const newTo = {
       pathname: to.path,
@@ -41,7 +42,8 @@ LinkWithLangComponent.propTypes = {
   className: PropTypes.string,
   language: PropTypes.string,
   style: PropTypes.object,
-  headless: PropTypes.bool
+  headless: PropTypes.bool,
+  dispatch: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({

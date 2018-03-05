@@ -1,9 +1,9 @@
-import {checkHeadless} from '../actions';
+import {setHeadless} from '../actions';
 import {checkHeadlessParam} from '../utils/urlQuery';
 
 export const headlessFromUrlMiddleware = store => next => action => {
   if (action.type === '@@router/LOCATION_CHANGE') {
-    store.dispatch(checkHeadless(checkHeadlessParam(window.location.search)));
+    store.dispatch(setHeadless(checkHeadlessParam(window.location.search)));
   }
   return next(action);
 };
