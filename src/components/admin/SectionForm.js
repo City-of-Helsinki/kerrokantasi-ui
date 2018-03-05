@@ -196,13 +196,14 @@ class SectionForm extends React.Component {
           </div>
         </FormGroup>
         <FormGroup>
-          <Radio name="radioGroup" checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
+          <Radio checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
             {formatMessage({id: "noQuestion"})}
+            {console.log(isEmpty(section.questions))}
           </Radio>{' '}
-          <Radio name="radioGroup" checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.id)} inline>
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.id)} inline>
             {formatMessage({id: "singleChoiceQuestion"})}
           </Radio>{' '}
-          <Radio name="radioGroup" checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
             {formatMessage({id: "multipleChoiceQuestion"})}
           </Radio>
         </FormGroup>
