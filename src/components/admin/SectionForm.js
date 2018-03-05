@@ -2,9 +2,9 @@ import Icon from '../../utils/Icon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import {get} from 'lodash';
+import {get, isEmpty} from 'lodash';
 import {localizedNotifyError} from '../../utils/notify';
-
+import {QuestionForm} from './QuestionForm';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -196,16 +196,19 @@ class SectionForm extends React.Component {
           </div>
         </FormGroup>
         <FormGroup>
-          <Radio name="radioGroup" onClick={() => this.props.clearQuestions(section.id)} inline>
+          <Radio name="radioGroup" checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
             {formatMessage({id: "noQuestion"})}
           </Radio>{' '}
-          <Radio name="radioGroup" onClick={() => this.props.initSingleChoiceQuestion(section.id)} inline>
+          <Radio name="radioGroup" checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.id)} inline>
             {formatMessage({id: "singleChoiceQuestion"})}
           </Radio>{' '}
-          <Radio name="radioGroup" onClick={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
+          <Radio name="radioGroup" checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
             {formatMessage({id: "multipleChoiceQuestion"})}
           </Radio>
         </FormGroup>
+        {!isEmpty(section.questions) && section.questions.map((question) =>
+          <QuestionForm key={question.id} question={question} />
+        )}
       </div>
     );
   }
