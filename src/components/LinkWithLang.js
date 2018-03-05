@@ -18,8 +18,8 @@ class LinkWithLangComponent extends React.Component {
     let searchString = to.search;
     const urlHeadless = parseQuery(searchString).headless;
     // update search string with headless param preserved if site is being rendered in webview
-    if (!urlHeadless || urlHeadless !== 'true' || urlHeadless !== 'false') {
-      searchString = `${searchString ? searchString + `&headless=${headless}` : `?headless=${language}`}`;
+    if (!urlHeadless) {
+      searchString = `${searchString ? searchString + `&headless=${headless}` : `?headless=${headless}`}`;
     }
     const newTo = {
       pathname: to.path,
