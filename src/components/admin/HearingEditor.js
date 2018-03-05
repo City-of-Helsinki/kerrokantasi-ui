@@ -138,6 +138,10 @@ class HearingEditor extends React.Component {
     dispatch(clearQuestions(sectionId));
   }
 
+  addOption = (sectionId) => {
+    console.log('Option added for: ', sectionId);
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -167,6 +171,7 @@ class HearingEditor extends React.Component {
         initSingleChoiceQuestion={this.initSingleChoiceQuestion}
         initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
         clearQuestions={this.clearQuestions}
+        addOption={this.addOption}
       />
     );
   }

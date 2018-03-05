@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import keys from 'lodash/keys';
+import {Button} from 'react-bootstrap';
 
 export class QuestionForm extends React.Component {
   render() {
-    const {question} = this.props;
+    const {question, sectionId, addOption} = this.props;
 
     return (
       <div>
@@ -30,6 +31,9 @@ export class QuestionForm extends React.Component {
             placeholderId="sectionContentPlaceholder"
           />
         )}
+        <Button bsStyle="default" onClick={() => addOption(sectionId)}>
+          Click here
+        </Button>
       </div>
     );
   }

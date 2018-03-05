@@ -84,7 +84,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
+    const {section, addOption, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -198,17 +198,16 @@ class SectionForm extends React.Component {
         <FormGroup>
           <Radio checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
             {formatMessage({id: "noQuestion"})}
-            {console.log(isEmpty(section.questions))}
           </Radio>{' '}
-          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.id)} inline>
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.frontId)} inline>
             {formatMessage({id: "singleChoiceQuestion"})}
           </Radio>{' '}
-          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.id)} inline>
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.frontId)} inline>
             {formatMessage({id: "multipleChoiceQuestion"})}
           </Radio>
         </FormGroup>
         {!isEmpty(section.questions) && section.questions.map((question) =>
-          <QuestionForm key={question.id} question={question} />
+          <QuestionForm key={question.id} question={question} addOption={addOption} sectionId={section.frontId}/>
         )}
       </div>
     );

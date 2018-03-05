@@ -48,7 +48,7 @@ class HearingFormStep2 extends React.Component {
    */
   getSections() {
     const {language} = this.context;
-    const {hearing, hearingLanguages, sectionMoveUp, sectionMoveDown} = this.props;
+    const {hearing, hearingLanguages, sectionMoveUp, sectionMoveDown, addOption} = this.props;
     return hearing.sections
       .filter(({type}) => type !== SectionTypes.CLOSURE)
       .map((section, index) => {
@@ -81,6 +81,7 @@ class HearingFormStep2 extends React.Component {
                   initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
                   initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
                   clearQuestions={this.props.clearQuestions}
+                  addOption={addOption}
                 />
                 <div className="section-toolbar">
                   {this.getDeleteSectionButton(section, sectionID)}

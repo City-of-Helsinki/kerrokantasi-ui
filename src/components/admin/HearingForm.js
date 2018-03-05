@@ -45,7 +45,7 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown} = this.props;
+    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown, addOption} = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
@@ -81,6 +81,7 @@ class HearingForm extends React.Component {
               initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
               initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
               clearQuestions={this.props.clearQuestions}
+              addOption={addOption}
             />
           </Panel.Body>
         </Panel.Collapse>
