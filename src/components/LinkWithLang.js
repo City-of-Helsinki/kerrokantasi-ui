@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
-import {parseQuery, stringifyQuery} from '../utils/urlQuery';
+import {checkHeadlessParam} from '../utils/urlQuery';
 
 /*
  * THIS COMPONENT SHOULD BE ALWAYS USED INSTEAD OF VANILLA <Link /> from react-router.
