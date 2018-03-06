@@ -21,7 +21,8 @@ import {
   sectionMoveDown,
   initSingleChoiceQuestion,
   initMultipleChoiceQuestion,
-  clearQuestions
+  clearQuestions,
+  addOption
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -138,8 +139,9 @@ class HearingEditor extends React.Component {
     dispatch(clearQuestions(sectionId));
   }
 
-  addOption = (sectionId) => {
-    console.log('Option added for: ', sectionId);
+  addOption = (sectionId, questionId) => {
+    const {dispatch} = this.props;
+    dispatch(addOption(sectionId, questionId));
   }
 
   getHearingForm() {
@@ -207,7 +209,7 @@ HearingEditor.propTypes = {
   labels: PropTypes.arrayOf(labelShape),
   user: userShape,
   language: PropTypes.string,
-  isNewHearing: PropTypes.bool
+  isNewHearing: PropTypes.bool,
 };
 
 const WrappedHearingEditor = connect((state) => ({

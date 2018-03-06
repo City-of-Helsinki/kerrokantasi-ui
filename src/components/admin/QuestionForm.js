@@ -31,8 +31,8 @@ export class QuestionForm extends React.Component {
             placeholderId="sectionContentPlaceholder"
           />
         )}
-        <Button bsStyle="default" onClick={() => addOption(sectionId)}>
-          Click here
+        <Button bsStyle="default" onClick={() => addOption(sectionId, question.frontId)}>
+          Add Option
         </Button>
       </div>
     );
@@ -40,7 +40,9 @@ export class QuestionForm extends React.Component {
 }
 
 QuestionForm.propTypes = {
-  question: PropTypes.object
+  question: PropTypes.object,
+  sectionId: PropTypes.string,
+  addOption: PropTypes.func
 };
 
 export default QuestionForm;

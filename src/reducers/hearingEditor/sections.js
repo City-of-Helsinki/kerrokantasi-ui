@@ -2,7 +2,8 @@
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
 import keys from 'lodash/keys';
-
+import find from 'lodash/find';
+import updeep from 'updeep';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -55,6 +56,16 @@ const byId = handleActions(
       return {
         ...state,
         [sectionId]: section,
+      };
+    },
+    [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
+      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      question.options[keys(question.options).length] = {};
+      const section = state[sectionId];
+      section.questions = [question];
+      return {
+        ...state,
+        [sectionId]: section
       };
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {

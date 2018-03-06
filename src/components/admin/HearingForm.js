@@ -193,6 +193,7 @@ HearingForm.propTypes = {
   clearQuestions: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

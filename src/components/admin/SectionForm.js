@@ -232,6 +232,7 @@ SectionForm.propTypes = {
   clearQuestions: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
 };
 
 SectionForm.contextTypes = {

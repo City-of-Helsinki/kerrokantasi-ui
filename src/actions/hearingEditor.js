@@ -29,6 +29,7 @@ export const EditorActions = {
   INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   CLEAR_QUESTIONS: 'clearQuestions',
+  ADD_OPTION: 'addOption',
   EDIT_SECTION: 'changeSection',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
@@ -233,6 +234,12 @@ export function clearQuestions(sectionId) {
     return dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({sectionId}));
   };
 }
+
+export const addOption = (sectionId, questionId) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
+  };
+};
 
 /*
 * Removes section from hearing

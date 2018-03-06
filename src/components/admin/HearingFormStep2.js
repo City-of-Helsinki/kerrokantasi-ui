@@ -176,6 +176,7 @@ HearingFormStep2.propTypes = {
   clearQuestions: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
 };
 
 HearingFormStep2.contextTypes = {
