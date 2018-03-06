@@ -4,6 +4,7 @@ import { combineActions, handleActions } from 'redux-actions';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
 import omit from 'lodash/omit';
+import size from 'lodash/size';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -60,7 +61,7 @@ const byId = handleActions(
     },
     [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
       const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
-      question.options[keys(question.options).length] = {};
+      question.options[size(question.options) + 1] = {};
       const section = state[sectionId];
       section.questions = [question];
       return {
@@ -68,10 +69,10 @@ const byId = handleActions(
         [sectionId]: section
       };
     },
-    [EditorActions.DELETE_OPTION]: (state, {payload: {sectionId, questionId, optionKey}}) => {
+    [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
       const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
-      const options = omit(question.options, [optionKey]);
-      question.options = options;
+      const newOptions = omit(question.options, [(size(question.options)).toString()]);
+      question.options = newOptions;
       const section = state[sectionId];
       section.questions = [...section.questions.filter((quest) => quest.frontId !== questionId), question];
       return {

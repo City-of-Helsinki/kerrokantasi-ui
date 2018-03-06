@@ -213,6 +213,7 @@ class SectionForm extends React.Component {
             addOption={addOption}
             deleteOption={deleteOption}
             sectionId={section.frontId}
+            sectionLanguages={sectionLanguages}
           />
         )}
       </div>

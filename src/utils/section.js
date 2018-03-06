@@ -59,7 +59,6 @@ export function initNewSection(inits) {
       id: '',
       type: '',
       commenting: 'open',
-      questions: [],
       published: false,
       title: initAttr(),
       abstract: initAttr(),
@@ -72,7 +71,8 @@ export function initNewSection(inits) {
       plugin_data: '',
       type_name_singular: '',
       type_name_plural: '',
-      hearing: ''
+      hearing: '',
+      questions: []
     },
     inits || {},
   );
