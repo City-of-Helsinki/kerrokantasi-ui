@@ -22,7 +22,8 @@ import {
   initSingleChoiceQuestion,
   initMultipleChoiceQuestion,
   clearQuestions,
-  addOption
+  addOption,
+  deleteOption
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -144,6 +145,11 @@ class HearingEditor extends React.Component {
     dispatch(addOption(sectionId, questionId));
   }
 
+  deleteOption = (sectionId, questionId, optionKey) => {
+    const {dispatch} = this.props;
+    dispatch(deleteOption(sectionId, questionId, optionKey));
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -174,6 +180,7 @@ class HearingEditor extends React.Component {
         initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
         clearQuestions={this.clearQuestions}
         addOption={this.addOption}
+        deleteOption={this.deleteOption}
       />
     );
   }

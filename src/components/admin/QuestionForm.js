@@ -6,7 +6,7 @@ import {Button} from 'react-bootstrap';
 
 export class QuestionForm extends React.Component {
   render() {
-    const {question, sectionId, addOption} = this.props;
+    const {question, sectionId, addOption, deleteOption} = this.props;
 
     return (
       <div>
@@ -20,16 +20,21 @@ export class QuestionForm extends React.Component {
           fieldType={TextFieldTypes.TEXTAREA}
           placeholderId="sectionAbstractPlaceholder"
         />
-        {keys(question.options).map((option) =>
-          <MultiLanguageTextField
-            labelId="sectionContent"
-            name="content"
-            onBlur={() => {}}
-            rows="10"
-            value={'Wryy'}
-            languages={['fi']}
-            placeholderId="sectionContentPlaceholder"
-          />
+        {keys(question.options).map((optionKey) =>
+          <div>
+            <MultiLanguageTextField
+              labelId="sectionContent"
+              name="content"
+              onBlur={() => {}}
+              rows="10"
+              value={'Wryy'}
+              languages={['fi']}
+              placeholderId="sectionContentPlaceholder"
+            />
+            <Button bsStyle="default" onClick={() => deleteOption(sectionId, question.frontId, optionKey)}>
+              Delete
+            </Button>
+          </div>
         )}
         <Button bsStyle="default" onClick={() => addOption(sectionId, question.frontId)}>
           Add Option
@@ -42,7 +47,8 @@ export class QuestionForm extends React.Component {
 QuestionForm.propTypes = {
   question: PropTypes.object,
   sectionId: PropTypes.string,
-  addOption: PropTypes.func
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func
 };
 
 export default QuestionForm;

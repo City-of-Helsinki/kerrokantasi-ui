@@ -30,6 +30,7 @@ export const EditorActions = {
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   CLEAR_QUESTIONS: 'clearQuestions',
   ADD_OPTION: 'addOption',
+  DELETE_OPTION: 'deleteOption',
   EDIT_SECTION: 'changeSection',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
@@ -238,6 +239,12 @@ export function clearQuestions(sectionId) {
 export const addOption = (sectionId, questionId) => {
   return dispatch => {
     return dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
+  };
+};
+
+export const deleteOption = (sectionId, questionId, optionKey) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.DELETE_OPTION)({sectionId, questionId, optionKey}));
   };
 };
 

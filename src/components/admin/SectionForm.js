@@ -84,7 +84,7 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, addOption, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
+    const {section, addOption, deleteOption, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -207,7 +207,13 @@ class SectionForm extends React.Component {
           </Radio>
         </FormGroup>
         {!isEmpty(section.questions) && section.questions.map((question) =>
-          <QuestionForm key={question.id} question={question} addOption={addOption} sectionId={section.frontId}/>
+          <QuestionForm
+            key={question.id}
+            question={question}
+            addOption={addOption}
+            deleteOption={deleteOption}
+            sectionId={section.frontId}
+          />
         )}
       </div>
     );
@@ -233,6 +239,7 @@ SectionForm.propTypes = {
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,
+  deleteOption: PropTypes.func
 };
 
 SectionForm.contextTypes = {
