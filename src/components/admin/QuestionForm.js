@@ -11,7 +11,7 @@ export class QuestionForm extends React.Component {
     const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange} = this.props;
 
     return (
-      <div className="question-form">
+      <div className="question-form" key={question.type}>
         <MultiLanguageTextField
           labelId="question"
           maxLength={120}
