@@ -51,7 +51,6 @@ class HearingForm extends React.Component {
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
-
     return (
       <Panel eventKey={step}>
         <Panel.Heading>

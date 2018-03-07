@@ -10,10 +10,22 @@ import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 class HearingFormStep5 extends React.Component {
-  onChange = () => {
-    console.log('selected project changed');
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedProjectId: ''
+    };
+  }
+  onChange = (event) => {
+    this.setState({
+      selectedProjectId: event.target.value
+    });
   }
   render() {
+    const {projects} = this.props;
+    const selectedProject = projects.filter(
+      project => project.id === this.state.selectedProjectId
+    )[0];
     return (
       <div>
         <FormGroup controlId="hearingCommenting">
@@ -24,12 +36,25 @@ class HearingFormStep5 extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
+              <option key="initial-value" value="" />
+              {
+                projects.map((project) => (
+                  <option key={project.id} value={project.id}>{`project id: ${project.id}`}</option>
+                ))
+              }
             </FormControl>
           </div>
         </FormGroup>
+        <div className="phases-container">
+          {
+            selectedProject
+              ? selectedProject.phases.map((phase, index) => (
+                <div key={phase.name}>
+                  <span>{index + 1}</span><span>{phase.schedule}</span>
+                </div>))
+              : null
+          }
+        </div>
         <ButtonToolbar>
           <Button
             bsSize="small"
@@ -44,13 +69,17 @@ class HearingFormStep5 extends React.Component {
 }
 
 HearingFormStep5.propTypes = {
-
+  projects: PropTypes.array
 };
 
 HearingFormStep5.contextTypes = {
   language: PropTypes.string
 };
 
-const WrappedHearingFormStep5 = connect()(injectIntl(HearingFormStep5));
+const mapStateToProps = (state) => ({
+  projects: state.hearingEditor.projects
+});
+
+const WrappedHearingFormStep5 = connect(mapStateToProps)(injectIntl(HearingFormStep5));
 
 export default WrappedHearingFormStep5;

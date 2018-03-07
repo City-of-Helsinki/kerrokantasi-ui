@@ -52,6 +52,7 @@ export class HearingContainerComponent extends React.Component {
       contactPersons,
       setLanguage
     } = this.props;
+
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
 
     return (
