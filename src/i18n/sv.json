@@ -123,5 +123,7 @@
   "infoPage": "Information om tjänsten",
   "mapView": "Alla höranden på kartan",
   "loginToComment": "Logga in för att kommentera.",
-  "logintToVoteComment": "Logga in för att rösta på kommentaren."
+  "logintToVoteComment": "Logga in för att rösta på kommentaren.",
+  "addProcess": "lägg till ett steg",
+  "project": "projekt"
 }

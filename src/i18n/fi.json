@@ -13,6 +13,7 @@
   "hearingFormHeaderStep2": "2. Sisältö",
   "hearingFormHeaderStep3": "3. Kartta",
   "hearingFormHeaderStep4": "4. Julkaisutiedot",
+  "hearingFormHeaderStep5": "5. Prosessit",
   "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
   "saveFailed": "Tallentaminen epäonnistui",
   "hearingFormNext": "Jatka",
@@ -194,5 +195,7 @@
   "mapView": "Kaikki kuulemiset kartalla",
   "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
-  "addGeojson": "Lisää geojson tiedostona"
+  "addGeojson": "Lisää geojson tiedostona",
+  "addProcess": "Lisää vaiha",
+  "project": "projekti"
 }
