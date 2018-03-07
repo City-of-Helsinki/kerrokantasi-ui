@@ -131,7 +131,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const {language, section} = this.props;
+    const {language, section, onChangeAnswers} = this.props;
     const mockSection = Object.assign({}, section);
     mockSection.questions = [
       {
@@ -182,7 +182,7 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {mockSection.questions.map((question) => <QuestionForm key={question.id} question={question} language={language} />)}
+          {mockSection.questions.map((question) => <QuestionForm key={question.id} onChange={onChangeAnswers} question={question} language={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
@@ -271,17 +271,17 @@ BaseCommentForm.defaultProps = {
   defaultNickname: ''
 };
 
-const QuestionForm = ({question, lang}) => {
+const QuestionForm = ({question, lang, onChange}) => {
   return (
-    <FormGroup>
+    <FormGroup onChange={(ev) => onChange(question.id, ev.target.value)}>
       <h4>{getAttr(question, lang)}</h4>
       {question.type === 'single-choice' && keys(question.options).map((optionKey) => (
-        <Radio key={optionKey} name="radioGroup">
+        <Radio key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Radio>
       ))}
       {question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
-        <Checkbox key={optionKey} name="radioGroup">
+        <Checkbox key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Checkbox>
       ))}

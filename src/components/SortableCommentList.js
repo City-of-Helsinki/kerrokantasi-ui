@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import {get, isEmpty, keys, throttle} from 'lodash';
+import {get, isEmpty, keys, throttle, find} from 'lodash';
 import Waypoint from 'react-waypoint';
 import PropTypes from 'prop-types';
 import WrappedCommentList from './CommentList';
@@ -22,12 +22,13 @@ const ORDERING_CRITERIA = {
 };
 
 export class SortableCommentListComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       showLoader: false,
       collapseForm: false,
+      answers: props.section.questions.map((question) => ({question: question.id, answer: null}))
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
@@ -94,6 +95,13 @@ export class SortableCommentListComponent extends Component {
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
     }
+  }
+
+
+  onChangeAnswers = (questionId, value) => {
+    // const newAnswer = find(this.state.answers, (answer) => answer.question === questionId)
+    // if (newAnswer.answer)
+    // const newAnswers = this.state.answers.filter((answer) => answer.question !== questionId)
   }
 
   handleReachBottom() {
@@ -174,6 +182,8 @@ export class SortableCommentListComponent extends Component {
             collapseForm={this.state.collapseForm}
             section={section}
             language={language}
+            onChangeAnswers={this.onChangeAnswers}
+            answers={this.state.answers}
           />
         </div>
       </div>
