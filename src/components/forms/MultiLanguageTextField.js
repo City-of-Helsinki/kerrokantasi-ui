@@ -55,6 +55,8 @@ class MultiLanguageTextField extends React.Component {
       // Remove event listeners from ...rest
       onBlur, // eslint-disable-line
       onChange, // eslint-disable-line
+      showLabel,
+      label,
       ...rest
     } = this.props;
 
@@ -83,6 +85,8 @@ class MultiLanguageTextField extends React.Component {
           return (
             <TextField
               key={lang}
+              label={label}
+              showLabel={showLabel}
               value={currentValue}
               onChange={(ev) => this.onChange(ev, lang)}
               onBlur={(ev) => this.onBlur(ev, lang)}

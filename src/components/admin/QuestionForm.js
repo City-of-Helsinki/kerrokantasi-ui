@@ -11,7 +11,7 @@ export class QuestionForm extends React.Component {
     const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange} = this.props;
 
     return (
-      <div>
+      <div className="question-form">
         <MultiLanguageTextField
           labelId="question"
           maxLength={120}
@@ -27,6 +27,8 @@ export class QuestionForm extends React.Component {
             <div style={{flex: '19'}}>
               <MultiLanguageTextField
                 labelId="option"
+                showLabel
+                label={optionKey}
                 name="content"
                 onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, optionKey)}
                 rows="10"
@@ -35,10 +37,10 @@ export class QuestionForm extends React.Component {
                 placeholderId="sectionContentPlaceholder"
               />
             </div>
-            <div style={{flex: '1', marginTop: '54px', marginLeft: '15px'}}>
+            <div style={{flex: '1', marginTop: '48px', marginLeft: '15px'}}>
               {index !== 0 && index !== 1 && index === keys(question.options).length - 1 &&
                 <Button bsStyle="danger" onClick={() => deleteOption(sectionId, question.frontId, optionKey)}>
-                  <Icon className="icon" name="trash" />
+                  <Icon style={{fontSize: '24px'}} className="icon" name="trash" />
                 </Button>
               }
             </div>

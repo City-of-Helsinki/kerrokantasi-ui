@@ -56,6 +56,7 @@ class TextInput extends React.Component {
   }
 
   render() {
+    const {showLabel, label} = this.props;
     return (
       <InputBase
         error={this.state.error}
@@ -66,15 +67,35 @@ class TextInput extends React.Component {
         value={this.state.value}
         required={this.props.required}
       >
-        <FormControl
-          defaultValue={this.props.value}
-          maxLength={this.props.maxLength}
-          name={this.props.name}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          placeholder={this.getPlaceholder()}
-          type="text"
-        />
+        <div style={{display: 'flex'}}>
+          {showLabel &&
+            <div style={
+              {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContet: 'center',
+                padding: '4px 15px',
+                background: '#ebedf1',
+                textDecoration: 'bold',
+                borderWidth: '2px 0 2px 2px',
+                borderStyle: 'solid',
+                borderColor: 'black'
+              }
+            }
+            >
+              {label}
+            </div>
+          }
+          <FormControl
+            defaultValue={this.props.value}
+            maxLength={this.props.maxLength}
+            name={this.props.name}
+            onBlur={this.onBlur}
+            onChange={this.onChange}
+            placeholder={this.getPlaceholder()}
+            type="text"
+          />
+        </div>
       </InputBase>
     );
   }
