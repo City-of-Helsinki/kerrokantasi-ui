@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 export class QuestionForm extends React.Component {
   render() {
-    const {question, sectionId, addOption, deleteOption, sectionLanguages} = this.props;
+    const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange} = this.props;
 
     return (
       <div>
@@ -16,8 +16,8 @@ export class QuestionForm extends React.Component {
           labelId="question"
           maxLength={120}
           name="abstract"
-          onBlur={() => {}}
-          value={'moi'}
+          onBlur={(value) => onQuestionChange('text', sectionId, question.frontId, value)}
+          value={question.text}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
           placeholderId="sectionAbstractPlaceholder"
@@ -28,9 +28,9 @@ export class QuestionForm extends React.Component {
               <MultiLanguageTextField
                 labelId="option"
                 name="content"
-                onBlur={() => {}}
+                onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, optionKey)}
                 rows="10"
-                value={'Wryy'}
+                value={question.options[optionKey]}
                 languages={sectionLanguages}
                 placeholderId="sectionContentPlaceholder"
               />
@@ -57,7 +57,8 @@ QuestionForm.propTypes = {
   sectionId: PropTypes.string,
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
-  sectionLanguages: PropTypes.array
+  sectionLanguages: PropTypes.array,
+  onQuestionChange: PropTypes.func
 };
 
 export default QuestionForm;

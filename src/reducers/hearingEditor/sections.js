@@ -29,6 +29,20 @@ const byId = handleActions(
         [field]: value,
       },
     }),
+    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, value, optionKey} }) => {
+      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      if (fieldType === 'option') {
+        question.options[optionKey] = value;
+      } else if (fieldType === 'text') {
+        question.text = value;
+      }
+      const section = state[sectionId];
+      section.questions = [question];
+      return {
+        ...state,
+        [sectionId]: section
+      };
+    },
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
       ...state,
       [section.frontId]: section,

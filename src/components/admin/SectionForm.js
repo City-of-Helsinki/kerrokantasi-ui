@@ -84,7 +84,19 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, addOption, deleteOption, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
+    const {
+      section,
+      addOption,
+      deleteOption,
+      onSectionChange,
+      onSectionImageChange,
+      sectionLanguages,
+      sectionMoveUp,
+      sectionMoveDown,
+      isFirstSubsection,
+      isLastSubsection,
+      onQuestionChange
+    } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -214,6 +226,7 @@ class SectionForm extends React.Component {
             deleteOption={deleteOption}
             sectionId={section.frontId}
             sectionLanguages={sectionLanguages}
+            onQuestionChange={onQuestionChange}
           />
         )}
       </div>
@@ -240,7 +253,8 @@ SectionForm.propTypes = {
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,
-  deleteOption: PropTypes.func
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func
 };
 
 SectionForm.contextTypes = {

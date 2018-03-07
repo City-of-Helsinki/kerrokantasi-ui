@@ -23,7 +23,8 @@ import {
   initMultipleChoiceQuestion,
   clearQuestions,
   addOption,
-  deleteLastOption
+  deleteLastOption,
+  editQuestion
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -52,6 +53,10 @@ class HearingEditor extends React.Component {
 
   onSectionChange(sectionID, field, value) {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+
+  onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
+    this.props.dispatch(editQuestion(fieldType, sectionId, questionId, optionKey, value));
   }
 
   onSectionImageChange(sectionID, field, value) {
@@ -181,6 +186,7 @@ class HearingEditor extends React.Component {
         clearQuestions={this.clearQuestions}
         addOption={this.addOption}
         deleteOption={this.deleteOption}
+        onQuestionChange={this.onQuestionChange}
       />
     );
   }
