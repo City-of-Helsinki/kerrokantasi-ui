@@ -2,13 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
+import Radio from 'react-bootstrap/lib/Radio';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
+import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
+import keys from 'lodash/keys';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -127,6 +131,46 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
+    const {language, section} = this.props;
+    const mockSection = Object.assign({}, section);
+    mockSection.questions = [
+      {
+        "id": 85,
+        "type": "single-choice",
+        "text": {
+             "fi": "Kumpi on parempi?",
+          },
+        "independent_poll": true,
+        "options": {
+            1: {
+             "fi": "vaihtoehto",
+            },
+            2: {
+             "fi": "toinen vaihtoehto",
+            }
+         }
+      },
+      {
+        "id": 86,
+        "type": "multiple-choice",
+        "independent_poll": false,
+        "text": {
+             "fi": "Mistä näistä tykkäät?",
+         },
+        "options": {
+            1: {
+             "fi": "vaihtoehto",
+            },
+            2: {
+             "fi": "toinen vaihtoehto",
+           },
+            3: {
+             "fi": "kolmas vaihtoehto",
+            }
+         }
+      },
+    ]
+
     if (this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
@@ -137,7 +181,9 @@ export class BaseCommentForm extends React.Component {
     return (
       <div className="comment-form">
         <form>
-          <h3><FormattedMessage id="writeComment"/></h3>
+          <h2><FormattedMessage id="writeComment"/></h2>
+          {mockSection.questions.map((question) => <QuestionForm key={question.id} question={question} language={language} />)}
+          <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
             value={this.state.commentText}
@@ -179,7 +225,7 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          <h3><FormattedMessage id="nickname"/></h3>
+          <h4><FormattedMessage id="nickname"/></h4>
           <FormGroup>
             <FormControl
               type="text"
@@ -216,11 +262,37 @@ BaseCommentForm.propTypes = {
   intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: React.PropTypes.string,
-  nicknamePlaceholder: React.PropTypes.string
+  nicknamePlaceholder: React.PropTypes.string,
+  section: PropTypes.object,
+  language: PropTypes.string
 };
 
 BaseCommentForm.defaultProps = {
   defaultNickname: ''
 };
+
+const QuestionForm = ({question, lang}) => {
+  return (
+    <FormGroup>
+      <h4>{getAttr(question, lang)}</h4>
+      {question.type === 'single-choice' && keys(question.options).map((optionKey) => (
+        <Radio key={optionKey} name="radioGroup">
+          {getAttr(question.options[optionKey], lang)}
+        </Radio>
+      ))}
+      {question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
+        <Checkbox key={optionKey} name="radioGroup">
+          {getAttr(question.options[optionKey], lang)}
+        </Checkbox>
+      ))}
+    </FormGroup>
+  );
+};
+
+QuestionForm.propTypes = {
+  question: PropTypes.object,
+  lang: PropTypes.string
+};
+
 
 export default injectIntl(BaseCommentForm);

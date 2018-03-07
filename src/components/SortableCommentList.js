@@ -157,7 +157,8 @@ export class SortableCommentListComponent extends Component {
       sectionComments,
       canVote,
       user,
-      published
+      published,
+      language
     } = this.props;
 
     const showCommentList =
@@ -171,6 +172,8 @@ export class SortableCommentListComponent extends Component {
             defaultNickname={getNickname(user)}
             nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
+            section={section}
+            language={language}
           />
         </div>
       </div>
@@ -259,12 +262,14 @@ SortableCommentListComponent.propTypes = {
   canVote: PropTypes.bool,
   canComment: PropTypes.bool,
   hearingId: PropTypes.string,
-  published: PropTypes.bool
+  published: PropTypes.bool,
+  language: PropTypes.string
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
   user: get(state, 'user').data,
+  language: state.language
 });
 
 export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));
