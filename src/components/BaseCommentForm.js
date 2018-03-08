@@ -132,7 +132,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const {language, section, onChangeAnswers, answers} = this.props;
+    const {language, section, onChangeAnswers, answers, loggedIn} = this.props;
 
     if (this.state.collapsed) {
       return (
@@ -145,7 +145,7 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {section.questions.map((question) => <QuestionForm key={question.id} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
+          {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
@@ -234,20 +234,21 @@ BaseCommentForm.defaultProps = {
   defaultNickname: ''
 };
 
-const QuestionForm = ({question, lang, onChange, answers}) => {
+const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
     <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value, ev)}>
       <h4>{getAttr(question, lang)}</h4>
-      {question.type === 'single-choice' && keys(question.options).map((optionKey) => (
+      {loggedIn && question.type === 'single-choice' && keys(question.options).map((optionKey) => (
         <Radio checked={answers && answers.answers === optionKey} key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Radio>
       ))}
-      {question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
+      {loggedIn && question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
         <Checkbox checked={answers && answers.answers.includes(optionKey)} key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Checkbox>
       ))}
+      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
     </FormGroup>
   );
 };
@@ -256,7 +257,8 @@ QuestionForm.propTypes = {
   question: PropTypes.object,
   lang: PropTypes.string,
   onChange: PropTypes.func,
-  answers: PropTypes.any
+  answers: PropTypes.any,
+  loggedIn: PropTypes.bool
 };
 
 

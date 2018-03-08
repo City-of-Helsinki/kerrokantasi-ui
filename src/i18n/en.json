@@ -130,5 +130,6 @@
   "infoPage": "About service",
   "mapView": "All hearings on map",
   "loginToComment": "Login to comment this hearing.",
-  "logintToVoteComment": "Login to vote a comment."
+  "logintToVoteComment": "Login to vote a comment.",
+  "logInToAnswer": "Log in to answer and see results"
 }
