@@ -13,6 +13,43 @@ import MapQuestionnaire from './plugins/MapQuestionnaire';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
 
+const mockQuestions = [
+  {
+    "id": 85,
+    "type": "single-choice",
+    "text": {
+         "fi": "Kumpi on parempi?",
+      },
+    "independent_poll": true,
+    "options": {
+        1: {
+         "fi": "vaihtoehto",
+        },
+        2: {
+         "fi": "toinen vaihtoehto",
+        }
+     }
+  },
+  {
+    "id": 86,
+    "type": "multiple-choice",
+    "independent_poll": false,
+    "text": {
+         "fi": "Mistä näistä tykkäät?",
+     },
+    "options": {
+        1: {
+         "fi": "vaihtoehto",
+        },
+        2: {
+         "fi": "toinen vaihtoehto",
+       },
+        3: {
+         "fi": "kolmas vaihtoehto",
+        }
+     }
+  },
+];
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -28,7 +65,7 @@ export class SortableCommentListComponent extends Component {
     this.state = {
       showLoader: false,
       collapseForm: false,
-      answers: props.section.questions.map((question) => ({question: question.id, answer: null}))
+      answers: mockQuestions.map(question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})) // TODO: Use section.questions instead of mockQuestions after backend support
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
@@ -98,10 +135,49 @@ export class SortableCommentListComponent extends Component {
   }
 
 
-  onChangeAnswers = (questionId, value) => {
-    // const newAnswer = find(this.state.answers, (answer) => answer.question === questionId)
-    // if (newAnswer.answer)
-    // const newAnswers = this.state.answers.filter((answer) => answer.question !== questionId)
+  onChangeAnswers = (questionId, questionType, value) => {
+    const oldAnswer = find(this.state.answers, answer => answer.question === questionId);
+    if (questionType === 'single-choice') {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              question: questionId,
+              type: questionType,
+              answers: value
+            }
+          ]
+        }
+      );
+    } else if (questionType === 'multiple-choice' && oldAnswer && oldAnswer.answers.includes(value)) {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              ...oldAnswer,
+              answers: oldAnswer.answers.filter(answer => answer !== value)
+            }
+          ]
+        }
+      );
+    } else if (questionType === 'multiple-choice' && oldAnswer) {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              ...oldAnswer,
+              answers: [
+                ...oldAnswer.answers,
+                value
+              ]
+            }
+          ]
+        }
+      );
+    }
   }
 
   handleReachBottom() {
@@ -169,6 +245,9 @@ export class SortableCommentListComponent extends Component {
       language
     } = this.props;
 
+    const mockSection = Object.assign({}, section);
+    mockSection.questions = mockQuestions;
+
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
     const commentForm = canComment && published ? (
@@ -180,7 +259,7 @@ export class SortableCommentListComponent extends Component {
             defaultNickname={getNickname(user)}
             nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
-            section={section}
+            section={mockSection}
             language={language}
             onChangeAnswers={this.onChangeAnswers}
             answers={this.state.answers}

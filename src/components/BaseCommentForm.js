@@ -13,6 +13,7 @@ import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
+import find from 'lodash/find';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -131,45 +132,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const {language, section, onChangeAnswers} = this.props;
-    const mockSection = Object.assign({}, section);
-    mockSection.questions = [
-      {
-        "id": 85,
-        "type": "single-choice",
-        "text": {
-             "fi": "Kumpi on parempi?",
-          },
-        "independent_poll": true,
-        "options": {
-            1: {
-             "fi": "vaihtoehto",
-            },
-            2: {
-             "fi": "toinen vaihtoehto",
-            }
-         }
-      },
-      {
-        "id": 86,
-        "type": "multiple-choice",
-        "independent_poll": false,
-        "text": {
-             "fi": "Mistä näistä tykkäät?",
-         },
-        "options": {
-            1: {
-             "fi": "vaihtoehto",
-            },
-            2: {
-             "fi": "toinen vaihtoehto",
-           },
-            3: {
-             "fi": "kolmas vaihtoehto",
-            }
-         }
-      },
-    ]
+    const {language, section, onChangeAnswers, answers} = this.props;
 
     if (this.state.collapsed) {
       return (
@@ -182,7 +145,7 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {mockSection.questions.map((question) => <QuestionForm key={question.id} onChange={onChangeAnswers} question={question} language={language} />)}
+          {section.questions.map((question) => <QuestionForm key={question.id} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
@@ -271,17 +234,17 @@ BaseCommentForm.defaultProps = {
   defaultNickname: ''
 };
 
-const QuestionForm = ({question, lang, onChange}) => {
+const QuestionForm = ({question, lang, onChange, answers}) => {
   return (
-    <FormGroup onChange={(ev) => onChange(question.id, ev.target.value)}>
+    <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value, ev)}>
       <h4>{getAttr(question, lang)}</h4>
       {question.type === 'single-choice' && keys(question.options).map((optionKey) => (
-        <Radio key={optionKey} value={optionKey}>
+        <Radio checked={answers && answers.answers === optionKey} key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Radio>
       ))}
       {question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
-        <Checkbox key={optionKey} value={optionKey}>
+        <Checkbox checked={answers && answers.answers.includes(optionKey)} key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
         </Checkbox>
       ))}
@@ -291,7 +254,9 @@ const QuestionForm = ({question, lang, onChange}) => {
 
 QuestionForm.propTypes = {
   question: PropTypes.object,
-  lang: PropTypes.string
+  lang: PropTypes.string,
+  onChange: PropTypes.func,
+  answers: PropTypes.any
 };
 
 
