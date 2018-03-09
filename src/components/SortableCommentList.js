@@ -317,7 +317,7 @@ export class SortableCommentListComponent extends Component {
               <div>
                 <WrappedCommentList
                   canVote={canVote}
-                  section={section}
+                  section={mockSection}
                   comments={sectionComments.results}
                   totalCount={sectionComments.count}
                   onEditComment={this.props.onEditComment}

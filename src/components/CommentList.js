@@ -5,7 +5,7 @@ import Comment from './Comment';
 
 export class CommentList extends React.Component {
   render() {
-    const {comments, canComment, isLoading} = this.props;
+    const {comments, canComment, isLoading, section} = this.props;
     if (comments.length === 0) {
       if (!canComment || isLoading) {
         return null;  // No need to show a header for nothing at all.
@@ -26,6 +26,7 @@ export class CommentList extends React.Component {
             key={comment.id + Math.random()}
             onPostVote={this.props.onPostVote}
             canVote={this.props.canVote}
+            questions={section.questions}
           />
         )}
       </div>
@@ -40,7 +41,8 @@ CommentList.propTypes = {
   onEditComment: PropTypes.func,
   onDeleteComment: PropTypes.func,
   onPostVote: PropTypes.func,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  section: PropTypes.object
 };
 
 export default injectIntl(CommentList);

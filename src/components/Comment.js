@@ -7,6 +7,8 @@ import Icon from '../utils/Icon';
 import nl2br from 'react-nl2br';
 import {notifyError} from '../utils/notify';
 import forEach from 'lodash/forEach';
+import find from 'lodash/find';
+import getAttr from '../utils/getAttr';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -57,8 +59,25 @@ class Comment extends React.Component {
     this.props.onDeleteComment(section, id);
   }
 
+  getStrigifiedAnswer = (answer) => {
+    const {questions} = this.props;
+    const question = find(questions, que => que.id == answer.question); // eslint-disable-line
+    return {question: getAttr(question.text), answers: answer.answers.map(ans => getAttr(question.options[ans]))};
+  }
+
   render() {
     const {data} = this.props;
+    const mockData = Object.assign({}, data);
+    mockData.answers = [
+                {
+                    "question": 85,
+                    "answers": [1]
+                },
+                {
+                    "question": 86,
+                    "answers": [1,2]
+                },
+            ];
     const canEdit = data.can_edit;
     const {editorOpen} = this.state;
 
@@ -89,6 +108,7 @@ class Comment extends React.Component {
             </span>
           </div>
         </div>
+        {mockData.answers.map((answer) => <Answer answer={this.getStrigifiedAnswer(answer)} />)}
         <div className="hearing-comment-body">
           <p>{nl2br(data.content)}</p>
         </div>
@@ -155,7 +175,21 @@ Comment.propTypes = {
   canVote: PropTypes.bool,
   onPostVote: PropTypes.func,
   onEditComment: PropTypes.func,
-  onDeleteComment: PropTypes.func
+  onDeleteComment: PropTypes.func,
+  questions: PropTypes.array
+};
+
+const Answer = ({answer}) => {
+  return (
+    <div style={{borderBottom: '1px solid #ebedf1', padding: '8px 0', fontSize: '15px'}}>
+      <strong>{answer.question}</strong>
+      {answer.answers.map((ans) => <div><span style={{color: '#9fb6eb', marginRight: '4px'}}><Icon className="icon" name="check" /></span>{ans}</div>)}
+    </div>
+  );
+};
+
+Answer.propTypes = {
+  answer: PropTypes.object
 };
 
 export default injectIntl(Comment);
