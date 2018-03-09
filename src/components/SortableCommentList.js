@@ -28,7 +28,12 @@ const mockQuestions = [
         2: {
          "fi": "toinen vaihtoehto",
         }
-     }
+     },
+     "n_answers": 13,
+    "answers": {
+      1: 5,
+      2: 8
+    }
   },
   {
     "id": 86,
@@ -47,7 +52,13 @@ const mockQuestions = [
         3: {
          "fi": "kolmas vaihtoehto",
         }
-     }
+     },
+     "n_answers": 16,
+      answers: {
+        1: 5,
+        2: 8,
+        3: 14
+      }
   },
 ];
 

@@ -4,6 +4,7 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Radio from 'react-bootstrap/lib/Radio';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -145,6 +146,7 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
+          {section.questions.map((question) => <QuestionResults key={question.id} question={question} language={language} />)}
           {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
@@ -237,7 +239,7 @@ BaseCommentForm.defaultProps = {
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
     <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value, ev)}>
-      <h4>{getAttr(question, lang)}</h4>
+      <h4>{getAttr(question.text, lang)}</h4>
       {loggedIn && question.type === 'single-choice' && keys(question.options).map((optionKey) => (
         <Radio checked={answers && answers.answers === optionKey} key={optionKey} value={optionKey}>
           {getAttr(question.options[optionKey], lang)}
@@ -259,6 +261,29 @@ QuestionForm.propTypes = {
   onChange: PropTypes.func,
   answers: PropTypes.any,
   loggedIn: PropTypes.bool
+};
+
+const QuestionResults = ({question, lang}) => {
+  return (
+    <div>
+      <h4>{getAttr(question.text, lang)}</h4>
+      {keys(question.answers).map(
+        (answerKey) =>
+          <div key={answerKey}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div style={{color: 'blue', margin: '10px'}}>
+                {Math.round((question.answers[answerKey] / question.n_answers) * 100)}%
+              </div>
+              <div>
+                {getAttr(question.options[answerKey])}
+              </div>
+            </div>
+            <ProgressBar now={Math.round((question.answers[answerKey] / question.n_answers) * 100)} />
+          </div>
+        )
+      }
+    </div>
+  );
 };
 
 
