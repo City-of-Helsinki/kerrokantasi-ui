@@ -229,7 +229,10 @@ BaseCommentForm.propTypes = {
   defaultNickname: React.PropTypes.string,
   nicknamePlaceholder: React.PropTypes.string,
   section: PropTypes.object,
-  language: PropTypes.string
+  language: PropTypes.string,
+  onChangeAnswers: PropTypes.func,
+  answers: PropTypes.object,
+  loggedIn: PropTypes.bool
 };
 
 BaseCommentForm.defaultProps = {
@@ -286,5 +289,9 @@ const QuestionResults = ({question, lang}) => {
   );
 };
 
+QuestionResults.propTypes = {
+  question: PropTypes.object,
+  lang: PropTypes.string
+};
 
 export default injectIntl(BaseCommentForm);
