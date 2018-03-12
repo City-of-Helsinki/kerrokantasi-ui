@@ -7,6 +7,9 @@ import * as ContactPersonsSelector from './contactPersons';
 export const getHearingEditor = (state: AppState) =>
   state.hearingEditor;
 
+export const getProjects = (state: AppState) =>
+  getHearingEditor(state).projects;
+
 export const getIsFetchingHearing = (state: AppState) =>
   getHearingEditor(state).hearing.isFetching;
 
