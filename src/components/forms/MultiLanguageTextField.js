@@ -112,6 +112,8 @@ MultiLanguageTextField.propTypes = {
   richTextEditor: PropTypes.bool,
   placeholderId: PropTypes.string,
   value: PropTypes.object, // TODO: create shape
+  showLabel: PropTypes.bool,
+  label: PropTypes.string
 };
 
 MultiLanguageTextField.defaultProps = {

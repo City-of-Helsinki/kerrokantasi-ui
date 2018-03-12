@@ -15,6 +15,7 @@ import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
+import QuestionResults from './QuestionResults';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -264,34 +265,6 @@ QuestionForm.propTypes = {
   onChange: PropTypes.func,
   answers: PropTypes.any,
   loggedIn: PropTypes.bool
-};
-
-const QuestionResults = ({question, lang}) => {
-  return (
-    <div>
-      <h4>{getAttr(question.text, lang)}</h4>
-      {keys(question.answers).map(
-        (answerKey) =>
-          <div key={answerKey}>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{color: 'blue', margin: '10px'}}>
-                {Math.round((question.answers[answerKey] / question.n_answers) * 100)}%
-              </div>
-              <div>
-                {getAttr(question.options[answerKey])}
-              </div>
-            </div>
-            <ProgressBar now={Math.round((question.answers[answerKey] / question.n_answers) * 100)} />
-          </div>
-        )
-      }
-    </div>
-  );
-};
-
-QuestionResults.propTypes = {
-  question: PropTypes.object,
-  lang: PropTypes.string
 };
 
 export default injectIntl(BaseCommentForm);

@@ -10,6 +10,7 @@ import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
+import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
 
@@ -253,7 +254,8 @@ export class SortableCommentListComponent extends Component {
       canVote,
       user,
       published,
-      language
+      language,
+      closed
     } = this.props;
 
     const mockSection = Object.assign({}, section);
@@ -284,6 +286,14 @@ export class SortableCommentListComponent extends Component {
       <div>
         {section.commenting !== 'none' &&
         <div className="sortable-comment-list">
+          {closed &&
+            <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
+              {
+                mockSection.questions.map((question) =>
+                  <QuestionResults key={question.id} question={question} language={language} />)
+              }
+            </div>
+        }
           {commentForm}
           <div>
             <h2>
@@ -364,7 +374,8 @@ SortableCommentListComponent.propTypes = {
   canComment: PropTypes.bool,
   hearingId: PropTypes.string,
   published: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  closed: PropTypes.bool
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
