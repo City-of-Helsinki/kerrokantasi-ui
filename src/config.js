@@ -1,4 +1,4 @@
-import { pluginMap, jotainihanmuuta } from './shared_config.json'
+import { pluginMap } from './shared_config.json';
 
 const config = {
   pluginMap: pluginMap,
