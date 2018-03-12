@@ -12,6 +12,9 @@ import {
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
+  FETCH_PROJECTS: 'fetchProjects',
+  DELETE_PHASE: 'deletePhase',
+  ADD_PHASE: 'addPhase',
   SHOW_FORM: 'showHearingForm',
   CLOSE_FORM: 'closeHearingForm',
   SET_LANGUAGES: 'setEditorLanguages',
@@ -43,6 +46,18 @@ export const EditorActions = {
   SECTION_MOVE_UP: 'sectionMoveUp',
   SECTION_MOVE_DOWN: 'sectionMoveDown'
 };
+
+export function fetchProjects() {
+  return createAction(EditorActions.FETCH_PROJECTS)();
+}
+
+export function deletePhase(phaseId, projectId) {
+  return createAction(EditorActions.DELETE_PHASE)({phaseId, projectId});
+}
+
+export function addPhase(phaseInfo, projectId) {
+  return createAction(EditorActions.ADD_PHASE)({phaseInfo, projectId});
+}
 
 export function receiveHearing(normalizedHearing) {
   return createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
