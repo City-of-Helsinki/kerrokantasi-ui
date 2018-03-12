@@ -1,7 +1,7 @@
 import { pluginMap } from './shared_config.json';
 
 const config = {
-  pluginMap: pluginMap,
+  pluginMap,
   languages: ['fi', 'sv', 'en'],
   activeLanguage: 'fi',
   apiBaseUrl: (typeof window !== 'undefined' ? window.API_BASE_URL : null) || 'http://localhost:8000/',
