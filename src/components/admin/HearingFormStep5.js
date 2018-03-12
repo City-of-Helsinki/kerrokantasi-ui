@@ -11,7 +11,7 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
@@ -20,7 +20,8 @@ class HearingFormStep5 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProjectId: ''
+      selectedProjectId: '',
+      projects: this.props.projects
     };
   }
   onChange = (event) => {
@@ -90,13 +91,17 @@ const Phase = (props) => {
               <div>
                 <InputGroup>
                   <InputGroup.Addon>
-                    <FormattedMessage id={indexNumber}>{indexNumber}</FormattedMessage>
+                    <FormattedMessage id={`${indexNumber}`}>{indexNumber}</FormattedMessage>
                   </InputGroup.Addon>
                   <FormControl type="text" defaultValue={phaseInfo.name}/>
                 </InputGroup>
               </div>
-              <Button bsStyle="primary" className="pull-right add-label-button">
-                <Icon className="icon" name="plus"/>
+              <Button
+                bsStyle="default"
+                className="pull-right add-label-button"
+                style={{color: 'red', borderColor: 'red'}}
+              >
+                <Icon className="icon" name="trash"/>
               </Button>
             </div>
           </FormGroup>
@@ -108,7 +113,7 @@ const Phase = (props) => {
           <FormControl type="text" defaultValue={phaseInfo.schedule}/>
         </Col>
         <Col md={6}>
-          <ControlLabel>end time</ControlLabel>
+          <ControlLabel>description</ControlLabel>
           <FormControl type="text" defaultValue={phaseInfo.description}/>
         </Col>
       </Row>
