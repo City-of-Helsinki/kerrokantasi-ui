@@ -15,19 +15,25 @@ import {Row, Col} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
+import {deletePhase, addPhase, fetchProjects} from '../../actions/hearingEditor';
 
 class HearingFormStep5 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProjectId: '',
-      projects: this.props.projects
+      selectedProjectId: ''
     };
+  }
+  componentWillMount() {
+    this.props.dispatch(fetchProjects());
   }
   onChange = (event) => {
     this.setState({
       selectedProjectId: event.target.value
     });
+  }
+  deletePhase = (phaseId) => {
+    this.props.dispatch(deletePhase(phaseId, this.state.selectedProjectId));
   }
   render() {
     const {projects} = this.props;
@@ -60,7 +66,8 @@ class HearingFormStep5 extends React.Component {
                 <Phase
                   phaseInfo={phase}
                   key={phase.name}
-                  indexNumber={index + 1}
+                  indexNumber={index}
+                  onDelete={this.deletePhase}
                 />
               )
               : null
@@ -80,23 +87,24 @@ class HearingFormStep5 extends React.Component {
 }
 
 const Phase = (props) => {
-  const {phaseInfo, indexNumber} = props;
+  const {phaseInfo, indexNumber, onDelete} = props;
   return (
     <FormGroup>
       <Row>
         <Col md={12}>
           <FormGroup>
-            <ControlLabel>Step {indexNumber}</ControlLabel>
+            <ControlLabel>Step {indexNumber + 1}</ControlLabel>
             <div className="label-elements">
               <div>
                 <InputGroup>
                   <InputGroup.Addon>
-                    <FormattedMessage id={`${indexNumber}`}>{indexNumber}</FormattedMessage>
+                    <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
                   </InputGroup.Addon>
                   <FormControl type="text" defaultValue={phaseInfo.name}/>
                 </InputGroup>
               </div>
               <Button
+                onClick={() => onDelete(phaseInfo.id)}
                 bsStyle="default"
                 className="pull-right add-label-button"
                 style={{color: 'red', borderColor: 'red'}}
@@ -128,11 +136,13 @@ const Phase = (props) => {
 
 Phase.propTypes = {
   phaseInfo: PropTypes.object.isRequired,
-  indexNumber: PropTypes.number.isRequired
+  indexNumber: PropTypes.number.isRequired,
+  onDelete: PropTypes.func
 };
 
 HearingFormStep5.propTypes = {
-  projects: PropTypes.array
+  projects: PropTypes.array,
+  dispatch: PropTypes.func
 };
 
 HearingFormStep5.contextTypes = {
