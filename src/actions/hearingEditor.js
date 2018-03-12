@@ -12,6 +12,7 @@ import {
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
+  CREATE_PROJECT: 'createProject',
   FETCH_PROJECTS: 'fetchProjects',
   DELETE_PHASE: 'deletePhase',
   ADD_PHASE: 'addPhase',
@@ -46,6 +47,10 @@ export const EditorActions = {
   SECTION_MOVE_UP: 'sectionMoveUp',
   SECTION_MOVE_DOWN: 'sectionMoveDown'
 };
+
+export function createProject(projectInfo) {
+  return createAction(EditorActions.CREATE_PROJECT)(projectInfo);
+}
 
 export function fetchProjects() {
   return createAction(EditorActions.FETCH_PROJECTS)();

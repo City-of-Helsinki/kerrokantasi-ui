@@ -7,7 +7,10 @@ import mockProjects from './mock-projects';
 // };
 
 const projects = handleActions({
-  [EditorActions.FETCH_PROJECTS]: () => mockProjects,
+  [EditorActions.FETCH_PROJECTS]: () => [
+    {id: '', phases: []},
+    ...mockProjects
+  ],
   [EditorActions.DELETE_PHASE]: (state, {payload}) =>
     state.map(project => {
       if (project.id === payload.projectId) {
@@ -25,7 +28,9 @@ const projects = handleActions({
         });
       }
       return project;
-    })
+    }),
+  [EditorActions.CREATE_PROJECT]: (state, {payload}) =>
+    [...state, payload]
 }, []);
 
 export default projects;

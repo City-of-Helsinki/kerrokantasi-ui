@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v1';
 import type {AppState} from '../../types';
 import {connect} from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
@@ -15,7 +16,7 @@ import {Row, Col} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import {deletePhase, addPhase, fetchProjects} from '../../actions/hearingEditor';
+import {deletePhase, addPhase, fetchProjects, createProject} from '../../actions/hearingEditor';
 
 class HearingFormStep5 extends React.Component {
   constructor(props) {
@@ -31,6 +32,16 @@ class HearingFormStep5 extends React.Component {
     this.setState({
       selectedProjectId: event.target.value
     });
+  }
+  addPhase = () => {
+    // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
+    this.props.dispatch(addPhase({
+      id: uuid(),
+      name: '',
+      schedule: '',
+      description: '',
+      hearings: []
+    }, this.state.selectedProjectId));
   }
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId, this.state.selectedProjectId));
@@ -50,10 +61,12 @@ class HearingFormStep5 extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              <option key="initial-value" value="" />
+              {/* <option key="initial-value" value="" /> */}
               {
                 projects.map((project) => (
-                  <option key={project.id} value={project.id}>{`project id: ${project.id}`}</option>
+                  project.id === ''
+                  ? <option key={project.id} value={project.id}>new project</option>
+                  : <option key={project.id} value={project.id}>{`project id: ${project.id}`}</option>
                 ))
               }
             </FormControl>
@@ -62,19 +75,24 @@ class HearingFormStep5 extends React.Component {
         <div className="phases-container">
           {
             selectedProject
-              ? selectedProject.phases.map((phase, index) =>
-                <Phase
-                  phaseInfo={phase}
-                  key={phase.name}
-                  indexNumber={index}
-                  onDelete={this.deletePhase}
-                />
+              ? selectedProject.phases.map((phase, index) => {
+                const key = index;
+                return (
+                  <Phase
+                    phaseInfo={phase}
+                    key={key}
+                    indexNumber={index}
+                    onDelete={this.deletePhase}
+                  />
+                );
+              }
               )
               : null
           }
         </div>
         <ButtonToolbar>
           <Button
+            onClick={this.addPhase}
             bsSize="small"
             bsStyle="default"
           >
