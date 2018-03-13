@@ -7,8 +7,8 @@ import {Row, Col} from 'react-bootstrap';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import FormControlOnChange from '../forms/FormControlOnChange';
 
 const Phase = (props) => {
   const {phaseInfo, indexNumber, onDelete, onChange} = props;
@@ -28,12 +28,12 @@ const Phase = (props) => {
                         <InputGroup.Addon>
                           <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
                         </InputGroup.Addon>
-                        <FormControl
+                        <FormControlOnChange
+                          defaultValue={phaseInfo.title[usedLanguage]}
                           onBlur={(event) => {
                             onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
                           }}
                           type="text"
-                          defaultValue={phaseInfo.title[usedLanguage]}
                         />
                       </InputGroup>
                     </div>
@@ -52,22 +52,22 @@ const Phase = (props) => {
             <Row>
               <Col md={6}>
                 <ControlLabel>start time</ControlLabel>
-                <FormControl
+                <FormControlOnChange
+                  defaultValue={phaseInfo.schedule[usedLanguage]}
                   onBlur={(event) => {
                     onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
                   }}
                   type="text"
-                  defaultValue={phaseInfo.schedule[usedLanguage]}
                 />
               </Col>
               <Col md={6}>
                 <ControlLabel>description</ControlLabel>
-                <FormControl
+                <FormControlOnChange
+                  defaultValue={phaseInfo.description[usedLanguage]}
                   onBlur={(event) => {
                     onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
                   }}
                   type="text"
-                  defaultValue={phaseInfo.description[usedLanguage]}
                 />
               </Col>
             </Row>
