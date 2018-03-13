@@ -10,13 +10,17 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import Radio from 'react-bootstrap/lib/Radio';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import {Row, Col} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import {deletePhase, addPhase, fetchProjects, createProject} from '../../actions/hearingEditor';
+import Phase from './Phase';
+import {
+  deletePhase,
+  addPhase,
+  fetchProjects,
+  createProject,
+  changePhase
+} from '../../actions/hearingEditor';
 
 class HearingFormStep5 extends React.Component {
   constructor(props) {
@@ -52,12 +56,17 @@ class HearingFormStep5 extends React.Component {
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId, this.state.selectedProjectId));
   }
+  onChangePhase = (phaseId, fieldName, language, value) => {
+    this.props.dispatch(
+      changePhase(phaseId, this.state.selectedProjectId, fieldName, language, value)
+    );
+  }
   renderPhases = (selectedProject) => {
     return selectedProject.phases.map((phase, index) => {
       const key = index;
-      console.log(phase);
       return (
         <Phase
+          onChange={this.onChangePhase}
           phaseInfo={phase}
           key={key}
           indexNumber={index}
@@ -111,67 +120,6 @@ class HearingFormStep5 extends React.Component {
     );
   }
 }
-
-const Phase = (props) => {
-  const {phaseInfo, indexNumber, onDelete} = props;
-  const languages = Object.keys(phaseInfo.title);
-  return (
-    <div>
-      {
-        languages.map(usedLanguage => (
-          <FormGroup key={usedLanguage}>
-            <Row>
-              <Col md={12}>
-                <FormGroup>
-                  <ControlLabel>Step {indexNumber + 1} ({usedLanguage})</ControlLabel>
-                  <div className="label-elements">
-                    <div>
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
-                        </InputGroup.Addon>
-                        <FormControl type="text" value={phaseInfo.title[usedLanguage]} />
-                      </InputGroup>
-                    </div>
-                    <Button
-                      onClick={() => onDelete(phaseInfo.id)}
-                      bsStyle="default"
-                      className="pull-right add-label-button"
-                      style={{color: 'red', borderColor: 'red'}}
-                    >
-                      <Icon className="icon" name="trash"/>
-                    </Button>
-                  </div>
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <ControlLabel>start time</ControlLabel>
-                <FormControl type="text" value={phaseInfo.schedule[usedLanguage]}/>
-              </Col>
-              <Col md={6}>
-                <ControlLabel>description</ControlLabel>
-                <FormControl type="text" value={phaseInfo.description[usedLanguage]}/>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={12}>
-                <Radio>active</Radio>
-              </Col>
-            </Row>
-          </FormGroup>
-        ))
-      }
-    </div>
-  );
-};
-
-Phase.propTypes = {
-  phaseInfo: PropTypes.object.isRequired,
-  indexNumber: PropTypes.number.isRequired,
-  onDelete: PropTypes.func
-};
 
 HearingFormStep5.propTypes = {
   projects: PropTypes.array,
