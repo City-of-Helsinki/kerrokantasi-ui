@@ -14,6 +14,7 @@ import {
 export const EditorActions = {
   CREATE_PROJECT: 'createProject',
   FETCH_PROJECTS: 'fetchProjects',
+  EDIT_PHASE: 'changePhase',
   DELETE_PHASE: 'deletePhase',
   ADD_PHASE: 'addPhase',
   SHOW_FORM: 'showHearingForm',
@@ -58,6 +59,16 @@ export function fetchProjects() {
 
 export function deletePhase(phaseId, projectId) {
   return createAction(EditorActions.DELETE_PHASE)({phaseId, projectId});
+}
+
+export function changePhase(phaseId, projectId, fieldName, language, value) {
+  return createAction(EditorActions.EDIT_PHASE)({
+    phaseId,
+    projectId,
+    fieldName,
+    language,
+    value
+  });
 }
 
 export function addPhase(phaseInfo, projectId) {
