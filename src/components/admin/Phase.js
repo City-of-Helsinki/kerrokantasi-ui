@@ -29,11 +29,11 @@ const Phase = (props) => {
                           <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
                         </InputGroup.Addon>
                         <FormControl
-                          onChange={(event) => {
+                          onBlur={(event) => {
                             onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
                           }}
                           type="text"
-                          value={phaseInfo.title[usedLanguage]}
+                          defaultValue={phaseInfo.title[usedLanguage]}
                         />
                       </InputGroup>
                     </div>
@@ -53,21 +53,21 @@ const Phase = (props) => {
               <Col md={6}>
                 <ControlLabel>start time</ControlLabel>
                 <FormControl
-                  onChange={(event) => {
+                  onBlur={(event) => {
                     onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
                   }}
                   type="text"
-                  value={phaseInfo.schedule[usedLanguage]}
+                  defaultValue={phaseInfo.schedule[usedLanguage]}
                 />
               </Col>
               <Col md={6}>
                 <ControlLabel>description</ControlLabel>
                 <FormControl
-                  onChange={(event) => {
+                  onBlur={(event) => {
                     onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
                   }}
                   type="text"
-                  value={phaseInfo.description[usedLanguage]}
+                  defaultValue={phaseInfo.description[usedLanguage]}
                 />
               </Col>
             </Row>
