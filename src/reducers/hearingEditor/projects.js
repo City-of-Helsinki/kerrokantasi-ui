@@ -2,13 +2,9 @@ import {handleActions} from 'redux-actions';
 import {EditorActions} from '../../actions/hearingEditor';
 import mockProjects from './mock-projects';
 
-// const projects = (state) => {
-//   return state || mockProjects;
-// };
-
 const projects = handleActions({
   [EditorActions.FETCH_PROJECTS]: () => [
-    {id: '', phases: []},
+    getEmptyProject(),
     ...mockProjects
   ],
   [EditorActions.DELETE_PHASE]: (state, {payload}) =>
@@ -31,6 +27,13 @@ const projects = handleActions({
     }),
   [EditorActions.CREATE_PROJECT]: (state, {payload}) =>
     [...state, payload]
-}, []);
+}, [getEmptyProject()]);
+
+function getEmptyProject() {
+  return {
+    id: '',
+    phases: []
+  };
+}
 
 export default projects;

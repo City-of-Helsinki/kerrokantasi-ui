@@ -37,17 +37,36 @@ class HearingFormStep5 extends React.Component {
     // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
     this.props.dispatch(addPhase({
       id: uuid(),
-      name: '',
-      schedule: '',
-      description: '',
-      hearings: []
+      has_hearings: false,
+      title: {
+        en: ''
+      },
+      description: {
+        en: ''
+      },
+      schedule: {
+        en: ''
+      }
     }, this.state.selectedProjectId));
   }
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId, this.state.selectedProjectId));
   }
+  renderPhases = (selectedProject) => {
+    return selectedProject.phases.map((phase, index) => {
+      const key = index;
+      return (
+        <Phase
+          phaseInfo={phase}
+          key={key}
+          indexNumber={index}
+          onDelete={this.deletePhase}
+        />
+      );
+    });
+  }
   render() {
-    const {projects} = this.props;
+    const {projects, language} = this.props;
     const selectedProject = projects.filter(
       project => project.id === this.state.selectedProjectId
     )[0];
@@ -61,34 +80,22 @@ class HearingFormStep5 extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              {/* <option key="initial-value" value="" /> */}
               {
                 projects.map((project) => (
                   project.id === ''
                   ? <option key={project.id} value={project.id}>new project</option>
-                  : <option key={project.id} value={project.id}>{`project id: ${project.id}`}</option>
+                  : (
+                    <option key={project.id} value={project.id}>
+                      {`project name: ${project.title[language] || project.title.en}`}
+                    </option>
+                    )
                 ))
               }
             </FormControl>
           </div>
         </FormGroup>
         <div className="phases-container">
-          {
-            selectedProject
-              ? selectedProject.phases.map((phase, index) => {
-                const key = index;
-                return (
-                  <Phase
-                    phaseInfo={phase}
-                    key={key}
-                    indexNumber={index}
-                    onDelete={this.deletePhase}
-                  />
-                );
-              }
-              )
-              : null
-          }
+          {this.renderPhases(selectedProject)}
         </div>
         <ButtonToolbar>
           <Button
@@ -107,48 +114,54 @@ class HearingFormStep5 extends React.Component {
 const Phase = (props) => {
   const {phaseInfo, indexNumber, onDelete} = props;
   return (
-    <FormGroup>
-      <Row>
-        <Col md={12}>
-          <FormGroup>
-            <ControlLabel>Step {indexNumber + 1}</ControlLabel>
-            <div className="label-elements">
-              <div>
-                <InputGroup>
-                  <InputGroup.Addon>
-                    <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
-                  </InputGroup.Addon>
-                  <FormControl type="text" defaultValue={phaseInfo.name}/>
-                </InputGroup>
-              </div>
-              <Button
-                onClick={() => onDelete(phaseInfo.id)}
-                bsStyle="default"
-                className="pull-right add-label-button"
-                style={{color: 'red', borderColor: 'red'}}
-              >
-                <Icon className="icon" name="trash"/>
-              </Button>
-            </div>
+    <div>
+      {
+        Object.keys(phaseInfo.title).map(usedLanguage => (
+          <FormGroup key={usedLanguage}>
+            <Row>
+              <Col md={12}>
+                <FormGroup>
+                  <ControlLabel>Step {indexNumber + 1}</ControlLabel>
+                  <div className="label-elements">
+                    <div>
+                      <InputGroup>
+                        <InputGroup.Addon>
+                          <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
+                        </InputGroup.Addon>
+                        <FormControl type="text" defaultValue={phaseInfo.title[usedLanguage]} />
+                      </InputGroup>
+                    </div>
+                    <Button
+                      onClick={() => onDelete(phaseInfo.id)}
+                      bsStyle="default"
+                      className="pull-right add-label-button"
+                      style={{color: 'red', borderColor: 'red'}}
+                    >
+                      <Icon className="icon" name="trash"/>
+                    </Button>
+                  </div>
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <ControlLabel>start time</ControlLabel>
+                <FormControl type="text" defaultValue={phaseInfo.schedule[usedLanguage]}/>
+              </Col>
+              <Col md={6}>
+                <ControlLabel>description</ControlLabel>
+                <FormControl type="text" defaultValue={phaseInfo.description[usedLanguage]}/>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <Radio>active</Radio>
+              </Col>
+            </Row>
           </FormGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          <ControlLabel>start time</ControlLabel>
-          <FormControl type="text" defaultValue={phaseInfo.schedule}/>
-        </Col>
-        <Col md={6}>
-          <ControlLabel>description</ControlLabel>
-          <FormControl type="text" defaultValue={phaseInfo.description}/>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12}>
-          <Radio>active</Radio>
-        </Col>
-      </Row>
-    </FormGroup>
+        ))
+      }
+    </div>
   );
 };
 
@@ -160,7 +173,8 @@ Phase.propTypes = {
 
 HearingFormStep5.propTypes = {
   projects: PropTypes.array,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  language: PropTypes.string
 };
 
 HearingFormStep5.contextTypes = {
