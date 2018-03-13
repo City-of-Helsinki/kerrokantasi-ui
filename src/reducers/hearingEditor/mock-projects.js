@@ -1,13 +1,13 @@
 const mockProjects = [
   {
-    id: "wjgfwiojfe",
+    id: "project 1",
     identifier: null,
     title: {
       en: 'test project 1'
     },
     phases: [
       {
-        id: 'asfadgfad',
+        id: 'project 1 - phase 1',
         has_hearings: false,
         ordering: 1,
         title: {
@@ -23,14 +23,14 @@ const mockProjects = [
     ]
   },
   {
-    id: "cgsgsgaee",
+    id: "project 2",
     identifier: null,
     title: {
       en: 'test project 2'
     },
     phases: [
       {
-        id: 'qoifnksaff',
+        id: 'project 2 - phase 1',
         has_hearings: false,
         ordering: 1,
         title: {
@@ -47,7 +47,7 @@ const mockProjects = [
         }
       },
       {
-        id: 'knvkuegms',
+        id: 'project 2 - phase 2',
         has_hearings: false,
         ordering: 2,
         title: {
@@ -61,7 +61,7 @@ const mockProjects = [
         }
       },
       {
-        id: 'kadkjvkjad',
+        id: 'project 2 - phase 3',
         has_hearings: true,
         ordering: 3,
         title: {
@@ -77,14 +77,14 @@ const mockProjects = [
     ]
   },
   {
-    id: "vbmisyhsfh",
+    id: "project 3",
     identifier: null,
     title: {
       en: 'test project 3'
     },
     phases: [
       {
-        id: 'kashuvms',
+        id: 'project 3 - phase 1',
         has_hearings: true,
         ordering: 1,
         title: {
@@ -98,7 +98,7 @@ const mockProjects = [
         }
       },
       {
-        id: 'lafoijfks',
+        id: 'project 3 - phase 2',
         has_hearings: false,
         ordering: 2,
         title: {

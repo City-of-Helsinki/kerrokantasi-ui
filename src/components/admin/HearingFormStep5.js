@@ -55,6 +55,7 @@ class HearingFormStep5 extends React.Component {
   renderPhases = (selectedProject) => {
     return selectedProject.phases.map((phase, index) => {
       const key = index;
+      console.log(phase);
       return (
         <Phase
           phaseInfo={phase}
@@ -113,22 +114,23 @@ class HearingFormStep5 extends React.Component {
 
 const Phase = (props) => {
   const {phaseInfo, indexNumber, onDelete} = props;
+  const languages = Object.keys(phaseInfo.title);
   return (
     <div>
       {
-        Object.keys(phaseInfo.title).map(usedLanguage => (
+        languages.map(usedLanguage => (
           <FormGroup key={usedLanguage}>
             <Row>
               <Col md={12}>
                 <FormGroup>
-                  <ControlLabel>Step {indexNumber + 1}</ControlLabel>
+                  <ControlLabel>Step {indexNumber + 1} ({usedLanguage})</ControlLabel>
                   <div className="label-elements">
                     <div>
                       <InputGroup>
                         <InputGroup.Addon>
                           <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
                         </InputGroup.Addon>
-                        <FormControl type="text" defaultValue={phaseInfo.title[usedLanguage]} />
+                        <FormControl type="text" value={phaseInfo.title[usedLanguage]} />
                       </InputGroup>
                     </div>
                     <Button
@@ -146,11 +148,11 @@ const Phase = (props) => {
             <Row>
               <Col md={6}>
                 <ControlLabel>start time</ControlLabel>
-                <FormControl type="text" defaultValue={phaseInfo.schedule[usedLanguage]}/>
+                <FormControl type="text" value={phaseInfo.schedule[usedLanguage]}/>
               </Col>
               <Col md={6}>
                 <ControlLabel>description</ControlLabel>
-                <FormControl type="text" defaultValue={phaseInfo.description[usedLanguage]}/>
+                <FormControl type="text" value={phaseInfo.description[usedLanguage]}/>
               </Col>
             </Row>
             <Row>
