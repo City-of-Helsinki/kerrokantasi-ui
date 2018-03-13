@@ -25,7 +25,7 @@ const projects = handleActions({
   }}) =>
     state.map(project => {
       if (project.id === projectId) {
-        return project.phases.map(phase => {
+        const newPhases = project.phases.map(phase => {
           if (phase.id === phaseId) {
             const newValue = {
               [language]: value
@@ -35,6 +35,9 @@ const projects = handleActions({
             });
           }
           return phase;
+        });
+        return Object.assign({}, project, {
+          phases: newPhases
         });
       }
       return project;

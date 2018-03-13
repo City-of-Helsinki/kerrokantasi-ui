@@ -11,7 +11,7 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 
 const Phase = (props) => {
-  const {phaseInfo, indexNumber, onDelete} = props;
+  const {phaseInfo, indexNumber, onDelete, onChange} = props;
   const languages = Object.keys(phaseInfo.title);
   return (
     <div>
@@ -28,7 +28,13 @@ const Phase = (props) => {
                         <InputGroup.Addon>
                           <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
                         </InputGroup.Addon>
-                        <FormControl type="text" value={phaseInfo.title[usedLanguage]} />
+                        <FormControl
+                          onChange={(event) => {
+                            onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
+                          }}
+                          type="text"
+                          value={phaseInfo.title[usedLanguage]}
+                        />
                       </InputGroup>
                     </div>
                     <Button
@@ -46,11 +52,23 @@ const Phase = (props) => {
             <Row>
               <Col md={6}>
                 <ControlLabel>start time</ControlLabel>
-                <FormControl type="text" value={phaseInfo.schedule[usedLanguage]}/>
+                <FormControl
+                  onChange={(event) => {
+                    onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
+                  }}
+                  type="text"
+                  value={phaseInfo.schedule[usedLanguage]}
+                />
               </Col>
               <Col md={6}>
                 <ControlLabel>description</ControlLabel>
-                <FormControl type="text" value={phaseInfo.description[usedLanguage]}/>
+                <FormControl
+                  onChange={(event) => {
+                    onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
+                  }}
+                  type="text"
+                  value={phaseInfo.description[usedLanguage]}
+                />
               </Col>
             </Row>
             <Row>
