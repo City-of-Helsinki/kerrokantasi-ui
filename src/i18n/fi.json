@@ -194,5 +194,7 @@
   "mapView": "Kaikki kuulemiset kartalla",
   "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
-  "addGeojson": "Lisää geojson tiedostona"
+  "addGeojson": "Lisää geojson tiedostona",
+  "deleteDraft": "Poista luonnos",
+  "draftDeleted": "Luonnos poistettiin onnistuneesti"
 }

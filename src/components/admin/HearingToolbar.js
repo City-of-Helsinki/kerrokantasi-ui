@@ -53,6 +53,12 @@ class HearingToolbar extends React.Component {
           <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
         </Button>
       );
+    } else if (!hearing.published) {
+      actions.push(
+        <Button bsStyle="danger" onClick={() => this.props.onDeleteHearingDraft()} key="unpublish">
+          <Icon name="eye-slash"/> <FormattedMessage id="deleteDraft"/>
+        </Button>
+      );
     } else {
       statusLabel = (<Alert bsStyle="info"><Icon name="pencil"/> <FormattedMessage id="draft"/></Alert>);
       let publishText = <FormattedMessage id="publishHearing"/>;
@@ -89,6 +95,7 @@ HearingToolbar.propTypes = {
   onEdit: PropTypes.func,
   onPublish: PropTypes.func,
   onRevertPublishing: PropTypes.func,
+  onDeleteHearingDraft: PropTypes.func,
   user: userShape,
 };
 
