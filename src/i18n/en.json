@@ -130,5 +130,9 @@
   "infoPage": "About service",
   "mapView": "All hearings on map",
   "loginToComment": "Login to comment this hearing.",
-  "logintToVoteComment": "Login to vote a comment."
+  "logintToVoteComment": "Login to vote a comment.",
+  "phaseDuration": "Phase duration",
+  "phaseDescription": "Phase description",
+  "phaseActive": "Active",
+  "phase": "Phase"
 }

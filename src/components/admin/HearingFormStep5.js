@@ -18,7 +18,6 @@ import {
   deletePhase,
   addPhase,
   fetchProjects,
-  createProject,
   changePhase
 } from '../../actions/hearingEditor';
 

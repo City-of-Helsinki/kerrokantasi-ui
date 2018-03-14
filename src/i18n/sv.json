@@ -125,5 +125,9 @@
   "loginToComment": "Logga in för att kommentera.",
   "logintToVoteComment": "Logga in för att rösta på kommentaren.",
   "addProcess": "lägg till ett steg",
-  "project": "projekt"
+  "project": "projekt",
+  "phaseDuration": "Fas varaktighet",
+  "phaseDescription": "Steg beskrivning",
+  "phaseActive": "Aktiv",
+  "phase": "Fas"
 }

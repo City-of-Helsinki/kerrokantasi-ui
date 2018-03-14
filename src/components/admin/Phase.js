@@ -21,12 +21,14 @@ const Phase = (props) => {
             <Row>
               <Col md={12}>
                 <FormGroup>
-                  <ControlLabel>Step {indexNumber + 1} ({usedLanguage})</ControlLabel>
+                  <ControlLabel>
+                    <FormattedMessage id="phase"/> {indexNumber + 1} ({usedLanguage})
+                  </ControlLabel>
                   <div className="label-elements">
                     <div>
                       <InputGroup>
                         <InputGroup.Addon>
-                          <FormattedMessage id={`${indexNumber + 1}`}>{indexNumber + 1}</FormattedMessage>
+                          <FormattedMessage id={`${indexNumber + 1}`} />
                         </InputGroup.Addon>
                         <FormControlOnChange
                           defaultValue={phaseInfo.title[usedLanguage]}
@@ -51,7 +53,7 @@ const Phase = (props) => {
             </Row>
             <Row>
               <Col md={6}>
-                <ControlLabel>start time</ControlLabel>
+                <ControlLabel><FormattedMessage id="phaseDuration"/></ControlLabel>
                 <FormControlOnChange
                   defaultValue={phaseInfo.schedule[usedLanguage]}
                   onBlur={(event) => {
@@ -61,7 +63,7 @@ const Phase = (props) => {
                 />
               </Col>
               <Col md={6}>
-                <ControlLabel>description</ControlLabel>
+                <ControlLabel><FormattedMessage id="phaseDescription"/></ControlLabel>
                 <FormControlOnChange
                   defaultValue={phaseInfo.description[usedLanguage]}
                   onBlur={(event) => {
@@ -73,7 +75,7 @@ const Phase = (props) => {
             </Row>
             <Row>
               <Col md={12}>
-                <Radio>active</Radio>
+                <Radio><FormattedMessage id="phaseActive"/></Radio>
               </Col>
             </Row>
           </FormGroup>

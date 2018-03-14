@@ -197,5 +197,9 @@
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
   "addGeojson": "Lisää geojson tiedostona",
   "addProcess": "Lisää vaiha",
-  "project": "projekti"
+  "project": "projekti",
+  "phaseDuration": "Vaiheen kesto",
+  "phaseDescription": "Vaiheen kuvaus",
+  "phaseActive": "Aktiivinen",
+  "phase": "Vaihe"
 }
