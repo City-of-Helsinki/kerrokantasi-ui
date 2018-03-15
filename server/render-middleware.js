@@ -10,7 +10,7 @@ function getHearingDataCached(settings, hearingSlug, ttl = 30 * 60 * 1000) {
     hearingDataCache[hearingSlug] && // in cache
     now < hearingDataCache[hearingSlug].ts + ttl // not expired yet
   ) {
-    return hearingDataCache[hearingSlug].data;
+    return Promise.resolve(hearingDataCache[hearingSlug].data);
   }
   return fetch(
     `${settings.kerrokantasi_api_base}/v1/hearing/${hearingSlug}`
