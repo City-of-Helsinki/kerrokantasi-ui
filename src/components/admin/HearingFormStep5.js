@@ -60,20 +60,6 @@ class HearingFormStep5 extends React.Component {
       changePhase(phaseId, this.state.selectedProjectId, fieldName, language, value)
     );
   }
-  renderPhases = (selectedProject) => {
-    return selectedProject.phases.map((phase, index) => {
-      const key = index;
-      return (
-        <Phase
-          onChange={this.onChangePhase}
-          phaseInfo={phase}
-          key={key}
-          indexNumber={index}
-          onDelete={this.deletePhase}
-        />
-      );
-    });
-  }
   render() {
     const {projects, language} = this.props;
     const selectedProject = projects.filter(
@@ -104,7 +90,20 @@ class HearingFormStep5 extends React.Component {
           </div>
         </FormGroup>
         <div className="phases-container">
-          {this.renderPhases(selectedProject)}
+          {
+            selectedProject.phases.map((phase, index) => {
+              const key = index;
+              return (
+                <Phase
+                  onChange={this.onChangePhase}
+                  phaseInfo={phase}
+                  key={key}
+                  indexNumber={index}
+                  onDelete={this.deletePhase}
+                />
+              );
+            })
+          }
         </div>
         <ButtonToolbar>
           <Button
