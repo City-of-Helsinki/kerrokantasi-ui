@@ -8,7 +8,7 @@ export const getHearingEditor = (state: AppState) =>
   state.hearingEditor;
 
 export const getProjects = (state: AppState) =>
-  getHearingEditor(state).projects;
+  getHearingEditor(state).project;
 
 export const getIsFetchingHearing = (state: AppState) =>
   getHearingEditor(state).hearing.isFetching;

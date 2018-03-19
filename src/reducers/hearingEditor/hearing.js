@@ -1,5 +1,6 @@
 // @flow
 import { combineReducers } from 'redux';
+import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
 import { head, findIndex, merge } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
@@ -53,7 +54,35 @@ const data = handleActions(
     [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) => ({...merge(
       state,
       {sections: sectionMoveDown(state.sections, sectionId)}
-    )})
+    )}),
+    [EditorActions.ADD_PHASE]: (state, {payload: {phaseInfo}}) =>
+      updeep({
+        project: {
+          phases: [...state.project.phases, phaseInfo]
+        }
+      }, state),
+    [EditorActions.DELETE_PHASE]: (state, {payload: {phaseId}}) =>
+      updeep({
+        project: {
+          phases: state.phases.filter(phase => phase.id !== phaseId)
+        }
+      }, state),
+    [EditorActions.EDIT_PHASE]: (state, {payload: {
+      phaseId,
+      fieldName,
+      language,
+      value
+    }}) =>
+      updeep({
+        project: {
+          phases: state.project.phases.map(phase => {
+            if (phase.id === phaseId) {
+              return updeep({ [fieldName]: { [language]: value } }, phase);
+            }
+            return phase;
+          })
+        }
+      }, state)
   },
   null,
 );

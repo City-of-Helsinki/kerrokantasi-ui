@@ -5,7 +5,7 @@ import hearing from './hearing';
 import labels from './labels';
 import contactPersons from './contactPersons';
 import sections from './sections';
-import projects from './projects';
+import project from './project';
 
 const showEditor = handleActions({
   [EditorActions.BEGIN_EDIT_HEARING]: () => true,
@@ -57,5 +57,5 @@ export default combineReducers({
   labels,
   languages,
   sections,
-  projects
+  project
 });
