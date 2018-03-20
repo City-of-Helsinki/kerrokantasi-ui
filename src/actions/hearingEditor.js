@@ -12,8 +12,7 @@ import {
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
-  CREATE_PROJECT: 'createProject',
-  FETCH_PROJECTS: 'fetchProjects',
+  CHANGE_PROJECT: 'changeProject',
   EDIT_PHASE: 'changePhase',
   DELETE_PHASE: 'deletePhase',
   ADD_PHASE: 'addPhase',
@@ -49,30 +48,25 @@ export const EditorActions = {
   SECTION_MOVE_DOWN: 'sectionMoveDown'
 };
 
-export function createProject(projectInfo) {
-  return createAction(EditorActions.CREATE_PROJECT)(projectInfo);
+export function changeProject(projectId, projectLists) {
+  return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
 }
 
-export function fetchProjects() {
-  return createAction(EditorActions.FETCH_PROJECTS)();
+export function deletePhase(phaseId) {
+  return createAction(EditorActions.DELETE_PHASE)({phaseId});
 }
 
-export function deletePhase(phaseId, projectId) {
-  return createAction(EditorActions.DELETE_PHASE)({phaseId, projectId});
-}
-
-export function changePhase(phaseId, projectId, fieldName, language, value) {
+export function changePhase(phaseId, fieldName, language, value) {
   return createAction(EditorActions.EDIT_PHASE)({
     phaseId,
-    projectId,
     fieldName,
     language,
     value
   });
 }
 
-export function addPhase(phaseInfo, projectId) {
-  return createAction(EditorActions.ADD_PHASE)({phaseInfo, projectId});
+export function addPhase(phaseInfo) {
+  return createAction(EditorActions.ADD_PHASE)({phaseInfo});
 }
 
 export function receiveHearing(normalizedHearing) {

@@ -4,7 +4,6 @@ import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
 import { head, findIndex, merge } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
-
 import { EditorActions } from '../../actions/hearingEditor';
 
 // const getNormalizedHearing = (rawHearing) => {
@@ -64,7 +63,7 @@ const data = handleActions(
     [EditorActions.DELETE_PHASE]: (state, {payload: {phaseId}}) =>
       updeep({
         project: {
-          phases: state.phases.filter(phase => phase.id !== phaseId)
+          phases: state.project.phases.filter(phase => phase.id !== phaseId)
         }
       }, state),
     [EditorActions.EDIT_PHASE]: (state, {payload: {
@@ -82,6 +81,10 @@ const data = handleActions(
             return phase;
           })
         }
+      }, state),
+    [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) =>
+      updeep({
+        project: projectLists.find(project => project.id === projectId)
       }, state)
   },
   null,

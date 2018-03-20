@@ -4,6 +4,7 @@ import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../u
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
+import { push } from 'react-router-redux';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
@@ -82,6 +83,18 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
+export function fetchProjects() {
+  return (dispatch, getState) => {
+    const fetchAction = createAction('fetchProjects')();
+    dispatch(fetchAction);
+    return api.get(getState(), 'v1/projects').then(getResponseJSON).then(data => {
+      dispatch(createAction('receiveProjects')({data}));
+    }).catch(() => {
+      dispatch(createAction("receiveProjectsError")());
+      requestErrorHandler();
+    });
+  };
+}
 
 export const fetchMoreHearings = (listId) => {
   return (dispatch, getState) => {
@@ -246,5 +259,20 @@ export function postVote(commentId, hearingSlug, sectionId) {
         localizedNotifySuccess("voteReceived");
       }
     }).catch(voteCommentErrorHandler());
+  };
+}
+
+export function deleteHearingDraft(hearingId, hearingSlug) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("deletingHearingDraft")({hearingId, hearingSlug});
+    dispatch(fetchAction);
+    const url = "/v1/hearing/" + hearingSlug;
+    return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+      dispatch(createAction("deletedHearingDraft")({hearingSlug}));
+      localizedNotifySuccess("draftDeleted");
+      dispatch(push('/hearings/list?lang=' + getState().language));
+    }).catch(
+      requestErrorHandler()
+    );
   };
 }
