@@ -19,8 +19,8 @@ export default class Html extends React.Component {
           {head ? head.title.toComponent() : <title>Kerrokantasi</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
-          <meta property="og:image" content={hearingData.main_image.url} />
-          <meta property="og:description" content={hearingData.abstract.fi} />
+          {hearingData && hearingData.main_image && <meta property="og:image" content={hearingData.main_image.url} />}
+          {hearingData && hearingData.abstract && <meta property="og:description" content={hearingData.abstract.fi} />}
         </head>
         <body>
           <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
