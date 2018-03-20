@@ -19,6 +19,7 @@ import {hearingShape} from '../../types';
 import {
   changeProjectName,
   changeProject,
+  activePhase,
   deletePhase,
   addPhase,
   changePhase
@@ -63,6 +64,9 @@ class HearingFormStep5 extends React.Component {
     this.props.dispatch(
       changeProjectName(fieldname, value)
     );
+  }
+  onActivePhase = (phaseId) => {
+    this.props.dispatch(activePhase(phaseId));
   }
   render() {
     const {projects, language, hearing} = this.props;
@@ -113,6 +117,7 @@ class HearingFormStep5 extends React.Component {
                   key={key}
                   indexNumber={index}
                   onDelete={this.deletePhase}
+                  onActive={this.onActivePhase}
                 />
               );
             })

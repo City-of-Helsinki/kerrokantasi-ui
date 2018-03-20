@@ -11,12 +11,12 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControlOnChange from '../forms/FormControlOnChange';
 
 const Phase = (props) => {
-  const {phaseInfo, indexNumber, onDelete, onChange} = props;
+  const {phaseInfo, indexNumber, onDelete, onChange, onActive} = props;
   const languages = Object.keys(phaseInfo.title);
   return (
     <div>
       {
-        languages.map(usedLanguage => (
+        languages.map((usedLanguage, index) => (
           <FormGroup key={usedLanguage}>
             <Row>
               <Col md={12}>
@@ -73,11 +73,19 @@ const Phase = (props) => {
                 />
               </Col>
             </Row>
-            <Row>
-              <Col md={12}>
-                <Radio><FormattedMessage id="phaseActive"/></Radio>
-              </Col>
-            </Row>
+            {
+              index === 0
+              ? (
+                <Row>
+                  <Col md={12}>
+                    <Radio onChange={() => onActive(phaseInfo.id)} checked={phaseInfo.is_active}>
+                      <FormattedMessage id="phaseActive"/>
+                    </Radio>
+                  </Col>
+                </Row>
+              )
+              : null
+            }
           </FormGroup>
         ))
       }
@@ -89,7 +97,8 @@ Phase.propTypes = {
   phaseInfo: PropTypes.object.isRequired,
   indexNumber: PropTypes.number.isRequired,
   onDelete: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onActive: PropTypes.func
 };
 
 Phase.contextTypes = {

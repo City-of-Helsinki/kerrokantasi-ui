@@ -14,6 +14,7 @@ const mockProjects = [
         title: {
           en: 'Phase 1'
         },
+        is_active: false,
         description: {
           en: 'description of stupidity muahahaha'
         },
@@ -35,6 +36,7 @@ const mockProjects = [
         id: 'project 2 - phase 1',
         has_hearings: false,
         ordering: 1,
+        is_active: false,
         title: {
           en: 'Phase 1',
           fi: 'phase 1 in finnish'
@@ -55,6 +57,7 @@ const mockProjects = [
         title: {
           en: 'Phase 2'
         },
+        is_active: true,
         description: {
           en: 'description of stupidity janis joplin is god'
         },
@@ -66,6 +69,7 @@ const mockProjects = [
         id: 'project 2 - phase 3',
         has_hearings: true,
         ordering: 3,
+        is_active: false,
         title: {
           en: 'Phase 1'
         },
@@ -92,6 +96,7 @@ const mockProjects = [
         title: {
           en: 'Phase 1'
         },
+        is_active: false,
         description: {
           en: 'this description is not so stupid'
         },
@@ -106,6 +111,7 @@ const mockProjects = [
         title: {
           en: 'Phase 2'
         },
+        is_active: true,
         description: {
           en: 'description of stupidity'
         },
