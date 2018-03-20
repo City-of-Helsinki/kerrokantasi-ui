@@ -201,5 +201,7 @@
   "phaseDuration": "Vaiheen kesto",
   "phaseDescription": "Vaiheen kuvaus",
   "phaseActive": "Aktiivinen",
-  "phase": "Vaihe"
+  "phase": "Vaihe",
+  "deleteDraft": "Poista luonnos",
+  "draftDeleted": "Luonnos poistettiin onnistuneesti"
 }

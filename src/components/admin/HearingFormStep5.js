@@ -12,29 +12,26 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import * as HearingEditorSelector from '../../selectors/hearingEditor';
+import * as ProjectsSelector from '../../selectors/projectLists';
 import Phase from './Phase';
+import {hearingShape} from '../../types';
 import {
+  changeProject,
   deletePhase,
   addPhase,
-  fetchProjects,
   changePhase
 } from '../../actions/hearingEditor';
+import {fetchProjects} from '../../actions';
 
 class HearingFormStep5 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedProjectId: ''
-    };
-  }
   componentWillMount() {
     this.props.dispatch(fetchProjects());
   }
-  onChange = (event) => {
-    this.setState({
-      selectedProjectId: event.target.value
-    });
+  onChangeProject = (event) => {
+    this.props.dispatch(changeProject({
+      projectId: event.target.value,
+      projectLists: this.props.projects
+    }));
   }
   addPhase = () => {
     // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
@@ -50,21 +47,19 @@ class HearingFormStep5 extends React.Component {
       schedule: {
         en: ''
       }
-    }, this.state.selectedProjectId));
+    }));
   }
   deletePhase = (phaseId) => {
-    this.props.dispatch(deletePhase(phaseId, this.state.selectedProjectId));
+    this.props.dispatch(deletePhase(phaseId));
   }
   onChangePhase = (phaseId, fieldName, language, value) => {
     this.props.dispatch(
-      changePhase(phaseId, this.state.selectedProjectId, fieldName, language, value)
+      changePhase(phaseId, fieldName, language, value)
     );
   }
   render() {
-    const {projects, language} = this.props;
-    const selectedProject = projects.filter(
-      project => project.id === this.state.selectedProjectId
-    )[0];
+    const {projects, language, hearing} = this.props;
+    const selectedProject = hearing.project;
     return (
       <div>
         <FormGroup controlId="hearingCommenting">
@@ -73,17 +68,14 @@ class HearingFormStep5 extends React.Component {
             <FormControl
               componentClass="select"
               name="commenting"
-              onChange={this.onChange}
+              defaultValue={selectedProject.id}
+              onChange={this.onChangeProject}
             >
               {
                 projects.map((project) => (
-                  project.id === ''
-                  ? <option key={project.id} value={project.id}>new project</option>
-                  : (
-                    <option key={project.id} value={project.id}>
-                      {`project name: ${project.title[language] || project.title.en}`}
-                    </option>
-                    )
+                  <option key={project.id} value={project.id}>
+                    {`${project.title[language] || project.title.en}`}
+                  </option>
                 ))
               }
             </FormControl>
@@ -122,7 +114,8 @@ class HearingFormStep5 extends React.Component {
 HearingFormStep5.propTypes = {
   projects: PropTypes.array,
   dispatch: PropTypes.func,
-  language: PropTypes.string
+  language: PropTypes.string,
+  hearing: hearingShape
 };
 
 HearingFormStep5.contextTypes = {
@@ -130,7 +123,7 @@ HearingFormStep5.contextTypes = {
 };
 
 const mapStateToProps = (state: AppState) => ({
-  projects: HearingEditorSelector.getProjects(state)
+  projects: ProjectsSelector.getProjects(state)
 });
 
 const WrappedHearingFormStep5 = connect(mapStateToProps)(injectIntl(HearingFormStep5));
