@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {toast, style} from 'react-toastify';
 import Icon from '../../utils/Icon';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
@@ -40,7 +41,13 @@ const Phase = (props) => {
                       </InputGroup>
                     </div>
                     <Button
-                      onClick={() => onDelete(phaseInfo.id)}
+                      onClick={() => {
+                        if (phaseInfo.has_hearings) {
+                          toast.error("Can't delete phase with hearings", {position: toast.POSITION.BOTTOM_RIGHT});
+                        } else {
+                          onDelete(phaseInfo.id);
+                        }
+                      }}
                       bsStyle="default"
                       className="pull-right add-label-button"
                       style={{color: 'red', borderColor: 'red'}}
