@@ -3,7 +3,8 @@ const mockProjects = [
     id: "project 1",
     identifier: null,
     title: {
-      en: 'test project 1'
+      en: 'test project 1',
+      sv: 'DOGE'
     },
     phases: [
       {
@@ -26,7 +27,8 @@ const mockProjects = [
     id: "project 2",
     identifier: null,
     title: {
-      en: 'test project 2'
+      en: 'test project 2',
+      fi: 'wow'
     },
     phases: [
       {

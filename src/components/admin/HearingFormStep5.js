@@ -12,10 +12,12 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Icon from '../../utils/Icon';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
 import Phase from './Phase';
 import {hearingShape} from '../../types';
 import {
+  changeProjectName,
   changeProject,
   deletePhase,
   addPhase,
@@ -57,12 +59,17 @@ class HearingFormStep5 extends React.Component {
       changePhase(phaseId, fieldName, language, value)
     );
   }
+  onChangeProjectName = (fieldname, value) => {
+    this.props.dispatch(
+      changeProjectName(fieldname, value)
+    );
+  }
   render() {
     const {projects, language, hearing} = this.props;
     const selectedProject = hearing.project;
     return (
       <div>
-        <FormGroup controlId="hearingCommenting">
+        <FormGroup controlId="projectLists">
           <ControlLabel><FormattedMessage id="project"/></ControlLabel>
           <div className="select">
             <FormControl
@@ -81,6 +88,20 @@ class HearingFormStep5 extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
+        {
+          Object.keys(selectedProject.title).map(usedLanguage => (
+            <FormGroup controlId="projectName" key={usedLanguage}>
+              <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage}) </ControlLabel>
+              <FormControlOnChange
+                defaultValue={selectedProject.title[usedLanguage]}
+                onBlur={(event) => {
+                  this.onChangeProjectName(usedLanguage, event.target.value);
+                }}
+                type="text"
+              />
+            </FormGroup>
+          ))
+        }
         <div className="phases-container">
           {
             selectedProject.phases.map((phase, index) => {
