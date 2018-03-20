@@ -13,6 +13,7 @@ import {
 
 export const EditorActions = {
   CHANGE_PROJECT: 'changeProject',
+  CHANGE_PROJECT_NAME: 'changeProjectName',
   EDIT_PHASE: 'changePhase',
   DELETE_PHASE: 'deletePhase',
   ADD_PHASE: 'addPhase',
@@ -50,6 +51,10 @@ export const EditorActions = {
 
 export function changeProject(projectId, projectLists) {
   return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
+}
+
+export function changeProjectName(fieldname, value) {
+  return createAction(EditorActions.CHANGE_PROJECT_NAME)({fieldname, value});
 }
 
 export function deletePhase(phaseId) {

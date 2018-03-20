@@ -85,6 +85,10 @@ const data = handleActions(
     [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) =>
       updeep({
         project: projectLists.find(project => project.id === projectId)
+      }, state),
+    [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
+      updeep({
+        project: {title: {[fieldname]: value}}
       }, state)
   },
   null,
