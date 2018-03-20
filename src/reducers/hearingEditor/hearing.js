@@ -66,6 +66,17 @@ const data = handleActions(
           phases: state.project.phases.filter(phase => phase.id !== phaseId)
         }
       }, state),
+    [EditorActions.ACTIVE_PHASE]: (state, {payload: {phaseId}}) =>
+      updeep({
+        project: {
+          phases: state.project.phases.map(phase => {
+            if (phase.id === phaseId) {
+              return updeep({is_active: true}, phase);
+            }
+            return updeep({is_active: false}, phase);
+          })
+        }
+      }, state),
     [EditorActions.EDIT_PHASE]: (state, {payload: {
       phaseId,
       fieldName,

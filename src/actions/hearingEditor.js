@@ -15,6 +15,7 @@ export const EditorActions = {
   CHANGE_PROJECT: 'changeProject',
   CHANGE_PROJECT_NAME: 'changeProjectName',
   EDIT_PHASE: 'changePhase',
+  ACTIVE_PHASE: 'activePhase',
   DELETE_PHASE: 'deletePhase',
   ADD_PHASE: 'addPhase',
   SHOW_FORM: 'showHearingForm',
@@ -59,6 +60,10 @@ export function changeProjectName(fieldname, value) {
 
 export function deletePhase(phaseId) {
   return createAction(EditorActions.DELETE_PHASE)({phaseId});
+}
+
+export function activePhase(phaseId) {
+  return createAction(EditorActions.ACTIVE_PHASE)({phaseId});
 }
 
 export function changePhase(phaseId, fieldName, language, value) {
