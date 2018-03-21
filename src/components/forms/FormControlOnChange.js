@@ -20,9 +20,15 @@ class FormControlOnChange extends React.Component {
     });
   }
   render() {
-    const {type, onBlur} = this.props;
+    const {type, onBlur, maxLength} = this.props;
     return (
-      <FormControl onChange={this.onChange} value={this.state.value} type={type} onBlur={onBlur} />
+      <FormControl
+        maxLength={maxLength}
+        onChange={this.onChange}
+        value={this.state.value}
+        type={type}
+        onBlur={onBlur}
+      />
     );
   }
 }
@@ -30,7 +36,8 @@ class FormControlOnChange extends React.Component {
 FormControlOnChange.propTypes = {
   defaultValue: PropTypes.string,
   type: PropTypes.string,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  maxLength: PropTypes.string
 };
 
 export default FormControlOnChange;

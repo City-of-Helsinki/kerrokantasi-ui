@@ -1,24 +1,29 @@
 import updeep from 'updeep';
 import {handleActions} from 'redux-actions';
-import mockProjects from './hearingEditor/mock-projects';
 
 const emptyProject = {
   id: '',
-  title: {
-    en: 'Default project'
-  },
+  title: {},
   phases: []
 };
 
+
 export default handleActions({
-  fetchProjects: (state) => updeep({isFetching: true}, state),
+  fetchProjects: (state, {payload: {hearingLanguages}}) =>
+    updeep({
+      isFetching: true,
+      data: {
+        0: hearingLanguages.reduce((accumulator, current) =>
+          updeep({title: {[current]: ''}}, accumulator), emptyProject)
+      }
+    }, state),
   receiveProjects: (state, {payload: {data: {results}}}) =>
     updeep({
       isFetching: false,
-      data: [emptyProject, ...results]
+      data: [state.data[0], ...results]
     }, state),
   receiveProjectsError: (state) => updeep({isFetching: false}, state),
 }, {
   isFetching: false,
-  data: [emptyProject]
+  data: []
 });

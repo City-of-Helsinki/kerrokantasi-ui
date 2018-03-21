@@ -83,9 +83,9 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
-export function fetchProjects() {
+export function fetchProjects(hearingLanguages) {
   return (dispatch, getState) => {
-    const fetchAction = createAction('fetchProjects')();
+    const fetchAction = createAction('fetchProjects')({hearingLanguages});
     dispatch(fetchAction);
     return api.get(getState(), 'v1/project').then(getResponseJSON).then(data => {
       dispatch(createAction('receiveProjects')({data}));

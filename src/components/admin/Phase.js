@@ -21,88 +21,102 @@ const Phase = (props) => {
   ];
   const languages = uniqWith(duplicatedLanguages, isEqual);
   return (
-    <div>
-      {
-        languages.map((usedLanguage, index) => (
-          <FormGroup key={usedLanguage}>
-            <Row>
-              <Col md={12}>
-                <FormGroup>
-                  <ControlLabel>
-                    <FormattedMessage id="phase"/> {indexNumber + 1} ({usedLanguage})
-                  </ControlLabel>
-                  <div className="label-elements">
-                    <div>
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          <FormattedMessage id={`${indexNumber + 1}`} />
-                        </InputGroup.Addon>
-                        <FormControlOnChange
-                          defaultValue={phaseInfo.title[usedLanguage]}
-                          onBlur={(event) => {
-                            onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
-                          }}
-                          type="text"
-                        />
-                      </InputGroup>
-                    </div>
-                    <Button
-                      onClick={() => {
-                        if (phaseInfo.has_hearings) {
-                          toast.error("Can't delete phase with hearings", {position: toast.POSITION.BOTTOM_RIGHT});
-                        } else {
-                          onDelete(phaseInfo.id);
-                        }
-                      }}
-                      bsStyle="default"
-                      className="pull-right add-label-button"
-                      style={{color: 'red', borderColor: 'red'}}
-                    >
-                      <Icon className="icon" name="trash"/>
-                    </Button>
-                  </div>
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <ControlLabel><FormattedMessage id="phaseDuration"/></ControlLabel>
-                <FormControlOnChange
-                  defaultValue={phaseInfo.schedule[usedLanguage]}
-                  onBlur={(event) => {
-                    onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
-                  }}
-                  type="text"
-                />
-              </Col>
-              <Col md={6}>
-                <ControlLabel><FormattedMessage id="phaseDescription"/></ControlLabel>
-                <FormControlOnChange
-                  defaultValue={phaseInfo.description[usedLanguage]}
-                  onBlur={(event) => {
-                    onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
-                  }}
-                  type="text"
-                />
-              </Col>
-            </Row>
-            {
-              index === 0
-              ? (
+    <Row>
+      <Col md={12}>
+        {
+            languages.map((usedLanguage, index) => (
+              <FormGroup key={usedLanguage}>
                 <Row>
                   <Col md={12}>
-                    <Radio onChange={() => onActive(phaseInfo.id)} checked={phaseInfo.is_active}>
-                      <FormattedMessage id="phaseActive"/>
-                    </Radio>
+                    <FormGroup>
+                      <ControlLabel>
+                        <FormattedMessage id="phase"/> {indexNumber + 1} ({usedLanguage})
+                      </ControlLabel>
+                      <div className="label-elements">
+                        <div>
+                          <InputGroup>
+                            <InputGroup.Addon>
+                              <FormattedMessage id={`${indexNumber + 1}`} />
+                            </InputGroup.Addon>
+                            <FormControlOnChange
+                              maxLength="30"
+                              defaultValue={phaseInfo.title[usedLanguage]}
+                              onBlur={(event) => {
+                                onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
+                              }}
+                              type="text"
+                            />
+                          </InputGroup>
+                        </div>
+                        {
+                          index === 0
+                          ? (
+                            <Button
+                              onClick={() => {
+                                if (phaseInfo.has_hearings) {
+                                  toast.error(
+                                    "Can't delete phase with hearings",
+                                    {position: toast.POSITION.BOTTOM_RIGHT}
+                                  );
+                                } else {
+                                  onDelete(phaseInfo.id);
+                                }
+                              }}
+                              bsStyle="default"
+                              className="pull-right add-label-button"
+                              style={{color: 'red', borderColor: 'red'}}
+                            >
+                              <Icon className="icon" name="trash"/>
+                            </Button>
+                          )
+                          : <span className="pull-right add-label-button" />
+                        }
+                      </div>
+                    </FormGroup>
                   </Col>
                 </Row>
-              )
-              : null
-            }
-          </FormGroup>
-        ))
-      }
-    </div>
+                <Row>
+                  <Col md={6}>
+                    <ControlLabel><FormattedMessage id="phaseDuration"/></ControlLabel>
+                    <FormControlOnChange
+                      maxLength="30"
+                      defaultValue={phaseInfo.schedule[usedLanguage]}
+                      onBlur={(event) => {
+                        onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
+                      }}
+                      type="text"
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <ControlLabel><FormattedMessage id="phaseDescription"/></ControlLabel>
+                    <FormControlOnChange
+                      maxLength="80"
+                      defaultValue={phaseInfo.description[usedLanguage]}
+                      onBlur={(event) => {
+                        onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
+                      }}
+                      type="text"
+                    />
+                  </Col>
+                </Row>
+                {
+                  index === 0
+                  ? (
+                    <Row>
+                      <Col md={12}>
+                        <Radio onChange={() => onActive(phaseInfo.id)} checked={phaseInfo.is_active}>
+                          <FormattedMessage id="phaseActive"/>
+                        </Radio>
+                      </Col>
+                    </Row>
+                  )
+                  : null
+                }
+              </FormGroup>
+            ))
+          }
+      </Col>
+    </Row>
   );
 };
 

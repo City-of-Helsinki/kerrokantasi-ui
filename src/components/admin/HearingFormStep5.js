@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import updeep from 'updeep';
 import uuid from 'uuid/v1';
 import type {AppState} from '../../types';
 import {connect} from 'react-redux';
@@ -28,7 +29,8 @@ import {fetchProjects} from '../../actions';
 
 class HearingFormStep5 extends React.Component {
   componentWillMount() {
-    this.props.dispatch(fetchProjects());
+    const {hearingLanguages} = this.props;
+    this.props.dispatch(fetchProjects(hearingLanguages));
   }
   onChangeProject = (event) => {
     this.props.dispatch(changeProject({
@@ -37,20 +39,23 @@ class HearingFormStep5 extends React.Component {
     }));
   }
   addPhase = () => {
-    // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
-    this.props.dispatch(addPhase({
+    const {hearingLanguages} = this.props;
+    const emptyPhase = hearingLanguages.reduce((accumulator, current) => {
+      return updeep({
+        title: {[current]: ''},
+        description: {[current]: ''},
+        schedule: {[current]: ''},
+      }, accumulator);
+    }, {
       id: uuid(),
       has_hearings: false,
-      title: {
-        en: ''
-      },
-      description: {
-        en: ''
-      },
-      schedule: {
-        en: ''
-      }
-    }));
+      is_active: false,
+      title: {},
+      description: {},
+      schedule: {}
+    });
+    // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
+    this.props.dispatch(addPhase(emptyPhase));
   }
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId));
@@ -79,13 +84,14 @@ class HearingFormStep5 extends React.Component {
             <FormControl
               componentClass="select"
               name="commenting"
-              defaultValue={selectedProject.id}
+              value={selectedProject.id}
               onChange={this.onChangeProject}
             >
               {
                 projects.map((project) => (
                   <option key={project.id} value={project.id}>
-                    {`${project.title[language] || project.title.en}`}
+                    {`${project.title[language] || project.title.fi ||
+                      project.title.en || project.title.sv || 'Default project'}`}
                   </option>
                 ))
               }
@@ -97,6 +103,7 @@ class HearingFormStep5 extends React.Component {
             <FormGroup controlId="projectName" key={usedLanguage}>
               <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage}) </ControlLabel>
               <FormControlOnChange
+                maxLength="30"
                 defaultValue={selectedProject.title[usedLanguage]}
                 onBlur={(event) => {
                   this.onChangeProjectName(usedLanguage, event.target.value);
@@ -141,7 +148,8 @@ HearingFormStep5.propTypes = {
   projects: PropTypes.array,
   dispatch: PropTypes.func,
   language: PropTypes.string,
-  hearing: hearingShape
+  hearing: hearingShape,
+  hearingLanguages: PropTypes.array
 };
 
 HearingFormStep5.contextTypes = {
