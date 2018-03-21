@@ -40,7 +40,7 @@ function getHearingArea(hearing) {
       return <Polygon positions={latLngs}/>;
     }
     case "Point": {
-      const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
+      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
       return (
         <Marker
           position={latLngs}

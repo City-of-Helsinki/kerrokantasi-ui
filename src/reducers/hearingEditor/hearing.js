@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, merge } from 'lodash';
+import { head, findIndex } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -45,7 +45,7 @@ const data = handleActions(
       ...state,
       ...entities.hearing[result],
     }),
-    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})}),
+<<<<[EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})}),
     [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => ({...merge(
       state,
       {sections: sectionMoveUp(state.sections, sectionId)}
