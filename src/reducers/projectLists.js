@@ -12,13 +12,13 @@ const emptyProject = {
 
 export default handleActions({
   fetchProjects: (state) => updeep({isFetching: true}, state),
-  receiveProjects: (state, {payload: {projects}}) =>
+  receiveProjects: (state, {payload: {data: {results}}}) =>
     updeep({
       isFetching: false,
-      data: projects
+      data: [emptyProject, ...results]
     }, state),
   receiveProjectsError: (state) => updeep({isFetching: false}, state),
 }, {
   isFetching: false,
-  data: [emptyProject, ...mockProjects]
+  data: [emptyProject]
 });

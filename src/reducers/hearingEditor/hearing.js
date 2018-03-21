@@ -94,9 +94,9 @@ const data = handleActions(
         }
       }, state),
     [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) =>
-      updeep({
+      Object.assign({}, state, {
         project: projectLists.find(project => project.id === projectId)
-      }, state),
+      }),
     [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
       updeep({
         project: {title: {[fieldname]: value}}
