@@ -65,7 +65,7 @@ export class Home extends React.Component {
         </div>
       ) : null;
     const heroStyle = {
-      backgroundImage: "url('https://source.unsplash.com/6hC831t-ihM/1200x900')",
+      backgroundImage: "url('http://materialbank.myhelsinki.fi/detail/1192/download/7')",
     };
 
     return (
@@ -73,7 +73,7 @@ export class Home extends React.Component {
         <section className="page-section page-section--welcome" style={ heroStyle }>
           <div className="container">
             <Row>
-              <Col md={8}>
+              <Col xs={10} md={8} className="welcome-content">
                 <Helmet title={formatMessage({id: 'welcome'})} />
                 <h1>
                   <FormattedMessage id="welcome" />
@@ -84,9 +84,9 @@ export class Home extends React.Component {
               </Col>
             </Row>
           </div>
+          <div className="welcome-koro__bottom" />
         </section>
         <section className="page-section page-section--hearing-card">
-          <div className="hearings-koro__top" />
           <div className="container">
             <Row>
               <Col xs={12}>
