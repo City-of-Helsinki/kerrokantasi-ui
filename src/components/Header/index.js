@@ -68,7 +68,7 @@ class Header extends React.Component {
       <Button
         key="login"
         href=""
-        className="user-menu user-menu--unlogged"
+        className="user-menu login-link user-menu--unlogged"
         onClick={() => this.onSelect('login')}
       >
         <Icon name="user-o" className="user-nav-icon"/>
