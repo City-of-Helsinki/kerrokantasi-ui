@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, NavItem, Nav, Button, DropdownButton, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
@@ -54,8 +54,18 @@ class Header extends React.Component {
     const {user} = this.props;
     if (user) {
       return [
-        <DropdownButton pullRight key="profile" id="userMenu" className="user-menu user-menu--logged" title={<span><Icon name="user" className="user-nav-icon"/><span className="user-name">{user.displayName}</span></span>}>
-          <MenuItem 
+        <DropdownButton
+          pullRight
+          key="profile"
+          id="userMenu"
+          className="user-menu user-menu--logged"
+          title={
+            <span>
+              <Icon name="user" className="user-nav-icon"/><span className="user-name">{user.displayName}</span>
+            </span>
+          }
+        >
+          <MenuItem
             key="logout"
             eventKey="logout"
             onClick={() => this.onSelect('logout')}

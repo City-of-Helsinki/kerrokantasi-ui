@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Nav, NavItem, DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, MenuItem} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {connect} from 'react-redux';
 import {intlShape} from 'react-intl';
@@ -24,13 +24,13 @@ const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMe
           key={code}
           className="language-switcher__language"
           onClick={() => changeLang(history, location, code)}
-          active={code == currentLanguage}
+          active={code === currentLanguage}
         >
           {formatMessage({id: `lang-${code}`})}
         </MenuItem>)}
   </DropdownButton>;
 
-      //.filter((code) => code !== currentLanguage)
+// .filter((code) => code !== currentLanguage)
 
 LanguageSwitcher.contextTypes = {
   intl: intlShape.isRequired

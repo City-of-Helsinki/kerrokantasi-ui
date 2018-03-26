@@ -70,7 +70,7 @@ export class Home extends React.Component {
 
     return (
       <div>
-        <section className="page-section page-section--welcome" style={ heroStyle }>
+        <section className="page-section page-section--welcome" style={heroStyle}>
           <div className="container">
             <Row>
               <Col xs={10} md={8} className="welcome-content">
@@ -93,7 +93,8 @@ export class Home extends React.Component {
                 <h2 className="page-title">
                   <FormattedMessage id="openHearings" />
                 </h2>
-                {topHearing && <FullWidthHearing hearing={topHearing} />}</Col>
+                {topHearing && <FullWidthHearing hearing={topHearing} />}
+              </Col>
             </Row>
             <Row>
               {openHearings &&
