@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
+import helsinkiLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black.svg';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -103,7 +104,9 @@ class Header extends React.Component {
         <Navbar fluid staticTop defaultExpanded className="navbar-helsinki">
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to={{path: "/"}} className="navbar-logo" />
+              <Link to={{path: "/"}}>
+                <img src={helsinkiLogo} className="navbar-logo" alt="Helsinki" />
+              </Link>
             </Navbar.Brand>
           </Navbar.Header>
 

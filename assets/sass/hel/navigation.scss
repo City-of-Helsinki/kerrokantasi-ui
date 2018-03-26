@@ -3,12 +3,13 @@
   z-index: 2;
   margin-bottom: 0;
 
-  .navbar-logo.navbar-brand {
-    @include helsinki-logo($black);
-    background-position: 15px;
-    margin-top: 12px;
-    height: 36px;
-    width: 125px;
+  .navbar-brand {
+    padding-top: 14px;
+  }
+
+  .navbar-brand .navbar-logo {
+      display: inline-block;
+      height: 36px;
   }
 
   .navbar-right {
