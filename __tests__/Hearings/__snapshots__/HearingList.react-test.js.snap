@@ -226,7 +226,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                   "vote": "Äänestä",
                   "voteReceived": "Ääni vastaanotettu. Kiitos!",
-                  "welcome": "Tervetuloa!",
+                  "welcome": "Kerrokantasi",
                   "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
                   "withOpenLicense": "avoimella lisenssillä",
                   "writeComment": "Kommentti",
