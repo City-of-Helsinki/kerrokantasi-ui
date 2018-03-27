@@ -45,15 +45,9 @@ const data = handleActions(
       ...state,
       ...entities.hearing[result],
     }),
-<<<<[EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...merge(state, {labels: [...state.labels.push(label.id)]})}),
-    [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => ({...merge(
-      state,
-      {sections: sectionMoveUp(state.sections, sectionId)}
-    )}),
-    [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) => ({...merge(
-      state,
-      {sections: sectionMoveDown(state.sections, sectionId)}
-    )}),
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => updeep({labels: [...state.labels.push(label.id)]}, state),
+    [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => updeep({sections: sectionMoveUp(state.sections, sectionId)}, state),
+    [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) => updeep({sections: sectionMoveDown(state.sections, sectionId)}, state),
     [EditorActions.ADD_PHASE]: (state, {payload: {phaseInfo}}) =>
       updeep({
         project: {
