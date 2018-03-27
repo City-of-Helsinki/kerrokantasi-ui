@@ -25,7 +25,7 @@ exports[`Home component should render as expected 1`] = `
           xs={10}
         >
           <HelmetWrapper
-            title="Kerrokantasi"
+            title="Kerro mielipiteesi"
           />
           <h1>
             <FormattedMessage
