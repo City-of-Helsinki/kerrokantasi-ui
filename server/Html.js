@@ -35,6 +35,7 @@ export default class Html extends React.Component {
 
 Html.propTypes = {
   apiBaseUrl: PropTypes.string,
+  heroImageURL: PropTypes.string,
   uiConfig: PropTypes.object,
   bundleSrc: PropTypes.string.isRequired,
   content: PropTypes.string,
