@@ -66,7 +66,7 @@ export class Home extends React.Component {
         </div>
       ) : null;
     const heroStyle = {
-      backgroundImage: "url(\"" + config.heroImageURL + "\")",
+      backgroundImage: "url('" + config.heroImageURL + "')",
     };
 
     return (
