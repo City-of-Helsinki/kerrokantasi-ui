@@ -102,7 +102,7 @@ export class Home extends React.Component {
                   <Col xs={12}>
                     <div className="list">
                       <HearingCardList
-                        hearings={orderBy(openHearings.data, ['close_at'], ['desc'])}
+                        hearings={orderBy(openHearings.data.filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])}
                         language={language}
                       />
                       <p className="text-center">
