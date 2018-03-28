@@ -12,6 +12,9 @@ kerrokantasi_api_base="https://api.hel.fi/kerrokantasi-test"
 # to match what the API specified in kerrokantasi_api_base wants.
 kerrokantasi_api_jwt_audience="replace-me-with-real-target-app-for-authentication-to-work"
 
+# Image to use for the hero of the front page
+hero_image_url="http://materialbank.myhelsinki.fi/detail/1192/download/7"
+
 # Our own client identifier in the SSO system, SSO uses this to decide
 # which authentication methods are available and which (API) audiences are allowed
 auth_client_id="replace-me-with-real-auth-id-for-authentication-to-work"

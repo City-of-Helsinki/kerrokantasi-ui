@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
   render() {
-    const {head, bundleSrc, content, initialState, apiBaseUrl, uiConfig, hearingData} = this.props;
+    const {head, bundleSrc, content, initialState, apiBaseUrl, heroImageURL, uiConfig, hearingData} = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
     window.API_BASE_URL = ${JSON.stringify(apiBaseUrl)};
+    window.HERO_IMAGE_URL = ${JSON.stringify(heroImageURL)};
     window.UI_CONFIG = ${JSON.stringify(uiConfig)};
     `;
 

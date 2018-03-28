@@ -15,6 +15,7 @@ import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
+import config from '../config';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export class Home extends React.Component {
         </div>
       ) : null;
     const heroStyle = {
-      backgroundImage: "url('http://materialbank.myhelsinki.fi/detail/1192/download/7')",
+      backgroundImage: "url(\"" + config.heroImageURL + "\")",
     };
 
     return (
