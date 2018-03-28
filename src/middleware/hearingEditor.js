@@ -1,5 +1,5 @@
 // @flow
-import {get, isEmpty} from 'lodash';
+import {get, isEmpty, head} from 'lodash';
 import updeep from 'updeep';
 import {normalize} from 'normalizr';
 
@@ -88,10 +88,31 @@ export const replaceWithDefaultProject = store => next => action => {
   return next(action);
 };
 
+export const updateNewHearingWithDefaultProject = () => next => action => {
+  if (action.type === EditorActions.INIT_NEW_HEARING) {
+    const {entities} = action.payload;
+    const hearingId = head(Object.keys(entities.hearing));
+    const hearing = entities.hearing[hearingId];
+    if (isEmpty(hearing.project)) {
+      return next(updeep({
+        payload: {entities: {
+          hearing: {
+            [hearingId]: {
+              project: {id: '', title: '', phases: []}
+            }
+          }
+        }}
+      }, action));
+    }
+  }
+  return next(action);
+};
+
 export default [
   sectionFrontIds,
   normalizeReceiveEditorMetaData,
   normalizeReceivedHearing,
   normalizeSavedHearing,
-  replaceWithDefaultProject
+  replaceWithDefaultProject,
+  updateNewHearingWithDefaultProject
 ];
