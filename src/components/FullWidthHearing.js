@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from './LinkWithLang';
 import Icon from '../utils/Icon';
+import LabelList from './LabelList';
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
@@ -27,6 +28,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
           <span>
             <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />.
           </span>
+        </div>
+        <div className="fullwidth-hearing-labels">
+          <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
       </div>
       <div className="fullwidth-hearing-comments">
