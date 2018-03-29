@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, merge } from 'lodash';
+import { head, findIndex, merge, difference, isEmpty, omit } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -87,6 +87,9 @@ const data = handleActions(
         project: {
           phases: state.project.phases.map(phase => {
             if (phase.id === phaseId) {
+              if (value === undefined && !phase.has_hearings) {
+                return updeep({[fieldName]: updeep.constant(omit(phase[fieldName], language))}, phase);
+              }
               return updeep({ [fieldName]: { [language]: value } }, phase);
             }
             return phase;
@@ -100,7 +103,24 @@ const data = handleActions(
     [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
       updeep({
         project: {title: {[fieldname]: value}}
-      }, state)
+      }, state),
+    [EditorActions.UPDATE_PROJECT_LANGUAGE]: (state, {payload: {languages}}) => {
+      let project = Object.assign({}, state.project, {});
+      const newLanguages = difference(languages, Object.keys(project.title));
+      const removedLanguages = difference(Object.keys(project.title), languages);
+      if (!isEmpty(newLanguages)) {
+        project = newLanguages.reduce((accumulator, current) => updeep({title: {[current]: ''}}, accumulator), project);
+      }
+      if (!isEmpty(removedLanguages)) {
+        removedLanguages.map(language => {
+          if (project.title[language] === '') project.title = omit(project.title, [language]);
+          return language;
+        });
+      }
+      return updeep({
+        project: updeep.constant(project)
+      }, state);
+    }
   },
   null,
 );
