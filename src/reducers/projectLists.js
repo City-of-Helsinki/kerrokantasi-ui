@@ -23,6 +23,13 @@ export default handleActions({
       data: [state.data[0], ...results]
     }, state),
   receiveProjectsError: (state) => updeep({isFetching: false}, state),
+  updateDefaultProject: (state, {payload: {languages}}) => updeep({
+    data: {
+      0: {
+        title: updeep.constant(languages.reduce((accumulator, current) => updeep({[current]: ''}, accumulator), {}))
+      }
+    }
+  }, state)
 }, {
   isFetching: false,
   data: []

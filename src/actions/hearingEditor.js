@@ -14,6 +14,8 @@ import {
 export const EditorActions = {
   CHANGE_PROJECT: 'changeProject',
   CHANGE_PROJECT_NAME: 'changeProjectName',
+  UPDATE_DEFAULT_PROJECT: 'updateDefaultProject',
+  UPDATE_PROJECT_LANGUAGE: 'updateProjectLanguage',
   EDIT_PHASE: 'changePhase',
   ACTIVE_PHASE: 'activePhase',
   DELETE_PHASE: 'deletePhase',
@@ -52,6 +54,14 @@ export const EditorActions = {
 
 export function changeProject(projectId, projectLists) {
   return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
+}
+
+export function updateDefaultProject(languages) {
+  return createAction(EditorActions.UPDATE_DEFAULT_PROJECT)({languages});
+}
+
+export function updateProjectLanguage(languages) {
+  return createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({languages});
 }
 
 export function changeProjectName(fieldname, value) {
