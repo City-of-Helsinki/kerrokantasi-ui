@@ -1,9 +1,12 @@
 // @flow
-import {get, isEmpty, head} from 'lodash';
+import {get, isEmpty, head, difference} from 'lodash';
 import updeep from 'updeep';
 import {normalize} from 'normalizr';
 
-import {EditorActions, receiveHearing, updateHearingAfterSave} from '../actions/hearingEditor';
+import {
+  EditorActions, receiveHearing, changeProject,
+  updateHearingAfterSave, updateProjectLanguage,
+  changePhase, updateDefaultProject} from '../actions/hearingEditor';
 import {fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
 import {labelResultsSchema, contactPersonResultsSchema} from '../types';
 
@@ -98,7 +101,7 @@ export const updateNewHearingWithDefaultProject = () => next => action => {
         payload: {entities: {
           hearing: {
             [hearingId]: {
-              project: {id: '', title: '', phases: []}
+              project: {id: '', title: {fi: ''}, phases: []}
             }
           }
         }}
@@ -108,11 +111,67 @@ export const updateNewHearingWithDefaultProject = () => next => action => {
   return next(action);
 };
 
+export const updateProjectOnChangeLanguage = store => next => action => {
+  if (action.type === EditorActions.SET_LANGUAGES) {
+    const languages = action.payload.languages;
+    store.dispatch(updateProjectLanguage(languages));
+    // update and refetch default project if needed
+    store.dispatch(updateDefaultProject(languages));
+    const edittedHearing = store.getState().hearingEditor.hearing;
+    if (edittedHearing.data.project && edittedHearing.data.project.id === '') {
+      store.dispatch(changeProject({
+        projectId: '',
+        projectLists: store.getState().projectLists.data
+      }));
+    }
+  }
+  return next(action);
+};
+
+export const updatePhasesOnChangeLanguage = store => next => action => {
+  if (action.type === EditorActions.SET_LANGUAGES) {
+    const languages = action.payload.languages;
+    const phases = store.getState().hearingEditor.hearing.data.project.phases;
+    phases.forEach(phase => {
+      const newLanguagesTitle = difference(languages, Object.keys(phase.title));
+      const newLanguagesSchedule = difference(languages, Object.keys(phase.schedule));
+      const newLanguagesDescription = difference(languages, Object.keys(phase.description));
+      const removedLanguagesTitle = difference(Object.keys(phase.title), languages);
+      const removedLanguagesSchedule = difference(Object.keys(phase.schedule), languages);
+      const removedLanguagesDescription = difference(Object.keys(phase.description), languages);
+      if (!isEmpty(newLanguagesTitle)) {
+        newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id, 'title', language, '')));
+      } else {
+        removedLanguagesTitle.map(language => store.dispatch(changePhase(phase.id, 'title', language, undefined)));
+      }
+      if (!isEmpty(newLanguagesSchedule)) {
+        newLanguagesSchedule.map(language => store.dispatch(changePhase(phase.id, 'schedule', language, '')));
+      } else {
+        removedLanguagesSchedule.map(
+          language => store.dispatch(changePhase(phase.id, 'schedule', language, undefined))
+        );
+      }
+      if (!isEmpty(newLanguagesDescription)) {
+        newLanguagesDescription.map(
+          language => store.dispatch(changePhase(phase.id, 'description', language, ''))
+        );
+      } else {
+        removedLanguagesDescription.map(
+          language => store.dispatch(changePhase(phase.id, 'description', language, undefined))
+        );
+      }
+    });
+  }
+  next(action);
+};
+
 export default [
   sectionFrontIds,
   normalizeReceiveEditorMetaData,
   normalizeReceivedHearing,
   normalizeSavedHearing,
   replaceWithDefaultProject,
-  updateNewHearingWithDefaultProject
+  updateNewHearingWithDefaultProject,
+  updateProjectOnChangeLanguage,
+  updatePhasesOnChangeLanguage
 ];
