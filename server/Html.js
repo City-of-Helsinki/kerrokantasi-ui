@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
   render() {
-    const {head, bundleSrc, content, initialState, apiBaseUrl, uiConfig} = this.props;
+    const {head, bundleSrc, content, initialState, apiBaseUrl, heroImageURL, uiConfig, hearingData} = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
     window.API_BASE_URL = ${JSON.stringify(apiBaseUrl)};
+    window.HERO_IMAGE_URL = ${JSON.stringify(heroImageURL)};
     window.UI_CONFIG = ${JSON.stringify(uiConfig)};
     `;
 
@@ -19,6 +20,8 @@ export default class Html extends React.Component {
           {head ? head.title.toComponent() : <title>Kerrokantasi</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
+          {hearingData && hearingData.main_image && <meta property="og:image" content={hearingData.main_image.url} />}
+          {hearingData && hearingData.abstract && <meta property="og:description" content={hearingData.abstract.fi} />}
         </head>
         <body>
           <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
@@ -32,9 +35,11 @@ export default class Html extends React.Component {
 
 Html.propTypes = {
   apiBaseUrl: PropTypes.string,
+  heroImageURL: PropTypes.string,
   uiConfig: PropTypes.object,
   bundleSrc: PropTypes.string.isRequired,
   content: PropTypes.string,
   head: PropTypes.object,
-  initialState: PropTypes.object
+  initialState: PropTypes.object,
+  hearingData: PropTypes.object
 };

@@ -1,19 +1,21 @@
 .fullwidth-hearing {
   position: relative;
+  margin-bottom: $line-height-computed;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
 
   &-image {
-    min-height: $line-height-computed * 10;
+    min-height: $line-height-computed * 14;
     background-size: cover;
     background-position: center center;
   }
 
   &-header {
-    background: $theme-primary-dark;
-    color: $white;
+    background: $white;
+    color: $black;
     padding: 30px;
     width: 100%;
     a {
-      color: $white;
+      color: $black;
       text-decoration: none;
     }
   }

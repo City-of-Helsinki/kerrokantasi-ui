@@ -64,6 +64,11 @@ class HearingToolbar extends React.Component {
           <Icon name="eye"/> {publishText}
         </Button>
       );
+      actions.push(
+        <Button bsStyle="danger" onClick={() => this.props.onDeleteHearingDraft()} key="unpublish">
+          <Icon name="eye-slash"/> <FormattedMessage id="deleteDraft"/>
+        </Button>
+      );
     }
 
     return (
@@ -89,6 +94,7 @@ HearingToolbar.propTypes = {
   onEdit: PropTypes.func,
   onPublish: PropTypes.func,
   onRevertPublishing: PropTypes.func,
+  onDeleteHearingDraft: PropTypes.func,
   user: userShape,
 };
 

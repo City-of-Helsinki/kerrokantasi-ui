@@ -75,9 +75,9 @@
   "lang-fi": "Suomi",
   "lang-en": "English",
   "lang-sv": "Svenska",
-  "welcome": "Tervetuloa!",
+  "welcome": "Kerro mielipiteesi",
   "openHearings": "Avoimet kuulemiset",
-  "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
+  "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "feedbackPrompt": "Kerro meille, miten tätä palvelua pitäisi kehittää!",
   "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
   "newestHearings": "Uusimmat kuulemiset",
@@ -194,5 +194,7 @@
   "mapView": "Kaikki kuulemiset kartalla",
   "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
-  "addGeojson": "Lisää geojson tiedostona"
+  "addGeojson": "Lisää geojson tiedostona",
+  "deleteDraft": "Poista luonnos",
+  "draftDeleted": "Luonnos poistettiin onnistuneesti"
 }
