@@ -36,7 +36,7 @@ const Phase = (props) => {
                         <div>
                           <InputGroup>
                             <InputGroup.Addon>
-                              <FormattedMessage id={`${indexNumber + 1}`} />
+                              <FormattedMessage id={`${indexNumber + 1}`} />*
                             </InputGroup.Addon>
                             <FormControlOnChange
                               maxLength="30"

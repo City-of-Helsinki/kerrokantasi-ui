@@ -101,7 +101,7 @@ class HearingFormStep5 extends React.Component {
         {
           Object.keys(selectedProject.title).map(usedLanguage => (
             <FormGroup controlId="projectName" key={usedLanguage}>
-              <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage}) </ControlLabel>
+              <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage})* </ControlLabel>
               <FormControlOnChange
                 maxLength="30"
                 defaultValue={selectedProject.title[usedLanguage]}

@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, merge, difference, isEmpty, omit } from 'lodash';
+import { head, findIndex, difference, isEmpty, omit } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 

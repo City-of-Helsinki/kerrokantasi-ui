@@ -71,13 +71,16 @@ class HearingEditor extends React.Component {
     if (isEmpty(hearing.labels)) {
       return notifyError('Aseta ainakin yksi asiasana.');
     }
-    if (isEmpty(hearing.project.title) || values(hearing.project.title).filter((value) => value !== '').length <= 0) {
+    if (isEmpty(hearing.project.title) || values(hearing.project.title).filter((value) => value === '').length > 0) {
       return notifyError('Aseta projektin nimi ennen tallennusta.');
     }
     if (hearing.project.phases.filter(phase =>
-      isEmpty(phase.title) || values(phase.title).filter((value) => value !== '').length <= 0
+      isEmpty(phase.title) || values(phase.title).filter((value) => value === '').length > 0
     ).length > 0) {
       return notifyError('Aseta vaiheet otsikko ennen tallennusta.');
+    }
+    if (hearing.project.phases.filter(phase => phase.is_active).length <= 0) {
+      return notifyError('tarvitsevat ainakin yhden aktiivisen vaiheen');
     }
     if (hearing.slug === '') {
       return notifyError('Aseta osoite ennen tallentamista.');
