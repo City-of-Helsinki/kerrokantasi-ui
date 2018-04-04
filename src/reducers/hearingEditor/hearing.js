@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, difference, isEmpty, omit } from 'lodash';
+import { head, findIndex, difference, isEmpty, omit, keys } from 'lodash';
 import { moveSubsectionInArray } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -81,7 +81,7 @@ const data = handleActions(
         project: {
           phases: state.project.phases.map(phase => {
             if (phase.id === phaseId) {
-              if (value === undefined && !phase.has_hearings) {
+              if (value === undefined) {
                 return updeep({[fieldName]: updeep.constant(omit(phase[fieldName], language))}, phase);
               }
               return updeep({ [fieldName]: { [language]: value } }, phase);
@@ -107,7 +107,7 @@ const data = handleActions(
       }
       if (!isEmpty(removedLanguages)) {
         removedLanguages.map(language => {
-          if (project.title[language] === '') project.title = omit(project.title, [language]);
+          if (project.title[language] === '' && keys(project.title).length > 1) project.title = omit(project.title, [language]);
           return language;
         });
       }

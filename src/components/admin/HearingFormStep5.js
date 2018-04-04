@@ -6,12 +6,14 @@ import updeep from 'updeep';
 import uuid from 'uuid/v1';
 import type {AppState} from '../../types';
 import {connect} from 'react-redux';
+import {isEmpty} from 'lodash';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Icon from '../../utils/Icon';
+import {notifyError} from '../../utils/notify';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
@@ -25,13 +27,8 @@ import {
   addPhase,
   changePhase
 } from '../../actions/hearingEditor';
-import {fetchProjects} from '../../actions';
 
 class HearingFormStep5 extends React.Component {
-  componentWillMount() {
-    const {hearingLanguages} = this.props;
-    this.props.dispatch(fetchProjects(hearingLanguages));
-  }
   onChangeProject = (event) => {
     this.props.dispatch(changeProject({
       projectId: event.target.value,
@@ -40,22 +37,25 @@ class HearingFormStep5 extends React.Component {
   }
   addPhase = () => {
     const {hearingLanguages} = this.props;
-    const emptyPhase = hearingLanguages.reduce((accumulator, current) => {
-      return updeep({
-        title: {[current]: ''},
-        description: {[current]: ''},
-        schedule: {[current]: ''},
-      }, accumulator);
-    }, {
-      id: uuid(),
-      has_hearings: false,
-      is_active: false,
-      title: {},
-      description: {},
-      schedule: {}
-    });
-    // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
-    this.props.dispatch(addPhase(emptyPhase));
+    if (!isEmpty(hearingLanguages)) {
+      const emptyPhase = hearingLanguages.reduce((accumulator, current) => {
+        return updeep({
+          title: {[current]: ''},
+          description: {[current]: ''},
+          schedule: {[current]: ''},
+        }, accumulator);
+      }, {
+        id: uuid(),
+        has_hearings: false,
+        is_active: false,
+        title: {},
+        description: {},
+        schedule: {}
+      });
+      // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
+      return this.props.dispatch(addPhase(emptyPhase));
+    }
+    return notifyError('Valitse ensin kieli.');
   }
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId));

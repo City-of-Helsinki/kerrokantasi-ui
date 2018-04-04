@@ -1,5 +1,5 @@
 // @flow
-import {get, isEmpty, head, difference} from 'lodash';
+import {get, isEmpty, head, difference, keys} from 'lodash';
 import updeep from 'updeep';
 import {normalize} from 'normalizr';
 
@@ -117,8 +117,15 @@ export const updateProjectOnChangeLanguage = store => next => action => {
     store.dispatch(updateProjectLanguage(languages));
     // update and refetch default project if needed
     store.dispatch(updateDefaultProject(languages));
-    const edittedHearing = store.getState().hearingEditor.hearing;
-    if (edittedHearing.data.project && edittedHearing.data.project.id === '') {
+  }
+  return next(action);
+};
+
+export const updateDefaultProjectOnOpenForm = store => next => action => {
+  if (action.type === 'showHearingForm') {
+    store.dispatch(updateDefaultProject(store.getState().hearingEditor.languages));
+    const hearing = store.getState().hearingEditor.hearing.data;
+    if (hearing && hearing.project.id === '') {
       store.dispatch(changeProject({
         projectId: '',
         projectLists: store.getState().projectLists.data
@@ -133,12 +140,12 @@ export const updatePhasesOnChangeLanguage = store => next => action => {
     const languages = action.payload.languages;
     const phases = store.getState().hearingEditor.hearing.data.project.phases;
     phases.forEach(phase => {
-      const newLanguagesTitle = difference(languages, Object.keys(phase.title));
-      const newLanguagesSchedule = difference(languages, Object.keys(phase.schedule));
-      const newLanguagesDescription = difference(languages, Object.keys(phase.description));
-      const removedLanguagesTitle = difference(Object.keys(phase.title), languages);
-      const removedLanguagesSchedule = difference(Object.keys(phase.schedule), languages);
-      const removedLanguagesDescription = difference(Object.keys(phase.description), languages);
+      const newLanguagesTitle = difference(languages, keys(phase.title));
+      const newLanguagesSchedule = difference(languages, keys(phase.schedule));
+      const newLanguagesDescription = difference(languages, keys(phase.description));
+      const removedLanguagesTitle = difference(keys(phase.title), languages);
+      const removedLanguagesSchedule = difference(keys(phase.schedule), languages);
+      const removedLanguagesDescription = difference(keys(phase.description), languages);
       if (!isEmpty(newLanguagesTitle)) {
         newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id, 'title', language, '')));
       } else {
@@ -173,5 +180,6 @@ export default [
   replaceWithDefaultProject,
   updateNewHearingWithDefaultProject,
   updateProjectOnChangeLanguage,
-  updatePhasesOnChangeLanguage
+  updatePhasesOnChangeLanguage,
+  updateDefaultProjectOnOpenForm
 ];

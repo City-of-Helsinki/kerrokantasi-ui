@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {uniqWith, isEqual} from 'lodash';
+import {uniqWith, isEqual, keys} from 'lodash';
 import {toast} from 'react-toastify';
 import Icon from '../../utils/Icon';
 import Radio from 'react-bootstrap/lib/Radio';
@@ -15,9 +15,9 @@ import FormControlOnChange from '../forms/FormControlOnChange';
 const Phase = (props) => {
   const {phaseInfo, indexNumber, onDelete, onChange, onActive} = props;
   const duplicatedLanguages = [
-    ...Object.keys(phaseInfo.title),
-    ...Object.keys(phaseInfo.description),
-    ...Object.keys(phaseInfo.schedule)
+    ...keys(phaseInfo.title),
+    ...keys(phaseInfo.description),
+    ...keys(phaseInfo.schedule)
   ];
   const languages = uniqWith(duplicatedLanguages, isEqual);
   return (

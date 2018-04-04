@@ -32,5 +32,5 @@ export default handleActions({
   }, state)
 }, {
   isFetching: false,
-  data: []
+  data: [emptyProject]
 });
