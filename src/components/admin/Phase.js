@@ -39,7 +39,7 @@ const Phase = (props) => {
                               <FormattedMessage id={`${indexNumber + 1}`} />*
                             </InputGroup.Addon>
                             <FormControlOnChange
-                              maxLength="30"
+                              maxLength="100"
                               defaultValue={phaseInfo.title[usedLanguage]}
                               onBlur={(event) => {
                                 onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
@@ -76,7 +76,7 @@ const Phase = (props) => {
                   <Col md={6}>
                     <ControlLabel><FormattedMessage id="phaseDuration"/></ControlLabel>
                     <FormControlOnChange
-                      maxLength="30"
+                      maxLength="50"
                       defaultValue={phaseInfo.schedule[usedLanguage]}
                       onBlur={(event) => {
                         onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
@@ -87,7 +87,7 @@ const Phase = (props) => {
                   <Col md={6}>
                     <ControlLabel><FormattedMessage id="phaseDescription"/></ControlLabel>
                     <FormControlOnChange
-                      maxLength="80"
+                      maxLength="100"
                       defaultValue={phaseInfo.description[usedLanguage]}
                       onBlur={(event) => {
                         onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);

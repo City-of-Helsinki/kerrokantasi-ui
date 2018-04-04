@@ -103,7 +103,7 @@ class HearingFormStep5 extends React.Component {
             <FormGroup controlId="projectName" key={usedLanguage}>
               <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage})* </ControlLabel>
               <FormControlOnChange
-                maxLength="30"
+                maxLength="100"
                 defaultValue={selectedProject.title[usedLanguage]}
                 onBlur={(event) => {
                   this.onChangeProjectName(usedLanguage, event.target.value);
