@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {uniqWith, isEqual, keys} from 'lodash';
-import {toast} from 'react-toastify';
 import Icon from '../../utils/Icon';
+import {localizedNotifyError} from '../../utils/notify';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import {Row, Col} from 'react-bootstrap';
@@ -54,10 +54,7 @@ const Phase = (props) => {
                             <Button
                               onClick={() => {
                                 if (phaseInfo.has_hearings) {
-                                  toast.error(
-                                    "Can't delete phase with hearings",
-                                    {position: toast.POSITION.BOTTOM_RIGHT}
-                                  );
+                                  localizedNotifyError('tryingToDeletePhaseWithHearings');
                                 } else {
                                   onDelete(phaseInfo.id);
                                 }

@@ -197,12 +197,13 @@
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
   "addGeojson": "Lisää geojson tiedostona",
   "addProcess": "Lisää vaihe",
-  "projects": "projekti",
-  "projectName": "projektin nimi",
+  "project": "Projekti",
+  "projectName": "Projektin nimi",
   "phaseDuration": "Vaiheen kesto",
   "phaseDescription": "Vaiheen kuvaus",
   "phaseActive": "Aktiivinen",
   "phase": "Vaihe",
   "deleteDraft": "Poista luonnos",
-  "draftDeleted": "Luonnos poistettiin onnistuneesti"
+  "draftDeleted": "Luonnos poistettiin onnistuneesti",
+  "tryingToDeletePhaseWithHearings": "Vaihetta, jolla on kuulemisia, ei voida poistaa"
 }
