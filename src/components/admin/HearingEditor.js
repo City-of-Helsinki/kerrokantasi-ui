@@ -77,10 +77,10 @@ class HearingEditor extends React.Component {
     if (hearing.project.phases.filter(phase =>
       isEmpty(phase.title) || values(phase.title).filter((value) => value === '').length > 0
     ).length > 0) {
-      return notifyError('Aseta vaiheet otsikko ennen tallennusta.');
+      return notifyError('Aseta vaiheen otsikko ennen tallennusta.');
     }
     if (hearing.project.phases.filter(phase => phase.is_active).length <= 0) {
-      return notifyError('tarvitsevat ainakin yhden aktiivisen vaiheen');
+      return notifyError('Prosessit tarvitsevat ainakin yhden aktiivisen vaiheen.');
     }
     if (hearing.slug === '') {
       return notifyError('Aseta osoite ennen tallentamista.');
