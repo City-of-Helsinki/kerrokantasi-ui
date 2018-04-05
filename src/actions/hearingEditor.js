@@ -2,6 +2,7 @@ import {createAction} from 'redux-actions';
 import api from '../api';
 import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
+import {omit} from 'lodash';
 import { push } from 'react-router-redux';
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
@@ -157,9 +158,25 @@ export function addContact(contact, selectedContacts) {
   };
 }
 
-export function saveContact() {
+export function saveContact(contact) {
   return (dispatch, getState) => {
-    // TODO: asynchronous api calls here
+    const url = `/v1/contact_person/${contact.id}/`;
+    const contactInfo = omit(contact, ['id']);
+    return api
+      .put(getState(), url, contactInfo)
+      .then(checkResponseStatus)
+      .then(response => {
+        if (response.status === 400) {
+          notifyError('Tarkista yhteyshenkilön tiedot.');
+        } else if (response.status === 401) {
+          // Unauthorized
+          notifyError('Et voi luoda yhteyshenkilöä.');
+        } else {
+          notifySuccess('Muokkaus onnistui');
+        }
+      })
+      .then(() => dispatch(fetchHearingEditorMetaData()))
+      .catch(requestErrorHandler());
   };
 }
 

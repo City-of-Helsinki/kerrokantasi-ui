@@ -1,10 +1,8 @@
 import React from 'react';
-import map from 'lodash/map';
-import forEach from 'lodash/forEach';
+import {map, forEach, omit, isEmpty} from 'lodash';
 import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
-import {isEmpty} from 'lodash';
 import PropTypes from 'prop-types';
 
 import config from '../../config';
@@ -15,9 +13,11 @@ class ContactModal extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.state = {
       contact: {
+        id: '',
         name: '',
         phone: '',
         email: '',
+        organization: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()
@@ -36,9 +36,11 @@ class ContactModal extends React.Component {
     const {contactInfo} = nextProps;
     this.setState(update(this.state, {
       contact: {
+        id: { $set: contactInfo.id || '' },
         name: { $set: contactInfo.name || '' },
         phone: { $set: contactInfo.phone || '' },
         email: { $set: contactInfo.email || '' },
+        organization: { $set: contactInfo.organization || '' },
         title: { $set: contactInfo.title || {} },
       }
     }));
@@ -91,12 +93,18 @@ class ContactModal extends React.Component {
 
   submitForm(event) {
     event.preventDefault();
-    this.props.onCreateContact(this.state.contact);
+    if (isEmpty(this.props.contactInfo)) {
+      this.props.onCreateContact(omit(this.state.contact, ['id', 'organization']));
+    } else {
+      this.props.onEditContact(this.state.contact);
+    }
     this.setState({
       contact: {
+        id: '',
         name: '',
         phone: '',
         email: '',
+        organization: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()

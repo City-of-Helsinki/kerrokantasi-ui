@@ -70,7 +70,7 @@ class HearingFormStep1 extends React.Component {
   }
 
   onEditContact(contact) {
-    this.props.dispatch(addContact(contact, this.state.selectedContacts));
+    this.props.dispatch(saveContact(contact));
   }
 
   openLabelModal() {
@@ -172,14 +172,12 @@ class HearingFormStep1 extends React.Component {
               )}
               labelKey="name"
               multi
-              clearAllText="Poista"
-              clearValueText="Poista"
               name="contacts"
               onChange={this.onContactsChange}
               options={contactOptions}
               placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
               simpleValue={false}
-              value={hearing.contact_persons.map(person => ({...person, title: 'Poista'}))}
+              value={hearing.contact_persons.map(person => ({...person}))}
               valueKey="id"
             />
             <Button
