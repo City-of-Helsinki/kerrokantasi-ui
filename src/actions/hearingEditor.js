@@ -157,6 +157,12 @@ export function addContact(contact, selectedContacts) {
   };
 }
 
+export function saveContact() {
+  return (dispatch, getState) => {
+    // TODO: asynchronous api calls here
+  };
+}
+
 export function addLabel(label, selectedLabels) {
   return (dispatch, getState) => {
     const postLabelAction = createAction(EditorActions.ADD_LABEL)();

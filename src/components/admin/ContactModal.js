@@ -4,6 +4,7 @@ import forEach from 'lodash/forEach';
 import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
+import {isEmpty} from 'lodash';
 import PropTypes from 'prop-types';
 
 import config from '../../config';
@@ -31,8 +32,29 @@ class ContactModal extends React.Component {
     return titleLanguages;
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {contactInfo} = nextProps;
+    this.setState(update(this.state, {
+      contact: {
+        name: { $set: contactInfo.name || '' },
+        phone: { $set: contactInfo.phone || '' },
+        email: { $set: contactInfo.email || '' },
+        title: { $set: contactInfo.title || {} },
+      }
+    }));
+  }
+
   componentWillMount() {
-    this.setState(update(this.state, { titleLanguages: { fi: { $set: true }}}));
+    const {contactInfo} = this.props;
+    this.setState(update(this.state, {
+      titleLanguages: { fi: { $set: true }},
+      contact: {
+        name: { $set: contactInfo.name || '' },
+        phone: { $set: contactInfo.phone || '' },
+        email: { $set: contactInfo.email || '' },
+        title: { $set: contactInfo.title || {} },
+      }
+    }));
   }
 
   onContactChange(field, value) {
@@ -123,15 +145,18 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, onClose, contactInfo } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
     const titleInputs = this.generateTitleInputs();
+    const isCreate = isEmpty(contactInfo);
 
     return (
       <Modal className="contact-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage id="createContact"/></Modal.Title>
+          <Modal.Title>
+            { isCreate ? <FormattedMessage id="createContact"/> : <FormattedMessage id="editContact"/> }
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form ref={(form) => { this.contactForm = form; }} onSubmit={this.submitForm}>
@@ -182,7 +207,7 @@ class ContactModal extends React.Component {
             <FormattedMessage id="cancel"/>
           </Button>
           <Button bsStyle="primary" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
-            <FormattedMessage id="create"/>
+            { isCreate ? <FormattedMessage id="create"/> : <FormattedMessage id="save" /> }
           </Button>
         </Modal.Footer>
       </Modal>
@@ -194,7 +219,9 @@ ContactModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-  onCreateContact: PropTypes.func
+  onCreateContact: PropTypes.func,
+  onEditContact: PropTypes.func,
+  contactInfo: PropTypes.object
 };
 
 export default injectIntl(ContactModal);
