@@ -31,14 +31,6 @@ exports[`HearingCard component should render as expected 1`] = `
   <div
     className="hearing-card-content"
   >
-    <div
-      className="hearing-card-time "
-    >
-      <FormatRelativeTime
-        messagePrefix="timeClose"
-        timeVal="2200-11-28T22:00:00Z"
-      />
-    </div>
     <h4
       className="hearing-card-title"
     >
@@ -52,6 +44,14 @@ exports[`HearingCard component should render as expected 1`] = `
         Mock Hearing
       </withRouter(Connect(LinkWithLangComponent))>
     </h4>
+    <div
+      className="hearing-card-time "
+    >
+      <FormatRelativeTime
+        messagePrefix="timeClose"
+        timeVal="2200-11-28T22:00:00Z"
+      />
+    </div>
     <div
       className="hearing-card-labels"
     >

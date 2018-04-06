@@ -266,6 +266,14 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         .
       </span>
     </div>
+    <div
+      className="fullwidth-hearing-labels"
+    >
+      <LabelList
+        className="hearing-list-item-labellist"
+        labels={Array []}
+      />
+    </div>
   </div>
   <div
     className="fullwidth-hearing-comments"
