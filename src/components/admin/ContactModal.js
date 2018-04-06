@@ -34,6 +34,10 @@ class ContactModal extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {contactInfo} = nextProps;
+    const newTitleLanguages = {};
+    forEach(contactInfo.title, (title, language) => {
+      newTitleLanguages[language] = !isEmpty(title);
+    });
     this.setState(update(this.state, {
       contact: {
         id: { $set: contactInfo.id || '' },
@@ -42,7 +46,8 @@ class ContactModal extends React.Component {
         email: { $set: contactInfo.email || '' },
         organization: { $set: contactInfo.organization || '' },
         title: { $set: contactInfo.title || {} },
-      }
+      },
+      titleLanguages: { $set: newTitleLanguages }
     }));
   }
 
@@ -96,8 +101,16 @@ class ContactModal extends React.Component {
     if (isEmpty(this.props.contactInfo)) {
       this.props.onCreateContact(omit(this.state.contact, ['id', 'organization']));
     } else {
-      this.props.onEditContact(this.state.contact);
+      const omittedLanguages = [];
+      forEach(this.state.titleLanguages, (value, key) => {
+        if (!value) omittedLanguages.push(key);
+      });
+      const contactInfo = update(this.state.contact, {
+        title: { $unset: omittedLanguages }
+      });
+      this.props.onEditContact(contactInfo);
     }
+    // reset the state
     this.setState({
       contact: {
         id: '',
@@ -130,7 +143,6 @@ class ContactModal extends React.Component {
     const { contact, titleLanguages } = this.state;
     const { intl } = this.props;
     const titleInputs = [];
-
     forEach(titleLanguages, (language, key) => {
       if (language) {
         titleInputs.push(
