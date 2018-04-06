@@ -81,7 +81,7 @@ const data = handleActions(
         project: {
           phases: state.project.phases.map(phase => {
             if (phase.id === phaseId) {
-              if (value === undefined) {
+              if (value === undefined && (fieldName !== 'title' || keys(phase.title).length > 1)) {
                 return updeep({[fieldName]: updeep.constant(omit(phase[fieldName], language))}, phase);
               }
               return updeep({ [fieldName]: { [language]: value } }, phase);
@@ -107,7 +107,9 @@ const data = handleActions(
       }
       if (!isEmpty(removedLanguages)) {
         removedLanguages.map(language => {
-          if (project.title[language] === '' && keys(project.title).length > 1) project.title = omit(project.title, [language]);
+          if ((project.title[language] === '' || project.id === '') && keys(project.title).length > 1) {
+            project.title = omit(project.title, [language]);
+          }
           return language;
         });
       }

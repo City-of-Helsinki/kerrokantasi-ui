@@ -27,6 +27,7 @@ const setup = propOverrides => {
     user,
     isLoading: false,
     fetchEditorMetaData: () => null,
+    fetchProjectsList: () => null
   }, propOverrides);
 
   const wrapper = shallow(<MemoryRouter><HearingContainerComponent intl={getIntlAsProp()} {...props} /></MemoryRouter>);
