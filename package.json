@@ -94,6 +94,7 @@
     "react-dropzone": "^3.13.3",
     "react-helmet": "^2.2.0",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-image-lightbox": "^4.6.0",
     "react-images": "^0.5.17",
     "react-intl": "2.0.0-rc-1",
     "react-leaflet": "^1.7.4",
