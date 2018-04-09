@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Icon from '../utils/Icon';
 import nl2br from 'react-nl2br';
 import {notifyError} from '../utils/notify';
 import forEach from 'lodash/forEach';
+import moment from 'moment';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -57,6 +58,11 @@ class Comment extends React.Component {
     this.props.onDeleteComment(section, id);
   }
 
+  parseTimestamp = (timestamp) => {
+    const timeFormat = 'hh:mm DD.MM.YYYY';
+    return moment(timestamp).format(timeFormat);
+  }
+
   render() {
     const {data} = this.props;
     const canEdit = data.can_edit;
@@ -85,7 +91,7 @@ class Comment extends React.Component {
               {data.author_name || <FormattedMessage id="anonymous"/>}
             </span>
             <span className="hearing-comment-date">
-              <FormattedRelative value={data.created_at}/>
+              {this.parseTimestamp(data.created_at)}
             </span>
           </div>
         </div>
