@@ -13,6 +13,7 @@ import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 import helsinkiLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black.svg';
+import helsinkiSwedishLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black-sv.svg';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -104,6 +105,7 @@ class Header extends React.Component {
   }
 
   render() {
+    const {language} = this.props;
     const header = this;
     const onSelect = eventKey => {
       header.onSelect(eventKey);
@@ -115,7 +117,11 @@ class Header extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link to={{path: "/"}}>
-                <img src={helsinkiLogo} className="navbar-logo" alt="Helsinki" />
+                <img
+                  src={language === 'sv' ? helsinkiSwedishLogo : helsinkiLogo}
+                  className="navbar-logo"
+                  alt="Helsinki"
+                />
               </Link>
             </Navbar.Brand>
           </Navbar.Header>
