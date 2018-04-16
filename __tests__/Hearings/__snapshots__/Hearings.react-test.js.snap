@@ -246,7 +246,7 @@ exports[`Hearings component should render as expected 1`] = `
           "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
           "removeImage": "Poista kuva",
           "revertPublishing": "Peru julkaisu",
-          "save": "Tallentaa",
+          "save": "Tallenna",
           "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
           "saveFailed": "Tallentaminen epäonnistui",
           "saveHearingChanges": "Tallenna muutokset",
