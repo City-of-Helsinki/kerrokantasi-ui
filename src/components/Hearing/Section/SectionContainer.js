@@ -139,10 +139,12 @@ export class SectionContainerComponent extends React.Component {
   }
 
   openLightbox = () => {
+    document.body.classList.remove('nav-fixed');
     this.setState({showLightbox: true});
   }
 
   closeLightbox = () => {
+    document.body.classList.add('nav-fixed');
     this.setState({showLightbox: false});
   }
 
