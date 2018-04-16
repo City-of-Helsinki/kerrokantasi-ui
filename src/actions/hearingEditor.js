@@ -167,7 +167,7 @@ export function saveContact(contact) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
-          notifyError('Tarkista yhteyshenkilön tiedot.');
+          notifyError('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
         } else if (response.status === 401) {
           // Unauthorized
           notifyError('Et voi luoda yhteyshenkilöä.');
