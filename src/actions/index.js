@@ -8,6 +8,7 @@ import { push } from 'react-router-redux';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
+export const setHeadless = createAction('setHeadless');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
