@@ -159,6 +159,8 @@
   "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
   "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
   "createContact": "Luo uusi yhteyshenkilö",
+  "editContact": "Muokkaa yhteystietoa",
+  "save": "Tallenna",
   "create": "Luo",
   "name": "Nimi",
   "phone": "Puhelinnumero",

@@ -105,6 +105,8 @@
   "sectionImageCaption": "Caption",
   "sectionTitle": "Section title",
   "createContact": "Create a new contact",
+  "save": "Save",
+  "editContact": "Edit contact",
   "create": "Create",
   "name": "Name",
   "phone": "Phone number",
