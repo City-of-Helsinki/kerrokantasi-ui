@@ -57,14 +57,14 @@ const data = handleActions(
     [EditorActions.DELETE_PHASE]: (state, {payload: {phaseId}}) =>
       updeep({
         project: {
-          phases: state.project.phases.filter(phase => phase.id !== phaseId)
+          phases: state.project.phases.filter(phase => phase.id !== phaseId && phase.frontId !== phaseId)
         }
       }, state),
     [EditorActions.ACTIVE_PHASE]: (state, {payload: {phaseId}}) =>
       updeep({
         project: {
           phases: state.project.phases.map(phase => {
-            if (phase.id === phaseId) {
+            if (phase.id === phaseId || phase.frontId === phaseId) {
               return updeep({is_active: true}, phase);
             }
             return updeep({is_active: false}, phase);
@@ -80,7 +80,7 @@ const data = handleActions(
       updeep({
         project: {
           phases: state.project.phases.map(phase => {
-            if (phase.id === phaseId) {
+            if (phase.id === phaseId || phase.frontId === phaseId) {
               if (value === undefined && (fieldName !== 'title' || keys(phase.title).length > 1)) {
                 return updeep({[fieldName]: updeep.constant(omit(phase[fieldName], language))}, phase);
               }

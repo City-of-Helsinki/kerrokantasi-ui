@@ -42,7 +42,7 @@ const Phase = (props) => {
                               maxLength="100"
                               defaultValue={phaseInfo.title[usedLanguage]}
                               onBlur={(event) => {
-                                onChange(phaseInfo.id, 'title', usedLanguage, event.target.value);
+                                onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, event.target.value);
                               }}
                               type="text"
                             />
@@ -56,7 +56,7 @@ const Phase = (props) => {
                                 if (phaseInfo.has_hearings) {
                                   localizedNotifyError('tryingToDeletePhaseWithHearings');
                                 } else {
-                                  onDelete(phaseInfo.id);
+                                  onDelete(phaseInfo.id || phaseInfo.frontId);
                                 }
                               }}
                               bsStyle="default"
@@ -79,7 +79,7 @@ const Phase = (props) => {
                       maxLength="50"
                       defaultValue={phaseInfo.schedule[usedLanguage]}
                       onBlur={(event) => {
-                        onChange(phaseInfo.id, 'schedule', usedLanguage, event.target.value);
+                        onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value);
                       }}
                       type="text"
                     />
@@ -90,7 +90,7 @@ const Phase = (props) => {
                       maxLength="100"
                       defaultValue={phaseInfo.description[usedLanguage]}
                       onBlur={(event) => {
-                        onChange(phaseInfo.id, 'description', usedLanguage, event.target.value);
+                        onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value);
                       }}
                       type="text"
                     />
@@ -101,7 +101,7 @@ const Phase = (props) => {
                   ? (
                     <Row>
                       <Col md={12}>
-                        <Radio onChange={() => onActive(phaseInfo.id)} checked={phaseInfo.is_active}>
+                        <Radio onChange={() => onActive(phaseInfo.id || phaseInfo.frontId)} checked={phaseInfo.is_active}>
                           <FormattedMessage id="phaseActive"/>
                         </Radio>
                       </Col>

@@ -147,24 +147,24 @@ export const updatePhasesOnChangeLanguage = store => next => action => {
       const removedLanguagesSchedule = difference(keys(phase.schedule), languages);
       const removedLanguagesDescription = difference(keys(phase.description), languages);
       if (!isEmpty(newLanguagesTitle)) {
-        newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id, 'title', language, '')));
+        newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, '')));
       } else {
-        removedLanguagesTitle.map(language => store.dispatch(changePhase(phase.id, 'title', language, undefined)));
+        removedLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, undefined)));
       }
       if (!isEmpty(newLanguagesSchedule)) {
-        newLanguagesSchedule.map(language => store.dispatch(changePhase(phase.id, 'schedule', language, '')));
+        newLanguagesSchedule.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, '')));
       } else {
         removedLanguagesSchedule.map(
-          language => store.dispatch(changePhase(phase.id, 'schedule', language, undefined))
+          language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, undefined))
         );
       }
       if (!isEmpty(newLanguagesDescription)) {
         newLanguagesDescription.map(
-          language => store.dispatch(changePhase(phase.id, 'description', language, ''))
+          language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, ''))
         );
       } else {
         removedLanguagesDescription.map(
-          language => store.dispatch(changePhase(phase.id, 'description', language, undefined))
+          language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, undefined))
         );
       }
     });

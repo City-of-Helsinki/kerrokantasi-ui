@@ -45,7 +45,7 @@ class HearingFormStep5 extends React.Component {
           schedule: {[current]: ''},
         }, accumulator);
       }, {
-        id: uuid(),
+        frontId: uuid(),
         has_hearings: false,
         is_active: false,
         title: {},
