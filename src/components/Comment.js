@@ -60,9 +60,15 @@ class Comment extends React.Component {
   }
 
   getStrigifiedAnswer = (answer) => {
-    const {questions} = this.props;
-    const question = find(questions, que => que.id == answer.question); // eslint-disable-line
-    return {question: getAttr(question.text), answers: answer.answers.map(ans => getAttr(question.options[ans]))};
+    const {questions, intl} = this.props;
+    const question = find(questions, que => que.id === answer.question); // eslint-disable-line
+    // return {question: getAttr(question.text), answers: answer.answers.map(ans => getAttr(question.options[ans]))};
+    return {
+      question: question ? getAttr(question.text, intl.locale) : '',
+      answers: answer.answers.map((ans) => {
+        return question ? getAttr(question.options[ans].text, intl.locale) : '';
+      })
+    };
   }
 
   render() {
@@ -172,6 +178,7 @@ class Comment extends React.Component {
 
 Comment.propTypes = {
   data: PropTypes.object,
+  intl: PropTypes.object,
   canVote: PropTypes.bool,
   onPostVote: PropTypes.func,
   onEditComment: PropTypes.func,

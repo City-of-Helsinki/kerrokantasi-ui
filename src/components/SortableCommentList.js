@@ -76,7 +76,11 @@ export class SortableCommentListComponent extends Component {
       collapseForm: false,
       // answers: mockQuestions.map(question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})) // TODO: Use section.questions instead of mockQuestions after backend support
       answers: this.props.section.questions.map(
-        question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})
+        question => ({
+          question: question.id,
+          type: question.type,
+          answers: question.type === 'multiple-choice' ? [] : null
+        })
       )
     };
 
@@ -140,7 +144,8 @@ export class SortableCommentListComponent extends Component {
 
   onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
-    const commentData = {text, authorName, pluginData, geojson, label, images};
+    const answers = this.state.answers;
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers};
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
     }

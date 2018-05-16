@@ -4,7 +4,6 @@ import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import Radio from 'react-bootstrap/lib/Radio';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
-import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -15,6 +14,7 @@ import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
+import uuid from 'uuid/v1';
 import QuestionResults from './QuestionResults';
 
 export class BaseCommentForm extends React.Component {
@@ -244,14 +244,14 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
     <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value, ev)}>
       <h4>{getAttr(question.text, lang)}</h4>
-      {loggedIn && question.type === 'single-choice' && keys(question.options).map((optionKey) => (
-        <Radio checked={answers && answers.answers === optionKey} key={optionKey} value={optionKey}>
-          {getAttr(question.options[optionKey], lang)}
+      {loggedIn && question.type === 'single-choice' && question.options.map((option) => (
+        <Radio checked={answers && answers.answers === option} key={uuid()} value={option}>
+          {getAttr(option.text, lang)}
         </Radio>
       ))}
-      {loggedIn && question.type === 'multiple-choice' && keys(question.options).map((optionKey) => (
-        <Checkbox checked={answers && answers.answers.includes(optionKey)} key={optionKey} value={optionKey}>
-          {getAttr(question.options[optionKey], lang)}
+      {loggedIn && question.type === 'multiple-choice' && keys(question.options).map((option) => (
+        <Checkbox checked={answers && answers.answers.includes(option)} key={uuid()} value={option}>
+          {getAttr(option.text, lang)}
         </Checkbox>
       ))}
       {!loggedIn && <FormattedMessage id="logInToAnswer" />}
