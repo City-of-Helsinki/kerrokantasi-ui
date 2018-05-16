@@ -31,10 +31,9 @@ const mockQuestions = [
         }
      },
      "n_answers": 13,
-    "answers": {
-      1: 5,
-      2: 8
-    }
+    "answers": [
+      5, 8
+    ]
   },
   {
     "id": 86,
@@ -55,11 +54,9 @@ const mockQuestions = [
         }
      },
      "n_answers": 16,
-      answers: {
-        1: 5,
-        2: 8,
-        3: 14
-      }
+      answers: [
+        5, 8, 14
+      ]
   },
 ];
 
@@ -77,7 +74,10 @@ export class SortableCommentListComponent extends Component {
     this.state = {
       showLoader: false,
       collapseForm: false,
-      answers: mockQuestions.map(question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})) // TODO: Use section.questions instead of mockQuestions after backend support
+      // answers: mockQuestions.map(question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})) // TODO: Use section.questions instead of mockQuestions after backend support
+      answers: this.props.section.questions.map(
+        question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})
+      )
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
@@ -258,8 +258,8 @@ export class SortableCommentListComponent extends Component {
       closed
     } = this.props;
 
-    const mockSection = Object.assign({}, section);
-    mockSection.questions = mockQuestions;
+    // const mockSection = Object.assign({}, section);
+    // mockSection.questions = mockQuestions;
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
@@ -272,7 +272,7 @@ export class SortableCommentListComponent extends Component {
             defaultNickname={getNickname(user)}
             nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
-            section={mockSection}
+            section={section}
             language={language}
             onChangeAnswers={this.onChangeAnswers}
             answers={this.state.answers}
@@ -289,7 +289,7 @@ export class SortableCommentListComponent extends Component {
           {closed &&
             <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
               {
-                mockSection.questions.map((question) =>
+                section.questions.map((question) =>
                   <QuestionResults key={question.id} question={question} language={language} />)
               }
             </div>
@@ -338,7 +338,7 @@ export class SortableCommentListComponent extends Component {
               <div>
                 <WrappedCommentList
                   canVote={canVote}
-                  section={mockSection}
+                  section={section}
                   comments={sectionComments.results}
                   totalCount={sectionComments.count}
                   onEditComment={this.props.onEditComment}

@@ -67,7 +67,7 @@ class Comment extends React.Component {
 
   render() {
     const {data} = this.props;
-    const mockData = Object.assign({}, data);
+    /* const mockData = Object.assign({}, data);
     mockData.answers = [
                 {
                     "question": 85,
@@ -77,7 +77,7 @@ class Comment extends React.Component {
                     "question": 86,
                     "answers": [1,2]
                 },
-            ];
+            ]; */
     const canEdit = data.can_edit;
     const {editorOpen} = this.state;
 
@@ -108,7 +108,7 @@ class Comment extends React.Component {
             </span>
           </div>
         </div>
-        {mockData.answers.map((answer) => <Answer answer={this.getStrigifiedAnswer(answer)} />)}
+        {data.answers.map((answer) => <Answer answer={this.getStrigifiedAnswer(answer)} />)}
         <div className="hearing-comment-body">
           <p>{nl2br(data.content)}</p>
         </div>
