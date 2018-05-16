@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v1';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import keys from 'lodash/keys';
 import {Button} from 'react-bootstrap';
@@ -22,24 +23,24 @@ export class QuestionForm extends React.Component {
           fieldType={TextFieldTypes.TEXTAREA}
           placeholderId="sectionAbstractPlaceholder"
         />
-        {keys(question.options).map((optionKey, index) =>
-          <div style={{display: 'flex'}}>
+        {question.options.map((option, index) =>
+          <div style={{display: 'flex'}} key={uuid()}>
             <div style={{flex: '19'}}>
               <MultiLanguageTextField
                 labelId="option"
                 showLabel
-                label={optionKey}
+                label={index + 1}
                 name="content"
-                onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, optionKey)}
+                onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, index)}
                 rows="10"
-                value={question.options[optionKey]}
+                value={option}
                 languages={sectionLanguages}
                 placeholderId="sectionContentPlaceholder"
               />
             </div>
             <div style={{flex: '1', marginTop: '48px', marginLeft: '15px'}}>
-              {index !== 0 && index !== 1 && index === keys(question.options).length - 1 &&
-                <Button bsStyle="danger" onClick={() => deleteOption(sectionId, question.frontId, optionKey)}>
+              {index !== 0 && index !== 1 && index === question.options.length - 1 &&
+                <Button bsStyle="danger" onClick={() => deleteOption(sectionId, question.frontId, index)}>
                   <Icon style={{fontSize: '24px'}} className="icon" name="trash" />
                 </Button>
               }

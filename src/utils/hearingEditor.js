@@ -1,10 +1,10 @@
 // @flow
 import {normalize} from 'normalizr';
 import uuid from 'uuid/v1';
-import {flowRight} from 'lodash';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
-import assign from 'lodash/assign';
+import {assign, flowRight, values} from 'lodash';
+import updeep from "updeep";
 
 import {hearingSchema} from '../types';
 
