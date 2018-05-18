@@ -147,7 +147,7 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {section.questions.map((question) => <QuestionResults key={question.id} question={question} language={language} />)}
+          {loggedIn && section.questions.map((question) => <QuestionResults key={question.id} question={question} language={language} />)}
           {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
@@ -232,7 +232,7 @@ BaseCommentForm.propTypes = {
   section: PropTypes.object,
   language: PropTypes.string,
   onChangeAnswers: PropTypes.func,
-  answers: PropTypes.object,
+  answers: PropTypes.array,
   loggedIn: PropTypes.bool
 };
 
