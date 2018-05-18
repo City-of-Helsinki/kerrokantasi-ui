@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row, OverlayTrigger, Tooltip, Grid} from 'react-bootstrap';
 import {injectIntl, FormattedPlural, FormattedMessage, intlShape} from 'react-intl';
+import Slider from 'react-slick';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
@@ -9,9 +10,12 @@ import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {stringifyQuery} from '../../utils/urlQuery';
 import {withRouter} from 'react-router-dom';
+
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -109,6 +113,8 @@ export class HeaderComponent extends React.Component {
 
   render() {
     const { hearing, activeLanguage, reportUrl} = this.props;
+    const project = get(hearing, 'project');
+    const phases = get(project, 'phases') || [];
     return (
       <div className="header-section">
         <Grid>
@@ -158,6 +164,31 @@ export class HeaderComponent extends React.Component {
               <Col lg={6}>
                 {this.getLanguageChanger()}
               </Col>
+            </Row>
+            <Row className="hearing-project">
+              <div className="hearing-project">
+                {isEmpty(project) ? null : <h5>Project {getAttr(project.title, activeLanguage)}</h5>}
+                <Slider className="project-phases-list" slidesToShow={3} infinite={false}>
+                  {
+                    phases.map((phase, index) => (
+                      <div className="phases-list-item" key={phase.id}>
+                        <div className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}>
+                          {index + 1}
+                        </div>
+                        <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
+                        <span>{getAttr(phase.description, activeLanguage)}</span>
+                        <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
+                        <div className={`
+                            phase-process-line
+                            ${index === 0 ? 'phase-process-line-first' : ''}
+                            ${index === phases.length - 1 ? 'phase-process-line-last' : ''}
+                          `}
+                        />
+                      </div>
+                    ))
+                  }
+                </Slider>
+              </div>
             </Row>
           </div>
         </Grid>
