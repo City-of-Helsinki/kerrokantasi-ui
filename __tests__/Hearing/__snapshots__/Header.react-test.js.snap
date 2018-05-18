@@ -147,6 +147,21 @@ exports[`Header component should render as expected 1`] = `
           lg={6}
         />
       </Row>
+      <Row
+        bsClass="row"
+        className="hearing-project"
+        componentClass="div"
+      >
+        <div
+          className="hearing-project"
+        >
+          <Slider
+            className="project-phases-list"
+            infinite={false}
+            slidesToShow={3}
+          />
+        </div>
+      </Row>
     </div>
   </Grid>
 </div>
