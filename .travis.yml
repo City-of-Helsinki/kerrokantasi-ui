@@ -23,12 +23,12 @@ before_install:
 script:
   - npm run lint
   - npm run test:cov
-  - ./docker_test.sh
+  - ./deploy/docker_test.sh
 
 after_success:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - codecov < coverage/lcov.info
-  - ./containerize.sh
+  - ./deploy/containerize.sh
 
 notifications:
   slack:
