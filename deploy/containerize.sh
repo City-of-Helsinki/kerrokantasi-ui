@@ -7,7 +7,7 @@ fi
 
 docker build -t kerrokantasi-ui .
 
-export REPO="roninen/kerrokantasi-ui"
+export REPO="helsinki/kerrokantasi-ui"
 
 # First 7 chars of commit hash
 export COMMIT=${TRAVIS_COMMIT::7}
