@@ -1,8 +1,6 @@
 
 sudo: required
 
-install: true
-
 services:
   - docker
 
@@ -18,7 +16,6 @@ cache:
 
 before_install:
   - npm i -g npm@latest
-  - yarn
 
 script:
   - npm run lint
