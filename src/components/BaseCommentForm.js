@@ -147,8 +147,8 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {loggedIn && section.questions.map((question) => <QuestionResults key={question.id} question={question} language={language} />)}
-          {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} language={language} />)}
+          {loggedIn && section.questions.map((question) => <QuestionResults key={question.id} question={question} lang={language} />)}
+          {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} lang={language} />)}
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
@@ -242,15 +242,18 @@ BaseCommentForm.defaultProps = {
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value, ev)}>
+    <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value)}>
       <h4>{getAttr(question.text, lang)}</h4>
-      {loggedIn && question.type === 'single-choice' && question.options.map((option) => (
-        <Radio checked={answers && answers.answers === option} key={uuid()} value={option}>
-          {getAttr(option.text, lang)}
-        </Radio>
-      ))}
+      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
+        const optionContent = getAttr(option.text, lang);
+        return (
+          <Radio checked={answers && answers.answers === optionContent} key={uuid()} value={optionContent}>
+            {optionContent}
+          </Radio>
+        );
+      })}
       {loggedIn && question.type === 'multiple-choice' && keys(question.options).map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option)} key={uuid()} value={option}>
+        <Checkbox checked={answers && answers.answers.includes(option)} key={uuid()} value={getAttr(option.text, lang)}>
           {getAttr(option.text, lang)}
         </Checkbox>
       ))}
