@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
-import keys from 'lodash/keys';
 import {Button} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import {FormattedMessage} from 'react-intl';
@@ -33,7 +32,7 @@ export class QuestionForm extends React.Component {
                 name="content"
                 onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, index)}
                 rows="10"
-                value={option}
+                value={option.text}
                 languages={sectionLanguages}
                 placeholderId="sectionContentPlaceholder"
               />

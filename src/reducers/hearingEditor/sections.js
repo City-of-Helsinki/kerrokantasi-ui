@@ -34,7 +34,9 @@ const byId = handleActions(
       let question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
       if (fieldType === 'option') {
         question = updeep({
-          options: {[optionKey]: value}
+          options: {[optionKey]: {
+            text: value
+          }}
         }, question);
       } else if (fieldType === 'text') {
         question = updeep({
