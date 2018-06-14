@@ -1,6 +1,5 @@
 import React from 'react';
-import map from 'lodash/map';
-import forEach from 'lodash/forEach';
+import {map, forEach, omit, isEmpty} from 'lodash';
 import {Modal, Button, ControlLabel} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
@@ -14,9 +13,11 @@ class ContactModal extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.state = {
       contact: {
+        id: '',
         name: '',
         phone: '',
         email: '',
+        organization: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()
@@ -31,8 +32,36 @@ class ContactModal extends React.Component {
     return titleLanguages;
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {contactInfo} = nextProps;
+    const newTitleLanguages = {};
+    forEach(contactInfo.title, (title, language) => {
+      newTitleLanguages[language] = !isEmpty(title);
+    });
+    this.setState(update(this.state, {
+      contact: {
+        id: { $set: contactInfo.id || '' },
+        name: { $set: contactInfo.name || '' },
+        phone: { $set: contactInfo.phone || '' },
+        email: { $set: contactInfo.email || '' },
+        organization: { $set: contactInfo.organization || '' },
+        title: { $set: contactInfo.title || {} },
+      },
+      titleLanguages: { $set: newTitleLanguages }
+    }));
+  }
+
   componentWillMount() {
-    this.setState(update(this.state, { titleLanguages: { fi: { $set: true }}}));
+    const {contactInfo} = this.props;
+    this.setState(update(this.state, {
+      titleLanguages: { fi: { $set: true }},
+      contact: {
+        name: { $set: contactInfo.name || '' },
+        phone: { $set: contactInfo.phone || '' },
+        email: { $set: contactInfo.email || '' },
+        title: { $set: contactInfo.title || {} },
+      }
+    }));
   }
 
   onContactChange(field, value) {
@@ -69,12 +98,26 @@ class ContactModal extends React.Component {
 
   submitForm(event) {
     event.preventDefault();
-    this.props.onCreateContact(this.state.contact);
+    if (isEmpty(this.props.contactInfo)) {
+      this.props.onCreateContact(omit(this.state.contact, ['id', 'organization']));
+    } else {
+      const omittedLanguages = [];
+      forEach(this.state.titleLanguages, (value, key) => {
+        if (!value) omittedLanguages.push(key);
+      });
+      const contactInfo = update(this.state.contact, {
+        title: { $unset: omittedLanguages }
+      });
+      this.props.onEditContact(contactInfo);
+    }
+    // reset the state
     this.setState({
       contact: {
+        id: '',
         name: '',
         phone: '',
         email: '',
+        organization: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()
@@ -100,7 +143,6 @@ class ContactModal extends React.Component {
     const { contact, titleLanguages } = this.state;
     const { intl } = this.props;
     const titleInputs = [];
-
     forEach(titleLanguages, (language, key) => {
       if (language) {
         titleInputs.push(
@@ -123,15 +165,18 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, onClose, contactInfo } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
     const titleInputs = this.generateTitleInputs();
+    const isCreate = isEmpty(contactInfo);
 
     return (
       <Modal className="contact-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage id="createContact"/></Modal.Title>
+          <Modal.Title>
+            { isCreate ? <FormattedMessage id="createContact"/> : <FormattedMessage id="editContact"/> }
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form ref={(form) => { this.contactForm = form; }} onSubmit={this.submitForm}>
@@ -182,7 +227,7 @@ class ContactModal extends React.Component {
             <FormattedMessage id="cancel"/>
           </Button>
           <Button bsStyle="primary" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
-            <FormattedMessage id="create"/>
+            { isCreate ? <FormattedMessage id="create"/> : <FormattedMessage id="save" /> }
           </Button>
         </Modal.Footer>
       </Modal>
@@ -194,7 +239,9 @@ ContactModal.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-  onCreateContact: PropTypes.func
+  onCreateContact: PropTypes.func,
+  onEditContact: PropTypes.func,
+  contactInfo: PropTypes.object
 };
 
 export default injectIntl(ContactModal);

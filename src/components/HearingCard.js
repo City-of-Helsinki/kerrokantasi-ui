@@ -48,12 +48,12 @@ const HearingCard = ({hearing, language, className = ''}) => {
         {commentCount}
       </Link>
       <div className="hearing-card-content">
-        <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
-          <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
-        </div>
         <h4 className="hearing-card-title">
           <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
         </h4>
+        <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
+          <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
+        </div>
         <div className="hearing-card-labels">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
