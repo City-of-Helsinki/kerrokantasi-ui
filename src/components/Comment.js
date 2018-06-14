@@ -8,12 +8,9 @@ import Icon from '../utils/Icon';
 import nl2br from 'react-nl2br';
 import {notifyError} from '../utils/notify';
 import forEach from 'lodash/forEach';
-<<<<<<< HEAD
 import find from 'lodash/find';
 import getAttr from '../utils/getAttr';
-=======
 import moment from 'moment';
->>>>>>> master
 
 class Comment extends React.Component {
   constructor(props) {

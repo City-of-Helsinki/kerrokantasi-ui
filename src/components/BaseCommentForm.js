@@ -12,7 +12,7 @@ import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
-import {keys, find, parseInt, includes} from 'lodash';
+import {get, find, parseInt, includes} from 'lodash';
 import uuid from 'uuid/v1';
 import QuestionResults from './QuestionResults';
 
@@ -148,7 +148,7 @@ export class BaseCommentForm extends React.Component {
           <h2><FormattedMessage id="writeComment"/></h2>
           {
             section.questions.map((question) => {
-              const canShowQuestionResult = closed || (loggedIn && includes(user.answered_questions, question.id));
+              const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
                 ? <QuestionResults key={question.id} question={question} lang={language} />
                 : null;
@@ -156,7 +156,7 @@ export class BaseCommentForm extends React.Component {
           }
           {
             section.questions.map((question) => {
-              const canShowQuestionForm = !closed && !includes(user.answered_questions, question.id);
+              const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
               return canShowQuestionForm
                 ? (
                   <QuestionForm
@@ -276,8 +276,8 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
           </Radio>
         );
       })}
-      {loggedIn && question.type === 'multiple-choice' && keys(question.options).map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option)} key={uuid()} value={getAttr(option.text, lang)}>
+      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
+        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
           {getAttr(option.text, lang)}
         </Checkbox>
       ))}
