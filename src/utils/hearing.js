@@ -34,9 +34,9 @@ export function getHearingMainImageURL(hearing) {
 * else false.
  */
 export function hasFullscreenMapPlugin(hearing) {
-  // For now, fullscreen is actually supported by all map plugins
+  // Legacy plugins actually do not support full screen
   const identifier = getMainSection(hearing).plugin_identifier;
-  return identifier !== null && identifier !== '';
+  return identifier !== null && identifier !== '' && identifier !== 'mapdon-hkr' && identifier !== 'mapdon-ksv';
 }
 
 /*
