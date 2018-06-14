@@ -203,19 +203,17 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
-                    {hasFullscreenMapPlugin(hearing) &&
-                      <div className="plugin-content">
-                        <PluginContent
-                          hearingSlug={match.params.hearingSlug}
-                          fetchAllComments={fetchAllComments}
-                          section={mainSection}
-                          comments={mainSectionComments}
-                          onPostComment={this.onPostPluginComment}
-                          onPostVote={this.onVotePluginComment}
-                          user={user}
-                        />
-                      </div>
-                    }
+                    <div className="plugin-content">
+                      <PluginContent
+                        hearingSlug={match.params.hearingSlug}
+                        fetchAllComments={fetchAllComments}
+                        section={mainSection}
+                        comments={mainSectionComments}
+                        onPostComment={this.onPostPluginComment}
+                        onPostVote={this.onVotePluginComment}
+                        user={user}
+                      />
+                    </div>
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
                     {section.id === mainSection.id && <ContactList contacts={contacts} />}
                     {hasFullscreenMapPlugin(hearing) &&
