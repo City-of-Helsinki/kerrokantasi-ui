@@ -235,7 +235,9 @@ export class SortableCommentListComponent extends Component {
             language={language}
             onChangeAnswers={this.onChangeAnswers}
             answers={this.state.answers}
+            closed={closed}
             loggedIn={!isEmpty(user)}
+            user={user}
           />
         </div>
       </div>

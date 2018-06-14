@@ -12,7 +12,7 @@ import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
-import {keys, find, parseInt} from 'lodash';
+import {keys, find, parseInt, includes} from 'lodash';
 import uuid from 'uuid/v1';
 import QuestionResults from './QuestionResults';
 
@@ -133,7 +133,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const {language, section, onChangeAnswers, answers, loggedIn} = this.props;
+    const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
 
     if (this.state.collapsed) {
       return (
@@ -146,8 +146,31 @@ export class BaseCommentForm extends React.Component {
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
-          {loggedIn && section.questions.map((question) => <QuestionResults key={question.id} question={question} lang={language} />)}
-          {section.questions.map((question) => <QuestionForm key={question.id} loggedIn={loggedIn} answers={find(answers, (answer) => answer.question === question.id)} onChange={onChangeAnswers} question={question} lang={language} />)}
+          {
+            section.questions.map((question) => {
+              const canShowQuestionResult = closed || (loggedIn && includes(user.answered_questions, question.id));
+              return canShowQuestionResult
+                ? <QuestionResults key={question.id} question={question} lang={language} />
+                : null;
+            })
+          }
+          {
+            section.questions.map((question) => {
+              const canShowQuestionForm = !closed && !includes(user.answered_questions, question.id);
+              return canShowQuestionForm
+                ? (
+                  <QuestionForm
+                    key={question.id}
+                    loggedIn={loggedIn}
+                    answers={find(answers, (answer) => answer.question === question.id)}
+                    onChange={onChangeAnswers}
+                    question={question}
+                    lang={language}
+                  />
+                )
+                : null;
+            })
+          }
           <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
@@ -232,7 +255,9 @@ BaseCommentForm.propTypes = {
   language: PropTypes.string,
   onChangeAnswers: PropTypes.func,
   answers: PropTypes.array,
-  loggedIn: PropTypes.bool
+  loggedIn: PropTypes.bool,
+  closed: PropTypes.bool,
+  user: PropTypes.object
 };
 
 BaseCommentForm.defaultProps = {
