@@ -12,8 +12,7 @@ import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
-import keys from 'lodash/keys';
-import find from 'lodash/find';
+import {keys, find, parseInt} from 'lodash';
 import uuid from 'uuid/v1';
 import QuestionResults from './QuestionResults';
 
@@ -242,12 +241,12 @@ BaseCommentForm.defaultProps = {
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, ev.target.value)}>
+    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value))}>
       <h4>{getAttr(question.text, lang)}</h4>
       {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
         const optionContent = getAttr(option.text, lang);
         return (
-          <Radio checked={answers && answers.answers === optionContent} key={uuid()} value={optionContent}>
+          <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
             {optionContent}
           </Radio>
         );

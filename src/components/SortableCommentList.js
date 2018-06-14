@@ -14,52 +14,6 @@ import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
 
-const mockQuestions = [
-  {
-    "id": 85,
-    "type": "single-choice",
-    "text": {
-         "fi": "Kumpi on parempi?",
-      },
-    "independent_poll": true,
-    "options": {
-        1: {
-         "fi": "vaihtoehto",
-        },
-        2: {
-         "fi": "toinen vaihtoehto",
-        }
-     },
-     "n_answers": 13,
-    "answers": [
-      5, 8
-    ]
-  },
-  {
-    "id": 86,
-    "type": "multiple-choice",
-    "independent_poll": false,
-    "text": {
-         "fi": "Mistä näistä tykkäät?",
-     },
-    "options": {
-        1: {
-         "fi": "vaihtoehto",
-        },
-        2: {
-         "fi": "toinen vaihtoehto",
-       },
-        3: {
-         "fi": "kolmas vaihtoehto",
-        }
-     },
-     "n_answers": 16,
-      answers: [
-        5, 8, 14
-      ]
-  },
-];
-
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
   CREATED_AT_ASC: 'created_at',
@@ -79,7 +33,7 @@ export class SortableCommentListComponent extends Component {
         question => ({
           question: question.id,
           type: question.type,
-          answers: question.type === 'multiple-choice' ? [] : null
+          answers: []
         })
       )
     };
@@ -162,7 +116,7 @@ export class SortableCommentListComponent extends Component {
             {
               question: questionId,
               type: questionType,
-              answers: value
+              answers: [value]
             }
           ]
         }

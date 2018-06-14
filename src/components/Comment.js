@@ -63,11 +63,13 @@ class Comment extends React.Component {
   getStrigifiedAnswer = (answer) => {
     const {questions, intl} = this.props;
     const question = find(questions, que => que.id === answer.question); // eslint-disable-line
+    let selectedOption = {};
     // return {question: getAttr(question.text), answers: answer.answers.map(ans => getAttr(question.options[ans]))};
     return {
       question: question ? getAttr(question.text, intl.locale) : '',
       answers: answer.answers.map((ans) => {
-        return question ? getAttr(question.options[ans].text, intl.locale) : '';
+        if (question) selectedOption = find(question.options, (option) => option.id === ans);
+        return question ? getAttr(selectedOption.text, intl.locale) : '';
       })
     };
   }
