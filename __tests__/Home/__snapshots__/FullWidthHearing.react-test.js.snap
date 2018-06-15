@@ -66,6 +66,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "draftNotPublished": "Luonnos, ei julkaistu",
         "drafts": "Luonnokset",
         "edit": "Muokkaa",
+        "editContact": "Muokkaa yhteystietoa",
         "editHearing": "Muokkaa",
         "email": "Sähköposti",
         "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
@@ -171,6 +172,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
         "removeImage": "Poista kuva",
         "revertPublishing": "Peru julkaisu",
+        "save": "Tallenna",
         "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
         "saveFailed": "Tallentaminen epäonnistui",
         "saveHearingChanges": "Tallenna muutokset",
@@ -210,8 +212,8 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
         "vote": "Äänestä",
         "voteReceived": "Ääni vastaanotettu. Kiitos!",
-        "welcome": "Tervetuloa!",
-        "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
+        "welcome": "Kerro mielipiteesi",
+        "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
         "withOpenLicense": "avoimella lisenssillä",
         "writeComment": "Kommentti",
       },
@@ -265,6 +267,14 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         />
         .
       </span>
+    </div>
+    <div
+      className="fullwidth-hearing-labels"
+    >
+      <LabelList
+        className="hearing-list-item-labellist"
+        labels={Array []}
+      />
     </div>
   </div>
   <div

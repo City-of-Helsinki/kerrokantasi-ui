@@ -6,6 +6,7 @@ import hearing from './hearing';
 import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
+import headless from './headless';
 import {routerReducer} from 'react-router-redux';
 
 /**
@@ -24,6 +25,7 @@ export default combineReducers({
   hearingEditor,
   hearingLists,
   language,
+  headless,
   lastActionType,
   sectionComments,
   user,

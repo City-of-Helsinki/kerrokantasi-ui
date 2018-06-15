@@ -68,6 +68,61 @@ exports[`SectionContainer component should render as expected 1`] = `
                 }
               }
             />
+            <div
+              className="plugin-content"
+            >
+              <PluginContent
+                hearingSlug="mockHearing"
+                onPostComment={[Function]}
+                onPostVote={[Function]}
+                section={
+                  Object {
+                    "abstract": Object {
+                      "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                    },
+                    "commenting": "open",
+                    "content": Object {
+                      "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
+                    },
+                    "created_at": "2017-10-23T11:07:26.668934Z",
+                    "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                    "images": Array [
+                      Object {
+                        "caption": Object {
+                          "fi": "A Wonderfull caption",
+                        },
+                        "height": 631,
+                        "id": 92,
+                        "title": Object {},
+                        "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                        "width": 893,
+                      },
+                    ],
+                    "n_comments": 1,
+                    "plugin_data": "",
+                    "plugin_fullscreen": false,
+                    "plugin_identifier": "",
+                    "plugin_iframe_url": "",
+                    "published": false,
+                    "title": Object {},
+                    "type": "main",
+                    "type_name_plural": "pääosiot",
+                    "type_name_singular": "pääosio",
+                    "voting": "registered",
+                  }
+                }
+                user={Object {}}
+              />
+            </div>
             <SectionBrowserComponent
               sectionNav={
                 Object {

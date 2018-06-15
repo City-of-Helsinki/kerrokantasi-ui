@@ -1,19 +1,21 @@
 .fullwidth-hearing {
   position: relative;
+  margin-bottom: $line-height-computed;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
 
   &-image {
-    min-height: $line-height-computed * 10;
+    min-height: $line-height-computed * 14;
     background-size: cover;
     background-position: center center;
   }
 
   &-header {
-    background: $theme-primary-dark;
-    color: $white;
-    padding: 30px;
+    background: $white;
+    color: $black;
+    padding: $line-height-computed;
     width: 100%;
     a {
-      color: $white;
+      color: $black;
       text-decoration: none;
     }
   }
@@ -32,7 +34,8 @@
   }
 
   &-times {
-      color: $gray-lighter;
+      margin-bottom: $line-height-computed / 2;
+      color: $text-muted;
       font-size: 1.4rem;
   }
 
@@ -45,5 +48,9 @@
     font-weight: 500;
     background: $theme-secondary-light;
     border-radius: 0 0 0 24px;
+  }
+
+  &-labels {
+    @include clearfix;
   }
 }

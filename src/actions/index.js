@@ -8,6 +8,7 @@ import { push } from 'react-router-redux';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
+export const setHeadless = createAction('setHeadless');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
@@ -256,9 +257,9 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
     dispatch(fetchAction);
     const url = "/v1/hearing/" + hearingSlug;
     return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+      dispatch(push('/hearings/list?lang=' + getState().language));
       dispatch(createAction("deletedHearingDraft")({hearingSlug}));
       localizedNotifySuccess("draftDeleted");
-      dispatch(push('/hearings/list?lang=' + getState().language));
     }).catch(
       requestErrorHandler()
     );

@@ -34,7 +34,7 @@ export default class PluginContent extends React.Component {
     const {user, section, onPostComment, onPostVote} = this.props;
     const comments = this.props.comments ? this.props.comments.results : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
-      return <div />;
+      return null;
     }
     switch (section.plugin_identifier) {
       // reserved word for legacy plugin

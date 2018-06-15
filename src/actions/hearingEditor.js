@@ -2,6 +2,7 @@ import {createAction} from 'redux-actions';
 import api from '../api';
 import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
+import {omit} from 'lodash';
 import { push } from 'react-router-redux';
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
@@ -161,6 +162,28 @@ export function addContact(contact, selectedContacts) {
       })
       .then(() => dispatch(fetchHearingEditorMetaData()))
       .catch(requestErrorHandler(dispatch, postContactAction));
+  };
+}
+
+export function saveContact(contact) {
+  return (dispatch, getState) => {
+    const url = `/v1/contact_person/${contact.id}/`;
+    const contactInfo = omit(contact, ['id']);
+    return api
+      .put(getState(), url, contactInfo)
+      .then(checkResponseStatus)
+      .then(response => {
+        if (response.status === 400) {
+          notifyError('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
+        } else if (response.status === 401) {
+          // Unauthorized
+          notifyError('Et voi luoda yhteyshenkilöä.');
+        } else {
+          notifySuccess('Muokkaus onnistui');
+        }
+      })
+      .then(() => dispatch(fetchHearingEditorMetaData()))
+      .catch(requestErrorHandler());
   };
 }
 

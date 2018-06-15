@@ -63,6 +63,12 @@
   margin-bottom: $line-height-computed * 2;
 }
 
+.image-lightbox {
+  .ril-toolbar-right {
+    padding: 8px 10px 8px 0;
+  }
+}
+
 .image-caption {
     width: 100%;
     padding: 10px 15px;
