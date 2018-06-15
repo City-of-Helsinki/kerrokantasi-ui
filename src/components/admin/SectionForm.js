@@ -19,7 +19,6 @@ import Dropzone from 'react-dropzone';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
-import getAttr from '../../utils/getAttr';
 
 const MAX_IMAGE_SIZE = 999999;
 
@@ -96,7 +95,8 @@ class SectionForm extends React.Component {
       sectionMoveDown,
       isFirstSubsection,
       isLastSubsection,
-      onQuestionChange
+      onQuestionChange,
+      onDeleteTemporaryQuestion
     } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
@@ -218,19 +218,24 @@ class SectionForm extends React.Component {
           <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.frontId)} inline>
             {formatMessage({id: "multipleChoiceQuestion"})}
           </Radio> */}
-          <button className="btn btn-default" type="button" onClick={() => this.props.clearQuestions(section.id)}>
+          <button className="btn btn-default question-control" type="button" onClick={() => this.props.clearQuestions(section.id)}>
             {formatMessage({id: "noQuestion"})}
           </button>
-          <button className="btn btn-default" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
             {`new ${formatMessage({id: "singleChoiceQuestion"})}`}
           </button>
-          <button className="btn btn-default" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
             {`new ${formatMessage({id: "multipleChoiceQuestion"})}`}
           </button>
         </FormGroup>
         {!isEmpty(section.questions) && section.questions.map((question, index) =>
           <div>
-            <h6>{`question ${index + 1}`}</h6>
+            <h5>{`question ${index + 1}`}</h5>
+            {question.frontId &&
+              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.id, question.frontId)}>
+                deleteQuestion
+              </button>
+            }
             <FormGroup>
               <Radio checked={question.type === 'single-choice'} disabled inline>
                 {formatMessage({id: "singleChoiceQuestion"})}
@@ -240,7 +245,6 @@ class SectionForm extends React.Component {
               </Radio>
             </FormGroup>
             <QuestionForm
-              questionNumber={index + 1}
               key={question.id}
               question={question}
               addOption={addOption}
@@ -248,6 +252,7 @@ class SectionForm extends React.Component {
               sectionId={section.frontId}
               sectionLanguages={sectionLanguages}
               onQuestionChange={onQuestionChange}
+              lang={language}
             />
           </div>
         )}
@@ -276,7 +281,8 @@ SectionForm.propTypes = {
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 SectionForm.contextTypes = {

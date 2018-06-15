@@ -56,7 +56,8 @@ class HearingForm extends React.Component {
       sectionMoveDown,
       addOption,
       deleteOption,
-      onQuestionChange
+      onQuestionChange,
+      onDeleteTemporaryQuestion
     } = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
@@ -96,6 +97,7 @@ class HearingForm extends React.Component {
               addOption={addOption}
               deleteOption={deleteOption}
               onQuestionChange={onQuestionChange}
+              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -209,7 +211,8 @@ HearingForm.propTypes = {
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

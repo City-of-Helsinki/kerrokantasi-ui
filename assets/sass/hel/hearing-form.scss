@@ -176,6 +176,11 @@ $node_modules: "../../../node_modules";
     text-align: center;
     background: lighten($hel-fog, 10%);
   }
+
+  .question-control {
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
 }
 
 .toolbar-bottom {

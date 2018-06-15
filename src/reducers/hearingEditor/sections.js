@@ -108,6 +108,15 @@ const byId = handleActions(
         [sectionId]: updatedSection
       };
     },
+    [EditorActions.DELETE_TEMP_QUESTION]: (state, {payload: {sectionId, questionFrontId}}) => {
+      const updatedSection = updeep({
+        questions: state[sectionId].questions.filter(quest => quest.frontId !== questionFrontId)
+      }, state[sectionId]);
+      return {
+        ...state,
+        [sectionId]: updatedSection
+      };
+    },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
       const section = {...state[sectionID], images: [...state[sectionID].images]};
       const image = {...getMainImage(section)};

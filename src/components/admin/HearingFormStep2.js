@@ -55,7 +55,8 @@ class HearingFormStep2 extends React.Component {
       sectionMoveDown,
       addOption,
       deleteOption,
-      onQuestionChange
+      onQuestionChange,
+      onDeleteTemporaryQuestion
     } = this.props;
     return hearing.sections
       .filter(({type}) => type !== SectionTypes.CLOSURE)
@@ -92,6 +93,7 @@ class HearingFormStep2 extends React.Component {
                   addOption={addOption}
                   deleteOption={deleteOption}
                   onQuestionChange={onQuestionChange}
+                  onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
                 />
                 <div className="section-toolbar">
                   {this.getDeleteSectionButton(section, sectionID)}
@@ -188,7 +190,8 @@ HearingFormStep2.propTypes = {
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 HearingFormStep2.contextTypes = {
