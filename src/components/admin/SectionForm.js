@@ -19,6 +19,7 @@ import Dropzone from 'react-dropzone';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
+import getAttr from '../../utils/getAttr';
 
 const MAX_IMAGE_SIZE = 999999;
 
@@ -208,26 +209,47 @@ class SectionForm extends React.Component {
           </div>
         </FormGroup>
         <FormGroup>
-          <Radio checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
+          {/* <Radio checked={isEmpty(section.questions)} onClick={() => this.props.clearQuestions(section.id)} inline>
             {formatMessage({id: "noQuestion"})}
           </Radio>{' '}
-          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.frontId)} inline>
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onClick={() => this.props.initSingleChoiceQuestion(section.frontId)} inline>
             {formatMessage({id: "singleChoiceQuestion"})}
           </Radio>{' '}
           <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.frontId)} inline>
             {formatMessage({id: "multipleChoiceQuestion"})}
-          </Radio>
+          </Radio> */}
+          <button className="btn btn-default" type="button" onClick={() => this.props.clearQuestions(section.id)}>
+            {formatMessage({id: "noQuestion"})}
+          </button>
+          <button className="btn btn-default" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+            {`new ${formatMessage({id: "singleChoiceQuestion"})}`}
+          </button>
+          <button className="btn btn-default" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+            {`new ${formatMessage({id: "multipleChoiceQuestion"})}`}
+          </button>
         </FormGroup>
-        {!isEmpty(section.questions) && section.questions.map((question) =>
-          <QuestionForm
-            key={question.id}
-            question={question}
-            addOption={addOption}
-            deleteOption={deleteOption}
-            sectionId={section.frontId}
-            sectionLanguages={sectionLanguages}
-            onQuestionChange={onQuestionChange}
-          />
+        {!isEmpty(section.questions) && section.questions.map((question, index) =>
+          <div>
+            <h6>{`question ${index + 1}`}</h6>
+            <FormGroup>
+              <Radio checked={question.type === 'single-choice'} disabled inline>
+                {formatMessage({id: "singleChoiceQuestion"})}
+              </Radio>{' '}
+              <Radio checked={question.type === 'multiple-choice'} disabled inline>
+                {formatMessage({id: "multipleChoiceQuestion"})}
+              </Radio>
+            </FormGroup>
+            <QuestionForm
+              questionNumber={index + 1}
+              key={question.id}
+              question={question}
+              addOption={addOption}
+              deleteOption={deleteOption}
+              sectionId={section.frontId}
+              sectionLanguages={sectionLanguages}
+              onQuestionChange={onQuestionChange}
+            />
+          </div>
         )}
       </div>
     );

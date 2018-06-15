@@ -243,7 +243,7 @@ export const addOption = (sectionId, questionId) => {
   };
 };
 
-export const editQuestion = (fieldType, sectionId, questionId, value, optionKey) => {
+export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => {
   return dispatch => {
     return dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
   };

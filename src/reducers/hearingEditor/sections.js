@@ -4,8 +4,6 @@ import { combineActions, handleActions } from 'redux-actions';
 import updeep from 'updeep';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
-import omit from 'lodash/omit';
-import size from 'lodash/size';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -30,7 +28,9 @@ const byId = handleActions(
         [field]: value,
       },
     }),
-    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, value, optionKey} }) => {
+    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, optionKey, value} }) => {
+      // only search for question with frontId which means the newly generated one.
+      // editing is not possible for old questions
       let question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
       if (fieldType === 'option') {
         question = updeep({
@@ -44,7 +44,7 @@ const byId = handleActions(
         }, question);
       }
       const updatedSection = updeep({
-        questions: [...state[sectionId], question]
+        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), question]
       }, state[sectionId]);
       return {
         ...state,
@@ -61,14 +61,14 @@ const byId = handleActions(
       return newState;
     },
     [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initSingleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [...state[sectionId].questions, initSingleChoiceQuestion()]};
       return {
         ...state,
         [sectionId]: section,
       };
     },
     [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]};
       return {
         ...state,
         [sectionId]: section,
@@ -87,7 +87,7 @@ const byId = handleActions(
         options: [...question.options, {}]
       }, question);
       const updatedSection = updeep({
-        questions: [...state[sectionId], updatedQuestion]
+        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), updatedQuestion]
       }, state[sectionId]);
       return {
         ...state,

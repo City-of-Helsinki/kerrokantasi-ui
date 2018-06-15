@@ -8,15 +8,15 @@ import {FormattedMessage} from 'react-intl';
 
 export class QuestionForm extends React.Component {
   render() {
-    const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange} = this.props;
+    const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange, questionNumber} = this.props;
 
     return (
       <div className="question-form" key={question.type}>
         <MultiLanguageTextField
-          labelId="question"
+          labelId=" "
           maxLength={120}
           name="abstract"
-          onBlur={(value) => onQuestionChange('text', sectionId, question.frontId, value)}
+          onBlur={(value) => onQuestionChange('text', sectionId, question.frontId, "", value)}
           value={question.text}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
@@ -30,9 +30,9 @@ export class QuestionForm extends React.Component {
                 showLabel
                 label={index + 1}
                 name="content"
-                onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, value, index)}
+                onBlur={(value) => onQuestionChange('option', sectionId, question.frontId, index, value)}
                 rows="10"
-                value={option.text}
+                value={option.text || {}}
                 languages={sectionLanguages}
                 placeholderId="sectionContentPlaceholder"
               />
@@ -60,7 +60,8 @@ QuestionForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
   sectionLanguages: PropTypes.array,
-  onQuestionChange: PropTypes.func
+  onQuestionChange: PropTypes.func,
+  questionNumber: PropTypes.number
 };
 
 export default QuestionForm;
