@@ -7,6 +7,15 @@ exports[`CommentList component should render as expected 1`] = `
   <InjectIntl(Comment)
     data={
       Object {
+        "answers": Array [
+          Object {
+            "answers": Array [
+              115,
+            ],
+            "question": 6,
+            "type": "single-choice",
+          },
+        ],
         "author_name": "Mikko Uro",
         "can_edit": false,
         "content": "Testi",
@@ -24,6 +33,38 @@ exports[`CommentList component should render as expected 1`] = `
       }
     }
     key="2615.19859782441"
+    questions={
+      Array [
+        Object {
+          "id": 6,
+          "is_independent_poll": false,
+          "n_answers": 1,
+          "options": Array [
+            Object {
+              "id": 115,
+              "n_answers": 1,
+              "text": Object {
+                "en": "NO",
+                "fi": "EI !",
+              },
+            },
+            Object {
+              "id": 116,
+              "n_answers": 0,
+              "text": Object {
+                "en": "Yes",
+                "fi": "Joo",
+              },
+            },
+          ],
+          "text": Object {
+            "en": " do you like music ?",
+            "fi": "Pidätkö sinä musiikista ?",
+          },
+          "type": "single-choice",
+        },
+      ]
+    }
   />
 </div>
 `;

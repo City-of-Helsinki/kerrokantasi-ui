@@ -65,7 +65,6 @@ class Comment extends React.Component {
     const {questions, intl} = this.props;
     const question = find(questions, que => que.id === answer.question); // eslint-disable-line
     let selectedOption = {};
-    // return {question: getAttr(question.text), answers: answer.answers.map(ans => getAttr(question.options[ans]))};
     return {
       question: question ? getAttr(question.text, intl.locale) : '',
       answers: answer.answers.map((ans) => {
@@ -82,17 +81,6 @@ class Comment extends React.Component {
 
   render() {
     const {data} = this.props;
-    /* const mockData = Object.assign({}, data);
-    mockData.answers = [
-                {
-                    "question": 85,
-                    "answers": [1]
-                },
-                {
-                    "question": 86,
-                    "answers": [1,2]
-                },
-            ]; */
     const canEdit = data.can_edit;
     const {editorOpen} = this.state;
 

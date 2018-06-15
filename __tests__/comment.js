@@ -11,7 +11,8 @@ describe('Comment', () => {
       "content": "Reiciendis",
       "n_votes": 2,
       "created_by": null,
-      "created_at": "2015-11-16T09:25:37.625607Z"
+      "created_at": "2015-11-16T09:25:37.625607Z",
+      "answers": []
     };
     const comp = renderIntoDocument(wireComponent({}, Comment, {data: anonComment}));
     expect(findDOMNode(comp).className).toContain("hearing-comment");
@@ -24,7 +25,8 @@ describe('Comment', () => {
       "content": "Reiciendis",
       "n_votes": 2,
       "created_by": null,
-      "created_at": "2015-11-16T09:25:37.625607Z"
+      "created_at": "2015-11-16T09:25:37.625607Z",
+      "answers": []
     };
     const comp = renderIntoDocument(wireComponent({}, Comment, {data: anonComment}));
     const voteBtn = findDOMNode(comp).getElementsByClassName("hearing-comment-votes")[0];

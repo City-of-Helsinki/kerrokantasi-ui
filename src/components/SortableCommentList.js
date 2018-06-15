@@ -28,7 +28,6 @@ export class SortableCommentListComponent extends Component {
     this.state = {
       showLoader: false,
       collapseForm: false,
-      // answers: mockQuestions.map(question => ({question: question.id, type: question.type, answers: question.type === 'multiple-choice' ? [] : null})) // TODO: Use section.questions instead of mockQuestions after backend support
       answers: this.props.section.questions.map(
         question => ({
           question: question.id,
