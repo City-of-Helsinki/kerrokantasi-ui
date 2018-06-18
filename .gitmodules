@@ -1,9 +1,3 @@
-[submodule "assets/plugins/kerrokantasi-citybikes"]
-	path = assets/plugins/kerrokantasi-citybikes
-	url = https://github.com/jvanamo/kerrokantasi-citybikes
-[submodule "assets/plugins/kerrokantasi-budgeting"]
-	path = assets/plugins/kerrokantasi-budgeting
-	url = https://github.com/jvanamo/kerrokantasi-budgeting
 [submodule "assets/plugins/kerrokantasi-bikeracks"]
 	path = assets/plugins/kerrokantasi-bikeracks
 	url = https://github.com/jvanamo/kerrokantasi-bikeracks
