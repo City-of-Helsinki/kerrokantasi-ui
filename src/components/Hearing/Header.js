@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Col, Row, OverlayTrigger, Tooltip, Grid, DropdownButton, MenuItem} from 'react-bootstrap';
 import {injectIntl, FormattedPlural, FormattedMessage, intlShape} from 'react-intl';
 import Slider from 'react-slick';
@@ -7,15 +8,16 @@ import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
-import {isPublic} from "../../utils/hearing";
+import {isPublic, getHearingURL} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
+import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {stringifyQuery} from '../../utils/urlQuery';
 import {withRouter} from 'react-router-dom';
-
+import { getPublishedHearings } from '../../selectors/hearing';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -89,11 +91,17 @@ export class HeaderComponent extends React.Component {
 
   toPhaseFirstHearing = (phase) => {
     const { hearings } = phase;
-    if (hearings.length > 0) {};
+    const {publishedHearings, history} = this.props;
+
+    if (hearings.length > 0) {
+      const hearingId = hearings[0];
+      const targetedHearing = find(publishedHearings, (hearing) => hearing.id === hearingId);
+      if (targetedHearing) history.push(getHearingURL(targetedHearing));
+    }
   }
 
   render() {
-    const { hearing, activeLanguage, reportUrl} = this.props;
+    const { hearing, activeLanguage, reportUrl } = this.props;
     const project = get(hearing, 'project');
     const phases = get(project, 'phases') || [];
     return (
@@ -147,9 +155,9 @@ export class HeaderComponent extends React.Component {
                   {
                     phases.map((phase, index) => (
                       <div className="phases-list-item" key={phase.id}>
-                        <div className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}>
+                        <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
                           {index + 1}
-                        </div>
+                        </button>
                         <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
                         <span>{getAttr(phase.description, activeLanguage)}</span>
                         <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
@@ -172,13 +180,22 @@ export class HeaderComponent extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  publishedHearings: getPublishedHearings(state)
+});
+
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
   intl: intlShape.isRequired,
   location: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object,
+  publishedHearings: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default withRouter(injectIntl(HeaderComponent));
+export default withRouter(
+  injectIntl(
+    connect(mapStateToProps)(HeaderComponent)
+  )
+);
