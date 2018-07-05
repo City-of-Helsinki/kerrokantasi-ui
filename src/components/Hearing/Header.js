@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Row, OverlayTrigger, Tooltip, Grid} from 'react-bootstrap';
+import {Col, Row, OverlayTrigger, Tooltip, Grid, DropdownButton, MenuItem} from 'react-bootstrap';
 import {injectIntl, FormattedPlural, FormattedMessage, intlShape} from 'react-intl';
 import Slider from 'react-slick';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
@@ -43,56 +43,32 @@ export class HeaderComponent extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, activeLanguage, location, history} = this.props;
-    const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
-    const languageOptionsArray = keys(hearing.title).map((lang, index) => {
-      if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
-        return (
-          <div className="language-link-active" key={lang}>
-            {availableLanguages[lang]}
-          </div>
-        );
-      }
-
-      if (
-        getAttr(hearing.title, lang, {exact: true}) &&
-        keys(hearing.title).filter(key => key === activeLanguage).length === 0 &&
-        index === 0
-      ) {
-        return (
-          <div className="language-link-active" key={lang}>
-            {availableLanguages[lang]}
-          </div>
-        );
-      }
-
-      if (getAttr(hearing.title, lang, {exact: true})) {
-        return (
-          <div className="language-link" key={lang}>
-            <a
-              onClick={event => {
-                event.preventDefault();
-                history.push({location: location.pathname, search: stringifyQuery({lang})});
-              }}
-              onKeyPress={event => {
-                event.preventDefault();
-                history.push({location: location.pathname, search: stringifyQuery({lang})});
-              }}
-            >
-              {availableLanguages[lang]}
-            </a>
-          </div>
-        );
-      }
-
-      return null;
-    });
-
-    if (languageOptionsArray.length > 1) {
-      return languageOptionsArray;
-    }
-
-    return null;
+    const {hearing, activeLanguage, location, history, intl} = this.props;
+    const languageOptions = keys(hearing.title);
+    return (
+      <DropdownButton
+        className="language-switcher"
+        id="language"
+        eventKey="language"
+        title={<span><Icon name="globe" className="user-nav-icon"/>{activeLanguage} </span>}
+      >
+        {languageOptions.map((code) =>
+          <MenuItem
+            href=""
+            key={code}
+            className="language-switcher__language"
+            onClick={() => {
+              history.push({
+                location: location.pathname,
+                search: stringifyQuery({lang: code})
+              });
+            }}
+            active={code === activeLanguage}
+          >
+            {intl.formatMessage({id: `lang-${code}`})}
+          </MenuItem>)}
+      </DropdownButton>
+    );
   }
 
   getEyeTooltip() {
@@ -109,6 +85,11 @@ export class HeaderComponent extends React.Component {
       })}`;
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
+  }
+
+  toPhaseFirstHearing = (phase) => {
+    const { hearings } = phase;
+    if (hearings.length > 0) {};
   }
 
   render() {
@@ -132,6 +113,7 @@ export class HeaderComponent extends React.Component {
               </Col>
               <Col xs={12} sm={6}>
                 {this.getTimetableText(hearing)}
+                <SocialBar />
               </Col>
               <Col xs={12} sm={6}>
                 <div className="comment-summary">
@@ -155,13 +137,6 @@ export class HeaderComponent extends React.Component {
                     </div>
                   ) : null}
                 </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                <SocialBar />
-              </Col>
-              <Col lg={6}>
                 {this.getLanguageChanger()}
               </Col>
             </Row>

@@ -37,21 +37,25 @@
     }
   }
 
-  .language-link {
-      padding: 4px;
-      border-radius: 4px;
+  .open .language-switcher.dropdown-toggle {
+    box-shadow: none;
+    color: $hel-coat;
+  }
 
-      a {
-          text-decoration: none;
-          cursor: pointer;
-      }
+  .language-switcher {
+    border: 0;
+    padding: 0;
+    margin-bottom: 12px;
 
-      &-active {
-          padding: 4px;
-          border-radius: 4px;
-          background: $gray-light;
-          color: #fff;
+    & > span {
+      span {
+        padding-right: 5px;
       }
+    }
+
+    &:active {
+      box-shadow: none;
+    }
   }
 
   .hearing-project {
