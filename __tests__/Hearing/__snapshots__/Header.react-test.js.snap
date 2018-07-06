@@ -129,36 +129,6 @@ exports[`Header component should render as expected 1`] = `
               </a>
             </div>
           </div>
-          <DropdownButton
-            className="language-switcher"
-            eventKey="language"
-            id="language"
-            title={
-              <span>
-                <Icon
-                  Component="span"
-                  className="user-nav-icon"
-                  name="globe"
-                />
-                fi
-                 
-              </span>
-            }
-          >
-            <MenuItem
-              active={true}
-              bsClass="dropdown"
-              className="language-switcher__language"
-              disabled={false}
-              divider={false}
-              header={false}
-              href=""
-              key="fi"
-              onClick={[Function]}
-            >
-              Suomi
-            </MenuItem>
-          </DropdownButton>
         </Col>
       </Row>
       <Row

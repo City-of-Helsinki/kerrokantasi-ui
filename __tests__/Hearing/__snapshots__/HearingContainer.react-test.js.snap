@@ -12,7 +12,7 @@ exports[`HearingContainer component should render as expected 1`] = `
       className="hearing-wrapper"
       id="hearing-wrapper"
     >
-      <withRouter(InjectIntl(Connect(HeaderComponent)))
+      <withRouter(InjectIntl(HeaderComponent))
         activeLanguage="fi"
         hearing={
           Object {
