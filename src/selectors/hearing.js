@@ -1,4 +1,4 @@
-import {head, isEmpty, find} from 'lodash';
+import {head, isEmpty} from 'lodash';
 import {SectionTypes} from '../utils/section';
 
 export const getTopHearing = (state) =>
@@ -55,8 +55,4 @@ export const getMainSectionComments = (state, hearingSlug) => {
   const comments = state.sectionComments[state.hearing[hearingSlug].data.sections.find(sec => sec.type === SectionTypes.MAIN).id];
   if (!comments) return undefined;
   return comments;
-};
-
-export const getPublishedHearings = (state) => {
-  return find(state.hearingLists.publishedHearings.data);
 };

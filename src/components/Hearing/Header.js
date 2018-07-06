@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Col, Row, OverlayTrigger, Tooltip, Grid, DropdownButton, MenuItem} from 'react-bootstrap';
 import {injectIntl, FormattedPlural, FormattedMessage, intlShape} from 'react-intl';
 import Slider from 'react-slick';
@@ -8,16 +7,14 @@ import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
-import {isPublic, getHearingURL} from "../../utils/hearing";
+import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
-import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {stringifyQuery} from '../../utils/urlQuery';
 import {withRouter} from 'react-router-dom';
-import { getPublishedHearings } from '../../selectors/hearing';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -47,30 +44,32 @@ export class HeaderComponent extends React.Component {
   getLanguageChanger() {
     const {hearing, activeLanguage, location, history, intl} = this.props;
     const languageOptions = keys(hearing.title);
-    return (
-      <DropdownButton
-        className="language-switcher"
-        id="language"
-        eventKey="language"
-        title={<span><Icon name="globe" className="user-nav-icon"/>{activeLanguage} </span>}
-      >
-        {languageOptions.map((code) =>
-          <MenuItem
-            href=""
-            key={code}
-            className="language-switcher__language"
-            onClick={() => {
-              history.push({
-                location: location.pathname,
-                search: stringifyQuery({lang: code})
-              });
-            }}
-            active={code === activeLanguage}
-          >
-            {intl.formatMessage({id: `lang-${code}`})}
-          </MenuItem>)}
-      </DropdownButton>
-    );
+    return languageOptions.length > 1
+      ? (
+        <DropdownButton
+          className="language-switcher"
+          id="language"
+          eventKey="language"
+          title={<span><Icon name="globe" className="user-nav-icon"/>{activeLanguage} </span>}
+        >
+          {languageOptions.map((code) =>
+            <MenuItem
+              href=""
+              key={code}
+              className="language-switcher__language"
+              onClick={() => {
+                history.push({
+                  location: location.pathname,
+                  search: stringifyQuery({lang: code})
+                });
+              }}
+              active={code === activeLanguage}
+            >
+              {intl.formatMessage({id: `lang-${code}`})}
+            </MenuItem>)}
+        </DropdownButton>
+      )
+      : null;
   }
 
   getEyeTooltip() {
@@ -91,12 +90,11 @@ export class HeaderComponent extends React.Component {
 
   toPhaseFirstHearing = (phase) => {
     const { hearings } = phase;
-    const {publishedHearings, history} = this.props;
+    const {history} = this.props;
 
     if (hearings.length > 0) {
-      const hearingId = hearings[0];
-      const targetedHearing = find(publishedHearings, (hearing) => hearing.id === hearingId);
-      if (targetedHearing) history.push(getHearingURL(targetedHearing));
+      const hearingSlug = hearings[0];
+      history.push(`/${hearingSlug}${history.location.search}`);
     }
   }
 
@@ -180,22 +178,13 @@ export class HeaderComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  publishedHearings: getPublishedHearings(state)
-});
-
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
   reportUrl: PropTypes.string,
   activeLanguage: PropTypes.string,
   intl: intlShape.isRequired,
   location: PropTypes.object,
-  history: PropTypes.object,
-  publishedHearings: PropTypes.arrayOf(PropTypes.object)
+  history: PropTypes.object
 };
 
-export default withRouter(
-  injectIntl(
-    connect(mapStateToProps)(HeaderComponent)
-  )
-);
+export default withRouter(injectIntl(HeaderComponent));
