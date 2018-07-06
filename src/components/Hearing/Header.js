@@ -1,6 +1,7 @@
 import React from 'react';
-import {Col, Row, OverlayTrigger, Tooltip, Grid} from 'react-bootstrap';
+import {Col, Row, OverlayTrigger, Tooltip, Grid, DropdownButton, MenuItem} from 'react-bootstrap';
 import {injectIntl, FormattedPlural, FormattedMessage, intlShape} from 'react-intl';
+import Slider from 'react-slick';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import LabelList from '../../components/LabelList';
 import SocialBar from '../../components/SocialBar';
@@ -9,6 +10,8 @@ import getAttr from '../../utils/getAttr';
 import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {stringifyQuery} from '../../utils/urlQuery';
 import {withRouter} from 'react-router-dom';
@@ -39,56 +42,34 @@ export class HeaderComponent extends React.Component {
   }
 
   getLanguageChanger() {
-    const {hearing, activeLanguage, location, history} = this.props;
-    const availableLanguages = {fi: 'Kuuleminen suomeksi', sv: 'Enkäten på svenska', en: 'Questionnaire in English'};
-    const languageOptionsArray = keys(hearing.title).map((lang, index) => {
-      if (getAttr(hearing.title, lang, {exact: true}) && lang === activeLanguage) {
-        return (
-          <div className="language-link-active" key={lang}>
-            {availableLanguages[lang]}
-          </div>
-        );
-      }
-
-      if (
-        getAttr(hearing.title, lang, {exact: true}) &&
-        keys(hearing.title).filter(key => key === activeLanguage).length === 0 &&
-        index === 0
-      ) {
-        return (
-          <div className="language-link-active" key={lang}>
-            {availableLanguages[lang]}
-          </div>
-        );
-      }
-
-      if (getAttr(hearing.title, lang, {exact: true})) {
-        return (
-          <div className="language-link" key={lang}>
-            <a
-              onClick={event => {
-                event.preventDefault();
-                history.push({location: location.pathname, search: stringifyQuery({lang})});
+    const {hearing, activeLanguage, location, history, intl} = this.props;
+    const languageOptions = keys(hearing.title);
+    return languageOptions.length > 1
+      ? (
+        <DropdownButton
+          className="language-switcher"
+          id="language"
+          eventKey="language"
+          title={<span><Icon name="globe" className="user-nav-icon"/>{activeLanguage} </span>}
+        >
+          {languageOptions.map((code) =>
+            <MenuItem
+              href=""
+              key={code}
+              className="language-switcher__language"
+              onClick={() => {
+                history.push({
+                  location: location.pathname,
+                  search: stringifyQuery({lang: code})
+                });
               }}
-              onKeyPress={event => {
-                event.preventDefault();
-                history.push({location: location.pathname, search: stringifyQuery({lang})});
-              }}
+              active={code === activeLanguage}
             >
-              {availableLanguages[lang]}
-            </a>
-          </div>
-        );
-      }
-
-      return null;
-    });
-
-    if (languageOptionsArray.length > 1) {
-      return languageOptionsArray;
-    }
-
-    return null;
+              {intl.formatMessage({id: `lang-${code}`})}
+            </MenuItem>)}
+        </DropdownButton>
+      )
+      : null;
   }
 
   getEyeTooltip() {
@@ -107,8 +88,20 @@ export class HeaderComponent extends React.Component {
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
 
+  toPhaseFirstHearing = (phase) => {
+    const { hearings } = phase;
+    const {history} = this.props;
+
+    if (hearings.length > 0) {
+      const hearingSlug = hearings[0];
+      history.push(`/${hearingSlug}${history.location.search}`);
+    }
+  }
+
   render() {
-    const { hearing, activeLanguage, reportUrl} = this.props;
+    const { hearing, activeLanguage, reportUrl } = this.props;
+    const project = get(hearing, 'project');
+    const phases = get(project, 'phases') || [];
     return (
       <div className="header-section">
         <Grid>
@@ -126,6 +119,7 @@ export class HeaderComponent extends React.Component {
               </Col>
               <Col xs={12} sm={6}>
                 {this.getTimetableText(hearing)}
+                <SocialBar />
               </Col>
               <Col xs={12} sm={6}>
                 <div className="comment-summary">
@@ -149,15 +143,33 @@ export class HeaderComponent extends React.Component {
                     </div>
                   ) : null}
                 </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                <SocialBar />
-              </Col>
-              <Col lg={6}>
                 {this.getLanguageChanger()}
               </Col>
+            </Row>
+            <Row className="hearing-project">
+              <div className="hearing-project">
+                {isEmpty(project) ? null : <h5>Project {getAttr(project.title, activeLanguage)}</h5>}
+                <Slider className="project-phases-list" slidesToShow={3} infinite={false}>
+                  {
+                    phases.map((phase, index) => (
+                      <div className="phases-list-item" key={phase.id}>
+                        <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
+                          {index + 1}
+                        </button>
+                        <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
+                        <span>{getAttr(phase.description, activeLanguage)}</span>
+                        <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
+                        <div className={`
+                            phase-process-line
+                            ${index === 0 ? 'phase-process-line-first' : ''}
+                            ${index === phases.length - 1 ? 'phase-process-line-last' : ''}
+                          `}
+                        />
+                      </div>
+                    ))
+                  }
+                </Slider>
+              </div>
             </Row>
           </div>
         </Grid>
