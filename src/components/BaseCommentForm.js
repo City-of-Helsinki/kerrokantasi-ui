@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
+import Radio from 'react-bootstrap/lib/Radio';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
+import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
 import forEach from 'lodash/forEach';
+import {get, find, parseInt, includes} from 'lodash';
+import uuid from 'uuid/v1';
+import QuestionResults from './QuestionResults';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -127,6 +133,8 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
+    const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
+
     if (this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
@@ -137,7 +145,33 @@ export class BaseCommentForm extends React.Component {
     return (
       <div className="comment-form">
         <form>
-          <h3><FormattedMessage id="writeComment"/></h3>
+          <h2><FormattedMessage id="writeComment"/></h2>
+          {
+            section.questions.map((question) => {
+              const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
+              return canShowQuestionResult
+                ? <QuestionResults key={question.id} question={question} lang={language} />
+                : null;
+            })
+          }
+          {
+            section.questions.map((question) => {
+              const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
+              return canShowQuestionForm
+                ? (
+                  <QuestionForm
+                    key={question.id}
+                    loggedIn={loggedIn}
+                    answers={find(answers, (answer) => answer.question === question.id)}
+                    onChange={onChangeAnswers}
+                    question={question}
+                    lang={language}
+                  />
+                )
+                : null;
+            })
+          }
+          <h4><FormattedMessage id="writeComment"/></h4>
           <FormControl
             componentClass="textarea"
             value={this.state.commentText}
@@ -179,7 +213,7 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          <h3><FormattedMessage id="nickname"/></h3>
+          <h4><FormattedMessage id="nickname"/></h4>
           <FormGroup>
             <FormControl
               type="text"
@@ -216,11 +250,48 @@ BaseCommentForm.propTypes = {
   intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: React.PropTypes.string,
-  nicknamePlaceholder: React.PropTypes.string
+  nicknamePlaceholder: React.PropTypes.string,
+  section: PropTypes.object,
+  language: PropTypes.string,
+  onChangeAnswers: PropTypes.func,
+  answers: PropTypes.array,
+  loggedIn: PropTypes.bool,
+  closed: PropTypes.bool,
+  user: PropTypes.object
 };
 
 BaseCommentForm.defaultProps = {
   defaultNickname: ''
+};
+
+const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
+  return (
+    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value))}>
+      <h4>{getAttr(question.text, lang)}</h4>
+      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
+        const optionContent = getAttr(option.text, lang);
+        return (
+          <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
+            {optionContent}
+          </Radio>
+        );
+      })}
+      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
+        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
+          {getAttr(option.text, lang)}
+        </Checkbox>
+      ))}
+      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
+    </FormGroup>
+  );
+};
+
+QuestionForm.propTypes = {
+  question: PropTypes.object,
+  lang: PropTypes.string,
+  onChange: PropTypes.func,
+  answers: PropTypes.any,
+  loggedIn: PropTypes.bool
 };
 
 export default injectIntl(BaseCommentForm);

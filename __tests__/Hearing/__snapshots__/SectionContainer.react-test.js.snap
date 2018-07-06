@@ -113,6 +113,36 @@ exports[`SectionContainer component should render as expected 1`] = `
                     "plugin_identifier": "",
                     "plugin_iframe_url": "",
                     "published": false,
+                    "questions": Array [
+                      Object {
+                        "id": 6,
+                        "is_independent_poll": false,
+                        "n_answers": 1,
+                        "options": Array [
+                          Object {
+                            "id": 115,
+                            "n_answers": 1,
+                            "text": Object {
+                              "en": "NO",
+                              "fi": "EI !",
+                            },
+                          },
+                          Object {
+                            "id": 116,
+                            "n_answers": 0,
+                            "text": Object {
+                              "en": "Yes",
+                              "fi": "Joo",
+                            },
+                          },
+                        ],
+                        "text": Object {
+                          "en": " do you like music ?",
+                          "fi": "Pidätkö sinä musiikista ?",
+                        },
+                        "type": "single-choice",
+                      },
+                    ],
                     "title": Object {},
                     "type": "main",
                     "type_name_plural": "pääosiot",
@@ -137,6 +167,7 @@ exports[`SectionContainer component should render as expected 1`] = `
             <Connect(InjectIntl(SortableCommentListComponent))
               canComment={true}
               canVote={true}
+              closed={false}
               displayVisualization={false}
               isSectionComments={
                 Object {
@@ -176,6 +207,36 @@ exports[`SectionContainer component should render as expected 1`] = `
                   "plugin_identifier": "",
                   "plugin_iframe_url": "",
                   "published": false,
+                  "questions": Array [
+                    Object {
+                      "id": 6,
+                      "is_independent_poll": false,
+                      "n_answers": 1,
+                      "options": Array [
+                        Object {
+                          "id": 115,
+                          "n_answers": 1,
+                          "text": Object {
+                            "en": "NO",
+                            "fi": "EI !",
+                          },
+                        },
+                        Object {
+                          "id": 116,
+                          "n_answers": 0,
+                          "text": Object {
+                            "en": "Yes",
+                            "fi": "Joo",
+                          },
+                        },
+                      ],
+                      "text": Object {
+                        "en": " do you like music ?",
+                        "fi": "Pidätkö sinä musiikista ?",
+                      },
+                      "type": "single-choice",
+                    },
+                  ],
                   "title": Object {},
                   "type": "main",
                   "type_name_plural": "pääosiot",
@@ -226,6 +287,36 @@ exports[`SectionContainer component should render as expected 1`] = `
                   "plugin_identifier": "",
                   "plugin_iframe_url": "",
                   "published": false,
+                  "questions": Array [
+                    Object {
+                      "id": 6,
+                      "is_independent_poll": false,
+                      "n_answers": 1,
+                      "options": Array [
+                        Object {
+                          "id": 115,
+                          "n_answers": 1,
+                          "text": Object {
+                            "en": "NO",
+                            "fi": "EI !",
+                          },
+                        },
+                        Object {
+                          "id": 116,
+                          "n_answers": 0,
+                          "text": Object {
+                            "en": "Yes",
+                            "fi": "Joo",
+                          },
+                        },
+                      ],
+                      "text": Object {
+                        "en": " do you like music ?",
+                        "fi": "Pidätkö sinä musiikista ?",
+                      },
+                      "type": "single-choice",
+                    },
+                  ],
                   "title": Object {},
                   "type": "main",
                   "type_name_plural": "pääosiot",

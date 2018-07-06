@@ -37,21 +37,93 @@
     }
   }
 
-  .language-link {
-      padding: 4px;
-      border-radius: 4px;
+  .open .language-switcher.dropdown-toggle {
+    box-shadow: none;
+    color: $hel-coat;
+  }
 
-      a {
-          text-decoration: none;
-          cursor: pointer;
+  .language-switcher {
+    border: 0;
+    padding: 0;
+    margin-bottom: 12px;
+
+    & > span {
+      span {
+        padding-right: 5px;
+      }
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  .hearing-project {
+    text-align: center;
+    margin: auto 10px;
+
+    $order-size: 40px;
+    $order-font-size: 18px;
+    $border-weight: 2px;
+
+    .project-phases-list {
+      .slick-slide {
+        height: inherit;
       }
 
-      &-active {
-          padding: 4px;
-          border-radius: 4px;
-          background: $gray-light;
-          color: #fff;
+      .phases-list-item {
+        font-size: 14px;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        padding: 0 16px;
+        align-self: flex-start;
+        position: relative;
+
+        .phase-process-line {
+          width: 100%;
+          height: $border-weight;
+          background: black;
+          position: absolute;
+          top: ($order-size - $border-weight) / 2;
+        }
+
+        .phase-process-line-first {
+          width: 50%;
+          right: 0;
+        }
+
+        .phase-process-line-last {
+          width: 50%;
+          left: 0;
+        }
+
+        .phase-order {
+          z-index: 1;
+          font-size: $order-font-size;
+          font-weight: bold;
+          width: $order-size;
+          height: $order-size;
+          margin: 0 auto 12px;
+          border: solid $border-weight black;
+          border-radius: 50%;
+          background: $hel-silver;
+          padding: 6px;
+        }
+
+        .active-phase {
+          background: #9fc9eb;
+        }
+
+        .phase-title {
+          font-weight: bold;
+        }
+
+        .phase-schedule {
+          opacity: 0.5;
+        }
       }
+    }
   }
 }
 

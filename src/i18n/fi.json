@@ -198,5 +198,6 @@
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
   "addGeojson": "Lisää geojson tiedostona",
   "deleteDraft": "Poista luonnos",
-  "draftDeleted": "Luonnos poistettiin onnistuneesti"
+  "draftDeleted": "Luonnos poistettiin onnistuneesti",
+  "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia"
 }
