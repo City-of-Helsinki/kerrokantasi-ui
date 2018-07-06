@@ -112,6 +112,8 @@ TextInput.propTypes = {
   placeholderId: PropTypes.string,
   validate: PropTypes.func,
   value: PropTypes.string,
+  showLabel: PropTypes.bool,
+  label: PropTypes.string
 };
 
 export default injectIntl(TextInput);

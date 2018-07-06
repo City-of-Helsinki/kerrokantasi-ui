@@ -3,8 +3,7 @@ import {normalize} from 'normalizr';
 import uuid from 'uuid/v1';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
-import {assign, flowRight, values} from 'lodash';
-import updeep from "updeep";
+import {assign, flowRight} from 'lodash';
 
 import {hearingSchema} from '../types';
 
