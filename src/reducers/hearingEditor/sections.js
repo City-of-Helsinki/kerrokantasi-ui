@@ -2,9 +2,12 @@
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
 import keys from 'lodash/keys';
-
+import find from 'lodash/find';
+import omit from 'lodash/omit';
+import size from 'lodash/size';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
+import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
 // import {getOrCreateSectionByID} from '../../utils/hearing';
 // import type {SectionState} from '../../types';
 
@@ -26,6 +29,20 @@ const byId = handleActions(
         [field]: value,
       },
     }),
+    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, value, optionKey} }) => {
+      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      if (fieldType === 'option') {
+        question.options[optionKey] = value;
+      } else if (fieldType === 'text') {
+        question.text = value;
+      }
+      const section = state[sectionId];
+      section.questions = [question];
+      return {
+        ...state,
+        [sectionId]: section
+      };
+    },
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
       ...state,
       [section.frontId]: section,
@@ -34,6 +51,48 @@ const byId = handleActions(
       const newState = { ...state };
       delete newState[sectionID];
       return newState;
+    },
+    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: [initSingleChoiceQuestion()]};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
+    },
+    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion()]};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
+    },
+    [EditorActions.CLEAR_QUESTIONS]: (state, {payload: {sectionId}}) => {
+      const section = {...state[sectionId], questions: []};
+      return {
+        ...state,
+        [sectionId]: section,
+      };
+    },
+    [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
+      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      question.options[size(question.options) + 1] = {};
+      const section = state[sectionId];
+      section.questions = [question];
+      return {
+        ...state,
+        [sectionId]: section
+      };
+    },
+    [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
+      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const newOptions = omit(question.options, [(size(question.options)).toString()]);
+      question.options = newOptions;
+      const section = state[sectionId];
+      section.questions = [...section.questions.filter((quest) => quest.frontId !== questionId), question];
+      return {
+        ...state,
+        [sectionId]: section
+      };
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
       const section = {...state[sectionID], images: [...state[sectionID].images]};

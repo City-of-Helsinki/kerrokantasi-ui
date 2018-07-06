@@ -18,7 +18,13 @@ import {
   startHearingEdit,
   unPublishHearing,
   sectionMoveUp,
-  sectionMoveDown
+  sectionMoveDown,
+  initSingleChoiceQuestion,
+  initMultipleChoiceQuestion,
+  clearQuestions,
+  addOption,
+  deleteLastOption,
+  editQuestion
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -47,6 +53,10 @@ class HearingEditor extends React.Component {
 
   onSectionChange(sectionID, field, value) {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+
+  onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
+    this.props.dispatch(editQuestion(fieldType, sectionId, questionId, optionKey, value));
   }
 
   onSectionImageChange(sectionID, field, value) {
@@ -120,6 +130,31 @@ class HearingEditor extends React.Component {
     this.props.dispatch(deleteHearingDraft(hearing.id, hearing.slug));
   }
 
+  initSingleChoiceQuestion = (sectionId) => {
+    const {dispatch} = this.props;
+    dispatch(initSingleChoiceQuestion(sectionId));
+  }
+
+  initMultipleChoiceQuestion = (sectionId) => {
+    const {dispatch} = this.props;
+    dispatch(initMultipleChoiceQuestion(sectionId));
+  }
+
+  clearQuestions = (sectionId) => {
+    const {dispatch} = this.props;
+    dispatch(clearQuestions(sectionId));
+  }
+
+  addOption = (sectionId, questionId) => {
+    const {dispatch} = this.props;
+    dispatch(addOption(sectionId, questionId));
+  }
+
+  deleteOption = (sectionId, questionId) => {
+    const {dispatch} = this.props;
+    dispatch(deleteLastOption(sectionId, questionId));
+  }
+
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
 
@@ -146,6 +181,12 @@ class HearingEditor extends React.Component {
         sectionMoveUp={this.sectionMoveUp}
         sectionMoveDown={this.sectionMoveDown}
         sections={hearing.sections}
+        initSingleChoiceQuestion={this.initSingleChoiceQuestion}
+        initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
+        clearQuestions={this.clearQuestions}
+        addOption={this.addOption}
+        deleteOption={this.deleteOption}
+        onQuestionChange={this.onQuestionChange}
       />
     );
   }
@@ -181,7 +222,7 @@ HearingEditor.propTypes = {
   labels: PropTypes.arrayOf(labelShape),
   user: userShape,
   language: PropTypes.string,
-  isNewHearing: PropTypes.bool
+  isNewHearing: PropTypes.bool,
 };
 
 const WrappedHearingEditor = connect((state) => ({

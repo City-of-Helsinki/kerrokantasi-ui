@@ -2,9 +2,9 @@ import Icon from '../../utils/Icon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import {get} from 'lodash';
+import {get, isEmpty} from 'lodash';
 import {localizedNotifyError} from '../../utils/notify';
-
+import {QuestionForm} from './QuestionForm';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -12,6 +12,7 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import Radio from 'react-bootstrap/lib/Radio';
 
 import Dropzone from 'react-dropzone';
 
@@ -83,7 +84,19 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
+    const {
+      section,
+      addOption,
+      deleteOption,
+      onSectionChange,
+      onSectionImageChange,
+      sectionLanguages,
+      sectionMoveUp,
+      sectionMoveDown,
+      isFirstSubsection,
+      isLastSubsection,
+      onQuestionChange
+    } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -194,7 +207,28 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
-
+        <FormGroup>
+          <Radio checked={isEmpty(section.questions)} onChange={() => this.props.clearQuestions(section.id)} inline>
+            {formatMessage({id: "noQuestion"})}
+          </Radio>{' '}
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onChange={() => this.props.initSingleChoiceQuestion(section.frontId)} inline>
+            {formatMessage({id: "singleChoiceQuestion"})}
+          </Radio>{' '}
+          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.frontId)} inline>
+            {formatMessage({id: "multipleChoiceQuestion"})}
+          </Radio>
+        </FormGroup>
+        {!isEmpty(section.questions) && section.questions.map((question) =>
+          <QuestionForm
+            key={question.id}
+            question={question}
+            addOption={addOption}
+            deleteOption={deleteOption}
+            sectionId={section.frontId}
+            sectionLanguages={sectionLanguages}
+            onQuestionChange={onQuestionChange}
+          />
+        )}
       </div>
     );
   }
@@ -214,7 +248,13 @@ SectionForm.propTypes = {
   sectionMoveUp: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool
+  isLastSubsection: PropTypes.bool,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func
 };
 
 SectionForm.contextTypes = {

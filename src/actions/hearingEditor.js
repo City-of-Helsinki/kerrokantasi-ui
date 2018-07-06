@@ -27,6 +27,12 @@ export const EditorActions = {
   SAVE_HEARING_FAILED: 'saveHearingFailed',
   UNPUBLISH_HEARING: 'unPublishingHearing',
   ADD_SECTION: 'addSection',
+  INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
+  INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
+  CLEAR_QUESTIONS: 'clearQuestions',
+  ADD_OPTION: 'addOption',
+  EDIT_QUESTION: 'editQuestion',
+  DELETE_LAST_OPTION: 'deleteLastOption',
   EDIT_SECTION: 'changeSection',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
@@ -235,6 +241,42 @@ export function addSection(section) {
     return dispatch(createAction(EditorActions.ADD_SECTION)({section}));
   };
 }
+
+export function initSingleChoiceQuestion(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({sectionId}));
+  };
+}
+
+export function initMultipleChoiceQuestion(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({sectionId}));
+  };
+}
+
+export function clearQuestions(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({sectionId}));
+  };
+}
+
+export const addOption = (sectionId, questionId) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
+  };
+};
+
+export const editQuestion = (fieldType, sectionId, questionId, value, optionKey) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
+  };
+};
+
+export const deleteLastOption = (sectionId, questionId, optionKey) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
+  };
+};
 
 /*
 * Removes section from hearing

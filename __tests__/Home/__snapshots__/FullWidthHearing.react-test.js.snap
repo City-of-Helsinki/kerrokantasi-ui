@@ -130,6 +130,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "lastOpen": "Viimeisenä auennut",
         "leastCommented": "Vähiten kommentoitu",
         "list": "Lista",
+        "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
         "login": "Kirjaudu sisään",
         "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
         "loginToContinue": "Kirjaudu sisään jatkaaksesi",

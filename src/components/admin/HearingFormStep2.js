@@ -48,7 +48,15 @@ class HearingFormStep2 extends React.Component {
    */
   getSections() {
     const {language} = this.context;
-    const {hearing, hearingLanguages, sectionMoveUp, sectionMoveDown} = this.props;
+    const {
+      hearing,
+      hearingLanguages,
+      sectionMoveUp,
+      sectionMoveDown,
+      addOption,
+      deleteOption,
+      onQuestionChange
+    } = this.props;
     return hearing.sections
       .filter(({type}) => type !== SectionTypes.CLOSURE)
       .map((section, index) => {
@@ -78,6 +86,12 @@ class HearingFormStep2 extends React.Component {
                   sectionMoveDown={sectionMoveDown}
                   isFirstSubsection={index === 1}
                   isLastSubsection={sectionID === last(hearing.sections).frontId}
+                  initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                  initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+                  clearQuestions={this.props.clearQuestions}
+                  addOption={addOption}
+                  deleteOption={deleteOption}
+                  onQuestionChange={onQuestionChange}
                 />
                 <div className="section-toolbar">
                   {this.getDeleteSectionButton(section, sectionID)}
@@ -168,7 +182,13 @@ HearingFormStep2.propTypes = {
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  sectionMoveDown: PropTypes.func
+  sectionMoveDown: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func
 };
 
 HearingFormStep2.contextTypes = {
