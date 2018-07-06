@@ -48,7 +48,8 @@ export const EditorActions = {
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
   SECTION_MOVE_UP: 'sectionMoveUp',
-  SECTION_MOVE_DOWN: 'sectionMoveDown'
+  SECTION_MOVE_DOWN: 'sectionMoveDown',
+  DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion'
 };
 
 export function receiveHearing(normalizedHearing) {
@@ -266,10 +267,14 @@ export const addOption = (sectionId, questionId) => {
   };
 };
 
-export const editQuestion = (fieldType, sectionId, questionId, value, optionKey) => {
+export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => {
   return dispatch => {
     return dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
   };
+};
+
+export const deleteTemporaryQuestion = (sectionId, questionFrontId) => {
+  return createAction(EditorActions.DELETE_TEMP_QUESTION)({sectionId, questionFrontId});
 };
 
 export const deleteLastOption = (sectionId, questionId, optionKey) => {

@@ -24,7 +24,8 @@ import {
   clearQuestions,
   addOption,
   deleteLastOption,
-  editQuestion
+  editQuestion,
+  deleteTemporaryQuestion
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -57,6 +58,10 @@ class HearingEditor extends React.Component {
 
   onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
     this.props.dispatch(editQuestion(fieldType, sectionId, questionId, optionKey, value));
+  }
+
+  onDeleteTemporaryQuestion = (sectionId, questionFrontId) => {
+    this.props.dispatch(deleteTemporaryQuestion(sectionId, questionFrontId));
   }
 
   onSectionImageChange(sectionID, field, value) {
@@ -187,6 +192,7 @@ class HearingEditor extends React.Component {
         addOption={this.addOption}
         deleteOption={this.deleteOption}
         onQuestionChange={this.onQuestionChange}
+        onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
       />
     );
   }

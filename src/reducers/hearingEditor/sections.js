@@ -1,10 +1,9 @@
 // @flow
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
+import updeep from 'updeep';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
-import omit from 'lodash/omit';
-import size from 'lodash/size';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -29,18 +28,27 @@ const byId = handleActions(
         [field]: value,
       },
     }),
-    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, value, optionKey} }) => {
-      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, optionKey, value} }) => {
+      // only search for question with frontId which means the newly generated one.
+      // editing is not possible for old questions
+      let question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
       if (fieldType === 'option') {
-        question.options[optionKey] = value;
+        question = updeep({
+          options: {[optionKey]: {
+            text: value
+          }}
+        }, question);
       } else if (fieldType === 'text') {
-        question.text = value;
+        question = updeep({
+          text: value
+        }, question);
       }
-      const section = state[sectionId];
-      section.questions = [question];
+      const updatedSection = updeep({
+        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), question]
+      }, state[sectionId]);
       return {
         ...state,
-        [sectionId]: section
+        [sectionId]: updatedSection
       };
     },
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
@@ -53,14 +61,14 @@ const byId = handleActions(
       return newState;
     },
     [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initSingleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [...state[sectionId].questions, initSingleChoiceQuestion()]};
       return {
         ...state,
         [sectionId]: section,
       };
     },
     [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]};
       return {
         ...state,
         [sectionId]: section,
@@ -75,23 +83,38 @@ const byId = handleActions(
     },
     [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
       const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
-      question.options[size(question.options) + 1] = {};
-      const section = state[sectionId];
-      section.questions = [question];
+      const updatedQuestion = updeep({
+        options: [...question.options, {}]
+      }, question);
+      const updatedSection = updeep({
+        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), updatedQuestion]
+      }, state[sectionId]);
       return {
         ...state,
-        [sectionId]: section
+        [sectionId]: updatedSection
       };
     },
     [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
       const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
-      const newOptions = omit(question.options, [(size(question.options)).toString()]);
-      question.options = newOptions;
-      const section = state[sectionId];
-      section.questions = [...section.questions.filter((quest) => quest.frontId !== questionId), question];
+      const newOptions = question.options.slice(0, -1);
+      const updatedQuestion = updeep({
+        options: newOptions
+      }, question);
+      const updatedSection = updeep({
+        questions: [...state[sectionId].questions.filter((quest) => quest.frontId !== questionId), updatedQuestion]
+      }, state[sectionId]);
       return {
         ...state,
-        [sectionId]: section
+        [sectionId]: updatedSection
+      };
+    },
+    [EditorActions.DELETE_TEMP_QUESTION]: (state, {payload: {sectionId, questionFrontId}}) => {
+      const updatedSection = updeep({
+        questions: state[sectionId].questions.filter(quest => quest.frontId !== questionFrontId)
+      }, state[sectionId]);
+      return {
+        ...state,
+        [sectionId]: updatedSection
       };
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
