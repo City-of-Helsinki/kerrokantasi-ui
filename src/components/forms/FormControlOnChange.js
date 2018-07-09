@@ -6,7 +6,7 @@ class FormControlOnChange extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.defaultValue
+      value: this.props.defaultValue || ''
     };
   }
   onChange = (event) => {
@@ -16,7 +16,7 @@ class FormControlOnChange extends React.Component {
   }
   componentWillReceiveProps(newProps) {
     this.setState({
-      value: newProps.defaultValue
+      value: newProps.defaultValue || ''
     });
   }
   render() {

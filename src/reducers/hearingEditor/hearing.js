@@ -2,8 +2,8 @@
 import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
-import { head, findIndex, difference, isEmpty, omit, keys } from 'lodash';
-import { moveSubsectionInArray } from '../../utils/hearingEditor';
+import { head, findIndex } from 'lodash';
+import { moveSubsectionInArray, initNewPhase, initNewProject } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
 // const getNormalizedHearing = (rawHearing) => {
@@ -48,10 +48,10 @@ const data = handleActions(
     [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => updeep({labels: [...state.labels.push(label.id)]}, state),
     [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) => updeep({sections: sectionMoveUp(state.sections, sectionId)}, state),
     [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) => updeep({sections: sectionMoveDown(state.sections, sectionId)}, state),
-    [EditorActions.ADD_PHASE]: (state, {payload: {phaseInfo}}) =>
+    [EditorActions.ADD_PHASE]: (state) =>
       updeep({
         project: {
-          phases: [...state.project.phases, phaseInfo]
+          phases: [...state.project.phases, initNewPhase()]
         }
       }, state),
     [EditorActions.DELETE_PHASE]: (state, {payload: {phaseId}}) =>
@@ -81,9 +81,6 @@ const data = handleActions(
         project: {
           phases: state.project.phases.map(phase => {
             if (phase.id === phaseId || phase.frontId === phaseId) {
-              if (value === undefined && (fieldName !== 'title' || keys(phase.title).length > 1)) {
-                return updeep({[fieldName]: updeep.constant(omit(phase[fieldName], language))}, phase);
-              }
               return updeep({ [fieldName]: { [language]: value } }, phase);
             }
             return phase;
@@ -91,8 +88,11 @@ const data = handleActions(
         }
       }, state),
     [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) => {
+      let updatedProject;
+      if (projectId === '') updatedProject = initNewProject();
+      else updatedProject = projectLists.find(project => project.id === projectId) || null;
       return Object.assign({}, state, {
-        project: projectLists.find(project => project.id === projectId) || null
+        project: updatedProject
       });
     },
     [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>

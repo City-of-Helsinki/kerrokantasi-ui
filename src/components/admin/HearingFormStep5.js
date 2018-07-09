@@ -2,9 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import updeep from 'updeep';
 import uuid from 'uuid/v1';
-import type {AppState} from '../../types';
 import {connect} from 'react-redux';
 import {isEmpty} from 'lodash';
 import Button from 'react-bootstrap/lib/Button';
@@ -38,22 +36,7 @@ class HearingFormStep5 extends React.Component {
   addPhase = () => {
     const {hearingLanguages} = this.props;
     if (!isEmpty(hearingLanguages)) {
-      const emptyPhase = hearingLanguages.reduce((accumulator, current) => {
-        return updeep({
-          title: {[current]: ''},
-          description: {[current]: ''},
-          schedule: {[current]: ''},
-        }, accumulator);
-      }, {
-        frontId: uuid(),
-        has_hearings: false,
-        is_active: false,
-        title: {},
-        description: {},
-        schedule: {}
-      });
-      // create an empty project (JSON object with only empty id) in case no project was selected when adding phase
-      return this.props.dispatch(addPhase(emptyPhase));
+      return this.props.dispatch(addPhase());
     }
     return notifyError('Valitse ensin kieli.');
   }
@@ -73,32 +56,11 @@ class HearingFormStep5 extends React.Component {
   onActivePhase = (phaseId) => {
     this.props.dispatch(activePhase(phaseId));
   }
-  render() {
-    const {projects, language, hearing, hearingLanguages} = this.props;
-    const selectedProject = hearing.project;
+  renderProject = (selectedProject) => {
+    const {hearingLanguages} = this.props;
+
     return (
       <div>
-        <FormGroup controlId="projectLists">
-          <ControlLabel><FormattedMessage id="project"/></ControlLabel>
-          <div className="select">
-            <FormControl
-              componentClass="select"
-              name="commenting"
-              value={selectedProject && selectedProject.id}
-              onChange={this.onChangeProject}
-            >
-              <option value={uuid()}>no project</option>
-              {
-                projects.map((project) => (
-                  <option key={project.id} value={project.id}>
-                    {`${project.title[language] || project.title.fi ||
-                      project.title.en || project.title.sv || 'Default project'}`}
-                  </option>
-                ))
-              }
-            </FormControl>
-          </div>
-        </FormGroup>
         {
           selectedProject && hearingLanguages.map(usedLanguage => (
             <FormGroup controlId="projectName" key={usedLanguage}>
@@ -148,6 +110,38 @@ class HearingFormStep5 extends React.Component {
       </div>
     );
   }
+  render() {
+    const {projects, language, hearing} = this.props;
+    const selectedProject = hearing.project;
+
+    return (
+      <div>
+        <FormGroup controlId="projectLists">
+          <ControlLabel><FormattedMessage id="project"/></ControlLabel>
+          <div className="select">
+            <FormControl
+              componentClass="select"
+              name="commenting"
+              value={selectedProject && selectedProject.id}
+              onChange={this.onChangeProject}
+            >
+              <option value={uuid()}>no project</option>
+              <option value="">Default project</option>
+              {
+                projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {`${project.title[language] || project.title.fi ||
+                      project.title.en || project.title.sv || 'Default project'}`}
+                  </option>
+                ))
+              }
+            </FormControl>
+          </div>
+        </FormGroup>
+        {this.renderProject(selectedProject)}
+      </div>
+    );
+  }
 }
 
 HearingFormStep5.propTypes = {
@@ -155,14 +149,10 @@ HearingFormStep5.propTypes = {
   dispatch: PropTypes.func,
   language: PropTypes.string,
   hearing: hearingShape,
-  hearingLanguages: PropTypes.array
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
 };
 
-HearingFormStep5.contextTypes = {
-  language: PropTypes.string
-};
-
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state) => ({
   projects: ProjectsSelector.getProjects(state)
 });
 

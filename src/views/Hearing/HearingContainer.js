@@ -21,10 +21,10 @@ import Helmet from 'react-helmet';
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
-    const {hearingLanguages, fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
+    const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
     fetchEditorMetaData();
-    fetchProjectsList(hearingLanguages);
+    fetchProjectsList();
   }
 
   componentWillReceiveProps(nextProps) {

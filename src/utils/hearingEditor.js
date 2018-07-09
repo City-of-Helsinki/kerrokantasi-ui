@@ -120,3 +120,22 @@ export const moveSubsectionInArray = (array, index, delta) => {
   return newArray;
 };
 
+export const initNewPhase = () => {
+  return {
+    frontId: uuid(),
+    has_hearings: false,
+    hearings: [],
+    is_active: false,
+    title: {},
+    description: {},
+    schedule: {}
+  };
+};
+
+export const initNewProject = () => {
+  return {
+    id: '',
+    title: {},
+    phases: []
+  };
+};

@@ -95,7 +95,7 @@ const Phase = (props) => {
                 ? (
                   <Row>
                     <Col md={12}>
-                      <Radio onChange={() => onActive(phaseInfo.id || phaseInfo.frontId)} checked={phaseInfo.is_active}>
+                      <Radio onChange={() => onActive(phaseInfo.id || phaseInfo.frontId)} checked={phaseInfo.is_active || false}>
                         <FormattedMessage id="phaseActive"/>
                       </Radio>
                     </Col>
@@ -118,10 +118,6 @@ Phase.propTypes = {
   onChange: PropTypes.func,
   onActive: PropTypes.func,
   languages: PropTypes.arrayOf(PropTypes.string)
-};
-
-Phase.contextTypes = {
-  language: PropTypes.string
 };
 
 const WrappedPhase = injectIntl(Phase);
