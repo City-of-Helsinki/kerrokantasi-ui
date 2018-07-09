@@ -60,8 +60,11 @@ export class SortableCommentListComponent extends Component {
   }
 
   componentDidMount() {
-    const {section} = this.props;
-    this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    const {section, sectionComments} = this.props;
+    // comment fetching may already be taking place in the plugin!
+    if (!get(sectionComments, 'isFetching')) {
+      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -74,11 +77,11 @@ export class SortableCommentListComponent extends Component {
       collapseForm: false, // whenever things change, no longer force the form to collapse
     });
 
-    if (!this.props.user && nextProps.user) {
+    if (!isFetching && !this.props.user && nextProps.user) {
       this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 
-    if (this.props.user && !nextProps.user) {
+    if (!isFetching && this.props.user && !nextProps.user) {
       this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
     }
 

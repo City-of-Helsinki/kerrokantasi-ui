@@ -15,8 +15,11 @@ const pluginUrls = {
 
 export default class PluginContent extends React.Component {
   componentDidMount() {
-    const {hearingSlug, section} = this.props;
-    this.props.fetchAllComments(hearingSlug, section.id);
+    const {hearingSlug, section, comments} = this.props;
+    // comment fetching may already be taking place in a comment list!
+    if (!get(comments, 'isFetching')) {
+      this.props.fetchAllComments(hearingSlug, section.id);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
