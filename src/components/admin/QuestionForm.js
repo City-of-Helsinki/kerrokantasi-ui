@@ -23,7 +23,7 @@ export class QuestionForm extends React.Component {
             value={question.text}
             languages={sectionLanguages}
             fieldType={TextFieldTypes.TEXTAREA}
-            placeholderId="sectionAbstractPlaceholder"
+            placeholderId="questionTextPlaceholder"
           />
           {question.options.map((option, index) =>
             <div style={{display: 'flex'}} key={uuid()}>
@@ -37,7 +37,7 @@ export class QuestionForm extends React.Component {
                   rows="10"
                   value={option.text || {}}
                   languages={sectionLanguages}
-                  placeholderId="sectionContentPlaceholder"
+                  placeholderId="questionOptionPlaceholder"
                 />
               </div>
               <div style={{flex: '1', marginTop: '48px', marginLeft: '15px'}}>

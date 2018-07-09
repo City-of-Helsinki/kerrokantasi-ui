@@ -209,18 +209,18 @@ class SectionForm extends React.Component {
         </FormGroup>
         <FormGroup>
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
-            {`new ${formatMessage({id: "singleChoiceQuestion"})}`}
+            {formatMessage({id: "newSingleChoiceQuestion"})}
           </button>
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
-            {`new ${formatMessage({id: "multipleChoiceQuestion"})}`}
+            {formatMessage({id: "newMultipleChoiceQuestion"})}
           </button>
         </FormGroup>
         {!isEmpty(section.questions) && section.questions.map((question, index) =>
           <div>
-            <h5>{`question ${index + 1}`}</h5>
+            <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
             {question.frontId &&
               <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
-                deleteQuestion
+                {formatMessage({id: "deleteQuestion"})}
               </button>
             }
             <FormGroup>

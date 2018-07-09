@@ -29,7 +29,6 @@
   "hearingSavingFailed": "Tallentaminen epäonnistui",
   "addSection": "Lisää osa-alue",
   "deleteSection": "Poista osio",
-  "addOption": "Lisää vaihtoehto",
   "title": "Otsikko",
   "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
   "hearingLabels": "Asiasanat",
@@ -199,5 +198,15 @@
   "addGeojson": "Lisää geojson tiedostona",
   "deleteDraft": "Poista luonnos",
   "draftDeleted": "Luonnos poistettiin onnistuneesti",
-  "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia"
+  "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
+  "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
+  "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
+  "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
+  "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
+  "question": "Kysymys",
+  "deleteQuestion": "Poista kysymys",
+  "option": "Vastausvaihtoehto",
+  "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
+  "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
+  "addOption": "Lisää vastausvaihtoehto"
 }
