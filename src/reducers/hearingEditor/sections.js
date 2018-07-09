@@ -4,6 +4,7 @@ import { combineActions, handleActions } from 'redux-actions';
 import updeep from 'updeep';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -61,14 +62,14 @@ const byId = handleActions(
       return newState;
     },
     [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [...state[sectionId].questions, initSingleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [initSingleChoiceQuestion(), ...state[sectionId].questions]};
       return {
         ...state,
         [sectionId]: section,
       };
     },
     [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]};
+      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion(), ...state[sectionId].questions]};
       return {
         ...state,
         [sectionId]: section,
@@ -82,12 +83,13 @@ const byId = handleActions(
       };
     },
     [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
-      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const index = findIndex(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const question = state[sectionId].questions[index];
       const updatedQuestion = updeep({
         options: [...question.options, {}]
       }, question);
       const updatedSection = updeep({
-        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), updatedQuestion]
+        questions: { [index]: updatedQuestion }
       }, state[sectionId]);
       return {
         ...state,
@@ -95,13 +97,14 @@ const byId = handleActions(
       };
     },
     [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
-      const question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const index = findIndex(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const question = state[sectionId].questions[index];
       const newOptions = question.options.slice(0, -1);
       const updatedQuestion = updeep({
         options: newOptions
       }, question);
       const updatedSection = updeep({
-        questions: [...state[sectionId].questions.filter((quest) => quest.frontId !== questionId), updatedQuestion]
+        questions: { [index]: updatedQuestion }
       }, state[sectionId]);
       return {
         ...state,
