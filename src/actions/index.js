@@ -5,6 +5,7 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
 import { push } from 'react-router-redux';
+import { retrieveUserFromSession } from './user';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
@@ -202,6 +203,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
+      // also, update user answered questions
+      dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
   };
