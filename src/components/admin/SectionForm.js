@@ -208,9 +208,6 @@ class SectionForm extends React.Component {
           </div>
         </FormGroup>
         <FormGroup>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.clearQuestions(section.id)}>
-            {formatMessage({id: "noQuestion"})}
-          </button>
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
             {`new ${formatMessage({id: "singleChoiceQuestion"})}`}
           </button>
