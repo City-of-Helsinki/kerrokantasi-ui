@@ -12,7 +12,6 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Image from 'react-bootstrap/lib/Image';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-import Radio from 'react-bootstrap/lib/Radio';
 
 import Dropzone from 'react-dropzone';
 
@@ -209,15 +208,6 @@ class SectionForm extends React.Component {
           </div>
         </FormGroup>
         <FormGroup>
-          {/* <Radio checked={isEmpty(section.questions)} onClick={() => this.props.clearQuestions(section.id)} inline>
-            {formatMessage({id: "noQuestion"})}
-          </Radio>{' '}
-          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'single-choice'} onClick={() => this.props.initSingleChoiceQuestion(section.frontId)} inline>
-            {formatMessage({id: "singleChoiceQuestion"})}
-          </Radio>{' '}
-          <Radio checked={!isEmpty(section.questions) && section.questions[0].type === 'multiple-choice'} onChange={() => this.props.initMultipleChoiceQuestion(section.frontId)} inline>
-            {formatMessage({id: "multipleChoiceQuestion"})}
-          </Radio> */}
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.clearQuestions(section.id)}>
             {formatMessage({id: "noQuestion"})}
           </button>
@@ -232,17 +222,18 @@ class SectionForm extends React.Component {
           <div>
             <h5>{`question ${index + 1}`}</h5>
             {question.frontId &&
-              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.id, question.frontId)}>
+              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
                 deleteQuestion
               </button>
             }
             <FormGroup>
-              <Radio checked={question.type === 'single-choice'} disabled inline>
-                {formatMessage({id: "singleChoiceQuestion"})}
-              </Radio>{' '}
-              <Radio checked={question.type === 'multiple-choice'} disabled inline>
-                {formatMessage({id: "multipleChoiceQuestion"})}
-              </Radio>
+              <h6>
+                * {
+                  question.type === 'single-choice'
+                    ? formatMessage({id: "singleChoiceQuestion"})
+                    : formatMessage({id: "multipleChoiceQuestion"})
+                }
+              </h6>
             </FormGroup>
             <QuestionForm
               key={question.id}
