@@ -203,6 +203,7 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
+                    {mainSection.plugin_identifier &&
                     <div className="plugin-content">
                       <PluginContent
                         hearingSlug={match.params.hearingSlug}
@@ -214,6 +215,7 @@ export class SectionContainerComponent extends React.Component {
                         user={user}
                       />
                     </div>
+                    }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
                     {section.id === mainSection.id && <ContactList contacts={contacts} />}
                     {hasFullscreenMapPlugin(hearing) &&
