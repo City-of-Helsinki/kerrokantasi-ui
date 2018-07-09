@@ -74,112 +74,58 @@ export const sectionFrontIds = () => (next: (action: FSA) => any) => (action: FS
   }
 };
 
-export const replaceWithDefaultProject = store => next => action => {
-  if (action.type === EditorActions.RECEIVE_HEARING) {
-    const {entities, result} = action.payload;
-    const hearing = entities.hearing[result];
-    if (isEmpty(hearing.project)) {
-      return next(updeep({
-        payload: {entities: {
-          hearing: {
-            [result]: {project: store.getState().projectLists.data[0]}
-          }
-        }}
-      }, action));
-    }
-  }
-  return next(action);
-};
+// export const updateProjectOnChangeLanguage = store => next => action => {
+//   if (action.type === EditorActions.SET_LANGUAGES) {
+//     const languages = action.payload.languages;
+//     store.dispatch(updateProjectLanguage(languages));
+//     // update and refetch default project if needed
+//     store.dispatch(updateDefaultProject(languages));
+//   }
+//   return next(action);
+// };
 
-export const updateNewHearingWithDefaultProject = () => next => action => {
-  if (action.type === EditorActions.INIT_NEW_HEARING) {
-    const {entities} = action.payload;
-    const hearingId = head(Object.keys(entities.hearing));
-    const hearing = entities.hearing[hearingId];
-    if (isEmpty(hearing.project)) {
-      return next(updeep({
-        payload: {entities: {
-          hearing: {
-            [hearingId]: {
-              project: {id: '', title: {fi: ''}, phases: []}
-            }
-          }
-        }}
-      }, action));
-    }
-  }
-  return next(action);
-};
-
-export const updateProjectOnChangeLanguage = store => next => action => {
-  if (action.type === EditorActions.SET_LANGUAGES) {
-    const languages = action.payload.languages;
-    store.dispatch(updateProjectLanguage(languages));
-    // update and refetch default project if needed
-    store.dispatch(updateDefaultProject(languages));
-  }
-  return next(action);
-};
-
-export const updateDefaultProjectOnOpenForm = store => next => action => {
-  if (action.type === 'showHearingForm') {
-    store.dispatch(updateDefaultProject(store.getState().hearingEditor.languages));
-    const hearing = store.getState().hearingEditor.hearing.data;
-    if (hearing && hearing.project.id === '') {
-      store.dispatch(changeProject({
-        projectId: '',
-        projectLists: store.getState().projectLists.data
-      }));
-    }
-  }
-  return next(action);
-};
-
-export const updatePhasesOnChangeLanguage = store => next => action => {
-  if (action.type === EditorActions.SET_LANGUAGES) {
-    const languages = action.payload.languages;
-    const phases = store.getState().hearingEditor.hearing.data.project.phases;
-    phases.forEach(phase => {
-      const newLanguagesTitle = difference(languages, keys(phase.title));
-      const newLanguagesSchedule = difference(languages, keys(phase.schedule));
-      const newLanguagesDescription = difference(languages, keys(phase.description));
-      const removedLanguagesTitle = difference(keys(phase.title), languages);
-      const removedLanguagesSchedule = difference(keys(phase.schedule), languages);
-      const removedLanguagesDescription = difference(keys(phase.description), languages);
-      if (!isEmpty(newLanguagesTitle)) {
-        newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, '')));
-      } else {
-        removedLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, undefined)));
-      }
-      if (!isEmpty(newLanguagesSchedule)) {
-        newLanguagesSchedule.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, '')));
-      } else {
-        removedLanguagesSchedule.map(
-          language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, undefined))
-        );
-      }
-      if (!isEmpty(newLanguagesDescription)) {
-        newLanguagesDescription.map(
-          language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, ''))
-        );
-      } else {
-        removedLanguagesDescription.map(
-          language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, undefined))
-        );
-      }
-    });
-  }
-  next(action);
-};
+// export const updatePhasesOnChangeLanguage = store => next => action => {
+//   if (action.type === EditorActions.SET_LANGUAGES) {
+//     const languages = action.payload.languages;
+//     const phases = store.getState().hearingEditor.hearing.data.project.phases;
+//     phases.forEach(phase => {
+//       const newLanguagesTitle = difference(languages, keys(phase.title));
+//       const newLanguagesSchedule = difference(languages, keys(phase.schedule));
+//       const newLanguagesDescription = difference(languages, keys(phase.description));
+//       const removedLanguagesTitle = difference(keys(phase.title), languages);
+//       const removedLanguagesSchedule = difference(keys(phase.schedule), languages);
+//       const removedLanguagesDescription = difference(keys(phase.description), languages);
+//       if (!isEmpty(newLanguagesTitle)) {
+//         newLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, '')));
+//       } else {
+//         removedLanguagesTitle.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'title', language, undefined)));
+//       }
+//       if (!isEmpty(newLanguagesSchedule)) {
+//         newLanguagesSchedule.map(language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, '')));
+//       } else {
+//         removedLanguagesSchedule.map(
+//           language => store.dispatch(changePhase(phase.id || phase.frontId, 'schedule', language, undefined))
+//         );
+//       }
+//       if (!isEmpty(newLanguagesDescription)) {
+//         newLanguagesDescription.map(
+//           language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, ''))
+//         );
+//       } else {
+//         removedLanguagesDescription.map(
+//           language => store.dispatch(changePhase(phase.id || phase.frontId, 'description', language, undefined))
+//         );
+//       }
+//     });
+//   }
+//   next(action);
+// };
 
 export default [
   sectionFrontIds,
   normalizeReceiveEditorMetaData,
   normalizeReceivedHearing,
-  normalizeSavedHearing,
-  replaceWithDefaultProject,
-  updateNewHearingWithDefaultProject,
-  updateProjectOnChangeLanguage,
-  updatePhasesOnChangeLanguage,
-  updateDefaultProjectOnOpenForm
+  normalizeSavedHearing
+  // updateProjectOnChangeLanguage,
+  // updatePhasesOnChangeLanguage
 ];

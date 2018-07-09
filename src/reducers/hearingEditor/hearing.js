@@ -90,33 +90,15 @@ const data = handleActions(
           })
         }
       }, state),
-    [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) =>
-      Object.assign({}, state, {
-        project: projectLists.find(project => project.id === projectId)
-      }),
+    [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) => {
+      return Object.assign({}, state, {
+        project: projectLists.find(project => project.id === projectId) || null
+      });
+    },
     [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
       updeep({
         project: {title: {[fieldname]: value}}
-      }, state),
-    [EditorActions.UPDATE_PROJECT_LANGUAGE]: (state, {payload: {languages}}) => {
-      let project = Object.assign({}, state.project, {});
-      const newLanguages = difference(languages, Object.keys(project.title));
-      const removedLanguages = difference(Object.keys(project.title), languages);
-      if (!isEmpty(newLanguages)) {
-        project = newLanguages.reduce((accumulator, current) => updeep({title: {[current]: ''}}, accumulator), project);
-      }
-      if (!isEmpty(removedLanguages)) {
-        removedLanguages.map(language => {
-          if ((project.title[language] === '' || project.id === '') && keys(project.title).length > 1) {
-            project.title = omit(project.title, [language]);
-          }
-          return language;
-        });
-      }
-      return updeep({
-        project: updeep.constant(project)
-      }, state);
-    }
+      }, state)
   },
   null,
 );

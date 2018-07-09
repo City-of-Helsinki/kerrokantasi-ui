@@ -74,7 +74,7 @@ class HearingFormStep5 extends React.Component {
     this.props.dispatch(activePhase(phaseId));
   }
   render() {
-    const {projects, language, hearing} = this.props;
+    const {projects, language, hearing, hearingLanguages} = this.props;
     const selectedProject = hearing.project;
     return (
       <div>
@@ -84,9 +84,10 @@ class HearingFormStep5 extends React.Component {
             <FormControl
               componentClass="select"
               name="commenting"
-              value={selectedProject.id}
+              value={selectedProject && selectedProject.id}
               onChange={this.onChangeProject}
             >
+              <option value={uuid()}>no project</option>
               {
                 projects.map((project) => (
                   <option key={project.id} value={project.id}>
@@ -99,7 +100,7 @@ class HearingFormStep5 extends React.Component {
           </div>
         </FormGroup>
         {
-          Object.keys(selectedProject.title).map(usedLanguage => (
+          selectedProject && hearingLanguages.map(usedLanguage => (
             <FormGroup controlId="projectName" key={usedLanguage}>
               <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage})* </ControlLabel>
               <FormControlOnChange
@@ -115,7 +116,7 @@ class HearingFormStep5 extends React.Component {
         }
         <div className="phases-container">
           {
-            selectedProject.phases.map((phase, index) => {
+            selectedProject && selectedProject.phases.map((phase, index) => {
               const key = index;
               return (
                 <Phase
@@ -125,20 +126,25 @@ class HearingFormStep5 extends React.Component {
                   indexNumber={index}
                   onDelete={this.deletePhase}
                   onActive={this.onActivePhase}
+                  languages={hearingLanguages}
                 />
               );
             })
           }
         </div>
-        <ButtonToolbar>
-          <Button
-            onClick={this.addPhase}
-            bsSize="small"
-            bsStyle="default"
-          >
-            <Icon className="icon" name="plus"/> <FormattedMessage id="addProcess"/>
-          </Button>
-        </ButtonToolbar>
+        {
+          selectedProject && (
+            <ButtonToolbar>
+              <Button
+                onClick={this.addPhase}
+                bsSize="small"
+                bsStyle="default"
+              >
+                <Icon className="icon" name="plus"/> <FormattedMessage id="addProcess"/>
+              </Button>
+            </ButtonToolbar>
+          )
+        }
       </div>
     );
   }
