@@ -15,8 +15,11 @@ const pluginUrls = {
 
 export default class PluginContent extends React.Component {
   componentDidMount() {
-    const {hearingSlug, section} = this.props;
-    this.props.fetchAllComments(hearingSlug, section.id);
+    const {hearingSlug, section, comments} = this.props;
+    // comment fetching may already be taking place in a comment list!
+    if (!get(comments, 'isFetching')) {
+      this.props.fetchAllComments(hearingSlug, section.id);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,7 +37,7 @@ export default class PluginContent extends React.Component {
     const {user, section, onPostComment, onPostVote} = this.props;
     const comments = this.props.comments ? this.props.comments.results : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
-      return <div />;
+      return null;
     }
     switch (section.plugin_identifier) {
       // reserved word for legacy plugin

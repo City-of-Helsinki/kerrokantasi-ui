@@ -72,6 +72,7 @@ export function initNewSection(inits) {
       type_name_singular: '',
       type_name_plural: '',
       hearing: '',
+      questions: []
     },
     inits || {},
   );

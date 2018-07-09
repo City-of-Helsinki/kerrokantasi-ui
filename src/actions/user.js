@@ -17,6 +17,7 @@ export function retrieveUserFromSession() {
           const userWithOrganization = Object.assign({},
             user,
             {nickname: get(democracyUserJSON, 'nickname')},
+            {answered_questions: get(democracyUserJSON, 'answered_questions')},
             {adminOrganizations: get(democracyUserJSON, 'admin_organizations', null)});
           return dispatch(createAction('receiveUserData')(userWithOrganization));
         });

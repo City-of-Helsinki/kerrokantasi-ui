@@ -38,6 +38,16 @@ export class HearingContainerComponent extends React.Component {
     if (isEmpty(this.props.user) && isEmpty(this.props.hearing) && !isEmpty(nextProps.user)) {
       this.props.fetchHearing(nextProps.match.params.hearingSlug);
     }
+
+    // re-render/fetch when navigate from a hearing container to another hearing container
+    // since the component doesn't mount again
+    if (nextProps.match.path === this.props.match.path
+        && nextProps.location.pathname !== this.props.location.pathname
+    ) {
+      const { fetchHearing, fetchEditorMetaData, match: { params } } = nextProps;
+      fetchHearing(params.hearingSlug);
+      fetchEditorMetaData();
+    }
   }
 
   render() {
@@ -55,7 +65,6 @@ export class HearingContainerComponent extends React.Component {
     } = this.props;
 
     const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
-
     return (
       <div className="hearing-page">
 

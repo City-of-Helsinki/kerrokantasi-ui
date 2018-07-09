@@ -139,10 +139,12 @@ export class SectionContainerComponent extends React.Component {
   }
 
   openLightbox = () => {
+    document.body.classList.remove('nav-fixed');
     this.setState({showLightbox: true});
   }
 
   closeLightbox = () => {
+    document.body.classList.add('nav-fixed');
     this.setState({showLightbox: false});
   }
 
@@ -203,18 +205,18 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
-                    {hasFullscreenMapPlugin(hearing) &&
-                      <div className="plugin-content">
-                        <PluginContent
-                          hearingSlug={match.params.hearingSlug}
-                          fetchAllComments={fetchAllComments}
-                          section={mainSection}
-                          comments={mainSectionComments}
-                          onPostComment={this.onPostPluginComment}
-                          onPostVote={this.onVotePluginComment}
-                          user={user}
-                        />
-                      </div>
+                    {mainSection.plugin_identifier &&
+                    <div className="plugin-content">
+                      <PluginContent
+                        hearingSlug={match.params.hearingSlug}
+                        fetchAllComments={fetchAllComments}
+                        section={mainSection}
+                        comments={mainSectionComments}
+                        onPostComment={this.onPostPluginComment}
+                        onPostVote={this.onVotePluginComment}
+                        user={user}
+                      />
+                    </div>
                     }
                     {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
                     {section.id === mainSection.id && <ContactList contacts={contacts} />}
@@ -241,6 +243,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchMoreComments={this.props.fetchMoreComments}
                       displayVisualization={userIsAdmin || hearing.closed}
                       published={hearing.published} // Needed so comments are not diplayed in hearing drafts
+                      closed={hearing.closed}
                     />
                   </Col>
                 </Row>

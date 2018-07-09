@@ -15,6 +15,7 @@ import Link from '../components/LinkWithLang';
 import trackLink from '../utils/trackLink';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
+import config from '../config';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -64,16 +65,16 @@ export class Home extends React.Component {
           <OverviewMap enablePopups hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
         </div>
       ) : null;
+    const heroStyle = {
+      backgroundImage: "url('" + config.heroImageURL + "')",
+    };
 
     return (
       <div>
-        <section className="page-section page-section--welcome">
+        <section className="page-section page-section--welcome" style={heroStyle}>
           <div className="container">
             <Row>
-              <Col md={4} mdPush={8}>
-                <div className="home-logo" />
-              </Col>
-              <Col md={8} mdPull={4}>
+              <Col xs={10} md={8} className="welcome-content">
                 <Helmet title={formatMessage({id: 'welcome'})} />
                 <h1>
                   <FormattedMessage id="welcome" />
@@ -83,24 +84,26 @@ export class Home extends React.Component {
                 </p>
               </Col>
             </Row>
-            <Row>
-              <Col xs={12}>{topHearing && <FullWidthHearing hearing={topHearing} />}</Col>
-            </Row>
           </div>
+          <div className="welcome-koro__bottom" />
         </section>
         <section className="page-section page-section--hearing-card">
-          <div className="hearings-koro__top" />
           <div className="container">
+            <Row>
+              <Col xs={12}>
+                <h2 className="page-title">
+                  <FormattedMessage id="openHearings" />
+                </h2>
+                {topHearing && <FullWidthHearing hearing={topHearing} />}
+              </Col>
+            </Row>
             <Row>
               {openHearings &&
                 !openHearings.isFetching && (
                   <Col xs={12}>
                     <div className="list">
-                      <h2 className="page-title">
-                        <FormattedMessage id="openHearings" />
-                      </h2>
                       <HearingCardList
-                        hearings={orderBy(openHearings.data, ['close_at'], ['desc'])}
+                        hearings={orderBy(openHearings.data.filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])}
                         language={language}
                       />
                       <p className="text-center">

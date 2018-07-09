@@ -23,9 +23,9 @@
   "lang-fi": "Suomi",
   "lang-en": "English",
   "lang-sv": "Svenska",
-  "welcome": "Välkommen!",
+  "welcome": "Säg din åsikt",
   "openHearings": "Öppna höranden",
-  "welcomeMessage": "Berätta din åsikt om ärenden som tas upp för beredning.",
+  "welcomeMessage": "Var med och utveckla staden och delta i öppna höranden.",
   "feedbackPrompt": "Berätta för oss hur den här tjänsten borde utvecklas!",
   "nextClosingHearing": "Hörandet som stängs härnäst",
   "newestHearings": "De nyaste hörandena",
@@ -99,6 +99,8 @@
   "inLanguage-en": "på engelska",
   "hearingLanguages": "TODO",
   "createContact": "Skapa en ny kontakt",
+  "save": "Spara",
+  "editContact": "Redigera kontakten",
   "create": "Skapa",
   "name": "Namn",
   "phone": "Telefonnummer",
@@ -130,5 +132,6 @@
   "phaseDuration": "Fas varaktighet",
   "phaseDescription": "Steg beskrivning",
   "phaseActive": "Aktiv",
-  "phase": "Fas"
+  "phase": "Fas",
+  "logInToAnswer": "Logga in för att rösta och see resultat"
 }

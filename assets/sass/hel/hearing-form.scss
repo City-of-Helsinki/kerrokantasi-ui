@@ -176,6 +176,11 @@ $node_modules: "../../../node_modules";
     text-align: center;
     background: lighten($hel-fog, 10%);
   }
+
+  .question-control {
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
 }
 
 .toolbar-bottom {
@@ -274,4 +279,11 @@ $node_modules: "../../../node_modules";
   font-style: italic;
   color: #abb2bd;
   font-size: 16px;
+}
+
+.question-form {
+  .form-control {
+    padding: 6px 10px;
+    border: 2px solid black;
+  }
 }

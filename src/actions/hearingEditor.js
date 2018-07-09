@@ -2,6 +2,7 @@ import {createAction} from 'redux-actions';
 import api from '../api';
 import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
+import {omit} from 'lodash';
 import { push } from 'react-router-redux';
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
@@ -34,6 +35,12 @@ export const EditorActions = {
   SAVE_HEARING_FAILED: 'saveHearingFailed',
   UNPUBLISH_HEARING: 'unPublishingHearing',
   ADD_SECTION: 'addSection',
+  INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
+  INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
+  CLEAR_QUESTIONS: 'clearQuestions',
+  ADD_OPTION: 'addOption',
+  EDIT_QUESTION: 'editQuestion',
+  DELETE_LAST_OPTION: 'deleteLastOption',
   EDIT_SECTION: 'changeSection',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   REMOVE_SECTION: 'removeSection',
@@ -49,7 +56,8 @@ export const EditorActions = {
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
   SECTION_MOVE_UP: 'sectionMoveUp',
-  SECTION_MOVE_DOWN: 'sectionMoveDown'
+  SECTION_MOVE_DOWN: 'sectionMoveDown',
+  DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion'
 };
 
 export function changeProject(projectId, projectLists) {
@@ -202,6 +210,28 @@ export function addContact(contact, selectedContacts) {
   };
 }
 
+export function saveContact(contact) {
+  return (dispatch, getState) => {
+    const url = `/v1/contact_person/${contact.id}/`;
+    const contactInfo = omit(contact, ['id']);
+    return api
+      .put(getState(), url, contactInfo)
+      .then(checkResponseStatus)
+      .then(response => {
+        if (response.status === 400) {
+          notifyError('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
+        } else if (response.status === 401) {
+          // Unauthorized
+          notifyError('Et voi luoda yhteyshenkilöä.');
+        } else {
+          notifySuccess('Muokkaus onnistui');
+        }
+      })
+      .then(() => dispatch(fetchHearingEditorMetaData()))
+      .catch(requestErrorHandler());
+  };
+}
+
 export function addLabel(label, selectedLabels) {
   return (dispatch, getState) => {
     const postLabelAction = createAction(EditorActions.ADD_LABEL)();
@@ -257,6 +287,46 @@ export function addSection(section) {
     return dispatch(createAction(EditorActions.ADD_SECTION)({section}));
   };
 }
+
+export function initSingleChoiceQuestion(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({sectionId}));
+  };
+}
+
+export function initMultipleChoiceQuestion(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({sectionId}));
+  };
+}
+
+export function clearQuestions(sectionId) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({sectionId}));
+  };
+}
+
+export const addOption = (sectionId, questionId) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
+  };
+};
+
+export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
+  };
+};
+
+export const deleteTemporaryQuestion = (sectionId, questionFrontId) => {
+  return createAction(EditorActions.DELETE_TEMP_QUESTION)({sectionId, questionFrontId});
+};
+
+export const deleteLastOption = (sectionId, questionId, optionKey) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
+  };
+};
 
 /*
 * Removes section from hearing

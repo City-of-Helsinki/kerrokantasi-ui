@@ -10,10 +10,16 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import config from './config';
 import RavenMiddleWare from 'redux-raven-middleware';
 import languageMiddleware from './middleware/language';
+import headlessMiddleware from './middleware/headless';
 
 export const history = createBrowserHistory();
 
-const middleware = [thunk, routerMiddleware(history), languageMiddleware, ...hearingEditorMiddleware];
+const middleware = [
+  thunk,
+  routerMiddleware(history),
+  languageMiddleware,
+  headlessMiddleware,
+  ...hearingEditorMiddleware];
 if (config.uiConfig && config.uiConfig.sentryDns) {
   middleware.unshift(RavenMiddleWare(
     config.uiConfig.sentryDns,

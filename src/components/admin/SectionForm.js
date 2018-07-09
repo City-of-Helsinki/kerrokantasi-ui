@@ -2,9 +2,9 @@ import Icon from '../../utils/Icon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import {get} from 'lodash';
+import {get, isEmpty} from 'lodash';
 import {localizedNotifyError} from '../../utils/notify';
-
+import {QuestionForm} from './QuestionForm';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -83,7 +83,20 @@ class SectionForm extends React.Component {
   }
 
   render() {
-    const {section, onSectionChange, onSectionImageChange, sectionLanguages, sectionMoveUp, sectionMoveDown, isFirstSubsection, isLastSubsection} = this.props;
+    const {
+      section,
+      addOption,
+      deleteOption,
+      onSectionChange,
+      onSectionImageChange,
+      sectionLanguages,
+      sectionMoveUp,
+      sectionMoveDown,
+      isFirstSubsection,
+      isLastSubsection,
+      onQuestionChange,
+      onDeleteTemporaryQuestion
+    } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
@@ -194,7 +207,43 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
-
+        <FormGroup>
+          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+            {formatMessage({id: "newSingleChoiceQuestion"})}
+          </button>
+          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+            {formatMessage({id: "newMultipleChoiceQuestion"})}
+          </button>
+        </FormGroup>
+        {!isEmpty(section.questions) && section.questions.map((question, index) =>
+          <div>
+            <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
+            {question.frontId &&
+              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
+                {formatMessage({id: "deleteQuestion"})}
+              </button>
+            }
+            <FormGroup>
+              <h6>
+                * {
+                  question.type === 'single-choice'
+                    ? formatMessage({id: "singleChoiceQuestion"})
+                    : formatMessage({id: "multipleChoiceQuestion"})
+                }
+              </h6>
+            </FormGroup>
+            <QuestionForm
+              key={question.id}
+              question={question}
+              addOption={addOption}
+              deleteOption={deleteOption}
+              sectionId={section.frontId}
+              sectionLanguages={sectionLanguages}
+              onQuestionChange={onQuestionChange}
+              lang={language}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -214,7 +263,14 @@ SectionForm.propTypes = {
   sectionMoveUp: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool
+  isLastSubsection: PropTypes.bool,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 SectionForm.contextTypes = {

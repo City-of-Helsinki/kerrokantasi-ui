@@ -12,11 +12,62 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <InjectIntl(BaseCommentForm)
+          answers={Array []}
           collapseForm={false}
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+          language="fi"
+          loggedIn={false}
           nicknamePlaceholder="Anonyymi"
+          onChangeAnswers={[Function]}
           onPostComment={[Function]}
+          section={
+            Object {
+              "abstract": Object {},
+              "commenting": "open",
+              "content": Object {
+                "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
+
+<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
+
+<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>
+
+<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>
+
+<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>
+
+<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>",
+              },
+              "created_at": "2016-01-15T08:31:03.264760Z",
+              "id": "asuminen-a-asuinalueiden-elinvoi",
+              "images": Array [
+                Object {
+                  "caption": Object {
+                    "fi": "Asuinalueiden elinvoimaisuus.",
+                  },
+                  "height": 1067,
+                  "id": 24,
+                  "title": Object {},
+                  "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
+                  "width": 1211,
+                },
+              ],
+              "n_comments": 59,
+              "plugin_data": "",
+              "plugin_fullscreen": false,
+              "plugin_identifier": "",
+              "plugin_iframe_url": "",
+              "published": true,
+              "questions": Array [],
+              "title": Object {
+                "fi": "A. Asuinalueiden elinvoimaisuus",
+              },
+              "type": "part",
+              "type_name_plural": "osa-alueet",
+              "type_name_singular": "osa-alue",
+              "voting": "registered",
+            }
+          }
         />
       </div>
     </div>
@@ -101,6 +152,15 @@ exports[`SortableCommentList component should render as expected 1`] = `
           comments={
             Array [
               Object {
+                "answers": Array [
+                  Object {
+                    "answers": Array [
+                      115,
+                    ],
+                    "question": 6,
+                    "type": "single-choice",
+                  },
+                ],
                 "author_name": "Mikko Uro",
                 "can_edit": false,
                 "content": "Testi",
@@ -139,7 +199,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "POPULARITY_DESC": "Suosituin ensin",
                 "addComment": "Vastaa",
                 "addGeojson": "Lisää geojson tiedostona",
-                "addOption": "Lisää vaihtoehto",
+                "addOption": "Lisää vastausvaihtoehto",
                 "addProcess": "Lisää vaihe",
                 "addSection": "Lisää osa-alue",
                 "add_images": "Lisää kuvia kommenttiisi",
@@ -175,6 +235,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "deleteComment": "Poista kommentti",
                 "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
                 "deleteDraft": "Poista luonnos",
+                "deleteQuestion": "Poista kysymys",
                 "deleteSection": "Poista osio",
                 "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
                 "draft": "Luonnos",
@@ -182,6 +243,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "draftNotPublished": "Luonnos, ei julkaistu",
                 "drafts": "Luonnokset",
                 "edit": "Muokkaa",
+                "editContact": "Muokkaa yhteystietoa",
                 "editHearing": "Muokkaa",
                 "email": "Sähköposti",
                 "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
@@ -246,6 +308,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "lastOpen": "Viimeisenä auennut",
                 "leastCommented": "Vähiten kommentoitu",
                 "list": "Lista",
+                "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
                 "login": "Kirjaudu sisään",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -257,9 +320,12 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "mostCommented": "Eniten kommentoitu",
                 "moveDown": "Siirrä alas",
                 "moveUp": "Siirrä ylös",
+                "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
                 "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                 "name": "Nimi",
                 "newHearingPageTitle": "Uusi kuuleminen",
+                "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
+                "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
                 "newestFirst": "Uusin ensin",
                 "newestHearings": "Uusimmat kuulemiset",
                 "next": "Seuraava",
@@ -273,6 +339,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "openCommenting": "Avoin kommentointi",
                 "openFullscreenMap": "Kartta koko näytöllä",
                 "openHearings": "Avoimet kuulemiset",
+                "option": "Vastausvaihtoehto",
                 "overview-map": "Kartta",
                 "partSection": "Osa-alue",
                 "phase": "Vaihe",
@@ -289,11 +356,15 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "published": "Julkaistu",
                 "publishedHearings": "Julkiset",
                 "publishingQueue": "Julkaisujono",
+                "question": "Kysymys",
+                "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
+                "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
                 "register": "Rekisteröidy",
                 "registered": "rekisteröitynyt",
                 "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                 "removeImage": "Poista kuva",
                 "revertPublishing": "Peru julkaisu",
+                "save": "Tallenna",
                 "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
                 "saveFailed": "Tallentaminen epäonnistui",
                 "saveHearingChanges": "Tallenna muutokset",
@@ -316,6 +387,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "selectAnotherImage": "Valitse toinen kuva",
                 "selectOrDropImage": "Valitse tai pudota kuva",
                 "showOnlyOpen": "Näytetään vain avoimet",
+                "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
                 "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
                 "sort": "Järjestä",
                 "submit": "Lähetä",
@@ -334,8 +406,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "tryingToDeletePhaseWithHearings": "Vaihetta, jolla on kuulemisia, ei voida poistaa",
                 "vote": "Äänestä",
                 "voteReceived": "Ääni vastaanotettu. Kiitos!",
-                "welcome": "Tervetuloa!",
-                "welcomeMessage": "Kerro mielipiteesi valmisteluun tulevista asioista.",
+                "welcome": "Kerro mielipiteesi",
+                "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                 "withOpenLicense": "avoimella lisenssillä",
                 "writeComment": "Kommentti",
               },
@@ -380,6 +452,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "plugin_identifier": "",
               "plugin_iframe_url": "",
               "published": true,
+              "questions": Array [],
               "title": Object {
                 "fi": "A. Asuinalueiden elinvoimaisuus",
               },

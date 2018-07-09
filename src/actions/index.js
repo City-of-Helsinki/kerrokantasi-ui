@@ -5,9 +5,11 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
 import { push } from 'react-router-redux';
+import { retrieveUserFromSession } from './user';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
+export const setHeadless = createAction('setHeadless');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
@@ -203,7 +205,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       authorization_code: commentData.authCode ? commentData.authCode : "",
       geojson: commentData.geojson ? commentData.geojson : null,
       label: commentData.label ? commentData.label : null,
-      images: commentData.images ? commentData.images : []
+      images: commentData.images ? commentData.images : [],
+      answers: commentData.answers ? commentData.answers : []
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
@@ -212,6 +215,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
+      // also, update user answered questions
+      dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
   };
@@ -268,9 +273,9 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
     dispatch(fetchAction);
     const url = "/v1/hearing/" + hearingSlug;
     return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
+      dispatch(push('/hearings/list?lang=' + getState().language));
       dispatch(createAction("deletedHearingDraft")({hearingSlug}));
       localizedNotifySuccess("draftDeleted");
-      dispatch(push('/hearings/list?lang=' + getState().language));
     }).catch(
       requestErrorHandler()
     );

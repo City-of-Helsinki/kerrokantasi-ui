@@ -46,7 +46,20 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown} = this.props;
+    const {
+      contactPersons,
+      intl: {formatMessage},
+      hearing,
+      labels,
+      hearingLanguages,
+      language,
+      sectionMoveUp,
+      sectionMoveDown,
+      addOption,
+      deleteOption,
+      onQuestionChange,
+      onDeleteTemporaryQuestion
+    } = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
@@ -78,6 +91,13 @@ class HearingForm extends React.Component {
               sectionMoveUp={sectionMoveUp}
               sectionMoveDown={sectionMoveDown}
               formatMessage={formatMessage}
+              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+              clearQuestions={this.props.clearQuestions}
+              addOption={addOption}
+              deleteOption={deleteOption}
+              onQuestionChange={onQuestionChange}
+              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -186,7 +206,14 @@ HearingForm.propTypes = {
   show: PropTypes.bool,
   language: PropTypes.string,
   sectionMoveUp: PropTypes.func,
-  sectionMoveDown: PropTypes.func
+  sectionMoveDown: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

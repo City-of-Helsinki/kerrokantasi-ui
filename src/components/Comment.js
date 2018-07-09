@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
 import nl2br from 'react-nl2br';
 import {notifyError} from '../utils/notify';
 import forEach from 'lodash/forEach';
+import find from 'lodash/find';
+import getAttr from '../utils/getAttr';
+import moment from 'moment';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -57,6 +61,24 @@ class Comment extends React.Component {
     this.props.onDeleteComment(section, id);
   }
 
+  getStrigifiedAnswer = (answer) => {
+    const {questions, intl} = this.props;
+    const question = find(questions, que => que.id === answer.question); // eslint-disable-line
+    let selectedOption = {};
+    return {
+      question: question ? getAttr(question.text, intl.locale) : '',
+      answers: answer.answers.map((ans) => {
+        if (question) selectedOption = find(question.options, (option) => option.id === ans);
+        return question ? getAttr(selectedOption.text, intl.locale) : '';
+      })
+    };
+  }
+
+  parseTimestamp = (timestamp) => {
+    const timeFormat = 'hh:mm DD.MM.YYYY';
+    return moment(timestamp).format(timeFormat);
+  }
+
   render() {
     const {data} = this.props;
     const canEdit = data.can_edit;
@@ -85,10 +107,11 @@ class Comment extends React.Component {
               {data.author_name || <FormattedMessage id="anonymous"/>}
             </span>
             <span className="hearing-comment-date">
-              <FormattedRelative value={data.created_at}/>
+              {this.parseTimestamp(data.created_at)}
             </span>
           </div>
         </div>
+        {data.answers.map((answer) => <Answer key={answer.question} answer={this.getStrigifiedAnswer(answer)} />)}
         <div className="hearing-comment-body">
           <p>{nl2br(data.content)}</p>
         </div>
@@ -152,10 +175,25 @@ class Comment extends React.Component {
 
 Comment.propTypes = {
   data: PropTypes.object,
+  intl: PropTypes.object,
   canVote: PropTypes.bool,
   onPostVote: PropTypes.func,
   onEditComment: PropTypes.func,
-  onDeleteComment: PropTypes.func
+  onDeleteComment: PropTypes.func,
+  questions: PropTypes.array
+};
+
+const Answer = ({answer}) => {
+  return (
+    <div style={{borderBottom: '1px solid #ebedf1', padding: '8px 0', fontSize: '15px'}}>
+      <strong>{answer.question}</strong>
+      {answer.answers.map((ans) => <div key={uuid()}><span style={{color: '#9fb6eb', marginRight: '4px'}}><Icon className="icon" name="check" /></span>{ans}</div>)}
+    </div>
+  );
+};
+
+Answer.propTypes = {
+  answer: PropTypes.object
 };
 
 export default injectIntl(Comment);
