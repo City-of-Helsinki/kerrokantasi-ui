@@ -138,7 +138,7 @@ const mapDispatchToProps = dispatch => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
   setLanguage: (lang) => dispatch(setLanguageAction(lang)),
-  fetchProjectsList: (languages) => dispatch(fetchProjects(languages))
+  fetchProjectsList: () => dispatch(fetchProjects())
 });
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent));

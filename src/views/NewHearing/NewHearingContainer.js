@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import HearingEditor from '../../components/admin/HearingEditor';
-import { login } from '../../actions';
+import { login, fetchProjects } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import {getUser} from '../../selectors/user';
@@ -11,9 +11,10 @@ import PleaseLogin from '../../components/admin/PleaseLogin';
 
 export class NewHearingContainerComponent extends React.Component {
   componentDidMount() {
-    const {fetchEditorMetaData, initHearing} = this.props;
+    const {fetchEditorMetaData, initHearing, fetchProjectsList} = this.props;
     initHearing();
     fetchEditorMetaData();
+    fetchProjectsList();
   }
 
   render() {
@@ -65,6 +66,7 @@ NewHearingContainerComponent.propTypes = {
   loginAction: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
   initHearing: PropTypes.func,
+  fetchProjectsList: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
@@ -80,7 +82,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
   initHearing: () => dispatch(initNewHearing()),
-  loginAction: () => dispatch(login())
+  loginAction: () => dispatch(login()),
+  fetchProjectsList: () => dispatch(fetchProjects())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewHearingContainerComponent);
