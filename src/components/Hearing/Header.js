@@ -98,6 +98,31 @@ export class HeaderComponent extends React.Component {
     }
   }
 
+  renderPhases = (phases, sliderSize) => {
+    const {activeLanguage} = this.props;
+
+    return (
+      <Slider className="project-phases-list" slidesToShow={sliderSize} infinite={false}>
+        {phases.map((phase, index) => (
+          <div className="phases-list-item" key={phase.id}>
+            <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
+              {index + 1}
+            </button>
+            <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
+            <span>{getAttr(phase.description, activeLanguage)}</span>
+            <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
+            <div className={`
+                phase-process-line
+                ${index === 0 ? 'phase-process-line-first' : ''}
+                ${index === phases.length - 1 ? 'phase-process-line-last' : ''}
+              `}
+            />
+          </div>
+        ))}
+      </Slider>
+    );
+  }
+
   render() {
     const { hearing, activeLanguage, reportUrl } = this.props;
     const project = get(hearing, 'project');
@@ -149,26 +174,19 @@ export class HeaderComponent extends React.Component {
             <Row className="hearing-project">
               <div className="hearing-project">
                 {isEmpty(project) ? null : <h5>Project {getAttr(project.title, activeLanguage)}</h5>}
-                <Slider className="project-phases-list" slidesToShow={3} infinite={false}>
-                  {
-                    phases.map((phase, index) => (
-                      <div className="phases-list-item" key={phase.id}>
-                        <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
-                          {index + 1}
-                        </button>
-                        <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
-                        <span>{getAttr(phase.description, activeLanguage)}</span>
-                        <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
-                        <div className={`
-                            phase-process-line
-                            ${index === 0 ? 'phase-process-line-first' : ''}
-                            ${index === phases.length - 1 ? 'phase-process-line-last' : ''}
-                          `}
-                        />
-                      </div>
-                    ))
-                  }
-                </Slider>
+                {/* render slider with different size based on viewport */}
+                <Col smHidden mdHidden lgHidden>
+                  {this.renderPhases(phases, 2)}
+                </Col>
+                <Col xsHidden mdHidden lgHidden>
+                  {this.renderPhases(phases, 3)}
+                </Col>
+                <Col xsHidden smHidden lgHidden>
+                  {this.renderPhases(phases, 5)}
+                </Col>
+                <Col xsHidden smHidden mdHidden>
+                  {this.renderPhases(phases, 6)}
+                </Col>
               </div>
             </Row>
           </div>
