@@ -139,11 +139,58 @@ exports[`Header component should render as expected 1`] = `
         <div
           className="hearing-project"
         >
-          <Slider
-            className="project-phases-list"
-            infinite={false}
-            slidesToShow={3}
-          />
+          <Col
+            bsClass="col"
+            componentClass="div"
+            lgHidden={true}
+            mdHidden={true}
+            smHidden={true}
+          >
+            <Slider
+              className="project-phases-list"
+              infinite={false}
+              slidesToShow={2}
+            />
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            lgHidden={true}
+            mdHidden={true}
+            xsHidden={true}
+          >
+            <Slider
+              className="project-phases-list"
+              infinite={false}
+              slidesToShow={3}
+            />
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            lgHidden={true}
+            smHidden={true}
+            xsHidden={true}
+          >
+            <Slider
+              className="project-phases-list"
+              infinite={false}
+              slidesToShow={5}
+            />
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            mdHidden={true}
+            smHidden={true}
+            xsHidden={true}
+          >
+            <Slider
+              className="project-phases-list"
+              infinite={false}
+              slidesToShow={6}
+            />
+          </Col>
         </div>
       </Row>
     </div>
