@@ -6,6 +6,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import i18n from '../../i18n';
 import getAttr from '../../utils/getAttr';
 import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Row from 'react-bootstrap/lib/Row';
@@ -103,7 +104,14 @@ class HearingFormStep4 extends React.Component {
           fieldType={TextFieldTypes.TEXTAREA}
           languages={hearingLanguages}
         />
-
+        <div className="step-footer">
+          <Button
+            bsStyle="default"
+            onClick={this.props.onContinue}
+          >
+            <FormattedMessage id="hearingFormNext"/>
+          </Button>
+        </div>
       </div>
     );
   }
@@ -112,6 +120,7 @@ class HearingFormStep4 extends React.Component {
 HearingFormStep4.propTypes = {
   dispatch: PropTypes.func,
   hearing: hearingShape,
+  onContinue: PropTypes.func,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,
