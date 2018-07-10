@@ -8,6 +8,7 @@ import labels from './labels';
 import hearingEditor from './hearingEditor';
 import headless from './headless';
 import {routerReducer} from 'react-router-redux';
+import projectLists from './projectLists';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -24,6 +25,7 @@ export default combineReducers({
   hearing,
   hearingEditor,
   hearingLists,
+  projectLists,
   language,
   headless,
   lastActionType,

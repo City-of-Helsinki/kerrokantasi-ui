@@ -85,6 +85,18 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
+export function fetchProjects() {
+  return (dispatch, getState) => {
+    const fetchAction = createAction('fetchProjects')();
+    dispatch(fetchAction);
+    return api.get(getState(), 'v1/project').then(getResponseJSON).then(data => {
+      dispatch(createAction('receiveProjects')({data}));
+    }).catch(() => {
+      dispatch(createAction("receiveProjectsError")());
+      requestErrorHandler();
+    });
+  };
+}
 
 export const fetchMoreHearings = (listId) => {
   return (dispatch, getState) => {

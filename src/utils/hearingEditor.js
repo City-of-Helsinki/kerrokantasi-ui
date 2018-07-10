@@ -4,6 +4,7 @@ import uuid from 'uuid/v1';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
 import {assign, flowRight} from 'lodash';
+import updeep from 'updeep';
 
 import {hearingSchema} from '../types';
 
@@ -52,13 +53,31 @@ export const removeFrontId = (obj: Object) => {
 export const filterFrontIds = (thingz: Array<Object>) =>
   thingz.map(removeFrontId);
 
-export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => ({
-  ...data,
-  ...attrKeys.reduce((filtered, key) => ({
-    ...filtered,
-    [key]: filterFrontIds(data[key]),
-  }), {})
-});
+export const filterFrontIdFromPhases = (data: Object) => {
+  const cleanedPhases = data.project.phases.map(phase => {
+    if (phase.frontId) return removeFrontId(updeep({id: ''}, phase));
+    return phase;
+  });
+  return updeep({
+    project: {
+      phases: cleanedPhases
+    }
+  }, data);
+};
+
+export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => {
+  let filteredPhasesData = data;
+  if (data.project.phases) {
+    filteredPhasesData = filterFrontIdFromPhases(data);
+  }
+  return ({
+    ...filteredPhasesData,
+    ...attrKeys.reduce((filtered, key) => ({
+      ...filtered,
+      [key]: filterFrontIds(filteredPhasesData[key]),
+    }), {})
+  });
+};
 
 const filterObjectByLanguages = (object, languages) => pickBy(object, (value, key) => includes(languages, key));
 
@@ -99,4 +118,24 @@ export const moveSubsectionInArray = (array, index, delta) => {
   const indexes = index < newIndex ? [index, newIndex] : [newIndex, index]; // sort indices by integer value!!!
   newArray.splice(indexes[0], 2, newArray[indexes[1]], newArray[indexes[0]]); // Replace from lowest index, two elements, reverting the order
   return newArray;
+};
+
+export const initNewPhase = () => {
+  return {
+    frontId: uuid(),
+    has_hearings: false,
+    hearings: [],
+    is_active: false,
+    title: {},
+    description: {},
+    schedule: {}
+  };
+};
+
+export const initNewProject = () => {
+  return {
+    id: '',
+    title: {},
+    phases: []
+  };
 };

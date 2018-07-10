@@ -13,6 +13,13 @@ import {
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
+  CHANGE_PROJECT: 'changeProject',
+  CHANGE_PROJECT_NAME: 'changeProjectName',
+  UPDATE_PROJECT_LANGUAGE: 'updateProjectLanguage',
+  EDIT_PHASE: 'changePhase',
+  ACTIVE_PHASE: 'activePhase',
+  DELETE_PHASE: 'deletePhase',
+  ADD_PHASE: 'addPhase',
   SHOW_FORM: 'showHearingForm',
   CLOSE_FORM: 'closeHearingForm',
   SET_LANGUAGES: 'setEditorLanguages',
@@ -51,6 +58,39 @@ export const EditorActions = {
   SECTION_MOVE_DOWN: 'sectionMoveDown',
   DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion'
 };
+
+export function changeProject(projectId, projectLists) {
+  return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
+}
+
+export function updateProjectLanguage(languages) {
+  return createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({languages});
+}
+
+export function changeProjectName(fieldname, value) {
+  return createAction(EditorActions.CHANGE_PROJECT_NAME)({fieldname, value});
+}
+
+export function deletePhase(phaseId) {
+  return createAction(EditorActions.DELETE_PHASE)({phaseId});
+}
+
+export function activePhase(phaseId) {
+  return createAction(EditorActions.ACTIVE_PHASE)({phaseId});
+}
+
+export function changePhase(phaseId, fieldName, language, value) {
+  return createAction(EditorActions.EDIT_PHASE)({
+    phaseId,
+    fieldName,
+    language,
+    value
+  });
+}
+
+export function addPhase() {
+  return createAction(EditorActions.ADD_PHASE)();
+}
 
 export function receiveHearing(normalizedHearing) {
   return createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);

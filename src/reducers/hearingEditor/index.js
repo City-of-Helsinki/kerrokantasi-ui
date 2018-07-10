@@ -55,5 +55,5 @@ export default combineReducers({
   hearing,
   labels,
   languages,
-  sections,
+  sections
 });

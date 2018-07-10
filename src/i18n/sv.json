@@ -126,5 +126,12 @@
   "mapView": "Alla höranden på kartan",
   "loginToComment": "Logga in för att kommentera.",
   "logintToVoteComment": "Logga in för att rösta på kommentaren.",
+  "addProcess": "lägg till ett steg",
+  "projects": "projekt",
+  "projectName": "Projektnamn",
+  "phaseDuration": "Fas varaktighet",
+  "phaseDescription": "Steg beskrivning",
+  "phaseActive": "Aktiv",
+  "phase": "Fas",
   "logInToAnswer": "Logga in för att rösta och see resultat"
 }
