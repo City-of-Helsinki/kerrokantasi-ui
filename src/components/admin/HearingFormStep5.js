@@ -117,7 +117,7 @@ class HearingFormStep5 extends React.Component {
     return (
       <div>
         <FormGroup controlId="projectLists">
-          <ControlLabel><FormattedMessage id="project"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="projectSelection"/></ControlLabel>
           <div className="select">
             <FormControl
               componentClass="select"
@@ -125,8 +125,9 @@ class HearingFormStep5 extends React.Component {
               value={selectedProject && selectedProject.id}
               onChange={this.onChangeProject}
             >
-              <option value={uuid()}>no project</option>
-              <option value="">Default project</option>
+              <option value={uuid()}><FormattedMessage id="noProject"/></option>
+              <option value=""><FormattedMessage id="defaultProject"/></option>
+              <option disabled >──────────</option>
               {
                 projects.map((project) => (
                   <option key={project.id} value={project.id}>

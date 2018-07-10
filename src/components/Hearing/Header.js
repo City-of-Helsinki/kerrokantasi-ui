@@ -197,7 +197,7 @@ export class HeaderComponent extends React.Component {
             </Row>
             <Row className="hearing-project">
               <div className="hearing-project">
-                {isEmpty(project) ? null : <h5>Project {getAttr(project.title, activeLanguage)}</h5>}
+                {isEmpty(project) ? null : <h5><FormattedMessage id="project"/> {getAttr(project.title, activeLanguage)}</h5>}
                 {this.renderPhases(phases)}
               </div>
             </Row>
