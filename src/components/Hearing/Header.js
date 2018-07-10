@@ -11,6 +11,7 @@ import {isPublic} from "../../utils/hearing";
 import PropTypes from 'prop-types';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {stringifyQuery} from '../../utils/urlQuery';
@@ -98,11 +99,34 @@ export class HeaderComponent extends React.Component {
     }
   }
 
-  renderPhases = (phases, sliderSize) => {
+  renderPhases = (phases) => {
     const {activeLanguage} = this.props;
+    const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
+    const responsiveSetting = [{
+      breakpoint: 768,
+      settings: { slidesToShow: 2 }
+    },
+    {
+      breakpoint: 992,
+      settings: { slidesToShow: 3 }
+    },
+    {
+      breakpoint: 1200,
+      settings: { slidesToShow: 5 }
+    },
+    {
+      breakpoint: 10000,
+      settings: { slidesToShow: 6 }
+    }];
 
     return (
-      <Slider className="project-phases-list" slidesToShow={sliderSize} infinite={false}>
+      <Slider
+        className="project-phases-list"
+        infinite={false}
+        centerMode
+        initialSlide={activePhaseIndex}
+        responsive={responsiveSetting}
+      >
         {phases.map((phase, index) => (
           <div className="phases-list-item" key={phase.id}>
             <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
@@ -174,19 +198,7 @@ export class HeaderComponent extends React.Component {
             <Row className="hearing-project">
               <div className="hearing-project">
                 {isEmpty(project) ? null : <h5>Project {getAttr(project.title, activeLanguage)}</h5>}
-                {/* render slider with different size based on viewport */}
-                <Col smHidden mdHidden lgHidden>
-                  {this.renderPhases(phases, 2)}
-                </Col>
-                <Col xsHidden mdHidden lgHidden>
-                  {this.renderPhases(phases, 3)}
-                </Col>
-                <Col xsHidden smHidden lgHidden>
-                  {this.renderPhases(phases, 5)}
-                </Col>
-                <Col xsHidden smHidden mdHidden>
-                  {this.renderPhases(phases, 6)}
-                </Col>
+                {this.renderPhases(phases)}
               </div>
             </Row>
           </div>
