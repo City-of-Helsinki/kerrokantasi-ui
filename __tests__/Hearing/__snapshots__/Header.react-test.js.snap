@@ -139,58 +139,40 @@ exports[`Header component should render as expected 1`] = `
         <div
           className="hearing-project"
         >
-          <Col
-            bsClass="col"
-            componentClass="div"
-            lgHidden={true}
-            mdHidden={true}
-            smHidden={true}
-          >
-            <Slider
-              className="project-phases-list"
-              infinite={false}
-              slidesToShow={2}
-            />
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            lgHidden={true}
-            mdHidden={true}
-            xsHidden={true}
-          >
-            <Slider
-              className="project-phases-list"
-              infinite={false}
-              slidesToShow={3}
-            />
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            lgHidden={true}
-            smHidden={true}
-            xsHidden={true}
-          >
-            <Slider
-              className="project-phases-list"
-              infinite={false}
-              slidesToShow={5}
-            />
-          </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            mdHidden={true}
-            smHidden={true}
-            xsHidden={true}
-          >
-            <Slider
-              className="project-phases-list"
-              infinite={false}
-              slidesToShow={6}
-            />
-          </Col>
+          <Slider
+            centerMode={true}
+            className="project-phases-list"
+            infinite={false}
+            initialSlide={-1}
+            responsive={
+              Array [
+                Object {
+                  "breakpoint": 768,
+                  "settings": Object {
+                    "slidesToShow": 2,
+                  },
+                },
+                Object {
+                  "breakpoint": 992,
+                  "settings": Object {
+                    "slidesToShow": 3,
+                  },
+                },
+                Object {
+                  "breakpoint": 1200,
+                  "settings": Object {
+                    "slidesToShow": 5,
+                  },
+                },
+                Object {
+                  "breakpoint": 10000,
+                  "settings": Object {
+                    "slidesToShow": 6,
+                  },
+                },
+              ]
+            }
+          />
         </div>
       </Row>
     </div>
