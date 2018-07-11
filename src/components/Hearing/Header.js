@@ -102,30 +102,36 @@ export class HeaderComponent extends React.Component {
   renderPhases = (phases) => {
     const {activeLanguage} = this.props;
     const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
+    const numberOfItems = phases.length;
+
+    const listCanFit = (size) => numberOfItems <= size;
+
+    const getSettingForSize = (size) => ({
+      slidesToShow: size,
+      arrows: !listCanFit(size),
+      centerMode: !listCanFit(size),
+      initialSlide: listCanFit(size) ? 0 : activePhaseIndex
+    });
+
     const responsiveSetting = [{
       breakpoint: 768,
-      settings: { slidesToShow: 2 }
+      settings: getSettingForSize(2)
     },
     {
       breakpoint: 992,
-      settings: { slidesToShow: 3 }
+      settings: getSettingForSize(3)
     },
     {
       breakpoint: 1200,
-      settings: { slidesToShow: 5 }
-    },
-    {
-      breakpoint: 10000,
-      settings: { slidesToShow: 6 }
+      settings: getSettingForSize(5)
     }];
 
     return (
       <Slider
+        responsive={responsiveSetting}
         className="project-phases-list"
         infinite={false}
-        centerMode
-        initialSlide={activePhaseIndex}
-        responsive={responsiveSetting}
+        {...getSettingForSize(6)}
       >
         {phases.map((phase, index) => (
           <div className="phases-list-item" key={phase.id}>
@@ -136,9 +142,9 @@ export class HeaderComponent extends React.Component {
             <span>{getAttr(phase.description, activeLanguage)}</span>
             <span className="phase-schedule">{getAttr(phase.schedule, activeLanguage)}</span>
             <div className={`
-                phase-process-line
-                ${index === 0 ? 'phase-process-line-first' : ''}
-                ${index === phases.length - 1 ? 'phase-process-line-last' : ''}
+                ${numberOfItems > 1 ? 'phase-process-line' : ''}
+                ${index === 0 && numberOfItems > 1 ? 'phase-process-line-first' : ''}
+                ${index === numberOfItems - 1 && numberOfItems > 1 ? 'phase-process-line-last' : ''}
               `}
             />
           </div>
