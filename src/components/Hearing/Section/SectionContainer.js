@@ -28,7 +28,7 @@ import {
   isSectionCommentable,
   isMainSection
 } from '../../../utils/section';
-import {hasFullscreenMapPlugin} from '../../../utils/hearing';
+import {hasFullscreenMapPlugin, canEdit} from '../../../utils/hearing';
 import Icon from '../../../utils/Icon';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {withRouter} from 'react-router-dom';
@@ -167,10 +167,7 @@ export class SectionContainerComponent extends React.Component {
     const sectionImage = section.images[0];
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
-    let userIsAdmin = false;
-    if (hearing && user) {
-      userIsAdmin = has(user, 'adminOrganizations') && includes(user.adminOrganizations, hearing.organization);
-    }
+    let userIsAdmin = !isEmpty(user) && canEdit(user, hearing)
 
     return (
       <div>
@@ -269,7 +266,7 @@ const mapStateToProps = (state, ownProps) => ({
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
-  user: state.user
+  user: state.user.data
 });
 
 const mapDispatchToProps = (dispatch) => ({
