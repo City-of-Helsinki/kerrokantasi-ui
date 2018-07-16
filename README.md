@@ -29,9 +29,8 @@ are case insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
 In the repository root there is `config_dev.toml.example` which contains
 every setting and comments explaining their use. If you only want to give
 kerrokantasi-ui a test, all configuration you need to do is:
-`mv config_dev.toml.example to config_dev.toml`
-That will give you a partially working configuration for browsing test
-questionnaires in our test API.
+`cp config_dev.toml.example config_dev.toml`. That will give you a partially
+working configuration for browsing test questionnaires in our test API.
 
 ### Running development server
 
