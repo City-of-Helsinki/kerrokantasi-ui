@@ -98,7 +98,7 @@ export class Home extends React.Component {
               </Col>
             </Row>
             <Row>
-              {openHearings &&
+              {openHearings && openHearings.data && topHearing &&
                 !openHearings.isFetching && (
                   <Col xs={12}>
                     <div className="list">
