@@ -35,7 +35,7 @@ function renderHTMLSkeleton(req, res, settings) {
         bundleSrc={settings.bundleSrc || '/app.js'}
         apiBaseUrl={settings.kerrokantasi_api_base}
         heroImageURL={settings.hero_image_url}
-        uiConfig={settings.uiConfig}
+        uiConfig={settings.ui_config}
         hearingData={hearingData}
       />
     );

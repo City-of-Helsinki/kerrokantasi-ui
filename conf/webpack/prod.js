@@ -22,7 +22,7 @@ module.exports = merge(common, {
       __DEVTOOLS__: false,
       'process.env': {NODE_ENV: JSON.stringify('production')}
     }),
-    new webpack.optimize.UglifyJsPlugin({output: {comments: false}}),
+    new webpack.optimize.UglifyJsPlugin({output: {comments: false}, sourceMap: true}),
     new webpack.LoaderOptionsPlugin({minimize: true}),
   ]
 });

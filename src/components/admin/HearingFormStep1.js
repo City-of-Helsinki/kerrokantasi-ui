@@ -25,7 +25,7 @@ import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import {getDocumentOrigin} from '../../utils/hearingEditor';
 
-import {addLabel, addContact} from '../../actions/hearingEditor';
+import {addLabel, addContact, saveContact} from '../../actions/hearingEditor';
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class HearingFormStep1 extends React.Component {
 
     this.state = {
       showLabelModal: false,
+      contactInfo: {},
       showContactModal: false,
       selectedLabels: map(this.props.hearing.labels, ({id}) => id),
       selectedContacts: map(this.props.hearing.contact_persons, ({id}) => id)
@@ -68,6 +69,10 @@ class HearingFormStep1 extends React.Component {
     this.props.dispatch(addContact(contact, this.state.selectedContacts));
   }
 
+  onEditContact(contact) {
+    this.props.dispatch(saveContact(contact));
+  }
+
   openLabelModal() {
     this.setState({ showLabelModal: true });
   }
@@ -76,8 +81,8 @@ class HearingFormStep1 extends React.Component {
     this.setState({ showLabelModal: false });
   }
 
-  openContactModal() {
-    this.setState({ showContactModal: true });
+  openContactModal(contactInfo) {
+    this.setState({ showContactModal: true, contactInfo });
   }
 
   closeContactModal() {
@@ -160,19 +165,26 @@ class HearingFormStep1 extends React.Component {
           <ControlLabel><FormattedMessage id="hearingContacts"/>*</ControlLabel>
           <div className="contact-elements">
             <Select
+              valueRenderer={(options) => (
+                <span style={{cursor: 'pointer'}} onMouseDown={() => { this.openContactModal(options); }}>
+                  {options.name}
+                </span>
+              )}
               labelKey="name"
               multi
-              clearAllText="Poista"
-              clearValueText="Poista"
               name="contacts"
               onChange={this.onContactsChange}
               options={contactOptions}
               placeholder={formatMessage({id: "hearingContactsPlaceholder"})}
               simpleValue={false}
-              value={hearing.contact_persons.map(person => ({...person, title: 'Poista'}))}
+              value={hearing.contact_persons.map(person => ({...person}))}
               valueKey="id"
             />
-            <Button bsStyle="primary" className="pull-right add-contact-button" onClick={() => this.openContactModal()}>
+            <Button
+              bsStyle="primary"
+              className="pull-right add-contact-button"
+              onClick={() => this.openContactModal({})}
+            >
               <Icon className="icon" name="plus"/>
             </Button>
           </div>
@@ -188,9 +200,11 @@ class HearingFormStep1 extends React.Component {
           onCreateLabel={this.onCreateLabel.bind(this)}
         />
         <ContactModal
+          contactInfo={this.state.contactInfo}
           isOpen={this.state.showContactModal}
           onClose={this.closeContactModal.bind(this)}
           onCreateContact={this.onCreateContact.bind(this)}
+          onEditContact={this.onEditContact.bind(this)}
         />
       </div>
     );

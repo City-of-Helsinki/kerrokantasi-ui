@@ -14,6 +14,7 @@ import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
 import Step4 from './HearingFormStep4';
+import Step5 from './HearingFormStep5';
 import LoadSpinner from '../LoadSpinner';
 import {
   contactShape,
@@ -33,7 +34,7 @@ class HearingForm extends React.Component {
     };
     this.setCurrentStep = this.setCurrentStep.bind(this);
     this.nextStep = this.nextStep.bind(this);
-    this.formSteps = [Step1, Step2, Step3, Step4];
+    this.formSteps = [Step1, Step2, Step3, Step4, Step5];
   }
 
   setCurrentStep(step) {
@@ -45,12 +46,24 @@ class HearingForm extends React.Component {
   }
 
   getFormStep(stepNumber) {
-    const {contactPersons, intl: {formatMessage}, hearing, labels, hearingLanguages, language, sectionMoveUp, sectionMoveDown} = this.props;
+    const {
+      contactPersons,
+      intl: {formatMessage},
+      hearing,
+      labels,
+      hearingLanguages,
+      language,
+      sectionMoveUp,
+      sectionMoveDown,
+      addOption,
+      deleteOption,
+      onQuestionChange,
+      onDeleteTemporaryQuestion
+    } = this.props;
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
-
     return (
       <Panel eventKey={step}>
         <Panel.Heading>
@@ -78,6 +91,13 @@ class HearingForm extends React.Component {
               sectionMoveUp={sectionMoveUp}
               sectionMoveDown={sectionMoveDown}
               formatMessage={formatMessage}
+              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+              clearQuestions={this.props.clearQuestions}
+              addOption={addOption}
+              deleteOption={deleteOption}
+              onQuestionChange={onQuestionChange}
+              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -156,6 +176,7 @@ class HearingForm extends React.Component {
             {this.getFormStep(2)}
             {this.getFormStep(3)}
             {this.getFormStep(4)}
+            {this.getFormStep(5)}
           </Accordion>
           <div className="editor-footer">{this.getActions()}</div>
         </form>
@@ -185,7 +206,14 @@ HearingForm.propTypes = {
   show: PropTypes.bool,
   language: PropTypes.string,
   sectionMoveUp: PropTypes.func,
-  sectionMoveDown: PropTypes.func
+  sectionMoveDown: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

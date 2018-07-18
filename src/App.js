@@ -12,6 +12,7 @@ import {getUser} from './selectors/user';
 import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
+import {checkHeadlessParam} from './utils/urlQuery';
 
 class App extends React.Component {
   getChildContext() {
@@ -41,8 +42,9 @@ class App extends React.Component {
       {name: 'theme-color', content: '#ffffff'},
     ];
     const fullscreen = this.props.match.params.fullscreen === 'true';
+    const headless = checkHeadlessParam(this.props.location.search);
     let header = null;
-    if (!fullscreen) {
+    if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
     return (

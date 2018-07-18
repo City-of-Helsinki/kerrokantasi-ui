@@ -99,6 +99,8 @@
   "inLanguage-en": "på engelska",
   "hearingLanguages": "TODO",
   "createContact": "Skapa en ny kontakt",
+  "save": "Spara",
+  "editContact": "Redigera kontakten",
   "create": "Skapa",
   "name": "Namn",
   "phone": "Telefonnummer",
@@ -123,5 +125,13 @@
   "infoPage": "Information om tjänsten",
   "mapView": "Alla höranden på kartan",
   "loginToComment": "Logga in för att kommentera.",
-  "logintToVoteComment": "Logga in för att rösta på kommentaren."
+  "logintToVoteComment": "Logga in för att rösta på kommentaren.",
+  "addProcess": "lägg till ett steg",
+  "project": "Projekt:",
+  "projectName": "Projektnamn",
+  "phaseDuration": "Fas varaktighet",
+  "phaseDescription": "Steg beskrivning",
+  "phaseActive": "Aktiv",
+  "phase": "Fas",
+  "logInToAnswer": "Logga in för att rösta och see resultat"
 }

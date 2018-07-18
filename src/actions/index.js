@@ -5,9 +5,11 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
 import { push } from 'react-router-redux';
+import { retrieveUserFromSession } from './user';
 
 export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
+export const setHeadless = createAction('setHeadless');
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
@@ -83,6 +85,18 @@ export function fetchHearingList(listId, endpoint, params) {
   };
 }
 
+export function fetchProjects() {
+  return (dispatch, getState) => {
+    const fetchAction = createAction('fetchProjects')();
+    dispatch(fetchAction);
+    return api.get(getState(), 'v1/project').then(getResponseJSON).then(data => {
+      dispatch(createAction('receiveProjects')({data}));
+    }).catch(() => {
+      dispatch(createAction("receiveProjectsError")());
+      requestErrorHandler();
+    });
+  };
+}
 
 export const fetchMoreHearings = (listId) => {
   return (dispatch, getState) => {
@@ -191,7 +205,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       authorization_code: commentData.authCode ? commentData.authCode : "",
       geojson: commentData.geojson ? commentData.geojson : null,
       label: commentData.label ? commentData.label : null,
-      images: commentData.images ? commentData.images : []
+      images: commentData.images ? commentData.images : [],
+      answers: commentData.answers ? commentData.answers : []
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
@@ -200,6 +215,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
+      // also, update user answered questions
+      dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
   };

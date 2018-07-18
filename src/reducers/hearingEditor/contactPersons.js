@@ -10,8 +10,9 @@ const CONTACTS = 'contactPersons';
 
 const byId = handleActions(
   {
-    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { contactPersons } }) =>
-      contactPersons.entities.contactPersons,
+    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { contactPersons } }) => {
+      return contactPersons.entities.contactPersons ? contactPersons.entities.contactPersons : [];
+    },
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { entities } }) => ({
       ...state,
       ...get(entities, CONTACTS, {}),

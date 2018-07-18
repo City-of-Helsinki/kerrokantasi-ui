@@ -61,6 +61,7 @@ exports[`Header component should render as expected 1`] = `
               timeVal="2200-11-28T22:00:00Z"
             />
           </div>
+          <SocialBar />
         </Col>
         <Col
           bsClass="col"
@@ -132,20 +133,52 @@ exports[`Header component should render as expected 1`] = `
       </Row>
       <Row
         bsClass="row"
+        className="hearing-project"
         componentClass="div"
       >
-        <Col
-          bsClass="col"
-          componentClass="div"
-          lg={6}
+        <div
+          className="hearing-project"
         >
-          <SocialBar />
-        </Col>
-        <Col
-          bsClass="col"
-          componentClass="div"
-          lg={6}
-        />
+          <Slider
+            arrows={false}
+            centerMode={false}
+            className="project-phases-list"
+            infinite={false}
+            initialSlide={0}
+            responsive={
+              Array [
+                Object {
+                  "breakpoint": 768,
+                  "settings": Object {
+                    "arrows": false,
+                    "centerMode": false,
+                    "initialSlide": 0,
+                    "slidesToShow": 2,
+                  },
+                },
+                Object {
+                  "breakpoint": 992,
+                  "settings": Object {
+                    "arrows": false,
+                    "centerMode": false,
+                    "initialSlide": 0,
+                    "slidesToShow": 3,
+                  },
+                },
+                Object {
+                  "breakpoint": 1200,
+                  "settings": Object {
+                    "arrows": false,
+                    "centerMode": false,
+                    "initialSlide": 0,
+                    "slidesToShow": 5,
+                  },
+                },
+              ]
+            }
+            slidesToShow={6}
+          />
+        </div>
       </Row>
     </div>
   </Grid>

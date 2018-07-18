@@ -137,10 +137,12 @@ export class SectionContainerComponent extends React.Component {
   }
 
   openLightbox = () => {
+    document.body.classList.remove('nav-fixed');
     this.setState({showLightbox: true});
   }
 
   closeLightbox = () => {
+    document.body.classList.add('nav-fixed');
     this.setState({showLightbox: false});
   }
 
@@ -236,6 +238,7 @@ export class SectionContainerComponent extends React.Component {
                       fetchMoreComments={this.props.fetchMoreComments}
                       displayVisualization={userIsAdmin || hearing.closed}
                       published={hearing.published} // Needed so comments are not diplayed in hearing drafts
+                      closed={hearing.closed}
                     />
                   </Col>
                 </Row>

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import {get, isEmpty, keys, throttle} from 'lodash';
+import {get, isEmpty, keys, throttle, find} from 'lodash';
 import Waypoint from 'react-waypoint';
 import PropTypes from 'prop-types';
 import WrappedCommentList from './CommentList';
@@ -10,9 +10,9 @@ import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
+import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
-
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -22,12 +22,19 @@ const ORDERING_CRITERIA = {
 };
 
 export class SortableCommentListComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       showLoader: false,
       collapseForm: false,
+      answers: this.props.section.questions.map(
+        question => ({
+          question: question.id,
+          type: question.type,
+          answers: []
+        })
+      )
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
@@ -93,9 +100,56 @@ export class SortableCommentListComponent extends Component {
 
   onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
-    const commentData = {text, authorName, pluginData, geojson, label, images};
+    const answers = this.state.answers;
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers};
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
+    }
+  }
+
+
+  onChangeAnswers = (questionId, questionType, value) => {
+    const oldAnswer = find(this.state.answers, answer => answer.question === questionId);
+    if (questionType === 'single-choice') {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              question: questionId,
+              type: questionType,
+              answers: [value]
+            }
+          ]
+        }
+      );
+    } else if (questionType === 'multiple-choice' && oldAnswer && oldAnswer.answers.includes(value)) {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              ...oldAnswer,
+              answers: oldAnswer.answers.filter(answer => answer !== value)
+            }
+          ]
+        }
+      );
+    } else if (questionType === 'multiple-choice' && oldAnswer) {
+      this.setState(
+        {
+          answers: [
+            ...this.state.answers.filter(answer => answer.question !== questionId),
+            {
+              ...oldAnswer,
+              answers: [
+                ...oldAnswer.answers,
+                value
+              ]
+            }
+          ]
+        }
+      );
     }
   }
 
@@ -160,8 +214,13 @@ export class SortableCommentListComponent extends Component {
       sectionComments,
       canVote,
       user,
-      published
+      published,
+      language,
+      closed
     } = this.props;
+
+    // const mockSection = Object.assign({}, section);
+    // mockSection.questions = mockQuestions;
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
@@ -174,6 +233,13 @@ export class SortableCommentListComponent extends Component {
             defaultNickname={getNickname(user)}
             nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
             collapseForm={this.state.collapseForm}
+            section={section}
+            language={language}
+            onChangeAnswers={this.onChangeAnswers}
+            answers={this.state.answers}
+            closed={closed}
+            loggedIn={!isEmpty(user)}
+            user={user}
           />
         </div>
       </div>
@@ -183,6 +249,14 @@ export class SortableCommentListComponent extends Component {
       <div>
         {section.commenting !== 'none' &&
         <div className="sortable-comment-list">
+          {closed &&
+            <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
+              {
+                section.questions.map((question) =>
+                  <QuestionResults key={question.id} question={question} language={language} />)
+              }
+            </div>
+        }
           {commentForm}
           <div>
             <h2>
@@ -262,12 +336,15 @@ SortableCommentListComponent.propTypes = {
   canVote: PropTypes.bool,
   canComment: PropTypes.bool,
   hearingId: PropTypes.string,
-  published: PropTypes.bool
+  published: PropTypes.bool,
+  language: PropTypes.string,
+  closed: PropTypes.bool
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
   user: get(state, 'user').data,
+  language: state.language
 });
 
 export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));

@@ -1,5 +1,11 @@
-sudo: false
+
+sudo: required
+
+services:
+  - docker
+
 language: node_js
+
 node_js:
   - "lts/*"
   - "node"
@@ -14,9 +20,12 @@ before_install:
 script:
   - npm run lint
   - npm run test:cov
+  - ./deploy/docker_test.sh
 
 after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - codecov < coverage/lcov.info
+  - ./deploy/containerize.sh
 
 notifications:
   slack:

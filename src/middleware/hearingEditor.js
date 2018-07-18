@@ -2,7 +2,11 @@
 import {get} from 'lodash';
 import {normalize} from 'normalizr';
 
-import {EditorActions, receiveHearing, updateHearingAfterSave} from '../actions/hearingEditor';
+import {
+  EditorActions,
+  receiveHearing,
+  updateHearingAfterSave
+} from '../actions/hearingEditor';
 import {fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
 import {labelResultsSchema, contactPersonResultsSchema} from '../types';
 
@@ -74,5 +78,5 @@ export default [
   sectionFrontIds,
   normalizeReceiveEditorMetaData,
   normalizeReceivedHearing,
-  normalizeSavedHearing,
+  normalizeSavedHearing
 ];

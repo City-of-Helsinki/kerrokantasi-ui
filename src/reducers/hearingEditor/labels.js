@@ -7,7 +7,9 @@ import { EditorActions } from '../../actions/hearingEditor';
 
 const byId = handleActions(
   {
-    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { labels } }) => labels.entities.labels,
+    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { labels } }) => {
+      return labels.entities.labels ? labels.entities.labels : [];
+    },
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { entities } }) => ({
       ...state,
       ...entities.labels,

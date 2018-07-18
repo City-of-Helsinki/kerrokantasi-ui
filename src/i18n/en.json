@@ -105,6 +105,8 @@
   "sectionImageCaption": "Caption",
   "sectionTitle": "Section title",
   "createContact": "Create a new contact",
+  "save": "Save",
+  "editContact": "Edit contact",
   "create": "Create",
   "name": "Name",
   "phone": "Phone number",
@@ -130,5 +132,12 @@
   "infoPage": "About service",
   "mapView": "All hearings on map",
   "loginToComment": "Login to comment this hearing.",
-  "logintToVoteComment": "Login to vote a comment."
+  "logintToVoteComment": "Login to vote a comment.",
+  "project": "Project:",
+  "projectName": "Project name",
+  "phaseDuration": "Phase duration",
+  "phaseDescription": "Phase description",
+  "phaseActive": "Active",
+  "phase": "Phase",
+  "logInToAnswer": "Log in to answer and see results"
 }

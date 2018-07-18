@@ -12,7 +12,7 @@
   &-header {
     background: $white;
     color: $black;
-    padding: 30px;
+    padding: $line-height-computed;
     width: 100%;
     a {
       color: $black;
@@ -34,7 +34,8 @@
   }
 
   &-times {
-      color: $gray-lighter;
+      margin-bottom: $line-height-computed / 2;
+      color: $text-muted;
       font-size: 1.4rem;
   }
 
@@ -47,5 +48,9 @@
     font-weight: 500;
     background: $theme-secondary-light;
     border-radius: 0 0 0 24px;
+  }
+
+  &-labels {
+    @include clearfix;
   }
 }

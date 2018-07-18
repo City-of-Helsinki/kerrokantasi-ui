@@ -6,7 +6,7 @@ import Header from '../../components/Hearing/Header';
 import WrappedCarousel from '../../components/Carousel';
 import {getHearingWithSlug} from '../../selectors/hearing';
 import PropTypes from 'prop-types';
-import {fetchHearing as fetchHearingAction, setLanguage as setLanguageAction} from '../../actions';
+import {fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects} from '../../actions';
 import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
 import { injectIntl, intlShape } from 'react-intl';
@@ -21,9 +21,10 @@ import Helmet from 'react-helmet';
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
-    const {fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
+    const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
     fetchEditorMetaData();
+    fetchProjectsList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,6 +37,16 @@ export class HearingContainerComponent extends React.Component {
     }
     if (isEmpty(this.props.user) && isEmpty(this.props.hearing) && !isEmpty(nextProps.user)) {
       this.props.fetchHearing(nextProps.match.params.hearingSlug);
+    }
+
+    // re-render/fetch when navigate from a hearing container to another hearing container
+    // since the component doesn't mount again
+    if (nextProps.match.path === this.props.match.path
+        && nextProps.location.pathname !== this.props.location.pathname
+    ) {
+      const { fetchHearing, fetchEditorMetaData, match: { params } } = nextProps;
+      fetchHearing(params.hearingSlug);
+      fetchEditorMetaData();
     }
   }
 
@@ -52,8 +63,8 @@ export class HearingContainerComponent extends React.Component {
       contactPersons,
       setLanguage
     } = this.props;
-    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
 
+    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
     return (
       <div className="hearing-page">
 
@@ -108,7 +119,8 @@ HearingContainerComponent.propTypes = {
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
   history: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  fetchProjectsList: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -125,7 +137,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
-  setLanguage: (lang) => dispatch(setLanguageAction(lang))
+  setLanguage: (lang) => dispatch(setLanguageAction(lang)),
+  fetchProjectsList: () => dispatch(fetchProjects())
 });
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent));
