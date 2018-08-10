@@ -188,7 +188,7 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
     const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
     const url = "v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments";
-    return api.get(getState(), url, {include: 'plugin_data', ordering}).then(getResponseJSON).then((data) => {
+    return api.get(getState(), url, {ordering}).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({sectionId, data}));
     }).catch(requestErrorHandler());
   };
