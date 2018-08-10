@@ -14,6 +14,7 @@ supported by Kerrokantasi API.
 
 * Node v8 LTS
 * Yarn
+* Ansible (if you want to build a container)
 
 ### Configuration
 
@@ -45,6 +46,19 @@ No separate build step is currently available.
 * `yarn run test`: run tests
 
 Bundle size analysis is available (by way of the `webpack-bundle-analyzer` plugin) if the `BUNDLE_ANALYZER` environment variable is set.
+
+### Building a docker image
+
+We build our docker images using ansible. This makes for a quite different
+experience from the usual Dockerfile stuff. In short:
+
+* install Ansible
+* install required Ansible roles
+** `ansible-galaxy -r ansible/requirements.yml`
+* start the build
+** `ansible-galaxy ansible_build.yml`
+
+After this your docker will have a nicish image called helsinki/kerrokantasi-ui
 
 ## Production installation
 
