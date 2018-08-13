@@ -60,6 +60,8 @@ export class SortableCommentListComponent extends Component {
   }
 
   componentDidMount() {
+    // Deprecated for now since it's call site does not pass hearingSlug as it should
+    return;
     const {section, sectionComments} = this.props;
     // comment fetching may already be taking place in the plugin!
     if (!get(sectionComments, 'isFetching')) {
