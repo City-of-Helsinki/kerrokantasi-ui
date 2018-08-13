@@ -18,7 +18,7 @@ export class CommentList extends React.Component {
     }
     return (
       <div className="commentlist">
-        {comments.map((comment) =>
+        {comments.slice(0, 5).map((comment) =>
           <Comment
             data={comment}
             onEditComment={this.props.onEditComment}
