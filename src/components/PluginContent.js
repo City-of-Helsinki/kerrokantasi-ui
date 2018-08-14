@@ -17,7 +17,10 @@ export default class PluginContent extends React.Component {
   componentDidMount() {
     const {hearingSlug, section, comments} = this.props;
     // comment fetching may already be taking place in a comment list!
-    if (!get(comments, 'isFetching')) {
+    // legacy plugins have no need for comments
+    if (!get(comments, 'isFetching') &&
+      !(section.plugin_identifier == "mapdon-hkr") &&
+      !(section.plugin_identifier == "mapdon-ksv")) {
       this.props.fetchAllComments(hearingSlug, section.id);
     }
   }
