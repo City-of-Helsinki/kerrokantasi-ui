@@ -52,8 +52,8 @@ export class SortableCommentListComponent extends Component {
 
   fetchComments(sectionId, ordering) {
     // if a plugin is involved, we must fetch all the comments for display, not just a select few
-    const {fetchComments, fetchAllComments, section, hearingSlug} = this.props;
-    if (section.plugin_identifier) {
+    const {fetchComments, fetchAllComments, section, hearingSlug, displayVisualization} = this.props;
+    if (displayVisualization && section.plugin_identifier) {
       return fetchAllComments(hearingSlug, sectionId, ordering);
     }
     return fetchComments(sectionId, ordering);
