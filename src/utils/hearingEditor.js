@@ -67,7 +67,7 @@ export const filterFrontIdFromPhases = (data: Object) => {
 
 export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => {
   let filteredPhasesData = data;
-  if (data.project.phases) {
+  if (data.project && data.project.phases) {
     filteredPhasesData = filterFrontIdFromPhases(data);
   }
   return ({
