@@ -24,7 +24,7 @@
     "alertifyjs": "^1.10.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
-    "babel-eslint": "^8.0.3",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "~7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-imports": "^1.4.1",
