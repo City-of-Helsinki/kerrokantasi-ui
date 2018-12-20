@@ -56,7 +56,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "choose_images": "Valitse kuvia",
                   "closeHearing": "Sulje kuuleminen",
                   "closedHearing": "Suljettu",
-                  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Voit jättää kommenttisi nimettömänä, jos et ole kirjautunut sisään. Lisäksi tekstejä tarvittaessa muokataan loukkaavan tai muutoin törkeän kielenkäytön osalta.",
+                  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                   "commentDeleted": "Kommenttisi on poistettu.",
                   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
                   "commentOrder": "Järjestä kommentit:",
