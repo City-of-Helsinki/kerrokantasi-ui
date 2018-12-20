@@ -95,7 +95,7 @@
   "cancel": "Peru",
   "asOpenData": "avoimena datana",
   "withOpenLicense": "avoimella lisenssillä",
-  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Voit jättää kommenttisi nimettömänä, jos et ole kirjautunut sisään. Lisäksi tekstejä tarvittaessa muokataan loukkaavan tai muutoin törkeän kielenkäytön osalta.",
+  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
   "anonymous": "Anonyymi",
   "follow": "Seuraa",
   "vote": "Äänestä",
