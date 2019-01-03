@@ -244,7 +244,7 @@ HearingList.propTypes = {
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
   showOnlyOpen: PropTypes.bool,
-  tab: PropTypes.string.isRequired,
+  tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,
   handleReachBottom: PropTypes.func,
 };

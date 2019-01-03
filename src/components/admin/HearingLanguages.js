@@ -18,15 +18,17 @@ function HearingLanguages({hearingLanguages, onChange}) {
 
           return (
             <span className="hearing-languages__language" key={lang}>
-              <label htmlFor={`kkEditorLanguageSelector-${lang}`}><FormattedMessage id={`inLanguage-${lang}`}/></label>
-              <input
-                id={`kkEditorLanguageSelector-${lang}`}
-                type="checkbox"
-                name="language"
-                value={lang}
-                onChange={() => onChange(onChangeValues)}
-                checked={checked}
-              />
+              <label htmlFor={`kkEditorLanguageSelector-${lang}`}>
+                <FormattedMessage id={`inLanguage-${lang}`}/>
+                <input
+                  id={`kkEditorLanguageSelector-${lang}`}
+                  type="checkbox"
+                  name="language"
+                  value={lang}
+                  onChange={() => onChange(onChangeValues)}
+                  checked={checked}
+                />
+              </label>
             </span>
           );
         }

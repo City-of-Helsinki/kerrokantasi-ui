@@ -122,25 +122,33 @@ exports[`SortableCommentList component should render as expected 1`] = `
                   key="CREATED_AT_DESC"
                   tagName="span"
                   values={Object {}}
-                />
+                >
+                  <Component />
+                </FormattedMessage>
                 <FormattedMessage
                   id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
                   tagName="span"
                   values={Object {}}
-                />
+                >
+                  <Component />
+                </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
                   tagName="span"
                   values={Object {}}
-                />
+                >
+                  <Component />
+                </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
                   tagName="span"
                   values={Object {}}
-                />
+                >
+                  <Component />
+                </FormattedMessage>
               </FormControl>
             </div>
           </FormGroup>
