@@ -201,15 +201,15 @@ export class BaseCommentForm extends React.Component {
             <div className="comment-form__select-button">
               <label className="btn btn-default btn-sm" htmlFor="fileInput">
                 <FormattedMessage id="choose_images"/>
+                <input
+                  type="file"
+                  ref="images"
+                  id="fileInput"
+                  multiple
+                  style={{display: 'none', visibility: 'hidden'}}
+                  onChange={(event) => this.handleChange(event)}
+                />
               </label>
-              <input
-                type="file"
-                ref="images"
-                id="fileInput"
-                multiple
-                style={{display: 'none', visibility: 'hidden'}}
-                onChange={(event) => this.handleChange(event)}
-              />
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
