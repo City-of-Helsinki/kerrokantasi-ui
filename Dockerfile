@@ -1,12 +1,13 @@
 FROM node:8
 
-# At this stage everything might be useful
-
 WORKDIR /app
 
-COPY . /app
+COPY package.json ./
+
+RUN yarn
+
+COPY . .
 
 EXPOSE 8086
 
-# Create config from env and serve web root with httpd
-CMD npm start
+CMD yarn start
