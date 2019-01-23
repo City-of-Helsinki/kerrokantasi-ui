@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 
+if [[ -z "${DOCKER_USERNAME}" ]]; then
+    echo "No Docker credentials, no reason to do container"
+    exit 0
+fi
+
 if [ "$TRAVIS_NODE_VERSION" != "lts/*" ]; then
     echo "Only deploy on production node build"
     exit 0
 fi
+
+docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 
 docker build -t kerrokantasi-ui .
 
