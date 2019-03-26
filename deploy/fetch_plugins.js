@@ -8,7 +8,7 @@ if (process.argv.length > 2) {
 
 const repositories = JSON.parse(fs.readFileSync('src/shared_config.json'))['pluginMap'];
 
-console.log("Fetching plugins...")L
+console.log("Fetching plugins...")
 
 for (repo in repositories) {
     var checkout_path = repositories[repo].path;
