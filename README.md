@@ -69,9 +69,14 @@ A default set of plugins can be installed using `yarn run fetch-plugins`.
 The plugins are installed in `assets/plugins`. By default, kerrokantasi-ui
 expects to find them in `assets/plugins` URL prefix. The development server
 serves that path, but you can also use a web server of your choice for this.
+For server insllations, the plugin fetcher supports downloading the plugins
+to a directory specified on the command line (`yarn run fetch-plugins
+/srv/my-kerrokantasi-plugins`).
 
 It is also possible to change the paths that kerrokantasi-ui will search for
 specific plugins. See `src/shared_config.json`, which is the configuration
 source for both the plugin fetcher script and the UI itself. After
 changing the paths therein, you can run the plugin fetcher and it will
-place the plugins to those directories.
+place the plugins to those directories. Note that specifying path on the
+command line overrides the path specified in shared_config.json.
+
