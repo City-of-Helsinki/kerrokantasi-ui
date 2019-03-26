@@ -1,6 +1,0 @@
-[submodule "assets/plugins/kerrokantasi-bikeracks"]
-	path = assets/plugins/kerrokantasi-bikeracks
-	url = https://github.com/jvanamo/kerrokantasi-bikeracks
-[submodule "assets/plugins/kerrokantasi-winterbiking"]
-	path = assets/plugins/kerrokantasi-winterbiking
-	url = https://github.com/City-of-Helsinki/kerrokantasi-winterbiking
