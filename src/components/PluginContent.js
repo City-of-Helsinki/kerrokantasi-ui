@@ -6,12 +6,8 @@ import PropTypes from 'prop-types';
 import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
+import config from '../config';
 import {get} from 'lodash';
-
-const pluginUrls = {
-  'map-bikeracks': '/assets/plugins/kerrokantasi-bikeracks/plugin.html',
-  'map-winterbiking': '/assets/plugins/kerrokantasi-winterbiking/plugin.html'
-};
 
 export default class PluginContent extends React.Component {
   componentDidMount() {
@@ -72,7 +68,7 @@ export default class PluginContent extends React.Component {
             pluginPurpose="postComments"
             canSetNickname={user === null}
             displayCommentBox={false}
-            pluginSource={pluginUrls[section.plugin_identifier]} //
+            pluginSource={config.pluginMap[section.plugin_identifier].path} //
           />
         );
     }

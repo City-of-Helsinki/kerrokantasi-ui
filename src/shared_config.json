@@ -1,0 +1,12 @@
+{
+  "pluginMap": {
+    "map-bikeracks": {
+      "path": "/assets/plugins/kerrokantasi-bikeracks",
+      "repo": "https://github.com/jvanamo/kerrokantasi-bikeracks"
+    },
+    "map-winterbiking": {
+      "path": "/assets/plugins/kerrokantasi-winterbiking",
+      "repo": "https://github.com/City-of-Helsinki/kerrokantasi-winterbiking"
+    }
+  }
+}

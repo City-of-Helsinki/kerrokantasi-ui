@@ -8,7 +8,7 @@ Kerrokantasi UI is the user interface powering kerrokantasi.hel.fi service. It
 is a full featured interface for both answering and creating questionnaires as
 supported by Kerrokantasi API.
 
-## Development installation
+## Installation
 
 ### Prerequisites
 
@@ -21,13 +21,14 @@ supported by Kerrokantasi API.
 is in TOML-format, which for our purposes is `Key=Value` format.
 
 When NODE_ENV=="production", only environment variables are used for
-configuration. The environment variables are named identically to the
-ones used in config_dev.toml. Do note that the variables are case
-insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
+configuration. This is done because we've had several painful accidents
+with leftover configuration files. The environment variables are named
+identically to the ones used in config_dev.toml. Do note that the variables
+are case insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
 
 In the repository root there is `config_dev.toml.example` which contains
 every setting and comments explaining their use. If you only want to give
-kerrokantasi-ui a test, all you need to do is:
+kerrokantasi-ui a test, all configuration you need to do is:
 `mv config_dev.toml.example to config_dev.toml`
 That will give you a partially working configuration for browsing test
 questionnaires in our test API.
@@ -37,18 +38,45 @@ questionnaires in our test API.
 ```
 yarn start
 ```
-No separate build step is currently available.
+No separate build step is currently available. There is a development server
+though. It is somewhat unstable, but provides hot reloading:
+```
+yarn run dev
+```
 
-### Other commands for development
+The server will output the URL for accessing kerrokantasi-ui.
 
-* `yarn run dev`: development mode (hot reloading and all that jazz, also broken)
+### Running in production
+
+Kerrokantasi-ui always builds itself on start. Therefore, be prepared
+for a lenghty start-up time. You can use your favorite
+process manager to run `yarn start`. Node-specific managers
+can also directly run `server(/index.js)`.
+
+### Other commands
+
+* `yarn run fetch-plugins`: fetch optional plugins (see below)
 * `yarn run test`: run tests
 
-Bundle size analysis is available (by way of the `webpack-bundle-analyzer` plugin) if the `BUNDLE_ANALYZER` environment variable is set.
+### Plugins
 
-## Production installation
+Questionnaires can make use of plugins. As of yet, their use case
+has been to provide map based questionnaries. Examples include having
+citizens indicate places for amenities and polling the public for
+locations of city bike stations.
 
-Production installation is very similar to a development installation, as
-there is no way to create a static build of kerrokantasi-ui currently. Just
-specify NODE_ENV=production in the environment to enable any node
-optimizations, although they don't really matter.
+A default set of plugins can be installed using `yarn run fetch-plugins`.
+The plugins are installed in `assets/plugins`. By default, kerrokantasi-ui
+expects to find them in `assets/plugins` URL prefix. The development server
+serves that path, but you can also use a web server of your choice for this.
+For server insllations, the plugin fetcher supports downloading the plugins
+to a directory specified on the command line (`yarn run fetch-plugins
+/srv/my-kerrokantasi-plugins`).
+
+It is also possible to change the paths that kerrokantasi-ui will search for
+specific plugins. See `src/shared_config.json`, which is the configuration
+source for both the plugin fetcher script and the UI itself. After
+changing the paths therein, you can run the plugin fetcher and it will
+place the plugins to those directories. Note that specifying path on the
+command line overrides the path specified in shared_config.json.
+
