@@ -26,14 +26,14 @@ export class Home extends React.Component {
   }
   /**
    * Return a promise that will, as it fulfills, have added requisite
-   * data for the home view into the dispatch's associated store.
+   * data for the home view into the dispatch's associated store...
    *
    * @param dispatch Redux Dispatch function
    * @return {Promise} Data fetching promise
    */
   static fetchData(dispatch) {
     return Promise.all([
-      dispatch(fetchHearingList('topHearing', '/v1/hearing', {ordering: '-n_comments', open: true, limit: 1})),
+      dispatch(fetchHearingList('topHearing', '/v1/hearing', {ordering: '-created_at', open: true, limit: 1})),
       dispatch(fetchHearingList('openHearings', '/v1/hearing', {open: true, include: 'geojson'})),
     ]);
   }

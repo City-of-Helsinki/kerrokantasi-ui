@@ -103,6 +103,7 @@
   "hearingMapHeaderText": "Kartta",
   "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
   "noCommentsAvailable": "Ei kommentteja",
+  "showingNumComments": "Näytetään kommentteja",
   "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
   "publishedHearings": "Julkiset",
   "published": "Julkaistu",

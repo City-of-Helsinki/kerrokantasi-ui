@@ -18,7 +18,8 @@ export class CommentList extends React.Component {
     }
     return (
       <div className="commentlist">
-        {comments.map((comment) =>
+        <p><FormattedMessage id="showingNumComments"/>: 100</p>
+        {comments.slice(0, 100).map((comment) =>
           <Comment
             data={comment}
             onEditComment={this.props.onEditComment}

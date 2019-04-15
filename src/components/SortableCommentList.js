@@ -63,7 +63,7 @@ export class SortableCommentListComponent extends Component {
     const {section, sectionComments} = this.props;
     // comment fetching may already be taking place in the plugin!
     if (!get(sectionComments, 'isFetching')) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, ORDERING_CRITERIA.CREATED_AT_DESC);
     }
   }
 
@@ -78,15 +78,15 @@ export class SortableCommentListComponent extends Component {
     });
 
     if (!isFetching && !this.props.user && nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, ORDERING_CRITERIA.CREATED_AT_DESC);
     }
 
     if (!isFetching && this.props.user && !nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, ORDERING_CRITERIA.CREATED_AT_DESC);
     }
 
     if (section.id !== nextProps.section.id) {
-      this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.CREATED_AT_DESC);
     }
 
     if (!isFetching && results && results.length === 0 && nextProps.section.n_comments !== 0) {

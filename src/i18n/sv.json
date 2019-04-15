@@ -51,6 +51,7 @@
   "hearingMapHeaderText": "Karta",
   "hearingMapHeaderDescription": "Se hörandena på kartan",
   "noCommentsAvailable": "Inga åsikter",
+  "showingNumComments": "Näytetään kommentteja",
   "downloadReport": "Ladda ner en sammanfattning av åsikterna i Excel-format",
   "publishedHearings": "Offentliga",
   "publishingQueue": "Publiceringskö",
