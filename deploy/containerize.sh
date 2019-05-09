@@ -10,6 +10,8 @@ if [ "$TRAVIS_NODE_VERSION" != "lts/*" ]; then
     exit 0
 fi
 
+docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+
 docker build -t kerrokantasi-ui .
 
 export REPO="helsinki/kerrokantasi-ui"
