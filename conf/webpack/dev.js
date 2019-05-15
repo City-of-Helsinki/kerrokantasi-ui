@@ -7,6 +7,7 @@ var paths = require('../paths');
 
 module.exports = function getDevConfig() {
   return merge(common, {
+    mode: 'development',
     entry: [
       'webpack-hot-middleware/client',
       paths.ENTRY,

@@ -24,12 +24,15 @@ module.exports = {
   },
   module: {
     rules: [
+      // Disable require.ensure as it's not a standard language feature.
+      { parser: { requireEnsure: false } },
+
       {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
       {test: /\.svg(\?v=.+)?$/, loader: 'url-loader?limit=100000&mimetype=image/svg+xml'},
       {test: /\.gif$/, loader: 'url-loader?limit=100000&mimetype=image/gif'},
-      {test: /\.jpg$/, loader: 'file-loader'},
+      {test: /\.jpg$/, loader: require.resolve('file-loader')},
       {test: /\.woff(2)?(\?v=.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
-      {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file-loader'},
+      {test: /\.(ttf|eot)(\?v=.+)?$/, loader: require.resolve('file-loader')},
       {test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
       {test: /\.scss$/, loader: 'style-loader!css-loader!postcss-loader!sass-loader'},
       {test: /\.md$/, loader: 'html-loader!markdown-loader'},
