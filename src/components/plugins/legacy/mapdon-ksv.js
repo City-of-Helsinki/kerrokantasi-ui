@@ -169,8 +169,8 @@ MapdonKSVPlugin.propTypes = {
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,
-  defaultNickname: React.PropTypes.string,
-  nicknamePlaceholder: React.PropTypes.string
+  defaultNickname: PropTypes.string,
+  nicknamePlaceholder: PropTypes.string
 };
 
 export default injectIntl(MapdonKSVPlugin);

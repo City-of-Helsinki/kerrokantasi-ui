@@ -14,7 +14,7 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
-import Waypoint from 'react-waypoint';
+import * as Waypoint from 'react-waypoint';
 import Helmet from 'react-helmet';
 
 import {labelShape} from '../types';
