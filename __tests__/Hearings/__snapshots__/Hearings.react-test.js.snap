@@ -21,6 +21,8 @@ exports[`Hearings component should render as expected 1`] = `
           mdPush={1}
         >
           <HelmetWrapper
+            defer={true}
+            encodeSpecialCharacters={true}
             title="Kaikki kuulemiset"
           />
           <h1
@@ -28,7 +30,6 @@ exports[`Hearings component should render as expected 1`] = `
           >
             <FormattedMessage
               id="allHearings"
-              tagName="span"
               values={Object {}}
             />
           </h1>
@@ -89,6 +90,13 @@ exports[`Hearings component should render as expected 1`] = `
         "formatRelative": [Function],
         "formatTime": [Function],
         "formats": Object {},
+        "formatters": Object {
+          "getDateTimeFormat": [Function],
+          "getMessageFormat": [Function],
+          "getNumberFormat": [Function],
+          "getPluralFormat": [Function],
+          "getRelativeFormat": [Function],
+        },
         "locale": "fi",
         "messages": Object {
           "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
@@ -314,6 +322,9 @@ exports[`Hearings component should render as expected 1`] = `
           "writeComment": "Kommentti",
         },
         "now": [Function],
+        "onError": [Function],
+        "textComponent": "span",
+        "timeZone": null,
       }
     }
     isLoading={true}
