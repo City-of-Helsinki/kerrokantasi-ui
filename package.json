@@ -37,6 +37,7 @@
     "babel-register": "^6.24.1",
     "body-parser": "^1.17.2",
     "bootstrap-sass": "^3.3.7",
+    "codecov": "^3.0.0",
     "cookie-parser": "^1.4.0",
     "cookie-session": "^2.0.0-alpha.1",
     "css-loader": "^0.28.11",
