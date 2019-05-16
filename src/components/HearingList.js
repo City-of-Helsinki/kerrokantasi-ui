@@ -14,7 +14,7 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
-import * as Waypoint from 'react-waypoint';
+import { Waypoint } from 'react-waypoint';
 import Helmet from 'react-helmet';
 
 import {labelShape} from '../types';
@@ -148,7 +148,7 @@ HearingListItem.propTypes = {
   language: PropTypes.string,
 };
 
-export const HearingList = ({
+const HearingList = ({
   handleSearch,
   handleSelectLabels,
   handleSort,
@@ -169,7 +169,6 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = hearings && hearings.length;
-
   const hearingListMap = hearingsToShow ? (
     <Col xs={12}>
       <Helmet title={formatMessage({ id: 'mapView' })} />
@@ -217,9 +216,9 @@ export const HearingList = ({
             <Col md={8} mdPush={2}>
               <div className="hearing-list">
                 <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
-                {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
-                {isLoading && <LoadSpinner />}
-                {!isLoading && <Waypoint onEnter={handleReachBottom} />}
+                { hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />) }
+                { isLoading && <LoadSpinner /> }
+                { !isLoading && <Waypoint onEnter={handleReachBottom} /> }
               </div>
             </Col>
           ) : null}

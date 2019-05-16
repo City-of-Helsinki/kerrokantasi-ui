@@ -3,7 +3,7 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {get, isEmpty, keys, throttle, find} from 'lodash';
-import * as Waypoint from 'react-waypoint';
+import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
 import WrappedCommentList from './CommentList';
 import LoadSpinner from './LoadSpinner';

@@ -272,29 +272,33 @@ export class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-        {labels && labels.length && <WrappedHearingList
-          hearings={hearings}
-          selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
-          searchPhrase={searchTitle}
-          isLoading={this.getIsLoading()}
-          labels={labels}
-          showOnlyOpen={showOnlyOpen}
-          handleSort={this.handleSort}
-          handleSearch={this.handleSearch}
-          handleSelectLabels={this.handleSelectLabels}
-          toggleShowOnlyOpen={this.toggleShowOnlyOpen}
-          language={language}
-          tab={tab}
-          intl={this.props.intl}
-          handleReachBottom={this.handleReachBottom}
-          onTabChange={value => {
-            const url = `/hearings/${value}`;
-            history.push({
-              pathname: url,
-              search: location.search,
-            });
-          }}
-        />}
+        {
+          labels
+          && labels.length
+          && <WrappedHearingList
+            hearings={hearings}
+            selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
+            searchPhrase={searchTitle}
+            isLoading={this.getIsLoading()}
+            labels={labels}
+            showOnlyOpen={showOnlyOpen}
+            handleSort={this.handleSort}
+            handleSearch={this.handleSearch}
+            handleSelectLabels={this.handleSelectLabels}
+            toggleShowOnlyOpen={this.toggleShowOnlyOpen}
+            language={language}
+            tab={tab}
+            intl={this.props.intl}
+            handleReachBottom={this.handleReachBottom}
+            onTabChange={value => {
+              const url = `/hearings/${value}`;
+              history.push({
+                pathname: url,
+                search: location.search,
+              });
+            }}
+          />
+        }
       </div>
     );
   }

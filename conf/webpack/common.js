@@ -24,9 +24,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // Disable require.ensure as it's not a standard language feature.
-      { parser: { requireEnsure: false } },
-
       {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
       {test: /\.svg(\?v=.+)?$/, loader: 'url-loader?limit=100000&mimetype=image/svg+xml'},
       {test: /\.gif$/, loader: 'url-loader?limit=100000&mimetype=image/gif'},
