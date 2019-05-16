@@ -21,6 +21,11 @@ function ignition() {
   let compiler = getCompiler(settings, true);
   const passport = getPassport(settings);
 
+  // Apply before initialization
+  if (settings.dev) {
+    applyCompilerMiddleware(server, compiler, settings);
+  }
+
   server.use('/', express.static(paths.OUTPUT));
   server.use('/assets', express.static(paths.ASSETS));
   server.use(morgan(settings.dev ? 'dev' : 'combined'));
@@ -37,10 +42,6 @@ function ignition() {
   server.use(passport.initialize());
   server.use(passport.session());
   addAuth(server, passport, settings);
-
-  if (settings.dev) {
-    applyCompilerMiddleware(server, compiler, settings);
-  }
   server.use(renderMiddleware(settings));
 
 
