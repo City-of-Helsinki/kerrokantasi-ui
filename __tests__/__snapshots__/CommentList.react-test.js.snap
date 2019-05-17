@@ -76,7 +76,6 @@ exports[`CommentList should render a message if no comments were found 1`] = `
   <p>
     <FormattedMessage
       id="noCommentsAvailable"
-      tagName="span"
       values={Object {}}
     />
   </p>

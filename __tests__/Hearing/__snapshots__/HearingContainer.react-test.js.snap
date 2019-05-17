@@ -6,6 +6,8 @@ exports[`HearingContainer component should render as expected 1`] = `
 >
   <div>
     <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
       title="Ideoi Isosaaren tulevaisuutta"
     />
     <div
@@ -237,6 +239,13 @@ exports[`HearingContainer component should render as expected 1`] = `
             "formatRelative": [Function],
             "formatTime": [Function],
             "formats": Object {},
+            "formatters": Object {
+              "getDateTimeFormat": [Function],
+              "getMessageFormat": [Function],
+              "getNumberFormat": [Function],
+              "getPluralFormat": [Function],
+              "getRelativeFormat": [Function],
+            },
             "locale": "fi",
             "messages": Object {
               "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
@@ -462,6 +471,9 @@ exports[`HearingContainer component should render as expected 1`] = `
               "writeComment": "Kommentti",
             },
             "now": [Function],
+            "onError": [Function],
+            "textComponent": "span",
+            "timeZone": null,
           }
         }
         reportUrl="http://localhost:8000//v1/hearing/isosaari/report"
@@ -690,6 +702,13 @@ exports[`HearingContainer component should render as expected 1`] = `
             "formatRelative": [Function],
             "formatTime": [Function],
             "formats": Object {},
+            "formatters": Object {
+              "getDateTimeFormat": [Function],
+              "getMessageFormat": [Function],
+              "getNumberFormat": [Function],
+              "getPluralFormat": [Function],
+              "getRelativeFormat": [Function],
+            },
             "locale": "fi",
             "messages": Object {
               "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
@@ -915,6 +934,9 @@ exports[`HearingContainer component should render as expected 1`] = `
               "writeComment": "Kommentti",
             },
             "now": [Function],
+            "onError": [Function],
+            "textComponent": "span",
+            "timeZone": null,
           }
         }
         language="fi"

@@ -75,7 +75,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
       <h2>
         <FormattedMessage
           id="comments"
-          tagName="span"
           values={Object {}}
         />
         <div
@@ -105,7 +104,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
             >
               <FormattedMessage
                 id="commentOrder"
-                tagName="span"
                 values={Object {}}
               />
             </ControlLabel>
@@ -120,7 +118,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="CREATED_AT_DESC"
                   key="CREATED_AT_DESC"
-                  tagName="span"
                   values={Object {}}
                 >
                   <Component />
@@ -128,7 +125,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
-                  tagName="span"
                   values={Object {}}
                 >
                   <Component />
@@ -136,7 +132,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
-                  tagName="span"
                   values={Object {}}
                 >
                   <Component />
@@ -144,7 +139,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
-                  tagName="span"
                   values={Object {}}
                 >
                   <Component />
@@ -198,6 +192,13 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "formatRelative": [Function],
               "formatTime": [Function],
               "formats": Object {},
+              "formatters": Object {
+                "getDateTimeFormat": [Function],
+                "getMessageFormat": [Function],
+                "getNumberFormat": [Function],
+                "getPluralFormat": [Function],
+                "getRelativeFormat": [Function],
+              },
               "locale": "fi",
               "messages": Object {
                 "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
@@ -423,6 +424,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "writeComment": "Kommentti",
               },
               "now": [Function],
+              "onError": [Function],
+              "textComponent": "span",
+              "timeZone": null,
             }
           }
           isLoading={false}
@@ -477,12 +481,12 @@ exports[`SortableCommentList component should render as expected 1`] = `
         />
         <Waypoint
           bottomOffset="0px"
+          debug={false}
           fireOnRapidScroll={true}
           horizontal={false}
           onEnter={[Function]}
           onLeave={[Function]}
           onPositionChange={[Function]}
-          throttleHandler={[Function]}
           topOffset="0px"
         />
       </div>
