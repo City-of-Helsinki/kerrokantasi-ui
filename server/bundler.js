@@ -40,26 +40,31 @@ export function getCompiler(settings, withProgress) {
   return compiler;
 }
 
-export function applyCompilerMiddleware(server, compiler, settings) {
-  if (!settings.dev) return;
-  debug("enabling dev-middleware");
-  server.use(require('webpack-dev-middleware')(compiler, {
-    publicPath: compiler.options.output.publicPath,
-    quiet: false,
-    noInfo: false,
-    stats: {
-      assets: false,
-      chunkModules: false,
-      chunks: true,
-      colors: true,
-      hash: false,
-      progress: false,
-      timings: false,
-      version: false
-    }
-  }));
-  if (!settings.cold) {
-    debug("enabling hot-middleware");
-    server.use(require('webpack-hot-middleware')(compiler));
+/**
+ * Returns configuration for dev middleware.
+ * @returns {object}
+ */
+export const getDevMiddlewareConfig = (compiler) => ({
+  publicPath: compiler.options.output.publicPath,
+  quiet: false,
+  noInfo: false,
+  stats: {
+    assets: false,
+    chunkModules: false,
+    chunks: true,
+    colors: true,
+    hash: false,
+    progress: false,
+    timings: false,
+    version: false
   }
+});
+
+/**
+ * Apply the hot module replacement middleware.
+ * @param {Object} server
+ * @param {Function} compiler
+ */
+export const applyHotMiddleware = (server, compiler) => {
+  server.use(require('webpack-hot-middleware')(compiler));
 }

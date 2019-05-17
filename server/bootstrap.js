@@ -4,12 +4,13 @@ import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import getSettings from './getSettings';
-import {getCompiler, applyCompilerMiddleware} from './bundler';
+import {getCompiler, getDevMiddlewareConfig, applyHotMiddleware} from './bundler';
 import {getPassport, addAuth} from './auth';
 import {inspect} from 'util';
 import morgan from 'morgan';
 import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
+const webpack = require('webpack');
 
 function ignition() {
   const settings = getSettings();
@@ -23,7 +24,13 @@ function ignition() {
 
   // Apply before initialization
   if (settings.dev) {
-    applyCompilerMiddleware(server, compiler, settings);
+    server.use(require('webpack-dev-middleware')(webpack(require('../conf/webpack/dev')()), {
+      ...getDevMiddlewareConfig(compiler)
+    }));
+
+    if (!settings.cold) {
+      applyHotMiddleware(server, compiler);
+    }
   }
 
   server.use('/', express.static(paths.OUTPUT));
