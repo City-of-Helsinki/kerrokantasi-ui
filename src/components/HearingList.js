@@ -148,7 +148,7 @@ HearingListItem.propTypes = {
   language: PropTypes.string,
 };
 
-const HearingList = ({
+export const HearingList = ({
   handleSearch,
   handleSelectLabels,
   handleSort,

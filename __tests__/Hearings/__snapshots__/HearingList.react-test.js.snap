@@ -355,7 +355,16 @@ exports[`HearingsList component should render as expected 1`] = `
             }
             key="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
           />
-          <[object Object] />
+          <Waypoint
+            bottomOffset="0px"
+            debug={false}
+            fireOnRapidScroll={true}
+            horizontal={false}
+            onEnter={[Function]}
+            onLeave={[Function]}
+            onPositionChange={[Function]}
+            topOffset="0px"
+          />
         </div>
       </Col>
     </div>

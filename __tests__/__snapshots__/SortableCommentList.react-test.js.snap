@@ -479,8 +479,15 @@ exports[`SortableCommentList component should render as expected 1`] = `
           }
           totalCount={1}
         />
-        <[object Object]
+        <Waypoint
+          bottomOffset="0px"
+          debug={false}
+          fireOnRapidScroll={true}
+          horizontal={false}
           onEnter={[Function]}
+          onLeave={[Function]}
+          onPositionChange={[Function]}
+          topOffset="0px"
         />
       </div>
     </div>
