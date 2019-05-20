@@ -35,7 +35,6 @@ PrevButton.propTypes = {
 };
 
 export class SectionCarousel extends React.Component {
-
   state = {
     mapContainer: null,
   }
@@ -74,8 +73,8 @@ export class SectionCarousel extends React.Component {
     if (hearing.geojson) {
       slides.unshift(
         <div key="map">
-          <div className="slider-item" ref={ this.handleSetMapContainer }>
-            <HearingMap hearing={hearing} mapContainer={ this.state.mapContainer } />
+          <div className="slider-item" ref={this.handleSetMapContainer}>
+            <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
           </div>
         </div>
       );
@@ -167,7 +166,7 @@ const HearingMap = (props) => {
           hearings={[hearing]}
           style={{width: '100%', height: '100%'}}
           hideIfEmpty
-          mapContainer={ mapContainer }
+          mapContainer={mapContainer}
           showOnCarousel
         />
       </div>

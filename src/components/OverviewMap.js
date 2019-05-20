@@ -5,11 +5,9 @@ import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import {EPSG3067} from '../utils/map';
 import Leaflet, { LatLng } from 'leaflet';
-import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet'; 
-import 'leaflet/dist/leaflet.css'
+import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
 
 class OverviewMap extends React.Component {
-
   state = {
     height: this.props.showOnCarousel ? null : this.props.style.height,
     width: this.props.showOnCarousel ? null : this.props.style.width,
@@ -20,7 +18,7 @@ class OverviewMap extends React.Component {
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updateDimensions)
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -77,7 +75,7 @@ class OverviewMap extends React.Component {
             const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
             contents.push(<Polygon key={Math.random()} positions={latLngs}>{content}</Polygon>);
           }
-          break;
+            break;
           case "Point": {
             const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
             contents.push(
@@ -94,15 +92,15 @@ class OverviewMap extends React.Component {
               />
             );
           }
-          break;
+            break;
           case "LineString": {
             const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
             contents.push(<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
           }
-          break;
+            break;
           default:
           // TODO: Implement support for other geometries too (markers, square, circle)
-          contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
+            contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
         }
         contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
@@ -112,7 +110,7 @@ class OverviewMap extends React.Component {
 
   render() {
     if (typeof window === "undefined") return null;
-    const {style, hearings} = this.props;
+    const { hearings} = this.props;
     const contents = this.getHearingMapContent(hearings);
     if (!contents.length && this.props.hideIfEmpty) {
       return null;
@@ -120,7 +118,7 @@ class OverviewMap extends React.Component {
     const position = [60.192059, 24.945831];  // Default to Helsinki's center
     const crs = EPSG3067();
     return (
-      this.shouldMapRender() && 
+      this.shouldMapRender() &&
       <Map center={position} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
         <TileLayer
           url="https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png"
@@ -132,10 +130,10 @@ class OverviewMap extends React.Component {
             const bounds = input.leafletElement.getBounds();
             if (bounds.isValid()) {
               input.context.map.fitBounds(bounds);
-              const viewportBounds = [
-                [59.9, 24.59],  // SouthWest corner
-                [60.43, 25.3]  // NorthEast corner
-              ];  // Wide Bounds of City of Helsinki area
+              // const viewportBounds = [
+              //   [59.9, 24.59],  // SouthWest corner
+              //   [60.43, 25.3]  // NorthEast corner
+              // ];  // Wide Bounds of City of Helsinki area
               // input.context.map.setMaxBounds(viewportBounds);
             }
           }}
@@ -152,11 +150,13 @@ OverviewMap.propTypes = {
   hideIfEmpty: PropTypes.bool,
   enablePopups: PropTypes.bool,
   showOnCarousel: PropTypes.bool,
+  mapContainer: PropTypes.object,
 };
 
 OverviewMap.contextTypes = {
   language: PropTypes.string.isRequired,
   showOnCarousel: false,
+  mapContainer: {},
 };
 
 export default OverviewMap;
