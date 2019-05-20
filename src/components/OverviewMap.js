@@ -11,8 +11,8 @@ import 'leaflet/dist/leaflet.css'
 class OverviewMap extends React.Component {
 
   state = {
-    height: null,
-    width: null,
+    height: this.props.showOnCarousel ? null : this.props.style.height,
+    width: this.props.showOnCarousel ? null : this.props.style.width,
   }
 
   componentDidMount = () => {
@@ -41,6 +41,15 @@ class OverviewMap extends React.Component {
     const { width, height } = mapContainer.getBoundingClientRect();
     this.setState({ width: `${width}px`, height: `${height}px`});
   }
+
+  /**
+   * ensures whether it is the right time to render map.
+   * In case of carousel, we require static width and height.
+   * @returns {Bool}
+   */
+  shouldMapRender = () => (
+    this.props.showOnCarousel ? (this.state.height && this.state.width) : true
+  );
 
   getHearingMapContent(hearings) {
     const {language} = this.context;
@@ -111,7 +120,7 @@ class OverviewMap extends React.Component {
     const position = [60.192059, 24.945831];  // Default to Helsinki's center
     const crs = EPSG3067();
     return (
-      this.state.height && this.state.width &&
+      this.shouldMapRender() && 
       <Map center={position} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
         <TileLayer
           url="https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png"
@@ -141,11 +150,13 @@ OverviewMap.propTypes = {
   hearings: PropTypes.array.isRequired,
   style: PropTypes.object,
   hideIfEmpty: PropTypes.bool,
-  enablePopups: PropTypes.bool
+  enablePopups: PropTypes.bool,
+  showOnCarousel: PropTypes.bool,
 };
 
 OverviewMap.contextTypes = {
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
+  showOnCarousel: false,
 };
 
 export default OverviewMap;

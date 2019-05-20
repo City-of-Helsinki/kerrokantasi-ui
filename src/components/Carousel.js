@@ -163,7 +163,13 @@ const HearingMap = (props) => {
   return (
     <div className="carousel-map-container">
       <div className="carousel-map">
-        <OverviewMap hearings={[hearing]} style={{width: '100%', height: '100%'}} hideIfEmpty mapContainer={ mapContainer }/>
+        <OverviewMap
+          hearings={[hearing]}
+          style={{width: '100%', height: '100%'}}
+          hideIfEmpty
+          mapContainer={ mapContainer }
+          showOnCarousel
+        />
       </div>
     </div>
   );
