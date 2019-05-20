@@ -31,6 +31,13 @@ exports[`HearingsList component should render as expected 1`] = `
                 "formatRelative": [Function],
                 "formatTime": [Function],
                 "formats": Object {},
+                "formatters": Object {
+                  "getDateTimeFormat": [Function],
+                  "getMessageFormat": [Function],
+                  "getNumberFormat": [Function],
+                  "getPluralFormat": [Function],
+                  "getRelativeFormat": [Function],
+                },
                 "locale": "fi",
                 "messages": Object {
                   "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
@@ -256,6 +263,9 @@ exports[`HearingsList component should render as expected 1`] = `
                   "writeComment": "Kommentti",
                 },
                 "now": [Function],
+                "onError": [Function],
+                "textComponent": "span",
+                "timeZone": null,
               }
             }
             labels={
@@ -347,12 +357,12 @@ exports[`HearingsList component should render as expected 1`] = `
           />
           <Waypoint
             bottomOffset="0px"
+            debug={false}
             fireOnRapidScroll={true}
             horizontal={false}
             onEnter={[Function]}
             onLeave={[Function]}
             onPositionChange={[Function]}
-            throttleHandler={[Function]}
             topOffset="0px"
           />
         </div>
