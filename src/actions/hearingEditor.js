@@ -381,6 +381,19 @@ export function saveHearingChanges(hearing) {
   };
 }
 
+/**
+ * Method that will be used to upload the file to the server.
+ * @param {Document} attachement - attachement to be uploaded.
+ */
+export function uploadSectionAttachment(attachment) {
+  return (dispatch, getState) => {
+    const url = '/v1/file';
+    return api
+      .post(getState(), url)
+  }
+  // uploaded_file should contian the data, with the right section id
+}
+
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
     const cleanedHearing = filterTitleAndContentByLanguage(

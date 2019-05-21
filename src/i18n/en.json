@@ -50,6 +50,7 @@
   "hearingMap": "Hearings on the map",
   "hearingMapHeaderText": "Map",
   "hearingMapHeaderDescription": "Browse hearings on the map",
+  "hearingFileUpload": "Upload files",
   "downloadReport": "Download Excel report of all comments",
   "publishedHearings": "Public",
   "publishingQueue": "Publishing queue",

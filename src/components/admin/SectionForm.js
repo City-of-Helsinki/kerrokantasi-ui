@@ -20,6 +20,7 @@ import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 
 const MAX_IMAGE_SIZE = 999999;
+const MAX_FILE_SIZE = 999999;
 
 class SectionForm extends React.Component {
   constructor(props) {
@@ -60,6 +61,19 @@ class SectionForm extends React.Component {
       }
     }, false);
     fileReader.readAsDataURL(file);
+  }
+
+  /**
+   * when attachment is dropped on the dropzone field.
+   * @param {File} attachment - file to upload.
+   */
+  onAttachmentDrop = (attachment) => {
+    if (attachment[0].size > MAX_FILE_SIZE) {
+      localizedNotifyError('fileSizeError');
+      return;
+    }
+    
+
   }
 
   getImagePreview() {
@@ -206,6 +220,20 @@ class SectionForm extends React.Component {
               <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
             </FormControl>
           </div>
+        </FormGroup>
+        <FormGroup controlId="hearingFiles">
+          <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
+          <Dropzone
+            accept="image/*, application/pdf"
+            className={dropZoneClass}
+            multiple={false}
+            onDrop={this.onAttachmentDrop}
+          >
+            <span className="text">
+              <FormattedMessage id="selectOrDropFile"/>
+              <Icon className="icon" name="upload"/>
+            </span>
+          </Dropzone>
         </FormGroup>
         <FormGroup>
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
