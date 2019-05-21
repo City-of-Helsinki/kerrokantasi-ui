@@ -37,7 +37,9 @@ class OverviewMap extends React.Component {
    */
   handleUpdateMapDimensions = (mapContainer) => {
     const { width, height } = mapContainer.getBoundingClientRect();
-    this.setState({ width: `${width}px`, height: `${height}px`});
+    if (width > 0 && height > 0) {
+      this.setState({ width: `${width}px`, height: `${height}px`});
+    }
   }
 
   /**
@@ -155,8 +157,11 @@ OverviewMap.propTypes = {
 
 OverviewMap.contextTypes = {
   language: PropTypes.string.isRequired,
+};
+
+OverviewMap.defaultProps = {
   showOnCarousel: false,
   mapContainer: {},
-};
+}
 
 export default OverviewMap;
