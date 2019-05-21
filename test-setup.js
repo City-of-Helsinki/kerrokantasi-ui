@@ -1,5 +1,5 @@
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from 'enzyme-adapter-react-16';
 
 // Basic configuration of Jest + Enzyme tests on React v15
 configure({adapter: new Adapter()});

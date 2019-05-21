@@ -154,8 +154,8 @@ MapQuestionnaire.propTypes = {
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,
-  defaultNickname: React.PropTypes.string.isRequired,
-  nicknamePlaceholder: React.PropTypes.string,
+  defaultNickname: PropTypes.string.isRequired,
+  nicknamePlaceholder: PropTypes.string,
   pluginSource: PropTypes.string
 };
 

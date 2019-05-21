@@ -1,4 +1,4 @@
-import {renderIntoDocument} from 'react-addons-test-utils';
+import {renderIntoDocument} from 'react-dom/test-utils';
 import Comment from '../src/components/Comment';
 import {findDOMNode} from 'react-dom';
 import {wireComponent} from '../test-utils';
