@@ -22,7 +22,7 @@ class OverviewMap extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.mapContainer && nextProps.mapContainer.getBoundingClientRect()) {
+    if (nextProps.mapContainer && typeof nextProps.mapContainer !== 'undefined' && nextProps.mapContainer.getBoundingClientRect()) {
       this.handleUpdateMapDimensions(nextProps.mapContainer);
     }
   }
@@ -161,7 +161,7 @@ OverviewMap.contextTypes = {
 
 OverviewMap.defaultProps = {
   showOnCarousel: false,
-  mapContainer: {},
+  mapContainer: undefined,
 };
 
 export default OverviewMap;
