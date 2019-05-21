@@ -162,6 +162,6 @@ OverviewMap.contextTypes = {
 OverviewMap.defaultProps = {
   showOnCarousel: false,
   mapContainer: {},
-}
+};
 
 export default OverviewMap;
