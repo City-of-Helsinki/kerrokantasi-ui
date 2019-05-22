@@ -76,11 +76,13 @@ class SectionForm extends React.Component {
     const section = this.props.section;
     const file = attachment[0];
     const formData = new FormData();
-    formData.append('uploaded_file', file);
-
-    if (this.props.onSectionAttachment) {
-      this.props.onSectionAttachment(section.frontId, formData);
-    }
+    const fileReader = new FileReader();
+    fileReader.addEventListener("load", () => {
+      if (this.props.onSectionAttachment) {
+        this.props.onSectionAttachment(section.frontId, fileReader.result);
+      }
+    });
+    fileReader.readAsDataURL(file);
   }
 
   getImagePreview() {
