@@ -95,7 +95,8 @@ class SectionForm extends React.Component {
       isFirstSubsection,
       isLastSubsection,
       onQuestionChange,
-      onDeleteTemporaryQuestion
+      onDeleteTemporaryQuestion,
+      onDeleteExistingQuestion,
     } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
@@ -240,6 +241,7 @@ class SectionForm extends React.Component {
               sectionId={section.frontId}
               sectionLanguages={sectionLanguages}
               onQuestionChange={onQuestionChange}
+              onDeleteExistingQuestion={onDeleteExistingQuestion}
               lang={language}
             />
           </div>
@@ -270,7 +272,8 @@ SectionForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
   onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onDeleteExistingQuestion: PropTypes.func,
 };
 
 SectionForm.contextTypes = {
