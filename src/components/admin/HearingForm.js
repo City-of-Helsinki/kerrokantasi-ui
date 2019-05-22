@@ -81,6 +81,7 @@ class HearingForm extends React.Component {
               onLanguagesChange={this.props.onLanguagesChange}
               onHearingChange={this.props.onHearingChange}
               onSectionChange={this.props.onSectionChange}
+              onSectionAttachment={this.props.onSectionAttachment}
               onSectionImageChange={this.props.onSectionImageChange}
               onContinue={this.nextStep}
               visible={isVisible}
@@ -213,7 +214,8 @@ HearingForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
   onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onSectionAttachment: PropTypes.func
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));

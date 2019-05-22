@@ -82,6 +82,7 @@ class HearingFormStep2 extends React.Component {
                   section={section}
                   onSectionChange={this.props.onSectionChange}
                   onSectionImageChange={this.props.onSectionImageChange}
+                  onSectionAttachment={ this.props.onSectionAttachment }
                   sectionLanguages={hearingLanguages}
                   sectionMoveUp={sectionMoveUp}
                   sectionMoveDown={sectionMoveDown}
@@ -191,7 +192,8 @@ HearingFormStep2.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
   onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onSectionAttachment: PropTypes.func
 };
 
 HearingFormStep2.contextTypes = {

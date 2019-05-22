@@ -72,8 +72,16 @@ class SectionForm extends React.Component {
       localizedNotifyError('fileSizeError');
       return;
     }
-    
-
+    // Load the file and then upload it.
+    const section = this.props.section;
+    const file = attachment[0];
+    const fileReader = new FileReader();
+    fileReader.addEventListener("load", () => {
+      if (this.props.onSectionAttachment) {
+        this.props.onSectionAttachment(section.frontId, fileReader.result);
+      }
+    });
+    fileReader.readAsDataURL(file);
   }
 
   getImagePreview() {

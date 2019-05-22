@@ -52,6 +52,7 @@ export const EditorActions = {
   ADD_CONTACT: 'addContact',
   ADD_CONTACT_FAILED: 'addContactFailed',
   ADD_CONTACT_SUCCESS: 'addContactSuccess',
+  ADD_SECTION_ATTACHMENT: 'addSectionAttachment',
   RECEIVE_HEARING: 'editorReceiveHearing',
   UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
   SECTION_MOVE_UP: 'sectionMoveUp',
@@ -385,11 +386,19 @@ export function saveHearingChanges(hearing) {
  * Method that will be used to upload the file to the server.
  * @param {Document} attachement - attachement to be uploaded.
  */
-export function uploadSectionAttachment(attachment) {
+export function addSectionAttachment(sectionID, attachement) {
   return (dispatch, getState) => {
-    const url = '/v1/file';
-    return api
-      .post(getState(), url)
+    // const url = '/v1/file';
+    // return api
+    //   .post(getState(), url)
+    //   .then(checkResponseStatus)
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    console.log(sectionID, attachement, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   }
   // uploaded_file should contian the data, with the right section id
 }

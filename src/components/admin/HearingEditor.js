@@ -5,6 +5,7 @@ import {injectIntl} from 'react-intl';
 import {isEmpty, values} from 'lodash';
 import {notifyError} from '../../utils/notify';
 import {
+  addSectionAttachment,
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
@@ -48,12 +49,20 @@ class HearingEditor extends React.Component {
     this.onUnPublish = this.onUnPublish.bind(this);
   }
 
-  onHearingChange(field, value) {
+  onHearingChange = (field, value) => {
     this.props.dispatch(changeHearing(field, value));
   }
 
-  onSectionChange(sectionID, field, value) {
+  onSectionChange = (sectionID, field, value) => {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+
+  /**
+   * Add a new attachement to a section.
+   * The upload happens as soon as user selects a file to upload.
+   */
+  onSectionAttachment = (sectionId, attachement) => {
+    this.props.dispatch(addSectionAttachment(sectionId, attachement));
   }
 
   onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
@@ -64,15 +73,15 @@ class HearingEditor extends React.Component {
     this.props.dispatch(deleteTemporaryQuestion(sectionId, questionFrontId));
   }
 
-  onSectionImageChange(sectionID, field, value) {
+  onSectionImageChange = (sectionID, field, value) => {
     this.props.dispatch(changeSectionMainImage(sectionID, field, value));
   }
 
-  onLanguagesChange(newLanguages) {
+  onLanguagesChange = (newLanguages) => {
     this.props.dispatch(changeHearingEditorLanguages(newLanguages));
   }
 
-  onPublish() {
+  onPublish = () => {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
 
@@ -193,6 +202,7 @@ class HearingEditor extends React.Component {
         onSaveChanges={this.onSaveChanges}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
+        onSectionAttachment={this.onSectionAttachment}
         onLanguagesChange={this.onLanguagesChange}
         show={show}
         dispatch={this.props.dispatch}
