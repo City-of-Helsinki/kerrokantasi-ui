@@ -387,17 +387,33 @@ export function saveHearingChanges(hearing) {
  * @param {Document} attachement - attachement to be uploaded.
  */
 export function addSectionAttachment(sectionID, attachement) {
+  // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch, getState) => {
-    // const url = '/v1/file';
-    // return api
-    //   .post(getState(), url)
-    //   .then(checkResponseStatus)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    const url = '/v1/file';
+    return api
+      .postAttachment(getState(), url, sectionID, attachement)
+      .then(checkResponseStatus)
+      .then((response) => {
+        console.log(response);
+      });
+  }
+  return api
+      .postAttachment(sectionID, attachement)
+      .then(checkResponseStatus)
+      .then((response) => {
+        console.log(response);
+      });
+  return (dispatch, getState) => {
+    const url = '/v1/file';
+    return api
+      .post(getState(), url)
+      .then(checkResponseStatus)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(sectionID, attachement, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   }
   // uploaded_file should contian the data, with the right section id

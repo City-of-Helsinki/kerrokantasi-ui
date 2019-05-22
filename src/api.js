@@ -30,8 +30,32 @@ export function apiCall(state, endpoint, params, options = {}) {
     defaultHeaders.Authorization = "JWT " + user.token;
   }
   options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
+  if (options.headers["Content-Type"] === "multipart/form-data") {
+    delete options.headers["Content-Type"];
+  }
+
   const url = getApiURL(endpoint, params);
   return fetch(url, options);
+}
+
+/**
+ * Multipart method to upload a file to an end point.
+ */
+export function postAttachment(state, endpoint, section, attachment, params = {}, options = { method: "POST", headers: { "Content-Type": "multipart/form-data" } }) {
+  // return apiCall(state, endpoint, params, options);
+  const body = {
+    ordering: 1,
+    title: { fi: "title" },
+    caption: {fi: "caption" },
+    section,
+  }
+
+  const blob = new Blob([json], {
+    type: 'application/json',
+  });
+
+  attachment.append("data", blob);
+  return jsonRequest("POST", state, endpoint, body, params, options);
 }
 
 export function post(state, endpoint, data, params = {}, options = {}) {
@@ -94,4 +118,4 @@ export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) =
   return getPaginated([], params);
 };
 
-export default {post, put, patch, apiDelete, get, getAllFromEndpoint};
+export default {post, put, patch, apiDelete, get, getAllFromEndpoint, postAttachment};
