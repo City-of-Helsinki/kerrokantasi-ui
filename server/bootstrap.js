@@ -43,7 +43,6 @@ function ignition() {
   }
   server.use(renderMiddleware(settings));
 
-
   function run() {
     // Hello? Anyone there?
     server.listen(settings.listen_port, settings.listen_address, () => {
@@ -51,14 +50,18 @@ function ignition() {
     });
   }
 
-  compiler.run((err, stats) => {
-    if (err) throw new Error(`Webpack error: ${err}`);
-    console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
-    // Throw the webpack into the well (if this was the last reference
-    // to it, we reclaim plenty of memory)
-    compiler = null;
+  if (settings.dev) {
     run();
-  });
+  } else {
+    compiler.run((err, stats) => {
+      if (err) throw new Error(`Webpack error: ${err}`);
+      console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
+      // Throw the webpack into the well (if this was the last reference
+      // to it, we reclaim plenty of memory)
+      compiler = null;
+      run();
+    });
+  }
 }
 
 export default ignition;
