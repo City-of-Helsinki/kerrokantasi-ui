@@ -100,6 +100,16 @@ class SectionForm extends React.Component {
     return "";
   }
 
+  /**
+   * When there are attachements inside a section.
+   * Return existing attachments.
+   * @param {Object} section - the section we are editing.
+   * @returns {JS<Component>} react component for displaying attachments.
+   */
+  renderAttachments = (section) => {
+    console.log(section);
+  }
+
   static getImageCaption(section) {
     return get(section.images, '[0].caption', {});
   }
@@ -242,6 +252,7 @@ class SectionForm extends React.Component {
               <Icon className="icon" name="upload"/>
             </span>
           </Dropzone>
+          { this.renderAttachments(section) }
         </FormGroup>
         <FormGroup>
           <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
