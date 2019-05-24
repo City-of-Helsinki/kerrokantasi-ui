@@ -75,7 +75,6 @@ class SectionForm extends React.Component {
     // Load the file and then upload it.
     const section = this.props.section;
     const file = attachment[0];
-    const formData = new FormData();
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
       if (this.props.onSectionAttachment) {
@@ -233,7 +232,7 @@ class SectionForm extends React.Component {
         <FormGroup controlId="hearingFiles">
           <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
           <Dropzone
-            accept="image/*, application/pdf"
+            accept="application/pdf"
             className={dropZoneClass}
             multiple={false}
             onDrop={this.onAttachmentDrop}

@@ -38,7 +38,7 @@ export function apiCall(state, endpoint, params, options = {}) {
 /**
  * Multipart method to upload a file to an end point.
  */
-export function postAttachment(state, endpoint, data, params = {}, options = { method: "POST", headers: { "Content-Type": "multipart/form-data" } }) {
+export function postAttachment(state, endpoint, data, params = {}, options = { method: "POST" }) {
   // return apiCall(state, endpoint, params, options);
   const body = {
     ordering: 1,

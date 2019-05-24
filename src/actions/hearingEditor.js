@@ -386,12 +386,12 @@ export function saveHearingChanges(hearing) {
  * Method that will be used to upload the file to the server.
  * @param {Document} attachement - attachement to be uploaded.
  */
-export function addSectionAttachment(sectionID, attachement) {
+export function addSectionAttachment(section, file) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch, getState) => {
     const url = '/v1/file';
     return api
-      .postAttachment(getState(), url, sectionID, attachement)
+      .postAttachment(getState(), url, {section, file})
       .then(checkResponseStatus)
       .then((response) => {
         console.log(response);
