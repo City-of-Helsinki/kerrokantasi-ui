@@ -8,9 +8,18 @@ import {FormattedMessage} from 'react-intl';
 import getAttr from '../../utils/getAttr';
 
 export class QuestionForm extends React.Component {
+  /**
+   * Delete an exisitng question from a section
+   */
+  handleDeleteExistingQuestion = () => {
+    const {question, sectionId} = this.props;
+    if (question.id && sectionId) {
+      this.props.onDeleteExistingQuestion(sectionId, question.id);
+    }
+  }
+
   render() {
     const {question, sectionId, addOption, deleteOption, sectionLanguages, onQuestionChange, lang} = this.props;
-
     return question.frontId
       // display a form for newly generated questions
       ? (
@@ -41,7 +50,8 @@ export class QuestionForm extends React.Component {
                 />
               </div>
               <div style={{flex: '1', marginTop: '48px', marginLeft: '15px'}}>
-                {index !== 0 && index !== 1 && index === question.options.length - 1 &&
+                {
+                  index !== 0 && index !== 1 && index === question.options.length - 1 &&
                   <Button bsStyle="danger" onClick={() => deleteOption(sectionId, question.frontId, index)}>
                     <Icon style={{fontSize: '24px'}} className="icon" name="trash" />
                   </Button>
@@ -59,24 +69,31 @@ export class QuestionForm extends React.Component {
         <div>
           <h6>{getAttr(question.text, lang)}</h6>
           {
-            question.options.map(
-              (option) => {
-                const answerPercentage = Math.round((option.n_answers / question.n_answers) * 100) || 0;
-                return (
-                  <div key={uuid()}>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                      <div style={{color: 'blue', margin: 'auto 10px auto 0'}}>
-                        {answerPercentage}%
+            <div>
+              {
+                 question.options.map(
+                  (option) => {
+                    const answerPercentage = Math.round((option.n_answers / question.n_answers) * 100) || 0;
+                    return (
+                      <div key={uuid()}>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                          <div style={{color: 'blue', margin: 'auto 10px auto 0'}}>
+                            {answerPercentage}%
+                          </div>
+                          <div>
+                            {getAttr(option.text, lang)}
+                          </div>
+                        </div>
+                        <ProgressBar now={answerPercentage} />
                       </div>
-                      <div>
-                        {getAttr(option.text, lang)}
-                      </div>
-                    </div>
-                    <ProgressBar now={answerPercentage} />
-                  </div>
-                );
+                    );
+                  }
+                )
               }
-            )
+              <Button bsStyle="danger" onClick={this.handleDeleteExistingQuestion}>
+                <FormattedMessage id="deleteQuestion" />
+              </Button>
+            </div>
           }
         </div>
       );
@@ -90,7 +107,8 @@ QuestionForm.propTypes = {
   deleteOption: PropTypes.func,
   sectionLanguages: PropTypes.array,
   onQuestionChange: PropTypes.func,
-  lang: PropTypes.string
+  lang: PropTypes.string,
+  onDeleteExistingQuestion: PropTypes.func,
 };
 
 export default QuestionForm;

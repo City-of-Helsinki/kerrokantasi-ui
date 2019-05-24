@@ -19,6 +19,7 @@ export const EditorActions = {
   EDIT_PHASE: 'changePhase',
   ACTIVE_PHASE: 'activePhase',
   DELETE_PHASE: 'deletePhase',
+  DELETE_EXISTING_QUESTION: 'deleteExistingQuestion',
   ADD_PHASE: 'addPhase',
   SHOW_FORM: 'showHearingForm',
   CLOSE_FORM: 'closeHearingForm',
@@ -320,6 +321,12 @@ export const deleteTemporaryQuestion = (sectionId, questionFrontId) => {
 export const deleteLastOption = (sectionId, questionId, optionKey) => {
   return dispatch => {
     return dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
+  };
+};
+
+export const deleteExistingQuestion = (sectionId, questionId) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.DELETE_EXISTING_QUESTION)({sectionId, questionId}));
   };
 };
 
