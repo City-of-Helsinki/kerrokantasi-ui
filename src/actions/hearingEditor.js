@@ -64,8 +64,8 @@ export const EditorActions = {
 /**
  * When editing a sections attachment.
  */
-export const editSectionAttachment = (sectionId, attachement) => {
-  return createAction(EditorActions.EDIT_SECTION_ATTACHMENT)(sectionId, attachement);
+export const editSectionAttachment = (sectionId, attachements) => {
+  return createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachements});
 }
 
 export function changeProject(projectId, projectLists) {

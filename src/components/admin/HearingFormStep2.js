@@ -89,7 +89,7 @@ class HearingFormStep2 extends React.Component {
                   onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
                   onQuestionChange={onQuestionChange}
                   onSectionAttachment={ this.props.onSectionAttachment }
-                  onSectionAttachmentEdit={ this.props.onSectionAttachmentEdit }
+                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
                   onSectionChange={this.props.onSectionChange}
                   onSectionImageChange={this.props.onSectionImageChange}
                   section={section}

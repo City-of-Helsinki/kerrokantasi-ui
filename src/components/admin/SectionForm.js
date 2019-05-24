@@ -115,10 +115,12 @@ class SectionForm extends React.Component {
           {
             files.map((file, index) => (
               <SectionAttachmentEditor
-                file={{ ...file, ordering: file.ordering ? file.ordering : index+=1 }}
+                file={{...file, ordering: file.ordering ? file.ordering : index+=1}}
                 key={`file-${file.url}`}
                 language={this.context.language}
-                fileCount={ files.length }
+                fileCount={files.length}
+                section={section}
+                onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
               />
             ))
           }

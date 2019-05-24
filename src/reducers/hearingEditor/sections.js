@@ -29,6 +29,15 @@ const byId = handleActions(
         [field]: value,
       },
     }),
+    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, {payload: {sectionId, attachements}}) => {
+      const updatedSection = updeep({
+        files: attachements,
+      }, state[sectionId]);
+      return {
+        ...state,
+        [sectionId]: updatedSection,
+      }
+    },
     [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, optionKey, value} }) => {
       // only search for question with frontId which means the newly generated one.
       // editing is not possible for old questions

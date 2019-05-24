@@ -34,17 +34,39 @@ const isDisabled = (fileCount, currentOrder, type) => {
  * Class decleration for Section attachment editor
  */
 const SectionAttachmentEditor = (props) => {
-  const { file, language, fileCount } = props;
+  const { file, language, fileCount, section } = props;
+  const [title, updateTitle] = React.useState(getFileTitle(file.title, language));
+
+  /**
+   * Method that will update the state of title
+   * @param {Callback} event - callback event from onChange method
+   */
+  const handleUpdateTitle = (event) => {
+    updateTitle(event.target.value);
+  }
+
+  /**
+   * When field focus is left update the store
+   */
+  const handleOnBlurField = () => {
+    const updatedAttachment = { ...file, title: { ...file.title, [language]: title }};
+    const files = section.files.map((attachment) => (
+      attachment.url === file.url ? updatedAttachment : attachment
+    ));
+    props.onSectionAttachmentEdit(section.frontId, files);
+  }
+
   return (
     <div className="section-attachment-editor">
       <div className="section-attachment-edit-icon"><Icon name="file"/></div>
       <div className="section-attachment-editor-input">
         <FormControl
-          defaultValue={getFileTitle(file.title, language)}
+          defaultValue={title}
+          value={title}
           maxLength={100}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          placeholder={'FIle title'}
+          onBlur={handleOnBlurField}
+          onChange={handleUpdateTitle}
+          placeholder={'File title'}
           type="text"
         />
       </div>
@@ -64,6 +86,8 @@ SectionAttachmentEditor.propTypes = {
   file: PropTypes.object.isRequired,
   fileCount: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
+  onSectionAttachmentEdit: PropTypes.func.isRequired,
+  section: PropTypes.object.isRequired,
 };
 
 
