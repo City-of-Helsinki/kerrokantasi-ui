@@ -5,28 +5,29 @@ import {injectIntl} from 'react-intl';
 import {isEmpty, values} from 'lodash';
 import {notifyError} from '../../utils/notify';
 import {
+  addOption,
   addSectionAttachment,
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
   changeSectionMainImage,
+  clearQuestions,
   closeHearing,
   closeHearingForm,
+  deleteLastOption,
+  deleteTemporaryQuestion,
+  editQuestion,
+  editSectionAttachment,
+  initMultipleChoiceQuestion,
+  initSingleChoiceQuestion,
   publishHearing,
-  saveHearingChanges,
   saveAndPreviewHearingChanges,
   saveAndPreviewNewHearing,
+  saveHearingChanges,
+  sectionMoveDown,
+  sectionMoveUp,
   startHearingEdit,
   unPublishHearing,
-  sectionMoveUp,
-  sectionMoveDown,
-  initSingleChoiceQuestion,
-  initMultipleChoiceQuestion,
-  clearQuestions,
-  addOption,
-  deleteLastOption,
-  editQuestion,
-  deleteTemporaryQuestion
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -63,6 +64,13 @@ class HearingEditor extends React.Component {
    */
   onSectionAttachment = (sectionId, attachement) => {
     this.props.dispatch(addSectionAttachment(sectionId, attachement));
+  }
+
+  /**
+   * When section attachment is modified.
+   */
+  onSectionAttachmentEdit = (sectionId, attachement) => {
+    this.props.dispatch(editSectionAttachment(sectionId, attachement));
   }
 
   onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
@@ -203,6 +211,7 @@ class HearingEditor extends React.Component {
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
         onSectionAttachment={this.onSectionAttachment}
+        onSectionAttachmentEdit={this.onSectionAttachmentEdit}
         onLanguagesChange={this.onLanguagesChange}
         show={show}
         dispatch={this.props.dispatch}

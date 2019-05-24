@@ -74,31 +74,32 @@ class HearingForm extends React.Component {
         <Panel.Collapse>
           <Panel.Body>
             <PhaseTag
+              addOption={addOption}
+              clearQuestions={this.props.clearQuestions}
               contactPersons={contactPersons}
-              hearing={hearing}
-              hearingLanguages={hearingLanguages}
-              labels={labels}
-              onLanguagesChange={this.props.onLanguagesChange}
-              onHearingChange={this.props.onHearingChange}
-              onSectionChange={this.props.onSectionChange}
-              onSectionAttachment={this.props.onSectionAttachment}
-              onSectionImageChange={this.props.onSectionImageChange}
-              onContinue={this.nextStep}
-              visible={isVisible}
+              deleteOption={deleteOption}
+              dispatch={this.props.dispatch}
               editorMetaData={this.props.editorMetaData}
               errors={this.props.errors}
-              dispatch={this.props.dispatch}
-              language={language}
-              sectionMoveUp={sectionMoveUp}
-              sectionMoveDown={sectionMoveDown}
               formatMessage={formatMessage}
-              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              hearing={hearing}
+              hearingLanguages={hearingLanguages}
               initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-              clearQuestions={this.props.clearQuestions}
-              addOption={addOption}
-              deleteOption={deleteOption}
-              onQuestionChange={onQuestionChange}
+              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              labels={labels}
+              language={language}
+              onContinue={this.nextStep}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+              onHearingChange={this.props.onHearingChange}
+              onLanguagesChange={this.props.onLanguagesChange}
+              onQuestionChange={onQuestionChange}
+              onSectionAttachment={this.props.onSectionAttachment}
+              onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              sectionMoveDown={sectionMoveDown}
+              sectionMoveUp={sectionMoveUp}
+              visible={isVisible}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -187,35 +188,36 @@ class HearingForm extends React.Component {
 }
 
 HearingForm.propTypes = {
+  addOption: PropTypes.func,
+  clearQuestions: PropTypes.func,
   contactPersons: PropTypes.arrayOf(contactShape),
   currentStep: PropTypes.number,
+  deleteOption: PropTypes.func,
   dispatch: PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
-  isSaving: PropTypes.bool,
   errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
+  initMultipleChoiceQuestion: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
+  isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
+  language: PropTypes.string,
+  onDeleteTemporaryQuestion: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   onLeaveForm: PropTypes.func,
+  onQuestionChange: PropTypes.func,
   onSaveAndPreview: PropTypes.func,
   onSaveChanges: PropTypes.func,
+  onSectionAttachment: PropTypes.func,
+  onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
-  show: PropTypes.bool,
-  language: PropTypes.string,
-  sectionMoveUp: PropTypes.func,
   sectionMoveDown: PropTypes.func,
-  clearQuestions: PropTypes.func,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onSectionAttachment: PropTypes.func
+  sectionMoveUp: PropTypes.func,
+  show: PropTypes.bool,
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));
