@@ -50,10 +50,10 @@ const SectionAttachmentEditor = (props) => {
    */
   const handleOnBlurField = () => {
     const updatedAttachment = { ...file, title: { ...file.title, [language]: title }};
-    const files = section.files.map((attachment) => (
-      attachment.url === file.url ? updatedAttachment : attachment
-    ));
-    props.onSectionAttachmentEdit(section.frontId, files);
+    // const files = section.files.map((attachment) => (
+    //   attachment.url === file.url ? updatedAttachment : attachment
+    // ));
+    props.onSectionAttachmentEdit(section.frontId, updatedAttachment);
   }
 
   return (
