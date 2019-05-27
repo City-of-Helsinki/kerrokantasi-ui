@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node server",
+    "start": "rm -rf ./dist && NODE_ENV=production node server",
     "build": "true",
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "dev": "node server --dev",
@@ -122,13 +122,14 @@
     "slick-carousel": "^1.8.1",
     "snyk": "^1.49.4",
     "style-loader": "^0.18.2",
+    "terser-webpack-plugin": "^1.2.4",
     "updeep": "^0.16.0",
     "url-loader": "^0.6.0",
     "url-parse": "^1.4.3",
     "uuid": "^3.1.0",
-    "webpack": "^3.12.0",
-    "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.4.1",
+    "webpack": "^4.32.2",
+    "webpack-dev-middleware": "^3.7.0",
+    "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {

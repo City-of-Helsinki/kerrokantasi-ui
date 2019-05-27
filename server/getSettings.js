@@ -1,7 +1,5 @@
 import {Provider} from 'nconf';
 
-const _ = require('lodash');
-
 const defaults = {
   // Server will listen on this address and port
   listen_address: 'localhost',
@@ -61,7 +59,7 @@ export default function getOptions() {
   nconf.required(mandatoryKeys);
 
   const uiConfig = nconf.get('ui_config');
-  if (_.isString(uiConfig)) {
+  if (typeof uiConfig === 'string' || uiConfig instanceof String) {
     nconf.set('ui_config', JSON.parse(uiConfig));
   }
 

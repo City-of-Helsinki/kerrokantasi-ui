@@ -1,13 +1,25 @@
-/* eslint-disable no-var */
-
-var merge = require('webpack-merge');
-var webpack = require('webpack');
-var common = require('./common');
-var paths = require('../paths');
+const merge = require('webpack-merge');
+const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+const common = require('./common');
+const paths = require('../paths');
 
 module.exports = merge(common, {
   entry: [paths.ENTRY],
   devtool: 'source-map',
+  mode: 'production',
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        }
+      }),
+    ],
+  },
   module: {
     rules: [
       {
@@ -22,7 +34,6 @@ module.exports = merge(common, {
       __DEVTOOLS__: false,
       'process.env': {NODE_ENV: JSON.stringify('production')}
     }),
-    new webpack.optimize.UglifyJsPlugin({output: {comments: false}, sourceMap: true}),
     new webpack.LoaderOptionsPlugin({minimize: true}),
   ]
 });

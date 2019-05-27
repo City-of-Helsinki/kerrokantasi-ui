@@ -1,5 +1,4 @@
-import assign from 'lodash/assign';
-import noop from 'lodash/noop';
+import { assign, noop } from 'lodash';
 import commonInit from './src/commonInit';
 import createStore from './src/createStore';
 import messages from './src/i18n';
