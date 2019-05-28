@@ -98,6 +98,7 @@ class HearingForm extends React.Component {
               deleteOption={deleteOption}
               onQuestionChange={onQuestionChange}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -213,7 +214,8 @@ HearingForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
   onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onDeleteExistingQuestion: PropTypes.func,
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));
