@@ -113,7 +113,7 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <Navbar fluid staticTop defaultExpanded className="navbar-helsinki">
+        <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi">
           <Navbar.Header>
             <Navbar.Brand>
               <Link to={{path: "/"}}>

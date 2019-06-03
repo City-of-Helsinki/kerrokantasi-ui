@@ -1,5 +1,5 @@
 .subnav-section {
-  background-color: $gray-light;
+  background-color: $gray-500;
 }
 
 .carousel-map {
@@ -98,15 +98,4 @@
   text-align: center;
   overflow: hidden;
   height: 65px;
-}
-
-.hearing-card-comment-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 3px 10px;
-  font-size: 1.2em;
-  font-weight: 500;
-  background: $theme-secondary-light;
-  border-radius: 0 0 0 24px;
 }

@@ -1,0 +1,80 @@
+.btn {
+  border-width: 2px;
+  font-weight: 500;
+}
+
+.btn-default {
+  color: $text-color;
+  border-color: $text-color;
+
+  &:hover, &:focus {
+    color: $text-color;
+    border-color: $text-color;
+  }
+}
+
+.btn-group {
+  .btn + .btn,
+  .btn + .btn-group,
+  .btn-group + .btn,
+  .btn-group + .btn-group {
+    margin-left: -2px;
+  }
+}
+
+.btn-group-vertical {
+  > .btn + .btn,
+  > .btn + .btn-group,
+  > .btn-group + .btn,
+  > .btn-group + .btn-group {
+    margin-top: -2px;
+  }
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+@media (min-width: $screen-md-min) {
+  .navbar-nav > li > a {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 15px;
+    margin-left: 15px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .navbar-nav > .active > a, .navbar-nav > li > a:hover {
+    &:after {
+      content: "";
+      border-bottom: solid 2px $black;
+      position: absolute;
+      bottom: 14px;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.label-info,
+.label-warning,
+.label-success,
+.label-default {
+  color: $black;
+}
+
+.navbar-kerrokantasi {
+  border-bottom: 1px solid $gray-300;
+}
+
+.navbar-primary {
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+}
+
+.nav-user-menu button {
+  font-size: 15px;
+}
