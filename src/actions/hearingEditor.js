@@ -21,6 +21,8 @@ export const EditorActions = {
   ADD_LABEL_SUCCESS: 'addLabelSuccess',
   ADD_LABEL: 'addLabel',
   ADD_OPTION: 'addOption',
+  DELETE_PHASE: 'deletePhase',
+  DELETE_EXISTING_QUESTION: 'deleteExistingQuestion',
   ADD_PHASE: 'addPhase',
   ADD_SECTION_ATTACHMENT: 'addSectionAttachment',
   ADD_SECTION: 'addSection',
@@ -338,6 +340,12 @@ export const deleteTemporaryQuestion = (sectionId, questionFrontId) => {
 export const deleteLastOption = (sectionId, questionId, optionKey) => {
   return dispatch => {
     return dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
+  };
+};
+
+export const deleteExistingQuestion = (sectionId, questionId) => {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.DELETE_EXISTING_QUESTION)({sectionId, questionId}));
   };
 };
 

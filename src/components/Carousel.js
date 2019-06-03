@@ -35,11 +35,21 @@ PrevButton.propTypes = {
 };
 
 export class SectionCarousel extends React.Component {
+  state = {
+    mapContainer: null,
+  }
+
   componentWillReceiveProps(nextProps) {
     const {hearing, match: {params}} = this.props;
     if (params.sectionId !== nextProps.match.params.sectionId) {
       this.slider.slickGoTo(getInitialSlideIndex(hearing, nextProps.match.params));
     }
+  }
+
+  // Inorder to keep a track of map container dimensions
+  // Save reference in state.
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
   }
 
   /* Add slide per every section and map as first item if the hearing has geojson and fullscreen link as last item if
@@ -63,8 +73,8 @@ export class SectionCarousel extends React.Component {
     if (hearing.geojson) {
       slides.unshift(
         <div key="map">
-          <div className="slider-item">
-            <HearingMap hearing={hearing} />
+          <div className="slider-item" ref={this.handleSetMapContainer}>
+            <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
           </div>
         </div>
       );
@@ -147,18 +157,26 @@ SectionCarousel.propTypes = {
 
 export default withRouter(SectionCarousel);
 
-const HearingMap = ({hearing}) => {
+const HearingMap = (props) => {
+  const { hearing, mapContainer } = props;
   return (
     <div className="carousel-map-container">
       <div className="carousel-map">
-        <OverviewMap hearings={[hearing]} style={{width: '100%', height: '100%'}} hideIfEmpty />
+        <OverviewMap
+          hearings={[hearing]}
+          style={{width: '100%', height: '100%'}}
+          hideIfEmpty
+          mapContainer={mapContainer}
+          showOnCarousel
+        />
       </div>
     </div>
   );
 };
 
 HearingMap.propTypes = {
-  hearing: PropTypes.object
+  hearing: PropTypes.object,
+  mapContainer: PropTypes.object,
 };
 
 const SliderItem = ({section, to, language, hearingTitle, active}) => {

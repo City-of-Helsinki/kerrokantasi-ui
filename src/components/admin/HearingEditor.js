@@ -20,6 +20,7 @@ import {
   editSectionAttachment,
   initMultipleChoiceQuestion,
   initSingleChoiceQuestion,
+  deleteExistingQuestion,
   publishHearing,
   saveAndPreviewHearingChanges,
   saveAndPreviewNewHearing,
@@ -81,7 +82,14 @@ class HearingEditor extends React.Component {
     this.props.dispatch(deleteTemporaryQuestion(sectionId, questionFrontId));
   }
 
-  onSectionImageChange = (sectionID, field, value) => {
+  /**
+   * Delete a question from section which has been stored in database
+   */
+  onDeleteExistingQuestion = (sectionId, questionFrontId) => {
+    this.props.dispatch(deleteExistingQuestion(sectionId, questionFrontId));
+  }
+
+  onSectionImageChange(sectionID, field, value) {
     this.props.dispatch(changeSectionMainImage(sectionID, field, value));
   }
 
@@ -226,6 +234,7 @@ class HearingEditor extends React.Component {
         deleteOption={this.deleteOption}
         onQuestionChange={this.onQuestionChange}
         onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
+        onDeleteExistingQuestion={this.onDeleteExistingQuestion}
       />
     );
   }

@@ -6,10 +6,8 @@ import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import isEmpty from 'lodash/isEmpty';
+import {isEmpty, includes, keys} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
-import keys from 'lodash/keys';
-import includes from 'lodash/includes';
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
 

@@ -140,6 +140,7 @@ class SectionForm extends React.Component {
       deleteOption,
       isFirstSubsection,
       isLastSubsection,
+      onDeleteExistingQuestion,
       onDeleteTemporaryQuestion,
       onQuestionChange,
       onSectionChange,
@@ -307,6 +308,7 @@ class SectionForm extends React.Component {
               sectionId={section.frontId}
               sectionLanguages={sectionLanguages}
               onQuestionChange={onQuestionChange}
+              onDeleteExistingQuestion={onDeleteExistingQuestion}
               lang={language}
             />
           </div>
@@ -340,6 +342,16 @@ SectionForm.propTypes = {
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
+  isFirstSubsection: PropTypes.bool,
+  isLastSubsection: PropTypes.bool,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onDeleteExistingQuestion: PropTypes.func,
 };
 
 SectionForm.contextTypes = {

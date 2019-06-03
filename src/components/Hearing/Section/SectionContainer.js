@@ -12,6 +12,7 @@ import {
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
+import SectionAttachment from './SectionAttachment';
 import SectionClosureInfo from './SectionClosureInfo';
 import PluginContent from '../../PluginContent';
 import SectionBrowser from '../../SectionBrowser';
@@ -146,6 +147,29 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showLightbox: false});
   }
 
+  /**
+   * If files are attached to the section, render the files section
+   * @returns {JSX<Component>} component if files exist.
+   */
+  renderFileSection = (section) => {
+    const {files} = section;
+    const {language} = this.props;
+    if (files && files.length > 0) {
+      // Construct the UI specification for displaying files.
+      return (
+        <div className="hearing-attachments">
+          <h4><FormattedMessage id="attachments" /></h4>
+          {
+            files.map((file) => (
+              <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+            ))
+          }
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
     const {
       hearing,
@@ -200,6 +224,9 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
+                    {
+                      this.renderFileSection(section)
+                    }
                     {mainSection.plugin_identifier &&
                     <div className="plugin-content">
                       <PluginContent
@@ -219,7 +246,7 @@ export class SectionContainerComponent extends React.Component {
                       <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
                         <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
                           <Icon name="arrows-alt" fixedWidth />
-                          <FormattedMessage id="openFullscreenMap" />
+                          <h4><FormattedMessage id="openFullscreenMap" /></h4>
                         </Button>
                       </Link>
                     }

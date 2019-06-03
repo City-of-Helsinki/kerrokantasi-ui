@@ -96,6 +96,16 @@ class HearingFormStep2 extends React.Component {
                   sectionLanguages={hearingLanguages}
                   sectionMoveDown={sectionMoveDown}
                   sectionMoveUp={sectionMoveUp}
+                  isFirstSubsection={index === 1}
+                  isLastSubsection={sectionID === last(hearing.sections).frontId}
+                  initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                  initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+                  clearQuestions={this.props.clearQuestions}
+                  addOption={addOption}
+                  deleteOption={deleteOption}
+                  onQuestionChange={onQuestionChange}
+                  onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+                  onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
                 />
                 <div className="section-toolbar">
                   {this.getDeleteSectionButton(section, sectionID)}
@@ -196,6 +206,14 @@ HearingFormStep2.propTypes = {
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onDeleteExistingQuestion: PropTypes.func,
 };
 
 HearingFormStep2.contextTypes = {
