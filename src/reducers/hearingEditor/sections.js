@@ -29,6 +29,35 @@ const byId = handleActions(
         [field]: value,
       },
     }),
+    [EditorActions.ADD_ATTACHMENT]: (state, { payload: { sectionId, attachment }}) => {
+      const updatedSection = updeep({
+        files: [...state[sectionId].files, attachment]
+      }, state[sectionId]);
+      return {
+        ...state,
+        [sectionId]: updatedSection,
+      }
+    },
+    [EditorActions.ORDER_ATTACHMENTS]: (state, {payload: {sectionId, attachements}}) => {
+      const newOrder = state[sectionId].files.map((file) => {
+        const matchingAttachment = attachements.find((attachment) => attachment.id === file.id);
+        if (matchingAttachment) return matchingAttachment;
+        return file;
+      });
+      
+      const updatedSection = updeep({
+        files: newOrder.sort((prev, curr) => {
+          if(prev.ordering > curr.ordering) return 1;
+          if(prev.ordering < curr.ordering) return -1;
+          return 0;
+        })
+      }, state[sectionId]);
+
+      return {
+        ...state,
+        [sectionId]: updatedSection,
+      }
+    },
     [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, {payload: {sectionId, attachements}}) => {
       const updatedSection = updeep({
         files: attachements,
@@ -138,6 +167,16 @@ const byId = handleActions(
         ...state,
         [sectionId]: updatedSection,
       };
+    },
+    [EditorActions.DELETE_ATTACHMENT]: (state, { payload: { sectionId, attachment }}) => {
+      const updatedSection = updeep({
+        files: state[sectionId].files.filter(file => file.id !== attachment.id)
+      }, state[sectionId]);
+
+      return {
+        ...state,
+        [sectionId]: updatedSection,
+      }
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
       const section = {...state[sectionID], images: [...state[sectionID].images]};

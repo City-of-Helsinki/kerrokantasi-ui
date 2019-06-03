@@ -46,13 +46,30 @@ const SectionAttachmentEditor = (props) => {
   }
 
   /**
+   * Callback method when delete button is pressed for a file in section
+   */
+  const handleOnClickDeleteButton = () => {
+    props.onSectionAttachmentDelete(section.frontId, file);
+  }
+
+  /**
+   * Increase the order of the file.
+   */
+  const handleIncrementOrder = () => {
+    const otherFile = section.files[file.ordering - 2]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
+    props.onEditSectionAttachmentOrder(section.frontId, [{ ...file, ordering: file.ordering - 1 }, { ...otherFile, ordering: file.ordering }]);
+  }
+
+  const handleDecrementOrder = () => {
+    const otherFile = section.files[file.ordering + 2]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
+    props.onEditSectionAttachmentOrder(section.frontId, [{ ...file, ordering: file.ordering + 1 }, { ...otherFile, ordering: file.ordering }]);
+  }
+
+  /**
    * When field focus is left update the store
    */
   const handleOnBlurField = () => {
     const updatedAttachment = { ...file, title: { ...file.title, [language]: title }};
-    // const files = section.files.map((attachment) => (
-    //   attachment.url === file.url ? updatedAttachment : attachment
-    // ));
     props.onSectionAttachmentEdit(section.frontId, updatedAttachment);
   }
 
@@ -71,9 +88,23 @@ const SectionAttachmentEditor = (props) => {
         />
       </div>
       <div className="Section-attachment-editor-actions">
-        <button type="button" className="btn btn-default pull-right" disabled={ isDisabled(fileCount, file.ordering, 'increment') }>&uarr;</button>
-        <button type="button" className="btn btn-default pull-right" disabled={ isDisabled(fileCount, file.ordering, 'decrement') }>&darr;</button>
-        <button type="button" className="btn btn-default pull-right">
+        <button 
+          type="button"
+          className="btn btn-default pull-right"
+          disabled={ isDisabled(fileCount, file.ordering, 'increment') }
+          onClick={handleIncrementOrder}
+        >
+          &uarr;
+        </button>
+        <button
+          type="button"
+          className="btn btn-default pull-right"
+          disabled={ isDisabled(fileCount, file.ordering, 'decrement') }
+          onClick={handleDecrementOrder}
+        >
+          &darr;
+        </button>
+        <button type="button" className="btn btn-default pull-right" onClick={handleOnClickDeleteButton}>
           <Icon style={{fontSize: '24px', marginRight: '12px'}} className="icon" name="trash" />
           <FormattedMessage id="deleteAttachment"/>
         </button>
@@ -86,6 +117,8 @@ SectionAttachmentEditor.propTypes = {
   file: PropTypes.object.isRequired,
   fileCount: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
+  onEditSectionAttachmentOrder: PropTypes.func.isRequired,
+  onSectionAttachmentDelete: PropTypes.func.isRequired,
   onSectionAttachmentEdit: PropTypes.func.isRequired,
   section: PropTypes.object.isRequired,
 };

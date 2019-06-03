@@ -78,7 +78,7 @@ class SectionForm extends React.Component {
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
       if (this.props.onSectionAttachment) {
-        this.props.onSectionAttachment(section.frontId, fileReader.result);
+        this.props.onSectionAttachment(section.frontId, fileReader.result,  {[this.context.language]: file.name});
       }
     });
     fileReader.readAsDataURL(file);
@@ -120,6 +120,8 @@ class SectionForm extends React.Component {
                 language={this.context.language}
                 fileCount={files.length}
                 section={section}
+                onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
                 onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
               />
             ))
@@ -332,9 +334,12 @@ SectionForm.propTypes = {
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
   maxAbstractLength: PropTypes.number,
+  onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
+  onEditSectionAttachmentOrder: PropTypes.func,
   onQuestionChange: PropTypes.func,
   onSectionAttachmen: PropTypes.func,
+  onSectionAttachmentDelete: PropTypes.func,
   onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
@@ -342,16 +347,6 @@ SectionForm.propTypes = {
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool,
-  clearQuestions: PropTypes.func,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onDeleteExistingQuestion: PropTypes.func,
 };
 
 SectionForm.contextTypes = {

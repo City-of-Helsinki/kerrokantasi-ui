@@ -14,6 +14,7 @@ import {
 
 export const EditorActions = {
   ACTIVE_PHASE: 'activePhase',
+  ADD_ATTACHMENT: 'addAttachment',
   ADD_CONTACT_FAILED: 'addContactFailed',
   ADD_CONTACT_SUCCESS: 'addContactSuccess',
   ADD_CONTACT: 'addContact',
@@ -21,6 +22,7 @@ export const EditorActions = {
   ADD_LABEL_SUCCESS: 'addLabelSuccess',
   ADD_LABEL: 'addLabel',
   ADD_OPTION: 'addOption',
+  DELETE_ATTACHMENT: 'deleteAttachment',
   DELETE_PHASE: 'deletePhase',
   DELETE_EXISTING_QUESTION: 'deleteExistingQuestion',
   ADD_PHASE: 'addPhase',
@@ -45,6 +47,7 @@ export const EditorActions = {
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   INIT_NEW_HEARING: 'initNewHearing',
   INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
+  ORDER_ATTACHMENTS: 'orderAttachments',
   POST_HEARING_SUCCESS: 'savedNewHearing',
   POST_HEARING: 'savingNewHearing',
   PUBLISH_HEARING: 'publishingHearing',
@@ -67,14 +70,50 @@ export const EditorActions = {
  * When editing a sections attachment.
  */
 export const editSectionAttachment = (sectionId, attachement) => {
-  // return createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachements});
   return (dispatch, getState) => {
-    const url = '/v1/file/1';
+    const url = `/v1/file/${attachement.id}`;
     return api
       .put(getState(), url, attachement)
       .then(checkResponseStatus)
       .then((response) => {
         console.log(response);
+      });
+  }
+}
+
+/**
+ * For changing order, two requests have to be made.
+ * One file is incremented whilst the other decrementd.
+ */
+export const editSectionAttachmentOrder = (sectionId, attachements) => {
+  return (dispatch, getState) => {
+    const promises = attachements.map((attachment) => {
+      const url = `/v1/file/${attachment.id}`;
+      return api
+        .put(getState(), url, attachment);
+    });
+
+    return Promise.all(promises)
+      .then(() => {
+        return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachements}));
+      });
+  }
+}
+
+/**
+ * Delete an attached item.
+ * @param {String} sectionId - id of the section the attachment belongs to.
+ * @param {Object} attachment - attachment in a section or independant of.
+ * @reuturns Promise.
+ */
+export const deleteSectionAttachment = (sectionId, attachment) => {
+  return (dispatch, getState) => {
+    const url = `/v1/file/${attachment.id}`;
+    return api
+      .apiDelete(getState(), url, attachment)
+      .then(checkResponseStatus)
+      .then(() => {
+        return dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({sectionId, attachment}));
       });
   }
 }
@@ -411,37 +450,19 @@ export function saveHearingChanges(hearing) {
  * Method that will be used to upload the file to the server.
  * @param {Document} attachement - attachement to be uploaded.
  */
-export function addSectionAttachment(section, file) {
+export function addSectionAttachment(section, file, title) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch, getState) => {
     const url = '/v1/file';
     return api
-      .postAttachment(getState(), url, {section, file})
+      .post(getState(), url, {section, file, title})
       .then(checkResponseStatus)
       .then((response) => {
-        console.log(response);
+        response.json().then((attachment) => {
+          return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
+        });
       });
   }
-  return api
-      .postAttachment(sectionID, attachement)
-      .then(checkResponseStatus)
-      .then((response) => {
-        console.log(response);
-      });
-  return (dispatch, getState) => {
-    const url = '/v1/file';
-    return api
-      .post(getState(), url)
-      .then(checkResponseStatus)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(sectionID, attachement, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  }
-  // uploaded_file should contian the data, with the right section id
 }
 
 export function saveAndPreviewHearingChanges(hearing) {

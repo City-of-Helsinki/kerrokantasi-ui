@@ -35,20 +35,6 @@ export function apiCall(state, endpoint, params, options = {}) {
   return fetch(url, options);
 }
 
-/**
- * Multipart method to upload a file to an end point.
- */
-export function postAttachment(state, endpoint, data, params = {}, options = { method: "POST" }) {
-  // return apiCall(state, endpoint, params, options);
-  const body = {
-    ordering: 1,
-    title: { fi: "title" },
-    caption: {fi: "caption" },
-    ...data,
-  }
-  return jsonRequest("POST", state, endpoint, body, params, options);
-}
-
 export function post(state, endpoint, data, params = {}, options = {}) {
   return jsonRequest("POST", state, endpoint, data, params, options);
 }
@@ -109,4 +95,4 @@ export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) =
   return getPaginated([], params);
 };
 
-export default {post, put, patch, apiDelete, get, getAllFromEndpoint, postAttachment};
+export default {post, put, patch, apiDelete, get, getAllFromEndpoint};

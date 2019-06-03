@@ -87,8 +87,10 @@ class HearingFormStep2 extends React.Component {
                   isFirstSubsection={index === 1}
                   isLastSubsection={sectionID === last(hearing.sections).frontId}
                   onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
                   onQuestionChange={onQuestionChange}
                   onSectionAttachment={ this.props.onSectionAttachment }
+                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
                   onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
                   onSectionChange={this.props.onSectionChange}
                   onSectionImageChange={this.props.onSectionImageChange}
@@ -189,31 +191,33 @@ class HearingFormStep2 extends React.Component {
 
 HearingFormStep2.propTypes = {
   addOption: PropTypes.func,
+  addOption: PropTypes.func,
   clearQuestions: PropTypes.func,
+  clearQuestions: PropTypes.func,
+  deleteOption: PropTypes.func,
   deleteOption: PropTypes.func,
   dispatch: PropTypes.func,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
   onContinue: PropTypes.func,
+  onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onEditSectionAttachmentOrder: PropTypes.func,
+  onQuestionChange: PropTypes.func,
   onQuestionChange: PropTypes.func,
   onSectionAttachment: PropTypes.func,
+  onSectionAttachmentDelete: PropTypes.func,
   onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  clearQuestions: PropTypes.func,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onDeleteExistingQuestion: PropTypes.func,
 };
 
 HearingFormStep2.contextTypes = {

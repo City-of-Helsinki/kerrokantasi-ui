@@ -89,26 +89,20 @@ class HearingForm extends React.Component {
               labels={labels}
               language={language}
               onContinue={this.nextStep}
+              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+              onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
               onHearingChange={this.props.onHearingChange}
               onLanguagesChange={this.props.onLanguagesChange}
               onQuestionChange={onQuestionChange}
               onSectionAttachment={this.props.onSectionAttachment}
+              onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
               onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
               onSectionChange={this.props.onSectionChange}
               onSectionImageChange={this.props.onSectionImageChange}
               sectionMoveDown={sectionMoveDown}
               sectionMoveUp={sectionMoveUp}
               visible={isVisible}
-              formatMessage={formatMessage}
-              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-              clearQuestions={this.props.clearQuestions}
-              addOption={addOption}
-              deleteOption={deleteOption}
-              onQuestionChange={onQuestionChange}
-              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
             />
           </Panel.Body>
         </Panel.Collapse>
@@ -213,7 +207,9 @@ HearingForm.propTypes = {
   isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
+  onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
+  onEditSectionAttachmentOrder: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   onLeaveForm: PropTypes.func,
@@ -221,20 +217,13 @@ HearingForm.propTypes = {
   onSaveAndPreview: PropTypes.func,
   onSaveChanges: PropTypes.func,
   onSectionAttachment: PropTypes.func,
+  onSectionAttachmentDelete: PropTypes.func,
   onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
-  clearQuestions: PropTypes.func,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onDeleteExistingQuestion: PropTypes.func,
 };
 
 const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));
