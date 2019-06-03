@@ -101,7 +101,7 @@ class SectionForm extends React.Component {
   }
 
   /**
-   * When there are attachements inside a section.
+   * When there are attachments inside a section.
    * Return existing attachments.
    * @param {Object} section - the section we are editing.
    * @returns {JS<Component>} react component for displaying attachments.

@@ -62,11 +62,11 @@ class HearingEditor extends React.Component {
   }
 
   /**
-   * Add a new attachement to a section.
+   * Add a new attachments to a section.
    * The upload happens as soon as user selects a file to upload.
    */
-  onSectionAttachment = (sectionId, attachements, attachmentProperties) => {
-    this.props.dispatch(addSectionAttachment(sectionId, attachements, attachmentProperties));
+  onSectionAttachment = (sectionId, attachments, attachmentProperties) => {
+    this.props.dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties));
   }
 
   /**
@@ -79,15 +79,15 @@ class HearingEditor extends React.Component {
   /**
    * When section attachment is modified.
    */
-  onSectionAttachmentEdit = (sectionId, attachement) => {
-    this.props.dispatch(editSectionAttachment(sectionId, attachement));
+  onSectionAttachmentEdit = (sectionId, attachments) => {
+    this.props.dispatch(editSectionAttachment(sectionId, attachments));
   }
 
   /**
    * When section attachment is deleted.
    */
-  onSectionAttachmentDelete = (sectionId, attachement) => {
-    this.props.dispatch(deleteSectionAttachment(sectionId, attachement));
+  onSectionAttachmentDelete = (sectionId, attachments) => {
+    this.props.dispatch(deleteSectionAttachment(sectionId, attachments));
   }
 
   onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {

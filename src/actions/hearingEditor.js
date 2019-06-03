@@ -69,14 +69,14 @@ export const EditorActions = {
 /**
  * When editing a sections attachment.
  */
-export const editSectionAttachment = (sectionId, attachement) => {
+export const editSectionAttachment = (sectionId, attachment) => {
   return (dispatch, getState) => {
-    const url = `/v1/file/${attachement.id}`;
+    const url = `/v1/file/${attachment.id}`;
     return api
-      .put(getState(), url, attachement)
+      .put(getState(), url, attachment)
       .then(checkResponseStatus)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        return dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachment}));
       });
   }
 }
@@ -85,9 +85,9 @@ export const editSectionAttachment = (sectionId, attachement) => {
  * For changing order, two requests have to be made.
  * One file is incremented whilst the other decrementd.
  */
-export const editSectionAttachmentOrder = (sectionId, attachements) => {
+export const editSectionAttachmentOrder = (sectionId, attachments) => {
   return (dispatch, getState) => {
-    const promises = attachements.map((attachment) => {
+    const promises = attachments.map((attachment) => {
       const url = `/v1/file/${attachment.id}`;
       return api
         .put(getState(), url, attachment);
@@ -95,7 +95,7 @@ export const editSectionAttachmentOrder = (sectionId, attachements) => {
 
     return Promise.all(promises)
       .then(() => {
-        return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachements}));
+        return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachments}));
       });
   }
 }
@@ -448,7 +448,7 @@ export function saveHearingChanges(hearing) {
 
 /**
  * Method that will be used to upload the file to the server.
- * @param {Document} attachement - attachement to be uploaded.
+ * @param {Document} section - attachments to be uploaded.
  */
 export function addSectionAttachment(section, file, title) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.

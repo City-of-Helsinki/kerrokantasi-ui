@@ -61,7 +61,7 @@ const SectionAttachmentEditor = (props) => {
   }
 
   const handleDecrementOrder = () => {
-    const otherFile = section.files[file.ordering + 2]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
+    const otherFile = section.files[file.ordering]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
     props.onEditSectionAttachmentOrder(section.frontId, [{ ...file, ordering: file.ordering + 1 }, { ...otherFile, ordering: file.ordering }]);
   }
 

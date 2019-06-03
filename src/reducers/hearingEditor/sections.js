@@ -38,9 +38,9 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       }
     },
-    [EditorActions.ORDER_ATTACHMENTS]: (state, {payload: {sectionId, attachements}}) => {
+    [EditorActions.ORDER_ATTACHMENTS]: (state, {payload: {sectionId, attachments}}) => {
       const newOrder = state[sectionId].files.map((file) => {
-        const matchingAttachment = attachements.find((attachment) => attachment.id === file.id);
+        const matchingAttachment = attachments.find((attachment) => attachment.id === file.id);
         if (matchingAttachment) return matchingAttachment;
         return file;
       });
@@ -58,9 +58,11 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       }
     },
-    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, {payload: {sectionId, attachements}}) => {
+    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, {payload: {sectionId, attachment}}) => {
+      const updatedFile = state[sectionId].files.map(file => file.id === attachment.id ? attachment : file);
+      console.log(updatedFile);
       const updatedSection = updeep({
-        files: attachements,
+        files: updatedFile,
       }, state[sectionId]);
       return {
         ...state,
