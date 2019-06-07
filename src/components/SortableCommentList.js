@@ -98,6 +98,10 @@ export class SortableCommentListComponent extends Component {
     }
   }
 
+
+  /**
+   * When posting a new comment.
+   */
   onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
     const answers = this.state.answers;
@@ -105,6 +109,13 @@ export class SortableCommentListComponent extends Component {
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
     }
+  }
+
+  /**
+   * When posting a reply to a comment.
+   */
+  handlePostReply = (sectionId, commentId, data) => {
+    this.props.onPostReply(sectionId, { ...data, comment: commentId});
   }
 
 
@@ -300,15 +311,22 @@ export class SortableCommentListComponent extends Component {
             {showCommentList &&
               <div>
                 <WrappedCommentList
+                  canReply={canComment && published}
+                  onPostReply={this.handlePostReply}
                   canVote={canVote}
-                  section={section}
                   comments={sectionComments.results}
-                  totalCount={sectionComments.count}
-                  onEditComment={this.props.onEditComment}
-                  onDeleteComment={this.props.onDeleteComment}
-                  onPostVote={this.props.onPostVote}
-                  isLoading={this.state.showLoader}
+                  defaultNickname={getNickname(user)}
+                  hearingId={hearingId}
                   intl={intl}
+                  isLoading={this.state.showLoader}
+                  language={language}
+                  nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
+                  onDeleteComment={this.props.onDeleteComment}
+                  onEditComment={this.props.onEditComment}
+                  onPostVote={this.props.onPostVote}
+                  section={section}
+                  totalCount={sectionComments.count}
+                  user={user}
                 />
                 <Waypoint onEnter={this.handleReachBottom} />
               </div>}
@@ -326,6 +344,7 @@ SortableCommentListComponent.propTypes = {
   fetchAllComments: PropTypes.func,
   intl: intlShape.isRequired,
   onPostComment: PropTypes.func,
+  onPostReply: PropTypes.func,
   onEditComment: PropTypes.func,
   onDeleteComment: PropTypes.func,
   onPostVote: PropTypes.func,

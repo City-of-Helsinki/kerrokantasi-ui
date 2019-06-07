@@ -1,0 +1,287 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import {injectIntl, FormattedMessage} from 'react-intl';
+import Button from 'react-bootstrap/lib/Button';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import nl2br from 'react-nl2br';
+import { isEmpty } from 'lodash';
+
+import CommentForm from '../../BaseCommentForm';
+import Answer from './answer';
+import Icon from '../../../utils/Icon';
+import {notifyError} from '../../../utils/notify';
+import forEach from 'lodash/forEach';
+import find from 'lodash/find';
+import getAttr from '../../../utils/getAttr';
+import moment from 'moment';
+
+class Comment extends React.Component {
+  state = {
+    editorOpen: false,
+    isReplyEditorOpen: false,
+  }
+
+  onVote() {
+    if (this.props.canVote) {
+      const {data} = this.props;
+      this.props.onPostVote(data.id, data.section);
+    } else {
+      notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
+    }
+  }
+
+  toggleEditor(event) {
+    event.preventDefault();
+
+    if (this.state.editorOpen) {
+      this.setState({editorOpen: false});
+    } else {
+      this.setState({editorOpen: true});
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const {data} = this.props;
+    const {section, id} = data;
+    const commentData = {};
+
+    forEach(data, (value, key) => {
+      if (key !== 'content') {
+        commentData[key] = value;
+      }
+    });
+    commentData.content = this.commentEditor.value;
+    this.props.onEditComment(section, id, commentData);
+    this.setState({editorOpen: false});
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+    const {data} = this.props;
+    const {section, id} = data;
+    this.props.onDeleteComment(section, id);
+  }
+
+  /**
+   * Open reply editor
+   */
+  handleToggleReplyEditor = (event) => {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
+    this.setState((prevState) => ({
+      isReplyEditorOpen: !prevState.isReplyEditorOpen,
+    }));
+  }
+
+  getStrigifiedAnswer = (answer) => {
+    const {questions, intl} = this.props;
+    const question = find(questions, que => que.id === answer.question); // eslint-disable-line
+    let selectedOption = {};
+    return {
+      question: question ? getAttr(question.text, intl.locale) : '',
+      answers: answer.answers.map((ans) => {
+        if (question) selectedOption = find(question.options, (option) => option.id === ans);
+        return question ? getAttr(selectedOption.text, intl.locale) : '';
+      })
+    };
+  }
+
+  parseTimestamp = (timestamp) => {
+    const timeFormat = 'hh:mm DD.MM.YYYY';
+    return moment(timestamp).format(timeFormat);
+  }
+
+  /**
+   * Handle posting of a reply
+   */
+  handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
+    const {section} = this.props;
+    const answers = this.state.answers;
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers};
+    if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
+      this.props.onPostReply(section.id, this.props.data.id,commentData);
+    }
+  }
+
+  /**
+   * Renders the header area for the comment
+   * @returns {Component}
+   */
+  renderCommentHeader = ({ data } = this.props) => (
+    <div className="hearing-comment-header clearfix">
+      <div className="hearing-comment-votes">
+        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote}>
+          <Icon name="thumbs-o-up"/> {data.n_votes}
+        </Button>
+      </div>
+      <div className="hearing-comment-publisher">
+        <span className="hearing-comment-user">
+          {data.is_registered ?
+            <span className="hearing-comment-user-registered">
+              <Icon name="user"/>&nbsp;
+              <FormattedMessage id="registered"/>:&nbsp;
+            </span>
+            : null}
+          {data.author_name || <FormattedMessage id="anonymous"/>}
+        </span>
+        <span className="hearing-comment-date">
+          {this.parseTimestamp(data.created_at)}
+        </span>
+      </div>
+    </div>
+  );
+
+  /**
+   * Renders answers for a comment.
+   * @returns {JSX<Component>}
+   */
+  renderCommentAnswers = () => (
+    this.props.data.answers.map((answer) => <Answer key={answer.question} answer={this.getStrigifiedAnswer(answer)} />)
+  );
+
+  /**
+   * When state is set to true for editor open. Return the form.
+   * @returns {Component}
+   */
+  renderEditorForm = () => (
+    <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
+      <FormGroup controlId="formControlsTextarea">
+        <textarea
+          className="form-control"
+          defaultValue={this.props.data.content}
+          placeholder="textarea"
+          ref={(input) => {
+            this.commentEditor = input;
+          }}
+        />
+      </FormGroup>
+      <Button type="submit">Save</Button>
+    </form>
+  );
+
+  /**
+   * If a user can edit their comment(s) render hyperlinks
+   * @returns {Component|null}
+   */
+  renderEditLinks = () => (
+    <div>
+      <a
+        href=""
+        onClick={(event) => this.toggleEditor(event)}
+        style={{paddingRight: 10, borderRight: '1px solid black'}}
+      >
+        <FormattedMessage id="edit"/>
+      </a>
+      <a
+        href=""
+        onClick={(event) => this.handleDelete(event)}
+        style={{paddingLeft: 10}}
+      >
+        <FormattedMessage id="delete"/>
+      </a>
+    </div>
+  );
+
+  /**
+   * If a thread can be replied to, render reply links
+   */
+  renderReplyLinks = () => (
+    <div>
+      <Icon name="reply"/> 
+      <a href="" 
+        style={{marginLeft: 10, fontWeight: 'bold'}}
+        onClick={this.handleToggleReplyEditor}
+      > 
+        <FormattedMessage id="reply"/>
+      </a>
+    </div>
+  );
+
+  /**
+   * When a comment is being replied to.
+   * @returns {Component<Form>}
+   */
+  renderReplyForm = () => (
+    <CommentForm
+      answers={this.state.answers}
+      closed={false}
+      onOverrideCollapse={this.handleToggleReplyEditor}
+      defaultNickname={this.props.defaultNickname}
+      hearingId={this.props.hearingId}
+      language={this.props.language}
+      loggedIn={!isEmpty(this.props.user)}
+      nicknamePlaceholder={this.props.nicknamePlaceholder}
+      onChangeAnswers={this.onChangeAnswers}
+      onPostComment={this.handlePostReply}
+      overrideCollapse
+      section={this.props.section}
+      user={this.props.user}
+    />
+  );
+
+  render() {
+    const {data, canReply} = this.props;
+    const canEdit = data.can_edit;
+    const {editorOpen, isReplyEditorOpen} = this.state;
+
+    if (!data.content) {
+      return null;
+    }
+
+    return (
+      <div className="hearing-comment">
+        { this.renderCommentHeader() }
+        { this.renderCommentAnswers() }
+        <div className="hearing-comment-body">
+          <p>{nl2br(data.content)}</p>
+        </div>
+        <div className="hearing-comment__images">
+          {data.images
+            ? data.images.map((image) =>
+              <a
+                className="hearing-comment-images-image"
+                key={image.url}
+                rel="noopener noreferrer"
+                target="_blank"
+                href={image.url}
+              >
+                <img
+                  alt={image.title}
+                  src={image.url}
+                  width={image.width < 100 ? image.width : 100}
+                  height={image.height < 100 ? image.height : 100}
+                />
+              </a>
+            )
+            : null}
+        </div>
+        { !isReplyEditorOpen && canReply && this.renderReplyLinks() }
+        { canEdit && this.renderEditLinks() }
+        { editorOpen && this.renderEditorForm() }
+        { isReplyEditorOpen && this.renderReplyForm() }
+      </div>
+    );
+  }
+}
+
+Comment.propTypes = {
+  canReply: PropTypes.bool,
+  canVote: PropTypes.bool,
+  data: PropTypes.object,
+  defaultNickname: PropTypes.string,
+  hearingId: PropTypes.string,
+  intl: PropTypes.object,
+  language: PropTypes.string,
+  nicknamePlaceholder: PropTypes.string,
+  onDeleteComment: PropTypes.func,
+  onEditComment: PropTypes.func,
+  onPostReply: PropTypes.func,
+  onPostVote: PropTypes.func,
+  questions: PropTypes.array,
+  section: PropTypes.object,
+  user: PropTypes.object,
+};
+
+export default injectIntl(Comment);

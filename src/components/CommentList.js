@@ -1,11 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Comment from './Comment';
+import Comment from '../components/Hearing/Comment';
 
 export class CommentList extends React.Component {
   render() {
-    const {comments, canComment, isLoading, section} = this.props;
+    const {
+      comments,
+      canComment,
+      isLoading,
+      section,
+      canReply, 
+      user,
+      defaultNickname,
+      nicknamePlaceholder,
+      language,
+      hearingId,
+    } = this.props;
     if (comments.length === 0) {
       if (!canComment || isLoading) {
         return null;  // No need to show a header for nothing at all.
@@ -20,13 +31,21 @@ export class CommentList extends React.Component {
       <div className="commentlist">
         {comments.map((comment) =>
           <Comment
-            data={comment}
-            onEditComment={this.props.onEditComment}
-            onDeleteComment={this.props.onDeleteComment}
-            key={comment.id + Math.random()}
-            onPostVote={this.props.onPostVote}
+            canReply={canReply}
             canVote={this.props.canVote}
+            data={comment}
+            defaultNickname={defaultNickname}
+            hearingId={hearingId}
+            key={comment.id + Math.random()}
+            language={language}
+            nicknamePlaceholder={nicknamePlaceholder}
+            onDeleteComment={this.props.onDeleteComment}
+            onEditComment={this.props.onEditComment}
+            onPostReply={this.props.onPostReply}
+            onPostVote={this.props.onPostVote}
             questions={section.questions}
+            section={section}
+            user={user}
           />
         )}
       </div>
@@ -35,14 +54,21 @@ export class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
-  comments: PropTypes.array,
   canComment: PropTypes.bool,
+  canReply: PropTypes.bool,
   canVote: PropTypes.bool,
-  onEditComment: PropTypes.func,
-  onDeleteComment: PropTypes.func,
-  onPostVote: PropTypes.func,
+  comments: PropTypes.array,
+  defaultNickname: PropTypes.string,
+  hearingId: PropTypes.string,
   isLoading: PropTypes.bool,
-  section: PropTypes.object
+  language: PropTypes.string,
+  nicknamePlaceholder: PropTypes.string,
+  onDeleteComment: PropTypes.func,
+  onEditComment: PropTypes.func,
+  onPostReply: PropTypes.func,
+  onPostVote: PropTypes.func,
+  section: PropTypes.object,
+  user: PropTypes.object,
 };
 
 export default injectIntl(CommentList);

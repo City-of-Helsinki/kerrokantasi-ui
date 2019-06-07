@@ -160,6 +160,7 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
       section: sectionId,
       include: 'plugin_data',
       limit: 100,
+      comment: 'null',
       ...(ordering && {ordering})
     };
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
@@ -211,6 +212,11 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
     }
+    if (commentData.comment) {
+      params = {...params, comment: commentData.comment};
+    }
+
+    console.log('params !!!!!!!!!!!!!!!!');
     return api.post(getState(), url, params).then(getResponseJSON).then(() => {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
@@ -219,6 +225,35 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
+  };
+}
+
+export function postCommentReply(hearingSlug, sectionId, commentData = {}) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/");
+    console.log(url);
+    // let params = {
+    //   content: commentData.text ? commentData.text : "",
+    //   plugin_data: commentData.pluginData ? commentData.pluginData : null,
+    //   authorization_code: commentData.authCode ? commentData.authCode : "",
+    //   geojson: commentData.geojson ? commentData.geojson : null,
+    //   label: commentData.label ? commentData.label : null,
+    //   images: commentData.images ? commentData.images : [],
+    //   answers: commentData.answers ? commentData.answers : []
+    // };
+    // if (commentData.authorName) {
+    //   params = Object.assign(params, {author_name: commentData.authorName});
+    // }
+    // return api.post(getState(), url, params).then(getResponseJSON).then(() => {
+    //   dispatch(createAction("postedComment")({sectionId}));
+    //   // we must update hearing comment count
+    //   dispatch(fetchHearing(hearingSlug));
+    //   // also, update user answered questions
+    //   dispatch(retrieveUserFromSession());
+    //   localizedAlert("commentReceived");
+    // }).catch(postCommentErrorHandler());
   };
 }
 
