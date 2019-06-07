@@ -10,7 +10,7 @@ export class CommentList extends React.Component {
       canComment,
       isLoading,
       section,
-      canReply, 
+      canReply,
       user,
       defaultNickname,
       nicknamePlaceholder,
@@ -37,10 +37,12 @@ export class CommentList extends React.Component {
             defaultNickname={defaultNickname}
             hearingId={hearingId}
             key={comment.id + Math.random()}
+            jumpTo={this.props.jumpTo}
             language={language}
             nicknamePlaceholder={nicknamePlaceholder}
             onDeleteComment={this.props.onDeleteComment}
             onEditComment={this.props.onEditComment}
+            onGetSubComments={this.props.onGetSubComments}
             onPostReply={this.props.onPostReply}
             onPostVote={this.props.onPostVote}
             questions={section.questions}
@@ -61,14 +63,20 @@ CommentList.propTypes = {
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
   isLoading: PropTypes.bool,
+  jumpTo: PropTypes.number,
   language: PropTypes.string,
   nicknamePlaceholder: PropTypes.string,
   onDeleteComment: PropTypes.func,
   onEditComment: PropTypes.func,
+  onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
   section: PropTypes.object,
   user: PropTypes.object,
+};
+
+CommentList.defaultProps = {
+  jumpTo: -1,
 };
 
 export default injectIntl(CommentList);

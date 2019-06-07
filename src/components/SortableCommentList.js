@@ -71,7 +71,6 @@ export class SortableCommentListComponent extends Component {
     const {section} = this.props;
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
-
     this.setState({
       showLoader: isFetching,
       collapseForm: false, // whenever things change, no longer force the form to collapse
@@ -114,8 +113,8 @@ export class SortableCommentListComponent extends Component {
   /**
    * When posting a reply to a comment.
    */
-  handlePostReply = (sectionId, commentId, data) => {
-    this.props.onPostReply(sectionId, { ...data, comment: commentId});
+  handlePostReply = (sectionId, data) => {
+    this.props.onPostComment(sectionId, data);
   }
 
 
@@ -313,12 +312,14 @@ export class SortableCommentListComponent extends Component {
                 <WrappedCommentList
                   canReply={canComment && published}
                   onPostReply={this.handlePostReply}
+                  onGetSubComments={this.props.onGetSubComments}
                   canVote={canVote}
                   comments={sectionComments.results}
                   defaultNickname={getNickname(user)}
                   hearingId={hearingId}
                   intl={intl}
                   isLoading={this.state.showLoader}
+                  jumpTo={sectionComments.jumpTo}
                   language={language}
                   nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
                   onDeleteComment={this.props.onDeleteComment}
@@ -338,26 +339,26 @@ export class SortableCommentListComponent extends Component {
 }
 
 SortableCommentListComponent.propTypes = {
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  closed: PropTypes.bool,
   displayVisualization: PropTypes.bool,
+  fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
-  fetchAllComments: PropTypes.func,
+  hearingId: PropTypes.string,
+  hearingSlug: PropTypes.string,
   intl: intlShape.isRequired,
-  onPostComment: PropTypes.func,
-  onPostReply: PropTypes.func,
-  onEditComment: PropTypes.func,
+  language: PropTypes.string,
   onDeleteComment: PropTypes.func,
+  onEditComment: PropTypes.func,
+  onGetSubComments: PropTypes.func,
+  onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
+  published: PropTypes.bool,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
-  hearingSlug: PropTypes.string,
   user: PropTypes.object,
-  canVote: PropTypes.bool,
-  canComment: PropTypes.bool,
-  hearingId: PropTypes.string,
-  published: PropTypes.bool,
-  language: PropTypes.string,
-  closed: PropTypes.bool
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({

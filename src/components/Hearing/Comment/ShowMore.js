@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import LoadSpinner from '../../LoadSpinner';
 
 /**
  * Functional component to display "Show more reply's button"
@@ -18,12 +19,18 @@ const ShowMore = (props) => {
 
   return (
     <div className="hearing-comment-show-more">
-      <span className="hearing-comment-show-more__wrapper">
-        <a href="" onClick={handleShowMore}>
-          <FormattedMessage id="showMoreReplys" />
-          <span className="hearing-comment-show-more__count">{`(${props.numberOfComments})`}</span>
-        </a>
-      </span>
+      {
+        props.isLoadingSubComment
+          ? <LoadSpinner style={{ padding: '12px' }}/>
+          : (
+            <span className="hearing-comment-show-more__wrapper">
+              <a href="" onClick={handleShowMore}>
+                <FormattedMessage id="showMoreReplys" />
+                <span className="hearing-comment-show-more__count">{`(${props.numberOfComments})`}</span>
+              </a>
+            </span>
+          )
+      }
     </div>
   );
 };
@@ -31,6 +38,12 @@ const ShowMore = (props) => {
 ShowMore.propTypes = {
   numberOfComments: PropTypes.number.isRequired,
   onClickShowMore: PropTypes.func.isRequired,
+  isLoadingSubComment: PropTypes.bool,
 };
+
+ShowMore.defaultProps = {
+  isLoadingSubComment: false,
+};
+
 
 export default injectIntl(ShowMore);

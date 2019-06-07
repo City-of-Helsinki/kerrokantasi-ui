@@ -1,3 +1,12 @@
+@keyframes highlightComment {
+    from {
+        background-color: $hel-engel;
+    }
+    to {
+        background-color: white;
+    }
+}
+
 .sortable-comment-list {
   &__count {
     text-align: center;
@@ -118,6 +127,25 @@
           margin-left: $margin-small;
         }
     }
+
+    &__edit-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+  }
+
+  .comment-form {
+      background-color: white !important;
+  }
+  .comment-reply {
+      padding: 24px 24px 0px 24px;
+  }
+
+  .comment-animate {
+      animation-name: highlightComment;
+      animation-duration: 4s;
+      animation-iteration-count: 1;
   }
 
   .comment-form {

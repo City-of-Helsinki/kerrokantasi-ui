@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
+import classnames from 'classnames';
 
 import CommentForm from '../../BaseCommentForm';
 import Answer from './Answer';
@@ -18,10 +19,32 @@ import getAttr from '../../../utils/getAttr';
 import moment from 'moment';
 
 class Comment extends React.Component {
+  constructor(props) {
+    super(props);
+    this.commentRef = React.createRef();
+    this.shouldAnimate = false;
+  }
+
   state = {
     editorOpen: false,
     isReplyEditorOpen: false,
+    shouldJumpTo: this.props.jumpTo === this.props.data.id,
+    scrollComplete: false,
+    shouldAnimate: false,
   }
+
+  componentDidMount = () => {
+    if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
+      this.commentRef.current.scrollIntoView({
+        behaviour: 'smooth',
+        block: 'nearest',
+      });
+      this.setState({
+        scrollComplete: true,
+        shouldAnimate: true,
+      });
+    }
+  };
 
   onVote() {
     if (this.props.canVote) {
@@ -81,7 +104,8 @@ class Comment extends React.Component {
    * Call the parent component to retrieve list of sub comments for current comment.
    */
   handleShowReplys = () => {
-    console.log('show replys');
+    const { data, section } = this.props;
+    this.props.onGetSubComments(data.id, section.id);
   }
 
   getStrigifiedAnswer = (answer) => {
@@ -113,8 +137,16 @@ class Comment extends React.Component {
     const answers = this.state.answers;
     const commentData = {text, authorName, pluginData, geojson, label, images, answers};
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
-      this.props.onPostReply(section.id, this.props.data.id,commentData);
+      this.props.onPostReply(section.id, { ...commentData, comment: this.props.data.id });
     }
+  }
+
+  /**
+   * Once highlight is complete.
+   * End animation
+   */
+  handleEndAnimation = () => {
+    this.setState({ shouldAnimate: false });
   }
 
   /**
@@ -178,7 +210,7 @@ class Comment extends React.Component {
    * @returns {Component|null}
    */
   renderEditLinks = () => (
-    <div>
+    <div className="hearing-comment__edit-links">
       <a
         href=""
         onClick={(event) => this.toggleEditor(event)}
@@ -201,11 +233,12 @@ class Comment extends React.Component {
    */
   renderReplyLinks = () => (
     <div>
-      <Icon name="reply"/> 
-      <a href="" 
+      <Icon name="reply"/>
+      <a
+        href=""
         style={{marginLeft: 10, fontWeight: 'bold'}}
         onClick={this.handleToggleReplyEditor}
-      > 
+      >
         <FormattedMessage id="reply"/>
       </a>
     </div>
@@ -236,12 +269,33 @@ class Comment extends React.Component {
   /**
    * Renders the button when clicked shows replys posted for a specific comment.
    */
-  renderViewReplyButton = () => (
-    <ShowMore
-      numberOfComments={ this.props.data.comments.length }
-      onClickShowMore={ this.handleShowReplys }
-    />
+  renderViewReplyButton = ({ data } = this.props) => (
+    data.comments && Array.isArray(data.comments) && data.comments.length > 0 && !Array.isArray(data.subComments)
+      ? (
+        <ShowMore
+          numberOfComments={this.props.data.comments.length}
+          onClickShowMore={this.handleShowReplys}
+          isLoadingSubComment={this.props.data.loadingSubComments}
+        />
+      )
+      : null
   );
+
+  /**
+   * Renders the sub comments
+   * @returns {Component<Comment>} resursivly renders comment component untill last depth.
+   */
+  renderSubComments = () => {
+    return this.props.data.subComments.map((subComment) => (
+      <Comment
+        {...this.props}
+        parentComponentId={this.props.data.id}
+        data={subComment}
+        key={`${subComment.id}${Math.random()}`}
+        isReply
+      />
+    ));
+  }
 
   render() {
     const {data, canReply} = this.props;
@@ -253,7 +307,17 @@ class Comment extends React.Component {
     }
 
     return (
-      <div className="hearing-comment">
+      <div
+        className={classnames([
+          'hearing-comment',
+          {
+            'comment-reply': this.props.isReply,
+            'comment-animate': this.state.shouldAnimate
+          }
+        ])}
+        onAnimationEnd={this.handleEndstAnimation}
+        ref={this.commentRef}
+      >
         { this.renderCommentHeader() }
         { this.renderCommentAnswers() }
         <div className="hearing-comment-body">
@@ -279,11 +343,12 @@ class Comment extends React.Component {
             )
             : null}
         </div>
-        { !isReplyEditorOpen && canReply && this.renderReplyLinks() }
-        { canEdit && this.renderEditLinks() }
-        { editorOpen && this.renderEditorForm() }
-        { isReplyEditorOpen && this.renderReplyForm() }
-        { data.comments && Array.isArray(data.comments) && data.comments.length > 0 && this.renderViewReplyButton() }
+        {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
+        {canEdit && this.renderEditLinks()}
+        {editorOpen && this.renderEditorForm()}
+        {isReplyEditorOpen && this.renderReplyForm()}
+        {this.renderViewReplyButton()}
+        {Array.isArray(data.subComments) && data.subComments.length > 0 && this.renderSubComments()}
       </div>
     );
   }
@@ -296,15 +361,22 @@ Comment.propTypes = {
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
   intl: PropTypes.object,
+  isReply: PropTypes.bool,
+  jumpTo: PropTypes.number,
   language: PropTypes.string,
   nicknamePlaceholder: PropTypes.string,
   onDeleteComment: PropTypes.func,
   onEditComment: PropTypes.func,
+  onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
   questions: PropTypes.array,
   section: PropTypes.object,
   user: PropTypes.object,
+};
+
+Comment.defaultProps = {
+  isReply: false,
 };
 
 export default injectIntl(Comment);

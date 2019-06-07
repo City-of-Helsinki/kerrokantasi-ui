@@ -29,10 +29,34 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   }, state);
 };
 
-const postedComment = (state, {payload: {sectionId}}) => {
+const postedComment = (state, {payload: {sectionId, jumpTo, comment, response}}) => {
   // whenever we post, we want the newly posted comment displayed first and results reloaded
+  if (comment && typeof comment === "number" && response && response.id) {
+    const parentComment = state[sectionId].results.find(result => result.id === comment);
+    // this means that sub comment section is open
+    if (parentComment && Array.isArray(parentComment.subComments) && parentComment.subComments.length > 0) {
+      const updatedSection = {
+        ...state[sectionId],
+        jumpTo,
+        results: [
+          ...state[sectionId].results.map((result) => {
+            if (result.id === comment) {
+              return { ...result, subComments: [...parentComment.subComments, response] };
+            }
+            return result;
+          }),
+        ]
+      };
+
+      return updeep({
+        [sectionId]: updatedSection,
+      }, state);
+    }
+    // Determine whether the comments sub comments were populated.
+  }
   return updeep({
     [sectionId]: {
+      jumpTo,
       results: [],
       ordering: '-created_at'
     }
@@ -72,9 +96,56 @@ const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanF
   }, state);
 };
 
+/**
+ * Begin fetching the sub comments.
+ * Show loading spinner on the parent comment description.
+ */
+const beginFetchSubComments = (state, {payload: {sectionId, commentId}}) => {
+  const updatedSection = {
+    ...state[sectionId],
+    results: [
+      ...state[sectionId].results.map((result) => {
+        if (result.id === commentId) {
+          return { ...result, loadingSubComments: true };
+        }
+        return result;
+      }),
+    ]
+  };
+  return updeep({
+    [sectionId]: updatedSection,
+  }, state);
+};
+
+/**
+ * Once comments are fetched, update the store with sub comments.
+ */
+const subCommentsFetched = (state, {payload: {sectionId, commentId, data}}) => {
+  const updatedSection = {
+    ...state[sectionId],
+    results: [
+      ...state[sectionId].results.map((result) => {
+        if (result.id === commentId) {
+          return {
+            ...result,
+            loadingSubComments: false,
+            subComments: data.results
+          };
+        }
+        return result;
+      })
+    ]
+  };
+  return updeep({
+    [sectionId]: updatedSection,
+  }, state);
+};
+
 export default handleActions({
   receiveSectionComments,
   beginFetchSectionComments,
+  beginFetchSubComments,
   postedComment,
   postedCommentVote,
+  subCommentsFetched,
 }, {});

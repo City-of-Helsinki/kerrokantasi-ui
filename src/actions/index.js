@@ -11,6 +11,12 @@ export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 export const setHeadless = createAction('setHeadless');
 
+// Declaring actions as JSON object for consistency
+export const MainActions = {
+  BEGIN_FETCH_SUB_COMMENTS: 'beginFetchSubComments',
+  SUB_COMMENTS_FETCHED: 'subCommentsFetched',
+};
+
 function checkResponseStatus(response) {
   if (response.status >= 400) {
     const err = new Error("Bad response from server");
@@ -169,6 +175,29 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
   };
 }
 
+/**
+ * Get a list of subcomments for a single comment.
+ * @param {Number} commentId - is of the parent comment.
+ * @param {String} sectionId - id of the section the comment belongs to.
+ */
+export const getCommentSubComments = (commentId, sectionId) => {
+  return (dispatch, getState) => {
+    const fetchAction = createAction(MainActions.BEGIN_FETCH_SUB_COMMENTS)({sectionId, commentId});
+    dispatch(fetchAction);
+    const url = "v1/comment/";
+    const params = {
+      section: sectionId,
+      include: 'plugin_data',
+      limit: 100,
+      comment: commentId,
+      ordering: 'created_at',
+    };
+    return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
+      dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({sectionId, commentId, data}));
+    }).catch(requestErrorHandler());
+  };
+};
+
 export function fetchMoreSectionComments(sectionId, ordering = '-n_votes', next) {
   const cleanFetch = false;
 
@@ -216,44 +245,14 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       params = {...params, comment: commentData.comment};
     }
 
-    console.log('params !!!!!!!!!!!!!!!!');
-    return api.post(getState(), url, params).then(getResponseJSON).then(() => {
-      dispatch(createAction("postedComment")({sectionId}));
+    return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
+      dispatch(createAction("postedComment")({sectionId, jumpTo: data.id, comment: commentData.comment, response: data}));
       // we must update hearing comment count
-      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchHearing(hearingSlug, null, commentData.comment));
       // also, update user answered questions
       dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
-  };
-}
-
-export function postCommentReply(hearingSlug, sectionId, commentData = {}) {
-  return (dispatch, getState) => {
-    const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
-    dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/");
-    console.log(url);
-    // let params = {
-    //   content: commentData.text ? commentData.text : "",
-    //   plugin_data: commentData.pluginData ? commentData.pluginData : null,
-    //   authorization_code: commentData.authCode ? commentData.authCode : "",
-    //   geojson: commentData.geojson ? commentData.geojson : null,
-    //   label: commentData.label ? commentData.label : null,
-    //   images: commentData.images ? commentData.images : [],
-    //   answers: commentData.answers ? commentData.answers : []
-    // };
-    // if (commentData.authorName) {
-    //   params = Object.assign(params, {author_name: commentData.authorName});
-    // }
-    // return api.post(getState(), url, params).then(getResponseJSON).then(() => {
-    //   dispatch(createAction("postedComment")({sectionId}));
-    //   // we must update hearing comment count
-    //   dispatch(fetchHearing(hearingSlug));
-    //   // also, update user answered questions
-    //   dispatch(retrieveUserFromSession());
-    //   localizedAlert("commentReceived");
-    // }).catch(postCommentErrorHandler());
   };
 }
 
