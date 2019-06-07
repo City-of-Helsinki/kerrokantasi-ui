@@ -80,3 +80,48 @@ changing the paths therein, you can run the plugin fetcher and it will
 place the plugins to those directories. Note that specifying path on the
 command line overrides the path specified in shared_config.json.
 
+## Writing of CSS
+
+Kerrokantasi UI styles are now split under two main style files. These are:
+
+1. The standalone kerrokantasi styles (a.k.a. white label styles), which allow
+any city to start using the project without having the Helsinki branding
+applied. File: `assets/sass/app.scss`
+2. The second main style file is the City of Helsinki styles which use
+the white label styles as a base but override some of the styles to give the
+app the proper branding. File: `assets/sass/hel-app.scss`
+
+Styles are imported to the app in the `src/index.js` file. Right now the City
+of Helsinki specific styling is the one that is active and default kerrokantasi
+styles are commented out. You can switch between these two to see how it affects
+the end result of the app.
+
+**Important:**
+When writing new styles, the styles must be applied to the kerrokantasi styles
+first without having any City of Helsinki branding involved. If there's some
+colors or any other Helsinki specific styles, they must be done for the Helsinki
+styles as overrides.
+
+## Theming
+
+Kerrokantasi styles can be themed to match your own brand. Styles are based
+on Bootstrap version 3 (Sass).
+
+Here is an example to show how to apply custom CSS:
+
+Create a file e.g. `my-custom-theme.scss` and apply style imports accordingly
+```
+// This needs to be imported before kerrokantasi variables
+@import "my-custom-variables.scss";
+
+// Import the required kerrokantasi styles
+@import "kerrokantasi-ui/assets/sass/kerrokantasi/variables.scss";
+@import "kerrokantasi-ui/assets/sass/kerrokantasi/bootstrap.scss";
+@import "kerrokantasi-ui/assets/sass/kerrokantasi/kerrokantasi.scss";
+
+// These are imported after the kerrokantasi styles to apply overrides
+@import "my-custom-styles-and-overrides.scss";
+```
+
+Then change the `kerrokantasi-ui/src/index.js` style import from
+`import '../assets/sass/kerrokantasi.scss';` to `import 'PATH-TO-YOUR-FILE/my-custom-theme.scss';`

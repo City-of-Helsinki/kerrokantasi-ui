@@ -1,14 +1,3 @@
-$node_modules: "../../../node_modules";
-
-@import "../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
-@import "variables";
-@import "../../node_modules/react-datetime/css/react-datetime.css";
-@import "../../node_modules/react-select/dist/react-select.css";
-@import "../../node_modules/react-datetime/css/react-datetime.css";
-@import "../../node_modules/leaflet-draw/dist/leaflet.draw.css";
-@import "hearing-languages";
-
-
 .form-modal {
     width: 80%;
 
@@ -22,12 +11,12 @@ $node_modules: "../../../node_modules";
     }
 
     .panel-heading {
-      background: $hel-engel;
+      background: $theme-primary-light;
       padding: $line-height-computed / 2;
     }
 
     .panel-info .panel-heading {
-      background: $hel-fog;
+      background: $theme-info-light;
     }
 
     .panel-heading a {
@@ -174,7 +163,7 @@ $node_modules: "../../../node_modules";
     padding: 6px;
     margin-bottom: $line-height-computed;
     text-align: center;
-    background: lighten($hel-fog, 10%);
+    background: $theme-secondary-light;
   }
 
   .question-control {

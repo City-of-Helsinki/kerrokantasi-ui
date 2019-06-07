@@ -3,7 +3,7 @@
     position: relative;
     margin-bottom: $line-height-computed * 2;
     width: 100%;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
+    box-shadow: $default-shadow;
 
     @media (max-width: $screen-xs-max) {
         font-size: 1.4rem;
@@ -82,7 +82,7 @@
 }
 
 .page-section--all-hearings-header {
-  background-color: $light-gray;
+  background-color: $gray-100;
 }
 
 .page-section--hearings-list {
@@ -112,8 +112,10 @@
       margin-bottom: -2px;
     }
 
-    > li.active > a, > li.active > a:hover {
-      border: 2px solid $black;
+    > li.active > a,
+    > li.active > a:hover,
+    > li.active > a:focus {
+      border: 2px solid $gray-300;
       border-bottom: transparent;
     }
 
@@ -151,28 +153,18 @@
 }
 
 .page-section--hearings-search {
-    background-color: $light-gray;
+    background-color: $gray-100;
 }
 
 .page-section--hearings-tabs {
-    background-color: $light-gray;
-    border-bottom: 2px solid $black;
+    background-color: $gray-100;
+    border-bottom: 2px solid $gray-300;
 }
 
 .hearings-search {
-
     &__container {
         padding-bottom: 10px;
         height: 80px;
-
-        .Select-control, .is-open .Select-control, .Select-menu {
-            border: 2px solid $black;
-            border-radius: 0;
-        }
-
-        .Select-control {
-          background-color: transparent;
-        }
     }
 
     &__label {
@@ -188,7 +180,6 @@
     &__button {
         float: left;
     }
-
 }
 
 .hearing-labels {
