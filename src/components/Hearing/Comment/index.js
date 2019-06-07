@@ -7,7 +7,9 @@ import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 
 import CommentForm from '../../BaseCommentForm';
-import Answer from './answer';
+import Answer from './Answer';
+import ShowMore from './ShowMore';
+
 import Icon from '../../../utils/Icon';
 import {notifyError} from '../../../utils/notify';
 import forEach from 'lodash/forEach';
@@ -75,6 +77,13 @@ class Comment extends React.Component {
     }));
   }
 
+  /**
+   * Call the parent component to retrieve list of sub comments for current comment.
+   */
+  handleShowReplys = () => {
+    console.log('show replys');
+  }
+
   getStrigifiedAnswer = (answer) => {
     const {questions, intl} = this.props;
     const question = find(questions, que => que.id === answer.question); // eslint-disable-line
@@ -88,10 +97,13 @@ class Comment extends React.Component {
     };
   }
 
-  parseTimestamp = (timestamp) => {
-    const timeFormat = 'hh:mm DD.MM.YYYY';
-    return moment(timestamp).format(timeFormat);
-  }
+  /**
+   * User moment to convert current timestamp to desired format.
+   * @returns {String}
+   */
+  parseTimestamp = timestamp => (
+    moment(timestamp).format('hh:mm DD.MM.YYYY')
+  );
 
   /**
    * Handle posting of a reply
@@ -221,6 +233,16 @@ class Comment extends React.Component {
     />
   );
 
+  /**
+   * Renders the button when clicked shows replys posted for a specific comment.
+   */
+  renderViewReplyButton = () => (
+    <ShowMore
+      numberOfComments={ this.props.data.comments.length }
+      onClickShowMore={ this.handleShowReplys }
+    />
+  );
+
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
@@ -261,6 +283,7 @@ class Comment extends React.Component {
         { canEdit && this.renderEditLinks() }
         { editorOpen && this.renderEditorForm() }
         { isReplyEditorOpen && this.renderReplyForm() }
+        { data.comments && Array.isArray(data.comments) && data.comments.length > 0 && this.renderViewReplyButton() }
       </div>
     );
   }

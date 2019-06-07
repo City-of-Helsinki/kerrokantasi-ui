@@ -96,6 +96,28 @@
               font-size: 1.4rem;
           }
       }
+
+    .hearing-comment-show-more {
+        border-top: 1px solid $light-gray;
+        font-weight: bold;
+        margin-top: $margin-default;
+        padding: $padding-default 0 0 0;
+        text-align: center;
+        &__wrapper {
+          border-bottom: 1px solid $black;
+          padding: 0 $padding-small;
+
+          &:hover {
+            border-bottom: 1px solid $hover-blue;
+          }
+          &>a {
+            text-decoration: none;
+          }
+        }
+        &__count {
+          margin-left: $margin-small;
+        }
+    }
   }
 
   .comment-form {
