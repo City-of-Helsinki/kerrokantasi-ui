@@ -63,9 +63,26 @@ const postedComment = (state, {payload: {sectionId, jumpTo, comment, response}})
   }, state);
 };
 
-const postedCommentVote = (state, {payload: {commentId, sectionId}}) => {
+const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
   // the vote went through
   const increment = (votes) => { return votes + 1; };
+  if (isReply) {
+    const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
+    const subComponentIndex = state[sectionId].results[commentIndex].subComments.findIndex((subComment) => subComment.id === commentId);
+    return updeep({
+      [sectionId]: {
+        results: {
+          [commentIndex]: {
+            subComments: {
+              [subComponentIndex]: {
+                n_votes: increment,
+              }
+            }
+          }
+        }
+      }
+    }, state);
+  }
   const commentIndex = state[sectionId].results.findIndex(
     (comment) => { return comment.id === commentId; });
   return updeep({

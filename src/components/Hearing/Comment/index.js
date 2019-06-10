@@ -49,7 +49,7 @@ class Comment extends React.Component {
   onVote() {
     if (this.props.canVote) {
       const {data} = this.props;
-      this.props.onPostVote(data.id, data.section);
+      this.props.onPostVote(data.id, data.section, this.props.isReply, this.props.parentComponentId);
     } else {
       notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
     }
@@ -161,7 +161,7 @@ class Comment extends React.Component {
   renderCommentHeader = ({ data } = this.props) => (
     <div className="hearing-comment-header clearfix">
       <div className="hearing-comment-votes">
-        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote}>
+        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
           <Icon name="thumbs-o-up"/> {data.n_votes}
         </Button>
       </div>

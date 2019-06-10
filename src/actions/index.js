@@ -285,7 +285,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
   };
 }
 
-export function postVote(commentId, hearingSlug, sectionId) {
+export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
     dispatch(fetchAction);
@@ -294,7 +294,7 @@ export function postVote(commentId, hearingSlug, sectionId) {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyVoted");
       } else {
-        dispatch(createAction("postedCommentVote")({commentId, sectionId}));
+        dispatch(createAction("postedCommentVote")({commentId, sectionId, isReply, parentId}));
         localizedNotifySuccess("voteReceived");
       }
     }).catch(voteCommentErrorHandler());

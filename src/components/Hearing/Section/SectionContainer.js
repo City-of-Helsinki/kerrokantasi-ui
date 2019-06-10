@@ -87,10 +87,10 @@ export class SectionContainerComponent extends React.Component {
     this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
-  onVoteComment = (commentId, sectionId) => {
+  onVoteComment = (commentId, sectionId, isReply, parentId) => {
     const {match} = this.props;
     const hearingSlug = match.params.hearingSlug;
-    this.props.postVote(commentId, hearingSlug, sectionId);
+    this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
@@ -308,7 +308,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
-  postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) => dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
   editComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
   deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
