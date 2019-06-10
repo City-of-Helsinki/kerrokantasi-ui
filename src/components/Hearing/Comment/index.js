@@ -135,9 +135,14 @@ class Comment extends React.Component {
   handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
     const answers = this.state.answers;
-    const commentData = {text, authorName, pluginData, geojson, label, images, answers};
+    let commentData = {text, authorName, pluginData, geojson, label, images, answers};
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
-      this.props.onPostReply(section.id, { ...commentData, comment: this.props.data.id });
+      if (this.props.isReply && this.props.parentComponentId) {
+        commentData = { ...commentData, comment: this.props.parentComponentId };
+      } else {
+        commentData = { ...commentData, comment: this.props.data.id };
+      }
+      this.props.onPostReply(section.id, { ...commentData });
     }
   }
 
@@ -370,6 +375,7 @@ Comment.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
+  parentComponentId: PropTypes.number,
   questions: PropTypes.array,
   section: PropTypes.object,
   user: PropTypes.object,
