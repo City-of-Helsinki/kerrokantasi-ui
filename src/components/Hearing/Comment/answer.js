@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';
 
+import Icon from '../../../utils/Icon';
+
 /**
  * Class declaration for answer component.
  */
@@ -20,7 +22,7 @@ const Answer = ({ answer }) => {
         ))
       }
     </div>
-  )
+  );
 };
 
 Answer.propTypes = {
