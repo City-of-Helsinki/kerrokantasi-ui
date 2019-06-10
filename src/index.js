@@ -1,6 +1,6 @@
 /* eslint-disable prefer-arrow-callback */
-import 'alertifyjs/build/css/alertify.css';
-import '../assets/sass/app.scss';
+// import '../assets/sass/app.scss'; // Default Kerrokantasi styles commented out for now
+import '../assets/sass/hel-app.scss'; // Apply city of Helsinki custom styles
 import {render} from 'react-dom';
 import getRoot from './getRoot';
 import createStore from './createStore';

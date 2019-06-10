@@ -3,7 +3,7 @@
   @extend .clearfix;
   background-color: $white;
   position: relative;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
+  box-shadow: $default-shadow;
   padding-bottom: $line-height-computed;
 
   &-image {
@@ -16,14 +16,7 @@
     color: $text-color;
 
     .hearing-card-comment-count {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 3px 10px;
       font-size: 1.5em;
-      font-weight: 500;
-      background: $theme-secondary-light;
-      border-radius: 0 0 0 24px;
     }
   }
 
@@ -73,4 +66,16 @@
       }
     }
   }
+}
+
+.hearing-card-comment-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px 10px;
+  font-size: 1.2em;
+  font-weight: 500;
+  background: $theme-secondary-light;
+  border-radius: 0 0 0 24px;
+  color: $black;
 }

@@ -1,8 +1,8 @@
 # Address and port the server will listen to. The ones below are defaults
 # useful for development. On a more formal occasion you will likely to want
 # change these.
-#listen_address=localhost
-#listen_port=8086
+#listen_address="localhost"
+#listen_port="8086"
 
 # Base URL of the API, without version or trailing slash (/)
 kerrokantasi_api_base="https://api.hel.fi/kerrokantasi-test"
