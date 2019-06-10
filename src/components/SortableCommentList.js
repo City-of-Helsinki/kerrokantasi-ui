@@ -5,7 +5,7 @@ import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {get, isEmpty, keys, throttle, find} from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
-import WrappedCommentList from './CommentList';
+import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
