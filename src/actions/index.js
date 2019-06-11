@@ -180,7 +180,7 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
  * @param {Number} commentId - is of the parent comment.
  * @param {String} sectionId - id of the section the comment belongs to.
  */
-export const getCommentSubComments = (commentId, sectionId) => {
+export const getCommentSubComments = (commentId, sectionId, jumpTo) => {
   return (dispatch, getState) => {
     const fetchAction = createAction(MainActions.BEGIN_FETCH_SUB_COMMENTS)({sectionId, commentId});
     dispatch(fetchAction);
@@ -193,7 +193,7 @@ export const getCommentSubComments = (commentId, sectionId) => {
       ordering: 'created_at',
     };
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({sectionId, commentId, data}));
+      dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({sectionId, commentId, data, jumpTo}));
     }).catch(requestErrorHandler());
   };
 };
@@ -246,7 +246,11 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
     }
 
     return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("postedComment")({sectionId, jumpTo: data.id, comment: commentData.comment, response: data}));
+      if (commentData.comment && typeof commentData.comment !== 'undefined') {
+        dispatch(getCommentSubComments(commentData.comment, sectionId, data.id));
+      } else {
+        dispatch(createAction("postedComment")({sectionId, jumpTo: data.id}));
+      }
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug, null, commentData.comment));
       // also, update user answered questions
