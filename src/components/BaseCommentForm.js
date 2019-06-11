@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import Radio from 'react-bootstrap/lib/Radio';
-import Checkbox from 'react-bootstrap/lib/Checkbox';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
+import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
@@ -19,7 +14,19 @@ import QuestionResults from './QuestionResults';
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || '', imageTooBig: false, images: []};
+    this.state = {
+      collapsed: true,
+      commentText: "",
+      nickname: props.defaultNickname || '',
+      organization: props.user && props.user.adminOrganizations
+        && Array.isArray(props.user.adminOrganizations)
+        && props.user.adminOrganizations.length > 0
+        && props.user.adminOrganizations[0],
+      imageTooBig: false,
+      images: [],
+      showAlert: true,
+      hideName: false,
+    };
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
@@ -117,6 +124,25 @@ export class BaseCommentForm extends React.Component {
     return imagesArray;
   }
 
+  /**
+   * When user type is admin, an alert is shown, use this method to close the alert.
+   */
+  handleCloseAlert = () => {
+    this.setState((prevState) => ({
+      showAlert: !prevState.showAlert,
+    }));
+  }
+
+  /**
+   * When logged in as admin, user may chose to hide their identity.
+   */
+  handleToggleHideName = () => {
+    this.setState((prevState) => ({
+      nickname: prevState.hideName ? this.props.defaultNickname : this.props.intl.formatMessage({ id: 'employee' }),
+      hideName: !prevState.hideName,
+    }));
+  }
+
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
     let isImageTooBig = false;
 
@@ -132,8 +158,96 @@ export class BaseCommentForm extends React.Component {
     }
   }
 
+  /**
+   * When admin user is posting a comment, we will show a closeable warning.
+   */
+  renderAdminWarning = () => (
+    <Alert bsStyle="warning">
+      <div className="comment-form__comment-alert">
+        <div className="comment-form__comment-alert__alert-icon">
+          <Icon name="info-circle" size="lg" />
+        </div>
+        <span className="comment-form__comment-alert__alert-message"><FormattedMessage id="adminCommentMessage"/></span>
+        <div className="comment-form__comment-alert__alert-close">
+          <Icon name="close" onClick={this.handleCloseAlert}/>
+        </div>
+      </div>
+    </Alert>
+  );
+
+  /**
+   * Render the checkbox to hide user name and identitiy for admin user.
+   */
+  renderHideNameOption = () => (
+    <Checkbox checked={this.state.hideName} key={uuid()} onChange={this.handleToggleHideName}>
+      <FormattedMessage id="hideName"/>
+    </Checkbox>
+  );
+
+  /**
+   * For admins, there is slightly different form.
+   */
+  renderFormForAdmin =() => (
+    <FormGroup>
+      <FormControl
+        type="text"
+        placeholder={this.props.nicknamePlaceholder}
+        value={this.state.nickname}
+        onChange={this.handleNicknameChange.bind(this)}
+        maxLength={32}
+        disabled
+      />
+      <FormControl
+        type="text"
+        placeholder={this.props.nicknamePlaceholder}
+        value={this.state.organization || ''}
+        onChange={this.handleNicknameChange.bind(this)}
+        maxLength={32}
+        disabled
+      />
+    </FormGroup>
+  )
+  /**
+   * If an admin type of user is posting comment, the form is slightly different.
+   * @returns {JSX<Component>}
+   */
+  renderNameFormForUser = () => {
+    const { user } = this.props;
+    const isAdminUser = user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0;
+    const headingId = isAdminUser ? 'nameAndOrganization' : 'nickname';
+
+    return (
+      <React.Fragment>
+        <h4><FormattedMessage id={headingId} /></h4>
+        { isAdminUser && this.state.showAlert && this.renderAdminWarning() }
+        { isAdminUser && this.renderHideNameOption() }
+        {
+          isAdminUser
+          ? (
+            <div className="comment-form__group-admin">
+              { this.renderFormForAdmin() }
+            </div>
+          )
+          : (
+            <FormGroup>
+              <FormControl
+                type="text"
+                placeholder={this.props.nicknamePlaceholder}
+                value={this.state.nickname}
+                onChange={this.handleNicknameChange.bind(this)}
+                maxLength={32}
+              />
+            </FormGroup>
+          )
+        }
+      </React.Fragment>
+    );
+  }
+
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
+    // When the user is an admin user, we will display slightly different form.
+    const isAdminUser = user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0;
 
     if (this.state.collapsed) {
       return (
@@ -213,16 +327,7 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          <h4><FormattedMessage id="nickname"/></h4>
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.nicknamePlaceholder}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
-          </FormGroup>
+          { this.renderNameFormForUser() }
           <div className="comment-buttons clearfix">
             <Button
               bsStyle="default"
@@ -287,11 +392,11 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
 };
 
 QuestionForm.propTypes = {
-  question: PropTypes.object,
-  lang: PropTypes.string,
-  onChange: PropTypes.func,
   answers: PropTypes.any,
-  loggedIn: PropTypes.bool
+  lang: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  onChange: PropTypes.func,
+  question: PropTypes.object,
 };
 
 export default injectIntl(BaseCommentForm);
