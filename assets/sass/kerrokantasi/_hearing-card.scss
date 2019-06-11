@@ -1,5 +1,4 @@
 .hearing-card {
-  //border: 1px solid $border-color;
   @extend .clearfix;
   background-color: $white;
   position: relative;
@@ -26,10 +25,12 @@
     .hearing-card-title {
       word-wrap: break-word;
       overflow-wrap: break-word;
+
       a {
         text-decoration: none;
       }
     }
+
     .hearing-card-time {
       margin-bottom: $line-height-computed / 2;
       color: $text-muted;

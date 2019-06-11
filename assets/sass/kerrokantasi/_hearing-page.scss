@@ -12,10 +12,9 @@
 }
 
 .hearing-header {
-
   h1 {
     @media (max-width: $screen-xs-max) {
-          font-size: 3rem;
+      font-size: 3rem;
     }
   }
 
@@ -24,7 +23,8 @@
     margin-bottom: $line-height-computed;
   }
 
-  .hearing-meta:before, .hearing-meta:after {
+  .hearing-meta:before,
+  .hearing-meta:after {
     content: "";
     display: block;
     margin: 0 15px $line-height-computed;
@@ -142,11 +142,11 @@
 }
 
 .image-caption {
-    width: 100%;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    background-color: $gray-lighter;
-    font-size: 1.4rem;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  background-color: $gray-lighter;
+  font-size: 1.4rem;
 }
 
 .hearing-contacts {
@@ -165,45 +165,51 @@
 }
 
 .section-list-item {
-    display: flex;
-    margin-bottom: $line-height-computed;
-    position: relative;
-    background-color: $gray-lighter;
+  display: flex;
+  margin-bottom: $line-height-computed;
+  position: relative;
+  background-color: $gray-lighter;
 
-    a {
-      text-decoration: none;
+  a {
+    text-decoration: none;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    font-size: 1.4rem;
+  }
+
+  &-image {
+    flex-basis: content;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    float: left;
+    cursor: pointer;
+
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+
+  &-content {
+    flex: 1 auto;
+    padding: $line-height-computed;
+
+    h3 {
+      margin-top: 0;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      padding-left: 25px;
     }
 
     @media (max-width: $screen-xs-max) {
-        font-size: 1.4rem;
+      font-size: 1.5rem;
     }
-    &-image {
-        flex-basis: content;
-        flex-shrink: 0;
-        flex-grow: 0;
-        width: 150px;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        @media (max-width: $screen-xs-max) {
-            display: none;
-        }
-        float: left;
-        cursor: pointer;
-    }
-    &-content {
-        flex: 1 auto;
-        padding: $line-height-computed;
-        h3 {
-            margin-top: 0;
-        }
-        @media (min-width: $screen-sm-min) {
-            padding-left: 25px;
-        }
-        @media (max-width: $screen-xs-max) {
-            font-size: 1.5rem;
-        }
-    }
+  }
 }
 
 .hearing-comment-section {
@@ -216,147 +222,152 @@
 }
 
 .comment-form {
-    background-color: $white;
-    padding: 1em;
-    margin-bottom: $line-height-computed;
+  background-color: $white;
+  padding: 1em;
+  margin-bottom: $line-height-computed;
 
-    &__file {
-        margin: 10px 0;
-        padding-top: 10px;
-    }
+  &__file {
+    margin: 10px 0;
+    padding-top: 10px;
+  }
 
-    &__image-too-big {
-        color: red !important;
-        padding-bottom: 10px;
-    }
+  &__image-too-big {
+    color: red !important;
+    padding-bottom: 10px;
+  }
 
-    &__select-button {
-        padding: 10px 0;
-    }
+  &__select-button {
+    padding: 10px 0;
+  }
 
-    &__selected-images {
-        padding-top: 10px;
-    }
+  &__selected-images {
+    padding-top: 10px;
+  }
 
-    &__group-admin {
-      & .form-group {
-        display: flex;
-        flex-direction: row;
-        &>* {
-          margin-left: 24px; 
-        }
-        & :first-child {
-          margin-left: 0px;
-        }
-      }
-    }
-
-
-    &__comment-alert {
+  &__group-admin {
+  
+    & .form-group {
+  
       display: flex;
       flex-direction: row;
-      align-items: center;
-
-      &__alert-icon {
-        display: flex;
-        flex-basis: 5%;
-        min-width: 40px;
+  
+      &>* {
+        margin-left: 24px; 
       }
-
-      &__alert-message {
-        flex-basis: 90%;
+  
+      & :first-child {
+        margin-left: 0px;
       }
+  
+    }
+  }
 
-      &__alert-close {
-        flex-basis: 5%;
-        display: flex;
-        justify-content: flex-end;
-        min-width: 40px;
-        cursor: pointer;
-      }
+  &__comment-alert {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__alert-icon {
+      display: flex;
+      flex-basis: 5%;
+      min-width: 40px;
     }
 
-    .comment-buttons {
-      text-align: right;
-      margin: $line-height-computed 0;
-
-      .btn {
-        margin-right: 1em;
-      }
-
-      .btn:last-child {
-        margin-right: 0;
-      }
+    &__alert-message {
+      flex-basis: 90%;
     }
 
-    textarea {
-      height: 7em;
-      line-height: 1em;
+    &__alert-close {
+      flex-basis: 5%;
+      display: flex;
+      justify-content: flex-end;
+      min-width: 40px;
+      cursor: pointer;
     }
+  }
+
+  .comment-buttons {
+    text-align: right;
+    margin: $line-height-computed 0;
+
+    .btn {
+      margin-right: 1em;
+    }
+
+    .btn:last-child {
+      margin-right: 0;
+    }
+  }
+
+  textarea {
+    height: 7em;
+    line-height: 1em;
+  }
 }
 
 .comment-conditions {
-    border-top: 1px solid $gray-light;
-    padding-top: 15px;
-    font-size: 1.4rem;
+  border-top: 1px solid $gray-light;
+  padding-top: 15px;
+  font-size: 1.4rem;
 }
 
 .section-title {
-    cursor: pointer;
-    &-comments {
-        float: right;
-    }
+  cursor: pointer;
+
+  &-comments {
+    float: right;
+  }
 }
 
 .closure-info {
-    padding: $line-height-computed;
-    margin-bottom: $line-height-computed;
-    background-color: $theme-primary-light;
+  padding: $line-height-computed;
+  margin-bottom: $line-height-computed;
+  background-color: $theme-primary-light;
 
-    .section-title {
-        cursor: auto;
-    }
+  .section-title {
+    cursor: auto;
+  }
 
-    .section-content {
-      margin: 0;
-    }
+  .section-content {
+    margin: 0;
+  }
 }
 
 .plugin-frame {
-    width: 100%;
-    height: 450px;
-    border: 0;
+  width: 100%;
+  height: 450px;
+  border: 0;
 }
 
 [id^='hearing-sectiongroup-'] {
-    margin-bottom: $line-height-computed * 2;
+  margin-bottom: $line-height-computed * 2;
 
-    h2:first-letter {
-        text-transform:capitalize;
-    }
+  h2:first-letter {
+    text-transform: capitalize;
+  }
 }
 
 .sortable-comment-list {
-    background-color: $theme-secondary-light;
-    padding: $line-height-computed;
+  background-color: $theme-secondary-light;
+  padding: $line-height-computed;
 
-    h2 {
-      margin-top: 0;
-      padding-bottom: $line-height-computed / 2;
-      border-bottom: 1px solid $gray;
-    }
+  h2 {
+    margin-top: 0;
+    padding-bottom: $line-height-computed / 2;
+    border-bottom: 1px solid $gray;
+  }
 
-    h2:first-letter {
-        text-transform:capitalize;
-    }
+  h2:first-letter {
+    text-transform: capitalize;
+  }
 }
 
 .delete-modal {
-    margin-top: 25%;
+  margin-top: 25%;
 
-    @media (max-width: $screen-sm-max) {
-        margin-top: 55%;
-    }
+  @media (max-width: $screen-sm-max) {
+    margin-top: 55%;
+  }
 }
 
 .commentlist .commentlist__load-more {
@@ -365,7 +376,6 @@
   text-align: center;
 }
 
-
 .commenticon {
-    float: right;
+  float: right;
 }
