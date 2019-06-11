@@ -40,15 +40,12 @@
 
 .commentlist {
     margin-top: 40px;
-
   .hearing-comment {
       margin-bottom: $line-height-computed;
       padding: $line-height-computed / 2;
       background-color: $white;
 
-      &-header {
-          border-bottom: 1px solid $light-gray;
-      }
+      &-header {}
       &-body {
           padding-top: 15px;
           //font-size: 1.2em;
@@ -133,13 +130,22 @@
         flex-direction: row;
         justify-content: flex-end;
     }
+
+    &__admin {
+        border-left: 20px solid $hel-engel;
+    }
+  }
+  & .comment-reply {
+    border-top: 1px solid $light-gray;
+    margin-bottom: 0px;
+
+    &:first-child {
+      margin: 24px 24px 0px 12px;
+    }
   }
 
   .comment-form {
       background-color: white !important;
-  }
-  .comment-reply {
-      padding: 24px 24px 0px 24px;
   }
 
   .comment-animate {

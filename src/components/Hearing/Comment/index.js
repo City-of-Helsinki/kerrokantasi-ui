@@ -158,7 +158,7 @@ class Comment extends React.Component {
    * Renders the header area for the comment
    * @returns {Component}
    */
-  renderCommentHeader = ({ data } = this.props) => (
+  renderCommentHeader = (isAdminUser, { data } = this.props) => (
     <div className="hearing-comment-header clearfix">
       <div className="hearing-comment-votes">
         <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
@@ -168,9 +168,17 @@ class Comment extends React.Component {
       <div className="hearing-comment-publisher">
         <span className="hearing-comment-user">
           {data.is_registered ?
-            <span className="hearing-comment-user-registered">
+            <span className={classnames({
+              'hearing-comment-user-registered': !isAdminUser,
+              'hearing-comment-user-organization': isAdminUser,
+            })}
+            >
               <Icon name="user"/>&nbsp;
-              <FormattedMessage id="registered"/>:&nbsp;
+              {
+                isAdminUser ? data.organization
+                : <FormattedMessage id="registered"/>
+                }
+              :&nbsp;
             </span>
             : null}
           {data.author_name || <FormattedMessage id="anonymous"/>}
@@ -290,40 +298,45 @@ class Comment extends React.Component {
    * Renders the sub comments
    * @returns {Component<Comment>} resursivly renders comment component untill last depth.
    */
-  renderSubComments = () => {
-    return this.props.data.subComments.map((subComment) => (
-      <Comment
-        {...this.props}
-        parentComponentId={this.props.data.id}
-        data={subComment}
-        key={`${subComment.id}${Math.random()}`}
-        isReply
-      />
-    ));
-  }
+  renderSubComments = () => (
+    <div className="hearing-comment__sub-comments">
+      {
+        this.props.data.subComments.map((subComment) => (
+          <Comment
+            {...this.props}
+            parentComponentId={this.props.data.id}
+            data={subComment}
+            key={`${subComment.id}${Math.random()}`}
+            isReply
+          />
+        ))
+      }
+    </div>
+  );
 
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
     const {editorOpen, isReplyEditorOpen} = this.state;
+    const isAdminUser = this.props.data && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
 
     if (!data.content) {
       return null;
     }
-
     return (
       <div
         className={classnames([
           'hearing-comment',
           {
             'comment-reply': this.props.isReply,
-            'comment-animate': this.state.shouldAnimate
+            'comment-animate': this.state.shouldAnimate,
+            'hearing-comment__admin': isAdminUser,
           }
         ])}
         onAnimationEnd={this.handleEndstAnimation}
         ref={this.commentRef}
       >
-        { this.renderCommentHeader() }
+        { this.renderCommentHeader(isAdminUser) }
         { this.renderCommentAnswers() }
         <div className="hearing-comment-body">
           <p>{nl2br(data.content)}</p>
