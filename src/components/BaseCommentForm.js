@@ -247,8 +247,6 @@ export class BaseCommentForm extends React.Component {
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
     // When the user is an admin user, we will display slightly different form.
-    const isAdminUser = user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0;
-
     if (this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
