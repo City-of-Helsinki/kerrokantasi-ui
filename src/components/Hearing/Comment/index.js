@@ -8,8 +8,8 @@ import { isEmpty } from 'lodash';
 import classnames from 'classnames';
 
 import CommentForm from '../../BaseCommentForm';
-import Answer from './Answer';
 import ShowMore from './ShowMore';
+import Answer from './Answer';
 
 import Icon from '../../../utils/Icon';
 import {notifyError} from '../../../utils/notify';
