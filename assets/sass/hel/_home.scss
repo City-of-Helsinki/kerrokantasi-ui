@@ -1,6 +1,6 @@
 .welcome-koro {
   &__bottom {
-    @include koro("storm", $theme-primary-light, 400);
+    @include koro("storm", $hel-engel, 400);
     background-color: transparent;
     width: 100%;
     height: $line-height-computed * 3;
