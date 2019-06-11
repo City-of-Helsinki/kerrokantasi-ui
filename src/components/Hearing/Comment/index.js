@@ -299,7 +299,7 @@ class Comment extends React.Component {
    * @returns {Component<Comment>} resursivly renders comment component untill last depth.
    */
   renderSubComments = () => (
-    <div className="hearing-comment__sub-comments">
+    <div className="sub-comments">
       {
         this.props.data.subComments.map((subComment) => (
           <Comment
@@ -324,50 +324,53 @@ class Comment extends React.Component {
       return null;
     }
     return (
-      <div
-        className={classnames([
-          'hearing-comment',
-          {
-            'comment-reply': this.props.isReply,
-            'comment-animate': this.state.shouldAnimate,
-            'hearing-comment__admin': isAdminUser,
-          }
-        ])}
-        onAnimationEnd={this.handleEndstAnimation}
-        ref={this.commentRef}
-      >
-        { this.renderCommentHeader(isAdminUser) }
-        { this.renderCommentAnswers() }
-        <div className="hearing-comment-body">
-          <p>{nl2br(data.content)}</p>
+      <React.Fragment>
+        <div
+          className={classnames([
+            'hearing-comment',
+            {
+              'comment-reply': this.props.isReply,
+              'hearing-comment__has-replys': data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
+              'comment-animate': this.state.shouldAnimate,
+              'hearing-comment__admin': isAdminUser,
+            }
+          ])}
+          onAnimationEnd={this.handleEndstAnimation}
+          ref={this.commentRef}
+        >
+          { this.renderCommentHeader(isAdminUser) }
+          { this.renderCommentAnswers() }
+          <div className="hearing-comment-body">
+            <p>{nl2br(data.content)}</p>
+          </div>
+          <div className="hearing-comment__images">
+            {data.images
+              ? data.images.map((image) =>
+                <a
+                  className="hearing-comment-images-image"
+                  key={image.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href={image.url}
+                >
+                  <img
+                    alt={image.title}
+                    src={image.url}
+                    width={image.width < 100 ? image.width : 100}
+                    height={image.height < 100 ? image.height : 100}
+                  />
+                </a>
+              )
+              : null}
+          </div>
+          {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
+          {canEdit && this.renderEditLinks()}
+          {editorOpen && this.renderEditorForm()}
+          {isReplyEditorOpen && this.renderReplyForm()}
+          {this.renderViewReplyButton()}
         </div>
-        <div className="hearing-comment__images">
-          {data.images
-            ? data.images.map((image) =>
-              <a
-                className="hearing-comment-images-image"
-                key={image.url}
-                rel="noopener noreferrer"
-                target="_blank"
-                href={image.url}
-              >
-                <img
-                  alt={image.title}
-                  src={image.url}
-                  width={image.width < 100 ? image.width : 100}
-                  height={image.height < 100 ? image.height : 100}
-                />
-              </a>
-            )
-            : null}
-        </div>
-        {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
-        {canEdit && this.renderEditLinks()}
-        {editorOpen && this.renderEditorForm()}
-        {isReplyEditorOpen && this.renderReplyForm()}
-        {this.renderViewReplyButton()}
         {Array.isArray(data.subComments) && data.subComments.length > 0 && this.renderSubComments()}
-      </div>
+      </React.Fragment>
     );
   }
 }

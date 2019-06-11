@@ -1,6 +1,6 @@
 @keyframes highlightComment {
     from {
-        background-color: $hel-engel;
+        background-color: $theme-primary-light;
     }
     to {
         background-color: white;
@@ -40,6 +40,7 @@
 
 .commentlist {
     margin-top: 40px;
+
   .hearing-comment {
       margin-bottom: $line-height-computed;
       padding: $line-height-computed / 2;
@@ -114,8 +115,9 @@
           padding: 0 $padding-small;
 
           &:hover {
-            border-bottom: 1px solid $hover-blue;
+            border-bottom: 1px solid $theme-info;
           }
+
           &>a {
             text-decoration: none;
           }
@@ -132,17 +134,26 @@
     }
 
     &__admin {
-        border-left: 20px solid $hel-engel;
+        border-left: 10px solid $theme-primary-light;
     }
-  }
-  & .comment-reply {
-    border-top: 1px solid $light-gray;
-    margin-bottom: 0px;
 
-    &:first-child {
-      margin: 24px 24px 0px 12px;
+    &__has-replys {
+      margin-bottom: 0px;
     }
   }
+  .sub-comments {
+    background-color: $white;
+    padding-left: 24px;
+    & .hearing-comment {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-top: 1px solid $light-gray;
+      &:last-child {
+        margin-bottom: $line-height-computed;
+      }
+    }
+  }
+
 
   .comment-form {
       background-color: white !important;
