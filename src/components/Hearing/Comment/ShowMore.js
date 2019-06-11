@@ -18,15 +18,15 @@ const ShowMore = (props) => {
   };
 
   return (
-    <div className="hearing-comment-show-more">
+    <div className="hearing-comment__show-more">
       {
         props.isLoadingSubComment
           ? <LoadSpinner style={{ padding: '12px' }}/>
           : (
-            <span className="hearing-comment-show-more__wrapper">
+            <span className="hearing-comment__show-more__wrapper">
               <a href="" onClick={handleShowMore}>
                 <FormattedMessage id="showMoreReplys" />
-                <span className="hearing-comment-show-more__count">{`(${props.numberOfComments})`}</span>
+                <span className="hearing-comment__show-more__count">{`(${props.numberOfComments})`}</span>
               </a>
             </span>
           )
