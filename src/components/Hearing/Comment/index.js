@@ -164,19 +164,25 @@ class Comment extends React.Component {
    * @param {Number} answer - id of the answer selected by the user.
    */
   handleAnswerChange = (question, questionType, answer) => {
-    const updatedAnswer = this.state.answers.map((allAnswers) => {
-      if (allAnswers.question === question) {
-        if (questionType === 'single-choice') {
-          return {...allAnswers, answers: [answer]};
+    const answerExists = this.state.answers.find(stateAnswer => stateAnswer.question === question);
+    let updatedAnswer;
+    if (answerExists && typeof answerExists !== 'undefined') {
+      updatedAnswer = this.state.answers.map((allAnswers) => {
+        if (allAnswers.question === question) {
+          if (questionType === 'single-choice') {
+            return {...allAnswers, answers: [answer]};
+          }
+          const isDeselecting = allAnswers.answers.includes(answer);
+          return {
+            ...allAnswers,
+            answers: isDeselecting ? allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) : [...allAnswers.answers, answer],
+          };
         }
-        const isDeselecting = allAnswers.answers.includes(answer);
-        return {
-          ...allAnswers,
-          answers: isDeselecting ? allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) : [...allAnswers.answers, answer],
-        };
-      }
-      return allAnswers;
-    });
+        return allAnswers;
+      });
+    } else {
+      updatedAnswer = [...this.state.answers, { question, answers: [answer], type: questionType }];
+    }
     this.setState({ answers: updatedAnswer });
   }
 
@@ -234,6 +240,7 @@ class Comment extends React.Component {
         question={correspondingQuestion}
         lang={this.props.language}
         answers={answer}
+        key={`$answer-for-question-${answer.question}`}
         loggedIn={!isEmpty(this.props.user)}
         onChange={this.handleAnswerChange}
       />
@@ -317,12 +324,12 @@ class Comment extends React.Component {
       answers={this.state.answers}
       closed={false}
       onOverrideCollapse={this.handleToggleReplyEditor}
+      onChangeAnswers={this.handleAnswerChange}
       defaultNickname={this.props.defaultNickname}
       hearingId={this.props.hearingId}
       language={this.props.language}
       loggedIn={!isEmpty(this.props.user)}
       nicknamePlaceholder={this.props.nicknamePlaceholder}
-      onChangeAnswers={this.onChangeAnswers}
       onPostComment={this.handlePostReply}
       overrideCollapse
       section={this.props.section}
