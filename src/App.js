@@ -60,7 +60,7 @@ class App extends React.Component {
           <main className={fullscreen ? 'fullscreen' : 'main-content'}>
             <Routes />
           </main>
-          <Footer />
+          <Footer language={locale} />
           <ToastContainer
             bodyClassName={
               {
