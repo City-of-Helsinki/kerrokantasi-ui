@@ -254,6 +254,7 @@ exports[`Hearings component should render as expected 1`] = `
           "openFullscreenMap": "Kartta koko näytöllä",
           "openHearings": "Avoimet kuulemiset",
           "option": "Vastausvaihtoehto",
+          "organization": "Organisaatio",
           "overview-map": "Kartta",
           "partSection": "Osa-alue",
           "phase": "Vaihe",
