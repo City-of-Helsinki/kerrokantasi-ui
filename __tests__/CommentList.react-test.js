@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import {CommentList} from '../src/components/CommentList';
+import {CommentList} from '../src/components/Hearing/CommentList';
 import {MemoryRouter} from 'react-router-dom';
 import {mockStore, getIntlAsProp} from '../test-utils';
 

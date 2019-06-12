@@ -18,10 +18,6 @@ export class BaseCommentForm extends React.Component {
       collapsed: true,
       commentText: "",
       nickname: props.defaultNickname || '',
-      organization: props.user && props.user.adminOrganizations
-        && Array.isArray(props.user.adminOrganizations)
-        && props.user.adminOrganizations.length > 0
-        && props.user.adminOrganizations[0],
       imageTooBig: false,
       images: [],
       showAlert: true,
@@ -30,18 +26,30 @@ export class BaseCommentForm extends React.Component {
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
 
+  componentDidMount = () => {
+    if (this.isUserAdmin()) {
+      this.setState({ nickname: this.props.user.displayName });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!this.props.collapseForm && nextProps.collapseForm) {
       this.clearCommentText();
       this.toggle();
     }
-    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '') {
+    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '' && !this.isUserAdmin()) {
       this.setState({nickname: nextProps.defaultNickname});
+    }
+    if (this.isUserAdmin()) {
+      this.setState({ nickname: nextProps.user.displayName });
     }
   }
 
   toggle() {
     this.setState({collapsed: !this.state.collapsed});
+    if (this.props.onOverrideCollapse instanceof Function) {
+      this.props.onOverrideCollapse();
+    }
   }
 
   handleTextChange(event) {
@@ -108,6 +116,16 @@ export class BaseCommentForm extends React.Component {
     });
   }
 
+  /**
+   * Determines whether the logged in user is admin or not.
+   * The array in users with key adminOrganizations should be of length > 0
+   */
+  isUserAdmin = () => (
+    this.props.user
+    && Array.isArray(this.props.user.adminOrganizations)
+    && this.props.user.adminOrganizations.length > 0
+  );
+
   getPluginData() {  // eslint-disable-line class-methods-use-this
     return undefined;
   }
@@ -138,7 +156,7 @@ export class BaseCommentForm extends React.Component {
    */
   handleToggleHideName = () => {
     this.setState((prevState) => ({
-      nickname: prevState.hideName ? this.props.defaultNickname : this.props.intl.formatMessage({ id: 'employee' }),
+      nickname: !prevState.hideName ? this.props.intl.formatMessage({ id: 'employee' }) : this.props.user.displayName,
       hideName: !prevState.hideName,
     }));
   }
@@ -187,33 +205,37 @@ export class BaseCommentForm extends React.Component {
   /**
    * For admins, there is slightly different form.
    */
-  renderFormForAdmin =() => (
-    <FormGroup>
-      <FormControl
-        type="text"
-        placeholder={this.props.nicknamePlaceholder}
-        value={this.state.nickname}
-        onChange={this.handleNicknameChange.bind(this)}
-        maxLength={32}
-        disabled
-      />
-      <FormControl
-        type="text"
-        placeholder={this.props.nicknamePlaceholder}
-        value={this.state.organization || ''}
-        onChange={this.handleNicknameChange.bind(this)}
-        maxLength={32}
-        disabled
-      />
-    </FormGroup>
-  )
+  renderFormForAdmin =() => {
+    const { user } = this.props;
+    const organization = this.isUserAdmin() && user.adminOrganizations[0];
+    return (
+      <FormGroup>
+        <FormControl
+          type="text"
+          placeholder={this.props.nicknamePlaceholder}
+          value={this.state.nickname}
+          onChange={this.handleNicknameChange.bind(this)}
+          maxLength={32}
+          disabled
+        />
+        <FormControl
+          type="text"
+          placeholder={this.props.intl.formatMessage({ id: 'organization' })}
+          value={organization || ''}
+          onChange={() => {}}
+          maxLength={32}
+          disabled
+        />
+      </FormGroup>
+    );
+  }
+
   /**
    * If an admin type of user is posting comment, the form is slightly different.
    * @returns {JSX<Component>}
    */
   renderNameFormForUser = () => {
-    const { user } = this.props;
-    const isAdminUser = user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0;
+    const isAdminUser = this.isUserAdmin();
     const headingId = isAdminUser ? 'nameAndOrganization' : 'nickname';
 
     return (
@@ -246,8 +268,7 @@ export class BaseCommentForm extends React.Component {
 
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
-    // When the user is an admin user, we will display slightly different form.
-    if (this.state.collapsed) {
+    if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
           <Icon name="comment"/> <FormattedMessage id="addComment"/>
@@ -350,9 +371,11 @@ export class BaseCommentForm extends React.Component {
 
 BaseCommentForm.propTypes = {
   onPostComment: PropTypes.func,
+  onOverrideCollapse: PropTypes.func,
   intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: PropTypes.string,
+  overrideCollapse: PropTypes.bool,
   nicknamePlaceholder: PropTypes.string,
   section: PropTypes.object,
   language: PropTypes.string,
@@ -364,7 +387,9 @@ BaseCommentForm.propTypes = {
 };
 
 BaseCommentForm.defaultProps = {
-  defaultNickname: ''
+  defaultNickname: '',
+  overrideCollapse: false,
+  onOverrideCollapse: () => {},
 };
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
