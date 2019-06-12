@@ -223,5 +223,6 @@
   "welcome": "Kerro mielipiteesi",
   "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "withOpenLicense": "avoimella lisenssillä",
-  "writeComment": "Kommentti"
+  "writeComment": "Kommentti",
+  "skipToMainContent": "Siirry pääsisältöön"
 }
