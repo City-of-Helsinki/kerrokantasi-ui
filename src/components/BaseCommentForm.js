@@ -35,6 +35,9 @@ export class BaseCommentForm extends React.Component {
 
   toggle() {
     this.setState({collapsed: !this.state.collapsed});
+    if (this.props.onOverrideCollapse instanceof Function) {
+      this.props.onOverrideCollapse();
+    }
   }
 
   handleTextChange(event) {
@@ -135,7 +138,7 @@ export class BaseCommentForm extends React.Component {
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
 
-    if (this.state.collapsed) {
+    if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
           <Icon name="comment"/> <FormattedMessage id="addComment"/>
@@ -247,9 +250,11 @@ export class BaseCommentForm extends React.Component {
 
 BaseCommentForm.propTypes = {
   onPostComment: PropTypes.func,
+  onOverrideCollapse: PropTypes.func,
   intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: PropTypes.string,
+  overrideCollapse: PropTypes.bool,
   nicknamePlaceholder: PropTypes.string,
   section: PropTypes.object,
   language: PropTypes.string,
@@ -261,7 +266,9 @@ BaseCommentForm.propTypes = {
 };
 
 BaseCommentForm.defaultProps = {
-  defaultNickname: ''
+  defaultNickname: '',
+  overrideCollapse: false,
+  onOverrideCollapse: () => {},
 };
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {

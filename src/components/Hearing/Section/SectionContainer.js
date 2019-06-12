@@ -40,6 +40,7 @@ import {
   fetchAllSectionComments,
   fetchSectionComments,
   fetchMoreSectionComments,
+  getCommentSubComments,
 } from '../../../actions';
 import Link from '../../LinkWithLang';
 
@@ -70,6 +71,14 @@ export class SectionContainerComponent extends React.Component {
     };
   }
 
+  /**
+   * When Näytä lisää vastauksia is pressed.
+   * Call the redecer to fetch sub comments and populate inside the specific comment
+   */
+  handleGetSubComments = (commentId, sectionId) => {
+    this.props.getCommentSubComments(commentId, sectionId);
+  }
+
   onPostComment = (sectionId, sectionCommentData) => { // Done
     const {match, location} = this.props;
     const hearingSlug = match.params.hearingSlug;
@@ -78,10 +87,10 @@ export class SectionContainerComponent extends React.Component {
     this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
-  onVoteComment = (commentId, sectionId) => {
+  onVoteComment = (commentId, sectionId, isReply, parentId) => {
     const {match} = this.props;
     const hearingSlug = match.params.hearingSlug;
-    this.props.postVote(commentId, hearingSlug, sectionId);
+    this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
@@ -254,6 +263,8 @@ export class SectionContainerComponent extends React.Component {
                       section={section}
                       canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
                       onPostComment={this.onPostComment}
+                      onPostReply={this.onPostReply}
+                      onGetSubComments={this.handleGetSubComments}
                       canVote={isSectionVotable(hearing, section, user)}
                       onPostVote={this.onVoteComment}
                       defaultNickname={user && user.displayName}
@@ -296,7 +307,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
+  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) => dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
   editComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
   deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
@@ -325,6 +337,7 @@ SectionContainerComponent.propTypes = {
   fetchAllComments: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  getCommentSubComments: PropTypes.func,
 };
 
 export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));

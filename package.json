@@ -6,7 +6,7 @@
     "start": "rm -rf ./dist && NODE_ENV=production node server",
     "build": "true",
     "fetch-plugins": "node deploy/fetch_plugins.js",
-    "dev": "node server --dev",
+    "dev": "node server --dev --host 0.0.0.0",
     "lint": "eslint src server test",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",

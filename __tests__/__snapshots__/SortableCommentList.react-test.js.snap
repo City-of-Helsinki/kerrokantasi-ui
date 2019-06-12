@@ -150,6 +150,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
       </div>
       <div>
         <InjectIntl(CommentList)
+          canReply={true}
           canVote={true}
           comments={
             Array [
@@ -180,6 +181,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               },
             ]
           }
+          defaultNickname=""
+          hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
           intl={
             Object {
               "defaultFormats": Object {},
@@ -376,6 +379,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "registered": "rekisteröitynyt",
                 "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                 "removeImage": "Poista kuva",
+                "reply": "Vastaa",
                 "revertPublishing": "Peru julkaisu",
                 "save": "Tallenna",
                 "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
@@ -399,6 +403,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
                 "selectAnotherImage": "Valitse toinen kuva",
                 "selectOrDropImage": "Valitse tai pudota kuva",
+                "showMoreReplys": "Näytä lisää vastauksia",
                 "showOnlyOpen": "Näytetään vain avoimet",
                 "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
                 "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
@@ -431,6 +436,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
             }
           }
           isLoading={false}
+          language="fi"
+          nicknamePlaceholder="Anonyymi"
+          onPostReply={[Function]}
           section={
             Object {
               "abstract": Object {},

@@ -1,3 +1,12 @@
+@keyframes highlightComment {
+  from {
+    background-color: $theme-primary-light;
+  }
+  to {
+    background-color: white;
+  }
+}
+
 .sortable-comment-list {
   &__count {
     text-align: center;
@@ -37,9 +46,7 @@
     padding: $line-height-computed / 2;
     background-color: $white;
 
-    &-header {
-      border-bottom: 1px solid $light-gray;
-    }
+    &-header {}
 
     &-body {
       padding-top: 15px;
@@ -106,6 +113,69 @@
         font-size: 1.4rem;
       }
     }
+
+    .hearing-comment-show-more {
+      border-top: 1px solid $light-gray;
+      font-weight: bold;
+      margin-top: $margin-default;
+      padding: $padding-default 0 0 0;
+      text-align: center;
+
+      &__wrapper {
+        border-bottom: 1px solid $black;
+        padding: 0 $padding-small;
+
+        &:hover {
+          border-bottom: 1px solid $theme-info;
+        }
+
+        &>a {
+          text-decoration: none;
+        }
+      }
+  
+      &__count {
+        margin-left: $margin-small;
+      }
+    }
+
+    &__edit-links {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    &__admin {
+      border-left: 10px solid $theme-primary-light;
+    }
+
+    &__has-replys {
+      margin-bottom: 0px;
+    }
+  }
+
+  .sub-comments {
+    background-color: $white;
+    padding-left: 24px;
+    & .hearing-comment {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-top: 1px solid $light-gray;
+      &:last-child {
+        margin-bottom: $line-height-computed;
+      }
+    }
+  }
+
+
+  .comment-form {
+    background-color: white !important;
+  }
+
+  .comment-animate {
+    animation-name: highlightComment;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
   }
 
   .comment-form {

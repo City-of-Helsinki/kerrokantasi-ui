@@ -5,7 +5,7 @@ import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {get, isEmpty, keys, throttle, find} from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
-import WrappedCommentList from './CommentList';
+import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
 import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
@@ -71,7 +71,6 @@ export class SortableCommentListComponent extends Component {
     const {section} = this.props;
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
-
     this.setState({
       showLoader: isFetching,
       collapseForm: false, // whenever things change, no longer force the form to collapse
@@ -98,6 +97,10 @@ export class SortableCommentListComponent extends Component {
     }
   }
 
+
+  /**
+   * When posting a new comment.
+   */
   onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
     const answers = this.state.answers;
@@ -105,6 +108,13 @@ export class SortableCommentListComponent extends Component {
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
     }
+  }
+
+  /**
+   * When posting a reply to a comment.
+   */
+  handlePostReply = (sectionId, data) => {
+    this.props.onPostComment(sectionId, data);
   }
 
 
@@ -300,15 +310,24 @@ export class SortableCommentListComponent extends Component {
             {showCommentList &&
               <div>
                 <WrappedCommentList
+                  canReply={canComment && published}
+                  onPostReply={this.handlePostReply}
+                  onGetSubComments={this.props.onGetSubComments}
                   canVote={canVote}
-                  section={section}
                   comments={sectionComments.results}
-                  totalCount={sectionComments.count}
-                  onEditComment={this.props.onEditComment}
-                  onDeleteComment={this.props.onDeleteComment}
-                  onPostVote={this.props.onPostVote}
-                  isLoading={this.state.showLoader}
+                  defaultNickname={getNickname(user)}
+                  hearingId={hearingId}
                   intl={intl}
+                  isLoading={this.state.showLoader}
+                  jumpTo={sectionComments.jumpTo}
+                  language={language}
+                  nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
+                  onDeleteComment={this.props.onDeleteComment}
+                  onEditComment={this.props.onEditComment}
+                  onPostVote={this.props.onPostVote}
+                  section={section}
+                  totalCount={sectionComments.count}
+                  user={user}
                 />
                 <Waypoint onEnter={this.handleReachBottom} />
               </div>}
@@ -320,25 +339,26 @@ export class SortableCommentListComponent extends Component {
 }
 
 SortableCommentListComponent.propTypes = {
+  canComment: PropTypes.bool,
+  canVote: PropTypes.bool,
+  closed: PropTypes.bool,
   displayVisualization: PropTypes.bool,
+  fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
-  fetchAllComments: PropTypes.func,
+  hearingId: PropTypes.string,
+  hearingSlug: PropTypes.string,
   intl: intlShape.isRequired,
-  onPostComment: PropTypes.func,
-  onEditComment: PropTypes.func,
+  language: PropTypes.string,
   onDeleteComment: PropTypes.func,
+  onEditComment: PropTypes.func,
+  onGetSubComments: PropTypes.func,
+  onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
+  published: PropTypes.bool,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
-  hearingSlug: PropTypes.string,
   user: PropTypes.object,
-  canVote: PropTypes.bool,
-  canComment: PropTypes.bool,
-  hearingId: PropTypes.string,
-  published: PropTypes.bool,
-  language: PropTypes.string,
-  closed: PropTypes.bool
 };
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
