@@ -2,19 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
-import Radio from 'react-bootstrap/lib/Radio';
-import Checkbox from 'react-bootstrap/lib/Checkbox';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
-import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
-import forEach from 'lodash/forEach';
-import {get, find, parseInt, includes} from 'lodash';
-import uuid from 'uuid/v1';
+import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
+import QuestionForm from './QuestionForm';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -122,8 +118,7 @@ export class BaseCommentForm extends React.Component {
 
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
     let isImageTooBig = false;
-
-    forEach(images, (image) => { // eslint-disable-line consistent-return
+    images.forEach((image) => {
       if (image.size > 1000000) {
         isImageTooBig = true;
       }
@@ -165,7 +160,7 @@ export class BaseCommentForm extends React.Component {
                   <QuestionForm
                     key={question.id}
                     loggedIn={loggedIn}
-                    answers={find(answers, (answer) => answer.question === question.id)}
+                    answers={answers.find(answer => answer.question === question.id)}
                     onChange={onChangeAnswers}
                     question={question}
                     lang={language}
@@ -269,36 +264,6 @@ BaseCommentForm.defaultProps = {
   defaultNickname: '',
   overrideCollapse: false,
   onOverrideCollapse: () => {},
-};
-
-const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
-  return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value))}>
-      <h4>{getAttr(question.text, lang)}</h4>
-      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
-        const optionContent = getAttr(option.text, lang);
-        return (
-          <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-            {optionContent}
-          </Radio>
-        );
-      })}
-      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-          {getAttr(option.text, lang)}
-        </Checkbox>
-      ))}
-      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
-    </FormGroup>
-  );
-};
-
-QuestionForm.propTypes = {
-  question: PropTypes.object,
-  lang: PropTypes.string,
-  onChange: PropTypes.func,
-  answers: PropTypes.any,
-  loggedIn: PropTypes.bool
 };
 
 export default injectIntl(BaseCommentForm);
