@@ -26,7 +26,7 @@ const defaults = {
   cold: false,
 };
 
-const optionalKeys = ["listen_address", "listen_port", "kerrokantasi_api_base", "public_url", "hero_image_url", "ui_config", "dev", "cold"];
+const optionalKeys = ["listen_address", "listen_port", "kerrokantasi_api_base", "public_url", "hero_image_url", "ui_config", "dev", "cold", "city_config"];
 const mandatoryKeys = ["auth_client_id", "auth_shared_secret", "kerrokantasi_api_jwt_audience", "expressjs_session_secret"];
 
 export default function getOptions() {

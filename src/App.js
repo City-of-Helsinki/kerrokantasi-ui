@@ -30,15 +30,15 @@ class App extends React.Component {
   render() {
     const locale = this.props.language;
     const favlinks = [
-      {rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/favicon/apple-touch-icon.png'},
-      {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/favicon/favicon-32x32.png'},
-      {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/favicon/favicon-16x16.png'},
-      {rel: 'manifest', href: '/assets/favicon/manifest.json'},
-      {rel: 'mask-icon', href: '/assets/favicon/safari-pinned-tab.svg', color: '#0072c6'},
-      {rel: 'shortcut icon', type: 'image/x-icon', href: '/assets/favicon/favicon.ico'},
+      {rel: 'apple-touch-icon', sizes: '180x180', href: 'favicon/apple-touch-icon.png'},
+      {rel: 'icon', type: 'image/png', sizes: '32x32', href: 'favicon/favicon-32x32.png'},
+      {rel: 'icon', type: 'image/png', sizes: '16x16', href: 'favicon/favicon-16x16.png'},
+      {rel: 'manifest', href: 'favicon/manifest.json'},
+      {rel: 'mask-icon', href: 'favicon/safari-pinned-tab.svg', color: '#0072c6'},
+      {rel: 'shortcut icon', type: 'image/x-icon', href: 'favicon/favicon.ico'},
     ];
     const favmeta = [
-      {name: 'msapplication-config', content: '/assets/favicon/browserconfig.xml'},
+      {name: 'msapplication-config', content: 'favicon/browserconfig.xml'},
       {name: 'theme-color', content: '#ffffff'},
     ];
     const fullscreen = this.props.match.params.fullscreen === 'true';
