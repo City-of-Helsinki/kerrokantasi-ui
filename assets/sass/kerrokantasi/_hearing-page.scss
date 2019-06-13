@@ -244,6 +244,48 @@
     padding-top: 10px;
   }
 
+  &__group-admin {
+  
+    & .form-group {
+  
+      display: flex;
+      flex-direction: row;
+  
+      &>* {
+        margin-left: 24px; 
+      }
+  
+      & :first-child {
+        margin-left: 0px;
+      }
+  
+    }
+  }
+
+  &__comment-alert {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__alert-icon {
+      display: flex;
+      flex-basis: 5%;
+      min-width: 40px;
+    }
+
+    &__alert-message {
+      flex-basis: 90%;
+    }
+
+    &__alert-close {
+      flex-basis: 5%;
+      display: flex;
+      justify-content: flex-end;
+      min-width: 40px;
+      cursor: pointer;
+    }
+  }
+
   .comment-buttons {
     text-align: right;
     margin: $line-height-computed 0;
