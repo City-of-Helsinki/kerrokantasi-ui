@@ -40,7 +40,7 @@ export class BaseCommentForm extends React.Component {
     if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '' && !this.isUserAdmin()) {
       this.setState({nickname: nextProps.defaultNickname});
     }
-    if (this.isUserAdmin()) {
+    if (this.isUserAdmin() && nextProps.user && nextProps.user.displayName) {
       this.setState({ nickname: nextProps.user.displayName });
     }
   }
