@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {IntlProvider} from 'react-intl';
+import {FormattedMessage, IntlProvider} from 'react-intl';
 import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from './components/Header';
@@ -50,6 +50,9 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div>
+          <a href="#main-container" className="skip-to-main-content">
+            <FormattedMessage id="skipToMainContent" />
+          </a>
           <Helmet
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
@@ -57,7 +60,7 @@ class App extends React.Component {
             script={[{src: '/assets/js/piwik.js', type: 'text/javascript'}]}
           />
           {header}
-          <main className={fullscreen ? 'fullscreen' : 'main-content'}>
+          <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" role="main" tabIndex="-1">
             <Routes />
           </main>
           <Footer />

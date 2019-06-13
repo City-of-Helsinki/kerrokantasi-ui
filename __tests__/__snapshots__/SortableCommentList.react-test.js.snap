@@ -406,6 +406,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "showMoreReplys": "Näytä lisää vastauksia",
                 "showOnlyOpen": "Näytetään vain avoimet",
                 "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
+                "skipToMainContent": "Siirry pääsisältöön",
                 "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
                 "sort": "Järjestä",
                 "submit": "Lähetä",

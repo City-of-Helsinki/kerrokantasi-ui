@@ -137,3 +137,36 @@ a.fullwidth {
 .btn.btn-default {
   background-color: transparent;
 }
+
+.skip-to-main-content {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: -999;
+
+  &:focus,
+  a:active {
+    left: 50%;
+    top: auto;
+    height: auto;
+    width: auto;
+    color: #fff;
+    background-color: #000;
+    overflow: auto;
+    margin: 5px auto;
+    padding: $grid-gutter-width/3 $grid-gutter-width/2;
+    border-radius: $border-radius-base;
+    text-align: center;
+    z-index: 999;
+    box-shadow: $default-shadow;
+    transform: translateX(-50%);
+    font-weight: bold;
+  }
+}
+
+.main-content:focus {
+  outline: 0 !important;
+}
