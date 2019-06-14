@@ -1,0 +1,82 @@
+.hearing-card {
+  @extend .clearfix;
+  background-color: $white;
+  position: relative;
+  box-shadow: $default-shadow;
+  padding-bottom: $line-height-computed;
+
+  &-image {
+    display: block;
+    height: 170px;
+    background: $missing-image;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    color: $text-color;
+
+    .hearing-card-comment-count {
+      font-size: 1.5em;
+    }
+  }
+
+  &-content {
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    .hearing-card-title {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .hearing-card-time {
+      margin-bottom: $line-height-computed / 2;
+      color: $text-muted;
+      font-size: 1.4rem;
+
+      &.expires {
+        color: red;
+      }
+    }
+  }
+
+  &-notice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    width: 100%;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    .hearing-card-notice-content {
+      background: $gray-light;
+      color: #fff;
+      opacity: 1;
+      padding: 5px;
+
+      .language-available-message {
+        padding-top: 2px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.hearing-card-comment-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px 10px;
+  font-size: 1.2em;
+  font-weight: 500;
+  background: $theme-secondary-light;
+  border-radius: 0 0 0 24px;
+  color: $black;
+}

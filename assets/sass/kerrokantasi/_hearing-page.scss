@@ -1,0 +1,381 @@
+.header-section {
+  background-color: $gray-100;
+  padding: $line-height-computed * 2 0;
+}
+
+.hearing-content-section {
+  padding-top: $line-height-computed * 2;
+
+  .section-image:hover {
+    cursor: pointer;
+  }
+}
+
+.hearing-header {
+  h1 {
+    @media (max-width: $screen-xs-max) {
+      font-size: 3rem;
+    }
+  }
+
+  .timetable,
+  .comment-summary {
+    margin-bottom: $line-height-computed;
+  }
+
+  .hearing-meta:before,
+  .hearing-meta:after {
+    content: "";
+    display: block;
+    margin: 0 15px $line-height-computed;
+    border-top: 1px solid $gray-light;
+  }
+
+  .social-bar {
+    span {
+      margin-right: $line-height-computed / 2;
+    }
+  }
+
+  .open .language-switcher.dropdown-toggle {
+    box-shadow: none;
+    color: $theme-primary-dark;
+  }
+
+  .language-switcher {
+    border: 0;
+    padding: 0;
+    margin-bottom: 12px;
+
+    & > span {
+      span {
+        padding-right: 5px;
+      }
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  .hearing-project {
+    text-align: center;
+    margin: auto 10px;
+
+    $order-size: 40px;
+    $order-font-size: 18px;
+    $border-weight: 2px;
+
+    .project-phases-list {
+      .slick-slide {
+        height: inherit;
+      }
+
+      .phases-list-item {
+        font-size: 14px;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        padding: 0 16px;
+        align-self: flex-start;
+        position: relative;
+
+        .phase-process-line {
+          width: 100%;
+          height: $border-weight;
+          background: black;
+          position: absolute;
+          top: ($order-size - $border-weight) / 2;
+        }
+
+        .phase-process-line-first {
+          width: 50%;
+          right: 0;
+        }
+
+        .phase-process-line-last {
+          width: 50%;
+          left: 0;
+        }
+
+        .phase-order {
+          z-index: 1;
+          font-size: $order-font-size;
+          font-weight: bold;
+          width: $order-size;
+          height: $order-size;
+          margin: 0 auto 12px;
+          border: solid $border-weight black;
+          border-radius: 50%;
+          background: $gray-100;
+          padding: 6px;
+        }
+
+        .active-phase {
+          background: $theme-secondary-light;
+        }
+
+        .phase-title {
+          font-weight: bold;
+        }
+
+        .phase-schedule {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+.hearing-content, .section-content {
+  margin-bottom: $line-height-computed * 2;
+}
+
+.hearing-image-list {
+  margin-bottom: $line-height-computed * 2;
+}
+
+.image-lightbox {
+  .ril-toolbar-right {
+    padding: 8px 10px 8px 0;
+  }
+}
+
+.image-caption {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  background-color: $gray-lighter;
+  font-size: 1.4rem;
+}
+
+.hearing-contacts {
+  border: 1px solid $gray-light;
+  padding: 0 $line-height-computed;
+  margin-bottom: $line-height-computed * 2;
+
+  .contact-card {
+    margin-bottom: $line-height-computed;
+  }
+}
+
+.hearing-section-group {
+  margin-bottom: $line-height-computed;
+  padding-top: $navbar-height;
+}
+
+.section-list-item {
+  display: flex;
+  margin-bottom: $line-height-computed;
+  position: relative;
+  background-color: $gray-lighter;
+
+  a {
+    text-decoration: none;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    font-size: 1.4rem;
+  }
+
+  &-image {
+    flex-basis: content;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    float: left;
+    cursor: pointer;
+
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+
+  &-content {
+    flex: 1 auto;
+    padding: $line-height-computed;
+
+    h3 {
+      margin-top: 0;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      padding-left: 25px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.hearing-comment-section {
+  padding-top: $navbar-height;
+}
+
+.comment-form-container {
+  @extend .col-xs-12;
+  margin-bottom: $line-height-computed * 2;
+}
+
+.comment-form {
+  background-color: $white;
+  padding: 1em;
+  margin-bottom: $line-height-computed;
+
+  &__file {
+    margin: 10px 0;
+    padding-top: 10px;
+  }
+
+  &__image-too-big {
+    color: red !important;
+    padding-bottom: 10px;
+  }
+
+  &__select-button {
+    padding: 10px 0;
+  }
+
+  &__selected-images {
+    padding-top: 10px;
+  }
+
+  &__group-admin {
+  
+    & .form-group {
+  
+      display: flex;
+      flex-direction: row;
+  
+      &>* {
+        margin-left: 24px; 
+      }
+  
+      & :first-child {
+        margin-left: 0px;
+      }
+  
+    }
+  }
+
+  &__comment-alert {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__alert-icon {
+      display: flex;
+      flex-basis: 5%;
+      min-width: 40px;
+    }
+
+    &__alert-message {
+      flex-basis: 90%;
+    }
+
+    &__alert-close {
+      flex-basis: 5%;
+      display: flex;
+      justify-content: flex-end;
+      min-width: 40px;
+      cursor: pointer;
+    }
+  }
+
+  .comment-buttons {
+    text-align: right;
+    margin: $line-height-computed 0;
+
+    .btn {
+      margin-right: 1em;
+    }
+
+    .btn:last-child {
+      margin-right: 0;
+    }
+  }
+
+  textarea {
+    height: 7em;
+    line-height: 1em;
+  }
+}
+
+.comment-conditions {
+  border-top: 1px solid $gray-light;
+  padding-top: 15px;
+  font-size: 1.4rem;
+}
+
+.section-title {
+  cursor: pointer;
+
+  &-comments {
+    float: right;
+  }
+}
+
+.closure-info {
+  padding: $line-height-computed;
+  margin-bottom: $line-height-computed;
+  background-color: $theme-primary-light;
+
+  .section-title {
+    cursor: auto;
+  }
+
+  .section-content {
+    margin: 0;
+  }
+}
+
+.plugin-frame {
+  width: 100%;
+  height: 450px;
+  border: 0;
+}
+
+[id^='hearing-sectiongroup-'] {
+  margin-bottom: $line-height-computed * 2;
+
+  h2:first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.sortable-comment-list {
+  background-color: $theme-secondary-light;
+  padding: $line-height-computed;
+
+  h2 {
+    margin-top: 0;
+    padding-bottom: $line-height-computed / 2;
+    border-bottom: 1px solid $gray;
+  }
+
+  h2:first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.delete-modal {
+  margin-top: 25%;
+
+  @media (max-width: $screen-sm-max) {
+    margin-top: 55%;
+  }
+}
+
+.commentlist .commentlist__load-more {
+  background: $gray-light;
+  padding: 20px 15px 15px;
+  text-align: center;
+}
+
+.commenticon {
+  float: right;
+}

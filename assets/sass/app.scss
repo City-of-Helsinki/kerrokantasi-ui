@@ -1,96 +1,11 @@
-$node-modules-dir: "../../node_modules";
-$bootstrap-dir: "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-$font-awesome-dir: "../../node_modules/font-awesome/scss";
-$leaflet-dir: "../../node_modules/leaflet/dist";
-$fa-font-path: "../../node_modules/font-awesome/fonts";
-
-///// TODO:Import HelsinkiGrotesk here
-
-///// Helsinki brand variables
-@import "../../node_modules/hel-bootstrap-3/src/sass/helsinki-variables";
-///// Application specific theme variables
-@import "hel/variables";
-///// Helsinki Bootstrap 3 theme variables
-@import "../../node_modules/hel-bootstrap-3/src/sass/theme-bootstrap-variables";
-
-$missing-image:               $theme-secondary-light;
+///// Kerrokantasi custom variables and bootstrap default variable overrides
+@import "kerrokantasi/variables";
 
 ///// Bootstrap
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/print";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/type";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/code";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/tables";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/forms";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navs";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pagination";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pager";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/labels";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/badges";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/progress-bars";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/media";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/list-group";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/panels";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/responsive-embed";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/wells";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/close";
+@import "kerrokantasi/bootstrap";
 
-// Components w/ JavaScript
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/modals";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/tooltip";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/popovers";
-//@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/carousel";
+///// Kerrokantasi "white label" styles
+@import "kerrokantasi/white-label-styles";
 
-// Utility classes
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
-
-
-@import "../../node_modules/hel-bootstrap-3/src/sass/theme-custom-styles";
-
-///// Font Awesome
-@import "../../node_modules/font-awesome/scss/font-awesome";
-
-///// hel-bootstrap-3 Bootstrap overrides
-@import "../../node_modules/hel-bootstrap-3/src/sass/theme-custom-styles";
-
-///// Leaflet
-@import "../../node_modules/leaflet/dist/leaflet.css";
-
-///// Hel custom styles
-@import "hel/common";
-@import "hel/home";
-@import "hel/forms";
-@import "hel/navigation";
-@import "hel/hearing-page";
-@import "hel/hearing-list";
-@import "hel/hearing-form";
-@import "hel/footer";
-@import "hel/fullscreen-map-plugin";
-@import "hel/section-attachment-editor";
-@import "hel/fullwidth-hearing";
-@import "hel/hearing-card";
-@import "hel/hearing-card-list";
-@import "hel/commentlist";
-@import "hel/alertify";
-@import "hel/carousel";
-@import "hel/hearing-attachment";
-@import "../../node_modules/react-select/dist/react-select.css";
-@import "hel/question-page";
-@import "../../node_modules/slick-carousel/slick/slick.css";
-@import "../../node_modules/slick-carousel/slick/slick-theme.css";
+///// Kerrokantasi styles
+@import "kerrokantasi/kerrokantasi";

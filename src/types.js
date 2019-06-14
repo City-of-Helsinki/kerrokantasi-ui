@@ -59,7 +59,6 @@ export const sectionShape = PropTypes.shape({
   type: PropTypes.string,
   commenting: PropTypes.string,
   voting: PropTypes.string,
-  published: PropTypes.bool,
   title: translatedShape,
   abstract: translatedShape,
   content: translatedShape,

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-if [[ -z "${DOCKER_USERNAME}" ]]; then
+# Travis does not set secret variables, like docker passwords,
+# if the pull request comes from outside our own repository,
+# thus we cannot and do not want to create an image in our own
+# docker repo.
+if [[ -z "${DOCKER_PASSWORD}" ]]; then
     echo "No Docker credentials, no reason to do container"
     exit 0
 fi

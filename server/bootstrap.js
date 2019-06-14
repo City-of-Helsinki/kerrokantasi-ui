@@ -10,6 +10,8 @@ import {inspect} from 'util';
 import morgan from 'morgan';
 import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
+import assetPaths from '../conf/assetPaths';
+import path from 'path';
 
 function ignition() {
   const settings = getSettings();
@@ -21,8 +23,11 @@ function ignition() {
   let compiler = getCompiler(settings, true);
   const passport = getPassport(settings);
 
+  const faviconPath = path.resolve(assetPaths.cityAssets, 'favicon');
+
   server.use('/', express.static(paths.OUTPUT));
   server.use('/assets', express.static(paths.ASSETS));
+  server.use('/favicon', express.static(faviconPath));
   server.use(morgan(settings.dev ? 'dev' : 'combined'));
   server.use(cookieParser());
   server.use(bodyParser.urlencoded({extended: true}));

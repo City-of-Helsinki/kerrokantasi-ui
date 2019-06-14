@@ -133,5 +133,6 @@
   "phaseDescription": "Steg beskrivning",
   "phaseActive": "Aktiv",
   "phase": "Fas",
-  "logInToAnswer": "Logga in för att rösta och see resultat"
+  "logInToAnswer": "Logga in för att rösta och see resultat",
+  "skipToMainContent": "Gå till huvudinnehållet"
 }

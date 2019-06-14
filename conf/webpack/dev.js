@@ -9,6 +9,9 @@ module.exports = function getDevConfig() {
       'webpack-hot-middleware/client',
       paths.ENTRY,
     ],
+    devServer: {
+      host: '0.0.0.0'
+    },
     mode: 'development',
     devtool: 'cheap-module-eval-source-map',
     module: {

@@ -1,0 +1,37 @@
+// Non brand colors
+$white:         #ffffff;
+$light-gray:    #ebedf1;
+$dark-gray:     #525a65;
+$medium-gray:   #abb2bd;
+$black:         #000000;
+
+//
+// Application specific visual customisation
+// --------------------------------------------------
+
+$theme-primary-dark:    $hel-coat;
+$theme-primary-light:   $hel-engel;
+
+$theme-secondary-dark:  $hel-brick;
+$theme-secondary-light: $hel-fog;
+
+$theme-highlight-dark:  $hel-bus;
+$theme-highlight-light: $hel-copper;
+
+$theme-success:       $hel-tram;
+$theme-success-light: $hel-copper;
+$theme-info:          $hel-coat;
+$theme-info-light:    $hel-fog;
+$theme-warning:       $hel-summer;
+$theme-warning-light: $hel-engel;
+$theme-danger:        $hel-metro;
+$theme-danger-light:  $hel-suomenlinna;
+
+$font-family-sans-serif: $hel-grotesk;
+$font-family-serif:      "Noto Serif", serif;
+
+$default-shadow: 0 1px 5px rgba(0, 0, 0, 0.33);
+
+// Dimensions
+$padding-default: 12px; // http://opencity.design/development/styles/overview
+$padding-small: 6px; // http://opencity.design/development/styles/overview

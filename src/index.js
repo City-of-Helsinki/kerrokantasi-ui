@@ -1,12 +1,12 @@
 /* eslint-disable prefer-arrow-callback */
-import 'alertifyjs/build/css/alertify.css';
-import '../assets/sass/app.scss';
 import {render} from 'react-dom';
 import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
 import Raven from 'raven-js';
+// eslint-disable-next-line import/no-unresolved
+import '@city-assets/sass/app.scss';
 
 require('es6-promise').polyfill();
 

@@ -59,7 +59,6 @@ export function initNewSection(inits) {
       id: '',
       type: '',
       commenting: 'open',
-      published: false,
       title: initAttr(),
       abstract: initAttr(),
       content: initAttr(),

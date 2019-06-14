@@ -1,0 +1,78 @@
+$fa-font-path: "~font-awesome/fonts";
+
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
+$white:         #ffffff !default;
+$light-gray:    #ebedf1 !default;
+$dark-gray:     #525a65 !default;
+$medium-gray:   #abb2bd !default;
+$black:         #000000 !default;
+
+$theme-success:       rgb(18, 173, 18) !default;
+$theme-success-light: rgb(75, 223, 107) !default;
+$theme-info:          rgb(44, 108, 204) !default;
+$theme-info-light:    rgb(196, 220, 247) !default;
+$theme-warning:       rgb(243, 158, 0) !default;
+$theme-warning-light: rgb(247, 228, 121) !default;
+$theme-danger:        rgb(233, 15, 15) !default;
+$theme-danger-light:  rgb(238, 116, 94) !default;
+
+$theme-primary-dark:    $theme-info !default;
+$theme-primary-light:   $theme-warning-light !default;
+
+$theme-secondary-dark:  $theme-danger !default;
+$theme-secondary-light: $theme-info-light !default;
+
+$theme-highlight-dark:  $theme-info !default;
+$theme-highlight-light: $theme-success-light !default;
+
+$brand-primary:   $theme-primary-dark !default;
+$brand-success:   $theme-success !default;
+$brand-info:      $theme-info !default;
+$brand-warning:   $theme-warning !default;
+$brand-danger:    $theme-danger !default;
+
+$bootstrap-sass-asset-helper: false !default;
+
+$icon-font-path: "" !default;
+
+$site-footer-height: 400px !default;
+
+$default-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
+
+// Dimenstions
+$padding-default: 12px !default;
+$padding-small: 6px !default;
+$margin-small: 6px !default;
+$margin-default: 12px !default;
+
+$missing-image: $theme-secondary-light !default;
+
+// Bootstrap overrides
+$font-size-base:       16px !default;
+$line-height-base:     1.5 !default;
+$line-height-computed: floor(($font-size-base * $line-height-base)) !default;
+
+$headings-font-weight: 600 !default;
+
+$navbar-height:                   60px !default;
+$navbar-default-color:            $black !default;
+$navbar-default-link-color:       $black !default;
+$navbar-default-link-hover-color: $black !default;
+$navbar-default-bg:               $white !default;
+$navbar-default-border:           transparent !default;
+
+$label-default-bg:  $gray-400 !default;
+$label-primary-bg:  $theme-primary-light !default;
+$label-success-bg:  $theme-success-light !default;
+$label-info-bg:     $theme-info-light !default;
+$label-warning-bg:  $theme-warning-light !default;
+$label-danger-bg:   $theme-danger-light !default;

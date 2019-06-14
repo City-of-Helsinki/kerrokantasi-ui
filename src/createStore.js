@@ -6,7 +6,7 @@ import hearingEditorMiddleware from './middleware/hearingEditor';
 
 import identity from 'lodash/identity';
 import {routerMiddleware} from 'react-router-redux';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import config from './config';
 import RavenMiddleWare from 'redux-raven-middleware';
 import languageMiddleware from './middleware/language';

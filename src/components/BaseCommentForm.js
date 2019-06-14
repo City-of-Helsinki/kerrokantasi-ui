@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import Radio from 'react-bootstrap/lib/Radio';
-import Checkbox from 'react-bootstrap/lib/Checkbox';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
+import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
@@ -19,8 +14,22 @@ import QuestionResults from './QuestionResults';
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {collapsed: true, commentText: "", nickname: props.defaultNickname || '', imageTooBig: false, images: []};
+    this.state = {
+      collapsed: true,
+      commentText: "",
+      nickname: props.defaultNickname || '',
+      imageTooBig: false,
+      images: [],
+      showAlert: true,
+      hideName: false,
+    };
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
+  }
+
+  componentDidMount = () => {
+    if (this.isUserAdmin()) {
+      this.setState({ nickname: this.props.user.displayName });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -28,13 +37,19 @@ export class BaseCommentForm extends React.Component {
       this.clearCommentText();
       this.toggle();
     }
-    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '') {
+    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '' && !this.isUserAdmin()) {
       this.setState({nickname: nextProps.defaultNickname});
+    }
+    if (this.isUserAdmin() && nextProps.user && nextProps.user.displayName) {
+      this.setState({ nickname: nextProps.user.displayName });
     }
   }
 
   toggle() {
     this.setState({collapsed: !this.state.collapsed});
+    if (this.props.onOverrideCollapse instanceof Function) {
+      this.props.onOverrideCollapse();
+    }
   }
 
   handleTextChange(event) {
@@ -101,6 +116,16 @@ export class BaseCommentForm extends React.Component {
     });
   }
 
+  /**
+   * Determines whether the logged in user is admin or not.
+   * The array in users with key adminOrganizations should be of length > 0
+   */
+  isUserAdmin = () => (
+    this.props.user
+    && Array.isArray(this.props.user.adminOrganizations)
+    && this.props.user.adminOrganizations.length > 0
+  );
+
   getPluginData() {  // eslint-disable-line class-methods-use-this
     return undefined;
   }
@@ -115,6 +140,25 @@ export class BaseCommentForm extends React.Component {
       imagesArray.push(files[_i]);
     }
     return imagesArray;
+  }
+
+  /**
+   * When user type is admin, an alert is shown, use this method to close the alert.
+   */
+  handleCloseAlert = () => {
+    this.setState((prevState) => ({
+      showAlert: !prevState.showAlert,
+    }));
+  }
+
+  /**
+   * When logged in as admin, user may chose to hide their identity.
+   */
+  handleToggleHideName = () => {
+    this.setState((prevState) => ({
+      nickname: !prevState.hideName ? this.props.intl.formatMessage({ id: 'employee' }) : this.props.user.displayName,
+      hideName: !prevState.hideName,
+    }));
   }
 
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
@@ -132,10 +176,99 @@ export class BaseCommentForm extends React.Component {
     }
   }
 
+  /**
+   * When admin user is posting a comment, we will show a closeable warning.
+   */
+  renderAdminWarning = () => (
+    <Alert bsStyle="warning">
+      <div className="comment-form__comment-alert">
+        <div className="comment-form__comment-alert__alert-icon">
+          <Icon name="info-circle" size="lg" />
+        </div>
+        <span className="comment-form__comment-alert__alert-message"><FormattedMessage id="adminCommentMessage"/></span>
+        <div className="comment-form__comment-alert__alert-close">
+          <Icon name="close" onClick={this.handleCloseAlert}/>
+        </div>
+      </div>
+    </Alert>
+  );
+
+  /**
+   * Render the checkbox to hide user name and identitiy for admin user.
+   */
+  renderHideNameOption = () => (
+    <Checkbox checked={this.state.hideName} key={uuid()} onChange={this.handleToggleHideName}>
+      <FormattedMessage id="hideName"/>
+    </Checkbox>
+  );
+
+  /**
+   * For admins, there is slightly different form.
+   */
+  renderFormForAdmin =() => {
+    const { user } = this.props;
+    const organization = this.isUserAdmin() && user.adminOrganizations[0];
+    return (
+      <FormGroup>
+        <FormControl
+          type="text"
+          placeholder={this.props.nicknamePlaceholder}
+          value={this.state.nickname}
+          onChange={this.handleNicknameChange.bind(this)}
+          maxLength={32}
+          disabled
+        />
+        <FormControl
+          type="text"
+          placeholder={this.props.intl.formatMessage({ id: 'organization' })}
+          value={organization || ''}
+          onChange={() => {}}
+          maxLength={32}
+          disabled
+        />
+      </FormGroup>
+    );
+  }
+
+  /**
+   * If an admin type of user is posting comment, the form is slightly different.
+   * @returns {JSX<Component>}
+   */
+  renderNameFormForUser = () => {
+    const isAdminUser = this.isUserAdmin();
+    const headingId = isAdminUser ? 'nameAndOrganization' : 'nickname';
+
+    return (
+      <React.Fragment>
+        <h4><FormattedMessage id={headingId} /></h4>
+        { isAdminUser && this.state.showAlert && this.renderAdminWarning() }
+        { isAdminUser && this.renderHideNameOption() }
+        {
+          isAdminUser
+          ? (
+            <div className="comment-form__group-admin">
+              { this.renderFormForAdmin() }
+            </div>
+          )
+          : (
+            <FormGroup>
+              <FormControl
+                type="text"
+                placeholder={this.props.nicknamePlaceholder}
+                value={this.state.nickname}
+                onChange={this.handleNicknameChange.bind(this)}
+                maxLength={32}
+              />
+            </FormGroup>
+          )
+        }
+      </React.Fragment>
+    );
+  }
+
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
-
-    if (this.state.collapsed) {
+    if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
           <Icon name="comment"/> <FormattedMessage id="addComment"/>
@@ -147,6 +280,7 @@ export class BaseCommentForm extends React.Component {
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
           {
+            !this.props.isReply &&
             section.questions.map((question) => {
               const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
@@ -155,6 +289,7 @@ export class BaseCommentForm extends React.Component {
             })
           }
           {
+            !this.props.isReply &&
             section.questions.map((question) => {
               const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
               return canShowQuestionForm
@@ -213,16 +348,7 @@ export class BaseCommentForm extends React.Component {
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
           </FormGroup>
-          <h4><FormattedMessage id="nickname"/></h4>
-          <FormGroup>
-            <FormControl
-              type="text"
-              placeholder={this.props.nicknamePlaceholder}
-              value={this.state.nickname}
-              onChange={this.handleNicknameChange.bind(this)}
-              maxLength={32}
-            />
-          </FormGroup>
+          { this.renderNameFormForUser() }
           <div className="comment-buttons clearfix">
             <Button
               bsStyle="default"
@@ -247,9 +373,11 @@ export class BaseCommentForm extends React.Component {
 
 BaseCommentForm.propTypes = {
   onPostComment: PropTypes.func,
+  onOverrideCollapse: PropTypes.func,
   intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: PropTypes.string,
+  overrideCollapse: PropTypes.bool,
   nicknamePlaceholder: PropTypes.string,
   section: PropTypes.object,
   language: PropTypes.string,
@@ -257,11 +385,15 @@ BaseCommentForm.propTypes = {
   answers: PropTypes.array,
   loggedIn: PropTypes.bool,
   closed: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
+  isReply: PropTypes.bool,
 };
 
 BaseCommentForm.defaultProps = {
-  defaultNickname: ''
+  defaultNickname: '',
+  overrideCollapse: false,
+  onOverrideCollapse: () => {},
+  isReply: false,
 };
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
@@ -287,11 +419,11 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
 };
 
 QuestionForm.propTypes = {
-  question: PropTypes.object,
-  lang: PropTypes.string,
-  onChange: PropTypes.func,
   answers: PropTypes.any,
-  loggedIn: PropTypes.bool
+  lang: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  onChange: PropTypes.func,
+  question: PropTypes.object,
 };
 
 export default injectIntl(BaseCommentForm);

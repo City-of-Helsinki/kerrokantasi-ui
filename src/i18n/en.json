@@ -1,6 +1,7 @@
 {
   "add_images": "Add images to comment",
   "addComment": "Answer",
+  "adminCommentMessage": "You are logged in as an administrator. Your name and organization will be displayed with your comment",
   "all": "All",
   "allHearings": "All hearings",
   "alreadyVoted": "You have already voted for this comment.",
@@ -39,6 +40,7 @@
   "edit": "Edit",
   "editContact": "Edit contact",
   "email": "Email",
+  "employee": "Employee",
   "feedbackPrompt": "Please give us feedback on how to improve the service!",
   "firstClosing": "Closing first",
   "firstOpen": "Opened first",
@@ -58,6 +60,7 @@
   "hearingsHeaderText": "Hearings",
   "hearingTranslationNotAvailable": "This hearing hasn't been published in English",
   "help": "Help",
+  "hideName": "Hide name",
   "image_too_big": "Image too big, maximum size of an image is 1MB",
   "infoHeaderDescription": "This is a prototype service. Please give us feedback to improve the service",
   "infoHeaderText": "About the service",
@@ -88,6 +91,7 @@
   "moveUp": "Move up",
   "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed.",
   "name": "Name",
+  "nameAndOrganization": "Name and organization",
   "newestFirst": "Newest first",
   "newestHearings": "Newest hearings",
   "next": "Next",
@@ -98,6 +102,7 @@
   "open-hearings-on-map": "Open hearings on map",
   "openFullscreenMap": "Open on the map",
   "openHearings": "Open hearings",
+  "organization": "Organisation",
   "overview-map": "Map",
   "phase": "Phase",
   "phaseActive": "Active",
@@ -114,6 +119,7 @@
   "publishingQueue": "Publishing queue",
   "register": "Register",
   "registered": "Registered",
+  "reply": "Reply",
   "save": "Save",
   "search": "Search",
   "searchLabels": "Search labels",
@@ -126,6 +132,7 @@
   "sectionImageCaption": "Caption",
   "sectionImageHelpText": "Recommended image size is 960 × 720. (Max. 1MB)",
   "sectionTitle": "Section title",
+  "showMoreReplys": "Show more replys",
   "showOnlyOpen": "Show only open",
   "sort": "Sort",
   "submit": "Submit",
@@ -143,5 +150,6 @@
   "welcome": "Voice your opinion",
   "welcomeMessage": "Join us in developing the city and participate in open hearings.",
   "withOpenLicense": "with an open license",
-  "writeComment": "Comment"
+  "writeComment": "Comment",
+  "skipToMainContent": "Skip to main content"
 }
