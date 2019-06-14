@@ -34,15 +34,15 @@ $theme-secondary-light: $theme-info-light !default;
 $theme-highlight-dark:  $theme-info !default;
 $theme-highlight-light: $theme-success-light !default;
 
-$brand-primary:   $theme-primary-dark;
-$brand-success:   $theme-success;
-$brand-info:      $theme-info;
-$brand-warning:   $theme-warning;
-$brand-danger:    $theme-danger;
+$brand-primary:   $theme-primary-dark !default;
+$brand-success:   $theme-success !default;
+$brand-info:      $theme-info !default;
+$brand-warning:   $theme-warning !default;
+$brand-danger:    $theme-danger !default;
 
 $bootstrap-sass-asset-helper: false !default;
 
-$icon-font-path: "";
+$icon-font-path: "" !default;
 
 $site-footer-height: 400px !default;
 
@@ -57,22 +57,22 @@ $margin-default: 12px !default;
 $missing-image: $theme-secondary-light !default;
 
 // Bootstrap overrides
-$font-size-base:       16px;
-$line-height-base:     1.5;
-$line-height-computed: floor(($font-size-base * $line-height-base));
+$font-size-base:       16px !default;
+$line-height-base:     1.5 !default;
+$line-height-computed: floor(($font-size-base * $line-height-base)) !default;
 
-$headings-font-weight: 600;
+$headings-font-weight: 600 !default;
 
-$navbar-height:                   60px;
-$navbar-default-color:            $black;
-$navbar-default-link-color:       $black;
-$navbar-default-link-hover-color: $black;
-$navbar-default-bg:               $white;
-$navbar-default-border:           transparent;
+$navbar-height:                   60px !default;
+$navbar-default-color:            $black !default;
+$navbar-default-link-color:       $black !default;
+$navbar-default-link-hover-color: $black !default;
+$navbar-default-bg:               $white !default;
+$navbar-default-border:           transparent !default;
 
-$label-default-bg:  $gray-400;
-$label-primary-bg:  $theme-primary-light;
-$label-success-bg:  $theme-success-light;
-$label-info-bg:     $theme-info-light;
-$label-warning-bg:  $theme-warning-light;
-$label-danger-bg:   $theme-danger-light;
+$label-default-bg:  $gray-400 !default;
+$label-primary-bg:  $theme-primary-light !default;
+$label-success-bg:  $theme-success-light !default;
+$label-info-bg:     $theme-info-light !default;
+$label-warning-bg:  $theme-warning-light !default;
+$label-danger-bg:   $theme-danger-light !default;
