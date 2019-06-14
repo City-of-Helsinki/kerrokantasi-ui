@@ -22,7 +22,6 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.commentRef = React.createRef();
-    this.shouldAnimate = false;
   }
 
   state = {

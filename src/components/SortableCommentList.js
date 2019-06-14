@@ -28,6 +28,7 @@ export class SortableCommentListComponent extends Component {
     this.state = {
       showLoader: false,
       collapseForm: false,
+      shouldAnimate: false,
       answers: this.props.section.questions.map(
         question => ({
           question: question.id,
@@ -104,6 +105,7 @@ export class SortableCommentListComponent extends Component {
   onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
     const answers = this.state.answers;
+    this.setState({ shouldAnimate: true });
     const commentData = {text, authorName, pluginData, geojson, label, images, answers};
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData);
@@ -169,6 +171,14 @@ export class SortableCommentListComponent extends Component {
       setTimeout(() => this.fetchMoreComments(), 1000);
       this.setState({showLoader: true});
     }
+  }
+
+  /**
+   * When voting, there shouldn't be any animation
+   */
+  handlePostVote = (commentId, sectionId, isReply, parentId) => {
+    this.setState({ shouldAnimate: false });
+    this.props.onPostVote(commentId, sectionId, isReply, parentId);
   }
 
   renderMapVisualization() {
@@ -319,12 +329,12 @@ export class SortableCommentListComponent extends Component {
                   hearingId={hearingId}
                   intl={intl}
                   isLoading={this.state.showLoader}
-                  jumpTo={sectionComments.jumpTo}
+                  jumpTo={this.state.shouldAnimate && sectionComments.jumpTo}
                   language={language}
                   nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
                   onDeleteComment={this.props.onDeleteComment}
                   onEditComment={this.props.onEditComment}
-                  onPostVote={this.props.onPostVote}
+                  onPostVote={this.handlePostVote}
                   section={section}
                   totalCount={sectionComments.count}
                   user={user}

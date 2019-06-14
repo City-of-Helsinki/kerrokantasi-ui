@@ -442,9 +442,11 @@ exports[`SortableCommentList component should render as expected 1`] = `
             }
           }
           isLoading={false}
+          jumpTo={false}
           language="fi"
           nicknamePlaceholder="Anonyymi"
           onPostReply={[Function]}
+          onPostVote={[Function]}
           section={
             Object {
               "abstract": Object {},
