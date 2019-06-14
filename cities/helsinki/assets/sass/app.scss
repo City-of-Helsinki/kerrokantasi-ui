@@ -5,14 +5,15 @@
 ///// Helsinki Bootstrap 3 theme variables
 @import "~hel-bootstrap-3/src/sass/theme-bootstrap-variables";
 
-@import "kerrokantasi/variables";
-@import "kerrokantasi/bootstrap";
+@import "../../../../assets/sass/kerrokantasi/variables";
+@import "../../../../assets/sass/kerrokantasi/bootstrap";
 
 ///// hel-bootstrap-3 Bootstrap overrides
 @import "~hel-bootstrap-3/src/sass/theme-custom-styles";
 
 ///// Kerrokantasi Base styles
-@import "kerrokantasi/kerrokantasi";
+@import "../../../../assets/sass/kerrokantasi/kerrokantasi";
+
 
 ///// Helsinki overwrites
 @import "hel/carousel";

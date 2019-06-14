@@ -33,3 +33,11 @@ public_url="http://localhost:8086"
 # ExpressJS uses this secret for purposes. We are not sure if kerrokantasi-ui
 # actually uses it for something. It is still required
 expressjs_session_secret="dev-secret-do-not-use-in-production"
+
+
+# City specific configuration
+# For whitelabel styles use "whitelabel".
+# For city assets installed to node_modules us the name of the package
+# for instance "kerrokantasi-ui-turku".
+# Default: "cities/helsinki"
+city_config="cities/helsinki"
