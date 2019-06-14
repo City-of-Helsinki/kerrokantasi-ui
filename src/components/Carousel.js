@@ -16,6 +16,9 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import Icon from '../utils/Icon';
 import {Grid} from 'react-bootstrap';
 
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
+
 // Custom prev button is used because for some reason Slicks default button is always disabled...
 const PrevButton = ({slidePrev, currentSlide}) => (
   <button
@@ -181,7 +184,7 @@ HearingMap.propTypes = {
 
 const SliderItem = ({section, to, language, hearingTitle, active}) => {
   const cardImageStyle = {
-    backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : 'url(/assets/images/default-image.svg)'
+    backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : `url(${defaultImage})`
   };
   const commentCount = ((section.commenting === 'none') ?
     null :
