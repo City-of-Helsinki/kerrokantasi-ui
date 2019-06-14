@@ -7,10 +7,13 @@ import FormatRelativeTime from '../utils/FormatRelativeTime';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
+
 const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'url(/assets/images/default-image.svg)',
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
   };
   return (
     <div className={`fullwidth-hearing ${className}`} {...rest}>
