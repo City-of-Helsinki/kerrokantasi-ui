@@ -236,7 +236,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       geojson: commentData.geojson ? commentData.geojson : null,
       label: commentData.label ? commentData.label : null,
       images: commentData.images ? commentData.images : [],
-      answers: commentData.answers ? commentData.answers : []
+      answers: commentData.answers ? commentData.answers : [],
+      pinned: commentData.pinned ? commentData.pinned : false,
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});

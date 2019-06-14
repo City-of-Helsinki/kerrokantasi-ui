@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
 import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import classnames from 'classnames';
+
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
@@ -20,6 +22,7 @@ export class BaseCommentForm extends React.Component {
       nickname: props.defaultNickname || '',
       imageTooBig: false,
       images: [],
+      pinned: false,
       showAlert: true,
       hideName: false,
     };
@@ -72,6 +75,7 @@ export class BaseCommentForm extends React.Component {
     let geojson = null;
     let label = null;
     let images = this.state.images;
+    let pinned = this.state.pinned;
 
     // plugin comment will override comment fields, if provided
     if (pluginComment) {
@@ -81,6 +85,7 @@ export class BaseCommentForm extends React.Component {
       label = pluginComment.label || null;
       images = pluginComment.image ? [pluginComment.image] : images;
       geojson = pluginComment.geojson || null;
+      pinned = pluginComment.pinned || null;
     } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -91,7 +96,8 @@ export class BaseCommentForm extends React.Component {
       pluginData,
       geojson,
       label,
-      images
+      images,
+      pinned,
     );
   }
 
@@ -158,6 +164,15 @@ export class BaseCommentForm extends React.Component {
     this.setState((prevState) => ({
       nickname: !prevState.hideName ? this.props.intl.formatMessage({ id: 'employee' }) : this.props.user.displayName,
       hideName: !prevState.hideName,
+    }));
+  }
+
+  /**
+   * Toggle the pinning of comment
+   */
+  handleToggleCommit = () => {
+    this.setState((prevState) => ({
+      pinned: !prevState.pinned,
     }));
   }
 
@@ -266,6 +281,23 @@ export class BaseCommentForm extends React.Component {
     );
   }
 
+  /**
+   * When user is of admin type, they are allowed to pin a comment to top.
+   * In the form, an icon can be shown to pin or unpin the comment.
+   */
+  renderPinUnpinIcon = () => (
+    <Button
+      className={classnames([
+        'comment-form__heading-container__pin__icon',
+        {
+        'comment-form__heading-container__pin__pin-comment': !this.state.pinned,
+        'comment-form__heading-container__pin__unpin-comment': this.state.pinned
+        }
+      ])}
+      onClick={this.handleToggleCommit}
+    />
+  );
+
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
     if (!this.props.overrideCollapse && this.state.collapsed) {
@@ -304,7 +336,14 @@ export class BaseCommentForm extends React.Component {
                 : null;
             })
           }
-          <h4><FormattedMessage id="writeComment"/></h4>
+          <div className="comment-form__heading-container">
+            <div className="comment-form__heading-container__title">
+              <h4><FormattedMessage id="writeComment"/></h4>
+            </div>
+            <div className="comment-form__heading-container__pin">
+              { this.renderPinUnpinIcon() }
+            </div>
+          </div>
           <FormControl
             componentClass="textarea"
             value={this.state.commentText}
