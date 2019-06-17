@@ -232,5 +232,7 @@
   "skipToMainContent": "Siirry pääsisältöön",
   "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
   "footerLogoAlt": "Kerrokantasi logo",
-  "headerLogoAlt": "Kerrokantasi logo"
+  "headerLogoAlt": "Kerrokantasi logo",
+  "feedbackLinkText": "Palaute",
+  "copyrightText": "Kerrokantasi"
 }
