@@ -20,7 +20,7 @@
   "chooseTopic": "Valitse aihe",
   "closedHearing": "Suljettu",
   "closeHearing": "Sulje kuuleminen",
-  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
+  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
   "commentDeleted": "Kommenttisi on poistettu.",
   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
   "commentOrder": "Järjestä kommentit:",
