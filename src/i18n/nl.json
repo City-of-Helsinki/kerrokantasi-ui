@@ -95,5 +95,8 @@
   "showOnlyOpen": "Laat aleen open zien",
   "previous": "Vorige",
   "next": "Volgende",
-  "skipToMainContent": "Skip to main content"
+  "skipToMainContent": "Skip to main content",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo"
 }

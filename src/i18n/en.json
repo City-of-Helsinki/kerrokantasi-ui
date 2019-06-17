@@ -148,5 +148,8 @@
   "welcomeMessage": "Join us in developing the city and participate in open hearings.",
   "withOpenLicense": "with an open license",
   "writeComment": "Comment",
-  "skipToMainContent": "Skip to main content"
+  "skipToMainContent": "Skip to main content",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo"
 }

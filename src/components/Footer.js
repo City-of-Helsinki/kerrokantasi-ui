@@ -18,11 +18,13 @@ export default function Footer(props) {
           <Col md={3} sm={4}>
             <div className="footer-branding footer-branding-helsinki">
               <a href="http://www.hel.fi">
-                <img
-                  alt="Helsinki"
-                  src={language === 'sv' ? logoSwedishWhite : logoWhite}
-                  className="footer-logo footer-logo-helsinki"
-                />
+                <FormattedMessage id="footerLogoAlt">
+                  {altText => <img
+                    alt={altText}
+                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                    className="footer-logo footer-logo-helsinki"
+                  />}
+                </FormattedMessage>
               </a>
             </div>
           </Col>

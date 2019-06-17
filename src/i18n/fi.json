@@ -229,5 +229,8 @@
   "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "withOpenLicense": "avoimella lisenssillä",
   "writeComment": "Kommentti",
-  "skipToMainContent": "Siirry pääsisältöön"
+  "skipToMainContent": "Siirry pääsisältöön",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo"
 }

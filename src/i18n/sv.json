@@ -134,5 +134,8 @@
   "phaseActive": "Aktiv",
   "phase": "Fas",
   "logInToAnswer": "Logga in för att rösta och see resultat",
-  "skipToMainContent": "Gå till huvudinnehållet"
+  "skipToMainContent": "Gå till huvudinnehållet",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo"
 }
