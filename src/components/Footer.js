@@ -22,13 +22,13 @@ export default function Footer(props) {
       <div className="container">
         <Row>
           <Col md={3} sm={4}>
-            <div className="footer-branding footer-branding-helsinki">
+            <div className="footer-branding">
               <a href="http://www.hel.fi">
                 <FormattedMessage id="footerLogoAlt">
                   {altText => <img
                     alt={altText}
                     src={language === 'sv' ? logoSwedishWhite : logoWhite}
-                    className="footer-logo footer-logo-helsinki"
+                    className="footer-logo"
                   />}
                 </FormattedMessage>
               </a>
