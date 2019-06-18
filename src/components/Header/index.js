@@ -12,8 +12,12 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
-import helsinkiLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black.svg';
-import helsinkiSwedishLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black-sv.svg';
+
+// eslint-disable-next-line import/no-unresolved
+import logoBlack from '@city-images/logo-fi-black.svg';
+
+// eslint-disable-next-line import/no-unresolved
+import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -117,11 +121,13 @@ class Header extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link to={{path: "/"}}>
-                <img
-                  src={language === 'sv' ? helsinkiSwedishLogo : helsinkiLogo}
-                  className="navbar-logo"
-                  alt="Helsinki"
-                />
+                <FormattedMessage id="headerLogoAlt">
+                  {altText => <img
+                    src={language === 'sv' ? logoSwedishBlack : logoBlack}
+                    className="navbar-logo"
+                    alt={altText}
+                  />}
+                </FormattedMessage>
               </Link>
             </Navbar.Brand>
           </Navbar.Header>

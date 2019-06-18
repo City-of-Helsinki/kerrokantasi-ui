@@ -10,10 +10,13 @@ import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import moment from 'moment';
 import config from '../config';
 
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
+
 const HearingCard = ({hearing, language, className = ''}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'url(/assets/images/default-image.svg)',
+    backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
   };
 
   // FIXME: Should there be direct linking to hearing using certain language?

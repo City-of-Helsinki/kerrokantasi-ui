@@ -19,6 +19,9 @@ import Helmet from 'react-helmet';
 
 import {labelShape} from '../types';
 
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
+
 const HEARING_LIST_TABS = {
   LIST: 'list',
   MAP: 'map',
@@ -75,7 +78,7 @@ export class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
-      backgroundImage: 'url(/assets/images/default-image.svg)',
+      backgroundImage: `url(${defaultImage})`,
     };
     if (hearing.main_image) {
       mainImageStyle = {

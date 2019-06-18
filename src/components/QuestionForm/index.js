@@ -13,13 +13,23 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
       {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
           const optionContent = getAttr(option.text, lang);
           return (
-            <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id} onChange={() => {}}>
+            <Radio
+              checked={answers && answers.answers.includes(option.id)}
+              key={uuid()}
+              value={option.id}
+              onChange={() => {}}
+            >
               {optionContent}
             </Radio>
           );
         })}
       {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id} onChange={() => {}}>
+        <Checkbox
+          checked={answers && answers.answers.includes(option.id)}
+          key={uuid()}
+          value={option.id}
+          onChange={() => {}}
+        >
           {getAttr(option.text, lang)}
         </Checkbox>
         ))}

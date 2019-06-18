@@ -1,12 +1,12 @@
 /* eslint-disable prefer-arrow-callback */
-// import '../assets/sass/app.scss'; // Default Kerrokantasi styles commented out for now
-import '../assets/sass/hel-app.scss'; // Apply city of Helsinki custom styles
 import {render} from 'react-dom';
 import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
 import Raven from 'raven-js';
+// eslint-disable-next-line import/no-unresolved
+import '@city-assets/sass/app.scss';
 
 require('es6-promise').polyfill();
 

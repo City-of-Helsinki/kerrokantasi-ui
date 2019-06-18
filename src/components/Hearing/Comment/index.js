@@ -23,7 +23,6 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.commentRef = React.createRef();
-    this.shouldAnimate = false;
   }
 
   state = {
@@ -323,13 +322,14 @@ class Comment extends React.Component {
     <CommentForm
       answers={this.state.answers}
       closed={false}
-      onOverrideCollapse={this.handleToggleReplyEditor}
-      onChangeAnswers={this.handleAnswerChange}
       defaultNickname={this.props.defaultNickname}
       hearingId={this.props.hearingId}
+      isReply
       language={this.props.language}
       loggedIn={!isEmpty(this.props.user)}
       nicknamePlaceholder={this.props.nicknamePlaceholder}
+      onChangeAnswers={this.onChangeAnswers}
+      onOverrideCollapse={this.handleToggleReplyEditor}
       onPostComment={this.handlePostReply}
       overrideCollapse
       section={this.props.section}
@@ -397,7 +397,7 @@ class Comment extends React.Component {
           ref={this.commentRef}
         >
           { this.renderCommentHeader(isAdminUser) }
-          { this.renderCommentAnswers() }
+          { !this.props.isReply && this.renderCommentAnswers() }
           <div className="hearing-comment-body">
             <p>{nl2br(data.content)}</p>
           </div>

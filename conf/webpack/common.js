@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const paths = require('../paths');
+const path = require('path');
+const assetPaths = require('../assetPaths');
 
 const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
@@ -14,6 +16,16 @@ if (process.env.BUNDLE_ANALYZER) {
 
 module.exports = {
   context: paths.ROOT,
+  resolve: {
+    alias: {
+      "kerrokantasi-ui": path.resolve(__dirname, '../../'),
+      "kerrokantasi-ui-modules": path.resolve(__dirname, '../../node_modules'),
+      "@city-config": assetPaths.cityConfig,
+      "@city-assets": assetPaths.cityAssets,
+      "@city-i18n": assetPaths.cityi18n,
+      "@city-images": assetPaths.cityImages,
+    }
+  },
   entry: [
     'babel-polyfill',
   ],
