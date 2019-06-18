@@ -21,7 +21,7 @@
   "chooseTopic": "Valitse aihe",
   "closedHearing": "Suljettu",
   "closeHearing": "Sulje kuuleminen",
-  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} Helsingin kaupungin palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
+  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
   "commentDeleted": "Kommenttisi on poistettu.",
   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
   "commentOrder": "Järjestä kommentit:",
@@ -234,5 +234,10 @@
   "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "withOpenLicense": "avoimella lisenssillä",
   "writeComment": "Kommentti",
-  "skipToMainContent": "Siirry pääsisältöön"
+  "skipToMainContent": "Siirry pääsisältöön",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo",
+  "feedbackLinkText": "Palaute",
+  "copyrightText": "Kerrokantasi"
 }
