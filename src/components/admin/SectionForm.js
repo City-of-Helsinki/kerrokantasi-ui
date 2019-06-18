@@ -122,7 +122,6 @@ class SectionForm extends React.Component {
               return (
                 <SectionAttachmentEditor
                   file={{...file, ordering: file.ordering ? file.ordering : fileIndex }}
-                  isPublished={this.props.isPublished}
                   key={`file-${file.url}`}
                   language={this.context.language}
                   fileCount={files.length}
