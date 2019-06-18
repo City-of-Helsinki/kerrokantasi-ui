@@ -125,3 +125,75 @@ Create a file e.g. `my-custom-theme.scss` and apply style imports accordingly
 
 Then change the `kerrokantasi-ui/src/index.js` style import from
 `import '../assets/sass/kerrokantasi.scss';` to `import 'PATH-TO-YOUR-FILE/my-custom-theme.scss';`
+
+## Using the whitelabel theme assets
+
+To have a non city specific theme, change the `city_config` config to `whitelabel`
+
+## Installing city specific assets
+
+Currently the process of using the theme is not super developer friendly as it does
+not support the use of `yarn link`. This means that to do development on the project
+it will have to be installed in the kerrokantasi-ui project and then edited within 
+the kerrokantasi-ui `node_modules/<theme_assets>` folder. If someone can find
+a solution to this, please fix.
+
+Development steps:
+0. Place the theme assets folder next to the `kerrokantasi-ui` folder
+    * The structure should look like this:
+      ```
+      /
+        /kerrokantasi-ui
+        /<theme-assets-folder>
+      ```
+1. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
+2. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
+3. Set the `city_config` config to <theme-assets-folder>
+
+
+Production installation:
+1. Add the project to the local `kerrokantasi-ui` project either by installing it
+   the same way as in the dev environment, or from GitHub or if the package is published
+   to npm, then install it from there.
+2. Set the `city_config` config to <theme-assets-folder>
+
+## Creating city specific assets
+
+The assets of a city currently consists of the following things:
+1. Styling
+2. Favicons
+3. Logos
+4. Translation strings
+
+An example of how a theme assets project could look like, either check out the `cities/helsinki`
+folder in this project, or have a look already created theme assets such as:
+
+https://github.com/City-of-Turku/kerrokantasi-ui-turku
+
+### Aliases
+The following aliases are available to use in SCSS and JS files:
+* `kerrokantasi-ui`: Points to the root of this project
+* `kerrokantasi-ui-modules`: Points to the node_modules of this project
+* `@city-config`: Points to the root of the city specific assets
+* `@city-assets`: Points to the assets folder in the city specific assets
+* `@city-i18n`: Point to the i18n folder in the city specific assets
+* `@@city-images`: Point to the image folder in the city specific assets
+
+### Naming conventions
+The following naming conventions needs to be used in order to city assets to
+work.
+
+* `/assets/app.scss`: The base style file that is imported
+* `/i18n/[fi, sv, en].json`: Language files. If no string changes are to be made, only include `{}` in the files
+* `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
+* `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo
+
+#### Favicons:
+The following favicons are recommended, but not mandatory to include.
+
+* `/assets/favicon/favicon.ico`
+* `/assets/favicon/favicon-32x32.png`
+* `/assets/favicon/favicon-16x16.png`
+* `/assets/favicon/manifest.json`
+* `/assets/favicon/safari-pinned-tab.svg`
+* `/assets/favicon/browserconfig.xml`

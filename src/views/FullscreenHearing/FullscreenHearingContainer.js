@@ -20,6 +20,11 @@ import Link from '../../components/LinkWithLang';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../../utils/Icon';
 
+// eslint-disable-next-line import/no-unresolved
+import logoWhite from '@city-images/logo-fi-white.svg';
+// eslint-disable-next-line import/no-unresolved
+import logoSwedishWhite from '@city-images/logo-sv-white.svg';
+
 export class FullscreenHearingContainerComponent extends React.Component {
   componentWillMount() {
     const {hearing, fetchHearing, match: {params}} = this.props;
@@ -65,7 +70,11 @@ export class FullscreenHearingContainerComponent extends React.Component {
           <div className="fullscreen-navigation">
             <div className="logo">
               <Link to={{path: "/"}}>
-                <img alt="Helsinki" src="/assets/images/helsinki-logo-white.svg" className="logo" />
+                <img
+                  alt="Helsinki"
+                  src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                  className="logo"
+                />
               </Link>
             </div>
             <div className="header-title">

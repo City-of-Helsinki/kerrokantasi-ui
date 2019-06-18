@@ -312,6 +312,7 @@ export class BaseCommentForm extends React.Component {
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
           {
+            !this.props.isReply &&
             section.questions.map((question) => {
               const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
@@ -320,6 +321,7 @@ export class BaseCommentForm extends React.Component {
             })
           }
           {
+            !this.props.isReply &&
             section.questions.map((question) => {
               const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
               return canShowQuestionForm
@@ -422,13 +424,15 @@ BaseCommentForm.propTypes = {
   answers: PropTypes.array,
   loggedIn: PropTypes.bool,
   closed: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
+  isReply: PropTypes.bool,
 };
 
 BaseCommentForm.defaultProps = {
   defaultNickname: '',
   overrideCollapse: false,
   onOverrideCollapse: () => {},
+  isReply: false,
 };
 
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
