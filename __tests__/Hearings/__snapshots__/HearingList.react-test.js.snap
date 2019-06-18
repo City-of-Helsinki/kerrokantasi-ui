@@ -208,6 +208,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "phaseDescription": "Vaiheen kuvaus",
                   "phaseDuration": "Vaiheen kesto",
                   "phone": "Puhelinnumero",
+                  "pinnedComment": "Kiinnitetty julkaisu",
                   "previous": "Edellinen",
                   "privacyPolicy": "Rekisteriseloste",
                   "project": "Hanke:",

@@ -29,6 +29,7 @@ class Comment extends React.Component {
     shouldJumpTo: this.props.jumpTo === this.props.data.id,
     scrollComplete: false,
     shouldAnimate: false,
+    pinned: this.props.data.pinned,
   }
 
   componentDidMount = () => {
@@ -75,6 +76,9 @@ class Comment extends React.Component {
       }
     });
     commentData.content = this.commentEditor.value;
+    if (this.props.data.can_edit && this.isAdminUser()) {
+      commentData.pinned = this.state.pinned;
+    }
     this.props.onEditComment(section, id, commentData);
     this.setState({editorOpen: false});
   }
@@ -105,6 +109,13 @@ class Comment extends React.Component {
     const { data, section } = this.props;
     this.props.onGetSubComments(data.id, section.id);
   }
+
+  /**
+   * Determines whether the user type is admin.
+   */
+  isAdminUser = () => (
+    (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization))
+  )
 
   getStrigifiedAnswer = (answer) => {
     const {questions, intl} = this.props;
@@ -153,6 +164,15 @@ class Comment extends React.Component {
   }
 
   /**
+   * Toggle the pinning of comment
+   */
+  handleTogglePin = () => {
+    this.setState((prevState) => ({
+      pinned: !prevState.pinned,
+    }));
+  }
+
+  /**
    * Renders the header area for the comment
    * @returns {Component}
    */
@@ -197,23 +217,51 @@ class Comment extends React.Component {
   );
 
   /**
+   * When an admin user is logged in and editing their comment.
+   * Allow the user to pin and unpin a comment.
+   */
+  renderPinUnpinButton = () => {
+    return (
+      <div className="hearing-comment__pin">
+        <Button
+          className={classnames([
+            'hearing-comment__pin__icon',
+            {
+            'hearing-comment__pin__pin-comment': !this.state.pinned,
+            'hearing-comment__pin__unpin-comment': this.state.pinned
+            }
+          ])}
+          onClick={this.handleTogglePin}
+        />
+      </div>
+    );
+  }
+
+  /**
    * When state is set to true for editor open. Return the form.
    * @returns {Component}
    */
   renderEditorForm = () => (
-    <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
-      <FormGroup controlId="formControlsTextarea">
-        <textarea
-          className="form-control"
-          defaultValue={this.props.data.content}
-          placeholder="textarea"
-          ref={(input) => {
-            this.commentEditor = input;
-          }}
-        />
-      </FormGroup>
-      <Button type="submit">Save</Button>
-    </form>
+    <React.Fragment>
+      { this.isAdminUser()
+        && this.props.data.can_edit
+        && !this.props.isReply
+        && this.renderPinUnpinButton()
+      }
+      <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
+        <FormGroup controlId="formControlsTextarea">
+          <textarea
+            className="form-control"
+            defaultValue={this.props.data.content}
+            placeholder="textarea"
+            ref={(input) => {
+              this.commentEditor = input;
+            }}
+          />
+        </FormGroup>
+        <Button type="submit">Save</Button>
+      </form>
+    </React.Fragment>
   );
 
   /**

@@ -158,7 +158,7 @@ export function followHearing(hearingSlug) {
 }
 
 export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetch = true) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
     const url = "v1/comment/";
@@ -169,9 +169,21 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
       comment: 'null',
       ...(ordering && {ordering})
     };
-    return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveSectionComments")({sectionId, data}));
-    }).catch(requestErrorHandler());
+
+    const promises = [
+      api.get(getState(), url, { ...params, pinned: false }).then(getResponseJSON),
+      api.get(getState(), url, { ...params, pinned: true }).then(getResponseJSON)
+    ];
+
+    const [unpinnedResponse, pinnedResponse] = await Promise.all(promises);
+    const mergedResults = unpinnedResponse;
+
+    if (pinnedResponse.results.length > 0) {
+      mergedResults.count += pinnedResponse.count;
+      mergedResults.results = [...pinnedResponse.results, ...mergedResults.results];
+    }
+
+    return dispatch(createAction("receiveSectionComments")({ sectionId, data: mergedResults }));
   };
 }
 

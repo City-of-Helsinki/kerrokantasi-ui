@@ -170,7 +170,7 @@ export class BaseCommentForm extends React.Component {
   /**
    * Toggle the pinning of comment
    */
-  handleToggleCommit = () => {
+  handleTogglePin = () => {
     this.setState((prevState) => ({
       pinned: !prevState.pinned,
     }));
@@ -294,7 +294,7 @@ export class BaseCommentForm extends React.Component {
         'comment-form__heading-container__pin__unpin-comment': this.state.pinned
         }
       ])}
-      onClick={this.handleToggleCommit}
+      onClick={this.handleTogglePin}
     />
   );
 
@@ -342,9 +342,15 @@ export class BaseCommentForm extends React.Component {
             <div className="comment-form__heading-container__title">
               <h4><FormattedMessage id="writeComment"/></h4>
             </div>
-            <div className="comment-form__heading-container__pin">
-              { this.renderPinUnpinIcon() }
-            </div>
+            {
+              this.isUserAdmin()
+              && !this.props.isReply
+              && (
+                <div className="comment-form__heading-container__pin">
+                  { this.renderPinUnpinIcon() }
+                </div>
+              )
+            }
           </div>
           <FormControl
             componentClass="textarea"
