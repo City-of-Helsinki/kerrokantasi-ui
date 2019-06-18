@@ -121,11 +121,13 @@ class Header extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link to={{path: "/"}}>
-                <img
-                  src={language === 'sv' ? logoSwedishBlack : logoBlack}
-                  className="navbar-logo"
-                  alt="Helsinki"
-                />
+                <FormattedMessage id="headerLogoAlt">
+                  {altText => <img
+                    src={language === 'sv' ? logoSwedishBlack : logoBlack}
+                    className="navbar-logo"
+                    alt={altText}
+                  />}
+                </FormattedMessage>
               </Link>
             </Navbar.Brand>
           </Navbar.Header>

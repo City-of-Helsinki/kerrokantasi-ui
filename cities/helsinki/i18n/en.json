@@ -1,1 +1,7 @@
-{}
+{
+  "commentConditions": "All comments will be published {linkToDefinition} in the City of Helsinki online service {linkToLicense}. If you are not logged in, you may leave an anonymous comment. The comments may be moderated if they contain insulting or offensive language.",
+  "fullscreenHeaderLogoAlt": "City of Helsinki logo",
+  "footerLogoAlt": "City of Helsinki logo",
+  "headerLogoAlt": "City of Helsinki logo",
+  "copyrightText": "City of Helsinki"
+}

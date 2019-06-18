@@ -9,20 +9,28 @@ import logoWhite from '@city-images/logo-fi-white.svg';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
 
+const getCurrentYear = () => {
+  const today = new Date();
+  return (today.getFullYear());
+};
+
 export default function Footer(props) {
   const {language} = props;
+
   return (
     <footer className="site-footer">
       <div className="container">
         <Row>
           <Col md={3} sm={4}>
-            <div className="footer-branding footer-branding-helsinki">
+            <div className="footer-branding">
               <a href="http://www.hel.fi">
-                <img
-                  alt="Helsinki"
-                  src={language === 'sv' ? logoSwedishWhite : logoWhite}
-                  className="footer-logo footer-logo-helsinki"
-                />
+                <FormattedMessage id="footerLogoAlt">
+                  {altText => <img
+                    alt={altText}
+                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                    className="footer-logo"
+                  />}
+                </FormattedMessage>
               </a>
             </div>
           </Col>
@@ -59,9 +67,13 @@ export default function Footer(props) {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
+                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">
+                    <FormattedMessage id="feedbackLinkText" />
+                  </a>
                 </li>
-                <li>2017 Helsingin kaupunki</li>
+                <li>
+                  {getCurrentYear()} <FormattedMessage id="copyrightText" />
+                </li>
               </ul>
             </div>
           </Col>

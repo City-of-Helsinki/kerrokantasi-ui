@@ -43,7 +43,7 @@
   "cancel": "Avbryt",
   "asOpenData": "som öppna data",
   "withOpenLicense": "med öppen licens",
-  "commentConditions": "Uttryckta kommentarer publiceras {linkToDefinition} i Helsingfors stads tjänst {linkToLicense}. Du kan lämna din kommentar anonymt om du inte har loggat in. Dessutom redigeras texter vid behov på grund av kränkande eller annars osakligt språkbruk.",
+  "commentConditions": "Uttryckta kommentarer publiceras {linkToDefinition} i tjänsten {linkToLicense}. Du kan lämna din kommentar anonymt om du inte har loggat in. Dessutom redigeras texter vid behov på grund av kränkande eller annars osakligt språkbruk.",
   "anonymous": "Anonym",
   "follow": "Följ",
   "vote": "Rösta",
@@ -134,5 +134,10 @@
   "phaseActive": "Aktiv",
   "phase": "Fas",
   "logInToAnswer": "Logga in för att rösta och see resultat",
-  "skipToMainContent": "Gå till huvudinnehållet"
+  "skipToMainContent": "Gå till huvudinnehållet",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo",
+  "feedbackLinkText": "Feedback",
+  "copyrightText": "Kerrokantasi"
 }
