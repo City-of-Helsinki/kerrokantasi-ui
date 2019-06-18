@@ -14,7 +14,8 @@ const byId = handleActions(
       ...state,
       ...entities.labels,
     }),
-    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) => ({...state, [label.id]: {...label, frontId: label.id}})
+    [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) =>
+      ({...state, [label.id]: {...label, frontId: label.id}})
   },
   {},
 );

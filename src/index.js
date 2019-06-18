@@ -14,7 +14,7 @@ commonInit(function initReady() {
   try {
     if (config.uiConfig && config.uiConfig.sentryDns) Raven.config(config.uiConfig.sentryDns).install();
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
   const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
   const root = getRoot(store);

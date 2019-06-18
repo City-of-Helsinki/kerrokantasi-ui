@@ -62,7 +62,11 @@ export class Home extends React.Component {
           <h2>
             <FormattedMessage id="open-hearings-on-map" />
           </h2>
-          <OverviewMap enablePopups hearings={openHearings.data} style={{width: '100%', height: isMobile ? '70%' : 600}} />
+          <OverviewMap
+            enablePopups
+            hearings={openHearings.data}
+            style={{width: '100%', height: isMobile ? '70%' : 600}}
+          />
         </div>
       ) : null;
     const heroStyle = {
@@ -103,7 +107,10 @@ export class Home extends React.Component {
                   <Col xs={12}>
                     <div className="list">
                       <HearingCardList
-                        hearings={orderBy(openHearings.data.filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])}
+                        hearings={
+                          orderBy(openHearings.data
+                            .filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])
+                        }
                         language={language}
                       />
                       <p className="text-center">

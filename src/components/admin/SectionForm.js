@@ -202,17 +202,31 @@ class SectionForm extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
-              <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-              <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+              <option selected={section.commenting === 'open'} value="open">
+                {formatMessage({id: "openCommenting"})}
+              </option>
+              <option selected={section.commenting === 'registered'} value="registered">
+                {formatMessage({id: "registeredUsersOnly"})}
+              </option>
+              <option selected={section.commenting === 'none'} value="none">
+                {formatMessage({id: "noCommenting"})}
+              </option>
             </FormControl>
           </div>
         </FormGroup>
         <FormGroup>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newSingleChoiceQuestion"})}
           </button>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newMultipleChoiceQuestion"})}
           </button>
         </FormGroup>
@@ -220,7 +234,11 @@ class SectionForm extends React.Component {
           <div>
             <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
             {question.frontId &&
-              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
+              <button
+               type="button"
+               className="btn btn-danger pull-right"
+               onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
+              >
                 {formatMessage({id: "deleteQuestion"})}
               </button>
             }
@@ -266,7 +284,6 @@ SectionForm.propTypes = {
   sectionMoveDown: PropTypes.func,
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
-  clearQuestions: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   addOption: PropTypes.func,

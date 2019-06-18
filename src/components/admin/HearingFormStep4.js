@@ -71,7 +71,10 @@ class HearingFormStep4 extends React.Component {
 
   render() {
     const {hearing, hearingLanguages, formatMessage} = this.props;
-    const closureInfoContent = getClosureSection(hearing) && !isEmpty(getAttr(getClosureSection(hearing).content)) ? getClosureSection(hearing).content : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
+    const closureInfoContent = getClosureSection(hearing)
+      && !isEmpty(getAttr(getClosureSection(hearing).content))
+      ? getClosureSection(hearing).content
+      : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
 
     return (
       <div className="form-step">

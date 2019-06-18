@@ -33,7 +33,9 @@ export function isSectionVotable(hearing, section, user) {
 
 export function isSectionCommentable(hearing, section, user) {
   return (
-    acceptsComments(hearing) && userCanComment(user, section) && !section.plugin_identifier // comment box not available for sections with plugins
+    acceptsComments(hearing)
+      && userCanComment(user, section)
+      && !section.plugin_identifier // comment box not available for sections with plugins
   );
 }
 

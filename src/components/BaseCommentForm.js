@@ -282,7 +282,8 @@ export class BaseCommentForm extends React.Component {
           {
             !this.props.isReply &&
             section.questions.map((question) => {
-              const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
+              const canShowQuestionResult = closed || (loggedIn
+                && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
                 ? <QuestionResults key={question.id} question={question} lang={language} />
                 : null;

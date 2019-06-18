@@ -6,7 +6,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 
-import {hearingShape, userShape} from '../../types';
+import {hearingShape} from '../../types';
 
 
 const DATE_FORMAT = "LLLL";
@@ -95,7 +95,6 @@ HearingToolbar.propTypes = {
   onPublish: PropTypes.func,
   onRevertPublishing: PropTypes.func,
   onDeleteHearingDraft: PropTypes.func,
-  user: userShape,
 };
 
 const WrappedHearingToolbar = injectIntl(HearingToolbar);

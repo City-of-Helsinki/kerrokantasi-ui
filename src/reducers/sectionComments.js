@@ -45,7 +45,8 @@ const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, pare
   const increment = (votes) => { return votes + 1; };
   if (isReply) {
     const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
-    const subComponentIndex = state[sectionId].results[commentIndex].subComments.findIndex((subComment) => subComment.id === commentId);
+    const subComponentIndex = state[sectionId].results[commentIndex].subComments
+      .findIndex((subComment) => subComment.id === commentId);
     return updeep({
       [sectionId]: {
         results: {
