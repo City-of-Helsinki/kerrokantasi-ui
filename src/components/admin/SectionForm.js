@@ -358,7 +358,6 @@ SectionForm.propTypes = {
   intl: intlShape.isRequired,
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
-  isPublished: PropTypes.bool,
   maxAbstractLength: PropTypes.number,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,

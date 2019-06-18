@@ -82,7 +82,6 @@ class HearingFormStep2 extends React.Component {
                   addOption={addOption}
                   clearQuestions={this.props.clearQuestions}
                   deleteOption={deleteOption}
-                  isPublished={this.props.hearing.published}
                   initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
                   initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
                   isFirstSubsection={index === 1}

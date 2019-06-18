@@ -25,9 +25,9 @@ const getFileTitle = (title, language) => {
  */
 const isDisabled = (fileCount, currentOrder, type) => {
   if (type === 'increment') {
-    return Number(currentOrder) === 1 || !this.props.isPublished;
+    return Number(currentOrder) === 1;
   }
-  return Number(currentOrder) === Number(fileCount) || !this.props.isPublished;
+  return Number(currentOrder) === Number(fileCount);
 };
 
 /**
@@ -124,7 +124,6 @@ const SectionAttachmentEditor = (props) => {
 SectionAttachmentEditor.propTypes = {
   file: PropTypes.object.isRequired,
   fileCount: PropTypes.number.isRequired,
-  isPublished: PropTypes.bool.isRequired,
   language: PropTypes.string.isRequired,
   onEditSectionAttachmentOrder: PropTypes.func.isRequired,
   onSectionAttachmentDelete: PropTypes.func.isRequired,
