@@ -161,6 +161,7 @@
   "phaseDescription": "Vaiheen kuvaus",
   "phaseDuration": "Vaiheen kesto",
   "phone": "Puhelinnumero",
+  "pinnedComment": "Kiinnitetty julkaisu",
   "POPULARITY_ASC": "Vähiten suosittu ensin",
   "POPULARITY_DESC": "Suosituin ensin",
   "previous": "Edellinen",

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, FormGroup } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -314,11 +313,24 @@ class Comment extends React.Component {
     </div>
   );
 
+  /**
+   * When a comment is pinned, a small black box is displayed on top right corner.
+   * @returns {JS<Component>}
+   */
+  renderPinnedHeader = () => (
+    <div className="hearing-comment-pinned-container">
+      <span className="hearing-comment-pinned-container__text">
+        <FormattedMessage id="pinnedComment"/>
+      </span>
+    </div>
+  );
+
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
     const {editorOpen, isReplyEditorOpen} = this.state;
-    const isAdminUser = this.props.data && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
+    const isAdminUser = this.props.data
+      && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
 
     if (!data.content) {
       return null;
@@ -330,7 +342,8 @@ class Comment extends React.Component {
             'hearing-comment',
             {
               'comment-reply': this.props.isReply,
-              'hearing-comment__has-replys': data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
+              'hearing-comment__has-replys': data.subComments
+                && Array.isArray(data.subComments) && data.subComments.length > 0,
               'comment-animate': this.state.shouldAnimate,
               'hearing-comment__admin': isAdminUser,
             }
@@ -338,6 +351,7 @@ class Comment extends React.Component {
           onAnimationEnd={this.handleEndstAnimation}
           ref={this.commentRef}
         >
+          { this.props.data.pinned && this.renderPinnedHeader()}
           { this.renderCommentHeader(isAdminUser) }
           { !this.props.isReply && this.renderCommentAnswers() }
           <div className="hearing-comment-body">

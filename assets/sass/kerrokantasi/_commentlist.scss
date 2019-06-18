@@ -45,8 +45,10 @@
     margin-bottom: $line-height-computed;
     padding: $line-height-computed / 2;
     background-color: $white;
-
-    &-header {}
+    position: relative;
+    &-header {
+      position: relative;
+    }
 
     &-body {
       padding-top: 15px;
@@ -63,6 +65,24 @@
       width: 80%;
       float: left;
       font-weight: bold;
+    }
+
+    &-pinned-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      margin-top: -12px;
+      margin-right: -12px;
+      margin-bottom: $margin-default;
+
+      &__text {
+        color: white;
+        background-color: $black;
+        padding: 3px $padding-small;
+        font-size: 14px;
+        width: 140px;
+        text-align: center;
+      }
     }
 
     &-user {
