@@ -14,8 +14,8 @@ const getFileTitle = (title, language) => {
   if (title && title[language] && typeof title[language] !== 'undefined') {
     return title[language];
   }
-  return title[Object.keys(title).length -1];
-}
+  return title[Object.keys(title).length - 1];
+};
 
 /**
  * Determines whether file order can be incremented or decremented.
@@ -25,10 +25,10 @@ const getFileTitle = (title, language) => {
  */
 const isDisabled = (fileCount, currentOrder, type) => {
   if (type === 'increment') {
-    return Number(currentOrder) === 1;
+    return Number(currentOrder) === 1 || !this.props.isPublished;
   }
-  return Number(currentOrder) === Number(fileCount);
-}
+  return Number(currentOrder) === Number(fileCount) || !this.props.isPublished;
+};
 
 /**
  * Class decleration for Section attachment editor
@@ -43,27 +43,35 @@ const SectionAttachmentEditor = (props) => {
    */
   const handleUpdateTitle = (event) => {
     updateTitle(event.target.value);
-  }
+  };
 
   /**
    * Callback method when delete button is pressed for a file in section
    */
   const handleOnClickDeleteButton = () => {
     props.onSectionAttachmentDelete(section.frontId, file);
-  }
+  };
 
   /**
    * Increase the order of the file.
    */
   const handleIncrementOrder = () => {
-    const otherFile = section.files[file.ordering - 2]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
-    props.onEditSectionAttachmentOrder(section.frontId, [{ ...file, ordering: file.ordering - 1 }, { ...otherFile, ordering: file.ordering }]);
-  }
+    const otherFile = section.files[file.ordering - 2];
+    // -2 to compensate for the default ordering offset, array start from 0, offset from 1
+    props.onEditSectionAttachmentOrder(section.frontId, [
+      { ...file, ordering: file.ordering - 1 },
+      { ...otherFile, ordering: file.ordering }
+    ]);
+  };
 
   const handleDecrementOrder = () => {
-    const otherFile = section.files[file.ordering]; // -2 to compensate for the default ordering offset, array start from 0, offset from 1
-    props.onEditSectionAttachmentOrder(section.frontId, [{ ...file, ordering: file.ordering + 1 }, { ...otherFile, ordering: file.ordering }]);
-  }
+    const otherFile = section.files[file.ordering];
+    // +1 to compensate for the default ordering offset, array start from 0, offset from 1
+    props.onEditSectionAttachmentOrder(section.frontId, [
+      { ...file, ordering: file.ordering + 1 },
+      { ...otherFile, ordering: file.ordering }
+    ]);
+  };
 
   /**
    * When field focus is left update the store
@@ -71,7 +79,7 @@ const SectionAttachmentEditor = (props) => {
   const handleOnBlurField = () => {
     const updatedAttachment = { ...file, title: { ...file.title, [language]: title }};
     props.onSectionAttachmentEdit(section.frontId, updatedAttachment);
-  }
+  };
 
   return (
     <div className="section-attachment-editor">
@@ -83,15 +91,15 @@ const SectionAttachmentEditor = (props) => {
           maxLength={100}
           onBlur={handleOnBlurField}
           onChange={handleUpdateTitle}
-          placeholder={'File title'}
+          placeholder="File title"
           type="text"
         />
       </div>
       <div className="Section-attachment-editor-actions">
-        <button 
+        <button
           type="button"
           className="btn btn-default pull-right"
-          disabled={ isDisabled(fileCount, file.ordering, 'increment') }
+          disabled={isDisabled(fileCount, file.ordering, 'increment')}
           onClick={handleIncrementOrder}
         >
           &uarr;
@@ -99,7 +107,7 @@ const SectionAttachmentEditor = (props) => {
         <button
           type="button"
           className="btn btn-default pull-right"
-          disabled={ isDisabled(fileCount, file.ordering, 'decrement') }
+          disabled={isDisabled(fileCount, file.ordering, 'decrement')}
           onClick={handleDecrementOrder}
         >
           &darr;
@@ -110,12 +118,13 @@ const SectionAttachmentEditor = (props) => {
         </button>
       </div>
     </div>
-  )
+  );
 };
 
 SectionAttachmentEditor.propTypes = {
   file: PropTypes.object.isRequired,
   fileCount: PropTypes.number.isRequired,
+  isPublished: PropTypes.bool.isRequired,
   language: PropTypes.string.isRequired,
   onEditSectionAttachmentOrder: PropTypes.func.isRequired,
   onSectionAttachmentDelete: PropTypes.func.isRequired,

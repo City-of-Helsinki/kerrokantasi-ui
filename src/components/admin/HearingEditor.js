@@ -66,7 +66,7 @@ class HearingEditor extends React.Component {
    * The upload happens as soon as user selects a file to upload.
    */
   onSectionAttachment = (sectionId, attachments, attachmentProperties) => {
-    this.props.dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties));
+    this.props.dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties, this.props.hearing.isNew));
   }
 
   /**

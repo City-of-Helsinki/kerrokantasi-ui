@@ -34,7 +34,6 @@ export const EditorActions = {
   CLOSE_FORM: 'closeHearingForm',
   CLOSE_HEARING: 'closeHearing',
   DELETE_LAST_OPTION: 'deleteLastOption',
-  DELETE_PHASE: 'deletePhase',
   DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion',
   EDIT_HEARING: 'changeHearing',
   EDIT_PHASE: 'changePhase',
@@ -78,8 +77,8 @@ export const editSectionAttachment = (sectionId, attachment) => {
       .then(() => {
         return dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachment}));
       });
-  }
-}
+  };
+};
 
 /**
  * For changing order, two requests have to be made.
@@ -97,8 +96,8 @@ export const editSectionAttachmentOrder = (sectionId, attachments) => {
       .then(() => {
         return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachments}));
       });
-  }
-}
+  };
+};
 
 /**
  * Delete an attached item.
@@ -115,8 +114,8 @@ export const deleteSectionAttachment = (sectionId, attachment) => {
       .then(() => {
         return dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({sectionId, attachment}));
       });
-  }
-}
+  };
+};
 
 export function changeProject(projectId, projectLists) {
   return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
@@ -450,19 +449,23 @@ export function saveHearingChanges(hearing) {
  * Method that will be used to upload the file to the server.
  * @param {Document} section - attachments to be uploaded.
  */
-export function addSectionAttachment(section, file, title) {
+export function addSectionAttachment(section, file, title, isNew) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch, getState) => {
     const url = '/v1/file';
+    let data = { file, title };
+    if (!isNew) {
+      data = { ...data, section };
+    }
     return api
-      .post(getState(), url, {section, file, title})
+      .post(getState(), url, data)
       .then(checkResponseStatus)
       .then((response) => {
         response.json().then((attachment) => {
           return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
         });
       });
-  }
+  };
 }
 
 export function saveAndPreviewHearingChanges(hearing) {

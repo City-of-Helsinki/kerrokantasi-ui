@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {get, isEmpty} from 'lodash';
 import {QuestionForm} from './QuestionForm';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-import Image from 'react-bootstrap/lib/Image';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
+import {
+  ControlLabel,
+  FormControl,
+  FormGroup,
+  HelpBlock,
+  Image,
+  Button,
+  ButtonGroup,
+} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 
 import Icon from '../../utils/Icon';
@@ -78,7 +80,7 @@ class SectionForm extends React.Component {
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
       if (this.props.onSectionAttachment) {
-        this.props.onSectionAttachment(section.frontId, fileReader.result,  {[this.context.language]: file.name});
+        this.props.onSectionAttachment(section.frontId, fileReader.result, {[this.context.language]: file.name});
       }
     });
     fileReader.readAsDataURL(file);
@@ -111,23 +113,29 @@ class SectionForm extends React.Component {
     if (files && files.length > 0) {
       return (
         <div className="section-attachment-editor-container">
-          <label className="section-attachment-editor-title"><FormattedMessage id="attachmentName"/></label>
+          <ControlLabel>
+            <FormattedMessage id="attachmentName"/>
+          </ControlLabel>
           {
-            files.map((file, index) => (
-              <SectionAttachmentEditor
-                file={{...file, ordering: file.ordering ? file.ordering : index+=1}}
-                key={`file-${file.url}`}
-                language={this.context.language}
-                fileCount={files.length}
-                section={section}
-                onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-                onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-                onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-              />
-            ))
+            files.map((file, index) => {
+              const fileIndex = index + 1;
+              return (
+                <SectionAttachmentEditor
+                  file={{...file, ordering: file.ordering ? file.ordering : fileIndex }}
+                  isPublished={this.props.isPublished}
+                  key={`file-${file.url}`}
+                  language={this.context.language}
+                  fileCount={files.length}
+                  section={section}
+                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+                />
+              );
+            })
           }
         </div>
-      )
+      );
     }
     return null;
   }
@@ -256,9 +264,15 @@ class SectionForm extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
-              <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-              <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+              <option selected={section.commenting === 'open'} value="open">
+                {formatMessage({id: "openCommenting"})}
+              </option>
+              <option selected={section.commenting === 'registered'} value="registered">
+                {formatMessage({id: "registeredUsersOnly"})}
+              </option>
+              <option selected={section.commenting === 'none'} value="none">
+                {formatMessage({id: "noCommenting"})}
+              </option>
             </FormControl>
           </div>
         </FormGroup>
@@ -278,10 +292,18 @@ class SectionForm extends React.Component {
           { this.renderAttachments(section) }
         </FormGroup>
         <FormGroup>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newSingleChoiceQuestion"})}
           </button>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newMultipleChoiceQuestion"})}
           </button>
         </FormGroup>
@@ -289,7 +311,11 @@ class SectionForm extends React.Component {
           <div>
             <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
             {question.frontId &&
-              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
+              <button
+                type="button"
+                className="btn btn-danger pull-right"
+                onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
+              >
                 {formatMessage({id: "deleteQuestion"})}
               </button>
             }
@@ -326,19 +352,19 @@ SectionForm.defaultProps = {
 
 SectionForm.propTypes = {
   addOption: PropTypes.func,
-  clearQuestions: PropTypes.func,
   deleteOption: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
+  isPublished: PropTypes.bool,
   maxAbstractLength: PropTypes.number,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
   onEditSectionAttachmentOrder: PropTypes.func,
   onQuestionChange: PropTypes.func,
-  onSectionAttachmen: PropTypes.func,
+  onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
   onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
