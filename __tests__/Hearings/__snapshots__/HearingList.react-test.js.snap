@@ -112,6 +112,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "firstOpen": "Ensimmäisenä auennut",
                   "follow": "Seuraa",
                   "followingHearing": "Seuraat kuulemista.",
+                  "footerCityLink": "www.example.com",
                   "footerLogoAlt": "Kerrokantasi logo",
                   "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
                   "furtherInformation": "Lisätietoja",

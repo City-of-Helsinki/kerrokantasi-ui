@@ -25,15 +25,18 @@ export default function Footer(props) {
         <Row>
           <Col md={3} sm={4}>
             <div className="footer-branding">
-              <a href={urls.city}>
-                <FormattedMessage id="footerLogoAlt">
-                  {altText => <img
-                    alt={altText}
-                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
-                    className="footer-logo"
-                  />}
-                </FormattedMessage>
-              </a>
+              <FormattedMessage id="footerLogoAlt">
+                {altText => <img
+                  alt={altText}
+                  src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                  className="footer-logo"
+                />}
+              </FormattedMessage>
+              <div className="footer-city-link">
+                <a href={urls.city}>
+                  <FormattedMessage id="footerCityLink" />
+                </a>
+              </div>
             </div>
           </Col>
           <Col md={3} sm={4}>
