@@ -16,7 +16,14 @@ const changeLang = (history, location, nextLang) => {
 };
 
 const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMessage}}) =>
-  <DropdownButton pullRight className="language-switcher" id="language" eventKey="language" title={<span><Icon name="globe" className="user-nav-icon"/>{currentLanguage} </span>}>
+  <DropdownButton
+    pullRight
+    className="language-switcher"
+    id="language"
+    eventKey="language"
+    title={<span><Icon name="globe" className="user-nav-icon" aria-hidden="true"/>{currentLanguage} </span>}
+    aria-label={formatMessage({id: 'languageSwitchLabel'})}
+  >
     {config.languages
       .map((code) =>
         <MenuItem
@@ -29,8 +36,6 @@ const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMe
           {formatMessage({id: `lang-${code}`})}
         </MenuItem>)}
   </DropdownButton>;
-
-// .filter((code) => code !== currentLanguage)
 
 LanguageSwitcher.contextTypes = {
   intl: intlShape.isRequired

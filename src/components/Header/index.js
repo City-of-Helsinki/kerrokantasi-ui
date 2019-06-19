@@ -66,7 +66,8 @@ class Header extends React.Component {
           className="user-menu user-menu--logged"
           title={
             <span>
-              <Icon name="user" className="user-nav-icon"/><span className="user-name">{user.displayName}</span>
+              <Icon name="user" className="user-nav-icon" aria-hidden="true" />
+              <span className="user-name">{user.displayName}</span>
             </span>
           }
         >
@@ -83,11 +84,10 @@ class Header extends React.Component {
     return [
       <Button
         key="login"
-        href=""
         className="user-menu login-link user-menu--unlogged"
         onClick={() => this.onSelect('login')}
       >
-        <Icon name="user-o" className="user-nav-icon"/>
+        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
         <span className="user-name"><FormattedMessage id="login" /></span>
       </Button>,
     ];

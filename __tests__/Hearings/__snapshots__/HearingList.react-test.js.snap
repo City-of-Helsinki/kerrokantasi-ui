@@ -162,6 +162,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "lang-en": "English",
                   "lang-fi": "Suomi",
                   "lang-sv": "Svenska",
+                  "languageSwitchLabel": "Valitse sivuston kieli",
                   "lastClosing": "Viimeisenä sulkeutuva",
                   "lastOpen": "Viimeisenä auennut",
                   "leastCommented": "Vähiten kommentoitu",
