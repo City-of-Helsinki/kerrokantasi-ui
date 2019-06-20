@@ -27,7 +27,10 @@ class HearingsSearch extends React.Component {
     return (
       <div className="hearings-search__container">
         <div className="hearings-search__content">
-          <form onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value, true); }}>
+          <form
+            onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value, true); }}
+            id="hearings-search-form"
+          >
             <FormGroup className="hearings-search__text" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
               <FormControl
@@ -52,6 +55,9 @@ class HearingsSearch extends React.Component {
             <Button className="hearings-search__button" bsStyle="primary" type="submit">
               <FormattedMessage id="search"/>
             </Button>
+            <a href="#hearings-section" className="sr-only">
+              <FormattedMessage id="jumpToSearchResults" />
+            </a>
           </form>
         </div>
       </div>

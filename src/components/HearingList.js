@@ -209,7 +209,10 @@ export const HearingList = ({
           <HearingListTabs activeTab={activeTab} changeTab={onTabChange} />
         </div>
       </section>
-      <section className="page-section page-section--hearings-list">
+      <section className="page-section page-section--hearings-list" id="hearings-section">
+        <a href="#hearings-search-form" className="sr-only">
+          <FormattedMessage id="jumpToSearchForm" />
+        </a>
         <div className="container">
           {!isLoading && !hasHearings ? (
             <p>

@@ -158,6 +158,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
                   "infoHeaderText": "Tietoa palvelusta",
                   "infoPage": "Tietoa palvelusta",
+                  "jumpToSearchForm": "Siirry hakulomakkeeseen",
+                  "jumpToSearchResults": "Siirry hakutuloksiin",
                   "labelPlaceholder": "Anna asiasanan nimi...",
                   "lang-en": "English",
                   "lang-fi": "Suomi",
@@ -316,7 +318,17 @@ exports[`HearingsList component should render as expected 1`] = `
   </section>
   <section
     className="page-section page-section--hearings-list"
+    id="hearings-section"
   >
+    <a
+      className="sr-only"
+      href="#hearings-search-form"
+    >
+      <FormattedMessage
+        id="jumpToSearchForm"
+        values={Object {}}
+      />
+    </a>
     <div
       className="container"
     >
