@@ -6,6 +6,8 @@ import getAttr from '../utils/getAttr';
 import {EPSG3067} from '../utils/map';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
+// eslint-disable-next-line import/no-unresolved
+import localization from '@city-i18n/localization.json';
 
 class OverviewMap extends React.Component {
   state = {
@@ -117,11 +119,10 @@ class OverviewMap extends React.Component {
     if (!contents.length && this.props.hideIfEmpty) {
       return null;
     }
-    const position = [60.192059, 24.945831];  // Default to Helsinki's center
     const crs = EPSG3067();
     return (
       this.shouldMapRender() &&
-      <Map center={position} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
+      <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
         <TileLayer
           url="https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -185,6 +185,7 @@ work.
 
 * `/assets/app.scss`: The base style file that is imported
 * `/i18n/[fi, sv, en].json`: Language files. If no string changes are to be made, only include `{}` in the files
+* `/i18n/localization.json`: Other configuration related to localization. Currently holds map default position
 * `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
 * `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo
 
