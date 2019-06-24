@@ -8,6 +8,8 @@ import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
 import localization from '@city-i18n/localization.json';
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
 
 class OverviewMap extends React.Component {
   state = {
@@ -124,7 +126,7 @@ class OverviewMap extends React.Component {
       this.shouldMapRender() &&
       <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
         <TileLayer
-          url="https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png"
+          url={urls.geoserver}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup

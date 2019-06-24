@@ -179,7 +179,7 @@ exports[`Home component should render as expected 1`] = `
             className="feedback-box"
           >
             <a
-              href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute"
+              href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
             >
               <h2
                 className="feedback-prompt"

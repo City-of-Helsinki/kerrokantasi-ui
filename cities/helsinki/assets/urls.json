@@ -1,0 +1,7 @@
+{
+  "hostname": "https://kerrokantasi.hel.fi",
+  "privacyPolicy": "http://www.hel.fi/rekisteriseloste",
+  "mailto": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
+  "geoserver": "https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png",
+  "city": "http://www.hel.fi"
+}

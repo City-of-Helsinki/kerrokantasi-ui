@@ -1,0 +1,7 @@
+{
+  "hostname": "https://localhost:8086",
+  "privacyPolicy": "https://localhost:8086/rekisteriseloste",
+  "mailto": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute",
+  "geoserver": "https://geoserver.hel.fi/mapproxy/wmts/osm-sm-hq/etrs_tm35fin_hq/{z}/{x}/{y}.png",
+  "city": "http://www.google.fi"
+}
