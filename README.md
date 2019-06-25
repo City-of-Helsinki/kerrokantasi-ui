@@ -164,6 +164,7 @@ The assets of a city currently consists of the following things:
 2. Favicons
 3. Logos
 4. Translation strings
+5. Custom functions (eg. auth)
 
 An example of how a theme assets project could look like, either check out the `cities/helsinki`
 folder in this project, or have a look already created theme assets such as:
@@ -171,13 +172,21 @@ folder in this project, or have a look already created theme assets such as:
 https://github.com/City-of-Turku/kerrokantasi-ui-turku
 
 ### Aliases
-The following aliases are available to use in SCSS and JS files:
+The following aliases are available to use in SCSS and frontend JS files:
 * `kerrokantasi-ui`: Points to the root of this project
 * `kerrokantasi-ui-modules`: Points to the node_modules of this project
 * `@city-config`: Points to the root of the city specific assets
 * `@city-assets`: Points to the assets folder in the city specific assets
 * `@city-i18n`: Point to the i18n folder in the city specific assets
-* `@@city-images`: Point to the image folder in the city specific assets
+* `@city-images`: Point to the image folder in the city specific assets
+
+### Authentication
+
+Each theme must implement its own backend authentication, based on Passport.js. The server application expects
+to find two functions inside `<theme-assets>/functions/auth.js`: `getPassport` and `addAuth`.
+
+**Note:**
+Afromentioned aliases do not apply here, due to server side not going through the webpack compilation process.
 
 ### Naming conventions
 The following naming conventions needs to be used in order to city assets to
