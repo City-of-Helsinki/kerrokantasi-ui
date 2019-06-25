@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 
-import { Passport } from 'passport';
-import HelsinkiStrategy from 'passport-helsinki';
-import jwt from 'jsonwebtoken';
-import merge from 'lodash/merge';
-import _debug from 'debug';
+const { Passport } = require('passport');
+const HelsinkiStrategy = require('passport-helsinki');
+const jwt = require('jsonwebtoken');
+const merge = require('lodash/merge');
+const _debug = require('debug');
 
 const debug = _debug('auth');
 
@@ -34,7 +34,7 @@ MockStrategy.prototype.authenticate = function mockAuthenticate() {
   this.success(profile);
 };
 
-export function getPassport(settings) {
+function getPassport(settings) {
   const getTokenFromAPI = true;
   const jwtOptions = { key: settings.jwtKey, audience: 'kerrokantasi' };
   const passport = new Passport();
@@ -84,7 +84,7 @@ function successfulLoginHandler(req, res) {
   res.send('<html><body>Login successful.<script>' + js + '</script>');
 }
 
-export function addAuth(server, passport, settings) {
+function addAuth(server, passport, settings) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
@@ -105,3 +105,5 @@ export function addAuth(server, passport, settings) {
     res.json(req.user || {});
   });
 }
+
+module.exports = {getPassport, addAuth};
