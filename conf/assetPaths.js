@@ -19,6 +19,6 @@ if (settings.city_config === 'whitelabel') {
 }
 
 const cityImages = path.resolve(cityAssets, 'images/');
+const cityAuth = path.resolve(cityConfig, 'functions/auth');
 
-
-module.exports = {cityConfig, cityAssets, cityi18n, cityImages};
+module.exports = {cityConfig, cityAssets, cityi18n, cityImages, cityAuth};
