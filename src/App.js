@@ -13,6 +13,8 @@ import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
 
 class App extends React.Component {
   getChildContext() {
@@ -57,7 +59,7 @@ class App extends React.Component {
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
-            script={[{src: '/assets/js/piwik.js', type: 'text/javascript'}]}
+            script={[{src: urls.analytics, type: 'text/javascript'}]}
           />
           {header}
           <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" role="main" tabIndex="-1">

@@ -190,7 +190,8 @@ work.
 information that content was not found.
 * `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
 * `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo
-* `/assets/urls.json`: Configure where links point to
+* `/assets/urls.json`: Configure where links point to, also holds path to analytics script. If analytics path is
+false analytics is disabled.
 
 #### Favicons:
 The following favicons are recommended, but not mandatory to include.
