@@ -21,7 +21,6 @@ function ignition() {
   }
   const server = express();
   let compiler = getCompiler(settings, true);
-  const passport = getPassport(settings);
 
   const faviconPath = path.resolve(assetPaths.cityAssets, 'favicon');
 
@@ -39,9 +38,13 @@ function ignition() {
     }
   });
   server.use(cookieSession({name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000}));
-  server.use(passport.initialize());
-  server.use(passport.session());
-  addAuth(server, passport, settings);
+
+  if (getPassport && addAuth) {
+    const passport = getPassport(settings);
+    server.use(passport.initialize());
+    server.use(passport.session());
+    addAuth(server, passport, settings);
+  }
 
   if (settings.dev) {
     applyCompilerMiddleware(server, compiler, settings);
