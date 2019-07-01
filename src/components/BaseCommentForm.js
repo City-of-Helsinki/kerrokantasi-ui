@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
-import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
-import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
-import forEach from 'lodash/forEach';
-import {get, find, parseInt, includes} from 'lodash';
-import uuid from 'uuid/v1';
+import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
+import QuestionForm from './QuestionForm';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -163,8 +162,7 @@ export class BaseCommentForm extends React.Component {
 
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
     let isImageTooBig = false;
-
-    forEach(images, (image) => { // eslint-disable-line consistent-return
+    images.forEach((image) => {
       if (image.size > 1000000) {
         isImageTooBig = true;
       }
@@ -282,7 +280,8 @@ export class BaseCommentForm extends React.Component {
           {
             !this.props.isReply &&
             section.questions.map((question) => {
-              const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
+              const canShowQuestionResult =
+                closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
                 ? <QuestionResults key={question.id} question={question} lang={language} />
                 : null;
@@ -297,7 +296,7 @@ export class BaseCommentForm extends React.Component {
                   <QuestionForm
                     key={question.id}
                     loggedIn={loggedIn}
-                    answers={find(answers, (answer) => answer.question === question.id)}
+                    answers={answers.find(answer => answer.question === question.id)}
                     onChange={onChangeAnswers}
                     question={question}
                     lang={language}
@@ -394,36 +393,6 @@ BaseCommentForm.defaultProps = {
   overrideCollapse: false,
   onOverrideCollapse: () => {},
   isReply: false,
-};
-
-const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
-  return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value))}>
-      <h4>{getAttr(question.text, lang)}</h4>
-      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
-        const optionContent = getAttr(option.text, lang);
-        return (
-          <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-            {optionContent}
-          </Radio>
-        );
-      })}
-      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-          {getAttr(option.text, lang)}
-        </Checkbox>
-      ))}
-      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
-    </FormGroup>
-  );
-};
-
-QuestionForm.propTypes = {
-  answers: PropTypes.any,
-  lang: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  onChange: PropTypes.func,
-  question: PropTypes.object,
 };
 
 export default injectIntl(BaseCommentForm);
