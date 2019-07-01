@@ -174,8 +174,8 @@ class Comment extends React.Component {
       pinned: !prevState.pinned,
     }));
   }
-  
-   /**
+
+  /**
    * Once an answer is posted, it can be changed.
    * @param {Number} question - number of corresponsing quesiton.
    * @param {String} questionType - example "single-question" "multiple-choice"
