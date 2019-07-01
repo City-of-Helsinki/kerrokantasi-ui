@@ -318,7 +318,8 @@ class Comment extends React.Component {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
     const {editorOpen, isReplyEditorOpen} = this.state;
-    const isAdminUser = this.props.data && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
+    const isAdminUser = this.props.data
+      && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
 
     if (!data.content) {
       return null;
@@ -330,7 +331,8 @@ class Comment extends React.Component {
             'hearing-comment',
             {
               'comment-reply': this.props.isReply,
-              'hearing-comment__has-replys': data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
+              'hearing-comment__has-replys': data.subComments
+                && Array.isArray(data.subComments) && data.subComments.length > 0,
               'comment-animate': this.state.shouldAnimate,
               'hearing-comment__admin': isAdminUser,
             }

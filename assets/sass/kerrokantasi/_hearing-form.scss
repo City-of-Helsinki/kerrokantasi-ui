@@ -86,6 +86,15 @@
     text-align: center;
     width: 100%;
 
+    .text {
+      font-weight: bold;
+
+      .icon {
+        padding: 20px;
+        font-size: 30px;
+      }
+    }
+  
     .overlay {
       left: 0;
       margin-left: auto;

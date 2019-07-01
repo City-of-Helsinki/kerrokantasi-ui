@@ -1,25 +1,28 @@
-import Icon from '../../utils/Icon';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {get, isEmpty} from 'lodash';
-import {localizedNotifyError} from '../../utils/notify';
 import {QuestionForm} from './QuestionForm';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-import Image from 'react-bootstrap/lib/Image';
-import Button from 'react-bootstrap/lib/Button';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-
+import {
+  ControlLabel,
+  FormControl,
+  FormGroup,
+  HelpBlock,
+  Image,
+  Button,
+  ButtonGroup,
+} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 
+import Icon from '../../utils/Icon';
+import {localizedNotifyError} from '../../utils/notify';
+import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 
 const MAX_IMAGE_SIZE = 999999;
+const MAX_FILE_SIZE = 999999;
 
 class SectionForm extends React.Component {
   constructor(props) {
@@ -62,6 +65,27 @@ class SectionForm extends React.Component {
     fileReader.readAsDataURL(file);
   }
 
+  /**
+   * when attachment is dropped on the dropzone field.
+   * @param {File} attachment - file to upload.
+   */
+  onAttachmentDrop = (attachment) => {
+    if (attachment[0].size > MAX_FILE_SIZE) {
+      localizedNotifyError('fileSizeError');
+      return;
+    }
+    // Load the file and then upload it.
+    const section = this.props.section;
+    const file = attachment[0];
+    const fileReader = new FileReader();
+    fileReader.addEventListener("load", () => {
+      if (this.props.onSectionAttachment) {
+        this.props.onSectionAttachment(section.frontId, fileReader.result, {[this.context.language]: file.name});
+      }
+    });
+    fileReader.readAsDataURL(file);
+  }
+
   getImagePreview() {
     if (this.getImage()) {
       return (<Image className="preview" src={this.getImage()} responsive />);
@@ -78,25 +102,62 @@ class SectionForm extends React.Component {
     return "";
   }
 
+  /**
+   * When there are attachments inside a section.
+   * Return existing attachments.
+   * @param {Object} section - the section we are editing.
+   * @returns {JS<Component>} react component for displaying attachments.
+   */
+  renderAttachments = (section) => {
+    const { files } = section;
+    if (files && files.length > 0) {
+      return (
+        <div className="section-attachment-editor-container">
+          <ControlLabel>
+            <FormattedMessage id="attachmentName"/>
+          </ControlLabel>
+          {
+            files.map((file, index) => {
+              const fileIndex = index + 1;
+              return (
+                <SectionAttachmentEditor
+                  file={{...file, ordering: file.ordering ? file.ordering : fileIndex }}
+                  key={`file-${file.url}`}
+                  language={this.context.language}
+                  fileCount={files.length}
+                  section={section}
+                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+                />
+              );
+            })
+          }
+        </div>
+      );
+    }
+    return null;
+  }
+
   static getImageCaption(section) {
     return get(section.images, '[0].caption', {});
   }
 
   render() {
     const {
-      section,
       addOption,
       deleteOption,
-      onSectionChange,
-      onSectionImageChange,
-      sectionLanguages,
-      sectionMoveUp,
-      sectionMoveDown,
       isFirstSubsection,
       isLastSubsection,
-      onQuestionChange,
-      onDeleteTemporaryQuestion,
       onDeleteExistingQuestion,
+      onDeleteTemporaryQuestion,
+      onQuestionChange,
+      onSectionChange,
+      onSectionImageChange,
+      section,
+      sectionLanguages,
+      sectionMoveDown,
+      sectionMoveUp,
     } = this.props;
     const {language} = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
@@ -202,17 +263,46 @@ class SectionForm extends React.Component {
               name="commenting"
               onChange={this.onChange}
             >
-              <option selected={section.commenting === 'open'} value="open">{formatMessage({id: "openCommenting"})}</option>
-              <option selected={section.commenting === 'registered'} value="registered">{formatMessage({id: "registeredUsersOnly"})}</option>
-              <option selected={section.commenting === 'none'} value="none">{formatMessage({id: "noCommenting"})}</option>
+              <option selected={section.commenting === 'open'} value="open">
+                {formatMessage({id: "openCommenting"})}
+              </option>
+              <option selected={section.commenting === 'registered'} value="registered">
+                {formatMessage({id: "registeredUsersOnly"})}
+              </option>
+              <option selected={section.commenting === 'none'} value="none">
+                {formatMessage({id: "noCommenting"})}
+              </option>
             </FormControl>
           </div>
         </FormGroup>
+        <FormGroup controlId="hearingFiles">
+          <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
+          <Dropzone
+            accept="application/pdf"
+            className={dropZoneClass}
+            multiple={false}
+            onDrop={this.onAttachmentDrop}
+          >
+            <span className="text">
+              <FormattedMessage id="selectOrDropFile"/>
+              <Icon className="icon" name="upload"/>
+            </span>
+          </Dropzone>
+          { this.renderAttachments(section) }
+        </FormGroup>
         <FormGroup>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newSingleChoiceQuestion"})}
           </button>
-          <button className="btn btn-default question-control" type="button" onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}>
+          <button
+            className="btn btn-default question-control"
+            type="button"
+            onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
+          >
             {formatMessage({id: "newMultipleChoiceQuestion"})}
           </button>
         </FormGroup>
@@ -220,7 +310,11 @@ class SectionForm extends React.Component {
           <div>
             <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
             {question.frontId &&
-              <button type="button" className="btn btn-danger pull-right" onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}>
+              <button
+                type="button"
+                className="btn btn-danger pull-right"
+                onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
+              >
                 {formatMessage({id: "deleteQuestion"})}
               </button>
             }
@@ -256,24 +350,27 @@ SectionForm.defaultProps = {
 };
 
 SectionForm.propTypes = {
+  addOption: PropTypes.func,
+  deleteOption: PropTypes.func,
+  initMultipleChoiceQuestion: PropTypes.func,
+  initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
+  isFirstSubsection: PropTypes.bool,
+  isLastSubsection: PropTypes.bool,
   maxAbstractLength: PropTypes.number,
+  onDeleteExistingQuestion: PropTypes.func,
+  onDeleteTemporaryQuestion: PropTypes.func,
+  onEditSectionAttachmentOrder: PropTypes.func,
+  onQuestionChange: PropTypes.func,
+  onSectionAttachment: PropTypes.func,
+  onSectionAttachmentDelete: PropTypes.func,
+  onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   section: sectionShape,
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
-  sectionMoveUp: PropTypes.func,
   sectionMoveDown: PropTypes.func,
-  isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool,
-  clearQuestions: PropTypes.func,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onDeleteExistingQuestion: PropTypes.func,
+  sectionMoveUp: PropTypes.func,
 };
 
 SectionForm.contextTypes = {
