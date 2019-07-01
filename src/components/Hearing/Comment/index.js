@@ -173,7 +173,8 @@ class Comment extends React.Component {
     this.setState((prevState) => ({
       pinned: !prevState.pinned,
     }));
-    
+  }
+  
    /**
    * Once an answer is posted, it can be changed.
    * @param {Number} question - number of corresponsing quesiton.
