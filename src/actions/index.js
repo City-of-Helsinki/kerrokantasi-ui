@@ -280,8 +280,9 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
     const params = commentData;
 
-    return api.put(getState(), url, params).then(getResponseJSON).then(() => {
-      dispatch(createAction("postedComment")({sectionId}));
+    return api.put(getState(), url, params).then(getResponseJSON).then((responseJSON) => {
+      dispatch(createAction("editedComment")({sectionId, comment: responseJSON}));
+      dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentEdited");
     }).catch(requestErrorHandler());
   };

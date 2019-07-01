@@ -13,51 +13,108 @@ import {
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
-  CHANGE_PROJECT: 'changeProject',
-  CHANGE_PROJECT_NAME: 'changeProjectName',
-  UPDATE_PROJECT_LANGUAGE: 'updateProjectLanguage',
-  EDIT_PHASE: 'changePhase',
   ACTIVE_PHASE: 'activePhase',
+  ADD_ATTACHMENT: 'addAttachment',
+  ADD_CONTACT_FAILED: 'addContactFailed',
+  ADD_CONTACT_SUCCESS: 'addContactSuccess',
+  ADD_CONTACT: 'addContact',
+  ADD_LABEL_FAILED: 'addLabelFailed',
+  ADD_LABEL_SUCCESS: 'addLabelSuccess',
+  ADD_LABEL: 'addLabel',
+  ADD_OPTION: 'addOption',
+  DELETE_ATTACHMENT: 'deleteAttachment',
   DELETE_PHASE: 'deletePhase',
   DELETE_EXISTING_QUESTION: 'deleteExistingQuestion',
   ADD_PHASE: 'addPhase',
-  SHOW_FORM: 'showHearingForm',
-  CLOSE_FORM: 'closeHearingForm',
-  SET_LANGUAGES: 'setEditorLanguages',
-  INIT_NEW_HEARING: 'initNewHearing',
-  CLOSE_HEARING: 'closeHearing',
-  EDIT_HEARING: 'changeHearing',
-  POST_HEARING: 'savingNewHearing',
-  POST_HEARING_SUCCESS: 'savedNewHearing',
-  PUBLISH_HEARING: 'publishingHearing',
-  SAVE_HEARING: 'savingHearingChange',
-  SAVE_HEARING_SUCCESS: 'savedHearingChange',
-  SAVE_HEARING_FAILED: 'saveHearingFailed',
-  UNPUBLISH_HEARING: 'unPublishingHearing',
+  ADD_SECTION_ATTACHMENT: 'addSectionAttachment',
   ADD_SECTION: 'addSection',
-  INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
-  INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
+  CHANGE_PROJECT_NAME: 'changeProjectName',
+  CHANGE_PROJECT: 'changeProject',
   CLEAR_QUESTIONS: 'clearQuestions',
-  ADD_OPTION: 'addOption',
-  EDIT_QUESTION: 'editQuestion',
+  CLOSE_FORM: 'closeHearingForm',
+  CLOSE_HEARING: 'closeHearing',
   DELETE_LAST_OPTION: 'deleteLastOption',
-  EDIT_SECTION: 'changeSection',
+  DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion',
+  EDIT_HEARING: 'changeHearing',
+  EDIT_PHASE: 'changePhase',
+  EDIT_QUESTION: 'editQuestion',
+  EDIT_SECTION_ATTACHMENT: 'editSecionAttachment',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
-  REMOVE_SECTION: 'removeSection',
-  FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
-  RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  EDIT_SECTION: 'changeSection',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
-  ADD_LABEL: 'addLabel',
-  ADD_LABEL_FAILED: 'addLabelFailed',
-  ADD_LABEL_SUCCESS: 'addLabelSuccess',
-  ADD_CONTACT: 'addContact',
-  ADD_CONTACT_FAILED: 'addContactFailed',
-  ADD_CONTACT_SUCCESS: 'addContactSuccess',
+  FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
+  INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
+  INIT_NEW_HEARING: 'initNewHearing',
+  INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
+  ORDER_ATTACHMENTS: 'orderAttachments',
+  POST_HEARING_SUCCESS: 'savedNewHearing',
+  POST_HEARING: 'savingNewHearing',
+  PUBLISH_HEARING: 'publishingHearing',
   RECEIVE_HEARING: 'editorReceiveHearing',
-  UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
-  SECTION_MOVE_UP: 'sectionMoveUp',
+  RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  REMOVE_SECTION: 'removeSection',
+  SAVE_HEARING_FAILED: 'saveHearingFailed',
+  SAVE_HEARING_SUCCESS: 'savedHearingChange',
+  SAVE_HEARING: 'savingHearingChange',
   SECTION_MOVE_DOWN: 'sectionMoveDown',
-  DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion'
+  SECTION_MOVE_UP: 'sectionMoveUp',
+  SET_LANGUAGES: 'setEditorLanguages',
+  SHOW_FORM: 'showHearingForm',
+  UNPUBLISH_HEARING: 'unPublishingHearing',
+  UPDATE_HEARING_AFTER_SAVE: 'updateHearingAfterSave',
+  UPDATE_PROJECT_LANGUAGE: 'updateProjectLanguage',
+};
+
+/**
+ * When editing a sections attachment.
+ */
+export const editSectionAttachment = (sectionId, attachment) => {
+  return (dispatch, getState) => {
+    const url = `/v1/file/${attachment.id}`;
+    return api
+      .put(getState(), url, attachment)
+      .then(checkResponseStatus)
+      .then(() => {
+        return dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachment}));
+      });
+  };
+};
+
+/**
+ * For changing order, two requests have to be made.
+ * One file is incremented whilst the other decrementd.
+ */
+export const editSectionAttachmentOrder = (sectionId, attachments) => {
+  return (dispatch, getState) => {
+    const promises = attachments.map((attachment) => {
+      const url = `/v1/file/${attachment.id}`;
+      return api
+        .put(getState(), url, attachment);
+    });
+
+    return Promise.all(promises)
+      .then(() => {
+        return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachments}));
+      });
+  };
+};
+
+/**
+ * Delete an attached item.
+ * @param {String} sectionId - id of the section the attachment belongs to.
+ * @param {Object} attachment - attachment in a section or independant of.
+ * @reuturns Promise.
+ */
+export const deleteSectionAttachment = (sectionId, attachment) => {
+  return (dispatch, getState) => {
+    const url = `/v1/file/${attachment.id}`;
+    return api
+      .apiDelete(getState(), url, attachment)
+      .then(checkResponseStatus)
+      .then(() => {
+        return dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({sectionId, attachment}));
+      });
+  };
 };
 
 export function changeProject(projectId, projectLists) {
@@ -385,6 +442,29 @@ export function saveHearingChanges(hearing) {
       })
       .then({})
       .catch(requestErrorHandler(dispatch, preSaveAction));
+  };
+}
+
+/**
+ * Method that will be used to upload the file to the server.
+ * @param {Document} section - attachments to be uploaded.
+ */
+export function addSectionAttachment(section, file, title, isNew) {
+  // This method is a little different to exisitn methods as it uploads as soon as user selects file.
+  return (dispatch, getState) => {
+    const url = '/v1/file';
+    let data = { file, title };
+    if (!isNew) {
+      data = { ...data, section };
+    }
+    return api
+      .post(getState(), url, data)
+      .then(checkResponseStatus)
+      .then((response) => {
+        response.json().then((attachment) => {
+          return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
+        });
+      });
   };
 }
 

@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import CommentForm from '../../BaseCommentForm';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
+import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
 import {notifyError} from '../../../utils/notify';
@@ -30,6 +31,7 @@ class Comment extends React.Component {
     scrollComplete: false,
     shouldAnimate: false,
     pinned: this.props.data.pinned,
+    answers: this.props.data.answers || [],
   }
 
   componentDidMount = () => {
@@ -79,6 +81,7 @@ class Comment extends React.Component {
     if (this.props.data.can_edit && this.isAdminUser()) {
       commentData.pinned = this.state.pinned;
     }
+    commentData.answers = this.state.answers;
     this.props.onEditComment(section, id, commentData);
     this.setState({editorOpen: false});
   }
@@ -170,6 +173,34 @@ class Comment extends React.Component {
     this.setState((prevState) => ({
       pinned: !prevState.pinned,
     }));
+    
+   /**
+   * Once an answer is posted, it can be changed.
+   * @param {Number} question - number of corresponsing quesiton.
+   * @param {String} questionType - example "single-question" "multiple-choice"
+   * @param {Number} answer - id of the answer selected by the user.
+   */
+  handleAnswerChange = (question, questionType, answer) => {
+    const answerExists = this.state.answers.find(stateAnswer => stateAnswer.question === question);
+    let updatedAnswer;
+    if (answerExists && typeof answerExists !== 'undefined') {
+      updatedAnswer = this.state.answers.map((allAnswers) => {
+        if (allAnswers.question === question) {
+          if (questionType === 'single-choice') {
+            return {...allAnswers, answers: [answer]};
+          }
+          const isDeselecting = allAnswers.answers.includes(answer);
+          return {
+            ...allAnswers,
+            answers: isDeselecting ? allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) : [...allAnswers.answers, answer],
+          };
+        }
+        return allAnswers;
+      });
+    } else {
+      updatedAnswer = [...this.state.answers, { question, answers: [answer], type: questionType }];
+    }
+    this.setState({ answers: updatedAnswer });
   }
 
   /**
@@ -238,7 +269,25 @@ class Comment extends React.Component {
   }
 
   /**
+   * For each answer answered, a user may edit the answer.
+   */
+  renderQuestionsForAnswer = (answer) => {
+    const correspondingQuestion = this.props.section.questions.find(question => question.id === answer.question);
+    return (
+      <QuestionForm
+        question={correspondingQuestion}
+        lang={this.props.language}
+        answers={answer}
+        key={`$answer-for-question-${answer.question}`}
+        loggedIn={!isEmpty(this.props.user)}
+        onChange={this.handleAnswerChange}
+      />
+    );
+  };
+
+  /**
    * When state is set to true for editor open. Return the form.
+   * When editing, answers may be edited as well.
    * @returns {Component}
    */
   renderEditorForm = () => (
@@ -250,6 +299,12 @@ class Comment extends React.Component {
       }
       <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
         <FormGroup controlId="formControlsTextarea">
+          {
+            this.state.answers
+            && this.state.answers.length > 0
+            ? this.state.answers.map(answer => this.renderQuestionsForAnswer(answer))
+            : null
+          }
           <textarea
             className="form-control"
             defaultValue={this.props.data.content}

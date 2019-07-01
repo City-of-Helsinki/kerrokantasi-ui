@@ -18,7 +18,7 @@ const getFileTitle = (title, language) => {
 
 /**
  * Class declaration
- * Renders list of attachements available to a section.
+ * Renders list of attachments available to a section.
  */
 const SectionAttachment = (props) => (
   <div className="section-attachment">

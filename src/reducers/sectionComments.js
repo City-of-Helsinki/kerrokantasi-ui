@@ -40,6 +40,43 @@ const postedComment = (state, {payload: {sectionId, jumpTo}}) => {
   }, state);
 };
 
+/**
+ * When comment is edited, no need to fetch the entire list again.
+ * Update the object in array.
+ */
+const editedComment = (state, {payload: {sectionId, comment}}) => {
+  const isSubComment = comment.comment; // A number usually represents the parent comment.
+  if (isSubComment) {
+    const commentIndex = state[sectionId].results.findIndex((sectionComment) => sectionComment.id === isSubComment);
+    const subCommentIndex = state[sectionId].results[commentIndex].subComments.findIndex((subComment) => subComment.id === comment.id);
+    return updeep({
+      [sectionId]: {
+        results: {
+          [commentIndex]: {
+            subComments: {
+              [subCommentIndex]: {
+                ...comment,
+              }
+            }
+          }
+        }
+      }
+    }, state);
+  }
+
+  const commentIndex = state[sectionId].results.findIndex(
+    (sectionComment) => { return sectionComment.id === comment.id; });
+  return updeep({
+    [sectionId]: {
+      results: {
+        [commentIndex]: {
+          ...comment,
+        }
+      }
+    }
+  }, state);
+};
+
 const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
   // the vote went through
   const increment = (votes) => { return votes + 1; };
@@ -137,10 +174,11 @@ const subCommentsFetched = (state, {payload: {sectionId, commentId, data, jumpTo
 };
 
 export default handleActions({
-  receiveSectionComments,
   beginFetchSectionComments,
   beginFetchSubComments,
+  editedComment,
   postedComment,
   postedCommentVote,
+  receiveSectionComments,
   subCommentsFetched,
 }, {});

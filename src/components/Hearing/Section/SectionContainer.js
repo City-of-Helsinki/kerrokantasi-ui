@@ -54,14 +54,21 @@ export class SectionContainerComponent extends React.Component {
   getSectionNav = () => {
     const {sections, match} = this.props;
     const filteredSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
-    const currentSectionIndex = match.params.sectionId ? filteredSections.findIndex(section => section.id === match.params.sectionId) : 0;
+    const currentSectionIndex = match.params.sectionId
+      ? filteredSections.findIndex(section => section.id === match.params.sectionId)
+      : 0;
+
     let prevPath;
     if (filteredSections[currentSectionIndex - 1] && isMainSection(filteredSections[currentSectionIndex - 1])) {
       prevPath = `/${match.params.hearingSlug}/`;
     } else {
-      prevPath = currentSectionIndex - 1 >= 0 ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id : undefined;
+      prevPath = currentSectionIndex - 1 >= 0
+        ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id
+        : undefined;
     }
-    const nextPath = currentSectionIndex + 1 < filteredSections.length ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id : undefined;
+    const nextPath = currentSectionIndex + 1 < filteredSections.length
+      ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id
+      : undefined;
 
     return {
       prevPath,
@@ -196,7 +203,10 @@ export class SectionContainerComponent extends React.Component {
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
-    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
+    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE)
+      ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language)
+      : intl.formatMessage({id: 'defaultClosureInfo'});
+
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
 
@@ -296,7 +306,8 @@ export class SectionContainerComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
-  showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug) && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
+  showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug)
+    && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
   sections: getSections(state, ownProps.match.params.hearingSlug),
   sectionComments: state.sectionComments,
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
@@ -306,11 +317,15 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  postSectionComment: (hearingSlug, sectionId, commentData) =>
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
-  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) => dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
-  editComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
-  deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
+  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+    dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
+  editComment: (hearingSlug, sectionId, commentId, commentData) =>
+    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
+  deleteSectionComment: (hearingSlug, sectionId, commentId) =>
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
@@ -322,7 +337,6 @@ SectionContainerComponent.propTypes = {
   sections: PropTypes.array,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
-  history: PropTypes.object,
   location: PropTypes.object,
   language: PropTypes.string,
   showClosureInfo: PropTypes.bool,
