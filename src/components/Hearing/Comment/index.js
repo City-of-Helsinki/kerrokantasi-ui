@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, FormGroup } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -31,6 +30,7 @@ class Comment extends React.Component {
     shouldJumpTo: this.props.jumpTo === this.props.data.id,
     scrollComplete: false,
     shouldAnimate: false,
+    pinned: this.props.data.pinned,
     answers: this.props.data.answers || [],
   }
 
@@ -78,6 +78,9 @@ class Comment extends React.Component {
       }
     });
     commentData.content = this.commentEditor.value;
+    if (this.props.data.can_edit && this.isAdminUser()) {
+      commentData.pinned = this.state.pinned;
+    }
     commentData.answers = this.state.answers;
     this.props.onEditComment(section, id, commentData);
     this.setState({editorOpen: false});
@@ -109,6 +112,13 @@ class Comment extends React.Component {
     const { data, section } = this.props;
     this.props.onGetSubComments(data.id, section.id);
   }
+
+  /**
+   * Determines whether the user type is admin.
+   */
+  isAdminUser = () => (
+    (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization))
+  )
 
   getStrigifiedAnswer = (answer) => {
     const {questions, intl} = this.props;
@@ -154,6 +164,15 @@ class Comment extends React.Component {
    */
   handleEndAnimation = () => {
     this.setState({ shouldAnimate: false });
+  }
+
+  /**
+   * Toggle the pinning of comment
+   */
+  handleTogglePin = () => {
+    this.setState((prevState) => ({
+      pinned: !prevState.pinned,
+    }));
   }
 
   /**
@@ -230,6 +249,27 @@ class Comment extends React.Component {
   );
 
   /**
+   * When an admin user is logged in and editing their comment.
+   * Allow the user to pin and unpin a comment.
+   */
+  renderPinUnpinButton = () => {
+    return (
+      <div className="hearing-comment__pin">
+        <Button
+          className={classnames([
+            'hearing-comment__pin__icon',
+            {
+            'hearing-comment__pin__pin-comment': !this.state.pinned,
+            'hearing-comment__pin__unpin-comment': this.state.pinned
+            }
+          ])}
+          onClick={this.handleTogglePin}
+        />
+      </div>
+    );
+  }
+
+  /**
    * For each answer answered, a user may edit the answer.
    */
   renderQuestionsForAnswer = (answer) => {
@@ -251,8 +291,13 @@ class Comment extends React.Component {
    * When editing, answers may be edited as well.
    * @returns {Component}
    */
-  renderEditorForm = () => {
-    return (
+  renderEditorForm = () => (
+    <React.Fragment>
+      { this.isAdminUser()
+        && this.props.data.can_edit
+        && !this.props.isReply
+        && this.renderPinUnpinButton()
+      }
       <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
         <FormGroup controlId="formControlsTextarea">
           {
@@ -272,8 +317,8 @@ class Comment extends React.Component {
         </FormGroup>
         <Button type="submit">Save</Button>
       </form>
-    );
-  };
+    </React.Fragment>
+  );
 
   /**
    * If a user can edit their comment(s) render hyperlinks
@@ -372,6 +417,18 @@ class Comment extends React.Component {
     </div>
   );
 
+  /**
+   * When a comment is pinned, a small black box is displayed on top right corner.
+   * @returns {JS<Component>}
+   */
+  renderPinnedHeader = () => (
+    <div className="hearing-comment-pinned-container">
+      <span className="hearing-comment-pinned-container__text">
+        <FormattedMessage id="pinnedComment"/>
+      </span>
+    </div>
+  );
+
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
@@ -398,6 +455,7 @@ class Comment extends React.Component {
           onAnimationEnd={this.handleEndstAnimation}
           ref={this.commentRef}
         >
+          { this.props.data.pinned && this.renderPinnedHeader()}
           { this.renderCommentHeader(isAdminUser) }
           { !this.props.isReply && this.renderCommentAnswers() }
           <div className="hearing-comment-body">
