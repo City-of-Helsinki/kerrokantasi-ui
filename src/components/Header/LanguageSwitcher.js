@@ -23,12 +23,6 @@ const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMe
     eventKey="language"
     title={<span><Icon name="globe" className="user-nav-icon" aria-hidden="true"/>{currentLanguage} </span>}
     aria-label={formatMessage({id: 'languageSwitchLabel'})}
-    title={
-      <span>
-        <Icon name="globe" className="user-nav-icon"/>
-        {currentLanguage}
-      </span>
-    }
   >
     {config.languages
       .map((code) =>
