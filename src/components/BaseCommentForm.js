@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
-import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import classnames from 'classnames';
 import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
