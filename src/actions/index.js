@@ -21,6 +21,14 @@ function checkResponseStatus(response) {
   if (response.status >= 400) {
     const err = new Error("Bad response from server");
     err.response = response;
+    response.json().then((jsonResponse) => {
+      Raven.captureException(jsonResponse, {
+        extra: {
+          url: response.url,
+          status: response.status,
+        }
+      });
+    });
     throw err;
   }
 }
