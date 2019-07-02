@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
-import { Button, Radio, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import classnames from 'classnames';
+import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
-import getAttr from '../utils/getAttr';
 import CommentDisclaimer from './CommentDisclaimer';
-import forEach from 'lodash/forEach';
-import {get, find, parseInt, includes} from 'lodash';
-import uuid from 'uuid/v1';
+import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
+import QuestionForm from './QuestionForm';
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -20,6 +20,7 @@ export class BaseCommentForm extends React.Component {
       nickname: props.defaultNickname || '',
       imageTooBig: false,
       images: [],
+      pinned: false,
       showAlert: true,
       hideName: false,
     };
@@ -72,6 +73,7 @@ export class BaseCommentForm extends React.Component {
     let geojson = null;
     let label = null;
     let images = this.state.images;
+    let pinned = this.state.pinned;
 
     // plugin comment will override comment fields, if provided
     if (pluginComment) {
@@ -81,6 +83,7 @@ export class BaseCommentForm extends React.Component {
       label = pluginComment.label || null;
       images = pluginComment.image ? [pluginComment.image] : images;
       geojson = pluginComment.geojson || null;
+      pinned = pluginComment.pinned || null;
     } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -91,7 +94,8 @@ export class BaseCommentForm extends React.Component {
       pluginData,
       geojson,
       label,
-      images
+      images,
+      pinned,
     );
   }
 
@@ -161,10 +165,18 @@ export class BaseCommentForm extends React.Component {
     }));
   }
 
+  /**
+   * Toggle the pinning of comment
+   */
+  handleTogglePin = () => {
+    this.setState((prevState) => ({
+      pinned: !prevState.pinned,
+    }));
+  }
+
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
     let isImageTooBig = false;
-
-    forEach(images, (image) => { // eslint-disable-line consistent-return
+    images.forEach((image) => {
       if (image.size > 1000000) {
         isImageTooBig = true;
       }
@@ -266,6 +278,23 @@ export class BaseCommentForm extends React.Component {
     );
   }
 
+  /**
+   * When user is of admin type, they are allowed to pin a comment to top.
+   * In the form, an icon can be shown to pin or unpin the comment.
+   */
+  renderPinUnpinIcon = () => (
+    <Button
+      className={classnames([
+        'comment-form__heading-container__pin__icon',
+        {
+        'comment-form__heading-container__pin__pin-comment': !this.state.pinned,
+        'comment-form__heading-container__pin__unpin-comment': this.state.pinned
+        }
+      ])}
+      onClick={this.handleTogglePin}
+    />
+  );
+
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
     if (!this.props.overrideCollapse && this.state.collapsed) {
@@ -282,7 +311,8 @@ export class BaseCommentForm extends React.Component {
           {
             !this.props.isReply &&
             section.questions.map((question) => {
-              const canShowQuestionResult = closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
+              const canShowQuestionResult =
+                closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
               return canShowQuestionResult
                 ? <QuestionResults key={question.id} question={question} lang={language} />
                 : null;
@@ -297,7 +327,7 @@ export class BaseCommentForm extends React.Component {
                   <QuestionForm
                     key={question.id}
                     loggedIn={loggedIn}
-                    answers={find(answers, (answer) => answer.question === question.id)}
+                    answers={answers.find(answer => answer.question === question.id)}
                     onChange={onChangeAnswers}
                     question={question}
                     lang={language}
@@ -306,7 +336,20 @@ export class BaseCommentForm extends React.Component {
                 : null;
             })
           }
-          <h4><FormattedMessage id="writeComment"/></h4>
+          <div className="comment-form__heading-container">
+            <div className="comment-form__heading-container__title">
+              <h4><FormattedMessage id="writeComment"/></h4>
+            </div>
+            {
+              this.isUserAdmin()
+              && !this.props.isReply
+              && (
+                <div className="comment-form__heading-container__pin">
+                  { this.renderPinUnpinIcon() }
+                </div>
+              )
+            }
+          </div>
           <FormControl
             componentClass="textarea"
             value={this.state.commentText}
@@ -394,36 +437,6 @@ BaseCommentForm.defaultProps = {
   overrideCollapse: false,
   onOverrideCollapse: () => {},
   isReply: false,
-};
-
-const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
-  return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value))}>
-      <h4>{getAttr(question.text, lang)}</h4>
-      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
-        const optionContent = getAttr(option.text, lang);
-        return (
-          <Radio checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-            {optionContent}
-          </Radio>
-        );
-      })}
-      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
-        <Checkbox checked={answers && answers.answers.includes(option.id)} key={uuid()} value={option.id}>
-          {getAttr(option.text, lang)}
-        </Checkbox>
-      ))}
-      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
-    </FormGroup>
-  );
-};
-
-QuestionForm.propTypes = {
-  answers: PropTypes.any,
-  lang: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  onChange: PropTypes.func,
-  question: PropTypes.object,
 };
 
 export default injectIntl(BaseCommentForm);

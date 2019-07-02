@@ -52,7 +52,8 @@ export const getSectionCommentsById = (state, sectionId) => {
 
 export const getMainSectionComments = (state, hearingSlug) => {
   if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data)) return undefined;
-  const comments = state.sectionComments[state.hearing[hearingSlug].data.sections.find(sec => sec.type === SectionTypes.MAIN).id];
+  const comments = state.sectionComments[state.hearing[hearingSlug].data.sections
+    .find(sec => sec.type === SectionTypes.MAIN).id];
   if (!comments) return undefined;
   return comments;
 };

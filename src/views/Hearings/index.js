@@ -146,7 +146,9 @@ export class Hearings extends React.Component {
     const params = {};
 
     if (parseQuery(location.search).search) Object.assign(params, {title: parseQuery(location.search).search});
-    if (parseQuery(location.search).label) Object.assign(params, {label: Hearings.getLabelsFromQuery(parseQuery(location.search).label.toString())});
+    if (parseQuery(location.search).label) {
+      Object.assign(params, {label: Hearings.getLabelsFromQuery(parseQuery(location.search).label.toString())});
+    }
     return params;
   }
 
@@ -237,8 +239,11 @@ export class Hearings extends React.Component {
       location,
       user,
     } = this.props;
-    const labelsInQuery = Array.isArray(parseQuery(location.search).label) ? parseQuery(location.search).label : [parseQuery(location.search).label];
-    const selectedLabels = labels.filter(label => includes(labelsInQuery, label.id.toString())).map(label => getAttr(label.label, language));
+    const labelsInQuery = Array.isArray(parseQuery(location.search).label)
+      ? parseQuery(location.search).label
+      : [parseQuery(location.search).label];
+    const selectedLabels = labels
+      .filter(label => includes(labelsInQuery, label.id.toString())).map(label => getAttr(label.label, language));
     const searchTitle = parseQuery(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
@@ -338,7 +343,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchInitialHearingList: (listName, params) => dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
+  fetchInitialHearingList: (listName, params) =>
+    dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
   fetchAllHearings: (list, params) => dispatch(Actions.fetchHearingList(list, '/v1/hearing', params)),
   fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),

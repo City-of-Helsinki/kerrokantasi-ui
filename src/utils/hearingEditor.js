@@ -97,7 +97,9 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
   data,
   {
     abstract: filterObjectByLanguages(data.title, languages),
-    main_image: data.main_image ? assign(data.main_image, filterObjectByLanguages(data.main_image.caption, languages)) : null,
+    main_image: data.main_image
+      ? assign(data.main_image, filterObjectByLanguages(data.main_image.caption, languages))
+      : null,
     title: filterObjectByLanguages(data.title, languages),
     sections: filterSectionsContentByLanguages(data.sections, languages)
   }
@@ -105,9 +107,9 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
 
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
 
-export const getDocumentOrigin = () => {
-  return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/';
-};
+export const getDocumentOrigin = () => (
+  `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`
+);
 
 export const moveSubsectionInArray = (array, index, delta) => {
   const newArray = array.slice();
@@ -116,7 +118,8 @@ export const moveSubsectionInArray = (array, index, delta) => {
     return newArray;
   } // Already at the top or bottom, or delta was zero
   const indexes = index < newIndex ? [index, newIndex] : [newIndex, index]; // sort indices by integer value!!!
-  newArray.splice(indexes[0], 2, newArray[indexes[1]], newArray[indexes[0]]); // Replace from lowest index, two elements, reverting the order
+  newArray.splice(indexes[0], 2, newArray[indexes[1]], newArray[indexes[0]]);
+  // Replace from lowest index, two elements, reverting the order
   return newArray;
 };
 

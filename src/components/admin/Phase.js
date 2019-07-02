@@ -14,6 +14,10 @@ import FormControlOnChange from '../forms/FormControlOnChange';
 const Phase = (props) => {
   const {phaseInfo, indexNumber, onDelete, onChange, onActive, languages} = props;
 
+  const handleRadioOnChange = () => {
+    onActive(phaseInfo.id || phaseInfo.frontId);
+  };
+
   return (
     <Row>
       <Col md={12}>
@@ -95,7 +99,7 @@ const Phase = (props) => {
                 ? (
                   <Row>
                     <Col md={12}>
-                      <Radio onChange={() => onActive(phaseInfo.id || phaseInfo.frontId)} checked={phaseInfo.is_active || false}>
+                      <Radio onChange={handleRadioOnChange} checked={phaseInfo.is_active || false}>
                         <FormattedMessage id="phaseActive"/>
                       </Radio>
                     </Col>

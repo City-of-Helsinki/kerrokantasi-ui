@@ -30,6 +30,7 @@ export function apiCall(state, endpoint, params, options = {}) {
     defaultHeaders.Authorization = "JWT " + user.token;
   }
   options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
+
   const url = getApiURL(endpoint, params);
   return fetch(url, options);
 }

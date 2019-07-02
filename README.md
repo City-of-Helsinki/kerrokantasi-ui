@@ -82,93 +82,74 @@ command line overrides the path specified in shared_config.json.
 
 ## Writing of CSS
 
-Kerrokantasi UI styles are now split under two main style files. These are:
-
-1. The standalone kerrokantasi styles (a.k.a. white label styles), which allow
-any city to start using the project without having the Helsinki branding
-applied. File: `assets/sass/app.scss`
-2. The second main style file is the City of Helsinki styles which use
-the white label styles as a base but override some of the styles to give the
-app the proper branding. File: `assets/sass/hel-app.scss`
-
-Styles are imported to the app in the `src/index.js` file. Right now the City
-of Helsinki specific styling is the one that is active and default kerrokantasi
-styles are commented out. You can switch between these two to see how it affects
-the end result of the app.
-
 **Important:**
-When writing new styles, the styles must be applied to the kerrokantasi styles
-first without having any City of Helsinki branding involved. If there's some
-colors or any other Helsinki specific styles, they must be done for the Helsinki
-styles as overrides.
+Kerrokantasi default UI styles are meant to be generic styles (a.k.a whitelabel
+styles). This means that no city specific variables or colors should be used
+in the `assets/sass/` folder. This project supports theming and if there's
+a need to style components differently to match a certain city's branding,
+theme styles will be used to override any default styles.
 
-## Theming
-
-Kerrokantasi styles can be themed to match your own brand. Styles are based
-on Bootstrap version 3 (Sass).
-
-Here is an example to show how to apply custom CSS:
-
-Create a file e.g. `my-custom-theme.scss` and apply style imports accordingly
-```
-// This needs to be imported before kerrokantasi variables
-@import "my-custom-variables.scss";
-
-// Import the required kerrokantasi styles
-@import "kerrokantasi-ui/assets/sass/kerrokantasi/variables.scss";
-@import "kerrokantasi-ui/assets/sass/kerrokantasi/bootstrap.scss";
-@import "kerrokantasi-ui/assets/sass/kerrokantasi/kerrokantasi.scss";
-
-// These are imported after the kerrokantasi styles to apply overrides
-@import "my-custom-styles-and-overrides.scss";
-```
-
-Then change the `kerrokantasi-ui/src/index.js` style import from
-`import '../assets/sass/kerrokantasi.scss';` to `import 'PATH-TO-YOUR-FILE/my-custom-theme.scss';`
+The styles are based on Bootstrap version 3 (Sass).
 
 ## Using the whitelabel theme assets
 
-To have a non city specific theme, change the `city_config` config to `whitelabel`
+To have a non city specific theme, change the `city_config` config value to `whitelabel`
 
 ## Installing city specific assets
 
 Currently the process of using the theme is not super developer friendly as it does
 not support the use of `yarn link`. This means that to do development on the project
-it will have to be installed in the kerrokantasi-ui project and then edited within 
+it will have to be installed in the kerrokantasi-ui project and then edited within
 the kerrokantasi-ui `node_modules/<theme_assets>` folder. If someone can find
 a solution to this, please fix.
 
-Development steps:
-0. Place the theme assets folder next to the `kerrokantasi-ui` folder
+**Development steps:**
+1. Place the theme assets folder next to the `kerrokantasi-ui` folder
     * The structure should look like this:
       ```
       /
         /kerrokantasi-ui
         /<theme-assets-folder>
       ```
-1. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
-2. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
-3. Set the `city_config` config to <theme-assets-folder>
+2. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
+3. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
+4. Set the `city_config` config to `<theme-assets-folder>`
 
-
-Production installation:
+**Production installation:**
 1. Add the project to the local `kerrokantasi-ui` project either by installing it
    the same way as in the dev environment, or from GitHub or if the package is published
    to npm, then install it from there.
-2. Set the `city_config` config to <theme-assets-folder>
+2. Set the `city_config` config to `<theme-assets-folder>`
 
 ## Creating city specific assets
 
 The assets of a city currently consists of the following things:
 1. Styling
 2. Favicons
-3. Logos
+3. Images
 4. Translation strings
 
 An example of how a theme assets project could look like, either check out the `cities/helsinki`
 folder in this project, or have a look already created theme assets such as:
 
 https://github.com/City-of-Turku/kerrokantasi-ui-turku
+
+### Styles
+How to apply your theme CSS:
+
+Create a file `assets/app.scss` and apply style imports accordingly:
+```
+// This needs to be imported before kerrokantasi variables
+@import "my-custom-variables.scss";
+
+// Import the required kerrokantasi styles
+@import "~kerrokantasi-ui/assets/sass/kerrokantasi/variables.scss";
+@import "~kerrokantasi-ui/assets/sass/kerrokantasi/bootstrap.scss";
+@import "~kerrokantasi-ui/assets/sass/kerrokantasi/kerrokantasi.scss";
+
+// These are imported after the kerrokantasi styles to apply overrides
+@import "my-custom-styles-and-overrides.scss";
+```
 
 ### Aliases
 The following aliases are available to use in SCSS and JS files:
@@ -197,3 +178,5 @@ The following favicons are recommended, but not mandatory to include.
 * `/assets/favicon/manifest.json`
 * `/assets/favicon/safari-pinned-tab.svg`
 * `/assets/favicon/browserconfig.xml`
+
+If no favicon is provided the UI will use the default kerrokantasi favicon.

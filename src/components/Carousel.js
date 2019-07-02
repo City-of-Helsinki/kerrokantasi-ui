@@ -12,7 +12,7 @@ import {getInitialSlideIndex} from '../utils/carousel';
 import {withRouter} from 'react-router-dom';
 import Link from './LinkWithLang';
 import OverviewMap from './OverviewMap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import Icon from '../utils/Icon';
 import {Grid} from 'react-bootstrap';
 
@@ -66,9 +66,15 @@ export class SectionCarousel extends React.Component {
       (section) =>
         <div key={section.id}>
           <SliderItem
-            active={(isMainSection(section) && !params.sectionId) || (params.sectionId && section.id === params.sectionId.split('#')[0])}
+            active={(isMainSection(section) && !params.sectionId)
+              || (params.sectionId && section.id === params.sectionId.split('#')[0])}
             hearingTitle={hearing.title}
-            to={{path: isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section), hash: '#start'}}
+            to={{
+              path: isMainSection(section)
+              ? getHearingURL(hearing)
+              : getSectionURL(hearing.slug, section),
+              hash: '#start'
+            }}
             language={language}
             section={section}
           />
@@ -121,7 +127,12 @@ export class SectionCarousel extends React.Component {
                 ref={slider => {
                   this.slider = slider;
                 }}
-                prevArrow={<PrevButton slidePrev={this.slider && (() => this.slider.slickPrev())} currentSlide={this.slider && this.slider.state.currentSlide} />}
+                prevArrow={
+                  <PrevButton
+                    slidePrev={this.slider && (() => this.slider.slickPrev())}
+                    currentSlide={this.slider && this.slider.state.currentSlide}
+                  />
+                }
                 initialSlide={getInitialSlideIndex(hearing, params)}
                 infinite={false}
                 focusOnSelect
@@ -155,7 +166,6 @@ SectionCarousel.propTypes = {
   hearing: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,
-  intl: intlShape.isRequired
 };
 
 export default withRouter(SectionCarousel);
@@ -199,7 +209,9 @@ const SliderItem = ({section, to, language, hearingTitle, active}) => {
         {commentCount}
         <div className="slider-image" style={cardImageStyle} />
         <div className="slider-item-content">
-          <div className="slider-item-title">{section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}</div>
+          <div className="slider-item-title">
+            {section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}
+          </div>
         </div>
       </Link>
     </div>

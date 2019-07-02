@@ -102,7 +102,8 @@ class Header extends React.Component {
       </NavItem>
     );
     if (url) {
-      // Can't use custom link component here because it will break the navigation, so LinkContainer must contain same logic
+      // Can't use custom link component here because it will break the navigation
+      // so LinkContainer must contain same logic
       return <LinkContainer to={url + '?lang=' + language}>{navItem}</LinkContainer>;
     }
     return navItem;
@@ -164,7 +165,6 @@ Header.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
-  location: PropTypes.object
 };
 
 Header.contextTypes = {
