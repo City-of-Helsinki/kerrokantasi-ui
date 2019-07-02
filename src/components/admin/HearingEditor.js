@@ -5,28 +5,32 @@ import {injectIntl} from 'react-intl';
 import {isEmpty, values} from 'lodash';
 import {notifyError} from '../../utils/notify';
 import {
+  addOption,
+  addSectionAttachment,
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
   changeSectionMainImage,
+  clearQuestions,
   closeHearing,
   closeHearingForm,
+  deleteLastOption,
+  deleteSectionAttachment,
+  deleteTemporaryQuestion,
+  editQuestion,
+  editSectionAttachment,
+  editSectionAttachmentOrder,
+  initMultipleChoiceQuestion,
+  initSingleChoiceQuestion,
   deleteExistingQuestion,
   publishHearing,
-  saveHearingChanges,
   saveAndPreviewHearingChanges,
   saveAndPreviewNewHearing,
+  saveHearingChanges,
+  sectionMoveDown,
+  sectionMoveUp,
   startHearingEdit,
   unPublishHearing,
-  sectionMoveUp,
-  sectionMoveDown,
-  initSingleChoiceQuestion,
-  initMultipleChoiceQuestion,
-  clearQuestions,
-  addOption,
-  deleteLastOption,
-  editQuestion,
-  deleteTemporaryQuestion
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -49,12 +53,41 @@ class HearingEditor extends React.Component {
     this.onUnPublish = this.onUnPublish.bind(this);
   }
 
-  onHearingChange(field, value) {
+  onHearingChange = (field, value) => {
     this.props.dispatch(changeHearing(field, value));
   }
 
-  onSectionChange(sectionID, field, value) {
+  onSectionChange = (sectionID, field, value) => {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+
+  /**
+   * Add a new attachments to a section.
+   * The upload happens as soon as user selects a file to upload.
+   */
+  onSectionAttachment = (sectionId, attachments, attachmentProperties) => {
+    this.props.dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties, this.props.hearing.isNew));
+  }
+
+  /**
+   * When we need to edit the order of attachments.
+   */
+  onEditSectionAttachmentOrder = (sectionId, attachments) => {
+    this.props.dispatch(editSectionAttachmentOrder(sectionId, attachments));
+  }
+
+  /**
+   * When section attachment is modified.
+   */
+  onSectionAttachmentEdit = (sectionId, attachments) => {
+    this.props.dispatch(editSectionAttachment(sectionId, attachments));
+  }
+
+  /**
+   * When section attachment is deleted.
+   */
+  onSectionAttachmentDelete = (sectionId, attachments) => {
+    this.props.dispatch(deleteSectionAttachment(sectionId, attachments));
   }
 
   onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
@@ -76,11 +109,11 @@ class HearingEditor extends React.Component {
     this.props.dispatch(changeSectionMainImage(sectionID, field, value));
   }
 
-  onLanguagesChange(newLanguages) {
+  onLanguagesChange = (newLanguages) => {
     this.props.dispatch(changeHearingEditorLanguages(newLanguages));
   }
 
-  onPublish() {
+  onPublish = () => {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
 
@@ -191,32 +224,36 @@ class HearingEditor extends React.Component {
     }
     return (
       <HearingForm
+        addOption={this.addOption}
+        clearQuestions={this.clearQuestions}
         contactPersons={contactPersons}
         currentStep={1}
+        deleteOption={this.deleteOption}
+        dispatch={this.props.dispatch}
         hearing={hearing}
         hearingLanguages={hearingLanguages}
+        initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
+        initSingleChoiceQuestion={this.initSingleChoiceQuestion}
         labels={labels}
+        language={language}
+        onDeleteExistingQuestion={this.onDeleteExistingQuestion}
+        onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
+        onEditSectionAttachmentOrder={this.onEditSectionAttachmentOrder}
         onHearingChange={this.onHearingChange}
+        onLanguagesChange={this.onLanguagesChange}
         onLeaveForm={() => dispatch(closeHearingForm())}
+        onQuestionChange={this.onQuestionChange}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
+        onSectionAttachment={this.onSectionAttachment}
+        onSectionAttachmentDelete={this.onSectionAttachmentDelete}
+        onSectionAttachmentEdit={this.onSectionAttachmentEdit}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
-        onLanguagesChange={this.onLanguagesChange}
-        show={show}
-        dispatch={this.props.dispatch}
-        language={language}
-        sectionMoveUp={this.sectionMoveUp}
         sectionMoveDown={this.sectionMoveDown}
+        sectionMoveUp={this.sectionMoveUp}
         sections={hearing.sections}
-        initSingleChoiceQuestion={this.initSingleChoiceQuestion}
-        initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
-        clearQuestions={this.clearQuestions}
-        addOption={this.addOption}
-        deleteOption={this.deleteOption}
-        onQuestionChange={this.onQuestionChange}
-        onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
-        onDeleteExistingQuestion={this.onDeleteExistingQuestion}
+        show={show}
       />
     );
   }

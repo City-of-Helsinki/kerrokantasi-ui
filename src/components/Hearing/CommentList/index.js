@@ -63,7 +63,10 @@ CommentList.propTypes = {
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
   isLoading: PropTypes.bool,
-  jumpTo: PropTypes.number,
+  jumpTo: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]),
   language: PropTypes.string,
   nicknamePlaceholder: PropTypes.string,
   onDeleteComment: PropTypes.func,

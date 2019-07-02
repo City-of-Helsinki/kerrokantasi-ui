@@ -67,6 +67,7 @@ export function initNewSection(inits) {
       created_at: '',
       created_by: null,
       images: [],
+      files: [],
       n_comments: 0,
       plugin_identifier: '',
       plugin_data: '',

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, FormGroup } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -10,6 +9,7 @@ import classnames from 'classnames';
 import CommentForm from '../../BaseCommentForm';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
+import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
 import {notifyError} from '../../../utils/notify';
@@ -30,6 +30,8 @@ class Comment extends React.Component {
     shouldJumpTo: this.props.jumpTo === this.props.data.id,
     scrollComplete: false,
     shouldAnimate: false,
+    pinned: this.props.data.pinned,
+    answers: this.props.data.answers || [],
   }
 
   componentDidMount = () => {
@@ -76,6 +78,10 @@ class Comment extends React.Component {
       }
     });
     commentData.content = this.commentEditor.value;
+    if (this.props.data.can_edit && this.isAdminUser()) {
+      commentData.pinned = this.state.pinned;
+    }
+    commentData.answers = this.state.answers;
     this.props.onEditComment(section, id, commentData);
     this.setState({editorOpen: false});
   }
@@ -106,6 +112,13 @@ class Comment extends React.Component {
     const { data, section } = this.props;
     this.props.onGetSubComments(data.id, section.id);
   }
+
+  /**
+   * Determines whether the user type is admin.
+   */
+  isAdminUser = () => (
+    (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization))
+  )
 
   getStrigifiedAnswer = (answer) => {
     const {questions, intl} = this.props;
@@ -154,6 +167,44 @@ class Comment extends React.Component {
   }
 
   /**
+   * Toggle the pinning of comment
+   */
+  handleTogglePin = () => {
+    this.setState((prevState) => ({
+      pinned: !prevState.pinned,
+    }));
+  }
+
+  /**
+   * Once an answer is posted, it can be changed.
+   * @param {Number} question - number of corresponsing quesiton.
+   * @param {String} questionType - example "single-question" "multiple-choice"
+   * @param {Number} answer - id of the answer selected by the user.
+   */
+  handleAnswerChange = (question, questionType, answer) => {
+    const answerExists = this.state.answers.find(stateAnswer => stateAnswer.question === question);
+    let updatedAnswer;
+    if (answerExists && typeof answerExists !== 'undefined') {
+      updatedAnswer = this.state.answers.map((allAnswers) => {
+        if (allAnswers.question === question) {
+          if (questionType === 'single-choice') {
+            return {...allAnswers, answers: [answer]};
+          }
+          const isDeselecting = allAnswers.answers.includes(answer);
+          return {
+            ...allAnswers,
+            answers: isDeselecting ? allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) : [...allAnswers.answers, answer],
+          };
+        }
+        return allAnswers;
+      });
+    } else {
+      updatedAnswer = [...this.state.answers, { question, answers: [answer], type: questionType }];
+    }
+    this.setState({ answers: updatedAnswer });
+  }
+
+  /**
    * Renders the header area for the comment
    * @returns {Component}
    */
@@ -198,23 +249,75 @@ class Comment extends React.Component {
   );
 
   /**
+   * When an admin user is logged in and editing their comment.
+   * Allow the user to pin and unpin a comment.
+   */
+  renderPinUnpinButton = () => {
+    return (
+      <div className="hearing-comment__pin">
+        <Button
+          className={classnames([
+            'hearing-comment__pin__icon',
+            {
+            'hearing-comment__pin__pin-comment': !this.state.pinned,
+            'hearing-comment__pin__unpin-comment': this.state.pinned
+            }
+          ])}
+          onClick={this.handleTogglePin}
+        />
+      </div>
+    );
+  }
+
+  /**
+   * For each answer answered, a user may edit the answer.
+   */
+  renderQuestionsForAnswer = (answer) => {
+    const correspondingQuestion = this.props.section.questions.find(question => question.id === answer.question);
+    return (
+      <QuestionForm
+        question={correspondingQuestion}
+        lang={this.props.language}
+        answers={answer}
+        key={`$answer-for-question-${answer.question}`}
+        loggedIn={!isEmpty(this.props.user)}
+        onChange={this.handleAnswerChange}
+      />
+    );
+  };
+
+  /**
    * When state is set to true for editor open. Return the form.
+   * When editing, answers may be edited as well.
    * @returns {Component}
    */
   renderEditorForm = () => (
-    <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
-      <FormGroup controlId="formControlsTextarea">
-        <textarea
-          className="form-control"
-          defaultValue={this.props.data.content}
-          placeholder="textarea"
-          ref={(input) => {
-            this.commentEditor = input;
-          }}
-        />
-      </FormGroup>
-      <Button type="submit">Save</Button>
-    </form>
+    <React.Fragment>
+      { this.isAdminUser()
+        && this.props.data.can_edit
+        && !this.props.isReply
+        && this.renderPinUnpinButton()
+      }
+      <form className="hearing-comment__edit-form" onSubmit={(event) => this.handleSubmit(event)}>
+        <FormGroup controlId="formControlsTextarea">
+          {
+            this.state.answers
+            && this.state.answers.length > 0
+            ? this.state.answers.map(answer => this.renderQuestionsForAnswer(answer))
+            : null
+          }
+          <textarea
+            className="form-control"
+            defaultValue={this.props.data.content}
+            placeholder="textarea"
+            ref={(input) => {
+              this.commentEditor = input;
+            }}
+          />
+        </FormGroup>
+        <Button type="submit">Save</Button>
+      </form>
+    </React.Fragment>
   );
 
   /**
@@ -314,6 +417,18 @@ class Comment extends React.Component {
     </div>
   );
 
+  /**
+   * When a comment is pinned, a small black box is displayed on top right corner.
+   * @returns {JS<Component>}
+   */
+  renderPinnedHeader = () => (
+    <div className="hearing-comment-pinned-container">
+      <span className="hearing-comment-pinned-container__text">
+        <FormattedMessage id="pinnedComment"/>
+      </span>
+    </div>
+  );
+
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
@@ -340,6 +455,7 @@ class Comment extends React.Component {
           onAnimationEnd={this.handleEndstAnimation}
           ref={this.commentRef}
         >
+          { this.props.data.pinned && this.renderPinnedHeader()}
           { this.renderCommentHeader(isAdminUser) }
           { !this.props.isReply && this.renderCommentAnswers() }
           <div className="hearing-comment-body">
