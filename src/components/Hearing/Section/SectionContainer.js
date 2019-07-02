@@ -57,7 +57,6 @@ export class SectionContainerComponent extends React.Component {
     const currentSectionIndex = match.params.sectionId
       ? filteredSections.findIndex(section => section.id === match.params.sectionId)
       : 0;
-
     let prevPath;
     if (filteredSections[currentSectionIndex - 1] && isMainSection(filteredSections[currentSectionIndex - 1])) {
       prevPath = `/${match.params.hearingSlug}/`;
@@ -206,7 +205,6 @@ export class SectionContainerComponent extends React.Component {
     const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE)
       ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language)
       : intl.formatMessage({id: 'defaultClosureInfo'});
-
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
 

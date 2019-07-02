@@ -16,7 +16,18 @@ const changeLang = (history, location, nextLang) => {
 };
 
 const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMessage}}) =>
-  <DropdownButton pullRight className="language-switcher" id="language" eventKey="language" title={<span><Icon name="globe" className="user-nav-icon"/>{currentLanguage} </span>}>
+  <DropdownButton
+    pullRight
+    className="language-switcher"
+    id="language"
+    eventKey="language"
+    title={
+      <span>
+        <Icon name="globe" className="user-nav-icon"/>
+        {currentLanguage}
+      </span>
+    }
+  >
     {config.languages
       .map((code) =>
         <MenuItem

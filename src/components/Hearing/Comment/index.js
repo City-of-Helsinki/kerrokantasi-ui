@@ -193,7 +193,9 @@ class Comment extends React.Component {
           const isDeselecting = allAnswers.answers.includes(answer);
           return {
             ...allAnswers,
-            answers: isDeselecting ? allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) : [...allAnswers.answers, answer],
+            answers: isDeselecting ?
+              allAnswers.answers.filter(sortAnswers => sortAnswers !== answer) :
+              [...allAnswers.answers, answer],
           };
         }
         return allAnswers;

@@ -131,10 +131,14 @@ class HearingFormStep1 extends React.Component {
                   clearValueText="Poista"
                   name="labels"
                   onChange={this.onLabelsChange}
-                  options={labelOptions.map((opt) => ({...opt, title: getAttr(opt.label, language), label: getAttr(opt.label, language)}))}
+                  options={labelOptions
+                    .map((opt) => ({...opt, title: getAttr(opt.label, language), label: getAttr(opt.label, language)}))
+                  }
                   placeholder={formatMessage({id: "hearingLabelsPlaceholder"})}
                   simpleValue={false}
-                  value={hearing.labels.map((label) => ({...label, title: 'Poista', label: getAttr(label.label, language)}))}
+                  value={hearing.labels
+                    .map((label) => ({...label, title: 'Poista', label: getAttr(label.label, language)}))
+                  }
                   valueKey="frontId"
                   menuContainerStyle={{zIndex: 10}}
                 />

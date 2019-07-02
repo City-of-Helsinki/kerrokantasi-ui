@@ -43,7 +43,6 @@ LinkWithLangComponent.propTypes = {
   language: PropTypes.string,
   style: PropTypes.object,
   headless: PropTypes.bool,
-  dispatch: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({

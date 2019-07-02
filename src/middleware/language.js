@@ -13,7 +13,9 @@ export const languageFromUrlMiddleware = store => next => action => {
     return next(action);
   }
   // This will change the current language to store if new is legit and different than current one
-  if (parseQuery(action.payload.search).lang !== store.getState().language && !isEmpty(find(config.languages, (lang) => lang === parseQuery(action.payload.search).lang))) {
+  if (
+    parseQuery(action.payload.search).lang !== store.getState().language
+    && !isEmpty(find(config.languages, (lang) => lang === parseQuery(action.payload.search).lang))) {
     store.dispatch(setLanguage(parseQuery(action.payload.search).lang));
     return next(action);
   }

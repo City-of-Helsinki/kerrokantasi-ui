@@ -43,6 +43,11 @@ class App extends React.Component {
     ];
     const fullscreen = this.props.match.params.fullscreen === 'true';
     const headless = checkHeadlessParam(this.props.location.search);
+    const fonts = `"HelsinkiGrotesk",
+      Arial, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`;
+
     let header = null;
     if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
@@ -68,7 +73,7 @@ class App extends React.Component {
             bodyClassName={
               {
                 padding: '7px 7px 7px 12px',
-                fontFamily: '"HelsinkiGrotesk", Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif'
+                fontFamily: fonts,
               }
             }
           />

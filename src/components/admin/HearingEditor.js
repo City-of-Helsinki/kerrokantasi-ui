@@ -117,7 +117,8 @@ class HearingEditor extends React.Component {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
 
-  // Check if the hearing has all the required properties. Returns with error message to user if not, else dispatches and action as a callback.
+  // Check if the hearing has all the required properties.
+  // Returns with error message to user if not, else dispatches and action as a callback.
   validateHearing = (hearing, callbackAction) => {
     const {dispatch} = this.props;
 

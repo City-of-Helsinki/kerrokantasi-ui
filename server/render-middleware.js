@@ -16,7 +16,7 @@ function getHearingDataCached(settings, hearingSlug, ttl = 30 * 60 * 1000) {
     `${settings.kerrokantasi_api_base}/v1/hearing/${hearingSlug}`
   )
     .then(res => (res.status === 404 ? null : res.json())) // Not found? Okay, never mind, must've been a false positive
-    .catch(err => { console.log(err); }) // Other error? Meh, render w/o metatags then
+    .catch(err => { console.error(err); }) // Other error? Meh, render w/o metatags then
     .then(data => {
       // Save in cache while we're here. (Note that 404s and errors are also cached.)
       hearingDataCache[hearingSlug] = { data, ts: now };

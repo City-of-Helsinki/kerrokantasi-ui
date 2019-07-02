@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import PluginContent from '../../components/PluginContent';
 import {getHearingWithSlug, getMainSection, getMainSectionComments} from '../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
@@ -109,7 +109,6 @@ export class FullscreenHearingContainerComponent extends React.Component {
 }
 
 FullscreenHearingContainerComponent.propTypes = {
-  intl: intlShape.isRequired,
   hearing: PropTypes.object,
   match: PropTypes.object,
   location: PropTypes.object,
@@ -134,7 +133,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
-  postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  postSectionComment: (hearingSlug, sectionId, commentData) =>
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),

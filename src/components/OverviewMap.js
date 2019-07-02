@@ -22,7 +22,10 @@ class OverviewMap extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.mapContainer && typeof nextProps.mapContainer !== 'undefined' && nextProps.mapContainer.getBoundingClientRect()) {
+    if (
+      nextProps.mapContainer
+      && typeof nextProps.mapContainer !== 'undefined'
+      && nextProps.mapContainer.getBoundingClientRect()) {
       this.handleUpdateMapDimensions(nextProps.mapContainer);
     }
   }

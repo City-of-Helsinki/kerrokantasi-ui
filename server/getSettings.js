@@ -26,12 +26,28 @@ const defaults = {
   cold: false,
 };
 
-const optionalKeys = ["listen_address", "listen_port", "kerrokantasi_api_base", "public_url", "hero_image_url", "ui_config", "dev", "cold", "city_config"];
-const mandatoryKeys = ["auth_client_id", "auth_shared_secret", "kerrokantasi_api_jwt_audience", "expressjs_session_secret"];
+const optionalKeys = [
+  "listen_address",
+  "listen_port",
+  "kerrokantasi_api_base",
+  "public_url",
+  "hero_image_url",
+  "ui_config",
+  "dev",
+  "cold",
+  "city_config"
+];
+
+const mandatoryKeys = [
+  "auth_client_id",
+  "auth_shared_secret",
+  "kerrokantasi_api_jwt_audience",
+  "expressjs_session_secret"
+];
 
 export default function getOptions() {
   const nconf = new Provider();
-
+  const shouldReadFile = true;
   nconf.env({
     whitelist: optionalKeys.concat(mandatoryKeys),
     lowerCase: true,
@@ -42,7 +58,7 @@ export default function getOptions() {
   // on a leftover configuration file. Thus only environmental variable there.
   // Sadly development mode is broken and developers develop in production mode.
   // Thus always read the configuration file
-  if (defaults.dev || true) {
+  if (defaults.dev || shouldReadFile) {
     // TOML can be used similarly to an 'env'-file (key=value pairs), although
     // it is really extended INI-like format
     nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
@@ -67,6 +83,6 @@ export default function getOptions() {
     throw new Error("Server rendering is not currently supported.");
   }
 
-  console.log(nconf.get());
+  console.info(nconf.get());
   return nconf.get();
 }
