@@ -48,7 +48,8 @@ const editedComment = (state, {payload: {sectionId, comment}}) => {
   const isSubComment = comment.comment; // A number usually represents the parent comment.
   if (isSubComment) {
     const commentIndex = state[sectionId].results.findIndex((sectionComment) => sectionComment.id === isSubComment);
-    const subCommentIndex = state[sectionId].results[commentIndex].subComments.findIndex((subComment) => subComment.id === comment.id);
+    const subCommentIndex = state[sectionId].results[commentIndex].subComments.findIndex(
+      (subComment) => subComment.id === comment.id);
     return updeep({
       [sectionId]: {
         results: {
