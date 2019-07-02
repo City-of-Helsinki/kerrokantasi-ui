@@ -19,7 +19,7 @@ import {localizedNotifyError} from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
-import {isSpecialSectionType} from '../../utils/section'; 
+import {isSpecialSectionType} from '../../utils/section';
 
 const MAX_IMAGE_SIZE = 999999;
 const MAX_FILE_SIZE = 999999;
@@ -371,15 +371,6 @@ SectionForm.propTypes = {
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  isFirstSubsection: PropTypes.bool,
-  isLastSubsection: PropTypes.bool,
-  initSingleChoiceQuestion: PropTypes.func,
-  initMultipleChoiceQuestion: PropTypes.func,
-  addOption: PropTypes.func,
-  deleteOption: PropTypes.func,
-  onQuestionChange: PropTypes.func,
-  onDeleteTemporaryQuestion: PropTypes.func,
-  onDeleteExistingQuestion: PropTypes.func,
 };
 
 SectionForm.contextTypes = {
