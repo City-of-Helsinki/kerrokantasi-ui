@@ -128,6 +128,7 @@ The assets of a city currently consists of the following things:
 2. Favicons
 3. Images
 4. Translation strings
+5. Service URLs and external URLs
 
 An example of how a theme assets project could look like, either check out the `cities/helsinki`
 folder in this project, or have a look already created theme assets such as:
