@@ -8,6 +8,8 @@ import logoWhite from '@city-images/logo-fi-white.svg';
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
 
 const getCurrentYear = () => {
   const today = new Date();
@@ -23,7 +25,7 @@ export default function Footer(props) {
         <Row>
           <Col md={3} sm={4}>
             <div className="footer-branding">
-              <a href="http://www.hel.fi">
+              <a href={urls.city}>
                 <FormattedMessage id="footerLogoAlt">
                   {altText => <img
                     alt={altText}
@@ -62,12 +64,12 @@ export default function Footer(props) {
             <div className="site-footer-small-print">
               <ul className="small-print-nav">
                 <li>
-                  <a href="http://www.hel.fi/rekisteriseloste" target="_blank">
+                  <a href={urls.privacyPolicy} target="_blank">
                     <FormattedMessage id="privacyPolicy" />
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">
+                  <a href={urls.mailto}>
                     <FormattedMessage id="feedbackLinkText" />
                   </a>
                 </li>

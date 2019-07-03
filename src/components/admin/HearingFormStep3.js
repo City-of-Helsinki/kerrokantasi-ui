@@ -10,6 +10,8 @@ import {isEmpty, includes, keys} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
+// eslint-disable-next-line import/no-unresolved
+import localization from '@city-i18n/localization.json';
 
 import {hearingShape} from '../../types';
 
@@ -203,7 +205,6 @@ class HearingFormStep3 extends React.Component {
     if (typeof window === "undefined") return null;  // Skip rendering outside of browser context
     const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
     const {EditControl} = require("react-leaflet-draw");
-    const position = [60.192059, 24.945831];  // Default to Helsinki's center
     const hearing = this.props.hearing;
 
     return (
@@ -214,7 +215,7 @@ class HearingFormStep3 extends React.Component {
             ref={this.refCallBack}
             // onResize={this.invalidateMap.bind(this)}
             zoomControl={false}
-            center={position}
+            center={localization.mapPosition}
             zoom={11}
             className="hearing-map"
           >
