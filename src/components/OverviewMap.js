@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
-import {EPSG3067} from '../utils/map';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
@@ -124,12 +123,11 @@ class OverviewMap extends React.Component {
     if (!contents.length && this.props.hideIfEmpty) {
       return null;
     }
-    const crs = EPSG3067();
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false} crs={crs}>
+      <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false}>
         <TileLayer
-          url={urls.geoserver}
+          url={urls.rasterMapTiles}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup
