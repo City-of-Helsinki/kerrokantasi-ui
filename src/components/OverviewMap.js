@@ -42,9 +42,11 @@ class OverviewMap extends React.Component {
    * @param {Object} mapContainer - Container enclosing the map
    */
   handleUpdateMapDimensions = (mapContainer) => {
-    const { width, height } = mapContainer.getBoundingClientRect();
-    if (width > 0 && height > 0) {
-      this.setState({ width: `${width}px`, height: `${height}px`});
+    if (mapContainer) {
+      const { width, height } = mapContainer.getBoundingClientRect();
+      if (width > 0 && height > 0) {
+        this.setState({ width: `${width}px`, height: `${height}px`});
+      }
     }
   }
 
