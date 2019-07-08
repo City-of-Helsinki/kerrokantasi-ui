@@ -127,7 +127,7 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false}>
+      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false}>
         <TileLayer
           url={urls.rasterMapTiles}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
