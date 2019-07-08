@@ -3,20 +3,36 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Row, Col} from 'react-bootstrap';
 import Link from './LinkWithLang';
+// eslint-disable-next-line import/no-unresolved
+import logoWhite from '@city-images/logo-fi-white.svg';
+// eslint-disable-next-line import/no-unresolved
+import logoSwedishWhite from '@city-images/logo-sv-white.svg';
+import PropTypes from "prop-types";
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
 
-export default function Footer() {
+const getCurrentYear = () => {
+  const today = new Date();
+  return (today.getFullYear());
+};
+
+export default function Footer(props) {
+  const {language} = props;
+
   return (
     <footer className="site-footer">
       <div className="container">
         <Row>
           <Col md={3} sm={4}>
-            <div className="footer-branding footer-branding-helsinki">
-              <a href="http://www.hel.fi">
-                <img
-                  alt="Helsinki"
-                  src="/assets/images/helsinki-logo-white.svg"
-                  className="footer-logo footer-logo-helsinki"
-                />
+            <div className="footer-branding">
+              <a href={urls.city}>
+                <FormattedMessage id="footerLogoAlt">
+                  {altText => <img
+                    alt={altText}
+                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                    className="footer-logo"
+                  />}
+                </FormattedMessage>
               </a>
             </div>
           </Col>
@@ -48,14 +64,18 @@ export default function Footer() {
             <div className="site-footer-small-print">
               <ul className="small-print-nav">
                 <li>
-                  <a href="http://www.hel.fi/rekisteriseloste" target="_blank">
+                  <a href={urls.privacyPolicy} target="_blank">
                     <FormattedMessage id="privacyPolicy" />
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute">Palaute</a>
+                  <a href={urls.mailto}>
+                    <FormattedMessage id="feedbackLinkText" />
+                  </a>
                 </li>
-                <li>2017 Helsingin kaupunki</li>
+                <li>
+                  {getCurrentYear()} <FormattedMessage id="copyrightText" />
+                </li>
               </ul>
             </div>
           </Col>
@@ -64,3 +84,7 @@ export default function Footer() {
     </footer>
   );
 }
+
+Footer.propTypes = {
+  language: PropTypes.string,
+};

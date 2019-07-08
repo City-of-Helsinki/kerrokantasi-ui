@@ -11,10 +11,24 @@ export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 export const setHeadless = createAction('setHeadless');
 
+// Declaring actions as JSON object for consistency
+export const MainActions = {
+  BEGIN_FETCH_SUB_COMMENTS: 'beginFetchSubComments',
+  SUB_COMMENTS_FETCHED: 'subCommentsFetched',
+};
+
 function checkResponseStatus(response) {
   if (response.status >= 400) {
     const err = new Error("Bad response from server");
     err.response = response;
+    response.json().then((jsonResponse) => {
+      Raven.captureException(jsonResponse, {
+        extra: {
+          url: response.url,
+          status: response.status,
+        }
+      });
+    });
     throw err;
   }
 }
@@ -152,7 +166,7 @@ export function followHearing(hearingSlug) {
 }
 
 export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetch = true) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
     const url = "v1/comment/";
@@ -160,13 +174,49 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
       section: sectionId,
       include: 'plugin_data',
       limit: 100,
+      comment: 'null',
       ...(ordering && {ordering})
     };
-    return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveSectionComments")({sectionId, data}));
-    }).catch(requestErrorHandler());
+
+    const promises = [
+      api.get(getState(), url, { ...params, pinned: false }).then(getResponseJSON),
+      api.get(getState(), url, { ...params, pinned: true }).then(getResponseJSON)
+    ];
+
+    const [unpinnedResponse, pinnedResponse] = await Promise.all(promises);
+    const mergedResults = unpinnedResponse;
+
+    if (pinnedResponse.results.length > 0) {
+      mergedResults.count += pinnedResponse.count;
+      mergedResults.results = [...pinnedResponse.results, ...mergedResults.results];
+    }
+
+    return dispatch(createAction("receiveSectionComments")({ sectionId, data: mergedResults }));
   };
 }
+
+/**
+ * Get a list of subcomments for a single comment.
+ * @param {Number} commentId - is of the parent comment.
+ * @param {String} sectionId - id of the section the comment belongs to.
+ */
+export const getCommentSubComments = (commentId, sectionId, jumpTo) => {
+  return (dispatch, getState) => {
+    const fetchAction = createAction(MainActions.BEGIN_FETCH_SUB_COMMENTS)({sectionId, commentId});
+    dispatch(fetchAction);
+    const url = "v1/comment/";
+    const params = {
+      section: sectionId,
+      include: 'plugin_data',
+      limit: 100,
+      comment: commentId,
+      ordering: 'created_at',
+    };
+    return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
+      dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({sectionId, commentId, data, jumpTo}));
+    }).catch(requestErrorHandler());
+  };
+};
 
 export function fetchMoreSectionComments(sectionId, ordering = '-n_votes', next) {
   const cleanFetch = false;
@@ -206,15 +256,24 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       geojson: commentData.geojson ? commentData.geojson : null,
       label: commentData.label ? commentData.label : null,
       images: commentData.images ? commentData.images : [],
-      answers: commentData.answers ? commentData.answers : []
+      answers: commentData.answers ? commentData.answers : [],
+      pinned: commentData.pinned ? commentData.pinned : false,
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
     }
-    return api.post(getState(), url, params).then(getResponseJSON).then(() => {
-      dispatch(createAction("postedComment")({sectionId}));
+    if (commentData.comment) {
+      params = {...params, comment: commentData.comment};
+    }
+
+    return api.post(getState(), url, params).then(getResponseJSON).then((data) => {
+      if (commentData.comment && typeof commentData.comment !== 'undefined') {
+        dispatch(getCommentSubComments(commentData.comment, sectionId, data.id));
+      } else {
+        dispatch(createAction("postedComment")({sectionId, jumpTo: data.id}));
+      }
       // we must update hearing comment count
-      dispatch(fetchHearing(hearingSlug));
+      dispatch(fetchHearing(hearingSlug, null, commentData.comment));
       // also, update user answered questions
       dispatch(retrieveUserFromSession());
       localizedAlert("commentReceived");
@@ -229,8 +288,9 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
     const params = commentData;
 
-    return api.put(getState(), url, params).then(getResponseJSON).then(() => {
-      dispatch(createAction("postedComment")({sectionId}));
+    return api.put(getState(), url, params).then(getResponseJSON).then((responseJSON) => {
+      dispatch(createAction("editedComment")({sectionId, comment: responseJSON}));
+      dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentEdited");
     }).catch(requestErrorHandler());
   };
@@ -251,7 +311,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
   };
 }
 
-export function postVote(commentId, hearingSlug, sectionId) {
+export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
     dispatch(fetchAction);
@@ -260,7 +320,7 @@ export function postVote(commentId, hearingSlug, sectionId) {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyVoted");
       } else {
-        dispatch(createAction("postedCommentVote")({commentId, sectionId}));
+        dispatch(createAction("postedCommentVote")({commentId, sectionId, isReply, parentId}));
         localizedNotifySuccess("voteReceived");
       }
     }).catch(voteCommentErrorHandler());

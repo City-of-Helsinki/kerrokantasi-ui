@@ -1,0 +1,176 @@
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+}
+
+p {
+  word-wrap: break-word;
+}
+
+.container,
+.container-fluid {
+  min-width: 320px;
+}
+
+.map {
+  margin-top: 40px;
+}
+
+main {
+  &.fullscreen {
+    padding: 0;
+  }
+}
+
+.lead {
+  font-weight: normal;
+  font-size: 18px;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: 20px;
+  }
+}
+
+.required,
+.required-field {
+  .control-label:before {
+    content: "*";
+    color: $brand-danger;
+    margin-left: 1px;
+  }
+}
+
+.label {
+  text-transform: uppercase;
+  padding: .4em .75em .3em;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 60%;
+  letter-spacing: .03em;
+}
+
+.main-labels {
+  margin-bottom: 10px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .label {
+    font-size: 75%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.well,
+.panel {
+  box-shadow: none;
+}
+
+.page-title {
+  margin-top: 11px;
+  margin-bottom: 30px;
+}
+
+.loader-wrap {
+  padding: $line-height-computed * 3;
+  text-align: center;
+  color: $medium-gray;
+}
+
+textarea {
+  max-width: 100%;
+}
+
+a.list-group-item {
+  &:hover, &:focus {
+    > .badge {
+      background: #fff;
+      color: $theme-highlight-dark;
+    }
+  }
+}
+
+.feedback-box {
+  top: 60px;
+  background-color: $theme-primary-light;
+  padding: $line-height-computed;
+  text-align: center;
+  color: $black;
+
+  .feedback-prompt {
+    margin: 0;
+  }
+
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: lighten($theme-primary-light, 5%);
+  }
+}
+
+a.fullwidth {
+  display: block;
+  width: 100%;
+  padding: $navbar-padding-vertical;
+  background: $light-gray;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.social-bar {
+  display: flex;
+  flex-direction: row;
+  margin: 12px 0;
+}
+
+// These styles could be eventually introduced to common Bootstrap theme
+.btn.btn-default {
+  background-color: transparent;
+}
+
+.skip-to-main-content {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: -999;
+
+  &:focus,
+  a:active {
+    left: 50%;
+    top: auto;
+    height: auto;
+    width: auto;
+    color: #fff;
+    background-color: #000;
+    overflow: auto;
+    margin: 5px auto;
+    padding: $grid-gutter-width/3 $grid-gutter-width/2;
+    border-radius: $border-radius-base;
+    text-align: center;
+    z-index: 999;
+    box-shadow: $default-shadow;
+    transform: translateX(-50%);
+    font-weight: bold;
+  }
+}
+
+.main-content:focus {
+  outline: 0 !important;
+}
+
+.dropdown-toggle:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+}

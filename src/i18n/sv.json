@@ -19,6 +19,8 @@
   "open-hearings-on-map": "Pågående höranden på kartan",
   "infoHeaderText": "Information om tjänsten",
   "infoHeaderDescription": "Det här är en tillfällig prototyp av tjänsten, som vi önskar att användarna kommenterar",
+  "jumpToSearchForm": "Gå till sökfältet",
+  "jumpToSearchResults": "Gå till sökresultat",
   "privacyPolicy": "Registerbeskrivning",
   "lang-fi": "Suomi",
   "lang-en": "English",
@@ -43,7 +45,7 @@
   "cancel": "Avbryt",
   "asOpenData": "som öppna data",
   "withOpenLicense": "med öppen licens",
-  "commentConditions": "Uttryckta kommentarer publiceras {linkToDefinition} i Helsingfors stads tjänst {linkToLicense}. Du kan lämna din kommentar anonymt om du inte har loggat in. Dessutom redigeras texter vid behov på grund av kränkande eller annars osakligt språkbruk.",
+  "commentConditions": "Uttryckta kommentarer publiceras {linkToDefinition} i tjänsten {linkToLicense}. Du kan lämna din kommentar anonymt om du inte har loggat in. Dessutom redigeras texter vid behov på grund av kränkande eller annars osakligt språkbruk.",
   "anonymous": "Anonym",
   "follow": "Följ",
   "vote": "Rösta",
@@ -133,5 +135,12 @@
   "phaseDescription": "Steg beskrivning",
   "phaseActive": "Aktiv",
   "phase": "Fas",
-  "logInToAnswer": "Logga in för att rösta och see resultat"
+  "logInToAnswer": "Logga in för att rösta och see resultat",
+  "skipToMainContent": "Gå till huvudinnehållet",
+  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+  "footerLogoAlt": "Kerrokantasi logo",
+  "headerLogoAlt": "Kerrokantasi logo",
+  "feedbackLinkText": "Feedback",
+  "copyrightText": "Kerrokantasi",
+  "languageSwitchLabel": "Välj språk"
 }

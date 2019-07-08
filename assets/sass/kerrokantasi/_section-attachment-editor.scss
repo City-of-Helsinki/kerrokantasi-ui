@@ -1,0 +1,47 @@
+.section-attachment-editor-container {
+  padding: $padding-default 0;
+  box-shadow: border-box;
+
+  .section-attachment-editor-title {
+    margin-left: 2%;
+    padding-left: $padding-default;
+  }
+
+  .section-attachment-edit-icon {
+    margin-left: $padding-default;
+    flex-basis: 2%;
+    min-width: 12px;
+    display: flex;
+  }
+
+  .section-attachment-editor {
+    display: flex;
+    flex-direction: row;
+    padding: $padding-default 0;
+    justify-content: flex-start;
+    align-items: center;
+
+    .section-attachment-editor-input {
+      margin-left: $padding-default;
+      flex-basis: 78%;
+      display: flex;
+    }
+
+    .section-attachment-editor-actions {
+      display: flex;
+      flex-direction: row;
+      padding-left: $padding-default;
+      flex-basis: 20%;
+
+      &>*:not(:last-child) {
+        flex-basis: 10%;
+        margin-right: $padding-small;
+      }
+
+      &>:last-child {
+        flex-basis: 80%;
+        margin-right: 0;
+      }
+    }
+  }
+}

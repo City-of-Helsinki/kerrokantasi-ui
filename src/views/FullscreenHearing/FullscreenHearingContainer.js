@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import PluginContent from '../../components/PluginContent';
 import {getHearingWithSlug, getMainSection, getMainSectionComments} from '../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
@@ -19,6 +19,11 @@ import {
 import Link from '../../components/LinkWithLang';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../../utils/Icon';
+
+// eslint-disable-next-line import/no-unresolved
+import logoWhite from '@city-images/logo-fi-white.svg';
+// eslint-disable-next-line import/no-unresolved
+import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 
 export class FullscreenHearingContainerComponent extends React.Component {
   componentWillMount() {
@@ -65,7 +70,13 @@ export class FullscreenHearingContainerComponent extends React.Component {
           <div className="fullscreen-navigation">
             <div className="logo">
               <Link to={{path: "/"}}>
-                <img alt="Helsinki" src="/assets/images/helsinki-logo-white.svg" className="logo" />
+                <FormattedMessage id="fullscreenHeaderLogoAlt">
+                  {altText => <img
+                    alt={altText}
+                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                    className="logo"
+                  />}
+                </FormattedMessage>
               </Link>
             </div>
             <div className="header-title">
@@ -98,7 +109,6 @@ export class FullscreenHearingContainerComponent extends React.Component {
 }
 
 FullscreenHearingContainerComponent.propTypes = {
-  intl: intlShape.isRequired,
   hearing: PropTypes.object,
   match: PropTypes.object,
   location: PropTypes.object,
@@ -123,7 +133,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
-  postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  postSectionComment: (hearingSlug, sectionId, commentData) =>
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),

@@ -64,10 +64,10 @@ export function getPassport(settings) {
     },
   );
   passport.use(helsinkiStrategy);
-  if (settings.dev && false) {
-    // preferably develop using SSO
-    passport.use(new MockStrategy(jwtOptions));
-  }
+  // if (settings.dev && false) {
+  //   // preferably develop using SSO
+  //   passport.use(new MockStrategy(jwtOptions));
+  // }
   passport.serializeUser((user, done) => {
     debug('serializing user:', user);
     done(null, user);
@@ -84,14 +84,14 @@ function successfulLoginHandler(req, res) {
   res.send('<html><body>Login successful.<script>' + js + '</script>');
 }
 
-export function addAuth(server, passport, settings) {
+export function addAuth(server, passport) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
-  if (settings.dev && false) {
-    // preferably develop using SSO
-    server.get('/login/mock', passport.authenticate('mock'), successfulLoginHandler);
-  }
+  // if (settings.dev && false) {
+  //   // preferably develop using SSO
+  //   server.get('/login/mock', passport.authenticate('mock'), successfulLoginHandler);
+  // }
   server.get('/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);
   server.get('/logout', (req, res) => {
     res.send('<html><body><form method="post"></form><script>document.forms[0].submit()</script>');

@@ -1,9 +1,7 @@
-/* eslint-disable no-var, object-shorthand */
-
-var merge = require('webpack-merge');
-var webpack = require('webpack');
-var common = require('./common');
-var paths = require('../paths');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+const common = require('./common');
+const paths = require('../paths');
 
 module.exports = function getDevConfig() {
   return merge(common, {
@@ -11,6 +9,10 @@ module.exports = function getDevConfig() {
       'webpack-hot-middleware/client',
       paths.ENTRY,
     ],
+    devServer: {
+      host: '0.0.0.0'
+    },
+    mode: 'development',
     devtool: 'cheap-module-eval-source-map',
     module: {
       rules: [

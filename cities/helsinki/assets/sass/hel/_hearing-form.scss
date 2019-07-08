@@ -1,0 +1,13 @@
+.form-modal {
+  .panel-heading {
+    background: $hel-engel;
+  }
+
+  .panel-info .panel-heading {
+    background: $hel-fog;
+  }
+
+  .new-section-toolbar {
+    background: lighten($hel-fog, 10%);
+  }
+}

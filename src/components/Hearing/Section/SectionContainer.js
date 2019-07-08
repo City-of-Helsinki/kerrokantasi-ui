@@ -12,6 +12,7 @@ import {
 } from '../../../selectors/hearing';
 import isEmpty from 'lodash/isEmpty';
 import SectionImage from './SectionImage';
+import SectionAttachment from './SectionAttachment';
 import SectionClosureInfo from './SectionClosureInfo';
 import PluginContent from '../../PluginContent';
 import SectionBrowser from '../../SectionBrowser';
@@ -39,6 +40,7 @@ import {
   fetchAllSectionComments,
   fetchSectionComments,
   fetchMoreSectionComments,
+  getCommentSubComments,
 } from '../../../actions';
 import Link from '../../LinkWithLang';
 
@@ -52,14 +54,20 @@ export class SectionContainerComponent extends React.Component {
   getSectionNav = () => {
     const {sections, match} = this.props;
     const filteredSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
-    const currentSectionIndex = match.params.sectionId ? filteredSections.findIndex(section => section.id === match.params.sectionId) : 0;
+    const currentSectionIndex = match.params.sectionId
+      ? filteredSections.findIndex(section => section.id === match.params.sectionId)
+      : 0;
     let prevPath;
     if (filteredSections[currentSectionIndex - 1] && isMainSection(filteredSections[currentSectionIndex - 1])) {
       prevPath = `/${match.params.hearingSlug}/`;
     } else {
-      prevPath = currentSectionIndex - 1 >= 0 ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id : undefined;
+      prevPath = currentSectionIndex - 1 >= 0
+        ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id
+        : undefined;
     }
-    const nextPath = currentSectionIndex + 1 < filteredSections.length ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id : undefined;
+    const nextPath = currentSectionIndex + 1 < filteredSections.length
+      ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id
+      : undefined;
 
     return {
       prevPath,
@@ -67,6 +75,14 @@ export class SectionContainerComponent extends React.Component {
       currentNum: currentSectionIndex + 1,
       totalNum: filteredSections.length
     };
+  }
+
+  /**
+   * When Näytä lisää vastauksia is pressed.
+   * Call the redecer to fetch sub comments and populate inside the specific comment
+   */
+  handleGetSubComments = (commentId, sectionId) => {
+    this.props.getCommentSubComments(commentId, sectionId);
   }
 
   onPostComment = (sectionId, sectionCommentData) => { // Done
@@ -77,10 +93,10 @@ export class SectionContainerComponent extends React.Component {
     this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
-  onVoteComment = (commentId, sectionId) => {
+  onVoteComment = (commentId, sectionId, isReply, parentId) => {
     const {match} = this.props;
     const hearingSlug = match.params.hearingSlug;
-    this.props.postVote(commentId, hearingSlug, sectionId);
+    this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
@@ -146,6 +162,29 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showLightbox: false});
   }
 
+  /**
+   * If files are attached to the section, render the files section
+   * @returns {JSX<Component>} component if files exist.
+   */
+  renderFileSection = (section) => {
+    const {files} = section;
+    const {language} = this.props;
+    if (files && files.length > 0) {
+      // Construct the UI specification for displaying files.
+      return (
+        <div className="hearing-attachments">
+          <h4><FormattedMessage id="attachments" /></h4>
+          {
+            files.map((file) => (
+              <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+            ))
+          }
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
     const {
       hearing,
@@ -163,7 +202,9 @@ export class SectionContainerComponent extends React.Component {
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
     const sectionImage = section.images[0];
-    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE) ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language) : intl.formatMessage({id: 'defaultClosureInfo'});
+    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE)
+      ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language)
+      : intl.formatMessage({id: 'defaultClosureInfo'});
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
 
@@ -200,6 +241,9 @@ export class SectionContainerComponent extends React.Component {
                     {!isEmpty(section.content) &&
                       <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
                     }
+                    {
+                      this.renderFileSection(section)
+                    }
                     {mainSection.plugin_identifier &&
                     <div className="plugin-content">
                       <PluginContent
@@ -219,7 +263,7 @@ export class SectionContainerComponent extends React.Component {
                       <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
                         <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
                           <Icon name="arrows-alt" fixedWidth />
-                          <FormattedMessage id="openFullscreenMap" />
+                          <h4><FormattedMessage id="openFullscreenMap" /></h4>
                         </Button>
                       </Link>
                     }
@@ -227,6 +271,8 @@ export class SectionContainerComponent extends React.Component {
                       section={section}
                       canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
                       onPostComment={this.onPostComment}
+                      onPostReply={this.onPostReply}
+                      onGetSubComments={this.handleGetSubComments}
                       canVote={isSectionVotable(hearing, section, user)}
                       onPostVote={this.onVoteComment}
                       defaultNickname={user && user.displayName}
@@ -258,7 +304,8 @@ export class SectionContainerComponent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
-  showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug) && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
+  showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug)
+    && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
   sections: getSections(state, ownProps.match.params.hearingSlug),
   sectionComments: state.sectionComments,
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
@@ -268,10 +315,15 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postSectionComment: (hearingSlug, sectionId, commentData) => dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
-  editComment: (hearingSlug, sectionId, commentId, commentData) => dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
-  deleteSectionComment: (hearingSlug, sectionId, commentId) => dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
+  postSectionComment: (hearingSlug, sectionId, commentData) =>
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
+  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+    dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
+  editComment: (hearingSlug, sectionId, commentId, commentData) =>
+    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
+  deleteSectionComment: (hearingSlug, sectionId, commentId) =>
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
   fetchAllComments: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
@@ -283,7 +335,6 @@ SectionContainerComponent.propTypes = {
   sections: PropTypes.array,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
-  history: PropTypes.object,
   location: PropTypes.object,
   language: PropTypes.string,
   showClosureInfo: PropTypes.bool,
@@ -298,6 +349,7 @@ SectionContainerComponent.propTypes = {
   fetchAllComments: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  getCommentSubComments: PropTypes.func,
 };
 
 export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));

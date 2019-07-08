@@ -1,0 +1,29 @@
+.header-section {
+  background-color: $hel-silver;
+}
+
+.hearing-header {
+  .open .language-switcher.dropdown-toggle {
+    color: $hel-coat;
+  }
+}
+
+.hearing-header {
+  .hearing-project {
+    .project-phases-list {
+      .phases-list-item {
+        .phase-order {
+          background: $hel-silver;
+        }
+
+        .active-phase {
+          background: $hel-fog;
+        }
+      }
+    }
+  }
+}
+
+.sortable-comment-list {
+  background-color: $theme-secondary-light;
+}

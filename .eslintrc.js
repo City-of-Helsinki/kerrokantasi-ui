@@ -32,6 +32,7 @@ module.exports = {
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "no-underscore-dangle": 0,
     "no-use-before-define": [2, "nofunc"],
+    "no-console": ["error", { allow: ["warn", "error", "info"]}],
     "object-curly-newline": "off",
     "object-curly-spacing": 0,
     "prefer-destructuring": 0,

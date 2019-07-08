@@ -25,12 +25,13 @@ exports[`Home component should render as expected 1`] = `
           xs={10}
         >
           <HelmetWrapper
+            defer={true}
+            encodeSpecialCharacters={true}
             title="Kerro mielipiteesi"
           />
           <h1>
             <FormattedMessage
               id="welcome"
-              tagName="span"
               values={Object {}}
             />
           </h1>
@@ -39,7 +40,6 @@ exports[`Home component should render as expected 1`] = `
           >
             <FormattedMessage
               id="welcomeMessage"
-              tagName="span"
               values={Object {}}
             />
           </p>
@@ -70,7 +70,6 @@ exports[`Home component should render as expected 1`] = `
           >
             <FormattedMessage
               id="openHearings"
-              tagName="span"
               values={Object {}}
             />
           </h2>
@@ -146,7 +145,6 @@ exports[`Home component should render as expected 1`] = `
                 >
                   <FormattedMessage
                     id="allHearings"
-                    tagName="span"
                     values={Object {}}
                   />
                 </Button>
@@ -181,14 +179,13 @@ exports[`Home component should render as expected 1`] = `
             className="feedback-box"
           >
             <a
-              href="mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute"
+              href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
             >
               <h2
                 className="feedback-prompt"
               >
                 <FormattedMessage
                   id="feedbackPrompt"
-                  tagName="span"
                   values={Object {}}
                 />
               </h2>
@@ -221,7 +218,6 @@ exports[`Home component should render as expected 1`] = `
             <h2>
               <FormattedMessage
                 id="open-hearings-on-map"
-                tagName="span"
                 values={Object {}}
               />
             </h2>
@@ -263,6 +259,7 @@ exports[`Home component should render as expected 1`] = `
                   },
                 ]
               }
+              showOnCarousel={false}
               style={
                 Object {
                   "height": 600,

@@ -14,10 +14,13 @@ import HearingsSearch from './HearingsSearch';
 import config from '../config';
 import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
-import Waypoint from 'react-waypoint';
+import { Waypoint } from 'react-waypoint';
 import Helmet from 'react-helmet';
 
 import {labelShape} from '../types';
+
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
 
 const HEARING_LIST_TABS = {
   LIST: 'list',
@@ -75,7 +78,7 @@ export class HearingListItem extends React.Component {
     const hearing = this.props.hearing;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
-      backgroundImage: 'url(/assets/images/default-image.svg)',
+      backgroundImage: `url(${defaultImage})`,
     };
     if (hearing.main_image) {
       mainImageStyle = {
@@ -206,7 +209,10 @@ export const HearingList = ({
           <HearingListTabs activeTab={activeTab} changeTab={onTabChange} />
         </div>
       </section>
-      <section className="page-section page-section--hearings-list">
+      <section className="page-section page-section--hearings-list" id="hearings-section">
+        <a href="#hearings-search-form" className="sr-only">
+          <FormattedMessage id="jumpToSearchForm" />
+        </a>
         <div className="container">
           {!isLoading && !hasHearings ? (
             <p>

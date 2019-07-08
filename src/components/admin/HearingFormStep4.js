@@ -44,11 +44,21 @@ class HearingFormStep4 extends React.Component {
   }
 
   onChangeStart(datetime) {
-    this.props.onHearingChange("open_at", datetime.toISOString());
+    if (datetime.toISOString instanceof Function) {
+      this.props.onHearingChange("open_at", datetime.toISOString());
+    } else if (moment(datetime, 'DD-MM-YYYY', true).isValid()) {
+      const manualDate = moment(datetime, 'DD-MM-YYYY');
+      this.props.onHearingChange("open_at", moment(manualDate, 'llll').toISOString());
+    }
   }
 
   onChangeEnd(datetime) {
-    this.props.onHearingChange("close_at", datetime.toISOString());
+    if (datetime.toISOString instanceof Function) {
+      this.props.onHearingChange("close_at", datetime.toISOString());
+    } else if (moment(datetime, 'DD-MM-YYYY', true).isValid()) {
+      const manualDate = moment(datetime, 'DD-MM-YYYY');
+      this.props.onHearingChange("close_at", moment(manualDate, 'llll').toISOString());
+    }
   }
 
   formatDateTime(datetime) {
@@ -61,7 +71,10 @@ class HearingFormStep4 extends React.Component {
 
   render() {
     const {hearing, hearingLanguages, formatMessage} = this.props;
-    const closureInfoContent = getClosureSection(hearing) && !isEmpty(getAttr(getClosureSection(hearing).content)) ? getClosureSection(hearing).content : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
+    const closureInfoContent = getClosureSection(hearing)
+      && !isEmpty(getAttr(getClosureSection(hearing).content))
+      ? getClosureSection(hearing).content
+      : {fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo};
 
     return (
       <div className="form-step">

@@ -7,7 +7,6 @@ exports[`ContactList component should render as expected 1`] = `
   <h3>
     <FormattedMessage
       id="contactPersons"
-      tagName="span"
       values={Object {}}
     />
   </h3>

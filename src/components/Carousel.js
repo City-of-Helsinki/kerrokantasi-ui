@@ -12,9 +12,12 @@ import {getInitialSlideIndex} from '../utils/carousel';
 import {withRouter} from 'react-router-dom';
 import Link from './LinkWithLang';
 import OverviewMap from './OverviewMap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import Icon from '../utils/Icon';
 import {Grid} from 'react-bootstrap';
+
+// eslint-disable-next-line import/no-unresolved
+import defaultImage from '@city-images/default-image.svg';
 
 // Custom prev button is used because for some reason Slicks default button is always disabled...
 const PrevButton = ({slidePrev, currentSlide}) => (
@@ -35,11 +38,21 @@ PrevButton.propTypes = {
 };
 
 export class SectionCarousel extends React.Component {
+  state = {
+    mapContainer: null,
+  }
+
   componentWillReceiveProps(nextProps) {
     const {hearing, match: {params}} = this.props;
     if (params.sectionId !== nextProps.match.params.sectionId) {
       this.slider.slickGoTo(getInitialSlideIndex(hearing, nextProps.match.params));
     }
+  }
+
+  // Inorder to keep a track of map container dimensions
+  // Save reference in state.
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
   }
 
   /* Add slide per every section and map as first item if the hearing has geojson and fullscreen link as last item if
@@ -53,9 +66,15 @@ export class SectionCarousel extends React.Component {
       (section) =>
         <div key={section.id}>
           <SliderItem
-            active={(isMainSection(section) && !params.sectionId) || (params.sectionId && section.id === params.sectionId.split('#')[0])}
+            active={(isMainSection(section) && !params.sectionId)
+              || (params.sectionId && section.id === params.sectionId.split('#')[0])}
             hearingTitle={hearing.title}
-            to={{path: isMainSection(section) ? getHearingURL(hearing) : getSectionURL(hearing.slug, section), hash: '#start'}}
+            to={{
+              path: isMainSection(section)
+              ? getHearingURL(hearing)
+              : getSectionURL(hearing.slug, section),
+              hash: '#start'
+            }}
             language={language}
             section={section}
           />
@@ -63,8 +82,8 @@ export class SectionCarousel extends React.Component {
     if (hearing.geojson) {
       slides.unshift(
         <div key="map">
-          <div className="slider-item">
-            <HearingMap hearing={hearing} />
+          <div className="slider-item" ref={this.handleSetMapContainer}>
+            <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
           </div>
         </div>
       );
@@ -108,7 +127,12 @@ export class SectionCarousel extends React.Component {
                 ref={slider => {
                   this.slider = slider;
                 }}
-                prevArrow={<PrevButton slidePrev={this.slider && (() => this.slider.slickPrev())} currentSlide={this.slider && this.slider.state.currentSlide} />}
+                prevArrow={
+                  <PrevButton
+                    slidePrev={this.slider && (() => this.slider.slickPrev())}
+                    currentSlide={this.slider && this.slider.state.currentSlide}
+                  />
+                }
                 initialSlide={getInitialSlideIndex(hearing, params)}
                 infinite={false}
                 focusOnSelect
@@ -142,28 +166,35 @@ SectionCarousel.propTypes = {
   hearing: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,
-  intl: intlShape.isRequired
 };
 
 export default withRouter(SectionCarousel);
 
-const HearingMap = ({hearing}) => {
+const HearingMap = (props) => {
+  const { hearing, mapContainer } = props;
   return (
     <div className="carousel-map-container">
       <div className="carousel-map">
-        <OverviewMap hearings={[hearing]} style={{width: '100%', height: '100%'}} hideIfEmpty />
+        <OverviewMap
+          hearings={[hearing]}
+          style={{width: '100%', height: '100%'}}
+          hideIfEmpty
+          mapContainer={mapContainer}
+          showOnCarousel
+        />
       </div>
     </div>
   );
 };
 
 HearingMap.propTypes = {
-  hearing: PropTypes.object
+  hearing: PropTypes.object,
+  mapContainer: PropTypes.object,
 };
 
 const SliderItem = ({section, to, language, hearingTitle, active}) => {
   const cardImageStyle = {
-    backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : 'url(/assets/images/default-image.svg)'
+    backgroundImage: !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : `url(${defaultImage})`
   };
   const commentCount = ((section.commenting === 'none') ?
     null :
@@ -178,7 +209,9 @@ const SliderItem = ({section, to, language, hearingTitle, active}) => {
         {commentCount}
         <div className="slider-image" style={cardImageStyle} />
         <div className="slider-item-content">
-          <div className="slider-item-title">{section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}</div>
+          <div className="slider-item-title">
+            {section.type === 'main' ? getAttr(hearingTitle, language) : getAttr(section.title, language)}
+          </div>
         </div>
       </Link>
     </div>

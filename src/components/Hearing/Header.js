@@ -135,7 +135,10 @@ export class HeaderComponent extends React.Component {
       >
         {phases.map((phase, index) => (
           <div className="phases-list-item" key={phase.id}>
-            <button className={`phase-order ${phase.is_active ? 'active-phase' : ''}`} onClick={() => this.toPhaseFirstHearing(phase)}>
+            <button
+              className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}
+              onClick={() => this.toPhaseFirstHearing(phase)}
+            >
               {index + 1}
             </button>
             <span className="phase-title">{getAttr(phase.title, activeLanguage)}</span>
@@ -163,7 +166,11 @@ export class HeaderComponent extends React.Component {
           <div className="hearing-header">
             <h1>
               {!isPublic(hearing)
-                ? <OverlayTrigger placement="bottom" overlay={this.getEyeTooltip()}><Icon name="eye-slash"/></OverlayTrigger>
+                ? (
+                  <OverlayTrigger placement="bottom" overlay={this.getEyeTooltip()}>
+                    <Icon name="eye-slash"/>
+                  </OverlayTrigger>
+                  )
                 : null}
               {' '}
               {getAttr(hearing.title, activeLanguage)}
@@ -203,7 +210,11 @@ export class HeaderComponent extends React.Component {
             </Row>
             <Row className="hearing-project">
               <div className="hearing-project">
-                {isEmpty(project) ? null : <h5><FormattedMessage id="project"/> {getAttr(project.title, activeLanguage)}</h5>}
+                {
+                  isEmpty(project)
+                    ? null
+                    : <h5><FormattedMessage id="project"/> {getAttr(project.title, activeLanguage)}</h5>
+                }
                 {this.renderPhases(phases)}
               </div>
             </Row>

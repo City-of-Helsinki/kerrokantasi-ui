@@ -12,8 +12,12 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
-import helsinkiLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black.svg';
-import helsinkiSwedishLogo from 'hel-bootstrap-3/src/assets/helsinki-logo-black-sv.svg';
+
+// eslint-disable-next-line import/no-unresolved
+import logoBlack from '@city-images/logo-fi-black.svg';
+
+// eslint-disable-next-line import/no-unresolved
+import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -62,7 +66,8 @@ class Header extends React.Component {
           className="user-menu user-menu--logged"
           title={
             <span>
-              <Icon name="user" className="user-nav-icon"/><span className="user-name">{user.displayName}</span>
+              <Icon name="user" className="user-nav-icon" aria-hidden="true" />
+              <span className="user-name">{user.displayName}</span>
             </span>
           }
         >
@@ -79,11 +84,10 @@ class Header extends React.Component {
     return [
       <Button
         key="login"
-        href=""
         className="user-menu login-link user-menu--unlogged"
         onClick={() => this.onSelect('login')}
       >
-        <Icon name="user-o" className="user-nav-icon"/>
+        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
         <span className="user-name"><FormattedMessage id="login" /></span>
       </Button>,
     ];
@@ -98,7 +102,8 @@ class Header extends React.Component {
       </NavItem>
     );
     if (url) {
-      // Can't use custom link component here because it will break the navigation, so LinkContainer must contain same logic
+      // Can't use custom link component here because it will break the navigation
+      // so LinkContainer must contain same logic
       return <LinkContainer to={url + '?lang=' + language}>{navItem}</LinkContainer>;
     }
     return navItem;
@@ -113,15 +118,17 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <Navbar fluid staticTop defaultExpanded className="navbar-helsinki">
+        <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi">
           <Navbar.Header>
             <Navbar.Brand>
               <Link to={{path: "/"}}>
-                <img
-                  src={language === 'sv' ? helsinkiSwedishLogo : helsinkiLogo}
-                  className="navbar-logo"
-                  alt="Helsinki"
-                />
+                <FormattedMessage id="headerLogoAlt">
+                  {altText => <img
+                    src={language === 'sv' ? logoSwedishBlack : logoBlack}
+                    className="navbar-logo"
+                    alt={altText}
+                  />}
+                </FormattedMessage>
               </Link>
             </Navbar.Brand>
           </Navbar.Header>
@@ -158,7 +165,6 @@ Header.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
-  location: PropTypes.object
 };
 
 Header.contextTypes = {
