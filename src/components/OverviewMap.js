@@ -87,7 +87,7 @@ class OverviewMap extends React.Component {
           }
             break;
           case "Point": {
-            const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
+            const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
             contents.push(
               <Marker
                 position={latLngs}
