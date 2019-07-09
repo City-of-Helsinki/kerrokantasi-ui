@@ -359,7 +359,7 @@ export class BaseCommentForm extends React.Component {
             {this.state.imageTooBig
               ? (
                 <div className="comment-form__image-too-big">
-                  <FormattedMessage id="image_too_big"/>
+                  <FormattedMessage id="imageSizeError"/>
                 </div>
               )
               : this.state.images.map(

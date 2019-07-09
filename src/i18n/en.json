@@ -61,7 +61,7 @@
   "hearingTranslationNotAvailable": "This hearing hasn't been published in English",
   "help": "Help",
   "hideName": "Hide name",
-  "image_too_big": "Image too big, maximum size of an image is 1MB",
+  "imageSizeError": "Image too big, maximum size of an image is 1MB",
   "infoHeaderDescription": "This is a prototype service. Please give us feedback to improve the service",
   "infoHeaderText": "About the service",
   "infoPage": "About service",

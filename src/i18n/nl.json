@@ -60,7 +60,7 @@
   "nickname": "Bijnaam",
   "registered": "Geregistreerd",
   "openFullscreenMap": "Open op de kaart",
-  "image_too_big": "Afbeelding is te groot, een afbeelding mag maximaal 1 MB zijn.",
+  "imageSizeError": "Afbeelding is te groot, een afbeelding mag maximaal 1 MB zijn.",
   "add_images": "Voeg afbeeldigen toe aan reactie",
   "choose_images": "Kies afbeeldingen",
   "multipleImages": "Als u meerdere afbeeldigen wil toevoegen kunt u dat doen door de CTRL of CMD toets ingedrukt te houden.",
