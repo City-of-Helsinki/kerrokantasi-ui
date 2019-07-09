@@ -12,6 +12,8 @@ import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
 // eslint-disable-next-line import/no-unresolved
 import localization from '@city-i18n/localization.json';
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
 
 import {hearingShape} from '../../types';
 
@@ -222,7 +224,7 @@ class HearingFormStep3 extends React.Component {
             <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+              url={urls.rasterMapTiles}
             />
             <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
