@@ -60,7 +60,7 @@
   "nickname": "Pseudonym",
   "registered": "registrerad",
   "openFullscreenMap": "Öppna på kartan",
-  "image_too_big": "Bilden för stor, största tillåtna storleken är 1MB",
+  "imageSizeError": "Bilden för stor, största tillåtna storleken är 1MB",
   "add_images": "Lägg till bilder till din kommentar",
   "choose_images": "Välj bilder",
   "multipleImages": "Du kan lägga till flera bilder genom att klicka på flera filer och samtidigt trycka ner Ctrl- eller commandknappen.",
