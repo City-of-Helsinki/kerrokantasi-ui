@@ -42,9 +42,11 @@ class OverviewMap extends React.Component {
    * @param {Object} mapContainer - Container enclosing the map
    */
   handleUpdateMapDimensions = (mapContainer) => {
-    const { width, height } = mapContainer.getBoundingClientRect();
-    if (width > 0 && height > 0) {
-      this.setState({ width: `${width}px`, height: `${height}px`});
+    if (mapContainer) {
+      const { width, height } = mapContainer.getBoundingClientRect();
+      if (width > 0 && height > 0) {
+        this.setState({ width: `${width}px`, height: `${height}px`});
+      }
     }
   }
 
@@ -85,7 +87,7 @@ class OverviewMap extends React.Component {
           }
             break;
           case "Point": {
-            const latLngs = new LatLng(geojson.coordinates[0], geojson.coordinates[1]);
+            const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
             contents.push(
               <Marker
                 position={latLngs}
@@ -125,7 +127,7 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={9} style={{ ...this.state }} minZoom={5} scrollWheelZoom={false}>
+      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false}>
         <TileLayer
           url={urls.rasterMapTiles}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
