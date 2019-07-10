@@ -12,6 +12,7 @@
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
+    "syntax-dynamic-import",
     [
       "transform-imports",
       {
@@ -38,6 +39,7 @@
       "plugins": [
         "transform-class-properties",
         "transform-object-rest-spread",
+        "dynamic-import-node",
         [
           "transform-imports",
           {

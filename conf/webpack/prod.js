@@ -19,6 +19,9 @@ module.exports = merge(common, {
         }
       }),
     ],
+    splitChunks: {
+      chunks: 'async',
+    }
   },
   module: {
     rules: [
