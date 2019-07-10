@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
 import Section from '../../components/Hearing/Section/SectionContainer';
@@ -11,13 +11,14 @@ import LoadSpinner from '../../components/LoadSpinner';
 import isEmpty from 'lodash/isEmpty';
 import { injectIntl, intlShape } from 'react-intl';
 import {canEdit} from '../../utils/hearing';
-import HearingEditor from '../../components/admin/HearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import {getUser} from '../../selectors/user';
 import config from '../../config';
 import getAttr from '../../utils/getAttr';
 import Helmet from 'react-helmet';
+
+const HearingEditor = lazy(() => import('../../components/admin/HearingEditor'));
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
@@ -80,14 +81,16 @@ export class HearingContainerComponent extends React.Component {
           <div>
             <Helmet title={getAttr(hearing.title, language)} />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
-              <HearingEditor
-                hearing={hearingDraft}
-                hearingLanguages={hearingLanguages}
-                labels={labels}
-                user={user}
-                isLoading={isLoading}
-                contactPersons={contactPersons}
-              />
+              <Suspense fallback={<div>Loading hearing editor...</div>}>
+                <HearingEditor
+                  hearing={hearingDraft}
+                  hearingLanguages={hearingLanguages}
+                  labels={labels}
+                  user={user}
+                  isLoading={isLoading}
+                  contactPersons={contactPersons}
+                />
+              </Suspense>
             }
             <div className="hearing-wrapper" id="hearing-wrapper">
               <Header
