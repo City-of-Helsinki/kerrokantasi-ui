@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import LoadSpinner from './components/LoadSpinner'
 
 const HomeContainer = lazy(() => import(/* webpackChunkName: "home" */ './views/Home'));
 const Info = lazy(() => import(/* webpackChunkName: "info"" */ './views/Info'));
@@ -25,7 +26,7 @@ Redirector.propTypes = {
 };
 
 const Routes = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<LoadSpinner />}>
     <Switch>
       <Route exact path="/" component={HomeContainer} />
       <Route path="/info" component={Info} />

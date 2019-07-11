@@ -81,7 +81,7 @@ export class HearingContainerComponent extends React.Component {
           <div>
             <Helmet title={getAttr(hearing.title, language)} />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
-              <Suspense fallback={<div>Loading hearing editor...</div>}>
+              <Suspense fallback={<LoadSpinner />}>
                 <HearingEditor
                   hearing={hearingDraft}
                   hearingLanguages={hearingLanguages}
