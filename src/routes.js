@@ -2,12 +2,12 @@ import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-const HomeContainer = lazy(() => import('./views/Home'));
-const Info = lazy(() => import('./views/Info'));
-const HearingsContainer = lazy(() => import('./views/Hearings'));
-const HearingContainer = lazy(() => import('./views/Hearing/HearingContainer'));
-const NewHearingContainer = lazy(() => import('./views/NewHearing/NewHearingContainer'));
-const FullscreenHearingContainer = lazy(() => import('./views/FullscreenHearing/FullscreenHearingContainer'));
+const HomeContainer = lazy(() => import(/* webpackChunkName: "home" */ './views/Home'));
+const Info = lazy(() => import(/* webpackChunkName: "info"" */ './views/Info'));
+const HearingsContainer = lazy(() => import(/* webpackChunkName: "hearings" */'./views/Hearings'));
+const HearingContainer = lazy(() => import(/* webpackChunkName: "hearing" */'./views/Hearing/HearingContainer'));
+const NewHearingContainer = lazy(() => import(/* webpackChunkName: "newhearing" */'./views/NewHearing/NewHearingContainer'));
+const FullscreenHearingContainer = lazy(() => import(/* webpackChunkName: "fullscreen" */'./views/FullscreenHearing/FullscreenHearingContainer'));
 
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug

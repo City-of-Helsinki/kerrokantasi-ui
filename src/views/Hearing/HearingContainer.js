@@ -18,7 +18,7 @@ import config from '../../config';
 import getAttr from '../../utils/getAttr';
 import Helmet from 'react-helmet';
 
-const HearingEditor = lazy(() => import('../../components/admin/HearingEditor'));
+const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
