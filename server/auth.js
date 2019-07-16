@@ -43,6 +43,10 @@ export function getPassport(settings) {
       clientID: settings.auth_client_id,
       clientSecret: settings.auth_shared_secret,
       callbackURL: settings.public_url + '/login/helsinki/return',
+      authorizationURL: 'https://api.hel.fi/sso-test/oauth2/authorize/',
+      tokenURL: 'https://api.hel.fi/sso-test/oauth2/token/',
+      userProfileURL: 'https://api.hel.fi/sso-test/user/',
+      appTokenURL: 'https://api.hel.fi/sso-test/jwt-token/'
     },
     (accessToken, refreshToken, profile, done) => {
       debug('access token:', accessToken);
@@ -99,7 +103,7 @@ export function addAuth(server, passport) {
   server.post('/logout', (req, res) => {
     req.logout();
     const redirectUrl = req.query.next || '/';
-    res.redirect(`https://api.hel.fi/sso/logout/?next=${redirectUrl}`);
+    res.json({"sso-logout-url": `https://api.hel.fi/sso-test/logout/?next=${redirectUrl}` });
   });
   server.get('/me', (req, res) => {
     res.json(req.user || {});

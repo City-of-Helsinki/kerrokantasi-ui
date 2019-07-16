@@ -58,11 +58,13 @@ export function logout() {
   return (dispatch) => {
     // This returns a promise for symmetry with login; it's actually a synchronous action.
     return new Promise((resolve) => {
-      fetch('/logout', {method: 'POST', credentials: 'same-origin'});  // Fire-and-forget
+      // origin is without the trailing slash
+      fetch(`/logout/?next=${location.origin}/`, {method: 'POST', credentials: 'same-origin'}).then(
+        (result) => resolve(result.json())
+      );
       dispatch(createAction('clearUserData')());
       // the store may contain hearings not fit for nonauthorized eyes!
       dispatch(createAction('clearNonPublicHearings')());
-      resolve();
     });
   };
 }
