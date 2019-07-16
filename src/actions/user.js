@@ -58,8 +58,9 @@ export function logout() {
   return (dispatch) => {
     // This returns a promise for symmetry with login; it's actually a synchronous action.
     return new Promise((resolve) => {
+      var next_url = window.location.origin.length == 0 ? window.location.origin : '';
       // origin is without the trailing slash
-      fetch(`/logout/?next=${location.origin}/`, {method: 'POST', credentials: 'same-origin'}).then(
+      fetch(`/logout/?next=${next_url}/`, {method: 'POST', credentials: 'same-origin'}).then(
         (result) => resolve(result.json())
       );
       dispatch(createAction('clearUserData')());

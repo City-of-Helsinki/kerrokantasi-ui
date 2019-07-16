@@ -17,7 +17,7 @@ describe('Login/logout', () => {
         username: 'mock.von.user',
         provider: 'helsinki',
       }),
-      "/logout": "OK"
+      "/logout/?next=/": "{\"sso-logout-url\": \"/\"}"
     });
     replace(fetcher);  // Replace the /me endpoint with a mock.
     const store = createTestStore();
@@ -32,7 +32,7 @@ describe('Login/logout', () => {
       // now let's log out...
       return store.dispatch(logout());
     }).then(() => {
-      expect(fetcher.calls["/logout"]).toEqual(1); // The remote call was made
+      expect(fetcher.calls["/logout/?next=/"]).toEqual(1); // The remote call was made
       expect(getUser(store.getState())).toBeNull(); // And the local state was updated
     });
   });
