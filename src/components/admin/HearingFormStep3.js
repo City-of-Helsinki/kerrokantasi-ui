@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Leaflet from 'leaflet';
+//import Leaflet from 'leaflet';
+import bbox from '@turf/bbox';
+import ReactMapboxGl, {ZoomControl} from "react-mapbox-gl";
+import DrawControl from 'react-mapbox-gl-draw';
+
 import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import {isEmpty, includes, keys} from 'lodash';
-import {ZoomControl} from 'react-leaflet';
+//import {ZoomControl} from 'react-leaflet';
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
 // eslint-disable-next-line import/no-unresolved
@@ -18,58 +22,59 @@ import urls from '@city-assets/urls.json';
 import {hearingShape} from '../../types';
 
 // This is needed for the invalidateMap not to fire after the component has dismounted and causing error.
-let mapInvalidator;
+//let mapInvalidator;
 
-Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
-  iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-  shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-  iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-  iconSize: [25, 41],
-  iconAnchor: [13, 41],
-});
+// Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
+//   iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+//   shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
+//   iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+//   iconSize: [25, 41],
+//   iconAnchor: [13, 41],
+// });
 
-function getHearingArea(hearing) {
-  if (typeof window === "undefined") return null;
-  if (!hearing || !hearing.geojson) return null;
+// function getHearingArea(hearing) {
+//   if (typeof window === "undefined") return null;
+//   if (!hearing || !hearing.geojson) return null;
 
-  const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
-  const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
-  const {geojson} = hearing;
-  switch (geojson.type) {
-    case "Polygon": {
-      // XXX: This only supports the _first_ ring of coordinates in a Polygon
-      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polygon positions={latLngs}/>;
-    }
-    case "Point": {
-      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-      return (
-        <Marker
-          position={latLngs}
-          icon={new Leaflet.Icon({
-            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
-            iconSize: [25, 41],
-            iconAnchor: [13, 41]
-          })}
-        />
-      );
-    }
-    case "LineString": {
-      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-      return (<Polyline positions={latLngs}/>);
-    }
-    default:
-      // TODO: Implement support for other geometries too (markers, square, circle)
-      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
-  }
-}
+//   const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
+//   const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
+//   const {geojson} = hearing;
+//   switch (geojson.type) {
+//     case "Polygon": {
+//       // XXX: This only supports the _first_ ring of coordinates in a Polygon
+//       const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+//       return <Polygon positions={latLngs}/>;
+//     }
+//     case "Point": {
+//       const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+//       return (
+//         <Marker
+//           position={latLngs}
+//           icon={new Leaflet.Icon({
+//             iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+//             shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
+//             iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
+//             iconSize: [25, 41],
+//             iconAnchor: [13, 41]
+//           })}
+//         />
+//       );
+//     }
+//     case "LineString": {
+//       const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+//       return (<Polyline positions={latLngs}/>);
+//     }
+//     default:
+//       // TODO: Implement support for other geometries too (markers, square, circle)
+//       return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
+//   }
+// }
 
 
 function getFirstGeometry(featureCollectionGeoJSON) {
   const firstFeature = featureCollectionGeoJSON.features[0];
   if (firstFeature) {
+    console.log(firstFeature.geometry)
     return firstFeature.geometry;
   }
   return {};
@@ -82,48 +87,78 @@ class HearingFormStep3 extends React.Component {
     this.onDrawCreated = this.onDrawCreated.bind(this);
     this.onDrawDeleted = this.onDrawDeleted.bind(this);
     this.onDrawEdited = this.onDrawEdited.bind(this);
+    this.onDrawRendered = this.onDrawRendered.bind(this);
     // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
+    // this is needed to check draw state and update react state *after* render
     this.state = {isEdited: false};
   }
 
-  componentDidMount() {
-    Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
+  featureIsDrawn() {
+    console.log('checking drawn')
+    console.log(this.drawControl)
+    return (this.drawControl &&
+      this.drawControl.draw &&
+      this.drawControl.draw.getAll().features.length)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {language} = this.props;
+  // componentDidMount() {
+  //   Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
+  // }
 
-    if (nextProps.language !== language) {
-      Leaflet.drawLocal = getTranslatedTooltips(nextProps.language);
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // const {language} = this.props;
 
-  componentDidUpdate() {
-    this.invalidateMap();
-  }
+  //   // if (nextProps.language !== language) {
+  //   //   Leaflet.drawLocal = getTranslatedTooltips(nextProps.language);
+  //   // }
 
-  componentWillUnmount() {
-    clearTimeout(mapInvalidator);
-  }
+  //   // we cannot add a feature here yet because the map might not be ready, will be cleaned fortwith
+  //   // https://github.com/mapbox/mapbox-gl-draw/issues/755
+  //   }
+  // }
+
+  // componentDidUpdate() {
+  //   this.invalidateMap();
+  // }
+
+  // componentWillUnmount() {
+  //   clearTimeout(mapInvalidator);
+  // }
 
   onDrawEdited(event) {
-    // TODO: Implement proper onDrawEdited functionality
-    this.setState({isEdited: true});
-    this.props.onHearingChange("geojson", getFirstGeometry(event.layers.toGeoJSON()));
+    // // TODO: Implement proper onDrawEdited functionality
+    //this.setState({isEdited: true});
+    const geometry = getFirstGeometry(event);
+    this.props.onHearingChange("geojson", geometry);
   }
 
   onDrawCreated(event) {
     // TODO: Implement proper onDrawCreated functionality
-    this.setState({isEdited: true});
-    this.props.onHearingChange("geojson", event.layer.toGeoJSON().geometry);
+    //this.setState({isEdited: true});
+    const geometry = getFirstGeometry(event);
+    console.log(geometry)
+    this.props.onHearingChange("geojson", geometry);
+  }
+
+  onDrawRendered(event) {
+    if (this.props.hearing.geojson && !this.featureIsDrawn()) {
+      // add feature on map if not drawn yet
+      const id = this.drawControl.draw.add(this.props.hearing.geojson);
+    }
   }
 
   onDrawDeleted(event) {
+    console.log('delete fired')
+    console.log(event)
+    //this.setState({isEdited: true})
+    // changing state or props here triggers render, which triggers rerender of the component and destroys old ref, which
+    // means the old draw will be null and crashes at callback
+    this.props.onHearingChange("geojson", null)
     // TODO: Implement proper onDrawDeleted functionality
-    if (event.layers && !isEmpty(event.layers._layers)) {
-      this.props.onHearingChange("geojson", null);
-      this.setState({isEdited: true});
-    }
+    // if (event.layers && !isEmpty(event.layers._layers)) {
+    //   this.props.onHearingChange("geojson", null);
+    //   this.setState({isEdited: true});
+    // }
   }
 
   onUploadGeoJSON = (event) => {
@@ -159,74 +194,73 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
-  invalidateMap() {
-    // Map size needs to be invalidated after dynamically resizing
-    // the map container.
-    const map = this.map;
-    if (map && this.props.visible) {
-      mapInvalidator = setTimeout(() => {
-        map.leafletElement.invalidateSize();
-      }, 200);  // Short delay to wait for the animation to end
-    }
-  }
+  // invalidateMap() {
+  //   // Map size needs to be invalidated after dynamically resizing
+  //   // the map container.
+  //   const map = this.map;
+  //   if (map && this.props.visible) {
+  //     mapInvalidator = setTimeout(() => {
+  //       map.leafletElement.invalidateSize();
+  //     }, 200);  // Short delay to wait for the animation to end
+  //   }
+  // }
 
-  getDrawOptions() {
-    const {geojson} = this.props.hearing;
-
-    if (!geojson || isEmpty(geojson)) {
+  getDrawControls() {
+    if (this.featureIsDrawn() || this.props.hearing.geojson) {
       return {
-        circle: false,
-        circlemarker: false,
-        polyline: false,
-        marker: {
-          icon: new Leaflet.Icon({
-            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
-            iconSize: [25, 41],
-            iconAnchor: [13, 41],
-          })
-        }
+        trash: true
       };
-    }
+    }  
     return {
-      circle: false,
-      circlemarker: false,
-      marker: false,
-      polyline: false,
-      polygon: false,
-      rectangle: false,
+      point: true,
+      polygon: true,
+      trash: true
     };
   }
 
-  refCallBack = (el) => {
-    this.map = el;
-  }
+  // refCallBack = (drawControl) => {
+  //   console.log('callback called')
+  //   console.log(this.drawControl)
+  //   //if (drawControl) {
+  //     this.drawControl = drawControl;
+  //   //}
+  //   console.log(this.drawControl)
+  // }
 
   render() {
     if (typeof window === "undefined") return null;  // Skip rendering outside of browser context
-    const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
-    const {EditControl} = require("react-leaflet-draw");
+    //const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
+    //const {EditControl} = require("react-leaflet-draw");
+    const Map = ReactMapboxGl({
+      minZoom: 8,
+    });
     const hearing = this.props.hearing;
+    console.log('running')
+    console.log('bounds:')
+    console.log(bbox(this.props.hearing.geojson))
 
     return (
       <div className="form-step">
         <FormGroup controlId="hearingArea">
           <ControlLabel><FormattedMessage id="hearingArea"/></ControlLabel>
           <Map
-            ref={this.refCallBack}
+            style='http://tiles.hel.ninja/styles/hel-osm-bright/style.json'
+            //ref={this.refCallBack}
             // onResize={this.invalidateMap.bind(this)}
-            zoomControl={false}
-            center={localization.mapPosition}
-            zoom={11}
+            //zoomControl={false}
+            center={[localization.mapPosition[1], localization.mapPosition[0]]}
+            zoom={[11]}
             className="hearing-map"
+            fitBounds={this.props.hearing.geojson && bbox(this.props.hearing.geojson)}
+            fitBoundsOptions={{padding: 50}}
           >
-            <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
-            <TileLayer
+            <ZoomControl/>
+            {/* <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/> */}
+            {/* <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url={urls.rasterMapTiles}
-            />
-            <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
+            /> */}
+            {/* <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
                 position="topleft"
                 onEdited={this.onDrawEdited}
@@ -241,7 +275,16 @@ class HearingFormStep3 extends React.Component {
                 }
               />
               {!this.state.isEdited && getHearingArea(hearing)}
-            </FeatureGroup>
+            </FeatureGroup> */}         
+            <DrawControl
+              ref={(drawControl) => { this.drawControl = drawControl; }}
+              displayControlsDefault={false}
+              controls={this.getDrawControls()}
+              onDrawRender={this.onDrawRendered}
+              onDrawCreate={this.onDrawCreated}
+              onDrawDelete={this.onDrawDeleted}
+              onDrawUpdate={this.onDrawEdited}
+            />
           </Map>
         </FormGroup>
         <div className="step-control">
