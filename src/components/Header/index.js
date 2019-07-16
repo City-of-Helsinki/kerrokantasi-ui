@@ -49,10 +49,7 @@ class Header extends React.Component {
       case 'logout':
         // TODO: Actual logout flow
         logout();
-        this.props.dispatch(logout())
-        .then((logout_response) => {
-          window.location = logout_response['sso-logout-url'];
-        });
+        this.props.dispatch(logout());
         break;
       default:
       // Not sure what to do here

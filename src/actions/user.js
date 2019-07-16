@@ -56,12 +56,15 @@ export function login() {
 
 export function logout() {
   return (dispatch) => {
-    // This returns a promise for symmetry with login; it's actually a synchronous action.
     return new Promise((resolve) => {
-      var next_url = window.location.origin.length == 0 ? window.location.origin : '';
-      // origin is without the trailing slash
-      fetch(`/logout/?next=${next_url}/`, {method: 'POST', credentials: 'same-origin'}).then(
-        (result) => resolve(result.json())
+      // UI server controls the logout process as well
+      const logOutPopup = window.open(
+        '/logout',
+        'kkLogoutWindow',
+        'location,scrollbars=on,width=720,height=600'
+      );
+      logOutPopup.onload(
+        setTimeout(logoutPopup => logOutPopup.close(), 5000)
       );
       dispatch(createAction('clearUserData')());
       // the store may contain hearings not fit for nonauthorized eyes!
