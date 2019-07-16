@@ -57,18 +57,20 @@ export function login() {
 export function logout() {
   return (dispatch) => {
     return new Promise((resolve) => {
+      dispatch(createAction('clearUserData')());
+      // the store may contain hearings not fit for nonauthorized eyes!
+      dispatch(createAction('clearNonPublicHearings')());
       // UI server controls the logout process as well
       const logOutPopup = window.open(
         '/logout',
         'kkLogoutWindow',
         'location,scrollbars=on,width=720,height=600'
       );
-      logOutPopup.onload(
-        setTimeout(logoutPopup => logOutPopup.close(), 5000)
-      );
-      dispatch(createAction('clearUserData')());
-      // the store may contain hearings not fit for nonauthorized eyes!
-      dispatch(createAction('clearNonPublicHearings')());
+      setTimeout((logoutPopup) => {
+        logOutPopup.close();
+        // Hopefully the logout has completed by now.
+        resolve();
+      }, 5000);
     });
   };
 }
