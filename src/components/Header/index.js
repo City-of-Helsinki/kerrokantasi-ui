@@ -48,7 +48,6 @@ class Header extends React.Component {
         break;
       case 'logout':
         // TODO: Actual logout flow
-        logout();
         this.props.dispatch(logout());
         break;
       default:

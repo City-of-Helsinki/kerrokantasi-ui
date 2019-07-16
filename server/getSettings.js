@@ -12,6 +12,8 @@ const defaults = {
   public_url: 'http://localhost:8080',
   // Image used as background for the Hero
   hero_image_url: 'https://source.unsplash.com/1600x900/?squirrel',
+  // Base URL for the Helsinki SSO instance
+  tunnistamo_url: 'https://api.hel.fi/sso',
   // Client Identifier in the Helsinki SSO system
   auth_client_id: null,
   // Shared secret in the Helsinki SSO system
@@ -32,6 +34,7 @@ const optionalKeys = [
   "kerrokantasi_api_base",
   "public_url",
   "hero_image_url",
+  "tunnistamo_url",
   "ui_config",
   "dev",
   "cold",

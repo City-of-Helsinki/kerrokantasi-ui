@@ -43,10 +43,10 @@ export function getPassport(settings) {
       clientID: settings.auth_client_id,
       clientSecret: settings.auth_shared_secret,
       callbackURL: settings.public_url + '/login/helsinki/return',
-      authorizationURL: 'https://api.hel.fi/sso-test/oauth2/authorize/',
-      tokenURL: 'https://api.hel.fi/sso-test/oauth2/token/',
-      userProfileURL: 'https://api.hel.fi/sso-test/user/',
-      appTokenURL: 'https://api.hel.fi/sso-test/jwt-token/'
+      authorizationURL: settings.tunnistamo_url + '/oauth2/authorize/',
+      tokenURL: settings.tunnistamo_url + '/oauth2/token/',
+      userProfileURL: settings.tunnistamo_url + '/user/',
+      appTokenURL: settings.tunnistamo_url + '/jwt-token/'
     },
     (accessToken, refreshToken, profile, done) => {
       debug('access token:', accessToken);
@@ -88,7 +88,7 @@ function successfulLoginHandler(req, res) {
   res.send('<html><body>Login successful.<script>' + js + '</script>');
 }
 
-export function addAuth(server, passport) {
+export function addAuth(server, passport, settings) {
   server.use(passport.initialize());
   server.use(passport.session());
   server.get('/login/helsinki', passport.authenticate('helsinki'));
@@ -102,7 +102,7 @@ export function addAuth(server, passport) {
   });
   server.post('/logout', (req, res) => {
     req.logout();
-    res.redirect(`https://api.hel.fi/sso-test/logout/`);
+    res.redirect(`${settings.tunnistamo_url}/logout/`);
   });
   server.get('/me', (req, res) => {
     res.json(req.user || {});
