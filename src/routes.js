@@ -6,7 +6,7 @@ import LoadSpinner from './components/LoadSpinner';
 const HomeContainer = lazy(() => import(
   /* webpackChunkName: "home" */ './views/Home'));
 const Info = lazy(() => import(
-  /* webpackChunkName: "info"" */ './views/Info'));
+  /* webpackChunkName: "info" */ './views/Info'));
 const HearingsContainer = lazy(() => import(
   /* webpackChunkName: "hearings" */'./views/Hearings'));
 const HearingContainer = lazy(() => import(
