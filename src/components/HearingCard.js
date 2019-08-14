@@ -29,37 +29,42 @@ const HearingCard = ({hearing, language, className = ''}) => {
   };
   const commentCount = hearing.n_comments ? (
     <div className="hearing-card-comment-count">
-      <Icon name="comment-o" />&nbsp;{hearing.n_comments}
+      <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
+      <span className="sr-only">
+        {hearing.n_comments === 1 ? (
+          <FormattedMessage id="hearingCardComment" />
+        ) : <FormattedMessage id="hearingCardComments" />}
+      </span>
     </div>
   ) : null;
   return (
     <div className={`hearing-card ${className}`}>
-      {!translationAvailable && (
-        <Link to={{path: getHearingURL(hearing)}} className="hearing-card-notice">
-          <div className="hearing-card-notice-content">
-            <FormattedMessage id="hearingTranslationNotAvailable" />
-            {config.languages.map(
-              lang =>
-                (getAttr(hearing.title, lang, {exact: true}) ? (
-                  <div className="language-available-message">{availableInLanguageMessages[lang]}</div>
-                ) : null)
-            )}
-          </div>
-        </Link>
-      )}
-      <Link to={{path: getHearingURL(hearing)}} className="hearing-card-image" style={cardImageStyle}>
-        {commentCount}
+      <Link to={{path: getHearingURL(hearing)}}>
+        <div className="hearing-card-image" style={cardImageStyle} aria-labelledby={hearing.id} />
       </Link>
       <div className="hearing-card-content">
-        <h4 className="hearing-card-title">
+        <h3 className="h4 hearing-card-title" id={hearing.id}>
           <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
-        </h4>
+        </h3>
+        {commentCount}
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
           <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
         </div>
-        <div className="hearing-card-labels">
+        <div className="hearing-card-labels clearfix">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
+        {!translationAvailable && (
+          <div className="hearing-card-notice">
+            <Icon name="exclamation-circle" aria-hidden="true" />
+            <FormattedMessage id="hearingTranslationNotAvailable" />
+            {config.languages.map(
+              lang =>
+                (getAttr(hearing.title, lang, { exact: true }) ? (
+                  <div className="language-available-message" key={lang}>{availableInLanguageMessages[lang]}</div>
+                ) : null)
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

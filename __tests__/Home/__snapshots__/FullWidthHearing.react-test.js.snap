@@ -103,6 +103,10 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "hearing": "Kuuleminen",
         "hearingAbstract": "Lyhyt johdanto",
         "hearingArea": "Jos kuuleminen ei koske koko kaupunkia, piirrä kuulemisen tarkka alue kartalle",
+        "hearingCardComment": "Kommentti",
+        "hearingCardComments": "Kommenttia",
+        "hearingCardFullWidthComment": "Kommentti",
+        "hearingCardFullWidthComments": "Kommenttia",
         "hearingChangesSaved": "Muutokset tallennettu",
         "hearingClosed": "Sulkeutunut",
         "hearingClosingTime": "Sulkeutumisaika",
@@ -122,6 +126,9 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "hearingLabels": "Asiasanat",
         "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
         "hearingLanguages": "Kuulemisen tiedot syötetään",
+        "hearingListComment": "Kommentti",
+        "hearingListComments": "Kommenttia",
+        "hearingListNotPublished": "Julkaisematon kuuleminen,",
         "hearingMainContent": "Kuulemisen esittelyteksti",
         "hearingMap": "Kuulemiset kartalla",
         "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
@@ -147,6 +154,7 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "infoPage": "Tietoa palvelusta",
         "jumpToSearchForm": "Siirry hakulomakkeeseen",
         "jumpToSearchResults": "Siirry hakutuloksiin",
+        "labelListTagsTitle": "Asiasanat",
         "labelPlaceholder": "Anna asiasanan nimi...",
         "lang-en": "English",
         "lang-fi": "Suomi",
@@ -275,22 +283,32 @@ exports[`FullWidthHearing component should render as expected 1`] = `
     }
   }
 >
-  <div
-    className="fullwidth-hearing-image"
-    style={
+  <withRouter(Connect(LinkWithLangComponent))
+    to={
       Object {
-        "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
+        "path": "/mockHearing",
       }
     }
-  />
+  >
+    <div
+      aria-labelledby="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+      className="fullwidth-hearing-image"
+      style={
+        Object {
+          "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
+        }
+      }
+    />
+  </withRouter(Connect(LinkWithLangComponent))>
   <div
     className="fullwidth-hearing-header"
   >
     <div
       className="fullwidth-hearing-title-wrap"
     >
-      <h2
-        className="fullwidth-hearing-title"
+      <h3
+        className="h2 fullwidth-hearing-title"
+        id="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
       >
         <withRouter(Connect(LinkWithLangComponent))
           to={
@@ -301,7 +319,26 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         >
           Mock Hearing
         </withRouter(Connect(LinkWithLangComponent))>
-      </h2>
+      </h3>
+    </div>
+    <div
+      className="fullwidth-hearing-comments"
+    >
+      <Icon
+        Component="span"
+        aria-hidden="true"
+        name="comment-o"
+      />
+       
+      1
+      <span
+        className="sr-only"
+      >
+        <FormattedMessage
+          id="hearingCardFullWidthComment"
+          values={Object {}}
+        />
+      </span>
     </div>
     <div
       className="fullwidth-hearing-times"
@@ -323,23 +360,32 @@ exports[`FullWidthHearing component should render as expected 1`] = `
       </span>
     </div>
     <div
-      className="fullwidth-hearing-labels"
+      className="fullwidth-hearing-labels clearfix"
     >
-      <LabelList
+      <InjectIntl(Labels)
         className="hearing-list-item-labellist"
         labels={Array []}
       />
     </div>
-  </div>
-  <div
-    className="fullwidth-hearing-comments"
-  >
-    <Icon
-      Component="span"
-      name="comment-o"
-    />
-     
-    1
+    <div
+      className="hearing-card-notice"
+    >
+      <Icon
+        Component="span"
+        aria-hidden="true"
+        name="exclamation-circle"
+      />
+      <FormattedMessage
+        id="hearingTranslationNotAvailable"
+        values={Object {}}
+      />
+      <div
+        className="language-available-message"
+        key="fi"
+      >
+        Kuuleminen saatavilla suomeksi
+      </div>
+    </div>
   </div>
 </div>
 `;

@@ -26,7 +26,7 @@ exports[`Header component should render as expected 1`] = `
           componentClass="div"
           xs={12}
         >
-          <LabelList
+          <InjectIntl(Labels)
             className="main-labels"
             labels={Array []}
             language="fi"

@@ -2,12 +2,14 @@
 
 exports[`LabelList can handle empty list 1`] = `
 <div
+  aria-label="Asiasanat"
   className="labels"
 />
 `;
 
 exports[`LabelList can handle list of label objects 1`] = `
 <div
+  aria-label="Asiasanat"
   className="labels"
 >
   <withRouter(Connect(LinkWithLangComponent))
