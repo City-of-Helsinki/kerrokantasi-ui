@@ -72,7 +72,7 @@ export default function Footer(props) {
                   </a>
                 </li>
                 <li>
-                  <a href={urls.mailto}>
+                  <a href={urls.feedback}>
                     <FormattedMessage id="feedbackLinkText" />
                   </a>
                 </li>

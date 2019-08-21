@@ -134,7 +134,7 @@ export class Home extends React.Component {
             <Row>
               <Col xs={12}>
                 <div className="feedback-box">
-                  <a href={urls.mailto}>
+                  <a href={urls.feedback}>
                     <h2 className="feedback-prompt">
                       <FormattedMessage id="feedbackPrompt" />
                     </h2>
