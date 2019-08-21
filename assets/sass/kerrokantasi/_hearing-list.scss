@@ -7,6 +7,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 1.4rem;
+    margin-bottom: $line-height-computed;
   }
 
   a {
@@ -28,15 +29,10 @@
   &-content {
     flex: 1 auto;
     padding: $line-height-computed;
-    max-width: 73%;
     overflow: hidden;
-  }
 
-  &-labels {
-    @extend .clearfix;
-
-    .label {
-      margin-bottom: 12px;
+    @media (min-width: $screen-sm-min) {
+      max-width: 73%;
     }
   }
 
@@ -44,8 +40,13 @@
     float: left;
 
     a {
-        text-decoration: none;
+      text-decoration: none;
     }
+  }
+
+  .label {
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 
   &-closed {
@@ -61,7 +62,7 @@
     margin-top: 0;
 
     @media (max-width: $screen-xs-max) {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
     }
   }
 
@@ -73,21 +74,8 @@
 
   &-times {
     color: $text-muted;
-    font-size: 1.4rem;
-  }
-
-  .notice-content {
-    font-size: 14px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    color: #ffffff;
-    padding: 2px;
-    background: $gray-light;
-
-    .language-available-message {
-        font-size: 12px;
-    }
+    font-size: $font-size-small;
+    margin-bottom: $line-height-computed/1.5;
   }
 }
 

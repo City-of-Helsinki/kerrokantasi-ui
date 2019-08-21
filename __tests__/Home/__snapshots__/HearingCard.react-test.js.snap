@@ -5,12 +5,6 @@ exports[`HearingCard component should render as expected 1`] = `
   className="hearing-card "
 >
   <withRouter(Connect(LinkWithLangComponent))
-    className="hearing-card-image"
-    style={
-      Object {
-        "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
-      }
-    }
     to={
       Object {
         "path": "/mockHearing",
@@ -18,21 +12,21 @@ exports[`HearingCard component should render as expected 1`] = `
     }
   >
     <div
-      className="hearing-card-comment-count"
-    >
-      <Icon
-        Component="span"
-        name="comment-o"
-      />
-       
-      1
-    </div>
+      aria-labelledby="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+      className="hearing-card-image"
+      style={
+        Object {
+          "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
+        }
+      }
+    />
   </withRouter(Connect(LinkWithLangComponent))>
   <div
     className="hearing-card-content"
   >
-    <h4
-      className="hearing-card-title"
+    <h3
+      className="h4 hearing-card-title"
+      id="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
     >
       <withRouter(Connect(LinkWithLangComponent))
         to={
@@ -43,7 +37,26 @@ exports[`HearingCard component should render as expected 1`] = `
       >
         Mock Hearing
       </withRouter(Connect(LinkWithLangComponent))>
-    </h4>
+    </h3>
+    <div
+      className="hearing-card-comment-count"
+    >
+      <Icon
+        Component="span"
+        aria-hidden="true"
+        name="comment-o"
+      />
+       
+      1
+      <span
+        className="sr-only"
+      >
+        <FormattedMessage
+          id="hearingCardComment"
+          values={Object {}}
+        />
+      </span>
+    </div>
     <div
       className="hearing-card-time "
     >
@@ -53,9 +66,9 @@ exports[`HearingCard component should render as expected 1`] = `
       />
     </div>
     <div
-      className="hearing-card-labels"
+      className="hearing-card-labels clearfix"
     >
-      <LabelList
+      <InjectIntl(Labels)
         className="hearing-list-item-labellist"
         labels={Array []}
         language="fi"

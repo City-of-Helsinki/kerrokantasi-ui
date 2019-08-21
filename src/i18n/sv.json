@@ -143,5 +143,13 @@
   "headerLogoAlt": "Kerrokantasi logo",
   "feedbackLinkText": "Feedback",
   "copyrightText": "Kerrokantasi",
-  "languageSwitchLabel": "Välj språk"
+  "languageSwitchLabel": "Välj språk",
+  "hearingListComments": "Kommentarer",
+  "hearingListComment": "Kommentar",
+  "hearingCardFullWidthComments": "Kommentarer",
+  "hearingCardFullWidthComment": "Kommentar",
+  "hearingCardComments": "Kommentarer",
+  "hearingCardComment": "Kommentar",
+  "labelListTagsTitle": "Taggar",
+  "hearingListNotPublished": "Opublicerad hörande,"
 }

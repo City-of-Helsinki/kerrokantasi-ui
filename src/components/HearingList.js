@@ -95,41 +95,29 @@ export class HearingListItem extends React.Component {
     };
 
     return (
-      <div className="hearing-list-item">
-        {!translationAvailable && (
-          <Link to={{path: getHearingURL(hearing)}} className="hearing-card-notice">
-            <div className="notice-content">
-              <FormattedMessage id="hearingTranslationNotAvailable" />
-              {config.languages.map(
-                lang =>
-                  (getAttr(hearing.title, lang, {exact: true}) ? (
-                    <div key={lang} className="language-available-message">
-                      {availableInLanguageMessages[lang]}
-                    </div>
-                  ) : null)
-              )}
-            </div>
-          </Link>
-        )}
-        <div className="hearing-list-item-image" style={mainImageStyle} />
+      <div className="hearing-list-item" role="listitem">
+        <Link to={{ path: getHearingURL(hearing) }} className="hearing-list-item-image" style={mainImageStyle}>
+          <div aria-labelledby={hearing.id} />
+        </Link>
         <div className="hearing-list-item-content">
-          <div className="hearing-list-item-labels">
-            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
-            <div className="hearing-list-item-closed">
-              {hearing.closed ? (
-                <Label>
-                  <FormattedMessage id="hearingClosed" />
-                </Label>
-              ) : null}
-            </div>
-          </div>
           <div className="hearing-list-item-title-wrap">
-            <h4 className="hearing-list-item-title">
-              {!isPublic(hearing) ? <Icon name="eye-slash" /> : null}{' '}
-              <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
-            </h4>
+            <h2 className="h4 hearing-list-item-title" id={hearing.id}>
+              <Link to={{path: getHearingURL(hearing)}}>
+                {!isPublic(hearing) ? (
+                  <FormattedMessage id="hearingListNotPublished">
+                    {(label) => <Icon name="eye-slash" aria-label={label} />}
+                  </FormattedMessage>
+                ) : null}{' '}
+                {getAttr(hearing.title, language)}
+              </Link>
+            </h2>
             <div className="hearing-list-item-comments">
-              <Icon name="comment-o" />&nbsp;{hearing.n_comments}
+              <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
+              <span className="sr-only">
+                {hearing.n_comments === 1 ? (
+                  <FormattedMessage id="hearingListComment" />
+                ) : <FormattedMessage id="hearingListComments" />}
+              </span>
             </div>
           </div>
           <div className="hearing-list-item-times">
@@ -140,6 +128,30 @@ export class HearingListItem extends React.Component {
               <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
             </div>
           </div>
+          <div className="hearing-list-item-labels clearfix">
+            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
+            {hearing.closed ? (
+              <div className="hearing-list-item-closed">
+                <Label>
+                  <FormattedMessage id="hearingClosed" />
+                </Label>
+              </div>
+            ) : null}
+          </div>
+          {!translationAvailable && (
+            <div className="hearing-card-notice">
+              <Icon name="exclamation-circle" aria-hidden="true" />
+              <FormattedMessage id="hearingTranslationNotAvailable" />
+              {config.languages.map(
+                lang =>
+                  (getAttr(hearing.title, lang, { exact: true }) ? (
+                    <div key={lang} className="language-available-message">
+                      {availableInLanguageMessages[lang]}
+                    </div>
+                  ) : null)
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -223,7 +235,9 @@ export const HearingList = ({
             <Col md={8} mdPush={2}>
               <div className="hearing-list">
                 <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
-                {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
+                <div role="list">
+                  {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
+                </div>
                 {isLoading && <LoadSpinner />}
                 {!isLoading && <Waypoint onEnter={handleReachBottom} />}
               </div>

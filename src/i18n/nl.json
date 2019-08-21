@@ -104,5 +104,13 @@
   "headerLogoAlt": "Kerrokantasi logo",
   "feedbackLinkText": "Feedback",
   "copyrightText": "Kerrokantasi",
-  "languageSwitchLabel": "Choose language"
+  "languageSwitchLabel": "Choose language",
+  "hearingListComments": "Comments",
+  "hearingListComment": "Comment",
+  "hearingCardFullWidthComments": "Comments",
+  "hearingCardFullWidthComment": "Comment",
+  "hearingCardComments": "Comments",
+  "hearingCardComment": "Comment",
+  "labelListTagsTitle": "Tags",
+  "hearingListNotPublished": "Unpublished hearing,"
 }

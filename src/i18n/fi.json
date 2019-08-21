@@ -243,5 +243,14 @@
   "headerLogoAlt": "Kerrokantasi logo",
   "feedbackLinkText": "Palaute",
   "copyrightText": "Kerrokantasi",
-  "languageSwitchLabel": "Valitse sivuston kieli"
+  "languageSwitchLabel": "Valitse sivuston kieli",
+  "hearingListComments": "Kommenttia",
+  "hearingListComment": "Kommentti",
+  "hearingCardFullWidthComments": "Kommenttia",
+  "hearingCardFullWidthComment": "Kommentti",
+  "hearingCardComments": "Kommenttia",
+  "hearingCardComment": "Kommentti",
+  "labelListTagsTitle": "Asiasanat",
+  "hearingListNotPublished": "Julkaisematon kuuleminen,"
+
 }
