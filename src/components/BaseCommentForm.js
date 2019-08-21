@@ -366,7 +366,7 @@ export class BaseCommentForm extends React.Component {
                 (image, key) =>
                   <img
                     style={{ marginRight: 10 }}
-                    alt={image.title}
+                    alt=""
                     src={image.image}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.width : 100}

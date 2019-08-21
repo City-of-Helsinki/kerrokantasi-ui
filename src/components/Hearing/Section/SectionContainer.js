@@ -223,6 +223,7 @@ export class SectionContainerComponent extends React.Component {
                         image={sectionImage}
                         caption={getAttr(sectionImage.caption, language)}
                         title={getAttr(sectionImage.title, language)}
+                        altText={getAttr(sectionImage.alt_text, language)}
                         showLightbox={showLightbox}
                         openLightbox={this.openLightbox}
                         closeLightbox={this.closeLightbox}

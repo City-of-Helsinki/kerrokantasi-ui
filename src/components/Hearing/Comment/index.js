@@ -474,7 +474,7 @@ class Comment extends React.Component {
                   href={image.url}
                 >
                   <img
-                    alt={image.title}
+                    alt=""
                     src={image.url}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.height : 100}

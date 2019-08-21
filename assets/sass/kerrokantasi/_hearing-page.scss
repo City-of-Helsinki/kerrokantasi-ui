@@ -149,6 +149,14 @@
   font-size: 1.4rem;
 }
 
+.section-image {
+  margin-bottom: 15px;
+
+  .image-caption {
+    margin-bottom: 0;
+  }
+}
+
 .hearing-contacts {
   border: 1px solid $gray-light;
   padding: 0 $line-height-computed;
