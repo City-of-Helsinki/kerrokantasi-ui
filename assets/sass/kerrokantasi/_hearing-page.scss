@@ -120,7 +120,7 @@
         }
 
         .phase-schedule {
-          opacity: 0.5;
+          color: $text-muted;
         }
       }
     }
@@ -244,14 +244,34 @@
     padding-bottom: 10px;
   }
 
-  &__select-button {
+  &__select-file {
     padding: 10px 0;
+  }
+
+  .custom-file-input {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+
+    & + label {
+      @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    }
+
+    &:focus + label {
+      border-color: $input-border-focus;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
+    }
   }
 
   &__selected-images {
     padding-top: 10px;
   }
-
 
   &__heading-container {
     display: flex;
@@ -289,7 +309,7 @@
             outline: 0;
           }
         }
-      } 
+      }
 
       &__pin-comment {
         background-image: url('/assets/images/pin-image.svg') !important;

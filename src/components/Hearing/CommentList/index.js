@@ -28,7 +28,7 @@ export class CommentList extends React.Component {
       );
     }
     return (
-      <div className="commentlist">
+      <ul className="commentlist">
         {comments.map((comment) =>
           <Comment
             canReply={canReply}
@@ -50,7 +50,7 @@ export class CommentList extends React.Component {
             user={user}
           />
         )}
-      </div>
+      </ul>
     );
   }
 }

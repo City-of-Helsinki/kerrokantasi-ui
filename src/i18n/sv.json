@@ -14,7 +14,7 @@
   "commentsOnMap": "Åsikter på kartan",
   "borough": "Område",
   "timetable": "Tidsschema",
-  "addComment": "Svara",
+  "addComment": "Skriv en kommentar",
   "overview-map": "Karta",
   "open-hearings-on-map": "Pågående höranden på kartan",
   "infoHeaderText": "Information om tjänsten",
@@ -151,5 +151,8 @@
   "hearingCardComments": "Kommentarer",
   "hearingCardComment": "Kommentar",
   "labelListTagsTitle": "Taggar",
-  "hearingListNotPublished": "Opublicerad hörande,"
+  "hearingListNotPublished": "Opublicerad hörande,",
+  "showMoreReplies": "Visa svar",
+  "voteButtonLikes": "Gillar",
+  "voteButtonText": "Gillar den här kommentaren"
 }

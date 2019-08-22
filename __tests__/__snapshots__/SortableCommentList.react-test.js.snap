@@ -80,11 +80,15 @@ exports[`SortableCommentList component should render as expected 1`] = `
         <div
           className="commenticon"
         >
-          <Icon
-            Component="span"
-            name="comment-o"
-          />
-           
+          <span
+            aria-hidden="true"
+          >
+            <Icon
+              Component="span"
+              name="comment-o"
+            />
+             
+          </span>
           59
         </div>
       </h2>
@@ -209,7 +213,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "CREATED_AT_DESC": "Uusin ensin",
                 "POPULARITY_ASC": "Vähiten suosittu ensin",
                 "POPULARITY_DESC": "Suosituin ensin",
-                "addComment": "Vastaa",
+                "addComment": "Kirjoita kommentti",
                 "addGeojson": "Lisää geojson tiedostona",
                 "addOption": "Lisää vastausvaihtoehto",
                 "addProcess": "Lisää uusi vaihe",
@@ -430,7 +434,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "selectAnotherImage": "Valitse toinen kuva",
                 "selectOrDropFile": "Valitse tai pudota liite",
                 "selectOrDropImage": "Valitse tai pudota kuva",
-                "showMoreReplys": "Näytä lisää vastauksia",
+                "showMoreReplies": "Näytä vastaukset",
                 "showOnlyOpen": "Näytetään vain avoimet",
                 "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
                 "skipToMainContent": "Siirry pääsisältöön",
@@ -451,6 +455,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                 "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
                 "vote": "Äänestä",
+                "voteButtonLikes": "Tykkäystä",
+                "voteButtonText": "Tykkää tästä kommentista",
                 "voteReceived": "Ääni vastaanotettu. Kiitos!",
                 "welcome": "Kerro mielipiteesi",
                 "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",

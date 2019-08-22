@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
-import { Button, FormGroup } from 'react-bootstrap';
+import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import { Button, FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -138,7 +138,7 @@ class Comment extends React.Component {
    * @returns {String}
    */
   parseTimestamp = timestamp => (
-    moment(timestamp).format('hh:mm DD.MM.YYYY')
+    moment(timestamp).format('DD.MM.YYYY hh:mm')
   );
 
   /**
@@ -206,17 +206,21 @@ class Comment extends React.Component {
     this.setState({ answers: updatedAnswer });
   }
 
+  dateTooltip = data => {
+    return (
+      <Tooltip id="comment-date-tooltip">
+        {this.parseTimestamp(data.created_at)}
+      </Tooltip>
+    );
+  };
+
   /**
    * Renders the header area for the comment
    * @returns {Component}
    */
   renderCommentHeader = (isAdminUser, { data } = this.props) => (
     <div className="hearing-comment-header clearfix">
-      <div className="hearing-comment-votes">
-        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-          <Icon name="thumbs-o-up"/> {data.n_votes}
-        </Button>
-      </div>
+      {this.props.data.pinned && this.renderPinnedHeader()}
       <div className="hearing-comment-publisher">
         <span className="hearing-comment-user">
           {data.is_registered ?
@@ -225,7 +229,7 @@ class Comment extends React.Component {
               'hearing-comment-user-organization': isAdminUser,
             })}
             >
-              <Icon name="user"/>&nbsp;
+              <Icon name="user" aria-hidden="true" />&nbsp;
               {
                 isAdminUser ? data.organization
                 : <FormattedMessage id="registered"/>
@@ -235,9 +239,11 @@ class Comment extends React.Component {
             : null}
           {data.author_name || <FormattedMessage id="anonymous"/>}
         </span>
-        <span className="hearing-comment-date">
-          {this.parseTimestamp(data.created_at)}
-        </span>
+        <OverlayTrigger placement="top" overlay={this.dateTooltip(data)} delayShow={300}>
+          <span className="hearing-comment-date">
+            <FormattedRelative value={data.created_at} />
+          </span>
+        </OverlayTrigger>
       </div>
     </div>
   );
@@ -331,14 +337,12 @@ class Comment extends React.Component {
       <a
         href=""
         onClick={(event) => this.toggleEditor(event)}
-        style={{paddingRight: 10, borderRight: '1px solid black'}}
       >
         <FormattedMessage id="edit"/>
       </a>
       <a
         href=""
         onClick={(event) => this.handleDelete(event)}
-        style={{paddingLeft: 10}}
       >
         <FormattedMessage id="delete"/>
       </a>
@@ -349,16 +353,16 @@ class Comment extends React.Component {
    * If a thread can be replied to, render reply links
    */
   renderReplyLinks = () => (
-    <div>
+    <React.Fragment>
       <Icon name="reply"/>
       <a
         href=""
-        style={{marginLeft: 10, fontWeight: 'bold'}}
+        style={{marginLeft: 6, fontWeight: 'bold'}}
         onClick={this.handleToggleReplyEditor}
       >
         <FormattedMessage id="reply"/>
       </a>
-    </div>
+    </React.Fragment>
   );
 
   /**
@@ -404,7 +408,7 @@ class Comment extends React.Component {
    * @returns {Component<Comment>} resursivly renders comment component untill last depth.
    */
   renderSubComments = () => (
-    <div className="sub-comments">
+    <ul className="sub-comments">
       {
         this.props.data.subComments.map((subComment) => (
           <Comment
@@ -416,7 +420,7 @@ class Comment extends React.Component {
           />
         ))
       }
-    </div>
+    </ul>
   );
 
   /**
@@ -425,9 +429,7 @@ class Comment extends React.Component {
    */
   renderPinnedHeader = () => (
     <div className="hearing-comment-pinned-container">
-      <span className="hearing-comment-pinned-container__text">
-        <FormattedMessage id="pinnedComment"/>
-      </span>
+      <FormattedMessage id="pinnedComment" />
     </div>
   );
 
@@ -442,24 +444,24 @@ class Comment extends React.Component {
       return null;
     }
     return (
-      <React.Fragment>
-        <div
-          className={classnames([
-            'hearing-comment',
-            {
-              'comment-reply': this.props.isReply,
-              'hearing-comment__has-replys': data.subComments
-                && Array.isArray(data.subComments) && data.subComments.length > 0,
-              'comment-animate': this.state.shouldAnimate,
-              'hearing-comment__admin': isAdminUser,
-            }
-          ])}
-          onAnimationEnd={this.handleEndstAnimation}
-          ref={this.commentRef}
-        >
-          { this.props.data.pinned && this.renderPinnedHeader()}
-          { this.renderCommentHeader(isAdminUser) }
-          { !this.props.isReply && this.renderCommentAnswers() }
+      <li
+        className={classnames([
+          'hearing-comment',
+          {
+            'comment-reply': this.props.isReply,
+            'hearing-comment__has-replys': data.subComments
+              && Array.isArray(data.subComments) && data.subComments.length > 0,
+            'comment-animate': this.state.shouldAnimate,
+            'hearing-comment__admin': isAdminUser,
+            'hearing-comment__is-pinned': this.props.data.pinned,
+          }
+        ])}
+        onAnimationEnd={this.handleEndstAnimation}
+        ref={this.commentRef}
+      >
+        <div className="hearing-comment__comment-wrapper">
+          {this.renderCommentHeader(isAdminUser)}
+          {!this.props.isReply && this.renderCommentAnswers()}
           <div className="hearing-comment-body">
             <p>{nl2br(data.content)}</p>
           </div>
@@ -483,14 +485,26 @@ class Comment extends React.Component {
               )
               : null}
           </div>
-          {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
           {canEdit && this.renderEditLinks()}
+          <div className="hearing-comment__actions-bar">
+            <div className="hearing-comment__reply-link">
+              {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
+            </div>
+            <div className="hearing-comment-votes">
+              <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+                <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
+                <span className="sr-only">
+                  <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
+                </span>
+              </Button>
+            </div>
+          </div>
           {editorOpen && this.renderEditorForm()}
           {isReplyEditorOpen && this.renderReplyForm()}
           {this.renderViewReplyButton()}
         </div>
         {Array.isArray(data.subComments) && data.subComments.length > 0 && this.renderSubComments()}
-      </React.Fragment>
+      </li>
     );
   }
 }

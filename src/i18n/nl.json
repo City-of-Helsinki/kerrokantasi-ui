@@ -112,5 +112,8 @@
   "hearingCardComments": "Comments",
   "hearingCardComment": "Comment",
   "labelListTagsTitle": "Tags",
-  "hearingListNotPublished": "Unpublished hearing,"
+  "hearingListNotPublished": "Unpublished hearing,",
+  "showMoreReplies": "Show replies",
+  "voteButtonLikes": "Likes",
+  "voteButtonText": "Like this comment"
 }

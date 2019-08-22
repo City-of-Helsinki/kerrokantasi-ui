@@ -9,7 +9,7 @@ import getAttr from '../../utils/getAttr';
 const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
   return (
     <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}>
-      <h4>{getAttr(question.text, lang)}</h4>
+      <h3 className="h4">{getAttr(question.text, lang)}</h3>
       {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
           const optionContent = getAttr(option.text, lang);
           return (
