@@ -252,7 +252,9 @@ export class BaseCommentForm extends React.Component {
 
     return (
       <React.Fragment>
-        <h4><FormattedMessage id={headingId} /></h4>
+        <label htmlFor="commentNickname" className="h4">
+          <FormattedMessage id={headingId} />
+        </label>
         { isAdminUser && this.state.showAlert && this.renderAdminWarning() }
         { isAdminUser && this.renderHideNameOption() }
         {
@@ -265,6 +267,7 @@ export class BaseCommentForm extends React.Component {
           : (
             <FormGroup>
               <FormControl
+                id="commentNickname"
                 type="text"
                 placeholder={this.props.nicknamePlaceholder}
                 value={this.state.nickname}
@@ -338,7 +341,9 @@ export class BaseCommentForm extends React.Component {
           }
           <div className="comment-form__heading-container">
             <div className="comment-form__heading-container__title">
-              <h4><FormattedMessage id="writeComment"/></h4>
+              <label htmlFor="commentTextField" className="h4">
+                <FormattedMessage id="writeComment"/>
+              </label>
             </div>
             {
               this.isUserAdmin()
@@ -354,6 +359,7 @@ export class BaseCommentForm extends React.Component {
             componentClass="textarea"
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}
+            id="commentTextField"
           />
           <div className="comment-form__selected-images">
             {this.state.imageTooBig
@@ -376,17 +382,17 @@ export class BaseCommentForm extends React.Component {
           </div>
           <FormGroup className="comment-form__file">
             <ControlLabel><FormattedMessage id="add_images"/></ControlLabel>
-            <div className="comment-form__select-button">
+            <div className="comment-form__select-file">
+              <input
+                type="file"
+                ref="images"
+                id="fileInput"
+                multiple
+                className="custom-file-input"
+                onChange={(event) => this.handleChange(event)}
+              />
               <label className="btn btn-default btn-sm" htmlFor="fileInput">
-                <FormattedMessage id="choose_images"/>
-                <input
-                  type="file"
-                  ref="images"
-                  id="fileInput"
-                  multiple
-                  style={{display: 'none', visibility: 'hidden'}}
-                  onChange={(event) => this.handleChange(event)}
-                />
+                <FormattedMessage id="choose_images" />
               </label>
             </div>
             <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>

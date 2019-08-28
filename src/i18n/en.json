@@ -1,6 +1,6 @@
 {
   "add_images": "Add images to comment",
-  "addComment": "Answer",
+  "addComment": "Write a comment",
   "adminCommentMessage": "You are logged in as an administrator. Your name and organization will be displayed with your comment",
   "all": "All",
   "allHearings": "All hearings",
@@ -136,7 +136,7 @@
   "sectionImageCaption": "Caption",
   "sectionImageHelpText": "Recommended image size is 960 × 720. (Max. 1MB)",
   "sectionTitle": "Section title",
-  "showMoreReplys": "Show more replys",
+  "showMoreReplies": "Show replies",
   "showOnlyOpen": "Show only open",
   "sort": "Sort",
   "submit": "Submit",
@@ -169,5 +169,7 @@
   "hearingCardComments": "Comments",
   "hearingCardComment": "Comment",
   "labelListTagsTitle": "Tags",
-  "hearingListNotPublished": "Unpublished hearing,"
+  "hearingListNotPublished": "Unpublished hearing,",
+  "voteButtonLikes": "Likes",
+  "voteButtonText": "Like this comment"
 }

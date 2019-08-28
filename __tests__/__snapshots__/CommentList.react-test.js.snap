@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CommentList component should render as expected 1`] = `
-<div
+<ul
   className="commentlist"
 >
   <InjectIntl(Comment)
@@ -142,7 +142,7 @@ exports[`CommentList component should render as expected 1`] = `
       }
     }
   />
-</div>
+</ul>
 `;
 
 exports[`CommentList should render a message if no comments were found 1`] = `

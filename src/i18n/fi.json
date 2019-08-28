@@ -1,6 +1,6 @@
 {
   "add_images": "Lisää kuvia kommenttiisi",
-  "addComment": "Vastaa",
+  "addComment": "Kirjoita kommentti",
   "addGeojson": "Lisää geojson tiedostona",
   "addOption": "Lisää vastausvaihtoehto",
   "addProcess": "Lisää uusi vaihe",
@@ -211,7 +211,7 @@
   "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
   "selectAnotherImage": "Valitse toinen kuva",
   "selectOrDropFile": "Valitse tai pudota liite",
-  "showMoreReplys": "Näytä lisää vastauksia",
+  "showMoreReplies": "Näytä vastaukset",
   "selectOrDropImage": "Valitse tai pudota kuva",
   "showOnlyOpen": "Näytetään vain avoimet",
   "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
@@ -251,6 +251,7 @@
   "hearingCardComments": "Kommenttia",
   "hearingCardComment": "Kommentti",
   "labelListTagsTitle": "Asiasanat",
-  "hearingListNotPublished": "Julkaisematon kuuleminen,"
-
+  "hearingListNotPublished": "Julkaisematon kuuleminen,",
+  "voteButtonLikes": "Tykkäystä",
+  "voteButtonText": "Tykkää tästä kommentista"
 }
