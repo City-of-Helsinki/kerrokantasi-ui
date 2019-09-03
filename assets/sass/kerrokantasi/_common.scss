@@ -17,10 +17,6 @@ p {
   min-width: 320px;
 }
 
-.map {
-  margin-top: 40px;
-}
-
 main {
   &.fullscreen {
     padding: 0;
@@ -125,12 +121,6 @@ a.fullwidth {
   background: $light-gray;
   text-align: center;
   margin-bottom: 15px;
-}
-
-.social-bar {
-  display: flex;
-  flex-direction: row;
-  margin: 12px 0;
 }
 
 // These styles could be eventually introduced to common Bootstrap theme
