@@ -2,11 +2,14 @@ import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import LoadSpinner from './components/LoadSpinner';
+import config from '../src/config';
 
 const HomeContainer = lazy(() => import(
   /* webpackChunkName: "home" */ './views/Home'));
 const Info = lazy(() => import(
   /* webpackChunkName: "info" */ './views/Info'));
+const AccessibilityInfo = lazy(() => import(
+  /* webpackChunkName: "accessibility_info" */ './views/AccessibilityInfo'));
 const HearingsContainer = lazy(() => import(
   /* webpackChunkName: "hearings" */'./views/Hearings'));
 const HearingContainer = lazy(() => import(
@@ -42,6 +45,9 @@ const Routes = () => (
       <Route path="/:hearingSlug/fullscreen" component={FullscreenHearingContainer} />
       <Route path="/:hearingSlug/:sectionId" component={HearingContainer} />
       <Route path="/:hearingSlug" component={HearingContainer} />
+      {config.showAccessibilityInfo && (
+        <Route path="/accessibility" component={AccessibilityInfo} />
+      )}
     </Switch>
   </Suspense>
 );

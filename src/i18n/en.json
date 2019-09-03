@@ -188,5 +188,7 @@
   "labelListTagsTitle": "Tags",
   "hearingListNotPublished": "Unpublished hearing,",
   "voteButtonLikes": "Likes",
-  "voteButtonText": "Like this comment"
+  "voteButtonText": "Like this comment",
+  "accessibilityLink": "Accessibility Statement",
+  "accessibilityPage": "Accessibility Statement"
 }

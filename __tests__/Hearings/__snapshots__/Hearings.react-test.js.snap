@@ -104,6 +104,8 @@ exports[`Hearings component should render as expected 1`] = `
           "CREATED_AT_DESC": "Uusin ensin",
           "POPULARITY_ASC": "Vähiten suosittu ensin",
           "POPULARITY_DESC": "Suosituin ensin",
+          "accessibilityLink": "Saavutettavuusseloste",
+          "accessibilityPage": "Saavutettavuusseloste",
           "addComment": "Kirjoita kommentti",
           "addGeojson": "Lisää geojson tiedostona",
           "addOption": "Lisää vastausvaihtoehto",

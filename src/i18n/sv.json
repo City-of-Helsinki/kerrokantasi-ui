@@ -173,5 +173,7 @@
   "hearingListNotPublished": "Opublicerad hörande,",
   "showMoreReplies": "Visa svar",
   "voteButtonLikes": "Gillar",
-  "voteButtonText": "Gillar den här kommentaren"
+  "voteButtonText": "Gillar den här kommentaren",
+  "accessibilityLink": "Tillgänglighetsutlåtande",
+  "accessibilityPage": "Tillgänglighetsutlåtande"
 }
