@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Select from 'react-select';
+import isEmpty from 'lodash/isEmpty';
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
 
@@ -42,15 +43,15 @@ class HearingsSearch extends React.Component {
             </FormGroup>
             <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
               <ControlLabel><FormattedMessage id="searchLabels"/></ControlLabel>
-              {labels.length !== 0 &&
-              <Select
-                multi
-                value={selectedLabels}
-                options={labelsAsOptions}
-                onChange={(value) => handleSelectLabels(value)}
-                placeholder={intl.formatMessage({id: 'searchPlaceholder'})}
-              />
-              }
+              {!isEmpty(labels) && (
+                <Select
+                  multi
+                  value={selectedLabels}
+                  options={labelsAsOptions}
+                  onChange={(value) => handleSelectLabels(value)}
+                  placeholder={intl.formatMessage({id: 'searchPlaceholder'})}
+                />
+              )}
             </FormGroup>
             <Button className="hearings-search__button" bsStyle="primary" type="submit">
               <FormattedMessage id="search"/>

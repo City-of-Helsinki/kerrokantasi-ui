@@ -12,8 +12,7 @@ const getFileTitle = (title, language) => {
   if (title && title[language] && typeof title[language] === 'string') {
     return title[language];
   }
-
-  return title[Object.keys(title).length - 1];
+  return title[Object.keys(title)];
 };
 
 /**

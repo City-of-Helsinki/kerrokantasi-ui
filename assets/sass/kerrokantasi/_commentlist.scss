@@ -214,7 +214,7 @@
       &:hover,
       &:focus {
         background: transparent;
-        color: $link-color;
+        color: $link-hover-color;
       }
 
       .fa {
@@ -323,22 +323,10 @@
     font-size: 1.4rem;
   }
 
-  .section-title {
-    cursor: pointer;
-
-    &-comments {
-      float: right;
-    }
-  }
-
   .closure-info {
     background-color: $theme-primary-light;
     padding-right: 1em;
     padding-left: 1em;
     padding-top: 1px;
-
-    .section-title {
-      cursor: auto;
-    }
   }
 }
