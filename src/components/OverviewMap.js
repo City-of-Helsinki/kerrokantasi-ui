@@ -5,10 +5,14 @@ import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
-// eslint-disable-next-line import/no-unresolved
+
+import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
+import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
+import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
+/* eslint-disable import/no-unresolved */
 import localization from '@city-i18n/localization.json';
-// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+/* eslint-enable import/no-unresolved */
 
 class OverviewMap extends React.Component {
   state = {
@@ -93,9 +97,9 @@ class OverviewMap extends React.Component {
                 position={latLngs}
                 key={Math.random()}
                 icon={new Leaflet.Icon({
-                  iconUrl: require('../../assets/images/leaflet/marker-icon.png'),
-                  shadowUrl: require('../../assets/images/leaflet/marker-shadow.png'),
-                  iconRetinaUrl: require('../../assets/images/leaflet/marker-icon-2x.png'),
+                  iconUrl: leafletMarkerIconUrl,
+                  shadowUrl: leafletMarkerShadowUrl,
+                  iconRetinaUrl: leafletMarkerRetinaIconUrl,
                   iconSize: [25, 41],
                   iconAnchor: [13, 41]
                 })}
@@ -138,11 +142,6 @@ class OverviewMap extends React.Component {
             const bounds = input.leafletElement.getBounds();
             if (bounds.isValid()) {
               input.context.map.fitBounds(bounds);
-              // const viewportBounds = [
-              //   [59.9, 24.59],  // SouthWest corner
-              //   [60.43, 25.3]  // NorthEast corner
-              // ];  // Wide Bounds of City of Helsinki area
-              // input.context.map.setMaxBounds(viewportBounds);
             }
           }}
         >
