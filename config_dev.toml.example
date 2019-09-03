@@ -41,3 +41,7 @@ expressjs_session_secret="dev-secret-do-not-use-in-production"
 # for instance "kerrokantasi-ui-turku".
 # Default: "cities/helsinki"
 city_config="cities/helsinki"
+
+# Should display accessibility page link in the footer and accessibility page content
+# Default: false
+# show_accessibility_info=true

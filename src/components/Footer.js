@@ -10,6 +10,7 @@ import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import config from '../config';
 
 const getCurrentYear = () => {
   const today = new Date();
@@ -66,6 +67,13 @@ export default function Footer(props) {
           <Col xs={12}>
             <div className="site-footer-small-print">
               <ul className="small-print-nav">
+                {config.showAccessibilityInfo && (
+                  <li>
+                    <Link to={{ path: "/accessibility" }}>
+                      <FormattedMessage id="accessibilityLink" />
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <a href={urls.privacyPolicy} target="_blank">
                     <FormattedMessage id="privacyPolicy" />

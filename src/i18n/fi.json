@@ -270,5 +270,7 @@
   "labelListTagsTitle": "Asiasanat",
   "hearingListNotPublished": "Julkaisematon kuuleminen,",
   "voteButtonLikes": "Tykkäystä",
-  "voteButtonText": "Tykkää tästä kommentista"
+  "voteButtonText": "Tykkää tästä kommentista",
+  "accessibilityLink": "Saavutettavuusseloste",
+  "accessibilityPage": "Saavutettavuusseloste"
 }
