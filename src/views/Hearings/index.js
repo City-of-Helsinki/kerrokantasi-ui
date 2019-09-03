@@ -7,6 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import { Col, Row } from 'react-bootstrap';
 import { get, find, includes } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
@@ -277,7 +278,7 @@ export class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-        {labels && labels.length && <WrappedHearingList
+        {!isEmpty(labels) ? <WrappedHearingList
           hearings={hearings}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
@@ -299,7 +300,7 @@ export class Hearings extends React.Component {
               search: location.search,
             });
           }}
-        />}
+        /> : <LoadSpinner />}
       </div>
     );
   }

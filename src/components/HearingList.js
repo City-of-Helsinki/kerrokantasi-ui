@@ -16,6 +16,7 @@ import OverviewMap from '../components/OverviewMap';
 import {keys, capitalize} from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import Helmet from 'react-helmet';
+import isEmpty from 'lodash/isEmpty';
 
 import {labelShape} from '../types';
 
@@ -183,7 +184,7 @@ export const HearingList = ({
   intl
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
-  const hasHearings = hearings && hearings.length;
+  const hasHearings = !isEmpty(hearings);
 
   const hearingListMap = hearingsToShow ? (
     <Col xs={12}>
