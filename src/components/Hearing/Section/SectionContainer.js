@@ -1,37 +1,42 @@
 import React from 'react';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
+import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import { Grid, Row, Col, Collapse } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
+import { withRouter } from 'react-router-dom';
+
+import ContactList from './ContactList';
+import DeleteModal from '../../DeleteModal';
+import HearingMap from '../HearingMap';
+import Icon from '../../../utils/Icon';
+import Link from '../../LinkWithLang';
+import PluginContent from '../../PluginContent';
+import SectionAttachment from './SectionAttachment';
+import SectionBrowser from '../../SectionBrowser';
+import SectionImage from './SectionImage';
+import SortableCommentList from '../../SortableCommentList';
+import config from '../../../config';
+import getAttr from '../../../utils/getAttr';
+import SubSectionsList from './SubSectionsList';
+import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';
+import { parseQuery } from '../../../utils/urlQuery';
 import {
   getSections,
-  getIsHearingPublished,
-  getIsHearingClosed,
   getHearingContacts,
   getHearingWithSlug,
-  getMainSectionComments
+  getMainSectionComments,
 } from '../../../selectors/hearing';
-import isEmpty from 'lodash/isEmpty';
-import SectionImage from './SectionImage';
-import SectionAttachment from './SectionAttachment';
-import SectionClosureInfo from './SectionClosureInfo';
-import PluginContent from '../../PluginContent';
-import SectionBrowser from '../../SectionBrowser';
-import ContactList from './ContactList';
-import SortableCommentList from '../../SortableCommentList';
-import DeleteModal from '../../DeleteModal';
-import getAttr from '../../../utils/getAttr';
 import {
   SectionTypes,
-  userCanComment,
   isSectionVotable,
   isSectionCommentable,
-  isMainSection
+  isMainSection,
+  userCanComment,
 } from '../../../utils/section';
-import {hasFullscreenMapPlugin, canEdit} from '../../../utils/hearing';
-import Icon from '../../../utils/Icon';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import {withRouter} from 'react-router-dom';
-import {parseQuery} from '../../../utils/urlQuery';
 import {
   postSectionComment,
   postVote,
@@ -42,29 +47,29 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-import Link from '../../LinkWithLang';
 
 export class SectionContainerComponent extends React.Component {
   state = {
     showDeleteModal: false,
     commentToDelete: {},
-    showLightbox: false
+    showLightbox: false,
+    mapContainer: null,
+    mainHearingDetailsOpen: false,
+    mainHearingProjectOpen: false,
+    mainHearingContactsOpen: false,
+    mainHearingAttachmentsOpen: false,
   };
 
   getSectionNav = () => {
     const {sections, match} = this.props;
-    const filteredSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
+    const filterNotClosedSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
+    const filteredSections = filterNotClosedSections.filter(section => section.type !== SectionTypes.MAIN);
     const currentSectionIndex = match.params.sectionId
       ? filteredSections.findIndex(section => section.id === match.params.sectionId)
       : 0;
-    let prevPath;
-    if (filteredSections[currentSectionIndex - 1] && isMainSection(filteredSections[currentSectionIndex - 1])) {
-      prevPath = `/${match.params.hearingSlug}/`;
-    } else {
-      prevPath = currentSectionIndex - 1 >= 0
-        ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id
-        : undefined;
-    }
+    const prevPath = currentSectionIndex - 1 >= 0
+      ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id
+      : undefined;
     const nextPath = currentSectionIndex + 1 < filteredSections.length
       ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id
       : undefined;
@@ -77,8 +82,14 @@ export class SectionContainerComponent extends React.Component {
     };
   }
 
+  // In order to keep a track of map container dimensions
+  // Save reference in state.
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
+  }
+
   /**
-   * When Näytä lisää vastauksia is pressed.
+   * When "Show replies" is pressed.
    * Call the redecer to fetch sub comments and populate inside the specific comment
    */
   handleGetSubComments = (commentId, sectionId) => {
@@ -146,12 +157,6 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showDeleteModal: false, commentToDelete: {}});
   }
 
-  isCommentable = (section) => {
-    const {hearing, user} = this.props;
-    const hasPlugin = !!section.plugin_identifier;
-    return isSectionCommentable(hearing, section, user) && !hasPlugin;
-  }
-
   openLightbox = () => {
     document.body.classList.remove('nav-fixed');
     this.setState({showLightbox: true});
@@ -162,151 +167,454 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showLightbox: false});
   }
 
+  toPhaseFirstHearing = (phase) => {
+    const { hearings } = phase;
+    const { history } = this.props;
+
+    if (hearings.length > 0) {
+      const hearingSlug = hearings[0];
+      history.push(`/${hearingSlug}${history.location.search}`);
+    }
+  }
+
   /**
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  renderFileSection = (section) => {
+  renderFileSection = (section, language) => {
     const {files} = section;
-    const {language} = this.props;
-    if (files && files.length > 0) {
-      // Construct the UI specification for displaying files.
+
+    if (!(files && files.length > 0)) {
+      return null;
+    }
+
+    return (
+      <section className="hearing-section hearing-attachments">
+        <h2>
+          <button
+            className="hearing-section-toggle-button"
+            onClick={() => this.setState({ mainHearingAttachmentsOpen: !this.state.mainHearingAttachmentsOpen })}
+            aria-controls="hearing-section-attachments-accordion"
+            id="hearing-section-attachments-accordion-button"
+            aria-expanded={this.state.mainHearingAttachmentsOpen ? "true" : "false"}
+          >
+            <Icon
+              name="angle-right"
+              className={this.state.mainHearingAttachmentsOpen ? "open" : ""}
+              aria-hidden="true"
+            />
+            <FormattedMessage id="attachments" />
+          </button>
+        </h2>
+        <Collapse
+          in={this.state.mainHearingAttachmentsOpen}
+          id="hearing-section-attachments-accordion"
+          aria-hidden={this.state.mainHearingAttachmentsOpen ? "false" : "true"}
+          role="region"
+        >
+          <div className="accordion-content">
+            <div className="section-content-spacer">
+              {files.map((file) => (
+                <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+              ))}
+            </div>
+          </div>
+        </Collapse>
+      </section>
+    );
+  }
+
+  renderProjectPhaseSection = (hearing, activeLanguage) => {
+    const project = get(hearing, 'project');
+    const phases = get(project, 'phases') || [];
+    const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
+    const numberOfItems = phases.length;
+
+    if (isEmpty(project)) {
+      return null;
+    }
+
+    return (
+      <section className="hearing-section hearing-project">
+        <h2>
+          <button
+            className="hearing-section-toggle-button"
+            onClick={() => this.setState({ mainHearingProjectOpen: !this.state.mainHearingProjectOpen })}
+            aria-controls="hearing-section-project-accordion"
+            id="hearing-section-project-accordion-button"
+            aria-expanded={this.state.mainHearingProjectOpen ? "true" : "false"}
+          >
+            <span>
+              <Icon
+                name="angle-right"
+                className={this.state.mainHearingProjectOpen ? "open" : ""}
+                aria-hidden="true"
+              />
+              <FormattedMessage id="phase" /> {activePhaseIndex + 1}/{numberOfItems}
+            </span>
+            <span className="hearing-section-toggle-button-subtitle">
+              <FormattedMessage id="project" /> {getAttr(project.title, activeLanguage)}
+            </span>
+          </button>
+        </h2>
+        <Collapse
+          in={this.state.mainHearingProjectOpen}
+          id="hearing-section-project-accordion"
+          aria-hidden={this.state.mainHearingProjectOpen ? "false" : "true"}
+          role="region"
+        >
+          <div className="accordion-content">
+            <div className="project-phases-list section-content-spacer">
+              {phases.map((phase, index) => (
+                <div className="phases-list-item" key={phase.id}>
+                  <button
+                    className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}
+                    onClick={() => this.toPhaseFirstHearing(phase)}
+                  >
+                    {index + 1}
+                  </button>
+                  <div className="phase-texts">
+                    <span className="phase-title">
+                      {getAttr(phase.title, activeLanguage)}
+                    </span>
+                    <span className="phase-description">
+                      {getAttr(phase.description, activeLanguage)}
+                    </span>
+                    <span className="phase-schedule">
+                      {getAttr(phase.schedule, activeLanguage)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Collapse>
+      </section>
+    );
+  }
+
+  renderContacts = (contacts) => {
+    if (isEmpty(contacts)) {
+      return null;
+    }
+
+    return (
+      <section className="hearing-section hearing-contacts">
+        <h2>
+          <button
+            className="hearing-section-toggle-button"
+            onClick={() => this.setState({ mainHearingContactsOpen: !this.state.mainHearingContactsOpen })}
+            aria-controls="hearing-section-contacts-accordion"
+            id="hearing-section-contacts-accordion-button"
+            aria-expanded={this.state.mainHearingContactsOpen ? "true" : "false"}
+          >
+            <Icon
+              name="angle-right"
+              className={this.state.mainHearingContactsOpen ? "open" : ""}
+              aria-hidden="true"
+            />
+            <FormattedMessage id="contactPersons" />
+          </button>
+        </h2>
+        <Collapse
+          in={this.state.mainHearingContactsOpen}
+          id="hearing-section-contacts-accordion"
+          aria-hidden={this.state.mainHearingContactsOpen ? "false" : "true"}
+          role="region"
+        >
+          <div className="accordion-content">
+            <div className="section-content-spacer">
+              <ContactList contacts={contacts} />
+            </div>
+          </div>
+        </Collapse>
+      </section>
+    );
+  }
+
+  renderCommentsSection = () => {
+    const {
+      fetchAllComments,
+      fetchCommentsForSortableList,
+      fetchMoreComments,
+      hearing,
+      match,
+      sections,
+      user,
+    } = this.props;
+
+    const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
+    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
+
+    if (!userCanComment(user, section)) {
+      return null;
+    }
+
+    return (
+      <section className="hearing-section comments-section" id="comments-section">
+        {reportUrl && (
+          <p className="report-download text-right small">
+            <a href={reportUrl}>
+              <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
+            </a>
+          </p>
+        )}
+        <SortableCommentList
+          section={section}
+          canComment={isSectionCommentable(hearing, section, user)}
+          onPostComment={this.onPostComment}
+          onPostReply={this.onPostReply}
+          onGetSubComments={this.handleGetSubComments}
+          canVote={isSectionVotable(hearing, section, user)}
+          onPostVote={this.onVoteComment}
+          defaultNickname={user && user.displayName}
+          isSectionComments={section}
+          onDeleteComment={this.handleDeleteClick}
+          onEditComment={this.onEditComment}
+          fetchAllComments={fetchAllComments}
+          fetchComments={fetchCommentsForSortableList}
+          fetchMoreComments={fetchMoreComments}
+          displayVisualization={userIsAdmin || hearing.closed}
+          published={hearing.published} // Needed so comments are not diplayed in hearing drafts
+          closed={hearing.closed}
+        />
+      </section>
+    );
+  }
+
+  renderSectionImage = (section, language) => {
+    const { showLightbox } = this.state;
+    const sectionImage = section.images[0];
+
+    if (!sectionImage) {
+      return null;
+    }
+
+    return (
+      <SectionImage
+        image={sectionImage}
+        caption={getAttr(sectionImage.caption, language)}
+        title={getAttr(sectionImage.title, language)}
+        altText={getAttr(sectionImage.alt_text, language)}
+        showLightbox={showLightbox}
+        openLightbox={this.openLightbox}
+        closeLightbox={this.closeLightbox}
+      />
+    );
+  }
+
+  renderSectionContent = (section, language) => {
+    if (isEmpty(section.content)) {
+      return null;
+    }
+    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
+  }
+
+  renderSectionAbstract = (section, activeLanguage) => {
+    if (isEmpty(section.abstract)) {
+      return null;
+    }
+
+    return (
+      <div
+        className="lead"
+        dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, activeLanguage) }}
+      />
+    );
+  }
+
+  renderMainDetails = (hearing, section, language) => {
+    const sectionImage = section.images[0];
+
+    if (!isEmpty(section.content) || sectionImage) {
       return (
-        <div className="hearing-attachments">
-          <h4><FormattedMessage id="attachments" /></h4>
-          {
-            files.map((file) => (
-              <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
-            ))
-          }
-        </div>
+        <section className="hearing-section main-content">
+          <h2>
+            <button
+              className="hearing-section-toggle-button"
+              onClick={() => this.setState({ mainHearingDetailsOpen: !this.state.mainHearingDetailsOpen })}
+              aria-controls="hearing-section-details-accordion"
+              id="hearing-section-details-accordion-button"
+              aria-expanded={this.state.mainHearingDetailsOpen ? "true" : "false"}
+            >
+              <Icon
+                name="angle-right"
+                className={this.state.mainHearingDetailsOpen ? "open" : ""}
+                aria-hidden="true"
+              />
+              <FormattedMessage id="sectionInformationTitle" />
+            </button>
+          </h2>
+          <Collapse
+            in={this.state.mainHearingDetailsOpen}
+            id="hearing-section-details-accordion"
+            aria-hidden={this.state.mainHearingDetailsOpen ? "false" : "true"}
+            role="region"
+          >
+            <div className="accordion-content">
+              <div className="section-content-spacer">
+                {this.renderSectionImage(section, language)}
+                {/* Render main section title if it exists and it's not the same as the hearing title */}
+                {!isEmpty(section.title) && (getAttr(hearing.title, language) !== getAttr(section.title, language)) && (
+                  <h3>{getAttr(section.title, language)}</h3>
+                )}
+                {this.renderSectionContent(section, language)}
+              </div>
+            </div>
+          </Collapse>
+        </section>
       );
     }
     return null;
   }
 
-  render() {
+  renderMainHearing = (section, mainSection) => {
     const {
-      hearing,
-      showClosureInfo,
-      sections,
-      match,
-      language,
+      activeLanguage,
       contacts,
-      intl,
-      user,
       fetchAllComments,
-      mainSectionComments
+      hearing,
+      language,
+      mainSectionComments,
+      match,
+      user,
     } = this.props;
-    const {showLightbox} = this.state;
-    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
-    const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
-    const sectionImage = section.images[0];
-    const closureInfoContent = sections.find(sec => sec.type === SectionTypes.CLOSURE)
-      ? getAttr(sections.find(sec => sec.type === SectionTypes.CLOSURE).content, language)
-      : intl.formatMessage({id: 'defaultClosureInfo'});
-    const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
-    const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
 
     return (
-      <div>
+      <React.Fragment>
+        {hearing.geojson && (
+          <Col md={4} lg={3} mdPush={8} lgPush={9}>
+            <div className="hearing-map-container" ref={this.handleSetMapContainer}>
+              <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
+            </div>
+          </Col>
+        )}
+        <Col md={8} mdPull={hearing.geojson && 4} lgPull={hearing.geojson && 3} mdPush={!hearing.geojson ? 2 : 0}>
+          {this.renderMainDetails(hearing, section, language)}
+
+          {this.renderProjectPhaseSection(hearing, activeLanguage)}
+
+          {this.renderContacts(contacts)}
+
+          {this.renderFileSection(section, language)}
+
+          {mainSection.plugin_identifier &&
+            <section className="hearing-section plugin-content">
+              <PluginContent
+                hearingSlug={match.params.hearingSlug}
+                fetchAllComments={fetchAllComments}
+                section={mainSection}
+                comments={mainSectionComments}
+                onPostComment={this.onPostPluginComment}
+                onPostVote={this.onVotePluginComment}
+                user={user}
+              />
+              {hasFullscreenMapPlugin(hearing) && (
+                <Link
+                  to={{ path: getHearingURL(hearing, { fullscreen: true }) }}
+                  className="btn btn-lg btn-block btn-primary"
+                >
+                  <Icon name="arrows-alt" fixedWidth aria-hidden="true" />&nbsp;
+                  <FormattedMessage id="openFullscreenMap" />
+                </Link>
+              )}
+            </section>
+          }
+
+          <SubSectionsList hearing={hearing} language={language} user={user} />
+
+          {this.renderCommentsSection()}
+        </Col>
+      </React.Fragment>
+    );
+  }
+
+  renderSubHearing = (section) => {
+    const {
+      activeLanguage,
+      hearing,
+      language,
+      sections,
+      user,
+    } = this.props;
+
+    const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
+
+    return (
+      <React.Fragment>
+        <Col md={8} mdPush={2}>
+          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} className="top" />}
+
+          <h2 className="hearing-subsection-title">
+            {getAttr(section.title, language)}
+          </h2>
+
+          {!(section.commenting === 'none') && (
+            <div className="hearing-subsection-comments-header">
+              <div className="hearing-subsection-comments">
+                <Icon name="comment-o" fixedWidth />&nbsp;
+                <FormattedPlural
+                  value={section.n_comments}
+                  one={<FormattedMessage id="sectionTotalComment" values={{ n: section.n_comments }} />}
+                  other={<FormattedMessage id="sectionTotalComments" values={{ n: section.n_comments }} />}
+                />
+              </div>
+              {isSectionCommentable(hearing, section, user) && (
+                <AnchorLink offset="100" href="#comments-section" className="hearing-subsection-write-comment-link">
+                  <FormattedMessage id="headerWriteCommentLink" />
+                </AnchorLink>
+              )}
+            </div>
+          )}
+
+          {this.renderSectionImage(section, language)}
+          {this.renderSectionAbstract(section, activeLanguage)}
+          {this.renderSectionContent(section, language)}
+
+          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} className="bottom" />}
+
+          {this.renderCommentsSection()}
+        </Col>
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    const { match, sections } = this.props;
+    const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
+    const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
+
+    return (
+      <React.Fragment>
         {isEmpty(section) ?
           <div>Loading</div>
         :
-          <div className="container">
-            <div className="hearing-content-section">
-              <Grid>
-                <Row>
-                  <Col md={8} mdOffset={2}>
-                    {sectionImage &&
-                      <SectionImage
-                        image={sectionImage}
-                        caption={getAttr(sectionImage.caption, language)}
-                        title={getAttr(sectionImage.title, language)}
-                        altText={getAttr(sectionImage.alt_text, language)}
-                        showLightbox={showLightbox}
-                        openLightbox={this.openLightbox}
-                        closeLightbox={this.closeLightbox}
-                      />
-                    }
-                    {!isEmpty(section.abstract) &&
-                      <div
-                        className="section-abstract lead"
-                        dangerouslySetInnerHTML={{__html: getAttr(section.abstract, language)}}
-                      />
-                    }
-                    {showClosureInfo
-                      ? <SectionClosureInfo content={closureInfoContent} />
-                      : null
-                    }
-                    {!isEmpty(section.content) &&
-                      <div dangerouslySetInnerHTML={{__html: getAttr(section.content, language)}} />
-                    }
-                    {
-                      this.renderFileSection(section)
-                    }
-                    {mainSection.plugin_identifier &&
-                    <div className="plugin-content">
-                      <PluginContent
-                        hearingSlug={match.params.hearingSlug}
-                        fetchAllComments={fetchAllComments}
-                        section={mainSection}
-                        comments={mainSectionComments}
-                        onPostComment={this.onPostPluginComment}
-                        onPostVote={this.onVotePluginComment}
-                        user={user}
-                      />
-                    </div>
-                    }
-                    {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
-                    {section.id === mainSection.id && <ContactList contacts={contacts} />}
-                    {hasFullscreenMapPlugin(hearing) &&
-                      <Link to={{path: `/${match.params.hearingSlug}/fullscreen`}}>
-                        <Button style={{marginBottom: '48px'}} bsStyle="primary" bsSize="large" block>
-                          <Icon name="arrows-alt" fixedWidth />
-                          <h4><FormattedMessage id="openFullscreenMap" /></h4>
-                        </Button>
-                      </Link>
-                    }
-                    <SortableCommentList
-                      section={section}
-                      canComment={this.isCommentable(section) && userCanComment(this.props.user, section)}
-                      onPostComment={this.onPostComment}
-                      onPostReply={this.onPostReply}
-                      onGetSubComments={this.handleGetSubComments}
-                      canVote={isSectionVotable(hearing, section, user)}
-                      onPostVote={this.onVoteComment}
-                      defaultNickname={user && user.displayName}
-                      isSectionComments={section}
-                      onDeleteComment={this.handleDeleteClick}
-                      onEditComment={this.onEditComment}
-                      fetchAllComments={fetchAllComments}
-                      fetchComments={this.props.fetchCommentsForSortableList}
-                      fetchMoreComments={this.props.fetchMoreComments}
-                      displayVisualization={userIsAdmin || hearing.closed}
-                      published={hearing.published} // Needed so comments are not diplayed in hearing drafts
-                      closed={hearing.closed}
-                    />
-                  </Col>
-                </Row>
-              </Grid>
+          <Grid>
+            <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
+              <Row>
+                {isMainSection(section) ? (
+                  this.renderMainHearing(section, mainSection)
+                ) : (
+                  this.renderSubHearing(section)
+                )}
+              </Row>
             </div>
             <DeleteModal
               isOpen={this.state.showDeleteModal}
               close={this.closeDeleteModal}
               onDeleteComment={this.onDeleteComment}
             />
-          </div>
+          </Grid>
         }
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
   hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
-  showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug)
-    && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
   sections: getSections(state, ownProps.match.params.hearingSlug),
   sectionComments: state.sectionComments,
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
@@ -316,41 +624,51 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postSectionComment: (hearingSlug, sectionId, commentData) =>
-    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
-  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) =>
-    dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
-  editComment: (hearingSlug, sectionId, commentId, commentData) =>
-    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
-  deleteSectionComment: (hearingSlug, sectionId, commentId) =>
-    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId)),
-  fetchAllComments: (hearingSlug, sectionId, ordering) =>
-    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
-  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
-
+  postSectionComment: (hearingSlug, sectionId, commentData) => (
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData))
+  ),
+  getCommentSubComments: (commentId, sectionId) => (
+    dispatch(getCommentSubComments(commentId, sectionId))
+  ),
+  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) => (
+    dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId))
+  ),
+  editComment: (hearingSlug, sectionId, commentId, commentData) => (
+    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData))
+  ),
+  deleteSectionComment: (hearingSlug, sectionId, commentId) => (
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId))
+  ),
+  fetchAllComments: (hearingSlug, sectionId, ordering) => (
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering))
+  ),
+  fetchCommentsForSortableList: (sectionId, ordering) => (
+    dispatch(fetchSectionComments(sectionId, ordering))
+  ),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => (
+    dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl))
+  ),
 });
 
 SectionContainerComponent.propTypes = {
-  sections: PropTypes.array,
-  mainSectionComments: PropTypes.object,
-  match: PropTypes.object,
-  location: PropTypes.object,
-  language: PropTypes.string,
-  showClosureInfo: PropTypes.bool,
+  activeLanguage: PropTypes.string,
   contacts: PropTypes.array,
-  postSectionComment: PropTypes.func,
-  postVote: PropTypes.func,
-  editComment: PropTypes.func,
   deleteSectionComment: PropTypes.func,
-  hearing: PropTypes.object,
-  user: PropTypes.object,
-  intl: intlShape.isRequired,
+  editComment: PropTypes.func,
   fetchAllComments: PropTypes.func,
   fetchCommentsForSortableList: PropTypes.func,
   fetchMoreComments: PropTypes.func,
   getCommentSubComments: PropTypes.func,
+  hearing: PropTypes.object,
+  history: PropTypes.object,
+  language: PropTypes.string,
+  location: PropTypes.object,
+  mainSectionComments: PropTypes.object,
+  match: PropTypes.object,
+  postSectionComment: PropTypes.func,
+  postVote: PropTypes.func,
+  sections: PropTypes.array,
+  user: PropTypes.object,
 };
 
 export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));
