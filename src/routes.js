@@ -39,15 +39,15 @@ const Routes = () => (
     <Switch>
       <Route exact path="/" component={HomeContainer} />
       <Route path="/info" component={Info} />
+      {config.showAccessibilityInfo && (
+        <Route path="/accessibility" component={AccessibilityInfo} />
+      )}
       <Route path="/hearings/:tab" component={HearingsContainer} />
       <Route path="/hearing/new" component={NewHearingContainer} />
       <Route path="/hearing/:hearingSlug" component={Redirector} />
       <Route path="/:hearingSlug/fullscreen" component={FullscreenHearingContainer} />
       <Route path="/:hearingSlug/:sectionId" component={HearingContainer} />
       <Route path="/:hearingSlug" component={HearingContainer} />
-      {config.showAccessibilityInfo && (
-        <Route path="/accessibility" component={AccessibilityInfo} />
-      )}
     </Switch>
   </Suspense>
 );
