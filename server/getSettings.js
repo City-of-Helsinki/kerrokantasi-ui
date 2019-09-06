@@ -6,17 +6,11 @@ const defaults = {
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
   kerrokantasi_api_base: 'http://localhost:8000',
-  // We'll request access to KK API instance identified by this
-  kerrokantasi_api_jwt_audience: null,
   // URL this frontend runs at, for callbacks
   public_url: 'http://localhost:8080',
   // Image used as background for the Hero
   hero_image_url: 'https://source.unsplash.com/1600x900/?squirrel',
   // Client Identifier in the Helsinki SSO system
-  auth_client_id: null,
-  // Shared secret in the Helsinki SSO system
-  auth_shared_secret: null,
-  // cookie signing secret (among other things) for ExpressJS
   expressjs_session_secret: null,
   // only used to pass Sentry DSN as JSON structure
   ui_config: null,
@@ -45,9 +39,6 @@ const optionalKeys = [
 ];
 
 const mandatoryKeys = [
-  "auth_client_id",
-  "auth_shared_secret",
-  "kerrokantasi_api_jwt_audience",
   "expressjs_session_secret"
 ];
 
