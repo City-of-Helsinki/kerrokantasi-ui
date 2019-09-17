@@ -1,3 +1,7 @@
+.hearing-wrapper {
+  outline: 0;
+}
+
 .header-section {
   background-color: $gray-100;
   padding: $line-height-computed * 2 0;
@@ -522,43 +526,11 @@
 
 .section-browser {
   @extend .clearfix;
-  margin-bottom: $line-height-computed * 2;
-  position: relative;
-
-  .section-browser-title {
-    position: absolute;
-    text-align: center;
-    left: $grid-gutter-width;
-    right: $grid-gutter-width;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-
-    @media (min-width: $screen-sm-min) {
-      font-size: 115%;
-    }
-  }
-
-  .pager {
-    margin: 0;
-    position: relative;
-    z-index: 2;
-
-    .disabled {
-      span {
-        border-color: $text-muted;
-      }
-    }
-  }
-}
-
-.section-browser {
-  @extend .clearfix;
   position: relative;
   border: solid $border-color;
   border-width: 1px 0;
   padding: $grid-gutter-width 0;
-  margin: $grid-gutter-width 0;
+  margin: $grid-gutter-width*2 0 $grid-gutter-width 0;
 
   &.top {
     margin-top: 0;
@@ -597,7 +569,17 @@
 }
 
 .hearing-subsection-title {
-  margin: 0 0 $line-height-computed 0;
+  margin-top: $grid-gutter-width*1.5;
+  margin-bottom: $line-height-computed;
+
+  &-counter {
+    display: block;
+    margin-bottom: $line-height-computed;
+    text-transform: uppercase;
+    color: $text-muted;
+    font-size: $font-size-large;
+    font-weight: normal;
+  }
 }
 
 .hearing-subsection-comments-header {

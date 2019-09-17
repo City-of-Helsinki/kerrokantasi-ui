@@ -27,6 +27,7 @@
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
+  position: relative;
 
   &-image {
     position: relative;
@@ -55,18 +56,18 @@
   }
 
   &-title {
-    font-size: $font-size-large;
-    margin: 0.25em 0 0 0;
+    color: $text-color;
+    text-decoration: none;
 
-    a {
-      color: $text-color;
-      text-decoration: none;
+    &:hover,
+    &:focus {
+      color: $link-hover-color;
+      text-decoration: underline;
+    }
 
-      &:hover,
-      &:focus {
-        color: $link-hover-color;
-        text-decoration: underline;
-      }
+    h3 {
+      font-size: $font-size-large;
+      margin: 0.25em 0 0 0;
     }
   }
 
