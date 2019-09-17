@@ -190,5 +190,7 @@
   "voteButtonLikes": "Likes",
   "voteButtonText": "Like this comment",
   "accessibilityLink": "Accessibility Statement",
-  "accessibilityPage": "Accessibility Statement"
+  "accessibilityPage": "Accessibility Statement",
+  "headerUserNavLabel": "User menu",
+  "headerPagesNavLabel": "Page menu"
 }

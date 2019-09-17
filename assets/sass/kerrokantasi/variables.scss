@@ -73,6 +73,8 @@ $navbar-default-link-color:       $black !default;
 $navbar-default-link-hover-color: $black !default;
 $navbar-default-bg:               $white !default;
 $navbar-default-border:           transparent !default;
+$navbar-default-link-active-color:$navbar-default-link-hover-color !default;
+$navbar-default-link-active-bg:   transparent !default;
 
 $label-default-bg:  $gray-400 !default;
 $label-primary-bg:  $theme-primary-light !default;
