@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Nav, NavItem, Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
@@ -96,17 +96,27 @@ class Header extends React.Component {
   getNavItem(id, url) {
     const {history, language} = this.props;
     const active = history && history.location.pathname === url;
-    const navItem = (
-      <NavItem key={id} eventKey={id} href="#" active={active}>
+    const navLink = (
+      <a href="#">
         <FormattedMessage id={id + 'HeaderText'} />
-      </NavItem>
+      </a>
     );
     if (url) {
       // Can't use custom link component here because it will break the navigation
       // so LinkContainer must contain same logic
-      return <LinkContainer to={url + '?lang=' + language}>{navItem}</LinkContainer>;
+      return (
+        <li className={`nav-item ${active ? 'active' : ''}`}>
+          <LinkContainer to={url + '?lang=' + language} className="nav-link">
+            {navLink}
+          </LinkContainer>
+        </li>
+      );
     }
-    return navItem;
+    return (
+      <li className={`nav-item ${active && 'active'}`}>
+        {navLink}
+      </li>
+    );
   }
 
   render() {
@@ -118,43 +128,52 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi">
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to={{path: "/"}}>
-                <FormattedMessage id="headerLogoAlt">
-                  {altText => <img
-                    src={language === 'sv' ? logoSwedishBlack : logoBlack}
-                    className="navbar-logo"
-                    alt={altText}
-                  />}
-                </FormattedMessage>
-              </Link>
-            </Navbar.Brand>
-          </Navbar.Header>
+        <FormattedMessage id="headerUserNavLabel">
+          {headerUserNavLabel => (
+            <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi" aria-label={headerUserNavLabel}>
+              <Navbar.Header>
+                <Navbar.Brand>
+                  <Link to={{ path: "/" }}>
+                    <FormattedMessage id="headerLogoAlt">
+                      {altText => <img
+                        src={language === 'sv' ? logoSwedishBlack : logoBlack}
+                        className="navbar-logo"
+                        alt={altText}
+                      />}
+                    </FormattedMessage>
+                  </Link>
+                </Navbar.Brand>
+              </Navbar.Header>
 
-          <div onSelect={onSelect} className="nav-user-menu navbar-right">
-            <LanguageSwitcher currentLanguage={this.props.language} />
-            {userItems}
-          </div>
-        </Navbar>
-        <Navbar default fluid collapseOnSelect className="navbar-primary">
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to={{path: "/"}}>
-                Kerrokantasi
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              {this.getNavItem('hearings', '/hearings/list')}
-              {this.getNavItem('hearingMap', '/hearings/map')}
-              {this.getNavItem('info', '/info')}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+              <div onSelect={onSelect} className="nav-user-menu navbar-right">
+                <LanguageSwitcher currentLanguage={this.props.language} />
+                {userItems}
+              </div>
+            </Navbar>
+          )}
+        </FormattedMessage>
+
+        <FormattedMessage id="headerPagesNavLabel">
+          {headerPagesNavLabel => (
+            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel}>
+              <Navbar.Header>
+                <Navbar.Brand>
+                  <Link to={{path: "/"}}>
+                    Kerrokantasi
+                  </Link>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+              </Navbar.Header>
+              <Navbar.Collapse>
+                <ul className="nav navbar-nav">
+                  {this.getNavItem('hearings', '/hearings/list')}
+                  {this.getNavItem('hearingMap', '/hearings/map')}
+                  {this.getNavItem('info', '/info')}
+                </ul>
+              </Navbar.Collapse>
+            </Navbar>
+          )}
+        </FormattedMessage>
       </div>
     );
   }

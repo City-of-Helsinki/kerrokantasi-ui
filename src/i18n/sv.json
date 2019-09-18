@@ -175,5 +175,7 @@
   "voteButtonLikes": "Gillar",
   "voteButtonText": "Gillar den här kommentaren",
   "accessibilityLink": "Tillgänglighetsutlåtande",
-  "accessibilityPage": "Tillgänglighetsutlåtande"
+  "accessibilityPage": "Tillgänglighetsutlåtande",
+  "headerUserNavLabel": "Användarmeny",
+  "headerPagesNavLabel": "Sidmenyn"
 }

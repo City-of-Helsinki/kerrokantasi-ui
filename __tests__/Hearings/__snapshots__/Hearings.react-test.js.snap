@@ -181,6 +181,8 @@ exports[`Hearings component should render as expected 1`] = `
           "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
           "furtherInformation": "Lisätietoja",
           "headerLogoAlt": "Kerrokantasi logo",
+          "headerPagesNavLabel": "Sivuvalikko",
+          "headerUserNavLabel": "Käyttäjävalikko",
           "headerWriteCommentLink": "Kirjoita kommentti",
           "hearing": "Kuuleminen",
           "hearingAbstract": "Lyhyt johdanto",

@@ -272,5 +272,7 @@
   "voteButtonLikes": "Tykkäystä",
   "voteButtonText": "Tykkää tästä kommentista",
   "accessibilityLink": "Saavutettavuusseloste",
-  "accessibilityPage": "Saavutettavuusseloste"
+  "accessibilityPage": "Saavutettavuusseloste",
+  "headerUserNavLabel": "Käyttäjävalikko",
+  "headerPagesNavLabel": "Sivuvalikko"
 }
