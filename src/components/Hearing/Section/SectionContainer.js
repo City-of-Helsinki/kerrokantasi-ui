@@ -545,9 +545,12 @@ export class SectionContainerComponent extends React.Component {
     return (
       <React.Fragment>
         <Col md={8} mdPush={2}>
-          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} className="top" />}
-
           <h2 className="hearing-subsection-title">
+            <span className="hearing-subsection-title-counter">
+              <FormattedMessage id="subsectionTitle" />
+              <span className="aria-hidden">&nbsp;</span>
+              {this.getSectionNav().currentNum}/{this.getSectionNav().totalNum}
+            </span>
             {getAttr(section.title, language)}
           </h2>
 
@@ -573,7 +576,7 @@ export class SectionContainerComponent extends React.Component {
           {this.renderSectionAbstract(section, activeLanguage)}
           {this.renderSectionContent(section, language)}
 
-          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} className="bottom" />}
+          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
 
           {this.renderCommentsSection()}
         </Col>

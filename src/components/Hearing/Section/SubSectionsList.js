@@ -47,6 +47,19 @@ const SubsectionList = ({ hearing, language, user }) => {
                   className="section-card-image"
                   style={{ backgroundImage: bgImage(section) }}
                 >
+                  <div aria-labelledby={`subsection-title-${section.id}`} />
+                </Link>
+                <div className="section-card-content">
+                  <div className="section-card-title-wrapper">
+                    <div className="section-card-title-prefix">
+                      <FormattedMessage id="sectionCardSubsectionTitle" /> {index + 1}/{subSections.length}
+                    </div>
+                    <Link to={{ path: getSectionURL(hearing.slug, section) }} className="section-card-title">
+                      <h3 id={`subsection-title-${section.id}`}>
+                        {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
+                      </h3>
+                    </Link>
+                  </div>
                   {section.commenting !== 'none' && (
                     <div className="hearing-card-comment-count">
                       <Icon name="comment-o" aria-hidden="true" /> <span aria-hidden="true">{section.n_comments}</span>
@@ -59,18 +72,6 @@ const SubsectionList = ({ hearing, language, user }) => {
                       </span>
                     </div>
                   )}
-                </Link>
-                <div className="section-card-content">
-                  <div className="section-card-title-wrapper">
-                    <div className="section-card-title-prefix">
-                      <FormattedMessage id="sectionCardSubsectionTitle" /> {index + 1}/{subSections.length}
-                    </div>
-                    <h3 className="section-card-title">
-                      <Link to={{ path: getSectionURL(hearing.slug, section) }} className="">
-                        {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
-                      </Link>
-                    </h3>
-                  </div>
                   <div className="section-card-buttons">
                     <Link to={{ path: getSectionURL(hearing.slug, section) }} className="btn btn-sm btn-primary">
                       <FormattedMessage id="showSubsectionBtn" />

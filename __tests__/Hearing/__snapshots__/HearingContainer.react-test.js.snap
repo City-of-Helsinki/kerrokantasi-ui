@@ -12,6 +12,7 @@ exports[`HearingContainer component should render as expected 1`] = `
   <div
     className="hearing-wrapper"
     id="hearing-wrapper"
+    tabIndex="-1"
   >
     <withRouter(InjectIntl(Connect(HeaderComponent)))
       activeLanguage="fi"
@@ -475,7 +476,6 @@ exports[`HearingContainer component should render as expected 1`] = `
             "searchTitles": "Etsi otsikoista",
             "sectionAbstract": "Lyhyt johdanto",
             "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
-            "sectionBrowserSubsectionTitle": "Alaosio",
             "sectionCardSubsectionTitle": "Alaosio",
             "sectionContent": "Tekstisisältö",
             "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
@@ -499,6 +499,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
             "sort": "Järjestä",
             "submit": "Lähetä",
+            "subsectionTitle": "Alaosio",
             "table-of-content": "Sisällys",
             "timeCloseFuture": "Sulkeutuu",
             "timeClosePast": "Sulkeutui",

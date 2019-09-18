@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import Link from './LinkWithLang';
 import {FormattedMessage} from 'react-intl';
 
-export const SectionBrowserComponent = ({sectionNav, className}) => {
-  const random = Math.random();
+export const SectionBrowserComponent = ({sectionNav}) => {
+  const random = Math.floor(Math.random() * 10000);
 
   return (
     <div
-      className={`section-browser ${className}`}
+      className="section-browser"
       role="navigation"
       aria-describedby={`section-browser-title-${random}`}
     >
       <div className="section-browser-title" id={`section-browser-title-${random}`} aria-hidden="true">
-        <FormattedMessage id="sectionBrowserSubsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
+        <FormattedMessage id="subsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
       </div>
       <ul className="pager">
         <li className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`}>
@@ -37,7 +37,6 @@ export default SectionBrowserComponent;
 
 SectionBrowserComponent.propTypes = {
   sectionNav: PropTypes.object,
-  className: PropTypes.string,
 };
 
 

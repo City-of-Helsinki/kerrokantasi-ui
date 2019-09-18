@@ -180,9 +180,11 @@ export class HeaderComponent extends React.Component {
                     {getAttr(hearing.title, activeLanguage)}
                   </h1>
                 </Col>
-                <Col md={3}>
-                  <SocialBar />
-                </Col>
+                {isMainSection(section) && (
+                  <Col md={3}>
+                    <SocialBar />
+                  </Col>
+                )}
               </Row>
               {isMainSection(section) ? (
                 <React.Fragment>
