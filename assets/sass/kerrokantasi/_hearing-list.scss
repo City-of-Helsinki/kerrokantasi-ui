@@ -161,6 +161,10 @@
   &__container {
     padding-bottom: 10px;
     height: 80px;
+
+    .Select-placeholder {
+      color: $text-muted;
+    }
   }
 
   &__label {
