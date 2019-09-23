@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {fetchHearingList} from '../actions';
 import {getTopHearing, getOpenHearings} from '../selectors/hearing';
 import {getUser} from '../selectors/user';
-import {Col, Grid, Row, Button} from 'react-bootstrap';
+import {Col, Grid, Row} from 'react-bootstrap';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
@@ -78,7 +78,7 @@ export class Home extends React.Component {
     return (
       <div>
         <section className="page-section page-section--welcome" style={heroStyle}>
-          <div className="container">
+          <Grid>
             <Row>
               <Col xs={10} md={8} className="welcome-content">
                 <Helmet title={formatMessage({id: 'welcome'})} />
@@ -90,64 +90,48 @@ export class Home extends React.Component {
                 </p>
               </Col>
             </Row>
-          </div>
+          </Grid>
           <div className="welcome-koro__bottom" />
         </section>
         <section className="page-section page-section--hearing-card">
           <div className="container">
-            <Row>
-              <Col xs={12}>
-                <h2 className="page-title">
-                  <FormattedMessage id="openHearings" />
-                </h2>
-                {topHearing && <FullWidthHearing hearing={topHearing} />}
-              </Col>
-            </Row>
-            <Row>
-              {openHearings && openHearings.data && topHearing &&
-                !openHearings.isFetching && (
-                  <Col xs={12}>
-                    <div className="list">
-                      <HearingCardList
-                        hearings={
-                          orderBy(openHearings.data
-                            .filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])
-                        }
-                        language={language}
-                      />
-                      <p className="text-center">
-                        <Link to={{path: "/hearings/list"}}>
-                          <Button bsStyle="default">
-                            <FormattedMessage id="allHearings" />
-                          </Button>
-                        </Link>
-                      </p>
-                    </div>
-                  </Col>
-                )}
-            </Row>
+            <h2 className="page-title">
+              <FormattedMessage id="openHearings" />
+            </h2>
+            {topHearing && <FullWidthHearing hearing={topHearing} />}
+            {openHearings && openHearings.data && topHearing &&
+              !openHearings.isFetching && (
+                <div className="list">
+                  <HearingCardList
+                    hearings={
+                      orderBy(openHearings.data
+                        .filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])
+                    }
+                    language={language}
+                  />
+                  <p className="text-center">
+                    <Link to={{path: "/hearings/list"}} className="btn btn-default">
+                      <FormattedMessage id="allHearings" />
+                    </Link>
+                  </p>
+                </div>
+              )}
           </div>
           <div className="hearings-koro__bottom" />
         </section>
         <section className="page-section page-section--feedback">
-          <Grid>
-            <Row>
-              <Col xs={12}>
-                <a href={urls.feedback} className="feedback-box">
-                  <h2 className="feedback-prompt">
-                    <FormattedMessage id="feedbackPrompt" />
-                  </h2>
-                </a>
-              </Col>
-            </Row>
-          </Grid>
+          <div className="container">
+            <a href={urls.feedback} className="feedback-box">
+              <h2 className="feedback-prompt">
+                <FormattedMessage id="feedbackPrompt" />
+              </h2>
+            </a>
+          </div>
         </section>
         <section className="page-section page-section--map">
-          <Grid>
-            <Row>
-              <Col sm={12}>{hearingMap}</Col>
-            </Row>
-          </Grid>
+          <div className="container">
+            {hearingMap}
+          </div>
         </section>
         {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
       </div>
