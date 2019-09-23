@@ -175,22 +175,19 @@ exports[`Home component should render as expected 1`] = `
           componentClass="div"
           xs={12}
         >
-          <div
+          <a
             className="feedback-box"
+            href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
           >
-            <a
-              href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
+            <h2
+              className="feedback-prompt"
             >
-              <h2
-                className="feedback-prompt"
-              >
-                <FormattedMessage
-                  id="feedbackPrompt"
-                  values={Object {}}
-                />
-              </h2>
-            </a>
-          </div>
+              <FormattedMessage
+                id="feedbackPrompt"
+                values={Object {}}
+              />
+            </h2>
+          </a>
         </Col>
       </Row>
     </Grid>

@@ -149,6 +149,10 @@ exports[`FullWidthHearing component should render as expected 1`] = `
         "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
         "hearingMapHeaderText": "Kartta",
         "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
+        "hearingOnlyAvailableIn": "Kuuleminen saatavilla vain",
+        "hearingOnlyAvailableInLang-en": "englanniksi",
+        "hearingOnlyAvailableInLang-fi": "suomeksi",
+        "hearingOnlyAvailableInLang-sv": "ruotsiksi",
         "hearingOpeningTime": "Avautumisaika",
         "hearingOpeningTimePlaceholder": "Valitse...",
         "hearingSavingFailed": "Tallentaminen epäonnistui",
@@ -308,6 +312,12 @@ exports[`FullWidthHearing component should render as expected 1`] = `
   }
 >
   <withRouter(Connect(LinkWithLangComponent))
+    className="fullwidth-hearing-image"
+    style={
+      Object {
+        "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
+      }
+    }
     to={
       Object {
         "path": "/mockHearing",
@@ -316,12 +326,6 @@ exports[`FullWidthHearing component should render as expected 1`] = `
   >
     <div
       aria-labelledby="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
-      className="fullwidth-hearing-image"
-      style={
-        Object {
-          "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
-        }
-      }
     />
   </withRouter(Connect(LinkWithLangComponent))>
   <div

@@ -98,12 +98,38 @@ export class HeaderComponent extends React.Component {
     } = this.props;
     const languageOptions = keys(hearing.title);
 
+    // Check if only one language is available
     if (!(languageOptions.length > 1)) {
+      // If the current language is not the same as the only language available
+      if (activeLanguage !== languageOptions[0]) {
+        return (
+          <div className="hearing-meta__element language-select">
+            <Icon name="globe" className="user-nav-icon" />
+            <span className="language-select__texts">
+              {intl.formatMessage({ id: 'hearingOnlyAvailableIn' })}&nbsp;
+              <a
+                href=""
+                className="language-select__language"
+                onClick={() => {
+                  history.push({
+                    location: location.pathname,
+                    search: stringifyQuery({ lang: languageOptions[0] })
+                  });
+                }}
+              >
+                {intl.formatMessage({ id: `hearingOnlyAvailableInLang-${languageOptions[0]}` })}
+              </a>
+            </span>
+          </div>
+        );
+      }
+      // If the current language is the same as the only available language, don't show the language changer at all
       return null;
     }
 
+    // If multiple languages available for the hearing
     return (
-      <div className="hearing-meta__element language-select" id="language">
+      <div className="hearing-meta__element language-select">
         <Icon name="globe" className="user-nav-icon" />
         {languageOptions.map((code) =>
           <span key={code} className="language-select__texts">
