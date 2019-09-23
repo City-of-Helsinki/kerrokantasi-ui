@@ -99,18 +99,16 @@ a.list-group-item {
   padding: $line-height-computed;
   text-align: center;
   color: $black;
+  display: block;
 
   .feedback-prompt {
     margin: 0;
   }
 
-  a {
-    color: $black;
-    text-decoration: none;
-  }
-
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: lighten($theme-primary-light, 5%);
+    text-decoration: none;
   }
 }
 

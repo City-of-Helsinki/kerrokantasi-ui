@@ -133,13 +133,11 @@ export class Home extends React.Component {
           <Grid>
             <Row>
               <Col xs={12}>
-                <div className="feedback-box">
-                  <a href={urls.feedback}>
-                    <h2 className="feedback-prompt">
-                      <FormattedMessage id="feedbackPrompt" />
-                    </h2>
-                  </a>
-                </div>
+                <a href={urls.feedback} className="feedback-box">
+                  <h2 className="feedback-prompt">
+                    <FormattedMessage id="feedbackPrompt" />
+                  </h2>
+                </a>
               </Col>
             </Row>
           </Grid>
