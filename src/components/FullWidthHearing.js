@@ -26,8 +26,8 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
 
   return (
     <div className={`fullwidth-hearing ${className}`} {...rest}>
-      <Link to={{ path: getHearingURL(hearing) }}>
-        <div className="fullwidth-hearing-image" style={styles} aria-labelledby={hearing.id} />
+      <Link to={{ path: getHearingURL(hearing) }} className="fullwidth-hearing-image" style={styles}>
+        <div aria-labelledby={hearing.id} />
       </Link>
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">

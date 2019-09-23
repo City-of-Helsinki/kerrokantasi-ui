@@ -39,8 +39,8 @@ const HearingCard = ({hearing, language, className = ''}) => {
   ) : null;
   return (
     <div className={`hearing-card ${className}`}>
-      <Link to={{path: getHearingURL(hearing)}}>
-        <div className="hearing-card-image" style={cardImageStyle} aria-labelledby={hearing.id} />
+      <Link to={{path: getHearingURL(hearing)}} className="hearing-card-image" style={cardImageStyle}>
+        <div aria-labelledby={hearing.id} />
       </Link>
       <div className="hearing-card-content">
         <h3 className="h4 hearing-card-title" id={hearing.id}>
