@@ -1,9 +1,9 @@
-.hearing-wrapper {
+.hearing-wrapper:focus {
   outline: 0;
 }
 
 .header-section {
-  background-color: $gray-100;
+  background-color: $gray-200;
   padding: $line-height-computed * 2 0;
 }
 
@@ -30,7 +30,7 @@
   .hearing-meta {
     margin-top: $grid-gutter-width/2;
     padding-top: $grid-gutter-width/2;
-    border-top: 1px solid $gray-light;
+    border-top: 1px solid $border-color;
     display: flex;
     flex-flow: row wrap;
 
@@ -65,7 +65,7 @@
     margin-bottom: 0;
     margin-top: $grid-gutter-width/2;
     padding-top: $grid-gutter-width;
-    border-top: 1px solid $gray-light;
+    border-top: 1px solid $border-color;
   }
 }
 
@@ -113,9 +113,8 @@
       padding: 0 $grid-gutter-width*1.25;
       background: 0;
       width: 100%;
-      overflow: hidden;
       text-align: left;
-      outline: 0 !important;
+      outline: 0;
 
       &:hover,
       &:focus {

@@ -80,7 +80,7 @@
 }
 
 .page-section--all-hearings-header {
-  background-color: $gray-100;
+  background-color: $gray-200;
 }
 
 .hearing-comment__images {
@@ -109,7 +109,7 @@
   > li.active > a,
   > li.active > a:hover,
   > li.active > a:focus {
-    border: 2px solid $gray-300;
+    border: 2px solid $gray-400;
     border-bottom: transparent;
   }
 
@@ -149,12 +149,12 @@
 }
 
 .page-section--hearings-search {
-  background-color: $gray-100;
+  background-color: $gray-200;
 }
 
 .page-section--hearings-tabs {
-  background-color: $gray-100;
-  border-bottom: 2px solid $gray-300;
+  background-color: $gray-200;
+  border-bottom: 2px solid $gray-400;
 }
 
 .hearings-search {
