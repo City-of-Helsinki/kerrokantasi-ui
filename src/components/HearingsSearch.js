@@ -32,7 +32,7 @@ class HearingsSearch extends React.Component {
             onSubmit={(event) => { event.preventDefault(); handleSearch(this.input.value, true); }}
             id="hearings-search-form"
           >
-            <FormGroup className="hearings-search__text" controlId="formControlsTextarea">
+            <FormGroup className="hearings-search__text" controlId="formControlsSearchText">
               <ControlLabel><FormattedMessage id="searchTitles"/></ControlLabel>
               <FormControl
                 type="text"
@@ -41,7 +41,7 @@ class HearingsSearch extends React.Component {
                 onBlur={() => handleSearch(this.input.value)}
               />
             </FormGroup>
-            <FormGroup className="hearings-search__label" controlId="formControlsTextarea">
+            <FormGroup className="hearings-search__label" controlId="formControlsSearchSelect">
               <ControlLabel><FormattedMessage id="searchLabels"/></ControlLabel>
               {!isEmpty(labels) && (
                 <Select
@@ -50,6 +50,7 @@ class HearingsSearch extends React.Component {
                   options={labelsAsOptions}
                   onChange={(value) => handleSelectLabels(value)}
                   placeholder={intl.formatMessage({id: 'searchPlaceholder'})}
+                  id="formControlsSearchSelect"
                 />
               )}
             </FormGroup>
