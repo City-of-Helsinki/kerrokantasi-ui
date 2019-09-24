@@ -29,17 +29,20 @@ const HEARING_LIST_TABS = {
 };
 
 const HearingListTabs = ({activeTab, changeTab}) => (
-  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
-    <NavItem eventKey="3" disabled className="hearing-list__tabs-empty" />
-    {keys(HEARING_LIST_TABS).map(key => {
-      const value = HEARING_LIST_TABS[key];
-      return (
-        <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)}>
-          <FormattedMessage id={value} />
-        </NavItem>
-      );
-    })}
-  </Nav>
+  <Row>
+    <Col md={8} mdPush={2}>
+      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
+        {keys(HEARING_LIST_TABS).map(key => {
+          const value = HEARING_LIST_TABS[key];
+          return (
+            <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)}>
+              <FormattedMessage id={value} />
+            </NavItem>
+          );
+        })}
+      </Nav>
+    </Col>
+  </Row>
 );
 
 HearingListTabs.propTypes = {
@@ -48,24 +51,27 @@ HearingListTabs.propTypes = {
 };
 
 const HearingListFilters = ({handleSort, formatMessage}) => (
-  <div className="hearing-list__filter-bar">
+  <div className="hearing-list__filter-bar clearfix">
     <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
-      <div className="select">
-        <FormControl componentClass="select" placeholder="select" onChange={event => handleSort(event.target.value)}>
-          <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
-          <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-          <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
-          <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
-          <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-          <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
-          <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
-          <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
-        </FormControl>
-      </div>
+      <ControlLabel className="hearing-list__filter-bar-label">
+        <FormattedMessage id="sort" />
+      </ControlLabel>
+      <FormControl
+        className="select"
+        componentClass="select"
+        placeholder="select"
+        onChange={event => handleSort(event.target.value)}
+      >
+        <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
+        <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
+        <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
+        <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
+        <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
+        <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
+        <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
+        <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
+      </FormControl>
     </FormGroup>
-    <ControlLabel className="hearing-list__filter-bar-label">
-      <FormattedMessage id="sort" />
-    </ControlLabel>
   </div>
 );
 
@@ -187,15 +193,21 @@ export const HearingList = ({
   const hasHearings = !isEmpty(hearings);
 
   const hearingListMap = hearingsToShow ? (
-    <Col xs={12}>
-      <Helmet title={formatMessage({ id: 'mapView' })} />
-      <div className="hearing-list-map map">
-        <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
-          <FormattedMessage id="showOnlyOpen" />
-        </Checkbox>
-        <OverviewMap hearings={hearingsToShow} style={{width: '100%', height: isMobile ? '100%' : 600}} enablePopups />
-      </div>
-    </Col>
+    <Row>
+      <Col xs={12}>
+        <Helmet title={formatMessage({ id: 'mapView' })} />
+        <div className="hearing-list-map map">
+          <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
+            <FormattedMessage id="showOnlyOpen" />
+          </Checkbox>
+          <OverviewMap
+            hearings={hearingsToShow}
+            style={{width: '100%', height: isMobile ? '100%' : 600}}
+            enablePopups
+          />
+        </div>
+      </Col>
+    </Row>
   ) : null;
 
   return (
@@ -228,21 +240,29 @@ export const HearingList = ({
         </a>
         <div className="container">
           {!isLoading && !hasHearings ? (
-            <p>
-              <FormattedMessage id="noHearings" />
-            </p>
+            <Row>
+              <Col md={8} mdPush={2}>
+                <p>
+                  <FormattedMessage id="noHearings" />
+                </p>
+              </Col>
+            </Row>
           ) : null}
           {hasHearings && activeTab === 'list' ? (
-            <Col md={8} mdPush={2}>
-              <div className="hearing-list">
-                <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
-                <div role="list">
-                  {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
+            <Row>
+              <Col md={8} mdPush={2}>
+                <div className="hearing-list">
+                  <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
+                  <div role="list">
+                    {hearings.map(hearing => (
+                      <HearingListItem hearing={hearing} key={hearing.id} language={language} />
+                    ))}
+                  </div>
+                  {isLoading && <LoadSpinner />}
+                  {!isLoading && <Waypoint onEnter={handleReachBottom} />}
                 </div>
-                {isLoading && <LoadSpinner />}
-                {!isLoading && <Waypoint onEnter={handleReachBottom} />}
-              </div>
-            </Col>
+              </Col>
+            </Row>
           ) : null}
           {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
         </div>

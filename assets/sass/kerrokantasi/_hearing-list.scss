@@ -98,19 +98,28 @@
 
 .hearing-list__tabs {
   margin-top: 40px;
-  margin-bottom: -2px;
   border-bottom: 0;
-  width: 100%;
+  float: right;
 
   > li {
     margin-bottom: -2px;
+
+    > a {
+      border: 2px solid transparent;
+
+      &:hover,
+      &:focus {
+        border-color: transparent;
+        background: transparent;
+      }
+    }
   }
 
   > li.active > a,
   > li.active > a:hover,
   > li.active > a:focus {
     border: 2px solid $gray-400;
-    border-bottom: transparent;
+    border-bottom-color: transparent;
   }
 
   &-empty {
@@ -131,20 +140,26 @@
 }
 
 .hearing-list__filter-bar {
-  @extend .clearfix;
   margin-bottom: $line-height-computed;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
 
   &-filter {
-    float: right;
-    @media (min-width: $screen-sm-min) {
-      width: 40%;
-    }
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
   }
 
   &-label {
-    float: right;
-    padding-top: 8px;
-    margin-right: 10px;
+    margin: 0;
+    margin-right: $grid-gutter-width/2;
+  }
+
+  .select {
+    @media (min-width: $screen-sm-min) {
+      min-width: 250px;
+    }
   }
 }
 
