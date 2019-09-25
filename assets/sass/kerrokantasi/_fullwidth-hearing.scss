@@ -4,6 +4,7 @@
   box-shadow: $default-shadow;
 
   &-image {
+    display: block;
     min-height: $line-height-computed * 14;
     background-size: cover;
     background-position: center center;

@@ -5,6 +5,12 @@ exports[`HearingCard component should render as expected 1`] = `
   className="hearing-card "
 >
   <withRouter(Connect(LinkWithLangComponent))
+    className="hearing-card-image"
+    style={
+      Object {
+        "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
+      }
+    }
     to={
       Object {
         "path": "/mockHearing",
@@ -13,12 +19,6 @@ exports[`HearingCard component should render as expected 1`] = `
   >
     <div
       aria-labelledby="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
-      className="hearing-card-image"
-      style={
-        Object {
-          "backgroundImage": "url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg)",
-        }
-      }
     />
   </withRouter(Connect(LinkWithLangComponent))>
   <div

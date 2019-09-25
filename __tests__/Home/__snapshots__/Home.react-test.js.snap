@@ -10,8 +10,10 @@ exports[`Home component should render as expected 1`] = `
       }
     }
   >
-    <div
-      className="container"
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
     >
       <Row
         bsClass="row"
@@ -45,7 +47,7 @@ exports[`Home component should render as expected 1`] = `
           </p>
         </Col>
       </Row>
-    </div>
+    </Grid>
     <div
       className="welcome-koro__bottom"
     />
@@ -56,25 +58,119 @@ exports[`Home component should render as expected 1`] = `
     <div
       className="container"
     >
-      <Row
-        bsClass="row"
-        componentClass="div"
+      <h2
+        className="page-title"
       >
-        <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
+        <FormattedMessage
+          id="openHearings"
+          values={Object {}}
+        />
+      </h2>
+      <FullWidthHearing
+        hearing={
+          Object {
+            "abstract": Object {
+              "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+            },
+            "borough": Object {},
+            "close_at": "2200-11-28T22:00:00Z",
+            "closed": false,
+            "created_at": "2017-10-23T11:07:26.630423Z",
+            "default_to_fullscreen": false,
+            "geojson": null,
+            "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+            "labels": Array [],
+            "main_image": Object {
+              "caption": Object {
+                "fi": "A Wonderfull caption",
+              },
+              "height": 631,
+              "id": 92,
+              "title": Object {},
+              "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+              "width": 893,
+            },
+            "n_comments": 1,
+            "open_at": "2017-10-22T21:00:00Z",
+            "organization": "Mock Inc",
+            "published": true,
+            "servicemap_url": "",
+            "slug": "mockHearing",
+            "title": Object {
+              "fi": "Mock Hearing",
+            },
+          }
+        }
+      />
+      <div
+        className="list"
+      >
+        <HearingCardList
+          hearings={Array []}
+        />
+        <p
+          className="text-center"
         >
-          <h2
-            className="page-title"
+          <withRouter(Connect(LinkWithLangComponent))
+            className="btn btn-default"
+            to={
+              Object {
+                "path": "/hearings/list",
+              }
+            }
           >
             <FormattedMessage
-              id="openHearings"
+              id="allHearings"
               values={Object {}}
             />
-          </h2>
-          <FullWidthHearing
-            hearing={
+          </withRouter(Connect(LinkWithLangComponent))>
+        </p>
+      </div>
+    </div>
+    <div
+      className="hearings-koro__bottom"
+    />
+  </section>
+  <section
+    className="page-section page-section--feedback"
+  >
+    <div
+      className="container"
+    >
+      <a
+        className="feedback-box"
+        href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
+      >
+        <h2
+          className="feedback-prompt"
+        >
+          <FormattedMessage
+            id="feedbackPrompt"
+            values={Object {}}
+          />
+        </h2>
+      </a>
+    </div>
+  </section>
+  <section
+    className="page-section page-section--map"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="map"
+      >
+        <h2>
+          <FormattedMessage
+            id="open-hearings-on-map"
+            values={Object {}}
+          />
+        </h2>
+        <OverviewMap
+          enablePopups={true}
+          hearings={
+            Array [
               Object {
                 "abstract": Object {
                   "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
@@ -106,171 +202,19 @@ exports[`Home component should render as expected 1`] = `
                 "title": Object {
                   "fi": "Mock Hearing",
                 },
-              }
+              },
+            ]
+          }
+          showOnCarousel={false}
+          style={
+            Object {
+              "height": 600,
+              "width": "100%",
             }
-          />
-        </Col>
-      </Row>
-      <Row
-        bsClass="row"
-        componentClass="div"
-      >
-        <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
-        >
-          <div
-            className="list"
-          >
-            <HearingCardList
-              hearings={Array []}
-            />
-            <p
-              className="text-center"
-            >
-              <withRouter(Connect(LinkWithLangComponent))
-                to={
-                  Object {
-                    "path": "/hearings/list",
-                  }
-                }
-              >
-                <Button
-                  active={false}
-                  block={false}
-                  bsClass="btn"
-                  bsStyle="default"
-                  disabled={false}
-                >
-                  <FormattedMessage
-                    id="allHearings"
-                    values={Object {}}
-                  />
-                </Button>
-              </withRouter(Connect(LinkWithLangComponent))>
-            </p>
-          </div>
-        </Col>
-      </Row>
+          }
+        />
+      </div>
     </div>
-    <div
-      className="hearings-koro__bottom"
-    />
-  </section>
-  <section
-    className="page-section page-section--feedback"
-  >
-    <Grid
-      bsClass="container"
-      componentClass="div"
-      fluid={false}
-    >
-      <Row
-        bsClass="row"
-        componentClass="div"
-      >
-        <Col
-          bsClass="col"
-          componentClass="div"
-          xs={12}
-        >
-          <div
-            className="feedback-box"
-          >
-            <a
-              href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
-            >
-              <h2
-                className="feedback-prompt"
-              >
-                <FormattedMessage
-                  id="feedbackPrompt"
-                  values={Object {}}
-                />
-              </h2>
-            </a>
-          </div>
-        </Col>
-      </Row>
-    </Grid>
-  </section>
-  <section
-    className="page-section page-section--map"
-  >
-    <Grid
-      bsClass="container"
-      componentClass="div"
-      fluid={false}
-    >
-      <Row
-        bsClass="row"
-        componentClass="div"
-      >
-        <Col
-          bsClass="col"
-          componentClass="div"
-          sm={12}
-        >
-          <div
-            className="map"
-          >
-            <h2>
-              <FormattedMessage
-                id="open-hearings-on-map"
-                values={Object {}}
-              />
-            </h2>
-            <OverviewMap
-              enablePopups={true}
-              hearings={
-                Array [
-                  Object {
-                    "abstract": Object {
-                      "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
-                    },
-                    "borough": Object {},
-                    "close_at": "2200-11-28T22:00:00Z",
-                    "closed": false,
-                    "created_at": "2017-10-23T11:07:26.630423Z",
-                    "default_to_fullscreen": false,
-                    "geojson": null,
-                    "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
-                    "labels": Array [],
-                    "main_image": Object {
-                      "caption": Object {
-                        "fi": "A Wonderfull caption",
-                      },
-                      "height": 631,
-                      "id": 92,
-                      "title": Object {},
-                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
-                      "width": 893,
-                    },
-                    "n_comments": 1,
-                    "open_at": "2017-10-22T21:00:00Z",
-                    "organization": "Mock Inc",
-                    "published": true,
-                    "servicemap_url": "",
-                    "slug": "mockHearing",
-                    "title": Object {
-                      "fi": "Mock Hearing",
-                    },
-                  },
-                ]
-              }
-              showOnCarousel={false}
-              style={
-                Object {
-                  "height": 600,
-                  "width": "100%",
-                }
-              }
-            />
-          </div>
-        </Col>
-      </Row>
-    </Grid>
   </section>
 </div>
 `;

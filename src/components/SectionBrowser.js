@@ -4,15 +4,13 @@ import Link from './LinkWithLang';
 import {FormattedMessage} from 'react-intl';
 
 export const SectionBrowserComponent = ({sectionNav}) => {
-  const random = Math.floor(Math.random() * 10000);
-
   return (
     <div
       className="section-browser"
       role="navigation"
-      aria-describedby={`section-browser-title-${random}`}
+      aria-describedby="section-browser-title"
     >
-      <div className="section-browser-title" id={`section-browser-title-${random}`} aria-hidden="true">
+      <div className="section-browser-title" id="section-browser-title" aria-hidden="true">
         <FormattedMessage id="subsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
       </div>
       <ul className="pager">
