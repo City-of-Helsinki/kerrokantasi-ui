@@ -28,7 +28,7 @@ export default class Html extends React.Component {
           <meta charSet="utf-8"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta content="width=device-width, initial-scale=1" name="viewport"/>
-          {head ? head.title.toComponent() : <title>Kerrokantasi</title>}
+          {hearingData && hearingData.title && <title>hearingData.title.fi</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
           {hearingData && hearingData.main_image && <meta property="og:image" content={hearingData.main_image.url} />}
