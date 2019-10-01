@@ -18,6 +18,9 @@ exports[`LabelList can handle list of label objects 1`] = `
       Object {
         "path": "/hearings/list",
         "search": "?label=1",
+        "state": Object {
+          "filteredByLabelLink": true,
+        },
       }
     }
   >
@@ -35,6 +38,9 @@ exports[`LabelList can handle list of label objects 1`] = `
       Object {
         "path": "/hearings/list",
         "search": "?label=2",
+        "state": Object {
+          "filteredByLabelLink": true,
+        },
       }
     }
   >

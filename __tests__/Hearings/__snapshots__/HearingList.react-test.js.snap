@@ -18,7 +18,7 @@ exports[`HearingsList component should render as expected 1`] = `
           md={10}
           mdPush={1}
         >
-          <HearingsSearch
+          <Connect(HearingsSearch)
             intl={
               Object {
                 "defaultFormats": Object {},
