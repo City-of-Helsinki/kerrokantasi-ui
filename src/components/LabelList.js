@@ -22,7 +22,14 @@ export class Labels extends React.Component {
     */
 
     const labelToHTML = (label) => (
-      <Link to={{path: '/hearings/list', search: `?label=${label.id}`}} key={label.id || label}>
+      <Link
+        to={{
+          path: '/hearings/list',
+          search: `?label=${label.id}`,
+          state: { filteredByLabelLink: true }
+        }}
+        key={label.id || label}
+      >
         <Label bsStyle="info">{getAttr(label.label, language)}</Label>{' '}
       </Link>
     );

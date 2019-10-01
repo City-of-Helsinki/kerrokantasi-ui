@@ -1,13 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Select from 'react-select';
-import isEmpty from 'lodash/isEmpty';
+import {get, isEmpty} from 'lodash';
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
 
 class HearingsSearch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.hearingFilterSearch = React.createRef();
+  }
+
+  componentDidUpdate() {
+    if (this.props.routerLocationState.filteredByLabelLink) {
+      this.hearingFilterSearch.current.focus();
+    }
+  }
+
   render() {
     const {
       handleSearch,
@@ -51,6 +63,7 @@ class HearingsSearch extends React.Component {
                   onChange={(value) => handleSelectLabels(value)}
                   placeholder={intl.formatMessage({id: 'searchPlaceholder'})}
                   id="formControlsSearchSelect"
+                  ref={this.hearingFilterSearch}
                 />
               )}
             </FormGroup>
@@ -67,6 +80,10 @@ class HearingsSearch extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  routerLocationState: get(state, 'router.location.state', {}),
+});
+
 HearingsSearch.propTypes = {
   handleSearch: PropTypes.func,
   handleSelectLabels: PropTypes.func,
@@ -74,7 +91,8 @@ HearingsSearch.propTypes = {
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  routerLocationState: PropTypes.object,
 };
 
-export default HearingsSearch;
+export default connect(mapStateToProps)(HearingsSearch);
