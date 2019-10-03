@@ -39,7 +39,8 @@
 
   &-content {
     padding: $grid-gutter-width / 2;
-    flex: 1 1 100%;
+    flex-basis: 0%;
+    flex: 1 1 auto;
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
