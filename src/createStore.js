@@ -1,18 +1,25 @@
-import {compose, createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import {localizedNotifyError} from './utils/notify';
-import rootReducer from './reducers';
-import hearingEditorMiddleware from './middleware/hearingEditor';
-
-import identity from 'lodash/identity';
-import {routerMiddleware} from 'react-router-redux';
-import { createBrowserHistory } from 'history';
-import config from './config';
 import RavenMiddleWare from 'redux-raven-middleware';
-import languageMiddleware from './middleware/language';
+import identity from 'lodash/identity';
+import thunk from 'redux-thunk';
+import { createBrowserHistory } from 'history';
+import { wrapHistory } from "oaf-react-router";
+import {compose, createStore, applyMiddleware} from 'redux';
+import {routerMiddleware} from 'react-router-redux';
+
+import config from './config';
 import headlessMiddleware from './middleware/headless';
+import hearingEditorMiddleware from './middleware/hearingEditor';
+import languageMiddleware from './middleware/language';
+import rootReducer from './reducers';
+import {localizedNotifyError} from './utils/notify';
 
 export const history = createBrowserHistory();
+
+const historySettings = {
+  announcePageNavigation: false, // default true
+};
+
+wrapHistory(history, historySettings);
 
 const middleware = [
   thunk,

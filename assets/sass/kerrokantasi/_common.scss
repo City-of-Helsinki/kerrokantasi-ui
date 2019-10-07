@@ -1,3 +1,7 @@
+[tabindex="-1"]:focus {
+  outline: 0 !important;
+}
+
 html {
   font-size: 62.5%;
   height: 100%;
@@ -153,10 +157,6 @@ a.fullwidth {
     transform: translateX(-50%);
     font-weight: bold;
   }
-}
-
-.main-content:focus {
-  outline: 0 !important;
 }
 
 .dropdown-toggle:focus {
