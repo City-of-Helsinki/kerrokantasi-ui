@@ -12,7 +12,6 @@ exports[`HearingContainer component should render as expected 1`] = `
   <div
     className="hearing-wrapper"
     id="hearing-wrapper"
-    tabIndex="-1"
   >
     <withRouter(InjectIntl(Connect(HeaderComponent)))
       activeLanguage="fi"

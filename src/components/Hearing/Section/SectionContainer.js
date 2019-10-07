@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
-import ContactList from './ContactList';
+import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
 import HearingMap from '../HearingMap';
 import Icon from '../../../utils/Icon';
@@ -167,16 +167,6 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showLightbox: false});
   }
 
-  toPhaseFirstHearing = (phase) => {
-    const { hearings } = phase;
-    const { history } = this.props;
-
-    if (hearings.length > 0) {
-      const hearingSlug = hearings[0];
-      history.push(`/${hearingSlug}${history.location.search}`);
-    }
-  }
-
   /**
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
@@ -267,15 +257,26 @@ export class SectionContainerComponent extends React.Component {
             <div className="project-phases-list section-content-spacer">
               {phases.map((phase, index) => (
                 <div className="phases-list-item" key={phase.id}>
-                  <button
-                    className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}
-                    onClick={() => this.toPhaseFirstHearing(phase)}
-                  >
+                  <div className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}>
+                    <span className="sr-only">
+                      <FormattedMessage id="phase" />
+                    </span>
                     {index + 1}
-                  </button>
+                    {phase.is_active && (
+                      <span className="sr-only">
+                        <FormattedMessage id="phaseActive" />
+                      </span>
+                    )}
+                  </div>
                   <div className="phase-texts">
                     <span className="phase-title">
-                      {getAttr(phase.title, activeLanguage)}
+                      {!isEmpty(phase.hearings) ? (
+                        <Link to={{ path: phase.hearings[0] }}>
+                          {getAttr(phase.title, activeLanguage)}
+                        </Link>
+                      ) : (
+                        <span>{getAttr(phase.title, activeLanguage)}</span>
+                      )}
                     </span>
                     <span className="phase-description">
                       {getAttr(phase.description, activeLanguage)}
@@ -293,7 +294,7 @@ export class SectionContainerComponent extends React.Component {
     );
   }
 
-  renderContacts = (contacts) => {
+  renderContacts = (contacts, language) => {
     if (isEmpty(contacts)) {
       return null;
     }
@@ -324,7 +325,15 @@ export class SectionContainerComponent extends React.Component {
         >
           <div className="accordion-content">
             <div className="section-content-spacer">
-              <ContactList contacts={contacts} />
+              <Row>
+                {contacts.map((person) => (
+                  <ContactCard
+                    activeLanguage={language}
+                    key={person.id}
+                    {...person}
+                  />
+                ))}
+              </Row>
             </div>
           </div>
         </Collapse>
@@ -496,7 +505,7 @@ export class SectionContainerComponent extends React.Component {
 
           {this.renderProjectPhaseSection(hearing, activeLanguage)}
 
-          {this.renderContacts(contacts)}
+          {this.renderContacts(contacts, language)}
 
           {this.renderFileSection(section, language)}
 
