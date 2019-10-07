@@ -20,11 +20,6 @@ import { getUser } from '../../selectors/user';
 const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
 export class HearingContainerComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.hearingPageElem = React.createRef();
-  }
-
   componentWillMount() {
     const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
@@ -63,12 +58,6 @@ export class HearingContainerComponent extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.hearingPageElem.current.focus();
-    }
-  }
-
   render() {
     const {
       hearing,
@@ -100,7 +89,7 @@ export class HearingContainerComponent extends React.Component {
                 />
               </Suspense>
             }
-            <div className="hearing-wrapper" id="hearing-wrapper" ref={this.hearingPageElem} tabIndex="-1">
+            <div className="hearing-wrapper" id="hearing-wrapper">
               <Header
                 hearing={hearing}
                 activeLanguage={language}
