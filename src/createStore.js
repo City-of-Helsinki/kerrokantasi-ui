@@ -16,7 +16,11 @@ import {localizedNotifyError} from './utils/notify';
 export const history = createBrowserHistory();
 
 const historySettings = {
+  /* eslint-disable */
+  documentTitle: (location: Location) => document.title || "Kerrokantasi",
+  /* eslint-enable */
   announcePageNavigation: false, // default true
+  setPageTitle: false,
 };
 
 wrapHistory(history, historySettings);

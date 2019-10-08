@@ -214,7 +214,7 @@ export class SectionContainerComponent extends React.Component {
     );
   }
 
-  renderProjectPhaseSection = (hearing, activeLanguage) => {
+  renderProjectPhaseSection = (hearing, language) => {
     const project = get(hearing, 'project');
     const phases = get(project, 'phases') || [];
     const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
@@ -243,7 +243,7 @@ export class SectionContainerComponent extends React.Component {
               <FormattedMessage id="phase" /> {activePhaseIndex + 1}/{numberOfItems}
             </span>
             <span className="hearing-section-toggle-button-subtitle">
-              <FormattedMessage id="project" /> {getAttr(project.title, activeLanguage)}
+              <FormattedMessage id="project" /> {getAttr(project.title, language)}
             </span>
           </button>
         </h2>
@@ -272,17 +272,17 @@ export class SectionContainerComponent extends React.Component {
                     <span className="phase-title">
                       {!isEmpty(phase.hearings) ? (
                         <Link to={{ path: phase.hearings[0] }}>
-                          {getAttr(phase.title, activeLanguage)}
+                          {getAttr(phase.title, language)}
                         </Link>
                       ) : (
-                        <span>{getAttr(phase.title, activeLanguage)}</span>
+                        <span>{getAttr(phase.title, language)}</span>
                       )}
                     </span>
                     <span className="phase-description">
-                      {getAttr(phase.description, activeLanguage)}
+                      {getAttr(phase.description, language)}
                     </span>
                     <span className="phase-schedule">
-                      {getAttr(phase.schedule, activeLanguage)}
+                      {getAttr(phase.schedule, language)}
                     </span>
                   </div>
                 </div>
@@ -421,7 +421,7 @@ export class SectionContainerComponent extends React.Component {
     return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
   }
 
-  renderSectionAbstract = (section, activeLanguage) => {
+  renderSectionAbstract = (section, language) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
@@ -429,7 +429,7 @@ export class SectionContainerComponent extends React.Component {
     return (
       <div
         className="lead"
-        dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, activeLanguage) }}
+        dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }}
       />
     );
   }
@@ -481,7 +481,6 @@ export class SectionContainerComponent extends React.Component {
 
   renderMainHearing = (section, mainSection) => {
     const {
-      activeLanguage,
       contacts,
       fetchAllComments,
       hearing,
@@ -503,7 +502,7 @@ export class SectionContainerComponent extends React.Component {
         <Col md={8} mdPull={hearing.geojson && 4} lgPull={hearing.geojson && 3} mdPush={!hearing.geojson ? 2 : 0}>
           {this.renderMainDetails(hearing, section, language)}
 
-          {this.renderProjectPhaseSection(hearing, activeLanguage)}
+          {this.renderProjectPhaseSection(hearing, language)}
 
           {this.renderContacts(contacts, language)}
 
@@ -542,7 +541,6 @@ export class SectionContainerComponent extends React.Component {
 
   renderSubHearing = (section) => {
     const {
-      activeLanguage,
       hearing,
       language,
       sections,
@@ -582,7 +580,7 @@ export class SectionContainerComponent extends React.Component {
           )}
 
           {this.renderSectionImage(section, language)}
-          {this.renderSectionAbstract(section, activeLanguage)}
+          {this.renderSectionAbstract(section, language)}
           {this.renderSectionContent(section, language)}
 
           {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
@@ -663,7 +661,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SectionContainerComponent.propTypes = {
-  activeLanguage: PropTypes.string,
   contacts: PropTypes.array,
   deleteSectionComment: PropTypes.func,
   editComment: PropTypes.func,
