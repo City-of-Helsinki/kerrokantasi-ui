@@ -21,6 +21,11 @@ public_url="http://localhost:8086"
 # actually uses it for something. It is still required
 expressjs_session_secret="dev-secret-do-not-use-in-production"
 
+# OpenId Connect configuration
+openid_client_id="client-id-configured-to-your-opendid-provider"
+openid_audience="https://auth-url.domain/path"
+openid_authority="your-authority"
+openid_apitoken_url="https://auth-url.domain/api-tokens/"
 
 # City specific configuration
 # For whitelabel styles use "whitelabel".

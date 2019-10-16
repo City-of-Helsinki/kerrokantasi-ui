@@ -20,6 +20,11 @@ const defaults = {
   cold: false,
   // Should display accessibility info
   show_accessibility_info: false,
+  // Configurations related to OpenId Connect authentication
+  openid_client_id: null,
+  openid_audience: 'kerrokantasi',
+  openid_authority: 'http://localhost:8086',
+  openid_apitoken_url: 'https://testitunnistamo.turku.fi/api-tokens/',
   // Should display social media sharing buttons
   show_social_media_sharing: true,
 };
@@ -36,6 +41,9 @@ const optionalKeys = [
   "city_config",
   "show_accessibility_info",
   "show_social_media_sharing",
+  "openid_client_id",
+  "openid_audience",
+  "openid_authority",
 ];
 
 const mandatoryKeys = [
