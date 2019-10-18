@@ -65,7 +65,9 @@ class App extends React.Component {
             link={favlinks}
             meta={favmeta}
             script={[{src: urls.analytics, type: 'text/javascript'}]}
-          />
+          >
+            <html lang={locale} />
+          </Helmet>
           {header}
           <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" role="main" tabIndex="-1">
             <Routes />
