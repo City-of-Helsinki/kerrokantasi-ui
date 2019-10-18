@@ -1,18 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from './LinkWithLang';
+import { withRouter } from 'react-router-dom';
+
+import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
-import { FormattedMessage } from 'react-intl';
-import FormatRelativeTime from '../utils/FormatRelativeTime';
-import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
-import getAttr from '../utils/getAttr';
+import Link from './LinkWithLang';
+import MouseOnlyLink from './MouseOnlyLink';
 import config from '../config';
+import getAttr from '../utils/getAttr';
+import { FormattedMessage } from 'react-intl';
+import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
+const FullWidthHearing = ({ hearing, className = '', language, history }) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
@@ -25,13 +28,16 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
   };
 
   return (
-    <div className={`fullwidth-hearing ${className}`} {...rest}>
-      <Link to={{ path: getHearingURL(hearing) }} className="fullwidth-hearing-image" style={styles}>
-        <div aria-labelledby={hearing.id} />
-      </Link>
+    <div className={`fullwidth-hearing ${className}`}>
+      <MouseOnlyLink
+        className="fullwidth-hearing-image"
+        style={styles}
+        history={history}
+        url={getHearingURL(hearing)}
+      />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
-          <h3 className="h2 fullwidth-hearing-title" id={hearing.id}>
+          <h3 className="h2 fullwidth-hearing-title">
             <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
           </h3>
         </div>
@@ -73,11 +79,9 @@ const FullWidthHearing = ({hearing, className = '', ...rest}, {language}) => {
 
 FullWidthHearing.propTypes = {
   className: PropTypes.string,
-  hearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-};
-
-FullWidthHearing.contextTypes = {
+  hearing: PropTypes.object,
+  history: PropTypes.object,
   language: PropTypes.string,
 };
 
-export default FullWidthHearing;
+export default withRouter(FullWidthHearing);

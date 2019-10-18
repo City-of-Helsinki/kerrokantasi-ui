@@ -98,7 +98,7 @@ export class Home extends React.Component {
             <h2 className="page-title">
               <FormattedMessage id="openHearings" />
             </h2>
-            {topHearing && <FullWidthHearing hearing={topHearing} />}
+            {topHearing && <FullWidthHearing hearing={topHearing} language={language} />}
             {openHearings && openHearings.data && topHearing &&
               !openHearings.isFetching && (
                 <div className="list">
@@ -144,7 +144,6 @@ Home.propTypes = {
   dispatch: PropTypes.func,
   openHearings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  // eslint-disable-next-line react/no-unused-prop-types
   language: PropTypes.string, // make sure changing language refreshes
   user: PropTypes.object
 };

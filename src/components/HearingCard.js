@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import {withRouter} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import Link from './LinkWithLang';
+
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
+import Link from './LinkWithLang';
+import MouseOnlyLink from './MouseOnlyLink';
+import config from '../config';
 import getAttr from '../utils/getAttr';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
-import moment from 'moment';
-import config from '../config';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const HearingCard = ({hearing, language, className = ''}) => {
+const HearingCard = ({hearing, language, className = '', history}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
@@ -37,13 +40,17 @@ const HearingCard = ({hearing, language, className = ''}) => {
       </span>
     </div>
   ) : null;
+
   return (
     <div className={`hearing-card ${className}`}>
-      <Link to={{path: getHearingURL(hearing)}} className="hearing-card-image" style={cardImageStyle}>
-        <div aria-labelledby={hearing.id} />
-      </Link>
+      <MouseOnlyLink
+        className="hearing-card-image"
+        style={cardImageStyle}
+        history={history}
+        url={getHearingURL(hearing)}
+      />
       <div className="hearing-card-content">
-        <h3 className="h4 hearing-card-title" id={hearing.id}>
+        <h3 className="h4 hearing-card-title">
           <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
         </h3>
         {commentCount}
@@ -72,8 +79,9 @@ const HearingCard = ({hearing, language, className = ''}) => {
 
 HearingCard.propTypes = {
   className: PropTypes.string,
-  hearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  hearing: PropTypes.object,
   language: PropTypes.string,
+  history: PropTypes.object,
 };
 
-export default HearingCard;
+export default withRouter(HearingCard);
