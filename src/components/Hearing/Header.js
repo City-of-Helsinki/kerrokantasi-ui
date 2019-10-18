@@ -198,11 +198,13 @@ export class HeaderComponent extends React.Component {
               <Row>
                 <Col md={9}>
                   <h1 className="hearing-header-title">
-                    {!isPublic(hearing) ? (
+                    {!isPublic(hearing) && (
                       <OverlayTrigger placement="bottom" overlay={this.getEyeTooltip()}>
-                        <Icon name="eye-slash" />&nbsp;
+                        <span>
+                          <Icon name="eye-slash" />&nbsp;
+                        </span>
                       </OverlayTrigger>
-                    ) : null}
+                    )}
                     {getAttr(hearing.title, activeLanguage)}
                   </h1>
                 </Col>
