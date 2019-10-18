@@ -11,7 +11,7 @@ exports[`HearingCardList component should render as expected 1`] = `
     md={4}
     xs={12}
   >
-    <HearingCard
+    <withRouter(HearingCard)
       hearing={
         Object {
           "abstract": Object {

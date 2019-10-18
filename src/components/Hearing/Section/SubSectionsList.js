@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 
 import getAttr from '../../../utils/getAttr';
 import Icon from '../../../utils/Icon';
 import Link from '../../LinkWithLang';
+import MouseOnlyLink from '../../MouseOnlyLink';
 import {
   getSectionURL,
   isSectionCommentable,
@@ -15,7 +17,7 @@ import {
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const SubsectionList = ({ hearing, language, user }) => {
+const SubsectionList = ({ hearing, language, user, history }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
@@ -42,13 +44,12 @@ const SubsectionList = ({ hearing, language, user }) => {
           {subSections.map((section, index) => (
             <li key={section.id} className="subsection-grid-item">
               <div className="section-card">
-                <Link
-                  to={{ path: getSectionURL(hearing.slug, section) }}
+                <MouseOnlyLink
                   className="section-card-image"
                   style={{ backgroundImage: bgImage(section) }}
-                >
-                  <div aria-labelledby={`subsection-title-${section.id}`} />
-                </Link>
+                  history={history}
+                  url={getSectionURL(hearing.slug, section)}
+                />
                 <div className="section-card-content">
                   <div className="section-card-title-wrapper">
                     <div className="section-card-title-prefix">
@@ -99,6 +100,7 @@ SubsectionList.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
+  history: PropTypes.object,
 };
 
-export default SubsectionList;
+export default withRouter(SubsectionList);

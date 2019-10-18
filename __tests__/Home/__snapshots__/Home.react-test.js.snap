@@ -66,7 +66,7 @@ exports[`Home component should render as expected 1`] = `
           values={Object {}}
         />
       </h2>
-      <FullWidthHearing
+      <withRouter(FullWidthHearing)
         hearing={
           Object {
             "abstract": Object {

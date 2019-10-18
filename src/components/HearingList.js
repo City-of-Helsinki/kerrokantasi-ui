@@ -1,24 +1,25 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
-import Link from './LinkWithLang';
-import FormatRelativeTime from '../utils/FormatRelativeTime';
-import Icon from '../utils/Icon';
-import {getHearingURL, isPublic} from '../utils/hearing';
-import LabelList from './LabelList';
-import LoadSpinner from './LoadSpinner';
-import getAttr from '../utils/getAttr';
-import HearingsSearch from './HearingsSearch';
-import config from '../config';
-import OverviewMap from '../components/OverviewMap';
-import {keys, capitalize} from 'lodash';
-import { Waypoint } from 'react-waypoint';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import { Waypoint } from 'react-waypoint';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
+import { keys, capitalize } from 'lodash';
 
-import {labelShape} from '../types';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
+import HearingsSearch from './HearingsSearch';
+import Icon from '../utils/Icon';
+import LabelList from './LabelList';
+import Link from './LinkWithLang';
+import LoadSpinner from './LoadSpinner';
+import MouseOnlyLink from './MouseOnlyLink';
+import OverviewMap from '../components/OverviewMap';
+import config from '../config';
+import getAttr from '../utils/getAttr';
+import { labelShape } from '../types';
+import { getHearingURL, isPublic } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
@@ -82,7 +83,7 @@ HearingListFilters.propTypes = {
 
 export class HearingListItem extends React.Component {
   render() {
-    const hearing = this.props.hearing;
+    const { hearing, language, history } = this.props;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
       backgroundImage: `url(${defaultImage})`,
@@ -93,8 +94,7 @@ export class HearingListItem extends React.Component {
       };
     }
 
-    const {language} = this.props;
-    const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
+    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
     const availableInLanguageMessages = {
       fi: 'Kuuleminen saatavilla suomeksi',
       sv: 'Hörandet tillgängligt på svenska',
@@ -103,13 +103,16 @@ export class HearingListItem extends React.Component {
 
     return (
       <div className="hearing-list-item" role="listitem">
-        <Link to={{ path: getHearingURL(hearing) }} className="hearing-list-item-image" style={mainImageStyle}>
-          <div aria-labelledby={hearing.id} />
-        </Link>
+        <MouseOnlyLink
+          className="hearing-list-item-image"
+          style={mainImageStyle}
+          history={history}
+          url={getHearingURL(hearing)}
+        />
         <div className="hearing-list-item-content">
           <div className="hearing-list-item-title-wrap">
-            <h2 className="h4 hearing-list-item-title" id={hearing.id}>
-              <Link to={{path: getHearingURL(hearing)}}>
+            <h2 className="h4 hearing-list-item-title">
+              <Link to={{ path: getHearingURL(hearing) }}>
                 {!isPublic(hearing) ? (
                   <FormattedMessage id="hearingListNotPublished">
                     {(label) => <Icon name="eye-slash" aria-label={label} />}
@@ -168,6 +171,7 @@ export class HearingListItem extends React.Component {
 HearingListItem.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export const HearingList = ({
