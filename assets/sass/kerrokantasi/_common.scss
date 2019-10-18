@@ -170,3 +170,11 @@ a.fullwidth {
     opacity: 0.9;
   }
 }
+
+// Override custom select widget colors
+.Select--multi .Select-value {
+  color: $brand-info !important;
+}
+.Select-clear-zone {
+  color: $text-muted !important;
+}
