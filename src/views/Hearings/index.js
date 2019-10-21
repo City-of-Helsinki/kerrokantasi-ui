@@ -179,12 +179,26 @@ export class Hearings extends React.Component {
   handleSearch(searchTitle, force = false) {
     const { history, location } = this.props;
     const searchParams = parseQuery(location.search);
-    const searchPhraseUpdated = parseQuery(location.search).search !== searchTitle;
-    if (searchTitle === '') {
+    const searchParamsEmpty = isEmpty(searchParams.search);
+    const searchPhraseEmpty = isEmpty(searchTitle);
+    const searchPhraseUpdated = searchParams.search !== searchTitle;
+
+    // Don't do anything if:
+    // search is not forced
+    // AND
+    // current search params are the same as the inputted search
+    // OR
+    // both search params and currently inputted search are empty
+    if (!force && ((searchParams.search === searchTitle) || (searchParamsEmpty && searchPhraseEmpty))) {
+      return;
+    }
+
+    if (searchPhraseEmpty) {
       delete searchParams.search;
     } else {
       searchParams.search = searchTitle;
     }
+
     if (searchPhraseUpdated || force) {
       history.push({
         path: location.path,
