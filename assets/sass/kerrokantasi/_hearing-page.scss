@@ -548,16 +548,18 @@
   }
 
   .section-browser-title {
-    position: absolute;
-    text-align: center;
-    left: $grid-gutter-width;
-    right: $grid-gutter-width;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+    display: inline-block;
+    padding: 5px 14px;
+    vertical-align: middle;
 
     @media (min-width: $screen-sm-min) {
       font-size: 115%;
+    }
+
+    > span {
+      border: 0;
+      background: transparent;
+      padding: 0;
     }
   }
 
