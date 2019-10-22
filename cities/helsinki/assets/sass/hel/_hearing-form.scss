@@ -11,3 +11,11 @@
     background: lighten($hel-fog, 10%);
   }
 }
+
+.toolbar-bottom {
+  .alert {
+    &.alert-success {
+      color: $white;
+    }
+  }
+}

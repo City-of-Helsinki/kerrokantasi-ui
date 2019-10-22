@@ -94,7 +94,7 @@
         font-size: 30px;
       }
     }
-  
+
     .overlay {
       left: 0;
       margin-left: auto;
@@ -194,10 +194,6 @@
   .alert {
     margin-bottom: 0;
     font-weight: bold;
-
-    &.alert-success {
-      color: $white;
-    }
   }
 
   .btn-toolbar {
