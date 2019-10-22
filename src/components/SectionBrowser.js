@@ -8,17 +8,17 @@ export const SectionBrowserComponent = ({sectionNav}) => {
     <div
       className="section-browser"
       role="navigation"
-      aria-describedby="section-browser-title"
+      aria-labelledby="section-browser-title"
     >
-      <div className="section-browser-title" id="section-browser-title" aria-hidden="true">
-        <FormattedMessage id="subsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
-      </div>
       <ul className="pager">
         <li className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`}>
           <LinkWrapper disabled={!sectionNav.prevPath} to={{path: sectionNav.prevPath || '#'}}>
             <span aria-hidden>&larr; </span>&nbsp;
             <FormattedMessage id="previous" />
           </LinkWrapper>
+        </li>
+        <li role="presentation" className="section-browser-title" id="section-browser-title" aria-hidden="true">
+          <FormattedMessage id="subsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
         </li>
         <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
           <LinkWrapper disabled={!sectionNav.nextPath} to={{path: sectionNav.nextPath || '#'}}>

@@ -1,4 +1,8 @@
-[tabindex="-1"]:focus {
+html,
+body,
+h1:focus,
+.main-content:focus,
+.modal:focus {
   outline: 0 !important;
 }
 
@@ -169,4 +173,12 @@ a.fullwidth {
   &:hover {
     opacity: 0.9;
   }
+}
+
+// Override custom select widget colors
+.Select--multi .Select-value {
+  color: $brand-info !important;
+}
+.Select-clear-zone {
+  color: $text-muted !important;
 }

@@ -278,5 +278,8 @@
   "accessibilityLink": "Saavutettavuusseloste",
   "accessibilityPage": "Saavutettavuusseloste",
   "headerUserNavLabel": "Käyttäjävalikko",
-  "headerPagesNavLabel": "Sivuvalikko"
+  "headerPagesNavLabel": "Sivuvalikko",
+  "totalNumHearing": "kuuleminen",
+  "totalNumHearings": "kuulemista",
+  "orderHasBeenChanged": "Kuulemisten järjestystä muutettu"
 }

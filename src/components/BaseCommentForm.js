@@ -176,7 +176,7 @@ export class BaseCommentForm extends React.Component {
 
   isImageTooBig(images) { // eslint-disable-line class-methods-use-this
     let isImageTooBig = false;
-    images.forEach((image) => {
+    Array.from(images).forEach((image) => {
       if (image.size > 1000000) {
         isImageTooBig = true;
       }

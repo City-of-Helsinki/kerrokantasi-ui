@@ -196,5 +196,8 @@
   "accessibilityLink": "Accessibility Statement",
   "accessibilityPage": "Accessibility Statement",
   "headerUserNavLabel": "User menu",
-  "headerPagesNavLabel": "Page menu"
+  "headerPagesNavLabel": "Page menu",
+  "totalNumHearing": "hearing",
+  "totalNumHearings": "hearings",
+  "orderHasBeenChanged": "Hearing order has been changed"
 }
