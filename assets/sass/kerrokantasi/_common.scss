@@ -1,4 +1,8 @@
-[tabindex="-1"]:focus {
+html,
+body,
+h1:focus,
+.main-content:focus,
+.modal:focus {
   outline: 0 !important;
 }
 
