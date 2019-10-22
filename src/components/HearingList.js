@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { Waypoint } from 'react-waypoint';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
 import { keys, capitalize } from 'lodash';
 
@@ -51,30 +51,64 @@ HearingListTabs.propTypes = {
   changeTab: PropTypes.func,
 };
 
-const HearingListFilters = ({handleSort, formatMessage}) => (
-  <div className="hearing-list__filter-bar clearfix">
-    <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
-      <ControlLabel className="hearing-list__filter-bar-label">
-        <FormattedMessage id="sort" />
-      </ControlLabel>
-      <FormControl
-        className="select"
-        componentClass="select"
-        placeholder="select"
-        onChange={event => handleSort(event.target.value)}
-      >
-        <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
-        <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-        <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
-        <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
-        <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-        <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
-        <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
-        <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
-      </FormControl>
-    </FormGroup>
-  </div>
-);
+class HearingListFilters extends React.Component {
+  state = {
+    sortChangeStatusMessages: [],
+  }
+
+  sortList = (event) => {
+    const { handleSort } = this.props;
+
+    handleSort(event.target.value);
+
+    const newMessage = {
+      id: Math.random(),
+    };
+
+    this.setState({ sortChangeStatusMessages: [newMessage] });
+
+    // Clear the message after 5 seconds
+    setTimeout(() => {
+      this.setState({ sortChangeStatusMessages: [] });
+    }, 5000);
+  }
+
+  render() {
+    const { formatMessage } = this.props;
+
+    return (
+      <div className="hearing-list__filter-bar clearfix">
+        <div className="sr-only">
+          {this.state.sortChangeStatusMessages && this.state.sortChangeStatusMessages.map(alert => (
+            <div key={alert.id} aria-live="assertive" role="status">
+              <FormattedMessage id="orderHasBeenChanged" />
+            </div>
+          ))}
+        </div>
+        <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
+          <ControlLabel className="hearing-list__filter-bar-label">
+            <FormattedMessage id="sort" />
+          </ControlLabel>
+          <FormControl
+            className="select"
+            componentClass="select"
+            placeholder="select"
+            onChange={event => this.sortList(event)}
+          >
+            <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
+            <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
+            <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
+            <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
+            <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
+            <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
+            <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
+            <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
+          </FormControl>
+        </FormGroup>
+      </div>
+    );
+  }
+}
 
 HearingListFilters.propTypes = {
   handleSort: PropTypes.func,
@@ -243,31 +277,41 @@ export const HearingList = ({
           <FormattedMessage id="jumpToSearchForm" />
         </a>
         <div className="container">
-          {!isLoading && !hasHearings ? (
-            <Row>
-              <Col md={8} mdPush={2}>
-                <p>
+          <Row>
+            <Col md={8} mdPush={2}>
+              {(!isLoading && !hasHearings) && (
+                <h3 className="hearing-list__hearing-list-title">
                   <FormattedMessage id="noHearings" />
-                </p>
-              </Col>
-            </Row>
-          ) : null}
-          {hasHearings && activeTab === 'list' ? (
-            <Row>
-              <Col md={8} mdPush={2}>
-                <div className="hearing-list">
-                  <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
-                  <div role="list">
-                    {hearings.map(hearing => (
-                      <HearingListItem hearing={hearing} key={hearing.id} language={language} />
-                    ))}
+                </h3>
+              )}
+
+              {(hasHearings && activeTab === 'list') && (
+                <div>
+                  <div className="hearing-list__result-controls">
+                    <h3 className="hearing-list__hearing-list-title">
+                      {hearings.length}
+                      <FormattedPlural
+                        value={hearings.length}
+                        one={<FormattedMessage id="totalNumHearing" values={{ n: hearings.length }} />}
+                        other={<FormattedMessage id="totalNumHearings" values={{ n: hearings.length }} />}
+                      />
+                    </h3>
+                    <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
-                  {isLoading && <LoadSpinner />}
-                  {!isLoading && <Waypoint onEnter={handleReachBottom} />}
+
+                  <div className="hearing-list">
+                    <div role="list">
+                      {hearings.map(hearing => (
+                        <HearingListItem hearing={hearing} key={hearing.id} language={language} />
+                      ))}
+                    </div>
+                    {isLoading && <LoadSpinner />}
+                    {!isLoading && <Waypoint onEnter={handleReachBottom} />}
+                  </div>
                 </div>
-              </Col>
-            </Row>
-          ) : null}
+              )}
+            </Col>
+          </Row>
           {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
         </div>
       </section>

@@ -182,5 +182,8 @@
   "accessibilityPage": "Tillgänglighetsutlåtande",
   "headerUserNavLabel": "Användarmeny",
   "headerPagesNavLabel": "Sidmenyn",
-  "reply": "Svara"
+  "reply": "Svara",
+  "totalNumHearing": "hörande",
+  "totalNumHearings": "höranden",
+  "orderHasBeenChanged": "hörande order har ändrats"
 }
