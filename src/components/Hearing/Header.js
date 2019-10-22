@@ -98,6 +98,13 @@ export class HeaderComponent extends React.Component {
     } = this.props;
     const languageOptions = keys(hearing.title);
 
+    const translationAvailable = !!getAttr(hearing.title, activeLanguage, { exact: true });
+    const noTranslationMessage = (
+      <div className="translation-not-available">
+        <FormattedMessage id="hearingTranslationNotAvailable" />
+      </div>
+    );
+
     // Check if only one language is available
     if (!(languageOptions.length > 1)) {
       // If the current language is not the same as the only language available
@@ -106,6 +113,7 @@ export class HeaderComponent extends React.Component {
           <div className="hearing-meta__element language-select">
             <Icon name="globe" className="user-nav-icon" />
             <span className="language-select__texts">
+              {!translationAvailable && noTranslationMessage}
               {intl.formatMessage({ id: 'hearingOnlyAvailableIn' })}&nbsp;
               <a
                 href=""
@@ -131,6 +139,7 @@ export class HeaderComponent extends React.Component {
     return (
       <div className="hearing-meta__element language-select">
         <Icon name="globe" className="user-nav-icon" />
+        {!translationAvailable && noTranslationMessage}
         {languageOptions.map((code) =>
           <span key={code} className="language-select__texts">
             {!(code === activeLanguage) ? (
