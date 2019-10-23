@@ -16,6 +16,7 @@ import SectionClosureInfo from '../../components/Hearing/Section/SectionClosureI
 import SocialBar from '../../components/SocialBar';
 import getAttr from '../../utils/getAttr';
 import Link from '../LinkWithLang';
+import config from '../../config';
 import { isPublic, getHearingURL, hasCommentableSections } from "../../utils/hearing";
 import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
@@ -217,7 +218,7 @@ export class HeaderComponent extends React.Component {
                     {getAttr(hearing.title, activeLanguage)}
                   </h1>
                 </Col>
-                {isMainSection(section) && (
+                {(isMainSection(section) && config.showSocialMediaSharing) && (
                   <Col md={3}>
                     <SocialBar />
                   </Col>

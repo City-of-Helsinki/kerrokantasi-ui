@@ -28,13 +28,6 @@ exports[`Header component should render as expected 1`] = `
               Ideoi Isosaaren tulevaisuutta
             </h1>
           </Col>
-          <Col
-            bsClass="col"
-            componentClass="div"
-            md={3}
-          >
-            <SocialBar />
-          </Col>
         </Row>
         <Row
           bsClass="row"

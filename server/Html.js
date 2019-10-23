@@ -12,6 +12,7 @@ export default class Html extends React.Component {
       heroImageURL,
       initialState,
       showAccessibilityInfo,
+      showSocialMediaSharing,
       uiConfig,
     } = this.props;
     const initialStateHtml = `
@@ -20,6 +21,7 @@ export default class Html extends React.Component {
     window.HERO_IMAGE_URL = ${JSON.stringify(heroImageURL)};
     window.UI_CONFIG = ${JSON.stringify(uiConfig)};
     window.SHOW_ACCESSIBILITY_INFO = ${JSON.stringify(showAccessibilityInfo)};
+    window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     `;
 
     return (
@@ -54,4 +56,5 @@ Html.propTypes = {
   initialState: PropTypes.object,
   hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
+  showSocialMediaSharing: PropTypes.bool,
 };
