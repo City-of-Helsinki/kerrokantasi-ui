@@ -45,3 +45,7 @@ city_config="cities/helsinki"
 # Should display accessibility page link in the footer and accessibility page content
 # Default: false
 # show_accessibility_info=true
+
+# Should display social media share buttons on a hearing header
+# Default: true
+# show_social_media_sharing=false

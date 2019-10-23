@@ -26,6 +26,8 @@ const defaults = {
   cold: false,
   // Should display accessibility info
   show_accessibility_info: false,
+  // Should display social media sharing buttons
+  show_social_media_sharing: true,
 };
 
 const optionalKeys = [
@@ -39,6 +41,7 @@ const optionalKeys = [
   "cold",
   "city_config",
   "show_accessibility_info",
+  "show_social_media_sharing",
 ];
 
 const mandatoryKeys = [

@@ -9,6 +9,7 @@ const config = {
   heroImageURL: (typeof window !== 'undefined' ? window.HERO_IMAGE_URL : null)
     || 'http://materialbank.myhelsinki.fi/detail/1192/download/7',
   showAccessibilityInfo: typeof window !== 'undefined' ? window.SHOW_ACCESSIBILITY_INFO : false,
+  showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
 };
 
 export default config;
