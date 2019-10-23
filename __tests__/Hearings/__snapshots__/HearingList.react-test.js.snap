@@ -393,33 +393,7 @@ exports[`HearingsList component should render as expected 1`] = `
             >
               <h3
                 className="hearing-list__hearing-list-title"
-              >
-                1
-                <FormattedPlural
-                  one={
-                    <FormattedMessage
-                      id="totalNumHearing"
-                      values={
-                        Object {
-                          "n": 1,
-                        }
-                      }
-                    />
-                  }
-                  other={
-                    <FormattedMessage
-                      id="totalNumHearings"
-                      values={
-                        Object {
-                          "n": 1,
-                        }
-                      }
-                    />
-                  }
-                  style="cardinal"
-                  value={1}
-                />
-              </h3>
+              />
               <HearingListFilters
                 formatMessage={[Function]}
               />

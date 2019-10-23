@@ -129,6 +129,12 @@ export class Hearings extends React.Component {
     return get(hearingLists, [hearingListKey, 'data'], null);
   }
 
+  getHearingsCount() {
+    const { hearingLists } = this.props;
+    const list = this.getHearingListName();
+    return hearingLists[list].count;
+  }
+
   getHearingListName() {
     const { user } = this.props;
     const { adminFilter } = this.state;
@@ -262,6 +268,7 @@ export class Hearings extends React.Component {
     const searchTitle = parseQuery(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
+    const hearingCount = this.getHearingsCount();
 
     const adminFilterSelector = isAdmin(user.data) ? (
       <AdminFilterSelector
@@ -294,6 +301,7 @@ export class Hearings extends React.Component {
         </section>
         {!isEmpty(labels) ? <WrappedHearingList
           hearings={hearings}
+          hearingCount={hearingCount}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
           isLoading={this.getIsLoading()}
