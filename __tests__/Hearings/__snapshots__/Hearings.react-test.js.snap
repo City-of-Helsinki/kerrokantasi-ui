@@ -42,6 +42,7 @@ exports[`Hearings component should render as expected 1`] = `
     handleSearch={[Function]}
     handleSelectLabels={[Function]}
     handleSort={[Function]}
+    hearingCount={0}
     hearings={
       Array [
         Object {

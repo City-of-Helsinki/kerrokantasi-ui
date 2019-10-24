@@ -290,16 +290,12 @@ export const HearingList = ({
                 <div>
                   <div className="hearing-list__result-controls">
                     <h3 className="hearing-list__hearing-list-title">
-                      {hearingCount && (
-                        <span>
-                          {hearingCount}
-                          <FormattedPlural
-                            value={hearingCount}
-                            one={<FormattedMessage id="totalNumHearing" values={{ n: hearingCount }} />}
-                            other={<FormattedMessage id="totalNumHearings" values={{ n: hearingCount }} />}
-                          />
-                        </span>
-                      )}
+                      {hearingCount}
+                      <FormattedPlural
+                        value={hearingCount}
+                        one={<FormattedMessage id="totalNumHearing" values={{ n: hearingCount }} />}
+                        other={<FormattedMessage id="totalNumHearings" values={{ n: hearingCount }} />}
+                      />
                     </h3>
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
@@ -346,6 +342,7 @@ HearingList.propTypes = {
 
 HearingList.defaultProps = {
   tab: HEARING_LIST_TABS.LIST,
+  hearingCount: 0,
 };
 
 export default HearingList;
