@@ -36,7 +36,7 @@ const HearingListTabs = ({activeTab, changeTab}) => (
         {keys(HEARING_LIST_TABS).map(key => {
           const value = HEARING_LIST_TABS[key];
           return (
-            <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)}>
+            <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)} role="tab">
               <FormattedMessage id={value} />
             </NavItem>
           );
