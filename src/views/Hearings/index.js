@@ -132,7 +132,7 @@ export class Hearings extends React.Component {
   getHearingsCount() {
     const { hearingLists } = this.props;
     const list = this.getHearingListName();
-    return hearingLists[list].count;
+    return get(hearingLists, [list, 'count'], 0);
   }
 
   getHearingListName() {
