@@ -20,7 +20,6 @@ const LanguageSwitcher = ({currentLanguage, location, history}, {intl: {formatMe
     pullRight
     className="language-switcher"
     id="language"
-    eventKey="language"
     title={<span><Icon name="globe" className="user-nav-icon" aria-hidden="true"/>{currentLanguage} </span>}
     aria-label={formatMessage({id: 'languageSwitchLabel'})}
   >
