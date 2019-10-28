@@ -54,6 +54,7 @@ export class SectionContainerComponent extends React.Component {
     commentToDelete: {},
     showLightbox: false,
     mapContainer: null,
+    mapContainerMobile: null,
     mainHearingDetailsOpen: false,
     mainHearingProjectOpen: false,
     mainHearingContactsOpen: false,
@@ -86,6 +87,9 @@ export class SectionContainerComponent extends React.Component {
   // Save reference in state.
   handleSetMapContainer = (mapContainer) => {
     this.setState({ mapContainer });
+  }
+  handleSetMapContainerMobile = (mapContainerMobile) => {
+    this.setState({ mapContainerMobile });
   }
 
   /**
@@ -493,13 +497,13 @@ export class SectionContainerComponent extends React.Component {
     return (
       <React.Fragment>
         {hearing.geojson && (
-          <Col md={4} lg={3} mdPush={8} lgPush={9}>
-            <div className="hearing-map-container" ref={this.handleSetMapContainer}>
-              <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
+          <Col xs={12} className="hidden-md hidden-lg">
+            <div className="hearing-map-container" ref={this.handleSetMapContainerMobile}>
+              <HearingMap hearing={hearing} mapContainer={this.state.mapContainerMobile} />
             </div>
           </Col>
         )}
-        <Col md={8} mdPull={hearing.geojson && 4} lgPull={hearing.geojson && 3} mdPush={!hearing.geojson ? 2 : 0}>
+        <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
           {this.renderMainDetails(hearing, section, language)}
 
           {this.renderProjectPhaseSection(hearing, language)}
@@ -535,6 +539,13 @@ export class SectionContainerComponent extends React.Component {
 
           {this.renderCommentsSection()}
         </Col>
+        {hearing.geojson && (
+          <Col md={4} lg={3} lgPush={1} className="hidden-xs visible-sm visible-md visible-lg">
+            <div className="hearing-map-container" ref={this.handleSetMapContainer}>
+              <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
+            </div>
+          </Col>
+        )}
       </React.Fragment>
     );
   }
