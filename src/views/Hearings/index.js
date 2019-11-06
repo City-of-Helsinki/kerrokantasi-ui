@@ -18,6 +18,7 @@ import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import { hearingShape, labelShape, userShape } from '../../types';
 import getAttr from '../../utils/getAttr';
 import { parseQuery, stringifyQuery } from '../../utils/urlQuery';
+import {getUser} from '../../selectors/user';
 
 const now = () => new Date().toISOString();
 
@@ -102,8 +103,8 @@ export class Hearings extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { user, location, match: {params: {tab}}, labels } = this.props;
     const { adminFilter } = this.state;
-    const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
-    const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
+    const shouldSetAdminFilter = isAdmin(nextProps.user) && (!user || !adminFilter);
+    const shouldNullAdminFilter = isAdmin(user) && !nextProps.user;
     const shouldFetchHearings = labels && ((
       (!this.props.labels.length && nextProps.labels.length) ||
       (nextProps.labels.length && location.search !== nextProps.location.search) ||
@@ -139,7 +140,7 @@ export class Hearings extends React.Component {
     const { user } = this.props;
     const { adminFilter } = this.state;
 
-    return isAdmin(user.data) ? adminFilter : HearingLists.ALL.list;
+    return isAdmin(user) ? adminFilter : HearingLists.ALL.list;
   }
 
   getIsLoading() {
@@ -270,7 +271,7 @@ export class Hearings extends React.Component {
     const hearings = this.getHearings();
     const hearingCount = this.getHearingsCount();
 
-    const adminFilterSelector = isAdmin(user.data) ? (
+    const adminFilterSelector = isAdmin(user) ? (
       <AdminFilterSelector
         onSelect={this.setAdminFilter}
         options={AdminFilters}
@@ -279,7 +280,7 @@ export class Hearings extends React.Component {
       />
     ) : null;
 
-    if (user.isFetching) {
+    if (user && user.isFetching) {
       return <LoadSpinner />;
     }
 
@@ -294,7 +295,7 @@ export class Hearings extends React.Component {
                   <FormattedMessage id="allHearings" />
                 </h1>
                 {adminFilterSelector}
-                {isAdmin(user.data) && <CreateHearingButton to={{path: '/hearing/new'}} />}
+                {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
               </Col>
             </Row>
           </div>
@@ -362,7 +363,7 @@ const mapStateToProps = state => ({
   hearingLists: state.hearingLists,
   labels: state.labels.data,
   language: state.language,
-  user: state.user, // Using this on purpose without selector
+  user: getUser(state), // Using this on purpose without selector
 });
 
 const mapDispatchToProps = dispatch => ({

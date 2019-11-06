@@ -33,6 +33,7 @@ function renderHTMLSkeleton(req, res, settings) {
     const html = renderToStaticMarkup(
       <Html
         bundleSrc={settings.bundleSrc || '/app.js'}
+        publicUrl={settings.public_url}
         apiBaseUrl={settings.kerrokantasi_api_base}
         heroImageURL={settings.hero_image_url}
         uiConfig={settings.ui_config}

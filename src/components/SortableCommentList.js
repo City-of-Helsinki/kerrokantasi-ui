@@ -13,6 +13,7 @@ import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
+import {getUser} from "../selectors/user";
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -377,7 +378,7 @@ SortableCommentListComponent.propTypes = {
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
-  user: get(state, 'user').data,
+  user: getUser(state),
   language: state.language
 });
 

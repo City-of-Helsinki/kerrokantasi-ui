@@ -6,9 +6,8 @@ import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import {retrieveUserFromSession} from './actions';
+import {fetchApiToken} from './actions';
 import config from './config';
-import {getUser} from './selectors/user';
 import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
@@ -20,12 +19,16 @@ class App extends React.Component {
   getChildContext() {
     return {
       language: this.props.language,
-      user: this.props.user,
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.oidc.user && !nextProps.apitoken.apiToken && !nextProps.apitoken.isFetching) {
+      nextProps.fetchApiToken(nextProps.oidc.user.access_token);
+    }
+  }
+
   componentDidMount() {
-    this.props.dispatch(retrieveUserFromSession());
     config.activeLanguage = this.props.language; // for non react-intl localizations
   }
 
@@ -87,16 +90,29 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  oidc: state.oidc,
+  language: state.language,
+  apitoken: state.apitoken,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchApiToken: (accessToken) => {
+    dispatch(fetchApiToken(accessToken));
+  },
+});
+
 App.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
-  user: PropTypes.object,
+  apitoken: PropTypes.any,
+  oidc: PropTypes.any,
   dispatch: PropTypes.func,
+  fetchApiToken: PropTypes.func,
 };
 App.childContextTypes = {
   language: PropTypes.string,
-  user: PropTypes.object,
 };
-export default withRouter(connect(state => ({user: getUser(state), language: state.language}))(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
