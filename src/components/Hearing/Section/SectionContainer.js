@@ -105,7 +105,7 @@ export class SectionContainerComponent extends React.Component {
     const hearingSlug = match.params.hearingSlug;
     const {authCode} = parseQuery(location.search);
     const commentData = Object.assign({authCode}, sectionCommentData);
-    this.props.postSectionComment(hearingSlug, sectionId, commentData);
+    return this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
   onVoteComment = (commentId, sectionId, isReply, parentId) => {
