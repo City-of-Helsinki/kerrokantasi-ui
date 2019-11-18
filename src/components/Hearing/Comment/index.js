@@ -73,7 +73,7 @@ class Comment extends React.Component {
     const commentData = {};
 
     forEach(data, (value, key) => {
-      if (key !== 'content') {
+      if (['content', 'images'].indexOf(key) === -1) {
         commentData[key] = value;
       }
     });
