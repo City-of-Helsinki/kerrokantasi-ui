@@ -73,7 +73,7 @@ class Header extends React.Component {
       <Button
         key="login"
         className="user-menu login-link user-menu--unlogged"
-        onClick={() => userManager.signinRedirect()}
+        onClick={() => userManager.signinRedirect({ui_locales: this.props.language})}
       >
         <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
         <span className="user-name"><FormattedMessage id="login" /></span>
