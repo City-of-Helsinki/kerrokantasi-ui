@@ -115,7 +115,7 @@ export class SortableCommentListComponent extends Component {
 
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData).then(() => {
-        this.setState({answers: this._defaultAnswerState});
+        this.setState({answers: this._defaultAnswerState()});
       });
     }
   }

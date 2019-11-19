@@ -146,8 +146,7 @@ class Comment extends React.Component {
    */
   handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
-    const answers = this.state.answers;
-    let commentData = {text, authorName, pluginData, geojson, label, images, answers};
+    let commentData = {text, authorName, pluginData, geojson, label, images};
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
       if (this.props.isReply && this.props.parentComponentId) {
         commentData = { ...commentData, comment: this.props.parentComponentId };
