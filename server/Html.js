@@ -5,6 +5,7 @@ export default class Html extends React.Component {
   render() {
     const {
       apiBaseUrl,
+      publicUrl,
       bundleSrc,
       content,
       head,
@@ -22,6 +23,7 @@ export default class Html extends React.Component {
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
     window.API_BASE_URL = ${JSON.stringify(apiBaseUrl)};
+    window.PUBLIC_URL = ${JSON.stringify(publicUrl)};
     window.HERO_IMAGE_URL = ${JSON.stringify(heroImageURL)};
     window.UI_CONFIG = ${JSON.stringify(uiConfig)};
     window.SHOW_ACCESSIBILITY_INFO = ${JSON.stringify(showAccessibilityInfo)};
@@ -56,6 +58,7 @@ export default class Html extends React.Component {
 
 Html.propTypes = {
   apiBaseUrl: PropTypes.string,
+  publicUrl: PropTypes.string,
   heroImageURL: PropTypes.string,
   uiConfig: PropTypes.object,
   bundleSrc: PropTypes.string.isRequired,
