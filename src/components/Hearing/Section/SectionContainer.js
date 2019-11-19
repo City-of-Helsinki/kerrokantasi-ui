@@ -48,6 +48,8 @@ import {
   getCommentSubComments,
 } from '../../../actions';
 
+import {getUser} from '../../../selectors/user';
+
 export class SectionContainerComponent extends React.Component {
   state = {
     showDeleteModal: false,
@@ -641,7 +643,7 @@ const mapStateToProps = (state, ownProps) => ({
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
-  user: state.user.data
+  user: getUser(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

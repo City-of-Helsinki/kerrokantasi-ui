@@ -33,12 +33,17 @@ function renderHTMLSkeleton(req, res, settings) {
     const html = renderToStaticMarkup(
       <Html
         bundleSrc={settings.bundleSrc || '/app.js'}
+        publicUrl={settings.public_url}
         apiBaseUrl={settings.kerrokantasi_api_base}
         heroImageURL={settings.hero_image_url}
         uiConfig={settings.ui_config}
         hearingData={hearingData}
         showAccessibilityInfo={settings.show_accessibility_info}
         showSocialMediaSharing={settings.show_social_media_sharing}
+        openIdClientId={settings.openid_client_id}
+        openIdAudience={settings.openid_audience}
+        openIdAuthority={settings.openid_authority}
+        openIdApiTokenUrl={settings.openid_apitoken_url}
       />
     );
     res.status(200).send(html);

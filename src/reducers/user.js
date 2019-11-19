@@ -11,7 +11,7 @@ const fetchUserData = (state) => ({
 });
 
 const receiveUserData = (state, {payload}) => {
-  if (payload && payload.id) {
+  if (payload) {
     return {isFetching: false, data: payload};
   }
   return INITIAL_STATE;

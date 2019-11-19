@@ -145,14 +145,14 @@ Home.propTypes = {
   openHearings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   language: PropTypes.string, // make sure changing language refreshes
-  user: PropTypes.object
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   topHearing: getTopHearing(state),
   language: state.language,
   openHearings: getOpenHearings(state),
-  user: getUser(state)
+  user: getUser(state),
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));

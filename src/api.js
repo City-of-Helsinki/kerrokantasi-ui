@@ -3,7 +3,7 @@ import config from './config';
 import merge from 'lodash/merge';
 import qs from 'querystring';
 import urlUtil from 'url';
-import {getUser} from './selectors/user';
+import {getApiToken} from './selectors/user';
 
 function getApiURL(endpoint, params = null) {
   let url = (config.apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
@@ -21,13 +21,13 @@ export function apiCall(state, endpoint, params, options = {}) {
   if (typeof state !== "object") {
     throw new Error("API calls require redux state for authentication");
   }
-  const user = getUser(state);
+  const token = getApiToken(state);
   options = merge({method: "GET", credentials: "include"}, options);  // eslint-disable-line no-param-reassign
   const defaultHeaders = {
     "Accept": "application/json"  // eslint-disable-line quote-props
   };
-  if (user && user.token) {
-    defaultHeaders.Authorization = "JWT " + user.token;
+  if (token) {
+    defaultHeaders.Authorization = "Bearer " + token;
   }
   options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
 

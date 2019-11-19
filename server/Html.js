@@ -14,6 +14,10 @@ export default class Html extends React.Component {
       showAccessibilityInfo,
       showSocialMediaSharing,
       uiConfig,
+      openIdClientId,
+      openIdAudience,
+      openIdAuthority,
+      openIdApiTokenUrl,
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -21,6 +25,10 @@ export default class Html extends React.Component {
     window.HERO_IMAGE_URL = ${JSON.stringify(heroImageURL)};
     window.UI_CONFIG = ${JSON.stringify(uiConfig)};
     window.SHOW_ACCESSIBILITY_INFO = ${JSON.stringify(showAccessibilityInfo)};
+    window.OPENID_CLIENT_ID = ${JSON.stringify(openIdClientId)};
+    window.OPENID_AUDIENCE = ${JSON.stringify(openIdAudience)};
+    window.OPENID_AUTHORITY = ${JSON.stringify(openIdAuthority)};
+    window.OPENID_APITOKEN_URL = ${JSON.stringify(openIdApiTokenUrl)};
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     `;
 
@@ -57,4 +65,8 @@ Html.propTypes = {
   hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
+  openIdClientId: PropTypes.string,
+  openIdAudience: PropTypes.string,
+  openIdAuthority: PropTypes.string,
+  openIdApiTokenUrl: PropTypes.string,
 };
