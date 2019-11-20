@@ -78,6 +78,13 @@ export class SortableCommentListComponent extends Component {
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
     this.setState({
+      answers: this.props.section.questions.map(
+        question => ({
+          question: question.id,
+          type: question.type,
+          answers: []
+        })
+      ),
       showLoader: isFetching,
       collapseForm: false, // whenever things change, no longer force the form to collapse
     });
