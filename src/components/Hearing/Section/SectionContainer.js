@@ -363,10 +363,6 @@ export class SectionContainerComponent extends React.Component {
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
-    if (!userCanComment(user, section)) {
-      return null;
-    }
-
     return (
       <section className="hearing-section comments-section" id="comments-section">
         {reportUrl && (
