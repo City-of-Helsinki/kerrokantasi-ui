@@ -21,7 +21,6 @@ const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../c
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
-    console.error("HEARTING CONTAINER");
     const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}} = this.props;
     fetchHearing(params.hearingSlug);
     fetchEditorMetaData();
