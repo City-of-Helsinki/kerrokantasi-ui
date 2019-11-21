@@ -47,7 +47,16 @@ export class BaseCommentForm extends React.Component {
   }
 
   toggle() {
-    this.setState({collapsed: !this.state.collapsed});
+    this.setState({
+      collapsed: !this.state.collapsed,
+      commentText: "",
+      nickname: this.props.defaultNickname || '',
+      imageTooBig: false,
+      images: [],
+      pinned: false,
+      showAlert: true,
+      hideName: false,
+    });
     if (this.props.onOverrideCollapse instanceof Function) {
       this.props.onOverrideCollapse();
     }
@@ -97,6 +106,16 @@ export class BaseCommentForm extends React.Component {
       images,
       pinned,
     );
+    this.setState({
+      collapsed: false,
+      commentText: "",
+      nickname: this.props.defaultNickname || '',
+      imageTooBig: false,
+      images: [],
+      pinned: false,
+      showAlert: true,
+      hideName: false,
+    });
   }
 
   handleChange(event) {
