@@ -39,7 +39,7 @@ export class FullscreenHearingContainerComponent extends React.Component {
     const hearingSlug = match.params.hearingSlug;
     const {authCode} = parseQuery(location.search);
     const commentData = Object.assign({authCode}, sectionCommentData);
-    this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
+    return this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   }
 
   onVoteComment = (commentId) => {

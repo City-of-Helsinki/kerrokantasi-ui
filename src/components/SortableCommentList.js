@@ -29,18 +29,22 @@ export class SortableCommentListComponent extends Component {
       showLoader: false,
       collapseForm: false,
       shouldAnimate: false,
-      answers: this.props.section.questions.map(
-        question => ({
-          question: question.id,
-          type: question.type,
-          answers: []
-        })
-      )
+      answers: this._defaultAnswerState()
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
     this.handleReachBottom = this.handleReachBottom.bind(this);
     this.fetchComments = this.fetchComments.bind(this);
+  }
+
+  _defaultAnswerState() {
+    return this.props.section.questions.map(
+      question => ({
+        question: question.id,
+        type: question.type,
+        answers: []
+      })
+    );
   }
 
   _fetchMoreComments() {
@@ -109,7 +113,9 @@ export class SortableCommentListComponent extends Component {
     const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned};
 
     if (this.props.onPostComment) {
-      this.props.onPostComment(section.id, commentData);
+      this.props.onPostComment(section.id, commentData).then(() => {
+        this.setState({answers: this._defaultAnswerState});
+      });
     }
   }
 
