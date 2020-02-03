@@ -494,6 +494,9 @@ export const mockStore = {
     data: [{id: 1, label: {fi: 'Mock Von Label'}}, {id: 2, label: {fi: 'Mock Don Label'}}]
   },
   user: { },
+  accessibility: {
+    isHighContrast: false,
+  },
   hearingLists: {
     allHearings: {
       data: [{

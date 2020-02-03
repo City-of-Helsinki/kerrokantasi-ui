@@ -14,6 +14,7 @@ import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import classNames from 'classnames';
 
 class App extends React.Component {
   getChildContext() {
@@ -34,6 +35,7 @@ class App extends React.Component {
 
   render() {
     const locale = this.props.language;
+    const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
     const favlinks = [
       {rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png'},
       {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png'},
@@ -59,7 +61,7 @@ class App extends React.Component {
     }
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
-        <div>
+        <div className={contrastClass}>
           <a href="#main-container" className="skip-to-main-content">
             <FormattedMessage id="skipToMainContent" />
           </a>
@@ -94,6 +96,7 @@ const mapStateToProps = (state) => ({
   oidc: state.oidc,
   language: state.language,
   apitoken: state.apitoken,
+  isHighContrast: state.accessibility.isHighContrast,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -111,6 +114,7 @@ App.propTypes = {
   oidc: PropTypes.any,
   dispatch: PropTypes.func,
   fetchApiToken: PropTypes.func,
+  isHighContrast: PropTypes.bool,
 };
 App.childContextTypes = {
   language: PropTypes.string,

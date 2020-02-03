@@ -81,6 +81,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "contactPersons": "Yhteyshenkilöt",
                   "contactTitle": "Virkanimike tai tehtäväkuvaus",
                   "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
+                  "contrastTitle": "Kontrasti",
                   "copyrightText": "Kerrokantasi",
                   "create": "Luo",
                   "createContact": "Luo uusi yhteyshenkilö",

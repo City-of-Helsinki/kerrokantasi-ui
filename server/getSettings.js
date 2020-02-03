@@ -27,6 +27,8 @@ const defaults = {
   openid_apitoken_url: 'https://testitunnistamo.turku.fi/api-tokens/',
   // Should display social media sharing buttons
   show_social_media_sharing: true,
+  // Should display & enable contrast toggle button
+  enable_highcontrast: false,
 };
 
 const optionalKeys = [
@@ -44,6 +46,7 @@ const optionalKeys = [
   "openid_client_id",
   "openid_audience",
   "openid_authority",
+  "enable_highcontrast",
 ];
 
 const mandatoryKeys = [

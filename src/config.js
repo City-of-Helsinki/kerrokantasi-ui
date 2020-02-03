@@ -15,6 +15,7 @@ const config = {
     || 'http://materialbank.myhelsinki.fi/detail/1192/download/7',
   showAccessibilityInfo: typeof window !== 'undefined' ? window.SHOW_ACCESSIBILITY_INFO : false,
   showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
+  enableHighContrast: typeof window !== 'undefined' ? window.ENABLE_HIGHCONTRAST : false,
 };
 
 export default config;

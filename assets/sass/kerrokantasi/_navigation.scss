@@ -35,6 +35,21 @@
   }
 }
 
+.contrast-button{
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+
+  span.contrast-title {
+    display: none;
+  }
+  @media (min-width: $screen-xs-min) {
+    span.contrast-title {
+      display: inline-block;
+    }
+  }
+}
+
 .language-switcher {
   text-transform: uppercase;
 
@@ -92,6 +107,11 @@
   @media (min-width: $screen-sm-min) {
     margin-right: 0;
     margin-left: 0;
+  }
+
+  .fa.fa-adjust{
+    font-size: 1.2em;
+    margin-right: .5em;
   }
 
   .user-nav-icon {

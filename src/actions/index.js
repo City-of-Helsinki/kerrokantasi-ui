@@ -362,3 +362,10 @@ export function fetchApiToken() {
     });
   };
 }
+
+export function toggleContrast() {
+  return (dispatch) => {
+    const toggleContrastState = createAction("toggleContrastState")();
+    dispatch(toggleContrastState);
+  };
+}
