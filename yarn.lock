@@ -5610,6 +5610,11 @@ js-base64@^2.1.8, js-base64@^2.1.9:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
   integrity sha512-M7kLczedRMYX4L8Mdh4MzyAMM9O5osx+4FcOQuTvr3A9F2D9S5JXheN0ewNbrvK2UatkTRhL5ejGmGSjNMiZuw==
 
+js-cookie@^2.2.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -8099,6 +8104,13 @@ react-bootstrap@0.32.1:
     react-transition-group "^2.0.0"
     uncontrollable "^4.1.0"
     warning "^3.0.0"
+
+react-cookie-consent@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-cookie-consent/-/react-cookie-consent-3.0.0.tgz#4780f142326c301c06957a94f885dd70d3c566f5"
+  integrity sha512-H9vD+vUENkOSjh8ZsGG9Pgb30K58ys/roHNOTRFafTJvoC9NEeHO8XC//z54k+ZbVbsqcYe4Tiv7EYfFSq2y7Q==
+  dependencies:
+    js-cookie "^2.2.0"
 
 react-datetime@^2.8.10:
   version "2.16.3"

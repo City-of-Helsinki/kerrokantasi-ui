@@ -15,6 +15,7 @@ import {checkHeadlessParam} from './utils/urlQuery';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 import classNames from 'classnames';
+import CookieBar from './components/cookieBar/CookieBar';
 
 class App extends React.Component {
   getChildContext() {
@@ -78,6 +79,7 @@ class App extends React.Component {
             <Routes />
           </main>
           <Footer language={locale} />
+          {config.showCookiebar && <CookieBar />}
           <ToastContainer
             bodyClassName={
               {

@@ -16,6 +16,7 @@ const config = {
   showAccessibilityInfo: typeof window !== 'undefined' ? window.SHOW_ACCESSIBILITY_INFO : false,
   showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
   enableHighContrast: typeof window !== 'undefined' ? window.ENABLE_HIGHCONTRAST : false,
+  showCookiebar: typeof window !== 'undefined' ? window.SHOW_COOKIEBAR : false,
 };
 
 export default config;

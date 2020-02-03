@@ -29,6 +29,8 @@ const defaults = {
   show_social_media_sharing: true,
   // Should display & enable contrast toggle button
   enable_highcontrast: false,
+  // Should display cookiebar
+  show_cookiebar: false,
 };
 
 const optionalKeys = [
@@ -43,6 +45,7 @@ const optionalKeys = [
   "city_config",
   "show_accessibility_info",
   "show_social_media_sharing",
+  "show_cookiebar",
   "openid_client_id",
   "openid_audience",
   "openid_authority",

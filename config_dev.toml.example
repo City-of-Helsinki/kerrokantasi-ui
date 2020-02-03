@@ -55,3 +55,7 @@ city_config="cities/helsinki"
 #}
 # Default: false
 # enable_highcontrast=true
+
+# Should display cookiebar at the bottom of the page
+# Default: false
+# show_cookiebar=true

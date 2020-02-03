@@ -14,6 +14,7 @@ export default class Html extends React.Component {
       initialState,
       showAccessibilityInfo,
       showSocialMediaSharing,
+      showCookiebar,
       uiConfig,
       openIdClientId,
       openIdAudience,
@@ -34,6 +35,7 @@ export default class Html extends React.Component {
     window.OPENID_APITOKEN_URL = ${JSON.stringify(openIdApiTokenUrl)};
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
+    window.SHOW_COOKIEBAR = ${JSON.stringify(showCookiebar)};
     `;
 
     return (
@@ -70,6 +72,7 @@ Html.propTypes = {
   hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
+  showCookiebar: PropTypes.bool,
   openIdClientId: PropTypes.string,
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,
