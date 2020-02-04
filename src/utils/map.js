@@ -15,3 +15,18 @@ export function EPSG3067() { // eslint-disable-line
   };
   return new L.Proj.CRS(crsName, projDef, crsOpts);
 }
+
+/**
+ * Returns high contrast map tiles url if the url exists and if high contrast setting is on,
+ * otherwise returns normal map tiles url.
+ * @param {string} normalMapTilesUrl
+ * @param {string} highContrastMapTilesUrl
+ * @param {boolean} isHighContrastEnabled
+ */
+export function getCorrectContrastMapTileUrl(normalMapTilesUrl, highContrastMapTilesUrl, isHighContrastEnabled) {
+  if (isHighContrastEnabled && highContrastMapTilesUrl) {
+    return highContrastMapTilesUrl;
+  }
+
+  return normalMapTilesUrl;
+}

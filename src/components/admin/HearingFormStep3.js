@@ -10,6 +10,7 @@ import {isEmpty, includes, keys} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
+import { connect } from 'react-redux';
 
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
@@ -20,6 +21,7 @@ import urls from '@city-assets/urls.json';
 /* eslint-enable import/no-unresolved */
 
 import {hearingShape} from '../../types';
+import { getCorrectContrastMapTileUrl } from '../../utils/map';
 
 // This is needed for the invalidateMap not to fire after the component has dismounted and causing error.
 let mapInvalidator;
@@ -228,7 +230,8 @@ class HearingFormStep3 extends React.Component {
             <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url={urls.rasterMapTiles}
+              url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
+                urls.highContrastRasterMapTiles, this.props.isHighContrast)}
             />
             <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
@@ -268,14 +271,19 @@ class HearingFormStep3 extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  isHighContrast: state.accessibility.isHighContrast,
+});
+
 HearingFormStep3.propTypes = {
   hearing: hearingShape,
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   visible: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  isHighContrast: PropTypes.bool,
 };
 
-const WrappedHearingFormStep3 = injectIntl(HearingFormStep3);
+const WrappedHearingFormStep3 = connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
 
 export default WrappedHearingFormStep3;
