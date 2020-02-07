@@ -50,8 +50,23 @@
   }
 }
 
+.dropdown.btn-group > a {
+  text-transform: uppercase;
+  color: #333;
+  padding: 6px 12px;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+.dropdown-menu.open {
+  display: block;
+}
+
 .language-switcher {
   text-transform: uppercase;
+  span.caret {
+    margin-left: 5px;
+  }
 
   &.active > a:after{
     display: none;

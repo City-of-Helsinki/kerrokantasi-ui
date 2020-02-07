@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
+
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -112,7 +113,7 @@ class Header extends React.Component {
     if (config.enableHighContrast) {
       return (
         <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
-          <Icon name="adjust" />
+          <Icon name="adjust" aria-hidden="true"/>
           <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
         </Button>
       );
@@ -146,7 +147,7 @@ class Header extends React.Component {
 
               <div className="nav-user-menu navbar-right">
                 {this.contrastToggle()}
-                <LanguageSwitcher currentLanguage={this.props.language} />
+                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
               </div>
             </Navbar>
