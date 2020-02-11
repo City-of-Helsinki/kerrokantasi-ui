@@ -21,6 +21,7 @@ const historySettings = {
   /* eslint-enable */
   announcePageNavigation: false, // default true
   setPageTitle: false,
+  primaryFocusTarget: "body",
 };
 
 wrapHistory(history, historySettings);
