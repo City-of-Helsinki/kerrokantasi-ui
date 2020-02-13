@@ -25,8 +25,8 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.oidc.user && !nextProps.apitoken.apiToken && !nextProps.apitoken.isFetching) {
-      nextProps.fetchApiToken(nextProps.oidc.user.access_token);
+    if (nextProps.oidc.user && (nextProps.oidc.user !== this.props.oidc.user) && !nextProps.apitoken.isFetching) {
+      nextProps.fetchApiToken();
     }
   }
 

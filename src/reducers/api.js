@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   loadingToken: false,
   apiToken: null,
   apiInitialized: true,
+  isFetching: false,
 };
 
 const fetchApiToken = (state) => ({
@@ -14,7 +15,7 @@ const fetchApiToken = (state) => ({
 
 const receiveApiToken = (state, {payload}) => {
   if (payload) {
-    return {isFetching: false, apiToken: payload[config.openIdAudience]};
+    return {...state, isFetching: false, apiToken: payload[config.openIdAudience]};
   }
   return INITIAL_STATE;
 };

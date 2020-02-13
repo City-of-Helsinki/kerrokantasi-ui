@@ -356,7 +356,6 @@ export function fetchApiToken() {
       }).then((token) => {
         dispatch(createAction('receiveApiToken')(token));
         dispatch(retrieveUserFromSession());
-        dispatch(push("/"));
         resolve();
       });
     });
