@@ -40,6 +40,8 @@ $brand-info:      $theme-info !default;
 $brand-warning:   $theme-warning !default;
 $brand-danger:    $theme-danger !default;
 
+$text-muted: $gray-600 !default;
+
 $bootstrap-sass-asset-helper: false !default;
 
 $icon-font-path: "" !default;
@@ -47,6 +49,8 @@ $icon-font-path: "" !default;
 $site-footer-height: 400px !default;
 
 $default-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
+
+$border-color: $gray-400;
 
 // Dimenstions
 $padding-default: 12px !default;
@@ -69,6 +73,8 @@ $navbar-default-link-color:       $black !default;
 $navbar-default-link-hover-color: $black !default;
 $navbar-default-bg:               $white !default;
 $navbar-default-border:           transparent !default;
+$navbar-default-link-active-color:$navbar-default-link-hover-color !default;
+$navbar-default-link-active-bg:   transparent !default;
 
 $label-default-bg:  $gray-400 !default;
 $label-primary-bg:  $theme-primary-light !default;
@@ -76,3 +82,5 @@ $label-success-bg:  $theme-success-light !default;
 $label-info-bg:     $theme-info-light !default;
 $label-warning-bg:  $theme-warning-light !default;
 $label-danger-bg:   $theme-danger-light !default;
+
+$text-warning-color: #da3a00 !default;

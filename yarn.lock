@@ -1016,6 +1016,13 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-dynamic-import-node@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-1.2.0.tgz#f91631e703e0595e47d4beafbb088576c87fbeee"
+  integrity sha512-yeDwKaLgGdTpXL7RgGt5r6T4LmnTza/hUn5Ul8uZSGGMtEjYo13Nxai7SQaGCTEzUtg9Zq9qJn0EjEr7SeSlTQ==
+  dependencies:
+    babel-plugin-syntax-dynamic-import "^6.18.0"
+
 babel-plugin-istanbul@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-2.0.3.tgz#266b304b9109607d60748474394676982f660df4"
@@ -1055,6 +1062,11 @@ babel-plugin-syntax-class-properties@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
   integrity sha1-1+sjt5oxf4VDlixQW4J8fWysJ94=
+
+babel-plugin-syntax-dynamic-import@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-dynamic-import/-/babel-plugin-syntax-dynamic-import-6.18.0.tgz#8d6a26229c83745a9982a441051572caa179b1da"
+  integrity sha1-jWomIpyDdFqZgqRBBRVyyqF5sdo=
 
 babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
@@ -1954,11 +1966,6 @@ camelcase@^5.0.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-
-can-use-dom@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
-  integrity sha1-IsxKNKCrxDlQ9CxkEQJKP2NmtFo=
 
 caniuse-api@^1.5.2:
   version "1.6.1"
@@ -3142,11 +3149,6 @@ enhanced-resolve@^4.1.0:
     graceful-fs "^4.1.2"
     memory-fs "^0.4.0"
     tapable "^1.0.0"
-
-enquire.js@^2.1.6:
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/enquire.js/-/enquire.js-2.1.6.tgz#3e8780c9b8b835084c3f60e166dbc3c2a3c89814"
-  integrity sha1-PoeAybi4NQhMP2DhZtvDwqPImBQ=
 
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
@@ -5706,13 +5708,6 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json2mq@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/json2mq/-/json2mq-0.2.0.tgz#b637bd3ba9eabe122c83e9720483aeb10d2c904a"
-  integrity sha1-tje9O6nqvhIsg+lyBIOusQ0skEo=
-  dependencies:
-    string-convert "^0.2.0"
-
 json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
@@ -6822,6 +6817,26 @@ number-is-nan@^1.0.0:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
   integrity sha512-3iuY4N5dhgMpCUrOVnuAdGrgxVqV2cJpM+XNccjR2DKOB1RUP0aA+wGXEiNziG/UKboFyGBIoKOaNlJxx8bciQ==
+
+oaf-react-router@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/oaf-react-router/-/oaf-react-router-2.1.1.tgz#0216edddedb820ec7c67eda8fcaac2a471893b83"
+  integrity sha512-l3EAdh8b6DRvbbP6sC9uY4Iek1TZq4nxIrWzeZXiN6aCiiZ8NKcmKJqkuej8VbdX0lBCyVp7AgS/HWbXD6wp6A==
+  dependencies:
+    oaf-routing "^3.0.0"
+
+oaf-routing@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/oaf-routing/-/oaf-routing-3.0.1.tgz#86b1170d6310583730fddcd3d0e34a4517bf61d4"
+  integrity sha512-1BiJObNkwQHTUZ5vBm0Yb1aB2oTe+SK2Oqr/p1zNCrm0c/oAHaZSRvYZhSYjvVa2q2B+O14v3e3LLIhHn0t+QQ==
+  dependencies:
+    oaf-side-effects "^2.0.0"
+    unique-selector "^0.4.1"
+
+oaf-side-effects@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/oaf-side-effects/-/oaf-side-effects-2.0.1.tgz#d458a39b5ab2b4e2d6bc338902e3549d4160725d"
+  integrity sha512-xmWk1NynmS4ywNUtHUOYlai9s4vWPZpQ66NPOHM8x6e6g0ziD7Damgzza/OA/paMYQSsBaynNnvcoFun8zyRyA==
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -8072,6 +8087,11 @@ react-addons-test-utils@^15.6.0:
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.2.tgz#c12b6efdc2247c10da7b8770d185080a7b047156"
   integrity sha1-wStu/cIkfBDae4dw0YUICnsEcVY=
 
+react-anchor-link-smooth-scroll@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-anchor-link-smooth-scroll/-/react-anchor-link-smooth-scroll-1.0.12.tgz#5cd49c73e74be6d20b4c05a5e5c72d07ebbedac7"
+  integrity sha512-aaY+9X0yh8YnC0jBfoTKpsiCLdO/Y6pCltww+VB+NnTBPDOvnIdnp1AlazajsDitc1j+cVSQ+yNtaVeTIMQbxw==
+
 react-bootstrap@0.32.1:
   version "0.32.1"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-0.32.1.tgz#60624c1b48a39d773ef6cce6421a4f33ecc166bb"
@@ -8356,19 +8376,6 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
-
-react-slick@^0.15.4:
-  version "0.15.4"
-  resolved "https://registry.yarnpkg.com/react-slick/-/react-slick-0.15.4.tgz#6709c87b06e7640feeacc06711be42cc2066aabe"
-  integrity sha512-RXKA8V6NmpTz6Ngo3XB5dg4GrGwDln89j5uG9Z4NXOedlVCzfG3LcHBVC5Pqs411Arbcp8nlzcg39g+rT6OPHw==
-  dependencies:
-    can-use-dom "^0.1.0"
-    classnames "^2.2.5"
-    create-react-class "^15.5.2"
-    enquire.js "^2.1.6"
-    json2mq "^0.2.0"
-    object-assign "^4.1.0"
-    slick-carousel "^1.6.0"
 
 react-test-renderer@^16.0.0-0, react-test-renderer@^16.8.6:
   version "16.8.6"
@@ -9203,11 +9210,6 @@ slice-ansi@^2.1.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
-slick-carousel@^1.6.0, slick-carousel@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/slick-carousel/-/slick-carousel-1.8.1.tgz#a4bfb29014887bb66ce528b90bd0cda262cc8f8d"
-  integrity sha512-XB9Ftrf2EEKfzoQXt3Nitrt/IPbT+f1fgqBdoxO3W/+JYvtEOW6EgxnWfr9GH6nmULv7Y2tPmEX3koxThVmebA==
-
 smart-buffer@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.0.2.tgz#5207858c3815cc69110703c6b94e46c15634395d"
@@ -9680,11 +9682,6 @@ strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
   integrity sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
-
-string-convert@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/string-convert/-/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
-  integrity sha1-aYLMMEn7tM2F+LJFaLnZvznu/5c=
 
 string-length@^2.0.0:
   version "2.0.0"
@@ -10270,6 +10267,11 @@ unique-filename@^1.1.1:
   integrity sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ==
   dependencies:
     unique-slug "^2.0.0"
+
+unique-selector@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/unique-selector/-/unique-selector-0.4.1.tgz#f14e0f0e3b8fb3667c8245463c3ffe237442b0ac"
+  integrity sha512-7dLxUE1Wu89fpruo7DAH2k+7UcGSZBnEiwjvlPX5p0LuoJkVIgoaR/5YRFjwmQnVq7ZK0ankCdLRx4mRqd6oOQ==
 
 unique-slug@^2.0.0:
   version "2.0.1"

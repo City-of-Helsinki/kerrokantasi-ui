@@ -1,23 +1,25 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
-import Link from './LinkWithLang';
-import FormatRelativeTime from '../utils/FormatRelativeTime';
-import Icon from '../utils/Icon';
-import {getHearingURL, isPublic} from '../utils/hearing';
-import LabelList from './LabelList';
-import LoadSpinner from './LoadSpinner';
-import getAttr from '../utils/getAttr';
-import HearingsSearch from './HearingsSearch';
-import config from '../config';
-import OverviewMap from '../components/OverviewMap';
-import {keys, capitalize} from 'lodash';
-import { Waypoint } from 'react-waypoint';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import { Waypoint } from 'react-waypoint';
+import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
+import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
+import { keys, capitalize } from 'lodash';
 
-import {labelShape} from '../types';
+import FormatRelativeTime from '../utils/FormatRelativeTime';
+import HearingsSearch from './HearingsSearch';
+import Icon from '../utils/Icon';
+import LabelList from './LabelList';
+import Link from './LinkWithLang';
+import LoadSpinner from './LoadSpinner';
+import MouseOnlyLink from './MouseOnlyLink';
+import OverviewMap from '../components/OverviewMap';
+import config from '../config';
+import getAttr from '../utils/getAttr';
+import { labelShape } from '../types';
+import { getHearingURL, isPublic } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
@@ -28,17 +30,20 @@ const HEARING_LIST_TABS = {
 };
 
 const HearingListTabs = ({activeTab, changeTab}) => (
-  <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
-    <NavItem eventKey="3" disabled className="hearing-list__tabs-empty" />
-    {keys(HEARING_LIST_TABS).map(key => {
-      const value = HEARING_LIST_TABS[key];
-      return (
-        <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)}>
-          <FormattedMessage id={value} />
-        </NavItem>
-      );
-    })}
-  </Nav>
+  <Row>
+    <Col md={8} mdPush={2}>
+      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
+        {keys(HEARING_LIST_TABS).map(key => {
+          const value = HEARING_LIST_TABS[key];
+          return (
+            <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)} role="tab">
+              <FormattedMessage id={value} />
+            </NavItem>
+          );
+        })}
+      </Nav>
+    </Col>
+  </Row>
 );
 
 HearingListTabs.propTypes = {
@@ -46,27 +51,64 @@ HearingListTabs.propTypes = {
   changeTab: PropTypes.func,
 };
 
-const HearingListFilters = ({handleSort, formatMessage}) => (
-  <div className="hearing-list__filter-bar">
-    <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
-      <div className="select">
-        <FormControl componentClass="select" placeholder="select" onChange={event => handleSort(event.target.value)}>
-          <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
-          <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-          <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
-          <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
-          <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-          <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
-          <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
-          <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
-        </FormControl>
+class HearingListFilters extends React.Component {
+  state = {
+    sortChangeStatusMessages: [],
+  }
+
+  sortList = (event) => {
+    const { handleSort } = this.props;
+
+    handleSort(event.target.value);
+
+    const newMessage = {
+      id: Math.random(),
+    };
+
+    this.setState({ sortChangeStatusMessages: [newMessage] });
+
+    // Clear the message after 5 seconds
+    setTimeout(() => {
+      this.setState({ sortChangeStatusMessages: [] });
+    }, 5000);
+  }
+
+  render() {
+    const { formatMessage } = this.props;
+
+    return (
+      <div className="hearing-list__filter-bar clearfix">
+        <div className="sr-only">
+          {this.state.sortChangeStatusMessages && this.state.sortChangeStatusMessages.map(alert => (
+            <div key={alert.id} aria-live="assertive" role="status">
+              <FormattedMessage id="orderHasBeenChanged" />
+            </div>
+          ))}
+        </div>
+        <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
+          <ControlLabel className="hearing-list__filter-bar-label">
+            <FormattedMessage id="sort" />
+          </ControlLabel>
+          <FormControl
+            className="select"
+            componentClass="select"
+            placeholder="select"
+            onChange={event => this.sortList(event)}
+          >
+            <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
+            <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
+            <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
+            <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
+            <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
+            <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
+            <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
+            <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
+          </FormControl>
+        </FormGroup>
       </div>
-    </FormGroup>
-    <ControlLabel className="hearing-list__filter-bar-label">
-      <FormattedMessage id="sort" />
-    </ControlLabel>
-  </div>
-);
+    );
+  }
+}
 
 HearingListFilters.propTypes = {
   handleSort: PropTypes.func,
@@ -75,7 +117,7 @@ HearingListFilters.propTypes = {
 
 export class HearingListItem extends React.Component {
   render() {
-    const hearing = this.props.hearing;
+    const { hearing, language, history } = this.props;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
       backgroundImage: `url(${defaultImage})`,
@@ -86,8 +128,7 @@ export class HearingListItem extends React.Component {
       };
     }
 
-    const {language} = this.props;
-    const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
+    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
     const availableInLanguageMessages = {
       fi: 'Kuuleminen saatavilla suomeksi',
       sv: 'Hörandet tillgängligt på svenska',
@@ -95,41 +136,32 @@ export class HearingListItem extends React.Component {
     };
 
     return (
-      <div className="hearing-list-item">
-        {!translationAvailable && (
-          <Link to={{path: getHearingURL(hearing)}} className="hearing-card-notice">
-            <div className="notice-content">
-              <FormattedMessage id="hearingTranslationNotAvailable" />
-              {config.languages.map(
-                lang =>
-                  (getAttr(hearing.title, lang, {exact: true}) ? (
-                    <div key={lang} className="language-available-message">
-                      {availableInLanguageMessages[lang]}
-                    </div>
-                  ) : null)
-              )}
-            </div>
-          </Link>
-        )}
-        <div className="hearing-list-item-image" style={mainImageStyle} />
+      <div className="hearing-list-item" role="listitem">
+        <MouseOnlyLink
+          className="hearing-list-item-image"
+          style={mainImageStyle}
+          history={history}
+          url={getHearingURL(hearing)}
+        />
         <div className="hearing-list-item-content">
-          <div className="hearing-list-item-labels">
-            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
-            <div className="hearing-list-item-closed">
-              {hearing.closed ? (
-                <Label>
-                  <FormattedMessage id="hearingClosed" />
-                </Label>
-              ) : null}
-            </div>
-          </div>
           <div className="hearing-list-item-title-wrap">
-            <h4 className="hearing-list-item-title">
-              {!isPublic(hearing) ? <Icon name="eye-slash" /> : null}{' '}
-              <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
-            </h4>
+            <h2 className="h4 hearing-list-item-title">
+              <Link to={{ path: getHearingURL(hearing) }}>
+                {!isPublic(hearing) ? (
+                  <FormattedMessage id="hearingListNotPublished">
+                    {(label) => <Icon name="eye-slash" aria-label={label} />}
+                  </FormattedMessage>
+                ) : null}{' '}
+                {getAttr(hearing.title, language)}
+              </Link>
+            </h2>
             <div className="hearing-list-item-comments">
-              <Icon name="comment-o" />&nbsp;{hearing.n_comments}
+              <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
+              <span className="sr-only">
+                {hearing.n_comments === 1 ? (
+                  <FormattedMessage id="hearingListComment" />
+                ) : <FormattedMessage id="hearingListComments" />}
+              </span>
             </div>
           </div>
           <div className="hearing-list-item-times">
@@ -140,6 +172,30 @@ export class HearingListItem extends React.Component {
               <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
             </div>
           </div>
+          <div className="hearing-list-item-labels clearfix">
+            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
+            {hearing.closed ? (
+              <div className="hearing-list-item-closed">
+                <Label>
+                  <FormattedMessage id="hearingClosed" />
+                </Label>
+              </div>
+            ) : null}
+          </div>
+          {!translationAvailable && (
+            <div className="hearing-card-notice">
+              <Icon name="exclamation-circle" aria-hidden="true" />
+              <FormattedMessage id="hearingTranslationNotAvailable" />
+              {config.languages.map(
+                lang =>
+                  (getAttr(hearing.title, lang, { exact: true }) ? (
+                    <div key={lang} className="language-available-message">
+                      {availableInLanguageMessages[lang]}
+                    </div>
+                  ) : null)
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -149,6 +205,7 @@ export class HearingListItem extends React.Component {
 HearingListItem.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export const HearingList = ({
@@ -156,6 +213,7 @@ export const HearingList = ({
   handleSelectLabels,
   handleSort,
   hearings,
+  hearingCount,
   intl: {formatMessage},
   isLoading,
   isMobile,
@@ -171,18 +229,24 @@ export const HearingList = ({
   intl
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
-  const hasHearings = hearings && hearings.length;
+  const hasHearings = !isEmpty(hearings);
 
   const hearingListMap = hearingsToShow ? (
-    <Col xs={12}>
-      <Helmet title={formatMessage({ id: 'mapView' })} />
-      <div className="hearing-list-map map">
-        <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
-          <FormattedMessage id="showOnlyOpen" />
-        </Checkbox>
-        <OverviewMap hearings={hearingsToShow} style={{width: '100%', height: isMobile ? '100%' : 600}} enablePopups />
-      </div>
-    </Col>
+    <Row>
+      <Col xs={12}>
+        <Helmet title={formatMessage({ id: 'mapView' })} />
+        <div className="hearing-list-map map">
+          <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
+            <FormattedMessage id="showOnlyOpen" />
+          </Checkbox>
+          <OverviewMap
+            hearings={hearingsToShow}
+            style={{width: '100%', height: isMobile ? '100%' : 600}}
+            enablePopups
+          />
+        </div>
+      </Col>
+    </Row>
   ) : null;
 
   return (
@@ -214,21 +278,41 @@ export const HearingList = ({
           <FormattedMessage id="jumpToSearchForm" />
         </a>
         <div className="container">
-          {!isLoading && !hasHearings ? (
-            <p>
-              <FormattedMessage id="noHearings" />
-            </p>
-          ) : null}
-          {hasHearings && activeTab === 'list' ? (
+          <Row>
             <Col md={8} mdPush={2}>
-              <div className="hearing-list">
-                <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
-                {hearings.map(hearing => <HearingListItem hearing={hearing} key={hearing.id} language={language} />)}
-                {isLoading && <LoadSpinner />}
-                {!isLoading && <Waypoint onEnter={handleReachBottom} />}
-              </div>
+              {(!isLoading && !hasHearings) && (
+                <h3 className="hearing-list__hearing-list-title">
+                  <FormattedMessage id="noHearings" />
+                </h3>
+              )}
+
+              {(hasHearings && activeTab === 'list') && (
+                <div>
+                  <div className="hearing-list__result-controls">
+                    <h3 className="hearing-list__hearing-list-title">
+                      {hearingCount}
+                      <FormattedPlural
+                        value={hearingCount}
+                        one={<FormattedMessage id="totalNumHearing" values={{ n: hearingCount }} />}
+                        other={<FormattedMessage id="totalNumHearings" values={{ n: hearingCount }} />}
+                      />
+                    </h3>
+                    <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
+                  </div>
+
+                  <div className="hearing-list">
+                    <div role="list">
+                      {hearings.map(hearing => (
+                        <HearingListItem hearing={hearing} key={hearing.id} language={language} />
+                      ))}
+                    </div>
+                    {isLoading && <LoadSpinner />}
+                    {!isLoading && <Waypoint onEnter={handleReachBottom} />}
+                  </div>
+                </div>
+              )}
             </Col>
-          ) : null}
+          </Row>
           {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
         </div>
       </section>
@@ -241,6 +325,7 @@ HearingList.propTypes = {
   handleSelectLabels: PropTypes.func,
   handleSort: PropTypes.func,
   hearings: PropTypes.array,
+  hearingCount: PropTypes.number,
   intl: intlShape.isRequired,
   isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
@@ -257,6 +342,7 @@ HearingList.propTypes = {
 
 HearingList.defaultProps = {
   tab: HEARING_LIST_TABS.LIST,
+  hearingCount: 0,
 };
 
 export default HearingList;

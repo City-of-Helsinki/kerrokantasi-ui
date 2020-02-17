@@ -111,7 +111,7 @@ class HearingFormStep5 extends React.Component {
     );
   }
   render() {
-    const {projects, language, hearing} = this.props;
+    const {projects, language, hearing, intl} = this.props;
     const selectedProject = hearing.project;
 
     return (
@@ -125,8 +125,8 @@ class HearingFormStep5 extends React.Component {
               value={selectedProject && selectedProject.id}
               onChange={this.onChangeProject}
             >
-              <option value={uuid()}><FormattedMessage id="noProject"/></option>
-              <option value=""><FormattedMessage id="defaultProject"/></option>
+              <option value={uuid()}>{intl.formatMessage({ id: 'noProject' })}</option>
+              <option value="">{intl.formatMessage({ id: 'defaultProject' })}</option>
               <option disabled >──────────</option>
               {
                 projects.map((project) => (
@@ -150,7 +150,8 @@ HearingFormStep5.propTypes = {
   dispatch: PropTypes.func,
   language: PropTypes.string,
   hearing: hearingShape,
-  hearingLanguages: PropTypes.arrayOf(PropTypes.string)
+  hearingLanguages: PropTypes.arrayOf(PropTypes.string),
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

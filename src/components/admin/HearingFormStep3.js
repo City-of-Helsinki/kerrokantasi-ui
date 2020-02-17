@@ -10,10 +10,14 @@ import {isEmpty, includes, keys} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
-// eslint-disable-next-line import/no-unresolved
+
+import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
+import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
+import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
+/* eslint-disable import/no-unresolved */
 import localization from '@city-i18n/localization.json';
-// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+/* eslint-enable import/no-unresolved */
 
 import {hearingShape} from '../../types';
 
@@ -21,9 +25,9 @@ import {hearingShape} from '../../types';
 let mapInvalidator;
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
-  iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-  shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-  iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon.png'),
+  iconUrl: leafletMarkerIconUrl,
+  shadowUrl: leafletMarkerShadowUrl,
+  iconRetinaUrl: leafletMarkerRetinaIconUrl,
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
@@ -47,9 +51,9 @@ function getHearingArea(hearing) {
         <Marker
           position={latLngs}
           icon={new Leaflet.Icon({
-            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
+            iconUrl: leafletMarkerIconUrl,
+            shadowUrl: leafletMarkerShadowUrl,
+            iconRetinaUrl: leafletMarkerRetinaIconUrl,
             iconSize: [25, 41],
             iconAnchor: [13, 41]
           })}
@@ -180,9 +184,9 @@ class HearingFormStep3 extends React.Component {
         polyline: false,
         marker: {
           icon: new Leaflet.Icon({
-            iconUrl: require('../../../assets/images/leaflet/marker-icon.png'),
-            shadowUrl: require('../../../assets/images/leaflet/marker-shadow.png'),
-            iconRetinaUrl: require('../../../assets/images/leaflet/marker-icon-2x.png'),
+            iconUrl: leafletMarkerIconUrl,
+            shadowUrl: leafletMarkerShadowUrl,
+            iconRetinaUrl: leafletMarkerRetinaIconUrl,
             iconSize: [25, 41],
             iconAnchor: [13, 41],
           })

@@ -1,23 +1,23 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Switch, Route} from 'react-router-dom';
-import Section from '../../components/Hearing/Section/SectionContainer';
-import Header from '../../components/Hearing/Header';
-import WrappedCarousel from '../../components/Carousel';
-import {getHearingWithSlug} from '../../selectors/hearing';
-import PropTypes from 'prop-types';
-import {fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects} from '../../actions';
-import LoadSpinner from '../../components/LoadSpinner';
-import isEmpty from 'lodash/isEmpty';
-import { injectIntl, intlShape } from 'react-intl';
-import {canEdit} from '../../utils/hearing';
-import HearingEditor from '../../components/admin/HearingEditor';
-import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
-import {getUser} from '../../selectors/user';
-import config from '../../config';
-import getAttr from '../../utils/getAttr';
+import React, { lazy, Suspense } from 'react';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { injectIntl, intlShape } from 'react-intl';
+
+import * as HearingEditorSelector from '../../selectors/hearingEditor';
+import Header from '../../components/Hearing/Header';
+import LoadSpinner from '../../components/LoadSpinner';
+import Section from '../../components/Hearing/Section/SectionContainer';
+import getAttr from '../../utils/getAttr';
+import { canEdit } from '../../utils/hearing';
+import { fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects } from '../../actions';
+import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
+import { getHearingWithSlug } from '../../selectors/hearing';
+import { getUser } from '../../selectors/user';
+
+const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
 export class HearingContainerComponent extends React.Component {
   componentWillMount() {
@@ -72,42 +72,41 @@ export class HearingContainerComponent extends React.Component {
       setLanguage
     } = this.props;
 
-    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
     return (
       <div className="hearing-page">
-
-        {!isEmpty(hearing) ?
-          <div>
+        {!isEmpty(hearing) ? (
+          <React.Fragment>
             <Helmet title={getAttr(hearing.title, language)} />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
-              <HearingEditor
-                hearing={hearingDraft}
-                hearingLanguages={hearingLanguages}
-                labels={labels}
-                user={user}
-                isLoading={isLoading}
-                contactPersons={contactPersons}
-              />
+              <Suspense fallback={<LoadSpinner />}>
+                <HearingEditor
+                  hearing={hearingDraft}
+                  hearingLanguages={hearingLanguages}
+                  labels={labels}
+                  user={user}
+                  isLoading={isLoading}
+                  contactPersons={contactPersons}
+                />
+              </Suspense>
             }
             <div className="hearing-wrapper" id="hearing-wrapper">
               <Header
                 hearing={hearing}
                 activeLanguage={language}
                 intl={intl}
-                reportUrl={reportUrl}
                 setLanguage={setLanguage}
               />
-              <WrappedCarousel hearing={hearing} intl={intl} language={language}/>
               <Switch>
                 <Route path="/:hearingSlug/:sectionId" component={Section} />
                 <Route path="/:hearingSlug" component={Section} />
               </Switch>
             </div>
-          </div>
-        : <LoadSpinner />
-      }
+          </React.Fragment>
+          ) : (
+            <LoadSpinner />
+          )
+        }
       </div>
-
     );
   }
 }

@@ -1,3 +1,11 @@
+html,
+body,
+h1:focus,
+.main-content:focus,
+.modal:focus {
+  outline: 0 !important;
+}
+
 html {
   font-size: 62.5%;
   height: 100%;
@@ -15,10 +23,6 @@ p {
 .container,
 .container-fluid {
   min-width: 320px;
-}
-
-.map {
-  margin-top: 40px;
 }
 
 main {
@@ -88,6 +92,13 @@ textarea {
   max-width: 100%;
 }
 
+// Adds icon to show user that the link is opening to new tab/window
+a[target=_blank]::after {
+  content: '\f08e';
+  font-family: FontAwesome;
+  padding-left: 5px;
+}
+
 a.list-group-item {
   &:hover, &:focus {
     > .badge {
@@ -103,18 +114,16 @@ a.list-group-item {
   padding: $line-height-computed;
   text-align: center;
   color: $black;
+  display: block;
 
   .feedback-prompt {
     margin: 0;
   }
 
-  a {
-    color: $black;
-    text-decoration: none;
-  }
-
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: lighten($theme-primary-light, 5%);
+    text-decoration: none;
   }
 }
 
@@ -125,12 +134,6 @@ a.fullwidth {
   background: $light-gray;
   text-align: center;
   margin-bottom: 15px;
-}
-
-.social-bar {
-  display: flex;
-  flex-direction: row;
-  margin: 12px 0;
 }
 
 // These styles could be eventually introduced to common Bootstrap theme
@@ -167,10 +170,22 @@ a.fullwidth {
   }
 }
 
-.main-content:focus {
-  outline: 0 !important;
-}
-
 .dropdown-toggle:focus {
   outline: 5px auto -webkit-focus-ring-color;
+}
+
+.mouse-only-click-element {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// Override custom select widget colors
+.Select--multi .Select-value {
+  color: $brand-info !important;
+}
+.Select-clear-zone {
+  color: $text-muted !important;
 }

@@ -39,13 +39,24 @@
 }
 
 .commentlist {
-  margin-top: 40px;
+  margin: 40px 0 0 0;
+  padding: 0;
+  list-style-type: none;
 
   .hearing-comment {
     margin-bottom: $line-height-computed;
-    padding: $line-height-computed / 2;
     background-color: $white;
     position: relative;
+
+    &__comment-wrapper {
+      border-left: 7px solid $white;
+      padding: $grid-gutter-width / 2;
+      padding-right: ($grid-gutter-width/2) + 7px;
+    }
+
+    &__admin > .hearing-comment__comment-wrapper {
+      border-left-color: $theme-primary-light;
+    }
 
     &__pin {
       flex-basis: 50%;
@@ -72,7 +83,7 @@
             outline: 0;
           }
         }
-      } 
+      }
 
       &__pin-comment {
         background-image: url('/assets/images/pin-image.svg') !important;
@@ -90,92 +101,124 @@
         background-size: contain;
       }
     }
-  
+
     &-header {
       position: relative;
-    }
 
-    &-body {
-      padding-top: 15px;
-    }
-
-    &-votes {
-      float: right;
-      width: 20%;
-      text-align: right;
-      color: $theme-highlight-dark;
+      @media (min-width: $screen-sm-min) {
+        display: flex;
+        flex-flow: row nowrap;
+      }
     }
 
     &-publisher {
-      width: 80%;
-      float: left;
+      flex: 1 1 auto;
       font-weight: bold;
     }
 
     &-pinned-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      margin-top: -12px;
-      margin-right: -12px;
-      margin-bottom: $margin-default;
+      flex: 0 0 auto;
+      position: relative;
+      font-size: 14px;
+      margin-bottom: $line-height-computed/2;
 
-      &__text {
-        color: white;
-        background-color: $black;
-        padding: 3px $padding-small;
-        font-size: 14px;
-        width: 140px;
+      @media (min-width: $screen-sm-min) {
         text-align: center;
+        top: -$grid-gutter-width / 2;
+        margin-left: $grid-gutter-width;
+        margin-right: -(($grid-gutter-width/2) + 7px);
+        margin-bottom: 0;
+        order: 2;
+      }
+
+      > span {
+        background-color: $black;
+        padding: 3px $padding-default;
+        display: inline-block;
+        color: white;
       }
     }
 
     &-user {
       margin-right: 10px;
+      order: 1;
 
       @media (max-width: $screen-xs-max) {
         display: block;
       }
 
       &-registered {
-        color: $theme-highlight-light;
+        color: $theme-highlight-dark;
+        text-transform: capitalize;
+      }
+
+      .fa {
+        margin-right: 3px;
       }
     }
 
     &-date {
-      color: #999;
-      font-size: 1.4rem;
-
-      @media (max-width: $screen-xs-max) {
-        display: block;
-      }
+      color: $text-muted;
+      font-size: $font-size-small;
+      position: relative;
 
       @media (min-width: $screen-sm-min) {
         &:before {
-          content: "\2022";
+          content: "";
           margin-right: 10px;
-          color: #aaa;
+          background-color: $text-muted;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          display: inline-block;
+          vertical-align: middle;
         }
       }
+    }
+
+    &-body {
+      padding: $grid-gutter-width/2 0;
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__actions-bar {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+
+    &__reply-link {
+      flex: 0 0 auto;
+      align-self: center;
+    }
+
+    &-votes {
+      flex: 0 0 auto;
+      margin-left: $grid-gutter-width;
+      text-align: right;
+      justify-self: flex-end;
+      align-self: center;
     }
 
     &-vote-link {
       padding: 0;
       border: 0;
       background: transparent;
-      color: $link-color;
-      letter-spacing: .03em;
+      color: $text-color;
+      font-size: 115%;
+      font-weight: normal;
 
       &:hover,
       &:focus {
         background: transparent;
-        color: $theme-primary-dark;
+        color: $link-hover-color;
       }
 
       .fa {
-        color: $theme-highlight-light;
         margin-right: 2px;
-        font-size: 1.4rem;
       }
     }
 
@@ -187,48 +230,58 @@
       text-align: center;
 
       &__wrapper {
-        border-bottom: 1px solid $black;
         padding: 0 $padding-small;
 
-        &:hover {
-          border-bottom: 1px solid $theme-info;
+        & > a {
+          text-decoration: none;
+
+          &:hover,
+          &:focus {
+            border-bottom: 1px solid $link-hover-color;
+          }
         }
 
-        &>a {
-          text-decoration: none;
+        .fa {
+          margin-right: 4px;
         }
       }
-  
+
       &__count {
         margin-left: $margin-small;
       }
     }
 
     &__edit-links {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-    }
+      padding-bottom: $grid-gutter-width/3;
+      margin-bottom: $grid-gutter-width/3;
+      font-style: italic;
+      font-size: $font-size-small;
 
-    &__admin {
-      border-left: 10px solid $theme-primary-light;
-    }
+      a {
+        color: $text-muted;
 
-    &__has-replys {
-      margin-bottom: 0px;
+        &:hover,
+        &:focus {
+          color: $link-hover-color;
+        }
+
+        & + a {
+          margin-left: $grid-gutter-width/4;
+          padding-left: $grid-gutter-width/4;
+          border-left: 1px solid $text-muted;
+        }
+      }
     }
   }
 
   .sub-comments {
     background-color: $white;
-    padding-left: 24px;
-    & .hearing-comment {
-      margin-top: 0px;
+    padding-left: $grid-gutter-width;
+    list-style-type: none;
+
+    .hearing-comment {
       margin-bottom: 0px;
       border-top: 1px solid $light-gray;
-      &:last-child {
-        margin-bottom: $line-height-computed;
-      }
     }
   }
 
@@ -256,7 +309,7 @@
       padding-bottom: 10px;
     }
 
-    &__select-button {
+    &__select-file {
       padding: 10px 0;
     }
 
@@ -270,22 +323,10 @@
     font-size: 1.4rem;
   }
 
-  .section-title {
-    cursor: pointer;
-
-    &-comments {
-      float: right;
-    }
-  }
-
   .closure-info {
     background-color: $theme-primary-light;
     padding-right: 1em;
     padding-left: 1em;
     padding-top: 1px;
-
-    .section-title {
-      cursor: auto;
-    }
   }
 }

@@ -1,20 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SectionImage component should render as expected 1`] = `
-<div
+<figure
   className="section-image"
   key="https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg"
 >
   <img
-    alt="Amazing Title"
+    alt="Mock Von Caption"
     className="img-responsive"
     src="https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg"
-    title="Amazing Title"
   />
-  <div
+  <figcaption
     className="image-caption"
   >
     Mock Von Caption
-  </div>
-</div>
+  </figcaption>
+</figure>
 `;

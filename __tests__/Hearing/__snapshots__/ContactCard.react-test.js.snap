@@ -1,12 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContactCard component should render as expected 1`] = `
-<div
+<Col
+  bsClass="col"
   className="contact-card "
+  componentClass="div"
   id="KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X"
+  md={4}
+  xs={6}
 >
   <header>
-    <h5
+    <h3
+      className="h5"
       style={
         Object {
           "marginBottom": 5,
@@ -14,7 +19,7 @@ exports[`ContactCard component should render as expected 1`] = `
       }
     >
       Seija Suunnittelija
-    </h5>
+    </h3>
     <div>
       <span>
         arkkitehti
@@ -39,5 +44,5 @@ exports[`ContactCard component should render as expected 1`] = `
       value="seija.suunnittelija@hel.fi"
     />
   </div>
-</div>
+</Col>
 `;

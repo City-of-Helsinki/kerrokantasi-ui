@@ -7,7 +7,7 @@ import {hearingShape} from '../types';
 const HearingCardList = ({hearings, language}) =>
   <Row className="hearing-card-list">
     {hearings && hearings.map((hearing) =>
-      <Col sm={4} key={hearing.id}>
+      <Col xs={12} md={4} key={hearing.id}>
         <HearingCard hearing={hearing} language={language}/>
       </Col>
     )}

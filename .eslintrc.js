@@ -24,6 +24,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": 0,  // TODO: Remove me!
     "jsx-a11y/href-no-hash": 0,  // TODO: Remove me!
     "jsx-a11y/iframe-has-title": 0,  // TODO: Remove me!
+    "jsx-a11y/label-has-for": [ 2, {"required": {"some": [ "nesting", "id" ]}}],
     "jsx-a11y/no-noninteractive-element-interactions": 0,  // TODO: Remove me!
     "jsx-a11y/no-static-element-interactions": 0,  // TODO: Remove me!
     "max-len": [1, 120],

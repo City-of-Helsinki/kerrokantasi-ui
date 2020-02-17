@@ -8,9 +8,10 @@ exports[`HearingCardList component should render as expected 1`] = `
     bsClass="col"
     componentClass="div"
     key="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
-    sm={4}
+    md={4}
+    xs={12}
   >
-    <HearingCard
+    <withRouter(HearingCard)
       hearing={
         Object {
           "abstract": Object {

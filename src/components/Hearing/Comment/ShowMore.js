@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import LoadSpinner from '../../LoadSpinner';
+import Icon from '../../../utils/Icon';
 
 /**
  * Functional component to display "Show more reply's button"
@@ -25,7 +26,8 @@ const ShowMore = (props) => {
           : (
             <span className="hearing-comment__show-more__wrapper">
               <a href="" onClick={handleShowMore}>
-                <FormattedMessage id="showMoreReplys" />
+                <Icon name="chevron-down" aria-hidden="true" />
+                <FormattedMessage id="showMoreReplies" />
                 <span className="hearing-comment__show-more__count">{`(${props.numberOfComments})`}</span>
               </a>
             </span>

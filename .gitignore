@@ -34,3 +34,5 @@ node_modules
 bower_components
 /kk.config
 /config_dev.toml
+
+/assets/plugins

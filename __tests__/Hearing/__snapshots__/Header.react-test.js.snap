@@ -1,183 +1,131 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header component should render as expected 1`] = `
-<div
-  className="header-section"
->
-  <Grid
-    bsClass="container"
-    componentClass="div"
-    fluid={false}
+<Fragment>
+  <div
+    className="header-section"
   >
-    <div
-      className="hearing-header"
+    <Grid
+      bsClass="container"
+      componentClass="div"
+      fluid={false}
     >
-      <h1>
-         
-        Ideoi Isosaaren tulevaisuutta
-      </h1>
-      <Row
-        bsClass="row"
-        className="hearing-meta"
-        componentClass="div"
+      <div
+        className="hearing-header"
       >
-        <Col
-          bsClass="col"
+        <Row
+          bsClass="row"
           componentClass="div"
-          xs={12}
         >
-          <LabelList
-            className="main-labels"
-            labels={Array []}
-            language="fi"
-          />
-        </Col>
-        <Col
-          bsClass="col"
+          <Col
+            bsClass="col"
+            componentClass="div"
+            md={9}
+          >
+            <h1
+              className="hearing-header-title"
+            >
+              Ideoi Isosaaren tulevaisuutta
+            </h1>
+          </Col>
+        </Row>
+        <Row
+          bsClass="row"
           componentClass="div"
-          sm={6}
-          xs={12}
+        >
+          <Col
+            bsClass="col"
+            componentClass="div"
+            md={9}
+          >
+            <div
+              className="header-abstract lead"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                }
+              }
+            />
+          </Col>
+        </Row>
+        <div
+          className="hearing-meta"
         >
           <div
-            className="timetable"
+            className="hearing-meta__element timetable"
           >
             <Icon
               Component="span"
               name="clock-o"
             />
-             
-            <FormatRelativeTime
-              messagePrefix="timeOpen"
-              timeVal="2017-10-22T21:00:00Z"
-            />
-            <br />
-            <Icon
-              Component="span"
-              name="clock-o"
-            />
-             
-            <FormatRelativeTime
-              messagePrefix="timeClose"
-              timeVal="2200-11-28T22:00:00Z"
-            />
+            <span
+              className="timetable-texts"
+            >
+              <FormatRelativeTime
+                messagePrefix="timeOpen"
+                timeVal="2017-10-22T21:00:00Z"
+              />
+              <br />
+              <FormatRelativeTime
+                messagePrefix="timeClose"
+                timeVal="2200-11-28T22:00:00Z"
+              />
+            </span>
           </div>
-          <SocialBar />
-        </Col>
-        <Col
-          bsClass="col"
-          componentClass="div"
-          sm={6}
-          xs={12}
-        >
           <div
-            className="comment-summary"
+            className="hearing-meta__element comment-summary"
           >
-            <div
-              className="commentNumber"
+            <Icon
+              Component="span"
+              name="comment-o"
+            />
+            <span
+              className="comment-summary-texts"
             >
-              <Icon
-                Component="span"
-                name="comment-o"
-              />
-               
-               
-              <FormattedPlural
-                one={
-                  <FormattedMessage
-                    id="totalSubmittedComment"
-                    values={
-                      Object {
-                        "n": 1,
-                      }
-                    }
-                  />
-                }
-                other={
-                  <FormattedMessage
-                    id="totalSubmittedComments"
-                    values={
-                      Object {
-                        "n": 1,
-                      }
-                    }
-                  />
-                }
-                style="cardinal"
-                value={1}
-              />
-            </div>
-            <div
-              className="report-download"
-            >
-              <a
-                href="http://www.report.com"
+              <div
+                className="commentNumber"
               >
-                <small>
-                  <Icon
-                    Component="span"
-                    name="download"
-                  />
-                   
+                <FormattedPlural
+                  one={
+                    <FormattedMessage
+                      id="totalSubmittedComment"
+                      values={
+                        Object {
+                          "n": 1,
+                        }
+                      }
+                    />
+                  }
+                  other={
+                    <FormattedMessage
+                      id="totalSubmittedComments"
+                      values={
+                        Object {
+                          "n": 1,
+                        }
+                      }
+                    />
+                  }
+                  style="cardinal"
+                  value={1}
+                />
+              </div>
+              <div>
+                <AnchorLink
+                  href="#comments-section"
+                  offset="100"
+                >
                   <FormattedMessage
-                    id="downloadReport"
+                    id="headerWriteCommentLink"
                     values={Object {}}
                   />
-                </small>
-              </a>
-            </div>
+                </AnchorLink>
+              </div>
+            </span>
           </div>
-        </Col>
-      </Row>
-      <Row
-        bsClass="row"
-        className="hearing-project"
-        componentClass="div"
-      >
-        <div
-          className="hearing-project"
-        >
-          <Slider
-            arrows={false}
-            centerMode={false}
-            className="project-phases-list"
-            infinite={false}
-            initialSlide={0}
-            responsive={
-              Array [
-                Object {
-                  "breakpoint": 768,
-                  "settings": Object {
-                    "arrows": false,
-                    "centerMode": false,
-                    "initialSlide": 0,
-                    "slidesToShow": 2,
-                  },
-                },
-                Object {
-                  "breakpoint": 992,
-                  "settings": Object {
-                    "arrows": false,
-                    "centerMode": false,
-                    "initialSlide": 0,
-                    "slidesToShow": 3,
-                  },
-                },
-                Object {
-                  "breakpoint": 1200,
-                  "settings": Object {
-                    "arrows": false,
-                    "centerMode": false,
-                    "initialSlide": 0,
-                    "slidesToShow": 5,
-                  },
-                },
-              ]
-            }
-            slidesToShow={6}
-          />
         </div>
-      </Row>
-    </div>
-  </Grid>
-</div>
+      </div>
+    </Grid>
+  </div>
+</Fragment>
 `;

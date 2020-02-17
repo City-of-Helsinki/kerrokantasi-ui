@@ -40,6 +40,10 @@
     @extend .btn;
     @extend .btn-primary;
   }
+
+  .ajs-close {
+    display: none !important;
+  }
 }
 
 /***************

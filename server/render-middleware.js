@@ -37,6 +37,8 @@ function renderHTMLSkeleton(req, res, settings) {
         heroImageURL={settings.hero_image_url}
         uiConfig={settings.ui_config}
         hearingData={hearingData}
+        showAccessibilityInfo={settings.show_accessibility_info}
+        showSocialMediaSharing={settings.show_social_media_sharing}
       />
     );
     res.status(200).send(html);

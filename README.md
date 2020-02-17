@@ -29,9 +29,8 @@ are case insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
 In the repository root there is `config_dev.toml.example` which contains
 every setting and comments explaining their use. If you only want to give
 kerrokantasi-ui a test, all configuration you need to do is:
-`mv config_dev.toml.example to config_dev.toml`
-That will give you a partially working configuration for browsing test
-questionnaires in our test API.
+`cp config_dev.toml.example config_dev.toml`. That will give you a partially
+working configuration for browsing test questionnaires in our test API.
 
 ### Running development server
 
@@ -57,6 +56,7 @@ can also directly run `server(/index.js)`.
 
 * `yarn run fetch-plugins`: fetch optional plugins (see below)
 * `yarn run test`: run tests
+* `yarn test -- -u` update tests
 
 ### Plugins
 
@@ -168,7 +168,7 @@ work.
 * `/assets/app.scss`: The base style file that is imported
 * `/i18n/[fi, sv, en].json`: Language files. If no string changes are to be made, only include `{}` in the files
 * `/i18n/localization.json`: Other configuration related to localization. Currently holds map default position
-* `/i18n/service-info/content.[fi, sv, en].md`: Service info page texts, if no file found service will display 
+* `/i18n/service-info/content.[fi, sv, en].md`: Service info page texts, if no file found service will display
 information that content was not found.
 * `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
 * `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo

@@ -10,9 +10,14 @@ const setup = propOverrides => {
   const {mockHearingWithSections} = mockStore;
   const props = Object.assign({
     hearing: mockHearingWithSections.data,
-    reportUrl: 'http://www.report.com',
+    sections: mockHearingWithSections.data.sections,
     activeLanguage: 'fi',
     dispatch: () => {},
+    match: {
+      params: {
+        sectionId: mockHearingWithSections.data.sections[0].id
+      }
+    },
   }, propOverrides);
 
   const wrapper = shallow(<HeaderComponent intl={getIntlAsProp()} {...props} />);

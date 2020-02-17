@@ -3,24 +3,18 @@
 }
 
 .hearing-header {
-  .open .language-switcher.dropdown-toggle {
-    color: $hel-coat;
+  .hearing-meta {
+    border-top: 1px solid $gray-light;
+  }
+
+  .main-labels {
+    border-top: 1px solid $gray-light;
   }
 }
 
-.hearing-header {
-  .hearing-project {
-    .project-phases-list {
-      .phases-list-item {
-        .phase-order {
-          background: $hel-silver;
-        }
-
-        .active-phase {
-          background: $hel-fog;
-        }
-      }
-    }
+.hearing-project {
+  .active-phase {
+    background: $hel-fog;
   }
 }
 

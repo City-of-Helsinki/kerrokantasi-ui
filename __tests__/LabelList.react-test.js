@@ -1,14 +1,15 @@
 // LabelList.react-test.js
 import React from 'react';
-import LabelList from '../src/components/LabelList';
+import {Labels} from '../src/components/LabelList';
 import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
+import {getIntlAsProp} from '../test-utils';
 
 test('LabelList can handle empty list', () => {
   const component = renderer.create(
-    <LabelList className="labels" store={{}} labels={[]} />
+    <Labels className="labels" store={{}} labels={[]} intl={getIntlAsProp()} />
   );
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -21,7 +22,7 @@ test('LabelList can handle list of label objects', () => {
     {id: 2, label: "label"},
   ];
   const component = shallow(
-    <MemoryRouter><LabelList className="labels" labels={labels} /></MemoryRouter>
+    <MemoryRouter><Labels className="labels" labels={labels} intl={getIntlAsProp()} /></MemoryRouter>
   );
   const tree = toJson(component.dive().dive());
   expect(tree).toMatchSnapshot();

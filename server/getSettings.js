@@ -24,6 +24,10 @@ const defaults = {
   dev: process.env.NODE_ENV !== 'production',
   // disables hot reloading middleware
   cold: false,
+  // Should display accessibility info
+  show_accessibility_info: false,
+  // Should display social media sharing buttons
+  show_social_media_sharing: true,
 };
 
 const optionalKeys = [
@@ -35,7 +39,9 @@ const optionalKeys = [
   "ui_config",
   "dev",
   "cold",
-  "city_config"
+  "city_config",
+  "show_accessibility_info",
+  "show_social_media_sharing",
 ];
 
 const mandatoryKeys = [

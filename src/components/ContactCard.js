@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Col } from 'react-bootstrap';
 import Icon from '../utils/Icon';
 import getAttr from '../utils/getAttr';
 
@@ -20,9 +21,9 @@ ContactMethod.propTypes = {
 };
 
 const ContactCard = ({className = '', activeLanguage, name, title, phone, email, organization, ...rest}) =>
-  <div className={`contact-card ${className}`} {...rest}>
+  <Col xs={6} md={4} className={`contact-card ${className}`} {...rest}>
     <header>
-      {name && <h5 style={{marginBottom: 5}}>{name}</h5>}
+      {name && <h3 className="h5" style={{marginBottom: 5}}>{name}</h3>}
       {title || organization ?
         <div>
           {title ? <span>{getAttr(title, activeLanguage)}</span> : null}
@@ -35,7 +36,7 @@ const ContactCard = ({className = '', activeLanguage, name, title, phone, email,
       {phone && <ContactMethod icon="phone" value={phone} href={`tel:${phone}`}/>}
       {email && <ContactMethod icon="envelope-o" value={email} href={`mailto:${email}`}/>}
     </div>
-  </div>;
+  </Col>;
 
 ContactCard.propTypes = {
   className: PropTypes.string,

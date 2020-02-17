@@ -10,6 +10,7 @@ import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import config from '../config';
 
 const getCurrentYear = () => {
   const today = new Date();
@@ -25,15 +26,18 @@ export default function Footer(props) {
         <Row>
           <Col md={3} sm={4}>
             <div className="footer-branding">
-              <a href={urls.city}>
-                <FormattedMessage id="footerLogoAlt">
-                  {altText => <img
-                    alt={altText}
-                    src={language === 'sv' ? logoSwedishWhite : logoWhite}
-                    className="footer-logo"
-                  />}
-                </FormattedMessage>
-              </a>
+              <FormattedMessage id="footerLogoAlt">
+                {altText => <img
+                  alt={altText}
+                  src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                  className="footer-logo"
+                />}
+              </FormattedMessage>
+              <div className="footer-city-link">
+                <a href={urls.city}>
+                  <FormattedMessage id="footerCityLink" />
+                </a>
+              </div>
             </div>
           </Col>
           <Col md={3} sm={4}>
@@ -63,13 +67,20 @@ export default function Footer(props) {
           <Col xs={12}>
             <div className="site-footer-small-print">
               <ul className="small-print-nav">
+                {config.showAccessibilityInfo && (
+                  <li>
+                    <Link to={{ path: "/accessibility" }}>
+                      <FormattedMessage id="accessibilityLink" />
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <a href={urls.privacyPolicy} target="_blank">
                     <FormattedMessage id="privacyPolicy" />
                   </a>
                 </li>
                 <li>
-                  <a href={urls.mailto}>
+                  <a href={urls.feedback}>
                     <FormattedMessage id="feedbackLinkText" />
                   </a>
                 </li>

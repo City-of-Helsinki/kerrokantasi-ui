@@ -1,7 +1,7 @@
 import {get, find, merge, includes} from 'lodash';
 import moment from 'moment';
 
-import {initNewSection, SectionTypes} from './section';
+import { initNewSection, SectionTypes, userCanComment } from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';
 import i18n from '../i18n';
@@ -45,6 +45,14 @@ export function hasFullscreenMapPlugin(hearing) {
  */
 export function acceptsComments(hearing) {
   return !hearing.closed && (new Date() < new Date(hearing.close_at));
+}
+
+/*
+* Returns true if any of the sections in a hearing has commenting enabled or if the hearing has a plugin
+* else false.
+ */
+export function hasCommentableSections(hearing, sections, user) {
+  return sections.some((elem) => userCanComment(user, elem)) || getMainSection(hearing).plugin_identifier;
 }
 
 /*

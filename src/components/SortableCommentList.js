@@ -29,18 +29,22 @@ export class SortableCommentListComponent extends Component {
       showLoader: false,
       collapseForm: false,
       shouldAnimate: false,
-      answers: this.props.section.questions.map(
-        question => ({
-          question: question.id,
-          type: question.type,
-          answers: []
-        })
-      )
+      answers: this._defaultAnswerState()
     };
 
     this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
     this.handleReachBottom = this.handleReachBottom.bind(this);
     this.fetchComments = this.fetchComments.bind(this);
+  }
+
+  _defaultAnswerState() {
+    return this.props.section.questions.map(
+      question => ({
+        question: question.id,
+        type: question.type,
+        answers: []
+      })
+    );
   }
 
   _fetchMoreComments() {
@@ -109,7 +113,9 @@ export class SortableCommentListComponent extends Component {
     const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned};
 
     if (this.props.onPostComment) {
-      this.props.onPostComment(section.id, commentData);
+      this.props.onPostComment(section.id, commentData).then(() => {
+        this.setState({answers: this._defaultAnswerState});
+      });
     }
   }
 
@@ -270,7 +276,7 @@ export class SortableCommentListComponent extends Component {
       <div>
         {section.commenting !== 'none' &&
         <div className="sortable-comment-list">
-          {closed &&
+          {closed && section.questions.length >= 1 &&
             <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
               {
                 section.questions.map((question) =>
@@ -283,7 +289,10 @@ export class SortableCommentListComponent extends Component {
             <h2>
               <FormattedMessage id="comments" />
               <div className="commenticon">
-                <Icon name="comment-o" />&nbsp;{section.n_comments}
+                <span aria-hidden="true">
+                  <Icon name="comment-o" />&nbsp;
+                </span>
+                {section.n_comments}
               </div>
             </h2>
             {pluginContent}

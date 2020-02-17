@@ -7,6 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import { Col, Row } from 'react-bootstrap';
 import { get, find, includes } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { withRouter } from 'react-router-dom';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
@@ -128,6 +129,12 @@ export class Hearings extends React.Component {
     return get(hearingLists, [hearingListKey, 'data'], null);
   }
 
+  getHearingsCount() {
+    const { hearingLists } = this.props;
+    const list = this.getHearingListName();
+    return get(hearingLists, [list, 'count'], 0);
+  }
+
   getHearingListName() {
     const { user } = this.props;
     const { adminFilter } = this.state;
@@ -178,12 +185,26 @@ export class Hearings extends React.Component {
   handleSearch(searchTitle, force = false) {
     const { history, location } = this.props;
     const searchParams = parseQuery(location.search);
-    const searchPhraseUpdated = parseQuery(location.search).search !== searchTitle;
-    if (searchTitle === '') {
+    const searchParamsEmpty = isEmpty(searchParams.search);
+    const searchPhraseEmpty = isEmpty(searchTitle);
+    const searchPhraseUpdated = searchParams.search !== searchTitle;
+
+    // Don't do anything if:
+    // search is not forced
+    // AND
+    // current search params are the same as the inputted search
+    // OR
+    // both search params and currently inputted search are empty
+    if (!force && ((searchParams.search === searchTitle) || (searchParamsEmpty && searchPhraseEmpty))) {
+      return;
+    }
+
+    if (searchPhraseEmpty) {
       delete searchParams.search;
     } else {
       searchParams.search = searchTitle;
     }
+
     if (searchPhraseUpdated || force) {
       history.push({
         path: location.path,
@@ -247,6 +268,7 @@ export class Hearings extends React.Component {
     const searchTitle = parseQuery(location.search).search;
     const { showOnlyOpen } = this.state;
     const hearings = this.getHearings();
+    const hearingCount = this.getHearingsCount();
 
     const adminFilterSelector = isAdmin(user.data) ? (
       <AdminFilterSelector
@@ -277,8 +299,9 @@ export class Hearings extends React.Component {
             </Row>
           </div>
         </section>
-        {labels && labels.length && <WrappedHearingList
+        {!isEmpty(labels) ? <WrappedHearingList
           hearings={hearings}
+          hearingCount={hearingCount}
           selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
           searchPhrase={searchTitle}
           isLoading={this.getIsLoading()}
@@ -299,7 +322,7 @@ export class Hearings extends React.Component {
               search: location.search,
             });
           }}
-        />}
+        /> : <LoadSpinner />}
       </div>
     );
   }

@@ -30,6 +30,7 @@
   "openHearings": "Open hoorzittingen",
   "welcomeMessage": "Geef uw mening over plannen die in procedure zijn",
   "feedbackPrompt": "We horen graag uw feedback!",
+  "footerCityLink": "www.example.com",
   "nextClosingHearing": "De volgende hoorziting die zal gaan sluiten",
   "newestHearings": "Nieuwste hoorzittingen",
   "allHearings": "Alle hoorzittingen",
@@ -103,5 +104,16 @@
   "headerLogoAlt": "Kerrokantasi logo",
   "feedbackLinkText": "Feedback",
   "copyrightText": "Kerrokantasi",
-  "languageSwitchLabel": "Choose language"
+  "languageSwitchLabel": "Choose language",
+  "hearingListComments": "Comments",
+  "hearingListComment": "Comment",
+  "hearingCardFullWidthComments": "Comments",
+  "hearingCardFullWidthComment": "Comment",
+  "hearingCardComments": "Comments",
+  "hearingCardComment": "Comment",
+  "labelListTagsTitle": "Tags",
+  "hearingListNotPublished": "Unpublished hearing,",
+  "showMoreReplies": "Show replies",
+  "voteButtonLikes": "Likes",
+  "voteButtonText": "Like this comment"
 }
