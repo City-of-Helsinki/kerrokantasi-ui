@@ -178,7 +178,7 @@ exports[`Hearings component should render as expected 1`] = `
           "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
           "feedbackLinkText": "Palaute",
           "feedbackPrompt": "Kerro meille, miten tätä palvelua pitäisi kehittää!",
-          "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin 70 megatavua.",
+          "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
           "firstClosing": "Ensimmäisenä sulkeutuva",
           "firstOpen": "Ensimmäisenä auennut",
           "follow": "Seuraa",
