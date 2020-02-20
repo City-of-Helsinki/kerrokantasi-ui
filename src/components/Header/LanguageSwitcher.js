@@ -36,8 +36,8 @@ class LanguageSwitcher extends React.Component {
     this.toggleDropdown();
   }
 
-  handleClick = (e) => {
-    if (!this.node.contains(e.target)) {
+  handleClick = (event) => {
+    if (!this.node.contains(event.target)) {
       this.handleOutsideClick();
     }
   }
@@ -59,8 +59,8 @@ class LanguageSwitcher extends React.Component {
         <a
           href="#"
           aria-label={getMessage(`lang-${code}`)}
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
             this.changeLanguage(history, location, code);
           }}
         >
@@ -73,6 +73,7 @@ class LanguageSwitcher extends React.Component {
   render() {
     const {currentLanguage, history, location} = this.props;
     return (
+      // eslint-disable-next-line no-return-assign
       <div className={classNames('dropdown', {open: this.state.openDropdown}, 'btn-group')} ref={node => this.node = node} >
         <Button className="language-switcher" onClick={() => this.toggleDropdown()} aria-label={getMessage('languageSwitchLabel')} id="language">
           <span>

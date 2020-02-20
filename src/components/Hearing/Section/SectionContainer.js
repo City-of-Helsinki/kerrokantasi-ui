@@ -35,7 +35,6 @@ import {
   isSectionVotable,
   isSectionCommentable,
   isMainSection,
-  userCanComment,
 } from '../../../utils/section';
 import {
   postSectionComment,
