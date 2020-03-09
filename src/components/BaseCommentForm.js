@@ -10,6 +10,7 @@ import CommentDisclaimer from './CommentDisclaimer';
 import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
+import {notifyError} from "../utils/notify";
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -47,18 +48,22 @@ export class BaseCommentForm extends React.Component {
   }
 
   toggle() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-      commentText: "",
-      nickname: this.props.defaultNickname || '',
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-    });
-    if (this.props.onOverrideCollapse instanceof Function) {
-      this.props.onOverrideCollapse();
+    if (this.props.canComment) {
+      this.setState({
+        collapsed: !this.state.collapsed,
+        commentText: "",
+        nickname: this.props.defaultNickname || '',
+        imageTooBig: false,
+        images: [],
+        pinned: false,
+        showAlert: true,
+        hideName: false,
+      });
+      if (this.props.onOverrideCollapse instanceof Function) {
+        this.props.onOverrideCollapse();
+      }
+    } else {
+      notifyError(<FormattedMessage id="loginToComment">{text => text}</FormattedMessage>);
     }
   }
 
@@ -440,6 +445,7 @@ export class BaseCommentForm extends React.Component {
 }
 
 BaseCommentForm.propTypes = {
+  canComment: PropTypes.bool,
   onPostComment: PropTypes.func,
   onOverrideCollapse: PropTypes.func,
   intl: intlShape.isRequired,
