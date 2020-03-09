@@ -13,6 +13,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
       >
         <InjectIntl(BaseCommentForm)
           answers={Array []}
+          canComment={true}
           collapseForm={false}
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
@@ -242,6 +243,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "commentEdited": "Kommenttisi on muokattu. Kiitos!",
                 "commentOrder": "Järjestä kommentit:",
                 "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
+                "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
+                "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
                 "commentSubsectionBtn": "Kommentoi",
                 "comments": "Mielipiteet",
                 "commentsOnMap": "Kartta koko näytöllä",
@@ -433,6 +436,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
                 "register": "Rekisteröidy",
                 "registered": "rekisteröitynyt",
+                "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
                 "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                 "removeImage": "Poista kuva",
                 "reply": "Vastaa",

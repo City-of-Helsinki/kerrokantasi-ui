@@ -310,6 +310,13 @@
 .comment-form-container {
   @extend .col-xs-12;
   margin-bottom: $line-height-computed * 2;
+  button.login-to-comment {
+    opacity: 0.65;
+  }
+  &.disabled > button {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .comment-form {

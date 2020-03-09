@@ -14,7 +14,8 @@ export default function retrieveUserFromSession() {
         {displayName: get(democracyUserJSON, 'first_name') + ' ' + get(democracyUserJSON, 'last_name')},
         {nickname: get(democracyUserJSON, 'nickname')},
         {answered_questions: get(democracyUserJSON, 'answered_questions')},
-        {adminOrganizations: get(democracyUserJSON, 'admin_organizations', null)});
+        {adminOrganizations: get(democracyUserJSON, 'admin_organizations', null)},
+        {hasStrongAuth: get(democracyUserJSON, 'has_strong_auth', false)});
       return dispatch(createAction('receiveUserData')(userWithOrganization));
     });
   };
