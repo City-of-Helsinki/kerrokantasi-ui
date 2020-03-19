@@ -278,6 +278,9 @@ class SectionForm extends React.Component {
               <option selected={section.commenting === 'registered'} value="registered">
                 {formatMessage({id: "registeredUsersOnly"})}
               </option>
+              <option selected={section.commenting === 'strong'} value="strong">
+                {formatMessage({id: "registeredStrongOnly"})}
+              </option>
               <option selected={section.commenting === 'none'} value="none">
                 {formatMessage({id: "noCommenting"})}
               </option>

@@ -13,7 +13,9 @@ import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
+import {getSectionCommentingMessage} from "../utils/section";
 import {getUser} from "../selectors/user";
+import classnames from 'classnames';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -259,10 +261,11 @@ export class SortableCommentListComponent extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = canComment && published ? (
+    const commentForm = published ? (
       <div className="row">
-        <div className="comment-form-container">
+        <div className={classnames("comment-form-container", {disabled: !canComment})}>
           <CommentForm
+            canComment={canComment}
             hearingId={hearingId}
             onPostComment={this.onPostComment}
             defaultNickname={getNickname(user)}
@@ -276,6 +279,9 @@ export class SortableCommentListComponent extends Component {
             loggedIn={!isEmpty(user)}
             user={user}
           />
+          {!canComment && (
+            <FormattedMessage id={getSectionCommentingMessage(section)} />
+          )}
         </div>
       </div>
     ) : null;
