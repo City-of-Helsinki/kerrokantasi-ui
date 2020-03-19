@@ -10,7 +10,8 @@ import CommentDisclaimer from './CommentDisclaimer';
 import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
-import {notifyError} from "../utils/notify";
+import {localizedNotifyError} from "../utils/notify";
+import {getSectionCommentingErrorMessage} from "../utils/section";
 
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
@@ -48,7 +49,8 @@ export class BaseCommentForm extends React.Component {
   }
 
   toggle() {
-    if (this.props.canComment) {
+    const {canComment, section} = this.props;
+    if (canComment) {
       this.setState({
         collapsed: !this.state.collapsed,
         commentText: "",
@@ -63,7 +65,7 @@ export class BaseCommentForm extends React.Component {
         this.props.onOverrideCollapse();
       }
     } else {
-      notifyError(<FormattedMessage id="loginToComment">{text => text}</FormattedMessage>);
+      localizedNotifyError(getSectionCommentingErrorMessage(section));
     }
   }
 

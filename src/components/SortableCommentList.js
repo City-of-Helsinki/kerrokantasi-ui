@@ -280,9 +280,8 @@ export class SortableCommentListComponent extends Component {
             user={user}
           />
           {!canComment && (
-            <FormattedMessage id={getSectionCommentingMessage(section)}>{message => <span>{message}</span>}</FormattedMessage>
+            <FormattedMessage id={getSectionCommentingMessage(section)} />
           )}
-
         </div>
       </div>
     ) : null;

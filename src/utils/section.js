@@ -43,6 +43,16 @@ export function isSectionCommentable(hearing, section, user) {
 }
 
 /**
+ * Returns message id that is used in
+ * the 'write a comment' button on a hearing.
+ * @param {object} section
+ * @returns {string} id
+ */
+export function getSectionCommentingErrorMessage(section) {
+  return section.commenting === 'strong' ? 'commentStrongRegisteredUsersOnly' : 'loginToComment';
+}
+
+/**
  * Returns the message id that is used in
  * <FormattedMessage id={return} />
  * @param {object} section
