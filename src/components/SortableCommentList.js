@@ -261,7 +261,7 @@ export class SortableCommentListComponent extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = published ? (
+    const commentForm = published && !closed ? (
       <div className="row">
         <div className={classnames("comment-form-container", {disabled: !canComment})}>
           <CommentForm
