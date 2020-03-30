@@ -371,6 +371,7 @@ class Comment extends React.Component {
   renderReplyForm = () => (
     <CommentForm
       answers={this.state.answers}
+      canComment={this.props.canReply}
       closed={false}
       defaultNickname={this.props.defaultNickname}
       hearingId={this.props.hearingId}
