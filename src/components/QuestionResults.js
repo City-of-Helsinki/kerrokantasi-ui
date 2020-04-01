@@ -5,12 +5,14 @@ import uuid from 'uuid/v1';
 import {ProgressBar} from 'react-bootstrap';
 
 export const QuestionResultsComponent = ({question, lang}) => {
+  const totalAnswers = question.options.map(option => option.n_answers).reduce((total, answers) => total + answers);
+
   return (
     <div>
       <h4>{getAttr(question.text, lang)}</h4>
       {question.options.map(
         (option) => {
-          const answerPercentage = Math.round((option.n_answers / question.n_answers) * 100) || 0;
+          const answerPercentage = Math.round((option.n_answers / totalAnswers) * 100) || 0;
           return (
             <div key={uuid()}>
               <div style={{display: 'flex', alignItems: 'center'}}>
@@ -26,6 +28,7 @@ export const QuestionResultsComponent = ({question, lang}) => {
           );
         })
       }
+      <p>Ääniä yhteensä: {question.n_answers}</p>
     </div>
   );
 };
