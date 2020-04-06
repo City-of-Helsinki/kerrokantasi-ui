@@ -11,6 +11,7 @@ import {
   Image,
   Button,
   ButtonGroup,
+  Checkbox,
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 
@@ -33,6 +34,17 @@ class SectionForm extends React.Component {
     super(props);
     this.onFileDrop = this.onFileDrop.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.toggleEnableCommentMap = this.toggleEnableCommentMap.bind(this);
+    this.state = {
+      enabledCommentMap: false,
+    };
+  }
+
+  componentDidMount = () => {
+    const {section} = this.props;
+    if (section.commenting_map_tools !== 'none') {
+      this.setState({enabledCommentMap: true});
+    }
   }
 
   /**
@@ -47,6 +59,9 @@ class SectionForm extends React.Component {
     switch (field) {
       case "imageCaption":
         this.props.onSectionImageChange(section.frontId, "caption", value);
+        break;
+      case "commenting_map_tools":
+        this.props.onSectionChange(section.frontId, field, value);
         break;
       default:
         this.props.onSectionChange(section.frontId, field, value);
@@ -150,6 +165,12 @@ class SectionForm extends React.Component {
 
   static getImageCaption(section) {
     return get(section.images, '[0].caption', {});
+  }
+  toggleEnableCommentMap() {
+    this.setState({enabledCommentMap: !this.state.enabledCommentMap});
+    if (this.state.enabledCommentMap) {
+      this.onChange({target: {name: 'commenting_map_tools', value: 'none'}});
+    }
   }
 
   render() {
@@ -287,6 +308,28 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
+        <Checkbox checked={!!this.state.enabledCommentMap} onChange={this.toggleEnableCommentMap}>
+          <FormattedMessage id="hearingCommentingMap">{txt => txt}</FormattedMessage>
+        </Checkbox>
+        {this.state.enabledCommentMap && (
+        <FormGroup controlId="hearingCommentingMap">
+          <FormControl
+            componentClass="select"
+            name="commenting_map_tools"
+            onChange={this.onChange}
+          >
+            <option selected={section.commenting_map_tools === 'none'} value="none">
+              {formatMessage({id: "hearingCommentingMapChoice1"})}
+            </option>
+            <option selected={section.commenting_map_tools === 'marker'} value="marker">
+              {formatMessage({id: "hearingCommentingMapChoice2"})}
+            </option>
+            <option selected={section.commenting_map_tools === 'all'} value="all">
+              {formatMessage({id: "hearingCommentingMapChoice3"})}
+            </option>
+          </FormControl>
+        </FormGroup>
+        )}
         <FormGroup controlId="hearingFiles">
           <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
           <Dropzone

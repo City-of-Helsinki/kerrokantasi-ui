@@ -260,6 +260,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       images: commentData.images ? commentData.images : [],
       answers: commentData.answers ? commentData.answers : [],
       pinned: commentData.pinned ? commentData.pinned : false,
+      map_comment_text: commentData.mapCommentText ? commentData.mapCommentText : "",
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});

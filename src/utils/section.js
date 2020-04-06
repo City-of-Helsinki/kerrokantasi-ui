@@ -43,6 +43,20 @@ export function isSectionCommentable(hearing, section, user) {
 }
 
 /**
+ * Returns boolean based on if
+ * user can comment and commenting_map_tools are enabled on the section
+ * @param {object} user
+ * @param {object} section
+ * @returns {boolean}
+ */
+export function isSectionCommentingMapEnabled(user, section) {
+  return (
+    userCanComment(user, section)
+    && section.commenting_map_tools !== 'none'
+  );
+}
+
+/**
  * Returns message id that is used in
  * the 'write a comment' button on a hearing.
  * @param {object} section
@@ -100,6 +114,7 @@ export function initNewSection(inits) {
       id: '',
       type: '',
       commenting: 'open',
+      commenting_map_tools: 'none',
       title: initAttr(),
       abstract: initAttr(),
       content: initAttr(),

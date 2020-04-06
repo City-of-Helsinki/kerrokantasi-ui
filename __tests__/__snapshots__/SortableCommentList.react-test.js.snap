@@ -11,7 +11,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
       <div
         className="comment-form-container"
       >
-        <InjectIntl(BaseCommentForm)
+        <Connect(InjectIntl(BaseCommentForm))
           answers={Array []}
           canComment={true}
           collapseForm={false}
@@ -241,6 +241,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                 "commentDeleted": "Kommenttisi on poistettu.",
                 "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                "commentMapInstructions": "Voit merkata ehdotuksesi valitsemalla merkkaustavan ja sen jälkeen merkkaamalla alueen. Voit poistaa merkkauksesi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
+                "commentMapTitle": "Merkkaa ehdotuksesi kartalle",
                 "commentOrder": "Järjestä kommentit:",
                 "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
                 "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
@@ -321,6 +323,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "hearingClosingTimePlaceholder": "Valitse...",
                 "hearingClosureInfo": "Sulkeutumistiedote",
                 "hearingCommenting": "Kommentointi",
+                "hearingCommentingMap": "Karttamerkintä kommentoinnissa",
+                "hearingCommentingMapChoice1": "Ei käytössä",
+                "hearingCommentingMapChoice2": "Piste merkintä",
+                "hearingCommentingMapChoice3": "Piste, neliö ja monikulmio merkinnät valittavissa",
                 "hearingContacts": "Yhteyshenkilöt",
                 "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
                 "hearingFileUpload": "Osion liitteet",

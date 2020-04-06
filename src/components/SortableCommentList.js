@@ -116,11 +116,11 @@ export class SortableCommentListComponent extends Component {
   /**
    * When posting a new comment.
    */
-  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned) => {
+  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
     const {section} = this.props;
     const answers = this.state.answers;
     this.setState({ shouldAnimate: true });
-    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned};
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText};
 
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData).then(() => {
@@ -253,7 +253,8 @@ export class SortableCommentListComponent extends Component {
       user,
       published,
       language,
-      closed
+      closed,
+      hearingGeojson
     } = this.props;
 
     // const mockSection = Object.assign({}, section);
@@ -278,6 +279,7 @@ export class SortableCommentListComponent extends Component {
             closed={closed}
             loggedIn={!isEmpty(user)}
             user={user}
+            hearingGeojson={hearingGeojson}
           />
           {!canComment && (
             <FormattedMessage id={getSectionCommentingMessage(section)} />
@@ -380,6 +382,7 @@ SortableCommentListComponent.propTypes = {
   fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  hearingGeojson: PropTypes.object,
   hearingId: PropTypes.string,
   hearingSlug: PropTypes.string,
   intl: intlShape.isRequired,

@@ -232,8 +232,8 @@ const SV = {
         polygon: 'Rita en polygon',
         rectangle: 'Rita en rektangel',
         circle: 'Rita en cirkel',
-        marker: 'Lägga till en markör',
-        circlemarker: 'Lägga till en cirkelmarkör'
+        marker: 'Placera en markör',
+        circlemarker: 'Placera en cirkelmarkör'
       }
     },
     handlers: {
@@ -292,8 +292,8 @@ const SV = {
           text: 'Avbryt'
         },
         clearAll: {
-          title: 'Rensa alla lagrar',
-          text: 'Rensa alla'
+          title: 'Radera alla lagrar',
+          text: 'Radera allt'
         }
       },
       buttons: {
