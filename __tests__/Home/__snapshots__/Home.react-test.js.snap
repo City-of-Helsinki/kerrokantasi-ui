@@ -167,7 +167,7 @@ exports[`Home component should render as expected 1`] = `
             values={Object {}}
           />
         </h2>
-        <OverviewMap
+        <Connect(OverviewMap)
           enablePopups={true}
           hearings={
             Array [
@@ -205,7 +205,6 @@ exports[`Home component should render as expected 1`] = `
               },
             ]
           }
-          showOnCarousel={false}
           style={
             Object {
               "height": 600,

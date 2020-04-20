@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
+
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -13,6 +14,7 @@ import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
 import {getUser} from '../../selectors/user';
 import userManager from "../../utils/userManager";
+import { toggleContrast } from "../../actions";
 
 // eslint-disable-next-line import/no-unresolved
 import logoBlack from '@city-images/logo-fi-black.svg';
@@ -107,6 +109,20 @@ class Header extends React.Component {
     );
   }
 
+  contrastToggle() {
+    if (config.enableHighContrast) {
+      return (
+        <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
+          <Icon name="adjust" aria-hidden="true"/>
+          <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
+        </Button>
+      );
+    }
+    return (
+      <div />
+    );
+  }
+
   render() {
     const {language} = this.props;
     const userItems = this.getUserItems();
@@ -130,7 +146,8 @@ class Header extends React.Component {
               </Navbar.Header>
 
               <div className="nav-user-menu navbar-right">
-                <LanguageSwitcher currentLanguage={this.props.language} />
+                {this.contrastToggle()}
+                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
               </div>
             </Navbar>
@@ -168,14 +185,19 @@ Header.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
+  toggleContrast: PropTypes.func,
 };
 
 Header.contextTypes = {
   history: PropTypes.object,
 };
 
+const mapDispatchToProps = dispatch => ({
+  toggleContrast: () => dispatch(toggleContrast())
+});
+
 export default withRouter(connect(state => ({
   user: getUser(state), // User dropdown requires this state
   language: state.language, // Language switch requires this state
   router: state.router, // Navigation activity requires this state
-}))(Header));
+}), mapDispatchToProps)(Header));

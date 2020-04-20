@@ -15,14 +15,18 @@ import {
 import Dropzone from 'react-dropzone';
 
 import Icon from '../../utils/Icon';
-import {localizedNotifyError} from '../../utils/notify';
+import {localizedNotifyError, notifyError} from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 
+/**
+ * MAX_IMAGE_SIZE given in bytes
+ * MAX_FILE_SIZE given in MB
+ */
 const MAX_IMAGE_SIZE = 999999;
-const MAX_FILE_SIZE = 999999;
+const MAX_FILE_SIZE = 70;
 
 class SectionForm extends React.Component {
   constructor(props) {
@@ -70,8 +74,13 @@ class SectionForm extends React.Component {
    * @param {File} attachment - file to upload.
    */
   onAttachmentDrop = (attachment) => {
-    if (attachment[0].size > MAX_FILE_SIZE) {
-      localizedNotifyError('fileSizeError');
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1000 * 1000;
+    if (attachment[0].size > MAX_FILE_SIZE_BYTES) {
+      const localizedErrorMessage =
+        <FormattedMessage id="fileSizeError" values={{n: MAX_FILE_SIZE.toString()}}>
+          {text => text}
+        </FormattedMessage>;
+      notifyError(localizedErrorMessage);
       return;
     }
     // Load the file and then upload it.

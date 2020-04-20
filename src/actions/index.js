@@ -356,9 +356,15 @@ export function fetchApiToken() {
       }).then((token) => {
         dispatch(createAction('receiveApiToken')(token));
         dispatch(retrieveUserFromSession());
-        dispatch(push("/"));
         resolve();
       });
     });
+  };
+}
+
+export function toggleContrast() {
+  return (dispatch) => {
+    const toggleContrastState = createAction("toggleContrastState")();
+    dispatch(toggleContrastState);
   };
 }

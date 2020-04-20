@@ -11,6 +11,7 @@ import {routerReducer} from 'react-router-redux';
 import projectLists from './projectLists';
 import { reducer as oidc } from "redux-oidc";
 import apitoken from "./api";
+import accessibility from "./accessibility";
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -29,6 +30,7 @@ export default combineReducers({
   hearingLists,
   projectLists,
   language,
+  accessibility,
   headless,
   oidc,
   apitoken,

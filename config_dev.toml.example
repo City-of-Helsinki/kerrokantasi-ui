@@ -41,3 +41,21 @@ city_config="cities/helsinki"
 # Should display social media share buttons on a hearing header
 # Default: true
 # show_social_media_sharing=false
+
+# Enable high-contrast toggle button in navbar next to language switcher.
+# To use just add .scss rules to city specific files ie
+# .high-contrast {
+#   nav {
+#    background-color: white;
+#    ...
+#   }
+#   main {
+#   ....
+#   }
+#}
+# Default: false
+# enable_highcontrast=true
+
+# Should display cookiebar at the bottom of the page
+# Default: false
+# show_cookiebar=true
