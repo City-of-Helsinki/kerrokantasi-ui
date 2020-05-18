@@ -238,7 +238,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "organization": "Organisaatio",
                   "overview-map": "Kartta",
                   "partSection": "Osa-alue",
-                  "phase": "Vaihe",
+                  "phase": "Hankkeen vaiheet",
                   "phaseActive": "Kuuleminen kuuluu tähän vaiheeseen.",
                   "phaseDescription": "Vaiheen kuvaus",
                   "phaseDuration": "Vaiheen kesto",
