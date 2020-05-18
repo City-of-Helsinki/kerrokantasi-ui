@@ -24,6 +24,8 @@ const ORDERING_CRITERIA = {
   POPULARITY_ASC: 'n_votes',
 };
 
+const DEFAULT_ORDERING = ORDERING_CRITERIA.CREATED_AT_DESC;
+
 export class SortableCommentListComponent extends Component {
   constructor(props) {
     super(props);
@@ -71,7 +73,7 @@ export class SortableCommentListComponent extends Component {
     const {section, sectionComments} = this.props;
     // comment fetching may already be taking place in the plugin!
     if (!get(sectionComments, 'isFetching')) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
   }
 
@@ -92,15 +94,15 @@ export class SortableCommentListComponent extends Component {
     });
 
     if (!isFetching && !this.props.user && nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
 
     if (!isFetching && this.props.user && !nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
 
     if (section.id !== nextProps.section.id) {
-      this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(nextProps.section.id, DEFAULT_ORDERING);
     }
 
     if (!isFetching && results && results.length === 0 && nextProps.section.n_comments !== 0) {
