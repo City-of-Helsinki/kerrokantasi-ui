@@ -64,7 +64,7 @@ class Header extends React.Component {
           <MenuItem
             key="logout"
             eventKey="logout"
-            onClick={() => userManager.signoutRedirect({post_logout_redirect_uri: config.publicUrl})}
+            onClick={() => userManager.signoutRedirect()}
           >
             <FormattedMessage id="logout" />
           </MenuItem>
