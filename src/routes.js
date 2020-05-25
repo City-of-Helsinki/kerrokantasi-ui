@@ -22,6 +22,8 @@ const FullscreenHearingContainer = lazy(() => import(
   /* webpackChunkName: "fullscreen" */'./views/FullscreenHearing/FullscreenHearingContainer'));
 const LoginCallback = lazy(() => import(
   /* webpackChunkName: "fullscreen" */'./views/Auth/loginCallback'));
+const LogoutCallback = lazy(() => import(
+  /* webpackChunkName: "auth" */'./views/Auth/logoutCallback'));
 
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
@@ -45,6 +47,7 @@ const Routes = () => (
       <Route path="/silent-renew" component={SilentRenew} />
       <Route path="/info" component={Info} />
       <Route path="/callback" component={LoginCallback} />
+      <Route path="/callback/logout" component={LogoutCallback} />
       {config.showAccessibilityInfo && (
         <Route path="/accessibility" component={AccessibilityInfo} />
       )}

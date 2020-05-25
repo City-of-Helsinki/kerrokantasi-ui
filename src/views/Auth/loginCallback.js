@@ -31,4 +31,5 @@ CallbackPage.propTypes = {
   dispatch: PropTypes.func,
 };
 
+export {CallbackPage as UnconnectedCallbackPage};
 export default connect()(CallbackPage);

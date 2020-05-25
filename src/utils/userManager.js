@@ -9,6 +9,7 @@ const userManagerConfig = {
   response_type: 'id_token token',
   scope: `openid profile ${config.openIdAudience}`,
   authority: config.openIdAuthority,
+  post_logout_redirect_uri: `${baseUrl}/callback/logout`,
   silent_redirect_uri: `${baseUrl}/silent-renew/`,
   automaticSilentRenew: true,
   filterProtocolClaims: true,
