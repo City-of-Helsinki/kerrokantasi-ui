@@ -13,7 +13,9 @@ import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
+import {getSectionCommentingMessage} from "../utils/section";
 import {getUser} from "../selectors/user";
+import classnames from 'classnames';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -21,6 +23,8 @@ const ORDERING_CRITERIA = {
   POPULARITY_DESC: '-n_votes',
   POPULARITY_ASC: 'n_votes',
 };
+
+const DEFAULT_ORDERING = ORDERING_CRITERIA.CREATED_AT_DESC;
 
 export class SortableCommentListComponent extends Component {
   constructor(props) {
@@ -69,7 +73,7 @@ export class SortableCommentListComponent extends Component {
     const {section, sectionComments} = this.props;
     // comment fetching may already be taking place in the plugin!
     if (!get(sectionComments, 'isFetching')) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
   }
 
@@ -90,15 +94,15 @@ export class SortableCommentListComponent extends Component {
     });
 
     if (!isFetching && !this.props.user && nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
 
     if (!isFetching && this.props.user && !nextProps.user) {
-      this.fetchComments(section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(section.id, DEFAULT_ORDERING);
     }
 
     if (section.id !== nextProps.section.id) {
-      this.fetchComments(nextProps.section.id, ORDERING_CRITERIA.POPULARITY_DESC);
+      this.fetchComments(nextProps.section.id, DEFAULT_ORDERING);
     }
 
     if (!isFetching && results && results.length === 0 && nextProps.section.n_comments !== 0) {
@@ -114,11 +118,11 @@ export class SortableCommentListComponent extends Component {
   /**
    * When posting a new comment.
    */
-  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned) => {
+  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
     const {section} = this.props;
     const answers = this.state.answers;
     this.setState({ shouldAnimate: true });
-    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned};
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText};
 
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData).then(() => {
@@ -251,7 +255,8 @@ export class SortableCommentListComponent extends Component {
       user,
       published,
       language,
-      closed
+      closed,
+      hearingGeojson
     } = this.props;
 
     // const mockSection = Object.assign({}, section);
@@ -259,10 +264,11 @@ export class SortableCommentListComponent extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = canComment && published ? (
+    const commentForm = published && !closed ? (
       <div className="row">
-        <div className="comment-form-container">
+        <div className={classnames("comment-form-container", {disabled: !canComment})}>
           <CommentForm
+            canComment={canComment}
             hearingId={hearingId}
             onPostComment={this.onPostComment}
             defaultNickname={getNickname(user)}
@@ -275,7 +281,11 @@ export class SortableCommentListComponent extends Component {
             closed={closed}
             loggedIn={!isEmpty(user)}
             user={user}
+            hearingGeojson={hearingGeojson}
           />
+          {!canComment && (
+            <FormattedMessage id={getSectionCommentingMessage(section)} />
+          )}
         </div>
       </div>
     ) : null;
@@ -374,6 +384,7 @@ SortableCommentListComponent.propTypes = {
   fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  hearingGeojson: PropTypes.object,
   hearingId: PropTypes.string,
   hearingSlug: PropTypes.string,
   intl: intlShape.isRequired,

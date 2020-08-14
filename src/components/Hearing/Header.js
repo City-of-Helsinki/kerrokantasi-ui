@@ -4,11 +4,11 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Col, Grid, OverlayTrigger, Row, Tooltip, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
 import { withRouter } from 'react-router-dom';
-
+import {notifyError, notifySuccess} from "../../utils/notify";
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from '../../components/LabelList';
@@ -21,6 +21,7 @@ import { isPublic, getHearingURL, hasCommentableSections } from "../../utils/hea
 import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
+import { getUser} from "../../selectors/user";
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -181,6 +182,34 @@ export class HeaderComponent extends React.Component {
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
+  getPreviewLinkButton() {
+    const {hearing} = this.props;
+    return (
+      <div className="hearing-meta__element">
+        <OverlayTrigger
+          placement="bottom"
+          overlay={
+            <Tooltip id="hearingPreviewLink">
+              <FormattedMessage id="hearingPreviewLinkTooltip">{text => text}</FormattedMessage>
+            </Tooltip>}
+        >
+          <Button bsStyle="info" onClick={() => this.writeToClipboard(hearing.preview_url)}>
+            <FormattedMessage id="hearingPreviewLink">{text => text}</FormattedMessage>
+          </Button>
+        </OverlayTrigger>
+      </div>
+    );
+  }
+
+  writeToClipboard = (url) => {
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        notifySuccess(<FormattedMessage id="hearingPreviewLinkSuccess">{text => text}</FormattedMessage>);
+      })
+      .catch(() => {
+        notifyError(<FormattedMessage id="hearingPreviewLinkFailed">{text => text}</FormattedMessage>);
+      });
+  }
 
   render() {
     const {
@@ -240,6 +269,9 @@ export class HeaderComponent extends React.Component {
                     {this.getTimetableText(hearing)}
                     {this.getComments(hearing, sections, section, user)}
                     {this.getLanguageChanger()}
+                    {(!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment()) && (
+                      this.getPreviewLinkButton()
+                    )}
                   </div>
                   {!isEmpty(hearing.labels) && (
                     <LabelList className="main-labels" labels={hearing.labels} language={activeLanguage} />
@@ -263,6 +295,7 @@ const mapStateToProps = (state, ownProps) => ({
   sections: getSections(state, ownProps.match.params.hearingSlug),
   showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug)
     && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
+  user: getUser(state),
 });
 
 const mapDispatchToProps = () => ({});

@@ -389,6 +389,7 @@ export class SectionContainerComponent extends React.Component {
           displayVisualization={userIsAdmin || hearing.closed}
           published={hearing.published} // Needed so comments are not diplayed in hearing drafts
           closed={hearing.closed}
+          hearingGeojson={hearing.geojson}
         />
       </section>
     );

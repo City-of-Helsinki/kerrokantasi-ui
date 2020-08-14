@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
 import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import classnames from 'classnames';
+import {connect} from 'react-redux';
 import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
 import {getImageAsBase64Promise} from '../utils/hearing';
@@ -10,7 +11,27 @@ import CommentDisclaimer from './CommentDisclaimer';
 import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
+import {localizedNotifyError} from "../utils/notify";
+import {getSectionCommentingErrorMessage, isSectionCommentingMapEnabled} from "../utils/section";
+import {Polygon} from 'react-leaflet';
+// eslint-disable-next-line import/no-unresolved
+import urls from '@city-assets/urls.json';
+// eslint-disable-next-line import/no-unresolved
+import localization from '@city-i18n/localization.json';
+import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
+import {getCorrectContrastMapTileUrl} from "../utils/map";
+import Leaflet, {LatLng} from 'leaflet';
+import leafletMarkerShadowUrl from "../../assets/images/leaflet/marker-shadow.png";
+import leafletMarkerRetinaIconUrl from "../../assets/images/leaflet/marker-icon-2x.png";
+import CommentFormMap from "./CommentFormMap/CommentFormMap";
 
+Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
+  iconUrl: leafletMarkerIconUrl,
+  shadowUrl: leafletMarkerShadowUrl,
+  iconRetinaUrl: leafletMarkerRetinaIconUrl,
+  iconSize: [25, 41],
+  iconAnchor: [13, 41],
+});
 export class BaseCommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -23,6 +44,8 @@ export class BaseCommentForm extends React.Component {
       pinned: false,
       showAlert: true,
       hideName: false,
+      geojson: {},
+      mapCommentText: "",
     };
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
   }
@@ -47,18 +70,24 @@ export class BaseCommentForm extends React.Component {
   }
 
   toggle() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-      commentText: "",
-      nickname: this.props.defaultNickname || '',
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-    });
-    if (this.props.onOverrideCollapse instanceof Function) {
-      this.props.onOverrideCollapse();
+    const {canComment, section} = this.props;
+    if (canComment) {
+      this.setState({
+        collapsed: !this.state.collapsed,
+        commentText: "",
+        nickname: this.props.defaultNickname || '',
+        imageTooBig: false,
+        images: [],
+        pinned: false,
+        showAlert: true,
+        hideName: false,
+        mapCommentText: "",
+      });
+      if (this.props.onOverrideCollapse instanceof Function) {
+        this.props.onOverrideCollapse();
+      }
+    } else {
+      localizedNotifyError(getSectionCommentingErrorMessage(section));
     }
   }
 
@@ -79,10 +108,11 @@ export class BaseCommentForm extends React.Component {
     let pluginData = this.getPluginData();
     let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
     let commentText = (this.state.commentText === null ? '' : this.state.commentText);
-    let geojson = null;
+    let geojson = this.state.geojson;
     let label = null;
     let images = this.state.images;
     let pinned = this.state.pinned;
+    let mapCommentText = this.state.mapCommentText;
 
     // plugin comment will override comment fields, if provided
     if (pluginComment) {
@@ -91,8 +121,9 @@ export class BaseCommentForm extends React.Component {
       pluginData = pluginComment.plugin_data || pluginData;
       label = pluginComment.label || null;
       images = pluginComment.image ? [pluginComment.image] : images;
-      geojson = pluginComment.geojson || null;
+      geojson = pluginComment.geojson || geojson;
       pinned = pluginComment.pinned || null;
+      mapCommentText = pluginComment.mapCommentText || mapCommentText;
     } else if (pluginData && typeof pluginData !== "string") {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -105,6 +136,7 @@ export class BaseCommentForm extends React.Component {
       label,
       images,
       pinned,
+      mapCommentText,
     );
     this.setState({
       collapsed: false,
@@ -115,6 +147,8 @@ export class BaseCommentForm extends React.Component {
       pinned: false,
       showAlert: true,
       hideName: false,
+      geojson: {},
+      mapCommentText: "",
     });
   }
 
@@ -316,9 +350,47 @@ export class BaseCommentForm extends React.Component {
       onClick={this.handleTogglePin}
     />
   );
+  onDrawCreate = (event) => {
+    this.setState({geojson: event.layer.toGeoJSON().geometry});
+  }
+
+  onDrawDelete = () => {
+    this.setState({geojson: null});
+  }
+
+  handleMapTextChange(event) {
+    this.setState({mapCommentText: event.target.value});
+  }
+  getMapBorder() {
+    const {hearingGeojson} = this.props;
+    if (hearingGeojson && hearingGeojson.type === 'Polygon') {
+      const contents = [];
+      const latLangs = hearingGeojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+      contents.push(<Polygon key={Math.random()} positions={latLangs} color="transparent"/>);
+      return contents;
+    }
+    return null;
+  }
+
+  getMapCenter() {
+    const {hearingGeojson} = this.props;
+    let center;
+    if (hearingGeojson && hearingGeojson.type === 'Point') {
+      center = new LatLng(hearingGeojson.coordinates[1], hearingGeojson.coordinates[0]);
+    } else {
+      center = new LatLng(localization.mapPosition[0], localization.mapPosition[1]);
+    }
+    return center;
+  }
+
+  getMapContrastTiles() {
+    const {isHighContrast} = this.props;
+    return getCorrectContrastMapTileUrl(urls.rasterMapTiles,
+      urls.highContrastRasterMapTiles, isHighContrast);
+  }
 
   render() {
-    const {language, section, onChangeAnswers, answers, loggedIn, closed, user} = this.props;
+    const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply} = this.props;
     if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
@@ -331,7 +403,7 @@ export class BaseCommentForm extends React.Component {
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
           {
-            !this.props.isReply &&
+            !isReply &&
             section.questions.map((question) => {
               const canShowQuestionResult =
                 closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
@@ -341,7 +413,7 @@ export class BaseCommentForm extends React.Component {
             })
           }
           {
-            !this.props.isReply &&
+            !isReply &&
             section.questions.map((question) => {
               const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
               return canShowQuestionForm
@@ -366,7 +438,7 @@ export class BaseCommentForm extends React.Component {
             </div>
             {
               this.isUserAdmin()
-              && !this.props.isReply
+              && !isReply
               && (
                 <div className="comment-form__heading-container__pin">
                   { this.renderPinUnpinIcon() }
@@ -380,6 +452,36 @@ export class BaseCommentForm extends React.Component {
             onChange={this.handleTextChange.bind(this)}
             id="commentTextField"
           />
+          {isSectionCommentingMapEnabled(user, section) && !isReply && (
+            <div className="comment-form__map-container"style={{ marginTop: 20}}>
+              <div>
+                <label htmlFor="commentMapAddress">
+                  <FormattedMessage id="commentMapTitle" />
+                </label>
+              </div>
+              <FormattedMessage id="commentMapInstructions">{instr => <span style={{fontSize: 13}}>{instr}</span>}</FormattedMessage>
+              <FormGroup>
+                <FormControl
+                  id="map_text"
+                  type="text"
+                  value={this.state.mapCommentText}
+                  onChange={this.handleMapTextChange.bind(this)}
+                  maxLength={128}
+                />
+              </FormGroup>
+              <CommentFormMap
+                  center={this.getMapCenter()}
+                  mapBounds={localization.mapBounds || null}
+                  mapTileUrl={this.getMapContrastTiles()}
+                  onDrawCreate={this.onDrawCreate}
+                  onDrawDelete={this.onDrawDelete}
+                  contents={this.getMapBorder()}
+                  tools={section.commenting_map_tools}
+                  language={language}
+              />
+            </div>
+          )}
+
           <div className="comment-form__selected-images">
             {this.state.imageTooBig
               ? (
@@ -440,6 +542,7 @@ export class BaseCommentForm extends React.Component {
 }
 
 BaseCommentForm.propTypes = {
+  canComment: PropTypes.bool,
   onPostComment: PropTypes.func,
   onOverrideCollapse: PropTypes.func,
   intl: intlShape.isRequired,
@@ -455,6 +558,8 @@ BaseCommentForm.propTypes = {
   closed: PropTypes.bool,
   user: PropTypes.object,
   isReply: PropTypes.bool,
+  isHighContrast: PropTypes.bool,
+  hearingGeojson: PropTypes.object
 };
 
 BaseCommentForm.defaultProps = {
@@ -464,4 +569,8 @@ BaseCommentForm.defaultProps = {
   isReply: false,
 };
 
-export default injectIntl(BaseCommentForm);
+const mapStateToProps = (state) => ({
+  isHighContrast: state.accessibility.isHighContrast,
+});
+const WrappedBaseCommentForm = connect(mapStateToProps, null)(injectIntl(BaseCommentForm));
+export default WrappedBaseCommentForm;

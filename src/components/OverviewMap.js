@@ -141,12 +141,12 @@ class OverviewMap extends React.Component {
         />
         <FeatureGroup
           ref={(input) => {
-            if (!input) return;
-            const bounds = input.leafletElement.getBounds();
-            if (bounds.isValid()) {
-              input.context.map.fitBounds(bounds);
-            }
-          }}
+          if (!input) return;
+          const bounds = input.leafletElement.getBounds();
+          if (bounds.isValid()) {
+            input.context.map.fitBounds(bounds);
+          }
+        }}
         >
           <div>{contents}</div>
         </FeatureGroup>

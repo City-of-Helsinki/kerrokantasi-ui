@@ -3,6 +3,7 @@ import { find, values, merge } from 'lodash';
 
 import initAttr from './initAttr';
 import {acceptsComments} from "./hearing";
+import {isAdmin} from "./user";
 
 export const SectionTypes = {
   MAIN: 'main',
@@ -20,7 +21,9 @@ export function isSpecialSectionType(sectionType) {
 }
 
 export function userCanComment(user, section) {
-  return section.commenting === 'open' || (section.commenting === 'registered' && Boolean(user));
+  return section.commenting === 'open' ||
+    (section.commenting === 'registered' && Boolean(user)) ||
+    (section.commenting === 'strong' && Boolean(user) && (user.hasStrongAuth || isAdmin(user)));
 }
 
 export function userCanVote(user, section) {
@@ -37,6 +40,56 @@ export function isSectionCommentable(hearing, section, user) {
       && userCanComment(user, section)
       && !section.plugin_identifier // comment box not available for sections with plugins
   );
+}
+
+/**
+ * Returns boolean based on if
+ * user can comment and commenting_map_tools are enabled on the section
+ * @param {object} user
+ * @param {object} section
+ * @returns {boolean}
+ */
+export function isSectionCommentingMapEnabled(user, section) {
+  return (
+    userCanComment(user, section)
+    && section.commenting_map_tools !== 'none'
+  );
+}
+
+/**
+ * Returns message id that is used in
+ * the 'write a comment' button on a hearing.
+ * @param {object} section
+ * @returns {string} id
+ */
+export function getSectionCommentingErrorMessage(section) {
+  return section.commenting === 'strong' ? 'commentStrongRegisteredUsersOnly' : 'loginToComment';
+}
+
+/**
+ * Returns the message id that is used in
+ * <FormattedMessage id={return} />
+ * @param {object} section
+ * @returns {string} id
+ */
+export function getSectionCommentingMessage(section) {
+  switch (section.commenting) {
+    case "open": {
+      return 'openCommenting';
+    }
+    case "registered": {
+      return 'commentRegisteredUsersOnly';
+    }
+    case "strong": {
+      return 'commentStrongRegisteredUsersOnly';
+    }
+    case "none": {
+      return 'noCommenting';
+    }
+    default: {
+      return 'openCommenting';
+    }
+  }
 }
 
 /**
@@ -61,6 +114,7 @@ export function initNewSection(inits) {
       id: '',
       type: '',
       commenting: 'open',
+      commenting_map_tools: 'none',
       title: initAttr(),
       abstract: initAttr(),
       content: initAttr(),
