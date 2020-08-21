@@ -419,6 +419,13 @@
     }
   }
 
+  &__map-container {
+    .map-padding {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+  }
+
   &__group-admin {
 
     & .form-group {

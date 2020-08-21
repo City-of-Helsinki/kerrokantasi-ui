@@ -460,16 +460,8 @@ export class BaseCommentForm extends React.Component {
                 </label>
               </div>
               <FormattedMessage id="commentMapInstructions">{instr => <span style={{fontSize: 13}}>{instr}</span>}</FormattedMessage>
-              <FormGroup>
-                <FormControl
-                  id="map_text"
-                  type="text"
-                  value={this.state.mapCommentText}
-                  onChange={this.handleMapTextChange.bind(this)}
-                  maxLength={128}
-                />
-              </FormGroup>
-              <CommentFormMap
+              <div className="map-padding">
+                <CommentFormMap
                   center={this.getMapCenter()}
                   mapBounds={localization.mapBounds || null}
                   mapTileUrl={this.getMapContrastTiles()}
@@ -478,7 +470,20 @@ export class BaseCommentForm extends React.Component {
                   contents={this.getMapBorder()}
                   tools={section.commenting_map_tools}
                   language={language}
-              />
+                />
+              </div>
+              <FormGroup>
+                <ControlLabel htmlFor="map_text">
+                  <FormattedMessage id="commentMapAdditionalInfo"/>
+                </ControlLabel>
+                <FormControl
+                  id="map_text"
+                  type="text"
+                  value={this.state.mapCommentText}
+                  onChange={this.handleMapTextChange.bind(this)}
+                  maxLength={128}
+                />
+              </FormGroup>
             </div>
           )}
 
