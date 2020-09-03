@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import getMessage from '../../utils/getMessage';
 
 const BLOCK_TYPES = [
   {label: 'Väliotsikko', style: 'header-four'},
@@ -88,4 +89,16 @@ export const InlineStyleControls = (props) => {
 InlineStyleControls.propTypes = {
   editorState: PropTypes.object,
   onToggle: PropTypes.func
+};
+
+export const IframeControls = (props) => {
+  return (
+    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
+      <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('iframeAddButton')}</button>
+    </div>
+  );
+};
+
+IframeControls.propTypes = {
+  onClick: PropTypes.func,
 };

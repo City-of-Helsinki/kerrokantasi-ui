@@ -75,3 +75,13 @@ fieldset {
     padding: 1px;
   }
 }
+
+.iframe {
+  &-input-error {
+    color: #EB0000;
+  }
+
+  &-select-input {
+    margin-left: 8px;
+  }
+}
