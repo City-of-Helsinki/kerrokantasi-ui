@@ -47,6 +47,34 @@ export function parseIframeHtml(htmlInput) {
   return attributeObject;
 }
 
+// removes width and/or height from attribute style string,
+// adds or replaces attribute width and height properties with removed style values
+// and returns the resulting attribute object.
+export function convertStyleDimensionSettings(attributes) {
+  const newAttributes = {...attributes};
+  if ("style" in newAttributes) {
+    const style = newAttributes.style;
+    const widthRegex = /(?<=width:\D*)(\d+)(?=\D*;)/gi;
+    const heightRegex = /(?<=height:\D*)(\d+)(?=\D*;)/gi;
+
+    const width = style.match(widthRegex);
+    const height = style.match(heightRegex);
+
+    const widthRemoveRegex = /(?<=;|)\s*width:\D*\d+\D*;/gi;
+    const heightRemoveRegex = /(?<=;|)\s*height:\D*\d+\D*;/gi;
+    newAttributes.style = style.replace(widthRemoveRegex, '').replace(heightRemoveRegex, '');
+
+    if (width) {
+      newAttributes.width = width[0];
+    }
+    if (height) {
+      newAttributes.height = height[0];
+    }
+  }
+
+  return newAttributes;
+}
+
 export function validateIsNotEmpty(value) {
   if (!value || value === '') {
     return false;

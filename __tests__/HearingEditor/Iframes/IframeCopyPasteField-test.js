@@ -2,7 +2,10 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import IframeCopyPasteField from '../../../src/components/RichTextEditor/Iframe/IframeCopyPasteField';
 import getMessage from '../../../src/utils/getMessage';
-import { parseIframeHtml } from '../../../src/components/RichTextEditor/Iframe//IframeUtils';
+import {
+  parseIframeHtml,
+  convertStyleDimensionSettings
+} from '../../../src/components/RichTextEditor/Iframe//IframeUtils';
 
 
 describe('IframeSelectField', () => {
@@ -55,10 +58,11 @@ describe('IframeSelectField', () => {
       });
       test('calls props.updateAttributes', () => {
         const instance = getWrapper().instance();
-        const event = {target: {value: '<iframe title="test-title"></iframe>'}};
+        const event = {target: {value: '<iframe title="test-title" style="width: 150px;"></iframe>'}};
         instance.handleCopyPasteChange(event);
         expect(defaultProps.updateAttributes.mock.calls.length).toBe(1);
-        expect(defaultProps.updateAttributes.mock.calls[0][0]).toEqual(parseIframeHtml(event.target.value));
+        expect(defaultProps.updateAttributes.mock.calls[0][0])
+          .toEqual(convertStyleDimensionSettings(parseIframeHtml(event.target.value)));
       });
     });
   });

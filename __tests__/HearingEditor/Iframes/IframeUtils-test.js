@@ -3,6 +3,7 @@ import {
   stripIframeWrapperDivs,
   addIframeWrapperDivs,
   parseIframeHtml,
+  convertStyleDimensionSettings,
   validateIsNotEmpty,
   validateIsNumber,
   IFRAME_VALIDATION,
@@ -53,6 +54,76 @@ describe('IframeUtils', () => {
     test('returns an empty object if input doesnt contain iframe elements', () => {
       const htmlString = '<div><p>text</p><figure></figure></div>';
       expect(parseIframeHtml(htmlString)).toEqual({});
+    });
+  });
+
+  describe('convertStyleDimensionSettings', () => {
+    test('returns attribute object where style dimensions are added as their own object properties', () => {
+      const attributesA = { title: "test", style: "width: 12px;" };
+      const expectedAttributesA = { title: "test", width: "12", style: "" };
+      const attributesB = {
+        src: "https://google.fi",
+        title: "test",
+        style: "border: none; width: 400px; height: 188px;",
+      };
+      const expectedAttributesB = {
+        src: "https://google.fi",
+        title: "test",
+        width: "400",
+        height: "188",
+        style: "border: none;",
+      };
+      expect(convertStyleDimensionSettings(attributesA)).toEqual(expectedAttributesA);
+      expect(convertStyleDimensionSettings(attributesB)).toEqual(expectedAttributesB);
+    });
+    test('replaces current attribute dimension properties with style dimensions', () => {
+      const attributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "200",
+        height: "150",
+        style: "border: none; width: 400px; height: 188px;",
+      };
+      const expectedAttributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "400",
+        height: "188",
+        style: "border: none;",
+      };
+      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+    });
+    test('converts correctly with only one given style dimension setting', () => {
+      const attributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "200",
+        height: "150",
+        style: "border: none; width: 400px;",
+      };
+      const expectedAttributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "400",
+        height: "150",
+        style: "border: none;",
+      };
+      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+    });
+    test('returns copy of original attributes if there are no style dimension settings', () => {
+      const attributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "200",
+        style: "border: none;",
+      };
+      const expectedAttributes = {
+        src: "https://google.fi",
+        title: "test",
+        width: "200",
+        style: "border: none;",
+      };
+      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
     });
   });
 

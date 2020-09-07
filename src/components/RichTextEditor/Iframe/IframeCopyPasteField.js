@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getMessage from '../../../utils/getMessage';
-import { parseIframeHtml } from './IframeUtils';
+import { parseIframeHtml, convertStyleDimensionSettings } from './IframeUtils';
 
 
 class IframeCopyPasteField extends React.Component {
@@ -17,7 +17,10 @@ class IframeCopyPasteField extends React.Component {
   handleCopyPasteChange(event) {
     const {value} = event.target;
     this.setState({htmlCopyPaste: value});
-    const attributes = parseIframeHtml(value);
+
+    // if iframe has width and/or height in the style attribute
+    // convert the dimensions into their own attributes
+    const attributes = convertStyleDimensionSettings(parseIframeHtml(value));
     this.props.updateAttributes(attributes);
   }
 
