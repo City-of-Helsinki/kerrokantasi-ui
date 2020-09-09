@@ -4,6 +4,7 @@ import {
   addIframeWrapperDivs,
   parseIframeHtml,
   convertStyleDimensionSettings,
+  removeCssImportant,
   validateIsNotEmpty,
   validateIsNumber,
   IFRAME_VALIDATION,
@@ -99,7 +100,7 @@ describe('IframeUtils', () => {
         title: "test",
         width: "200",
         height: "150",
-        style: "border: none; width: 400px;",
+        style: "border: none; width: 400px !important;",
       };
       const expectedAttributes = {
         src: "https://google.fi",
@@ -124,6 +125,18 @@ describe('IframeUtils', () => {
         style: "border: none;",
       };
       expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+    });
+  });
+
+  describe('removeCssImportant', () => {
+    test('removes all "!important" substrings from given input string', () => {
+      const inputString = `<iframe width="400" height="400"
+      style="border:0; width:400px !important; height:400px !important;"
+      frameborder="0" src="https://google.fi"></iframe>`;
+      const expectedResult = `<iframe width="400" height="400"
+      style="border:0; width:400px; height:400px;"
+      frameborder="0" src="https://google.fi"></iframe>`;
+      expect(removeCssImportant(inputString)).toBe(expectedResult);
     });
   });
 

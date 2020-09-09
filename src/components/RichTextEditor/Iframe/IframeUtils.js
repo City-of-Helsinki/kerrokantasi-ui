@@ -53,7 +53,7 @@ export function parseIframeHtml(htmlInput) {
 export function convertStyleDimensionSettings(attributes) {
   const newAttributes = {...attributes};
   if ("style" in newAttributes) {
-    const style = newAttributes.style;
+    const style = removeCssImportant(newAttributes.style);
     const widthRegex = /width:\D*(\d+)(?=\D*;)/gi;
     const heightRegex = /height:\D*(\d+)(?=\D*;)/gi;
 
@@ -73,6 +73,11 @@ export function convertStyleDimensionSettings(attributes) {
   }
 
   return newAttributes;
+}
+
+export function removeCssImportant(cssString) {
+  const importantRemoveRegex = / !important/gi;
+  return cssString.replace(importantRemoveRegex, '');
 }
 
 export function validateIsNotEmpty(value) {
