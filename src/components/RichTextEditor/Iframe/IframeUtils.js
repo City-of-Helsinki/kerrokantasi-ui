@@ -13,7 +13,7 @@ export function stripWrappingFigureTags(htmlInput) {
 // finds <iframe> tags wrapped with <div class="iframe-wrapper>"> in given input,
 // removes the wrapping <div> tags and returns the result
 export function stripIframeWrapperDivs(htmlInput) {
-  const wrapperRegex = /(<div class="iframe-wrapper"><iframe)(?<=<iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
+  const wrapperRegex = /(<div class="iframe-wrapper"><iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
   const result = htmlInput.replace(wrapperRegex, '<iframe$2</iframe>');
   return result;
 }
@@ -54,21 +54,21 @@ export function convertStyleDimensionSettings(attributes) {
   const newAttributes = {...attributes};
   if ("style" in newAttributes) {
     const style = newAttributes.style;
-    const widthRegex = /(?<=width:\D*)(\d+)(?=\D*;)/gi;
-    const heightRegex = /(?<=height:\D*)(\d+)(?=\D*;)/gi;
+    const widthRegex = /width:\D*(\d+)(?=\D*;)/gi;
+    const heightRegex = /height:\D*(\d+)(?=\D*;)/gi;
 
-    const width = style.match(widthRegex);
-    const height = style.match(heightRegex);
+    const width = widthRegex.exec(style);
+    const height = heightRegex.exec(style);
 
-    const widthRemoveRegex = /(?<=;|)\s*width:\D*\d+\D*;/gi;
-    const heightRemoveRegex = /(?<=;|)\s*height:\D*\d+\D*;/gi;
+    const widthRemoveRegex = /[ ]*width:\D*\d+(\w*|%);/gi;
+    const heightRemoveRegex = /[ ]*height:\D*\d+(\w*|%);/gi;
     newAttributes.style = style.replace(widthRemoveRegex, '').replace(heightRemoveRegex, '');
 
     if (width) {
-      newAttributes.width = width[0];
+      newAttributes.width = width[1];
     }
     if (height) {
-      newAttributes.height = height[0];
+      newAttributes.height = height[1];
     }
   }
 
