@@ -83,10 +83,15 @@ Mikäli käyttäjä kokee, etteivät saavutettavuuden vaatimukset kuitenkaan tä
 Mikäli henkilö kokee, ettei hänen ilmoitukseensa tai tiedusteluunsa ole vastattu tai vastaus ei ole tyydyttävä, voi asiasta tehdä ilmoituksen Etelä-Suomen aluehallintovirastoon. Etelä-Suomen aluehallintoviraston sivulla kerrotaan tarkasti, miten asia käsitellään.
 
 Etelä-Suomen aluehallintovirasto
+
 Saavutettavuuden valvonnan yksikkö
+
 www.saavutettavuusvaatimukset.fi
+
 saavutettavuus@avi.fi
+
 Puhelinvaihde: 0295 016 000
+
 Avoinna: ma-pe klo 8.00 – 16.15
 
 ## Ilmoittaminen ei-saavutettavasta sisällöstä
