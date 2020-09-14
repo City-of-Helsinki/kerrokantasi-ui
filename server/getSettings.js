@@ -25,7 +25,7 @@ const defaults = {
   // disables hot reloading middleware
   cold: false,
   // Should display accessibility info
-  show_accessibility_info: false,
+  show_accessibility_info: true,
   // Should display social media sharing buttons
   show_social_media_sharing: true,
 };
