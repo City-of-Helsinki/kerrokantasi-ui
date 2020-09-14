@@ -5,9 +5,9 @@ kuulluksi erityyppisistä valmisteluun tulevista tai valmistelussa jo olevista a
 nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön.
 Mielipiteistä voi ladata yhteenvedon excel-muodossa omalle tietokoneelle.</p>
 
-Kerrokantasi-palvelu toteuttaa osaltaan [kaupungin osallisuus- ja vuorovaikutusmallia] (https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/vaikuttamiskanavat/osallisuus-ja-vuorovaikutusmalli/) . Kuntalain 22 §:n mukaan kunnan on huolehdittava kuntalaisten edellytyksistä osallistua ja vaikuttaa kunnan toimintaan erityisesti selvittämällä asukkaiden mielipiteitä ennen päätöksentekoa.
+Kerrokantasi-palvelu toteuttaa osaltaan [kaupungin osallisuus- ja vuorovaikutusmallia](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/vaikuttamiskanavat/osallisuus-ja-vuorovaikutusmalli/) . Kuntalain 22 §:n mukaan kunnan on huolehdittava kuntalaisten edellytyksistä osallistua ja vaikuttaa kunnan toimintaan erityisesti selvittämällä asukkaiden mielipiteitä ennen päätöksentekoa.
 
-Palvelusta vastaa Helsingin kaupunginkanslia. Palveluun liittyviä palautteita, kysymyksiä ja kehittämisehdotuksia voi lähettää palautelomakkeella osoitteessa [www.hel.fi/palaute] tai sähköpostilla (kerrokantasi at hel.fi).
+Palvelusta vastaa Helsingin kaupunginkanslia. Palveluun liittyviä palautteita, kysymyksiä ja kehittämisehdotuksia voi lähettää palautelomakkeella osoitteessa www.hel.fi/palaute tai sähköpostilla (kerrokantasi at hel.fi).
 
 ## Käyttöehdot
 
@@ -29,13 +29,13 @@ Käyttäjä vastaa kirjoituksistaan ja niiden sisällöstä.
 
 Käyttäjänä sitoudut tuottamissasi ja lisäämissäsi sisällöissä, kuten tekstit, kuvat ja muut liitteet ja aineistot (myöhemmin ’Materiaali’), noudattamaan hyviä tapoja ja voimassa olevaa lainsäädäntöä.
 
-Lataamalla tai muuten lisäämällä Materiaalia palveluun annat suostumuksesi sille, että tekijänoikeuden alainen Materiaali lisensoidaan Creative Commons–lisenssillä ”Nimeä-EiKaupallinen-JaaSamoin 4.0 Kansainvälinen” (CC BY-NC-SA 4.0). Linkki lisenssin ehtoihin löytyy osoitteesta [https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi].
+Lataamalla tai muuten lisäämällä Materiaalia palveluun annat suostumuksesi sille, että tekijänoikeuden alainen Materiaali lisensoidaan Creative Commons–lisenssillä ”Nimeä-EiKaupallinen-JaaSamoin 4.0 Kansainvälinen” (CC BY-NC-SA 4.0). Linkki lisenssin ehtoihin löytyy osoitteesta https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi.
 
 Käyttäjänä takaat ja vastaat siitä, että sinulla on oikeus lisätä Materiaali palveluun, ja ettei Materiaali tai sen lisääminen palveluun loukkaa muiden immateriaali- tai muita oikeuksia.
 
 ### Keskustelujen valvonta
 
-Palvelua seurataan lähinnä virka-aikana arkisin. Viestejä ei tarkisteta ennakkoon. Voit myös ilmoittaa asiattomista viesteistä palautelomakkeella osoitteessa [www.hel.fi/palaute] tai sähköpostilla (kerrokantasi at hel.fi).
+Palvelua seurataan lähinnä virka-aikana arkisin. Viestejä ei tarkisteta ennakkoon. Voit myös ilmoittaa asiattomista viesteistä palautelomakkeella osoitteessa www.hel.fi/palaute tai sähköpostilla (kerrokantasi at hel.fi).
 
 Palvelun valvojilla on oikeus poistaa ja muokata viestejä. Helsingin kaupunki pidättää itselleen oikeuden käyttää palvelussa julkaistuja viestejä muissa yhteyksissä. Helsingin kaupunki ei vastaa kirjoitusten sisällöstä.
 
@@ -65,7 +65,7 @@ Mikäli liittämäsi Materiaali rikkoo tekijänoikeuksia tai on muuten lainvasta
 
 ### Rekisteriseloste
 
-Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, kaupunki kerää henkilötietojasi siinä määrin kuin se on tarpeellista asian hoitamiseksi. Kaikki tiedot on kerätty eri rekistereihin tietojen käyttötarkoitusten mukaan. Rekistereistä on laadittu rekisteriselosteet, jotka pääset näkemään osoitteesta [www.hel.fi/rekisteriseloste]. Sivulla on Kerrokantasi-verkkosivustoa koskeva [Osallisuuden ja palautteiden rekisteriseloste](https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri.pdf). Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/) Helsingin kaupungin verkkopalveluissa.
+Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, kaupunki kerää henkilötietojasi siinä määrin kuin se on tarpeellista asian hoitamiseksi. Kaikki tiedot on kerätty eri rekistereihin tietojen käyttötarkoitusten mukaan. Rekistereistä on laadittu rekisteriselosteet, jotka pääset näkemään osoitteesta www.hel.fi/rekisteriseloste. Sivulla on Kerrokantasi-verkkosivustoa koskeva [Osallisuuden ja palautteiden rekisteriseloste](https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri.pdf). Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/) Helsingin kaupungin verkkopalveluissa.
 
 ### Evästeet
 
@@ -77,6 +77,6 @@ Lisäksi tässä verkkosivustossa käytetään ulkopuolisten verkkopalvelujen si
 
 ### Sisällön lisensointi
 
-Kaikki käyttäjän palveluun lisäämät tekijänoikeuksien alaiset luovat sisällöt, esimerkiksi tekstit, kuvat, fontit, ääninauhoitteet ja videot, julkaistaan Creative Commons BY-NC-SA 4.0 -lisenssin ehdoin: [https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi]
+Kaikki käyttäjän palveluun lisäämät tekijänoikeuksien alaiset luovat sisällöt, esimerkiksi tekstit, kuvat, fontit, ääninauhoitteet ja videot, julkaistaan Creative Commons BY-NC-SA 4.0 -lisenssin ehdoin: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
 
 Kaikki palvelun tietoaineistot julkaistaan avoimena datana, Open Data Commons Open Database Licence (ODbL) -lisenssin ehdoin.
