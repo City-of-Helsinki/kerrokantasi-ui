@@ -94,7 +94,7 @@ Puhelinvaihde: 0295 016 000
 
 Avoinna: ma-pe klo 8.00 – 16.15
 
-## Ilmoittaminen ei-saavutettavasta sisällöstä
+## Helsingin kaupunki ja saavutettavuus
 
 Helsingin kaupungin tavoitteena on olla kaikille esteetön ja saavutettava kaupunki. Kaupungin tavoitteena on, että Helsingissä on kaikkien kaupunkilaisten mahdollisimman helppo liikkua ja toimia ja että kaikki sisältö ja palvelut olisivat kaikkien saavutettavissa.
 
