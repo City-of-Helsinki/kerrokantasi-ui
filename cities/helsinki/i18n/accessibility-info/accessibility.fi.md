@@ -40,14 +40,6 @@ Tässä saavutettavuusselosteessa on raportoitu vain ne ongelmat, jotka liittyv�
 
 Havaitut puutteet pyritään korjaamaan siten, että sivuston käyttö näppäimistöä käyttäen sekä avustavilla tekniikoilla, on mahdollista. Korjaukset pyritään suorittamaan mahdollisimman pian järjestelmäpäivitysten yhteydessä. Kolmansien osapuolien toimittajiin PDF-tiedostoihin pyydetään korjausta saavutettavuuden osalta.
 
-1. Käännösversioiden osalta tarkistetaan lang-atribuutit ja tuodaan kielivalintatoiminnot rinnakkaisiksi linkeiksi.
-
-2. Lisätään koodiin kuvien ALT-tekstikenttä ja ohjeistetaan kyselyjen laatijat käyttämään kenttää. Korjataan selainkohdistus siirtymään aina sivun alkuun.
-
-3. Lisätään Palautelinkin yhteyteen kirjekuori-symboli ja parannetaan Helsinki-logon tekstivastinetta. Lisätään linkkien yhteyteen tekstimuotoinen kuvaus uuteen välilehteen avautumisesta tai PDF-tiedoston avaamisesta.
-
-4. Korjataan painikkeet ja symbolit niin että mobiilinäkymä välittyy oikein ruudunlukuohjelmassa.
-
 ## Tiedon saanti saavutettavassa muodossa
 
 Mikäli käyttäjä ei koe saavansa sivuston sisältöä saavutettavassa muodossa, voi käyttäjä pyytää näitä tietoja sähköpostilla kerrokantasi@hel.fi tai palautelomakkeella www.hel.fi/palaute. Tiedusteluun pyritään vastaamaan kohtuullisessa ajassa.
@@ -94,7 +86,7 @@ Puhelinvaihde: 0295 016 000
 
 Avoinna: ma-pe klo 8.00 – 16.15
 
-## Ilmoittaminen ei-saavutettavasta sisällöstä
+## Helsingin kaupunki ja saavutettavuus
 
 Helsingin kaupungin tavoitteena on olla kaikille esteetön ja saavutettava kaupunki. Kaupungin tavoitteena on, että Helsingissä on kaikkien kaupunkilaisten mahdollisimman helppo liikkua ja toimia ja että kaikki sisältö ja palvelut olisivat kaikkien saavutettavissa.
 
