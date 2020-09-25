@@ -8,9 +8,13 @@ E-tjänsten produceras av Helsingfors stad. Du kan ge respons på tjänsten via 
 
 ## Användarvillkor
 
+E-tjänsten produceras av Helsingfors stad. Du kan ge respons på tjänsten via länken för respons www.hel.fi/respons eller du kan skicka email (kerrokantasi at hel.fi).
+
+## Användarvillkor
+
 I Kerrokantasi-tjänsten kan användaren skriva sin åsikt antingen med sitt eget namn eller under en pseudonym. Om du vill underteckna din åsikt, skriv då ditt namn i formulärets namnfält.
 
-By signing in to the service, you agree that proposals and comments submitted by you may be published under your name, and texts written by you may be edited or deleted by moderators, if they are deemed to be abusive or inappropriate. Your personal data are not disclosed to external parties or used for other purposes than matters concerning the usage of the Kerrokantasi service.
+Genom att logga in i tjänsten ger du ditt samtycke till att dina idéer och kommentarer publiceras med ditt namn eller din signatur och att administrationen kan radera eller redigera dina inlägg om de anses vara förolämpande eller i övrigt olämpliga. Dina personuppgifter lämnas inte ut till utomstående och används inte för andra syften än dem som gäller användningen av tjänsten Kerrokantasi.
 
 Det är förbjudet att olovligen använda en annan persons namn. Var och en ansvarar själv för de eventuella följder som orsakas av missbruk av en annan persons namn.
 
@@ -20,7 +24,7 @@ Registrering i tjänsten krävs om du vill gilla (=tumme upp) en åsikt som inlo
 
 Registreringen kräver en fungerande e-postadress, dit lösenordet för inloggning skickas.
 
-## Användarens ansvar 
+## Användarens ansvar
 
 Alla användare har det fulla ansvaret för sina skriverier och deras innehåll.
 
@@ -79,11 +83,11 @@ Den här webbplatsen använder webbkakor.
 En webbkaka (cookie) är en textfil som webbläsaren lagrar på användarens enhet. Kakor möjliggör egenskaper som underlättar användningen av tjänsten. De kan också användas för att samla in information om användarna i syfte att förbättra tjänsten. Med hjälp av kakor skapar vi en smidigare och mer välfungerande webbplats som allt bättre kan beakta användarnas behov.
 
 I fråga om webbanalys innefattar kakorna en anonym, individuell kod som ger oss information om olika besökare på webbplatsen och bland annat om besökarnas webbläsare och enheter. Webbadministratören ser inga uppgifter som identifierar besökaren. Kakorna ger information om hur man rör sig på webbplatsen via webbläsaren och vilka sidor som visas.
+
 Dessutom används innehåll ur utomstående webbtjänster på webbplatsen. De utomstående webbtjänsterna kan placera egna kakor i webbläsaren.
 
 ## Licensiering av innehållet
 
 Alla de kreativa under upphovsrätten lydande innehåll, såsom texter, bilder, fonter, ljudupptagningar och videor, som användaren lägger till tjänsten publiceras enligt villkoren i Creative Commons –licensen BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi.
 
-All data inom tjänsten publiceras som öppen data, enligt villkoren i Open Data Commons Open Database Licence (ODbL). 
-
+All data inom tjänsten publiceras som öppen data, enligt villkoren i Open Data Commons Open Database Licence (ODbL).
