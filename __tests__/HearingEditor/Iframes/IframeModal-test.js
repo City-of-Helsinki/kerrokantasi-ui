@@ -4,14 +4,13 @@ import {Modal, Button, ModalTitle } from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import IframeModal from '../../../src/components/RichTextEditor/Iframe/IframeModal';
 import IframeCopyPasteField from '../../../src/components/RichTextEditor/Iframe/IframeCopyPasteField';
-import IframeTextField from '../../../src/components/RichTextEditor/Iframe/IframeTextField';
+import RichTextModalTextField from '../../../src/components/RichTextEditor/RichTextModalTextField';
 import IframeSelectField from '../../../src/components/RichTextEditor/Iframe/IframeSelectField';
 import {validateInput} from '../../../src/components/RichTextEditor/Iframe/IframeUtils';
-
 import getMessage from '../../../src/utils/getMessage';
 
 
-describe('IframeSelectField', () => {
+describe('IframeModal', () => {
   const defaultProps = {
     isOpen: true,
     onClose: jest.fn(),
@@ -69,10 +68,10 @@ describe('IframeSelectField', () => {
       expect(getWrapper().find('hr')).toHaveLength(1);
     });
 
-    test('IframeTextFields', () => {
+    test('RichTextModalTextFields', () => {
       const wrapper = getWrapper();
       const instance = wrapper.instance();
-      const textFields = wrapper.find(IframeTextField);
+      const textFields = wrapper.find(RichTextModalTextField);
       const textFieldData = [
         {name: 'title', label: getMessage('iframeFormFieldTitle'), isRequired: true},
         {name: 'src', label: getMessage('iframeFormFieldSrc'), isRequired: true},
@@ -125,7 +124,7 @@ describe('IframeSelectField', () => {
         expect(acceptButton.prop('onClick')).toBeDefined();
         expect(acceptButton.prop('bsStyle')).toBe('primary');
         const acceptButtonText = acceptButton.find('FormattedMessage');
-        expect(acceptButtonText.prop('id')).toBe('iframeFormButtonAcceptAndAdd');
+        expect(acceptButtonText.prop('id')).toBe('formButtonAcceptAndAdd');
       });
       describe('form error text', () => {
         test('is shown when state.showFormErrorMsg is true', () => {
@@ -135,7 +134,7 @@ describe('IframeSelectField', () => {
           const errorText = wrapper.find('#iframe-form-submit-error');
           expect(errorText).toHaveLength(1);
           expect(errorText.prop('role')).toBe('alert');
-          expect(errorText.prop('className')).toBe('iframe-input-error');
+          expect(errorText.prop('className')).toBe('rich-text-editor-form-input-error');
         });
         test('is not shown when state.showFormErrorMsg is false', () => {
           const wrapper = getWrapper();

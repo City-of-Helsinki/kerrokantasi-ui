@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function IframeTextField(props) {
-  const {name, label, handleInputChange, handleInputBlur, value, isRequired, errorMsg} = props;
-  const errorId = `iframe-input-error-${name}`;
+function RichTextModalTextField(props) {
+  const {name, label, handleInputChange, handleInputBlur, value, isRequired, errorMsg, formName} = props;
+  const errorId = `${formName}-input-error-${name}`;
 
   return (
     <div className="input-container">
-      <label htmlFor={`iframe-${name}`}>{label} {isRequired && '*'}</label>
+      <label htmlFor={`${formName}-${name}`}>{label} {isRequired && '*'}</label>
       <input
-        id={`iframe-${name}`}
+        id={`${formName}-${name}`}
         name={name}
         className="form-control"
         onChange={handleInputChange}
@@ -19,12 +19,12 @@ function IframeTextField(props) {
         required={isRequired}
         aria-describedby={errorMsg ? errorId : undefined}
       />
-      {errorMsg && <p id={errorId} role="alert" className="iframe-input-error">{errorMsg}</p>}
+      {errorMsg && <p id={errorId} role="alert" className="rich-text-editor-form-input-error">{errorMsg}</p>}
     </div>
   );
 }
 
-IframeTextField.propTypes = {
+RichTextModalTextField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
@@ -32,6 +32,7 @@ IframeTextField.propTypes = {
   value: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   errorMsg: PropTypes.string,
+  formName: PropTypes.string,
 };
 
-export default IframeTextField;
+export default RichTextModalTextField;

@@ -17,7 +17,7 @@ function IframeSelectField(props) {
       <label htmlFor={`iframe-${name}`}>{label} {isRequired && '*'}</label>
       <select
         id={`iframe-${name}`}
-        className="iframe-select-input"
+        className="rich-text-editor-form-select-input"
         name={name}
         value={value}
         onChange={handleInputChange}

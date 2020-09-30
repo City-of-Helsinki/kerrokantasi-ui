@@ -1,18 +1,19 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import IframeTextField from '../../../src/components/RichTextEditor/Iframe/IframeTextField';
+import RichTextModalTextField from '../../../src/components/RichTextEditor/RichTextModalTextField';
 
-describe('IframeTextField', () => {
+describe('RichTextModalTextField', () => {
   const defaultProps = {
     name: "test-name",
     label: "test-label",
     handleInputChange: jest.fn(),
     handleInputBlur: jest.fn(),
     value: "test-value",
+    formName: "test-form",
   };
 
   function getWrapper(props) {
-    return shallow(<IframeTextField {...defaultProps} {...props}/>);
+    return shallow(<RichTextModalTextField {...defaultProps} {...props}/>);
   }
 
   describe('renders', () => {
@@ -25,14 +26,14 @@ describe('IframeTextField', () => {
         const isRequired = false;
         const label = getWrapper({isRequired}).find('label');
         expect(label).toHaveLength(1);
-        expect(label.prop('htmlFor')).toBe(`iframe-${defaultProps.name}`);
+        expect(label.prop('htmlFor')).toBe(`${defaultProps.formName}-${defaultProps.name}`);
         expect(label.text()).toBe(defaultProps.label + " ");
       });
       test('when field is required', () => {
         const isRequired = true;
         const label = getWrapper({isRequired}).find('label');
         expect(label).toHaveLength(1);
-        expect(label.prop('htmlFor')).toBe(`iframe-${defaultProps.name}`);
+        expect(label.prop('htmlFor')).toBe(`${defaultProps.formName}-${defaultProps.name}`);
         expect(label.text()).toBe(defaultProps.label + " *");
       });
     });
@@ -41,6 +42,7 @@ describe('IframeTextField', () => {
       test('with correct props', () => {
         const input = getWrapper().find('input');
         expect(input).toHaveLength(1);
+        expect(input.prop('id')).toBe(`${defaultProps.formName}-${defaultProps.name}`);
         expect(input.prop('name')).toBe(defaultProps.name);
         expect(input.prop('className')).toBe("form-control");
         expect(input.prop('onChange')).toBe(defaultProps.handleInputChange);
@@ -54,7 +56,7 @@ describe('IframeTextField', () => {
         expect(input.prop('aria-describedby')).toBe(undefined);
       });
       test('prop aria-describedby is correct value when errorMsg is not falsy', () => {
-        const errorId = `iframe-input-error-${defaultProps.name}`;
+        const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "error-text";
         const input = getWrapper({errorMsg}).find('input');
         expect(input.prop('aria-describedby')).toBe(errorId);
@@ -63,16 +65,16 @@ describe('IframeTextField', () => {
 
     describe('errorMsg paragraph', () => {
       test('when prop errorMsg is not falsy', () => {
-        const errorId = `iframe-input-error-${defaultProps.name}`;
+        const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "error-text";
         const errorParagraph = getWrapper({errorMsg}).find('#' + errorId);
         expect(errorParagraph).toHaveLength(1);
         expect(errorParagraph.prop('role')).toBe('alert');
-        expect(errorParagraph.prop('className')).toBe('iframe-input-error');
+        expect(errorParagraph.prop('className')).toBe('rich-text-editor-form-input-error');
         expect(errorParagraph.text()).toBe(errorMsg);
       });
       test('is not rendered if errorMsg is falsy', () => {
-        const errorId = `iframe-input-error-${defaultProps.name}`;
+        const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "";
         const errorParagraph = getWrapper({errorMsg}).find('#' + errorId);
         expect(errorParagraph).toHaveLength(0);

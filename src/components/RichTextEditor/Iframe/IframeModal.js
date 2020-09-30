@@ -3,7 +3,7 @@ import {Modal, Button, ModalTitle } from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import IframeCopyPasteField from './IframeCopyPasteField';
-import IframeTextField from './IframeTextField';
+import RichTextModalTextField from '../RichTextModalTextField';
 import IframeSelectField from './IframeSelectField';
 import {validateInput, validateForm, isFormValid} from './IframeUtils';
 import getMessage from '../../../utils/getMessage';
@@ -96,6 +96,7 @@ class IframeModal extends React.Component {
   render() {
     const { isOpen, onClose } = this.props;
     const {inputErrors, ...fields} = this.state;
+    const formName = "iframe";
 
     return (
       <Modal show={isOpen} onHide={() => onClose()}>
@@ -108,7 +109,7 @@ class IframeModal extends React.Component {
           <form ref={(form) => { this.iframeForm = form; }} onSubmit={this.submitForm}>
             <IframeCopyPasteField updateAttributes={this.updateAttributes} />
             <hr />
-            <IframeTextField
+            <RichTextModalTextField
               name="title"
               label={getMessage('iframeFormFieldTitle')}
               handleInputChange={this.handleInputChange}
@@ -116,8 +117,9 @@ class IframeModal extends React.Component {
               value={this.state.title}
               isRequired
               errorMsg={this.state.inputErrors.title}
+              formName={formName}
             />
-            <IframeTextField
+            <RichTextModalTextField
               name="src"
               label={getMessage('iframeFormFieldSrc')}
               handleInputChange={this.handleInputChange}
@@ -125,30 +127,34 @@ class IframeModal extends React.Component {
               value={this.state.src}
               isRequired
               errorMsg={this.state.inputErrors.src}
+              formName={formName}
             />
-            <IframeTextField
+            <RichTextModalTextField
               name="width"
               label={getMessage('iframeFormFieldWidth')}
               handleInputChange={this.handleInputChange}
               handleInputBlur={this.handleInputBlur}
               value={this.state.width}
               errorMsg={this.state.inputErrors.width}
+              formName={formName}
             />
-            <IframeTextField
+            <RichTextModalTextField
               name="height"
               label={getMessage('iframeFormFieldHeight')}
               handleInputChange={this.handleInputChange}
               handleInputBlur={this.handleInputBlur}
               value={this.state.height}
               errorMsg={this.state.inputErrors.height}
+              formName={formName}
             />
-            <IframeTextField
+            <RichTextModalTextField
               name="allow"
               label={getMessage('iframeFormFieldAllow')}
               handleInputChange={this.handleInputChange}
               handleInputBlur={this.handleInputBlur}
               value={this.state.allow}
               errorMsg={this.state.inputErrors.allow}
+              formName={formName}
             />
             <IframeSelectField
               name="scrolling"
@@ -167,11 +173,11 @@ class IframeModal extends React.Component {
             bsStyle="primary"
             onClick={(event) => this.handleFormSubmit(event, fields)}
           >
-            { <FormattedMessage id="iframeFormButtonAcceptAndAdd" /> }
+            { <FormattedMessage id="formButtonAcceptAndAdd" /> }
           </Button>
           {this.state.showFormErrorMsg &&
-            <p id="iframe-form-submit-error" role="alert" className="iframe-input-error">
-              {getMessage('iframeFormCheckErrors')}
+            <p id="iframe-form-submit-error" role="alert" className="rich-text-editor-form-input-error">
+              {getMessage('formCheckErrors')}
             </p>}
         </Modal.Footer>
       </Modal>

@@ -26,6 +26,20 @@ fieldset {
   .control-label {
     display: block;
   }
+
+  &-form {
+    &-input-error {
+      color: #EB0000;
+    }
+  
+    &-select-input {
+      margin-left: 8px;
+    }
+    
+    &-checkbox-label {
+      margin-right: 8px;
+    }
+  }
 }
 
 .RichEditor {
@@ -73,15 +87,5 @@ fieldset {
     height: 22px;
     margin-right: 4px;
     padding: 1px;
-  }
-}
-
-.iframe {
-  &-input-error {
-    color: #EB0000;
-  }
-
-  &-select-input {
-    margin-left: 8px;
   }
 }

@@ -102,3 +102,15 @@ export const IframeControls = (props) => {
 IframeControls.propTypes = {
   onClick: PropTypes.func,
 };
+
+export const SkipLinkControls = (props) => {
+  return (
+    <button className="RichEditor-styleButton" onClick={props.onClick}>
+      {getMessage('skipLinkAddButton')}
+    </button>
+  );
+};
+
+SkipLinkControls.propTypes = {
+  onClick: PropTypes.func,
+};

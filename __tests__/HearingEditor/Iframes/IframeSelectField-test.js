@@ -42,7 +42,7 @@ describe('IframeSelectField', () => {
         const input = getWrapper().find('select');
         expect(input).toHaveLength(1);
         expect(input.prop('name')).toBe(defaultProps.name);
-        expect(input.prop('className')).toBe("iframe-select-input");
+        expect(input.prop('className')).toBe("rich-text-editor-form-select-input");
         expect(input.prop('onChange')).toBe(defaultProps.handleInputChange);
         expect(input.prop('value')).toBe(defaultProps.value);
       });
