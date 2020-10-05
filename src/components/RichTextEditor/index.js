@@ -7,13 +7,20 @@ import {
   EditorState,
   CompositeDecorator,
   RichUtils,
-  DefaultDraftBlockRenderMap
+  DefaultDraftBlockRenderMap,
+  AtomicBlockUtils,
+  Modifier,
+  SelectionState,
 } from 'draft-js';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
-import { BlockStyleControls, InlineStyleControls } from './EditorControls';
+import { BlockStyleControls, InlineStyleControls, IframeControls, SkipLinkControls } from './EditorControls';
+import IframeModal from './Iframe/IframeModal';
+import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} from './Iframe/IframeUtils';
+import IframeEntity from './Iframe/IframeEntity';
+import SkipLinkModal from './SkipLink/SkipLinkModal';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -26,6 +33,10 @@ const getBlockStyle = (block) => {
 const kerrokantasiBlockRenderMap = Map({
   unstyled: {
     element: 'p',
+  },
+  atomic: {
+    component: IframeEntity,
+    editable: false,
   }
 });
 
@@ -35,7 +46,17 @@ const htmlOptions = {
       return {attributes: {className: 'lead'}};
     }
     return null;
-  }
+  },
+  entityStyleFn: (entity) => {
+    if (entity.getType() === 'IFRAME') {
+      const data = entity.getData();
+      return {
+        element: 'iframe',
+        attributes: data,
+      };
+    }
+    return null;
+  },
 };
 
 const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
@@ -54,9 +75,10 @@ const findLinkEntities = (contentBlock, callback, contentState) => {
 };
 
 const Link = (props) => {
-  const { url } = props.contentState.getEntity(props.entityKey).getData();
+  const { url, id, className, target, title } = props.contentState.getEntity(props.entityKey).getData();
+  // use title/rel for id storing because djaft-js doesnt support id field
   return (
-    <a href={url}>
+    <a href={url} id={id} title={title} rel={id} className={className} target={target}>
       {props.children}
     </a>
   );
@@ -68,16 +90,34 @@ Link.propTypes = {
   entityKey: PropTypes.string
 };
 
+const findIframeEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'IFRAME'
+      );
+    },
+    callback
+  );
+};
+
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    const linkDecorator = new CompositeDecorator([
+    const kerrokantasiDecorator = new CompositeDecorator([
       {
         strategy: findLinkEntities,
         component: Link,
       },
+      {
+        strategy: findIframeEntities,
+        component: IframeEntity,
+      },
     ]);
+
     const createEditorState = () => {
       if (this.props.value) {
         const contentState = convertFromHTML({
@@ -85,22 +125,42 @@ class RichTextEditor extends React.Component {
             if (node.className === 'lead') {
               return {type: 'LEAD', data: {}};
             }
+            if (nodeName === 'iframe') {
+              return {type: 'atomic', data: {}};
+            }
             return null;
           },
           htmlToEntity: (nodeName, node, createEntity) => {
             if (nodeName === 'a') {
+              const hrefAttribute = node.attributes.getNamedItem("href");
+              const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
+              const target = (href && (href[0] === '#'
+                // eslint-disable-next-line no-script-url
+                || href.includes("javascript:document.getElementById"))) ? '_self' : '_blank';
               return createEntity(
                 'LINK',
                 'MUTABLE',
-                {url: node.href, target: '_blank'}
+                {url: href, target, id: node.id, className: node.className, title: node.id}
+              );
+            }
+            if (nodeName === 'iframe') {
+              const iframeAttributes = {};
+              for (let index = 0; index < node.attributes.length; index += 1) {
+                const attribute = node.attributes.item(index);
+                iframeAttributes[attribute.name] = attribute.value;
+              }
+              return createEntity(
+                'IFRAME',
+                'IMMUTABLE',
+                iframeAttributes
               );
             }
             return null;
           },
-        })(this.props.value);
-        return EditorState.createWithContent(contentState, linkDecorator);
+        })(stripIframeWrapperDivs(this.props.value));
+        return EditorState.createWithContent(contentState, kerrokantasiDecorator);
       }
-      return EditorState.createEmpty(linkDecorator);
+      return EditorState.createEmpty(kerrokantasiDecorator);
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -115,10 +175,18 @@ class RichTextEditor extends React.Component {
     this.confirmLink = this.confirmLink.bind(this);
     this.onLinkInputKeyDown = this.onLinkInputKeyDown.bind(this);
     this.removeLink = this.removeLink.bind(this);
+    this.openSkipLinkModal = this.openSkipLinkModal.bind(this);
+    this.closeSkipLinkModal = this.closeSkipLinkModal.bind(this);
+    this.confirmSkipLink = this.confirmSkipLink.bind(this);
+    this.openIframeModal = this.openIframeModal.bind(this);
+    this.closeIframeModal = this.closeIframeModal.bind(this);
+    this.confirmIframe = this.confirmIframe.bind(this);
     this.state = {
       editorState: createEditorState(),
       showURLInput: false,
       urlValue: '',
+      showSkipLinkModal: false,
+      showIframeModal: false,
     };
   }
 
@@ -142,7 +210,15 @@ class RichTextEditor extends React.Component {
     this.setState({ editorState });
     const contentState = editorState.getCurrentContent();
     const html = stateToHTML(contentState, htmlOptions);
-    this.props.onChange(html);
+
+    // link title is used as temp storing place for id attribute
+    // convert link titles back into id attributes
+    const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
+    const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+    // strip wrapping figure tags from iframe tags for better accessibility
+    // and add iframe wrappers which help with iframe screen overflow
+    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithLinkIds);
+    this.props.onChange(addIframeWrapperDivs(iframeWithoutFigureWrap));
   }
 
   onURLChange(event) {
@@ -153,7 +229,15 @@ class RichTextEditor extends React.Component {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const html = stateToHTML(contentState, htmlOptions);
-    this.props.onBlur(html);
+
+    // link title is used as temp storing place for id attribute
+    // convert link titles back into id attributes
+    const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
+    const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+    // strip wrapping figure tags from iframe tags for better accessibility
+    // and add iframe wrappers which help with iframe screen overflow
+    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithLinkIds);
+    this.props.onBlur(addIframeWrapperDivs(iframeWithoutFigureWrap));
   }
 
   /* HYPERLINK CONTROLS */
@@ -205,6 +289,59 @@ class RichTextEditor extends React.Component {
     });
   }
 
+  confirmSkipLink(linkText, linkOwnId, linkTargetId, linkIsHidden) {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+
+    // create link text before adding link
+    const selection = editorState.getSelection();
+    const newContent = Modifier.insertText(
+      contentState,
+      selection,
+      linkText,
+    );
+
+    // convert given targetId into javascirpt focus function
+    const hrefValue = `javascript:document.getElementById('${linkTargetId}').focus();`;
+    const className = linkIsHidden ? "hidden-link" : "";
+    const newContentWithEntity = newContent.createEntity(
+      'LINK',
+      'MUTABLE',
+      { url: hrefValue, target: '_self', id: linkOwnId, className, title: linkOwnId }
+    );
+    const entityKey = newContentWithEntity.getLastCreatedEntityKey();
+    // create new selection with the inserted text
+    const anchorOffset = selection.getAnchorOffset();
+    const newSelection = new SelectionState({
+      anchorKey: selection.getAnchorKey(),
+      anchorOffset,
+      focusKey: selection.getAnchorKey(),
+      focusOffset: anchorOffset + linkText.length,
+    });
+    // apply link entity to the inserted text
+    const newContentWithLink = Modifier.applyEntity(
+      newContentWithEntity,
+      newSelection,
+      entityKey,
+    );
+    // create new state with link text
+    const withLinkText = EditorState.push(
+      editorState,
+      newContentWithLink,
+      'insert-characters',
+    );
+    // move cursor right after the inserted link
+    const withProperCursor = EditorState.forceSelection(
+      withLinkText,
+      newContent.getSelectionAfter(),
+    );
+
+    this.setState({
+      editorState: withProperCursor,
+      showSkipLinkModal: false,
+    });
+  }
+
   onLinkInputKeyDown(event) {
     if (event.which === 13) {
       this.confirmLink(event);
@@ -220,6 +357,51 @@ class RichTextEditor extends React.Component {
         editorState: RichUtils.toggleLink(editorState, selection, null),
       });
     }
+  }
+
+  openSkipLinkModal(event) {
+    event.preventDefault();
+    this.setState({showSkipLinkModal: true});
+  }
+
+  closeSkipLinkModal() {
+    this.setState({showSkipLinkModal: false});
+  }
+
+  openIframeModal(event) {
+    event.preventDefault();
+    this.setState({showIframeModal: true});
+  }
+
+  closeIframeModal() {
+    this.setState({showIframeModal: false});
+  }
+
+  confirmIframe(iframeValues) {
+    const {editorState} = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'IFRAME',
+      'IMMUTABLE',
+      {...iframeValues}
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      {currentContent: contentStateWithEntity}
+    );
+    this.setState({
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        newEditorState,
+        entityKey,
+        ' '
+      ),
+      showIframeModal: false,
+    }, () => {
+      setTimeout(() => this.focus(), 0);
+    });
   }
 
   /* TOGGLE BUTTONS */
@@ -300,6 +482,22 @@ class RichTextEditor extends React.Component {
         <InlineStyleControls
           editorState={editorState}
           onToggle={this.toggleInlineStyle}
+        />
+        <IframeControls
+          onClick={this.openIframeModal}
+        />
+        <IframeModal
+          isOpen={this.state.showIframeModal}
+          onClose={this.closeIframeModal}
+          onSubmit={this.confirmIframe}
+        />
+        <SkipLinkControls
+          onClick={this.openSkipLinkModal}
+        />
+        <SkipLinkModal
+          isOpen={this.state.showSkipLinkModal}
+          onClose={this.closeSkipLinkModal}
+          onSubmit={this.confirmSkipLink}
         />
         {this.renderHyperlinkButton()}
         <Editor
