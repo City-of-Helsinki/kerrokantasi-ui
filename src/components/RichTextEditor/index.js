@@ -509,6 +509,7 @@ class RichTextEditor extends React.Component {
           onChange={this.onChange}
           onBlur={this.onBlur}
           onTab={this.onTab}
+          stripPastedStyles
           placeholder={this.getPlaceholder()}
         />
       </div>
