@@ -63,6 +63,7 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
+          {config.showCookiebar && <CookieBar />}
           <a href="#main-container" className="skip-to-main-content">
             <FormattedMessage id="skipToMainContent" />
           </a>
@@ -79,7 +80,6 @@ class App extends React.Component {
             <Routes />
           </main>
           <Footer language={locale} />
-          {config.showCookiebar && <CookieBar />}
           <ToastContainer
             bodyClassName={
               {
