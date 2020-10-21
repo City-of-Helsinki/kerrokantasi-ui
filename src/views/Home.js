@@ -16,8 +16,7 @@ import trackLink from '../utils/trackLink';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
 import config from '../config';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
+import {getFeedbackUrl} from '../utils/languageUtils';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -121,11 +120,11 @@ export class Home extends React.Component {
         </section>
         <section className="page-section page-section--feedback">
           <div className="container">
-            <a href={urls.feedback} className="feedback-box">
-              <h2 className="feedback-prompt">
-                <FormattedMessage id="feedbackPrompt" />
-              </h2>
-            </a>
+            <h2 className="feedback-prompt">
+              <a href={getFeedbackUrl(language)} target="_blank" rel="noopener noreferrer" className="feedback-box">
+                <FormattedMessage id="feedbackPrompt" />{' '}
+              </a>
+            </h2>
           </div>
         </section>
         <section className="page-section page-section--map">
