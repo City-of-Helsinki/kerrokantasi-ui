@@ -286,6 +286,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "editHearing": "Muokkaa",
                 "email": "Sähköposti",
                 "employee": "Työntekijä",
+                "errorSaveBeforeAttachment": "Tallenna ensin ja palaa sitten lisäämään liitteet",
                 "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
                 "eyeTooltipOpens": "Tämä kuuleminen julkaistaan",
                 "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
