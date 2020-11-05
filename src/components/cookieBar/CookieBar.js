@@ -1,8 +1,7 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import getMessage from '../../utils/getMessage';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
+import {addCookieScript} from "../../utils/cookieUtils";
 
 function CookieBar() {
   return (
@@ -14,9 +13,9 @@ function CookieBar() {
       declineButtonText={getMessage('cookieBar.decline')}
       disableStyles
       enableDeclineButton
+      setDeclineCookie
       expires={90}
-      onDecline={() => { window.location.replace(urls.city); }}
-      setDeclineCookie={false}
+      onAccept={addCookieScript}
     >
       {getMessage('cookieBar.description')}
       <div>
