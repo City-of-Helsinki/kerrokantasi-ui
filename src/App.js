@@ -12,10 +12,9 @@ import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
 import classNames from 'classnames';
 import CookieBar from './components/cookieBar/CookieBar';
+import {checkCookieConsent} from "./utils/cookieUtils";
 
 class App extends React.Component {
   getChildContext() {
@@ -32,8 +31,8 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
+    checkCookieConsent();
   }
-
   render() {
     const locale = this.props.language;
     const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
@@ -71,7 +70,6 @@ class App extends React.Component {
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
-            script={[{src: urls.analytics, type: 'text/javascript'}]}
           >
             <html lang={locale} />
           </Helmet>
