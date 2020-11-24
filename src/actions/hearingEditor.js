@@ -461,9 +461,13 @@ export function addSectionAttachment(section, file, title, isNew) {
       .post(getState(), url, data)
       .then(checkResponseStatus)
       .then((response) => {
-        response.json().then((attachment) => {
-          return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
-        });
+        if (response.status === 400 && !isNew) {
+          localizedNotifyError('errorSaveBeforeAttachment');
+        } else {
+          response.json().then((attachment) => {
+            return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
+          });
+        }
       });
   };
 }

@@ -548,6 +548,24 @@ export class SectionContainerComponent extends React.Component {
     );
   }
 
+  renderSubSectionAttachments = (section, language) => {
+    const {files} = section;
+
+    if (!(files && files.length > 0)) {
+      return null;
+    }
+    return (
+      <div className="hearing-subsection-attachments">
+        <h3><FormattedMessage id="attachments" /></h3>
+        <div >
+          {files.map((file) => (
+            <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+        ))}
+        </div>
+      </div>
+    );
+  }
+
   renderSubHearing = (section) => {
     const {
       hearing,
@@ -591,6 +609,7 @@ export class SectionContainerComponent extends React.Component {
           {this.renderSectionImage(section, language)}
           {this.renderSectionAbstract(section, language)}
           {this.renderSectionContent(section, language)}
+          {this.renderSubSectionAttachments(section, language)}
 
           {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
 

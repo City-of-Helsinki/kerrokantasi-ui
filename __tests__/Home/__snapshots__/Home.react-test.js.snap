@@ -137,19 +137,22 @@ exports[`Home component should render as expected 1`] = `
     <div
       className="container"
     >
-      <a
-        className="feedback-box"
-        href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
+      <h2
+        className="feedback-prompt"
       >
-        <h2
-          className="feedback-prompt"
+        <a
+          className="feedback-box"
+          href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <FormattedMessage
             id="feedbackPrompt"
             values={Object {}}
           />
-        </h2>
-      </a>
+           
+        </a>
+      </h2>
     </div>
   </section>
   <section
