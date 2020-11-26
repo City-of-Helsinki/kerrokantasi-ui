@@ -218,6 +218,7 @@
   "title": "Rubrik",
   "totalNumHearing": "hörande",
   "totalNumHearings": "höranden",
+  "totalQuestionVotes": "Totalt antal röster: {n}",
   "totalSubmittedComment": "Totalt {n} åsikt",
   "totalSubmittedComments": "Totalt {n} åsikter",
   "validationCantBeEmpty": "Det här fältet får inte vara tomt",

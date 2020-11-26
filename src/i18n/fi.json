@@ -310,6 +310,7 @@
   "toBePublishedHearing": "Kuuleminen julkaistaan",
   "totalNumHearing": "kuuleminen",
   "totalNumHearings": "kuulemista",
+  "totalQuestionVotes": "Ääniä yhteensä: {n}",
   "totalSubmittedComment": "Yhteensä {n} kommentti",
   "totalSubmittedComments": "Yhteensä {n} kommenttia",
   "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",

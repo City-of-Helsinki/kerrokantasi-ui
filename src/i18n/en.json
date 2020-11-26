@@ -231,6 +231,7 @@
   "title": "Title",
   "totalNumHearing": "hearing",
   "totalNumHearings": "hearings",
+  "totalQuestionVotes": "Total votes: {n}",
   "totalSubmittedComment": "A total of {n} comment",
   "totalSubmittedComments": "A total of {n} comments",
   "validationCantBeEmpty": "This field can't be empty",

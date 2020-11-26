@@ -557,6 +557,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "toBePublishedHearing": "Kuuleminen julkaistaan",
             "totalNumHearing": "kuuleminen",
             "totalNumHearings": "kuulemista",
+            "totalQuestionVotes": "Ääniä yhteensä: {n}",
             "totalSubmittedComment": "Yhteensä {n} kommentti",
             "totalSubmittedComments": "Yhteensä {n} kommenttia",
             "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
