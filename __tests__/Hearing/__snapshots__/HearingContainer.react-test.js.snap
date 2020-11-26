@@ -14,7 +14,6 @@ exports[`HearingContainer component should render as expected 1`] = `
     id="hearing-wrapper"
   >
     <withRouter(InjectIntl(Connect(HeaderComponent)))
-      activeLanguage="fi"
       hearing={
         Object {
           "abstract": Object {
@@ -579,6 +578,7 @@ exports[`HearingContainer component should render as expected 1`] = `
           "timeZone": null,
         }
       }
+      language="fi"
     />
     <Switch>
       <Route
