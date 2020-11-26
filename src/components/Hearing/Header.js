@@ -93,7 +93,7 @@ export class HeaderComponent extends React.Component {
 
   getLanguageChanger() {
     const {
-      activeLanguage,
+      language,
       hearing,
       history,
       intl,
@@ -101,7 +101,7 @@ export class HeaderComponent extends React.Component {
     } = this.props;
     const languageOptions = keys(hearing.title);
 
-    const translationAvailable = !!getAttr(hearing.title, activeLanguage, { exact: true });
+    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
     const noTranslationMessage = (
       <div className="translation-not-available">
         <FormattedMessage id="hearingTranslationNotAvailable" />
@@ -111,7 +111,7 @@ export class HeaderComponent extends React.Component {
     // Check if only one language is available
     if (!(languageOptions.length > 1)) {
       // If the current language is not the same as the only language available
-      if (activeLanguage !== languageOptions[0]) {
+      if (language !== languageOptions[0]) {
         return (
           <div className="hearing-meta__element language-select">
             <Icon name="globe" className="user-nav-icon" />
@@ -145,7 +145,7 @@ export class HeaderComponent extends React.Component {
         {!translationAvailable && noTranslationMessage}
         {languageOptions.map((code) =>
           <span key={code} className="language-select__texts">
-            {!(code === activeLanguage) ? (
+            {!(code === language) ? (
               <div>
                 {intl.formatMessage({ id: `hearingAvailable-${code}` })}&nbsp;
                 <a
@@ -221,12 +221,11 @@ export class HeaderComponent extends React.Component {
   render() {
     const {
       hearing,
-      activeLanguage,
+      language,
       sections,
       match,
       showClosureInfo,
       intl,
-      language,
       user,
     } = this.props;
 
@@ -251,7 +250,7 @@ export class HeaderComponent extends React.Component {
                         </span>
                       </OverlayTrigger>
                     )}
-                    {getAttr(hearing.title, activeLanguage)}
+                    {getAttr(hearing.title, language)}
                   </h1>
                 </Col>
                 {(isMainSection(section) && config.showSocialMediaSharing) && (
@@ -267,7 +266,7 @@ export class HeaderComponent extends React.Component {
                       <Col md={9}>
                         <div
                           className="header-abstract lead"
-                          dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, activeLanguage) }}
+                          dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }}
                         />
                       </Col>
                     </Row>
@@ -281,7 +280,7 @@ export class HeaderComponent extends React.Component {
                     )}
                   </div>
                   {!isEmpty(hearing.labels) && (
-                    <LabelList className="main-labels" labels={hearing.labels} language={activeLanguage} />
+                    <LabelList className="main-labels" labels={hearing.labels} language={language} />
                   )}
                 </React.Fragment>
               ) : (
@@ -313,7 +312,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = () => ({});
 
 HeaderComponent.propTypes = {
-  activeLanguage: PropTypes.string,
   hearing: PropTypes.object,
   history: PropTypes.object,
   intl: intlShape.isRequired,

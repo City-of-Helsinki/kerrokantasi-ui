@@ -96,7 +96,7 @@ export class HearingContainerComponent extends React.Component {
             <div className="hearing-wrapper" id="hearing-wrapper">
               <Header
                 hearing={hearing}
-                activeLanguage={language}
+                language={language}
                 intl={intl}
                 setLanguage={setLanguage}
               />
