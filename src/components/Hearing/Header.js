@@ -22,6 +22,7 @@ import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/s
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
 import { getUser} from "../../selectors/user";
+import { isUrl } from '../../utils/validation';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -182,10 +183,16 @@ export class HeaderComponent extends React.Component {
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
-  getPreviewLinkButton() {
+  getPreviewLinkButton(isSubSection = false) {
     const {hearing} = this.props;
+    const currentLocation = window.location;
+    let previewUrl = hearing.preview_url;
+    if (isSubSection && isUrl(hearing.preview_url)) {
+      previewUrl = currentLocation.origin + currentLocation.pathname + "/" + new URL(hearing.preview_url).search;
+    }
+
     return (
-      <div className="hearing-meta__element">
+      <div className={isSubSection ? "hearing-meta__element subsection-preview-btn" : "hearing-meta__element"}>
         <OverlayTrigger
           placement="bottom"
           overlay={
@@ -193,7 +200,7 @@ export class HeaderComponent extends React.Component {
               <FormattedMessage id="hearingPreviewLinkTooltip">{text => text}</FormattedMessage>
             </Tooltip>}
         >
-          <Button bsStyle="info" onClick={() => this.writeToClipboard(hearing.preview_url)}>
+          <Button bsStyle="info" onClick={() => this.writeToClipboard(previewUrl)}>
             <FormattedMessage id="hearingPreviewLink">{text => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>
@@ -278,9 +285,14 @@ export class HeaderComponent extends React.Component {
                   )}
                 </React.Fragment>
               ) : (
-                <Link to={{path: getHearingURL(hearing)}}>
-                  <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
-                </Link>
+                <React.Fragment>
+                  <Link to={{path: getHearingURL(hearing)}}>
+                    <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
+                  </Link>
+                  {(!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment()) && (
+                      this.getPreviewLinkButton(true)
+                    )}
+                </React.Fragment>
               )}
             </div>
           </Grid>
