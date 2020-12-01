@@ -312,6 +312,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "deleteDraft": "Poista luonnos",
             "deleteQuestion": "Poista kysymys",
             "deleteSection": "Poista osio",
+            "descriptionTag": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
             "disabledLink": "Epäaktiivinen linkki",
             "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
             "draft": "Luonnos",
