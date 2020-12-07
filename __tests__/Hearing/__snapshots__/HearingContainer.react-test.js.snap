@@ -7,6 +7,14 @@ exports[`HearingContainer component should render as expected 1`] = `
   <HelmetWrapper
     defer={true}
     encodeSpecialCharacters={true}
+    meta={
+      Array [
+        Object {
+          "content": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+          "name": "description",
+        },
+      ]
+    }
     title="Ideoi Isosaaren tulevaisuutta"
   />
   <div

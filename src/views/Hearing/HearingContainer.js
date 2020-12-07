@@ -80,7 +80,10 @@ export class HearingContainerComponent extends React.Component {
       <div className="hearing-page">
         {!isEmpty(hearing) ? (
           <React.Fragment>
-            <Helmet title={getAttr(hearing.title, language)} />
+            <Helmet
+              title={getAttr(hearing.title, language)}
+              meta={[{name: "description", content: getAttr(hearing.abstract, language)}]}
+            />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
               <Suspense fallback={<LoadSpinner />}>
                 <HearingEditor
