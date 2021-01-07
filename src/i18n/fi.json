@@ -34,6 +34,7 @@
   "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
   "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
   "comments": "Mielipiteet",
+  "commentShowMap": "Näytä kartalla",
   "commentsOnMap": "Kartta koko näytöllä",
   "commentsOutOf": "Näytetään {current}/{total} kommenttia.",
   "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",

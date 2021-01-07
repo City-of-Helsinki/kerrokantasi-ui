@@ -272,6 +272,28 @@
         }
       }
     }
+    &__map {
+      &-toggle {
+        font-family: inherit;
+        font-size: 100%;
+        font-weight: bold;
+        padding: 0;
+        background: transparent;
+        margin-bottom: 10px;
+        border: none;
+        color: #0062ae;
+        &:hover {
+          color: #003762;
+        }
+      }
+      &-container {
+        height: 250px;
+        width: 75%;
+        @media screen and (max-width: $screen-sm-max){
+          width: 100%;
+        }
+      }
+    }
   }
 
   .sub-comments {
