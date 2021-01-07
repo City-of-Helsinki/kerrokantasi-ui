@@ -527,6 +527,14 @@
   }
 }
 
+.report-download-button {
+  margin-bottom: 12px;
+  
+  span {
+    white-space: normal;
+  }
+}
+
 .comment-conditions {
   border-top: 1px solid $gray-light;
   padding-top: 15px;

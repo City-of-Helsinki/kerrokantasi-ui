@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Collapse } from 'react-bootstrap';
+import { Grid, Row, Col, Collapse, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -82,6 +82,40 @@ export class SectionContainerComponent extends React.Component {
       currentNum: currentSectionIndex + 1,
       totalNum: filteredSections.length
     };
+  }
+
+  // downloads report excel with user's credentials
+  handleReportDownload = (hearing, apiToken, language) => {
+    const accessToken = apiToken.apiToken;
+    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
+
+    fetch(reportUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        Authorization: "Bearer " + accessToken
+      },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        // remove filename special characters to avoid potential naming issues
+        const filename = hearing.title ? `${getAttr(hearing.title, language).replace(/[^a-zA-Z0-9 ]/g, "")}.xlsx`
+          : 'kuuluminen.xlsx';
+
+        link.setAttribute(
+          'download',
+          filename
+        );
+
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      });
   }
 
   // In order to keep a track of map container dimensions
@@ -348,10 +382,12 @@ export class SectionContainerComponent extends React.Component {
 
   renderCommentsSection = () => {
     const {
+      apiToken,
       fetchAllComments,
       fetchCommentsForSortableList,
       fetchMoreComments,
       hearing,
+      language,
       match,
       sections,
       user,
@@ -364,13 +400,7 @@ export class SectionContainerComponent extends React.Component {
 
     return (
       <section className="hearing-section comments-section" id="comments-section">
-        {reportUrl && (
-          <p className="report-download text-right small">
-            <a href={reportUrl}>
-              <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
-            </a>
-          </p>
-        )}
+        {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, apiToken, language)}
         <SortableCommentList
           section={section}
           canComment={isSectionCommentable(hearing, section, user)}
@@ -392,6 +422,32 @@ export class SectionContainerComponent extends React.Component {
           hearingGeojson={hearing.geojson}
         />
       </section>
+    );
+  }
+
+  renderReportDownload = (reportUrl, userIsAdmin, hearing, apiToken, language) => {
+    // render either admin download button or normal download link for others
+    if (userIsAdmin) {
+      return (
+        <Row className="row-no-gutters text-right">
+          <Button
+              bsSize="xsmall"
+              bsStyle="link"
+              className="pull-right report-download-button"
+              onClick={() => this.handleReportDownload(hearing, apiToken, language)}
+          >
+            <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
+          </Button>
+        </Row>
+      );
+    }
+
+    return (
+      <p className="report-download text-right small">
+        <a href={reportUrl}>
+          <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
+        </a>
+      </p>
     );
   }
 
@@ -659,6 +715,7 @@ const mapStateToProps = (state, ownProps) => ({
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
   user: getUser(state),
+  apiToken: state.apitoken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -689,6 +746,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SectionContainerComponent.propTypes = {
+  apiToken: PropTypes.object,
   contacts: PropTypes.array,
   deleteSectionComment: PropTypes.func,
   editComment: PropTypes.func,
