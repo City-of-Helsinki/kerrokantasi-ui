@@ -292,7 +292,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "commentOrder": "Järjestä kommentit:",
             "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
             "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
-            "commentShowMap": "Näytä kartalla",
+            "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
             "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
             "commentSubsectionBtn": "Kommentoi",
             "comments": "Mielipiteet",

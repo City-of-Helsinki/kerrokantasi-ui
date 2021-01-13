@@ -274,8 +274,11 @@
     }
     &__map {
       &-toggle {
+        @media screen and (max-width: $screen-xs-max) {
+          font-size: 0.75em;
+        }
         font-family: inherit;
-        font-size: 100%;
+        font-size: 0.875em;
         font-weight: bold;
         padding: 0;
         background: transparent;
@@ -284,6 +287,8 @@
         color: #0062ae;
         &:hover {
           color: #003762;
+          text-decoration: underline;
+
         }
       }
       &-container {
