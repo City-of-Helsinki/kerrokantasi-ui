@@ -389,6 +389,7 @@ class Comment extends React.Component {
       overrideCollapse
       section={this.props.section}
       user={this.props.user}
+      hearingGeojson={this.props.data.geojson}
     />
   );
 

@@ -452,8 +452,8 @@ export class BaseCommentForm extends React.Component {
             onChange={this.handleTextChange.bind(this)}
             id="commentTextField"
           />
-          {isSectionCommentingMapEnabled(user, section) && !isReply && (
-            <div className="comment-form__map-container"style={{ marginTop: 20}}>
+          {isSectionCommentingMapEnabled(user, section) && (
+            <div className="comment-form__map-container" style={{ marginTop: 20}}>
               <div>
                 <label htmlFor="commentMapAddress">
                   <FormattedMessage id="commentMapTitle" />
