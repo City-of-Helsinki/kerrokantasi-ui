@@ -144,13 +144,17 @@ exports[`Header component should render as expected 1`] = `
               </div>
               Kuuleminen saatavilla vain
                
-              <a
+              <withRouter(Connect(LinkWithLangComponent))
                 className="language-select__language"
-                href=""
-                onClick={[Function]}
+                to={
+                  Object {
+                    "path": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                    "search": "?lang=fi",
+                  }
+                }
               >
                 suomeksi
-              </a>
+              </withRouter(Connect(LinkWithLangComponent))>
             </span>
           </div>
         </div>

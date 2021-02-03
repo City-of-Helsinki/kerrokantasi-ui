@@ -13,6 +13,9 @@ const setup = propOverrides => {
     sections: mockHearingWithSections.data.sections,
     activeLanguage: 'fi',
     dispatch: () => {},
+    location: {
+      pathname: mockHearingWithSections.data.sections[0].id
+    },
     match: {
       params: {
         sectionId: mockHearingWithSections.data.sections[0].id

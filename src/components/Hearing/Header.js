@@ -22,7 +22,7 @@ import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/s
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
 import { getUser} from "../../selectors/user";
-import { isUrl } from '../../utils/validation';
+import { stringify } from 'qs';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -95,7 +95,6 @@ export class HeaderComponent extends React.Component {
     const {
       language,
       hearing,
-      history,
       intl,
       location,
     } = this.props;
@@ -118,18 +117,12 @@ export class HeaderComponent extends React.Component {
             <span className="language-select__texts">
               {!translationAvailable && noTranslationMessage}
               {intl.formatMessage({ id: 'hearingOnlyAvailableIn' })}&nbsp;
-              <a
-                href=""
+              <Link
+                to={{path: location.pathname, search: stringifyQuery({lang: languageOptions[0]})}}
                 className="language-select__language"
-                onClick={() => {
-                  history.push({
-                    location: location.pathname,
-                    search: stringifyQuery({ lang: languageOptions[0] })
-                  });
-                }}
               >
                 {intl.formatMessage({ id: `hearingOnlyAvailableInLang-${languageOptions[0]}` })}
-              </a>
+              </Link>
             </span>
           </div>
         );
@@ -137,6 +130,27 @@ export class HeaderComponent extends React.Component {
       // If the current language is the same as the only available language, don't show the language changer at all
       return null;
     }
+
+    /**
+     * Returns a language code specific object
+     * with correct path and search params that are passed to Link
+     * @param {string} code
+     * @returns {{path: string, search: string}}
+     */
+    const langSpecificURL = (code) => {
+      const urlObject = {
+        path: location.pathname,
+        search: location.search,
+      };
+      if (location.search.includes('lang=')) {
+        urlObject.search = location.search.replace(/lang=\w{2}/, stringify({lang: code}));
+      } else if (location.search) {
+        urlObject.search += `&${stringify({lang: code})}`;
+      } else {
+        urlObject.search += stringifyQuery({lang: code});
+      }
+      return urlObject;
+    };
 
     // If multiple languages available for the hearing
     return (
@@ -148,18 +162,9 @@ export class HeaderComponent extends React.Component {
             {!(code === language) ? (
               <div>
                 {intl.formatMessage({ id: `hearingAvailable-${code}` })}&nbsp;
-                <a
-                  href=""
-                  className="language-select__language"
-                  onClick={() => {
-                    history.push({
-                      location: location.pathname,
-                      search: stringifyQuery({ lang: code })
-                    });
-                  }}
-                >
+                <Link to={langSpecificURL(code)} className="language-select__language">
                   {intl.formatMessage({ id: `hearingAvailableInLang-${code}` })}
-                </a>
+                </Link>
               </div>
             ) : null}
           </span>
@@ -183,16 +188,11 @@ export class HeaderComponent extends React.Component {
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
-  getPreviewLinkButton(isSubSection = false) {
+  getPreviewLinkButton() {
     const {hearing} = this.props;
-    const currentLocation = window.location;
-    let previewUrl = hearing.preview_url;
-    if (isSubSection && isUrl(hearing.preview_url)) {
-      previewUrl = currentLocation.origin + currentLocation.pathname + "/" + new URL(hearing.preview_url).search;
-    }
 
     return (
-      <div className={isSubSection ? "hearing-meta__element subsection-preview-btn" : "hearing-meta__element"}>
+      <div className="hearing-meta__element">
         <OverlayTrigger
           placement="bottom"
           overlay={
@@ -200,7 +200,7 @@ export class HeaderComponent extends React.Component {
               <FormattedMessage id="hearingPreviewLinkTooltip">{text => text}</FormattedMessage>
             </Tooltip>}
         >
-          <Button bsStyle="info" onClick={() => this.writeToClipboard(previewUrl)}>
+          <Button bsStyle="info" onClick={() => this.writeToClipboard(hearing.preview_url)}>
             <FormattedMessage id="hearingPreviewLink">{text => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>
@@ -285,12 +285,9 @@ export class HeaderComponent extends React.Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <Link to={{path: getHearingURL(hearing)}}>
+                  <Link to={{path: getHearingURL({slug: match.params.hearingSlug})}}>
                     <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
                   </Link>
-                  {(!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment()) && (
-                      this.getPreviewLinkButton(true)
-                    )}
                 </React.Fragment>
               )}
             </div>

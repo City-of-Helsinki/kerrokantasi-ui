@@ -77,8 +77,12 @@ export class SectionContainerComponent extends React.Component {
       : undefined;
 
     return {
-      prevPath,
-      nextPath,
+      prev: {
+        path: prevPath,
+      },
+      next: {
+        path: nextPath,
+      },
       currentNum: currentSectionIndex + 1,
       totalNum: filteredSections.length
     };
