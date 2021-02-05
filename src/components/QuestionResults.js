@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getAttr from '../utils/getAttr';
 import uuid from 'uuid/v1';
 import {ProgressBar} from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 export const QuestionResultsComponent = ({question, lang}) => {
   const totalAnswers = question.options.map(option => option.n_answers).reduce((total, answers) => total + answers);
@@ -28,7 +29,7 @@ export const QuestionResultsComponent = ({question, lang}) => {
           );
         })
       }
-      <p>Ääniä yhteensä: {question.n_answers}</p>
+      <p><FormattedMessage id="totalQuestionVotes" values={{ n: question.n_answers }} /></p>
     </div>
   );
 };

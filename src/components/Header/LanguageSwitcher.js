@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Button} from "react-bootstrap";
 import config from '../../config';
 import { withRouter} from "react-router-dom";
-import { stringifyQuery} from "../../utils/urlQuery";
+import {stringify} from 'qs';
 
 
 import getMessage from "../../utils/getMessage";
@@ -28,11 +28,17 @@ class LanguageSwitcher extends React.Component {
   }
 
   changeLanguage(history, location, nextLang) {
+    const languageParam = stringify({lang: nextLang});
+    let searchParams;
+    if (location.search.includes('lang=')) {
+      searchParams = location.search.replace(/lang=\w{2}/, languageParam);
+    } else if (location.search) {
+      searchParams = location.search + `&${languageParam}`;
+    }
     history.push({
-      path: location.pathname,
-      search: stringifyQuery({ lang: nextLang })
+      pathname: location.pathname,
+      search: searchParams || languageParam
     });
-
     this.toggleDropdown();
   }
 

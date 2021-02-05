@@ -7,6 +7,14 @@ exports[`HearingContainer component should render as expected 1`] = `
   <HelmetWrapper
     defer={true}
     encodeSpecialCharacters={true}
+    meta={
+      Array [
+        Object {
+          "content": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+          "name": "description",
+        },
+      ]
+    }
     title="Ideoi Isosaaren tulevaisuutta"
   />
   <div
@@ -14,7 +22,6 @@ exports[`HearingContainer component should render as expected 1`] = `
     id="hearing-wrapper"
   >
     <withRouter(InjectIntl(Connect(HeaderComponent)))
-      activeLanguage="fi"
       hearing={
         Object {
           "abstract": Object {
@@ -285,6 +292,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "commentOrder": "Järjestä kommentit:",
             "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
             "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
+            "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
             "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
             "commentSubsectionBtn": "Kommentoi",
             "comments": "Mielipiteet",
@@ -313,6 +321,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "deleteDraft": "Poista luonnos",
             "deleteQuestion": "Poista kysymys",
             "deleteSection": "Poista osio",
+            "descriptionTag": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
             "disabledLink": "Epäaktiivinen linkki",
             "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
             "draft": "Luonnos",
@@ -557,6 +566,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "toBePublishedHearing": "Kuuleminen julkaistaan",
             "totalNumHearing": "kuuleminen",
             "totalNumHearings": "kuulemista",
+            "totalQuestionVotes": "Ääniä yhteensä: {n}",
             "totalSubmittedComment": "Yhteensä {n} kommentti",
             "totalSubmittedComments": "Yhteensä {n} kommenttia",
             "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
@@ -578,6 +588,7 @@ exports[`HearingContainer component should render as expected 1`] = `
           "timeZone": null,
         }
       }
+      language="fi"
     />
     <Switch>
       <Route

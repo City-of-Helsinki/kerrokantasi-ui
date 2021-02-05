@@ -86,6 +86,11 @@
     }
   }
 
+  .subsection-preview-btn {
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+
   .social-bar {
     display: flex;
     flex-direction: row;
@@ -519,6 +524,14 @@
   textarea {
     height: 7em;
     line-height: 1em;
+  }
+}
+
+.report-download-button {
+  margin-bottom: 12px;
+  
+  span {
+    white-space: normal;
   }
 }
 

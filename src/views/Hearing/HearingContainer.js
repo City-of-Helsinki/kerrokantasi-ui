@@ -20,10 +20,12 @@ import { getUser } from '../../selectors/user';
 const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
 export class HearingContainerComponent extends React.Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
     const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}, location} = this.props;
-    if (location.search.startsWith('?preview')) {
-      fetchHearing(params.hearingSlug, location.search.substring(9));
+    if (location.search.includes('?preview')) {
+      // regex match to get the ?preview=key and substring to retrieve the key part
+      fetchHearing(params.hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
     } else {
       fetchHearing(params.hearingSlug);
     }
@@ -80,7 +82,10 @@ export class HearingContainerComponent extends React.Component {
       <div className="hearing-page">
         {!isEmpty(hearing) ? (
           <React.Fragment>
-            <Helmet title={getAttr(hearing.title, language)} />
+            <Helmet
+              title={getAttr(hearing.title, language)}
+              meta={[{name: "description", content: getAttr(hearing.abstract, language)}]}
+            />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
               <Suspense fallback={<LoadSpinner />}>
                 <HearingEditor
@@ -96,7 +101,7 @@ export class HearingContainerComponent extends React.Component {
             <div className="hearing-wrapper" id="hearing-wrapper">
               <Header
                 hearing={hearing}
-                activeLanguage={language}
+                language={language}
                 intl={intl}
                 setLanguage={setLanguage}
               />

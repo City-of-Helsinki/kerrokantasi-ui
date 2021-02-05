@@ -123,6 +123,40 @@ exports[`Header component should render as expected 1`] = `
               </div>
             </span>
           </div>
+          <div
+            className="hearing-meta__element language-select"
+          >
+            <Icon
+              Component="span"
+              className="user-nav-icon"
+              name="globe"
+            />
+            <span
+              className="language-select__texts"
+            >
+              <div
+                className="translation-not-available"
+              >
+                <FormattedMessage
+                  id="hearingTranslationNotAvailable"
+                  values={Object {}}
+                />
+              </div>
+              Kuuleminen saatavilla vain
+               
+              <withRouter(Connect(LinkWithLangComponent))
+                className="language-select__language"
+                to={
+                  Object {
+                    "path": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                    "search": "?lang=fi",
+                  }
+                }
+              >
+                suomeksi
+              </withRouter(Connect(LinkWithLangComponent))>
+            </span>
+          </div>
         </div>
       </div>
     </Grid>

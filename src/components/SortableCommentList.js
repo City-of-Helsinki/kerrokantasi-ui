@@ -298,7 +298,7 @@ export class SortableCommentListComponent extends Component {
             <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
               {
                 section.questions.map((question) =>
-                  <QuestionResults key={question.id} question={question} language={language} />)
+                  <QuestionResults key={question.id} question={question} lang={language} />)
               }
             </div>
         }

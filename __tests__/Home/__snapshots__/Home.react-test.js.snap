@@ -29,6 +29,14 @@ exports[`Home component should render as expected 1`] = `
           <HelmetWrapper
             defer={true}
             encodeSpecialCharacters={true}
+            meta={
+              Array [
+                Object {
+                  "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "name": "description",
+                },
+              ]
+            }
             title="Kerro mielipiteesi"
           />
           <h1>

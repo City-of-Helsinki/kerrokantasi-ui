@@ -118,7 +118,7 @@ class OverviewMap extends React.Component {
           // TODO: Implement support for other geometries too (markers, square, circle)
             contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
         }
-        contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
+        // contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });
     return contents;
@@ -133,7 +133,7 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false}>
+      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false} {...this.props.mapSettings}>
         <TileLayer
           url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
             urls.highContrastRasterMapTiles, this.props.isHighContrast)}
@@ -166,6 +166,7 @@ OverviewMap.propTypes = {
   showOnCarousel: PropTypes.bool,
   mapContainer: PropTypes.object,
   isHighContrast: PropTypes.bool,
+  mapSettings: PropTypes.object,
 };
 
 OverviewMap.contextTypes = {
