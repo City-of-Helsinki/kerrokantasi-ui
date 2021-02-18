@@ -89,6 +89,9 @@ class HearingForm extends React.Component {
               labels={labels}
               language={language}
               onContinue={this.nextStep}
+              onAddMapMarker={this.props.onAddMapMarker}
+              onAddMapMarkersToCollection={this.props.onAddMapMarkersToCollection}
+              onCreateMapMarker={this.props.onCreateMapMarker}
               onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
               onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
@@ -207,6 +210,9 @@ HearingForm.propTypes = {
   isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
+  onAddMapMarker: PropTypes.func,
+  onAddMapMarkersToCollection: PropTypes.func,
+  onCreateMapMarker: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
   onEditSectionAttachmentOrder: PropTypes.func,

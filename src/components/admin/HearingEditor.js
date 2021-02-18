@@ -7,6 +7,8 @@ import {notifyError} from '../../utils/notify';
 import {
   addOption,
   addSectionAttachment,
+  addMapMarker,
+  addMapMarkerToCollection,
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
@@ -14,6 +16,7 @@ import {
   clearQuestions,
   closeHearing,
   closeHearingForm,
+  createMapMarker,
   deleteLastOption,
   deleteSectionAttachment,
   deleteTemporaryQuestion,
@@ -59,6 +62,15 @@ class HearingEditor extends React.Component {
 
   onSectionChange = (sectionID, field, value) => {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+  onCreateMapMarker = (value) => {
+    this.props.dispatch(createMapMarker(value));
+  }
+  onAddMapMarker = (value) => {
+    this.props.dispatch(addMapMarker(value));
+  }
+  onAddMapMarkersToCollection = (value) => {
+    this.props.dispatch(addMapMarkerToCollection(value));
   }
 
   /**
@@ -236,6 +248,9 @@ class HearingEditor extends React.Component {
         initSingleChoiceQuestion={this.initSingleChoiceQuestion}
         labels={labels}
         language={language}
+        onAddMapMarker={this.onAddMapMarker}
+        onAddMapMarkersToCollection={this.onAddMapMarkersToCollection}
+        onCreateMapMarker={this.onCreateMapMarker}
         onDeleteExistingQuestion={this.onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
         onEditSectionAttachmentOrder={this.onEditSectionAttachmentOrder}

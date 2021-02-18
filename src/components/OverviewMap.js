@@ -65,6 +65,42 @@ class OverviewMap extends React.Component {
     this.props.showOnCarousel ? (this.state.height && this.state.width) : true
   );
 
+  getMapElement(geojson, content) {
+    switch (geojson.type) {
+      case "Polygon": {
+        // XXX: This only supports the _first_ ring of coordinates in a Polygon
+        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+        return (<Polygon key={Math.random()} positions={latLngs}>{content}</Polygon>);
+      }
+      case "Point": {
+        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+        return (
+          <Marker
+            position={latLngs}
+            key={Math.random()}
+            icon={new Leaflet.Icon({
+              iconUrl: leafletMarkerIconUrl,
+              shadowUrl: leafletMarkerShadowUrl,
+              iconRetinaUrl: leafletMarkerRetinaIconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [13, 41]
+            })}
+          />
+        );
+      }
+      case "LineString": {
+        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+        return (<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
+      }
+      case "Feature": {
+        return (this.getMapElement(geojson.geometry, content));
+      }
+      default:
+        // TODO: Implement support for other geometries too (markers, square, circle)
+        return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
+    }
+  }
+
   getHearingMapContent(hearings) {
     const {language} = this.context;
     const contents = [];
@@ -114,6 +150,17 @@ class OverviewMap extends React.Component {
             contents.push(<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
           }
             break;
+          // eslint-disable-next-line no-lone-blocks
+          case "FeatureCollection": {
+            if (this.props.disableCollections) {
+              contents.push(this.getMapElement(geojson.features[0].geometry, content));
+            } else {
+              geojson.features.forEach((feature) => {
+                contents.push(this.getMapElement(feature, content));
+              });
+            }
+          }
+            break;
           default:
           // TODO: Implement support for other geometries too (markers, square, circle)
             contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
@@ -158,11 +205,16 @@ const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
 
+OverviewMap.defaultProps = {
+  disableCollections: false,
+};
+
 OverviewMap.propTypes = {
   hearings: PropTypes.array.isRequired,
   style: PropTypes.object,
   hideIfEmpty: PropTypes.bool,
   enablePopups: PropTypes.bool,
+  disableCollections: PropTypes.bool,
   showOnCarousel: PropTypes.bool,
   mapContainer: PropTypes.object,
   isHighContrast: PropTypes.bool,

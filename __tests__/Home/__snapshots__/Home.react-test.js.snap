@@ -179,6 +179,7 @@ exports[`Home component should render as expected 1`] = `
           />
         </h2>
         <Connect(OverviewMap)
+          disableCollections={true}
           enablePopups={true}
           hearings={
             Array [
