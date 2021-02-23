@@ -6,9 +6,12 @@ h1:focus,
   outline: 0 !important;
 }
 
-.main-content {
+#main-container:not(.fullscreen) {
   min-height: 80vh;
   min-height: calc(100vh - 125px - 400px);
+  &.headless {
+    min-height: calc(100vh - 400px);
+  }
 }
 
 html {
