@@ -150,6 +150,25 @@ function getFirstGeometry(featureCollectionGeoJSON) {
   return {};
 }
 
+/**
+ * Returns an array of the remaining features
+ * @param {Object[]} currentFeatures
+ * @param {Object[]} removedFeatures
+ * @returns {Object[] | []} currentFeatures - removedFeatures
+ */
+function featureReducer(currentFeatures, removedFeatures) {
+  return currentFeatures.reduce((features, feature) => {
+    if (feature.geometry) {
+      if (!removedFeatures.some(mapElement => isMatch(mapElement, feature.geometry))) {
+        features.push(feature);
+      }
+    } else if (!removedFeatures.some(mapElement => isMatch(mapElement, feature))) {
+      features.push(feature);
+    }
+    return features;
+  }, []);
+}
+
 
 class HearingFormStep3 extends React.Component {
   constructor(props) {
@@ -158,7 +177,7 @@ class HearingFormStep3 extends React.Component {
     this.onDrawDeleted = this.onDrawDeleted.bind(this);
     this.onDrawEdited = this.onDrawEdited.bind(this);
     // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
-    this.state = {isEdited: false, initialGeoJSON: {geojson: this.props.hearing.geojson}};
+    this.state = {isEdited: false, initialGeoJSON: this.props.hearing.geojson};
   }
 
   componentDidMount() {
@@ -227,17 +246,31 @@ class HearingFormStep3 extends React.Component {
   onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && this.props.hearing.geojson.features) {
+      /**
+       * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
+       * initialGeoJSON contains the hearings original map data and it is ONLY modified
+       * when one or more of the original map elements are removed.
+       * initialGeoJSON does NOT update when props.hearing.geojson changes when adding new elements.
+       *
+       * props.hearing.geojson contains the original map data + any elements added to the map.
+       *
+       * The elements in initialGeoJSON are displayed as static elements on the map and any new added elements exist
+       * as separate variables inside Leaflet. So if the removed element was one of the original(static) elements then
+       * it is removed from props.hearing.geojson AND initialGeoJSON,
+       * if it was one of the newly added(not saved) elements then it is removed from props.hearing.geojson.
+       */
       // if the hearing.geojson is a FeatureCollection that has features
-
+      const {initialGeoJSON} = this.state;
       const currentFeatures = this.props.hearing.geojson.features;
-
+      let currentStateFeatures;
+      if (initialGeoJSON) {
+        // initialGeoJSON is truthy if editing existing hearing or a geojson file has been uploaded
+        currentStateFeatures = initialGeoJSON.type === 'FeatureCollection' ? this.state.initialGeoJSON.features : null;
+      }
       // event.layers._layers object has unique keys for each deleted map element
       const layerKeys = Object.keys(event.layers._layers);
 
-      /**
-       * Loop through event.layers._layers -> transform each to geojson and push geometry value to array
-       * @type {Object[]}
-       */
+      // Loop through event.layers._layers -> transform each to geojson and push geometry value to array
       const removedMapElements = layerKeys.reduce((accumulator, currentValue) => {
         if (event.layers._layers[currentValue]) {
           accumulator.push(event.layers._layers[currentValue].toGeoJSON().geometry);
@@ -245,34 +278,36 @@ class HearingFormStep3 extends React.Component {
         return accumulator;
       }, []);
 
-      /**
-       * Remaining map features after removing the deleted features.
-       */
-      const remainingFeatures = currentFeatures.reduce((features, feature) => {
-        if (feature.geometry) {
-          if (!removedMapElements.some(mapElement => isMatch(mapElement, feature.geometry))) {
-            features.push(feature);
-          }
-        } else if (!removedMapElements.some(mapElement => isMatch(mapElement, feature))) {
-          features.push(feature);
-        }
+      // Remaining map features(props) after removing the deleted features.
+      const remainingFeatures = featureReducer(currentFeatures, removedMapElements);
 
-        return features;
-      }, []);
+      let remainingStateFeatures;
+      if (currentStateFeatures) {
+        // Remaining map features(state) after removing the deleted feature
+        remainingStateFeatures = featureReducer(currentStateFeatures, removedMapElements);
+      }
 
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
         this.props.onHearingChange("geojson", {});
-        this.setState({isEdited: false});
+        this.setState({isEdited: false, initialGeoJSON: {}});
       } else {
         // hearing is a FeatureCollection that still has elements after removal
         this.props.onHearingChange("geojson", {type: this.props.hearing.geojson.type, features: remainingFeatures});
-        this.setState({isEdited: true});
+        if (currentStateFeatures) {
+          this.setState({
+            isEdited: true,
+            initialGeoJSON: {
+              type: this.props.hearing.geojson.type, features: remainingStateFeatures }
+          });
+        } else {
+          this.setState({isEdited: true});
+        }
       }
     } else {
       // hearing.geojson is a single element that has been removed
       this.props.onHearingChange("geojson", {});
-      this.setState({isEdited: false});
+      this.setState({isEdited: false, initialGeoJSON: {}});
     }
   }
 
@@ -290,7 +325,7 @@ class HearingFormStep3 extends React.Component {
         ) {
           const parsedFile = parseCollection(featureCollection);
           this.props.onCreateMapMarker(parsedFile);
-          this.setState({initialGeoJSON: {geojson: parsedFile}});
+          this.setState({initialGeoJSON: parsedFile});
         } else {
           localizedNotifyError('Virheellinen tiedosto.');
         }
@@ -382,7 +417,7 @@ class HearingFormStep3 extends React.Component {
                     }
                   }
               />
-              {getHearingArea(initialGeoJSON)}
+              {getHearingArea({geojson: initialGeoJSON})}
             </FeatureGroup>
           </Map>
         </FormGroup>
