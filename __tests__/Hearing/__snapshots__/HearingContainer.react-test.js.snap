@@ -451,6 +451,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "list": "Lista",
             "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
             "login": "Kirjaudu sisään",
+            "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
             "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
             "loginToContinue": "Kirjaudu sisään jatkaaksesi",
             "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",

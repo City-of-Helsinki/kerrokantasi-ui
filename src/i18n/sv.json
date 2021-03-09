@@ -142,6 +142,7 @@
   "leastCommented": "Den med minst kommentarer",
   "list": "Lista",
   "login": "Logga in",
+  "loginAttemptFailed": "Inloggning misslyckades. Försök igen om en liten stund.",
   "logInToAnswer": "Logga in för att rösta och see resultat",
   "loginToComment": "Logga in för att kommentera.",
   "loginToContinue": "Log in to continue",

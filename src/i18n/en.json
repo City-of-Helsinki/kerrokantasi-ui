@@ -149,6 +149,7 @@
   "list": "List",
   "loadMoreComments": "Show more comments",
   "login": "Login",
+  "loginAttemptFailed": "Failed to login. Please try again in a moment.",
   "logInToAnswer": "Log in to answer and see results",
   "loginToComment": "Login to comment this hearing.",
   "loginToContinue": "Log in to continue",
