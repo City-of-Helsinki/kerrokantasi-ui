@@ -1,8 +1,13 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 function BrowserWarning() {
   return (
     <div className="container">
+      <Helmet>
+        <title>Kerrokantasi</title>
+      </Helmet>
+      <h1>Kerrokantasi</h1>
       <div className="row">
         <div className="col-xs-12">
           <div className="browser-warning-text-container">

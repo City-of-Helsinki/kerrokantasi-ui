@@ -1,12 +1,28 @@
 import React from 'react';
 import BrowserWarning from "../src/views/BrowserWarning";
 import {shallow} from 'enzyme';
+import { Helmet } from 'react-helmet';
 
 describe('src/views/BrowserWarning', () => {
   function getWrapper() {
     return shallow(<BrowserWarning />);
   }
   describe('contains', () => {
+    test('Helmet', () => {
+      const helmet = getWrapper().find(Helmet);
+      expect(helmet).toHaveLength(1);
+    });
+    test('Helmet title', () => {
+      const helmet = getWrapper().find(Helmet);
+      const title = helmet.find('title');
+      expect(title).toHaveLength(1);
+      expect(title.text()).toBe("Kerrokantasi");
+    });
+    test('h1 heading', () => {
+      const heading = getWrapper().find('h1');
+      expect(heading).toHaveLength(1);
+      expect(heading.text()).toBe("Kerrokantasi");
+    });
     test('correct amount of text containers, 1 for each language so 3 in total', () => {
       const element = getWrapper();
       const textContainers = element.find('.browser-warning-text-container');
@@ -34,5 +50,4 @@ describe('src/views/BrowserWarning', () => {
       expect(englishLinks).toHaveLength(3);
     });
   });
-
 });
