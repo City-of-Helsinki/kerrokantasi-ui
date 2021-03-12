@@ -67,6 +67,7 @@ class OverviewMap extends React.Component {
 
 
   getHearingMapContent(hearings) {
+    const {mapElementLimit} = this.props;
     const contents = [];
     hearings.forEach((hearing) => {
       const {geojson, id} = hearing;
@@ -112,9 +113,13 @@ class OverviewMap extends React.Component {
             break;
           // eslint-disable-next-line no-lone-blocks
           case "FeatureCollection": {
-            if (this.props.disableCollections) {
-              contents.push(this.getMapElement(geojson.features[0].geometry, hearing));
+            // if mapElementLimit is true & more than 0, display up to that amount of elements
+            if (mapElementLimit && mapElementLimit > 0) {
+              geojson.features.slice(0, mapElementLimit).forEach((feature) => {
+                contents.push(this.getMapElement(feature, hearing));
+              });
             } else {
+              // if mapElementLimit is false -> display all elements found in FeatureCollection
               geojson.features.forEach((feature) => {
                 contents.push(this.getMapElement(feature, hearing));
               });
@@ -196,6 +201,7 @@ class OverviewMap extends React.Component {
   getPopupContent(hearing, geojson) {
     const {language} = this.context;
     const {enablePopups} = this.props;
+    // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
     const options = geojson.type === 'Point' ? {offset: [0, -20]} : {};
     if (enablePopups) {
       const hearingURL = getHearingURL(hearing) + document.location.search;
@@ -255,19 +261,19 @@ const mapStateToProps = (state) => ({
 });
 
 OverviewMap.defaultProps = {
-  disableCollections: false,
+  mapElementLimit: 0,
 };
 
 OverviewMap.propTypes = {
-  hearings: PropTypes.array.isRequired,
-  style: PropTypes.object,
-  hideIfEmpty: PropTypes.bool,
   enablePopups: PropTypes.bool,
-  disableCollections: PropTypes.bool,
-  showOnCarousel: PropTypes.bool,
-  mapContainer: PropTypes.object,
+  hearings: PropTypes.array.isRequired,
+  hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
+  mapContainer: PropTypes.object,
+  mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,
+  showOnCarousel: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 OverviewMap.contextTypes = {
