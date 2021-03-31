@@ -21,6 +21,7 @@ export default class Html extends React.Component {
       openIdAuthority,
       openIdApiTokenUrl,
       enableHighContrast,
+      adminHelpUrl,
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -36,6 +37,7 @@ export default class Html extends React.Component {
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.SHOW_COOKIEBAR = ${JSON.stringify(showCookiebar)};
+    window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
 
     return (
@@ -78,4 +80,5 @@ Html.propTypes = {
   openIdAuthority: PropTypes.string,
   openIdApiTokenUrl: PropTypes.string,
   enableHighContrast: PropTypes.bool,
+  adminHelpUrl: PropTypes.string,
 };

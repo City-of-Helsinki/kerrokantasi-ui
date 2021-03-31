@@ -10,6 +10,8 @@ import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
 
+import config from '../../config';
+
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
@@ -22,8 +24,6 @@ import {
   hearingEditorMetaDataShape,
   labelShape,
 } from '../../types';
-
-const ADMIN_HELP_URL = 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw';
 
 
 class HearingForm extends React.Component {
@@ -167,7 +167,7 @@ class HearingForm extends React.Component {
           <h2><FormattedMessage id="editHearing" /></h2>
           <a
             style={{textDecoration: 'none'}}
-            href={ADMIN_HELP_URL}
+            href={config.adminHelpUrl}
             rel="noopener noreferrer"
             target="_blank"
           >
