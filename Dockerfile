@@ -1,24 +1,32 @@
 # ===============================================
-FROM node:alpine
+FROM helsinkitest/node:12-slim as staticbuilder
 # ===============================================
 
-# Install build dependencies
-RUN apk add --no-cache python g++ make
-ENV NODE_ENV=development
-# Set the working directory
-WORKDIR /app
+# Offical image has npm log verbosity as info. More info - https://github.com/nodejs/docker-node#verbosity
+ENV NPM_CONFIG_LOGLEVEL warn
 
-# Add `/node_modules/.bin` to $PATH
-ENV PATH /node_modules/.bin:$PATH
+# set our node environment, either development or production
+# defaults to production, compose overrides this to development on build and run
+ARG NODE_ENV=development
+ENV NODE_ENV $NODE_ENV
+
+# Yarn
+ENV YARN_VERSION 1.19.1
+RUN yarn policies set-version $YARN_VERSION
+
+USER root
+RUN apt-install.sh build-essential
+
+# Use non-root user
+USER appuser
 
 # Install dependencies
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-COPY config_dev.toml.example config_dev.toml
-RUN npm install
+COPY --chown=appuser:appuser package.json package-lock.json /app/
+COPY --chown=appuser:appuser config_dev.toml.example /app/config_dev.toml
+RUN yarn && yarn cache clean --force
 
 # Copy all files
-COPY . .
+COPY --chown=appuser:appuser . .
 
 # Start express server
 CMD [ "npm", "start" ]
