@@ -29,7 +29,7 @@ RUN yarn && yarn cache clean --force
 COPY --chown=appuser:appuser . .
 
 # Start express server
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
 
 # Expose port 8086
 EXPOSE 8086
