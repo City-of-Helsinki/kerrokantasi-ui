@@ -527,6 +527,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "totalSubmittedComments": "Yhteensä {n} kommenttia",
                 "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                 "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
+                "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
                 "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
                 "validationOnlyNumbers": "Tässä kentässä voi olla vain numeroita",
                 "vote": "Äänestä",

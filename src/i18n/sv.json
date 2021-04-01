@@ -224,6 +224,7 @@
   "totalQuestionVotes": "Totalt antal röster: {n}",
   "totalSubmittedComment": "Totalt {n} åsikt",
   "totalSubmittedComments": "Totalt {n} åsikter",
+  "unpublishedAttachments": "Bilagor kan inte laddas ner om hörandet inte är publicerat.",
   "validationCantBeEmpty": "Det här fältet får inte vara tomt",
   "validationOnlyNumbers": "Det här fältet kan bara innehålla siffror",
   "vote": "Rösta",

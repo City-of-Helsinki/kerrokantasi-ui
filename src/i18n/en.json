@@ -237,6 +237,7 @@
   "totalQuestionVotes": "Total votes: {n}",
   "totalSubmittedComment": "A total of {n} comment",
   "totalSubmittedComments": "A total of {n} comments",
+  "unpublishedAttachments": "Attachments cannot be downloaded when the hearing is not published.",
   "validationCantBeEmpty": "This field can't be empty",
   "validationOnlyNumbers": "This field can only contain numbers",
   "vote": "Vote",

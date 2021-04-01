@@ -318,6 +318,7 @@
   "totalSubmittedComments": "Yhteensä {n} kommenttia",
   "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
   "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
+  "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
   "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
   "validationOnlyNumbers": "Tässä kentässä voi olla vain numeroita",
   "vote": "Äänestä",
