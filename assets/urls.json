@@ -1,6 +1,6 @@
 {
-  "hostname": "https://localhost:8086",
-  "privacyPolicy": "https://localhost:8086/rekisteriseloste",
+  "hostname": "https://localhost:8080",
+  "privacyPolicy": "https://localhost:8080/rekisteriseloste",
   "feedback": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute",
   "rasterMapTiles": "http://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
   "city": "http://www.google.fi",

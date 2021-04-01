@@ -1,12 +1,27 @@
-FROM node:8
+# ===============================================
+FROM node:alpine
+# ===============================================
 
-# At this stage everything might be useful
-
+# Install build dependencies
+RUN apk add --no-cache python g++ make
+ENV NODE_ENV=development
+# Set the working directory
 WORKDIR /app
 
-COPY . /app
+# Add `/node_modules/.bin` to $PATH
+ENV PATH /node_modules/.bin:$PATH
 
+# Install dependencies
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+COPY config_dev.toml.example config_dev.toml
+RUN npm install
+
+# Copy all files
+COPY . .
+
+# Start express server
+CMD [ "npm", "start" ]
+
+# Expose port 8086
 EXPOSE 8086
-
-# Create config from env and serve web root with httpd
-CMD npm start
