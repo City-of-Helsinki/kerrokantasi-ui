@@ -3,21 +3,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
+
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { login, logout } from '../../actions';
 import { LinkContainer } from 'react-router-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
+import {getUser} from '../../selectors/user';
+import userManager from "../../utils/userManager";
+import { toggleContrast } from "../../actions";
 
 // eslint-disable-next-line import/no-unresolved
 import logoBlack from '@city-images/logo-fi-black.svg';
 
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
+import config from "../../config";
 
 class Header extends React.Component {
   componentDidMount() {
@@ -40,23 +44,9 @@ class Header extends React.Component {
     }
   }
 
-  onSelect(eventKey) {
-    switch (eventKey) {
-      case 'login':
-        // TODO: Actual login flow
-        this.props.dispatch(login());
-        break;
-      case 'logout':
-        // TODO: Actual logout flow
-        this.props.dispatch(logout());
-        break;
-      default:
-      // Not sure what to do here
-    }
-  }
-
   getUserItems() {
     const {user} = this.props;
+
     if (user) {
       return [
         <DropdownButton
@@ -74,7 +64,7 @@ class Header extends React.Component {
           <MenuItem
             key="logout"
             eventKey="logout"
-            onClick={() => this.onSelect('logout')}
+            onClick={() => userManager.signoutRedirect()}
           >
             <FormattedMessage id="logout" />
           </MenuItem>
@@ -85,7 +75,7 @@ class Header extends React.Component {
       <Button
         key="login"
         className="user-menu login-link user-menu--unlogged"
-        onClick={() => this.onSelect('login')}
+        onClick={() => userManager.signinRedirect({ui_locales: this.props.language})}
       >
         <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
         <span className="user-name"><FormattedMessage id="login" /></span>
@@ -119,12 +109,22 @@ class Header extends React.Component {
     );
   }
 
+  contrastToggle() {
+    if (config.enableHighContrast) {
+      return (
+        <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
+          <Icon name="adjust" aria-hidden="true"/>
+          <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
+        </Button>
+      );
+    }
+    return (
+      <div />
+    );
+  }
+
   render() {
     const {language} = this.props;
-    const header = this;
-    const onSelect = eventKey => {
-      header.onSelect(eventKey);
-    };
     const userItems = this.getUserItems();
     return (
       <div>
@@ -145,8 +145,9 @@ class Header extends React.Component {
                 </Navbar.Brand>
               </Navbar.Header>
 
-              <div onSelect={onSelect} className="nav-user-menu navbar-right">
-                <LanguageSwitcher currentLanguage={this.props.language} />
+              <div className="nav-user-menu navbar-right">
+                {this.contrastToggle()}
+                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
               </div>
             </Navbar>
@@ -184,14 +185,19 @@ Header.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
+  toggleContrast: PropTypes.func,
 };
 
 Header.contextTypes = {
   history: PropTypes.object,
 };
 
+const mapDispatchToProps = dispatch => ({
+  toggleContrast: () => dispatch(toggleContrast())
+});
+
 export default withRouter(connect(state => ({
-  user: state.user.data, // User dropdown requires this state
+  user: getUser(state), // User dropdown requires this state
   language: state.language, // Language switch requires this state
   router: state.router, // Navigation activity requires this state
-}))(Header));
+}), mapDispatchToProps)(Header));

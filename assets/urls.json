@@ -1,7 +1,9 @@
 {
   "hostname": "https://localhost:8086",
   "privacyPolicy": "https://localhost:8086/rekisteriseloste",
-  "feedback": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute",
+  "feedbackEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
+  "feedbackFI": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi",
+  "feedbackSV": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-sv",
   "rasterMapTiles": "http://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
   "city": "http://www.google.fi",
   "analytics": false

@@ -20,6 +20,7 @@ const MouseOnlyLink = (props) => {
     history,
     headless,
     language,
+    location,
     style,
     url,
   } = props;
@@ -35,7 +36,7 @@ const MouseOnlyLink = (props) => {
       <div
         className={`mouse-only-click-element ${className}`}
         style={style}
-        onClick={(event) => handleClick(event, combinedUrl)}
+        onClick={(event) => handleClick(event, url + location.search)}
       />
     );
   }
@@ -59,6 +60,7 @@ MouseOnlyLink.propTypes = {
   headless: PropTypes.bool,
   history: PropTypes.object,
   language: PropTypes.string,
+  location: PropTypes.object,
   style: PropTypes.object,
   url: PropTypes.string,
 };

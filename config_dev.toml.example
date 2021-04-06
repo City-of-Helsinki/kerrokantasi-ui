@@ -7,21 +7,8 @@
 # Base URL of the API, without version or trailing slash (/)
 kerrokantasi_api_base="https://api.hel.fi/kerrokantasi-test"
 
-# JWT aud(ience)-field that we will request from the SSO. Each API instance
-# will require a specific audience. This means that this value will need
-# to match what the API specified in kerrokantasi_api_base wants.
-kerrokantasi_api_jwt_audience="replace-me-with-real-target-app-for-authentication-to-work"
-
 # Image to use for the hero of the front page
 hero_image_url="http://materialbank.myhelsinki.fi/detail/1192/download/7"
-
-# Our own client identifier in the SSO system, SSO uses this to decide
-# which authentication methods are available and which (API) audiences are allowed
-auth_client_id="replace-me-with-real-auth-id-for-authentication-to-work"
-
-# Shared secret for proving to the SSO we really are the client specified
-# in auth_client_id
-auth_shared_secret="replace-me-with-real-auth-secret-for-authentication-to-work"
 
 # Specifies the canonical URL for this service. Kerrokantasi-UI currently
 # uses this for generating the requested callback address from SSO. This
@@ -34,6 +21,11 @@ public_url="http://localhost:8086"
 # actually uses it for something. It is still required
 expressjs_session_secret="dev-secret-do-not-use-in-production"
 
+# OpenId Connect configuration
+openid_client_id="client-id-configured-to-your-opendid-provider"
+openid_audience="https://auth-url.domain/path"
+openid_authority="your-authority"
+openid_apitoken_url="https://auth-url.domain/api-tokens/"
 
 # City specific configuration
 # For whitelabel styles use "whitelabel".
@@ -49,3 +41,21 @@ city_config="cities/helsinki"
 # Should display social media share buttons on a hearing header
 # Default: true
 # show_social_media_sharing=false
+
+# Enable high-contrast toggle button in navbar next to language switcher.
+# To use just add .scss rules to city specific files ie
+# .high-contrast {
+#   nav {
+#    background-color: white;
+#    ...
+#   }
+#   main {
+#   ....
+#   }
+#}
+# Default: false
+# enable_highcontrast=true
+
+# Should display cookiebar at the bottom of the page
+# Default: false
+# show_cookiebar=true

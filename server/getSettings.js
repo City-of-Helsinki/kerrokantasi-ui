@@ -6,17 +6,11 @@ const defaults = {
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
   kerrokantasi_api_base: 'http://localhost:8000',
-  // We'll request access to KK API instance identified by this
-  kerrokantasi_api_jwt_audience: null,
   // URL this frontend runs at, for callbacks
   public_url: 'http://localhost:8080',
   // Image used as background for the Hero
   hero_image_url: 'https://source.unsplash.com/1600x900/?squirrel',
   // Client Identifier in the Helsinki SSO system
-  auth_client_id: null,
-  // Shared secret in the Helsinki SSO system
-  auth_shared_secret: null,
-  // cookie signing secret (among other things) for ExpressJS
   expressjs_session_secret: null,
   // only used to pass Sentry DSN as JSON structure
   ui_config: null,
@@ -26,8 +20,17 @@ const defaults = {
   cold: false,
   // Should display accessibility info
   show_accessibility_info: true,
+  // Configurations related to OpenId Connect authentication
+  openid_client_id: "https://api.hel.fi/auth/kerrokantasiuitest",
+  openid_audience: "https://api.hel.fi/auth/kerrokantasiapitest",
+  openid_authority: "https://api.hel.fi/sso/",
+  openid_apitoken_url: 'https://api.hel.fi/sso/api-tokens/',
   // Should display social media sharing buttons
   show_social_media_sharing: true,
+  // Should display & enable contrast toggle button
+  enable_highcontrast: false,
+  // Should display cookiebar
+  show_cookiebar: false,
 };
 
 const optionalKeys = [
@@ -42,12 +45,14 @@ const optionalKeys = [
   "city_config",
   "show_accessibility_info",
   "show_social_media_sharing",
+  "show_cookiebar",
+  "openid_client_id",
+  "openid_audience",
+  "openid_authority",
+  "enable_highcontrast",
 ];
 
 const mandatoryKeys = [
-  "auth_client_id",
-  "auth_shared_secret",
-  "kerrokantasi_api_jwt_audience",
   "expressjs_session_secret"
 ];
 

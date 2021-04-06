@@ -341,6 +341,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               canVote={true}
               closed={false}
               displayVisualization={false}
+              hearingGeojson={null}
               isSectionComments={
                 Object {
                   "abstract": Object {

@@ -5,9 +5,11 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
 import { push } from 'react-router-redux';
-import { retrieveUserFromSession } from './user';
+import fetch from '../mockable-fetch';
+import {getAccessToken} from '../selectors/user';
+import config from "../config";
+import retrieveUserFromSession from "./user";
 
-export {login, logout, retrieveUserFromSession} from './user';
 export const setLanguage = createAction('setLanguage');
 export const setHeadless = createAction('setHeadless');
 
@@ -258,6 +260,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       images: commentData.images ? commentData.images : [],
       answers: commentData.answers ? commentData.answers : [],
       pinned: commentData.pinned ? commentData.pinned : false,
+      map_comment_text: commentData.mapCommentText ? commentData.mapCommentText : "",
     };
     if (commentData.authorName) {
       params = Object.assign(params, {author_name: commentData.authorName});
@@ -339,5 +342,30 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
     }).catch(
       requestErrorHandler()
     );
+  };
+}
+
+export function fetchApiToken() {
+  return (dispatch, getState) => {
+    dispatch(createAction('fetchApiToken')());
+    return new Promise((resolve) => {
+      fetch(config.openIdApiTokenUrl, {
+        method: 'GET',
+        headers: {Authorization: `Bearer ${getAccessToken(getState())}`}
+      }).then((response) => {
+        return response.json();
+      }).then((token) => {
+        dispatch(createAction('receiveApiToken')(token));
+        dispatch(retrieveUserFromSession());
+        resolve();
+      });
+    });
+  };
+}
+
+export function toggleContrast() {
+  return (dispatch) => {
+    const toggleContrastState = createAction("toggleContrastState")();
+    dispatch(toggleContrastState);
   };
 }

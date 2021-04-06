@@ -4,11 +4,11 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Col, Grid, OverlayTrigger, Row, Tooltip, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
 import { withRouter } from 'react-router-dom';
-
+import {notifyError, notifySuccess} from "../../utils/notify";
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from '../../components/LabelList';
@@ -21,6 +21,8 @@ import { isPublic, getHearingURL, hasCommentableSections } from "../../utils/hea
 import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
+import { getUser} from "../../selectors/user";
+import { stringify } from 'qs';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -91,15 +93,14 @@ export class HeaderComponent extends React.Component {
 
   getLanguageChanger() {
     const {
-      activeLanguage,
+      language,
       hearing,
-      history,
       intl,
       location,
     } = this.props;
     const languageOptions = keys(hearing.title);
 
-    const translationAvailable = !!getAttr(hearing.title, activeLanguage, { exact: true });
+    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
     const noTranslationMessage = (
       <div className="translation-not-available">
         <FormattedMessage id="hearingTranslationNotAvailable" />
@@ -109,25 +110,19 @@ export class HeaderComponent extends React.Component {
     // Check if only one language is available
     if (!(languageOptions.length > 1)) {
       // If the current language is not the same as the only language available
-      if (activeLanguage !== languageOptions[0]) {
+      if (language !== languageOptions[0]) {
         return (
           <div className="hearing-meta__element language-select">
             <Icon name="globe" className="user-nav-icon" />
             <span className="language-select__texts">
               {!translationAvailable && noTranslationMessage}
               {intl.formatMessage({ id: 'hearingOnlyAvailableIn' })}&nbsp;
-              <a
-                href=""
+              <Link
+                to={{path: location.pathname, search: stringifyQuery({lang: languageOptions[0]})}}
                 className="language-select__language"
-                onClick={() => {
-                  history.push({
-                    location: location.pathname,
-                    search: stringifyQuery({ lang: languageOptions[0] })
-                  });
-                }}
               >
                 {intl.formatMessage({ id: `hearingOnlyAvailableInLang-${languageOptions[0]}` })}
-              </a>
+              </Link>
             </span>
           </div>
         );
@@ -136,6 +131,27 @@ export class HeaderComponent extends React.Component {
       return null;
     }
 
+    /**
+     * Returns a language code specific object
+     * with correct path and search params that are passed to Link
+     * @param {string} code
+     * @returns {{path: string, search: string}}
+     */
+    const langSpecificURL = (code) => {
+      const urlObject = {
+        path: location.pathname,
+        search: location.search,
+      };
+      if (location.search.includes('lang=')) {
+        urlObject.search = location.search.replace(/lang=\w{2}/, stringify({lang: code}));
+      } else if (location.search) {
+        urlObject.search += `&${stringify({lang: code})}`;
+      } else {
+        urlObject.search += stringifyQuery({lang: code});
+      }
+      return urlObject;
+    };
+
     // If multiple languages available for the hearing
     return (
       <div className="hearing-meta__element language-select">
@@ -143,21 +159,12 @@ export class HeaderComponent extends React.Component {
         {!translationAvailable && noTranslationMessage}
         {languageOptions.map((code) =>
           <span key={code} className="language-select__texts">
-            {!(code === activeLanguage) ? (
+            {!(code === language) ? (
               <div>
                 {intl.formatMessage({ id: `hearingAvailable-${code}` })}&nbsp;
-                <a
-                  href=""
-                  className="language-select__language"
-                  onClick={() => {
-                    history.push({
-                      location: location.pathname,
-                      search: stringifyQuery({ lang: code })
-                    });
-                  }}
-                >
+                <Link to={langSpecificURL(code)} className="language-select__language">
                   {intl.formatMessage({ id: `hearingAvailableInLang-${code}` })}
-                </a>
+                </Link>
               </div>
             ) : null}
           </span>
@@ -181,16 +188,44 @@ export class HeaderComponent extends React.Component {
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
+  getPreviewLinkButton() {
+    const {hearing} = this.props;
+
+    return (
+      <div className="hearing-meta__element">
+        <OverlayTrigger
+          placement="bottom"
+          overlay={
+            <Tooltip id="hearingPreviewLink">
+              <FormattedMessage id="hearingPreviewLinkTooltip">{text => text}</FormattedMessage>
+            </Tooltip>}
+        >
+          <Button bsStyle="info" onClick={() => this.writeToClipboard(hearing.preview_url)}>
+            <FormattedMessage id="hearingPreviewLink">{text => text}</FormattedMessage>
+          </Button>
+        </OverlayTrigger>
+      </div>
+    );
+  }
+
+  writeToClipboard = (url) => {
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        notifySuccess(<FormattedMessage id="hearingPreviewLinkSuccess">{text => text}</FormattedMessage>);
+      })
+      .catch(() => {
+        notifyError(<FormattedMessage id="hearingPreviewLinkFailed">{text => text}</FormattedMessage>);
+      });
+  }
 
   render() {
     const {
       hearing,
-      activeLanguage,
+      language,
       sections,
       match,
       showClosureInfo,
       intl,
-      language,
       user,
     } = this.props;
 
@@ -215,7 +250,7 @@ export class HeaderComponent extends React.Component {
                         </span>
                       </OverlayTrigger>
                     )}
-                    {getAttr(hearing.title, activeLanguage)}
+                    {getAttr(hearing.title, language)}
                   </h1>
                 </Col>
                 {(isMainSection(section) && config.showSocialMediaSharing) && (
@@ -231,7 +266,7 @@ export class HeaderComponent extends React.Component {
                       <Col md={9}>
                         <div
                           className="header-abstract lead"
-                          dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, activeLanguage) }}
+                          dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }}
                         />
                       </Col>
                     </Row>
@@ -240,15 +275,20 @@ export class HeaderComponent extends React.Component {
                     {this.getTimetableText(hearing)}
                     {this.getComments(hearing, sections, section, user)}
                     {this.getLanguageChanger()}
+                    {(!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment()) && (
+                      this.getPreviewLinkButton()
+                    )}
                   </div>
                   {!isEmpty(hearing.labels) && (
-                    <LabelList className="main-labels" labels={hearing.labels} language={activeLanguage} />
+                    <LabelList className="main-labels" labels={hearing.labels} language={language} />
                   )}
                 </React.Fragment>
               ) : (
-                <Link to={{path: getHearingURL(hearing)}}>
-                  <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
-                </Link>
+                <React.Fragment>
+                  <Link to={{path: getHearingURL({slug: match.params.hearingSlug})}}>
+                    <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
+                  </Link>
+                </React.Fragment>
               )}
             </div>
           </Grid>
@@ -263,12 +303,12 @@ const mapStateToProps = (state, ownProps) => ({
   sections: getSections(state, ownProps.match.params.hearingSlug),
   showClosureInfo: getIsHearingClosed(state, ownProps.match.params.hearingSlug)
     && getIsHearingPublished(state, ownProps.match.params.hearingSlug),
+  user: getUser(state),
 });
 
 const mapDispatchToProps = () => ({});
 
 HeaderComponent.propTypes = {
-  activeLanguage: PropTypes.string,
   hearing: PropTypes.object,
   history: PropTypes.object,
   intl: intlShape.isRequired,

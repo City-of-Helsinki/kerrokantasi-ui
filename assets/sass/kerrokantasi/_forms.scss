@@ -26,6 +26,20 @@ fieldset {
   .control-label {
     display: block;
   }
+
+  &-form {
+    &-input-error {
+      color: #EB0000;
+    }
+  
+    &-select-input {
+      margin-left: 8px;
+    }
+    
+    &-checkbox-label {
+      margin-right: 8px;
+    }
+  }
 }
 
 .RichEditor {

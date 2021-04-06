@@ -7,6 +7,41 @@
   &.main {
     padding-top: $grid-gutter-width * 1.5;
   }
+
+  .iframe-wrapper {
+    @media (max-width: $screen-md-min) {
+        position: relative;
+        overflow: hidden;
+        padding-top: 56.25%;
+    }
+    iframe {
+      max-width: 100%;
+      @media (max-width: $screen-md-min) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    }
+  }
+
+  .hidden-link {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: -999;
+    
+    &:focus {
+      position: static;
+      width: auto;
+      height: auto;
+    }
+  }
 }
 
 .hearing-header {
@@ -49,6 +84,11 @@
       font-style: italic;
       font-weight: 600;
     }
+  }
+
+  .subsection-preview-btn {
+    padding-left: 0;
+    margin-bottom: 0;
   }
 
   .social-bar {
@@ -310,6 +350,13 @@
 .comment-form-container {
   @extend .col-xs-12;
   margin-bottom: $line-height-computed * 2;
+  button.login-to-comment {
+    opacity: 0.65;
+  }
+  &.disabled > button {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .comment-form {
@@ -412,6 +459,13 @@
     }
   }
 
+  &__map-container {
+    .map-padding {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+  }
+
   &__group-admin {
 
     & .form-group {
@@ -470,6 +524,14 @@
   textarea {
     height: 7em;
     line-height: 1em;
+  }
+}
+
+.report-download-button {
+  margin-bottom: 12px;
+  
+  span {
+    white-space: normal;
   }
 }
 
@@ -617,4 +679,9 @@
     vertical-align: middle;
     margin-right: 1em;
   }
+}
+
+.hearing-subsection-attachments {
+  margin-top: $grid-gutter-width;
+  border-top: 1px solid $border-color;
 }
