@@ -1,0 +1,62 @@
+.high-contrast {
+  nav {
+    background-color: white;
+  }
+
+  nav:first-child {
+    border-bottom: 1px solid #000;
+  }
+
+  nav:last-child {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 1px solid #000;
+  }
+
+  main {
+    .welcome-content {
+      background-color: #fff;
+      color: #000;
+      text-shadow: none;
+    }
+
+    .page-section .list .hearing-card .hearing-list-item .fullwidth-hearing {
+      border: 1px solid #000;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+
+  .hearings #hearings-section .hearing-list-item {
+    border: 1px solid #000;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .alertify .hearing-page .hearing-content-section.main .ajs-button, 
+  .alertify .hearing-page .hearing-content-section.subsection .ajs-button, 
+  .hearing-page .hearing-content-section.main .alertify .ajs-button, 
+  .hearing-page .hearing-content-section.main .btn, 
+  .hearing-page .hearing-content-section.subsection .alertify .ajs-button, 
+  .hearing-page .hearing-content-section.subsection .btn {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .hearing-page .header-section {
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+  }
+
+  .hearing-page .hearing-content-section.main #comments-section .sortable-comment-list, 
+  .hearing-page .hearing-content-section.subsection #comments-section .sortable-comment-list {
+    background-color: #fff;
+    border: 1px solid #000;
+  }
+
+  .hearing-page .hearing-content-section.main #comments-section .sortable-comment-list .hearing-comment, 
+  .hearing-page .hearing-content-section.subsection #comments-section .sortable-comment-list .hearing-comment {
+    border: 1px solid #000;
+  }
+}

@@ -30,9 +30,9 @@ const defaults = {
   // Should display social media sharing buttons
   show_social_media_sharing: true,
   // Should display & enable contrast toggle button
-  enable_highcontrast: false,
+  enable_highcontrast: true,
   // Should display cookiebar
-  show_cookiebar: false,
+  show_cookiebar: true,
 };
 
 const optionalKeys = [
