@@ -1,0 +1,63 @@
+.high-contrast {
+  nav {
+    background-color: white;
+  }
+
+  nav:first-child {
+    border-bottom: 1px solid #000;
+  }
+
+  nav:last-child {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 1px solid #000;
+  }
+
+  main {
+    .welcome-content {
+      background-color: #fff;
+      color: #000;
+      text-shadow: none;
+    }
+
+    .fullwidth-hearing {
+      border: 1px solid #000;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    .hearing-list-item {
+      border: 1px solid #000;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  
+    .alertify .ajs-button .btn {
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+    }
+  
+    .header-section {
+      background-color: #fff;
+      border-bottom: 1px solid #000;
+    }
+  
+    .sortable-comment-list {
+      background-color: #fff;
+      border: 1px solid #000;
+    }
+   
+    .hearing-comment {
+      border: 1px solid #000;
+    }
+  
+    .Select-control {
+      background-color: white;
+    }
+  
+    .form-control {
+      background-color: white;
+    }
+  }
+}

@@ -19,7 +19,8 @@ const setup = propOverrides => {
       }
     },
     location: {
-      pathname: '/' + allHearings.data[0].slug
+      pathname: '/' + allHearings.data[0].slug,
+      search: '',
     },
     sectionComments,
     fetchHearing: () => null,

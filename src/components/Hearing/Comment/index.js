@@ -18,6 +18,8 @@ import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
 import moment from 'moment';
 
+import HearingMap from "../HearingMap";
+
 class Comment extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,8 @@ class Comment extends React.Component {
     shouldAnimate: false,
     pinned: this.props.data.pinned,
     answers: this.props.data.answers || [],
+    mapContainer: null,
+    displayMap: false,
   }
 
   componentDidMount = () => {
@@ -73,7 +77,7 @@ class Comment extends React.Component {
     const commentData = {};
 
     forEach(data, (value, key) => {
-      if (key !== 'content') {
+      if (['content', 'images'].indexOf(key) === -1) {
         commentData[key] = value;
       }
     });
@@ -146,8 +150,7 @@ class Comment extends React.Component {
    */
   handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
-    const answers = this.state.answers;
-    let commentData = {text, authorName, pluginData, geojson, label, images, answers};
+    let commentData = {text, authorName, pluginData, geojson, label, images};
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
       if (this.props.isReply && this.props.parentComponentId) {
         commentData = { ...commentData, comment: this.props.parentComponentId };
@@ -372,6 +375,7 @@ class Comment extends React.Component {
   renderReplyForm = () => (
     <CommentForm
       answers={this.state.answers}
+      canComment={this.props.canReply}
       closed={false}
       defaultNickname={this.props.defaultNickname}
       hearingId={this.props.hearingId}
@@ -385,6 +389,7 @@ class Comment extends React.Component {
       overrideCollapse
       section={this.props.section}
       user={this.props.user}
+      hearingGeojson={this.props.data.geojson}
     />
   );
 
@@ -432,6 +437,15 @@ class Comment extends React.Component {
       <FormattedMessage id="pinnedComment" />
     </div>
   );
+
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
+  }
+
+  toggleMap = () => {
+    this.setState({displayMap: !this.state.displayMap});
+  }
+
 
   render() {
     const {data, canReply} = this.props;
@@ -485,6 +499,33 @@ class Comment extends React.Component {
               )
               : null}
           </div>
+          {data.geojson && (
+            <div className="hearing-comment__map">
+              <React.Fragment>
+                <Button
+                  onClick={this.toggleMap}
+                  className="hearing-comment__map-toggle"
+                  aria-expanded={this.state.displayMap}
+                >
+                  <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
+                </Button>
+              </React.Fragment>
+              {(this.state.displayMap && data.geojson) && (
+                <div
+                className="hearing-comment__map-container"
+                ref={this.handleSetMapContainer}
+                >
+                  {data.geojson && (
+                  <HearingMap
+                  hearing={{geojson: data.geojson}}
+                  mapContainer={this.state.mapContainer}
+                  mapSettings={{dragging: false}}
+                  />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           {canEdit && this.renderEditLinks()}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
@@ -537,5 +578,5 @@ Comment.propTypes = {
 Comment.defaultProps = {
   isReply: false,
 };
-
+export {Comment as UnconnectedComment};
 export default injectIntl(Comment);

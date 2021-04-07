@@ -11,24 +11,40 @@ import {
   Image,
   Button,
   ButtonGroup,
+  Checkbox,
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 
 import Icon from '../../utils/Icon';
-import {localizedNotifyError} from '../../utils/notify';
+import {localizedNotifyError, notifyError} from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 
+/**
+ * MAX_IMAGE_SIZE given in bytes
+ * MAX_FILE_SIZE given in MB
+ */
 const MAX_IMAGE_SIZE = 999999;
-const MAX_FILE_SIZE = 999999;
+const MAX_FILE_SIZE = 70;
 
 class SectionForm extends React.Component {
   constructor(props) {
     super(props);
     this.onFileDrop = this.onFileDrop.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.toggleEnableCommentMap = this.toggleEnableCommentMap.bind(this);
+    this.state = {
+      enabledCommentMap: false,
+    };
+  }
+
+  componentDidMount = () => {
+    const {section} = this.props;
+    if (section.commenting_map_tools !== 'none') {
+      this.setState({enabledCommentMap: true});
+    }
   }
 
   /**
@@ -43,6 +59,9 @@ class SectionForm extends React.Component {
     switch (field) {
       case "imageCaption":
         this.props.onSectionImageChange(section.frontId, "caption", value);
+        break;
+      case "commenting_map_tools":
+        this.props.onSectionChange(section.frontId, field, value);
         break;
       default:
         this.props.onSectionChange(section.frontId, field, value);
@@ -70,8 +89,13 @@ class SectionForm extends React.Component {
    * @param {File} attachment - file to upload.
    */
   onAttachmentDrop = (attachment) => {
-    if (attachment[0].size > MAX_FILE_SIZE) {
-      localizedNotifyError('fileSizeError');
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1000 * 1000;
+    if (attachment[0].size > MAX_FILE_SIZE_BYTES) {
+      const localizedErrorMessage =
+        <FormattedMessage id="fileSizeError" values={{n: MAX_FILE_SIZE.toString()}}>
+          {text => text}
+        </FormattedMessage>;
+      notifyError(localizedErrorMessage);
       return;
     }
     // Load the file and then upload it.
@@ -141,6 +165,12 @@ class SectionForm extends React.Component {
 
   static getImageCaption(section) {
     return get(section.images, '[0].caption', {});
+  }
+  toggleEnableCommentMap() {
+    this.setState({enabledCommentMap: !this.state.enabledCommentMap});
+    if (this.state.enabledCommentMap) {
+      this.onChange({target: {name: 'commenting_map_tools', value: 'none'}});
+    }
   }
 
   render() {
@@ -269,12 +299,37 @@ class SectionForm extends React.Component {
               <option selected={section.commenting === 'registered'} value="registered">
                 {formatMessage({id: "registeredUsersOnly"})}
               </option>
+              <option selected={section.commenting === 'strong'} value="strong">
+                {formatMessage({id: "registeredStrongOnly"})}
+              </option>
               <option selected={section.commenting === 'none'} value="none">
                 {formatMessage({id: "noCommenting"})}
               </option>
             </FormControl>
           </div>
         </FormGroup>
+        <Checkbox checked={!!this.state.enabledCommentMap} onChange={this.toggleEnableCommentMap}>
+          <FormattedMessage id="hearingCommentingMap">{txt => txt}</FormattedMessage>
+        </Checkbox>
+        {this.state.enabledCommentMap && (
+        <FormGroup controlId="hearingCommentingMap">
+          <FormControl
+            componentClass="select"
+            name="commenting_map_tools"
+            onChange={this.onChange}
+          >
+            <option selected={section.commenting_map_tools === 'none'} value="none">
+              {formatMessage({id: "hearingCommentingMapChoice1"})}
+            </option>
+            <option selected={section.commenting_map_tools === 'marker'} value="marker">
+              {formatMessage({id: "hearingCommentingMapChoice2"})}
+            </option>
+            <option selected={section.commenting_map_tools === 'all'} value="all">
+              {formatMessage({id: "hearingCommentingMapChoice3"})}
+            </option>
+          </FormControl>
+        </FormGroup>
+        )}
         <FormGroup controlId="hearingFiles">
           <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
           <Dropzone

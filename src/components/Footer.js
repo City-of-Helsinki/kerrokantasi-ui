@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 import config from '../config';
+import {getFeedbackUrl} from '../utils/languageUtils';
 
 const getCurrentYear = () => {
   const today = new Date();
@@ -80,7 +81,7 @@ export default function Footer(props) {
                   </a>
                 </li>
                 <li>
-                  <a href={urls.feedback}>
+                  <a href={getFeedbackUrl(language)} target="_blank" rel="noopener noreferrer">
                     <FormattedMessage id="feedbackLinkText" />
                   </a>
                 </li>

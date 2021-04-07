@@ -29,6 +29,14 @@ exports[`Home component should render as expected 1`] = `
           <HelmetWrapper
             defer={true}
             encodeSpecialCharacters={true}
+            meta={
+              Array [
+                Object {
+                  "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "name": "description",
+                },
+              ]
+            }
             title="Kerro mielipiteesi"
           />
           <h1>
@@ -137,19 +145,22 @@ exports[`Home component should render as expected 1`] = `
     <div
       className="container"
     >
-      <a
-        className="feedback-box"
-        href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute"
+      <h2
+        className="feedback-prompt"
       >
-        <h2
-          className="feedback-prompt"
+        <a
+          className="feedback-box"
+          href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <FormattedMessage
             id="feedbackPrompt"
             values={Object {}}
           />
-        </h2>
-      </a>
+           
+        </a>
+      </h2>
     </div>
   </section>
   <section
@@ -167,7 +178,7 @@ exports[`Home component should render as expected 1`] = `
             values={Object {}}
           />
         </h2>
-        <OverviewMap
+        <Connect(OverviewMap)
           enablePopups={true}
           hearings={
             Array [
@@ -205,7 +216,6 @@ exports[`Home component should render as expected 1`] = `
               },
             ]
           }
-          showOnCarousel={false}
           style={
             Object {
               "height": 600,

@@ -5,6 +5,7 @@ import {getHearingURL} from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
+import { connect } from 'react-redux';
 
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
@@ -12,6 +13,7 @@ import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.pn
 /* eslint-disable import/no-unresolved */
 import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
+import { getCorrectContrastMapTileUrl } from '../utils/map';
 /* eslint-enable import/no-unresolved */
 
 class OverviewMap extends React.Component {
@@ -68,6 +70,7 @@ class OverviewMap extends React.Component {
     const contents = [];
 
     hearings.forEach((hearing) => {
+      /* eslint-disable-next-line no-unused-vars */
       const {geojson, id} = hearing;
       const content = (
         this.props.enablePopups ? (
@@ -116,7 +119,7 @@ class OverviewMap extends React.Component {
           // TODO: Implement support for other geometries too (markers, square, circle)
             contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
         }
-        contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
+        // contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });
     return contents;
@@ -131,25 +134,37 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false}>
+      <Map
+        center={localization.mapPosition}
+        zoom={10}
+        style={{ ...this.state }}
+        minZoom={8}
+        scrollWheelZoom={false}
+        {...this.props.mapSettings}
+      >
         <TileLayer
-          url={urls.rasterMapTiles}
+          url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
+            urls.highContrastRasterMapTiles, this.props.isHighContrast)}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup
           ref={(input) => {
-            if (!input) return;
-            const bounds = input.leafletElement.getBounds();
-            if (bounds.isValid()) {
-              input.context.map.fitBounds(bounds);
-            }
-          }}
+          if (!input) return;
+          const bounds = input.leafletElement.getBounds();
+          if (bounds.isValid()) {
+            input.context.map.fitBounds(bounds);
+          }
+        }}
         >
           <div>{contents}</div>
         </FeatureGroup>
       </Map>);
   }
 }
+
+const mapStateToProps = (state) => ({
+  isHighContrast: state.accessibility.isHighContrast,
+});
 
 OverviewMap.propTypes = {
   hearings: PropTypes.array.isRequired,
@@ -158,6 +173,8 @@ OverviewMap.propTypes = {
   enablePopups: PropTypes.bool,
   showOnCarousel: PropTypes.bool,
   mapContainer: PropTypes.object,
+  isHighContrast: PropTypes.bool,
+  mapSettings: PropTypes.object,
 };
 
 OverviewMap.contextTypes = {
@@ -169,4 +186,4 @@ OverviewMap.defaultProps = {
   mapContainer: undefined,
 };
 
-export default OverviewMap;
+export default connect(mapStateToProps, null)(OverviewMap);

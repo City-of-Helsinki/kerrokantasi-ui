@@ -14,8 +14,8 @@ import {parseQuery} from '../utils/urlQuery';
 
 class LinkWithLangComponent extends React.Component {
   render() {
-    const {to, className, children, language, style, headless} = this.props;
-    let searchString = to.search;
+    const {to, className, children, style, headless, location} = this.props;
+    let searchString = to.search || location.search;
     const urlHeadless = parseQuery(searchString).headless;
     // update search string with headless param preserved if site is being rendered in webview
     if (!urlHeadless) {
@@ -23,7 +23,7 @@ class LinkWithLangComponent extends React.Component {
     }
     const newTo = {
       pathname: to.path,
-      search: `${searchString ? searchString + `&lang=${language}` : `?lang=${language}`}`,
+      search: searchString,
       hash: to.hash || '',
       state: to.state || {}
     };
@@ -40,7 +40,7 @@ LinkWithLangComponent.propTypes = {
   }).isRequired,
   children: PropTypes.any,
   className: PropTypes.string,
-  language: PropTypes.string,
+  location: PropTypes.object,
   style: PropTypes.object,
   headless: PropTypes.bool,
 };

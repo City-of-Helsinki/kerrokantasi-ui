@@ -6,31 +6,36 @@ import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import {retrieveUserFromSession} from './actions';
+import {fetchApiToken} from './actions';
 import config from './config';
-import {getUser} from './selectors/user';
 import Routes from './routes';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
+import classNames from 'classnames';
+import CookieBar from './components/cookieBar/CookieBar';
+import {checkCookieConsent} from "./utils/cookieUtils";
 
 class App extends React.Component {
   getChildContext() {
     return {
       language: this.props.language,
-      user: this.props.user,
     };
   }
 
-  componentDidMount() {
-    this.props.dispatch(retrieveUserFromSession());
-    config.activeLanguage = this.props.language; // for non react-intl localizations
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.oidc.user && (nextProps.oidc.user !== this.props.oidc.user) && !nextProps.apitoken.isFetching) {
+      nextProps.fetchApiToken();
+    }
   }
 
+  componentDidMount() {
+    config.activeLanguage = this.props.language; // for non react-intl localizations
+    checkCookieConsent();
+  }
   render() {
     const locale = this.props.language;
+    const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
     const favlinks = [
       {rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png'},
       {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png'},
@@ -56,7 +61,8 @@ class App extends React.Component {
     }
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
-        <div>
+        <div className={contrastClass}>
+          {config.showCookiebar && <CookieBar />}
           <a href="#main-container" className="skip-to-main-content">
             <FormattedMessage id="skipToMainContent" />
           </a>
@@ -64,7 +70,6 @@ class App extends React.Component {
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
-            script={[{src: urls.analytics, type: 'text/javascript'}]}
           >
             <html lang={locale} />
           </Helmet>
@@ -87,16 +92,32 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  oidc: state.oidc,
+  language: state.language,
+  apitoken: state.apitoken,
+  isHighContrast: state.accessibility.isHighContrast,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchApiToken: (accessToken) => {
+    dispatch(fetchApiToken(accessToken));
+  },
+});
+
 App.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
-  user: PropTypes.object,
+  apitoken: PropTypes.any,
+  oidc: PropTypes.any,
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
+  fetchApiToken: PropTypes.func,
+  isHighContrast: PropTypes.bool,
 };
 App.childContextTypes = {
   language: PropTypes.string,
-  user: PropTypes.object,
 };
-export default withRouter(connect(state => ({user: getUser(state), language: state.language}))(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
