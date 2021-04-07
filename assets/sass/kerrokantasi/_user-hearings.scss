@@ -1,0 +1,117 @@
+.user-hearings {
+  .container {
+    >.row:nth-last-child(-n+2) {
+      margin-top: 30px;
+    }
+  }
+  .tool-container {
+    display: flex;
+    flex-direction: column;
+
+    .tool-buttons {
+      display: flex;
+      margin-top: 24px;
+      justify-content: flex-end;
+
+      >div {
+        display: flex;
+
+        a {
+          margin: auto 0;
+
+          .fa-plus {
+            margin-right: 5px;
+          }
+        }
+      }
+      button {
+        border: medium none;
+
+        .fa-gear {
+          color: #333;
+
+          &.active {
+            color: #0062ae;
+          }
+        }
+      }
+    }
+    .tool-dropdown {
+      display: none;
+      width: 100%;
+      border: 2px solid #ced4da;
+      background-color: #e9ecef;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+
+      &.open {
+        display: block;
+      }
+
+      .tool-content {
+        padding: 10px;
+
+        .hearing-radio {
+          form > div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            label {
+              margin-left: 20px;
+
+              input {
+                margin: 0 4px 0 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .user-hearing-list {
+    .loader-wrap {
+      color: black;
+      padding: 36px;
+    }
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      @media (max-width: $screen-sm-max) {
+        display: block;
+      }
+    }
+    .user-hearing {
+      padding-bottom: 10px;
+
+      .hearing-card {
+        &-image {
+          @media (max-width: $screen-xs-max) {
+            display: none;
+          }
+        }
+
+        &-title {
+          font-size: 18px;
+        }
+
+        &-content {
+          min-height: 145px;
+          padding: 10px;
+
+          .hearing-list-item-labellist {
+            width: 100%;
+
+            a > span.label-info {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              max-width: 100%;
+            }
+          }
+        }
+      }
+    }
+    button {
+      float: right;
+    }
+  }
+}

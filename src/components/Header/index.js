@@ -92,12 +92,17 @@ class Header extends React.Component {
     ];
   }
 
-  getNavItem(id, url) {
-    const {history, language} = this.props;
+  getNavItem(id, url, addSuffix = true) {
+    const {history, language, user} = this.props;
     const active = history && history.location.pathname === url;
+    let messageId = id;
+    if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
+      return null;
+    }
+    if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
-        <FormattedMessage id={id + 'HeaderText'} />
+        <FormattedMessage id={messageId} />
       </a>
     );
     if (url) {
@@ -179,6 +184,7 @@ class Header extends React.Component {
                   {this.getNavItem('hearings', '/hearings/list')}
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
+                  {this.getNavItem('ownHearings', '/user-hearings', false)}
                 </ul>
               </Navbar.Collapse>
             </Navbar>

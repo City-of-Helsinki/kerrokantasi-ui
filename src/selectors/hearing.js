@@ -57,3 +57,37 @@ export const getMainSectionComments = (state, hearingSlug) => {
   if (!comments) return undefined;
   return comments;
 };
+
+/**
+ * Returns value at state.hearingLists[type][key]
+ * @param {Object} state
+ * @param {string} type
+ * @param {string} key
+ * @returns {*}
+ */
+export const getHearingValue = (state, type, key) =>
+  state.hearingLists[type][key];
+
+/**
+ * @typedef {Object} returnObject
+ * @property {number|string|Object} open - hearings that are open
+ * @property {number|string|Object} closed - hearings that are closed
+ * @property {number|string|Object} draft - hearings that are drafts
+ */
+
+/**
+ * Return object with keys open, closed and draft
+ * with values from getHearingValue according to key.
+ * @param {Object} state
+ * @param {string} key
+ * @returns {returnObject}
+ * @see getHearingValue
+ */
+export const getUserHearingList = (state, key) => {
+  return {
+    open: getHearingValue(state, 'userHearingsOpen', key),
+    queue: getHearingValue(state, 'userHearingsQueue', key),
+    closed: getHearingValue(state, 'userHearingsClosed', key),
+    draft: getHearingValue(state, 'userHearingsDrafts', key),
+  };
+};

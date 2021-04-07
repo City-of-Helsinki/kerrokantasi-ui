@@ -25,11 +25,6 @@ const HearingCard = ({hearing, language, className = '', history}) => {
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
-  const availableInLanguageMessages = {
-    fi: 'Kuuleminen saatavilla suomeksi',
-    sv: 'Hörandet tillgängligt på svenska',
-    en: 'Questionnaire available in English',
-  };
   const commentCount = hearing.n_comments ? (
     <div className="hearing-card-comment-count">
       <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
@@ -67,7 +62,11 @@ const HearingCard = ({hearing, language, className = '', history}) => {
             {config.languages.map(
               lang =>
                 (getAttr(hearing.title, lang, { exact: true }) ? (
-                  <div className="language-available-message" key={lang}>{availableInLanguageMessages[lang]}</div>
+                  <div className="language-available-message" key={lang}>
+                    <FormattedMessage id={`hearingAvailable-${lang}`}>{txt => txt}</FormattedMessage>
+                    &nbsp;
+                    <FormattedMessage id={`hearingAvailableInLang-${lang}`}>{txt => txt}</FormattedMessage>
+                  </div>
                 ) : null)
             )}
           </div>
