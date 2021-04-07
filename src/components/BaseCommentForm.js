@@ -459,7 +459,9 @@ export class BaseCommentForm extends React.Component {
                   <FormattedMessage id="commentMapTitle" />
                 </label>
               </div>
-              <FormattedMessage id="commentMapInstructions">{instr => <span style={{fontSize: 13}}>{instr}</span>}</FormattedMessage>
+              <FormattedMessage id="commentMapInstructions">
+                {instr => <span style={{fontSize: 13}}>{instr}</span>}
+              </FormattedMessage>
               <div className="map-padding">
                 <CommentFormMap
                   center={this.getMapCenter()}

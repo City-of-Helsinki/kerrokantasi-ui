@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import isEmpty from 'lodash/isEmpty';
@@ -310,6 +311,7 @@ const mapDispatchToProps = () => ({});
 
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
+  /* eslint-disable-next-line react/no-unused-prop-types */
   history: PropTypes.object,
   intl: intlShape.isRequired,
   language: PropTypes.string,

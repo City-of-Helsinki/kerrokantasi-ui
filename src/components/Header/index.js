@@ -114,7 +114,9 @@ class Header extends React.Component {
       return (
         <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
           <Icon name="adjust" aria-hidden="true"/>
-          <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
+          <FormattedMessage id="contrastTitle">
+            {text => <span className="contrast-title">{text}</span> }
+          </FormattedMessage>
         </Button>
       );
     }
@@ -181,6 +183,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   history: PropTypes.object,
   language: PropTypes.string,

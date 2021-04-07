@@ -70,6 +70,7 @@ class OverviewMap extends React.Component {
     const contents = [];
 
     hearings.forEach((hearing) => {
+      /* eslint-disable-next-line no-unused-vars */
       const {geojson, id} = hearing;
       const content = (
         this.props.enablePopups ? (
@@ -133,7 +134,14 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false} {...this.props.mapSettings}>
+      <Map
+        center={localization.mapPosition}
+        zoom={10}
+        style={{ ...this.state }}
+        minZoom={8}
+        scrollWheelZoom={false}
+        {...this.props.mapSettings}
+      >
         <TileLayer
           url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
             urls.highContrastRasterMapTiles, this.props.isHighContrast)}

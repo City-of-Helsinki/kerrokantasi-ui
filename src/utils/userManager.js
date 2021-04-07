@@ -1,7 +1,8 @@
 import { createUserManager } from "redux-oidc";
 import config from "../config";
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ?
+  `:${window.location.port}` : ''}`;
 
 const userManagerConfig = {
   client_id: config.openIdClientId,

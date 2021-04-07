@@ -79,9 +79,17 @@ class LanguageSwitcher extends React.Component {
   render() {
     const {currentLanguage, history, location} = this.props;
     return (
-      // eslint-disable-next-line no-return-assign
-      <div className={classNames('dropdown', {open: this.state.openDropdown}, 'btn-group')} ref={node => this.node = node} >
-        <Button className="language-switcher" onClick={() => this.toggleDropdown()} aria-label={getMessage('languageSwitchLabel')} id="language">
+      <div
+        className={classNames('dropdown', {open: this.state.openDropdown}, 'btn-group')}
+        // eslint-disable-next-line no-return-assign
+        ref={node => this.node = node}
+      >
+        <Button
+          className="language-switcher"
+          onClick={() => this.toggleDropdown()}
+          aria-label={getMessage('languageSwitchLabel')}
+          id="language"
+        >
           <span>
             <Icon name="globe" className="user-nav-icon" aria-hidden="true" />
             {currentLanguage}
