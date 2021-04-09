@@ -72,14 +72,19 @@ class Header extends React.Component {
       ];
     }
     return [
-      <Button
-        key="login"
-        className="user-menu login-link user-menu--unlogged"
-        onClick={() => userManager.signinRedirect({ui_locales: this.props.language})}
-      >
-        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
-        <span className="user-name"><FormattedMessage id="login" /></span>
-      </Button>,
+      <FormattedMessage id="login">
+        {login => (
+          <Button
+            key="login"
+            aria-label={login}
+            className="user-menu login-link user-menu--unlogged"
+            onClick={() => userManager.signinRedirect({ui_locales: this.props.language})}
+          >
+            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
+            <span className="user-name">{login}</span>
+          </Button>
+        )}
+      </FormattedMessage>
     ];
   }
 
@@ -112,12 +117,19 @@ class Header extends React.Component {
   contrastToggle() {
     if (config.enableHighContrast) {
       return (
-        <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
-          <Icon name="adjust" aria-hidden="true"/>
-          <FormattedMessage id="contrastTitle">
-            {text => <span className="contrast-title">{text}</span> }
-          </FormattedMessage>
-        </Button>
+        <FormattedMessage id="contrastTitle">
+          {text => (
+            <Button
+              key="text"
+              aria-label={text}
+              className="contrast-button"
+              onClick={() => this.props.toggleContrast()}
+            >
+              <Icon name="adjust"/>
+              <span className="contrast-title">{text}</span>
+            </Button>
+          )}
+        </FormattedMessage>
       );
     }
     return (
