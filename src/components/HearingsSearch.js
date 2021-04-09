@@ -16,7 +16,7 @@ class HearingsSearch extends React.Component {
 
   componentDidUpdate() {
     if (this.props.routerLocationState.filteredByLabelLink) {
-      this.hearingFilterSearch.current.focus();
+      document.getElementById("allHearingsPageTitle").focus();
     }
   }
 

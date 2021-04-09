@@ -292,9 +292,19 @@ export class Hearings extends React.Component {
             <Row>
               <Col md={10} mdPush={1}>
                 <Helmet title={formatMessage({ id: 'allHearings' })} />
-                <h1 className="page-title">
-                  <FormattedMessage id="allHearings" />
-                </h1>
+                <FormattedMessage id="allHearings">
+                  {allHearings => (
+                    <h1
+                      className="page-title"
+                      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                      tabIndex="0"
+                      aria-label={allHearings}
+                      id="allHearingsPageTitle"
+                    >
+                      {allHearings}
+                    </h1>
+                  )}
+                </FormattedMessage>
                 {adminFilterSelector}
                 {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
               </Col>
