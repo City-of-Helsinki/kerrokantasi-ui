@@ -448,6 +448,7 @@ export class BaseCommentForm extends React.Component {
             }
           </div>
           <FormControl
+            autoFocus
             componentClass="textarea"
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}

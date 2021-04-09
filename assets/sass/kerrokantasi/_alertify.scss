@@ -20,6 +20,9 @@
   .ajs-body {
     .ajs-content {
       padding: $line-height-computed 0;
+      #alert-dialog:focus {
+        outline: 0px solid transparent;
+      }
     }
   }
 
