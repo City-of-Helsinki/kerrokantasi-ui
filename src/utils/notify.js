@@ -19,7 +19,11 @@ const errorOptions = {
 
 export function alert(message, title = "Kerrokantasi") {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").alert(title, `<div id="alert-dialog" tabindex="0" aria-labelledby="${message}">${message}</div>`).set('onfocus', function(){
+    require("alertifyjs").alert(title,
+      `<div id="alert-dialog" tabindex="0" aria-labelledby="${message}">
+        ${message}
+      </div>`
+    ).set('onfocus', () => {
       document.getElementById("alert-dialog").focus();
     }).setting({transition: 'slide'});
   }
