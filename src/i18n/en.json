@@ -155,6 +155,7 @@
   "loginToVoteComment": "Login to vote a comment.",
   "logout": "Logout",
   "main": "Main section",
+  "mainMenu":"Main menu",
   "map": "Map",
   "mapView": "All hearings on map",
   "mostCommented": "Most commented",
