@@ -48,6 +48,11 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                   style={{ backgroundImage: bgImage(section) }}
                   history={history}
                   url={getSectionURL(match.params.hearingSlug, section)}
+                  altText={
+                    section.type === 'main' ?
+                      getAttr(hearing.title, language) :
+                      getAttr(section.title, language)
+                  }
                 />
                 <div className="section-card-content">
                   <div className="section-card-title-wrapper">
