@@ -177,7 +177,11 @@ class Header extends React.Component {
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
+                <FormattedMessage id="mainMenu">
+                  {mainMenu => (
+                    <Navbar.Toggle aria-label={mainMenu}/>
+                  )}
+                </FormattedMessage>
               </Navbar.Header>
               <Navbar.Collapse>
                 <ul className="nav navbar-nav">

@@ -200,6 +200,7 @@
   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
   "logout": "Kirjaudu ulos",
   "mainSection": "Pääosio",
+  "mainMenu":"Päävalikko",
   "map": "Kartta",
   "mapView": "Kaikki kuulemiset kartalla",
   "mostCommented": "Eniten kommentoitu",
