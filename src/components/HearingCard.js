@@ -48,6 +48,7 @@ const HearingCard = ({hearing, language, className = '', history}) => {
         style={cardImageStyle}
         history={history}
         url={getHearingURL(hearing)}
+        altText={getAttr(hearing.title, language)}
       />
       <div className="hearing-card-content">
         <h3 className="h4 hearing-card-title">

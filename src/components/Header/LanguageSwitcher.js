@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../utils/Icon';
 import { connect } from 'react-redux';
 import { Button} from "react-bootstrap";
 import config from '../../config';
@@ -9,7 +8,6 @@ import {stringify} from 'qs';
 
 
 import getMessage from "../../utils/getMessage";
-import classNames from 'classnames';
 
 class LanguageSwitcher extends React.Component {
   constructor(props) {
@@ -59,50 +57,35 @@ class LanguageSwitcher extends React.Component {
   }
 
   getMenuItem(history, location, code) {
-    const { currentLanguage } = this.props;
     return (
-      <li key={code} className={classNames({active: code === currentLanguage})}>
-        <a
-          href="#"
-          aria-label={getMessage(`lang-${code}`)}
-          onClick={(event) => {
-            event.preventDefault();
-            this.changeLanguage(history, location, code);
-          }}
-        >
-          {getMessage(`lang-${code}`)}
-        </a>
-      </li>
+      <Button
+        key={code}
+        aria-label={getMessage(`lang-${code}`)}
+        lang={code}
+        className="language-button"
+        onClick={() => {
+          this.changeLanguage(history, location, code);
+        }}
+      >
+        <span className="language-title-xs">{code}</span>
+        <span className="language-title">{getMessage(`lang-${code}`)}</span>
+      </Button>
     );
   }
 
   render() {
-    const {currentLanguage, history, location} = this.props;
+    const {history, location} = this.props;
     return (
       <div
-        className={classNames('dropdown', {open: this.state.openDropdown}, 'btn-group')}
+        className="btn-group"
         // eslint-disable-next-line no-return-assign
         ref={node => this.node = node}
       >
-        <Button
-          className="language-switcher"
-          onClick={() => this.toggleDropdown()}
-          aria-label={getMessage('languageSwitchLabel')}
-          id="language"
-        >
-          <span>
-            <Icon name="globe" className="user-nav-icon" aria-hidden="true" />
-            {currentLanguage}
-            <span className="caret" />
-          </span>
-        </Button>
-        <ul className={classNames('dropdown-menu dropdown-menu-right')} aria-labelledby="language">
-          { config.languages
+        { config.languages
             .map((code) =>
               this.getMenuItem(history, location, code)
             )
-          }
-        </ul>
+        }
       </div>
     );
   }
@@ -110,7 +93,6 @@ class LanguageSwitcher extends React.Component {
 
 
 LanguageSwitcher.propTypes = {
-  currentLanguage: PropTypes.string,
   location: PropTypes.object,
   history: PropTypes.object
 };

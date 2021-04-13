@@ -63,7 +63,11 @@ class App extends React.Component {
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
           {config.showCookiebar && <CookieBar />}
-          <a href="#main-container" className="skip-to-main-content">
+          <a
+            href="#main-container"
+            onClick={() => document.getElementById("main-container").focus()}
+            className="skip-to-main-content"
+          >
             <FormattedMessage id="skipToMainContent" />
           </a>
           <Helmet
@@ -74,7 +78,7 @@ class App extends React.Component {
             <html lang={locale} />
           </Helmet>
           {header}
-          <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" role="main" tabIndex="-1">
+          <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" tabIndex="-1">
             <Routes />
           </main>
           <Footer language={locale} />

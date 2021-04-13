@@ -241,6 +241,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "loginToContinue": "Kirjaudu sisään jatkaaksesi",
                   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
                   "logout": "Kirjaudu ulos",
+                  "mainMenu": "Päävalikko",
                   "mainSection": "Pääosio",
                   "map": "Kartta",
                   "mapView": "Kaikki kuulemiset kartalla",
