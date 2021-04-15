@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import Leaflet, { latLng } from 'leaflet';
+import Leaflet from 'leaflet';
 import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -50,9 +50,9 @@ function getHearingArea(hearing) {
     }
     case "MultiPolygon": {
       const latLngs = geojson.coordinates.map((arr) => {
-        return arr[0].map(([lng, lat]) => new LatLng(lat, lng))
+        return arr[0].map(([lng, lat]) => new LatLng(lat, lng));
       });
-      return latLngs.map((latLng, index) => <Polygon key={index} positions={latLng}/>);
+      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem}/>);
     }
     case "Point": {
       const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
@@ -150,9 +150,9 @@ class HearingFormStep3 extends React.Component {
           includes(keys(featureCollection.features[0].geometry), 'type') &&
           includes(keys(featureCollection.features[0].geometry), 'coordinates')
         ) {
-          if (featureCollection.features[0].geometry.coordinates.length == 0) {
+          if (featureCollection.features[0].geometry.coordinates.length === 0) {
             localizedNotifyError('Tiedostosta ei löytynyt koordinaatteja.');
-            return
+            return;
           }
           this.props.onHearingChange("geojson", featureCollection.features[0].geometry);
         } else {
