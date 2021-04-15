@@ -221,3 +221,14 @@ export const cleanHearing = (hearing) => {
   }
   return cleanedHearing;
 };
+
+/**
+ * Get validationState for FormGroup elements.
+ * If errors contains value with key -> return error
+ * @param {object} errors
+ * @param {string} key
+ * @returns {'error'|null}
+ */
+export const getValidationState = (errors, key) => {
+  return errors[key] ? 'error' : null;
+};

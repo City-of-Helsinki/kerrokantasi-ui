@@ -58,10 +58,15 @@ class HearingForm extends React.Component {
       addOption,
       deleteOption,
       onQuestionChange,
-      onDeleteTemporaryQuestion
+      onDeleteTemporaryQuestion,
+      errors
     } = this.props;
     const step = stepNumber.toString();
-    const title = formatMessage({id: 'hearingFormHeaderStep' + step});
+    let title = formatMessage({id: 'hearingFormHeaderStep' + step});
+    const stepErrors = errors[stepNumber] || {};
+    if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
+      title += formatMessage({id: 'hearingFormHeaderContainsErrors'});
+    }
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
     return (
@@ -80,7 +85,7 @@ class HearingForm extends React.Component {
               deleteOption={deleteOption}
               dispatch={this.props.dispatch}
               editorMetaData={this.props.editorMetaData}
-              errors={this.props.errors}
+              errors={stepErrors}
               formatMessage={formatMessage}
               hearing={hearing}
               hearingLanguages={hearingLanguages}
@@ -137,18 +142,46 @@ class HearingForm extends React.Component {
   }
 
   getErrors() {
-    const errors = this.props.errors;
-    if (!errors) {
+    const {errors, intl: {formatMessage}} = this.props;
+    if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
       return null;
     }
-    // TODO: Improve error message format
-    const messages = Object.keys(errors).map((key) => <li key={key}>{key}: {JSON.stringify(errors[key])}</li>);
+    /**
+     * Iterates through each key in the errors object and if they contain keys we iterate through those keys.
+     *
+     * Push a list element with text from each specific inner value and we end up with a list for each
+     * key ie. title/slug that contains a ul with each value listed.
+     * @example
+     * {1: {title: 'Fill in title', slug: 'Fill in address'},
+     * 4: {},
+     * 5: {project_title: 'Fill in project title'}
+     * }
+     * <li>hearingFormHeaderStep1
+     * <ul><li>'Fill in title'</li><li>'Fill in address'</li></ul>
+     * </li>
+     * <li>hearingFormHeaderStep5
+     * <ul><li>'Fill in project title'</li></ul>
+     * </li>
+     */
+    const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
+      if (Object.keys(errors[currentRootValue]).length > 0) {
+        const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
+          accumulator.push(<li key={currentValue}>{errors[currentRootValue][currentValue]}</li>);
+          return accumulator;
+        }, []);
+        rootAccumulator.push(
+          <li key={currentRootValue}>
+            {formatMessage({id: 'hearingFormHeaderStep' + currentRootValue})}
+            <ul>{subErrors}</ul>
+          </li>
+        );
+      }
+      return rootAccumulator;
+    }, []);
     return (
       <Alert bsStyle="danger">
-        <h2>
-          <FormattedMessage id="saveFailed"/>
-        </h2>
-        <FormattedMessage id="tryToFixFormErrors"/>:
+        <FormattedMessage id="saveFailed">{txt => <h2>{txt}</h2>}</FormattedMessage>
+        <FormattedMessage id="tryToFixFormErrors">{txt => <p>{txt}:</p>}</FormattedMessage>
         <ul>{messages}</ul>
       </Alert>
     );

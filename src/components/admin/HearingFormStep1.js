@@ -23,7 +23,7 @@ import {
 } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
-import {getDocumentOrigin} from '../../utils/hearingEditor';
+import {getDocumentOrigin, getValidationState} from '../../utils/hearingEditor';
 
 import {addLabel, addContact, saveContact} from '../../actions/hearingEditor';
 
@@ -45,7 +45,7 @@ class HearingFormStep1 extends React.Component {
 
   onChange(event) {
     if (this.props.onHearingChange) {
-      // Propagate interestin changes to parent components
+      // Propagate interesting changes to parent components
       const {name: field, value} = event.target;
       this.props.onHearingChange(field, value);
     }
@@ -91,6 +91,7 @@ class HearingFormStep1 extends React.Component {
 
   render() {
     const {
+      errors,
       hearing,
       hearingLanguages,
       intl: {formatMessage},
@@ -110,6 +111,7 @@ class HearingFormStep1 extends React.Component {
         />
 
         <MultiLanguageTextField
+          error={errors.title}
           languages={hearingLanguages}
           onBlur={(value) => onHearingChange('title', value)}
           labelId="title"
@@ -122,8 +124,10 @@ class HearingFormStep1 extends React.Component {
 
         <Row>
           <Col md={6}>
-            <FormGroup controlId="hearingLabels">
-              <ControlLabel><FormattedMessage id="hearingLabels"/>*</ControlLabel>
+            <FormGroup controlId="hearingLabels" validationState={getValidationState(errors, 'labels')}>
+              <ControlLabel>
+                <FormattedMessage id="hearingLabels">{txt => txt + '*'}</FormattedMessage>
+              </ControlLabel>
               <div className="label-elements">
                 <Select
                   multi
@@ -149,7 +153,7 @@ class HearingFormStep1 extends React.Component {
             </FormGroup>
           </Col>
           <Col md={6}>
-            <FormGroup controlId="hearingSlug">
+            <FormGroup controlId="hearingSlug" validationState={getValidationState(errors, 'slug')}>
               <ControlLabel><FormattedMessage id="hearingSlug"/>*</ControlLabel>
               <InputGroup>
                 <InputGroup.Addon>{getDocumentOrigin()}</InputGroup.Addon>
@@ -165,7 +169,7 @@ class HearingFormStep1 extends React.Component {
           </Col>
         </Row>
 
-        <FormGroup controlId="hearingContacts">
+        <FormGroup controlId="hearingContacts" validationState={getValidationState(errors, 'contact_persons')}>
           <ControlLabel><FormattedMessage id="hearingContacts"/>*</ControlLabel>
           <div className="contact-elements">
             <Select
@@ -218,6 +222,7 @@ class HearingFormStep1 extends React.Component {
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   dispatch: PropTypes.func,
+  errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,

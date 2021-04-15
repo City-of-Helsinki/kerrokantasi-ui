@@ -22,6 +22,15 @@ class TextInput extends React.Component {
     this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.error !== this.props.error) {
+      this.setErrorUpdate(this.props.error);
+    }
+  }
+
+  setErrorUpdate(prop) {
+    this.setState({error: prop});
+  }
 
   onBlur(event) {
     this.props.onBlur(event);
@@ -103,6 +112,7 @@ class TextInput extends React.Component {
 
 
 TextInput.propTypes = {
+  error: PropTypes.any,
   intl: intlShape.isRequired,
   labelId: PropTypes.string,
   maxLength: PropTypes.number,
