@@ -107,6 +107,7 @@ exports[`Hearings component should render as expected 1`] = `
           "accessibilityPage": "Saavutettavuusseloste",
           "addComment": "Kirjoita kommentti",
           "addGeojson": "Lisää geojson tiedostona",
+          "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
           "addOption": "Lisää vastausvaihtoehto",
           "addProcess": "Lisää uusi vaihe",
           "addSection": "Lisää osa-alue",
