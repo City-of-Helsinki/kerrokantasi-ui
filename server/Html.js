@@ -2,6 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
+  getMeta() {
+    const {heroImageURL, hearingData} = this.props;
+    const hearingImage = hearingData && hearingData.main_image;
+    const hearingAbstract = hearingData && hearingData.abstract;
+    return {
+      title: 'Kerrokantasi',
+      url: hearingImage ? hearingData.main_image.url : heroImageURL,
+      description: hearingAbstract ?
+        hearingData.abstract.fi :
+        `Turun kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
+        kerätään mielipiteitä valmistelussa olevista asioista.`
+    };
+  }
   render() {
     const {
       apiBaseUrl,
@@ -39,7 +52,7 @@ export default class Html extends React.Component {
     window.SHOW_COOKIEBAR = ${JSON.stringify(showCookiebar)};
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
-
+    const {title, description, url} = this.getMeta();
     return (
       <html lang="fi">
         <head>
@@ -49,8 +62,10 @@ export default class Html extends React.Component {
           {hearingData && hearingData.title && <title>{hearingData.title.fi}</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
-          {hearingData && hearingData.main_image && <meta property="og:image" content={hearingData.main_image.url} />}
-          {hearingData && hearingData.abstract && <meta property="og:description" content={hearingData.abstract.fi} />}
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={url} />
         </head>
         <body>
           <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
