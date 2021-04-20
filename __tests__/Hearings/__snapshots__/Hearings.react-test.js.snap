@@ -25,14 +25,12 @@ exports[`Hearings component should render as expected 1`] = `
             encodeSpecialCharacters={true}
             title="Kaikki kuulemiset"
           />
-          <h1
-            className="page-title"
+          <FormattedMessage
+            id="allHearings"
+            values={Object {}}
           >
-            <FormattedMessage
-              id="allHearings"
-              values={Object {}}
-            />
-          </h1>
+            <Component />
+          </FormattedMessage>
         </Col>
       </Row>
     </div>

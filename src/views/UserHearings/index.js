@@ -13,10 +13,10 @@ import Helmet from "react-helmet";
 import Toolbar from "../../components/UserHearings/Toolbar";
 
 export const GET_HEARINGS = {
-  OPEN: 'userHearingsOpen',
+  DRAFT: 'userHearingsDrafts',
   QUEUE: 'userHearingsQueue',
+  OPEN: 'userHearingsOpen',
   CLOSED: 'userHearingsClosed',
-  DRAFT: 'userHearingsDrafts'
 };
 const now = () => new Date().toISOString();
 export const SEARCH_PARAMS = {
@@ -58,10 +58,10 @@ class UserHearings extends React.Component {
   fetchAllHearings() {
     const params = this.getDefaultParams();
 
-    this.fetchHearing(GET_HEARINGS.OPEN, {...SEARCH_PARAMS.OPEN, ...params});
-    this.fetchHearing(GET_HEARINGS.QUEUE, {...SEARCH_PARAMS.QUEUE, ...params});
-    this.fetchHearing(GET_HEARINGS.CLOSED, {...SEARCH_PARAMS.CLOSED, ...params});
     this.fetchHearing(GET_HEARINGS.DRAFT, {...SEARCH_PARAMS.DRAFT, ...params});
+    this.fetchHearing(GET_HEARINGS.QUEUE, {...SEARCH_PARAMS.QUEUE, ...params});
+    this.fetchHearing(GET_HEARINGS.OPEN, {...SEARCH_PARAMS.OPEN, ...params});
+    this.fetchHearing(GET_HEARINGS.CLOSED, {...SEARCH_PARAMS.CLOSED, ...params});
   }
 
   /**
