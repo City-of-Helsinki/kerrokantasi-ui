@@ -72,7 +72,7 @@ class Header extends React.Component {
       ];
     }
     return [
-      <FormattedMessage id="login">
+      <FormattedMessage key="login" id="login">
         {login => (
           <Button
             key="login"
@@ -117,7 +117,7 @@ class Header extends React.Component {
   contrastToggle() {
     if (config.enableHighContrast) {
       return (
-        <FormattedMessage id="contrastTitle">
+        <FormattedMessage key="contrastTitle" id="contrastTitle">
           {text => (
             <Button
               key="text"
@@ -142,7 +142,7 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <FormattedMessage id="headerUserNavLabel">
+        <FormattedMessage key="headerUserNavLabel" id="headerUserNavLabel">
           {headerUserNavLabel => (
             <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi" aria-label={headerUserNavLabel}>
               <Navbar.Header>
