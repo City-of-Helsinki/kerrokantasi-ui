@@ -242,7 +242,7 @@ class HearingFormStep3 extends React.Component {
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-                urls.highContrastRasterMapTiles, this.props.isHighContrast)}
+                urls.highContrastRasterMapTiles, this.props.isHighContrast, this.props.language)}
             />
             <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl

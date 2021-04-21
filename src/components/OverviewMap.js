@@ -144,7 +144,7 @@ class OverviewMap extends React.Component {
       >
         <TileLayer
           url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-            urls.highContrastRasterMapTiles, this.props.isHighContrast)}
+            urls.highContrastRasterMapTiles, this.props.isHighContrast, this.context.language)}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup
