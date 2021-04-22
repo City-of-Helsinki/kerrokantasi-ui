@@ -15,7 +15,7 @@ cache:
     - node_modules
 
 before_install:
-  - npm i -g npm@latest
+  - npm i -g npm@15.9.0
 
 script:
   - npm run lint
