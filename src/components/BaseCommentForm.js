@@ -13,7 +13,7 @@ import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
 import {localizedNotifyError} from "../utils/notify";
 import {getSectionCommentingErrorMessage, isSectionCommentingMapEnabled} from "../utils/section";
-import {Polygon} from 'react-leaflet';
+import {Polygon, GeoJSON, Polyline, Circle} from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 // eslint-disable-next-line import/no-unresolved
@@ -363,13 +363,44 @@ export class BaseCommentForm extends React.Component {
   }
   getMapBorder() {
     const {hearingGeojson} = this.props;
-    if (hearingGeojson && hearingGeojson.type === 'Polygon') {
+
+    if (hearingGeojson && hearingGeojson.type !== 'Point') {
       const contents = [];
-      const latLangs = hearingGeojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      contents.push(<Polygon key={Math.random()} positions={latLangs} color="transparent"/>);
+      if (hearingGeojson.type === 'FeatureCollection') {
+        hearingGeojson.features.forEach((feature) => {
+          contents.push(this.getMapElement(feature));
+        });
+      } else {
+        contents.push(this.getMapElement(hearingGeojson));
+      }
       return contents;
     }
     return null;
+  }
+  getMapElement(geojson) {
+    switch (geojson.type) {
+      case "Polygon": {
+        // XXX: This only supports the _first_ ring of coordinates in a Polygon
+        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+        return (<Polygon key={Math.random()} positions={latLngs} color="transparent" />);
+      }
+      case "Point": {
+        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+        return (
+          <Circle center={latLngs} radius={10} color="transparent" />
+        );
+      }
+      case "LineString": {
+        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+        return (<Polyline key={Math.random()} positions={latLngs} color="transparent" />);
+      }
+      case "Feature": {
+        return (this.getMapElement(geojson.geometry));
+      }
+      default:
+        // This should never happen
+        return (<GeoJSON data={geojson} key={JSON.stringify(geojson)} color="transparent" />);
+    }
   }
 
   getMapCenter() {

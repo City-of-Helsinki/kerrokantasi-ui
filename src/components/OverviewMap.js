@@ -65,31 +65,25 @@ class OverviewMap extends React.Component {
     this.props.showOnCarousel ? (this.state.height && this.state.width) : true
   );
 
-  getHearingMapContent(hearings) {
-    const {language} = this.context;
-    const contents = [];
 
+  getHearingMapContent(hearings) {
+    const {mapElementLimit} = this.props;
+    const contents = [];
     hearings.forEach((hearing) => {
       const {geojson, id} = hearing;
-      const content = (
-        this.props.enablePopups ? (
-          <Popup>
-            <div>
-              <h4>
-                <a href={getHearingURL(hearing)}>{getAttr(hearing.title, language)}</a>
-              </h4>
-              <p>{getAttr(hearing.abstract, language)}</p>
-            </div>
-          </Popup>
-        ) : null
-      );
 
       if (geojson) {
         switch (geojson.type) {
           case "Polygon": {
             // XXX: This only supports the _first_ ring of coordinates in a Polygon
             const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(<Polygon key={Math.random()} positions={latLngs}>{content}</Polygon>);
+            contents.push(
+              <Polygon
+                key={Math.random()}
+                positions={latLngs}
+              >
+                {this.getPopupContent(hearing, geojson)}
+              </Polygon>);
           }
             break;
           case "Point": {
@@ -105,23 +99,124 @@ class OverviewMap extends React.Component {
                   iconSize: [25, 41],
                   iconAnchor: [13, 41]
                 })}
-              />
+              >{this.getPopupContent(hearing, geojson)}
+              </Marker>
             );
           }
             break;
           case "LineString": {
             const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(<Polyline key={Math.random()} positions={latLngs}>{content}</Polyline>);
+            contents.push(
+              <Polyline key={Math.random()} positions={latLngs}>{this.getPopupContent(hearing, geojson)}</Polyline>
+            );
+          }
+            break;
+          // eslint-disable-next-line no-lone-blocks
+          case "FeatureCollection": {
+            // if mapElementLimit is true & more than 0, display up to that amount of elements
+            if (mapElementLimit && mapElementLimit > 0) {
+              geojson.features.slice(0, mapElementLimit).forEach((feature) => {
+                contents.push(this.getMapElement(feature, hearing));
+              });
+            } else {
+              // if mapElementLimit is false -> display all elements found in FeatureCollection
+              geojson.features.forEach((feature) => {
+                contents.push(this.getMapElement(feature, hearing));
+              });
+            }
           }
             break;
           default:
           // TODO: Implement support for other geometries too (markers, square, circle)
-            contents.push(<GeoJSON data={geojson} key={JSON.stringify(geojson)}>{content}</GeoJSON>);
+            contents.push(
+              <GeoJSON data={geojson} key={JSON.stringify(geojson)}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
+            );
         }
         // contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });
     return contents;
+  }
+
+  /**
+   * Return Map element based on geojson.type.
+   * @param {Object} geojson
+   * @param {Object} hearing
+   * @returns {JSX.Element|*}
+   */
+  getMapElement(geojson, hearing) {
+    switch (geojson.type) {
+      case "Polygon": {
+        // XXX: This only supports the _first_ ring of coordinates in a Polygon
+        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+        return (
+          <Polygon
+            key={Math.random()}
+            positions={latLngs}
+          >
+            {this.getPopupContent(hearing, geojson)}
+          </Polygon>);
+      }
+      case "Point": {
+        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+        return (
+          <Marker
+            position={latLngs}
+            key={Math.random()}
+            icon={new Leaflet.Icon({
+              iconUrl: leafletMarkerIconUrl,
+              shadowUrl: leafletMarkerShadowUrl,
+              iconRetinaUrl: leafletMarkerRetinaIconUrl,
+              iconSize: [25, 41],
+              iconAnchor: [13, 41]
+            })}
+          >{this.getPopupContent(hearing, geojson)}
+          </Marker>
+        );
+      }
+      case "LineString": {
+        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+        return (<Polyline key={Math.random()} positions={latLngs}>{this.getPopupContent(hearing, geojson)}</Polyline>);
+      }
+      case "Feature": {
+        /**
+         * Recursively get the Map element
+         */
+        return (this.getMapElement(geojson.geometry, hearing));
+      }
+      default:
+        // TODO: Implement support for other geometries too (markers, square, circle)
+        return (
+          <GeoJSON data={geojson} key={JSON.stringify(geojson)}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
+        );
+    }
+  }
+
+  /**
+   * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
+   * @param {Object} hearing
+   * @param {Object} geojson
+   * @returns {JSX.Element|null}
+   */
+  getPopupContent(hearing, geojson) {
+    const {language} = this.context;
+    const {enablePopups} = this.props;
+    // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
+    const options = geojson.type === 'Point' ? {offset: [0, -20]} : {};
+    if (enablePopups) {
+      const hearingURL = getHearingURL(hearing) + document.location.search;
+      return (
+        <Popup {...options}>
+          <div>
+            <h4>
+              <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
+            </h4>
+            <p>{getAttr(hearing.abstract, language)}</p>
+          </div>
+        </Popup>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -133,7 +228,14 @@ class OverviewMap extends React.Component {
     }
     return (
       this.shouldMapRender() &&
-      <Map center={localization.mapPosition} zoom={10} style={{ ...this.state }} minZoom={8} scrollWheelZoom={false} {...this.props.mapSettings}>
+      <Map
+        center={localization.mapPosition}
+        zoom={10}
+        style={{ ...this.state }}
+        minZoom={8}
+        scrollWheelZoom={false}
+        {...this.props.mapSettings}
+      >
         <TileLayer
           url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
             urls.highContrastRasterMapTiles, this.props.isHighContrast)}
@@ -158,15 +260,20 @@ const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
 
+OverviewMap.defaultProps = {
+  mapElementLimit: 0,
+};
+
 OverviewMap.propTypes = {
-  hearings: PropTypes.array.isRequired,
-  style: PropTypes.object,
-  hideIfEmpty: PropTypes.bool,
   enablePopups: PropTypes.bool,
-  showOnCarousel: PropTypes.bool,
-  mapContainer: PropTypes.object,
+  hearings: PropTypes.array.isRequired,
+  hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
+  mapContainer: PropTypes.object,
+  mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,
+  showOnCarousel: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 OverviewMap.contextTypes = {

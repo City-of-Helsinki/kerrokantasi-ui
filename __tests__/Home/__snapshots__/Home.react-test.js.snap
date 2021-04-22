@@ -216,6 +216,7 @@ exports[`Home component should render as expected 1`] = `
               },
             ]
           }
+          mapElementLimit={10}
           style={
             Object {
               "height": 600,

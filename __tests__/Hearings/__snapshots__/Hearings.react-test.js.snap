@@ -25,14 +25,12 @@ exports[`Hearings component should render as expected 1`] = `
             encodeSpecialCharacters={true}
             title="Kaikki kuulemiset"
           />
-          <h1
-            className="page-title"
+          <FormattedMessage
+            id="allHearings"
+            values={Object {}}
           >
-            <FormattedMessage
-              id="allHearings"
-              values={Object {}}
-            />
-          </h1>
+            <Component />
+          </FormattedMessage>
         </Col>
       </Row>
     </div>
@@ -128,6 +126,7 @@ exports[`Hearings component should render as expected 1`] = `
           "chooseTopic": "Valitse aihe",
           "choose_images": "Valitse kuvia",
           "closeHearing": "Sulje kuuleminen",
+          "closedCount": "Sulkeutuneet ({n})",
           "closedHearing": "Suljettu",
           "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
           "commentDeleted": "Kommenttisi on poistettu.",
@@ -171,6 +170,7 @@ exports[`Hearings component should render as expected 1`] = `
           "disabledLink": "Epäaktiivinen linkki",
           "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
           "draft": "Luonnos",
+          "draftCount": "Luonnokset ({n})",
           "draftDeleted": "Luonnos poistettiin onnistuneesti",
           "draftNotPublished": "Luonnos, ei julkaistu",
           "drafts": "Luonnokset",
@@ -229,6 +229,7 @@ exports[`Hearings component should render as expected 1`] = `
           "hearingContacts": "Yhteyshenkilöt",
           "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
           "hearingFileUpload": "Osion liitteet",
+          "hearingFormHeaderContainsErrors": " - sisältää virheitä",
           "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
           "hearingFormHeaderStep2": "2. Sisältö",
           "hearingFormHeaderStep3": "3. Kartta",
@@ -297,6 +298,7 @@ exports[`Hearings component should render as expected 1`] = `
           "list": "Lista",
           "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
           "login": "Kirjaudu sisään",
+          "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
           "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
           "loginToContinue": "Kirjaudu sisään jatkaaksesi",
           "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
@@ -326,12 +328,15 @@ exports[`Hearings component should render as expected 1`] = `
           "oldestFirst": "Vanhin ensin",
           "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
           "openCommenting": "Avoin kommentointi",
+          "openCount": "Avoimet ({n})",
           "openFullscreenMap": "Kartta koko näytöllä",
           "openHearings": "Avoimet kuulemiset",
           "option": "Vastausvaihtoehto",
           "orderHasBeenChanged": "Kuulemisten järjestystä muutettu",
           "organization": "Organisaatio",
+          "organizationHearings": "Organisaation kuulemiset",
           "overview-map": "Kartta",
+          "ownHearings": "Omat kuulemiset",
           "partSection": "Osa-alue",
           "phase": "Hankkeen vaiheet",
           "phaseActive": "Kuuleminen kuuluu tähän vaiheeseen.",
@@ -352,6 +357,7 @@ exports[`Hearings component should render as expected 1`] = `
           "question": "Kysymys",
           "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
           "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
+          "queueCount": "Julkaisua odottavat ({n})",
           "register": "Rekisteröidy",
           "registered": "rekisteröitynyt",
           "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
@@ -386,6 +392,8 @@ exports[`Hearings component should render as expected 1`] = `
           "selectAnotherImage": "Valitse toinen kuva",
           "selectOrDropFile": "Valitse tai pudota liite",
           "selectOrDropImage": "Valitse tai pudota kuva",
+          "show": "Näytä",
+          "showAll": "Näytä kaikki ({n})",
           "showMoreReplies": "Näytä vastaukset",
           "showOnlyOpen": "Näytetään vain avoimet",
           "showSubsectionBtn": "Näytä tiedot",
@@ -410,6 +418,7 @@ exports[`Hearings component should render as expected 1`] = `
           "title": "Otsikko",
           "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
           "toBePublishedHearing": "Kuuleminen julkaistaan",
+          "toolbar": "Työkalupalkki",
           "totalNumHearing": "kuuleminen",
           "totalNumHearings": "kuulemista",
           "totalQuestionVotes": "Ääniä yhteensä: {n}",
@@ -417,7 +426,18 @@ exports[`Hearings component should render as expected 1`] = `
           "totalSubmittedComments": "Yhteensä {n} kommenttia",
           "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
           "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
+          "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
           "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
+          "validationHearingCloseAt": "Aseta sulkeutumisaika ennen tallentamista.",
+          "validationHearingContactPersons": "Aseta ainakin yksi yhteyshenkilö.",
+          "validationHearingLabels": "Aseta ainakin yksi asiasana.",
+          "validationHearingOpenAt": "Aseta avautumisaika ennen tallentamista.",
+          "validationHearingProjectPhaseActive": "Projektit tarvitsevat ainakin yhden aktiivisen vaiheen.",
+          "validationHearingProjectPhaseTitle": "Aseta vaiheen otsikko ennen tallennusta.",
+          "validationHearingProjectTitle": "Aseta projektin nimi ennen tallennusta.",
+          "validationHearingSlug": "Aseta osoite ennen tallentamista.",
+          "validationHearingTitle": "Aseta otsikko ennen tallentamista.",
+          "validationNotification": "Lomake sisältää virheitä, tarkista virheet ja kokeile uudestaan.",
           "validationOnlyNumbers": "Tässä kentässä voi olla vain numeroita",
           "vote": "Äänestä",
           "voteButtonLikes": "Tykkäystä",

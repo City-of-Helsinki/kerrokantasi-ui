@@ -46,6 +46,7 @@ function renderHTMLSkeleton(req, res, settings) {
         openIdAuthority={settings.openid_authority}
         openIdApiTokenUrl={settings.openid_apitoken_url}
         enableHighContrast={settings.enable_highcontrast}
+        adminHelpUrl={settings.admin_help_url}
       />
     );
     res.status(200).send(html);

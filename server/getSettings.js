@@ -31,6 +31,8 @@ const defaults = {
   enable_highcontrast: false,
   // Should display cookiebar
   show_cookiebar: false,
+  // Hearing admin help link url
+  admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
 };
 
 const optionalKeys = [
@@ -50,6 +52,7 @@ const optionalKeys = [
   "openid_audience",
   "openid_authority",
   "enable_highcontrast",
+  "admin_help_url",
 ];
 
 const mandatoryKeys = [

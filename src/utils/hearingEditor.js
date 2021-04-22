@@ -142,3 +142,93 @@ export const initNewProject = () => {
     phases: []
   };
 };
+
+
+/**
+ * Parse through geojson features and round each coordinate to 6 decimals
+ * @example
+ * [22.3061943054, 60.4597569477] -> [22.306194, 60.459757]
+ * @param {Object} featureCollection
+ * @param {string} featureCollection.type
+ * @param {Object[]} featureCollection.features
+ * @returns {{type: string, features: Object[]}}
+ */
+export const parseCollection = (featureCollection) => {
+  const normalizedFeatures = featureCollection.features.reduce((features, feature) => {
+    let normalizedCoordinates;
+    if (feature.geometry.coordinates.length === 1) {
+      /**
+       * geometry.coordinates is a multidimensional array - a Polygon
+       * e.g. coordinates =
+       * [
+       *  [
+       *  [22.264..., 60.437...],
+       *  [22.265..., 60.438...],
+       *  [22.266..., 60.439...],
+       *  [22.267..., 60.440...]
+       *  ...
+       *  ]
+       * ]
+       */
+      // coordsToLatLngs - create multidimensional array of LatLngs from GeoJSON coordinates array
+      normalizedCoordinates = window.L.GeoJSON.coordsToLatLngs(feature.geometry.coordinates, 1);
+      // latLngsToCoords - reverse of the above, precision of the coordinates is 6 decimals
+      normalizedCoordinates = window.L.GeoJSON.latLngsToCoords(normalizedCoordinates, 1);
+    } else {
+      /**
+       * geometry.coordinates is an array with multiple values - a Point
+       * e.g. coordinates = [22.264...,60.432...]
+       */
+      // coordsToLatLng - create a LatLng object from array of 2 numbers
+      normalizedCoordinates = window.L.GeoJSON.coordsToLatLng(feature.geometry.coordinates);
+      // latLngToCoords - reverse of the above, precision of the coordinates is set to 6 decimals
+      normalizedCoordinates = window.L.GeoJSON.latLngToCoords(normalizedCoordinates, 6);
+    }
+    features.push({
+      type: feature.type,
+      geometry: {
+        coordinates: normalizedCoordinates,
+        type: feature.geometry.type
+      }
+    });
+    return features;
+  }, []);
+  return {type: featureCollection.type, features: normalizedFeatures};
+};
+
+export const cleanHearing = (hearing) => {
+  let cleanedHearing = {};
+  if (hearing.geojson.type === 'FeatureCollection' && hearing.geojson.features.length === 1) {
+    /**
+     * If the features array only has 1 feature then we just send that features geometry
+     * @example
+     * {
+     * type: 'FeatureCollection',
+     * features: [ {type: 'Feature', geometry:{type:'Point',coordinates:[...]} } ]
+     * }
+     * ------
+     * {type: 'Point', coordinates: [...]}
+     */
+    cleanedHearing = Object.assign({}, hearing, {
+      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
+      geojson: hearing.geojson.features[0].geometry,
+    });
+  } else {
+    cleanedHearing = Object.assign({}, hearing, {
+      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
+      geojson: hearing.geojson
+    });
+  }
+  return cleanedHearing;
+};
+
+/**
+ * Get validationState for FormGroup elements.
+ * If errors contains value with key -> return error
+ * @param {object} errors
+ * @param {string} key
+ * @returns {'error'|null}
+ */
+export const getValidationState = (errors, key) => {
+  return errors[key] ? 'error' : null;
+};

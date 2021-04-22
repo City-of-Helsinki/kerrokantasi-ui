@@ -59,3 +59,7 @@ city_config="cities/helsinki"
 # Should display cookiebar at the bottom of the page
 # Default: false
 # show_cookiebar=true
+
+# Address for hearing admin help link
+# Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
+# admin_help_url=

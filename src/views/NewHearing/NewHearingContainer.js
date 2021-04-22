@@ -9,6 +9,7 @@ import {getUser} from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 import userManager from "../../utils/userManager";
+import { localizedNotifyError } from '../../utils/notify';
 
 export class NewHearingContainerComponent extends React.Component {
   componentDidMount() {
@@ -36,7 +37,7 @@ export class NewHearingContainerComponent extends React.Component {
             {!user
               ?
                 <div className="hearing-page">
-                  <PleaseLogin login={() => userManager.signinRedirect()} />
+                  <PleaseLogin login={handleLogin} />
                 </div>
               :
                 <HearingEditor
@@ -67,6 +68,14 @@ NewHearingContainerComponent.propTypes = {
   initHearing: PropTypes.func,
   fetchProjectsList: PropTypes.func
 };
+
+async function handleLogin() {
+  try {
+    await userManager.signinRedirect();
+  } catch (error) {
+    localizedNotifyError("loginAttemptFailed");
+  }
+}
 
 const mapStateToProps = (state) => ({
   language: state.language,

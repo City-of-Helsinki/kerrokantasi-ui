@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../utils/Icon';
 import {localizedNotifyError} from '../../utils/notify';
+import {getValidationState} from '../../utils/hearingEditor';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import {Row, Col} from 'react-bootstrap';
@@ -12,7 +13,15 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControlOnChange from '../forms/FormControlOnChange';
 
 const Phase = (props) => {
-  const {phaseInfo, indexNumber, onDelete, onChange, onActive, languages} = props;
+  const {
+    phaseInfo,
+    indexNumber,
+    onDelete,
+    onChange,
+    onActive,
+    languages,
+    errors
+  } = props;
 
   const handleRadioOnChange = () => {
     onActive(phaseInfo.id || phaseInfo.frontId);
@@ -26,7 +35,7 @@ const Phase = (props) => {
             <FormGroup key={usedLanguage}>
               <Row>
                 <Col md={12}>
-                  <FormGroup>
+                  <FormGroup validationState={getValidationState(errors, 'project_phase_title')}>
                     <ControlLabel>
                       <FormattedMessage id="phase"/> {indexNumber + 1} ({usedLanguage})
                     </ControlLabel>
@@ -99,8 +108,12 @@ const Phase = (props) => {
                 ? (
                   <Row>
                     <Col md={12}>
-                      <Radio onChange={handleRadioOnChange} checked={phaseInfo.is_active || false}>
-                        <FormattedMessage id="phaseActive"/>
+                      <Radio
+                        className={getValidationState(errors, 'project_phase_active') ? 'has-error' : ''}
+                        onChange={handleRadioOnChange}
+                        checked={phaseInfo.is_active || false}
+                      >
+                        <FormattedMessage id="phaseActive">{txt => txt}</FormattedMessage>
                       </Radio>
                     </Col>
                   </Row>
@@ -121,7 +134,8 @@ Phase.propTypes = {
   onDelete: PropTypes.func,
   onChange: PropTypes.func,
   onActive: PropTypes.func,
-  languages: PropTypes.arrayOf(PropTypes.string)
+  languages: PropTypes.arrayOf(PropTypes.string),
+  errors: PropTypes.object,
 };
 
 const WrappedPhase = injectIntl(Phase);
