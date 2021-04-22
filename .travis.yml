@@ -8,14 +8,14 @@ language: node_js
 
 node_js:
   - "lts/*"
-  - "15"
+  - "node"
 
 cache:
   directories:
     - node_modules
 
 before_install:
-  - npm i -g npm
+  - npm i -g npm@latest
 
 script:
   - npm run lint
