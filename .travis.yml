@@ -7,15 +7,15 @@ services:
 language: node_js
 
 node_js:
-  - "lts/*"
-  - "node"
+  - "15"
+  - "14"
 
 cache:
   directories:
     - node_modules
 
 before_install:
-  - npm i -g npm@15.9.0
+  - npm i -g npm
 
 script:
   - npm run lint
