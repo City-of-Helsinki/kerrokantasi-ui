@@ -60,6 +60,7 @@ class HearingForm extends React.Component {
       onQuestionChange,
       onDeleteTemporaryQuestion
     } = this.props;
+    console.log(hearing)
     const step = stepNumber.toString();
     const title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list

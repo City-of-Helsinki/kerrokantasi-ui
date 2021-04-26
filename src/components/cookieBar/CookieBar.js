@@ -9,6 +9,7 @@ function CookieBar() {
       buttonId="cookie-accept-button"
       buttonText={getMessage('cookieBar.accept')}
       contentClasses="cookie-content"
+      buttonWrapperClasses="cookie-buttons"
       declineButtonId="cookie-decline-button"
       declineButtonText={getMessage('cookieBar.decline')}
       disableStyles
@@ -16,16 +17,17 @@ function CookieBar() {
       setDeclineCookie
       expires={90}
       onAccept={addCookieScript}
+      flipButtons={true}
     >
-      {getMessage('cookieBar.description')}
-      <div>
-        <a
-          id="cookiebar-link"
-          href={getMessage('cookieBar.link.href')}
-        >
-          {getMessage('cookieBar.link.text')}
-        </a>
-      </div>
+      <h3 id="cookiebar-title">{getMessage('cookieBar.title')}</h3>
+      <p id="cookiebar-content">{getMessage('cookieBar.description')}</p>
+
+      <a
+        id="cookiebar-link"
+        href={getMessage('cookieBar.link.href')}
+      >
+        {getMessage('cookieBar.link.text')}
+      </a>
     </CookieConsent>
   );
 }
