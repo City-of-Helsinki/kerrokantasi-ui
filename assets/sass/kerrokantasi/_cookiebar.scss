@@ -43,7 +43,7 @@
         line-height: 27px;
         text-decoration: underline;
         margin-bottom: 20px;
-        width: 118px;
+        width: 160px;
       }
   }
 
@@ -125,27 +125,31 @@
   display: flex !important;
   align-items: center;
   z-index: 1200;
-}
 
-#collapsible-cookie-panel {
-  margin: 0 !important;
-}
+  #collapsible-cookie-panel {
+    margin: 0 !important;
+  }
+  
+  #cookie-management-panel {
+    margin-top: 20px;
+  }
 
-#cookie-management-panel {
-  margin-top: 20px;
-}
-
-#cookie-management-modal-close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  -webkit-appearance: none;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
-  padding: 10px;
-  background: transparent;
-  border: none;
+  #cookie-panel-icon {
+    margin-right: 10px;
+  }
+  
+  #cookie-management-modal-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    -webkit-appearance: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+  }
 }

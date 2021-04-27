@@ -70,7 +70,7 @@ class CookieManagementModal extends React.Component {
                   onClick={() =>
                     this.setState({ activeKey: this.state.activeKey === '1' ? '0' : '1' })}
                 >
-                  <Icon name={this.state.activeKey === '1' ? 'chevron-down' : 'chevron-right'} />
+                  <Icon id="cookie-panel-icon" name={this.state.activeKey === '1' ? 'chevron-down' : 'chevron-right'} />
                   {getMessage('cookieBar.modal.panel.functionalCookies')}
                 </Panel.Title>
               </Panel.Heading>
@@ -84,7 +84,7 @@ class CookieManagementModal extends React.Component {
                   onClick={() =>
                     this.setState({ activeKey: this.state.activeKey === '2' ? '0' : '2' })}
                 >
-                  <Icon name={this.state.activeKey === '2' ? 'chevron-down' : 'chevron-right'} />
+                  <Icon id="cookie-panel-icon" name={this.state.activeKey === '2' ? 'chevron-down' : 'chevron-right'} />
                   {getMessage('cookieBar.modal.panel.googleAnalytics')}
                 </Panel.Title>
               </Panel.Heading>
