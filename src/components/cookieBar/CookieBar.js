@@ -17,8 +17,8 @@ export class CookieBar extends React.Component {
     this.setState({showCookieManagementModal: false});
   };
 
-  handleKeyDown = (ev) => {
-    if (ev.keyCode === 13) {
+  handleKeyDown = (e) => {
+    if (e && e.key === "Enter") {
       this.openCookieManagementModal();
     }
   };
@@ -48,7 +48,7 @@ export class CookieBar extends React.Component {
             tabIndex="0"
             role="button"
             onClick={() => this.openCookieManagementModal()}
-            onKeyDown={() => this.handleKeyDown}
+            onKeyDown={(e) => this.handleKeyDown(e)}
           >
             {getMessage('cookieBar.link.text')}
           </a>

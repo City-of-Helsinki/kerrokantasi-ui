@@ -1,0 +1,224 @@
+.bootstrap-switch {
+  display: inline-block;
+  direction: ltr;
+  cursor: pointer;
+  border-radius: 34px;
+  position: relative;
+  background-color: #e3e1e8;
+  text-align: left;
+  overflow: hidden;
+  line-height: 8px;
+  z-index: 0;
+  height: 24px;
+  width: 50px !important;
+  @include user-select(none);
+  vertical-align: middle;
+  @include transition(#{"border-color ease-in-out .15s, box-shadow ease-in-out .15s"});
+
+  .bootstrap-switch-container {
+    display: inline-block;
+    top: 0;
+    border-radius: $border-radius-base;
+    @include translate3d(0, 0, 0);
+    vertical-align: middle;
+  }
+
+  .bootstrap-switch-handle-on,
+  .bootstrap-switch-handle-off,
+  .bootstrap-switch-label {
+    @include box-sizing(border-box);
+    cursor: pointer;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0;
+    font-size: $font-size-base;
+    line-height: $line-height-computed;
+  }
+
+  .bootstrap-switch-handle-on,
+  .bootstrap-switch-handle-off {
+    text-align: center;
+    z-index: 1;
+
+    &.bootstrap-switch-primary {
+      color: #e3e1e8;
+      background-color:#e3e1e8;
+    }
+
+    &.bootstrap-switch-info {
+      color: #fff;
+      background-color: $btn-info-bg;
+    }
+
+    &.bootstrap-switch-success {
+      color: #fff;
+      background-color: $btn-success-bg;
+    }
+
+    &.bootstrap-switch-warning {
+      background-color: $btn-warning-bg;
+      color: #fff;
+    }
+
+    &.bootstrap-switch-danger {
+      color: #fff;
+      background-color: $btn-danger-bg;
+    }
+
+    &.bootstrap-switch-default {
+      color: #e3e1e8;
+      background-color: #e3e1e8;
+    }
+  }
+
+  .bootstrap-switch-label {
+    text-align: center;
+    margin-top: -1px;
+    margin-bottom: -1px;
+    z-index: 100;
+    color: $btn-default-color;
+    background-color: $btn-default-bg;
+    width:0px !important;
+  }
+
+  .bootstrap-switch-label:before {
+    background-color: #ffffff;
+  }
+  .bootstrap-switch-label:before {
+      border-radius: 50%;
+  }
+  .bootstrap-switch-label:before {
+    bottom: 4px;
+    content: "";
+    height: 16px;
+    left: 32px;
+    position: absolute;
+    transition: .5s;
+    width: 16px;
+  }
+
+  .bootstrap-switch-handle-on {
+    width:45px !important;
+    @include border-left-radius($border-radius-base - 1);
+  }
+
+  .bootstrap-switch-handle-off {
+    width:45px !important;
+    @include border-right-radius($border-radius-base - 1);
+  }
+
+  input[type='radio'],
+  input[type='checkbox'] {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: -1;
+    @include opacity(0);
+    visibility: hidden;
+  }
+
+  &.bootstrap-switch-mini {
+
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      padding: 0 $padding-xs-horizontal;
+      font-size: $font-size-small;
+      line-height: $line-height-small;
+    }
+  }
+
+  &.bootstrap-switch-small {
+
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      padding: 0 $padding-small-horizontal;
+      font-size: $font-size-small;
+      line-height: $line-height-small;
+    }
+  }
+
+  &.bootstrap-switch-large {
+
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      padding: 0 $padding-large-horizontal;
+      font-size: $font-size-large;
+      line-height: $line-height-large;
+    }
+  }
+
+  &.bootstrap-switch-disabled,
+  &.bootstrap-switch-readonly,
+  &.bootstrap-switch-indeterminate {
+    cursor: default !important;
+
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      @include opacity(.5);
+      cursor: default !important;
+    }
+  }
+
+  &.bootstrap-switch-animate {
+
+    .bootstrap-switch-container {
+      @include transition(margin-left .5s, background-color .5s);
+    }
+  }
+
+  &.bootstrap-switch-inverse {
+
+    .bootstrap-switch-handle-on {
+      @include border-left-radius(0);
+      @include border-right-radius($border-radius-base - 1);
+    }
+
+    .bootstrap-switch-handle-off {
+      @include border-right-radius(0);
+      @include border-left-radius($border-radius-base - 1);
+    }
+  }
+
+  &.bootstrap-switch-focused {
+    $color-rgba: rgba(red($input-border-focus), green($input-border-focus), blue($input-border-focus), .6);
+    border-color: $input-border-focus;
+    outline: 0;
+    //@include box-shadow(#{"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px ${$color-rgba}"});
+  }
+
+  &.bootstrap-switch-on,
+  &.bootstrap-switch-inverse.bootstrap-switch-off {
+
+    .bootstrap-switch-label {
+      @include border-right-radius($border-radius-base - 1);
+    }
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      color: #28a745;
+      background-color: #28a745;
+      transition: all 0.5s ease;
+    }
+  }
+
+  &.bootstrap-switch-off,
+  &.bootstrap-switch-inverse.bootstrap-switch-on {
+
+
+    .bootstrap-switch-label {
+      @include border-left-radius($border-radius-base - 1);
+    }
+    .bootstrap-switch-handle-on,
+    .bootstrap-switch-handle-off,
+    .bootstrap-switch-label {
+      color: #e3e1e8;
+      background-color: #e3e1e8;
+      transition: all 0.5s ease;
+    }
+  }
+}

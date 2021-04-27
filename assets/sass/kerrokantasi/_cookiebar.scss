@@ -152,4 +152,21 @@
     background: transparent;
     border: none;
   }
+
+  #cookie-panel-title-container {
+    position: relative;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #cookie-panel-switch-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    #cookie-panel-switch-status {
+      font-size: 12px;
+      text-align: right;
+      margin-right: 10px;
+    }
+  }
 }
