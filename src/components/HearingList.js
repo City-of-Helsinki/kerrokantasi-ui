@@ -117,7 +117,7 @@ HearingListFilters.propTypes = {
 
 export class HearingListItem extends React.Component {
   render() {
-    const { hearing, language, history } = this.props;
+    const { hearing, language, history, formatTime, formatDate } = this.props;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
       backgroundImage: `url(${defaultImage})`,
@@ -169,7 +169,12 @@ export class HearingListItem extends React.Component {
               <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />
             </div>
             <div>
-              <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
+              <FormatRelativeTime
+                messagePrefix="timeClose"
+                timeVal={hearing.close_at}
+                formatTime={formatTime}
+                formatDate={formatDate}
+              />
             </div>
           </div>
           <div className="hearing-list-item-labels clearfix">
@@ -206,6 +211,8 @@ HearingListItem.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
+  formatTime: PropTypes.func,
+  formatDate: PropTypes.func,
 };
 
 export const HearingList = ({
@@ -214,7 +221,6 @@ export const HearingList = ({
   handleSort,
   hearings,
   hearingCount,
-  intl: {formatMessage},
   isLoading,
   isMobile,
   labels,
@@ -230,6 +236,7 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
+  const {formatMessage, formatTime, formatDate} = intl;
 
   const hearingListMap = hearingsToShow ? (
     <Row>
@@ -303,7 +310,13 @@ export const HearingList = ({
                   <div className="hearing-list">
                     <div role="list">
                       {hearings.map(hearing => (
-                        <HearingListItem hearing={hearing} key={hearing.id} language={language} />
+                        <HearingListItem
+                          hearing={hearing}
+                          key={hearing.id}
+                          language={language}
+                          formatTime={formatTime}
+                          formatDate={formatDate}
+                        />
                       ))}
                     </div>
                     {isLoading && <LoadSpinner />}

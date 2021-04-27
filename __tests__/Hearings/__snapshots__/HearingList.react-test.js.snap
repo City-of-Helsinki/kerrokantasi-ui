@@ -353,7 +353,9 @@ exports[`HearingsList component should render as expected 1`] = `
                   "subsectionTitle": "Alaosio",
                   "table-of-content": "Sisällys",
                   "timeCloseFuture": "Sulkeutuu",
+                  "timeCloseFutureWithValues": "Sulkeutuu {date} klo {time}",
                   "timeClosePast": "Sulkeutui",
+                  "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
                   "timeOpenFuture": "Avautuu",
                   "timeOpenPast": "Avautui",
                   "timetable": "Aikajana",
@@ -498,6 +500,8 @@ exports[`HearingsList component should render as expected 1`] = `
                 role="list"
               >
                 <HearingListItem
+                  formatDate={[Function]}
+                  formatTime={[Function]}
                   hearing={
                     Object {
                       "abstract": Object {

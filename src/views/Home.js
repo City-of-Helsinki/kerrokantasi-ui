@@ -55,7 +55,7 @@ export class Home extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {topHearing, openHearings, language, user} = this.props;
+    const {topHearing, openHearings, language, user, intl} = this.props;
     const {isMobile} = this.state;
     const hearingMap =
       openHearings && openHearings.data ? (
@@ -101,7 +101,7 @@ export class Home extends React.Component {
             <h2 className="page-title">
               <FormattedMessage id="openHearings" />
             </h2>
-            {topHearing && <FullWidthHearing hearing={topHearing} language={language} />}
+            {topHearing && <FullWidthHearing hearing={topHearing} language={language} intl={intl}/>}
             {openHearings && openHearings.data && topHearing &&
               !openHearings.isFetching && (
                 <div className="list">
@@ -111,6 +111,7 @@ export class Home extends React.Component {
                         .filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])
                     }
                     language={language}
+                    intl={intl}
                   />
                   <p className="text-center">
                     <Link to={{path: "/hearings/list"}} className="btn btn-default">
