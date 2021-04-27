@@ -385,9 +385,9 @@ export class BaseCommentForm extends React.Component {
   }
 
   getMapContrastTiles() {
-    const {isHighContrast} = this.props;
+    const {isHighContrast, language} = this.props;
     return getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-      urls.highContrastRasterMapTiles, isHighContrast);
+      urls.highContrastRasterMapTiles, isHighContrast, language);
   }
 
   render() {
