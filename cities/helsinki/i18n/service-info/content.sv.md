@@ -76,6 +76,12 @@ Ifall det Material du lägger till kränker upphovsrätten eller annars är mot 
 
 När du är klient vid stadens tjänster eller på annat sätt sköter ärenden med staden, samlar staden in personuppgifter om dig i den utsträckning som krävs för ärendet. Alla uppgifter samlas in i olika register beroende på användningsändamålet med uppgifterna. Registerbeskrivningar finns för registren. De finns på www.hel.fi/rekisteriseloste. På sidan finns ett Register över delaktighet och respons (https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri-SV.pdf) för webbplatsen Kerrokantasi. Mer information om de rättigheter som enligt EU:s dataskyddsförordning (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd/) gäller i Helsingfors stads webbtjänster.
 
+## Licensiering av innehållet
+
+Alla de kreativa under upphovsrätten lydande innehåll, såsom texter, bilder, fonter, ljudupptagningar och videor, som användaren lägger till tjänsten publiceras enligt villkoren i Creative Commons –licensen BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi.
+
+All data inom tjänsten publiceras som öppen data, enligt villkoren i Open Data Commons Open Database Licence (ODbL).
+
 ## Kakor
 
 Den här webbplatsen använder webbkakor.
@@ -85,9 +91,3 @@ En webbkaka (cookie) är en textfil som webbläsaren lagrar på användarens enh
 I fråga om webbanalys innefattar kakorna en anonym, individuell kod som ger oss information om olika besökare på webbplatsen och bland annat om besökarnas webbläsare och enheter. Webbadministratören ser inga uppgifter som identifierar besökaren. Kakorna ger information om hur man rör sig på webbplatsen via webbläsaren och vilka sidor som visas.
 
 Dessutom används innehåll ur utomstående webbtjänster på webbplatsen. De utomstående webbtjänsterna kan placera egna kakor i webbläsaren.
-
-## Licensiering av innehållet
-
-Alla de kreativa under upphovsrätten lydande innehåll, såsom texter, bilder, fonter, ljudupptagningar och videor, som användaren lägger till tjänsten publiceras enligt villkoren i Creative Commons –licensen BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi.
-
-All data inom tjänsten publiceras som öppen data, enligt villkoren i Open Data Commons Open Database Licence (ODbL).

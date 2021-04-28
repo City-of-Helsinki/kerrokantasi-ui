@@ -5,7 +5,7 @@ import {FormattedMessage} from 'react-intl';
 import getMessage from '../../utils/getMessage';
 import Icon from '../../utils/Icon';
 import Switch from 'react-bootstrap-switch';
-import {addCookieScript} from "../../utils/cookieUtils";
+import {addCookieScript, removeCookieScript, changeCookieConsent} from "../../utils/cookieUtils";
 
 class CookieManagementModal extends React.Component {
   constructor(props) {
@@ -14,10 +14,26 @@ class CookieManagementModal extends React.Component {
     this.state = {
       expanded: false,
       activeKey: '0',
+      changesMade: false,
       cookies: {
         googleAnalytics: false
       }
     };
+  }
+
+  componentWillMount() {
+    if (document.cookie.split('; ').find(row => row.startsWith('CookieConsent'))) {
+      const consentValue = document.cookie.split('; ').find(row => row.startsWith('CookieConsent')).split('=')[1];
+      if (consentValue === 'true') {
+        this.setState(prevState => ({
+          cookies: {
+            ...prevState.cookies,
+            googleAnalytics: true
+          },
+          changesMade: false
+        }));
+      }
+    }
   }
 
   handleSelect(activeKey) {
@@ -25,27 +41,29 @@ class CookieManagementModal extends React.Component {
   }
 
   handleSwitch(elem, state) {
-    this.setState(prevState => ({  
+    this.setState(prevState => ({
       cookies: {
         ...prevState.cookies,
         [elem.props.name]: state
-      }
+      },
+      changesMade: true
     }));
   }
 
-  handleKeyDown(e) {
-    if (e && e.key === "Enter") {
-      this.setState({ expanded: !this.state.expanded })
+  handleKeyDown(ev, key, value) {
+    if (ev && ev.key === "Enter") {
+      this.setState({ [key]: value });
     }
   }
 
-  handleSwitchKeyDown(e) {
-    console.log(e)
-  }
-
   handleOnHide() {
-    if (this.state.cookies.googleAnalytics) {
-      addCookieScript();
+    if (this.state.changesMade) {
+      if (this.state.cookies.googleAnalytics) {
+        addCookieScript();
+      } else {
+        removeCookieScript();
+      }
+      changeCookieConsent();
     }
     this.props.close();
   }
@@ -54,7 +72,6 @@ class CookieManagementModal extends React.Component {
     return (
       <Modal
         className="cookie-management-modal"
-        scrollable={true}
         size="xl"
         show={this.props.isOpen}
         onHide={() => this.handleOnHide()}
@@ -85,7 +102,7 @@ class CookieManagementModal extends React.Component {
             tabIndex="0"
             role="button"
             onClick={() => this.setState({ expanded: !this.state.expanded })}
-            onKeyDown={(e) => this.handleKeyDown(e)}
+            onKeyDown={(ev) => this.handleKeyDown(ev, 'expanded', !this.state.expanded)}
           >
             {this.state.expanded ? getMessage('cookieBar.modal.showLess') : getMessage('cookieBar.modal.showMore')}
           </a>
@@ -97,13 +114,30 @@ class CookieManagementModal extends React.Component {
           >
             <Panel eventKey="1">
               <Panel.Heading>
-                <Panel.Title
-                  onClick={() =>
-                    this.setState({ activeKey: this.state.activeKey === '1' ? '0' : '1' })}
-                >
+                <Panel.Title>
                   <div id="cookie-panel-title-container">
-                    <Icon id="cookie-panel-icon" name={this.state.activeKey === '1' ? 'chevron-down' : 'chevron-right'} />
-                    <a tabIndex="0" role="tab">{getMessage('cookieBar.modal.panel.functionalCookies')}</a>
+                    <div
+                      onClick={() =>
+                        this.setState({ activeKey: this.state.activeKey === '1' ? '0' : '1' })
+                      }
+                      onKeyDown={
+                        (ev) =>
+                          this.handleKeyDown(ev, 'activeKey', this.state.activeKey === '1' ? '0' : '1')
+                      }
+                    >
+                      <Icon
+                        id="cookie-panel-icon"
+                        name={this.state.activeKey === '1' ? 'chevron-down' : 'chevron-right'}
+                      />
+                      <a tabIndex="0" role="tab">
+                        {getMessage('cookieBar.modal.panel.functionalCookies')}
+                      </a>
+                    </div>
+                    <span id="cookie-panel-switch-container">
+                      <span id="cookie-panel-switch-status" style={{ marginRight: 0 }}>
+                        {getMessage('cookieBar.modal.panel.alwaysEnabled')}
+                      </span>
+                    </span>
                   </div>
                 </Panel.Title>
               </Panel.Heading>
@@ -115,20 +149,39 @@ class CookieManagementModal extends React.Component {
               <Panel.Heading>
                 <Panel.Title>
                   <div id="cookie-panel-title-container">
-                    <div onClick={() =>
-                      this.setState({ activeKey: this.state.activeKey === '2' ? '0' : '2' })}
+                    <div
+                      onClick={() =>
+                        this.setState({ activeKey: this.state.activeKey === '2' ? '0' : '2' })
+                      }
+                      onKeyDown={
+                        (ev) =>
+                          this.handleKeyDown(ev, 'activeKey', this.state.activeKey === '2' ? '0' : '2')
+                      }
                     >
-                      <Icon id="cookie-panel-icon" name={this.state.activeKey === '2' ? 'chevron-down' : 'chevron-right'} />
-                      <a tabIndex="0" role="tab">{getMessage('cookieBar.modal.panel.googleAnalytics')}</a>
+                      <Icon
+                        id="cookie-panel-icon"
+                        name={this.state.activeKey === '2' ? 'chevron-down' : 'chevron-right'}
+                      />
+                      <a
+                        tabIndex="0"
+                        role="tab"
+                      >
+                        {getMessage('cookieBar.modal.panel.googleAnalytics')}
+                      </a>
                     </div>
                     <span id="cookie-panel-switch-container">
-                      <span id="cookie-panel-switch-status">{this.state.cookies.googleAnalytics ? 'Käytössä' : 'Pois käytöstä'}</span>
+                      <span id="cookie-panel-switch-status">
+                        {
+                          this.state.cookies.googleAnalytics ?
+                          getMessage('cookieBar.modal.panel.enabled') :
+                          getMessage('cookieBar.modal.panel.disabled')
+                        }
+                      </span>
                       <Switch
                         tabIndex="0"
                         defaultValue={this.state.cookies.googleAnalytics}
                         onChange={(el, state) => this.handleSwitch(el, state)}
-                        onKeyDown={(el, state) => this.handleSwitchKeyDown(el, state)}
-                        name='googleAnalytics'
+                        name="googleAnalytics"
                       />
                     </span>
                   </div>
