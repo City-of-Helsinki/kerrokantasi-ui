@@ -125,8 +125,12 @@
   display: flex !important;
   align-items: center;
   z-index: 1200;
+  font-family: $hel-grotesk;
 
   #collapsible-cookie-panel {
+    #collapsible-cookie-panel--body {
+      padding-bottom: 10px;
+    }
     margin: 0 !important;
   }
   
@@ -163,10 +167,44 @@
     position: absolute;
     right: 0;
     top: 0;
-    #cookie-panel-switch-status {
+    #cookie-panel-switch-status, #cookie-panel-info-status {
       font-size: 12px;
       text-align: right;
       margin-right: 10px;
+    }
+  }
+
+  @media screen and (max-width: $screen-sm-min) {
+    .modal-title {
+      margin-bottom: 15px;
+      margin: 10px 0;
+      font-size: 24px !important;
+      line-height: 26px !important;
+    }
+
+    #collapsible-cookie-panel {
+      p, span{
+        font-size: 14px;
+        line-height: 1.4;
+        margin-top: 0;
+        padding: 0;
+      }
+    }
+
+    #cookie-panel-body {
+      font-size: 14px;
+    }
+
+    #cookie-show-more {
+      font-size: 12px;
+    }
+
+    #cookie-panel-title-container {
+      font-size: 14px;
+    }
+
+    #cookie-panel-switch-status {
+      display: none;
     }
   }
 }

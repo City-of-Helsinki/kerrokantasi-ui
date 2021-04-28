@@ -6,6 +6,7 @@ import getMessage from '../../utils/getMessage';
 import Icon from '../../utils/Icon';
 import Switch from 'react-bootstrap-switch';
 import {addCookieScript, removeCookieScript, changeCookieConsent} from "../../utils/cookieUtils";
+import Link from '../LinkWithLang';
 
 class CookieManagementModal extends React.Component {
   constructor(props) {
@@ -89,9 +90,9 @@ class CookieManagementModal extends React.Component {
                 id="cookieBar.modal.cookieInfoLink"
                 values={{
                   linkToInfo: (
-                    <a href={getMessage('cookieBar.link.href')}>
+                    <Link to={{path: "/info"}} target="_blank">
                       {getMessage('cookieBar.modal.cookieInfoLinkText')}
-                    </a>
+                    </Link>
                   ),
                 }}
               />
@@ -134,14 +135,14 @@ class CookieManagementModal extends React.Component {
                       </a>
                     </div>
                     <span id="cookie-panel-switch-container">
-                      <span id="cookie-panel-switch-status" style={{ marginRight: 0 }}>
+                      <span id="cookie-panel-info-status" style={{ marginRight: 0 }}>
                         {getMessage('cookieBar.modal.panel.alwaysEnabled')}
                       </span>
                     </span>
                   </div>
                 </Panel.Title>
               </Panel.Heading>
-              <Panel.Body collapsible>
+              <Panel.Body collapsible id="cookie-panel-body">
                 {getMessage('cookieBar.modal.panel.functionalCookiesContent')}
               </Panel.Body>
             </Panel>
@@ -187,7 +188,7 @@ class CookieManagementModal extends React.Component {
                   </div>
                 </Panel.Title>
               </Panel.Heading>
-              <Panel.Body collapsible>
+              <Panel.Body collapsible id="cookie-panel-body">
                 {getMessage('cookieBar.modal.panel.googleAnalyticsContent')}
               </Panel.Body>
             </Panel>
