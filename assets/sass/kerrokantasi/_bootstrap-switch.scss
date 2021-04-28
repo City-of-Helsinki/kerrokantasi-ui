@@ -9,8 +9,8 @@
   overflow: hidden;
   line-height: 8px;
   z-index: 0;
-  height: 24px;
-  width: 50px !important;
+  height: 23px;
+  width: 51px !important;
   @include user-select(none);
   vertical-align: middle;
   @include transition(#{"border-color ease-in-out .15s, box-shadow ease-in-out .15s"});
@@ -43,6 +43,7 @@
     &.bootstrap-switch-primary {
       color: #e3e1e8;
       background-color:#e3e1e8;
+      width: 30px !important;
     }
 
     &.bootstrap-switch-info {
@@ -68,6 +69,7 @@
     &.bootstrap-switch-default {
       color: #e3e1e8;
       background-color: #e3e1e8;
+      width: 30px !important;
     }
   }
 
@@ -78,7 +80,7 @@
     z-index: 100;
     color: $btn-default-color;
     background-color: $btn-default-bg;
-    width:0px !important;
+    width:30px !important;
   }
 
   .bootstrap-switch-label:before {
@@ -91,7 +93,7 @@
     bottom: 4px;
     content: "";
     height: 16px;
-    left: 32px;
+    left: 33px;
     position: absolute;
     transition: .5s;
     width: 16px;
