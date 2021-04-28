@@ -22,7 +22,7 @@ class CookieManagementModal extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentWillReceiveProps() {
     if (document.cookie.split('; ').find(row => row.startsWith('CookieConsent'))) {
       const consentValue = document.cookie.split('; ').find(row => row.startsWith('CookieConsent')).split('=')[1];
       if (consentValue === 'true') {
@@ -30,6 +30,14 @@ class CookieManagementModal extends React.Component {
           cookies: {
             ...prevState.cookies,
             googleAnalytics: true
+          },
+          changesMade: false
+        }));
+      } else {
+        this.setState(prevState => ({
+          cookies: {
+            ...prevState.cookies,
+            googleAnalytics: false
           },
           changesMade: false
         }));

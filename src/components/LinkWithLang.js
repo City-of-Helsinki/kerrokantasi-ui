@@ -29,7 +29,14 @@ class LinkWithLangComponent extends React.Component {
       state: to.state || {}
     };
     return (
-      <Link className={className} to={newTo} style={style} target={target ? target : '_self'}>{children}</Link>
+      <Link
+        className={className}
+        to={newTo}
+        style={style}
+        target={target !== undefined ? target : '_self'}
+      >
+        {children}
+      </Link>
     );
   }
 }
