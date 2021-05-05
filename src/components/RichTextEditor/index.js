@@ -16,11 +16,12 @@ import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
-import { BlockStyleControls, InlineStyleControls, IframeControls, SkipLinkControls } from './EditorControls';
+import { BlockStyleControls, InlineStyleControls, IframeControls, SkipLinkControls, ImageControls } from './EditorControls';
 import IframeModal from './Iframe/IframeModal';
 import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} from './Iframe/IframeUtils';
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
+import ImageModal from './Image/ImageModal';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -181,12 +182,16 @@ class RichTextEditor extends React.Component {
     this.openIframeModal = this.openIframeModal.bind(this);
     this.closeIframeModal = this.closeIframeModal.bind(this);
     this.confirmIframe = this.confirmIframe.bind(this);
+    this.openImageModal = this.openImageModal.bind(this);
+    this.closeImageModal = this.closeImageModal.bind(this);
+    this.confirmImage = this.confirmImage.bind(this);
     this.state = {
       editorState: createEditorState(),
       showURLInput: false,
       urlValue: '',
       showSkipLinkModal: false,
       showIframeModal: false,
+      showImageModal: false
     };
   }
 
@@ -404,6 +409,20 @@ class RichTextEditor extends React.Component {
     });
   }
 
+  confirmImage(imageValues) {
+    console.log(imageValues)
+    this.setState({showImageModal: false});
+  }
+
+  openImageModal(event) {
+    event.preventDefault();
+    this.setState({showImageModal: true});
+  }
+
+  closeImageModal() {
+    this.setState({showImageModal: false});
+  }
+
   /* TOGGLE BUTTONS */
   toggleBlockType(blockType) {
     this.onChange(
@@ -490,6 +509,14 @@ class RichTextEditor extends React.Component {
           isOpen={this.state.showIframeModal}
           onClose={this.closeIframeModal}
           onSubmit={this.confirmIframe}
+        />
+        <ImageControls
+          onClick={this.openImageModal}
+        />
+        <ImageModal
+          isOpen={this.state.showImageModal}
+          onClose={this.closeImageModal}
+          onSubmit={this.confirmImage}
         />
         <SkipLinkControls
           onClick={this.openSkipLinkModal}

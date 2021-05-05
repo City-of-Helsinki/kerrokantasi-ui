@@ -174,6 +174,8 @@
   "iframeFormFieldWidth": "Leveys pikseleinä (width)",
   "iframeHtmlCopyPaste": "Iframe leikkaa ja liitä html",
   "iframeModalTitle": "Iframe tiedot",
+  "imageAddButton":"Lisää kuva",
+  "imageModalTitle":"Kuvan tiedot",
   "imageSizeError": "Kuva on liian suuri. Maksimikoko on 1 megatavu.",
   "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
   "infoHeaderText": "Tietoa palvelusta",
