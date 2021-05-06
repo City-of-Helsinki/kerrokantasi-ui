@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import Icon from '../../../utils/Icon';
+import {localizedNotifyError} from '../../../utils/notify';
 
 const initialState = {
   inputErrors: {

@@ -52,6 +52,7 @@ class MultiLanguageTextField extends React.Component {
       labelId,
       required,
       richTextEditor,
+      sectionId,
       // Remove event listeners from ...rest
       onBlur, // eslint-disable-line
       onChange, // eslint-disable-line
@@ -76,6 +77,7 @@ class MultiLanguageTextField extends React.Component {
                 key={lang}
                 labelId={`inLanguage-${lang}`}
                 value={currentValue}
+                sectionId={sectionId}
                 onChange={(newValue) => this.proxyInputNonEvent(newValue, this.props.onChange, lang)}
                 onBlur={(newValue) => this.proxyInputNonEvent(newValue, this.props.onBlur, lang)}
                 {...rest}

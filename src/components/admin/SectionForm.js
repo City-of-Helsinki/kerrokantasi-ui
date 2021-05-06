@@ -281,6 +281,7 @@ class SectionForm extends React.Component {
           onBlur={(value) => onSectionChange(section.frontId, 'content', value)}
           rows="10"
           value={section.content}
+          sectionId={section.frontId}
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
           placeholderId="sectionContentPlaceholder"

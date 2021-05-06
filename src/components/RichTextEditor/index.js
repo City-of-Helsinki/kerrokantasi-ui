@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -22,6 +23,8 @@ import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} f
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
+import { addImage, changeSectionMainImage } from '../../actions/hearingEditor';
+import {initNewSectionImage} from '../../utils/section';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -410,7 +413,7 @@ class RichTextEditor extends React.Component {
   }
 
   confirmImage(imageValues) {
-    console.log(imageValues)
+    this.props.dispatch(changeSectionMainImage(this.props.sectionId, "image", imageValues.readerResult));
     this.setState({showImageModal: false});
   }
 
@@ -488,7 +491,6 @@ class RichTextEditor extends React.Component {
 
   render() {
     const { editorState } = this.state;
-
     return (
       <div className="rich-text-editor">
         <ControlLabel>
@@ -546,12 +548,18 @@ class RichTextEditor extends React.Component {
 
 RichTextEditor.propTypes = {
   labelId: PropTypes.string,
+  dispatch: PropTypes.func,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
+  sectionId: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
   intl: intlShape.isRequired
 };
 
-export default RichTextEditor;
+const WrappedRichTextEditor = connect((state) => ({
+  ...state
+}))(RichTextEditor);
+
+export default WrappedRichTextEditor;
