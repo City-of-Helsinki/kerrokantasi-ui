@@ -23,8 +23,7 @@ import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} f
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
-import { addImage, changeSectionMainImage } from '../../actions/hearingEditor';
-import {initNewSectionImage} from '../../utils/section';
+import { changeSectionImage } from '../../actions/hearingEditor';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -413,7 +412,7 @@ class RichTextEditor extends React.Component {
   }
 
   confirmImage(imageValues) {
-    this.props.dispatch(changeSectionMainImage(this.props.sectionId, "image", imageValues.readerResult));
+    this.props.dispatch(changeSectionImage(this.props.sectionId, "image", imageValues));
     this.setState({showImageModal: false});
   }
 

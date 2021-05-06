@@ -212,6 +212,22 @@ const byId = handleActions(
         [sectionID]: section,
       };
     },
+    [EditorActions.EDIT_SECTION_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
+      const section = {...state[sectionID], images: [...state[sectionID].images]};
+      const image = {};
+
+      image[field] = value;
+      if (field === 'image') {
+        // Only one of the two fields should have valid reference to an image.
+        image.url = '';
+      }
+      section.images.push(image);
+      
+      return {
+        ...state,
+        [sectionID]: section,
+      };
+    },
   },
   {},
 );
