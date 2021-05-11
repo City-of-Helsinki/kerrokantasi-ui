@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Editor from "draft-js-plugins-editor";
+import createImagePlugin from "draft-js-image-plugin";
+
 import {
-  Editor,
   EditorState,
-  CompositeDecorator,
   RichUtils,
   DefaultDraftBlockRenderMap,
   AtomicBlockUtils,
@@ -23,7 +24,7 @@ import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} f
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
-import { changeSectionImage } from '../../actions/hearingEditor';
+import ImageEntity from './Image/ImageEntity';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -106,20 +107,43 @@ const findIframeEntities = (contentBlock, callback, contentState) => {
   );
 };
 
+const findImageEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'IMAGE'
+      );
+    },
+    callback
+  );
+};
+
+const kerrokantasiPlugins = {
+  decorators: [
+    {
+      strategy: findLinkEntities,
+      component: Link,
+    },
+    {
+      strategy: findIframeEntities,
+      component: IframeEntity,
+    },
+    {
+      strategy: findImageEntities,
+      component: ImageEntity,
+    },
+  ],
+};
+
+const imagePlugin = createImagePlugin();
+
+const plugins = [imagePlugin, kerrokantasiPlugins];
+
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
-
-    const kerrokantasiDecorator = new CompositeDecorator([
-      {
-        strategy: findLinkEntities,
-        component: Link,
-      },
-      {
-        strategy: findIframeEntities,
-        component: IframeEntity,
-      },
-    ]);
 
     const createEditorState = () => {
       if (this.props.value) {
@@ -129,6 +153,9 @@ class RichTextEditor extends React.Component {
               return {type: 'LEAD', data: {}};
             }
             if (nodeName === 'iframe') {
+              return {type: 'atomic', data: {}};
+            }
+            if (nodeName === 'img') {
               return {type: 'atomic', data: {}};
             }
             return null;
@@ -158,12 +185,24 @@ class RichTextEditor extends React.Component {
                 iframeAttributes
               );
             }
+            if (nodeName === 'img') {
+              const imageAttributes = {};
+              for (let index = 0; index < node.attributes.length; index += 1) {
+                const attribute = node.attributes.item(index);
+                imageAttributes[attribute.name] = attribute.value;
+              }
+              return createEntity(
+                'image',
+                'IMMUTABLE',
+                imageAttributes
+              );
+            }
             return null;
           },
         })(stripIframeWrapperDivs(this.props.value));
-        return EditorState.createWithContent(contentState, kerrokantasiDecorator);
+        return EditorState.createWithContent(contentState);
       }
-      return EditorState.createEmpty(kerrokantasiDecorator);
+      return EditorState.createEmpty();
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -412,8 +451,30 @@ class RichTextEditor extends React.Component {
   }
 
   confirmImage(imageValues) {
-    this.props.dispatch(changeSectionImage(this.props.sectionId, "image", imageValues));
-    this.setState({showImageModal: false});
+    const {editorState} = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'image',
+      'IMMUTABLE',
+      { src: imageValues}
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      {currentContent: contentStateWithEntity}
+    );
+    this.setState({
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        newEditorState,
+        entityKey,
+        ' '
+      ),
+      showImageModal: false,
+    }, () => {
+      setTimeout(() => this.focus(), 0);
+    });
   }
 
   openImageModal(event) {
@@ -530,6 +591,7 @@ class RichTextEditor extends React.Component {
         {this.renderHyperlinkButton()}
         <Editor
           ref="editor"
+          plugins={plugins}
           blockStyleFn={getBlockStyle}
           blockRenderMap={blockRenderMap}
           editorState={editorState}
