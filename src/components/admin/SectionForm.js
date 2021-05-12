@@ -35,6 +35,7 @@ class SectionForm extends React.Component {
     super(props);
     this.onFileDrop = this.onFileDrop.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onSectionContentChange = this.onSectionContentChange.bind(this);
     this.toggleEnableCommentMap = this.toggleEnableCommentMap.bind(this);
     this.state = {
       enabledCommentMap: false,
@@ -109,6 +110,12 @@ class SectionForm extends React.Component {
       }
     });
     fileReader.readAsDataURL(file);
+  }
+
+  onSectionContentChange(value) {
+    console.log(value);
+    const { onSectionChange, section } = this.props;
+    onSectionChange(section.frontId, 'content', value);
   }
 
   getImagePreview() {
@@ -278,12 +285,11 @@ class SectionForm extends React.Component {
           richTextEditor
           labelId="sectionContent"
           name="content"
-          onBlur={(value) => onSectionChange(section.frontId, 'content', value)}
+          onBlur={this.onSectionContentChange}
           rows="10"
           value={section.content}
-          sectionId={section.frontId}
-          languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
+          languages={sectionLanguages}
           placeholderId="sectionContentPlaceholder"
         />
 

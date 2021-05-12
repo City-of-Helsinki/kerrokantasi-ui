@@ -3,9 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import Editor from "draft-js-plugins-editor";
-import createImagePlugin from "draft-js-image-plugin";
-
 import {
   EditorState,
   RichUtils,
@@ -14,6 +11,11 @@ import {
   Modifier,
   SelectionState,
 } from 'draft-js';
+import Editor, { composeDecorators } from "@draft-js-plugins/editor";
+import createImagePlugin from "@draft-js-plugins/image";
+import createFocusPlugin from "@draft-js-plugins/focus";
+import createResizeablePlugin from "@draft-js-plugins/resizeable";
+import '@draft-js-plugins/focus/lib/plugin.css';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
@@ -120,6 +122,14 @@ const findImageEntities = (contentBlock, callback, contentState) => {
   );
 };
 
+const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
+const decorator = composeDecorators(
+  resizeablePlugin.decorator,
+  focusPlugin.decorator
+);
+const imagePlugin = createImagePlugin({decorator});
+
 const kerrokantasiPlugins = {
   decorators: [
     {
@@ -137,9 +147,7 @@ const kerrokantasiPlugins = {
   ],
 };
 
-const imagePlugin = createImagePlugin();
-
-const plugins = [imagePlugin, kerrokantasiPlugins];
+const plugins = [ kerrokantasiPlugins, focusPlugin, resizeablePlugin, imagePlugin ];
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -205,7 +213,7 @@ class RichTextEditor extends React.Component {
       return EditorState.createEmpty();
     };
 
-    this.focus = () => this.refs.editor.focus();
+    this.onFocus = this.onFocus.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onURLChange = this.onURLChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -306,7 +314,7 @@ class RichTextEditor extends React.Component {
         showURLInput: true,
         urlValue: url,
       }, () => {
-        setTimeout(() => this.refs.url.focus(), 0);
+        setTimeout(() => this.onFocus(), 0)
       });
     }
   }
@@ -331,7 +339,7 @@ class RichTextEditor extends React.Component {
       showURLInput: false,
       urlValue: '',
     }, () => {
-      setTimeout(() => this.refs.editor.focus(), 0);
+      setTimeout(() => this.onFocus(), 0)
     });
   }
 
@@ -446,7 +454,7 @@ class RichTextEditor extends React.Component {
       ),
       showIframeModal: false,
     }, () => {
-      setTimeout(() => this.focus(), 0);
+      setTimeout(() => this.onFocus(), 0);
     });
   }
 
@@ -456,7 +464,7 @@ class RichTextEditor extends React.Component {
     const contentStateWithEntity = contentState.createEntity(
       'image',
       'IMMUTABLE',
-      { src: imageValues}
+      { src: imageValues, width: "40%", height: "auto"}
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(
@@ -473,7 +481,7 @@ class RichTextEditor extends React.Component {
       ),
       showImageModal: false,
     }, () => {
-      setTimeout(() => this.focus(), 0);
+      setTimeout(() => this.onFocus(), 0);
     });
   }
 
@@ -485,6 +493,10 @@ class RichTextEditor extends React.Component {
   closeImageModal() {
     this.setState({showImageModal: false});
   }
+
+  onFocus() {
+    this.refs.editor.focus();
+  };
 
   /* TOGGLE BUTTONS */
   toggleBlockType(blockType) {
@@ -589,19 +601,21 @@ class RichTextEditor extends React.Component {
           onSubmit={this.confirmSkipLink}
         />
         {this.renderHyperlinkButton()}
-        <Editor
-          ref="editor"
-          plugins={plugins}
-          blockStyleFn={getBlockStyle}
-          blockRenderMap={blockRenderMap}
-          editorState={editorState}
-          handleKeyCommand={this.handleKeyCommand}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          onTab={this.onTab}
-          stripPastedStyles
-          placeholder={this.getPlaceholder()}
-        />
+        <div onClick={this.onFocus}>
+          <Editor
+            plugins={plugins}
+            blockStyleFn={getBlockStyle}
+            blockRenderMap={blockRenderMap}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            onTab={this.onTab}
+            stripPastedStyles
+            placeholder={this.getPlaceholder()}
+            ref={"editor"}
+          />
+        </div>
       </div>
     );
   }
@@ -613,7 +627,6 @@ RichTextEditor.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-  sectionId: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
   intl: intlShape.isRequired
