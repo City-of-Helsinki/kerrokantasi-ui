@@ -134,6 +134,13 @@
   resolved "https://registry.yarnpkg.com/@deepcode/dcignore/-/dcignore-1.0.2.tgz#39e4a3df7dde8811925330506e4bb3fbf3c288d8"
   integrity sha512-DPgxtHuJwBORpqRkPXzzOT+uoPRVJmaN7LR+pmeL6DQM90kj6G6GFUH1i/YpRH8NbML8ZGEDwB9f9u4UwD2pzg==
 
+"@draft-js-plugins/drag-n-drop@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/drag-n-drop/-/drag-n-drop-4.2.0.tgz#f81d639b84fba3d0cd5bccfc9c5772dca39abd34"
+  integrity sha512-xwV/l20LvyMt4ixbLxMx0uPqHA8+MGSc+x/wnNqKiDLKySCdVKFq2xmsJBgFzHGS1FomeDgHbNoR5BMazaVAtw==
+  dependencies:
+    immutable "~3.7.4"
+
 "@draft-js-plugins/editor@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@draft-js-plugins/editor/-/editor-4.1.0.tgz#1861fb257ba51ecbd031b8a3d84ee0809de1504e"
