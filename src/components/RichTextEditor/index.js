@@ -15,6 +15,7 @@ import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createImagePlugin from "@draft-js-plugins/image";
 import createFocusPlugin from "@draft-js-plugins/focus";
 import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
+import createResizeablePlugin from '@draft-js-plugins/resizeable'
 import '@draft-js-plugins/focus/lib/plugin.css';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
@@ -115,7 +116,7 @@ const findImageEntities = (contentBlock, callback, contentState) => {
       const entityKey = character.getEntity();
       return (
         entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === 'IMAGE'
+        contentState.getEntity(entityKey).getType() === 'image'
       );
     },
     callback
@@ -123,10 +124,12 @@ const findImageEntities = (contentBlock, callback, contentState) => {
 };
 
 const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const decorator = composeDecorators(
   focusPlugin.decorator,
-  blockDndPlugin.decorator
+  blockDndPlugin.decorator,
+  resizeablePlugin.decorator
 );
 const imagePlugin = createImagePlugin({decorator});
 
@@ -147,7 +150,7 @@ const kerrokantasiPlugins = {
   ],
 };
 
-const plugins = [ kerrokantasiPlugins, blockDndPlugin, focusPlugin, imagePlugin ];
+const plugins = [ kerrokantasiPlugins, blockDndPlugin, focusPlugin, resizeablePlugin, imagePlugin ];
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -464,7 +467,7 @@ class RichTextEditor extends React.Component {
     const contentStateWithEntity = contentState.createEntity(
       'image',
       'IMMUTABLE',
-      { src: imageValues, width: "40%", height: "auto"}
+      { src: imageValues }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(

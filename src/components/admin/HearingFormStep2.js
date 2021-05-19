@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
+import {Collapse} from 'react-collapse';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
@@ -21,10 +22,12 @@ class HearingFormStep2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSection: getMainSection(props.hearing).frontId
+      activeSection: getMainSection(props.hearing).frontId,
+      collapsedStep: getMainSection(props.hearing).frontId
     };
     this.addSection = this.addSection.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleCollapse = this.handleCollapse.bind(this);
     this.sectionSequence = 0;
   }
 
@@ -40,6 +43,14 @@ class HearingFormStep2 extends React.Component {
       );
     }
     return null;
+  }
+
+  handleCollapse(step) {
+    if (this.state.collapsedStep == step) {
+      this.setState({collapsedStep: ''})
+    } else {
+      this.setState({collapsedStep: step});
+    }
   }
 
   /*
@@ -65,6 +76,8 @@ class HearingFormStep2 extends React.Component {
           id: `${section.type}Section`
         });
         const sectionID = section.frontId;
+        const isVisible = this.state.collapsedStep === sectionID;
+
         return (
           <Panel
             eventKey={sectionID}
@@ -72,39 +85,41 @@ class HearingFormStep2 extends React.Component {
             bsStyle="info"
           >
             <Panel.Heading>
-              <Panel.Title toggle>
+              <Panel.Title onClick={() => this.handleCollapse(sectionID)}>
                 {`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
               </Panel.Title>
             </Panel.Heading>
-            <Panel.Collapse>
-              <Panel.Body>
-                <SectionForm
-                  addOption={addOption}
-                  clearQuestions={this.props.clearQuestions}
-                  deleteOption={deleteOption}
-                  initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-                  initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-                  isFirstSubsection={index === 1}
-                  isLastSubsection={sectionID === last(hearing.sections).frontId}
-                  onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-                  onQuestionChange={onQuestionChange}
-                  onSectionAttachment={this.props.onSectionAttachment}
-                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-                  onSectionChange={this.props.onSectionChange}
-                  onSectionImageChange={this.props.onSectionImageChange}
-                  section={section}
-                  sectionLanguages={hearingLanguages}
-                  sectionMoveDown={sectionMoveDown}
-                  sectionMoveUp={sectionMoveUp}
-                  onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-                />
-                <div className="section-toolbar">
-                  {this.getDeleteSectionButton(section, sectionID)}
-                </div>
-              </Panel.Body>
-            </Panel.Collapse>
+            <Collapse isOpened={isVisible}>
+              <Panel>
+                <Panel.Body>
+                  <SectionForm
+                    addOption={addOption}
+                    clearQuestions={this.props.clearQuestions}
+                    deleteOption={deleteOption}
+                    initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+                    initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                    isFirstSubsection={index === 1}
+                    isLastSubsection={sectionID === last(hearing.sections).frontId}
+                    onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+                    onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                    onQuestionChange={onQuestionChange}
+                    onSectionAttachment={this.props.onSectionAttachment}
+                    onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+                    onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+                    onSectionChange={this.props.onSectionChange}
+                    onSectionImageChange={this.props.onSectionImageChange}
+                    section={section}
+                    sectionLanguages={hearingLanguages}
+                    sectionMoveDown={sectionMoveDown}
+                    sectionMoveUp={sectionMoveUp}
+                    onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+                  />
+                  <div className="section-toolbar">
+                    {this.getDeleteSectionButton(section, sectionID)}
+                  </div>
+                </Panel.Body>
+              </Panel>
+            </Collapse>
           </Panel>
         );
       });
