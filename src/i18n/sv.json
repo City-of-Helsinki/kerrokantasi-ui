@@ -124,7 +124,7 @@
   "iframeFormFieldWidth": "Bredd i pixlar (width)",
   "iframeHtmlCopyPaste": "Iframe kopiera och klistra in html",
   "iframeModalTitle": "iframe data",
-  "addImageButton":"Läg till bild",
+  "imageAddButton":"Läg till bild",
   "imageModalTitle":"Bildinformation",
   "imageSizeError": "Bilden för stor, största tillåtna storleken är 1MB",
   "infoHeaderDescription": "Det här är en tillfällig prototyp av tjänsten, som vi önskar att användarna kommenterar",

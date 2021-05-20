@@ -28,11 +28,11 @@ import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
 import ImageEntity from './Image/ImageEntity';
-
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
     case 'LEAD': return 'lead';
+    case 'ImageCaption': return 'image-caption';
     default: return null;
   }
 };
@@ -51,6 +51,9 @@ const htmlOptions = {
   blockStyleFn: (block) => {
     if (block.getType() === 'LEAD') {
       return {attributes: {className: 'lead'}};
+    }
+    if (block.getType() === 'ImageCaption') {
+      return {attributes: {className: 'image-caption'}}
     }
     return null;
   },
@@ -162,6 +165,9 @@ class RichTextEditor extends React.Component {
           htmlToBlock: (nodeName, node) => {
             if (node.className === 'lead') {
               return {type: 'LEAD', data: {}};
+            }
+            if (node.className === 'image-caption') {
+              return {type: 'ImageCaption', data: {}};
             }
             if (nodeName === 'iframe') {
               return {type: 'atomic', data: {}};

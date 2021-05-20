@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 const ImageEntity = (props) => {
   const {src} = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <div>
-      <img src={src} />
-    </div>
+    <img src={src} />
   );
 };
 

@@ -6,7 +6,8 @@ const BLOCK_TYPES = [
   {label: 'Väliotsikko', style: 'header-four'},
   {label: 'Lista', style: 'unordered-list-item'},
   {label: 'Numeroitu lista', style: 'ordered-list-item'},
-  {label: 'Korostettu kappale', style: 'LEAD'}
+  {label: 'Korostettu kappale', style: 'LEAD'},
+  {label: 'Kuvateksti', style: 'ImageCaption'},
 ];
 
 const INLINE_STYLES = [
