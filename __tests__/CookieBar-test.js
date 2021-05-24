@@ -32,7 +32,6 @@ describe('src/components/cookieBar/CookieBar', () => {
     const policyLink = getWrapper().find('a');
     expect(policyLink.length).toBe(1);
     expect(policyLink.prop('id')).toBe('cookiebar-link');
-    //expect(policyLink.prop('href')).toEqual(getMessage('cookieBar.link.href'));
     expect(policyLink.text()).toEqual(getMessage('cookieBar.link.text'));
   });
 });
