@@ -481,8 +481,6 @@ export class SectionContainerComponent extends React.Component {
     if (isEmpty(section.content)) {
       return null;
     }
-    // "/></figure>
-    console.log(section.content[language])
     return <div
       dangerouslySetInnerHTML={
         {
