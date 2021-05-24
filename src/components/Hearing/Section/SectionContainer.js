@@ -484,7 +484,7 @@ export class SectionContainerComponent extends React.Component {
     return <div
       dangerouslySetInnerHTML={
         {
-          __html: getAttr(section.content[language].replaceAll('"/></figure>', '%"/></figure>'), language)
+          __html: getAttr(section.content[language].replace(/"\/><\/figure>/g, '%"/></figure>'), language)
         }
       }
     />;
