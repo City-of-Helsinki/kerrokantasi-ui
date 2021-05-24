@@ -100,8 +100,8 @@ export function getSectionCommentingMessage(section) {
  * @param  {object} section
  * @return {object} object representing the image
  */
-export function getMainImage(section) {
-  return find(section.images, (image) => image.alt_text["fi"] === "main_image") || {};
+ export function getMainImage(section) {
+  return section.images[0] || {};
 }
 
 /*

@@ -40,7 +40,6 @@ export const EditorActions = {
   EDIT_QUESTION: 'editQuestion',
   EDIT_SECTION_ATTACHMENT: 'editSecionAttachment',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
-  EDIT_SECTION_IMAGE: 'changeSectionImage',
   EDIT_SECTION: 'changeSection',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
@@ -333,12 +332,6 @@ export function changeSection(sectionID, field, value) {
 export function changeSectionMainImage(sectionID, field, value) {
   return dispatch => {
     return dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({sectionID, field, value}));
-  };
-}
-
-export function changeSectionImage(sectionID, field, value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.EDIT_SECTION_IMAGE)({sectionID, field, value}));
   };
 }
 

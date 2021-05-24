@@ -4,12 +4,10 @@ import { combineActions, handleActions } from 'redux-actions';
 import updeep from 'updeep';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
-import isEmpty from 'lodash/isEmpty';
 import findIndex from 'lodash/findIndex';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
-import {initNewSectionImage} from '../../utils/section';
 // import {getOrCreateSectionByID} from '../../utils/hearing';
 // import type {SectionState} from '../../types';
 
@@ -187,42 +185,12 @@ const byId = handleActions(
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
       const section = {...state[sectionID], images: [...state[sectionID].images]};
       const image = {...getMainImage(section)};
-      const isNew = isEmpty(image);
-
       image[field] = value;
       if (field === 'image') {
         // Only one of the two fields should have valid reference to an image.
         image.url = '';
       }
-      if (isNew) {
-        image.alt_text = {fi: "main_image"};
-        section.images.push(image);
-      } else {
-        section.images = section.images.map((sectionImage) => {
-          if (sectionImage.alt_text && sectionImage.alt_text["fi"] === "main_image") {
-            return {
-              ...image
-            }
-          }
-        })
-      }
-      
-      return {
-        ...state,
-        [sectionID]: section,
-      };
-    },
-    [EditorActions.EDIT_SECTION_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
-      const section = {...state[sectionID], images: [...state[sectionID].images]};
-      const image = {};
-
-      image[field] = value;
-      if (field === 'image') {
-        // Only one of the two fields should have valid reference to an image.
-        image.url = '';
-      }
-      section.images.push(image);
-      
+      section.images = [image];
       return {
         ...state,
         [sectionID]: section,
