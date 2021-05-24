@@ -481,7 +481,13 @@ export class SectionContainerComponent extends React.Component {
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content[language].replaceAll('\"/></figure>', '%"/></figure>'), language) }} />;
+    return <div
+      dangerouslySetInnerHTML={
+        {
+          __html: getAttr(section.content[language].replaceAll('"/></figure>', '%"/></figure>'), language)
+        }
+      }
+    />;
   }
 
   renderSectionAbstract = (section, language) => {

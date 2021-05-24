@@ -113,7 +113,6 @@ class SectionForm extends React.Component {
   }
 
   onSectionContentChange(value) {
-    console.log(value);
     const { onSectionChange, section } = this.props;
     onSectionChange(section.frontId, 'content', value);
   }

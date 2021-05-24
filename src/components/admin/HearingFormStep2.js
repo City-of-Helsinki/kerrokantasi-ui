@@ -46,8 +46,8 @@ class HearingFormStep2 extends React.Component {
   }
 
   handleCollapse(step) {
-    if (this.state.collapsedStep == step) {
-      this.setState({collapsedStep: ''})
+    if (this.state.collapsedStep === step) {
+      this.setState({collapsedStep: ''});
     } else {
       this.setState({collapsedStep: step});
     }

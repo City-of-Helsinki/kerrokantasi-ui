@@ -15,19 +15,26 @@ import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createImagePlugin from "@draft-js-plugins/image";
 import createFocusPlugin from "@draft-js-plugins/focus";
 import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
-import createResizeablePlugin from '@draft-js-plugins/resizeable'
+import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import '@draft-js-plugins/focus/lib/plugin.css';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
-import { BlockStyleControls, InlineStyleControls, IframeControls, SkipLinkControls, ImageControls } from './EditorControls';
+import {
+  BlockStyleControls,
+  InlineStyleControls,
+  IframeControls,
+  SkipLinkControls,
+  ImageControls
+} from './EditorControls';
 import IframeModal from './Iframe/IframeModal';
 import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} from './Iframe/IframeUtils';
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
 import ImageEntity from './Image/ImageEntity';
+
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
@@ -53,7 +60,7 @@ const htmlOptions = {
       return {attributes: {className: 'lead'}};
     }
     if (block.getType() === 'ImageCaption') {
-      return {attributes: {className: 'image-caption'}}
+      return {attributes: {className: 'image-caption'}};
     }
     return null;
   },
@@ -153,7 +160,7 @@ const kerrokantasiPlugins = {
   ],
 };
 
-const plugins = [ kerrokantasiPlugins, blockDndPlugin, focusPlugin, resizeablePlugin, imagePlugin ];
+const plugins = [kerrokantasiPlugins, blockDndPlugin, focusPlugin, resizeablePlugin, imagePlugin];
 
 class RichTextEditor extends React.Component {
   constructor(props) {
@@ -323,7 +330,7 @@ class RichTextEditor extends React.Component {
         showURLInput: true,
         urlValue: url,
       }, () => {
-        setTimeout(() => this.onFocus(), 0)
+        setTimeout(() => this.onFocus(), 0);
       });
     }
   }
@@ -348,7 +355,7 @@ class RichTextEditor extends React.Component {
       showURLInput: false,
       urlValue: '',
     }, () => {
-      setTimeout(() => this.onFocus(), 0)
+      setTimeout(() => this.onFocus(), 0);
     });
   }
 
@@ -505,7 +512,7 @@ class RichTextEditor extends React.Component {
 
   onFocus() {
     this.refs.editor.focus();
-  };
+  }
 
   /* TOGGLE BUTTONS */
   toggleBlockType(blockType) {
@@ -610,6 +617,7 @@ class RichTextEditor extends React.Component {
           onSubmit={this.confirmSkipLink}
         />
         {this.renderHyperlinkButton()}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div onClick={this.onFocus}>
           <Editor
             plugins={plugins}
@@ -622,7 +630,7 @@ class RichTextEditor extends React.Component {
             onTab={this.onTab}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
-            ref={"editor"}
+            ref="editor"
           />
         </div>
       </div>
@@ -632,7 +640,6 @@ class RichTextEditor extends React.Component {
 
 RichTextEditor.propTypes = {
   labelId: PropTypes.string,
-  dispatch: PropTypes.func,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,

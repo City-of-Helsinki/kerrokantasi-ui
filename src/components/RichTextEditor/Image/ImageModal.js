@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
-import {Modal, Button, ModalTitle} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import getMessage from '../../../utils/getMessage';
@@ -8,16 +7,16 @@ import {isFormValid} from './ImageUtils';
 import {
   ControlLabel,
   HelpBlock,
-  Image
+  Image,
+  Modal,
+  Button,
+  ModalTitle
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import Icon from '../../../utils/Icon';
 import {localizedNotifyError} from '../../../utils/notify';
 
 const initialState = {
-  inputErrors: {
-    fileReaderResult: '',
-  },
   showFormErrorMsg: false,
   fileReaderResult: false
 };
@@ -44,10 +43,6 @@ class ImageModal extends React.Component {
       fileReaderResult: fileReaderResult ? '' : getMessage('validationCantBeEmpty'),
     };
 
-    this.setState({
-      inputErrors,
-    });
-
     return isFormValid(inputErrors);
   }
 
@@ -73,7 +68,7 @@ class ImageModal extends React.Component {
     const file = files[0];  // Only one file is supported for now.
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
-      this.setState({fileReaderResult: fileReader.result})
+      this.setState({fileReaderResult: fileReader.result});
     }, false);
     fileReader.readAsDataURL(file);
   }

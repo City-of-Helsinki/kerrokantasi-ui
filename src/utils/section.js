@@ -100,7 +100,7 @@ export function getSectionCommentingMessage(section) {
  * @param  {object} section
  * @return {object} object representing the image
  */
- export function getMainImage(section) {
+export function getMainImage(section) {
   return section.images[0] || {};
 }
 
