@@ -67,6 +67,12 @@ Mikäli liittämäsi Materiaali rikkoo tekijänoikeuksia tai on muuten lainvasta
 
 Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, kaupunki kerää henkilötietojasi siinä määrin kuin se on tarpeellista asian hoitamiseksi. Kaikki tiedot on kerätty eri rekistereihin tietojen käyttötarkoitusten mukaan. Rekistereistä on laadittu rekisteriselosteet, jotka pääset näkemään osoitteesta www.hel.fi/rekisteriseloste. Sivulla on Kerrokantasi-verkkosivustoa koskeva [Osallisuuden ja palautteiden rekisteriseloste](https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri.pdf). Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/) Helsingin kaupungin verkkopalveluissa.
 
+### Sisällön lisensointi
+
+Kaikki käyttäjän palveluun lisäämät tekijänoikeuksien alaiset luovat sisällöt, esimerkiksi tekstit, kuvat, fontit, ääninauhoitteet ja videot, julkaistaan Creative Commons BY-NC-SA 4.0 -lisenssin ehdoin: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
+
+Kaikki palvelun tietoaineistot julkaistaan avoimena datana, Open Data Commons Open Database Licence (ODbL) -lisenssin ehdoin.
+
 ### Evästeet
 
 Eväste on tiedosto, jonka selain tallentaa käyttäjän päätelaitteelle. Evästeitä käytetään tarjoamaan palvelun käyttöä helpottavia ominaisuuksia ja niiden avulla voidaan myös kerätä tietoa käyttäjistä palvelun parantamiseksi. Evästeiden avulla tarjoamme sujuvammin käytettävän ja toimivan verkkosivuston, joka vastaa entistä paremmin käyttäjien tarpeita.
@@ -74,9 +80,3 @@ Eväste on tiedosto, jonka selain tallentaa käyttäjän päätelaitteelle. Evä
 Käyttäjäseurannan osalta evästeet sisältävät nimettömän, yksilöllisen tunnisteen, jonka avulla saamme tietoa sivustollamme vierailevista eri käyttäjistä, muun muassa heidän selaimistaan ja päätelaitteistaan. Käyttäjän yksilöiviä tietoja ei niistä näy sivuston ylläpitäjille. Evästeiden kautta saadaan tietoa siitä, miten selaimella liikutaan sivustoillamme ja minkälaisia sivuja katsotaan.
 
 Lisäksi tässä verkkosivustossa käytetään ulkopuolisten verkkopalvelujen sisältöjä. Ulkopuoliset verkkopalvelut voivat asentaa selaimiin niiden omia evästeitä.
-
-### Sisällön lisensointi
-
-Kaikki käyttäjän palveluun lisäämät tekijänoikeuksien alaiset luovat sisällöt, esimerkiksi tekstit, kuvat, fontit, ääninauhoitteet ja videot, julkaistaan Creative Commons BY-NC-SA 4.0 -lisenssin ehdoin: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
-
-Kaikki palvelun tietoaineistot julkaistaan avoimena datana, Open Data Commons Open Database Licence (ODbL) -lisenssin ehdoin.

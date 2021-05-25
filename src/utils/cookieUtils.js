@@ -18,6 +18,20 @@ function checkCookieConsent() {
   }
 }
 
+function changeCookieConsent() {
+  if (document.cookie.split('; ').find(row => row.startsWith('CookieConsent'))) {
+    const consentValue = document.cookie.split('; ').find(row => row.startsWith('CookieConsent')).split('=')[1];
+    let cookie;
+    if (consentValue === 'true') {
+      cookie = document.cookie.substring(document.cookie.indexOf('CookieConsent') + 6);
+      document.cookie = "CookieConsent=false; " + cookie;
+    } else {
+      cookie = document.cookie.substring(document.cookie.indexOf('CookieConsent') + 7);
+      document.cookie = "CookieConsent=true; " + cookie;
+    }
+  }
+}
+
 /**
  * Creates new script element with src from urls.analytics.
  *
@@ -29,7 +43,23 @@ function addCookieScript() {
     const cookieScript = document.createElement('script');
     cookieScript.type = 'text/javascript';
     cookieScript.src = `${urls.analytics}`;
+    cookieScript.id = "/assets/js/piwik";
     document.getElementsByTagName('head')[0].appendChild(cookieScript);
   }
 }
-export { checkCookieConsent, addCookieScript };
+
+function removeCookieScript() {
+  const scriptElements = Object.values(document.getElementsByTagName('head')[0].getElementsByTagName('script'));
+  if (scriptElements.find(element => element.src.includes(urls.analytics))) {
+    const elem = document.getElementById("/assets/js/piwik");
+    elem.parentNode.removeChild(elem);
+    // eslint-disable-next-line
+    const elems = scriptElements.filter((element, index) => {
+      if (element.src.includes("analytics.hel.ninja/piwik")) {
+        scriptElements[index].parentNode.removeChild(scriptElements[index]);
+      }
+      return element;
+    });
+  }
+}
+export { checkCookieConsent, addCookieScript, removeCookieScript, changeCookieConsent };
