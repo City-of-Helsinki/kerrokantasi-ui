@@ -36,7 +36,7 @@ class HearingFormStep4 extends React.Component {
     const {hearing, onSectionChange, dispatch} = this.props;
     const closureInfoSection = getClosureSection(hearing);
     if (closureInfoSection) {
-      onSectionChange(closureInfoSection.id, 'content', value);
+      onSectionChange(closureInfoSection.frontId, 'content', value);
     } else {
       dispatch(addSection(initNewSection({type: SectionTypes.CLOSURE, content: value})));
     }
