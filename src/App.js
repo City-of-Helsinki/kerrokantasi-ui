@@ -13,7 +13,7 @@ import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
-import CookieBar from './components/cookieBar/CookieBar';
+import {CookieBar} from './components/cookieBar/CookieBar';
 import {checkCookieConsent} from "./utils/cookieUtils";
 
 class App extends React.Component {

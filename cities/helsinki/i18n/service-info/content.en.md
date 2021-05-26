@@ -64,6 +64,12 @@ If the Material that you submit violates copyright or is in some other way again
 
 If you become a customer of the City’s services or use the services in another manner, the City will collect your personal data only to the extent necessary for the purposes of providing these services. The data are collected in different registers according to the purpose of use of the data. The registers’ personal data file descriptions can be found at www.hel.fi/rekisteriseloste. The page includes the personal data file description for participation and feedback on the Kerrokantasi website. More information about the relevant rights as stated in the EU General Data Protection Regulation in the online services of the City of Helsinki.
 
+### Content licensing
+
+Any creative content subject to copyright, such as texts, pictures, fonts, sound recordings and videos, that is submitted to the service by the user is published on the terms of the Creative Commons BY-NC-SA 4.0 licence: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
+
+All data in the service are published as open data, on the terms of the Open Data Commons Open Database Licence (ODbL).
+
 ### Cookies
 
 Cookies are files stored on the user’s device by the browser. Cookies are used to enable features that make the use of the service easier and to collect data on users in order to improve the service. Cookies allow us to provide you with a more easy-to-use and functional website that meets your demands more efficiently.
@@ -71,9 +77,3 @@ Cookies are files stored on the user’s device by the browser. Cookies are used
 Regarding the collection of user data, cookies include anonymous unique identifiers that allow us to collect data about users who visit our website, such as information on their browsers and devices. The administrators of the website do not have access to the users’ unique identifier data. Cookies provide us with information about the browsers used on our sites and what pages are viewed the most.
 
 This website also includes content provided by external online service providers. External online service providers can install their own cookies on browsers.
-
-### Content licensing
-
-Any creative content subject to copyright, such as texts, pictures, fonts, sound recordings and videos, that is submitted to the service by the user is published on the terms of the Creative Commons BY-NC-SA 4.0 licence: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
-
-All data in the service are published as open data, on the terms of the Open Data Commons Open Database Licence (ODbL).
