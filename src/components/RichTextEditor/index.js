@@ -3,29 +3,42 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
-  Editor,
   EditorState,
-  CompositeDecorator,
   RichUtils,
   DefaultDraftBlockRenderMap,
   AtomicBlockUtils,
   Modifier,
   SelectionState,
 } from 'draft-js';
+import Editor, { composeDecorators } from "@draft-js-plugins/editor";
+import createImagePlugin from "@draft-js-plugins/image";
+import createFocusPlugin from "@draft-js-plugins/focus";
+import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
+import createResizeablePlugin from '@draft-js-plugins/resizeable';
+import '@draft-js-plugins/focus/lib/plugin.css';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
 
-import { BlockStyleControls, InlineStyleControls, IframeControls, SkipLinkControls } from './EditorControls';
+import {
+  BlockStyleControls,
+  InlineStyleControls,
+  IframeControls,
+  SkipLinkControls,
+  ImageControls
+} from './EditorControls';
 import IframeModal from './Iframe/IframeModal';
 import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} from './Iframe/IframeUtils';
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
+import ImageModal from './Image/ImageModal';
+import ImageEntity from './Image/ImageEntity';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
     case 'LEAD': return 'lead';
+    case 'ImageCaption': return 'image-caption';
     default: return null;
   }
 };
@@ -44,6 +57,9 @@ const htmlOptions = {
   blockStyleFn: (block) => {
     if (block.getType() === 'LEAD') {
       return {attributes: {className: 'lead'}};
+    }
+    if (block.getType() === 'ImageCaption') {
+      return {attributes: {className: 'image-caption'}};
     }
     return null;
   },
@@ -103,20 +119,51 @@ const findIframeEntities = (contentBlock, callback, contentState) => {
   );
 };
 
+const findImageEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'image'
+      );
+    },
+    callback
+  );
+};
+
+const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const decorator = composeDecorators(
+  focusPlugin.decorator,
+  blockDndPlugin.decorator,
+  resizeablePlugin.decorator
+);
+const imagePlugin = createImagePlugin({decorator});
+
+const kerrokantasiPlugins = {
+  decorators: [
+    {
+      strategy: findLinkEntities,
+      component: Link,
+    },
+    {
+      strategy: findIframeEntities,
+      component: IframeEntity,
+    },
+    {
+      strategy: findImageEntities,
+      component: ImageEntity,
+    },
+  ],
+};
+
+const plugins = [kerrokantasiPlugins, blockDndPlugin, focusPlugin, resizeablePlugin, imagePlugin];
+
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
-
-    const kerrokantasiDecorator = new CompositeDecorator([
-      {
-        strategy: findLinkEntities,
-        component: Link,
-      },
-      {
-        strategy: findIframeEntities,
-        component: IframeEntity,
-      },
-    ]);
 
     const createEditorState = () => {
       if (this.props.value) {
@@ -125,7 +172,13 @@ class RichTextEditor extends React.Component {
             if (node.className === 'lead') {
               return {type: 'LEAD', data: {}};
             }
+            if (node.className === 'image-caption') {
+              return {type: 'ImageCaption', data: {}};
+            }
             if (nodeName === 'iframe') {
+              return {type: 'atomic', data: {}};
+            }
+            if (nodeName === 'img') {
               return {type: 'atomic', data: {}};
             }
             return null;
@@ -155,15 +208,27 @@ class RichTextEditor extends React.Component {
                 iframeAttributes
               );
             }
+            if (nodeName === 'img') {
+              const imageAttributes = {};
+              for (let index = 0; index < node.attributes.length; index += 1) {
+                const attribute = node.attributes.item(index);
+                imageAttributes[attribute.name] = attribute.value;
+              }
+              return createEntity(
+                'image',
+                'IMMUTABLE',
+                imageAttributes
+              );
+            }
             return null;
           },
         })(stripIframeWrapperDivs(this.props.value));
-        return EditorState.createWithContent(contentState, kerrokantasiDecorator);
+        return EditorState.createWithContent(contentState);
       }
-      return EditorState.createEmpty(kerrokantasiDecorator);
+      return EditorState.createEmpty();
     };
 
-    this.focus = () => this.refs.editor.focus();
+    this.onFocus = this.onFocus.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onURLChange = this.onURLChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -181,12 +246,16 @@ class RichTextEditor extends React.Component {
     this.openIframeModal = this.openIframeModal.bind(this);
     this.closeIframeModal = this.closeIframeModal.bind(this);
     this.confirmIframe = this.confirmIframe.bind(this);
+    this.openImageModal = this.openImageModal.bind(this);
+    this.closeImageModal = this.closeImageModal.bind(this);
+    this.confirmImage = this.confirmImage.bind(this);
     this.state = {
       editorState: createEditorState(),
       showURLInput: false,
       urlValue: '',
       showSkipLinkModal: false,
       showIframeModal: false,
+      showImageModal: false
     };
   }
 
@@ -260,7 +329,7 @@ class RichTextEditor extends React.Component {
         showURLInput: true,
         urlValue: url,
       }, () => {
-        setTimeout(() => this.refs.url.focus(), 0);
+        setTimeout(() => this.onFocus(), 0);
       });
     }
   }
@@ -285,7 +354,7 @@ class RichTextEditor extends React.Component {
       showURLInput: false,
       urlValue: '',
     }, () => {
-      setTimeout(() => this.refs.editor.focus(), 0);
+      setTimeout(() => this.onFocus(), 0);
     });
   }
 
@@ -400,8 +469,48 @@ class RichTextEditor extends React.Component {
       ),
       showIframeModal: false,
     }, () => {
-      setTimeout(() => this.focus(), 0);
+      setTimeout(() => this.onFocus(), 0);
     });
+  }
+
+  confirmImage(imageValues) {
+    const {editorState} = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'image',
+      'IMMUTABLE',
+      { src: imageValues }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      {currentContent: contentStateWithEntity}
+    );
+    this.setState({
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        newEditorState,
+        entityKey,
+        ' '
+      ),
+      showImageModal: false,
+    }, () => {
+      setTimeout(() => this.onFocus(), 0);
+    });
+  }
+
+  openImageModal(event) {
+    event.preventDefault();
+    this.setState({showImageModal: true});
+  }
+
+  closeImageModal() {
+    this.setState({showImageModal: false});
+  }
+
+  onFocus() {
+    this.refs.editor.focus();
   }
 
   /* TOGGLE BUTTONS */
@@ -469,7 +578,6 @@ class RichTextEditor extends React.Component {
 
   render() {
     const { editorState } = this.state;
-
     return (
       <div className="rich-text-editor">
         <ControlLabel>
@@ -491,6 +599,14 @@ class RichTextEditor extends React.Component {
           onClose={this.closeIframeModal}
           onSubmit={this.confirmIframe}
         />
+        <ImageControls
+          onClick={this.openImageModal}
+        />
+        <ImageModal
+          isOpen={this.state.showImageModal}
+          onClose={this.closeImageModal}
+          onSubmit={this.confirmImage}
+        />
         <SkipLinkControls
           onClick={this.openSkipLinkModal}
         />
@@ -500,18 +616,22 @@ class RichTextEditor extends React.Component {
           onSubmit={this.confirmSkipLink}
         />
         {this.renderHyperlinkButton()}
-        <Editor
-          ref="editor"
-          blockStyleFn={getBlockStyle}
-          blockRenderMap={blockRenderMap}
-          editorState={editorState}
-          handleKeyCommand={this.handleKeyCommand}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          onTab={this.onTab}
-          stripPastedStyles
-          placeholder={this.getPlaceholder()}
-        />
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div onClick={this.onFocus}>
+          <Editor
+            plugins={plugins}
+            blockStyleFn={getBlockStyle}
+            blockRenderMap={blockRenderMap}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            onTab={this.onTab}
+            stripPastedStyles
+            placeholder={this.getPlaceholder()}
+            ref="editor"
+          />
+        </div>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
+import {Collapse} from 'react-collapse';
 
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
@@ -68,45 +69,47 @@ class HearingForm extends React.Component {
     return (
       <Panel eventKey={step}>
         <Panel.Heading>
-          <Panel.Title toggle>
+          <Panel.Title onClick={() => this.setCurrentStep(step)}>
             {title}
           </Panel.Title>
         </Panel.Heading>
-        <Panel.Collapse>
-          <Panel.Body>
-            <PhaseTag
-              addOption={addOption}
-              clearQuestions={this.props.clearQuestions}
-              contactPersons={contactPersons}
-              deleteOption={deleteOption}
-              dispatch={this.props.dispatch}
-              editorMetaData={this.props.editorMetaData}
-              errors={this.props.errors}
-              formatMessage={formatMessage}
-              hearing={hearing}
-              hearingLanguages={hearingLanguages}
-              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-              labels={labels}
-              language={language}
-              onContinue={this.nextStep}
-              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-              onHearingChange={this.props.onHearingChange}
-              onLanguagesChange={this.props.onLanguagesChange}
-              onQuestionChange={onQuestionChange}
-              onSectionAttachment={this.props.onSectionAttachment}
-              onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-              onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-              onSectionChange={this.props.onSectionChange}
-              onSectionImageChange={this.props.onSectionImageChange}
-              sectionMoveDown={sectionMoveDown}
-              sectionMoveUp={sectionMoveUp}
-              visible={isVisible}
-            />
-          </Panel.Body>
-        </Panel.Collapse>
+        <Collapse isOpened={isVisible}>
+          <Panel>
+            <Panel.Body>
+              <PhaseTag
+                addOption={addOption}
+                clearQuestions={this.props.clearQuestions}
+                contactPersons={contactPersons}
+                deleteOption={deleteOption}
+                dispatch={this.props.dispatch}
+                editorMetaData={this.props.editorMetaData}
+                errors={this.props.errors}
+                formatMessage={formatMessage}
+                hearing={hearing}
+                hearingLanguages={hearingLanguages}
+                initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+                initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                labels={labels}
+                language={language}
+                onContinue={this.nextStep}
+                onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+                onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+                onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                onHearingChange={this.props.onHearingChange}
+                onLanguagesChange={this.props.onLanguagesChange}
+                onQuestionChange={onQuestionChange}
+                onSectionAttachment={this.props.onSectionAttachment}
+                onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+                onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+                onSectionChange={this.props.onSectionChange}
+                onSectionImageChange={this.props.onSectionImageChange}
+                sectionMoveDown={sectionMoveDown}
+                sectionMoveUp={sectionMoveUp}
+                visible={isVisible}
+              />
+            </Panel.Body>
+          </Panel>
+        </Collapse>
       </Panel>
     );
   }
