@@ -12,7 +12,7 @@ import Icon from '../../utils/Icon';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
-import {getMainSection} from '../../utils/hearing';
+import {getMainSection, isPublic} from '../../utils/hearing';
 import {hearingShape} from '../../types';
 import {initNewSection, SectionTypes} from '../../utils/section';
 import getAttr from '../../utils/getAttr';
@@ -86,6 +86,7 @@ class HearingFormStep2 extends React.Component {
                   initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
                   isFirstSubsection={index === 1}
                   isLastSubsection={sectionID === last(hearing.sections).frontId}
+                  isPublic={isPublic(hearing)}
                   onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
                   onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
                   onQuestionChange={onQuestionChange}
