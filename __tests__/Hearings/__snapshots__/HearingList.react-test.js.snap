@@ -363,8 +363,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
                   "toBePublishedHearing": "Kuuleminen julkaistaan",
                   "toolbar": "Työkalupalkki",
-                  "totalNumHearing": "kuuleminen",
-                  "totalNumHearings": "kuulemista",
+                  "totalNumHearing": "{n} kuuleminen",
+                  "totalNumHearings": "{n} kuulemista",
                   "totalQuestionVotes": "Ääniä yhteensä: {n}",
                   "totalSubmittedComment": "Yhteensä {n} kommentti",
                   "totalSubmittedComments": "Yhteensä {n} kommenttia",
@@ -460,10 +460,9 @@ exports[`HearingsList component should render as expected 1`] = `
             <div
               className="hearing-list__result-controls"
             >
-              <h3
+              <h2
                 className="hearing-list__hearing-list-title"
               >
-                0
                 <FormattedPlural
                   one={
                     <FormattedMessage
@@ -473,7 +472,9 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   other={
                     <FormattedMessage
@@ -483,12 +484,16 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   style="cardinal"
                   value={0}
-                />
-              </h3>
+                >
+                  <Component />
+                </FormattedPlural>
+              </h2>
               <HearingListFilters
                 formatMessage={[Function]}
               />

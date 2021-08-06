@@ -32,7 +32,7 @@ const HEARING_LIST_TABS = {
 const HearingListTabs = ({activeTab, changeTab}) => (
   <Row>
     <Col md={8} mdPush={2}>
-      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
+      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab} role="tablist">
         {keys(HEARING_LIST_TABS).map(key => {
           const value = HEARING_LIST_TABS[key];
           return (
@@ -288,22 +288,30 @@ export const HearingList = ({
           <Row>
             <Col md={8} mdPush={2}>
               {(!isLoading && !hasHearings) && (
-                <h3 className="hearing-list__hearing-list-title">
-                  <FormattedMessage id="noHearings" />
-                </h3>
+                <h2 className="hearing-list__hearing-list-title">
+                  <FormattedMessage id="noHearings">{txt => txt}</FormattedMessage>
+                </h2>
               )}
 
               {(hasHearings && activeTab === 'list') && (
                 <div>
                   <div className="hearing-list__result-controls">
-                    <h3 className="hearing-list__hearing-list-title">
-                      {hearingCount}
+                    <h2 className="hearing-list__hearing-list-title">
                       <FormattedPlural
                         value={hearingCount}
-                        one={<FormattedMessage id="totalNumHearing" values={{ n: hearingCount }} />}
-                        other={<FormattedMessage id="totalNumHearings" values={{ n: hearingCount }} />}
-                      />
-                    </h3>
+                        one={
+                          <FormattedMessage id="totalNumHearing" values={{ n: hearingCount }}>
+                            {txt => txt}
+                          </FormattedMessage>
+                        }
+                        other={
+                          <FormattedMessage id="totalNumHearings" values={{ n: hearingCount }}>
+                            {txt => txt}
+                          </FormattedMessage>
+                        }
+                      >{txt => txt}
+                      </FormattedPlural>
+                    </h2>
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
 

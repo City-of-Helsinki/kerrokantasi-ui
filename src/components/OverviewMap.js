@@ -99,6 +99,7 @@ class OverviewMap extends React.Component {
                   iconSize: [25, 41],
                   iconAnchor: [13, 41]
                 })}
+                {...this.getAdditionalParams(hearing)}
               >{this.getPopupContent(hearing, geojson)}
               </Marker>
             );
@@ -170,6 +171,7 @@ class OverviewMap extends React.Component {
               iconSize: [25, 41],
               iconAnchor: [13, 41]
             })}
+            {...this.getAdditionalParams(hearing)}
           >{this.getPopupContent(hearing, geojson)}
           </Marker>
         );
@@ -217,6 +219,24 @@ class OverviewMap extends React.Component {
       );
     }
     return null;
+  }
+
+  /**
+   * Returns additional parameters for Markers.
+   *
+   * If enablePopups is true then return params that enable tabIndex and correct alt text.
+   *
+   * Otherwise return params that disable tabIndex
+   * @param {Object} hearing
+   * @returns {{alt: *}|{keyboard: boolean}}
+   */
+  getAdditionalParams(hearing) {
+    const {enablePopups} = this.props;
+    const {language} = this.context;
+    if (enablePopups) {
+      return {alt: getAttr(hearing.title, language)};
+    }
+    return {keyboard: false};
   }
 
   render() {
