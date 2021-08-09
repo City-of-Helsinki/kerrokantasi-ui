@@ -287,6 +287,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
             "commentDeleted": "Kommenttisi on poistettu.",
             "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+            "commentImageAlt": "Kommentoijan lisäämä kuva",
             "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
             "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
             "commentMapTitle": "Merkitse ehdotuksesi kartalle",

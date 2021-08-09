@@ -20,6 +20,7 @@
   "commentConditions": "Uttryckta kommentarer publiceras {linkToDefinition} i tjänsten {linkToLicense}. Du kan lämna din kommentar anonymt om du inte har loggat in. Dessutom redigeras texter vid behov på grund av kränkande eller annars osakligt språkbruk.",
   "commentDeleted": "Din kommentar har strukits.",
   "commentEdited": "Din kommentar har redigerats. Tack!",
+  "commentImageAlt": "Bild tillagd av kommenterare",
   "commentMapAdditionalInfo": "Ytterligare information relaterad till kartan (t.ex. adress)",
   "commentMapTitle": "Markera ditt förslag på kartan",
   "commentMapInstructions": "Du kan markera på kartan genom att välja ett markeringsvertyg som du kan rita med på kartan. Du kan radera markeringarna från kartan genom att klicka på sopkorgen och sedan på 'Radera allt'.",
