@@ -56,9 +56,10 @@ city_config="cities/helsinki"
 # Default: false
 # enable_highcontrast=true
 
-# Should display cookiebar at the bottom of the page
+# Are cookies in use? If enabled then cookie scripts are injected into the html.
+# Everything related to cookies is disabled by default unless this value is changed.
 # Default: false
-# show_cookiebar=true
+# enable_cookies=true
 
 # Address for hearing admin help link
 # Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"

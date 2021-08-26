@@ -29,8 +29,8 @@ const defaults = {
   show_social_media_sharing: true,
   // Should display & enable contrast toggle button
   enable_highcontrast: false,
-  // Should display cookiebar
-  show_cookiebar: false,
+  // Should cookies to enabled
+  enable_cookies: false,
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
 };
@@ -47,7 +47,7 @@ const optionalKeys = [
   "city_config",
   "show_accessibility_info",
   "show_social_media_sharing",
-  "show_cookiebar",
+  "enable_cookies",
   "openid_client_id",
   "openid_audience",
   "openid_authority",
