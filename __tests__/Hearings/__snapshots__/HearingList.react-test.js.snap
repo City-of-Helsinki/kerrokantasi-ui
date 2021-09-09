@@ -73,6 +73,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                   "commentDeleted": "Kommenttisi on poistettu.",
                   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                  "commentImageAlt": "Kommentoijan lisäämä kuva",
                   "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
                   "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
                   "commentMapTitle": "Merkitse ehdotuksesi kartalle",
@@ -89,11 +90,6 @@ exports[`HearingsList component should render as expected 1`] = `
                   "contactTitle": "Virkanimike tai tehtäväkuvaus",
                   "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
                   "contrastTitle": "Kontrasti",
-                  "cookieBar.accept": "Hyväksy kaikki evästeet",
-                  "cookieBar.decline": "Hyväksy vain välttämättömät evästeet",
-                  "cookieBar.description": "Käytämme evästeitä parantaaksemme käyttökokemustasi. Voit hyväksyä toiminnan kannalta välttämättömät evästeet tai kaikki evästeet, esim. käyttäjäanalytiikan.",
-                  "cookieBar.link.href": null,
-                  "cookieBar.link.text": "Linkki evästekäytäntöön",
                   "copyrightText": "Kerrokantasi",
                   "create": "Luo",
                   "createContact": "Luo uusi yhteyshenkilö",
@@ -353,7 +349,9 @@ exports[`HearingsList component should render as expected 1`] = `
                   "subsectionTitle": "Alaosio",
                   "table-of-content": "Sisällys",
                   "timeCloseFuture": "Sulkeutuu",
+                  "timeCloseFutureWithValues": "Sulkeutuu {date} klo {time}",
                   "timeClosePast": "Sulkeutui",
+                  "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
                   "timeOpenFuture": "Avautuu",
                   "timeOpenPast": "Avautui",
                   "timetable": "Aikajana",
@@ -361,8 +359,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
                   "toBePublishedHearing": "Kuuleminen julkaistaan",
                   "toolbar": "Työkalupalkki",
-                  "totalNumHearing": "kuuleminen",
-                  "totalNumHearings": "kuulemista",
+                  "totalNumHearing": "{n} kuuleminen",
+                  "totalNumHearings": "{n} kuulemista",
                   "totalQuestionVotes": "Ääniä yhteensä: {n}",
                   "totalSubmittedComment": "Yhteensä {n} kommentti",
                   "totalSubmittedComments": "Yhteensä {n} kommenttia",
@@ -458,10 +456,9 @@ exports[`HearingsList component should render as expected 1`] = `
             <div
               className="hearing-list__result-controls"
             >
-              <h3
+              <h2
                 className="hearing-list__hearing-list-title"
               >
-                0
                 <FormattedPlural
                   one={
                     <FormattedMessage
@@ -471,7 +468,9 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   other={
                     <FormattedMessage
@@ -481,12 +480,16 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   style="cardinal"
                   value={0}
-                />
-              </h3>
+                >
+                  <Component />
+                </FormattedPlural>
+              </h2>
               <HearingListFilters
                 formatMessage={[Function]}
               />
@@ -498,6 +501,8 @@ exports[`HearingsList component should render as expected 1`] = `
                 role="list"
               >
                 <HearingListItem
+                  formatDate={[Function]}
+                  formatTime={[Function]}
                   hearing={
                     Object {
                       "abstract": Object {

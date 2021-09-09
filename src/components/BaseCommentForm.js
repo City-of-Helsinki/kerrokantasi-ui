@@ -421,7 +421,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   render() {
-    const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply} = this.props;
+    const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment} = this.props;
     if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
@@ -451,7 +451,7 @@ export class BaseCommentForm extends React.Component {
                 ? (
                   <QuestionForm
                     key={question.id}
-                    loggedIn={loggedIn}
+                    canAnswer={canComment}
                     answers={answers.find(answer => answer.question === question.id)}
                     onChange={onChangeAnswers}
                     question={question}

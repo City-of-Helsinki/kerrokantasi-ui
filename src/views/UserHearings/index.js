@@ -131,11 +131,11 @@ class UserHearings extends React.Component {
   }
 
   getHearingCards(hearings) {
-    const {intl: {locale}} = this.props;
+    const {intl: {locale}, intl} = this.props;
     return hearings.reduce((accumulator, currentValue) => {
       accumulator.push(
         <Col className="user-hearing" sm={4} md={3} key={currentValue.slug}>
-          <HearingCard hearing={currentValue} language={locale} />
+          <HearingCard hearing={currentValue} language={locale} intl={intl} />
         </Col>
       );
       return accumulator;

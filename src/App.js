@@ -13,8 +13,7 @@ import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
-import CookieBar from './components/cookieBar/CookieBar';
-import {checkCookieConsent} from "./utils/cookieUtils";
+import cookieUtil from './utils/cookieUtils';
 
 class App extends React.Component {
   getChildContext() {
@@ -31,8 +30,13 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    checkCookieConsent();
+    cookieUtil.cookieBotAddListener();
   }
+
+  componentWillUnmount() {
+    cookieUtil.cookieBotRemoveListener();
+  }
+
   render() {
     const locale = this.props.language;
     const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
@@ -62,7 +66,6 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          {config.showCookiebar && <CookieBar />}
           <a href="#main-container" className="skip-to-main-content">
             <FormattedMessage id="skipToMainContent" />
           </a>
@@ -72,6 +75,8 @@ class App extends React.Component {
             meta={favmeta}
           >
             <html lang={locale} />
+            {config.enableCookies && cookieUtil.getConsentScripts()}
+            {config.enableCookies && cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
           <main

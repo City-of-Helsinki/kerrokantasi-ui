@@ -16,7 +16,7 @@ import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const HearingCard = ({hearing, language, className = '', history}) => {
+const HearingCard = ({hearing, language, className = '', history, intl}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
@@ -50,7 +50,12 @@ const HearingCard = ({hearing, language, className = '', history}) => {
         </h3>
         {commentCount}
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
-          <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
+          <FormatRelativeTime
+            messagePrefix="timeClose"
+            timeVal={hearing.close_at}
+            formatTime={intl.formatTime}
+            formatDate={intl.formatDate}
+          />
         </div>
         <div className="hearing-card-labels clearfix">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
@@ -81,6 +86,7 @@ HearingCard.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 export default withRouter(HearingCard);
