@@ -53,8 +53,9 @@ export function getConsentScripts() {
 export function getCookieScripts() {
   return (
     <script
-      type="text/javascript"
+      type="text/plain"
       src={urls.analytics}
+      data-cookieconsent="statistics"
     >
     </script>
   );
