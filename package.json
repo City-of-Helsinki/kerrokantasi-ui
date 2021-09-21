@@ -106,7 +106,7 @@
     "react-image-lightbox": "^5.1.1",
     "react-intl": "^2.9.0",
     "react-leaflet": "^1.9.1",
-    "react-leaflet-draw": "^0.18.0",
+    "react-leaflet-draw": "^0.19.8",
     "react-nl2br": "^0.6.1",
     "react-overlays": "^0.9.2",
     "react-redux": "^4.4.10",
