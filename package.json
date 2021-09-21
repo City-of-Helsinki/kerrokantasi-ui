@@ -58,7 +58,7 @@
     "draft-js": "^0.11.7",
     "draft-js-export-html": "^1.4.1",
     "es6-promise": "^4.2.8",
-    "eslint": "^4.18.2",
+    "eslint": "^5.5.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
@@ -143,7 +143,7 @@
     "uuid": "^3.4.0",
     "webpack": "^4.46.0",
     "webpack-dev-middleware": "^4.1.0",
-    "webpack-hot-middleware": "^2.25.0",
+    "webpack-hot-middleware": "^2.25.1",
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
