@@ -134,7 +134,7 @@
     "sass-loader": "^7.0.0",
     "scrolltop": "0.0.1",
     "simple-git": "^1.132.0",
-    "snyk": "^1.528.0",
+    "snyk": "^1.695.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^1.4.5",
     "updeep": "^1.2.0",
