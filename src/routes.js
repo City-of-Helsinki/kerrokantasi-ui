@@ -26,6 +26,9 @@ const LogoutCallback = lazy(() => import(
   /* webpackChunkName: "auth" */'./views/Auth/logoutCallback'));
 const UserHearings = lazy(() => import(
   /* webpackChunkName: "userHearings" */'./views/UserHearings'));
+const UserProfile = lazy(() => import(
+  /* webpackChunkName: "userProfile" */'./views/UserProfile'));
+
 
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
@@ -51,6 +54,7 @@ const Routes = () => (
       <Route path="/callback" component={LoginCallback} />
       <Route path="/callback/logout" component={LogoutCallback} />
       <Route path="/user-hearings" component={UserHearings} />
+      <Route path="/user-profile" component={UserProfile} />
       {config.showAccessibilityInfo && (
         <Route path="/accessibility" component={AccessibilityInfo} />
       )}

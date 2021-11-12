@@ -12,11 +12,35 @@ import MouseOnlyLink from './MouseOnlyLink';
 import config from '../config';
 import getAttr from '../utils/getAttr';
 import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
+import getMessage from '../utils/getMessage';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const HearingCard = ({hearing, language, className = '', history, intl}) => {
+/**
+ * Returns a HearingCard with data from the hearing prop.
+ * @param {object} props
+ * @param {object} props.hearing
+ * @param {string} props.language - currently used language.
+ * @param {string} [props.className] - optional string that's appended to the main wrapper's className.
+ * @param {object} props.history
+ * @param {object} props.intl
+ * @param {boolean} [props.showCommentCount] - determines if the comment count is displayed.
+ * @param {function} props.unFavoriteAction - function that removes the hearing from the users favorites.
+ * @param {boolean} [props.userProfile] - should only be true when used on the profile page.
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const HearingCard = ({
+  hearing,
+  language,
+  className = '',
+  history,
+  intl,
+  showCommentCount = true,
+  unFavoriteAction,
+  userProfile = false
+}) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
@@ -25,7 +49,8 @@ const HearingCard = ({hearing, language, className = '', history, intl}) => {
   // FIXME: Should there be direct linking to hearing using certain language?
   const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
-  const commentCount = hearing.n_comments ? (
+  const favoriteButtonText = getMessage('removeFavorites', language);
+  const commentCount = showCommentCount && hearing.n_comments ? (
     <div className="hearing-card-comment-count">
       <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
       <span className="sr-only">
@@ -36,14 +61,20 @@ const HearingCard = ({hearing, language, className = '', history, intl}) => {
     </div>
   ) : null;
 
+  // For some reason image proportions don't look right on the profile page without a div wrapper.
+  const conditionalWrapper = (children) => {
+    return userProfile ? <div>{children}</div> : children;
+  };
   return (
     <div className={`hearing-card ${className}`}>
-      <MouseOnlyLink
+      {conditionalWrapper(
+        <MouseOnlyLink
         className="hearing-card-image"
         style={cardImageStyle}
         history={history}
         url={getHearingURL(hearing)}
-      />
+        />)}
+
       <div className="hearing-card-content">
         <h3 className="h4 hearing-card-title">
           <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
@@ -60,7 +91,18 @@ const HearingCard = ({hearing, language, className = '', history, intl}) => {
         <div className="hearing-card-labels clearfix">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
         </div>
-        {!translationAvailable && (
+        {userProfile && (
+          <div className="favorite-button-wrapper">
+            <button
+              className="favorite-icon"
+              onClick={() => unFavoriteAction(hearing.slug, hearing.id)}
+              title={favoriteButtonText}
+            >
+              <Icon name="heart" aria-hidden="true" />
+            </button>
+          </div>
+        )}
+        {(!translationAvailable && !userProfile) && (
           <div className="hearing-card-notice">
             <Icon name="exclamation-circle" aria-hidden="true" />
             <FormattedMessage id="hearingTranslationNotAvailable" />
@@ -84,9 +126,12 @@ const HearingCard = ({hearing, language, className = '', history, intl}) => {
 HearingCard.propTypes = {
   className: PropTypes.string,
   hearing: PropTypes.object,
-  language: PropTypes.string,
   history: PropTypes.object,
   intl: PropTypes.object,
+  language: PropTypes.string,
+  showCommentCount: PropTypes.bool,
+  unFavoriteAction: PropTypes.func,
+  userProfile: PropTypes.bool
 };
 
 export default withRouter(HearingCard);

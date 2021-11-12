@@ -159,6 +159,7 @@ exports[`Header component should render as expected 1`] = `
               </withRouter(Connect(LinkWithLangComponent))>
             </span>
           </div>
+          <div />
         </div>
       </div>
     </Grid>

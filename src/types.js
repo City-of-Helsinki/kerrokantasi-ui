@@ -33,6 +33,11 @@ export const labelShape = PropTypes.shape({
   label: translatedShape,
 });
 
+export const commentHearingDataShape = PropTypes.shape({
+  slug: PropTypes.string,
+  title: PropTypes.object
+});
+
 
 export const contactShape = PropTypes.shape({
   email: PropTypes.string,
@@ -123,6 +128,7 @@ export const commentShape = PropTypes.shape({
   content: PropTypes.string,
   author_name: PropTypes.string,
   n_votes: PropTypes.number,
+  hearing_data: PropTypes.oneOf([commentHearingDataShape, PropTypes.bool]),
   created_at: PropTypes.string,
   is_registered: PropTypes.bool,
   geojson: geoJSONshape,

@@ -23,6 +23,7 @@ import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
 import { getUser} from "../../selectors/user";
 import { stringify } from 'qs';
+import { addHearingToFavorites, removeHearingFromFavorites} from '../../actions';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -214,6 +215,25 @@ export class HeaderComponent extends React.Component {
     );
   }
 
+  getFavorite() {
+    const {user, hearing, addToFavorites, removeFromFavorites} = this.props;
+    if (!user || !user.favorite_hearings) { return <div />; }
+    const isFollowed = user.favorite_hearings.includes(hearing.id);
+    const favConfig = {
+      icon: isFollowed ? 'heart' : 'heart-o',
+      click: isFollowed ? removeFromFavorites : addToFavorites,
+      id: isFollowed ? 'removeFavorites' : 'addFavorites',
+    };
+    return (
+      <div className="hearing-meta__element hearing-favorite">
+        <Icon name={favConfig.icon} />
+        <Button bsStyle="link" onClick={() => favConfig.click(hearing.slug, hearing.id)}>
+          <FormattedMessage id={favConfig.id}>{txt => txt}</FormattedMessage>
+        </Button>
+      </div>
+    );
+  }
+
   writeToClipboard = (url) => {
     navigator.clipboard.writeText(url)
       .then(() => {
@@ -284,6 +304,7 @@ export class HeaderComponent extends React.Component {
                     {(!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment()) && (
                       this.getPreviewLinkButton()
                     )}
+                    {this.getFavorite()}
                   </div>
                   {!isEmpty(hearing.labels) && (
                     <LabelList className="main-labels" labels={hearing.labels} language={language} />
@@ -312,7 +333,10 @@ const mapStateToProps = (state, ownProps) => ({
   user: getUser(state),
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch) => ({
+  addToFavorites: (slug, id) => dispatch(addHearingToFavorites(slug, id)),
+  removeFromFavorites: (slug, id) => dispatch(removeHearingFromFavorites(slug, id))
+});
 
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
@@ -324,6 +348,8 @@ HeaderComponent.propTypes = {
   sections: PropTypes.array,
   showClosureInfo: PropTypes.bool,
   user: PropTypes.object,
+  addToFavorites: PropTypes.func,
+  removeFromFavorites: PropTypes.func,
 };
 
 export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(HeaderComponent)));
