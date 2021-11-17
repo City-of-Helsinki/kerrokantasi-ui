@@ -56,7 +56,7 @@ Inappropriate messages are messages that, for example:
 * are not related to the topic of discussion or include links to online material that is not related to the topic
 * are not necessarily unlawful, but can be deemed to insult an individual or a group of individuals
 * include commercial messages
-* include the personal data or contact details of another private person.
+* include the personal data or contact details of a private person.
 
 If the Material that you submit violates copyright or is in some other way against the law or inappropriate, it will be deleted.
 
