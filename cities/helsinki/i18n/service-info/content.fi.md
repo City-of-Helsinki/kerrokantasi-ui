@@ -59,7 +59,7 @@ Asiaton viesti esimerkiksi:
 * ei liity keskustelun kohteena olevaan aiheeseen tai linkittää internet-aineistoon, joka ei tue keskustelun aihetta
 * ei ole välttämättä lainvastainen, mutta on jotain henkilöä tai henkilöryhmää loukkaava
 * sisältää kaupallisia viestejä
-* sisältää toisen yksityishenkilön henkilö- tai yhteystietoja
+* sisältää yksityishenkilön henkilö- tai yhteystietoja
 
 Mikäli liittämäsi Materiaali rikkoo tekijänoikeuksia tai on muuten lainvastainen tai sopimaton, se poistetaan.
 
