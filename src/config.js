@@ -17,6 +17,7 @@ const config = {
   showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
   enableHighContrast: typeof window !== 'undefined' ? window.ENABLE_HIGHCONTRAST : false,
   showCookiebar: typeof window !== 'undefined' ? window.SHOW_COOKIEBAR : false,
+  adminHelpUrl: typeof window !== 'undefined' ? window.ADMIN_HELP_URL : "",
 };
 
 export default config;

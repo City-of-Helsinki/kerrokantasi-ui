@@ -61,12 +61,11 @@ class MultiLanguageTextField extends React.Component {
     } = this.props;
 
     const TextField = MultiLanguageTextField.getTextField(fieldType);
-
+    const requiredAsterisk = required ? '*' : '';
     return (
       <fieldset className="multi-language-text-field">
         <legend>
-          <FormattedMessage id={labelId}/>
-          {required ? '*' : ''}
+          <FormattedMessage id={labelId}>{txt => txt + requiredAsterisk}</FormattedMessage>
         </legend>
         {languages.map((lang) => {
           const currentValue = value[lang];

@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
-import {isEmpty, values} from 'lodash';
+import {isEmpty} from 'lodash';
 import {notifyError} from '../../utils/notify';
 import {
   addOption,
   addSectionAttachment,
+  addMapMarker,
+  addMapMarkerToCollection,
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
@@ -14,6 +16,7 @@ import {
   clearQuestions,
   closeHearing,
   closeHearingForm,
+  createMapMarker,
   deleteLastOption,
   deleteSectionAttachment,
   deleteTemporaryQuestion,
@@ -37,6 +40,7 @@ import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
 import {contactShape, hearingShape, labelShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
+import validateFunction from '../../utils/validation';
 
 
 class HearingEditor extends React.Component {
@@ -51,6 +55,10 @@ class HearingEditor extends React.Component {
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
+
+    this.state = {
+      errors: {}
+    };
   }
 
   onHearingChange = (field, value) => {
@@ -59,6 +67,15 @@ class HearingEditor extends React.Component {
 
   onSectionChange = (sectionID, field, value) => {
     this.props.dispatch(changeSection(sectionID, field, value));
+  }
+  onCreateMapMarker = (value) => {
+    this.props.dispatch(createMapMarker(value));
+  }
+  onAddMapMarker = (value) => {
+    this.props.dispatch(addMapMarker(value));
+  }
+  onAddMapMarkersToCollection = (value) => {
+    this.props.dispatch(addMapMarkerToCollection(value));
   }
 
   /**
@@ -117,44 +134,58 @@ class HearingEditor extends React.Component {
     this.props.dispatch(publishHearing(this.props.hearing));
   }
 
-  // Check if the hearing has all the required properties.
-  // Returns with error message to user if not, else dispatches and action as a callback.
+  /**
+   * Check if the hearing has all of the required properties.
+   * Returns notification and highlights faulty inputs in the form if errors are found,
+   * otherwise dispatch the callbackAction.
+   * @param {object} hearing
+   * @param {function} callbackAction
+   * @returns {void|*}
+   */
   validateHearing = (hearing, callbackAction) => {
-    const {dispatch} = this.props;
+    const {dispatch, hearingLanguages, intl: {formatMessage}} = this.props;
+    // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc
+    const localErrors = {1: {}, 4: {}, 5: {}};
 
-    if (isEmpty(hearing.title) || values(hearing.title).filter((value) => value !== '').length <= 0) {
-      return notifyError('Aseta otsikko ennen tallentamista.');
+    if (validateFunction.title(hearing.title, hearingLanguages)) {
+      localErrors[1].title = formatMessage({id: 'validationHearingTitle'});
     }
-    if (isEmpty(hearing.labels)) {
-      return notifyError('Aseta ainakin yksi asiasana.');
+    if (validateFunction.labels(hearing.labels)) {
+      localErrors[1].labels = formatMessage({id: 'validationHearingLabels'});
     }
-
+    if (validateFunction.slug(hearing.slug)) {
+      localErrors[1].slug = formatMessage({id: 'validationHearingSlug'});
+    }
+    if (validateFunction.contact_persons(hearing.contact_persons)) {
+      localErrors[1].contact_persons = formatMessage({id: 'validationHearingContactPersons'});
+    }
+    if (validateFunction.open_at(hearing.open_at)) {
+      localErrors[4].open_at = formatMessage({id: 'validationHearingOpenAt'});
+    }
+    if (validateFunction.close_at(hearing.close_at)) {
+      localErrors[4].close_at = formatMessage({id: 'validationHearingCloseAt'});
+    }
     // project is not mandatory, but if a project is given, it must have certain properties
-    if (!isEmpty(hearing.project)) {
-      if (isEmpty(hearing.project.title) || values(hearing.project.title).filter((value) => value === '').length > 0) {
-        return notifyError('Aseta projektin nimi ennen tallennusta.');
+    if (validateFunction.project(hearing.project)) {
+      if (validateFunction.project_title(hearing.project.title, hearingLanguages)) {
+        localErrors[5].project_title = formatMessage({id: 'validationHearingProjectTitle'});
       }
-      if (hearing.project.phases.filter(
-        phase => isEmpty(phase.title) || values(phase.title).filter((value) => value === '').length > 0).length > 0) {
-        return notifyError('Aseta vaiheen otsikko ennen tallennusta.');
+      if (validateFunction.project_phases_title(hearing.project.phases, hearingLanguages)) {
+        localErrors[5].project_phase_title = formatMessage({id: 'validationHearingProjectPhaseTitle'});
       }
-      if (hearing.project.phases.filter(phase => phase.is_active).length <= 0) {
-        return notifyError('Prosessit tarvitsevat ainakin yhden aktiivisen vaiheen.');
+      if (validateFunction.project_phases_active(hearing.project.phases)) {
+        localErrors[5].project_phase_active = formatMessage({id: 'validationHearingProjectPhaseActive'});
       }
     }
-    if (hearing.slug === '') {
-      return notifyError('Aseta osoite ennen tallentamista.');
+
+    // true if one of the keys in localErrors contain entries
+    // eslint-disable-next-line no-unused-vars
+    const containsError = Object.entries(localErrors).some(([k, v]) => Object.entries(v).length > 0);
+    if (!containsError) {
+      return dispatch(callbackAction(hearing));
     }
-    if (isEmpty(hearing.contact_persons)) {
-      return notifyError('Aseta ainakin yksi yhteyshenkilö.');
-    }
-    if (!hearing.open_at) {
-      return notifyError('Aseta avautumisaika ennen tallentamista.');
-    }
-    if (!hearing.close_at) {
-      return notifyError('Aseta sulkeutumisaika ennen tallentamista.');
-    }
-    return dispatch(callbackAction(hearing));
+    this.setState({errors: localErrors});
+    return notifyError(formatMessage({id: 'validationNotification'}));
   }
 
   onSaveAndPreview() {
@@ -218,7 +249,7 @@ class HearingEditor extends React.Component {
 
   getHearingForm() {
     const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
-
+    const {errors} = this.state;
     if (isEmpty(hearing)) {
       return null;
     }
@@ -230,12 +261,16 @@ class HearingEditor extends React.Component {
         currentStep={1}
         deleteOption={this.deleteOption}
         dispatch={this.props.dispatch}
+        errors={errors}
         hearing={hearing}
         hearingLanguages={hearingLanguages}
         initMultipleChoiceQuestion={this.initMultipleChoiceQuestion}
         initSingleChoiceQuestion={this.initSingleChoiceQuestion}
         labels={labels}
         language={language}
+        onAddMapMarker={this.onAddMapMarker}
+        onAddMapMarkersToCollection={this.onAddMapMarkersToCollection}
+        onCreateMapMarker={this.onCreateMapMarker}
         onDeleteExistingQuestion={this.onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
         onEditSectionAttachmentOrder={this.onEditSectionAttachmentOrder}
@@ -290,7 +325,10 @@ HearingEditor.propTypes = {
   user: userShape,
   language: PropTypes.string,
   isNewHearing: PropTypes.bool,
+  intl: PropTypes.object,
 };
+
+export {HearingEditor as UnconnectedHearingEditor};
 
 const WrappedHearingEditor = connect((state) => ({
   show: EditorSelector.getShowForm(state),

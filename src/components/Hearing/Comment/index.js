@@ -20,6 +20,7 @@ import getAttr from '../../../utils/getAttr';
 import moment from 'moment';
 
 import HearingMap from "../HearingMap";
+import getMessage from '../../../utils/getMessage';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -491,7 +492,7 @@ class Comment extends React.Component {
                   href={image.url}
                 >
                   <img
-                    alt=""
+                    alt={getMessage('commentImageAlt')}
                     src={image.url}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.height : 100}

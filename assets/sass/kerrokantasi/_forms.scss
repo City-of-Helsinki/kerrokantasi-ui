@@ -31,11 +31,11 @@ fieldset {
     &-input-error {
       color: #EB0000;
     }
-  
+
     &-select-input {
       margin-left: 8px;
     }
-    
+
     &-checkbox-label {
       margin-right: 8px;
     }
@@ -64,7 +64,7 @@ fieldset {
     padding: 1px 4px;
     transition: background .2s;
 
-    &:hover() {
+    &:hover {
       background: #D6D6D6;
     }
   }
@@ -87,5 +87,31 @@ fieldset {
     height: 22px;
     margin-right: 4px;
     padding: 1px;
+  }
+}
+.modal-content {
+  div.alert.alert-danger {
+    padding-top: 0;
+    h2 {
+      margin-top: 12px;
+    }
+  }
+  .panel-body {
+    button.has-error {
+      border-color: $theme-danger;
+      color: $theme-danger;
+    }
+    .has-error.help-block {
+      color: $theme-danger;
+    }
+    .has-error {
+      .control-label,
+      .help-block, label {
+        color: $theme-danger;
+      }
+      .form-control {
+        border-color: $theme-danger;
+      }
+    }
   }
 }

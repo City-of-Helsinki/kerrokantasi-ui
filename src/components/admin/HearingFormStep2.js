@@ -13,7 +13,7 @@ import {Collapse} from 'react-collapse';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
-import {getMainSection} from '../../utils/hearing';
+import {getMainSection, isPublic} from '../../utils/hearing';
 import {hearingShape} from '../../types';
 import {initNewSection, SectionTypes} from '../../utils/section';
 import getAttr from '../../utils/getAttr';
@@ -89,37 +89,36 @@ class HearingFormStep2 extends React.Component {
                 {`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
               </Panel.Title>
             </Panel.Heading>
-            <Collapse isOpened={isVisible}>
-              <Panel>
-                <Panel.Body>
-                  <SectionForm
-                    addOption={addOption}
-                    clearQuestions={this.props.clearQuestions}
-                    deleteOption={deleteOption}
-                    initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-                    initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-                    isFirstSubsection={index === 1}
-                    isLastSubsection={sectionID === last(hearing.sections).frontId}
-                    onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-                    onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-                    onQuestionChange={onQuestionChange}
-                    onSectionAttachment={this.props.onSectionAttachment}
-                    onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-                    onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-                    onSectionChange={this.props.onSectionChange}
-                    onSectionImageChange={this.props.onSectionImageChange}
-                    section={section}
-                    sectionLanguages={hearingLanguages}
-                    sectionMoveDown={sectionMoveDown}
-                    sectionMoveUp={sectionMoveUp}
-                    onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-                  />
-                  <div className="section-toolbar">
-                    {this.getDeleteSectionButton(section, sectionID)}
-                  </div>
-                </Panel.Body>
-              </Panel>
-            </Collapse>
+            <Panel.Collapse>
+              <Panel.Body>
+                <SectionForm
+                  addOption={addOption}
+                  clearQuestions={this.props.clearQuestions}
+                  deleteOption={deleteOption}
+                  initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+                  initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                  isFirstSubsection={index === 1}
+                  isLastSubsection={sectionID === last(hearing.sections).frontId}
+                  isPublic={isPublic(hearing)}
+                  onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                  onQuestionChange={onQuestionChange}
+                  onSectionAttachment={this.props.onSectionAttachment}
+                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+                  onSectionChange={this.props.onSectionChange}
+                  onSectionImageChange={this.props.onSectionImageChange}
+                  section={section}
+                  sectionLanguages={hearingLanguages}
+                  sectionMoveDown={sectionMoveDown}
+                  sectionMoveUp={sectionMoveUp}
+                  onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+                />
+                <div className="section-toolbar">
+                  {this.getDeleteSectionButton(section, sectionID)}
+                </div>
+              </Panel.Body>
+            </Panel.Collapse>
           </Panel>
         );
       });

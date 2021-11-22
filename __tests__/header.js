@@ -13,7 +13,7 @@ describe('Header', () => {
     expect(findDOMNode(comp).querySelector(".login-link")).toBeTruthy();
   });
   it('should show an username when logged in', () => {
-    const comp = renderIntoDocument(wireComponent({user: {data: {id: "fff", displayName: "Mock von User"}}}, MemoryRouterHeader));
+    const comp = renderIntoDocument(wireComponent({user: {data: {id: "fff", displayName: "Mock von User", adminOrganizations: []}}}, MemoryRouterHeader));
     expect(findDOMNode(comp).querySelector(".login-link")).not.toBeTruthy();
     expect(findDOMNode(comp).innerHTML).toContain("Mock von User");
   });

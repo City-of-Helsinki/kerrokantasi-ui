@@ -215,7 +215,7 @@ export class SectionContainerComponent extends React.Component {
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  renderFileSection = (section, language) => {
+  renderFileSection = (section, language, published) => {
     const {files} = section;
 
     if (!(files && files.length > 0)) {
@@ -248,6 +248,7 @@ export class SectionContainerComponent extends React.Component {
         >
           <div className="accordion-content">
             <div className="section-content-spacer">
+              {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
               {files.map((file) => (
                 <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
               ))}
@@ -559,6 +560,8 @@ export class SectionContainerComponent extends React.Component {
       user,
     } = this.props;
 
+    const published = "published" in hearing ? hearing.published : true;
+
     return (
       <React.Fragment>
         {hearing.geojson && (
@@ -575,7 +578,7 @@ export class SectionContainerComponent extends React.Component {
 
           {this.renderContacts(contacts, language)}
 
-          {this.renderFileSection(section, language)}
+          {this.renderFileSection(section, language, published)}
 
           {mainSection.plugin_identifier &&
             <section className="hearing-section plugin-content">
@@ -615,7 +618,7 @@ export class SectionContainerComponent extends React.Component {
     );
   }
 
-  renderSubSectionAttachments = (section, language) => {
+  renderSubSectionAttachments = (section, language, published) => {
     const {files} = section;
 
     if (!(files && files.length > 0)) {
@@ -625,6 +628,7 @@ export class SectionContainerComponent extends React.Component {
       <div className="hearing-subsection-attachments">
         <h3><FormattedMessage id="attachments" /></h3>
         <div >
+          {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
           {files.map((file) => (
             <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
         ))}
@@ -642,6 +646,7 @@ export class SectionContainerComponent extends React.Component {
     } = this.props;
 
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
+    const published = "published" in hearing ? hearing.published : true;
 
     return (
       <React.Fragment>
@@ -676,7 +681,7 @@ export class SectionContainerComponent extends React.Component {
           {this.renderSectionImage(section, language)}
           {this.renderSectionAbstract(section, language)}
           {this.renderSectionContent(section, language)}
-          {this.renderSubSectionAttachments(section, language)}
+          {this.renderSubSectionAttachments(section, language, published)}
 
           {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
 
