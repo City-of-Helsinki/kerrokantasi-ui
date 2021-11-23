@@ -482,6 +482,10 @@ export class SectionContainerComponent extends React.Component {
     if (isEmpty(section.content)) {
       return null;
     }
+    if (!section.content[language]) {
+      // eslint-disable-next-line no-param-reassign
+      language = "fi";
+    }
     return <div
       dangerouslySetInnerHTML={
         {
