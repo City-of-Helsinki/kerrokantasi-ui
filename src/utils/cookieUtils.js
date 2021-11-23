@@ -55,7 +55,7 @@ function removeCookieScript() {
     elem.parentNode.removeChild(elem);
     // eslint-disable-next-line
     const elems = scriptElements.filter((element, index) => {
-      if (element.src.includes("analytics.hel.ninja/piwik")) {
+      if (element.src.includes("webanalytics.digiaiiris.com/js")) {
         scriptElements[index].parentNode.removeChild(scriptElements[index]);
       }
       return element;
