@@ -473,13 +473,13 @@ class RichTextEditor extends React.Component {
     });
   }
 
-  confirmImage(imageValues) {
+  confirmImage(imageValues, imageAltText) {
     const {editorState} = this.state;
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'image',
       'IMMUTABLE',
-      { src: imageValues }
+      { src: imageValues, alt: imageAltText}
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(

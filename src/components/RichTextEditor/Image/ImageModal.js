@@ -15,10 +15,12 @@ import {
 import Dropzone from 'react-dropzone';
 import Icon from '../../../utils/Icon';
 import {localizedNotifyError} from '../../../utils/notify';
+import FormControl from 'react-bootstrap/lib/FormControl';
 
 const initialState = {
   showFormErrorMsg: false,
-  fileReaderResult: false
+  fileReaderResult: false,
+  imageAltText: ""
 };
 
 /**
@@ -34,6 +36,7 @@ class ImageModal extends React.Component {
     this.onFileDrop = this.onFileDrop.bind(this);
     this.getImagePreview = this.getImagePreview.bind(this);
     this.confirmImage = this.confirmImage.bind(this);
+    this.setImageAltText = this.setImageAltText.bind(this);
   }
 
   validateForm() {
@@ -48,16 +51,19 @@ class ImageModal extends React.Component {
 
 
   confirmImage() {
-    const {fileReaderResult} = this.state;
-
+    const {fileReaderResult, imageAltText} = this.state;
     if (this.validateForm()) {
-      this.props.onSubmit(fileReaderResult);
+      this.props.onSubmit(fileReaderResult, imageAltText);
       this.setState(initialState);
     } else {
       this.setState({
         showFormErrorMsg: true,
       });
     }
+  }
+
+  setImageAltText(event) {
+    this.setState({imageAltText: event.target.value});
   }
 
   onFileDrop(files) {
@@ -108,6 +114,13 @@ class ImageModal extends React.Component {
               </div>
             </Dropzone>
             <HelpBlock><FormattedMessage id="sectionImageHelpText"/></HelpBlock>
+            <ControlLabel><FormattedMessage id="sectionImageCaption"/></ControlLabel>
+            <FormControl
+              type="text"
+              className="sectionImageCaptionInput"
+              value={this.state.imageAltText}
+              onChange={this.setImageAltText}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
