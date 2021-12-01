@@ -35,5 +35,9 @@ export default handleActions({
   'openHearings',
   'publishedHearings',
   'publishingQueueHearings',
-  'draftHearings'
+  'draftHearings',
+  'userHearingsOpen',
+  'userHearingsQueue',
+  'userHearingsClosed',
+  'userHearingsDrafts'
 ]));

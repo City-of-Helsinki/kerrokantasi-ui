@@ -33,6 +33,27 @@ const data = handleActions(
     [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => {
       return Object.assign({}, state, { [field]: value });
     },
+    [EditorActions.CREATE_MAP_MARKER]: (state, { payload: {value}}) => ({
+      ...state,
+      geojson: value,
+    }),
+    [EditorActions.ADD_MAP_MARKER]: (state, {payload: {value}}) => {
+      const foo = state.geojson;
+
+      return Object.assign({}, state, {
+        geojson: {
+          type: 'FeatureCollection',
+          features: [{type: 'Feature', geometry: foo}, { ...value}]
+        }
+
+      });
+    },
+    [EditorActions.ADD_MAP_MARKER_TO_COLLECTION]: (state, {payload: {value}}) =>
+      updeep({
+        geojson: {
+          features: [...state.geojson.features, {...value}]
+        }
+      }, state),
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
       ...state,
       sections: [...state.sections, section.frontId],

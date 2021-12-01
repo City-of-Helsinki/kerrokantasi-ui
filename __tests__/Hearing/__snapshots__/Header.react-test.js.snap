@@ -67,6 +67,8 @@ exports[`Header component should render as expected 1`] = `
               />
               <br />
               <FormatRelativeTime
+                formatDate={[Function]}
+                formatTime={[Function]}
                 messagePrefix="timeClose"
                 timeVal="2200-11-28T22:00:00Z"
               />

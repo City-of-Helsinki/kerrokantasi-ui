@@ -32,7 +32,7 @@ const HEARING_LIST_TABS = {
 const HearingListTabs = ({activeTab, changeTab}) => (
   <Row>
     <Col md={8} mdPush={2}>
-      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab}>
+      <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab} role="tablist">
         {keys(HEARING_LIST_TABS).map(key => {
           const value = HEARING_LIST_TABS[key];
           return (
@@ -117,7 +117,7 @@ HearingListFilters.propTypes = {
 
 export class HearingListItem extends React.Component {
   render() {
-    const { hearing, language, history } = this.props;
+    const { hearing, language, history, formatTime, formatDate } = this.props;
     const mainImage = hearing.main_image;
     let mainImageStyle = {
       backgroundImage: `url(${defaultImage})`,
@@ -170,7 +170,12 @@ export class HearingListItem extends React.Component {
               <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />
             </div>
             <div>
-              <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />
+              <FormatRelativeTime
+                messagePrefix="timeClose"
+                timeVal={hearing.close_at}
+                formatTime={formatTime}
+                formatDate={formatDate}
+              />
             </div>
           </div>
           <div className="hearing-list-item-labels clearfix">
@@ -207,6 +212,8 @@ HearingListItem.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
+  formatTime: PropTypes.func,
+  formatDate: PropTypes.func,
 };
 
 export const HearingList = ({
@@ -215,7 +222,6 @@ export const HearingList = ({
   handleSort,
   hearings,
   hearingCount,
-  intl: {formatMessage},
   isLoading,
   isMobile,
   labels,
@@ -231,6 +237,7 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
+  const {formatMessage, formatTime, formatDate} = intl;
 
   const hearingListMap = hearingsToShow ? (
     <Row>
@@ -282,29 +289,43 @@ export const HearingList = ({
           <Row>
             <Col md={8} mdPush={2}>
               {(!isLoading && !hasHearings) && (
-                <h3 className="hearing-list__hearing-list-title">
-                  <FormattedMessage id="noHearings" />
-                </h3>
+                <h2 className="hearing-list__hearing-list-title">
+                  <FormattedMessage id="noHearings">{txt => txt}</FormattedMessage>
+                </h2>
               )}
 
               {(hasHearings && activeTab === 'list') && (
                 <div>
                   <div className="hearing-list__result-controls">
-                    <h3 className="hearing-list__hearing-list-title">
-                      {hearingCount}
+                    <h2 className="hearing-list__hearing-list-title">
                       <FormattedPlural
                         value={hearingCount}
-                        one={<FormattedMessage id="totalNumHearing" values={{ n: hearingCount }} />}
-                        other={<FormattedMessage id="totalNumHearings" values={{ n: hearingCount }} />}
-                      />
-                    </h3>
+                        one={
+                          <FormattedMessage id="totalNumHearing" values={{ n: hearingCount }}>
+                            {txt => txt}
+                          </FormattedMessage>
+                        }
+                        other={
+                          <FormattedMessage id="totalNumHearings" values={{ n: hearingCount }}>
+                            {txt => txt}
+                          </FormattedMessage>
+                        }
+                      >{txt => txt}
+                      </FormattedPlural>
+                    </h2>
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
 
                   <div className="hearing-list">
                     <div role="list">
                       {hearings.map(hearing => (
-                        <HearingListItem hearing={hearing} key={hearing.id} language={language} />
+                        <HearingListItem
+                          hearing={hearing}
+                          key={hearing.id}
+                          language={language}
+                          formatTime={formatTime}
+                          formatDate={formatDate}
+                        />
                       ))}
                     </div>
                     {isLoading && <LoadSpinner />}

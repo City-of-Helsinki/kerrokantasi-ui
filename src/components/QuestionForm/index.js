@@ -6,11 +6,11 @@ import uuid from 'uuid/v1';
 
 import getAttr from '../../utils/getAttr';
 
-const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
+const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
   return (
     <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}>
       <h3 className="h4">{getAttr(question.text, lang)}</h3>
-      {loggedIn && question.type === 'single-choice' && question.options.map((option) => {
+      {canAnswer && question.type === 'single-choice' && question.options.map((option) => {
           const optionContent = getAttr(option.text, lang);
           return (
             <Radio
@@ -23,7 +23,7 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
             </Radio>
           );
         })}
-      {loggedIn && question.type === 'multiple-choice' && question.options.map((option) => (
+      {canAnswer && question.type === 'multiple-choice' && question.options.map((option) => (
         <Checkbox
           checked={answers && answers.answers.includes(option.id)}
           key={uuid()}
@@ -33,7 +33,7 @@ const QuestionForm = ({question, lang, onChange, answers, loggedIn}) => {
           {getAttr(option.text, lang)}
         </Checkbox>
         ))}
-      {!loggedIn && <FormattedMessage id="logInToAnswer" />}
+      {!canAnswer && <FormattedMessage id="logInToAnswer" />}
     </FormGroup>
   );
 };
@@ -43,7 +43,7 @@ QuestionForm.propTypes = {
   lang: PropTypes.string,
   onChange: PropTypes.func,
   answers: PropTypes.any,
-  loggedIn: PropTypes.bool
+  canAnswer: PropTypes.bool
 };
 
 

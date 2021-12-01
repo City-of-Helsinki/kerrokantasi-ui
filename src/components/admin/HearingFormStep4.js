@@ -15,6 +15,7 @@ import {isEmpty} from 'lodash';
 import DateTime from 'react-datetime/DateTime';
 
 import {getClosureSection} from '../../utils/hearing';
+import {getValidationState} from '../../utils/hearingEditor';
 import {initNewSection, SectionTypes} from '../../utils/section';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {hearingShape} from '../../types';
@@ -69,7 +70,7 @@ class HearingFormStep4 extends React.Component {
   }
 
   render() {
-    const {hearing, hearingLanguages, formatMessage} = this.props;
+    const {hearing, hearingLanguages, formatMessage, errors} = this.props;
     const closureInfoContent = getClosureSection(hearing)
       && !isEmpty(getAttr(getClosureSection(hearing).content))
       ? getClosureSection(hearing).content
@@ -79,7 +80,7 @@ class HearingFormStep4 extends React.Component {
       <div className="form-step">
         <Row>
           <Col md={3}>
-            <FormGroup controlId="hearingOpeningTime">
+            <FormGroup controlId="hearingOpeningTime" validationState={getValidationState(errors, 'open_at')}>
               <ControlLabel><FormattedMessage id="hearingOpeningTime"/>*</ControlLabel>
               <DateTime
                 name="open_at"
@@ -92,7 +93,7 @@ class HearingFormStep4 extends React.Component {
             </FormGroup>
           </Col>
           <Col md={3}>
-            <FormGroup controlId="hearingClosingTime">
+            <FormGroup controlId="hearingClosingTime" validationState={getValidationState(errors, 'close_at')}>
               <ControlLabel><FormattedMessage id="hearingClosingTime"/>*</ControlLabel>
               <DateTime
                 name="close_at"
@@ -131,6 +132,7 @@ class HearingFormStep4 extends React.Component {
 
 HearingFormStep4.propTypes = {
   dispatch: PropTypes.func,
+  errors: PropTypes.object,
   hearing: hearingShape,
   onContinue: PropTypes.func,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),

@@ -37,7 +37,7 @@ class AccessibilityInfo extends React.Component {
     const pageContent = getContent(this.props.language);
     const { intl } = this.props;
     return (
-      <Grid>
+      <Grid className="accessibility-page">
         <Helmet title={intl.formatMessage({ id: 'accessibilityPage' })} />
         <Row>
           <Col md={8}>

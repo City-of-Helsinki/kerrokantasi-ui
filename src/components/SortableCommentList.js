@@ -119,9 +119,11 @@ export class SortableCommentListComponent extends Component {
    * When posting a new comment.
    */
   onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
-    const {section} = this.props;
+    const {section, user} = this.props;
     const answers = this.state.answers;
-    this.setState({ shouldAnimate: true });
+    if (user) {
+      this.setState({ shouldAnimate: true });
+    }
     const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText};
 
     if (this.props.onPostComment) {

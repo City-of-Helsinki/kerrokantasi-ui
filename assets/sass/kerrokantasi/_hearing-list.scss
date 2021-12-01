@@ -244,5 +244,8 @@
 .admin-filter-selector {
   > li > a {
     border: solid 2px $black;
+    span.fa {
+      padding-right: 5px;
+    }
   }
 }

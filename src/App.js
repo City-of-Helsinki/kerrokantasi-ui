@@ -78,7 +78,12 @@ class App extends React.Component {
             <html lang={locale} />
           </Helmet>
           {header}
-          <main className={fullscreen ? 'fullscreen' : 'main-content'} id="main-container" tabIndex="-1">
+          <main
+            className={fullscreen ? 'fullscreen' : classNames('main-content', {headless})}
+            id="main-container"
+            role="main"
+            tabIndex="-1"
+          >
             <Routes />
           </main>
           <Footer language={locale} />

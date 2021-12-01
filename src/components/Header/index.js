@@ -22,6 +22,7 @@ import logoBlack from '@city-images/logo-fi-black.svg';
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 import config from "../../config";
+import { localizedNotifyError } from '../../utils/notify';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -41,6 +42,14 @@ class Header extends React.Component {
   componentWillUnmount() {
     if (this._handleNavFix) {
       window.removeEventListener('scroll', this._handleNavFix);
+    }
+  }
+
+  async handleLogin() {
+    try {
+      await userManager.signinRedirect({ ui_locales: this.props.language });
+    } catch (error) {
+      localizedNotifyError("loginAttemptFailed");
     }
   }
 
@@ -78,7 +87,7 @@ class Header extends React.Component {
             key="login"
             aria-label={login}
             className="user-menu login-link user-menu--unlogged"
-            onClick={() => userManager.signinRedirect({ui_locales: this.props.language})}
+            onClick={() => this.handleLogin()}
           >
             <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
             <span className="user-name">{login}</span>
@@ -88,12 +97,17 @@ class Header extends React.Component {
     ];
   }
 
-  getNavItem(id, url) {
-    const {history, language} = this.props;
+  getNavItem(id, url, addSuffix = true) {
+    const {history, language, user} = this.props;
     const active = history && history.location.pathname === url;
+    let messageId = id;
+    if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
+      return null;
+    }
+    if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
-        <FormattedMessage id={id + 'HeaderText'} />
+        <FormattedMessage id={messageId} />
       </a>
     );
     if (url) {
@@ -188,6 +202,7 @@ class Header extends React.Component {
                   {this.getNavItem('hearings', '/hearings/list')}
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
+                  {this.getNavItem('ownHearings', '/user-hearings', false)}
                 </ul>
               </Navbar.Collapse>
             </Navbar>

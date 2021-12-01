@@ -10,8 +10,10 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import Icon from '../../utils/Icon';
 import {notifyError} from '../../utils/notify';
+import {getValidationState} from '../../utils/hearingEditor';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
@@ -57,13 +59,19 @@ class HearingFormStep5 extends React.Component {
     this.props.dispatch(activePhase(phaseId));
   }
   renderProject = (selectedProject) => {
-    const {hearingLanguages} = this.props;
+    const {hearing, hearingLanguages, errors} = this.props;
+    const phasesLength = hearing.project ? hearing.project.phases.length : null;
+    const errorStyle = getValidationState(errors, 'project_phase_active') && phasesLength === 0 ? 'has-error' : null;
 
     return (
       <div>
         {
           selectedProject && hearingLanguages.map(usedLanguage => (
-            <FormGroup controlId="projectName" key={usedLanguage}>
+            <FormGroup
+              controlId="projectName"
+              key={usedLanguage}
+              validationState={getValidationState(errors, 'project_title')}
+            >
               <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage})* </ControlLabel>
               <FormControlOnChange
                 maxLength="100"
@@ -73,6 +81,9 @@ class HearingFormStep5 extends React.Component {
                 }}
                 type="text"
               />
+              {getValidationState(errors, 'project_title') && (
+                <HelpBlock>{errors.project_title}</HelpBlock>
+              )}
             </FormGroup>
           ))
         }
@@ -89,6 +100,7 @@ class HearingFormStep5 extends React.Component {
                   onDelete={this.deletePhase}
                   onActive={this.onActivePhase}
                   languages={hearingLanguages}
+                  errors={errors}
                 />
               );
             })
@@ -98,13 +110,19 @@ class HearingFormStep5 extends React.Component {
           selectedProject && (
             <ButtonToolbar>
               <Button
+                className={errorStyle}
                 onClick={this.addPhase}
                 bsSize="small"
                 bsStyle="default"
               >
-                <Icon className="icon" name="plus"/> <FormattedMessage id="addProcess"/>
+                <Icon className="icon" name="plus"/> <FormattedMessage id="addProcess">{txt => txt}</FormattedMessage>
               </Button>
             </ButtonToolbar>
+          )
+        }
+        {
+          getValidationState(errors, 'project_phase_active') && phasesLength === 0 && (
+          <HelpBlock className={errorStyle}>{errors.project_phase_active}</HelpBlock>
           )
         }
       </div>
@@ -146,6 +164,7 @@ class HearingFormStep5 extends React.Component {
 }
 
 HearingFormStep5.propTypes = {
+  errors: PropTypes.object,
   projects: PropTypes.array,
   dispatch: PropTypes.func,
   language: PropTypes.string,

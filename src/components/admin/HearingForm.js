@@ -11,6 +11,8 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
 import {Collapse} from 'react-collapse';
 
+import config from '../../config';
+
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
@@ -23,8 +25,6 @@ import {
   hearingEditorMetaDataShape,
   labelShape,
 } from '../../types';
-
-const ADMIN_HELP_URL = 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw';
 
 
 class HearingForm extends React.Component {
@@ -59,11 +59,16 @@ class HearingForm extends React.Component {
       addOption,
       deleteOption,
       onQuestionChange,
-      onDeleteTemporaryQuestion
+      onDeleteTemporaryQuestion,
+      errors
     } = this.props;
 
     const step = stepNumber.toString();
-    const title = formatMessage({id: 'hearingFormHeaderStep' + step});
+    let title = formatMessage({id: 'hearingFormHeaderStep' + step});
+    const stepErrors = errors[stepNumber] || {};
+    if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
+      title += formatMessage({id: 'hearingFormHeaderContainsErrors'});
+    }
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
     return (
@@ -73,43 +78,44 @@ class HearingForm extends React.Component {
             {title}
           </Panel.Title>
         </Panel.Heading>
-        <Collapse isOpened={isVisible}>
-          <Panel>
-            <Panel.Body>
-              <PhaseTag
-                addOption={addOption}
-                clearQuestions={this.props.clearQuestions}
-                contactPersons={contactPersons}
-                deleteOption={deleteOption}
-                dispatch={this.props.dispatch}
-                editorMetaData={this.props.editorMetaData}
-                errors={this.props.errors}
-                formatMessage={formatMessage}
-                hearing={hearing}
-                hearingLanguages={hearingLanguages}
-                initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-                initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-                labels={labels}
-                language={language}
-                onContinue={this.nextStep}
-                onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-                onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-                onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-                onHearingChange={this.props.onHearingChange}
-                onLanguagesChange={this.props.onLanguagesChange}
-                onQuestionChange={onQuestionChange}
-                onSectionAttachment={this.props.onSectionAttachment}
-                onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-                onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-                onSectionChange={this.props.onSectionChange}
-                onSectionImageChange={this.props.onSectionImageChange}
-                sectionMoveDown={sectionMoveDown}
-                sectionMoveUp={sectionMoveUp}
-                visible={isVisible}
-              />
-            </Panel.Body>
-          </Panel>
-        </Collapse>
+        <Panel.Collapse>
+          <Panel.Body>
+            <PhaseTag
+              addOption={addOption}
+              clearQuestions={this.props.clearQuestions}
+              contactPersons={contactPersons}
+              deleteOption={deleteOption}
+              dispatch={this.props.dispatch}
+              editorMetaData={this.props.editorMetaData}
+              errors={stepErrors}
+              formatMessage={formatMessage}
+              hearing={hearing}
+              hearingLanguages={hearingLanguages}
+              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+              labels={labels}
+              language={language}
+              onContinue={this.nextStep}
+              onAddMapMarker={this.props.onAddMapMarker}
+              onAddMapMarkersToCollection={this.props.onAddMapMarkersToCollection}
+              onCreateMapMarker={this.props.onCreateMapMarker}
+              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+              onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+              onHearingChange={this.props.onHearingChange}
+              onLanguagesChange={this.props.onLanguagesChange}
+              onQuestionChange={onQuestionChange}
+              onSectionAttachment={this.props.onSectionAttachment}
+              onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+              onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
+              onSectionChange={this.props.onSectionChange}
+              onSectionImageChange={this.props.onSectionImageChange}
+              sectionMoveDown={sectionMoveDown}
+              sectionMoveUp={sectionMoveUp}
+              visible={isVisible}
+            />
+          </Panel.Body>
+        </Panel.Collapse>
       </Panel>
     );
   }
@@ -138,18 +144,46 @@ class HearingForm extends React.Component {
   }
 
   getErrors() {
-    const errors = this.props.errors;
-    if (!errors) {
+    const {errors, intl: {formatMessage}} = this.props;
+    if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
       return null;
     }
-    // TODO: Improve error message format
-    const messages = Object.keys(errors).map((key) => <li key={key}>{key}: {JSON.stringify(errors[key])}</li>);
+    /**
+     * Iterates through each key in the errors object and if they contain keys we iterate through those keys.
+     *
+     * Push a list element with text from each specific inner value and we end up with a list for each
+     * key ie. title/slug that contains a ul with each value listed.
+     * @example
+     * {1: {title: 'Fill in title', slug: 'Fill in address'},
+     * 4: {},
+     * 5: {project_title: 'Fill in project title'}
+     * }
+     * <li>hearingFormHeaderStep1
+     * <ul><li>'Fill in title'</li><li>'Fill in address'</li></ul>
+     * </li>
+     * <li>hearingFormHeaderStep5
+     * <ul><li>'Fill in project title'</li></ul>
+     * </li>
+     */
+    const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
+      if (Object.keys(errors[currentRootValue]).length > 0) {
+        const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
+          accumulator.push(<li key={currentValue}>{errors[currentRootValue][currentValue]}</li>);
+          return accumulator;
+        }, []);
+        rootAccumulator.push(
+          <li key={currentRootValue}>
+            {formatMessage({id: 'hearingFormHeaderStep' + currentRootValue})}
+            <ul>{subErrors}</ul>
+          </li>
+        );
+      }
+      return rootAccumulator;
+    }, []);
     return (
       <Alert bsStyle="danger">
-        <h2>
-          <FormattedMessage id="saveFailed"/>
-        </h2>
-        <FormattedMessage id="tryToFixFormErrors"/>:
+        <FormattedMessage id="saveFailed">{txt => <h2>{txt}</h2>}</FormattedMessage>
+        <FormattedMessage id="tryToFixFormErrors">{txt => <p>{txt}:</p>}</FormattedMessage>
         <ul>{messages}</ul>
       </Alert>
     );
@@ -167,14 +201,12 @@ class HearingForm extends React.Component {
         <Modal.Header closeButton bsClass="hearing-modal-header">
           <h2><FormattedMessage id="editHearing" /></h2>
           <a
-            style={{textDecoration: 'none'}}
-            href={ADMIN_HELP_URL}
+            style={{lineHeight: 2}}
+            href={config.adminHelpUrl}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Button bsStyle="link">
-              <FormattedMessage id="help" /> <Icon className="icon" name="external-link"/>
-            </Button>
+            <FormattedMessage id="help" />
           </a>
 
         </Modal.Header>
@@ -211,6 +243,9 @@ HearingForm.propTypes = {
   isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
+  onAddMapMarker: PropTypes.func,
+  onAddMapMarkersToCollection: PropTypes.func,
+  onCreateMapMarker: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
   onEditSectionAttachmentOrder: PropTypes.func,

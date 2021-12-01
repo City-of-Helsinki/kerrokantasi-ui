@@ -186,6 +186,7 @@ class SectionForm extends React.Component {
       deleteOption,
       isFirstSubsection,
       isLastSubsection,
+      isPublic,
       onDeleteExistingQuestion,
       onDeleteTemporaryQuestion,
       onQuestionChange,
@@ -380,6 +381,15 @@ class SectionForm extends React.Component {
                 {formatMessage({id: "deleteQuestion"})}
               </button>
             }
+            {question.id && !isPublic &&
+              <button
+                type="button"
+                className="btn btn-danger pull-right"
+                onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
+              >
+                {formatMessage({id: "deleteQuestion"})}
+              </button>
+            }
             <FormGroup>
               <h6>
                 * {
@@ -399,6 +409,7 @@ class SectionForm extends React.Component {
               onQuestionChange={onQuestionChange}
               onDeleteExistingQuestion={onDeleteExistingQuestion}
               lang={language}
+              isPublic={isPublic}
             />
           </div>
         )}
@@ -419,6 +430,7 @@ SectionForm.propTypes = {
   intl: intlShape.isRequired,
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
+  isPublic: PropTypes.bool,
   maxAbstractLength: PropTypes.number,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,

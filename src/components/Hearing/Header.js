@@ -27,8 +27,14 @@ import { stringify } from 'qs';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
+    const {intl: {formatTime, formatDate}} = this.props;
     const openMessage = <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>;
-    const closeMessage = <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at}/>;
+    const closeMessage = <FormatRelativeTime
+      messagePrefix="timeClose"
+      timeVal={hearing.close_at}
+      formatTime={formatTime}
+      formatDate={formatDate}
+    />;
 
     return (
       <div className="hearing-meta__element timetable">
