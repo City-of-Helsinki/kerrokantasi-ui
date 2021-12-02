@@ -5,7 +5,7 @@
   "feedbackFI": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
   "feedbackSV": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
   "rasterMapTiles": "https://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
-  "highContrastRasterMapTiles": "https://tiles.hel.ninja/styles/hel-osm-high-contrast/{z}/{x}/{y}@2x.png",
+  "highContrastRasterMapTiles": "https://tiles.hel.ninja/styles/turku-osm-high-contrast-pattern/{z}/{x}/{y}@2x.png",
   "city": "http://www.hel.fi",
   "analytics": "/assets/js/piwik.js"
 }
