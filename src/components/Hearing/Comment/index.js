@@ -478,7 +478,7 @@ class Comment extends React.Component {
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
-          <div className="hearing-comment-body">
+          <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
             <p>{nl2br(data.content)}</p>
           </div>
           <div className="hearing-comment__images">
