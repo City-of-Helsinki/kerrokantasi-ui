@@ -534,12 +534,14 @@ class Comment extends React.Component {
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
             </div>
             <div className="hearing-comment-votes">
-              <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-                <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
-                <span className="sr-only">
-                  <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
-                </span>
-              </Button>
+              { !data.deleted &&
+                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+                  <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
+                  <span className="sr-only">
+                    <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
+                  </span>
+                </Button>
+              }
             </div>
           </div>
           {editorOpen && this.renderEditorForm()}
