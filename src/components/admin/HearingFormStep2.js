@@ -9,7 +9,6 @@ import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
-import {Collapse} from 'react-collapse';
 
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
@@ -23,12 +22,9 @@ class HearingFormStep2 extends React.Component {
     super(props);
     this.state = {
       activeSection: getMainSection(props.hearing).frontId,
-      collapsedStep: getMainSection(props.hearing).frontId
     };
     this.addSection = this.addSection.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
-    this.handleCollapse = this.handleCollapse.bind(this);
-    this.sectionSequence = 0;
   }
 
   getDeleteSectionButton(section, sectionID) {
@@ -43,14 +39,6 @@ class HearingFormStep2 extends React.Component {
       );
     }
     return null;
-  }
-
-  handleCollapse(step) {
-    if (this.state.collapsedStep === step) {
-      this.setState({collapsedStep: ''});
-    } else {
-      this.setState({collapsedStep: step});
-    }
   }
 
   /*
@@ -76,8 +64,6 @@ class HearingFormStep2 extends React.Component {
           id: `${section.type}Section`
         });
         const sectionID = section.frontId;
-        const isVisible = this.state.collapsedStep === sectionID;
-
         return (
           <Panel
             eventKey={sectionID}
@@ -85,7 +71,7 @@ class HearingFormStep2 extends React.Component {
             bsStyle="info"
           >
             <Panel.Heading>
-              <Panel.Title onClick={() => this.handleCollapse(sectionID)}>
+              <Panel.Title toggle>
                 {`${sectionHeader}: ${getAttr(section.title, language) || ''}`}
               </Panel.Title>
             </Panel.Heading>
