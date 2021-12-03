@@ -378,7 +378,15 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
   };
 }
 
-export function deleteSectionComment(hearingSlug, sectionId, commentId) {
+/**
+ * Delete a specific comment
+ * @param {String} hearingSlug
+ * @param {String} sectionId
+ * @param {Number} commentId
+ * @param {Boolean} [refreshUser=false] Determines if userdata is updated after comment deletion
+ * @returns {function(*, *): *}
+ */
+export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser = false) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
@@ -388,6 +396,8 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
+      // update user answered questions if refreshUser is true
+      if (refreshUser) { dispatch(retrieveUserFromSession()); }
       localizedAlert("commentDeleted");
     }).catch(requestErrorHandler());
   };

@@ -94,8 +94,9 @@ class Comment extends React.Component {
   handleDelete(event) {
     event.preventDefault();
     const {data} = this.props;
-    const {section, id} = data;
-    this.props.onDeleteComment(section, id);
+    const {section, id, answers} = data;
+    // userdata is updated if the comment contained answers
+    this.props.onDeleteComment(section, id, answers.length > 0);
   }
 
   /**

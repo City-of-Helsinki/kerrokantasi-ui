@@ -163,9 +163,9 @@ export class SectionContainerComponent extends React.Component {
 
   onDeleteComment = () => {
     const {match} = this.props;
-    const {sectionId, commentId} = this.state.commentToDelete;
+    const {sectionId, commentId, refreshUser} = this.state.commentToDelete;
     const hearingSlug = match.params.hearingSlug;
-    this.props.deleteSectionComment(hearingSlug, sectionId, commentId);
+    this.props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
     this.forceUpdate();
   }
 
@@ -187,8 +187,8 @@ export class SectionContainerComponent extends React.Component {
     this.props.postVote(commentId, hearingSlug, sectionId);
   }
 
-  handleDeleteClick = (sectionId, commentId) => {
-    this.setState({commentToDelete: {sectionId, commentId}});
+  handleDeleteClick = (sectionId, commentId, refreshUser) => {
+    this.setState({commentToDelete: {sectionId, commentId, refreshUser}});
     this.openDeleteModal();
   }
 
@@ -740,8 +740,8 @@ const mapDispatchToProps = (dispatch) => ({
   editComment: (hearingSlug, sectionId, commentId, commentData) => (
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData))
   ),
-  deleteSectionComment: (hearingSlug, sectionId, commentId) => (
-    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId))
+  deleteSectionComment: (hearingSlug, sectionId, commentId, refreshUser) => (
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser))
   ),
   fetchAllComments: (hearingSlug, sectionId, ordering) => (
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering))
