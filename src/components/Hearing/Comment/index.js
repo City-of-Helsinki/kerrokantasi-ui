@@ -528,7 +528,7 @@ class Comment extends React.Component {
               )}
             </div>
           )}
-          {canEdit && this.renderEditLinks()}
+          {canEdit && !data.deleted && this.renderEditLinks()}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
