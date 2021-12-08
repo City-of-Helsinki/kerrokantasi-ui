@@ -9,7 +9,6 @@ import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
 import Icon from '../../utils/Icon';
-import {Collapse} from 'react-collapse';
 
 import config from '../../config';
 
@@ -74,7 +73,7 @@ class HearingForm extends React.Component {
     return (
       <Panel eventKey={step}>
         <Panel.Heading>
-          <Panel.Title onClick={() => this.setCurrentStep(step)}>
+          <Panel.Title toggle>
             {title}
           </Panel.Title>
         </Panel.Heading>
