@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
@@ -415,9 +416,9 @@ export class BaseCommentForm extends React.Component {
   }
 
   getMapContrastTiles() {
-    const {isHighContrast} = this.props;
+    const {isHighContrast, language} = this.props;
     return getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-      urls.highContrastRasterMapTiles, isHighContrast);
+      urls.highContrastRasterMapTiles, isHighContrast, language);
   }
 
   render() {
@@ -478,6 +479,7 @@ export class BaseCommentForm extends React.Component {
             }
           </div>
           <FormControl
+            autoFocus
             componentClass="textarea"
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}
@@ -490,7 +492,9 @@ export class BaseCommentForm extends React.Component {
                   <FormattedMessage id="commentMapTitle" />
                 </label>
               </div>
-              <FormattedMessage id="commentMapInstructions">{instr => <span style={{fontSize: 13}}>{instr}</span>}</FormattedMessage>
+              <FormattedMessage id="commentMapInstructions">
+                {instr => <span style={{fontSize: 13}}>{instr}</span>}
+              </FormattedMessage>
               <div className="map-padding">
                 <CommentFormMap
                   center={this.getMapCenter()}

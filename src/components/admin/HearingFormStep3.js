@@ -6,6 +6,7 @@ import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import {isEmpty, includes, keys, isMatch} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
 import {localizedNotifyError} from '../../utils/notify';
@@ -58,6 +59,12 @@ function getHearingArea(hearing) {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon
       const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
       return <Polygon key={Math.random()} positions={latLngs}/>;
+    }
+    case "MultiPolygon": {
+      const latLngs = geojson.coordinates.map((arr) => {
+        return arr[0].map(([lng, lat]) => new LatLng(lat, lng));
+      });
+      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem}/>);
     }
     case "Point": {
       const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
@@ -323,6 +330,11 @@ class HearingFormStep3 extends React.Component {
           includes(keys(featureCollection.features[0].geometry), 'type') &&
           includes(keys(featureCollection.features[0].geometry), 'coordinates')
         ) {
+          if (featureCollection.features[0].geometry.coordinates.length === 0) {
+            localizedNotifyError('Tiedostosta ei löytynyt koordinaatteja.');
+            return;
+          }
+          this.props.onHearingChange("geojson", featureCollection.features[0].geometry);
           const parsedFile = parseCollection(featureCollection);
           this.props.onCreateMapMarker(parsedFile);
           this.setState({initialGeoJSON: parsedFile});
@@ -399,9 +411,9 @@ class HearingFormStep3 extends React.Component {
           >
             <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
             <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-                  urls.highContrastRasterMapTiles, this.props.isHighContrast)}
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
+                urls.highContrastRasterMapTiles, this.props.isHighContrast, this.props.language)}
             />
             <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
@@ -427,6 +439,7 @@ class HearingFormStep3 extends React.Component {
             <Icon className="icon" name="upload" style={{marginRight: '5px'}}/>
             <FormattedMessage id="addGeojson"/>
           </label>
+          <HelpBlock><FormattedMessage id="addGeojsonInfo"/></HelpBlock>
         </div>
         <div className="step-footer">
           <Button

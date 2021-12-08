@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import getMessage from '../../utils/getMessage';
 
 const BLOCK_TYPES = [
-  {label: 'Väliotsikko', style: 'header-four'},
+  {label: 'Väliotsikko', style: 'header-three'},
   {label: 'Lista', style: 'unordered-list-item'},
   {label: 'Numeroitu lista', style: 'ordered-list-item'},
-  {label: 'Korostettu kappale', style: 'LEAD'}
+  {label: 'Korostettu kappale', style: 'LEAD'},
+  {label: 'Kuvateksti', style: 'ImageCaption'},
 ];
 
 const INLINE_STYLES = [
@@ -112,5 +113,17 @@ export const SkipLinkControls = (props) => {
 };
 
 SkipLinkControls.propTypes = {
+  onClick: PropTypes.func,
+};
+
+export const ImageControls = (props) => {
+  return (
+    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
+      <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('imageAddButton')}</button>
+    </div>
+  );
+};
+
+ImageControls.propTypes = {
   onClick: PropTypes.func,
 };

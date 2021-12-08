@@ -45,8 +45,6 @@ export function applyCompilerMiddleware(server, compiler, settings) {
   debug("enabling dev-middleware");
   server.use(require('webpack-dev-middleware')(compiler, {
     publicPath: compiler.options.output.publicPath,
-    quiet: false,
-    noInfo: false,
     stats: {
       assets: false,
       chunkModules: false,

@@ -13,7 +13,12 @@ export const geoJSONshape = PropTypes.shape({
       PropTypes.arrayOf(
         PropTypes.oneOfType([
           PropTypes.number,
-          PropTypes.arrayOf(PropTypes.number)
+          PropTypes.arrayOf(
+            PropTypes.oneOfType([
+              PropTypes.number,
+              PropTypes.arrayOf(PropTypes.number)
+            ])
+          )
         ])
       )
     ])
