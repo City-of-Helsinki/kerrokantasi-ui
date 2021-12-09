@@ -122,6 +122,7 @@ App.propTypes = {
   location: PropTypes.object,
   apitoken: PropTypes.any,
   oidc: PropTypes.any,
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   fetchApiToken: PropTypes.func,
   isHighContrast: PropTypes.bool,

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import {Modal, Button, ModalTitle} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import get from 'lodash/get';
@@ -48,6 +49,7 @@ import {
 } from '../../../actions';
 
 import {getUser} from '../../../selectors/user';
+import 'react-image-lightbox/style.css';
 
 export class SectionContainerComponent extends React.Component {
   state = {

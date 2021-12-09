@@ -37,7 +37,7 @@
     .geojson_button {
       border-radius: 5px;
       border: 2px solid black;
-      margin: 0 10px;
+      margin: 0;
       padding: 4px 8px;
       font-weight: 500;
       vertical-align: middle;
@@ -280,4 +280,8 @@
     padding: 6px 10px;
     border: 2px solid black;
   }
+}
+
+.image-modal {
+  width: 100% !important;
 }

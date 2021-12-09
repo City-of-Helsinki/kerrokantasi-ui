@@ -61,6 +61,7 @@ class HearingForm extends React.Component {
       onDeleteTemporaryQuestion,
       errors
     } = this.props;
+
     const step = stepNumber.toString();
     let title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const stepErrors = errors[stepNumber] || {};

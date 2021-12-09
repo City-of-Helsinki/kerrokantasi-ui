@@ -39,7 +39,7 @@
   position: relative;
   display: inline-block;
   vertical-align: middle;
-
+  padding: 6px 6px;
   span.contrast-title {
     display: none;
   }
@@ -48,6 +48,34 @@
       display: inline-block;
     }
   }
+}
+
+.language-button{
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px 8px;
+  margin-left: 0px !important;
+
+  span.language-title {
+    display: none;
+  }
+  span.language-title-xs {
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  @media (min-width: $screen-xs-min) {
+    span.language-title {
+      display: inline-block;
+    }
+    span.language-title-xs {
+      display: none;
+    }
+  }
+}
+
+.language-button:not(:last-child) {
+  border-right: 1px solid black;
 }
 
 .dropdown.btn-group > a {

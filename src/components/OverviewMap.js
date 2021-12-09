@@ -70,6 +70,7 @@ class OverviewMap extends React.Component {
     const {mapElementLimit} = this.props;
     const contents = [];
     hearings.forEach((hearing) => {
+      /* eslint-disable-next-line no-unused-vars */
       const {geojson, id} = hearing;
 
       if (geojson) {
@@ -258,7 +259,7 @@ class OverviewMap extends React.Component {
       >
         <TileLayer
           url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-            urls.highContrastRasterMapTiles, this.props.isHighContrast)}
+            urls.highContrastRasterMapTiles, this.props.isHighContrast, this.context.language)}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup

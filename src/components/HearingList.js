@@ -142,6 +142,7 @@ export class HearingListItem extends React.Component {
           style={mainImageStyle}
           history={history}
           url={getHearingURL(hearing)}
+          altText={getAttr(hearing.title, language)}
         />
         <div className="hearing-list-item-content">
           <div className="hearing-list-item-title-wrap">

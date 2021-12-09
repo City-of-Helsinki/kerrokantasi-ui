@@ -81,14 +81,19 @@ class Header extends React.Component {
       ];
     }
     return [
-      <Button
-        key="login"
-        className="user-menu login-link user-menu--unlogged"
-        onClick={() => this.handleLogin()}
-      >
-        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
-        <span className="user-name"><FormattedMessage id="login" /></span>
-      </Button>,
+      <FormattedMessage key="login" id="login">
+        {login => (
+          <Button
+            key="login"
+            aria-label={login}
+            className="user-menu login-link user-menu--unlogged"
+            onClick={() => this.handleLogin()}
+          >
+            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
+            <span className="user-name">{login}</span>
+          </Button>
+        )}
+      </FormattedMessage>
     ];
   }
 
@@ -127,10 +132,19 @@ class Header extends React.Component {
   contrastToggle() {
     if (config.enableHighContrast) {
       return (
-        <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
-          <Icon name="adjust" aria-hidden="true"/>
-          <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
-        </Button>
+        <FormattedMessage key="contrastTitle" id="contrastTitle">
+          {text => (
+            <Button
+              key="text"
+              aria-label={text}
+              className="contrast-button"
+              onClick={() => this.props.toggleContrast()}
+            >
+              <Icon name="adjust"/>
+              <span className="contrast-title">{text}</span>
+            </Button>
+          )}
+        </FormattedMessage>
       );
     }
     return (
@@ -143,7 +157,7 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <FormattedMessage id="headerUserNavLabel">
+        <FormattedMessage key="headerUserNavLabel" id="headerUserNavLabel">
           {headerUserNavLabel => (
             <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi" aria-label={headerUserNavLabel}>
               <Navbar.Header>
@@ -178,7 +192,11 @@ class Header extends React.Component {
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
+                <FormattedMessage id="mainMenu">
+                  {mainMenu => (
+                    <Navbar.Toggle aria-label={mainMenu}/>
+                  )}
+                </FormattedMessage>
               </Navbar.Header>
               <Navbar.Collapse>
                 <ul className="nav navbar-nav">
@@ -198,6 +216,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   history: PropTypes.object,
   language: PropTypes.string,

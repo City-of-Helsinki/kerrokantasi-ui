@@ -23,10 +23,15 @@ export function EPSG3067() { // eslint-disable-line
  * @param {string} highContrastMapTilesUrl
  * @param {boolean} isHighContrastEnabled
  */
-export function getCorrectContrastMapTileUrl(normalMapTilesUrl, highContrastMapTilesUrl, isHighContrastEnabled) {
+export function getCorrectContrastMapTileUrl(
+  normalMapTilesUrl,
+  highContrastMapTilesUrl,
+  isHighContrastEnabled,
+  language
+) {
   if (isHighContrastEnabled && highContrastMapTilesUrl) {
-    return highContrastMapTilesUrl;
+    return `${highContrastMapTilesUrl.split('.').slice(0, -1).join('.')}@${language}.png`;
   }
 
-  return normalMapTilesUrl;
+  return `${normalMapTilesUrl.split('.').slice(0, -1).join('.')}@${language}.png`;
 }
