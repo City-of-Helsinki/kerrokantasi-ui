@@ -6,6 +6,9 @@ export default function retrieveUserFromSession() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
+    if (!state.oidc.user) {
+      return null;
+    }
     const url = 'v1/users/' + state.oidc.user.profile.sub;
     return api.get(state, url).then((democracyUser) => {
       return democracyUser.json();
