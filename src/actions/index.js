@@ -211,7 +211,6 @@ export function addHearingToFavorites(hearingSlug, hearingId) {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyFavorite");
       } else {
-        dispatch(createAction("receiveFavoriteHearings")({hearingSlug, data}));
         dispatch(createAction("modifyFavoriteHearingsData")({hearingSlug, hearingId}));
         dispatch(fetchHearing(hearingSlug));
         localizedNotifySuccess("addedFavorites");
