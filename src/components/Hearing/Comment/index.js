@@ -478,7 +478,7 @@ class Comment extends React.Component {
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
-          <div className="hearing-comment-body">
+          <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
             <p>{nl2br(data.content)}</p>
           </div>
           <div className="hearing-comment__images">
@@ -528,18 +528,20 @@ class Comment extends React.Component {
               )}
             </div>
           )}
-          {canEdit && this.renderEditLinks()}
+          {canEdit && !data.deleted && this.renderEditLinks()}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
             </div>
             <div className="hearing-comment-votes">
-              <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-                <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
-                <span className="sr-only">
-                  <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
-                </span>
-              </Button>
+              { !data.deleted &&
+                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+                  <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
+                  <span className="sr-only">
+                    <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
+                  </span>
+                </Button>
+              }
             </div>
           </div>
           {editorOpen && this.renderEditorForm()}

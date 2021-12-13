@@ -184,6 +184,10 @@
       }
     }
 
+    &-body-disabled {
+      color: $gray
+    }
+
     &__actions-bar {
       display: flex;
       flex-flow: row nowrap;
