@@ -138,6 +138,7 @@ exports[`HearingCardList component should render as expected 1`] = `
             "cookieBar.modal.showLess": "Näytä vähemmän",
             "cookieBar.modal.showMore": "Näytä lisää",
             "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+            "copyHearing": "Kopioi kuuleminen",
             "copyrightText": "Kerrokantasi",
             "create": "Luo",
             "createContact": "Luo uusi yhteyshenkilö",
