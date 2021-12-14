@@ -226,6 +226,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "adminCommentMessage": "Olet kirjautuneena pääkäyttäjänä. Nimesi ja organisaatiosi näytetään kommenttisi yhteydessä",
                 "all": "Kaikki",
                 "allHearings": "Kaikki kuulemiset",
+                "alreadyFlagged": "Tämä kommentti on jo liputettu.",
                 "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
                 "anonymous": "Anonyymi",
                 "asOpenData": "avoimena datana",
@@ -243,6 +244,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                 "commentDeleted": "Kommenttisi on poistettu.",
                 "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                "commentFlagged": "Kommentti liputettu.",
                 "commentImageAlt": "Kommentoijan lisäämä kuva",
                 "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
                 "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
@@ -433,6 +435,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
+                "loginToFlagComment": "Kirjaudu sisään liputtaaksesi kommentin.",
                 "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
                 "logout": "Kirjaudu ulos",
                 "mainMenu": "Päävalikko",
@@ -593,6 +596,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
           jumpTo={false}
           language="fi"
           nicknamePlaceholder="Anonyymi"
+          onPostFlag={[Function]}
           onPostReply={[Function]}
           onPostVote={[Function]}
           section={
