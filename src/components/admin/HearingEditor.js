@@ -52,6 +52,7 @@ class HearingEditor extends React.Component {
     this.onPublish = this.onPublish.bind(this);
     this.onSaveAndPreview = this.onSaveAndPreview.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.onSaveAsCopy = this.onSaveAsCopy.bind(this);
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
@@ -188,6 +189,11 @@ class HearingEditor extends React.Component {
     return notifyError(formatMessage({id: 'validationNotification'}));
   }
 
+  onSaveAsCopy() {
+    const {hearing} = this.props;
+    this.validateHearing(hearing, saveAndPreviewNewHearing);
+  }
+
   onSaveAndPreview() {
     const {hearing} = this.props;
     if (hearing.isNew) {
@@ -280,6 +286,7 @@ class HearingEditor extends React.Component {
         onQuestionChange={this.onQuestionChange}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
+        onSaveAsCopy={this.onSaveAsCopy}
         onSectionAttachment={this.onSectionAttachment}
         onSectionAttachmentDelete={this.onSectionAttachmentDelete}
         onSectionAttachmentEdit={this.onSectionAttachmentEdit}
