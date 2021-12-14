@@ -202,6 +202,10 @@ export class SortableCommentListComponent extends Component {
     this.props.onPostVote(commentId, sectionId, isReply, parentId);
   }
 
+  handlePostFlag = (commentId, sectionId, isReply, parentId) => {
+    this.props.onPostFlag(commentId, sectionId, isReply, parentId);
+  }
+
   renderMapVisualization() {
     const {section, sectionComments} = this.props;
     return (
@@ -254,6 +258,7 @@ export class SortableCommentListComponent extends Component {
       section,
       sectionComments,
       canVote,
+      canFlag,
       user,
       published,
       language,
@@ -354,6 +359,7 @@ export class SortableCommentListComponent extends Component {
                   onPostReply={this.handlePostReply}
                   onGetSubComments={this.props.onGetSubComments}
                   canVote={canVote}
+                  canFlag={canFlag}
                   comments={sectionComments.results}
                   defaultNickname={getNickname(user)}
                   hearingId={hearingId}
@@ -365,6 +371,7 @@ export class SortableCommentListComponent extends Component {
                   onDeleteComment={this.props.onDeleteComment}
                   onEditComment={this.props.onEditComment}
                   onPostVote={this.handlePostVote}
+                  onPostFlag={this.handlePostFlag}
                   section={section}
                   totalCount={sectionComments.count}
                   user={user}
@@ -381,6 +388,7 @@ export class SortableCommentListComponent extends Component {
 SortableCommentListComponent.propTypes = {
   canComment: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   closed: PropTypes.bool,
   displayVisualization: PropTypes.bool,
   fetchAllComments: PropTypes.func,
@@ -396,6 +404,7 @@ SortableCommentListComponent.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   published: PropTypes.bool,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
