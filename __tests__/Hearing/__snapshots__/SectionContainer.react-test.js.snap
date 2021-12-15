@@ -338,6 +338,7 @@ exports[`SectionContainer component should render as expected 1`] = `
             </p>
             <Connect(InjectIntl(SortableCommentListComponent))
               canComment={true}
+              canFlag={false}
               canVote={true}
               closed={false}
               displayVisualization={false}
@@ -421,6 +422,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               onEditComment={[Function]}
               onGetSubComments={[Function]}
               onPostComment={[Function]}
+              onPostFlag={[Function]}
               onPostVote={[Function]}
               published={true}
               section={

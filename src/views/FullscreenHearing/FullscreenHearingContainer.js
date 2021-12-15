@@ -12,6 +12,7 @@ import {
   fetchHearing as fetchHearingAction,
   postSectionComment,
   postVote,
+  postFlag,
   fetchAllSectionComments,
   fetchSectionComments,
   fetchMoreSectionComments,
@@ -137,6 +138,7 @@ const mapDispatchToProps = dispatch => ({
   postSectionComment: (hearingSlug, sectionId, commentData) =>
     dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  postFlag: (commentId, hearingSlug, sectionId) => dispatch(postFlag(commentId, hearingSlug, sectionId)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
 });

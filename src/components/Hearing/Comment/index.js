@@ -62,6 +62,15 @@ class Comment extends React.Component {
     }
   }
 
+  onFlag() {
+    if (this.canFlagComments()) {
+      const {data} = this.props;
+      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
+    } else {
+      notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
+    }
+  }
+
   toggleEditor(event) {
     event.preventDefault();
 
@@ -219,6 +228,10 @@ class Comment extends React.Component {
     );
   };
 
+  canFlagComments = () => {
+    return this.props.user && this.props.canFlag;
+  }
+
   /**
    * Renders the header area for the comment
    * @returns {Component}
@@ -250,6 +263,17 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
+      { this.canFlagComments() && !data.deleted &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
+        <Icon
+          name={classnames({
+            'flag-o': !data.flagged,
+            flag: data.flagged,
+          })}
+          aria-hidden="true"
+        />
+      </Button>
+      }
     </div>
   );
 
@@ -557,6 +581,7 @@ class Comment extends React.Component {
 Comment.propTypes = {
   canReply: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   data: PropTypes.object,
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
@@ -573,6 +598,7 @@ Comment.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   parentComponentId: PropTypes.number,
   questions: PropTypes.array,
   section: PropTypes.object,
