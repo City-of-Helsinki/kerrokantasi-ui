@@ -16,6 +16,7 @@ const config = {
   showAccessibilityInfo: typeof window !== 'undefined' ? window.SHOW_ACCESSIBILITY_INFO : false,
   showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
   enableHighContrast: typeof window !== 'undefined' ? window.ENABLE_HIGHCONTRAST : false,
+  enableStrongAuth: typeof window !== 'undefined' ? window.ENABLE_STRONG_AUTH : false,
   showCookiebar: typeof window !== 'undefined' ? window.SHOW_COOKIEBAR : false,
   adminHelpUrl: typeof window !== 'undefined' ? window.ADMIN_HELP_URL : "",
 };
