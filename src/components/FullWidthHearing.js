@@ -35,7 +35,7 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
         style={styles}
         history={history}
         url={getHearingURL(hearing)}
-        altText={getAttr(hearing.title, language)}
+        altText={getAttr(hearing.main_image.caption, language)}
       />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
