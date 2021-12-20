@@ -503,7 +503,16 @@ class Comment extends React.Component {
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
           <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
-            <p>{nl2br(data.content)}</p>
+            {!data.deleted ?
+              <p>{nl2br(data.content)}</p>
+                :
+              <p>
+                <FormattedMessage
+                  id="sectionCommentDeletedMessage"
+                  values={{ date: moment(new Date(data.deleted_at)).format('DD.MM.YYYY HH:mm')}}
+                />
+              </p>
+            }
           </div>
           <div className="hearing-comment__images">
             {data.images

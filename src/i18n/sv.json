@@ -32,6 +32,7 @@
   "commentReceived": "Din kommentar har mottagits. Tack!",
   "commentRegisteredUsersOnly": "Logga in för att kommentera.",
   "comments": "Åsikter",
+  "sectionCommentDeletedMessage": "Inlägget har raderats {date} eftersom det inte följde Säg din åsikt-tjänstens regler. https://kerrokantasi.hel.fi/info?lang=sv",
   "commentShowMap": "Kartmarkering placerad. Visa på kartan",
   "commentsOnMap": "Åsikter på kartan",
   "commentsOutOf": "Visas {current}/{total} åsikter.",
