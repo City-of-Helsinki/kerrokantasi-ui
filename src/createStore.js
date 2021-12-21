@@ -17,10 +17,11 @@ export const history = createBrowserHistory();
 
 const historySettings = {
   /* eslint-disable */
-  documentTitle: (location: Location) => document.title || "Kerrokantasi",
+  documentTitle: (location) => document.title || "Kerrokantasi",
   /* eslint-enable */
   announcePageNavigation: false, // default true
   setPageTitle: false,
+  primaryFocusTarget: "body",
 };
 
 wrapHistory(history, historySettings);

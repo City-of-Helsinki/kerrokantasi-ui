@@ -12,6 +12,7 @@ import {
   fetchHearing as fetchHearingAction,
   postSectionComment,
   postVote,
+  postFlag,
   fetchAllSectionComments,
   fetchSectionComments,
   fetchMoreSectionComments,
@@ -19,6 +20,7 @@ import {
 import Link from '../../components/LinkWithLang';
 import Button from 'react-bootstrap/lib/Button';
 import Icon from '../../utils/Icon';
+import {getUser} from '../../selectors/user';
 
 // eslint-disable-next-line import/no-unresolved
 import logoWhite from '@city-images/logo-fi-white.svg';
@@ -126,7 +128,7 @@ const mapStateToProps = (state, ownProps) => ({
   language: state.language,
   hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
   mainSection: getMainSection(state, ownProps.match.params.hearingSlug),
-  user: state.user,
+  user: getUser(state),
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug)
 });
 
@@ -136,6 +138,7 @@ const mapDispatchToProps = dispatch => ({
   postSectionComment: (hearingSlug, sectionId, commentData) =>
     dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
   postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  postFlag: (commentId, hearingSlug, sectionId) => dispatch(postFlag(commentId, hearingSlug, sectionId)),
   fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl)),
 });

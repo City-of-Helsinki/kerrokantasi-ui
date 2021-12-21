@@ -11,6 +11,8 @@ export class CommentList extends React.Component {
       isLoading,
       section,
       canReply,
+      canVote,
+      canFlag,
       user,
       defaultNickname,
       nicknamePlaceholder,
@@ -32,7 +34,8 @@ export class CommentList extends React.Component {
         {comments.map((comment) =>
           <Comment
             canReply={canReply}
-            canVote={this.props.canVote}
+            canVote={canVote}
+            canFlag={canFlag}
             data={comment}
             defaultNickname={defaultNickname}
             hearingId={hearingId}
@@ -45,6 +48,7 @@ export class CommentList extends React.Component {
             onGetSubComments={this.props.onGetSubComments}
             onPostReply={this.props.onPostReply}
             onPostVote={this.props.onPostVote}
+            onPostFlag={this.props.onPostFlag}
             questions={section.questions}
             section={section}
             user={user}
@@ -59,6 +63,7 @@ CommentList.propTypes = {
   canComment: PropTypes.bool,
   canReply: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   comments: PropTypes.array,
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
@@ -74,6 +79,7 @@ CommentList.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   section: PropTypes.object,
   user: PropTypes.object,
 };

@@ -17,7 +17,7 @@ import {
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const SubsectionList = ({ hearing, language, user, history }) => {
+const SubsectionList = ({ hearing, language, user, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
@@ -33,7 +33,6 @@ const SubsectionList = ({ hearing, language, user, history }) => {
   if (!subSections.length) {
     return null;
   }
-
   return (
     <section className="hearing-section subsections-list">
       <h2>
@@ -48,14 +47,19 @@ const SubsectionList = ({ hearing, language, user, history }) => {
                   className="section-card-image"
                   style={{ backgroundImage: bgImage(section) }}
                   history={history}
-                  url={getSectionURL(hearing.slug, section)}
+                  url={getSectionURL(match.params.hearingSlug, section)}
+                  altText={
+                    section.type === 'main' ?
+                      getAttr(hearing.title, language) :
+                      getAttr(section.title, language)
+                  }
                 />
                 <div className="section-card-content">
                   <div className="section-card-title-wrapper">
                     <div className="section-card-title-prefix">
                       <FormattedMessage id="sectionCardSubsectionTitle" /> {index + 1}/{subSections.length}
                     </div>
-                    <Link to={{ path: getSectionURL(hearing.slug, section) }} className="section-card-title">
+                    <Link to={{path: getSectionURL(match.params.hearingSlug, section)}} className="section-card-title">
                       <h3 id={`subsection-title-${section.id}`}>
                         {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
                       </h3>
@@ -74,7 +78,10 @@ const SubsectionList = ({ hearing, language, user, history }) => {
                     </div>
                   )}
                   <div className="section-card-buttons">
-                    <Link to={{ path: getSectionURL(hearing.slug, section) }} className="btn btn-sm btn-primary">
+                    <Link
+                      to={{path: getSectionURL(match.params.hearingSlug, section)}}
+                      className="btn btn-sm btn-primary"
+                    >
                       <FormattedMessage id="showSubsectionBtn" />
                     </Link>
                     {!hearing.closed && isCommentable(section) && userCanComment(user, section) && (
@@ -101,6 +108,7 @@ SubsectionList.propTypes = {
   language: PropTypes.string,
   user: PropTypes.object,
   history: PropTypes.object,
+  match: PropTypes.object
 };
 
 export default withRouter(SubsectionList);

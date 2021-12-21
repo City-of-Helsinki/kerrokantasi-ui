@@ -15,7 +15,8 @@ import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
 
-const FullWidthHearing = ({ hearing, className = '', language, history }) => {
+const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
+  const {formatTime, formatDate} = intl;
   const backgroundImage = getHearingMainImageURL(hearing);
   const styles = {
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
@@ -34,6 +35,7 @@ const FullWidthHearing = ({ hearing, className = '', language, history }) => {
         style={styles}
         history={history}
         url={getHearingURL(hearing)}
+        altText={getAttr(hearing.title, language)}
       />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
@@ -53,9 +55,13 @@ const FullWidthHearing = ({ hearing, className = '', language, history }) => {
           <span>
             <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />.
           </span>{' '}
-          <span>
-            <FormatRelativeTime messagePrefix="timeClose" timeVal={hearing.close_at} />.
-          </span>
+          <FormatRelativeTime
+            messagePrefix="timeClose"
+            timeVal={hearing.close_at}
+            formatTime={formatTime}
+            formatDate={formatDate}
+            frontpage
+          />
         </div>
         <div className="fullwidth-hearing-labels clearfix">
           <LabelList className="hearing-list-item-labellist" labels={hearing.labels} language={language} />
@@ -82,6 +88,7 @@ FullWidthHearing.propTypes = {
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default withRouter(FullWidthHearing);

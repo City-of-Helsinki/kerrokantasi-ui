@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import HearingEditor from '../../components/admin/HearingEditor';
-import { login, fetchProjects } from '../../actions';
+import { fetchProjects } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import {getUser} from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
+import userManager from "../../utils/userManager";
+import { localizedNotifyError } from '../../utils/notify';
 
 export class NewHearingContainerComponent extends React.Component {
   componentDidMount() {
@@ -25,7 +27,6 @@ export class NewHearingContainerComponent extends React.Component {
       user,
       isLoading,
       contactPersons,
-      loginAction
     } = this.props;
     return (
       <div>
@@ -36,7 +37,7 @@ export class NewHearingContainerComponent extends React.Component {
             {!user
               ?
                 <div className="hearing-page">
-                  <PleaseLogin login={loginAction} />
+                  <PleaseLogin login={handleLogin} />
                 </div>
               :
                 <HearingEditor
@@ -63,11 +64,18 @@ NewHearingContainerComponent.propTypes = {
   user: PropTypes.object,
   isLoading: PropTypes.bool,
   contactPersons: PropTypes.array,
-  loginAction: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
   initHearing: PropTypes.func,
   fetchProjectsList: PropTypes.func
 };
+
+async function handleLogin() {
+  try {
+    await userManager.signinRedirect();
+  } catch (error) {
+    localizedNotifyError("loginAttemptFailed");
+  }
+}
 
 const mapStateToProps = (state) => ({
   language: state.language,
@@ -82,7 +90,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
   initHearing: () => dispatch(initNewHearing()),
-  loginAction: () => dispatch(login()),
   fetchProjectsList: () => dispatch(fetchProjects())
 });
 

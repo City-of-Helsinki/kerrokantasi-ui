@@ -1,10 +1,11 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Collapse } from 'react-bootstrap';
+import { Grid, Row, Col, Collapse, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -35,11 +36,11 @@ import {
   isSectionVotable,
   isSectionCommentable,
   isMainSection,
-  userCanComment,
 } from '../../../utils/section';
 import {
   postSectionComment,
   postVote,
+  postFlag,
   editSectionComment,
   deleteSectionComment,
   fetchAllSectionComments,
@@ -47,6 +48,8 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
+
+import {getUser} from '../../../selectors/user';
 
 export class SectionContainerComponent extends React.Component {
   state = {
@@ -76,11 +79,49 @@ export class SectionContainerComponent extends React.Component {
       : undefined;
 
     return {
-      prevPath,
-      nextPath,
+      prev: {
+        path: prevPath,
+      },
+      next: {
+        path: nextPath,
+      },
       currentNum: currentSectionIndex + 1,
       totalNum: filteredSections.length
     };
+  }
+
+  // downloads report excel with user's credentials
+  handleReportDownload = (hearing, apiToken, language) => {
+    const accessToken = apiToken.apiToken;
+    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
+
+    fetch(reportUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        Authorization: "Bearer " + accessToken
+      },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        // remove filename special characters to avoid potential naming issues
+        const filename = hearing.title ? `${getAttr(hearing.title, language).replace(/[^a-zA-Z0-9 ]/g, "")}.xlsx`
+          : 'kuuluminen.xlsx';
+
+        link.setAttribute(
+          'download',
+          filename
+        );
+
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      });
   }
 
   // In order to keep a track of map container dimensions
@@ -112,6 +153,12 @@ export class SectionContainerComponent extends React.Component {
     const {match} = this.props;
     const hearingSlug = match.params.hearingSlug;
     this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
+  }
+
+  onFlagComment = (commentId, sectionId, isReply, parentId) => {
+    const {match} = this.props;
+    const hearingSlug = match.params.hearingSlug;
+    this.props.postFlag(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
@@ -171,11 +218,17 @@ export class SectionContainerComponent extends React.Component {
     this.setState({showLightbox: false});
   }
 
+  isHearingAdmin = () => (
+    this.props.user
+    && Array.isArray(this.props.user.adminOrganizations)
+    && this.props.user.adminOrganizations.includes(this.props.hearing.organization)
+  )
+
   /**
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  renderFileSection = (section, language) => {
+  renderFileSection = (section, language, published) => {
     const {files} = section;
 
     if (!(files && files.length > 0)) {
@@ -208,6 +261,7 @@ export class SectionContainerComponent extends React.Component {
         >
           <div className="accordion-content">
             <div className="section-content-spacer">
+              {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
               {files.map((file) => (
                 <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
               ))}
@@ -347,10 +401,12 @@ export class SectionContainerComponent extends React.Component {
 
   renderCommentsSection = () => {
     const {
+      apiToken,
       fetchAllComments,
       fetchCommentsForSortableList,
       fetchMoreComments,
       hearing,
+      language,
       match,
       sections,
       user,
@@ -361,19 +417,9 @@ export class SectionContainerComponent extends React.Component {
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
-    if (!userCanComment(user, section)) {
-      return null;
-    }
-
     return (
       <section className="hearing-section comments-section" id="comments-section">
-        {reportUrl && (
-          <p className="report-download text-right small">
-            <a href={reportUrl}>
-              <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
-            </a>
-          </p>
-        )}
+        {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, apiToken, language)}
         <SortableCommentList
           section={section}
           canComment={isSectionCommentable(hearing, section, user)}
@@ -381,7 +427,9 @@ export class SectionContainerComponent extends React.Component {
           onPostReply={this.onPostReply}
           onGetSubComments={this.handleGetSubComments}
           canVote={isSectionVotable(hearing, section, user)}
+          canFlag={this.isHearingAdmin()}
           onPostVote={this.onVoteComment}
+          onPostFlag={this.onFlagComment}
           defaultNickname={user && user.displayName}
           isSectionComments={section}
           onDeleteComment={this.handleDeleteClick}
@@ -392,8 +440,35 @@ export class SectionContainerComponent extends React.Component {
           displayVisualization={userIsAdmin || hearing.closed}
           published={hearing.published} // Needed so comments are not diplayed in hearing drafts
           closed={hearing.closed}
+          hearingGeojson={hearing.geojson}
         />
       </section>
+    );
+  }
+
+  renderReportDownload = (reportUrl, userIsAdmin, hearing, apiToken, language) => {
+    // render either admin download button or normal download link for others
+    if (userIsAdmin) {
+      return (
+        <Row className="row-no-gutters text-right">
+          <Button
+              bsSize="xsmall"
+              bsStyle="link"
+              className="pull-right report-download-button"
+              onClick={() => this.handleReportDownload(hearing, apiToken, language)}
+          >
+            <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
+          </Button>
+        </Row>
+      );
+    }
+
+    return (
+      <p className="report-download text-right small">
+        <a href={reportUrl}>
+          <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
+        </a>
+      </p>
     );
   }
 
@@ -422,7 +497,13 @@ export class SectionContainerComponent extends React.Component {
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
+    return <div
+      dangerouslySetInnerHTML={
+        {
+          __html: getAttr(section.content[language], language)
+        }
+      }
+    />;
   }
 
   renderSectionAbstract = (section, language) => {
@@ -494,6 +575,8 @@ export class SectionContainerComponent extends React.Component {
       user,
     } = this.props;
 
+    const published = "published" in hearing ? hearing.published : true;
+
     return (
       <React.Fragment>
         {hearing.geojson && (
@@ -510,7 +593,7 @@ export class SectionContainerComponent extends React.Component {
 
           {this.renderContacts(contacts, language)}
 
-          {this.renderFileSection(section, language)}
+          {this.renderFileSection(section, language, published)}
 
           {mainSection.plugin_identifier &&
             <section className="hearing-section plugin-content">
@@ -550,6 +633,25 @@ export class SectionContainerComponent extends React.Component {
     );
   }
 
+  renderSubSectionAttachments = (section, language, published) => {
+    const {files} = section;
+
+    if (!(files && files.length > 0)) {
+      return null;
+    }
+    return (
+      <div className="hearing-subsection-attachments">
+        <h3><FormattedMessage id="attachments" /></h3>
+        <div >
+          {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
+          {files.map((file) => (
+            <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+        ))}
+        </div>
+      </div>
+    );
+  }
+
   renderSubHearing = (section) => {
     const {
       hearing,
@@ -559,6 +661,7 @@ export class SectionContainerComponent extends React.Component {
     } = this.props;
 
     const showSectionBrowser = sections.filter(sec => sec.type !== SectionTypes.CLOSURE).length > 1;
+    const published = "published" in hearing ? hearing.published : true;
 
     return (
       <React.Fragment>
@@ -593,6 +696,7 @@ export class SectionContainerComponent extends React.Component {
           {this.renderSectionImage(section, language)}
           {this.renderSectionAbstract(section, language)}
           {this.renderSectionContent(section, language)}
+          {this.renderSubSectionAttachments(section, language, published)}
 
           {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
 
@@ -641,7 +745,8 @@ const mapStateToProps = (state, ownProps) => ({
   mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
-  user: state.user.data
+  user: getUser(state),
+  apiToken: state.apitoken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -653,6 +758,9 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   postVote: (commentId, hearingSlug, sectionId, isReply, parentId) => (
     dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId))
+  ),
+  postFlag: (commentId, hearingSlug, sectionId, isReply, parentId) => (
+    dispatch(postFlag(commentId, hearingSlug, sectionId, isReply, parentId))
   ),
   editComment: (hearingSlug, sectionId, commentId, commentData) => (
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData))
@@ -672,6 +780,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SectionContainerComponent.propTypes = {
+  apiToken: PropTypes.object,
   contacts: PropTypes.array,
   deleteSectionComment: PropTypes.func,
   editComment: PropTypes.func,
@@ -687,6 +796,7 @@ SectionContainerComponent.propTypes = {
   match: PropTypes.object,
   postSectionComment: PropTypes.func,
   postVote: PropTypes.func,
+  postFlag: PropTypes.func,
   sections: PropTypes.array,
   user: PropTypes.object,
 };

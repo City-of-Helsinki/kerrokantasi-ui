@@ -3,21 +3,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import Icon from '../../utils/Icon';
+
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { login, logout } from '../../actions';
 import { LinkContainer } from 'react-router-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
+import {getUser} from '../../selectors/user';
+import userManager from "../../utils/userManager";
+import { toggleContrast } from "../../actions";
 
 // eslint-disable-next-line import/no-unresolved
 import logoBlack from '@city-images/logo-fi-black.svg';
 
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
+import config from "../../config";
+import { localizedNotifyError } from '../../utils/notify';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -40,23 +45,17 @@ class Header extends React.Component {
     }
   }
 
-  onSelect(eventKey) {
-    switch (eventKey) {
-      case 'login':
-        // TODO: Actual login flow
-        this.props.dispatch(login());
-        break;
-      case 'logout':
-        // TODO: Actual logout flow
-        this.props.dispatch(logout());
-        break;
-      default:
-      // Not sure what to do here
+  async handleLogin() {
+    try {
+      await userManager.signinRedirect({ ui_locales: this.props.language });
+    } catch (error) {
+      localizedNotifyError("loginAttemptFailed");
     }
   }
 
   getUserItems() {
     const {user} = this.props;
+
     if (user) {
       return [
         <DropdownButton
@@ -74,7 +73,7 @@ class Header extends React.Component {
           <MenuItem
             key="logout"
             eventKey="logout"
-            onClick={() => this.onSelect('logout')}
+            onClick={() => userManager.signoutRedirect()}
           >
             <FormattedMessage id="logout" />
           </MenuItem>
@@ -82,23 +81,33 @@ class Header extends React.Component {
       ];
     }
     return [
-      <Button
-        key="login"
-        className="user-menu login-link user-menu--unlogged"
-        onClick={() => this.onSelect('login')}
-      >
-        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
-        <span className="user-name"><FormattedMessage id="login" /></span>
-      </Button>,
+      <FormattedMessage key="login" id="login">
+        {login => (
+          <Button
+            key="login"
+            aria-label={login}
+            className="user-menu login-link user-menu--unlogged"
+            onClick={() => this.handleLogin()}
+          >
+            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
+            <span className="user-name">{login}</span>
+          </Button>
+        )}
+      </FormattedMessage>
     ];
   }
 
-  getNavItem(id, url) {
-    const {history, language} = this.props;
+  getNavItem(id, url, addSuffix = true) {
+    const {history, language, user} = this.props;
     const active = history && history.location.pathname === url;
+    let messageId = id;
+    if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
+      return null;
+    }
+    if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
-        <FormattedMessage id={id + 'HeaderText'} />
+        <FormattedMessage id={messageId} />
       </a>
     );
     if (url) {
@@ -119,16 +128,35 @@ class Header extends React.Component {
     );
   }
 
+  contrastToggle() {
+    if (config.enableHighContrast) {
+      return (
+        <FormattedMessage key="contrastTitle" id="contrastTitle">
+          {text => (
+            <Button
+              key="text"
+              aria-label={text}
+              className="contrast-button"
+              onClick={() => this.props.toggleContrast()}
+            >
+              <Icon name="adjust"/>
+              <span className="contrast-title">{text}</span>
+            </Button>
+          )}
+        </FormattedMessage>
+      );
+    }
+    return (
+      <div />
+    );
+  }
+
   render() {
     const {language} = this.props;
-    const header = this;
-    const onSelect = eventKey => {
-      header.onSelect(eventKey);
-    };
     const userItems = this.getUserItems();
     return (
       <div>
-        <FormattedMessage id="headerUserNavLabel">
+        <FormattedMessage key="headerUserNavLabel" id="headerUserNavLabel">
           {headerUserNavLabel => (
             <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi" aria-label={headerUserNavLabel}>
               <Navbar.Header>
@@ -145,8 +173,9 @@ class Header extends React.Component {
                 </Navbar.Brand>
               </Navbar.Header>
 
-              <div onSelect={onSelect} className="nav-user-menu navbar-right">
-                <LanguageSwitcher currentLanguage={this.props.language} />
+              <div className="nav-user-menu navbar-right">
+                {this.contrastToggle()}
+                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
               </div>
             </Navbar>
@@ -162,13 +191,18 @@ class Header extends React.Component {
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
+                <FormattedMessage id="mainMenu">
+                  {mainMenu => (
+                    <Navbar.Toggle aria-label={mainMenu}/>
+                  )}
+                </FormattedMessage>
               </Navbar.Header>
               <Navbar.Collapse>
                 <ul className="nav navbar-nav">
                   {this.getNavItem('hearings', '/hearings/list')}
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
+                  {this.getNavItem('ownHearings', '/user-hearings', false)}
                 </ul>
               </Navbar.Collapse>
             </Navbar>
@@ -180,18 +214,24 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   history: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
+  toggleContrast: PropTypes.func,
 };
 
 Header.contextTypes = {
   history: PropTypes.object,
 };
 
+const mapDispatchToProps = dispatch => ({
+  toggleContrast: () => dispatch(toggleContrast())
+});
+
 export default withRouter(connect(state => ({
-  user: state.user.data, // User dropdown requires this state
+  user: getUser(state), // User dropdown requires this state
   language: state.language, // Language switch requires this state
   router: state.router, // Navigation activity requires this state
-}))(Header));
+}), mapDispatchToProps)(Header));

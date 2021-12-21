@@ -14,6 +14,7 @@ supported by Kerrokantasi API.
 
 * Node v8 LTS
 * Yarn
+* Docker
 
 ### Configuration
 
@@ -57,6 +58,18 @@ can also directly run `server(/index.js)`.
 * `yarn run fetch-plugins`: fetch optional plugins (see below)
 * `yarn run test`: run tests
 * `yarn test -- -u` update tests
+
+### Running service in Docker
+
+#### How to build a docker image
+```bash
+docker build . -t kerrokantasi-ui
+```
+
+#### How to run the docker image
+```bash
+docker run -p 8086:8086 kerrokantasi-ui
+```
 
 ### Plugins
 

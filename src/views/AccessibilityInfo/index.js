@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
@@ -36,7 +37,7 @@ class AccessibilityInfo extends React.Component {
     const pageContent = getContent(this.props.language);
     const { intl } = this.props;
     return (
-      <Grid>
+      <Grid className="accessibility-page">
         <Helmet title={intl.formatMessage({ id: 'accessibilityPage' })} />
         <Row>
           <Col md={8}>

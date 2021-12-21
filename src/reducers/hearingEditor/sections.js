@@ -74,25 +74,36 @@ const byId = handleActions(
     [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, optionKey, value} }) => {
       // only search for question with frontId which means the newly generated one.
       // editing is not possible for old questions
-      let question = find(state[sectionId].questions, (quest) => quest.frontId === questionId);
-      if (fieldType === 'option') {
-        question = updeep({
-          options: {[optionKey]: {
-            text: value
-          }}
-        }, question);
-      } else if (fieldType === 'text') {
-        question = updeep({
-          text: value
-        }, question);
-      }
-      const updatedSection = updeep({
-        questions: [...state[sectionId].questions.filter(quest => quest.frontId !== questionId), question]
-      }, state[sectionId]);
-      return {
-        ...state,
-        [sectionId]: updatedSection
-      };
+      let question = find(
+        state[sectionId].questions,
+        (quest) => quest.frontId === questionId || quest.id === questionId
+      );
+
+      const updatedQuestions = state[sectionId].questions.reduce((acc, curr) => {
+        if (curr.frontId === questionId || curr.id === questionId) {
+          if (fieldType === 'option') {
+            question = updeep({
+              options: {[optionKey]: {
+                text: value
+              }}
+            }, question);
+          } else if (fieldType === 'text') {
+            question = updeep({
+              text: value
+            }, question);
+          }
+          acc.push(question);
+        } else {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+
+      return updeep({
+        [sectionId]: {
+          questions: updatedQuestions
+        }
+      }, state);
     },
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
       ...state,
@@ -104,18 +115,18 @@ const byId = handleActions(
       return newState;
     },
     [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initSingleChoiceQuestion(), ...state[sectionId].questions]};
-      return {
-        ...state,
-        [sectionId]: section,
-      };
+      return updeep({
+        [sectionId]: {
+          questions: [...state[sectionId].questions, initSingleChoiceQuestion()]
+        }
+      }, state);
     },
     [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: [initMultipleChoiceQuestion(), ...state[sectionId].questions]};
-      return {
-        ...state,
-        [sectionId]: section,
-      };
+      return updeep({
+        [sectionId]: {
+          questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]
+        }
+      }, state);
     },
     [EditorActions.CLEAR_QUESTIONS]: (state, {payload: {sectionId}}) => {
       const section = {...state[sectionId], questions: []};
@@ -125,33 +136,37 @@ const byId = handleActions(
       };
     },
     [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
-      const index = findIndex(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const index = findIndex(
+        state[sectionId].questions,
+        (quest) => quest.frontId === questionId || quest.id === questionId
+      );
       const question = state[sectionId].questions[index];
-      const updatedQuestion = updeep({
-        options: [...question.options, {}]
-      }, question);
-      const updatedSection = updeep({
-        questions: { [index]: updatedQuestion }
-      }, state[sectionId]);
-      return {
-        ...state,
-        [sectionId]: updatedSection
-      };
+      return updeep({
+        [sectionId]: {
+          questions: {
+            [index]: {
+              options: [...question.options, {}]
+            }
+          }
+        }
+      }, state);
     },
     [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
-      const index = findIndex(state[sectionId].questions, (quest) => quest.frontId === questionId);
+      const index = findIndex(
+        state[sectionId].questions,
+        (quest) => quest.frontId === questionId || quest.id === questionId
+      );
       const question = state[sectionId].questions[index];
       const newOptions = question.options.slice(0, -1);
-      const updatedQuestion = updeep({
-        options: newOptions
-      }, question);
-      const updatedSection = updeep({
-        questions: { [index]: updatedQuestion }
-      }, state[sectionId]);
-      return {
-        ...state,
-        [sectionId]: updatedSection
-      };
+      return updeep({
+        [sectionId]: {
+          questions: {
+            [index]: {
+              options: newOptions
+            }
+          }
+        }
+      }, state);
     },
     [EditorActions.DELETE_TEMP_QUESTION]: (state, {payload: {sectionId, questionFrontId}}) => {
       const updatedSection = updeep({

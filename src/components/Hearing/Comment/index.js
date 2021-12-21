@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
@@ -18,6 +19,9 @@ import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
 import moment from 'moment';
 
+import HearingMap from "../HearingMap";
+import getMessage from '../../../utils/getMessage';
+
 class Comment extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +36,8 @@ class Comment extends React.Component {
     shouldAnimate: false,
     pinned: this.props.data.pinned,
     answers: this.props.data.answers || [],
+    mapContainer: null,
+    displayMap: false,
   }
 
   componentDidMount = () => {
@@ -56,6 +62,15 @@ class Comment extends React.Component {
     }
   }
 
+  onFlag() {
+    if (this.canFlagComments()) {
+      const {data} = this.props;
+      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
+    } else {
+      notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
+    }
+  }
+
   toggleEditor(event) {
     event.preventDefault();
 
@@ -73,7 +88,7 @@ class Comment extends React.Component {
     const commentData = {};
 
     forEach(data, (value, key) => {
-      if (key !== 'content') {
+      if (['content', 'images'].indexOf(key) === -1) {
         commentData[key] = value;
       }
     });
@@ -146,8 +161,7 @@ class Comment extends React.Component {
    */
   handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
     const {section} = this.props;
-    const answers = this.state.answers;
-    let commentData = {text, authorName, pluginData, geojson, label, images, answers};
+    let commentData = {text, authorName, pluginData, geojson, label, images};
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
       if (this.props.isReply && this.props.parentComponentId) {
         commentData = { ...commentData, comment: this.props.parentComponentId };
@@ -214,6 +228,10 @@ class Comment extends React.Component {
     );
   };
 
+  canFlagComments = () => {
+    return this.props.user && this.props.canFlag;
+  }
+
   /**
    * Renders the header area for the comment
    * @returns {Component}
@@ -245,6 +263,17 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
+      { this.canFlagComments() && !data.deleted &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
+        <Icon
+          name={classnames({
+            'flag-o': !data.flagged,
+            flag: data.flagged,
+          })}
+          aria-hidden="true"
+        />
+      </Button>
+      }
     </div>
   );
 
@@ -372,6 +401,7 @@ class Comment extends React.Component {
   renderReplyForm = () => (
     <CommentForm
       answers={this.state.answers}
+      canComment={this.props.canReply}
       closed={false}
       defaultNickname={this.props.defaultNickname}
       hearingId={this.props.hearingId}
@@ -385,6 +415,7 @@ class Comment extends React.Component {
       overrideCollapse
       section={this.props.section}
       user={this.props.user}
+      hearingGeojson={this.props.data.geojson}
     />
   );
 
@@ -433,6 +464,15 @@ class Comment extends React.Component {
     </div>
   );
 
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
+  }
+
+  toggleMap = () => {
+    this.setState({displayMap: !this.state.displayMap});
+  }
+
+
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
@@ -462,7 +502,7 @@ class Comment extends React.Component {
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
-          <div className="hearing-comment-body">
+          <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
             <p>{nl2br(data.content)}</p>
           </div>
           <div className="hearing-comment__images">
@@ -476,7 +516,7 @@ class Comment extends React.Component {
                   href={image.url}
                 >
                   <img
-                    alt=""
+                    alt={getMessage('commentImageAlt')}
                     src={image.url}
                     width={image.width < 100 ? image.width : 100}
                     height={image.height < 100 ? image.height : 100}
@@ -485,18 +525,47 @@ class Comment extends React.Component {
               )
               : null}
           </div>
-          {canEdit && this.renderEditLinks()}
+          {data.geojson && (
+            <div className="hearing-comment__map">
+              <React.Fragment>
+                <Button
+                  onClick={this.toggleMap}
+                  className="hearing-comment__map-toggle"
+                  aria-expanded={this.state.displayMap}
+                >
+                  <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
+                </Button>
+              </React.Fragment>
+              {(this.state.displayMap && data.geojson) && (
+                <div
+                className="hearing-comment__map-container"
+                ref={this.handleSetMapContainer}
+                >
+                  {data.geojson && (
+                  <HearingMap
+                  hearing={{geojson: data.geojson}}
+                  mapContainer={this.state.mapContainer}
+                  mapSettings={{dragging: false}}
+                  />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+          {canEdit && !data.deleted && this.renderEditLinks()}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
             </div>
             <div className="hearing-comment-votes">
-              <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-                <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
-                <span className="sr-only">
-                  <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
-                </span>
-              </Button>
+              { !data.deleted &&
+                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+                  <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
+                  <span className="sr-only">
+                    <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
+                  </span>
+                </Button>
+              }
             </div>
           </div>
           {editorOpen && this.renderEditorForm()}
@@ -512,6 +581,7 @@ class Comment extends React.Component {
 Comment.propTypes = {
   canReply: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   data: PropTypes.object,
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
@@ -528,6 +598,7 @@ Comment.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   parentComponentId: PropTypes.number,
   questions: PropTypes.array,
   section: PropTypes.object,
@@ -537,5 +608,5 @@ Comment.propTypes = {
 Comment.defaultProps = {
   isReply: false,
 };
-
+export {Comment as UnconnectedComment};
 export default injectIntl(Comment);

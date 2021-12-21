@@ -9,7 +9,8 @@ import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hear
 import {
   fillFrontIdsAndNormalizeHearing,
   filterFrontIdsFromAttributes,
-  filterTitleAndContentByLanguage
+  filterTitleAndContentByLanguage,
+  cleanHearing,
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
@@ -25,6 +26,8 @@ export const EditorActions = {
   DELETE_ATTACHMENT: 'deleteAttachment',
   DELETE_PHASE: 'deletePhase',
   DELETE_EXISTING_QUESTION: 'deleteExistingQuestion',
+  ADD_MAP_MARKER: 'addMapMarker',
+  ADD_MAP_MARKER_TO_COLLECTION: 'addMoreMapMarkers',
   ADD_PHASE: 'addPhase',
   ADD_SECTION_ATTACHMENT: 'addSectionAttachment',
   ADD_SECTION: 'addSection',
@@ -33,6 +36,7 @@ export const EditorActions = {
   CLEAR_QUESTIONS: 'clearQuestions',
   CLOSE_FORM: 'closeHearingForm',
   CLOSE_HEARING: 'closeHearing',
+  CREATE_MAP_MARKER: 'createMapMarker',
   DELETE_LAST_OPTION: 'deleteLastOption',
   DELETE_TEMP_QUESTION: 'deleteTemporaryQuestion',
   EDIT_HEARING: 'changeHearing',
@@ -341,6 +345,24 @@ export function addSection(section) {
   };
 }
 
+export function createMapMarker(value) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({value}));
+  };
+}
+
+export function addMapMarker(value) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.ADD_MAP_MARKER)({value}));
+  };
+}
+
+export function addMapMarkerToCollection(value) {
+  return dispatch => {
+    return dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({value}));
+  };
+}
+
 export function initSingleChoiceQuestion(sectionId) {
   return dispatch => {
     return dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({sectionId}));
@@ -461,9 +483,13 @@ export function addSectionAttachment(section, file, title, isNew) {
       .post(getState(), url, data)
       .then(checkResponseStatus)
       .then((response) => {
-        response.json().then((attachment) => {
-          return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
-        });
+        if (response.status === 400 && !isNew) {
+          localizedNotifyError('errorSaveBeforeAttachment');
+        } else {
+          response.json().then((attachment) => {
+            return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
+          });
+        }
       });
   };
 }
@@ -540,9 +566,7 @@ export function saveNewHearing(hearing) {
 
 export function saveAndPreviewNewHearing(hearing) {
   // Clean up section IDs assigned by UI before POSTing the hearing
-  const cleanedHearing = Object.assign({}, hearing, {
-    sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
-  });
+  const cleanedHearing = cleanHearing(hearing);
   return (dispatch, getState) => {
     const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({fyi: 'saveAndPreview'}))({
       hearing: cleanedHearing,

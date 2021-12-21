@@ -36,3 +36,5 @@ bower_components
 /config_dev.toml
 
 /assets/plugins
+
+/assets/js/tracker

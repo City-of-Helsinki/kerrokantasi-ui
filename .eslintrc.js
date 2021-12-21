@@ -52,5 +52,6 @@ module.exports = {
     "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,
     "react/sort-comp": 0,
+    "linebreak-style": 0
   }
 };

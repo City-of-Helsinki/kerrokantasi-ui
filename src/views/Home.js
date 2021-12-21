@@ -16,8 +16,7 @@ import trackLink from '../utils/trackLink';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
 import config from '../config';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
+import {getFeedbackUrl} from '../utils/languageUtils';
 
 export class Home extends React.Component {
   constructor(props) {
@@ -56,7 +55,7 @@ export class Home extends React.Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {topHearing, openHearings, language, user} = this.props;
+    const {topHearing, openHearings, language, user, intl} = this.props;
     const {isMobile} = this.state;
     const hearingMap =
       openHearings && openHearings.data ? (
@@ -68,6 +67,7 @@ export class Home extends React.Component {
             enablePopups
             hearings={openHearings.data}
             style={{width: '100%', height: isMobile ? '70%' : 600}}
+            mapElementLimit={10}
           />
         </div>
       ) : null;
@@ -81,7 +81,10 @@ export class Home extends React.Component {
           <Grid>
             <Row>
               <Col xs={10} md={8} className="welcome-content">
-                <Helmet title={formatMessage({id: 'welcome'})} />
+                <Helmet
+                  title={formatMessage({id: 'welcome'})}
+                  meta={[{name: "description", content: formatMessage({id: 'descriptionTag'})}]}
+                />
                 <h1>
                   <FormattedMessage id="welcome" />
                 </h1>
@@ -98,7 +101,7 @@ export class Home extends React.Component {
             <h2 className="page-title">
               <FormattedMessage id="openHearings" />
             </h2>
-            {topHearing && <FullWidthHearing hearing={topHearing} language={language} />}
+            {topHearing && <FullWidthHearing hearing={topHearing} language={language} intl={intl}/>}
             {openHearings && openHearings.data && topHearing &&
               !openHearings.isFetching && (
                 <div className="list">
@@ -108,6 +111,7 @@ export class Home extends React.Component {
                         .filter(hearing => hearing.id !== topHearing.id), ['close_at'], ['desc'])
                     }
                     language={language}
+                    intl={intl}
                   />
                   <p className="text-center">
                     <Link to={{path: "/hearings/list"}} className="btn btn-default">
@@ -121,11 +125,11 @@ export class Home extends React.Component {
         </section>
         <section className="page-section page-section--feedback">
           <div className="container">
-            <a href={urls.feedback} className="feedback-box">
-              <h2 className="feedback-prompt">
-                <FormattedMessage id="feedbackPrompt" />
-              </h2>
-            </a>
+            <h2 className="feedback-prompt">
+              <a href={getFeedbackUrl(language)} target="_blank" rel="noopener noreferrer" className="feedback-box">
+                <FormattedMessage id="feedbackPrompt" />{' '}
+              </a>
+            </h2>
           </div>
         </section>
         <section className="page-section page-section--map">
@@ -145,14 +149,14 @@ Home.propTypes = {
   openHearings: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   topHearing: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   language: PropTypes.string, // make sure changing language refreshes
-  user: PropTypes.object
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   topHearing: getTopHearing(state),
   language: state.language,
   openHearings: getOpenHearings(state),
-  user: getUser(state)
+  user: getUser(state),
 });
 
 const WrappedHome = connect(mapStateToProps)(injectIntl(Home));

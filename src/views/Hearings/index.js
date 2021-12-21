@@ -1,5 +1,6 @@
 // TODO: remove this disable once https://github.com/yannickcr/eslint-plugin-react/pull/1628 lands
 /* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -18,6 +19,7 @@ import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import { hearingShape, labelShape, userShape } from '../../types';
 import getAttr from '../../utils/getAttr';
 import { parseQuery, stringifyQuery } from '../../utils/urlQuery';
+import {getUser} from '../../selectors/user';
 
 const now = () => new Date().toISOString();
 
@@ -52,9 +54,16 @@ const HearingLists = {
     formattedMessage: 'drafts',
     iconName: 'pencil-square-o'
   },
+  OWN: {
+    list: 'ownHearings',
+    params: {},
+    formattedMessage: 'ownHearings',
+    iconName: 'user',
+    role: 'link'
+  }
 };
 
-const AdminFilters = [HearingLists.PUBLISHED, HearingLists.QUEUE, HearingLists.DRAFTS];
+const AdminFilters = [HearingLists.PUBLISHED, HearingLists.QUEUE, HearingLists.DRAFTS, HearingLists.OWN];
 
 const getHearingListParams = listName => {
   const defaultParams = { include: 'geojson' };
@@ -102,8 +111,8 @@ export class Hearings extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { user, location, match: {params: {tab}}, labels } = this.props;
     const { adminFilter } = this.state;
-    const shouldSetAdminFilter = isAdmin(nextProps.user.data) && (!user.data || !adminFilter);
-    const shouldNullAdminFilter = isAdmin(user.data) && !nextProps.user.data;
+    const shouldSetAdminFilter = isAdmin(nextProps.user) && (!user || !adminFilter);
+    const shouldNullAdminFilter = isAdmin(user) && !nextProps.user;
     const shouldFetchHearings = labels && ((
       (!this.props.labels.length && nextProps.labels.length) ||
       (nextProps.labels.length && location.search !== nextProps.location.search) ||
@@ -139,7 +148,7 @@ export class Hearings extends React.Component {
     const { user } = this.props;
     const { adminFilter } = this.state;
 
-    return isAdmin(user.data) ? adminFilter : HearingLists.ALL.list;
+    return isAdmin(user) ? adminFilter : HearingLists.ALL.list;
   }
 
   getIsLoading() {
@@ -160,7 +169,20 @@ export class Hearings extends React.Component {
   }
 
   setAdminFilter(filter) {
-    this.setState({ adminFilter: filter }, () => this.fetchHearingList());
+    if (filter === 'ownHearings') {
+      this.forwardToUserHearings();
+    } else {
+      this.setState({ adminFilter: filter }, () => this.fetchHearingList());
+    }
+  }
+
+  forwardToUserHearings() {
+    const {history, location} = this.props;
+    const searchParams = parseQuery(location.search);
+    history.push({
+      pathname: '/user-hearings',
+      search: stringifyQuery(searchParams)
+    });
   }
 
   fetchHearingList(props = this.props) {
@@ -270,19 +292,9 @@ export class Hearings extends React.Component {
     const hearings = this.getHearings();
     const hearingCount = this.getHearingsCount();
 
-    const adminFilterSelector = isAdmin(user.data) ? (
-      <AdminFilterSelector
-        onSelect={this.setAdminFilter}
-        options={AdminFilters}
-        valueKey="list"
-        active={this.getHearingListName()}
-      />
-    ) : null;
-
-    if (user.isFetching) {
+    if (user && user.isFetching) {
       return <LoadSpinner />;
     }
-
     return (
       <div className="hearings">
         <section className="page-section page-section--all-hearings-header">
@@ -290,11 +302,27 @@ export class Hearings extends React.Component {
             <Row>
               <Col md={10} mdPush={1}>
                 <Helmet title={formatMessage({ id: 'allHearings' })} />
-                <h1 className="page-title">
-                  <FormattedMessage id="allHearings" />
-                </h1>
-                {adminFilterSelector}
-                {isAdmin(user.data) && <CreateHearingButton to={{path: '/hearing/new'}} />}
+                <FormattedMessage id="allHearings">
+                  {allHearings => (
+                    <h1
+                      className="page-title"
+                      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                      tabIndex="0"
+                      aria-label={allHearings}
+                      id="allHearingsPageTitle"
+                    >
+                      {allHearings}
+                    </h1>
+                  )}
+                </FormattedMessage>
+                {isAdmin(user) &&
+                  <AdminFilterSelector
+                  onSelect={this.setAdminFilter}
+                  options={AdminFilters}
+                  active={this.getHearingListName()}
+                  />
+                }
+                {isAdmin(user) && <CreateHearingButton to={{path: '/hearing/new'}} />}
               </Col>
             </Row>
           </div>
@@ -362,7 +390,7 @@ const mapStateToProps = state => ({
   hearingLists: state.hearingLists,
   labels: state.labels.data,
   language: state.language,
-  user: state.user, // Using this on purpose without selector
+  user: getUser(state), // Using this on purpose without selector
 });
 
 const mapDispatchToProps = dispatch => ({

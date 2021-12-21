@@ -11,8 +11,8 @@ export const SectionBrowserComponent = ({sectionNav}) => {
       aria-labelledby="section-browser-title"
     >
       <ul className="pager">
-        <li className={`previous ${sectionNav.prevPath ? '' : 'disabled'}`}>
-          <LinkWrapper disabled={!sectionNav.prevPath} to={{path: sectionNav.prevPath || '#'}}>
+        <li className={`previous ${sectionNav.prev.path ? '' : 'disabled'}`}>
+          <LinkWrapper disabled={!sectionNav.prev.path} to={sectionNav.prev}>
             <span aria-hidden>&larr; </span>&nbsp;
             <FormattedMessage id="previous" />
           </LinkWrapper>
@@ -20,8 +20,8 @@ export const SectionBrowserComponent = ({sectionNav}) => {
         <li role="presentation" className="section-browser-title" id="section-browser-title" aria-hidden="true">
           <FormattedMessage id="subsectionTitle" /> {sectionNav.currentNum}/{sectionNav.totalNum}
         </li>
-        <li className={`next ${sectionNav.nextPath ? '' : 'disabled'}`}>
-          <LinkWrapper disabled={!sectionNav.nextPath} to={{path: sectionNav.nextPath || '#'}}>
+        <li className={`next ${sectionNav.next.path ? '' : 'disabled'}`}>
+          <LinkWrapper disabled={!sectionNav.next.path} to={sectionNav.next}>
             <FormattedMessage id="next" />&nbsp;
             <span aria-hidden> &rarr;</span>
           </LinkWrapper>

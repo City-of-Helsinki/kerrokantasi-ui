@@ -494,6 +494,9 @@ export const mockStore = {
     data: [{id: 1, label: {fi: 'Mock Von Label'}}, {id: 2, label: {fi: 'Mock Don Label'}}]
   },
   user: { },
+  accessibility: {
+    isHighContrast: false,
+  },
   hearingLists: {
     allHearings: {
       data: [{
@@ -528,7 +531,117 @@ export const mockStore = {
         },
         borough: {}
       }]
-    }
+    },
+    userHearingsOpen: {
+      isFetching: false,
+      count: 6,
+      data: [
+        {
+          id: 'aa11',
+          n_comments: 0,
+          labels: [{id: 1, label: {fi: 'test label FI'}}],
+          open_at: '2021-01-22T21:00:00Z',
+          close_at: '2021-02-28T22:00:00Z',
+          created_at: '2021-01-13T11:07:26.630423Z',
+          slug: 'firstOpenSlug',
+          title: {
+            fi: 'Ensimmäinen avoin',
+          }
+        },
+        {
+          id: 'bb22',
+          n_comments: 4,
+          labels: [{id: 5, label: {fi: 'viides label'}}],
+          open_at: '2021-01-29T21:00:00Z',
+          close_at: '2021-02-20T22:00:00Z',
+          created_at: '2021-01-17T11:07:26.630423Z',
+          slug: 'secondOpenSlug',
+          title: {
+            fi: 'Toinen avoin',
+          }
+        },
+        {
+          id: 'cc33',
+          n_comments: 25,
+          labels: [{id: 6, label: {fi: 'kuudes label'}}],
+          open_at: '2021-01-19T21:00:00Z',
+          close_at: '2021-02-20T22:00:00Z',
+          created_at: '2021-01-16T11:07:26.630423Z',
+          slug: 'thirdOpenSlug',
+          title: {
+            fi: 'Kolmas avoin',
+          }
+        },
+        {
+          id: 'dd44',
+          n_comments: 2,
+          labels: [{id: 6, label: {fi: 'kuudes label'}}],
+          open_at: '2021-01-31T21:00:00Z',
+          close_at: '2021-04-20T22:00:00Z',
+          created_at: '2021-01-29T11:07:26.630423Z',
+          slug: 'fourthOpenSlug',
+          title: {
+            fi: 'Neljäs avoin',
+          }
+        },
+      ]
+    },
+    userHearingsQueue: {
+      isFetching: false,
+      count: 0,
+      data: []
+    },
+    userHearingsClosed: {
+      isFetching: false,
+      count: 1,
+      data: [
+        {
+          id: 'ab4',
+          n_comments: 1,
+          labels: [{id: 1, label: {fi: 'test label FI'}}, {id: 2, label: {fi: 'toka'}}],
+          open_at: '2021-01-02T21:00:00Z',
+          close_at: '2021-01-18T22:00:00Z',
+          created_at: '2021-01-01T11:07:26.630423Z',
+          slug: 'firstClosedSlug',
+          title: {
+            fi: 'Ensimmäinen kiinni',
+          }
+        },
+      ]
+    },
+    userHearingsDrafts: {
+      isFetching: false,
+      count: 2,
+      data: [
+        {
+          id: 'abs5',
+          n_comments: 0,
+          labels: [{id: 3, label: {fi: 'luonnos label', sv: 'utkast label'}}],
+          open_at: '2021-03-02T21:00:00Z',
+          close_at: '2021-05-18T22:00:00Z',
+          created_at: '2021-01-01T11:07:26.630423Z',
+          slug: 'firstDraftSlug',
+          title: {
+            fi: 'Ensimmäinen luonnos',
+            sv: 'Första utkast'
+          }
+        },
+        {
+          id: 'abc6',
+          n_comments: 0,
+          labels: [{id: 3, label: {fi: 'luonnos label', sv: 'utkast label'}}],
+          open_at: '2021-04-02T21:00:00Z',
+          close_at: '2021-07-18T22:00:00Z',
+          created_at: '2021-02-01T11:07:26.630423Z',
+          slug: 'secondDraftSlug',
+          title: {
+            fi: 'Toinen luonnos',
+            sv: 'Andra utkast',
+            en: 'Second draft'
+          }
+        },
+      ]
+    },
   },
   sectionComments: {
     mock: {

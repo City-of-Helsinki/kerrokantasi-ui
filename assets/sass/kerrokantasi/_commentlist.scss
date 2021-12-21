@@ -184,6 +184,10 @@
       }
     }
 
+    &-body-disabled {
+      color: $gray
+    }
+
     &__actions-bar {
       display: flex;
       flex-flow: row nowrap;
@@ -269,6 +273,33 @@
           margin-left: $grid-gutter-width/4;
           padding-left: $grid-gutter-width/4;
           border-left: 1px solid $text-muted;
+        }
+      }
+    }
+    &__map {
+      &-toggle {
+        @media screen and (max-width: $screen-xs-max) {
+          font-size: 0.75em;
+        }
+        font-family: inherit;
+        font-size: 0.875em;
+        font-weight: bold;
+        padding: 0;
+        background: transparent;
+        margin-bottom: 10px;
+        border: none;
+        color: #0062ae;
+        &:hover {
+          color: #003762;
+          text-decoration: underline;
+
+        }
+      }
+      &-container {
+        height: 250px;
+        width: 75%;
+        @media screen and (max-width: $screen-sm-max){
+          width: 100%;
         }
       }
     }

@@ -6,46 +6,34 @@ import {FormattedMessage} from 'react-intl';
 
 /**
  * [AdminFilterSelector description]
- * @param {String} active                          [description]
- * @param {String} [messageKey='formattedMessage'] [description]
- * @param {function} onSelect                        [description]
- * @param {Array<String|Object>} options                         [description]
- * @param {String} valueKey                        [description]
+ * @param {object} props
+ * @param {String} props.active
+ * @param {function} props.onSelect
+ * @param {Array<String|Object>} props.options
  */
 const AdminFilterSelector = ({
   active,
-  messageKey = 'formattedMessage',
-  iconKey = 'iconName',
   onSelect,
   options,
-  valueKey
 }) => {
-  let values = options;
-  let messages = options;
-  let icons = options;
-
-  if (valueKey) {
-    values = options.map((option) => option[valueKey]);
-    messages = options.map((option) => option[messageKey]);
-    icons = options.map((option) => option[iconKey]);
-  }
-
   return (
-    <Nav bsStyle="pills" activeKey={active} className="admin-filter-selector" onSelect={onSelect}>
-      {values.map((filter, index) =>
-        <NavItem key={filter} eventKey={filter}>
-          <Icon name={icons[index]}/>{' '}
-          <FormattedMessage id={messages[index]}/>
-        </NavItem>
-      )}
+    <Nav activeKey={active} bsStyle="pills" className="admin-filter-selector">
+      {options.map((filter) => {
+        const {list, iconName, formattedMessage, role} = filter;
+        // NavItem role is button by default if filter.role doesnt exist
+        return (
+          <NavItem key={list} eventKey={list} onSelect={onSelect} role={role}>
+            <Icon name={iconName} aria-hidden />
+            <FormattedMessage id={formattedMessage}>{txt => txt}</FormattedMessage>
+          </NavItem>
+        );
+      })}
     </Nav>
   );
 };
 
 AdminFilterSelector.propTypes = {
   active: PropTypes.string,
-  messageKey: PropTypes.string,
-  iconKey: PropTypes.string,
   onSelect: PropTypes.func,
   options: PropTypes.oneOfType([
     PropTypes.string,
@@ -54,7 +42,6 @@ AdminFilterSelector.propTypes = {
       formattedMessage: PropTypes.string,
     }))
   ]),
-  valueKey: PropTypes.string,
 };
 
 export default AdminFilterSelector;

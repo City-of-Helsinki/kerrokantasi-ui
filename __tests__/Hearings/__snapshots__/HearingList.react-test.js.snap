@@ -49,6 +49,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "accessibilityPage": "Saavutettavuusseloste",
                   "addComment": "Kirjoita kommentti",
                   "addGeojson": "Lisää geojson tiedostona",
+                  "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
                   "addOption": "Lisää vastausvaihtoehto",
                   "addProcess": "Lisää uusi vaihe",
                   "addSection": "Lisää osa-alue",
@@ -56,6 +57,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "adminCommentMessage": "Olet kirjautuneena pääkäyttäjänä. Nimesi ja organisaatiosi näytetään kommenttisi yhteydessä",
                   "all": "Kaikki",
                   "allHearings": "Kaikki kuulemiset",
+                  "alreadyFlagged": "Tämä kommentti on jo liputettu.",
                   "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
                   "anonymous": "Anonyymi",
                   "asOpenData": "avoimena datana",
@@ -68,12 +70,21 @@ exports[`HearingsList component should render as expected 1`] = `
                   "chooseTopic": "Valitse aihe",
                   "choose_images": "Valitse kuvia",
                   "closeHearing": "Sulje kuuleminen",
+                  "closedCount": "Sulkeutuneet ({n})",
                   "closedHearing": "Suljettu",
                   "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                   "commentDeleted": "Kommenttisi on poistettu.",
                   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                  "commentFlagged": "Kommentti liputettu.",
+                  "commentImageAlt": "Kommentoijan lisäämä kuva",
+                  "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
+                  "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
+                  "commentMapTitle": "Merkitse ehdotuksesi kartalle",
                   "commentOrder": "Järjestä kommentit:",
                   "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
+                  "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
+                  "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
+                  "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
                   "commentSubsectionBtn": "Kommentoi",
                   "comments": "Mielipiteet",
                   "commentsOnMap": "Kartta koko näytöllä",
@@ -81,10 +92,32 @@ exports[`HearingsList component should render as expected 1`] = `
                   "contactPersons": "Yhteyshenkilöt",
                   "contactTitle": "Virkanimike tai tehtäväkuvaus",
                   "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
+                  "contrastTitle": "Kontrasti",
+                  "cookieBar.accept": "Hyväksy kaikki evästeet",
+                  "cookieBar.decline": "Vain välttämättömät evästeet",
+                  "cookieBar.description": "Käytämme evästeitä parantaaksemme käyttökokemustasi. Voit hyväksyä toiminnan kannalta välttämättömät evästeet tai kaikki evästeet, esim. käyttäjäanalytiikan.",
+                  "cookieBar.link.href": null,
+                  "cookieBar.link.text": "Hallitse evästeitä",
+                  "cookieBar.modal.cookieInfoLink": "Välttämättömistä evästeistä saat tietoa {linkToInfo} -sivulta.",
+                  "cookieBar.modal.cookieInfoLinkText": "Tietoa palvelusta",
+                  "cookieBar.modal.header": "Kolmansien osapuolien evästeet",
+                  "cookieBar.modal.panel.alwaysEnabled": "Aina käytössä",
+                  "cookieBar.modal.panel.disabled": "Poista käytöstä",
+                  "cookieBar.modal.panel.enabled": "Käytössä",
+                  "cookieBar.modal.panel.functionalCookies": "Välttämättömät",
+                  "cookieBar.modal.panel.functionalCookiesContent": "Välttämättömiä evästeitä tarvitaan, jotta verkkosivusto ylipäänsä toimii. Nämä evästeet eivät tallenna henkilökohtaisia tietoja.",
+                  "cookieBar.modal.panel.googleAnalytics": "Google Analytics (ei-välttämätön)",
+                  "cookieBar.modal.panel.googleAnalyticsContent": "Näillä evästeillä seurataan käyttäjän toimintaa verkkosivuilla niiden suorituskyvyn ja ulottuvuuden mittaamiseksi. Kesto: 1 vuosi.",
+                  "cookieBar.modal.paragraph1": "Sivustolla käytetään seuraavien kolmansien osapuolien evästeitä, jos annat suostumuksesi niiden käyttämiseksi. Kolmannet osapuolet voivat asettaa laitteellesi omia evästeitään ja kerätä niiden avulla käyttäjätietoja.",
+                  "cookieBar.modal.paragraph2": "Antamasi suostumus tallentuu selaimeesi, jonka jälkeen sinun tulee antaa suostumuksesi uudelleen, kun evästeiden voimassaoloaika päättyy. Ota huomioon, että valinnat ovat selainkohtaisia. Valinnat eivät myöskään tallennu, jos käytät esimerkiksi yksityistä selailua tai selaimessasi on käytössä asetukset, jotka tyhjentävät evästeet käyntikertojen välillä.",
+                  "cookieBar.modal.showLess": "Näytä vähemmän",
+                  "cookieBar.modal.showMore": "Näytä lisää",
+                  "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+                  "copyHearing": "Kopioi kuuleminen",
                   "copyrightText": "Kerrokantasi",
                   "create": "Luo",
                   "createContact": "Luo uusi yhteyshenkilö",
-                  "createHearing": "Uusi kuuleminen",
+                  "createHearing": "Luo uusi kuuleminen",
                   "createLabel": "Luo uusi asiasana",
                   "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
                   "defaultProject": "Lisää uusi projekti",
@@ -95,9 +128,11 @@ exports[`HearingsList component should render as expected 1`] = `
                   "deleteDraft": "Poista luonnos",
                   "deleteQuestion": "Poista kysymys",
                   "deleteSection": "Poista osio",
+                  "descriptionTag": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                   "disabledLink": "Epäaktiivinen linkki",
                   "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
                   "draft": "Luonnos",
+                  "draftCount": "Luonnokset ({n})",
                   "draftDeleted": "Luonnos poistettiin onnistuneesti",
                   "draftNotPublished": "Luonnos, ei julkaistu",
                   "drafts": "Luonnokset",
@@ -106,21 +141,26 @@ exports[`HearingsList component should render as expected 1`] = `
                   "editHearing": "Muokkaa",
                   "email": "Sähköposti",
                   "employee": "Työntekijä",
+                  "errorSaveBeforeAttachment": "Tallenna ensin ja palaa sitten lisäämään liitteet",
                   "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
                   "eyeTooltipOpens": "Tämä kuuleminen julkaistaan",
                   "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                   "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                   "feedbackLinkText": "Palaute",
-                  "feedbackPrompt": "Kerro meille, miten tätä palvelua pitäisi kehittää!",
-                  "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin 70 megatavua.",
+                  "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+                  "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
                   "firstClosing": "Ensimmäisenä sulkeutuva",
                   "firstOpen": "Ensimmäisenä auennut",
                   "follow": "Seuraa",
                   "followingHearing": "Seuraat kuulemista.",
                   "footerCityLink": "www.example.com",
                   "footerLogoAlt": "Kerrokantasi logo",
+                  "formButtonAcceptAndAdd": "Hyväksy ja lisää",
+                  "formCheckErrors": "Korjaa lomakkeen virheet ensin",
                   "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
                   "furtherInformation": "Lisätietoja",
+                  "generalNo": "Ei",
+                  "generalYes": "Kyllä",
                   "headerLogoAlt": "Kerrokantasi logo",
                   "headerPagesNavLabel": "Sivuvalikko",
                   "headerUserNavLabel": "Käyttäjävalikko",
@@ -144,9 +184,14 @@ exports[`HearingsList component should render as expected 1`] = `
                   "hearingClosingTimePlaceholder": "Valitse...",
                   "hearingClosureInfo": "Sulkeutumistiedote",
                   "hearingCommenting": "Kommentointi",
+                  "hearingCommentingMap": "Karttamerkintä kommentoinnissa",
+                  "hearingCommentingMapChoice1": "Ei käytössä",
+                  "hearingCommentingMapChoice2": "Piste merkintä",
+                  "hearingCommentingMapChoice3": "Piste, neliö ja monikulmio merkinnät valittavissa",
                   "hearingContacts": "Yhteyshenkilöt",
                   "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
                   "hearingFileUpload": "Osion liitteet",
+                  "hearingFormHeaderContainsErrors": " - sisältää virheitä",
                   "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
                   "hearingFormHeaderStep2": "2. Sisältö",
                   "hearingFormHeaderStep3": "3. Kartta",
@@ -171,6 +216,10 @@ exports[`HearingsList component should render as expected 1`] = `
                   "hearingOnlyAvailableInLang-sv": "ruotsiksi",
                   "hearingOpeningTime": "Avautumisaika",
                   "hearingOpeningTimePlaceholder": "Valitse...",
+                  "hearingPreviewLink": "Kopioi linkki",
+                  "hearingPreviewLinkFailed": "Linkin kopioiminen epäonnistui.",
+                  "hearingPreviewLinkSuccess": "Linkki kopioitu leikepöydälle.",
+                  "hearingPreviewLinkTooltip": "Kopioi esikatselulinkki leikepöydälle.",
                   "hearingSavingFailed": "Tallentaminen epäonnistui",
                   "hearingSlug": "Kuulemisen osoite (täytä osoitteen loppuosa)",
                   "hearingSlugPlaceholder": "esimerkki-osoite",
@@ -181,6 +230,18 @@ exports[`HearingsList component should render as expected 1`] = `
                   "hearingsHeaderText": "Kuulemiset",
                   "help": "Ohjeet",
                   "hideName": "Piilota nimi",
+                  "iframeAddButton": "Lisää iframe",
+                  "iframeFormFieldAllow": "Tietoturva yms. lisäasetukset (allow)",
+                  "iframeFormFieldHeight": "Korkeus pikseleinä (height)",
+                  "iframeFormFieldScrolling": "Vierityspalkki (scrolling)",
+                  "iframeFormFieldSrc": "Lähde (src)",
+                  "iframeFormFieldTitle": "Otsikko (title)",
+                  "iframeFormFieldWidth": "Leveys pikseleinä (width)",
+                  "iframeHtmlCopyPaste": "Iframe leikkaa ja liitä html",
+                  "iframeModalTitle": "Iframe tiedot",
+                  "imageAddButton": "Lisää kuva",
+                  "imageAddCaptionButton": "Lisää kuvateksti",
+                  "imageModalTitle": "Kuvan tiedot",
                   "imageSizeError": "Kuva on liian suuri. Maksimikoko on 1 megatavu.",
                   "inLanguage-en": "englanniksi",
                   "inLanguage-fi": "suomeksi",
@@ -202,10 +263,13 @@ exports[`HearingsList component should render as expected 1`] = `
                   "list": "Lista",
                   "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
                   "login": "Kirjaudu sisään",
+                  "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                   "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                   "loginToContinue": "Kirjaudu sisään jatkaaksesi",
+                  "loginToFlagComment": "Kirjaudu sisään liputtaaksesi kommentin.",
                   "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
                   "logout": "Kirjaudu ulos",
+                  "mainMenu": "Päävalikko",
                   "mainSection": "Pääosio",
                   "map": "Kartta",
                   "mapView": "Kaikki kuulemiset kartalla",
@@ -231,12 +295,15 @@ exports[`HearingsList component should render as expected 1`] = `
                   "oldestFirst": "Vanhin ensin",
                   "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
                   "openCommenting": "Avoin kommentointi",
+                  "openCount": "Avoimet ({n})",
                   "openFullscreenMap": "Kartta koko näytöllä",
                   "openHearings": "Avoimet kuulemiset",
                   "option": "Vastausvaihtoehto",
                   "orderHasBeenChanged": "Kuulemisten järjestystä muutettu",
                   "organization": "Organisaatio",
+                  "organizationHearings": "Organisaation kuulemiset",
                   "overview-map": "Kartta",
+                  "ownHearings": "Omat kuulemiset",
                   "partSection": "Osa-alue",
                   "phase": "Hankkeen vaiheet",
                   "phaseActive": "Kuuleminen kuuluu tähän vaiheeseen.",
@@ -257,8 +324,10 @@ exports[`HearingsList component should render as expected 1`] = `
                   "question": "Kysymys",
                   "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
                   "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
+                  "queueCount": "Julkaisua odottavat ({n})",
                   "register": "Rekisteröidy",
                   "registered": "rekisteröitynyt",
+                  "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
                   "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                   "removeImage": "Poista kuva",
                   "reply": "Vastaa",
@@ -290,10 +359,18 @@ exports[`HearingsList component should render as expected 1`] = `
                   "selectAnotherImage": "Valitse toinen kuva",
                   "selectOrDropFile": "Valitse tai pudota liite",
                   "selectOrDropImage": "Valitse tai pudota kuva",
+                  "show": "Näytä",
+                  "showAll": "Näytä kaikki ({n})",
                   "showMoreReplies": "Näytä vastaukset",
                   "showOnlyOpen": "Näytetään vain avoimet",
                   "showSubsectionBtn": "Näytä tiedot",
                   "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
+                  "skipLinkAddButton": "Lisää hyppylinkki",
+                  "skipLinkFormFieldHide": "Piilota linkki",
+                  "skipLinkFormFieldOwnId": "Linkin oma id",
+                  "skipLinkFormFieldTargetId": "Linkin kohde id",
+                  "skipLinkFormFieldText": "Linkin teksti",
+                  "skipLinkModalTitle": "Hyppylinkin tiedot",
                   "skipToMainContent": "Siirry pääsisältöön",
                   "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
                   "sort": "Järjestä",
@@ -301,19 +378,36 @@ exports[`HearingsList component should render as expected 1`] = `
                   "subsectionTitle": "Alaosio",
                   "table-of-content": "Sisällys",
                   "timeCloseFuture": "Sulkeutuu",
+                  "timeCloseFutureWithValues": "Sulkeutuu {date} klo {time}",
                   "timeClosePast": "Sulkeutui",
+                  "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
                   "timeOpenFuture": "Avautuu",
                   "timeOpenPast": "Avautui",
                   "timetable": "Aikajana",
                   "title": "Otsikko",
                   "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
                   "toBePublishedHearing": "Kuuleminen julkaistaan",
-                  "totalNumHearing": "kuuleminen",
-                  "totalNumHearings": "kuulemista",
+                  "toolbar": "Työkalupalkki",
+                  "totalNumHearing": "{n} kuuleminen",
+                  "totalNumHearings": "{n} kuulemista",
+                  "totalQuestionVotes": "Ääniä yhteensä: {n}",
                   "totalSubmittedComment": "Yhteensä {n} kommentti",
                   "totalSubmittedComments": "Yhteensä {n} kommenttia",
                   "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                   "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
+                  "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
+                  "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
+                  "validationHearingCloseAt": "Aseta sulkeutumisaika ennen tallentamista.",
+                  "validationHearingContactPersons": "Aseta ainakin yksi yhteyshenkilö.",
+                  "validationHearingLabels": "Aseta ainakin yksi asiasana.",
+                  "validationHearingOpenAt": "Aseta avautumisaika ennen tallentamista.",
+                  "validationHearingProjectPhaseActive": "Projektit tarvitsevat ainakin yhden aktiivisen vaiheen.",
+                  "validationHearingProjectPhaseTitle": "Aseta vaiheen otsikko ennen tallennusta.",
+                  "validationHearingProjectTitle": "Aseta projektin nimi ennen tallennusta.",
+                  "validationHearingSlug": "Aseta osoite ennen tallentamista.",
+                  "validationHearingTitle": "Aseta otsikko ennen tallentamista.",
+                  "validationNotification": "Lomake sisältää virheitä, tarkista virheet ja kokeile uudestaan.",
+                  "validationOnlyNumbers": "Tässä kentässä voi olla vain numeroita",
                   "vote": "Äänestä",
                   "voteButtonLikes": "Tykkäystä",
                   "voteButtonText": "Tykkää tästä kommentista",
@@ -391,10 +485,9 @@ exports[`HearingsList component should render as expected 1`] = `
             <div
               className="hearing-list__result-controls"
             >
-              <h3
+              <h2
                 className="hearing-list__hearing-list-title"
               >
-                0
                 <FormattedPlural
                   one={
                     <FormattedMessage
@@ -404,7 +497,9 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   other={
                     <FormattedMessage
@@ -414,12 +509,16 @@ exports[`HearingsList component should render as expected 1`] = `
                           "n": 0,
                         }
                       }
-                    />
+                    >
+                      [Function]
+                    </FormattedMessage>
                   }
                   style="cardinal"
                   value={0}
-                />
-              </h3>
+                >
+                  <Component />
+                </FormattedPlural>
+              </h2>
               <HearingListFilters
                 formatMessage={[Function]}
               />
@@ -431,6 +530,8 @@ exports[`HearingsList component should render as expected 1`] = `
                 role="list"
               >
                 <HearingListItem
+                  formatDate={[Function]}
+                  formatTime={[Function]}
                   hearing={
                     Object {
                       "abstract": Object {

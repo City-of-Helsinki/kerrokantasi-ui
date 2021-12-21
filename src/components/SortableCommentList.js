@@ -13,6 +13,9 @@ import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import {getNickname, getAuthorDisplayName} from '../utils/user';
+import {getSectionCommentingMessage} from "../utils/section";
+import {getUser} from "../selectors/user";
+import classnames from 'classnames';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -79,6 +82,13 @@ export class SortableCommentListComponent extends Component {
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
     this.setState({
+      answers: this.props.section.questions.map(
+        question => ({
+          question: question.id,
+          type: question.type,
+          answers: []
+        })
+      ),
       showLoader: isFetching,
       collapseForm: false, // whenever things change, no longer force the form to collapse
     });
@@ -108,15 +118,17 @@ export class SortableCommentListComponent extends Component {
   /**
    * When posting a new comment.
    */
-  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned) => {
-    const {section} = this.props;
+  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
+    const {section, user} = this.props;
     const answers = this.state.answers;
-    this.setState({ shouldAnimate: true });
-    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned};
+    if (user) {
+      this.setState({ shouldAnimate: true });
+    }
+    const commentData = {text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText};
 
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData).then(() => {
-        this.setState({answers: this._defaultAnswerState});
+        this.setState({answers: this._defaultAnswerState()});
       });
     }
   }
@@ -190,6 +202,10 @@ export class SortableCommentListComponent extends Component {
     this.props.onPostVote(commentId, sectionId, isReply, parentId);
   }
 
+  handlePostFlag = (commentId, sectionId, isReply, parentId) => {
+    this.props.onPostFlag(commentId, sectionId, isReply, parentId);
+  }
+
   renderMapVisualization() {
     const {section, sectionComments} = this.props;
     return (
@@ -242,10 +258,12 @@ export class SortableCommentListComponent extends Component {
       section,
       sectionComments,
       canVote,
+      canFlag,
       user,
       published,
       language,
-      closed
+      closed,
+      hearingGeojson
     } = this.props;
 
     // const mockSection = Object.assign({}, section);
@@ -253,10 +271,11 @@ export class SortableCommentListComponent extends Component {
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm = canComment && published ? (
+    const commentForm = published && !closed ? (
       <div className="row">
-        <div className="comment-form-container">
+        <div className={classnames("comment-form-container", {disabled: !canComment})}>
           <CommentForm
+            canComment={canComment}
             hearingId={hearingId}
             onPostComment={this.onPostComment}
             defaultNickname={getNickname(user)}
@@ -269,7 +288,11 @@ export class SortableCommentListComponent extends Component {
             closed={closed}
             loggedIn={!isEmpty(user)}
             user={user}
+            hearingGeojson={hearingGeojson}
           />
+          {!canComment && (
+            <FormattedMessage id={getSectionCommentingMessage(section)} />
+          )}
         </div>
       </div>
     ) : null;
@@ -282,7 +305,7 @@ export class SortableCommentListComponent extends Component {
             <div style={{padding: '12px', marginBottom: '24px', background: '#ffffff'}}>
               {
                 section.questions.map((question) =>
-                  <QuestionResults key={question.id} question={question} language={language} />)
+                  <QuestionResults key={question.id} question={question} lang={language} />)
               }
             </div>
         }
@@ -336,6 +359,7 @@ export class SortableCommentListComponent extends Component {
                   onPostReply={this.handlePostReply}
                   onGetSubComments={this.props.onGetSubComments}
                   canVote={canVote}
+                  canFlag={canFlag}
                   comments={sectionComments.results}
                   defaultNickname={getNickname(user)}
                   hearingId={hearingId}
@@ -347,6 +371,7 @@ export class SortableCommentListComponent extends Component {
                   onDeleteComment={this.props.onDeleteComment}
                   onEditComment={this.props.onEditComment}
                   onPostVote={this.handlePostVote}
+                  onPostFlag={this.handlePostFlag}
                   section={section}
                   totalCount={sectionComments.count}
                   user={user}
@@ -363,11 +388,13 @@ export class SortableCommentListComponent extends Component {
 SortableCommentListComponent.propTypes = {
   canComment: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   closed: PropTypes.bool,
   displayVisualization: PropTypes.bool,
   fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,
+  hearingGeojson: PropTypes.object,
   hearingId: PropTypes.string,
   hearingSlug: PropTypes.string,
   intl: intlShape.isRequired,
@@ -377,6 +404,7 @@ SortableCommentListComponent.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   published: PropTypes.bool,
   section: PropTypes.object,
   sectionComments: PropTypes.object,
@@ -385,7 +413,7 @@ SortableCommentListComponent.propTypes = {
 
 const mapStateToProps = (state, {section: {id: sectionId}}) => ({
   sectionComments: get(state, `sectionComments.${sectionId}`),
-  user: get(state, 'user').data,
+  user: getUser(state),
   language: state.language
 });
 

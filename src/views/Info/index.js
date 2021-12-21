@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -6,6 +7,8 @@ import Row from 'react-bootstrap/lib/Row';
 import trackLink from '../../utils/trackLink';
 import {injectIntl, intlShape} from 'react-intl';
 import Helmet from 'react-helmet';
+import CookieManagementModal from "../../components/cookieBar/CookieManagementModal";
+import getMessage from '../../utils/getMessage';
 
 function getContent(language) {
   if (typeof window === "undefined") return "";
@@ -28,9 +31,27 @@ function getContent(language) {
 }
 
 class Info extends React.Component {
+  state = {
+    showCookieManagementModal: false,
+  };
+
   componentDidMount() {
     trackLink();
   }
+
+  openCookieManagementModal = () => {
+    this.setState({showCookieManagementModal: true});
+  };
+
+  closeCookieManagementModal = () => {
+    this.setState({showCookieManagementModal: false});
+  };
+
+  handleKeyDown = (ev) => {
+    if (ev && ev.key === "Enter") {
+      this.openCookieManagementModal();
+    }
+  };
 
   render() {
     const content = getContent(this.props.language);
@@ -43,6 +64,19 @@ class Info extends React.Component {
             <div dangerouslySetInnerHTML={{__html: content}}/>
           </Col>
         </Row>
+        <a
+          id="cookiebar-link"
+          tabIndex="0"
+          role="button"
+          onClick={() => this.openCookieManagementModal()}
+          onKeyDown={(ev) => this.handleKeyDown(ev)}
+        >
+          {getMessage('cookieBar.link.text')}
+        </a>
+        <CookieManagementModal
+          isOpen={this.state.showCookieManagementModal}
+          close={this.closeCookieManagementModal}
+        />
       </div>
     );
   }

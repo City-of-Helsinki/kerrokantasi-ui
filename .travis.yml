@@ -7,8 +7,8 @@ services:
 language: node_js
 
 node_js:
-  - "lts/*"
-  - "node"
+  - "14.16.1"
+  - "15.14.0"
 
 cache:
   directories:

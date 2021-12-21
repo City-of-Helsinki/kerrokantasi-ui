@@ -20,10 +20,14 @@ const MouseOnlyLink = (props) => {
     history,
     headless,
     language,
+    location,
     style,
     url,
+    altText
   } = props;
   const combinedUrl = `${url}?headless=${headless}&lang=${language}`;
+
+  const defineImageAlt = () => altText || '';
 
   const handleClick = (event, path) => {
     event.preventDefault();
@@ -35,7 +39,8 @@ const MouseOnlyLink = (props) => {
       <div
         className={`mouse-only-click-element ${className}`}
         style={style}
-        onClick={(event) => handleClick(event, combinedUrl)}
+        onClick={(event) => handleClick(event, url + location.search)}
+        alt={defineImageAlt()}
       />
     );
   }
@@ -45,6 +50,7 @@ const MouseOnlyLink = (props) => {
       className={`mouse-only-click-element ${className}`}
       style={style}
       onClick={(event) => handleClick(event, combinedUrl)}
+      alt={defineImageAlt()}
     >
       {children}
     </div>
@@ -59,8 +65,10 @@ MouseOnlyLink.propTypes = {
   headless: PropTypes.bool,
   history: PropTypes.object,
   language: PropTypes.string,
+  location: PropTypes.object,
   style: PropTypes.object,
   url: PropTypes.string,
+  altText: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
