@@ -82,7 +82,7 @@
     "nconf": "^0.11.2",
     "nconf-toml": "^0.0.2",
     "node-fetch": "^1.7.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.1",
     "normalizr": "^3.6.1",
     "oaf-react-router": "^2.1.1",
     "oidc-client": "^1.11.5",
