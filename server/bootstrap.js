@@ -11,6 +11,7 @@ import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 import assetPaths from '../conf/assetPaths';
 import path from 'path';
+import fs from 'fs';
 
 function ignition() {
   const settings = getSettings();
@@ -19,7 +20,6 @@ function ignition() {
     console.log("Settings:\n", inspect(settings, {colors: true}));
   }
   const server = express();
-  let compiler = getCompiler(settings, true);
 
   const faviconPath = path.resolve(assetPaths.cityAssets, 'favicon');
 
@@ -39,6 +39,7 @@ function ignition() {
   server.use(cookieSession({name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000}));
 
   if (settings.dev) {
+    const compiler = getCompiler(settings, true);
     applyCompilerMiddleware(server, compiler, settings);
   }
   server.use(renderMiddleware(settings));
@@ -53,14 +54,16 @@ function ignition() {
   if (settings.dev) {
     run();
   } else {
-    compiler.run((err, stats) => {
-      if (err) throw new Error(`Webpack error: ${err}`);
-      console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
-      // Throw the webpack into the well (if this was the last reference
-      // to it, we reclaim plenty of memory)
-      compiler = null;
-      run();
-    });
+    fs.readFile(
+      // Read bundle entrypoint from a known location
+      path.resolve(paths.OUTPUT, "bundle_src.txt"), "utf-8",
+      (err, data) => {
+        if (err) {
+          throw err;
+        }
+        settings.bundleSrc = data;
+        run();
+      });
   }
 }
 

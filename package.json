@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf ./dist && NODE_ENV=production node server",
-    "build": "true",
+    "start": "NODE_ENV=production node server",
+    "build": "rm -rf ./dist && node compile",
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "dev": "node server --dev --host 0.0.0.0",
     "lint": "eslint src server test",

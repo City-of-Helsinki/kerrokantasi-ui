@@ -1,3 +1,7 @@
+import fs from 'fs';
+import paths from '../conf/paths';
+import path from "path";
+
 const webpack = require('webpack');
 const ProgressBar = require('progress');
 const debug = require('debug')('bundler');
@@ -36,6 +40,17 @@ export function getCompiler(settings, withProgress) {
     const bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
     settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
     compileCallback();
+
+    // Save bundle entrypoint filename to a known location.
+    // We need to save the filename somewhere, as it contains a hash which is subject to changing
+    // and it's required to start up the server from a bundle
+    fs.writeFile(
+      path.resolve(paths.OUTPUT, "bundle_src.txt"),
+      bundleSrc,  // `/app.{SOME_HASH}.js`
+      (err) => {
+        if (err) { throw err; }
+      }
+    );
   });
   return compiler;
 }
