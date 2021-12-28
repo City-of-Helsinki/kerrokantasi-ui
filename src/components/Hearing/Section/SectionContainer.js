@@ -58,7 +58,8 @@ export class SectionContainerComponent extends React.Component {
     showLightbox: false,
     mapContainer: null,
     mapContainerMobile: null,
-    mainHearingDetailsOpen: false,
+    // Open on desktop, closed on mobile
+    mainHearingDetailsOpen: typeof window !== 'undefined' && window.innerWidth >= 768,
     mainHearingProjectOpen: false,
     mainHearingContactsOpen: false,
     mainHearingAttachmentsOpen: false,
