@@ -13,7 +13,7 @@ import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
-import {notifyError} from '../../../utils/notify';
+import {notifyError, notifyInfo} from '../../../utils/notify';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
@@ -81,6 +81,13 @@ class Comment extends React.Component {
     } else {
       notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
     }
+  }
+
+  onCopyURL() {
+    // Build absolute URL for comment
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
+    navigator.clipboard.writeText(commentUrl);
+    notifyInfo(`Linkki kommenttiion kopioitu leikepöydällesi.`);
   }
 
   toggleEditor(event) {
@@ -275,6 +282,12 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
+      <Button
+        className="btn-sm hearing-comment-vote-link"
+        onClick={this.onCopyURL.bind(this)}
+      >
+        <Icon name="link" aria-hidden="true"/>
+      </Button>
       { this.canFlagComments() && !data.deleted &&
       <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
         <Icon
