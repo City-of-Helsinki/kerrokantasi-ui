@@ -518,6 +518,7 @@ class Comment extends React.Component {
               && Array.isArray(data.subComments) && data.subComments.length > 0,
             'comment-animate': this.state.shouldAnimate,
             'hearing-comment__admin': isAdminUser,
+            'hearing-comment__flagged': this.canFlagComments() && data.flagged,
             'hearing-comment__is-pinned': this.props.data.pinned,
           }
         ])}
