@@ -42,6 +42,7 @@ class Comment extends React.Component {
 
   componentDidMount = () => {
     if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
+      // Jump to this comment
       this.commentRef.current.scrollIntoView({
         behaviour: 'smooth',
         block: 'nearest',
@@ -50,6 +51,17 @@ class Comment extends React.Component {
         scrollComplete: true,
         shouldAnimate: true,
       });
+    } else if (
+      // Jump to child subcomment
+      this.props.jumpTo
+      && this.props.data.comments.includes(this.props.jumpTo)
+      && !this.props.data.loadingSubComments
+      && (
+        (Array.isArray(this.props.data.subComments) && this.props.data.subComments.length === 0)
+        || this.props.data.subComments === undefined
+      )
+    ) {
+      this.handleShowReplys();
     }
   };
 
@@ -498,6 +510,7 @@ class Comment extends React.Component {
         ])}
         onAnimationEnd={this.handleEndstAnimation}
         ref={this.commentRef}
+        id={`comment-${data.id}`}
       >
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
