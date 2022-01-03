@@ -282,12 +282,11 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
-      <Button
-        className="btn-sm hearing-comment-vote-link"
-        onClick={this.onCopyURL.bind(this)}
-      >
+      {this.canFlagComments() &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onCopyURL.bind(this)}>
         <Icon name="link" aria-hidden="true"/>
       </Button>
+      }
       { this.canFlagComments() && !data.deleted &&
       <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
         <Icon
