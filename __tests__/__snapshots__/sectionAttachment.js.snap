@@ -38,7 +38,8 @@ ShallowWrapper {
         <a
           className="section-attachment-title"
           href="http://mock.url"
-          target="__blank"
+          rel="noreferrer"
+          target="_blank"
         >
           Title in finnish
         </a>,
@@ -68,7 +69,8 @@ ShallowWrapper {
           "children": "Title in finnish",
           "className": "section-attachment-title",
           "href": "http://mock.url",
-          "target": "__blank",
+          "rel": "noreferrer",
+          "target": "_blank",
         },
         "ref": null,
         "rendered": "Title in finnish",
@@ -92,7 +94,8 @@ ShallowWrapper {
           <a
             className="section-attachment-title"
             href="http://mock.url"
-            target="__blank"
+            rel="noreferrer"
+            target="_blank"
           >
             Title in finnish
           </a>,
@@ -122,7 +125,8 @@ ShallowWrapper {
             "children": "Title in finnish",
             "className": "section-attachment-title",
             "href": "http://mock.url",
-            "target": "__blank",
+            "rel": "noreferrer",
+            "target": "_blank",
           },
           "ref": null,
           "rendered": "Title in finnish",
