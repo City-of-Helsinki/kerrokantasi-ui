@@ -13,7 +13,7 @@ import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
-import {notifyError} from '../../../utils/notify';
+import {notifyError, notifyInfo} from '../../../utils/notify';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
@@ -42,6 +42,7 @@ class Comment extends React.Component {
 
   componentDidMount = () => {
     if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
+      // Jump to this comment
       this.commentRef.current.scrollIntoView({
         behaviour: 'smooth',
         block: 'nearest',
@@ -50,6 +51,17 @@ class Comment extends React.Component {
         scrollComplete: true,
         shouldAnimate: true,
       });
+    } else if (
+      // Jump to child subcomment
+      this.props.jumpTo
+      && this.props.data.comments.includes(this.props.jumpTo)
+      && !this.props.data.loadingSubComments
+      && (
+        (Array.isArray(this.props.data.subComments) && this.props.data.subComments.length === 0)
+        || this.props.data.subComments === undefined
+      )
+    ) {
+      this.handleShowReplys();
     }
   };
 
@@ -69,6 +81,13 @@ class Comment extends React.Component {
     } else {
       notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
     }
+  }
+
+  onCopyURL() {
+    // Build absolute URL for comment
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
+    navigator.clipboard.writeText(commentUrl);
+    notifyInfo(`Linkki kommenttiion kopioitu leikepöydällesi.`);
   }
 
   toggleEditor(event) {
@@ -263,6 +282,11 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
+      {this.canFlagComments() &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onCopyURL.bind(this)}>
+        <Icon name="link" aria-hidden="true"/>
+      </Button>
+      }
       { this.canFlagComments() && !data.deleted &&
       <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
         <Icon
@@ -493,11 +517,13 @@ class Comment extends React.Component {
               && Array.isArray(data.subComments) && data.subComments.length > 0,
             'comment-animate': this.state.shouldAnimate,
             'hearing-comment__admin': isAdminUser,
+            'hearing-comment__flagged': this.canFlagComments() && data.flagged,
             'hearing-comment__is-pinned': this.props.data.pinned,
           }
         ])}
         onAnimationEnd={this.handleEndstAnimation}
         ref={this.commentRef}
+        id={`comment-${data.id}`}
       >
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}

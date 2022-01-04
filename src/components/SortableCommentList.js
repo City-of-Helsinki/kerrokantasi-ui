@@ -266,8 +266,11 @@ export class SortableCommentListComponent extends Component {
       hearingGeojson
     } = this.props;
 
-    // const mockSection = Object.assign({}, section);
-    // mockSection.questions = mockQuestions;
+    const urlFragmentCommentId = (
+      window.location.hash.startsWith('#comment-')
+        ? Number(window.location.hash.replace('#comment-', ''))
+        : null
+    );
 
     const showCommentList =
       section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
@@ -365,7 +368,7 @@ export class SortableCommentListComponent extends Component {
                   hearingId={hearingId}
                   intl={intl}
                   isLoading={this.state.showLoader}
-                  jumpTo={this.state.shouldAnimate && sectionComments.jumpTo}
+                  jumpTo={urlFragmentCommentId || (this.state.shouldAnimate && sectionComments.jumpTo)}
                   language={language}
                   nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({id: "anonymous"})}
                   onDeleteComment={this.props.onDeleteComment}
