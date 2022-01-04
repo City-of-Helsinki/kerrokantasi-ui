@@ -33,4 +33,4 @@ resources:
     name: kerrokantasi/kerrokantasi-pipelines
 
 extends:
-  template: azure-pipelines-kerrokantasi-api.yml@kerrokantasi-pipelines
+  template: azure-pipelines-kerrokantasi-api-stageprod.yml@kerrokantasi-pipelines
