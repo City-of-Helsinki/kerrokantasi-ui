@@ -6,11 +6,10 @@ export default function compile() {
   const settings = getSettings();
   let compiler = getCompiler(settings, true);
 
-  compiler.run((err, stats) => {
+  compiler.run((err) => {
     if (err) {
       throw new Error(`Webpack error: ${err}`);
     }
-    console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
     // Throw the webpack into the well (if this was the last reference to it, we reclaim plenty of memory)
     compiler = null;
   });
