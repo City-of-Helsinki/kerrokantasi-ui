@@ -535,7 +535,7 @@ class Comment extends React.Component {
               <p>
                 <FormattedMessage
                   id="sectionCommentDeletedMessage"
-                  values={{ date: moment(new Date(data.deleted_at)).format('DD.MM.YYYY HH:mm')}}
+                  values={{date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
                 />
               </p>
             }

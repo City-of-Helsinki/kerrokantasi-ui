@@ -33,7 +33,7 @@
   "commentReceived": "Your comment has been received. Thank you!",
   "commentRegisteredUsersOnly": "Login to comment.",
   "comments": "Comments",
-  "sectionCommentDeletedMessage": "Your message has been deleted on {date} because it did not comply with the rules of the Voice your opinion service. https://kerrokantasi.hel.fi/info?lang=en",
+  "sectionCommentDeletedMessage": "Your message has been deleted on{date}, because it did not comply with the rules of the Voice your opinion service. https://kerrokantasi.hel.fi/info?lang=en",
   "commentShowMap": "Map marker added. Show on the map",
   "commentsOnMap": "Comments on the map",
   "commentsOutOf": "Showing {current} comments out of {total}.",
