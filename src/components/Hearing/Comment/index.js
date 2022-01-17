@@ -531,12 +531,18 @@ class Comment extends React.Component {
           <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
             {!data.deleted ?
               <p>{nl2br(data.content)}</p>
-                :
+              :
               <p>
-                <FormattedMessage
-                  id="sectionCommentDeletedMessage"
-                  values={{date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
-                />
+                {!data.self_deleted ?
+                  <FormattedMessage
+                    id="sectionCommentDeletedMessage"
+                    values={{
+                      date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : '',
+                    }}
+                  />
+                  :
+                  <FormattedMessage id="sectionCommentSelfDeletedMessage"/>
+                }
               </p>
             }
           </div>

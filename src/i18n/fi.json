@@ -40,6 +40,7 @@
   "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
   "comments": "Mielipiteet",
   "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
+  "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
   "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
   "commentsOnMap": "Kartta koko näytöllä",
   "commentsOutOf": "Näytetään {current}/{total} kommenttia.",
