@@ -488,6 +488,25 @@ class Comment extends React.Component {
     </div>
   );
 
+  renderCommentText = (data) => {
+    if (!data.deleted) {
+      return <p>{nl2br(data.content)}</p>;
+    }
+    if (data.deleted_by_type === "self") {
+      return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
+    } else if (data.deleted_by_type === "moderator") {
+      return (
+        <p>
+          <FormattedMessage
+          id="sectionCommentDeletedMessage"
+          values={{date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
+          />
+        </p>
+      );
+    }
+    return <FormattedMessage id="sectionCommentGenericDeletedMessage"/>;
+  }
+
   handleSetMapContainer = (mapContainer) => {
     this.setState({ mapContainer });
   }
@@ -495,7 +514,6 @@ class Comment extends React.Component {
   toggleMap = () => {
     this.setState({displayMap: !this.state.displayMap});
   }
-
 
   render() {
     const {data, canReply} = this.props;
@@ -529,16 +547,7 @@ class Comment extends React.Component {
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
           <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
-            {!data.deleted ?
-              <p>{nl2br(data.content)}</p>
-                :
-              <p>
-                <FormattedMessage
-                  id="sectionCommentDeletedMessage"
-                  values={{ date: moment(new Date(data.deleted_at)).format('DD.MM.YYYY HH:mm')}}
-                />
-              </p>
-            }
+            {this.renderCommentText(data)}
           </div>
           <div className="hearing-comment__images">
             {data.images
