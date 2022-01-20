@@ -28,7 +28,7 @@ export class QuestionForm extends React.Component {
       <div className="question-form" key={question.type}>
         <MultiLanguageTextField
           labelId=" "
-          maxLength={120}
+          maxLength={1000}
           name="abstract"
           onBlur={(value) => onQuestionChange('text', sectionId, question.frontId || question.id, "", value)}
           value={question.text}
