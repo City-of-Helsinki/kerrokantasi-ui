@@ -75,7 +75,7 @@
     "leaflet": "^1.9.4",
     "leaflet-draw": "^0.4.9",
     "lodash": "^4.17.21",
-    "markdown-loader": "^2.0.2",
+    "markdown-loader": "^7.0.0",
     "minimist": "^1.2.6",
     "moment": "^2.29.2",
     "morgan": "^1.10.0",

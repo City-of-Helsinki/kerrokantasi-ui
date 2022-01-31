@@ -7772,18 +7772,18 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-loader@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/markdown-loader/-/markdown-loader-2.0.2.tgz#1cdcf11307658cd611046d7db34c2fe80542af7c"
-  integrity sha512-v/ej7DflZbb6t//3Yu9vg0T+sun+Q9EoqggifeyABKfvFROqPwwwpv+hd1NKT2QxTRg6VCFk10IIJcMI13yCoQ==
+markdown-loader@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-loader/-/markdown-loader-7.0.0.tgz#012cdd3a1f724585869c70168f4a5c4cb84bedbf"
+  integrity sha512-ZUZXYadxu177a+dBTunr+whAIz0PdVuOJnLde/dowczEoog6wwXKuzgKmFP/ZeJjQ/Nyf9NxOGXxnilEYHKxQQ==
   dependencies:
-    loader-utils "^1.1.0"
-    marked "^0.3.9"
+    loader-utils "^1.2.3"
+    marked "^4.0.12"
 
-marked@^0.3.9:
-  version "0.3.19"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
-  integrity sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==
+marked@^4.0.12:
+  version "4.0.12"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.12.tgz#2262a4e6fd1afd2f13557726238b69a48b982f7d"
+  integrity sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==
 
 matcher@^3.0.0:
   version "3.0.0"
