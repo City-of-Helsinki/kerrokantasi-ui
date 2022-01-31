@@ -1,3 +1,7 @@
+import fs from 'fs';
+import paths from '../conf/paths';
+import path from "path";
+
 const webpack = require('webpack');
 const ProgressBar = require('progress');
 const debug = require('debug')('bundler');
@@ -30,13 +34,26 @@ export function getCompiler(settings, withProgress) {
     config.plugins.push(getProgressPlugin());
   }
   const compiler = webpack(config);
+  let bundleSrc;  // `/app.{SOME_HASH}.js`
+
   compiler.plugin('emit', (compilation, compileCallback) => {
     const stats = compilation.getStats().toJson();
     const chunks = stats.chunks.sort(sortChunks);
-    const bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
+    bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
     settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
     compileCallback();
   });
+
+  compiler.plugin('done', () => {
+    // Save bundle entrypoint filename to a known location.
+    // We need to save the filename somewhere, as it contains a hash which is subject to changing
+    // and it's required to start up the server from a bundle
+    fs.writeFileSync(
+      path.resolve(paths.OUTPUT, 'bundle_src.txt'),
+      bundleSrc,
+    );
+  });
+
   return compiler;
 }
 

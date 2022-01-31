@@ -22,7 +22,7 @@ const getFileTitle = (title, language) => {
 const SectionAttachment = (props) => (
   <div className="section-attachment">
     <Icon className="icon" name="file"/>
-    <a href={props.file.url} className="section-attachment-title" target="__blank">
+    <a href={props.file.url} className="section-attachment-title" target="_blank" rel="noreferrer">
       {getFileTitle(props.file.title, props.language)}
     </a>
   </div>

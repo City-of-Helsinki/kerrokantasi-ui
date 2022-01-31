@@ -65,6 +65,9 @@ const HearingCard = ({
   const conditionalWrapper = (children) => {
     return userProfile ? <div>{children}</div> : children;
   };
+  const mainImgCaption = (hearing.main_image && hearing.main_image.caption) ?
+    getAttr(hearing.main_image.caption, language) : '';
+
   return (
     <div className={`hearing-card ${className}`}>
       {conditionalWrapper(
@@ -73,7 +76,7 @@ const HearingCard = ({
         style={cardImageStyle}
         history={history}
         url={getHearingURL(hearing)}
-        altText={getAttr(hearing.title, language)}
+        altText={mainImgCaption || getAttr(hearing.title, language)}
         />)}
 
       <div className="hearing-card-content">

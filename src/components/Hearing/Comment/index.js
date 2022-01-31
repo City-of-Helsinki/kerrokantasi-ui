@@ -13,7 +13,7 @@ import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
-import {notifyError} from '../../../utils/notify';
+import {notifyError, notifyInfo} from '../../../utils/notify';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
@@ -42,6 +42,7 @@ class Comment extends React.Component {
 
   componentDidMount = () => {
     if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
+      // Jump to this comment
       this.commentRef.current.scrollIntoView({
         behaviour: 'smooth',
         block: 'nearest',
@@ -50,6 +51,17 @@ class Comment extends React.Component {
         scrollComplete: true,
         shouldAnimate: true,
       });
+    } else if (
+      // Jump to child subcomment
+      this.props.jumpTo
+      && this.props.data.comments.includes(this.props.jumpTo)
+      && !this.props.data.loadingSubComments
+      && (
+        (Array.isArray(this.props.data.subComments) && this.props.data.subComments.length === 0)
+        || this.props.data.subComments === undefined
+      )
+    ) {
+      this.handleShowReplys();
     }
   };
 
@@ -60,6 +72,22 @@ class Comment extends React.Component {
     } else {
       notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
     }
+  }
+
+  onFlag() {
+    if (this.canFlagComments()) {
+      const {data} = this.props;
+      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
+    } else {
+      notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
+    }
+  }
+
+  onCopyURL() {
+    // Build absolute URL for comment
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
+    navigator.clipboard.writeText(commentUrl);
+    notifyInfo(`Linkki kommenttiion kopioitu leikepöydällesi.`);
   }
 
   toggleEditor(event) {
@@ -220,6 +248,10 @@ class Comment extends React.Component {
     );
   };
 
+  canFlagComments = () => {
+    return this.props.user && this.props.canFlag;
+  }
+
   /**
    * Renders the header area for the comment
    * @returns {Component}
@@ -251,6 +283,22 @@ class Comment extends React.Component {
           </span>
         </OverlayTrigger>
       </div>
+      {this.canFlagComments() &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onCopyURL.bind(this)}>
+        <Icon name="link" aria-hidden="true"/>
+      </Button>
+      }
+      { this.canFlagComments() && !data.deleted &&
+      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
+        <Icon
+          name={classnames({
+            'flag-o': !data.flagged,
+            flag: data.flagged,
+          })}
+          aria-hidden="true"
+        />
+      </Button>
+      }
     </div>
   );
 
@@ -441,6 +489,25 @@ class Comment extends React.Component {
     </div>
   );
 
+  renderCommentText = (data) => {
+    if (!data.deleted) {
+      return <p>{nl2br(data.content)}</p>;
+    }
+    if (data.deleted_by_type === "self") {
+      return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
+    } else if (data.deleted_by_type === "moderator") {
+      return (
+        <p>
+          <FormattedMessage
+          id="sectionCommentDeletedMessage"
+          values={{date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
+          />
+        </p>
+      );
+    }
+    return <FormattedMessage id="sectionCommentGenericDeletedMessage"/>;
+  }
+
   handleSetMapContainer = (mapContainer) => {
     this.setState({ mapContainer });
   }
@@ -448,7 +515,6 @@ class Comment extends React.Component {
   toggleMap = () => {
     this.setState({displayMap: !this.state.displayMap});
   }
-
 
   render() {
     const {data, canReply} = this.props;
@@ -470,17 +536,19 @@ class Comment extends React.Component {
               && Array.isArray(data.subComments) && data.subComments.length > 0,
             'comment-animate': this.state.shouldAnimate,
             'hearing-comment__admin': isAdminUser,
+            'hearing-comment__flagged': this.canFlagComments() && data.flagged,
             'hearing-comment__is-pinned': this.props.data.pinned,
           }
         ])}
         onAnimationEnd={this.handleEndstAnimation}
         ref={this.commentRef}
+        id={`comment-${data.id}`}
       >
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
-          <div className="hearing-comment-body">
-            <p>{nl2br(data.content)}</p>
+          <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
+            {this.renderCommentText(data)}
           </div>
           <div className="hearing-comment__images">
             {data.images
@@ -529,18 +597,20 @@ class Comment extends React.Component {
               )}
             </div>
           )}
-          {canEdit && this.renderEditLinks()}
+          {canEdit && !data.deleted && this.renderEditLinks()}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
             </div>
             <div className="hearing-comment-votes">
-              <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
-                <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
-                <span className="sr-only">
-                  <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
-                </span>
-              </Button>
+              { !data.deleted &&
+                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+                  <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
+                  <span className="sr-only">
+                    <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
+                  </span>
+                </Button>
+              }
             </div>
           </div>
           {editorOpen && this.renderEditorForm()}
@@ -556,6 +626,7 @@ class Comment extends React.Component {
 Comment.propTypes = {
   canReply: PropTypes.bool,
   canVote: PropTypes.bool,
+  canFlag: PropTypes.bool,
   data: PropTypes.object,
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
@@ -572,6 +643,7 @@ Comment.propTypes = {
   onGetSubComments: PropTypes.func,
   onPostReply: PropTypes.func,
   onPostVote: PropTypes.func,
+  onPostFlag: PropTypes.func,
   parentComponentId: PropTypes.number,
   questions: PropTypes.array,
   section: PropTypes.object,

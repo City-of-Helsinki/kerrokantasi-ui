@@ -52,6 +52,7 @@ class HearingEditor extends React.Component {
     this.onPublish = this.onPublish.bind(this);
     this.onSaveAndPreview = this.onSaveAndPreview.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.onSaveAsCopy = this.onSaveAsCopy.bind(this);
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
@@ -180,12 +181,17 @@ class HearingEditor extends React.Component {
 
     // true if one of the keys in localErrors contain entries
     // eslint-disable-next-line no-unused-vars
+    this.setState({errors: localErrors});
     const containsError = Object.entries(localErrors).some(([k, v]) => Object.entries(v).length > 0);
     if (!containsError) {
       return dispatch(callbackAction(hearing));
     }
-    this.setState({errors: localErrors});
     return notifyError(formatMessage({id: 'validationNotification'}));
+  }
+
+  onSaveAsCopy() {
+    const {hearing} = this.props;
+    this.validateHearing(hearing, saveAndPreviewNewHearing);
   }
 
   onSaveAndPreview() {
@@ -280,6 +286,7 @@ class HearingEditor extends React.Component {
         onQuestionChange={this.onQuestionChange}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
+        onSaveAsCopy={this.onSaveAsCopy}
         onSectionAttachment={this.onSectionAttachment}
         onSectionAttachmentDelete={this.onSectionAttachmentDelete}
         onSectionAttachmentEdit={this.onSectionAttachmentEdit}

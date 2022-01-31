@@ -58,6 +58,10 @@
       border-left-color: $theme-primary-light;
     }
 
+    &__flagged > .hearing-comment__comment-wrapper {
+      border-left-color: $theme-danger-light;
+    }
+
     &__pin {
       flex-basis: 50%;
       flex-direction: row;
@@ -188,6 +192,10 @@
       }
     }
 
+    &-body-disabled {
+      color: $gray
+    }
+
     &__actions-bar {
       display: flex;
       flex-flow: row nowrap;
@@ -222,6 +230,7 @@
       }
 
       .fa {
+        margin-left: 2px;
         margin-right: 2px;
       }
     }

@@ -198,7 +198,7 @@ export const parseCollection = (featureCollection) => {
 
 export const cleanHearing = (hearing) => {
   let cleanedHearing = {};
-  if (hearing.geojson.type === 'FeatureCollection' && hearing.geojson.features.length === 1) {
+  if (hearing.geojson && hearing.geojson.type === 'FeatureCollection' && hearing.geojson.features.length === 1) {
     /**
      * If the features array only has 1 feature then we just send that features geometry
      * @example
