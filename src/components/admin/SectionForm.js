@@ -22,6 +22,7 @@ import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
+import config from './../../config';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -307,9 +308,12 @@ class SectionForm extends React.Component {
               <option selected={section.commenting === 'registered'} value="registered">
                 {formatMessage({id: "registeredUsersOnly"})}
               </option>
-              <option selected={section.commenting === 'strong'} value="strong">
-                {formatMessage({id: "registeredStrongOnly"})}
-              </option>
+              {
+                config.enableStrongAuth &&
+                <option selected={section.commenting === 'strong'} value="strong">
+                  {formatMessage({id: "registeredStrongOnly"})}
+                </option>
+              }
               <option selected={section.commenting === 'none'} value="none">
                 {formatMessage({id: "noCommenting"})}
               </option>

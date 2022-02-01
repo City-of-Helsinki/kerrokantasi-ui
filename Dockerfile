@@ -28,6 +28,9 @@ RUN yarn && yarn cache clean --force
 # Copy all files
 COPY --chown=appuser:appuser . .
 
+# Compile bundle
+RUN yarn build
+
 # Start express server
 CMD [ "yarn", "start" ]
 

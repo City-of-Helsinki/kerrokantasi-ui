@@ -27,6 +27,8 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
     sv: 'Hörandet tillgängligt på svenska',
     en: 'Questionnaire available in English',
   };
+  const mainImgCaption = (hearing.main_image && hearing.main_image.caption) ?
+    getAttr(hearing.main_image.caption, language) : '';
 
   return (
     <div className={`fullwidth-hearing ${className}`}>
@@ -35,7 +37,7 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
         style={styles}
         history={history}
         url={getHearingURL(hearing)}
-        altText={getAttr(hearing.title, language)}
+        altText={mainImgCaption || getAttr(hearing.title, language)}
       />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">

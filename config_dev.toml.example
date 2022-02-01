@@ -27,6 +27,10 @@ openid_audience="https://auth-url.domain/path"
 openid_authority="your-authority"
 openid_apitoken_url="https://auth-url.domain/api-tokens/"
 
+# Makes `Strongly authenticated` option visible as a commenting option for hearings
+# Default: false
+# enable_strong_auth=false
+
 # City specific configuration
 # For whitelabel styles use "whitelabel".
 # For city assets installed to node_modules us the name of the package

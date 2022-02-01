@@ -229,6 +229,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "all": "Kaikki",
                 "allHearings": "Kaikki kuulemiset",
                 "alreadyFavorite": "Kuuleminen kuuluu ennestään suosikkeihin.",
+                "alreadyFlagged": "Tämä kommentti on jo liputettu.",
                 "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
                 "anonymous": "Anonyymi",
                 "asOpenData": "avoimena datana",
@@ -244,8 +245,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "closedCount": "Sulkeutuneet ({n})",
                 "closedHearing": "Suljettu",
                 "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
-                "commentDeleted": "Kommentti on poistettu.",
-                "commentEdited": "Kommenttia on muokattu. Kiitos!",
+                "commentDeleted": "Kommenttisi on poistettu.",
+                "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                "commentFlagged": "Kommentti liputettu.",
                 "commentHearingStatus": "Kuulemisen tila: ",
                 "commentImageAlt": "Kommentoijan lisäämä kuva",
                 "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
@@ -264,6 +266,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "contactTitle": "Virkanimike tai tehtäväkuvaus",
                 "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
                 "contrastTitle": "Kontrasti",
+                "copyHearing": "Kopioi kuuleminen",
                 "copyrightText": "Kerrokantasi",
                 "create": "Luo",
                 "createContact": "Luo uusi yhteyshenkilö",
@@ -417,6 +420,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
+                "loginToFlagComment": "Kirjaudu sisään liputtaaksesi kommentin.",
                 "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
                 "logout": "Kirjaudu ulos",
                 "mainMenu": "Päävalikko",
@@ -430,6 +434,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
                 "name": "Nimi",
                 "nameAndOrganization": "Nimi ja organisaatio",
+                "navigationMenu": "Navigaatiovalikko",
                 "newHearingPageTitle": "Uusi kuuleminen",
                 "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
                 "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
@@ -501,6 +506,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "sectionAbstract": "Lyhyt johdanto",
                 "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
                 "sectionCardSubsectionTitle": "Alaosio",
+                "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
+                "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
+                "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
                 "sectionContent": "Tekstisisältö",
                 "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
                 "sectionImage": "Kuva",
@@ -586,6 +594,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
           jumpTo={false}
           language="fi"
           nicknamePlaceholder="Anonyymi"
+          onPostFlag={[Function]}
           onPostReply={[Function]}
           onPostVote={[Function]}
           section={

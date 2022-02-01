@@ -73,6 +73,13 @@ export const voteCommentErrorHandler = () => {
   };
 };
 
+export const flagCommentErrorHandler = () => {
+  return (err) => {
+    Raven.captureException(err);
+    localizedNotifyError(err.message);
+  };
+};
+
 export function fetchInitialHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId, params});
@@ -415,6 +422,22 @@ export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
         localizedNotifySuccess("voteReceived");
       }
     }).catch(voteCommentErrorHandler());
+  };
+}
+
+export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/flag";
+    return api.post(getState(), url).then(getResponseJSON).then((data) => {
+      if (data.status_code === 304) {
+        localizedNotifyError("alreadyFlagged");
+      } else {
+        dispatch(createAction("postedCommentFlag")({commentId, sectionId, isReply, parentId}));
+        localizedNotifySuccess("commentFlagged");
+      }
+    }).catch(flagCommentErrorHandler());
   };
 }
 
