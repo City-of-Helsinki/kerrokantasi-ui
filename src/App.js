@@ -14,6 +14,7 @@ import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
 import cookieUtil from './utils/cookieUtils';
+import { HashLink } from 'react-router-hash-link';
 
 class App extends React.Component {
   getChildContext() {
@@ -63,12 +64,14 @@ class App extends React.Component {
     if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
+    const mainContainerId = "main-container";
+    const skipTo = `${this.props.location.pathname}${this.props.location.search}#${mainContainerId}`;
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          <a href="#main-container" className="skip-to-main-content">
+          <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
-          </a>
+          </HashLink>
           <Helmet
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
@@ -81,7 +84,7 @@ class App extends React.Component {
           {header}
           <main
             className={fullscreen ? 'fullscreen' : classNames('main-content', {headless})}
-            id="main-container"
+            id={mainContainerId}
             role="main"
             tabIndex="-1"
           >
