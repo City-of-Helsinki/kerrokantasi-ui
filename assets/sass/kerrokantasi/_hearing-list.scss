@@ -203,6 +203,16 @@
     .Select-placeholder {
       color: $text-muted;
     }
+
+    #hearings-search-form {
+      scroll-margin-top: 100px;
+    }
+
+    .internal-link {
+      float: left;
+      margin-left: 8px;
+      margin-top: 6px;
+    }
   }
 
   &__label {
@@ -218,6 +228,10 @@
   &__button {
     float: left;
   }
+}
+
+#hearings-section {
+  scroll-margin-top: 100px;
 }
 
 .hearing-labels {

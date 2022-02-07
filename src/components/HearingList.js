@@ -23,6 +23,7 @@ import { getHearingURL, isPublic } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
 import defaultImage from '@city-images/default-image.svg';
+import InternalLink from './InternalLink';
 
 const HEARING_LIST_TABS = {
   LIST: 'list',
@@ -282,12 +283,12 @@ export const HearingList = ({
         </div>
       </section>
       <section className="page-section page-section--hearings-list" id="hearings-section">
-        <a href="#hearings-search-form" className="sr-only">
-          <FormattedMessage id="jumpToSearchForm" />
-        </a>
         <div className="container">
           <Row>
             <Col md={8} mdPush={2}>
+              <InternalLink destinationId="hearings-search-form" srOnly>
+                <FormattedMessage id="jumpToSearchForm" />
+              </InternalLink>
               {(!isLoading && !hasHearings) && (
                 <h2 className="hearing-list__hearing-list-title">
                   <FormattedMessage id="noHearings">{txt => txt}</FormattedMessage>

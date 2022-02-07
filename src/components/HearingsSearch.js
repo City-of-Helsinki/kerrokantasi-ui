@@ -6,6 +6,7 @@ import Select from 'react-select';
 import {isEmpty} from 'lodash';
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
+import InternalLink from './InternalLink';
 
 class HearingsSearch extends React.Component {
   render() {
@@ -57,9 +58,9 @@ class HearingsSearch extends React.Component {
             <Button className="hearings-search__button" bsStyle="primary" type="submit">
               <FormattedMessage id="search"/>
             </Button>
-            <a href="#hearings-section" className="sr-only">
+            <InternalLink destinationId="hearings-section" srOnly>
               <FormattedMessage id="jumpToSearchResults" />
-            </a>
+            </InternalLink>
           </form>
         </div>
       </div>

@@ -457,15 +457,6 @@ exports[`HearingsList component should render as expected 1`] = `
     className="page-section page-section--hearings-list"
     id="hearings-section"
   >
-    <a
-      className="sr-only"
-      href="#hearings-search-form"
-    >
-      <FormattedMessage
-        id="jumpToSearchForm"
-        values={Object {}}
-      />
-    </a>
     <div
       className="container"
     >
@@ -479,6 +470,15 @@ exports[`HearingsList component should render as expected 1`] = `
           md={8}
           mdPush={2}
         >
+          <InternalLink
+            destinationId="hearings-search-form"
+            srOnly={true}
+          >
+            <FormattedMessage
+              id="jumpToSearchForm"
+              values={Object {}}
+            />
+          </InternalLink>
           <div>
             <div
               className="hearing-list__result-controls"
