@@ -317,6 +317,7 @@ exports[`SectionContainer component should render as expected 1`] = `
           <section
             className="hearing-section comments-section"
             id="comments-section"
+            tabIndex={-1}
           >
             <p
               className="report-download text-right small"

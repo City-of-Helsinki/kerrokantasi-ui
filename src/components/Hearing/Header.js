@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
-import AnchorLink from 'react-anchor-link-smooth-scroll';
 import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
@@ -25,6 +24,7 @@ import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../se
 import { getUser} from "../../selectors/user";
 import { stringify } from 'qs';
 import { addHearingToFavorites, removeHearingFromFavorites} from '../../actions';
+import InternalLink from '../InternalLink';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
@@ -68,9 +68,9 @@ export class HeaderComponent extends React.Component {
         }
         return (
           <div>
-            <AnchorLink offset="100" href="#comments-section">
+            <InternalLink destinationId="comments-section">
               <FormattedMessage id="headerWriteCommentLink" />
-            </AnchorLink>
+            </InternalLink>
           </div>
         );
       }

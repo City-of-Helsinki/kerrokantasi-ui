@@ -420,7 +420,7 @@ export class SectionContainerComponent extends React.Component {
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
     return (
-      <section className="hearing-section comments-section" id="comments-section">
+      <section className="hearing-section comments-section" id="comments-section" tabIndex={-1}>
         {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, apiToken, language)}
         <SortableCommentList
           section={section}
