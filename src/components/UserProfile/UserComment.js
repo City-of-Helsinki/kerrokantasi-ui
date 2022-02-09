@@ -41,6 +41,26 @@ class UserComment extends React.Component {
       </Tooltip>
     );
   }
+
+  renderCommentText = (comment) => {
+    if (!comment.deleted) {
+      return <p>{nl2br(comment.content)}</p>;
+    }
+    if (comment.deleted_by_type === "self") {
+      return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
+    } else if (comment.deleted_by_type === "moderator") {
+      return (
+        <p>
+          <FormattedMessage
+            id="sectionCommentDeletedMessage"
+            values={{date: comment.deleted_at ? moment(new Date(comment.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
+          />
+        </p>
+      );
+    }
+    return <FormattedMessage id="sectionCommentGenericDeletedMessage"/>;
+  }
+
   /**
    * Toggles state.displayMap value
    */
@@ -84,7 +104,7 @@ class UserComment extends React.Component {
             </div>
           </div>
           <div className="hearing-comment-body">
-            <p>{nl2br(comment.content)}</p>
+            {this.renderCommentText(comment)}
           </div>
           <div className="hearing-comment__images">
             {comment.images

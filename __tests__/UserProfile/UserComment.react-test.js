@@ -13,6 +13,9 @@ const defaultCommentData = {
   author: 'DefaultUser',
   created_at: new Date('10 September 2021 12:30').toISOString(),
   closed: false,
+  deleted: false,
+  deletedAt: null,
+  deletedByType: null,
   slug: 'hearingSlug',
   content: 'is this working?',
   geojson: null
@@ -24,6 +27,9 @@ const mockComment = (
   return {
     author_name: props.author || defaultCommentData.author,
     created_at: defaultCommentData.created_at,
+    deleted: props.deleted || defaultCommentData.deleted,
+    deleted_at: props.deletedAt || defaultCommentData.deletedAt,
+    deleted_by_type: props.deletedByType || defaultCommentData.deletedByType,
     hearing_data: {
       closed: props.closed || defaultCommentData.closed,
       slug: props.slug || defaultCommentData.slug,
@@ -113,6 +119,39 @@ describe('UserComment', () => {
         const element = wrapper.find('div.hearing-comment-body');
         expect(element).toHaveLength(1);
         expect(element.text()).toEqual(defaultCommentData.content);
+      });
+
+      describe('when comment is deleted', () => {
+        const deleted = true;
+        const deletedAt = '2022-01-31T09:45:00.284857Z';
+        const deletedByTypes = {moderator: 'moderator', self: 'self'};
+
+        test('by self', () => {
+          const comment = mockComment({deleted, deletedAt, deletedByType: deletedByTypes.self});
+          const wrapper = getWrapper({comment});
+          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          expect(element).toHaveLength(1);
+          expect(element.prop('id')).toBe('sectionCommentSelfDeletedMessage');
+        });
+
+        test('by moderator', () => {
+          const comment = mockComment({deleted, deletedAt, deletedByType: deletedByTypes.moderator});
+          const wrapper = getWrapper({comment});
+          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          expect(element).toHaveLength(1);
+          expect(element.prop('id')).toBe('sectionCommentDeletedMessage');
+          expect(element.prop('values')).toEqual({date:
+            moment(new Date(deletedAt)).format(' DD.MM.YYYY HH:mm')
+          });
+        });
+
+        test('by unknown type', () => {
+          const comment = mockComment({deleted, deletedAt});
+          const wrapper = getWrapper({comment});
+          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          expect(element).toHaveLength(1);
+          expect(element.prop('id')).toBe('sectionCommentGenericDeletedMessage');
+        });
       });
     });
     describe('comment contains geojson data', () => {
