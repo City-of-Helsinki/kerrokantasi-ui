@@ -122,16 +122,26 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
     describe('Button', () => {
       test('has correct props', () => {
-        const element = getWrapper().find(Button);
+        const wrapper = getWrapper();
+        const instance = wrapper.instance();
+        const element = wrapper.find(Button);
+        expect(element.prop('aria-expanded')).toBe(instance.state.openDropdown);
+        expect(element.prop('aria-haspopup')).toBe(true);
         expect(element.prop('className')).toBe('language-switcher');
         expect(element.prop('onClick')).toBeDefined();
-        expect(element.prop('aria-label')).toBe(getMessage('languageSwitchLabel'));
         expect(element.prop('id')).toBe('language');
       });
 
-      describe('has correct child', () => {
+      describe('has correct children', () => {
+        const ariaHiddenSpan = getWrapper().find(Button).find('span').at(0);
+
+        test('aria-hidden span wrapper', () => {
+          expect(ariaHiddenSpan).toHaveLength(1);
+          expect(ariaHiddenSpan.prop('aria-hidden')).toBe("true");
+        });
+
         test('Icon', () => {
-          const element = getWrapper().find(Button).find(Icon);
+          const element = ariaHiddenSpan.find(Icon);
           expect(element).toHaveLength(1);
           expect(element.prop('name')).toBe('globe');
           expect(element.prop('className')).toBe('user-nav-icon');
@@ -139,8 +149,26 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         });
 
         test('text for currentLanguage', () => {
-          const element = getWrapper().find(Button).find('span').at(0);
+          const element = ariaHiddenSpan.find('span').at(0);
           expect(element.text()).toContain(defaults.currentLanguage);
+        });
+
+        test('caret span', () => {
+          const element = ariaHiddenSpan.find('span').at(1);
+          expect(element.prop('className')).toBe('caret');
+        });
+
+        test('sr only language spans', () => {
+          const {languages} = config;
+          const languageSpans = getWrapper().find(Button).find('span').filter('.sr-only');
+          languageSpans.forEach((span, index) => {
+            const langCode = languages[index];
+            expect(span.prop('className')).toBe('sr-only');
+            expect(span.prop('lang')).toBe(langCode);
+            expect(span.text()).toBe(
+              `${getMessage('languageSwitchLabel', langCode)}${index + 1 < languages.length ? "," : ""}`
+            );
+          });
         });
       });
 
@@ -165,7 +193,6 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       test('with correct props', () => {
         const element = getUL();
         expect(element.prop('className')).toBe('dropdown-menu dropdown-menu-right');
-        expect(element.prop('aria-labelledby')).toBe('language');
       });
 
       describe('li elements', () => {
@@ -190,7 +217,16 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
             const first = aElements;
             expect(first.prop('href')).toBe('#');
             expect(first.prop('aria-label')).toBe(getMessage(`lang-${languages[0]}`));
+            expect(first.prop('lang')).toBe(getMessage(languages[0]));
             expect(first.prop('onClick')).toBeDefined();
+          });
+
+          test('with correct aria-current prop', () => {
+            const aElements = getLinkAs({currentLanguage: languages[0]});
+            const first = aElements.at(0);
+            const second = aElements.at(1);
+            expect(first.prop('aria-current')).toBe(true);
+            expect(second.prop('aria-current')).toBe(false);
           });
 
           test('with correct texts', () => {
