@@ -75,7 +75,13 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
             {config.languages.map(
               lang =>
                 (getAttr(hearing.title, lang, { exact: true }) ? (
-                  <div className="language-available-message" key={lang}>{availableInLanguageMessages[lang]}</div>
+                  <div
+                    className="language-available-message"
+                    key={lang}
+                    lang={lang}
+                  >
+                    {availableInLanguageMessages[lang]}
+                  </div>
                 ) : null)
             )}
           </div>

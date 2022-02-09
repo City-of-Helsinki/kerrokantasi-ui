@@ -196,7 +196,7 @@ export class HearingListItem extends React.Component {
               {config.languages.map(
                 lang =>
                   (getAttr(hearing.title, lang, { exact: true }) ? (
-                    <div key={lang} className="language-available-message">
+                    <div className="language-available-message" key={lang} lang={lang}>
                       {availableInLanguageMessages[lang]}
                     </div>
                   ) : null)

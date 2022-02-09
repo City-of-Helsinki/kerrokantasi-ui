@@ -168,7 +168,7 @@ export class HeaderComponent extends React.Component {
         {languageOptions.map((code) =>
           <span key={code} className="language-select__texts">
             {!(code === language) ? (
-              <div>
+              <div lang={code}>
                 {intl.formatMessage({ id: `hearingAvailable-${code}` })}&nbsp;
                 <Link to={langSpecificURL(code)} className="language-select__language">
                   {intl.formatMessage({ id: `hearingAvailableInLang-${code}` })}
