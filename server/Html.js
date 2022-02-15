@@ -29,6 +29,8 @@ export default class Html extends React.Component {
       showAccessibilityInfo,
       showSocialMediaSharing,
       enableCookies,
+      enableCookiebot,
+      cookiebotDataCbid,
       uiConfig,
       openIdClientId,
       openIdAudience,
@@ -52,6 +54,8 @@ export default class Html extends React.Component {
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
+    window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
@@ -93,6 +97,8 @@ Html.propTypes = {
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
   enableCookies: PropTypes.bool,
+  enableCookiebot: PropTypes.bool,
+  cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,

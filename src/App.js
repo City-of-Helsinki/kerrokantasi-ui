@@ -15,6 +15,7 @@ import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
 import cookieUtil from './utils/cookieUtils';
 import { HashLink } from 'react-router-hash-link';
+import cookiebotUtils from './utils/cookiebotUtils';
 
 class App extends React.Component {
   getChildContext() {
@@ -31,11 +32,11 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookieUtil.cookieBotAddListener();
+    cookiebotUtils.cookieBotAddListener();
   }
 
   componentWillUnmount() {
-    cookieUtil.cookieBotRemoveListener();
+    cookiebotUtils.cookieBotRemoveListener();
   }
 
   render() {
@@ -78,8 +79,8 @@ class App extends React.Component {
             meta={favmeta}
           >
             <html lang={locale} />
-            {config.enableCookies && cookieUtil.getConsentScripts()}
-            {config.enableCookies && cookieUtil.getCookieScripts()}
+            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getConsentScripts()}
+            {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
           <main

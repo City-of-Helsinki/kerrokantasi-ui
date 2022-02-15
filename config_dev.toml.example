@@ -65,6 +65,11 @@ city_config="cities/helsinki"
 # Default: false
 # enable_cookies=true
 
+# Cookiebot consent management platform configuration. Cookiebot is disabled by default.
+# To use Cookiebot set both enable_cookies and enable_cookiebot to true.
+# enable_cookiebot=true
+# cookiebot_data_cbid="your-unique-cookiebot-domain-group-id"
+
 # Address for hearing admin help link
 # Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
 # admin_help_url=
