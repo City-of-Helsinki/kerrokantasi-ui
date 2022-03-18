@@ -95,14 +95,14 @@ class LanguageSwitcher extends React.Component {
           id="language"
           onClick={() => this.toggleDropdown()}
         >
-          <span aria-hidden="true">
+          <span>
             <Icon name="globe" className="user-nav-icon" aria-hidden="true" />
             {currentLanguage}
-            <span className="caret" />
+            <span className="caret" aria-hidden="true"/>
           </span>
-          { languages.map((code, index) =>
+          { languages.map((code) =>
             <span className="sr-only" key={`${code}-key`} lang={code}>
-              {`${getMessage('languageSwitchLabel', code)}${index + 1 < languages.length ? "," : ""}`}
+              {`, ${getMessage('languageSwitchLabel', code)}`}
             </span>
           )}
         </Button>

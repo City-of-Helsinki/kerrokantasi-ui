@@ -133,15 +133,14 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       });
 
       describe('has correct children', () => {
-        const ariaHiddenSpan = getWrapper().find(Button).find('span').at(0);
+        const wrapperSpan = getWrapper().find(Button).find('span').at(0);
 
-        test('aria-hidden span wrapper', () => {
-          expect(ariaHiddenSpan).toHaveLength(1);
-          expect(ariaHiddenSpan.prop('aria-hidden')).toBe("true");
+        test('span wrapper', () => {
+          expect(wrapperSpan).toHaveLength(1);
         });
 
         test('Icon', () => {
-          const element = ariaHiddenSpan.find(Icon);
+          const element = wrapperSpan.find(Icon);
           expect(element).toHaveLength(1);
           expect(element.prop('name')).toBe('globe');
           expect(element.prop('className')).toBe('user-nav-icon');
@@ -149,13 +148,14 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         });
 
         test('text for currentLanguage', () => {
-          const element = ariaHiddenSpan.find('span').at(0);
+          const element = wrapperSpan.find('span').at(0);
           expect(element.text()).toContain(defaults.currentLanguage);
         });
 
         test('caret span', () => {
-          const element = ariaHiddenSpan.find('span').at(1);
+          const element = wrapperSpan.find('span').at(1);
           expect(element.prop('className')).toBe('caret');
+          expect(element.prop('aria-hidden')).toBe('true');
         });
 
         test('sr only language spans', () => {
@@ -166,7 +166,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
             expect(span.prop('className')).toBe('sr-only');
             expect(span.prop('lang')).toBe(langCode);
             expect(span.text()).toBe(
-              `${getMessage('languageSwitchLabel', langCode)}${index + 1 < languages.length ? "," : ""}`
+              `, ${getMessage('languageSwitchLabel', langCode)}`
             );
           });
         });
