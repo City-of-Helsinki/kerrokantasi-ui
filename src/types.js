@@ -53,6 +53,14 @@ export const contactShape = PropTypes.shape({
   title: translatedShape,
 });
 
+export const textEditorHideControlsShape = PropTypes.shape({
+  hideBlockStyleControls: PropTypes.bool,
+  hideInlineStyleControls: PropTypes.bool,
+  hideIframeControls: PropTypes.bool,
+  hideImageControls: PropTypes.bool,
+  hideSkipLinkControls: PropTypes.bool,
+  hideLinkControls: PropTypes.bool,
+});
 
 export const sectionImageShape = PropTypes.shape({
   id: PropTypes.number,
