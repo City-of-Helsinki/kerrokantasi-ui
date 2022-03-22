@@ -93,6 +93,7 @@ export class Hearings extends React.Component {
       sortBy: '-created_at',
       adminFilter: isAdmin(props.user) ? AdminFilters[0].list : null,
       showOnlyOpen: false,
+      initHearingsFetched: false,
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -110,14 +111,15 @@ export class Hearings extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { user, location, match: {params: {tab}}, labels } = this.props;
-    const { adminFilter } = this.state;
+    const { adminFilter, initHearingsFetched } = this.state;
     const shouldSetAdminFilter = isAdmin(nextProps.user) && (!user || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user) && !nextProps.user;
     const shouldFetchHearings = labels && ((
       (!this.props.labels.length && nextProps.labels.length) ||
       (nextProps.labels.length && location.search !== nextProps.location.search) ||
       (!this.props.user && nextProps.user) ||
-      (this.props.user && !nextProps.user)) || nextProps.match.params.tab !== tab);
+      (this.props.user && !nextProps.user)) || nextProps.match.params.tab !== tab ||
+      !initHearingsFetched);
 
     if (shouldSetAdminFilter) {
       this.setAdminFilter(AdminFilters[0].list);
@@ -196,6 +198,7 @@ export class Hearings extends React.Component {
     } else {
       fetchInitialHearingList(list, params);
     }
+    this.setState({initHearingsFetched: true});
   }
 
   static getLabelsFromQuery = (labelsInQuery = []) => {
