@@ -126,7 +126,7 @@
     "sass": "^1.62.1",
     "sass-loader": "^7.0.0",
     "scrolltop": "0.0.1",
-    "simple-git": "^3.3.0",
+    "simple-git": "^3.5.0",
     "snyk": "^1.695.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^1.4.5",
