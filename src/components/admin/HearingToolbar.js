@@ -24,6 +24,9 @@ class HearingToolbar extends React.Component {
     let statusLabel = "";
     const openingTime = moment(hearing.open_at);
     const actions = [
+      <Button bsStyle="default" onClick={this.props.onReportsClick} key="reports">
+        <Icon aria-hidden="true" name="list-alt"/> <FormattedMessage id="commentReportsButtonLabel"/>
+      </Button>,
       <Button bsStyle="default" onClick={this.props.onEdit} key="edit">
         <Icon name="pencil-square-o"/> <FormattedMessage id="editHearing"/>
       </Button>
@@ -93,6 +96,7 @@ HearingToolbar.propTypes = {
   onCloseHearing: PropTypes.func,
   onEdit: PropTypes.func,
   onPublish: PropTypes.func,
+  onReportsClick: PropTypes.func.isRequired,
   onRevertPublishing: PropTypes.func,
   onDeleteHearingDraft: PropTypes.func,
 };
