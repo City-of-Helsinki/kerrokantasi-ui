@@ -141,6 +141,8 @@
   "iframeHtmlCopyPaste": "Iframe kopiera och klistra in html",
   "iframeModalTitle": "iframe data",
   "imageAddButton": "Läg till bild",
+  "imageFileUploadError": "Det uppstod fel i bilduppladdningen.",
+  "imageGenericError": "Bilduppladdning är inte tillgängligt för tillfälle.",
   "imageModalTitle": "Bildinformation",
   "imageSizeError": "Bilden för stor, största tillåtna storleken är 1MB",
   "infoHeaderDescription": "Det här är en tillfällig prototyp av tjänsten, som vi önskar att användarna kommenterar",

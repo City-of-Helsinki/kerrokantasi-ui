@@ -231,6 +231,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "iframeModalTitle": "Iframe tiedot",
                   "imageAddButton": "Lisää kuva",
                   "imageAddCaptionButton": "Lisää kuvateksti",
+                  "imageFileUploadError": "Jokin meni pieleen kuvan latauksessa.",
+                  "imageGenericError": "Kuvan lisääminen ei ole mahdollista.",
                   "imageModalTitle": "Kuvan tiedot",
                   "imageSizeError": "Kuva on liian suuri. Maksimikoko on 1 megatavu.",
                   "inLanguage-en": "englanniksi",
