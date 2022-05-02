@@ -61,6 +61,7 @@ class HearingForm extends React.Component {
       onDeleteTemporaryQuestion,
       errors
     } = this.props;
+
     const step = stepNumber.toString();
     let title = formatMessage({id: 'hearingFormHeaderStep' + step});
     const stepErrors = errors[stepNumber] || {};
@@ -124,9 +125,14 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () =>
-        <Button bsStyle="success" onClick={this.props.onSaveChanges}>
-          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveHearingChanges"/>
-        </Button>;
+        <div className="flex-end btn-toolbar">
+          <Button bsStyle="success" onClick={this.props.onSaveAsCopy}>
+            <Icon name="copy"/> <FormattedMessage id="copyHearing"/>
+          </Button>
+          <Button bsStyle="success" onClick={this.props.onSaveChanges}>
+            <Icon className="icon" name="check-circle-o"/> <FormattedMessage id="saveHearingChanges"/>
+          </Button>
+        </div>;
     } else {
       ActionButton = () =>
         <Button bsStyle="success" onClick={this.props.onSaveAndPreview}>
@@ -253,6 +259,7 @@ HearingForm.propTypes = {
   onQuestionChange: PropTypes.func,
   onSaveAndPreview: PropTypes.func,
   onSaveChanges: PropTypes.func,
+  onSaveAsCopy: PropTypes.func,
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
   onSectionAttachmentEdit: PropTypes.func,

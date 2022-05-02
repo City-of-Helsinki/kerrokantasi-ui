@@ -27,6 +27,10 @@ openid_audience="https://auth-url.domain/path"
 openid_authority="your-authority"
 openid_apitoken_url="https://auth-url.domain/api-tokens/"
 
+# Makes `Strongly authenticated` option visible as a commenting option for hearings
+# Default: false
+# enable_strong_auth=false
+
 # City specific configuration
 # For whitelabel styles use "whitelabel".
 # For city assets installed to node_modules us the name of the package
@@ -60,6 +64,11 @@ city_config="cities/helsinki"
 # Everything related to cookies is disabled by default unless this value is changed.
 # Default: false
 # enable_cookies=true
+
+# Cookiebot consent management platform configuration. Cookiebot is disabled by default.
+# To use Cookiebot set both enable_cookies and enable_cookiebot to true.
+# enable_cookiebot=true
+# cookiebot_data_cbid="your-unique-cookiebot-domain-group-id"
 
 # Address for hearing admin help link
 # Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"

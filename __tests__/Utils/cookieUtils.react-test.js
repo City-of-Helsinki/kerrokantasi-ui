@@ -1,70 +1,74 @@
 import React from 'react';
-import {
-  cookieBotAddListener,
-  cookieBotRemoveListener,
-  cookieBotImageOverride,
-  getConsentScripts,
-  getCookieScripts
+import cookieUtils, {
+  getCookieScripts, getDefaultCookieScripts
 } from '../../src/utils/cookieUtils';
-import config from '../../src/config';
 import {shallow} from 'enzyme';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import cookiebotUtils from '../../src/utils/cookiebotUtils';
+
+const isCookiebotEnabledMock = jest.fn();
+jest.mock('../../src/utils/cookiebotUtils', () => {
+  const originalModule = jest.requireActual('../../src/utils/cookiebotUtils');
+  return {
+    __esModule: true,
+    ...originalModule,
+    isCookiebotEnabled: isCookiebotEnabledMock,
+    default: {
+      ...originalModule.default,
+      isCookiebotEnabled: () => isCookiebotEnabledMock(),
+    }
+  };
+});
+
+import config from '../../src/config';
 
 jest.mock('../../src/config', () => {
   return {
     enableCookies: true
   };
 });
+
 describe('cookieUtils', () => {
-  describe('cookieBotAddListener', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-      config.enableCookies = true;
-    });
-    test('calls window.addEventListener with correct params if enableCookies is true', () => {
-      window.addEventListener = jest.fn();
-      cookieBotAddListener();
-      expect(window.addEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
-    });
-    test('does not call window.addEventListener when enableCookies is false', () => {
-      config.enableCookies = false;
-      window.addEventListener = jest.fn();
-      cookieBotAddListener();
-      expect(window.addEventListener).not.toHaveBeenCalled();
-    });
-  });
-  describe('cookieBotRemoveListener', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-      config.enableCookies = true;
-    });
-    test('calls window.removeEventListener with correct params if enableCookies is true', () => {
-      window.removeEventListener = jest.fn();
-      cookieBotRemoveListener();
-      expect(window.removeEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
-    });
-    test('does not call window.removeEventListener when enableCookies is false', () => {
-      config.enableCookies = false;
-      window.removeEventListener = jest.fn();
-      cookieBotRemoveListener();
-      expect(window.removeEventListener).not.toHaveBeenCalled();
-    });
-  });
-  describe('getConsentScripts', () => {
-    test('returns the Cookiebot script element', () => {
-      const element = getConsentScripts();
-      const wrapper = shallow(<div>{element}</div>);
-      expect(wrapper.find('script')).toHaveLength(1);
-      expect(wrapper.find('script').prop('id')).toBe('Cookiebot');
-    });
-  });
-  describe('getCookieScripts', () => {
+  describe('getDefaultCookieScripts', () => {
     test('returns a script element', () => {
-      const element = getCookieScripts();
+      const element = getDefaultCookieScripts();
       const wrapper = shallow(<div>{element}</div>);
       expect(wrapper.find('script')).toHaveLength(1);
       expect(wrapper.find('script').prop('src')).toEqual(urls.analytics);
+      expect(wrapper.find('script').prop('type')).toEqual('text/javascript');
+    });
+  });
+
+  describe('getCookieScripts', () => {
+    describe('when isCookiebotEnabled returns true', () => {
+      isCookiebotEnabledMock.mockReturnValueOnce(true);
+
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      test('returns cookiebotUtils getCookieScripts', () => {
+        expect(getCookieScripts()).toEqual(cookiebotUtils.getCookieScripts());
+      });
+    });
+
+    describe('when isCookiebotEnabled returns false', () => {
+      isCookiebotEnabledMock.mockReturnValue(false);
+
+      afterEach(() => {
+        jest.clearAllMocks();
+      });
+
+      test('when cookies are enabled, returns getDefaultCookieScripts', () => {
+        config.enableCookies = true;
+        expect(getCookieScripts()).toEqual(getDefaultCookieScripts());
+      });
+
+      test('when cookies are not enabled, returns null', () => {
+        config.enableCookies = false;
+        expect(cookieUtils.getCookieScripts()).toBe(null);
+      });
     });
   });
 });

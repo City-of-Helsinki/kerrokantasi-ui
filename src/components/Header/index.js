@@ -25,6 +25,16 @@ import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      navbarExpanded: false,
+    };
+  }
+  toggleNavbar() {
+    this.setState({navbarExpanded: !this.state.navbarExpanded});
+  }
+
   componentDidMount() {
     if (typeof window !== 'undefined') {
       this._handleNavFix = throttle(() => {
@@ -81,14 +91,19 @@ class Header extends React.Component {
       ];
     }
     return [
-      <Button
-        key="login"
-        className="user-menu login-link user-menu--unlogged"
-        onClick={() => this.handleLogin()}
-      >
-        <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
-        <span className="user-name"><FormattedMessage id="login" /></span>
-      </Button>,
+      <FormattedMessage key="login" id="login">
+        {login => (
+          <Button
+            key="login"
+            aria-label={login}
+            className="user-menu login-link user-menu--unlogged"
+            onClick={() => this.handleLogin()}
+          >
+            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
+            <span className="user-name">{login}</span>
+          </Button>
+        )}
+      </FormattedMessage>
     ];
   }
 
@@ -99,6 +114,7 @@ class Header extends React.Component {
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
       return null;
     }
+    if (id === 'userInfo' && !user) { return null; }
     if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
@@ -126,10 +142,19 @@ class Header extends React.Component {
   contrastToggle() {
     if (config.enableHighContrast) {
       return (
-        <Button className="contrast-button" onClick={() => this.props.toggleContrast()}>
-          <Icon name="adjust" aria-hidden="true"/>
-          <FormattedMessage id="contrastTitle">{text => <span className="contrast-title">{text}</span> }</FormattedMessage>
-        </Button>
+        <FormattedMessage key="contrastTitle" id="contrastTitle">
+          {text => (
+            <Button
+              key="text"
+              aria-label={text}
+              className="contrast-button"
+              onClick={() => this.props.toggleContrast()}
+            >
+              <Icon name="adjust"/>
+              <span className="contrast-title">{text}</span>
+            </Button>
+          )}
+        </FormattedMessage>
       );
     }
     return (
@@ -142,7 +167,7 @@ class Header extends React.Component {
     const userItems = this.getUserItems();
     return (
       <div>
-        <FormattedMessage id="headerUserNavLabel">
+        <FormattedMessage key="headerUserNavLabel" id="headerUserNavLabel">
           {headerUserNavLabel => (
             <Navbar fluid staticTop defaultExpanded className="navbar-kerrokantasi" aria-label={headerUserNavLabel}>
               <Navbar.Header>
@@ -170,18 +195,23 @@ class Header extends React.Component {
 
         <FormattedMessage id="headerPagesNavLabel">
           {headerPagesNavLabel => (
-            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel}>
+            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel} onToggle={this.toggleNavbar.bind(this)}>
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to={{path: "/"}}>
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
+                <FormattedMessage id="navigationMenu">
+                  {navigationMenu => (
+                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded}/>
+                  )}
+                </FormattedMessage>
               </Navbar.Header>
               <Navbar.Collapse>
                 <ul className="nav navbar-nav">
                   {this.getNavItem('hearings', '/hearings/list')}
+                  {this.getNavItem('userInfo', '/user-profile', false)}
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
                   {this.getNavItem('ownHearings', '/user-hearings', false)}
@@ -196,6 +226,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   history: PropTypes.object,
   language: PropTypes.string,

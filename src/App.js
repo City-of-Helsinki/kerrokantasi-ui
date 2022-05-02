@@ -14,6 +14,8 @@ import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
 import cookieUtil from './utils/cookieUtils';
+import { HashLink } from 'react-router-hash-link';
+import cookiebotUtils from './utils/cookiebotUtils';
 
 class App extends React.Component {
   getChildContext() {
@@ -30,11 +32,11 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookieUtil.cookieBotAddListener();
+    cookiebotUtils.cookieBotAddListener();
   }
 
   componentWillUnmount() {
-    cookieUtil.cookieBotRemoveListener();
+    cookiebotUtils.cookieBotRemoveListener();
   }
 
   render() {
@@ -63,25 +65,27 @@ class App extends React.Component {
     if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
+    const mainContainerId = "main-container";
+    const skipTo = `${this.props.location.pathname}${this.props.location.search}#${mainContainerId}`;
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          <a href="#main-container" className="skip-to-main-content">
+          <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
-          </a>
+          </HashLink>
           <Helmet
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
           >
             <html lang={locale} />
-            {config.enableCookies && cookieUtil.getConsentScripts()}
-            {config.enableCookies && cookieUtil.getCookieScripts()}
+            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getConsentScripts()}
+            {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
           <main
             className={fullscreen ? 'fullscreen' : classNames('main-content', {headless})}
-            id="main-container"
+            id={mainContainerId}
             role="main"
             tabIndex="-1"
           >
@@ -122,6 +126,7 @@ App.propTypes = {
   location: PropTypes.object,
   apitoken: PropTypes.any,
   oidc: PropTypes.any,
+  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   fetchApiToken: PropTypes.func,
   isHighContrast: PropTypes.bool,

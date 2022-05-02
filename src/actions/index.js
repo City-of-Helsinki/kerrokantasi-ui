@@ -73,6 +73,13 @@ export const voteCommentErrorHandler = () => {
   };
 };
 
+export const flagCommentErrorHandler = () => {
+  return (err) => {
+    Raven.captureException(err);
+    localizedNotifyError(err.message);
+  };
+};
+
 export function fetchInitialHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId, params});
@@ -109,6 +116,28 @@ export function fetchProjects() {
       dispatch(createAction('receiveProjects')({data}));
     }).catch(() => {
       dispatch(createAction("receiveProjectsError")());
+      requestErrorHandler();
+    });
+  };
+}
+
+/**
+ * Get all comments created by current user.
+ * @param {object} [additionalParams]
+ * @returns {function(*, *): *}
+ */
+export function fetchUserComments(additionalParams = {}) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction('beginFetchUserComments')();
+    dispatch(fetchAction);
+    const params = {
+      created_by: 'me',
+      ...additionalParams
+    };
+    return api.get(getState(), 'v1/comment', params).then(getResponseJSON).then(data => {
+      dispatch(createAction('receiveUserComments')({data}));
+    }).catch(() => {
+      dispatch(createAction("receiveUserCommentsError")());
       requestErrorHandler();
     });
   };
@@ -154,15 +183,71 @@ export function fetchHearing(hearingSlug, previewKey = null) {
   };
 }
 
-export function followHearing(hearingSlug) {
+/**
+ * Get all hearings that have been added to current user's favorites.
+ * @param params
+ * @returns {function(*, *): *}
+ */
+export function fetchFavoriteHearings(params) {
   return (dispatch, getState) => {
-    const fetchAction = createAction("beginFollowHearing")({hearingSlug});
+    const fetchAction = createAction("beginFetchFavoriteHearings")();
+    dispatch(fetchAction);
+    const url = "v1/hearing/";
+    return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
+      dispatch(createAction("receiveFavoriteHearings")({ data}));
+    }).catch(() => {
+      dispatch(createAction("receiveFavoriteHearingsError"));
+      requestErrorHandler();
+    });
+    // FIXME: Somehow .catch catches errors also from components' render methods
+  };
+}
+
+/**
+ * Post to add hearing to favorites
+ * @param {string} hearingSlug
+ * @param {string} hearingId
+ * @returns {function(*, *): *}
+ */
+export function addHearingToFavorites(hearingSlug, hearingId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("beginAddHearingToFavorites")({hearingSlug});
     dispatch(fetchAction);
     const url = "v1/hearing/" + hearingSlug + "/follow";
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
-      dispatch(createAction("receiveFollowHearing")({hearingSlug, data}));
-      dispatch(fetchHearing(hearingSlug));
-      localizedNotifySuccess("followingHearing");
+      if (data.status_code === 304) {
+        localizedNotifyError("alreadyFavorite");
+      } else {
+        dispatch(createAction("modifyFavoriteHearingsData")({hearingSlug, hearingId}));
+        dispatch(fetchHearing(hearingSlug));
+        localizedNotifySuccess("addedFavorites");
+      }
+    }).catch(requestErrorHandler());
+  };
+}
+
+/**
+ * Post to remove hearing from favorites
+ * @param {string} hearingSlug
+ * @param {string} hearingId
+ * @returns {function(*, *): *}
+ */
+export function removeHearingFromFavorites(hearingSlug, hearingId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("beginRemoveHearingFromFavorites")({hearingSlug});
+    dispatch(fetchAction);
+    const url = "v1/hearing/" + hearingSlug + "/unfollow";
+    return api.post(getState(), url).then((data) => {
+      if (data.status === 204) {
+        dispatch(createAction("receiveRemoveHearingFromFavorites")({hearingSlug, data}));
+        dispatch(createAction("modifyFavoriteHearingsData")({hearingSlug, hearingId}));
+        localizedNotifySuccess("removedFavorite");
+      }
+      if (data.status === 304) {
+        dispatch(createAction("receiveRemoveHearingFromFavorites")({hearingSlug, data}));
+        localizedNotifySuccess("removeFavoriteNotFound");
+        dispatch(fetchHearing(hearingSlug));
+      }
     }).catch(requestErrorHandler());
   };
 }
@@ -299,7 +384,15 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
   };
 }
 
-export function deleteSectionComment(hearingSlug, sectionId, commentId) {
+/**
+ * Delete a specific comment
+ * @param {String} hearingSlug
+ * @param {String} sectionId
+ * @param {Number} commentId
+ * @param {Boolean} [refreshUser=false] Determines if userdata is updated after comment deletion
+ * @returns {function(*, *): *}
+ */
+export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser = false) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
@@ -309,6 +402,8 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId) {
       dispatch(createAction("postedComment")({sectionId}));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
+      // update user answered questions if refreshUser is true
+      if (refreshUser) { dispatch(retrieveUserFromSession()); }
       localizedAlert("commentDeleted");
     }).catch(requestErrorHandler());
   };
@@ -327,6 +422,22 @@ export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
         localizedNotifySuccess("voteReceived");
       }
     }).catch(voteCommentErrorHandler());
+  };
+}
+
+export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
+  return (dispatch, getState) => {
+    const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
+    dispatch(fetchAction);
+    const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/flag";
+    return api.post(getState(), url).then(getResponseJSON).then((data) => {
+      if (data.status_code === 304) {
+        localizedNotifyError("alreadyFlagged");
+      } else {
+        dispatch(createAction("postedCommentFlag")({commentId, sectionId, isReply, parentId}));
+        localizedNotifySuccess("commentFlagged");
+      }
+    }).catch(flagCommentErrorHandler());
   };
 }
 

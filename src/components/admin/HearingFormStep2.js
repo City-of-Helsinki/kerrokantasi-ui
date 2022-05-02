@@ -21,11 +21,10 @@ class HearingFormStep2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSection: getMainSection(props.hearing).frontId
+      activeSection: getMainSection(props.hearing).frontId,
     };
     this.addSection = this.addSection.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
-    this.sectionSequence = 0;
   }
 
   getDeleteSectionButton(section, sectionID) {

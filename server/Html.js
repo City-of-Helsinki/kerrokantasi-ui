@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -28,12 +29,15 @@ export default class Html extends React.Component {
       showAccessibilityInfo,
       showSocialMediaSharing,
       enableCookies,
+      enableCookiebot,
+      cookiebotDataCbid,
       uiConfig,
       openIdClientId,
       openIdAudience,
       openIdAuthority,
       openIdApiTokenUrl,
       enableHighContrast,
+      enableStrongAuth,
       adminHelpUrl,
     } = this.props;
     const initialStateHtml = `
@@ -50,6 +54,9 @@ export default class Html extends React.Component {
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
+    window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
+    window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
     const {title, description, url} = this.getMeta();
@@ -90,10 +97,13 @@ Html.propTypes = {
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
   enableCookies: PropTypes.bool,
+  enableCookiebot: PropTypes.bool,
+  cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,
   openIdApiTokenUrl: PropTypes.string,
   enableHighContrast: PropTypes.bool,
+  enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
 };

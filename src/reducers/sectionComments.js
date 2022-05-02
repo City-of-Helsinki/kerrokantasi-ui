@@ -112,6 +112,38 @@ const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, pare
   }, state);
 };
 
+const postedCommentFlag = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
+  // the flagging went through
+  if (isReply) {
+    const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
+    const subComponentIndex = state[sectionId].results[commentIndex].subComments
+      .findIndex((subComment) => subComment.id === commentId);
+    return updeep({
+      [sectionId]: {
+        results: {
+          [commentIndex]: {
+            subComments: {
+              [subComponentIndex]: {
+                flagged: true,
+              }
+            }
+          }
+        }
+      }
+    }, state);
+  }
+  const commentIndex = state[sectionId].results.findIndex((comment) => { return comment.id === commentId; });
+  return updeep({
+    [sectionId]: {
+      results: {
+        [commentIndex]: {
+          flagged: true
+        }
+      }
+    }
+  }, state);
+};
+
 const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanFetch}}) => {
   if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
     return updeep({
@@ -181,6 +213,7 @@ export default handleActions({
   editedComment,
   postedComment,
   postedCommentVote,
+  postedCommentFlag,
   receiveSectionComments,
   subCommentsFetched,
 }, {});

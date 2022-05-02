@@ -41,11 +41,14 @@ function renderHTMLSkeleton(req, res, settings) {
         showAccessibilityInfo={settings.show_accessibility_info}
         showSocialMediaSharing={settings.show_social_media_sharing}
         enableCookies={settings.enable_cookies}
+        enableCookiebot={settings.enable_cookiebot}
+        cookiebotDataCbid={settings.cookiebot_data_cbid}
         openIdClientId={settings.openid_client_id}
         openIdAudience={settings.openid_audience}
         openIdAuthority={settings.openid_authority}
         openIdApiTokenUrl={settings.openid_apitoken_url}
         enableHighContrast={settings.enable_highcontrast}
+        enableStrongAuth={settings.enable_strong_auth}
         adminHelpUrl={settings.admin_help_url}
       />
     );

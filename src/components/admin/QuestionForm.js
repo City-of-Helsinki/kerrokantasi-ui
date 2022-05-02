@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';

@@ -26,7 +26,7 @@ exports[`SectionContainer component should render as expected 1`] = `
             <h2>
               <button
                 aria-controls="hearing-section-details-accordion"
-                aria-expanded="false"
+                aria-expanded="true"
                 className="hearing-section-toggle-button"
                 id="hearing-section-details-accordion-button"
                 onClick={[Function]}
@@ -34,7 +34,7 @@ exports[`SectionContainer component should render as expected 1`] = `
                 <Icon
                   Component="span"
                   aria-hidden="true"
-                  className=""
+                  className="open"
                   name="angle-right"
                 />
                 <FormattedMessage
@@ -45,11 +45,11 @@ exports[`SectionContainer component should render as expected 1`] = `
             </h2>
             <Collapse
               appear={false}
-              aria-hidden="true"
+              aria-hidden="false"
               dimension="height"
               getDimensionValue={[Function]}
               id="hearing-section-details-accordion"
-              in={false}
+              in={true}
               mountOnEnter={false}
               role="region"
               timeout={300}
@@ -317,6 +317,7 @@ exports[`SectionContainer component should render as expected 1`] = `
           <section
             className="hearing-section comments-section"
             id="comments-section"
+            tabIndex={-1}
           >
             <p
               className="report-download text-right small"
@@ -338,6 +339,7 @@ exports[`SectionContainer component should render as expected 1`] = `
             </p>
             <Connect(InjectIntl(SortableCommentListComponent))
               canComment={true}
+              canFlag={false}
               canVote={true}
               closed={false}
               displayVisualization={false}
@@ -421,6 +423,7 @@ exports[`SectionContainer component should render as expected 1`] = `
               onEditComment={[Function]}
               onGetSubComments={[Function]}
               onPostComment={[Function]}
+              onPostFlag={[Function]}
               onPostVote={[Function]}
               published={true}
               section={

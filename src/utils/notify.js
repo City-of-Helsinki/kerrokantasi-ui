@@ -17,9 +17,22 @@ const errorOptions = {
   position: toast.POSITION.BOTTOM_RIGHT,
 };
 
+const infoOptions = {
+  autoClose: 2000,
+  type: toast.TYPE.INFO,
+  hideProgressBar: true,
+  position: toast.POSITION.BOTTOM_RIGHT,
+};
+
 export function alert(message, title = "Kerrokantasi") {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").alert(title, message).setting({transition: 'slide'});
+    require("alertifyjs").alert(title,
+      `<div id="alert-dialog" tabindex="0" aria-labelledby="${message}">
+        ${message}
+      </div>`
+    ).set('onfocus', () => {
+      document.getElementById("alert-dialog").focus();
+    }).setting({transition: 'slide'});
   }
 }
 
@@ -64,5 +77,16 @@ export function localizedNotifySuccess(string) {
     toast.success(getMessage(string), successOptions); // add type: 'success' to options
   } else {
     toast.success('Toiminto onnistui.', successOptions); // add type: 'success' to options
+  }
+}
+
+
+export function notifyInfo(message) {
+  if (typeof window !== 'undefined') {
+    if (message) {
+      toast.success(message, infoOptions);
+    } else {
+      toast.success('Ok.', infoOptions);
+    }
   }
 }
