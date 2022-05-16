@@ -38,6 +38,7 @@ class Comment extends React.Component {
     answers: this.props.data.answers || [],
     mapContainer: null,
     displayMap: false,
+    showReplies: this.props.showReplies,
   }
 
   componentDidMount = () => {
@@ -52,7 +53,7 @@ class Comment extends React.Component {
         shouldAnimate: true,
       });
     } else if (
-      // Jump to child subcomment
+      // Jump to child sub-comment
       this.props.jumpTo
       && this.props.data.comments.includes(this.props.jumpTo)
       && !this.props.data.loadingSubComments
@@ -61,7 +62,15 @@ class Comment extends React.Component {
         || this.props.data.subComments === undefined
       )
     ) {
-      this.handleShowReplys();
+      this.getReplies();
+    } else if (this.state.showReplies && !this.props.jumpTo) {
+      // focus is set to the toggle element when mounting with existing/fetched replies.
+      const toggleContainer = document.getElementById(`comment-${this.props.data.id}`)
+        .querySelector('span.hearing-comment__show-more__wrapper');
+      if (toggleContainer) {
+        // finds the first anchor element and sets focus on it.
+        toggleContainer.querySelector('a').focus();
+      }
     }
   };
 
@@ -93,7 +102,7 @@ class Comment extends React.Component {
     // Build absolute URL for comment
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
-    notifyInfo(`Linkki kommenttiion kopioitu leikepöydällesi.`);
+    notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
   }
 
   toggleEditor(event) {
@@ -149,9 +158,16 @@ class Comment extends React.Component {
   /**
    * Call the parent component to retrieve list of sub comments for current comment.
    */
-  handleShowReplys = () => {
+  getReplies = () => {
     const { data, section } = this.props;
     this.props.onGetSubComments(data.id, section.id);
+  }
+
+  /**
+   * Toggle whether to display replies or not.
+   */
+  toggleReplies = () => {
+    this.setState({showReplies: !this.state.showReplies});
   }
 
   /**
@@ -199,14 +215,6 @@ class Comment extends React.Component {
   }
 
   /**
-   * Once highlight is complete.
-   * End animation
-   */
-  handleEndAnimation = () => {
-    this.setState({ shouldAnimate: false });
-  }
-
-  /**
    * Toggle the pinning of comment
    */
   handleTogglePin = () => {
@@ -217,7 +225,7 @@ class Comment extends React.Component {
 
   /**
    * Once an answer is posted, it can be changed.
-   * @param {Number} question - number of corresponsing quesiton.
+   * @param {Number} question - number of corresponding question.
    * @param {String} questionType - example "single-question" "multiple-choice"
    * @param {Number} answer - id of the answer selected by the user.
    */
@@ -452,39 +460,49 @@ class Comment extends React.Component {
   );
 
   /**
-   * Renders the button when clicked shows replys posted for a specific comment.
+   * Returns Button that either toggles the visibility of the replies or calls getReplies to start fetching them.
+   *
+   * If replies exist -> toggles visibility of the replies, otherwise calls getReplies to start fetching them.
+   * @returns {JSX.Element|null}
    */
-  renderViewReplyButton = ({ data } = this.props) => (
-    data.comments && Array.isArray(data.comments) && data.comments.length > 0 && !Array.isArray(data.subComments)
-      ? (
-        <ShowMore
-          numberOfComments={this.props.data.comments.length}
-          onClickShowMore={this.handleShowReplys}
-          isLoadingSubComment={this.props.data.loadingSubComments}
-        />
-      )
-      : null
-  );
+  renderViewReplies = () => {
+    const {data} = this.props;
+    const subCommentsLoaded = Array.isArray(data.comments) && data.comments.length && data.subComments;
+    if (Array.isArray(data.comments) && data.comments.length) {
+      return <ShowMore
+        numberOfComments={data.comments.length}
+        onClickShowMore={subCommentsLoaded ? this.toggleReplies : this.getReplies}
+        isLoadingSubComment={data.loadingSubComments}
+        open={this.state.showReplies}
+      />;
+    }
+    return null;
+  }
 
   /**
-   * Renders the sub comments
-   * @returns {Component<Comment>} resursivly renders comment component untill last depth.
+   * Renders the sub-comments. Visibility is determined by state.showReplies.
+   * Returns a Comment component for each value in data.subComments.
+   * @returns {JSX.Element}
    */
-  renderSubComments = () => (
-    <ul className="sub-comments">
-      {
-        this.props.data.subComments.map((subComment) => (
-          <Comment
-            {...this.props}
-            parentComponentId={this.props.data.id}
-            data={subComment}
-            key={`${subComment.id}${Math.random()}`}
-            isReply
-          />
-        ))
-      }
-    </ul>
-  );
+  renderSubComments = () => {
+    const {showReplies} = this.state;
+    const {data} = this.props;
+    return (
+      <ul className={classnames('sub-comments', {'list-hidden': !showReplies})}>
+        {
+          data.subComments.map((subComment) => (
+            <Comment
+              {...this.props}
+              parentComponentId={data.id}
+              data={subComment}
+              key={`${subComment.id}${Math.random()}`}
+              isReply
+            />
+          ))
+        }
+      </ul>
+    );
+  }
 
   /**
    * When a comment is pinned, a small black box is displayed on top right corner.
@@ -547,7 +565,6 @@ class Comment extends React.Component {
             'hearing-comment__is-pinned': this.props.data.pinned,
           }
         ])}
-        onAnimationEnd={this.handleEndstAnimation}
         ref={this.commentRef}
         id={`comment-${data.id}`}
       >
@@ -622,7 +639,7 @@ class Comment extends React.Component {
           </div>
           {editorOpen && this.renderEditorForm()}
           {isReplyEditorOpen && this.renderReplyForm()}
-          {this.renderViewReplyButton()}
+          {this.renderViewReplies()}
         </div>
         {Array.isArray(data.subComments) && data.subComments.length > 0 && this.renderSubComments()}
       </li>
@@ -655,6 +672,7 @@ Comment.propTypes = {
   questions: PropTypes.array,
   section: PropTypes.object,
   user: PropTypes.object,
+  showReplies: PropTypes.bool,
 };
 
 Comment.defaultProps = {

@@ -209,6 +209,7 @@
   "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
   "help": "Ohjeet",
   "hideName": "Piilota nimi",
+  "hideReplies": "Piilota vastaukset",
   "iframeAddButton": "Lisää iframe",
   "iframeFormFieldAllow": "Tietoturva yms. lisäasetukset (allow)",
   "iframeFormFieldHeight": "Korkeus pikseleinä (height)",

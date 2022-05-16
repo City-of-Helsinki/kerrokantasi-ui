@@ -319,6 +319,7 @@ exports[`Hearings component should render as expected 1`] = `
           "hearingsHeaderText": "Kuulemiset",
           "help": "Ohjeet",
           "hideName": "Piilota nimi",
+          "hideReplies": "Piilota vastaukset",
           "iframeAddButton": "Lisää iframe",
           "iframeFormFieldAllow": "Tietoturva yms. lisäasetukset (allow)",
           "iframeFormFieldHeight": "Korkeus pikseleinä (height)",
