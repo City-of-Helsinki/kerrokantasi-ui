@@ -1,7 +1,5 @@
 import React from 'react';
-import cookieUtils, {
-  getCookieScripts, getDefaultCookieScripts
-} from '../../src/utils/cookieUtils';
+import cookieUtils from '../../src/utils/cookieUtils';
 import {shallow} from 'enzyme';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
@@ -32,7 +30,7 @@ jest.mock('../../src/config', () => {
 describe('cookieUtils', () => {
   describe('getDefaultCookieScripts', () => {
     test('returns a script element', () => {
-      const element = getDefaultCookieScripts();
+      const element = cookieUtils.getDefaultCookieScripts();
       const wrapper = shallow(<div>{element}</div>);
       expect(wrapper.find('script')).toHaveLength(1);
       expect(wrapper.find('script').prop('src')).toEqual(urls.analytics);
@@ -49,7 +47,7 @@ describe('cookieUtils', () => {
       });
 
       test('returns cookiebotUtils getCookieScripts', () => {
-        expect(getCookieScripts()).toEqual(cookiebotUtils.getCookieScripts());
+        expect(cookieUtils.getCookieScripts()).toEqual(cookiebotUtils.getCookieBotScripts());
       });
     });
 
@@ -62,7 +60,7 @@ describe('cookieUtils', () => {
 
       test('when cookies are enabled, returns getDefaultCookieScripts', () => {
         config.enableCookies = true;
-        expect(getCookieScripts()).toEqual(getDefaultCookieScripts());
+        expect(cookieUtils.getCookieScripts()).toEqual(cookieUtils.getDefaultCookieScripts());
       });
 
       test('when cookies are not enabled, returns null', () => {

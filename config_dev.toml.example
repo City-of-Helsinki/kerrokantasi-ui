@@ -60,14 +60,17 @@ city_config="cities/helsinki"
 # Default: false
 # enable_highcontrast=true
 
-# Are cookies in use? If enabled then cookie scripts are injected into the html.
+# Are cookies in use?
+# If enabled then cookie scripts are injected into the html and the default cookie consent bar is visible.
 # Everything related to cookies is disabled by default unless this value is changed.
 # Default: false
 # enable_cookies=true
 
-# Cookiebot consent management platform configuration. Cookiebot is disabled by default.
+# Cookiebot consent management platform configuration.
+# If enabled, default cookie bar is disabled and replaced with a Cookie Bot modal.
 # To use Cookiebot set both enable_cookies and enable_cookiebot to true.
-# enable_cookiebot=true
+# Default: false
+# enable_cookiebot=false
 # cookiebot_data_cbid="your-unique-cookiebot-domain-group-id"
 
 # Address for hearing admin help link

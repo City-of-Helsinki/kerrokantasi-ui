@@ -3,8 +3,8 @@ import {
   cookieBotAddListener,
   cookieBotRemoveListener,
   cookieBotImageOverride,
-  getConsentScripts,
-  getCookieScripts,
+  getCookieBotConsentScripts,
+  getCookieBotScripts,
   isCookiebotEnabled,
 } from '../../src/utils/cookiebotUtils';
 import config from '../../src/config';
@@ -70,7 +70,7 @@ describe('cookiebotUtils', () => {
   });
   describe('getConsentScripts', () => {
     test('returns the Cookiebot script element', () => {
-      const element = getConsentScripts();
+      const element = getCookieBotConsentScripts();
       const wrapper = shallow(<div>{element}</div>);
       expect(wrapper.find('script')).toHaveLength(1);
       expect(wrapper.find('script').prop('id')).toBe('Cookiebot');
@@ -82,7 +82,7 @@ describe('cookiebotUtils', () => {
   });
   describe('getCookieScripts', () => {
     test('returns a script element', () => {
-      const element = getCookieScripts();
+      const element = getCookieBotScripts();
       const wrapper = shallow(<div>{element}</div>);
       expect(wrapper.find('script')).toHaveLength(1);
       expect(wrapper.find('script').prop('data-cookieconsent')).toEqual('statistics');

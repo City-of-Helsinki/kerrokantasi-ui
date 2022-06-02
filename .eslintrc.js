@@ -20,6 +20,7 @@ module.exports = {
     "global-require": 0,
     "id-length": [2, {"min": 2, "properties": "never", "exceptions": ["_"]}],
     "import/first": 0,
+    "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "jsx-a11y/anchor-is-valid": 0,  // TODO: Remove me!
     "jsx-a11y/href-no-hash": 0,  // TODO: Remove me!

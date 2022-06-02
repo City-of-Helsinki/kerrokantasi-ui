@@ -8,7 +8,7 @@ import urls from '@city-assets/urls.json';
  * Add event listener that overrides the image served by cookiebot.
  */
 export function cookieBotAddListener() {
-  if (config.enableCookies && config.enableCookiebot) {
+  if (isCookiebotEnabled()) {
     window.addEventListener('CookiebotOnDialogDisplay', cookieBotImageOverride);
   }
 }
@@ -17,7 +17,7 @@ export function cookieBotAddListener() {
  * Remove event listener that overrides the image served by cookiebot.
  */
 export function cookieBotRemoveListener() {
-  if (config.enableCookies && config.enableCookiebot) {
+  if (isCookiebotEnabled()) {
     window.removeEventListener('CookiebotOnDialogDisplay', cookieBotImageOverride);
   }
 }
@@ -34,7 +34,7 @@ export function cookieBotImageOverride() {
  * Returns the Cookiebot script element
  * @returns {JSX.Element} script element
  */
-export function getConsentScripts() {
+export function getCookieBotConsentScripts() {
   return (
     <script
       data-blockingmode="auto"
@@ -51,7 +51,7 @@ export function getConsentScripts() {
  * Returns a script element with src urls.analytics
  * @returns {JSX.Element} script element
  */
-export function getCookieScripts() {
+export function getCookieBotScripts() {
   return (
     <script
       data-cookieconsent="statistics"
@@ -72,9 +72,9 @@ export function isCookiebotEnabled() {
 
 export default {
   cookieBotAddListener,
-  cookieBotRemoveListener,
   cookieBotImageOverride,
-  getConsentScripts,
-  getCookieScripts,
+  cookieBotRemoveListener,
+  getCookieBotConsentScripts,
+  getCookieBotScripts,
   isCookiebotEnabled,
 };
