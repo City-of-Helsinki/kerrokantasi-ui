@@ -50,6 +50,7 @@ import {
 } from '../../../actions';
 
 import {getUser} from '../../../selectors/user';
+import 'react-image-lightbox/style.css';
 
 export class SectionContainerComponent extends React.Component {
   state = {
@@ -172,9 +173,9 @@ export class SectionContainerComponent extends React.Component {
 
   onDeleteComment = () => {
     const {match} = this.props;
-    const {sectionId, commentId} = this.state.commentToDelete;
+    const {sectionId, commentId, refreshUser} = this.state.commentToDelete;
     const hearingSlug = match.params.hearingSlug;
-    this.props.deleteSectionComment(hearingSlug, sectionId, commentId);
+    this.props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
     this.forceUpdate();
   }
 
@@ -196,8 +197,8 @@ export class SectionContainerComponent extends React.Component {
     this.props.postVote(commentId, hearingSlug, sectionId);
   }
 
-  handleDeleteClick = (sectionId, commentId) => {
-    this.setState({commentToDelete: {sectionId, commentId}});
+  handleDeleteClick = (sectionId, commentId, refreshUser) => {
+    this.setState({commentToDelete: {sectionId, commentId, refreshUser}});
     this.openDeleteModal();
   }
 
@@ -419,7 +420,7 @@ export class SectionContainerComponent extends React.Component {
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
     return (
-      <section className="hearing-section comments-section" id="comments-section">
+      <section className="hearing-section comments-section" id="comments-section" tabIndex={-1}>
         {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, apiToken, language)}
         <SortableCommentList
           section={section}
@@ -498,13 +499,7 @@ export class SectionContainerComponent extends React.Component {
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div
-      dangerouslySetInnerHTML={
-        {
-          __html: getAttr(section.content[language], language)
-        }
-      }
-    />;
+    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
   }
 
   renderSectionAbstract = (section, language) => {
@@ -766,8 +761,8 @@ const mapDispatchToProps = (dispatch) => ({
   editComment: (hearingSlug, sectionId, commentId, commentData) => (
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData))
   ),
-  deleteSectionComment: (hearingSlug, sectionId, commentId) => (
-    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId))
+  deleteSectionComment: (hearingSlug, sectionId, commentId, refreshUser) => (
+    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser))
   ),
   fetchAllComments: (hearingSlug, sectionId, ordering) => (
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering))

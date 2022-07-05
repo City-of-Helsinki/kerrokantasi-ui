@@ -40,7 +40,9 @@ function renderHTMLSkeleton(req, res, settings) {
         hearingData={hearingData}
         showAccessibilityInfo={settings.show_accessibility_info}
         showSocialMediaSharing={settings.show_social_media_sharing}
-        showCookiebar={settings.show_cookiebar}
+        enableCookies={settings.enable_cookies}
+        enableCookiebot={settings.enable_cookiebot}
+        cookiebotDataCbid={settings.cookiebot_data_cbid}
         openIdClientId={settings.openid_client_id}
         openIdAudience={settings.openid_audience}
         openIdAuthority={settings.openid_authority}

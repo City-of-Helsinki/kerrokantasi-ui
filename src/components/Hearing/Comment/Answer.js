@@ -10,14 +10,14 @@ import Icon from '../../../utils/Icon';
 const Answer = ({ answer }) => {
   return (
     <div style={{borderBottom: '1px solid #ebedf1', padding: '8px 0', fontSize: '15px'}}>
-      <strong>{answer.question}</strong>
+      <p><strong>{answer.question}</strong></p>
       {
         answer.answers.map((ans) => (
           <div key={uuid()}>
             <span style={{color: '#9fb6eb', marginRight: '4px'}}>
               <Icon className="icon" name="check" />
             </span>
-            {ans}
+            <p>{ans}</p>
           </div>
         ))
       }

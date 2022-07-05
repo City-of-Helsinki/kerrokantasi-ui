@@ -18,7 +18,7 @@ exports[`HearingsList component should render as expected 1`] = `
           md={10}
           mdPush={1}
         >
-          <Connect(HearingsSearch)
+          <HearingsSearch
             intl={
               Object {
                 "defaultFormats": Object {},
@@ -48,15 +48,18 @@ exports[`HearingsList component should render as expected 1`] = `
                   "accessibilityLink": "Saavutettavuusseloste",
                   "accessibilityPage": "Saavutettavuusseloste",
                   "addComment": "Kirjoita kommentti",
+                  "addFavorites": "Lisää suosikkeihin",
                   "addGeojson": "Lisää geojson tiedostona",
                   "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
                   "addOption": "Lisää vastausvaihtoehto",
                   "addProcess": "Lisää uusi vaihe",
                   "addSection": "Lisää osa-alue",
                   "add_images": "Lisää kuvia kommenttiisi",
+                  "addedFavorites": "Kuuleminen lisätty suosikkeihin.",
                   "adminCommentMessage": "Olet kirjautuneena pääkäyttäjänä. Nimesi ja organisaatiosi näytetään kommenttisi yhteydessä",
                   "all": "Kaikki",
                   "allHearings": "Kaikki kuulemiset",
+                  "alreadyFavorite": "Kuuleminen kuuluu ennestään suosikkeihin.",
                   "alreadyFlagged": "Tämä kommentti on jo liputettu.",
                   "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
                   "anonymous": "Anonyymi",
@@ -76,6 +79,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "commentDeleted": "Kommenttisi on poistettu.",
                   "commentEdited": "Kommenttisi on muokattu. Kiitos!",
                   "commentFlagged": "Kommentti liputettu.",
+                  "commentHearingStatus": "Kuulemisen tila: ",
                   "commentImageAlt": "Kommentoijan lisäämä kuva",
                   "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
                   "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
@@ -83,6 +87,11 @@ exports[`HearingsList component should render as expected 1`] = `
                   "commentOrder": "Järjestä kommentit:",
                   "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
                   "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
+                  "commentReportsButtonLabel": "Raportit",
+                  "commentReportsClose": "Sulje",
+                  "commentReportsDownload": "Lataa",
+                  "commentReportsSelectFileType": "Valitse tiedostotyyppi",
+                  "commentReportsTitle": "Kommenttiraportit",
                   "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
                   "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
                   "commentSubsectionBtn": "Kommentoi",
@@ -93,26 +102,6 @@ exports[`HearingsList component should render as expected 1`] = `
                   "contactTitle": "Virkanimike tai tehtäväkuvaus",
                   "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
                   "contrastTitle": "Kontrasti",
-                  "cookieBar.accept": "Hyväksy kaikki evästeet",
-                  "cookieBar.decline": "Vain välttämättömät evästeet",
-                  "cookieBar.description": "Käytämme evästeitä parantaaksemme käyttökokemustasi. Voit hyväksyä toiminnan kannalta välttämättömät evästeet tai kaikki evästeet, esim. käyttäjäanalytiikan.",
-                  "cookieBar.link.href": null,
-                  "cookieBar.link.text": "Hallitse evästeitä",
-                  "cookieBar.modal.cookieInfoLink": "Välttämättömistä evästeistä saat tietoa {linkToInfo} -sivulta.",
-                  "cookieBar.modal.cookieInfoLinkText": "Tietoa palvelusta",
-                  "cookieBar.modal.header": "Kolmansien osapuolien evästeet",
-                  "cookieBar.modal.panel.alwaysEnabled": "Aina käytössä",
-                  "cookieBar.modal.panel.disabled": "Poista käytöstä",
-                  "cookieBar.modal.panel.enabled": "Käytössä",
-                  "cookieBar.modal.panel.functionalCookies": "Välttämättömät",
-                  "cookieBar.modal.panel.functionalCookiesContent": "Välttämättömiä evästeitä tarvitaan, jotta verkkosivusto ylipäänsä toimii. Nämä evästeet eivät tallenna henkilökohtaisia tietoja.",
-                  "cookieBar.modal.panel.googleAnalytics": "Google Analytics (ei-välttämätön)",
-                  "cookieBar.modal.panel.googleAnalyticsContent": "Näillä evästeillä seurataan käyttäjän toimintaa verkkosivuilla niiden suorituskyvyn ja ulottuvuuden mittaamiseksi. Kesto: 1 vuosi.",
-                  "cookieBar.modal.paragraph1": "Sivustolla käytetään seuraavien kolmansien osapuolien evästeitä, jos annat suostumuksesi niiden käyttämiseksi. Kolmannet osapuolet voivat asettaa laitteellesi omia evästeitään ja kerätä niiden avulla käyttäjätietoja.",
-                  "cookieBar.modal.paragraph2": "Antamasi suostumus tallentuu selaimeesi, jonka jälkeen sinun tulee antaa suostumuksesi uudelleen, kun evästeiden voimassaoloaika päättyy. Ota huomioon, että valinnat ovat selainkohtaisia. Valinnat eivät myöskään tallennu, jos käytät esimerkiksi yksityistä selailua tai selaimessasi on käytössä asetukset, jotka tyhjentävät evästeet käyntikertojen välillä.",
-                  "cookieBar.modal.showLess": "Näytä vähemmän",
-                  "cookieBar.modal.showMore": "Näytä lisää",
-                  "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
                   "copyHearing": "Kopioi kuuleminen",
                   "copyrightText": "Kerrokantasi",
                   "create": "Luo",
@@ -146,6 +135,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "eyeTooltipOpens": "Tämä kuuleminen julkaistaan",
                   "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                   "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
+                  "favoriteHearings": "Suosikkikuulemiset",
                   "feedbackLinkText": "Palaute",
                   "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
                   "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
@@ -241,6 +231,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "iframeModalTitle": "Iframe tiedot",
                   "imageAddButton": "Lisää kuva",
                   "imageAddCaptionButton": "Lisää kuvateksti",
+                  "imageFileUploadError": "Jokin meni pieleen kuvan latauksessa.",
+                  "imageGenericError": "Kuvan lisääminen ei ole mahdollista.",
                   "imageModalTitle": "Kuvan tiedot",
                   "imageSizeError": "Kuva on liian suuri. Maksimikoko on 1 megatavu.",
                   "inLanguage-en": "englanniksi",
@@ -289,8 +281,10 @@ exports[`HearingsList component should render as expected 1`] = `
                   "next": "Seuraava",
                   "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
                   "nickname": "Nimimerkki",
+                  "noAddedComments": "Ei lisättyjä kommentteja",
                   "noCommenting": "Ei kommentointia",
                   "noCommentsAvailable": "Ei kommentteja",
+                  "noFavoriteHearings": "Ei lisättyjä suosikkeja",
                   "noHearings": "Kuulemisia ei löytynyt",
                   "noProject": "Ei projektia",
                   "oldestFirst": "Vanhin ensin",
@@ -298,6 +292,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "openCommenting": "Avoin kommentointi",
                   "openCount": "Avoimet ({n})",
                   "openFullscreenMap": "Kartta koko näytöllä",
+                  "openHearing": "Avoin",
                   "openHearings": "Avoimet kuulemiset",
                   "option": "Vastausvaihtoehto",
                   "orderHasBeenChanged": "Kuulemisten järjestystä muutettu",
@@ -330,7 +325,10 @@ exports[`HearingsList component should render as expected 1`] = `
                   "registered": "rekisteröitynyt",
                   "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
                   "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
+                  "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
+                  "removeFavorites": "Poista suosikeista",
                   "removeImage": "Poista kuva",
+                  "removedFavorite": "Kuuleminen poistettu suosikeista.",
                   "reply": "Vastaa",
                   "revertPublishing": "Peru julkaisu",
                   "save": "Tallenna",
@@ -361,6 +359,7 @@ exports[`HearingsList component should render as expected 1`] = `
                   "sectionTotalComment": "{n} kommentti",
                   "sectionTotalComments": "{n} kommenttia",
                   "selectAnotherImage": "Valitse toinen kuva",
+                  "selectHearingComments": "Valitse tietyn kuulemisen kommentit",
                   "selectOrDropFile": "Valitse tai pudota liite",
                   "selectOrDropImage": "Valitse tai pudota kuva",
                   "show": "Näytä",
@@ -400,6 +399,8 @@ exports[`HearingsList component should render as expected 1`] = `
                   "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
                   "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
                   "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
+                  "userAddedComments": "Lisäämäni kommentit ({n} kpl)",
+                  "userInfo": "Omat tiedot",
                   "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
                   "validationHearingCloseAt": "Aseta sulkeutumisaika ennen tallentamista.",
                   "validationHearingContactPersons": "Aseta ainakin yksi yhteyshenkilö.",
@@ -463,15 +464,6 @@ exports[`HearingsList component should render as expected 1`] = `
     className="page-section page-section--hearings-list"
     id="hearings-section"
   >
-    <a
-      className="sr-only"
-      href="#hearings-search-form"
-    >
-      <FormattedMessage
-        id="jumpToSearchForm"
-        values={Object {}}
-      />
-    </a>
     <div
       className="container"
     >
@@ -485,6 +477,15 @@ exports[`HearingsList component should render as expected 1`] = `
           md={8}
           mdPush={2}
         >
+          <InternalLink
+            destinationId="hearings-search-form"
+            srOnly={true}
+          >
+            <FormattedMessage
+              id="jumpToSearchForm"
+              values={Object {}}
+            />
+          </InternalLink>
           <div>
             <div
               className="hearing-list__result-controls"

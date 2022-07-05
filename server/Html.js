@@ -28,7 +28,9 @@ export default class Html extends React.Component {
       initialState,
       showAccessibilityInfo,
       showSocialMediaSharing,
-      showCookiebar,
+      enableCookies,
+      enableCookiebot,
+      cookiebotDataCbid,
       uiConfig,
       openIdClientId,
       openIdAudience,
@@ -51,8 +53,10 @@ export default class Html extends React.Component {
     window.OPENID_APITOKEN_URL = ${JSON.stringify(openIdApiTokenUrl)};
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
+    window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
+    window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
-    window.SHOW_COOKIEBAR = ${JSON.stringify(showCookiebar)};
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
     const {title, description, url} = this.getMeta();
@@ -92,7 +96,9 @@ Html.propTypes = {
   hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
-  showCookiebar: PropTypes.bool,
+  enableCookies: PropTypes.bool,
+  enableCookiebot: PropTypes.bool,
+  cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,

@@ -14,8 +14,8 @@ const defaults = {
     search: ''
   }
 };
-const classWhenFalse = 'btn-group';
-const classWhenTrue = 'btn-group';
+const classWhenFalse = 'dropdown btn-group';
+const classWhenTrue = 'dropdown open btn-group';
 describe('src/components/Header/LanguageSwitcherV2', () => {
   function getWrapper(props) {
     return shallow(<UnconnectedLanguageSwitcher {...defaults} {...props}/>);
@@ -29,7 +29,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       element.instance().forceUpdate();
       const instance = element.instance();
       const spy = jest.spyOn(instance, 'changeLanguage');
-      element.find(Button).at(0).simulate('click', {preventDefault: () => {}});
+      element.find('a').at(0).simulate('click', {preventDefault: () => {}});
 
       expect(spy).toHaveBeenCalled();
     });
@@ -48,7 +48,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         };
         const element = getWrapper({location: locationNoParams, history: mockHistory});
         // change language to sv
-        element.find(Button).at(1).simulate('click', {preventDefault: () => {}});
+        element.find('a').at(1).simulate('click', {preventDefault: () => {}});
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationNoParams.pathname,
           search: `lang=${config.languages[1]}`
@@ -61,7 +61,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         };
         const element = getWrapper({location: locationWithParams, history: mockHistory});
         // change language to en
-        element.find(Button).at(2).simulate('click', {preventDefault: () => {}});
+        element.find('a').at(2).simulate('click', {preventDefault: () => {}});
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithParams.pathname,
           search: locationWithParams.search + `&lang=${config.languages[2]}`
@@ -74,7 +74,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         };
         const element = getWrapper({location: locationWithLangParams, history: mockHistory});
         // change language from fi to en
-        element.find(Button).at(2).simulate('click', {preventDefault: () => {}});
+        element.find('a').at(2).simulate('click', {preventDefault: () => {}});
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithLangParams.pathname,
           search: `?preview=OLA9dke-79qqd&lang=${config.languages[2]}&headless=true`
@@ -122,41 +122,119 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
     describe('Button', () => {
       test('has correct props', () => {
-        const element = getWrapper().find(Button).at(0);
-        expect(element.prop('className')).toBe('language-button');
+        const wrapper = getWrapper();
+        const instance = wrapper.instance();
+        const element = wrapper.find(Button);
+        expect(element.prop('aria-expanded')).toBe(instance.state.openDropdown);
+        expect(element.prop('aria-haspopup')).toBe(true);
+        expect(element.prop('className')).toBe('language-switcher');
         expect(element.prop('onClick')).toBeDefined();
-        expect(element.prop('lang')).toBe(getMessage(defaults.currentLanguage));
-        expect(element.prop('aria-label')).toBe(getMessage(`lang-${defaults.currentLanguage}`));
+        expect(element.prop('id')).toBe('language');
+      });
+
+      describe('has correct children', () => {
+        const wrapperSpan = getWrapper().find(Button).find('span').at(0);
+
+        test('span wrapper', () => {
+          expect(wrapperSpan).toHaveLength(1);
+        });
+
+        test('Icon', () => {
+          const element = wrapperSpan.find(Icon);
+          expect(element).toHaveLength(1);
+          expect(element.prop('name')).toBe('globe');
+          expect(element.prop('className')).toBe('user-nav-icon');
+          expect(element.prop('aria-hidden')).toBe('true');
+        });
+
+        test('text for currentLanguage', () => {
+          const element = wrapperSpan.find('span').at(0);
+          expect(element.text()).toContain(defaults.currentLanguage);
+        });
+
+        test('caret span', () => {
+          const element = wrapperSpan.find('span').at(1);
+          expect(element.prop('className')).toBe('caret');
+          expect(element.prop('aria-hidden')).toBe('true');
+        });
+
+        test('sr only language spans', () => {
+          const {languages} = config;
+          const languageSpans = getWrapper().find(Button).find('span').filter('.sr-only');
+          languageSpans.forEach((span, index) => {
+            const langCode = languages[index];
+            expect(span.prop('className')).toBe('sr-only');
+            expect(span.prop('lang')).toBe(langCode);
+            expect(span.text()).toBe(
+              `, ${getMessage('languageSwitchLabel', langCode)}`
+            );
+          });
+        });
+      });
+
+      describe('onClick', () => {
+        test('works and changes div container className', () => {
+          const element = getWrapper();
+          expect(element.find('div').prop('className')).toBe(classWhenFalse);
+          element.find(Button).at(0).simulate('click');
+          expect(element.find('div').prop('className')).toBe(classWhenTrue);
+          element.find(Button).at(0).simulate('click');
+          expect(element.find('div').prop('className')).toBe(classWhenFalse);
+        });
       });
     });
 
-    describe('div element', () => {
+    describe('ul element', () => {
       const languages = config.languages;
-      function getDiv(props) {
-        return getWrapper(props).find('div');
+      function getUL(props) {
+        return getWrapper(props).find('ul');
       }
 
       test('with correct props', () => {
-        const element = getDiv();
-        expect(element.prop('className')).toBe('btn-group');
+        const element = getUL();
+        expect(element.prop('className')).toBe('dropdown-menu dropdown-menu-right');
       });
 
-      describe('button elements', () => {
-        const element = getDiv().find(Button);
+      describe('li elements', () => {
+        const element = getUL().find('li');
         test('amount according to config.languages', () => {
           const correctAmount = languages.length;
           expect(element).toHaveLength(correctAmount);
         });
 
-        describe('span elements', () => {
-          function getSpanAs() {
-            return getWrapper().find('div').find(Button).find('span');
+        test('with correct className if currentLanguage', () => {
+          const elementSV = getWrapper({currentLanguage: languages[1]}).find('li').at(1);
+          expect(elementSV.hasClass('active')).toBe(true);
+        });
+
+        describe('a elements', () => {
+          function getLinkAs(props) {
+            return getWrapper(props).find('ul').find('li').find('a');
           }
 
           test('with correct props', () => {
-            const spanElements = getSpanAs().at(0);
-            const first = spanElements;
-            expect(first.text()).toBe(getMessage(languages[0]));
+            const aElements = getLinkAs().at(0);
+            const first = aElements;
+            expect(first.prop('href')).toBe('#');
+            expect(first.prop('aria-label')).toBe(getMessage(`lang-${languages[0]}`));
+            expect(first.prop('lang')).toBe(getMessage(languages[0]));
+            expect(first.prop('onClick')).toBeDefined();
+          });
+
+          test('with correct aria-current prop', () => {
+            const aElements = getLinkAs({currentLanguage: languages[0]});
+            const first = aElements.at(0);
+            const second = aElements.at(1);
+            expect(first.prop('aria-current')).toBe(true);
+            expect(second.prop('aria-current')).toBe(false);
+          });
+
+          test('with correct texts', () => {
+            const aElements = getLinkAs();
+            const first = aElements.at(0);
+            const second = aElements.at(1);
+            expect(first.text()).toBe(getMessage(`lang-${languages[0]}`));
+            expect(second.text()).toBe(getMessage(`lang-${languages[1]}`));
           });
         });
       });

@@ -114,6 +114,7 @@ class Header extends React.Component {
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
       return null;
     }
+    if (id === 'userInfo' && !user) { return null; }
     if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
@@ -210,6 +211,7 @@ class Header extends React.Component {
               <Navbar.Collapse>
                 <ul className="nav navbar-nav">
                   {this.getNavItem('hearings', '/hearings/list')}
+                  {this.getNavItem('userInfo', '/user-profile', false)}
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
                   {this.getNavItem('ownHearings', '/user-hearings', false)}

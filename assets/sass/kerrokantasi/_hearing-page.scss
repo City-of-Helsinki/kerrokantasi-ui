@@ -26,22 +26,6 @@
       }
     }
   }
-
-  .hidden-link {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    z-index: -999;
-    
-    &:focus {
-      position: static;
-      width: auto;
-      height: auto;
-    }
-  }
 }
 
 .hearing-header {
@@ -69,6 +53,7 @@
       margin: $grid-gutter-width/2 $grid-gutter-width*2 $grid-gutter-width/2 0;
       position: relative;
       padding-left: $grid-gutter-width*2;
+      min-width: 290px;
 
       .fa {
         position: absolute;
@@ -107,6 +92,15 @@
     margin-top: $grid-gutter-width/2;
     padding-top: $grid-gutter-width;
     border-top: 1px solid $border-color;
+  }
+  .hearing-favorite {
+    .fa {
+      font-size: 1.5em;
+    }
+    .btn-link {
+      padding-left: 0;
+      padding-top: 0;
+    }
   }
 }
 
@@ -213,6 +207,10 @@
     .section-content-spacer {
       padding-left: 0;
     }
+  }
+
+  &#comments-section {
+    scroll-margin-top: 100px;
   }
 }
 
@@ -529,7 +527,7 @@
 
 .report-download-button {
   margin-bottom: 12px;
-  
+
   span {
     white-space: normal;
   }

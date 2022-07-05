@@ -1,0 +1,9 @@
+.comment-reports-modal {
+    h1 {
+        word-wrap: break-word;
+
+        @media (max-width: $screen-xs-max) {
+            font-size: 30px;
+        }
+    }
+}

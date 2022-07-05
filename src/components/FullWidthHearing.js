@@ -27,6 +27,8 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
     sv: 'Hörandet tillgängligt på svenska',
     en: 'Questionnaire available in English',
   };
+  const mainImgCaption = (hearing.main_image && hearing.main_image.caption) ?
+    getAttr(hearing.main_image.caption, language) : '';
 
   return (
     <div className={`fullwidth-hearing ${className}`}>
@@ -35,7 +37,7 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
         style={styles}
         history={history}
         url={getHearingURL(hearing)}
-        altText={getAttr(hearing.main_image.caption, language)}
+        altText={mainImgCaption || getAttr(hearing.title, language)}
       />
       <div className="fullwidth-hearing-header">
         <div className="fullwidth-hearing-title-wrap">
@@ -73,7 +75,13 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
             {config.languages.map(
               lang =>
                 (getAttr(hearing.title, lang, { exact: true }) ? (
-                  <div className="language-available-message" key={lang}>{availableInLanguageMessages[lang]}</div>
+                  <div
+                    className="language-available-message"
+                    key={lang}
+                    lang={lang}
+                  >
+                    {availableInLanguageMessages[lang]}
+                  </div>
                 ) : null)
             )}
           </div>

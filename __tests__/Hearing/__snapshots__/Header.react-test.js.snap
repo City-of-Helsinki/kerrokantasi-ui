@@ -113,15 +113,15 @@ exports[`Header component should render as expected 1`] = `
                 />
               </div>
               <div>
-                <AnchorLink
-                  href="#comments-section"
-                  offset="100"
+                <InternalLink
+                  destinationId="comments-section"
+                  srOnly={false}
                 >
                   <FormattedMessage
                     id="headerWriteCommentLink"
                     values={Object {}}
                   />
-                </AnchorLink>
+                </InternalLink>
               </div>
             </span>
           </div>
@@ -159,6 +159,7 @@ exports[`Header component should render as expected 1`] = `
               </withRouter(Connect(LinkWithLangComponent))>
             </span>
           </div>
+          <div />
         </div>
       </div>
     </Grid>
