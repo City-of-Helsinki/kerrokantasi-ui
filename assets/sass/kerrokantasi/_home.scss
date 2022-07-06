@@ -63,3 +63,8 @@
   padding: $line-height-computed*3 0;
   background-color: $gray-100;
 }
+
+#cookie-panel-switch-container {
+  display: flex;
+  justify-content: space-between;
+}

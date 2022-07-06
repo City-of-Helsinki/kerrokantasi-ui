@@ -13,9 +13,11 @@ import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
-import cookieUtil from './utils/cookieUtils';
 import { HashLink } from 'react-router-hash-link';
+import cookieUtil from './utils/cookieUtils';
 import cookiebotUtils from './utils/cookiebotUtils';
+import CookieBar from "./components/cookieBar/cookieBar";
+
 
 class App extends React.Component {
   getChildContext() {
@@ -32,11 +34,11 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookiebotUtils.cookieBotAddListener();
+    cookieUtil.cookieOnComponentDidMount();
   }
 
   componentWillUnmount() {
-    cookiebotUtils.cookieBotRemoveListener();
+    cookieUtil.cookieOnComponentWillUnmount();
   }
 
   render() {
@@ -70,6 +72,7 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
+          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar />}
           <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
           </HashLink>
@@ -79,7 +82,7 @@ class App extends React.Component {
             meta={favmeta}
           >
             <html lang={locale} />
-            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getConsentScripts()}
+            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getCookieBotConsentScripts()}
             {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
