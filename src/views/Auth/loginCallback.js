@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 
 class CallbackPage extends React.Component {
   success = () => {
+    localStorage.removeItem("votedComments");
     this.props.dispatch(push("/"));
   };
 

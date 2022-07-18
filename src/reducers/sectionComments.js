@@ -79,6 +79,10 @@ const editedComment = (state, {payload: {sectionId, comment}}) => {
 };
 
 const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
+  // Save voted comment id to localstorage to prevent voting the same comment multiple times for non-authenticated users
+  const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
+  localStorage.setItem("votedComments", JSON.stringify([commentId, ...votedComments]));
+
   // the vote went through
   const increment = (votes) => { return votes + 1; };
   if (isReply) {
