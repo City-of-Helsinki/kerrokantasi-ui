@@ -383,6 +383,25 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
+
+        <FormGroup controlId="commentVoting">
+          <ControlLabel><FormattedMessage id="commentVoting"/></ControlLabel>
+          <div className="select">
+            <FormControl
+              componentClass="select"
+              name="voting"
+              onChange={this.onChange}
+            >
+              <option selected={section.voting === 'open'} value="open">
+                {formatMessage({id: "openVoting"})}
+              </option>
+              <option selected={section.voting === 'registered'} value="registered">
+                {formatMessage({id: "registeredUsersOnly"})}
+              </option>
+            </FormControl>
+          </div>
+        </FormGroup>
+
         <Checkbox checked={!!this.state.enabledCommentMap} onChange={this.toggleEnableCommentMap}>
           <FormattedMessage id="hearingCommentingMap">{txt => txt}</FormattedMessage>
         </Checkbox>

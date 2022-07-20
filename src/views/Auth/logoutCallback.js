@@ -15,6 +15,7 @@ class UnconnectedLogoutCallback extends React.Component {
   }
 
   logoutSuccessful() {
+    localStorage.removeItem("votedComments");
     this.props.dispatch(push("/"));
   }
 

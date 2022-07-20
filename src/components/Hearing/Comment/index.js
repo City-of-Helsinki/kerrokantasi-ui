@@ -13,7 +13,7 @@ import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 
 import Icon from '../../../utils/Icon';
-import {notifyError, notifyInfo} from '../../../utils/notify';
+import {localizedNotifyError, notifyError, notifyInfo} from '../../../utils/notify';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
@@ -68,6 +68,12 @@ class Comment extends React.Component {
   onVote() {
     if (this.props.canVote) {
       const {data} = this.props;
+      // If user has already voted for this comment, block the user from voting again
+      const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
+      if (votedComments.includes(data.id)) {
+        localizedNotifyError("alreadyVoted");
+        return;
+      }
       this.props.onPostVote(data.id, data.section, this.props.isReply, this.props.parentComponentId);
     } else {
       notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
