@@ -48,7 +48,9 @@ export const contactShape = PropTypes.shape({
   email: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  ornaization: PropTypes.string,
+  organization: PropTypes.string,
+  external_organization: PropTypes.bool,
+  additional_info: PropTypes.string,
   phone: PropTypes.string,
   title: translatedShape,
 });
