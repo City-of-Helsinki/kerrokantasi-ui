@@ -1,6 +1,6 @@
 import React from 'react';
 import {map, forEach, omit, isEmpty} from 'lodash';
-import {Modal, Button, ControlLabel} from 'react-bootstrap';
+import {Modal, Button, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ class ContactModal extends React.Component {
         phone: '',
         email: '',
         organization: '',
+        additional_info: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()
@@ -45,6 +46,7 @@ class ContactModal extends React.Component {
         phone: { $set: contactInfo.phone || '' },
         email: { $set: contactInfo.email || '' },
         organization: { $set: contactInfo.organization || '' },
+        additional_info: { $set: contactInfo.additional_info || '' },
         title: { $set: contactInfo.title || {} },
       },
       titleLanguages: { $set: newTitleLanguages }
@@ -60,6 +62,8 @@ class ContactModal extends React.Component {
         phone: { $set: contactInfo.phone || '' },
         email: { $set: contactInfo.email || '' },
         title: { $set: contactInfo.title || {} },
+        organization: { $set: contactInfo.organization || '' },
+        additional_info: { $set: contactInfo.additional_info || '' },
       }
     }));
   }
@@ -99,7 +103,7 @@ class ContactModal extends React.Component {
   submitForm(event) {
     event.preventDefault();
     if (isEmpty(this.props.contactInfo)) {
-      this.props.onCreateContact(omit(this.state.contact, ['id', 'organization']));
+      this.props.onCreateContact(omit(this.state.contact, ['id']));
     } else {
       const omittedLanguages = [];
       forEach(this.state.titleLanguages, (value, key) => {
@@ -118,6 +122,7 @@ class ContactModal extends React.Component {
         phone: '',
         email: '',
         organization: '',
+        additional_info: '',
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages()
@@ -218,6 +223,29 @@ class ContactModal extends React.Component {
               <h4><FormattedMessage id="contactTitle"/></h4>
               {checkBoxes}
               {titleInputs}
+            </div>
+            <div className="input-container">
+              <h4><FormattedMessage id="organization"/></h4>
+              <input
+                className="form-control"
+                onChange={(event) => this.onContactChange('organization', event.target.value)}
+                value={contact.organization}
+                placeholder="Organisaatio"
+                maxLength="50"
+                disabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
+              />
+              <HelpBlock><FormattedMessage id="contactPersonOrganizationHelpText"/></HelpBlock>
+            </div>
+            <div className="input-container">
+              <h4><FormattedMessage id="additionalInfo"/></h4>
+              <input
+                className="form-control"
+                onChange={(event) => this.onContactChange('additional_info', event.target.value)}
+                value={contact.additional_info}
+                placeholder="Lisätiedot yhteyshenkilöstä"
+                maxLength="50"
+              />
+              <HelpBlock><FormattedMessage id="contactPersonAdditionalInfoHelpText"/></HelpBlock>
             </div>
             <input type="submit" style={{ display: 'none'}} /> {/* Used to trigger submit remotely. */}
           </form>
