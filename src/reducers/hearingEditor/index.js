@@ -4,6 +4,7 @@ import {EditorActions} from '../../actions/hearingEditor';
 import hearing from './hearing';
 import labels from './labels';
 import contactPersons from './contactPersons';
+import organizations from './organizations';
 import sections from './sections';
 
 const showEditor = handleActions({
@@ -50,6 +51,7 @@ const languages = handleActions({
 
 export default combineReducers({
   contactPersons,
+  organizations,
   editorState,
   errors,
   hearing,

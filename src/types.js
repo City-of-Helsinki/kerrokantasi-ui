@@ -55,6 +55,12 @@ export const contactShape = PropTypes.shape({
   title: translatedShape,
 });
 
+export const organizationShape = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  external_organization: PropTypes.bool,
+});
+
 export const textEditorHideControlsShape = PropTypes.shape({
   hideBlockStyleControls: PropTypes.bool,
   hideInlineStyleControls: PropTypes.bool,
@@ -157,6 +163,8 @@ export const labelResultsSchema = new schema.Array(labelSchema);
 export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
 export const contactPersonSchema = new schema.Entity('contactPersons', {}, {idAttribute: 'frontId'});
 export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
+export const organizationSchema = new schema.Entity('organizations', {}, {idAttribute: 'frontId'});
+export const OrganizationResultsSchema = new schema.Array(organizationSchema);
 export const hearingSchema = new schema.Entity('hearing', {
   labels: labelResultsSchema,
   sections: new schema.Array(sectionSchema),
@@ -177,6 +185,7 @@ export type DefaultEntityState = {
 export type SectionState = DefaultEntityState;
 export type LabelState = DefaultEntityState;
 export type ContactPersonState = DefaultEntityState;
+export type OrganizationState = DefaultEntityState;
 
 
 export type HearingState = {

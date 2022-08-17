@@ -38,7 +38,7 @@ import {
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
-import {contactShape, hearingShape, labelShape, userShape} from '../../types';
+import {contactShape, hearingShape, labelShape, organizationShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 import validateFunction from '../../utils/validation';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
@@ -261,7 +261,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
+    const {contactPersons, organizations, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
     const {errors} = this.state;
     if (isEmpty(hearing)) {
       return null;
@@ -271,6 +271,7 @@ class HearingEditor extends React.Component {
         addOption={this.addOption}
         clearQuestions={this.clearQuestions}
         contactPersons={contactPersons}
+        organizations={organizations}
         currentStep={1}
         deleteOption={this.deleteOption}
         dispatch={this.props.dispatch}
@@ -340,6 +341,7 @@ class HearingEditor extends React.Component {
 
 HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
+  organizations: PropTypes.arrayOf(organizationShape),
   dispatch: PropTypes.func,
   show: PropTypes.bool,
   hearing: hearingShape,

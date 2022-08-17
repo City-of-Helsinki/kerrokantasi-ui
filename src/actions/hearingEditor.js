@@ -213,13 +213,15 @@ export function fetchHearingEditorMetaData() {
     return Promise.all([
       /* labels */ api.getAllFromEndpoint(getState(), '/v1/label/'),
       /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
+      /* organizations */ api.getAllFromEndpoint(getState(), '/v1/organization/'),
     ])
-      .then(([labels, contacts]) => {
+      .then(([labels, contacts, organizations]) => {
         dispatch(
           createAction(EditorActions.RECEIVE_META_DATA)({
             // Unwrap the DRF responses:
             labels,
             contactPersons: contacts,
+            organizations,
           }),
         );
       })

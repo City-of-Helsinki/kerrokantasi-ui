@@ -6,6 +6,8 @@ import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 
 import config from '../../config';
+import {organizationShape} from "../../types";
+import Select from "react-select";
 
 class ContactModal extends React.Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class ContactModal extends React.Component {
         additional_info: '',
         title: {}
       },
-      titleLanguages: this.constructor.initializeLanguages()
+      titleLanguages: this.constructor.initializeLanguages(),
+      organizations: [],
     };
   }
 
@@ -54,7 +57,7 @@ class ContactModal extends React.Component {
   }
 
   componentWillMount() {
-    const {contactInfo} = this.props;
+    const {contactInfo, organizations} = this.props;
     this.setState(update(this.state, {
       titleLanguages: { fi: { $set: true }},
       contact: {
@@ -64,7 +67,8 @@ class ContactModal extends React.Component {
         title: { $set: contactInfo.title || {} },
         organization: { $set: contactInfo.organization || '' },
         additional_info: { $set: contactInfo.additional_info || '' },
-      }
+      },
+      organizations: { $set: organizations },
     }));
   }
 
@@ -170,7 +174,7 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose, contactInfo } = this.props;
+    const { isOpen, onClose, contactInfo, organizations } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
     const titleInputs = this.generateTitleInputs();
@@ -226,12 +230,16 @@ class ContactModal extends React.Component {
             </div>
             <div className="input-container">
               <h4><FormattedMessage id="organization"/></h4>
-              <input
-                className="form-control"
-                onChange={(event) => this.onContactChange('organization', event.target.value)}
-                value={contact.organization}
+              <Select
+                labelKey="Organisaatio"
+                name="Organisaatio"
                 placeholder="Organisaatio"
-                maxLength="50"
+                valueKey="name"
+                onChange={(value) => this.onContactChange('organization', value.name)}
+                options={organizations}
+                optionRenderer={(option) => <span>{option.name} {option.external_organization ? "*" : ""}</span>}
+                valueRenderer={(option) => <span>{option.name}</span>}
+                value={contact.organization}
                 disabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
               />
               <HelpBlock><FormattedMessage id="contactPersonOrganizationHelpText"/></HelpBlock>
@@ -269,7 +277,8 @@ ContactModal.propTypes = {
   onClose: PropTypes.func,
   onCreateContact: PropTypes.func,
   onEditContact: PropTypes.func,
-  contactInfo: PropTypes.object
+  contactInfo: PropTypes.object,
+  organizations: PropTypes.arrayOf(organizationShape),
 };
 
 export default injectIntl(ContactModal);
