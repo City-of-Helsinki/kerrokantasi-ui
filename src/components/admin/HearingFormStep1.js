@@ -26,6 +26,7 @@ import Icon from '../../utils/Icon';
 import {getDocumentOrigin, getValidationState} from '../../utils/hearingEditor';
 
 import {addLabel, addContact, saveContact} from '../../actions/hearingEditor';
+import {HelpBlock} from "react-bootstrap";
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -196,6 +197,7 @@ class HearingFormStep1 extends React.Component {
               <Icon className="icon" name="plus"/>
             </Button>
           </div>
+          <HelpBlock><FormattedMessage id="hearingContactsHelpText"/></HelpBlock>
         </FormGroup>
         <div className="step-footer">
           <Button bsStyle="default" onClick={this.props.onContinue}>

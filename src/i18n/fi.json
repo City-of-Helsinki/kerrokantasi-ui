@@ -160,6 +160,7 @@
   "hearingCommentingMapChoice2": "Piste merkintä",
   "hearingCommentingMapChoice3": "Piste, neliö ja monikulmio merkinnät valittavissa",
   "hearingContacts": "Yhteyshenkilöt",
+  "hearingContactsHelpText": "Yhteystiedot näkyvät kuulemisen sivulla yllä listatussa järjestyksessä.",
   "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
   "hearingFileUpload": "Osion liitteet",
   "hearingFormHeaderContainsErrors": " - sisältää virheitä",
