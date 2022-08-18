@@ -113,6 +113,7 @@ export function initNewSection(inits) {
     {
       id: '',
       type: '',
+      voting: 'registered',
       commenting: 'open',
       commenting_map_tools: 'none',
       title: initAttr(),

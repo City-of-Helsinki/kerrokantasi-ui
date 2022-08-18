@@ -19,7 +19,8 @@ import ContactModal from './ContactModal';
 import {
   contactShape,
   hearingShape,
-  labelShape
+  labelShape,
+  organizationShape
 } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
@@ -100,6 +101,7 @@ class HearingFormStep1 extends React.Component {
       contactPersons: contactOptions,
       onHearingChange,
       onLanguagesChange,
+      organizations,
     } = this.props;
     const {language} = this.context;
 
@@ -215,6 +217,7 @@ class HearingFormStep1 extends React.Component {
           onClose={this.closeContactModal.bind(this)}
           onCreateContact={this.onCreateContact.bind(this)}
           onEditContact={this.onEditContact.bind(this)}
+          organizations={organizations}
         />
       </div>
     );
@@ -232,6 +235,7 @@ HearingFormStep1.propTypes = {
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
+  organizations: PropTypes.arrayOf(organizationShape),
 };
 
 HearingFormStep1.contextTypes = {

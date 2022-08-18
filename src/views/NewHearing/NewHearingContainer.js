@@ -10,6 +10,7 @@ import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 import userManager from "../../utils/userManager";
 import { localizedNotifyError } from '../../utils/notify';
+import {contactShape, organizationShape} from "../../types";
 
 export class NewHearingContainerComponent extends React.Component {
   componentDidMount() {
@@ -27,6 +28,7 @@ export class NewHearingContainerComponent extends React.Component {
       user,
       isLoading,
       contactPersons,
+      organizations,
     } = this.props;
     return (
       <div>
@@ -47,6 +49,7 @@ export class NewHearingContainerComponent extends React.Component {
                   user={user}
                   isLoading={isLoading}
                   contactPersons={contactPersons}
+                  organizations={organizations}
                   isNewHearing
                 />
             }
@@ -63,7 +66,8 @@ NewHearingContainerComponent.propTypes = {
   labels: PropTypes.array,
   user: PropTypes.object,
   isLoading: PropTypes.bool,
-  contactPersons: PropTypes.array,
+  contactPersons: PropTypes.arrayOf(contactShape),
+  organizations: PropTypes.arrayOf(organizationShape),
   fetchEditorMetaData: PropTypes.func,
   initHearing: PropTypes.func,
   fetchProjectsList: PropTypes.func
@@ -84,7 +88,8 @@ const mapStateToProps = (state) => ({
   labels: HearingEditorSelector.getLabels(state),
   user: getUser(state),
   isLoading: HearingEditorSelector.getIsLoading(state),
-  contactPersons: HearingEditorSelector.getContactPersons(state)
+  contactPersons: HearingEditorSelector.getContactPersons(state),
+  organizations: state.hearingEditor.organizations.all,
 });
 
 const mapDispatchToProps = dispatch => ({
