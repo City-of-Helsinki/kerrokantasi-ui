@@ -7,7 +7,7 @@ exports[`ContactCard component should render as expected 1`] = `
   componentClass="div"
   id="KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X"
   md={4}
-  xs={6}
+  xs={12}
 >
   <header>
     <h3
