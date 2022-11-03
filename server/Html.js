@@ -12,7 +12,7 @@ export default class Html extends React.Component {
       url: hearingImage ? hearingData.main_image.url : heroImageURL,
       description: hearingAbstract ?
         hearingData.abstract.fi :
-        `Turun kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
+        `Helsingin kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
         kerätään mielipiteitä valmistelussa olevista asioista.`
     };
   }
