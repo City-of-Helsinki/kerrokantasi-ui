@@ -304,7 +304,13 @@ export class Hearings extends React.Component {
           <div className="container">
             <Row>
               <Col md={10} mdPush={1}>
-                <Helmet title={formatMessage({ id: 'allHearings' })} />
+                <Helmet
+                  title={formatMessage({ id: 'allHearings' })}
+                  meta={[
+                    {name: "description", content: formatMessage({ id: 'descriptionTag' })},
+                    {property: "og:description", content: formatMessage({ id: 'descriptionTag' })}
+                  ]}
+                />
                 <FormattedMessage id="allHearings">
                   {txt => <h1 className="page-title">{txt}</h1>}
                 </FormattedMessage>

@@ -83,7 +83,10 @@ export class Home extends React.Component {
               <Col xs={10} md={8} className="welcome-content">
                 <Helmet
                   title={formatMessage({id: 'welcome'})}
-                  meta={[{name: "description", content: formatMessage({id: 'descriptionTag'})}]}
+                  meta={[
+                    {name: "description", content: formatMessage({id: 'descriptionTag'})},
+                    {property: "og:description", content: formatMessage({id: 'descriptionTag'})}
+                  ]}
                 />
                 <h1>
                   <FormattedMessage id="welcome" />

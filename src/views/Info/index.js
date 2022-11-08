@@ -58,7 +58,13 @@ class Info extends React.Component {
     const {intl} = this.props;
     return (
       <div className="container">
-        <Helmet title={intl.formatMessage({ id: 'infoPage' })} />
+        <Helmet
+          title={intl.formatMessage({ id: 'infoPage' })}
+          meta={[
+            {name: "description", content: intl.formatMessage({id: 'descriptionTag'})},
+            {property: "og:description", content: intl.formatMessage({id: 'descriptionTag'})}
+          ]}
+        />
         <Row>
           <Col md={8}>
             <div dangerouslySetInnerHTML={{__html: content}}/>
