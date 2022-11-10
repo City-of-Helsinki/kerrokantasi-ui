@@ -38,7 +38,13 @@ class AccessibilityInfo extends React.Component {
     const { intl } = this.props;
     return (
       <Grid className="accessibility-page">
-        <Helmet title={intl.formatMessage({ id: 'accessibilityPage' })} />
+        <Helmet 
+          title={intl.formatMessage({ id: 'accessibilityPage' })}
+          meta={[
+            {name: "description", content: intl.formatMessage({id: 'descriptionTag'})},
+            {property: "og:description", content: intl.formatMessage({id: 'descriptionTag'})}
+          ]}
+        />
         <Row>
           <Col md={8}>
             <div dangerouslySetInnerHTML={{ __html: pageContent }} />

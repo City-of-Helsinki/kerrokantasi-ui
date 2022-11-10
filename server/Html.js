@@ -3,17 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
-  getMeta() {
-    const {heroImageURL, hearingData} = this.props;
-    const hearingImage = hearingData && hearingData.main_image;
-    const hearingAbstract = hearingData && hearingData.abstract;
+  // Fetches site's default metadata, these are often overwritten
+  // with more specific values
+  getDefaultMeta() {
+    const { heroImageURL } = this.props;
     return {
       title: 'Kerrokantasi',
-      url: hearingImage ? hearingData.main_image.url : heroImageURL,
-      description: hearingAbstract ?
-        hearingData.abstract.fi :
-        `Turun kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
-        kerätään mielipiteitä valmistelussa olevista asioista.`
+      url: heroImageURL,
+      description: `Kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
+      kerätään mielipiteitä valmistelussa olevista asioista.`
     };
   }
   render() {
@@ -23,7 +21,6 @@ export default class Html extends React.Component {
       bundleSrc,
       content,
       head,
-      hearingData,
       heroImageURL,
       initialState,
       showAccessibilityInfo,
@@ -59,14 +56,13 @@ export default class Html extends React.Component {
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     `;
-    const {title, description, url} = this.getMeta();
+    const {title, description, url} = this.getDefaultMeta();
     return (
       <html lang="fi">
         <head>
           <meta charSet="utf-8"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta content="width=device-width, initial-scale=1" name="viewport"/>
-          {hearingData && hearingData.title && <title>{hearingData.title.fi}</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
           <meta property="og:title" content={title} />
@@ -93,7 +89,6 @@ Html.propTypes = {
   content: PropTypes.string,
   head: PropTypes.object,
   initialState: PropTypes.object,
-  hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
   enableCookies: PropTypes.bool,

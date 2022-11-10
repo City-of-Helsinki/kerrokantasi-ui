@@ -17,6 +17,7 @@ import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import { getHearingWithSlug } from '../../selectors/hearing';
 import { getUser } from '../../selectors/user';
 import {organizationShape} from "../../types";
+import { html2text } from '../../utils/commonUtils';
 
 const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
@@ -86,7 +87,11 @@ export class HearingContainerComponent extends React.Component {
           <React.Fragment>
             <Helmet
               title={getAttr(hearing.title, language)}
-              meta={[{name: "description", content: getAttr(hearing.abstract, language)}]}
+              meta={[
+                {name: "description", content: html2text(getAttr(hearing.abstract, language))},
+                {property: "og:description", content: html2text(getAttr(hearing.abstract, language))},
+                {property: "og:image", content: hearing.main_image.url}
+              ]}
             />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
               <Suspense fallback={<LoadSpinner />}>
