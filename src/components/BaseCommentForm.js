@@ -108,7 +108,8 @@ export class BaseCommentForm extends React.Component {
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
     let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
-    let commentText = (this.state.commentText === null ? '' : this.state.commentText);
+    let commentText =
+      (this.state.commentText === null || this.state.commentText.length === 0 ? '-' : this.state.commentText);
     let geojson = this.state.geojson;
     let label = null;
     let images = this.state.images;
@@ -421,6 +422,11 @@ export class BaseCommentForm extends React.Component {
       urls.highContrastRasterMapTiles, isHighContrast, language);
   }
 
+  submitIsDisabled() {
+    const answeredQuestions = this.props.answers.filter(question => question.answers.length > 0);
+    return (!this.state.commentText && answeredQuestions.length === 0) || this.state.imageTooBig;
+  }
+
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment} = this.props;
     if (!this.props.overrideCollapse && this.state.collapsed) {
@@ -568,7 +574,7 @@ export class BaseCommentForm extends React.Component {
             </Button>
             <Button
               bsStyle="primary"
-              disabled={!this.state.commentText || this.state.imageTooBig}
+              disabled={this.submitIsDisabled()}
               onClick={this.submitComment.bind(this)}
             >
               <FormattedMessage id="submit"/>
