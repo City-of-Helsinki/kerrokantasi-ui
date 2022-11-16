@@ -90,7 +90,7 @@ export class HearingContainerComponent extends React.Component {
               meta={[
                 {name: "description", content: html2text(getAttr(hearing.abstract, language))},
                 {property: "og:description", content: html2text(getAttr(hearing.abstract, language))},
-                {property: "og:image", content: hearing.main_image.url}
+                hearing.main_image && {property: "og:image", content: hearing.main_image.url}
               ]}
             />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
