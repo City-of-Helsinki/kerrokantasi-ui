@@ -80,7 +80,7 @@ export class HearingContainerComponent extends React.Component {
       organizations,
       setLanguage
     } = this.props;
-    console.log("HEARING", hearing);
+
     return (
       <div className="hearing-page">
         {!isEmpty(hearing) ? (
