@@ -5,7 +5,7 @@ import qs from 'querystring';
 import urlUtil from 'url';
 import {getApiToken} from './selectors/user';
 
-function getApiURL(endpoint, params = null) {
+export function getApiURL(endpoint, params = null) {
   let url = (config.apiBaseUrl.replace(/\/$/g, '') + "/" + endpoint.replace(/^\//g, ''));
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
   if (params) {

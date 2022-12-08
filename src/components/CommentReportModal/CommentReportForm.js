@@ -7,6 +7,7 @@ import Icon from "../../utils/Icon";
 import config from '../../config';
 import { connect } from "react-redux";
 import { FILE_FORMATS } from "./constants";
+import { getApiURL } from "../../api";
 
 
 class CommentReportForm extends React.Component {
@@ -32,7 +33,7 @@ class CommentReportForm extends React.Component {
 
     const accessToken = apiToken.apiToken;
     const targetFileFormat = Object.values(FILE_FORMATS).find(format => format.id === fileFormat);
-    const reportUrl = new URL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`, config.apiBaseUrl);
+    const reportUrl = new URL(getApiURL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`));
     reportUrl.search = new URLSearchParams({lang: language});
 
     fetch(reportUrl, {
