@@ -13,6 +13,14 @@ exports[`HearingContainer component should render as expected 1`] = `
           "content": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
           "name": "description",
         },
+        Object {
+          "content": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+          "property": "og:description",
+        },
+        Object {
+          "content": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+          "property": "og:image",
+        },
       ]
     }
     title="Ideoi Isosaaren tulevaisuutta"

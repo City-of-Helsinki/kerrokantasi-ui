@@ -23,6 +23,18 @@ exports[`Hearings component should render as expected 1`] = `
           <HelmetWrapper
             defer={true}
             encodeSpecialCharacters={true}
+            meta={
+              Array [
+                Object {
+                  "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "name": "description",
+                },
+                Object {
+                  "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "property": "og:description",
+                },
+              ]
+            }
             title="Kaikki kuulemiset"
           />
           <FormattedMessage
