@@ -383,7 +383,7 @@ class Comment extends React.Component {
             }}
           />
         </FormGroup>
-        <Button type="submit">Save</Button>
+        <Button type="submit"><FormattedMessage id="save"/></Button>
       </form>
     </React.Fragment>
   );
