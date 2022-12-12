@@ -21,6 +21,7 @@ const config = {
   cookiebotDataCbid: typeof window !== 'undefined' ? window.COOKIEBOT_DATA_CBID : null,
   enableStrongAuth: typeof window !== 'undefined' ? window.ENABLE_STRONG_AUTH : false,
   adminHelpUrl: typeof window !== 'undefined' ? window.ADMIN_HELP_URL : "",
+  emptyCommentString: typeof window !== 'undefined' ? window.EMPTY_COMMENT_STRING : "",
 };
 
 export default config;

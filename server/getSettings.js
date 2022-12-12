@@ -35,6 +35,8 @@ const defaults = {
   enable_cookies: false,
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
+  // String value that is considered as an empty comment
+  empty_comment_string: '-',
 };
 
 const optionalKeys = [
@@ -56,6 +58,7 @@ const optionalKeys = [
   "openid_apitoken_url",
   "enable_highcontrast",
   "admin_help_url",
+  "empty_comment_string",
 ];
 
 const mandatoryKeys = [

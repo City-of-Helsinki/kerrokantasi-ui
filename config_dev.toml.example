@@ -76,3 +76,8 @@ city_config="cities/helsinki"
 # Address for hearing admin help link
 # Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
 # admin_help_url=
+
+
+# String value that is considered as an empty comment
+# Default: '-'
+# empty_comment_string=

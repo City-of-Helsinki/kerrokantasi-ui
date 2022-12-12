@@ -36,6 +36,7 @@ export default class Html extends React.Component {
       enableHighContrast,
       enableStrongAuth,
       adminHelpUrl,
+      emptyCommentString,
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -55,6 +56,7 @@ export default class Html extends React.Component {
     window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
+    window.EMPTY_COMMENT_STRING = ${JSON.stringify(emptyCommentString)};
     `;
     const {title, description, url} = this.getDefaultMeta();
     return (
@@ -101,4 +103,5 @@ Html.propTypes = {
   enableHighContrast: PropTypes.bool,
   enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
+  emptyCommentString: PropTypes.string,
 };
