@@ -16,8 +16,8 @@ export class CommentList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {comments: newComments} = this.props;
-    if (prevProps.comments !== newComments) {
+    const {comments: newComments, section} = this.props;
+    if (prevProps.section.id === section.id && prevProps.comments !== newComments) {
       const updatedLoadingState = newComments.reduce((acc, curr, index) => {
         /**
          * loadingSubComments is undefined by default, boolean true is added once we start fetching
