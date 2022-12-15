@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Checkbox, Radio } from 'react-bootstrap';
+import { FormGroup, Checkbox, Radio, HelpBlock } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
-import uuid from 'uuid/v1';
 
 import getAttr from '../../utils/getAttr';
 
 const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
   return (
-    <FormGroup onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}>
-      <h3 className="h4">{getAttr(question.text, lang)}</h3>
-      {canAnswer && question.type === 'single-choice' && question.options.map((option) => {
+    <FormGroup
+      className="question-form-group"
+      onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}
+    >
+      <fieldset className="question-form-fieldset">
+        <legend>
+          <h3 className="h4 question-label">{getAttr(question.text, lang)}</h3>
+          <HelpBlock>
+            <FormattedMessage id={question.type === 'multiple-choice' ? 'questionHelpMulti' : 'questionHelpSingle'} />
+          </HelpBlock>
+        </legend>
+        {canAnswer && question.type === 'single-choice' && question.options.map((option) => {
           const optionContent = getAttr(option.text, lang);
           return (
             <Radio
               checked={answers && answers.answers.includes(option.id)}
-              key={uuid()}
+              key={option.id}
+              name={`question_${question.id}`}
               value={option.id}
               onChange={() => {}}
             >
@@ -23,17 +32,19 @@ const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
             </Radio>
           );
         })}
-      {canAnswer && question.type === 'multiple-choice' && question.options.map((option) => (
-        <Checkbox
-          checked={answers && answers.answers.includes(option.id)}
-          key={uuid()}
-          value={option.id}
-          onChange={() => {}}
-        >
-          {getAttr(option.text, lang)}
-        </Checkbox>
+        {canAnswer && question.type === 'multiple-choice' && question.options.map((option) => (
+          <Checkbox
+            checked={answers && answers.answers.includes(option.id)}
+            key={option.id}
+            name={`question_${question.id}`}
+            value={option.id}
+            onChange={() => {}}
+          >
+            {getAttr(option.text, lang)}
+          </Checkbox>
         ))}
-      {!canAnswer && <FormattedMessage id="logInToAnswer" />}
+        {!canAnswer && <FormattedMessage id="logInToAnswer" />}
+      </fieldset>
     </FormGroup>
   );
 };

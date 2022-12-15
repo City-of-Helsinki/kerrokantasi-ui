@@ -418,6 +418,8 @@ exports[`Hearings component should render as expected 1`] = `
           "publishedHearings": "Julkiset",
           "publishingQueue": "Julkaisujono",
           "question": "Kysymys",
+          "questionHelpMulti": "Voit valita yhden tai useamman vaihtoehdon.",
+          "questionHelpSingle": "Voit valita yhden vaihtoehdon.",
           "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
           "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
           "queueCount": "Julkaisua odottavat ({n})",

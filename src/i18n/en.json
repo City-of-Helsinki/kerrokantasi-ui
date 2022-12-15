@@ -254,6 +254,8 @@
   "projectName": "Project name",
   "publishedHearings": "Public",
   "publishingQueue": "Publishing queue",
+  "questionHelpMulti": "You can choose one or more options.",
+  "questionHelpSingle": "You can choose one option.",
   "queueCount": "Publishing queue ({n})",
   "register": "Register",
   "registered": "Registered",

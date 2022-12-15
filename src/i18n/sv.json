@@ -247,6 +247,8 @@
   "projectName": "Projektnamn",
   "publishedHearings": "Offentliga",
   "publishingQueue": "Publiceringskö",
+  "questionHelpMulti": "Du kan välja ett eller flera alternativ.",
+  "questionHelpSingle": "Du kan välja ett alternativ.",
   "queueCount": "Väntar publicering ({n})",
   "register": "Registrera dig",
   "registered": "registrerad",

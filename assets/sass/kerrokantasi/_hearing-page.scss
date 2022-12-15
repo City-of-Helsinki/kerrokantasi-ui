@@ -215,6 +215,49 @@
 
   &#comments-section {
     scroll-margin-top: 100px;
+
+    .map-results {
+      display: flex;
+      flex-direction: column;
+
+      >div:first-child {
+        margin-bottom: 10px;
+      }
+
+      button.hearing-map-results-toggle-button {
+        float: right;
+        text-decoration: underline;
+        padding-right: 0;
+      }
+
+      p.no-map-results {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .map-results-container {
+        background-color: #e9ecef;
+
+        &.map-open {
+          margin-bottom: 15px;
+        }
+      }
+
+      .section-content-spacer {
+        background-color: #e9ecef;
+        padding: 5px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      .hearing-map-container {
+        margin: 0;
+
+        @media screen and (max-width: $screen-xs-min) {
+          padding-top: 66.66%;
+        }
+      }
+    }
   }
 }
 
@@ -367,6 +410,8 @@
   background-color: $white;
   padding: 1em;
   margin-bottom: $line-height-computed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   &__file {
     margin: 10px 0;
@@ -380,10 +425,6 @@
 
   &__select-file {
     padding: 10px 0;
-  }
-
-  .question-label {
-    margin-bottom: 4px;
   }
 
   .comment-form-errors {
@@ -547,6 +588,32 @@
   textarea {
     height: 7em;
     line-height: 1em;
+  }
+}
+
+.question-form-group {
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  .question-form-fieldset {
+    padding-bottom: 0px;
+  }
+
+  legend {
+    margin-bottom: 0px;
+    border-bottom: none;
+
+    .question-label {
+      margin-bottom: 4px;
+      margin-top: 0px;
+    }
+
+    .help-block {
+      font-size: initial;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
   }
 }
 
