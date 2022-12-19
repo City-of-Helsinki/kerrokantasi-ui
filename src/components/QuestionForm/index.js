@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import getAttr from '../../utils/getAttr';
 
-const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
+const QuestionForm = ({autoFocus, question, lang, onChange, answers, canAnswer}) => {
   return (
     <FormGroup
       className="question-form-group"
@@ -18,10 +18,11 @@ const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
             <FormattedMessage id={question.type === 'multiple-choice' ? 'questionHelpMulti' : 'questionHelpSingle'} />
           </HelpBlock>
         </legend>
-        {canAnswer && question.type === 'single-choice' && question.options.map((option) => {
+        {canAnswer && question.type === 'single-choice' && question.options.map((option, index) => {
           const optionContent = getAttr(option.text, lang);
           return (
             <Radio
+              autoFocus={autoFocus && index === 0}
               checked={answers && answers.answers.includes(option.id)}
               key={option.id}
               name={`question_${question.id}`}
@@ -32,8 +33,9 @@ const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
             </Radio>
           );
         })}
-        {canAnswer && question.type === 'multiple-choice' && question.options.map((option) => (
+        {canAnswer && question.type === 'multiple-choice' && question.options.map((option, index) => (
           <Checkbox
+            autoFocus={autoFocus && index === 0}
             checked={answers && answers.answers.includes(option.id)}
             key={option.id}
             name={`question_${question.id}`}
@@ -50,6 +52,7 @@ const QuestionForm = ({question, lang, onChange, answers, canAnswer}) => {
 };
 
 QuestionForm.propTypes = {
+  autoFocus: PropTypes.bool,
   question: PropTypes.object,
   lang: PropTypes.string,
   onChange: PropTypes.func,

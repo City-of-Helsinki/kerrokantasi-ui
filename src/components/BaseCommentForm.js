@@ -15,6 +15,7 @@ import QuestionForm from './QuestionForm';
 import {localizedNotifyError} from "../utils/notify";
 import {
   checkFormErrors,
+  getFirstUnansweredQuestion,
   getSectionCommentingErrorMessage,
   hasAnyAnswers,
   hasAnyQuestions,
@@ -491,6 +492,7 @@ export class BaseCommentForm extends React.Component {
     const hasQuestions = hasAnyQuestions(section);
     const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
     const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
+    const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
 
     return (
       <div className="comment-form">
@@ -518,6 +520,8 @@ export class BaseCommentForm extends React.Component {
               return canShowQuestionForm
                 ? (
                   <QuestionForm
+                    // give focus when there are unanswered questions
+                    autoFocus={!!firstUnansweredQuestion && firstUnansweredQuestion.id === question.id}
                     key={question.id}
                     canAnswer={canComment}
                     answers={answers.find(answer => answer.question === question.id)}
@@ -547,7 +551,8 @@ export class BaseCommentForm extends React.Component {
             }
           </div>
           <FormControl
-            autoFocus
+            // set focus when there are no questions before to be answered
+            autoFocus={isReply || !firstUnansweredQuestion}
             componentClass="textarea"
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}

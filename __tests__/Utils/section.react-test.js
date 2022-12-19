@@ -1,5 +1,6 @@
 import {
   checkFormErrors,
+  getFirstUnansweredQuestion,
   hasAnyAnswers,
   hasAnyQuestions,
   hasUserAnsweredAllQuestions,
@@ -228,6 +229,38 @@ describe('section util tests', () => {
     });
     test('returns true when user has answered all questions', () => {
       expect(hasUserAnsweredAllQuestions(userAllAnswers, sectionWithQuestions)).toBe(true);
+    });
+  });
+
+  describe('getFirstUnansweredQuestion', () => {
+    describe('returns null', () => {
+      test('when section has no questions', () => {
+        expect(getFirstUnansweredQuestion(createUser(), sectionEmpty)).toBe(null);
+      });
+
+      test('when section has no unanswered questions', () => {
+        const userWithAnswers = createUser({answered_questions: [1, 2]});
+        expect(getFirstUnansweredQuestion(userWithAnswers, sectionWithQuestions)).toBe(null);
+      });
+    });
+
+    describe('returns first unanswered question', () => {
+      test('when user is anon', () => {
+        expect(getFirstUnansweredQuestion(null, sectionWithQuestions))
+          .toBe(sectionWithQuestions.questions[0]);
+      });
+
+      test('when signed in user has not answered any questions', () => {
+        expect(getFirstUnansweredQuestion(createUser(), sectionWithQuestions))
+          .toBe(sectionWithQuestions.questions[0]);
+      });
+
+      test('when signed in user has answered some questions', () => {
+        expect(getFirstUnansweredQuestion(createUser({answered_questions: [1]}), sectionWithQuestions))
+          .toBe(sectionWithQuestions.questions[1]);
+        expect(getFirstUnansweredQuestion(createUser({answered_questions: [2]}), sectionWithQuestions))
+          .toBe(sectionWithQuestions.questions[0]);
+      });
     });
   });
 });

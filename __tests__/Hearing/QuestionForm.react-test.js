@@ -7,6 +7,7 @@ import { Checkbox, FormGroup, HelpBlock, Radio } from 'react-bootstrap';
 
 describe('QuestionForm', () => {
   const defaultProps = {
+    autoFocus: false,
     question: {
       id: 10,
       is_independent_poll: false,
@@ -109,6 +110,7 @@ describe('QuestionForm', () => {
         const radios = getWrapper({canAnswer, question}).find(Radio);
         expect(radios).toHaveLength(3);
         radios.forEach((radio, index) => {
+          expect(radio.prop('autoFocus')).toBe(false);
           expect(radio.prop('checked')).toBe(false);
           expect(radio.prop('name')).toBe("question_" + defaultProps.question.id);
           expect(radio.prop('value')).toBe(defaultProps.question.options[index].id);
@@ -117,16 +119,37 @@ describe('QuestionForm', () => {
         });
       });
 
+      test('Radios with correct autoFocus when prop autoFocus is true', () => {
+        const autoFocus = true;
+        const question = {...defaultProps.question, ...{type: 'single-choice'}};
+        const radios = getWrapper({autoFocus, canAnswer, question}).find(Radio);
+        expect(radios).toHaveLength(3);
+        radios.forEach((radio, index) => {
+          expect(radio.prop('autoFocus')).toBe(index === 0);
+        });
+      });
+
       test('Checkboxes when question is multiple choice', () => {
         const question = {...defaultProps.question, ...{type: 'multiple-choice'}};
         const checkboxes = getWrapper({canAnswer, question}).find(Checkbox);
         expect(checkboxes).toHaveLength(3);
         checkboxes.forEach((checkbox, index) => {
+          expect(checkbox.prop('autoFocus')).toBe(false);
           expect(checkbox.prop('checked')).toBe(false);
           expect(checkbox.prop('name')).toBe("question_" + defaultProps.question.id);
           expect(checkbox.prop('value')).toBe(defaultProps.question.options[index].id);
           expect(checkbox.prop('onChange')).toBeDefined();
           expect(checkbox.childAt(0).text()).toBe(defaultProps.question.options[index].text.fi);
+        });
+      });
+
+      test('Checkboxes with correct autoFocus when prop autoFocus is true', () => {
+        const autoFocus = true;
+        const question = {...defaultProps.question, ...{type: 'multiple-choice'}};
+        const checkbox = getWrapper({autoFocus, canAnswer, question}).find(Checkbox);
+        expect(checkbox).toHaveLength(3);
+        checkbox.forEach((radio, index) => {
+          expect(radio.prop('autoFocus')).toBe(index === 0);
         });
       });
     });

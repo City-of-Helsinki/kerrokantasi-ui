@@ -108,6 +108,31 @@ export function hasUserAnsweredAllQuestions(user, section) {
   return false;
 }
 
+/**
+ * Returns the first unanswered section question or null when there are no
+ * unanswered questions.
+ * @param {Object} user object containing user data
+ * @param {Object} section object containing section data
+ * @returns {Object|null} first unanswered question object or null
+ */
+export function getFirstUnansweredQuestion(user, section) {
+  if (hasAnyQuestions(section)) {
+    const {questions} = section;
+    // anon users and users without answers
+    if (!user || !hasUserAnsweredQuestions(user)) {
+      return questions[0];
+    } else if (hasUserAnsweredQuestions(user)) {
+      const answeredQuestions = user.answered_questions;
+      for (let index = 0; index < questions.length; index += 1) {
+        if (!answeredQuestions.includes(questions[index].id)) {
+          return questions[index];
+        }
+      }
+    }
+  }
+  return null;
+}
+
 export const isMainSection = (section) => {
   return section.type === SectionTypes.MAIN;
 };
