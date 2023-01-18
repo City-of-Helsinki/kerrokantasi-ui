@@ -12,6 +12,127 @@ export const SectionTypes = {
 
 const specialSectionTypes = values(SectionTypes);
 
+/**
+ * Checks whether comment form has errors or not. Returns an array of found errors.
+ * @param {boolean} imageTooBig is image to too big error
+ * @param {string} commentText current comment text value
+ * @param {Object} section object containing section data
+ * @param {Object} answers object containing section comment answers
+ * @param {boolean} isReply is this comment a reply
+ * @param {boolean} userAnsweredAllQuestions have all questions been answered already
+ * @returns {string[]} an array of error strings
+ */
+export function checkFormErrors(imageTooBig, commentText, section, answers, isReply, userAnsweredAllQuestions) {
+  const hasQuestions = hasAnyQuestions(section);
+  const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
+  const commentOrAnswerRequired = hasQuestions;
+  const hasAnswers = hasAnyAnswers(answers);
+  const errors = [];
+  if (imageTooBig) {
+    errors.push('imageTooBig');
+  }
+  if (commentRequired && !commentText.trim()) {
+    errors.push('commentRequiredError');
+  } else if (commentOrAnswerRequired && !commentText.trim() && !hasAnswers) {
+    errors.push('commentOrAnswerRequiredError');
+  }
+
+  return errors;
+}
+
+/**
+ * Tells whether any of the section's questions have been answered or not.
+ * @param {Object[]} answers array of question answers
+ * @returns {boolean} true when at least one question is answered and false if not
+ */
+export function hasAnyAnswers(answers) {
+  return answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
+}
+
+/**
+ * Tells whether section has any questions or not.
+ * @param {Object} section object containing section data
+ * @returns {boolean} true when section has atleast one question, false if not
+ */
+export function hasAnyQuestions(section) {
+  return section.questions && section.questions.length > 0;
+}
+
+/**
+ * Tells whether a non empty comment is required or not for a section.
+ * @param {boolean} hasQuestions does the section have questions
+ * @param {boolean} isReply is this comment a reply
+ * @param {boolean} userAnsweredAllQuestions have all questions been answered already
+ * @returns {boolean} true when comment is required, false when not
+ */
+export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions) {
+  return isReply || !hasQuestions || userAnsweredAllQuestions;
+}
+
+/**
+ * Tells whether it is ok to post an empty comment or not.
+ * @param {Object} section object containing section data
+ * @param {boolean} hasAnswers are any section questions answered
+ * @returns {boolean} true when it is ok to post empty comment and false if not
+ */
+export function isEmptyCommentAllowed(section, hasAnswers) {
+  return hasAnyQuestions(section) && hasAnswers;
+}
+
+/**
+ * Tells whether given user has answered any questions or not.
+ * @param {Object} user object containing user data
+ * @returns {boolean} true when user has answered questions, false when not
+ */
+export function hasUserAnsweredQuestions(user) {
+  return !!user && 'answered_questions' in user && user.answered_questions.length > 0;
+}
+
+/**
+ * Tells whether given user has answered to all of given section's questions or not.
+ * @param {Object} user object containing user data
+ * @param {Object} section object containing section data
+ * @returns {boolean} true when user answered section's all questions, false when not
+ */
+export function hasUserAnsweredAllQuestions(user, section) {
+  if (hasAnyQuestions(section) && hasUserAnsweredQuestions(user)) {
+    const {questions} = section;
+    const answeredQuestions = user.answered_questions;
+    for (let index = 0; index < questions.length; index += 1) {
+      if (!answeredQuestions.includes(questions[index].id)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Returns the first unanswered section question or null when there are no
+ * unanswered questions.
+ * @param {Object} user object containing user data
+ * @param {Object} section object containing section data
+ * @returns {Object|null} first unanswered question object or null
+ */
+export function getFirstUnansweredQuestion(user, section) {
+  if (hasAnyQuestions(section)) {
+    const {questions} = section;
+    // anon users and users without answers
+    if (!user || !hasUserAnsweredQuestions(user)) {
+      return questions[0];
+    } else if (hasUserAnsweredQuestions(user)) {
+      const answeredQuestions = user.answered_questions;
+      for (let index = 0; index < questions.length; index += 1) {
+        if (!answeredQuestions.includes(questions[index].id)) {
+          return questions[index];
+        }
+      }
+    }
+  }
+  return null;
+}
+
 export const isMainSection = (section) => {
   return section.type === SectionTypes.MAIN;
 };

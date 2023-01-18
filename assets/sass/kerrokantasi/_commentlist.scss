@@ -319,6 +319,10 @@
     padding-left: $grid-gutter-width;
     list-style-type: none;
 
+    &.list-hidden * {
+      display: none;
+    }
+
     .hearing-comment {
       margin-bottom: 0px;
       border-top: 1px solid $light-gray;

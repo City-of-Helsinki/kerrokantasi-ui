@@ -10,12 +10,21 @@ import Icon from '../../../utils/Icon';
  */
 const ShowMore = (props) => {
   /**
-   * Event hadler for when hyperlink is clicked.
-   * Override and prevent default action so it doesnt act like a hyper link.
+   * Event handler for when hyperlink is clicked.
+   * Override and prevent default action, so it doesn't act like a hyperlink.
    */
   const handleShowMore = (event) => {
     event.preventDefault();
     props.onClickShowMore();
+  };
+
+  /**
+   * Object with values based on props.open boolean.
+   * @type {{msg: (string), icon: (string)}}
+   */
+  const toggle = {
+    icon: props.open ? 'chevron-up' : 'chevron-down',
+    msg: props.open ? 'hideReplies' : 'showMoreReplies'
   };
 
   return (
@@ -25,9 +34,9 @@ const ShowMore = (props) => {
           ? <LoadSpinner style={{ padding: '12px' }}/>
           : (
             <span className="hearing-comment__show-more__wrapper">
-              <a href="" onClick={handleShowMore}>
-                <Icon name="chevron-down" aria-hidden="true" />
-                <FormattedMessage id="showMoreReplies" />
+              <a href="" onClick={handleShowMore} role="button" aria-expanded={props.open}>
+                <Icon name={toggle.icon} aria-hidden="true" />
+                <FormattedMessage id={toggle.msg} />
                 <span className="hearing-comment__show-more__count">{`(${props.numberOfComments})`}</span>
               </a>
             </span>
@@ -41,10 +50,12 @@ ShowMore.propTypes = {
   numberOfComments: PropTypes.number.isRequired,
   onClickShowMore: PropTypes.func.isRequired,
   isLoadingSubComment: PropTypes.bool,
+  open: PropTypes.bool,
 };
 
 ShowMore.defaultProps = {
   isLoadingSubComment: false,
+  open: false,
 };
 
 
