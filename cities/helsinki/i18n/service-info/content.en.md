@@ -2,7 +2,7 @@
 
 Kerrokantasi (Voice your opinion) is a web service maintained by the City of Helsinki. On the site, city residents can voice their opinions on different kinds of topics, which will be prepared or which are already under preparation. Other users can see and comment on the opinions and they will be reported and summarised for the preparers and decision-makers. A summary of the opinions can be downloaded in Excel format.
 
-The Kerrokantasi service is a way to realise the City’s participation and interaction model (https://www.hel.fi/helsinki/en/administration/participate/channels/participation-model/). According to Section 22 in the Local Government Act, the municipality must ensure that the municipality’s residents can participate in and influence the activities of the municipality, especially by surveying their opinions before the decision-making.
+The Kerrokantasi service is a way to realise the City’s participation and interaction model (https://www.hel.fi/en/decision-making/get-involved/information-about-participation-in-helsinki). According to Section 22 in the Local Government Act, the municipality must ensure that the municipality’s residents can participate in and influence the activities of the municipality, especially by surveying their opinions before the decision-making.
 
 The online service is provided by the City of Helsinki. You can give feedback about the online service by following the Feedback link www.hel.fi/feedback or by email (kerrokantasi at hel.fi).
 
