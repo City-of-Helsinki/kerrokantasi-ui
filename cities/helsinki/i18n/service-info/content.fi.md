@@ -5,7 +5,7 @@ kuulluksi erityyppisistä valmisteluun tulevista tai valmistelussa jo olevista a
 nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön.
 Mielipiteistä voi ladata yhteenvedon excel-muodossa omalle tietokoneelle.</p>
 
-Kerrokantasi-palvelu toteuttaa osaltaan [kaupungin osallisuus- ja vuorovaikutusmallia](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/vaikuttamiskanavat/osallisuus-ja-vuorovaikutusmalli/) . Kuntalain 22 §:n mukaan kunnan on huolehdittava kuntalaisten edellytyksistä osallistua ja vaikuttaa kunnan toimintaan erityisesti selvittämällä asukkaiden mielipiteitä ennen päätöksentekoa.
+Kerrokantasi-palvelu toteuttaa osaltaan [kaupungin osallisuus- ja vuorovaikutusmallia](https://www.hel.fi/fi/paatoksenteko-ja-hallinto/osallistu-ja-vaikuta/tietoa-osallisuudesta-helsingissa). Kuntalain 22 §:n mukaan kunnan on huolehdittava kuntalaisten edellytyksistä osallistua ja vaikuttaa kunnan toimintaan erityisesti selvittämällä asukkaiden mielipiteitä ennen päätöksentekoa.
 
 Palvelusta vastaa Helsingin kaupunginkanslia. Palveluun liittyviä palautteita, kysymyksiä ja kehittämisehdotuksia voi lähettää palautelomakkeella osoitteessa www.hel.fi/palaute tai sähköpostilla (kerrokantasi at hel.fi).
 
@@ -65,7 +65,7 @@ Mikäli liittämäsi Materiaali rikkoo tekijänoikeuksia tai on muuten lainvasta
 
 ### Rekisteriseloste
 
-Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, kaupunki kerää henkilötietojasi siinä määrin kuin se on tarpeellista asian hoitamiseksi. Kaikki tiedot on kerätty eri rekistereihin tietojen käyttötarkoitusten mukaan. Rekistereistä on laadittu rekisteriselosteet, jotka pääset näkemään osoitteesta www.hel.fi/rekisteriseloste. Sivulla on Kerrokantasi-verkkosivustoa koskeva [Osallisuuden ja palautteiden rekisteriseloste](https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri.pdf). Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/) Helsingin kaupungin verkkopalveluissa.
+Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, kaupunki kerää henkilötietojasi siinä määrin kuin se on tarpeellista asian hoitamiseksi. Kaikki tiedot on kerätty eri rekistereihin tietojen käyttötarkoitusten mukaan. Rekistereistä on laadittu rekisteriselosteet, jotka pääset näkemään osoitteesta www.hel.fi/rekisteriseloste. Sivulla on Kerrokantasi-verkkosivustoa koskeva Osallisuuden ja palautteiden rekisteriseloste. Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/) Helsingin kaupungin verkkopalveluissa.
 
 ### Sisällön lisensointi
 
