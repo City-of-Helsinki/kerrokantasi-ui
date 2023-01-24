@@ -2,7 +2,7 @@
 
 Kerrokantasi (Säg din åsikt) är Helsingfors stads webbtjänst, där kommuninvånarna kan uttrycka sina åsikter och bli hörda i frågor av olika slag som ska tas upp i beredningen eller redan bereds. Andra användare kan se och kommentera åsikterna och de upptas också i rapporter och sammanfattningar som beredarna och beslutsfattarna kan utnyttja. Åsikterna kan laddas ned i Excel-format.
 
-Kerrokantasi-tjänsten förverkligar stadens modell för delaktighet och interaktion (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/kanaler/verksamhetsmodeller-for-delaktighet/). Enligt 22 § i kommunallagen bör kommunen se till att kommuninvånarna kan delta och påverka kommunens verksamhet, särskilt genom att utreda invånarnas åsikter före beslutsfattandet.
+Kerrokantasi-tjänsten förverkligar stadens modell för delaktighet och interaktion (https://www.hel.fi/sv/beslutsfattande-och-forvaltning/delta-och-paverka/information-om-delaktighet-i-helsingfors). Enligt 22 § i kommunallagen bör kommunen se till att kommuninvånarna kan delta och påverka kommunens verksamhet, särskilt genom att utreda invånarnas åsikter före beslutsfattandet.
 
 E-tjänsten produceras av Helsingfors stad. Du kan ge respons på tjänsten via länken för respons www.hel.fi/respons eller du kan skicka email (kerrokantasi at hel.fi).
 
@@ -74,7 +74,7 @@ Ifall det Material du lägger till kränker upphovsrätten eller annars är mot 
 
 ## Registerbeskrivning
 
-När du är klient vid stadens tjänster eller på annat sätt sköter ärenden med staden, samlar staden in personuppgifter om dig i den utsträckning som krävs för ärendet. Alla uppgifter samlas in i olika register beroende på användningsändamålet med uppgifterna. Registerbeskrivningar finns för registren. De finns på www.hel.fi/rekisteriseloste. På sidan finns ett Register över delaktighet och respons (https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri-SV.pdf) för webbplatsen Kerrokantasi. Mer information om de rättigheter som enligt EU:s dataskyddsförordning (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd/) gäller i Helsingfors stads webbtjänster.
+När du är klient vid stadens tjänster eller på annat sätt sköter ärenden med staden, samlar staden in personuppgifter om dig i den utsträckning som krävs för ärendet. Alla uppgifter samlas in i olika register beroende på användningsändamålet med uppgifterna. Registerbeskrivningar finns för registren. De finns på www.hel.fi/rekisteriseloste. På sidan finns ett Register över delaktighet och respons för webbplatsen Kerrokantasi. Mer information om de rättigheter som enligt EU:s dataskyddsförordning (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd/) gäller i Helsingfors stads webbtjänster.
 
 ## Licensiering av innehållet
 
