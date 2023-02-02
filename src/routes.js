@@ -26,6 +26,9 @@ const LogoutCallback = lazy(() => import(
   /* webpackChunkName: "auth" */'./views/Auth/logoutCallback'));
 const UserHearings = lazy(() => import(
   /* webpackChunkName: "userHearings" */'./views/UserHearings'));
+const UserProfile = lazy(() => import(
+  /* webpackChunkName: "userProfile" */'./views/UserProfile'));
+
 
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
@@ -45,21 +48,22 @@ Redirector.propTypes = {
 const Routes = () => (
   <Suspense fallback={<LoadSpinner />}>
     <Switch>
-      <Route exact path="/" component={HomeContainer} />
-      <Route path="/silent-renew" component={SilentRenew} />
-      <Route path="/info" component={Info} />
-      <Route path="/callback" component={LoginCallback} />
-      <Route path="/callback/logout" component={LogoutCallback} />
-      <Route path="/user-hearings" component={UserHearings} />
+      <Route exact path="/" component={props => <HomeContainer {...props} />} />
+      <Route path="/silent-renew" component={props => <SilentRenew {...props}/>} />
+      <Route path="/info" component={props => <Info {...props}/>} />
+      <Route path="/callback" component={props => <LoginCallback {...props} />} />
+      <Route path="/callback/logout" component={props => <LogoutCallback {...props} />} />
+      <Route path="/user-hearings" component={props => <UserHearings {...props} />} />
+      <Route path="/user-profile" component={props => <UserProfile {...props} />} />
       {config.showAccessibilityInfo && (
-        <Route path="/accessibility" component={AccessibilityInfo} />
+        <Route path="/accessibility" component={props => <AccessibilityInfo {...props} />} />
       )}
-      <Route path="/hearings/:tab" component={HearingsContainer} />
-      <Route path="/hearing/new" component={NewHearingContainer} />
-      <Route path="/hearing/:hearingSlug" component={Redirector} />
-      <Route path="/:hearingSlug/fullscreen" component={FullscreenHearingContainer} />
-      <Route path="/:hearingSlug/:sectionId" component={HearingContainer} />
-      <Route path="/:hearingSlug" component={HearingContainer} />
+      <Route path="/hearings/:tab" component={props => <HearingsContainer {...props} />} />
+      <Route path="/hearing/new" component={props => <NewHearingContainer {...props} />} />
+      <Route path="/hearing/:hearingSlug" component={props => <Redirector {...props} />} />
+      <Route path="/:hearingSlug/fullscreen" component={props => <FullscreenHearingContainer {...props} />} />
+      <Route path="/:hearingSlug/:sectionId" component={props => <HearingContainer {...props} />} />
+      <Route path="/:hearingSlug" component={props => <HearingContainer {...props} />} />
     </Switch>
   </Suspense>
 );

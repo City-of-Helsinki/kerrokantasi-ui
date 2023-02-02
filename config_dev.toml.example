@@ -60,10 +60,24 @@ city_config="cities/helsinki"
 # Default: false
 # enable_highcontrast=true
 
-# Should display cookiebar at the bottom of the page
+# Are cookies in use?
+# If enabled then cookie scripts are injected into the html and the default cookie consent bar is visible.
+# Everything related to cookies is disabled by default unless this value is changed.
 # Default: false
-# show_cookiebar=true
+# enable_cookies=true
+
+# Cookiebot consent management platform configuration.
+# If enabled, default cookie bar is disabled and replaced with a Cookie Bot modal.
+# To use Cookiebot set both enable_cookies and enable_cookiebot to true.
+# Default: false
+# enable_cookiebot=false
+# cookiebot_data_cbid="your-unique-cookiebot-domain-group-id"
 
 # Address for hearing admin help link
 # Default: "https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw"
 # admin_help_url=
+
+
+# String value that is considered as an empty comment
+# Default: '-'
+# empty_comment_string=

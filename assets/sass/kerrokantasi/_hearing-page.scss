@@ -10,12 +10,14 @@
 
   .iframe-wrapper {
     @media (max-width: $screen-md-min) {
-        position: relative;
-        overflow: hidden;
-        padding-top: 56.25%;
+      position: relative;
+      overflow: hidden;
+      padding-top: 56.25%;
     }
+
     iframe {
       max-width: 100%;
+
       @media (max-width: $screen-md-min) {
         position: absolute;
         top: 0;
@@ -24,22 +26,6 @@
         height: 100%;
         border: 0;
       }
-    }
-  }
-
-  .hidden-link {
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    z-index: -999;
-    
-    &:focus {
-      position: static;
-      width: auto;
-      height: auto;
     }
   }
 }
@@ -69,6 +55,7 @@
       margin: $grid-gutter-width/2 $grid-gutter-width*2 $grid-gutter-width/2 0;
       position: relative;
       padding-left: $grid-gutter-width*2;
+      min-width: 290px;
 
       .fa {
         position: absolute;
@@ -107,6 +94,17 @@
     margin-top: $grid-gutter-width/2;
     padding-top: $grid-gutter-width;
     border-top: 1px solid $border-color;
+  }
+
+  .hearing-favorite {
+    .fa {
+      font-size: 1.5em;
+    }
+
+    .btn-link {
+      padding-left: 0;
+      padding-top: 0;
+    }
   }
 }
 
@@ -195,7 +193,7 @@
     }
   }
 
-  & + .hearing-section {
+  &+.hearing-section {
     border-top: 1px solid $border-color;
   }
 
@@ -212,6 +210,53 @@
 
     .section-content-spacer {
       padding-left: 0;
+    }
+  }
+
+  &#comments-section {
+    scroll-margin-top: 100px;
+
+    .map-results {
+      display: flex;
+      flex-direction: column;
+
+      >div:first-child {
+        margin-bottom: 10px;
+      }
+
+      button.hearing-map-results-toggle-button {
+        float: right;
+        text-decoration: underline;
+        padding-right: 0;
+      }
+
+      p.no-map-results {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .map-results-container {
+        background-color: #e9ecef;
+
+        &.map-open {
+          margin-bottom: 15px;
+        }
+      }
+
+      .section-content-spacer {
+        background-color: #e9ecef;
+        padding: 5px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      .hearing-map-container {
+        margin: 0;
+
+        @media screen and (max-width: $screen-xs-min) {
+          padding-top: 66.66%;
+        }
+      }
     }
   }
 }
@@ -350,10 +395,12 @@
 .comment-form-container {
   @extend .col-xs-12;
   margin-bottom: $line-height-computed * 2;
+
   button.login-to-comment {
     opacity: 0.65;
   }
-  &.disabled > button {
+
+  &.disabled>button {
     opacity: 0.6;
     cursor: not-allowed;
   }
@@ -363,6 +410,8 @@
   background-color: $white;
   padding: 1em;
   margin-bottom: $line-height-computed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   &__file {
     margin: 10px 0;
@@ -378,6 +427,21 @@
     padding: 10px 0;
   }
 
+  .comment-form-errors {
+    color: $theme-danger;
+    text-align: right;
+    list-style: none;
+    padding-left: 4px;
+
+    @media (max-width: $screen-sm-min) {
+      text-align: left;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
   .custom-file-input {
     border: 0;
     clip: rect(0, 0, 0, 0);
@@ -388,11 +452,11 @@
     white-space: nowrap;
     width: 1px;
 
-    & + label {
+    &+label {
       @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
     }
 
-    &:focus + label {
+    &:focus+label {
       border-color: $input-border-focus;
       outline: 5px auto -webkit-focus-ring-color;
       outline-offset: -2px;
@@ -527,9 +591,35 @@
   }
 }
 
+.question-form-group {
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  .question-form-fieldset {
+    padding-bottom: 0px;
+  }
+
+  legend {
+    margin-bottom: 0px;
+    border-bottom: none;
+
+    .question-label {
+      margin-bottom: 4px;
+      margin-top: 0px;
+    }
+
+    .help-block {
+      font-size: initial;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
 .report-download-button {
   margin-bottom: 12px;
-  
+
   span {
     white-space: normal;
   }
@@ -623,7 +713,7 @@
       font-size: 115%;
     }
 
-    > span {
+    >span {
       border: 0;
       background: transparent;
       padding: 0;

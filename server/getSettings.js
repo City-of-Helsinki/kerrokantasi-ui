@@ -30,11 +30,13 @@ const defaults = {
   // Should display social media sharing buttons
   show_social_media_sharing: true,
   // Should display & enable contrast toggle button
-  enable_highcontrast: true,
-  // Should display cookiebar
-  show_cookiebar: true,
+  enable_highcontrast: false,
+  // Should cookies to enabled
+  enable_cookies: false,
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
+  // String value that is considered as an empty comment
+  empty_comment_string: '-',
 };
 
 const optionalKeys = [
@@ -49,12 +51,14 @@ const optionalKeys = [
   "city_config",
   "show_accessibility_info",
   "show_social_media_sharing",
-  "show_cookiebar",
+  "enable_cookies",
   "openid_client_id",
   "openid_audience",
   "openid_authority",
+  "openid_apitoken_url",
   "enable_highcontrast",
   "admin_help_url",
+  "empty_comment_string",
 ];
 
 const mandatoryKeys = [

@@ -33,6 +33,7 @@ import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
 import ImageEntity from './Image/ImageEntity';
+import { textEditorHideControlsShape } from '../../types';
 
 const getBlockStyle = (block) => {
   switch (block.getType()) {
@@ -578,44 +579,70 @@ class RichTextEditor extends React.Component {
 
   render() {
     const { editorState } = this.state;
+    const {
+      hideBlockStyleControls,
+      hideInlineStyleControls,
+      hideIframeControls,
+      hideImageControls,
+      hideSkipLinkControls,
+      hideLinkControls
+    } = this.props.hideControls;
     return (
       <div className="rich-text-editor">
         <ControlLabel>
           <FormattedMessage id={this.props.labelId}/>
         </ControlLabel>
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <IframeControls
-          onClick={this.openIframeModal}
-        />
-        <IframeModal
-          isOpen={this.state.showIframeModal}
-          onClose={this.closeIframeModal}
-          onSubmit={this.confirmIframe}
-        />
-        <ImageControls
-          onClick={this.openImageModal}
-        />
-        <ImageModal
-          isOpen={this.state.showImageModal}
-          onClose={this.closeImageModal}
-          onSubmit={this.confirmImage}
-        />
-        <SkipLinkControls
-          onClick={this.openSkipLinkModal}
-        />
-        <SkipLinkModal
-          isOpen={this.state.showSkipLinkModal}
-          onClose={this.closeSkipLinkModal}
-          onSubmit={this.confirmSkipLink}
-        />
-        {this.renderHyperlinkButton()}
+        {!hideBlockStyleControls && (
+          <BlockStyleControls
+            editorState={editorState}
+            onToggle={this.toggleBlockType}
+          />
+        )}
+        {!hideInlineStyleControls && (
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+        )}
+        {!hideIframeControls && (
+          <React.Fragment>
+            <IframeControls
+                  onClick={this.openIframeModal}
+            />
+            <IframeModal
+              isOpen={this.state.showIframeModal}
+              onClose={this.closeIframeModal}
+              onSubmit={this.confirmIframe}
+            />
+          </React.Fragment>
+        )}
+        {!hideImageControls && (
+          <React.Fragment>
+            <ImageControls
+              onClick={this.openImageModal}
+            />
+            <ImageModal
+              isOpen={this.state.showImageModal}
+              onClose={this.closeImageModal}
+              onSubmit={this.confirmImage}
+            />
+          </React.Fragment>
+        )}
+        {!hideSkipLinkControls && (
+        <React.Fragment>
+          <SkipLinkControls
+            onClick={this.openSkipLinkModal}
+          />
+          <SkipLinkModal
+            isOpen={this.state.showSkipLinkModal}
+            onClose={this.closeSkipLinkModal}
+            onSubmit={this.confirmSkipLink}
+          />
+        </React.Fragment>
+        )}
+        {!hideLinkControls && (
+          this.renderHyperlinkButton()
+        )}
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div onClick={this.onFocus}>
           <Editor
@@ -637,7 +664,19 @@ class RichTextEditor extends React.Component {
   }
 }
 
+RichTextEditor.defaultProps = {
+  hideControls: {
+    hideBlockStyleControls: false,
+    hideInlineStyleControls: false,
+    hideIframeControls: false,
+    hideImageControls: false,
+    hideSkipLinkControls: false,
+    hideLinkControls: false,
+  }
+};
+
 RichTextEditor.propTypes = {
+  hideControls: textEditorHideControlsShape,
   labelId: PropTypes.string,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

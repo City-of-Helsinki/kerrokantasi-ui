@@ -23,6 +23,7 @@ import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageText
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
 import config from './../../config';
+import {isFirefox, isSafari, browserVersion} from 'react-device-detect';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -30,6 +31,36 @@ import config from './../../config';
  */
 const MAX_IMAGE_SIZE = 999999;
 const MAX_FILE_SIZE = 70;
+
+/**
+ * Compares given blob to initFileSize and calls changeFunc if it's smaller than the original image file.
+ * @param {Blob | Object} blob Webp Blob
+ * @param {number} initFileSize original image file size.
+ * @param {Object} section section that the image is added to.
+ * @param {Function} changeFunc dispatch function
+ * @param {Blob} initImage originally uploaded image blob.
+ */
+function webpConvert(blob, initFileSize, section, changeFunc, initImage) {
+  const isLegacyFF = isFirefox && Number.parseInt(browserVersion, 10) < 96;
+  let finalBlob = blob;
+  // FF versions < 96 & Safari don't support toBlob type image/webp so a temporary webp file is created and used.
+  if (isLegacyFF || isSafari) {
+    finalBlob = new File([blob], 'file', {
+      type: 'image/webp',
+      lastModified: Date.now(),
+    });
+  }
+  // if the webp file is smaller than the original file -> use webp file.
+  if (initFileSize > finalBlob.size) {
+    const canvasReader = new FileReader();
+    canvasReader.onload = () => {
+      changeFunc(section.frontId, 'image', canvasReader.result);
+    };
+    canvasReader.readAsDataURL(finalBlob);
+  } else {
+    changeFunc(section.frontId, 'image', initImage);
+  }
+}
 
 class SectionForm extends React.Component {
   constructor(props) {
@@ -53,10 +84,10 @@ class SectionForm extends React.Component {
   /**
    * Modify section state and propagate necessary information
    * up to the parent components.
-   * @param  {object} - OnClick event
+   * @param  {object} event OnClick event
    */
   onChange(event) {
-    // Propagate interestin changes to parent components
+    // Propagate interesting changes to parent components
     const {name: field, value} = event.target;
     const section = this.props.section;
     switch (field) {
@@ -72,17 +103,41 @@ class SectionForm extends React.Component {
   }
 
   onFileDrop(files) {
+    const {onSectionImageChange, section} = this.props;
     if (files[0].size > MAX_IMAGE_SIZE) {
       localizedNotifyError('imageSizeError');
       return;
     }
-    const section = this.props.section;
+    if (!onSectionImageChange) {
+      localizedNotifyError("imageGenericError");
+      return;
+    }
+
     const file = files[0];  // Only one file is supported for now.
     const fileReader = new FileReader();
-    fileReader.addEventListener("load", () => {
-      if (this.props.onSectionImageChange) {
-        this.props.onSectionImageChange(section.frontId, "image", fileReader.result);
-      }
+    fileReader.addEventListener('error', () => {
+      localizedNotifyError('imageFileUploadError');
+    });
+    fileReader.addEventListener("load", (event) => {
+      // New img element is created with the uploaded image.
+      const img = document.createElement('img');
+      img.src = event.target.result;
+      img.onerror = () => {
+        localizedNotifyError('imageFileUploadError');
+      };
+      img.onload = () => {
+        // Canvas element is created with content from the new img.
+        const canvasElement = document.createElement('canvas');
+        canvasElement.width = img.width;
+        canvasElement.height = img.height;
+
+        const ctx = canvasElement.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+        ctx.canvas.toBlob((blob) => {
+          // canvas webp image Blob is passed onwards.
+          webpConvert(blob, file.size, section, onSectionImageChange, fileReader.result);
+        }, 'image/webp', 0.80);
+      };
     }, false);
     fileReader.readAsDataURL(file);
   }
@@ -280,6 +335,14 @@ class SectionForm extends React.Component {
           languages={sectionLanguages}
           fieldType={TextFieldTypes.TEXTAREA}
           placeholderId="sectionAbstractPlaceholder"
+          richTextEditor
+          hideControls={{
+            hideBlockStyleControls: true,
+            hideInlineStyleControls: true,
+            hideIframeControls: true,
+            hideImageControls: true,
+            hideSkipLinkControls: true
+          }}
         />
 
         <MultiLanguageTextField
@@ -320,6 +383,25 @@ class SectionForm extends React.Component {
             </FormControl>
           </div>
         </FormGroup>
+
+        <FormGroup controlId="commentVoting">
+          <ControlLabel><FormattedMessage id="commentVoting"/></ControlLabel>
+          <div className="select">
+            <FormControl
+              componentClass="select"
+              name="voting"
+              onChange={this.onChange}
+            >
+              <option selected={section.voting === 'open'} value="open">
+                {formatMessage({id: "openVoting"})}
+              </option>
+              <option selected={section.voting === 'registered'} value="registered">
+                {formatMessage({id: "registeredUsersOnly"})}
+              </option>
+            </FormControl>
+          </div>
+        </FormGroup>
+
         <Checkbox checked={!!this.state.enabledCommentMap} onChange={this.toggleEnableCommentMap}>
           <FormattedMessage id="hearingCommentingMap">{txt => txt}</FormattedMessage>
         </Checkbox>

@@ -13,8 +13,11 @@ import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import {checkHeadlessParam} from './utils/urlQuery';
 import classNames from 'classnames';
-import {CookieBar} from './components/cookieBar/CookieBar';
-import {checkCookieConsent} from "./utils/cookieUtils";
+import { HashLink } from 'react-router-hash-link';
+import cookieUtil from './utils/cookieUtils';
+import cookiebotUtils from './utils/cookiebotUtils';
+import CookieBar from "./components/cookieBar/cookieBar";
+
 
 class App extends React.Component {
   getChildContext() {
@@ -31,8 +34,13 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    checkCookieConsent();
+    cookieUtil.cookieOnComponentDidMount();
   }
+
+  componentWillUnmount() {
+    cookieUtil.cookieOnComponentWillUnmount();
+  }
+
   render() {
     const locale = this.props.language;
     const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
@@ -59,28 +67,28 @@ class App extends React.Component {
     if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
+    const mainContainerId = "main-container";
+    const skipTo = `${this.props.location.pathname}${this.props.location.search}#${mainContainerId}`;
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          {config.showCookiebar && <CookieBar />}
-          <a
-            href="#main-container"
-            onClick={() => document.getElementById("main-container").focus()}
-            className="skip-to-main-content"
-          >
+          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar />}
+          <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
-          </a>
+          </HashLink>
           <Helmet
             titleTemplate="%s - Kerrokantasi"
             link={favlinks}
             meta={favmeta}
           >
             <html lang={locale} />
+            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getCookieBotConsentScripts()}
+            {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
           <main
             className={fullscreen ? 'fullscreen' : classNames('main-content', {headless})}
-            id="main-container"
+            id={mainContainerId}
             role="main"
             tabIndex="-1"
           >

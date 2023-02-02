@@ -58,25 +58,35 @@ class Info extends React.Component {
     const {intl} = this.props;
     return (
       <div className="container">
-        <Helmet title={intl.formatMessage({ id: 'infoPage' })} />
+        <Helmet
+          title={intl.formatMessage({ id: 'infoPage' })}
+          meta={[
+            {name: "description", content: intl.formatMessage({id: 'descriptionTag'})},
+            {property: "og:description", content: intl.formatMessage({id: 'descriptionTag'})}
+          ]}
+        />
         <Row>
           <Col md={8}>
             <div dangerouslySetInnerHTML={{__html: content}}/>
           </Col>
         </Row>
-        <a
-          id="cookiebar-link"
-          tabIndex="0"
-          role="button"
-          onClick={() => this.openCookieManagementModal()}
-          onKeyDown={(ev) => this.handleKeyDown(ev)}
-        >
-          {getMessage('cookieBar.link.text')}
-        </a>
-        <CookieManagementModal
-          isOpen={this.state.showCookieManagementModal}
-          close={this.closeCookieManagementModal}
-        />
+        {false && (
+          <React.Fragment>
+            <a
+              id="cookiebar-link"
+              tabIndex="0"
+              role="button"
+              onClick={() => this.openCookieManagementModal()}
+              onKeyDown={(ev) => this.handleKeyDown(ev)}
+            >
+              {getMessage('cookieBar.link.text')}
+            </a>
+            <CookieManagementModal
+              isOpen={this.state.showCookieManagementModal}
+              close={this.closeCookieManagementModal}
+            />
+          </React.Fragment>
+        )}
       </div>
     );
   }

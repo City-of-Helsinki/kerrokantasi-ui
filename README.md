@@ -12,7 +12,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-* Node v8 LTS
+* Node v12 LTS
 * Yarn
 * Docker
 
@@ -36,10 +36,11 @@ working configuration for browsing test questionnaires in our test API.
 ### Running development server
 
 ```
+yarn build
 yarn start
 ```
-No separate build step is currently available. There is a development server
-though. It is somewhat unstable, but provides hot reloading:
+No separate build step is required to start the development server.
+It is somewhat unstable, but provides hot reloading:
 ```
 yarn run dev
 ```
@@ -48,10 +49,8 @@ The server will output the URL for accessing kerrokantasi-ui.
 
 ### Running in production
 
-Kerrokantasi-ui always builds itself on start. Therefore, be prepared
-for a lenghty start-up time. You can use your favorite
-process manager to run `yarn start`. Node-specific managers
-can also directly run `server(/index.js)`.
+You can use your favorite process manager to run `yarn build` and `yarn start`.
+Node-specific managers can also directly run `compile(/index.js)` & `server(/index.js)`.
 
 ### Other commands
 

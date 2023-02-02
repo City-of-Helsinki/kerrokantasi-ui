@@ -38,16 +38,37 @@ export const labelShape = PropTypes.shape({
   label: translatedShape,
 });
 
+export const commentHearingDataShape = PropTypes.shape({
+  slug: PropTypes.string,
+  title: PropTypes.object
+});
+
 
 export const contactShape = PropTypes.shape({
   email: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  ornaization: PropTypes.string,
+  organization: PropTypes.string,
+  external_organization: PropTypes.bool,
+  additional_info: PropTypes.string,
   phone: PropTypes.string,
   title: translatedShape,
 });
 
+export const organizationShape = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  external_organization: PropTypes.bool,
+});
+
+export const textEditorHideControlsShape = PropTypes.shape({
+  hideBlockStyleControls: PropTypes.bool,
+  hideInlineStyleControls: PropTypes.bool,
+  hideIframeControls: PropTypes.bool,
+  hideImageControls: PropTypes.bool,
+  hideSkipLinkControls: PropTypes.bool,
+  hideLinkControls: PropTypes.bool,
+});
 
 export const sectionImageShape = PropTypes.shape({
   id: PropTypes.number,
@@ -128,6 +149,7 @@ export const commentShape = PropTypes.shape({
   content: PropTypes.string,
   author_name: PropTypes.string,
   n_votes: PropTypes.number,
+  hearing_data: PropTypes.oneOf([commentHearingDataShape, PropTypes.bool]),
   created_at: PropTypes.string,
   is_registered: PropTypes.bool,
   geojson: geoJSONshape,
@@ -141,6 +163,8 @@ export const labelResultsSchema = new schema.Array(labelSchema);
 export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
 export const contactPersonSchema = new schema.Entity('contactPersons', {}, {idAttribute: 'frontId'});
 export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
+export const organizationSchema = new schema.Entity('organizations', {}, {idAttribute: 'frontId'});
+export const OrganizationResultsSchema = new schema.Array(organizationSchema);
 export const hearingSchema = new schema.Entity('hearing', {
   labels: labelResultsSchema,
   sections: new schema.Array(sectionSchema),
@@ -161,6 +185,7 @@ export type DefaultEntityState = {
 export type SectionState = DefaultEntityState;
 export type LabelState = DefaultEntityState;
 export type ContactPersonState = DefaultEntityState;
+export type OrganizationState = DefaultEntityState;
 
 
 export type HearingState = {

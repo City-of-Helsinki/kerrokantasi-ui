@@ -25,6 +25,16 @@ import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      navbarExpanded: false,
+    };
+  }
+  toggleNavbar() {
+    this.setState({navbarExpanded: !this.state.navbarExpanded});
+  }
+
   componentDidMount() {
     if (typeof window !== 'undefined') {
       this._handleNavFix = throttle(() => {
@@ -104,6 +114,7 @@ class Header extends React.Component {
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
       return null;
     }
+    if (id === 'userInfo' && !user) { return null; }
     if (addSuffix) { messageId += 'HeaderText'; }
     const navLink = (
       <a href="#">
@@ -184,16 +195,16 @@ class Header extends React.Component {
 
         <FormattedMessage id="headerPagesNavLabel">
           {headerPagesNavLabel => (
-            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel}>
+            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel} onToggle={this.toggleNavbar.bind(this)}>
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to={{path: "/"}}>
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
-                <FormattedMessage id="mainMenu">
-                  {mainMenu => (
-                    <Navbar.Toggle aria-label={mainMenu}/>
+                <FormattedMessage id="navigationMenu">
+                  {navigationMenu => (
+                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded}/>
                   )}
                 </FormattedMessage>
               </Navbar.Header>
@@ -203,6 +214,7 @@ class Header extends React.Component {
                   {this.getNavItem('hearingMap', '/hearings/map')}
                   {this.getNavItem('info', '/info')}
                   {this.getNavItem('ownHearings', '/user-hearings', false)}
+                  {this.getNavItem('userInfo', '/user-profile', false)}
                 </ul>
               </Navbar.Collapse>
             </Navbar>

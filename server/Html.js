@@ -3,17 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Html extends React.Component {
-  getMeta() {
-    const {heroImageURL, hearingData} = this.props;
-    const hearingImage = hearingData && hearingData.main_image;
-    const hearingAbstract = hearingData && hearingData.abstract;
+  // Fetches site's default metadata, these are often overwritten
+  // with more specific values
+  getDefaultMeta() {
+    const { heroImageURL } = this.props;
     return {
       title: 'Kerrokantasi',
-      url: hearingImage ? hearingData.main_image.url : heroImageURL,
-      description: hearingAbstract ?
-        hearingData.abstract.fi :
-        `Turun kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
-        kerätään mielipiteitä valmistelussa olevista asioista.`
+      url: heroImageURL,
+      description: `Kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
+      kerätään mielipiteitä valmistelussa olevista asioista.`
     };
   }
   render() {
@@ -23,12 +21,13 @@ export default class Html extends React.Component {
       bundleSrc,
       content,
       head,
-      hearingData,
       heroImageURL,
       initialState,
       showAccessibilityInfo,
       showSocialMediaSharing,
-      showCookiebar,
+      enableCookies,
+      enableCookiebot,
+      cookiebotDataCbid,
       uiConfig,
       openIdClientId,
       openIdAudience,
@@ -37,6 +36,7 @@ export default class Html extends React.Component {
       enableHighContrast,
       enableStrongAuth,
       adminHelpUrl,
+      emptyCommentString,
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -51,18 +51,20 @@ export default class Html extends React.Component {
     window.OPENID_APITOKEN_URL = ${JSON.stringify(openIdApiTokenUrl)};
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
+    window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
+    window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
-    window.SHOW_COOKIEBAR = ${JSON.stringify(showCookiebar)};
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
+    window.EMPTY_COMMENT_STRING = ${JSON.stringify(emptyCommentString)};
     `;
-    const {title, description, url} = this.getMeta();
+    const {title, description, url} = this.getDefaultMeta();
     return (
       <html lang="fi">
         <head>
           <meta charSet="utf-8"/>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
           <meta content="width=device-width, initial-scale=1" name="viewport"/>
-          {hearingData && hearingData.title && <title>{hearingData.title.fi}</title>}
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
           <meta property="og:title" content={title} />
@@ -89,10 +91,11 @@ Html.propTypes = {
   content: PropTypes.string,
   head: PropTypes.object,
   initialState: PropTypes.object,
-  hearingData: PropTypes.object,
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
-  showCookiebar: PropTypes.bool,
+  enableCookies: PropTypes.bool,
+  enableCookiebot: PropTypes.bool,
+  cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,
@@ -100,4 +103,5 @@ Html.propTypes = {
   enableHighContrast: PropTypes.bool,
   enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
+  emptyCommentString: PropTypes.string,
 };

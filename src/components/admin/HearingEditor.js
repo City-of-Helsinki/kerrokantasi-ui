@@ -38,9 +38,10 @@ import {
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
-import {contactShape, hearingShape, labelShape, userShape} from '../../types';
+import {contactShape, hearingShape, labelShape, organizationShape, userShape} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 import validateFunction from '../../utils/validation';
+import CommentReportModal from '../CommentReportModal/CommentReportModal';
 
 
 class HearingEditor extends React.Component {
@@ -56,10 +57,16 @@ class HearingEditor extends React.Component {
     this.onSectionChange = this.onSectionChange.bind(this);
     this.onSectionImageChange = this.onSectionImageChange.bind(this);
     this.onUnPublish = this.onUnPublish.bind(this);
+    this.toggleCommentReports = this.toggleCommentReports.bind(this);
 
     this.state = {
-      errors: {}
+      errors: {},
+      commentReportsOpen: false,
     };
+  }
+
+  toggleCommentReports() {
+    this.setState({commentReportsOpen: !this.state.commentReportsOpen});
   }
 
   onHearingChange = (field, value) => {
@@ -254,7 +261,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const {contactPersons, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
+    const {contactPersons, organizations, hearing, hearingLanguages, labels, dispatch, show, language} = this.props;
     const {errors} = this.state;
     if (isEmpty(hearing)) {
       return null;
@@ -264,6 +271,7 @@ class HearingEditor extends React.Component {
         addOption={this.addOption}
         clearQuestions={this.clearQuestions}
         contactPersons={contactPersons}
+        organizations={organizations}
         currentStep={1}
         deleteOption={this.deleteOption}
         dispatch={this.props.dispatch}
@@ -307,15 +315,24 @@ class HearingEditor extends React.Component {
         {this.getHearingForm()}
 
         {!isNewHearing &&
+        <React.Fragment>
           <HearingToolbar
             hearing={hearing}
             onCloseHearing={this.onCloseHearing}
             onEdit={() => this.props.dispatch(startHearingEdit())}
             onPublish={this.onPublish}
+            onReportsClick={this.toggleCommentReports}
             onRevertPublishing={this.onUnPublish}
             user={this.props.user}
             onDeleteHearingDraft={this.onDeleteHearingDraft}
           />
+          <CommentReportModal
+            hearing={hearing}
+            isOpen={this.state.commentReportsOpen}
+            onClose={this.toggleCommentReports}
+          />
+        </React.Fragment>
+
         }
       </div>
     );
@@ -324,6 +341,7 @@ class HearingEditor extends React.Component {
 
 HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
+  organizations: PropTypes.arrayOf(organizationShape),
   dispatch: PropTypes.func,
   show: PropTypes.bool,
   hearing: hearingShape,

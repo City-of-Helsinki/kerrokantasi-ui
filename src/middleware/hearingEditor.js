@@ -8,7 +8,7 @@ import {
   updateHearingAfterSave
 } from '../actions/hearingEditor';
 import {fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
-import {labelResultsSchema, contactPersonResultsSchema} from '../types';
+import {labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSchema} from '../types';
 
 type FSA = {|
   type: string,
@@ -32,9 +32,11 @@ export const normalizeReceiveEditorMetaData =
     if (action.type === EditorActions.RECEIVE_META_DATA) {
       const labels = get(action, 'payload.labels');
       const contacts = get(action, 'payload.contactPersons');
+      const organizations = get(action, 'payload.organizations');
       const normalizedMetaData = {
         labels: normalize(fillFrontIds(labels), labelResultsSchema),
         contactPersons: normalize(fillFrontIds(contacts), contactPersonResultsSchema),
+        organizations: normalize(fillFrontIds(organizations), OrganizationResultsSchema),
       };
       next({
         type: action.type,

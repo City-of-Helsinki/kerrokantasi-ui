@@ -1,0 +1,77 @@
+.user-profile {
+  h1, h2 {
+    padding: 0 15px;
+  }
+  .content-not-found {
+    text-align: center;
+  }
+  .commentlist {
+    max-height: 600px;
+    @media screen and (min-width: $screen-md-min) {
+      max-height: 900px;
+    }
+    overflow-y: scroll;
+    background-color: #e9ecef;
+    padding: 24px;
+    border-bottom: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+    .hearing-comment-status {
+      div > span {
+        width: fit-content;
+        float: left;
+        @media screen and (min-width: $screen-sm-min) {
+          float: right;
+        }
+      }
+      a {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+    }
+  }
+  .selection-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .form-control {
+      width: initial;
+    }
+  }
+
+
+
+  .hearing-card.user-favorite {
+    display: flex;
+    flex-direction: column;
+    .hearing-card-content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .hearing-card-notice {
+        display: none;
+      }
+      .favorite-button-wrapper{
+        margin-top: auto;
+        .favorite-icon {
+          margin-top: auto;
+          display: flex;
+          justify-content: end;
+          float: right;
+          background-color: transparent;
+          border: none;
+          font-size: 1.25em;
+          color: #0062ae;
+          &:hover {
+            outline-offset: 0;
+            outline: #00375e solid 3px;
+            ::before {
+              content: "\F08A";
+            }
+          }
+        }
+      }
+    }
+  }
+}

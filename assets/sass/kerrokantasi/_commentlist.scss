@@ -58,6 +58,10 @@
       border-left-color: $theme-primary-light;
     }
 
+    &__flagged > .hearing-comment__comment-wrapper {
+      border-left-color: $theme-danger-light;
+    }
+
     &__pin {
       flex-basis: 50%;
       flex-direction: row;
@@ -114,6 +118,10 @@
     &-publisher {
       flex: 1 1 auto;
       font-weight: bold;
+    }
+    &-status {
+      display: flex;
+      flex-direction: column;
     }
 
     &-pinned-container {
@@ -222,6 +230,7 @@
       }
 
       .fa {
+        margin-left: 2px;
         margin-right: 2px;
       }
     }
@@ -309,6 +318,10 @@
     background-color: $white;
     padding-left: $grid-gutter-width;
     list-style-type: none;
+
+    &.list-hidden * {
+      display: none;
+    }
 
     .hearing-comment {
       margin-bottom: 0px;

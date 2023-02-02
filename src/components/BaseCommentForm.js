@@ -13,7 +13,17 @@ import {get, includes} from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
 import {localizedNotifyError} from "../utils/notify";
-import {getSectionCommentingErrorMessage, isSectionCommentingMapEnabled} from "../utils/section";
+import {
+  checkFormErrors,
+  getFirstUnansweredQuestion,
+  getSectionCommentingErrorMessage,
+  hasAnyAnswers,
+  hasAnyQuestions,
+  hasUserAnsweredAllQuestions,
+  isCommentRequired,
+  isEmptyCommentAllowed,
+  isSectionCommentingMapEnabled
+} from "../utils/section";
 import {Polygon, GeoJSON, Polyline, Circle} from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
@@ -25,6 +35,8 @@ import Leaflet, {LatLng} from 'leaflet';
 import leafletMarkerShadowUrl from "../../assets/images/leaflet/marker-shadow.png";
 import leafletMarkerRetinaIconUrl from "../../assets/images/leaflet/marker-icon-2x.png";
 import CommentFormMap from "./CommentFormMap/CommentFormMap";
+import CommentFormErrors from './CommentFormErrors';
+import config from '../config';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -47,8 +59,11 @@ export class BaseCommentForm extends React.Component {
       hideName: false,
       geojson: {},
       mapCommentText: "",
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
     };
     this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
+    this.hasFormErrors = this.hasFormErrors.bind(this);
   }
 
   componentDidMount = () => {
@@ -68,6 +83,9 @@ export class BaseCommentForm extends React.Component {
     if (this.isUserAdmin() && nextProps.user && nextProps.user.displayName) {
       this.setState({ nickname: nextProps.user.displayName });
     }
+    if (this.props.answers !== nextProps.answers) {
+      this.setState({commentOrAnswerRequiredError: false});
+    }
   }
 
   toggle() {
@@ -83,6 +101,8 @@ export class BaseCommentForm extends React.Component {
         showAlert: true,
         hideName: false,
         mapCommentText: "",
+        commentRequiredError: false,
+        commentOrAnswerRequiredError: false,
       });
       if (this.props.onOverrideCollapse instanceof Function) {
         this.props.onOverrideCollapse();
@@ -93,11 +113,20 @@ export class BaseCommentForm extends React.Component {
   }
 
   handleTextChange(event) {
-    this.setState({commentText: event.target.value});
+    this.setState({
+      commentText: event.target.value,
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    });
   }
 
   handleNicknameChange(event) {
     this.setState({nickname: event.target.value});
+  }
+
+  hasFormErrors() {
+    const {imageTooBig, commentRequiredError, commentOrAnswerRequiredError} = this.state;
+    return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
   }
 
   clearCommentText() {
@@ -105,6 +134,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   submitComment() {
+    const {section, answers, isReply, loggedIn, user} = this.props;
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
     let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
@@ -129,6 +159,24 @@ export class BaseCommentForm extends React.Component {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
     }
+
+    // validate form errors here before posting the comment
+    const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
+    const errors = checkFormErrors(
+      this.state.imageTooBig, commentText, section, answers, isReply, userAnsweredAllQuestions
+    );
+    if (errors.length > 0) {
+      this.handleErrorStates(errors);
+      return;
+    }
+
+    // make sure empty comments are not added when not intended
+    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
+      if (!commentText.trim()) {
+        commentText = config.emptyCommentString;
+      }
+    }
+
     this.props.onPostComment(
       commentText,
       nickname,
@@ -150,6 +198,16 @@ export class BaseCommentForm extends React.Component {
       hideName: false,
       geojson: {},
       mapCommentText: "",
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    });
+  }
+
+  handleErrorStates(errors) {
+    this.setState({
+      commentRequiredError: errors.includes('commentRequiredError'),
+      commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
+      imageTooBig: errors.includes('imageTooBig')
     });
   }
 
@@ -430,10 +488,21 @@ export class BaseCommentForm extends React.Component {
         </Button>
       );
     }
+
+    const hasQuestions = hasAnyQuestions(section);
+    const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
+    const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
+    const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
+
     return (
       <div className="comment-form">
         <form>
           <h2><FormattedMessage id="writeComment"/></h2>
+          <p>
+            <FormattedMessage
+              id={commentRequired ? "commentHelpStarRequired" : "commentHelpAnswerOrCommentRequired"}
+            />
+          </p>
           {
             !isReply &&
             section.questions.map((question) => {
@@ -451,6 +520,8 @@ export class BaseCommentForm extends React.Component {
               return canShowQuestionForm
                 ? (
                   <QuestionForm
+                    // give focus when there are unanswered questions
+                    autoFocus={!!firstUnansweredQuestion && firstUnansweredQuestion.id === question.id}
                     key={question.id}
                     canAnswer={canComment}
                     answers={answers.find(answer => answer.question === question.id)}
@@ -466,6 +537,7 @@ export class BaseCommentForm extends React.Component {
             <div className="comment-form__heading-container__title">
               <label htmlFor="commentTextField" className="h4">
                 <FormattedMessage id="writeComment"/>
+                {commentRequired && <span aria-hidden="true">*</span>}
               </label>
             </div>
             {
@@ -479,11 +551,13 @@ export class BaseCommentForm extends React.Component {
             }
           </div>
           <FormControl
-            autoFocus
+            // set focus when there are no questions before to be answered
+            autoFocus={isReply || !firstUnansweredQuestion}
             componentClass="textarea"
             value={this.state.commentText}
             onChange={this.handleTextChange.bind(this)}
             id="commentTextField"
+            required={commentRequired}
           />
           {isSectionCommentingMapEnabled(user, section) && (
             <div className="comment-form__map-container" style={{ marginTop: 20}}>
@@ -568,12 +642,18 @@ export class BaseCommentForm extends React.Component {
             </Button>
             <Button
               bsStyle="primary"
-              disabled={!this.state.commentText || this.state.imageTooBig}
+              aria-disabled={this.hasFormErrors()}
+              className={this.hasFormErrors() ? 'disabled' : null}
               onClick={this.submitComment.bind(this)}
             >
               <FormattedMessage id="submit"/>
             </Button>
           </div>
+          <CommentFormErrors
+            commentRequiredError={this.state.commentRequiredError}
+            commentOrAnswerRequiredError={this.state.commentOrAnswerRequiredError}
+            imageTooBig={this.state.imageTooBig}
+          />
           <CommentDisclaimer/>
         </form>
       </div>

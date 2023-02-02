@@ -16,6 +16,8 @@ import { fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, f
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import { getHearingWithSlug } from '../../selectors/hearing';
 import { getUser } from '../../selectors/user';
+import {organizationShape} from "../../types";
+import { html2text } from '../../utils/commonUtils';
 
 const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../components/admin/HearingEditor'));
 
@@ -75,6 +77,7 @@ export class HearingContainerComponent extends React.Component {
       hearingLanguages,
       isLoading,
       contactPersons,
+      organizations,
       setLanguage
     } = this.props;
 
@@ -84,7 +87,13 @@ export class HearingContainerComponent extends React.Component {
           <React.Fragment>
             <Helmet
               title={getAttr(hearing.title, language)}
-              meta={[{name: "description", content: getAttr(hearing.abstract, language)}]}
+              meta={[
+                {name: "description", content: html2text(getAttr(hearing.abstract, language))},
+                {property: "og:description", content: html2text(getAttr(hearing.abstract, language))},
+                hearing.main_image != null
+                && hearing.main_image.url
+                && {property: "og:image", content: hearing.main_image.url}
+              ]}
             />
             {(!isEmpty(user) && canEdit(user, hearing)) &&
               <Suspense fallback={<LoadSpinner />}>
@@ -95,6 +104,7 @@ export class HearingContainerComponent extends React.Component {
                   user={user}
                   isLoading={isLoading}
                   contactPersons={contactPersons}
+                  organizations={organizations}
                 />
               </Suspense>
             }
@@ -131,6 +141,7 @@ HearingContainerComponent.propTypes = {
   hearingLanguages: PropTypes.array,
   isLoading: PropTypes.bool,
   contactPersons: PropTypes.array,
+  organizations: PropTypes.arrayOf(organizationShape),
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
@@ -147,7 +158,8 @@ const mapStateToProps = (state, ownProps) => ({
   labels: HearingEditorSelector.getLabels(state),
   user: getUser(state),
   isLoading: HearingEditorSelector.getIsLoading(state),
-  contactPersons: HearingEditorSelector.getContactPersons(state)
+  contactPersons: HearingEditorSelector.getContactPersons(state),
+  organizations: state.hearingEditor.organizations.all,
 });
 
 const mapDispatchToProps = dispatch => ({

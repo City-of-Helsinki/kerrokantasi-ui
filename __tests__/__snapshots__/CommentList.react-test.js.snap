@@ -141,6 +141,7 @@ exports[`CommentList component should render as expected 1`] = `
         "voting": "registered",
       }
     }
+    showReplies={false}
   />
 </ul>
 `;

@@ -22,7 +22,7 @@ import {
   contactShape,
   hearingShape,
   hearingEditorMetaDataShape,
-  labelShape,
+  labelShape, organizationShape,
 } from '../../types';
 
 
@@ -48,6 +48,7 @@ class HearingForm extends React.Component {
   getFormStep(stepNumber) {
     const {
       contactPersons,
+      organizations,
       intl: {formatMessage},
       hearing,
       labels,
@@ -83,6 +84,7 @@ class HearingForm extends React.Component {
               addOption={addOption}
               clearQuestions={this.props.clearQuestions}
               contactPersons={contactPersons}
+              organizations={organizations}
               deleteOption={deleteOption}
               dispatch={this.props.dispatch}
               editorMetaData={this.props.editorMetaData}
@@ -234,6 +236,7 @@ HearingForm.propTypes = {
   addOption: PropTypes.func,
   clearQuestions: PropTypes.func,
   contactPersons: PropTypes.arrayOf(contactShape),
+  organizations: PropTypes.arrayOf(organizationShape),
   currentStep: PropTypes.number,
   deleteOption: PropTypes.func,
   dispatch: PropTypes.func,
