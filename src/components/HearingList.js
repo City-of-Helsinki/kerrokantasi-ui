@@ -136,6 +136,17 @@ export class HearingListItem extends React.Component {
       en: 'Questionnaire available in English',
     };
 
+    // Preparing the dates for translation.
+    const isPast = function(time) { return time < new Date().getTime() };
+    const openTime = formatTime(hearing.open_at, {hour: '2-digit', minute: '2-digit'});
+    const openDate = formatDate(hearing.open_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
+    const closeTime = formatTime(hearing.close_at, {hour: '2-digit', minute: '2-digit'});
+    const closeDate = formatDate(hearing.close_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
+
+    // Translation ID's for ITIL translation values
+    let openMessageId = 'timeOpen' + (isPast(openTime) ? 'Past' : 'Future') + 'WithValues';
+    let closeMessageId = 'timeClose' + (isPast(openTime) ? 'Past' : 'Future') + 'WithValues';
+
     return (
       <div className="hearing-list-item" role="listitem">
         <MouseOnlyLink
@@ -168,15 +179,10 @@ export class HearingListItem extends React.Component {
           </div>
           <div className="hearing-list-item-times">
             <div>
-              <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />
+              <FormattedMessage id={openMessageId} values={{time: openTime, date: openDate}} />
             </div>
             <div>
-              <FormatRelativeTime
-                messagePrefix="timeClose"
-                timeVal={hearing.close_at}
-                formatTime={formatTime}
-                formatDate={formatDate}
-              />
+              <FormattedMessage id={closeMessageId} values={{time: closeTime, date: closeDate}} />
             </div>
           </div>
           <div className="hearing-list-item-labels clearfix">
