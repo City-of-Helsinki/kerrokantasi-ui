@@ -21,6 +21,13 @@ import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageText
 import {hearingShape} from '../../types';
 import {addSection} from '../../actions/hearingEditor';
 
+const convertStartOfToEndOfDay = function convertToEndOfDay(datetime) {
+  const dt = moment(datetime);
+  if (dt.isValid() && dt.isSame(dt.clone().startOf('day'))) {
+    return dt.endOf('day');
+  }
+  return datetime;
+};
 
 class HearingFormStep4 extends React.Component {
   constructor(props) {
@@ -54,9 +61,10 @@ class HearingFormStep4 extends React.Component {
 
   onChangeEnd(datetime) {
     if (datetime.toISOString instanceof Function) {
-      this.props.onHearingChange("close_at", datetime.toISOString());
+      const dt = convertStartOfToEndOfDay(datetime);
+      this.props.onHearingChange("close_at", dt.toISOString());
     } else if (moment(datetime, 'DD-MM-YYYY', true).isValid()) {
-      const manualDate = moment(datetime, 'DD-MM-YYYY');
+      const manualDate = convertStartOfToEndOfDay(moment(datetime, 'DD-MM-YYYY'));
       this.props.onHearingChange("close_at", moment(manualDate, 'llll').toISOString());
     }
   }
