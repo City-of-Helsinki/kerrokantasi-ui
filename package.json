@@ -12,7 +12,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "coverage": "jest --coverage --coverageReporters=cobertura"
   },
   "repository": {
     "type": "git",
