@@ -8,7 +8,6 @@ import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
 import { keys, capitalize } from 'lodash';
 
-import FormatRelativeTime from '../utils/FormatRelativeTime';
 import HearingsSearch from './HearingsSearch';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
@@ -137,15 +136,15 @@ export class HearingListItem extends React.Component {
     };
 
     // Preparing the dates for translation.
-    const isPast = function(time) { return time < new Date().getTime() };
+    const isPast = (time) => { return time < new Date().getTime(); };
     const openTime = formatTime(hearing.open_at, {hour: '2-digit', minute: '2-digit'});
     const openDate = formatDate(hearing.open_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
     const closeTime = formatTime(hearing.close_at, {hour: '2-digit', minute: '2-digit'});
     const closeDate = formatDate(hearing.close_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
 
     // Translation ID's for ITIL translation values
-    let openMessageId = 'timeOpen' + (isPast(openTime) ? 'Past' : 'Future') + 'WithValues';
-    let closeMessageId = 'timeClose' + (isPast(openTime) ? 'Past' : 'Future') + 'WithValues';
+    const openMessageId = 'timeOpen' + (isPast(openTime) ? 'Past' : 'Future') + 'WithValues';
+    const closeMessageId = 'timeClose' + (isPast(closeTime) ? 'Past' : 'Future') + 'WithValues';
 
     return (
       <div className="hearing-list-item" role="listitem">
