@@ -59,8 +59,12 @@ class HearingListFilters extends React.Component {
 
   sortList = (event) => {
     const { handleSort } = this.props;
+    const value = event.target.value;
+    const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
+    const showOnlyOpen = value.indexOf('_from_open') !== -1;
+    const showOnlyClosed = value.indexOf('_from_closed') !== -1;
 
-    handleSort(event.target.value);
+    handleSort(sortBy, showOnlyOpen, showOnlyClosed);
 
     const newMessage = {
       id: Math.random(),
@@ -98,8 +102,9 @@ class HearingListFilters extends React.Component {
           >
             <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
             <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-            <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
-            <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
+            <option value="-close_at_from_open">{formatMessage({id: 'lastClosing'})}</option>
+            <option value="close_at_from_open">{formatMessage({id: 'firstClosing'})}</option>
+            <option value="-close_at_from_closed">{formatMessage({id: 'lastClosed'})}</option>
             <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
             <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
             <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>

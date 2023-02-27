@@ -93,6 +93,7 @@ export class Hearings extends React.Component {
       sortBy: '-created_at',
       adminFilter: isAdmin(props.user) ? AdminFilters[0].list : null,
       showOnlyOpen: false,
+      showOnlyClosed: false,
       initHearingsFetched: false,
     };
 
@@ -189,9 +190,18 @@ export class Hearings extends React.Component {
 
   fetchHearingList(props = this.props) {
     const {fetchInitialHearingList, fetchAllHearings, match: {params: {tab}}} = props;
-    const { sortBy } = this.state;
+    const { sortBy, showOnlyOpen, showOnlyClosed } = this.state;
     const list = this.getHearingListName();
-    const params = Object.assign({}, getHearingListParams(list), { ordering: sortBy }, Hearings.getSearchParams(props));
+    const filterByOpen = (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
+    const params = Object.assign(
+      {},
+      getHearingListParams(list),
+      {
+        ordering: sortBy,
+        ...filterByOpen && {open: showOnlyOpen},
+      },
+      Hearings.getSearchParams(props)
+    );
 
     if (tab === 'map') {
       fetchAllHearings(list, params);
@@ -248,9 +258,9 @@ export class Hearings extends React.Component {
     });
   }
 
-  handleSort(sortBy) {
+  handleSort(sortBy, showOnlyOpen, showOnlyClosed) {
     this.setState(
-      () => ({ sortBy }),
+      () => ({ sortBy, showOnlyOpen, showOnlyClosed }),
       () => {
         this.fetchHearingList();
       },
