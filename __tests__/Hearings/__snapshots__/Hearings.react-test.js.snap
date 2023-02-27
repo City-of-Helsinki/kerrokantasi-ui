@@ -349,6 +349,7 @@ exports[`Hearings component should render as expected 1`] = `
           "lang-fi": "Suomi",
           "lang-sv": "Svenska",
           "languageSwitchLabel": "Valitse sivuston kieli",
+          "lastClosed": "Viimeisenä sulkeutunut",
           "lastClosing": "Viimeisenä sulkeutuva",
           "lastOpen": "Viimeisenä auennut",
           "leastCommented": "Vähiten kommentoitu",
