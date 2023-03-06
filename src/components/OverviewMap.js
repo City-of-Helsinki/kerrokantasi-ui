@@ -131,7 +131,7 @@ class OverviewMap extends React.Component {
           default:
           // TODO: Implement support for other geometries too (markers, square, circle)
             contents.push(
-              <GeoJSON data={geojson} key={JSON.stringify(geojson)}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
+              <GeoJSON data={geojson} key={Math.random()}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
             );
         }
         // contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
