@@ -67,74 +67,20 @@ class OverviewMap extends React.Component {
 
 
   getHearingMapContent(hearings) {
-    const {mapElementLimit} = this.props;
     const contents = [];
     hearings.forEach((hearing) => {
       /* eslint-disable-next-line no-unused-vars */
       const {geojson, id} = hearing;
 
       if (geojson) {
-        switch (geojson.type) {
-          case "Polygon": {
-            // XXX: This only supports the _first_ ring of coordinates in a Polygon
-            const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(
-              <Polygon
-                key={Math.random()}
-                positions={latLngs}
-              >
-                {this.getPopupContent(hearing, geojson)}
-              </Polygon>);
-          }
-            break;
-          case "Point": {
-            const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-            contents.push(
-              <Marker
-                position={latLngs}
-                key={Math.random()}
-                icon={new Leaflet.Icon({
-                  iconUrl: leafletMarkerIconUrl,
-                  shadowUrl: leafletMarkerShadowUrl,
-                  iconRetinaUrl: leafletMarkerRetinaIconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [13, 41]
-                })}
-                {...this.getAdditionalParams(hearing)}
-              >{this.getPopupContent(hearing, geojson)}
-              </Marker>
-            );
-          }
-            break;
-          case "LineString": {
-            const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-            contents.push(
-              <Polyline key={Math.random()} positions={latLngs}>{this.getPopupContent(hearing, geojson)}</Polyline>
-            );
-          }
-            break;
-          // eslint-disable-next-line no-lone-blocks
-          case "FeatureCollection": {
-            // if mapElementLimit is true & more than 0, display up to that amount of elements
-            if (mapElementLimit && mapElementLimit > 0) {
-              geojson.features.slice(0, mapElementLimit).forEach((feature) => {
-                contents.push(this.getMapElement(feature, hearing));
-              });
-            } else {
-              // if mapElementLimit is false -> display all elements found in FeatureCollection
-              geojson.features.forEach((feature) => {
-                contents.push(this.getMapElement(feature, hearing));
-              });
-            }
-          }
-            break;
-          default:
-          // TODO: Implement support for other geometries too (markers, square, circle)
-            contents.push(
-              <GeoJSON data={geojson} key={Math.random()}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
-            );
+        const mapElement = this.getMapElement(hearing);
+        if (mapElement.isArray() && mapElement.length > 0) {
+          mapElement.forEach(mapEl => {
+            contents.push(mapEl);
+          });
+        } else if (mapElement) {
+          contents.push(this.getMapElement(hearing));
         }
-        // contents.push(<GeoJSON key={id} data={geojson}>{content}</GeoJSON>);
       }
     });
     return contents;
@@ -146,53 +92,78 @@ class OverviewMap extends React.Component {
    * @param {Object} hearing
    * @returns {JSX.Element|*}
    */
-  getMapElement(geojson, hearing) {
-    switch (geojson.type) {
-      case "Polygon": {
-        // XXX: This only supports the _first_ ring of coordinates in a Polygon
-        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-        return (
-          <Polygon
-            key={Math.random()}
-            positions={latLngs}
-          >
-            {this.getPopupContent(hearing, geojson)}
-          </Polygon>);
+  getMapElement(hearing) {
+    const {mapElementLimit} = this.props;
+    const {geojson, id} = hearing;
+    if (geojson) {
+      switch (geojson.type) {
+        case "Polygon": {
+          // XXX: This only supports the _first_ ring of coordinates in a Polygon
+          const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+          return (
+            <Polygon
+              key={id + "" + Math.random()}
+              positions={latLngs}
+            >
+              {this.getPopupContent(hearing, geojson)}
+            </Polygon>);
+        }
+        case "Point": {
+          const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+          return (
+            <Marker
+              position={latLngs}
+              key={id + "" + Math.random()}
+              icon={new Leaflet.Icon({
+                iconUrl: leafletMarkerIconUrl,
+                shadowUrl: leafletMarkerShadowUrl,
+                iconRetinaUrl: leafletMarkerRetinaIconUrl,
+                iconSize: [25, 41],
+                iconAnchor: [13, 41]
+              })}
+              {...this.getAdditionalParams(hearing)}
+            >{this.getPopupContent(hearing, geojson)}
+            </Marker>
+          );
+        }
+        case "LineString": {
+          const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+          return (
+            <Polyline key={id + "" + Math.random()} positions={latLngs}>
+              {this.getPopupContent(hearing, geojson)}
+            </Polyline>
+          );
+        }
+        case "FeatureCollection": {
+          // if mapElementLimit is true & more than 0, display up to that amount of elements
+          const mapElementArray = [];
+          if (mapElementLimit && mapElementLimit > 0) {
+            geojson.features.slice(0, mapElementLimit).forEach((feature) => {
+              mapElementArray.push(this.getMapElement(feature, hearing));
+            });
+          } else {
+            // if mapElementLimit is false -> display all elements found in FeatureCollection
+            geojson.features.forEach((feature) => {
+              mapElementArray.push(this.getMapElement(feature, hearing));
+            });
+            return mapElementArray;
+          }
+        }
+          break;
+        case "Feature": {
+          /**
+           * Recursively get the Map element
+           */
+          return (this.getMapElement(geojson.geometry, hearing));
+        }
+        default:
+          // TODO: Implement support for other geometries too (markers, square, circle)
+          return (
+            <GeoJSON data={geojson} key={id + "" + Math.random()}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
+          );
       }
-      case "Point": {
-        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-        return (
-          <Marker
-            position={latLngs}
-            key={Math.random()}
-            icon={new Leaflet.Icon({
-              iconUrl: leafletMarkerIconUrl,
-              shadowUrl: leafletMarkerShadowUrl,
-              iconRetinaUrl: leafletMarkerRetinaIconUrl,
-              iconSize: [25, 41],
-              iconAnchor: [13, 41]
-            })}
-            {...this.getAdditionalParams(hearing)}
-          >{this.getPopupContent(hearing, geojson)}
-          </Marker>
-        );
-      }
-      case "LineString": {
-        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-        return (<Polyline key={Math.random()} positions={latLngs}>{this.getPopupContent(hearing, geojson)}</Polyline>);
-      }
-      case "Feature": {
-        /**
-         * Recursively get the Map element
-         */
-        return (this.getMapElement(geojson.geometry, hearing));
-      }
-      default:
-        // TODO: Implement support for other geometries too (markers, square, circle)
-        return (
-          <GeoJSON data={geojson} key={JSON.stringify(geojson)}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
-        );
     }
+    return [];
   }
 
   /**
