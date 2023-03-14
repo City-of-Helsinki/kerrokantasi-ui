@@ -146,8 +146,8 @@ class OverviewMap extends React.Component {
             geojson.features.forEach((feature) => {
               mapElementArray.push(this.getMapElement(feature.geometry, hearing));
             });
-            return mapElementArray; 
           }
+          return mapElementArray;
         }
           break;
         case "Feature": {
