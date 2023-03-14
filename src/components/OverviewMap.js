@@ -149,7 +149,6 @@ class OverviewMap extends React.Component {
           }
           return mapElementArray;
         }
-          break;
         case "Feature": {
           /**
            * Recursively get the Map element
