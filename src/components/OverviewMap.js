@@ -74,11 +74,11 @@ class OverviewMap extends React.Component {
 
       if (geojson) {
         const mapElement = this.getMapElement(hearing);
-        if (mapElement.isArray() && mapElement.length > 0) {
+        if (Array.isArray(mapElement) && mapElement.length > 0) {
           mapElement.forEach(mapEl => {
             contents.push(mapEl);
           });
-        } else if (mapElement && !mapElement.isArray()) {
+        } else if (mapElement && !Array.isArray(mapElement)) {
           contents.push(mapElement);
         }
       }
