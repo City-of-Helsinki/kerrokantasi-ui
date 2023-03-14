@@ -78,8 +78,8 @@ class OverviewMap extends React.Component {
           mapElement.forEach(mapEl => {
             contents.push(mapEl);
           });
-        } else if (mapElement) {
-          contents.push(this.getMapElement(hearing));
+        } else if (mapElement && !mapElement.isArray()) {
+          contents.push(mapElement);
         }
       }
     });
