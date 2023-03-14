@@ -70,10 +70,10 @@ class OverviewMap extends React.Component {
     const contents = [];
     hearings.forEach((hearing) => {
       /* eslint-disable-next-line no-unused-vars */
-      const {geojson, id} = hearing;
+      const {geojson} = hearing;
 
       if (geojson) {
-        const mapElement = this.getMapElement(hearing);
+        const mapElement = this.getMapElement(geojson, hearing);
         if (Array.isArray(mapElement) && mapElement.length > 0) {
           mapElement.forEach(mapEl => {
             contents.push(mapEl);
@@ -92,9 +92,9 @@ class OverviewMap extends React.Component {
    * @param {Object} hearing
    * @returns {JSX.Element|*}
    */
-  getMapElement(hearing) {
+  getMapElement(geojson, hearing) {
     const {mapElementLimit} = this.props;
-    const {geojson, id} = hearing;
+    const {id} = hearing;
     if (geojson) {
       switch (geojson.type) {
         case "Polygon": {
@@ -139,14 +139,14 @@ class OverviewMap extends React.Component {
           const mapElementArray = [];
           if (mapElementLimit && mapElementLimit > 0) {
             geojson.features.slice(0, mapElementLimit).forEach((feature) => {
-              mapElementArray.push(this.getMapElement(feature, hearing));
+              mapElementArray.push(this.getMapElement(feature.geometry, hearing));
             });
           } else {
             // if mapElementLimit is false -> display all elements found in FeatureCollection
             geojson.features.forEach((feature) => {
-              mapElementArray.push(this.getMapElement(feature, hearing));
+              mapElementArray.push(this.getMapElement(feature.geometry, hearing));
             });
-            return mapElementArray;
+            return mapElementArray; 
           }
         }
           break;
