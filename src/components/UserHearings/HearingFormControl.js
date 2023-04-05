@@ -19,8 +19,6 @@ const HearingFormControl = ({formatMessage, changeSort}) => {
         <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
         <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
         <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
-        <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-        <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
         <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
         <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
       </FormControl>
