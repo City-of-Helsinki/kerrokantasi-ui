@@ -184,8 +184,8 @@ class Header extends React.Component {
 
               <div className="nav-user-menu navbar-right">
                 {this.contrastToggle()}
-                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
+                <LanguageSwitcher currentLanguage={this.props.language}/>
               </div>
             </Navbar>
           )}
