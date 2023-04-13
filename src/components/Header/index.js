@@ -1,8 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
+import { Button, IconUser, IconSignin, Select } from 'hds-react';
 import Icon from '../../utils/Icon';
+import classNames from 'classnames';
 
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
@@ -68,38 +70,34 @@ class Header extends React.Component {
 
     if (user) {
       return [
-        <DropdownButton
-          pullRight
-          key="profile"
-          id="userMenu"
-          className="user-menu user-menu--logged"
-          title={
-            <span>
-              <Icon name="user" className="user-nav-icon" aria-hidden="true" />
-              <span className="user-name">{user.displayName}</span>
-            </span>
-          }
-        >
-          <MenuItem
-            key="logout"
-            eventKey="logout"
-            onClick={() => userManager.signoutRedirect()}
-          >
-            <FormattedMessage id="logout" />
-          </MenuItem>
-        </DropdownButton>,
+        <FormattedMessage key="logout" id="logout">
+          {logout => (
+            <Select
+              id="userMenu"
+              className={classNames('user-menu', 'user-menu--logged')}
+              icon={
+                <span>
+                  <IconUser />
+                  <span className="user-name">{user.displayName}</span>
+                </span>
+              }
+              options={[{label: logout}]}
+              onChange={() => userManager.signoutRedirect()}
+            />
+          )}
+        </FormattedMessage>
       ];
     }
     return [
       <FormattedMessage key="login" id="login">
         {login => (
           <Button
-            key="login"
-            aria-label={login}
-            className="user-menu login-link user-menu--unlogged"
+            variant="supplementary"
+            theme="black"
+            iconLeft={<IconSignin />}
+            className={classNames('user-menu', 'login-link', 'user-menu--unlogged')}
             onClick={() => this.handleLogin()}
           >
-            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
             <span className="user-name">{login}</span>
           </Button>
         )}
@@ -195,7 +193,13 @@ class Header extends React.Component {
 
         <FormattedMessage id="headerPagesNavLabel">
           {headerPagesNavLabel => (
-            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel} onToggle={this.toggleNavbar.bind(this)}>
+            <Navbar
+              default
+              fluid
+              collapseOnSelect
+              className="navbar-primary"
+              aria-label={headerPagesNavLabel}
+              onToggle={this.toggleNavbar.bind(this)}>
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to={{path: "/"}}>
