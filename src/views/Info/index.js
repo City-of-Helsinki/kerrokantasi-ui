@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/lib/Row';
 import trackLink from '../../utils/trackLink';
 import {injectIntl, intlShape} from 'react-intl';
 import Helmet from 'react-helmet';
-import CookieManagementModal from "../../components/cookieBar/CookieManagementModal";
+import CookieManagementModal from "../../components/CookieBar/CookieManagementModal";
 import getMessage from '../../utils/getMessage';
 
 function getContent(language) {
