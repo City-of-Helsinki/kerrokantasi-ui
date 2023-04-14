@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import { HashLink } from 'react-router-hash-link';
 import cookieUtil from './utils/cookieUtils';
 import cookiebotUtils from './utils/cookiebotUtils';
-import CookieBar from "./components/cookieBar/cookieBar";
+import CookieBar from "./components/CookieBar/CookieBar";
 
 
 class App extends React.Component {
@@ -34,7 +34,10 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookieUtil.cookieOnComponentDidMount();
+    cookieUtil.getCookieScripts();
+    if (config.enableCookies) {
+      cookieUtil.checkCookieConsent();
+    }
   }
 
   componentWillUnmount() {
@@ -72,7 +75,7 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar />}
+          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar language={locale} />}
           <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
           </HashLink>
@@ -83,7 +86,6 @@ class App extends React.Component {
           >
             <html lang={locale} />
             {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getCookieBotConsentScripts()}
-            {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
           <main
