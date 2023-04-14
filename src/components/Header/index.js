@@ -195,14 +195,7 @@ class Header extends React.Component {
 
         <FormattedMessage id="headerPagesNavLabel">
           {headerPagesNavLabel => (
-            <Navbar
-              default
-              fluid
-              collapseOnSelect
-              className="navbar-primary"
-              aria-label={headerPagesNavLabel}
-              onToggle={this.toggleNavbar.bind(this)}
-            >
+            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel} onToggle={this.toggleNavbar.bind(this)}>
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to={{path: "/"}}>

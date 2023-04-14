@@ -20,6 +20,7 @@ import SectionAttachment from './SectionAttachment';
 import SectionBrowser from '../../SectionBrowser';
 import SectionImage from './SectionImage';
 import SortableCommentList from '../../SortableCommentList';
+import config from '../../../config';
 import getAttr from '../../../utils/getAttr';
 import SubSectionsList from './SubSectionsList';
 import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';

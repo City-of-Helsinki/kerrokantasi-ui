@@ -189,7 +189,7 @@ class HearingEditor extends React.Component {
     // true if one of the keys in localErrors contain entries
     // eslint-disable-next-line no-unused-vars
     this.setState({errors: localErrors});
-    const containsError = Object.entries(localErrors).some(([v]) => Object.entries(v).length > 0);
+    const containsError = Object.entries(localErrors).some(([k, v]) => Object.entries(v).length > 0);
     if (!containsError) {
       return dispatch(callbackAction(hearing));
     }

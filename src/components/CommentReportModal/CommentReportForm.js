@@ -4,6 +4,7 @@ import { Button, ControlLabel, Form, FormControl, FormGroup } from "react-bootst
 import { FormattedMessage } from "react-intl";
 import getAttr from '../../utils/getAttr';
 import Icon from "../../utils/Icon";
+import config from '../../config';
 import { connect } from "react-redux";
 import { FILE_FORMATS } from "./constants";
 import { getApiURL } from "../../api";

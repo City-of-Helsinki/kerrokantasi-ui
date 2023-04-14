@@ -27,7 +27,7 @@ export function getCorrectContrastMapTileUrl(
   normalMapTilesUrl,
   highContrastMapTilesUrl,
   isHighContrastEnabled,
-// language, uncomment when language specific map tiles are implemented
+  language
 ) {
   if (isHighContrastEnabled && highContrastMapTilesUrl) {
     // Start using commented return once language specific map tiles are implemented
