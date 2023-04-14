@@ -1,9 +1,15 @@
 /* eslint-disable react/self-closing-comp */
-import React from 'react';
-// eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
 import cookiebotUtils from './cookiebotUtils';
 import config from '../config';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+import setupMatomo from '@city-assets/js/piwik';
+
+
+function getCookie(name) {
+  const cookie = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return decodeURIComponent(cookie ? cookie.at(2) : '');
+}
 
 function cookieOnComponentDidMount() {
   if (cookiebotUtils.isCookiebotEnabled()) {
@@ -20,49 +26,30 @@ function cookieOnComponentWillUnmount() {
 }
 
 /**
- * Returns a default cookie script element with src urls.analytics
- * @returns {JSX.Element} script element
+ * Initial check on page load to enable cookies if
+ * consent has been given on previous visit to page
+ * Expects consents to be stored in format of {consentName: Boolean, consentName: Boolean}
  */
-export function getDefaultCookieScripts() {
-  return (
-    <script
-      type="text/javascript"
-      src={urls.analytics}
-    >
-    </script>
-  );
-}
-
-/**
- * Checks if cookie with the name 'CookieConsent' exists.
- * If it exists and its value is 'true' -> addCookieScript() is called.
- * @example
- * const consentValue = document.cookie.split('; ')
- * .find(row => row.startsWith('CookieConsent')).split('=')[1];
- * if (consentValue === 'true') { addCookieScript(); }
- */
-function checkCookieConsent() {
-  if (document.cookie.split('; ').find(row => row.startsWith('CookieConsent'))) {
-    const consentValue = document.cookie.split('; ').find(row => row.startsWith('CookieConsent')).split('=')[1];
-    if (consentValue === 'true') {
-      addCookieScript();
-    }
+export function checkCookieConsent() {
+  const cookies = getCookie('city-of-helsinki-cookie-consents');
+  let consents = {};
+  if (cookies) {
+    consents = JSON.parse(cookies);
+  }
+  if (consents.matomo === true) {
+    enableMatomoTracking();
   }
 }
 
+export function enableMatomoTracking() {
+  window._paq.push(['setConsentGiven']);
+}
+
 /**
- * Creates new script element with src from urls.analytics.
- *
- * Checks if a script element with that src already exists, if not then the element is appended to <head> .
+ * This is the initial setup for trackers that can be disabled on initialization.
  */
-function addCookieScript() {
-  const scriptElements = Object.values(document.getElementsByTagName('head')[0].getElementsByTagName('script'));
-  if (!scriptElements.find(element => element.src.includes(urls.analytics))) {
-    const cookieScript = document.createElement('script');
-    cookieScript.type = 'text/javascript';
-    cookieScript.src = `${urls.analytics}`;
-    document.getElementsByTagName('head')[0].appendChild(cookieScript);
-  }
+function addCookieScripts() {
+  setupMatomo();
 }
 
 /**
@@ -74,15 +61,16 @@ export function getCookieScripts() {
   if (cookiebotUtils.isCookiebotEnabled()) {
     return cookiebotUtils.getCookieBotScripts();
   } else if (config.enableCookies) {
-    return getDefaultCookieScripts();
+    return addCookieScripts();
   }
   return null;
 }
 
+
 export default {
   cookieOnComponentDidMount,
   cookieOnComponentWillUnmount,
-  getDefaultCookieScripts,
   getCookieScripts,
   checkCookieConsent,
+  enableMatomoTracking,
 };
