@@ -1,5 +1,4 @@
 import React from 'react';
-import getMessage from '../../utils/getMessage';
 import { CookieModal } from 'hds-react';
 import { enableMatomoTracking } from "../../utils/cookieUtils";
 import config from '../../config';
@@ -14,7 +13,7 @@ export class CookieBar extends React.Component {
 
   getCookieModalConfig = () => {
     return {
-      siteName: getMessage('cookieBar.title'),
+      siteName: document.querySelector("meta[property='og:title']").getAttribute('content'),
       currentLanguage: this.state.language,
       optionalCookies: {
         groups: [
