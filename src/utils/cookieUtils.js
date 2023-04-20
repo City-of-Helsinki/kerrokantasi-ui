@@ -3,7 +3,7 @@ import cookiebotUtils from './cookiebotUtils';
 import config from '../config';
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import setupMatomo from '@city-assets/js/piwik';
+import setupMatomo from './piwik';
 
 
 function getCookie(name) {

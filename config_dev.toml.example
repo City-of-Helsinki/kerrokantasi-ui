@@ -66,6 +66,12 @@ city_config="cities/helsinki"
 # Default: false
 # enable_cookies=true
 
+# Matomo cookie domains
+# If using Matomo for tracking, setup the matomo parameters here
+# 
+# matomo_cookie_domain="*.kerrokantasi.hel.fi"
+# matomo_domains=["*.kerrokantasi.hel.fi", "*.kerrokantasi.hel.fi"]
+
 # Cookiebot consent management platform configuration.
 # If enabled, default cookie bar is disabled and replaced with a Cookie Bot modal.
 # To use Cookiebot set both enable_cookies and enable_cookiebot to true.
