@@ -33,6 +33,8 @@ const defaults = {
   enable_highcontrast: false,
   // Should cookies to enabled
   enable_cookies: false,
+  matomo_cookie_domain: '',
+  matomo_domains: [],
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
   // String value that is considered as an empty comment
@@ -52,6 +54,8 @@ const optionalKeys = [
   "show_accessibility_info",
   "show_social_media_sharing",
   "enable_cookies",
+  "matomo_cookie_domain",
+  "matomo_domains",
   "openid_client_id",
   "openid_audience",
   "openid_authority",
@@ -103,6 +107,6 @@ export default function getOptions() {
     throw new Error("Server rendering is not currently supported.");
   }
 
-  console.info(nconf.get());
+  // console.info(nconf.get());
   return nconf.get();
 }

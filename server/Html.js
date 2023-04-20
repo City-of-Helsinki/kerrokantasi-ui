@@ -26,6 +26,8 @@ export default class Html extends React.Component {
       showAccessibilityInfo,
       showSocialMediaSharing,
       enableCookies,
+      matomoCookieDomain,
+      matomoDomains,
       enableCookiebot,
       cookiebotDataCbid,
       uiConfig,
@@ -52,6 +54,8 @@ export default class Html extends React.Component {
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.MATOMO_COOKIE_DOMAIN = ${JSON.stringify(matomoCookieDomain)};
+    window.MATOMO_DOMAINS = ${JSON.stringify(matomoDomains)};
     window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
     window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
@@ -94,6 +98,8 @@ Html.propTypes = {
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
   enableCookies: PropTypes.bool,
+  matomoCookieDomain: PropTypes.string,
+  matomoDomains: PropTypes.array,
   enableCookiebot: PropTypes.bool,
   cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,

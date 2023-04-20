@@ -41,6 +41,8 @@ function renderHTMLSkeleton(req, res, settings) {
         showAccessibilityInfo={settings.show_accessibility_info}
         showSocialMediaSharing={settings.show_social_media_sharing}
         enableCookies={settings.enable_cookies}
+        matomoCookieDomain={settings.matomo_cookie_domain}
+        matomoDomains={settings.matomo_domains}
         enableCookiebot={settings.enable_cookiebot}
         cookiebotDataCbid={settings.cookiebot_data_cbid}
         openIdClientId={settings.openid_client_id}
