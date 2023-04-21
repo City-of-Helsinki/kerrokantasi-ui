@@ -35,8 +35,8 @@ class LinkWithLangComponent extends React.Component {
 
 LinkWithLangComponent.propTypes = {
   to: PropTypes.shape({
-    hash: PropTypes.string.isRequired,
-    state: PropTypes.object.isRequired,
+    hash: PropTypes.string,
+    state: PropTypes.object,
     path: PropTypes.string.isRequired,
     search: PropTypes.string
   }).isRequired,
