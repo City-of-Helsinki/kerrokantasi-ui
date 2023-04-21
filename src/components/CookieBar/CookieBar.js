@@ -1,20 +1,19 @@
 import React from 'react';
 import { CookieModal } from 'hds-react';
 import { enableMatomoTracking } from "../../utils/cookieUtils";
+import { useState } from 'react';
 import config from '../../config';
 
-export class CookieBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { language: config.activeLanguage };
-  }
+function CookieBar(props) {
+  //state = { language: config.activeLanguage };
 
-  onLanguageChange = (newLang) => this.setState({language: newLang});
+  const [language, setLanguage] = useState(config.activeLanguage);
 
-  getCookieModalConfig = () => {
+  
+  const getCookieModalConfig = () => {
     return {
       siteName: document.querySelector("meta[property='og:title']").getAttribute('content'),
-      currentLanguage: this.state.language,
+      currentLanguage: language,
       optionalCookies: {
         groups: [
           {
@@ -26,7 +25,7 @@ export class CookieBar extends React.Component {
         ],
       },
       language: {
-        onLanguageChange: this.onLanguageChange,
+        onLanguageChange: setLanguage,
       },
       focusTargetSelector: '#focused-element-after-cookie-consent-closed',
       onAllConsentsGiven: (consents) => {
@@ -39,13 +38,9 @@ export class CookieBar extends React.Component {
     };
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <CookieModal contentSource={this.getCookieModalConfig()} />
-      </React.Fragment>
-    );
-  }
+  return (
+    <CookieModal contentSource={getCookieModalConfig()} />
+  );
 }
 
 export default CookieBar;
