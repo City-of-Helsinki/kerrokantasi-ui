@@ -12,7 +12,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <Connect(InjectIntl(BaseCommentForm))
-          answers={Array []}
+          answers={[]}
           canComment={true}
           collapseForm={false}
           defaultNickname=""
@@ -23,10 +23,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
           onChangeAnswers={[Function]}
           onPostComment={[Function]}
           section={
-            Object {
-              "abstract": Object {},
+            {
+              "abstract": {},
               "commenting": "open",
-              "content": Object {
+              "content": {
                 "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
@@ -41,14 +41,14 @@ exports[`SortableCommentList component should render as expected 1`] = `
               },
               "created_at": "2016-01-15T08:31:03.264760Z",
               "id": "asuminen-a-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
+              "images": [
+                {
+                  "caption": {
                     "fi": "Asuinalueiden elinvoimaisuus.",
                   },
                   "height": 1067,
                   "id": 24,
-                  "title": Object {},
+                  "title": {},
                   "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
                   "width": 1211,
                 },
@@ -59,8 +59,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "plugin_identifier": "",
               "plugin_iframe_url": "",
               "published": true,
-              "questions": Array [],
-              "title": Object {
+              "questions": [],
+              "title": {
                 "fi": "A. Asuinalueiden elinvoimaisuus",
               },
               "type": "part",
@@ -76,7 +76,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
       <h2>
         <FormattedMessage
           id="comments"
-          values={Object {}}
+          values={{}}
         />
         <div
           className="commenticon"
@@ -109,7 +109,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
             >
               <FormattedMessage
                 id="commentOrder"
-                values={Object {}}
+                values={{}}
               />
             </ControlLabel>
             <div
@@ -123,28 +123,28 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="CREATED_AT_DESC"
                   key="CREATED_AT_DESC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
@@ -158,11 +158,11 @@ exports[`SortableCommentList component should render as expected 1`] = `
           canReply={true}
           canVote={true}
           comments={
-            Array [
-              Object {
-                "answers": Array [
-                  Object {
-                    "answers": Array [
+            [
+              {
+                "answers": [
+                  {
+                    "answers": [
                       115,
                     ],
                     "question": 6,
@@ -176,7 +176,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "geojson": null,
                 "hearing": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
                 "id": 2615,
-                "images": Array [],
+                "images": [],
                 "is_registered": true,
                 "label": null,
                 "language_code": "",
@@ -189,8 +189,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
           intl={
-            Object {
-              "defaultFormats": Object {},
+            {
+              "defaultFormats": {},
               "defaultLocale": "en",
               "formatDate": [Function],
               "formatHTMLMessage": [Function],
@@ -199,8 +199,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "formatPlural": [Function],
               "formatRelative": [Function],
               "formatTime": [Function],
-              "formats": Object {},
-              "formatters": Object {
+              "formats": {},
+              "formatters": {
                 "getDateTimeFormat": [Function],
                 "getMessageFormat": [Function],
                 "getNumberFormat": [Function],
@@ -208,7 +208,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "getRelativeFormat": [Function],
               },
               "locale": "fi",
-              "messages": Object {
+              "messages": {
                 "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
                 "CREATED_AT_ASC": "Vanhin ensin",
                 "CREATED_AT_DESC": "Uusin ensin",
@@ -454,7 +454,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "leastCommented": "Vähiten kommentoitu",
                 "list": "Lista",
                 "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
-                "login": "Kirjaudu sisään",
+                "login": "Kirjaudu",
                 "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -641,10 +641,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
           onPostReply={[Function]}
           onPostVote={[Function]}
           section={
-            Object {
-              "abstract": Object {},
+            {
+              "abstract": {},
               "commenting": "open",
-              "content": Object {
+              "content": {
                 "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
@@ -659,14 +659,14 @@ exports[`SortableCommentList component should render as expected 1`] = `
               },
               "created_at": "2016-01-15T08:31:03.264760Z",
               "id": "asuminen-a-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
+              "images": [
+                {
+                  "caption": {
                     "fi": "Asuinalueiden elinvoimaisuus.",
                   },
                   "height": 1067,
                   "id": 24,
-                  "title": Object {},
+                  "title": {},
                   "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
                   "width": 1211,
                 },
@@ -677,8 +677,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "plugin_identifier": "",
               "plugin_iframe_url": "",
               "published": true,
-              "questions": Array [],
-              "title": Object {
+              "questions": [],
+              "title": {
                 "fi": "A. Asuinalueiden elinvoimaisuus",
               },
               "type": "part",

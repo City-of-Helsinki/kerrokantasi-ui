@@ -6,10 +6,10 @@ exports[`CommentList component should render as expected 1`] = `
 >
   <InjectIntl(Comment)
     data={
-      Object {
-        "answers": Array [
-          Object {
-            "answers": Array [
+      {
+        "answers": [
+          {
+            "answers": [
               115,
             ],
             "question": 6,
@@ -23,7 +23,7 @@ exports[`CommentList component should render as expected 1`] = `
         "geojson": null,
         "hearing": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
         "id": 2615,
-        "images": Array [],
+        "images": [],
         "is_registered": true,
         "label": null,
         "language_code": "",
@@ -35,30 +35,30 @@ exports[`CommentList component should render as expected 1`] = `
     jumpTo={-1}
     key="2615.19859782441"
     questions={
-      Array [
-        Object {
+      [
+        {
           "id": 6,
           "is_independent_poll": false,
           "n_answers": 1,
-          "options": Array [
-            Object {
+          "options": [
+            {
               "id": 115,
               "n_answers": 1,
-              "text": Object {
+              "text": {
                 "en": "NO",
                 "fi": "EI !",
               },
             },
-            Object {
+            {
               "id": 116,
               "n_answers": 0,
-              "text": Object {
+              "text": {
                 "en": "Yes",
                 "fi": "Joo",
               },
             },
           ],
-          "text": Object {
+          "text": {
             "en": " do you like music ?",
             "fi": "Pidätkö sinä musiikista ?",
           },
@@ -67,12 +67,12 @@ exports[`CommentList component should render as expected 1`] = `
       ]
     }
     section={
-      Object {
-        "abstract": Object {
+      {
+        "abstract": {
           "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
         },
         "commenting": "open",
-        "content": Object {
+        "content": {
           "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
 <p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
 <ul>
@@ -82,18 +82,18 @@ exports[`CommentList component should render as expected 1`] = `
 </ul>
 <p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
 <p>Lisätietoja:</p>
-<p><a href=\\"http://www.visitisosaari.fi\\">Tietoa Isosaaressa vieraileville</a></p>",
+<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>",
         },
         "created_at": "2017-10-23T11:07:26.668934Z",
         "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
-        "images": Array [
-          Object {
-            "caption": Object {
+        "images": [
+          {
+            "caption": {
               "fi": "A Wonderfull caption",
             },
             "height": 631,
             "id": 92,
-            "title": Object {},
+            "title": {},
             "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
             "width": 893,
           },
@@ -104,37 +104,37 @@ exports[`CommentList component should render as expected 1`] = `
         "plugin_identifier": "",
         "plugin_iframe_url": "",
         "published": false,
-        "questions": Array [
-          Object {
+        "questions": [
+          {
             "id": 6,
             "is_independent_poll": false,
             "n_answers": 1,
-            "options": Array [
-              Object {
+            "options": [
+              {
                 "id": 115,
                 "n_answers": 1,
-                "text": Object {
+                "text": {
                   "en": "NO",
                   "fi": "EI !",
                 },
               },
-              Object {
+              {
                 "id": 116,
                 "n_answers": 0,
-                "text": Object {
+                "text": {
                   "en": "Yes",
                   "fi": "Joo",
                 },
               },
             ],
-            "text": Object {
+            "text": {
               "en": " do you like music ?",
               "fi": "Pidätkö sinä musiikista ?",
             },
             "type": "single-choice",
           },
         ],
-        "title": Object {},
+        "title": {},
         "type": "main",
         "type_name_plural": "pääosiot",
         "type_name_singular": "pääosio",
@@ -153,7 +153,7 @@ exports[`CommentList should render a message if no comments were found 1`] = `
   <p>
     <FormattedMessage
       id="noCommentsAvailable"
-      values={Object {}}
+      values={{}}
     />
   </p>
 </div>

@@ -4,5 +4,5 @@ try {
 } catch (exc) {
 }
 
-require('babel-register');
+require('@babel/register');
 require('./bootstrap').default();

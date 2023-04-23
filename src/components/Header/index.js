@@ -199,7 +199,8 @@ class Header extends React.Component {
               collapseOnSelect
               className="navbar-primary"
               aria-label={headerPagesNavLabel}
-              onToggle={this.toggleNavbar.bind(this)}>
+              onToggle={this.toggleNavbar.bind(this)}
+            >
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to={{path: "/"}}>

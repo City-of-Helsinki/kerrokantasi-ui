@@ -5,16 +5,16 @@ import {shallow} from 'enzyme';
 import urls from '@city-assets/urls.json';
 import cookiebotUtils from '../../src/utils/cookiebotUtils';
 
-const isCookiebotEnabledMock = jest.fn();
+const mockIsCookiebotEnabled = jest.fn();
 jest.mock('../../src/utils/cookiebotUtils', () => {
   const originalModule = jest.requireActual('../../src/utils/cookiebotUtils');
   return {
     __esModule: true,
     ...originalModule,
-    isCookiebotEnabled: isCookiebotEnabledMock,
+    isCookiebotEnabled: mockIsCookiebotEnabled,
     default: {
       ...originalModule.default,
-      isCookiebotEnabled: () => isCookiebotEnabledMock(),
+      isCookiebotEnabled: () => mockIsCookiebotEnabled(),
     }
   };
 });
@@ -40,7 +40,7 @@ describe('cookieUtils', () => {
 
   describe('getCookieScripts', () => {
     describe('when isCookiebotEnabled returns true', () => {
-      isCookiebotEnabledMock.mockReturnValueOnce(true);
+      mockIsCookiebotEnabled.mockReturnValueOnce(true);
 
       afterEach(() => {
         jest.clearAllMocks();
@@ -52,7 +52,7 @@ describe('cookieUtils', () => {
     });
 
     describe('when isCookiebotEnabled returns false', () => {
-      isCookiebotEnabledMock.mockReturnValue(false);
+      mockIsCookiebotEnabled.mockReturnValue(false);
 
       afterEach(() => {
         jest.clearAllMocks();
