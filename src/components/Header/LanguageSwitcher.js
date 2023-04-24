@@ -33,6 +33,7 @@ class LanguageSwitcher extends React.Component {
       <Select
         className={classNames('language-switcher')}
         icon={<span style={{width: '20px', marginRight: '12px'}}>{currentLanguage}</span>}
+        defaultValue={options.find((item) => item.code === currentLanguage)}
         options={options}
         onChange={(selected) => this.changeLanguage(history, location, selected.code)}
       />
