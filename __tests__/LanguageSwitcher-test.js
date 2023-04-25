@@ -111,7 +111,6 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
         const element = wrapper.find('button');
-        console.log(element.debug());
         expect(element.prop('aria-expanded')).toBe(false);
         expect(element.prop('aria-haspopup')).toBe('listbox');
         expect(element.prop('onClick')).toBeDefined();
