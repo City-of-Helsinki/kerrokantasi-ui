@@ -31,7 +31,7 @@ RUN yarn config set network-timeout 300000
 RUN yarn && yarn cache clean --force && yarn build
 
 # Allow minimal writes to get the frontend server running
-RUN chgrp 0 .yarn .babel.json && chmod g+w .yarn .babel.json
+RUN chgrp 0 .yarn .babelrc && chmod g+w .yarn .babelrc
 
 RUN bash /tools/apt-cleanup.sh build-essential
 

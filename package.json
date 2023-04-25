@@ -29,6 +29,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@draft-js-plugins/drag-n-drop": "^4.2.0",
@@ -146,9 +147,6 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-flow": "^7.0.0",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.0",
