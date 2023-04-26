@@ -1,5 +1,9 @@
 import config from '../config';
 
+/** 
+ * DEPRECATED
+ * TODO: REMOVE OR REFACTOR IF NEEDED
+*/
 const trackLink = () => {
   /* global Piwik */
   try {
