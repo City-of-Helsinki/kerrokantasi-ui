@@ -12,7 +12,6 @@ import HearingCardList from '../components/HearingCardList';
 import orderBy from 'lodash/orderBy';
 import OverviewMap from '../components/OverviewMap';
 import Link from '../components/LinkWithLang';
-import trackLink from '../utils/trackLink';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
 import config from '../config';
@@ -42,7 +41,6 @@ export class Home extends React.Component {
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
     if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
-    trackLink();
   }
 
   componentWillUnmount() {
