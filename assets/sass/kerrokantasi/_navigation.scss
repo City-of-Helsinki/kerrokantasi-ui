@@ -92,6 +92,9 @@
 
 .language-switcher {
   text-transform: uppercase;
+  margin-top: 2px;
+  margin-bottom: 2px;
+
   span.caret {
     margin-left: 5px;
   }
@@ -102,8 +105,23 @@
 }
 
 .user-menu {
+  vertical-align: middle;
+  display: inline-block;
+
   .user-name {
     display: none;
+    vertical-align: top;
+    margin-left: 8px;
+  }
+
+  div, span {
+    display: inline-block;
+    vertical-align: middle;
+    border: 0px;
+  }
+
+  svg {
+    position: static;
   }
 
   @media (min-width: $screen-sm-min) {
@@ -143,8 +161,7 @@
 }
 
 .navbar-right.nav-user-menu {
-  margin-top: 13px;
-  margin-right: -15px;
+  margin-top: 9px;
   margin-left: -15px;
 
   @media (min-width: $screen-sm-min) {
@@ -169,4 +186,32 @@
       border: 0;
     }
   }
+
+  .user-menu {
+    button {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    svg {
+      --icon-size: 18px;
+      height: 24px;
+    }
+    ul {
+      min-width: 100px;
+      left: auto;
+      right: -4px;
+    }
+    li {
+      font-size: 16px;
+    }
+    span.language-title-xs {
+      button span:nth-of-type(2) {
+        display: none;
+      }
+    }
+    &:after {
+      display:none;
+    }
+  }
+
 }

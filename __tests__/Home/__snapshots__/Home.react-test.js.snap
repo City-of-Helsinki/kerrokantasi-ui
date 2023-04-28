@@ -5,7 +5,7 @@ exports[`Home component should render as expected 1`] = `
   <section
     className="page-section page-section--welcome"
     style={
-      Object {
+      {
         "backgroundImage": "url('http://materialbank.myhelsinki.fi/detail/1192/download/7')",
       }
     }
@@ -30,12 +30,12 @@ exports[`Home component should render as expected 1`] = `
             defer={true}
             encodeSpecialCharacters={true}
             meta={
-              Array [
-                Object {
+              [
+                {
                   "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                   "name": "description",
                 },
-                Object {
+                {
                   "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                   "property": "og:description",
                 },
@@ -46,7 +46,7 @@ exports[`Home component should render as expected 1`] = `
           <h1>
             <FormattedMessage
               id="welcome"
-              values={Object {}}
+              values={{}}
             />
           </h1>
           <p
@@ -54,7 +54,7 @@ exports[`Home component should render as expected 1`] = `
           >
             <FormattedMessage
               id="welcomeMessage"
-              values={Object {}}
+              values={{}}
             />
           </p>
         </Col>
@@ -75,30 +75,30 @@ exports[`Home component should render as expected 1`] = `
       >
         <FormattedMessage
           id="openHearings"
-          values={Object {}}
+          values={{}}
         />
       </h2>
       <withRouter(FullWidthHearing)
         hearing={
-          Object {
-            "abstract": Object {
+          {
+            "abstract": {
               "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
             },
-            "borough": Object {},
+            "borough": {},
             "close_at": "2200-11-28T22:00:00Z",
             "closed": false,
             "created_at": "2017-10-23T11:07:26.630423Z",
             "default_to_fullscreen": false,
             "geojson": null,
             "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
-            "labels": Array [],
-            "main_image": Object {
-              "caption": Object {
+            "labels": [],
+            "main_image": {
+              "caption": {
                 "fi": "A Wonderfull caption",
               },
               "height": 631,
               "id": 92,
-              "title": Object {},
+              "title": {},
               "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
               "width": 893,
             },
@@ -108,14 +108,14 @@ exports[`Home component should render as expected 1`] = `
             "published": true,
             "servicemap_url": "",
             "slug": "mockHearing",
-            "title": Object {
+            "title": {
               "fi": "Mock Hearing",
             },
           }
         }
         intl={
-          Object {
-            "defaultFormats": Object {},
+          {
+            "defaultFormats": {},
             "defaultLocale": "en",
             "formatDate": [Function],
             "formatHTMLMessage": [Function],
@@ -124,8 +124,8 @@ exports[`Home component should render as expected 1`] = `
             "formatPlural": [Function],
             "formatRelative": [Function],
             "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
+            "formats": {},
+            "formatters": {
               "getDateTimeFormat": [Function],
               "getMessageFormat": [Function],
               "getNumberFormat": [Function],
@@ -133,7 +133,7 @@ exports[`Home component should render as expected 1`] = `
               "getRelativeFormat": [Function],
             },
             "locale": "fi",
-            "messages": Object {
+            "messages": {
               "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
               "CREATED_AT_ASC": "Vanhin ensin",
               "CREATED_AT_DESC": "Uusin ensin",
@@ -379,7 +379,7 @@ exports[`Home component should render as expected 1`] = `
               "leastCommented": "Vähiten kommentoitu",
               "list": "Lista",
               "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
-              "login": "Kirjaudu sisään",
+              "login": "Kirjaudu",
               "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
               "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
               "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -563,10 +563,10 @@ exports[`Home component should render as expected 1`] = `
         className="list"
       >
         <HearingCardList
-          hearings={Array []}
+          hearings={[]}
           intl={
-            Object {
-              "defaultFormats": Object {},
+            {
+              "defaultFormats": {},
               "defaultLocale": "en",
               "formatDate": [Function],
               "formatHTMLMessage": [Function],
@@ -575,8 +575,8 @@ exports[`Home component should render as expected 1`] = `
               "formatPlural": [Function],
               "formatRelative": [Function],
               "formatTime": [Function],
-              "formats": Object {},
-              "formatters": Object {
+              "formats": {},
+              "formatters": {
                 "getDateTimeFormat": [Function],
                 "getMessageFormat": [Function],
                 "getNumberFormat": [Function],
@@ -584,7 +584,7 @@ exports[`Home component should render as expected 1`] = `
                 "getRelativeFormat": [Function],
               },
               "locale": "fi",
-              "messages": Object {
+              "messages": {
                 "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
                 "CREATED_AT_ASC": "Vanhin ensin",
                 "CREATED_AT_DESC": "Uusin ensin",
@@ -830,7 +830,7 @@ exports[`Home component should render as expected 1`] = `
                 "leastCommented": "Vähiten kommentoitu",
                 "list": "Lista",
                 "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
-                "login": "Kirjaudu sisään",
+                "login": "Kirjaudu",
                 "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -1016,14 +1016,14 @@ exports[`Home component should render as expected 1`] = `
           <withRouter(Connect(LinkWithLangComponent))
             className="btn btn-default"
             to={
-              Object {
+              {
                 "path": "/hearings/list",
               }
             }
           >
             <FormattedMessage
               id="allHearings"
-              values={Object {}}
+              values={{}}
             />
           </withRouter(Connect(LinkWithLangComponent))>
         </p>
@@ -1050,7 +1050,7 @@ exports[`Home component should render as expected 1`] = `
         >
           <FormattedMessage
             id="feedbackPrompt"
-            values={Object {}}
+            values={{}}
           />
            
         </a>
@@ -1069,32 +1069,32 @@ exports[`Home component should render as expected 1`] = `
         <h2>
           <FormattedMessage
             id="open-hearings-on-map"
-            values={Object {}}
+            values={{}}
           />
         </h2>
         <Connect(OverviewMap)
           enablePopups={true}
           hearings={
-            Array [
-              Object {
-                "abstract": Object {
+            [
+              {
+                "abstract": {
                   "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
                 },
-                "borough": Object {},
+                "borough": {},
                 "close_at": "2200-11-28T22:00:00Z",
                 "closed": false,
                 "created_at": "2017-10-23T11:07:26.630423Z",
                 "default_to_fullscreen": false,
                 "geojson": null,
                 "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
-                "labels": Array [],
-                "main_image": Object {
-                  "caption": Object {
+                "labels": [],
+                "main_image": {
+                  "caption": {
                     "fi": "A Wonderfull caption",
                   },
                   "height": 631,
                   "id": 92,
-                  "title": Object {},
+                  "title": {},
                   "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
                   "width": 893,
                 },
@@ -1104,7 +1104,7 @@ exports[`Home component should render as expected 1`] = `
                 "published": true,
                 "servicemap_url": "",
                 "slug": "mockHearing",
-                "title": Object {
+                "title": {
                   "fi": "Mock Hearing",
                 },
               },
@@ -1112,7 +1112,7 @@ exports[`Home component should render as expected 1`] = `
           }
           mapElementLimit={10}
           style={
-            Object {
+            {
               "height": 600,
               "width": "100%",
             }
