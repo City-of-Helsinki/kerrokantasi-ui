@@ -52,7 +52,8 @@
 
 .language-switcher {
   display: inline-block;
-  padding: 0px 15px;
+  padding: 0px 0px 0px 4px;
+  vertical-align: middle;
 
   span {
     text-transform: uppercase;
@@ -179,10 +180,13 @@
     button {
       font-size: 16px;
       font-weight: 500;
+      > svg {
+        margin-bottom: 1px;
+      }
     }
     svg {
       --icon-size: 18px;
-      height: 24px;
+      height: 20px;
     }
     ul {
       min-width: 100px;
@@ -202,4 +206,8 @@
     }
   }
 
+  .user-menu--logged {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
 }
