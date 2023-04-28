@@ -209,6 +209,9 @@
         display: none;
       }
     }
+    &:after {
+      display:none;
+    }
   }
 
 }
