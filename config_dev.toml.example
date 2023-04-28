@@ -72,6 +72,11 @@ city_config="cities/helsinki"
 # matomo_cookie_domain="*.kerrokantasi.hel.fi"
 # matomo_domains=["*.kerrokantasi.hel.fi", "*.kerrokantasi.hel.fi"]
 
+
+# Matomo script configuration
+# matomo_script_url = '//webanalytics.digiaiiris.com/js/'
+# matomo_script_filename = 'piwik.min.js'
+
 # Cookiebot consent management platform configuration.
 # If enabled, default cookie bar is disabled and replaced with a Cookie Bot modal.
 # To use Cookiebot set both enable_cookies and enable_cookiebot to true.

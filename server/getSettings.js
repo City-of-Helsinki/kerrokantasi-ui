@@ -35,6 +35,8 @@ const defaults = {
   enable_cookies: false,
   matomo_cookie_domain: '',
   matomo_domains: [],
+  matomo_script_url: '',
+  matomo_script_filename: '',
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
   // String value that is considered as an empty comment
@@ -56,6 +58,8 @@ const optionalKeys = [
   "enable_cookies",
   "matomo_cookie_domain",
   "matomo_domains",
+  "matomo_script_url",
+  "matomo_script_filename",
   "openid_client_id",
   "openid_audience",
   "openid_authority",

@@ -43,6 +43,8 @@ function renderHTMLSkeleton(req, res, settings) {
         enableCookies={settings.enable_cookies}
         matomoCookieDomain={settings.matomo_cookie_domain}
         matomoDomains={settings.matomo_domains}
+        matomoScriptUrl={settings.matomo_script_url}
+        matomoScriptFilename={settings.matomo_script_filename}
         enableCookiebot={settings.enable_cookiebot}
         cookiebotDataCbid={settings.cookiebot_data_cbid}
         openIdClientId={settings.openid_client_id}
