@@ -19,6 +19,8 @@ const config = {
   enableCookies: typeof window !== 'undefined' ? window.ENABLE_COOKIES : false,
   matomoCookieDomain: typeof window !== 'undefined' ? window.MATOMO_COOKIE_DOMAIN : '',
   matomoDomains: typeof window !== 'undefined' ? window.MATOMO_DOMAINS : [],
+  matomoScriptUrl: typeof window !== 'undefined' ? window.MATOMO_SCRIPT_URL : '',
+  matomoScriptFilename: typeof window !== 'undefined' ? window.MATOMO_SCRIPT_FILENAME : '',
   enableCookiebot: typeof window !== 'undefined' ? window.ENABLE_COOKIEBOT : false,
   cookiebotDataCbid: typeof window !== 'undefined' ? window.COOKIEBOT_DATA_CBID : null,
   enableStrongAuth: typeof window !== 'undefined' ? window.ENABLE_STRONG_AUTH : false,

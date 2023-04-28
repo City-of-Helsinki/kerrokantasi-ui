@@ -14,13 +14,15 @@ const setupMatomo = () => {
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function () {
-      var u = '//webanalytics.digiaiiris.com/js/';
+    
+    
+    var u = config.matomoScriptUrl;
     _paq.push(['setTrackerUrl', u + 'tracker.php']);
     _paq.push(['setSiteId', '380']);
     var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
     g.type = 'text/javascript';
     g.async = true;
-    g.src = u + 'piwik.min.js';
+    g.src = u + config.matomoScriptFilename;
     s.parentNode.insertBefore(g, s);
   })();
 }
