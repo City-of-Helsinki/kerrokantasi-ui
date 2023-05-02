@@ -17,7 +17,6 @@ import { HashLink } from 'react-router-hash-link';
 import cookieUtil from './utils/cookieUtils';
 import cookiebotUtils from './utils/cookiebotUtils';
 import CookieBar from "./components/CookieBar/CookieBar";
-import 'hds-core/lib/base.min.css';
 
 
 class App extends React.Component {
