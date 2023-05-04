@@ -1,15 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CookieModal } from 'hds-react';
 import { enableMatomoTracking } from "../../utils/cookieUtils";
-import { useState } from 'react';
 import config from '../../config';
 
-function CookieBar(props) {
-  //state = { language: config.activeLanguage };
-
+function CookieBar() {
   const [language, setLanguage] = useState(config.activeLanguage);
 
-  
   const getCookieModalConfig = () => {
     return {
       siteName: document.querySelector("meta[property='og:title']").getAttribute('content'),

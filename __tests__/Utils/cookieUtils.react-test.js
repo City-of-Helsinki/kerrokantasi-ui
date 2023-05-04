@@ -2,7 +2,6 @@ import React from 'react';
 import cookieUtils from '../../src/utils/cookieUtils';
 import {shallow} from 'enzyme';
 // eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
 import cookiebotUtils from '../../src/utils/cookiebotUtils';
 
 const mockIsCookiebotEnabled = jest.fn();
@@ -28,16 +27,6 @@ jest.mock('../../src/config', () => {
 });
 
 describe('cookieUtils', () => {
-  describe('getDefaultCookieScripts', () => {
-    test('returns a script element', () => {
-      const element = cookieUtils.getDefaultCookieScripts();
-      const wrapper = shallow(<div>{element}</div>);
-      expect(wrapper.find('script')).toHaveLength(1);
-      expect(wrapper.find('script').prop('src')).toEqual(urls.analytics);
-      expect(wrapper.find('script').prop('type')).toEqual('text/javascript');
-    });
-  });
-
   describe('getCookieScripts', () => {
     describe('when isCookiebotEnabled returns true', () => {
       mockIsCookiebotEnabled.mockReturnValueOnce(true);
@@ -53,14 +42,13 @@ describe('cookieUtils', () => {
 
     describe('when isCookiebotEnabled returns false', () => {
       mockIsCookiebotEnabled.mockReturnValue(false);
-
       afterEach(() => {
         jest.clearAllMocks();
       });
 
-      test('when cookies are enabled, returns getDefaultCookieScripts', () => {
+      test('when cookies are enabled, calls addCookieScripts', () => {
         config.enableCookies = true;
-        expect(cookieUtils.getCookieScripts()).toEqual(cookieUtils.getDefaultCookieScripts());
+        expect(cookieUtils.getCookieScripts()).toEqual(true);
       });
 
       test('when cookies are not enabled, returns null', () => {

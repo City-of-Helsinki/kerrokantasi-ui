@@ -50,6 +50,7 @@ export function enableMatomoTracking() {
  */
 function addCookieScripts() {
   setupMatomo();
+  return true;
 }
 
 /**

@@ -104,6 +104,8 @@ Html.propTypes = {
   enableCookies: PropTypes.bool,
   matomoCookieDomain: PropTypes.string,
   matomoDomains: PropTypes.array,
+  matomoScriptFilename: PropTypes.string,
+  matomoScriptUrl: PropTypes.string,
   enableCookiebot: PropTypes.bool,
   cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
