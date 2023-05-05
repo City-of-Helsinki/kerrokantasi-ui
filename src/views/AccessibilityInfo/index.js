@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { Col, Row, Grid } from 'react-bootstrap';
 import { injectIntl, intlShape } from 'react-intl';
 
-import trackLink from '../../utils/trackLink';
-
 function getContent(language) {
   if (typeof window === "undefined") return "";
 
@@ -29,16 +27,12 @@ function getContent(language) {
 }
 
 class AccessibilityInfo extends React.Component {
-  componentDidMount() {
-    trackLink();
-  }
-
   render() {
     const pageContent = getContent(this.props.language);
     const { intl } = this.props;
     return (
       <Grid className="accessibility-page">
-        <Helmet 
+        <Helmet
           title={intl.formatMessage({ id: 'accessibilityPage' })}
           meta={[
             {name: "description", content: intl.formatMessage({id: 'descriptionTag'})},
