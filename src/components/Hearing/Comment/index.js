@@ -515,8 +515,17 @@ class Comment extends React.Component {
   );
 
   renderCommentText = (data) => {
-    if (!data.deleted) {
+    if (!data.deleted && !data.edited) {
       return <p>{nl2br(data.content)}</p>;
+    }
+    if (!data.deleted && data.edited) {
+      const modifiedMessageId = data.moderated ? 'sectionCommentModeratedMessage' : 'sectionCommentEditedMessage';
+      return (
+        <div>
+          <p>{nl2br(data.content)}</p>
+          <p><i><FormattedMessage id={modifiedMessageId} /></i></p>
+        </div>
+      );
     }
     if (data.deleted_by_type === "self") {
       return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
