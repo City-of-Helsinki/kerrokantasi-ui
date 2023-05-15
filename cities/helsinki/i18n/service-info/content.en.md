@@ -2,9 +2,9 @@
 
 Kerrokantasi (Voice your opinion) is a web service maintained by the City of Helsinki. On the site, city residents can voice their opinions on different kinds of topics, which will be prepared or which are already under preparation. Other users can see and comment on the opinions and they will be reported and summarised for the preparers and decision-makers. A summary of the opinions can be downloaded in Excel format.
 
-The Kerrokantasi service is a way to realise the City’s participation and interaction model (https://www.hel.fi/helsinki/en/administration/participate/channels/participation-model/). According to Section 22 in the Local Government Act, the municipality must ensure that the municipality’s residents can participate in and influence the activities of the municipality, especially by surveying their opinions before the decision-making.
+The Kerrokantasi service is a way to realise the [City’s participation and interaction model](https://www.hel.fi/en/decision-making/get-involved). According to Section 22 in the Local Government Act, the municipality must ensure that the municipality’s residents can participate in and influence the activities of the municipality, especially by surveying their opinions before the decision-making.
 
-The online service is provided by the City of Helsinki. You can give feedback about the online service by following the Feedback link www.hel.fi/feedback or by email (kerrokantasi at hel.fi).
+The online service is provided by the City of Helsinki. You can give feedback about the online service by following the Feedback link https://palautteet.hel.fi/en or by email (kerrokantasi at hel.fi).
 
 ## Terms of use
 
@@ -32,7 +32,7 @@ As a user you take full responsibility for and guarantee that you own the rights
 
 ### Discussion moderation
 
-The service is mostly moderated during office hours on business days. Comments are not checked in advance before they become public. You can report an inappropriate message by by following the Feedback link www.hel.fi/feedback or by email (kerrokantasi at hel.fi).
+The service is mostly moderated during office hours on business days. Comments are not checked in advance before they become public. You can report an inappropriate message by by following the Feedback link https://palautteet.hel.fi/en or by email (kerrokantasi at hel.fi).
 
 The moderators of the service have the right to delete and edit messages. The City of Helsinki reserves the right to use messages published in the service in other contexts. The City of Helsinki is in no way responsible for the content of the writings.
 
@@ -62,7 +62,7 @@ If the Material that you submit violates copyright or is in some other way again
 
 ### Personal data file description
 
-If you become a customer of the City’s services or use the services in another manner, the City will collect your personal data only to the extent necessary for the purposes of providing these services. The data are collected in different registers according to the purpose of use of the data. The registers’ personal data file descriptions can be found at www.hel.fi/rekisteriseloste. The page includes the personal data file description for participation and feedback on the Kerrokantasi website. More information about the relevant rights as stated in the EU General Data Protection Regulation in the online services of the City of Helsinki.
+If you become a customer of the City’s services or use the services in another manner, the City will collect your personal data only to the extent necessary for the purposes of providing these services. The data are collected in different registers according to the purpose of use of the data. The registers’ personal data file descriptions can be found at [www.hel.fi/tietosuoja](https://www.hel.fi/fi/paatoksenteko-ja-hallinto/tietoa-helsingista/tietosuoja-ja-tiedonhallinta/tietosuoja/tietosuojaselosteet). The page includes [privacy statement](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Processing%20of%20personal%20data%20in%20the%20feedback%20channels%20and%20digital%20participation%20services%20of%20the%20City%20of%20Helsinki.pdf) for participation and feedback on the Kerrokantasi website. More information about the relevant rights as stated in the [EU General Data Protection Regulation](https://www.hel.fi/en/decision-making/data-protection/rights-of-data-subjects-and-exercising-these-rights) in the online services of the City of Helsinki.
 
 ### Content licensing
 
