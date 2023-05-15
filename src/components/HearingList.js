@@ -104,8 +104,6 @@ class HearingListFilters extends React.Component {
             <option value="-close_at_from_open">{formatMessage({id: 'lastClosing'})}</option>
             <option value="close_at_from_open">{formatMessage({id: 'firstClosing'})}</option>
             <option value="-close_at_from_closed">{formatMessage({id: 'lastClosed'})}</option>
-            <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-            <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
             <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
             <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
           </FormControl>
