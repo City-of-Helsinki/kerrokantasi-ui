@@ -160,7 +160,7 @@
     "jsdom": "^21.1.1",
     "react-addons-test-utils": "^15.6.0",
     "react-test-renderer": "^16.13.1",
-    "webpack-bundle-analyzer": "^2.9.1"
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "jest": {
     "collectCoverageFrom": [
