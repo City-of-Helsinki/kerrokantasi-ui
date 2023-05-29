@@ -1,6 +1,4 @@
-import React from 'react';
 import cookieUtils from '../../src/utils/cookieUtils';
-import {shallow} from 'enzyme';
 // eslint-disable-next-line import/no-unresolved
 import cookiebotUtils from '../../src/utils/cookiebotUtils';
 

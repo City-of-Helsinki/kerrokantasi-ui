@@ -1,10 +1,8 @@
 import React from 'react';
 
-import {UnconnectedLanguageSwitcher} from "../src/components/Header/LanguageSwitcher";
-import { Button } from "react-bootstrap";
+import { UnconnectedLanguageSwitcher } from "../src/components/Header/LanguageSwitcher";
 import { mount } from 'enzyme';
 import getMessage from "../src/utils/getMessage";
-import Icon from "../src/utils/Icon";
 import config from "../src/config";
 
 const defaults = {
@@ -14,11 +12,9 @@ const defaults = {
     search: ''
   }
 };
-const classWhenFalse = 'dropdown btn-group';
-const classWhenTrue = 'dropdown open btn-group';
 describe('src/components/Header/LanguageSwitcherV2', () => {
   function getWrapper(props) {
-    return mount(<UnconnectedLanguageSwitcher {...defaults} {...props}/>);
+    return mount(<UnconnectedLanguageSwitcher {...defaults} {...props} />);
   }
   function getDropdown(wrapper) {
     wrapper.find('button').at(0).simulate('click'); // opens the dropdown
@@ -33,7 +29,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       element.instance().forceUpdate();
       const instance = element.instance();
       const spy = jest.spyOn(instance, 'changeLanguage');
-      getDropdown(element).find('li').at(0).simulate('click', {preventDefault: () => {}});
+      getDropdown(element).find('li').at(0).simulate('click', { preventDefault: () => { } });
 
       expect(spy).toHaveBeenCalled();
     });
@@ -52,9 +48,9 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
           pathname: '/currentHearingSlug',
           search: ''
         };
-        const element = getWrapper({location: locationNoParams, history: mockHistory});
+        const element = getWrapper({ location: locationNoParams, history: mockHistory });
         // change language to sv
-        getDropdown(element).find('li').at(1).simulate('click', {preventDefault: () => {}});
+        getDropdown(element).find('li').at(1).simulate('click', { preventDefault: () => { } });
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationNoParams.pathname,
           search: `lang=${config.languages[1]}`
@@ -66,9 +62,9 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
           pathname: '/currentHearingSlug',
           search: '?headless=true'
         };
-        const element = getWrapper({location: locationWithParams, history: mockHistory});
+        const element = getWrapper({ location: locationWithParams, history: mockHistory });
         // change language to en
-        getDropdown(element).find('li').at(2).simulate('click', {preventDefault: () => {}});
+        getDropdown(element).find('li').at(2).simulate('click', { preventDefault: () => { } });
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithParams.pathname,
           search: locationWithParams.search + `&lang=${config.languages[2]}`
@@ -80,9 +76,9 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
           pathname: '/currentHearingSlug',
           search: '?preview=OLA9dke-79qqd&lang=fi&headless=true'
         };
-        const element = getWrapper({location: locationWithLangParams, history: mockHistory});
+        const element = getWrapper({ location: locationWithLangParams, history: mockHistory });
         // change language from fi to en
-        getDropdown(element).find('li').at(2).simulate('click', {preventDefault: () => {}});
+        getDropdown(element).find('li').at(2).simulate('click', { preventDefault: () => { } });
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithLangParams.pathname,
           search: `?preview=OLA9dke-79qqd&lang=${config.languages[2]}&headless=true`
@@ -109,7 +105,6 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
     describe('Button', () => {
       test('has correct props', () => {
         const wrapper = getWrapper();
-        const instance = wrapper.instance();
         const element = wrapper.find('button');
         expect(element.prop('aria-expanded')).toBe(false);
         expect(element.prop('aria-haspopup')).toBe('listbox');
@@ -117,7 +112,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       });
 
       test('sr only language spans', () => {
-        const {languages} = config;
+        const { languages } = config;
         const languageSpans = getWrapper().find('button').find('span').filter('.sr-only');
         languageSpans.forEach((span, index) => {
           const langCode = languages[index];
@@ -152,7 +147,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('currentLanguage is selected by default', () => {
         const currentLanguageLabel = getMessage(`lang-${defaults.currentLanguage}`);
-        const currentLanguageItem = getDropdown(getWrapper()).find({label: currentLanguageLabel});
+        const currentLanguageItem = getDropdown(getWrapper()).find({ label: currentLanguageLabel });
         expect(currentLanguageItem.prop('selected')).toBe(true);
         expect(currentLanguageItem.find('li').prop('aria-selected')).toBe(true);
       });
