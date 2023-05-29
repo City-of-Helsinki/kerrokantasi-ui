@@ -1,6 +1,10 @@
 # ==========================================
-FROM helsinkitest/node:14-slim as deployable
+FROM registry.access.redhat.com/ubi8/nodejs-16 AS appbase
 # ==========================================
+
+USER root
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+RUN yum -y install yarn
 
 # Official image has npm log verbosity as info. More info - https://github.com/nodejs/docker-node#verbosity
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -19,9 +23,6 @@ EXPOSE 8086
 ENV YARN_VERSION 1.19.1
 RUN yarn policies set-version $YARN_VERSION
 
-USER root
-RUN bash /tools/apt-install.sh build-essential
-
 # Most files from source tree are needed at runtime
 COPY  . .
 
@@ -32,8 +33,6 @@ RUN yarn && yarn cache clean --force && yarn build
 
 # Allow minimal writes to get the frontend server running
 RUN chgrp 0 .yarn .babelrc && chmod g+w .yarn .babelrc
-
-RUN bash /tools/apt-cleanup.sh build-essential
 
 # Run the frontend server using arbitrary user to simulate
 # Openshift when running using fe. Docker. Under actual
