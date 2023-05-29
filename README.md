@@ -12,7 +12,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-* Node v12 LTS
+* Node v16 LTS (`nvm use`)
 * Yarn
 * Docker
 
@@ -62,13 +62,15 @@ Node-specific managers can also directly run `compile(/index.js)` & `server(/ind
 
 #### How to build a docker image
 ```bash
-docker build . -t kerrokantasi-ui
+docker compose build
 ```
 
 #### How to run the docker image
 ```bash
-docker run -p 8086:8086 kerrokantasi-ui
+docker compose up
 ```
+
+The web application is running at http://localhost:8086
 
 ### Plugins
 
