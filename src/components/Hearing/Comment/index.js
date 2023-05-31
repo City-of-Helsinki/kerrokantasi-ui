@@ -522,8 +522,10 @@ class Comment extends React.Component {
       const modifiedMessageId = data.moderated ? 'sectionCommentModeratedMessage' : 'sectionCommentEditedMessage';
       return (
         <div>
-          <p>{nl2br(data.content)}</p>
-          <p><i><FormattedMessage id={modifiedMessageId} /></i></p>
+          <p>
+            {nl2br(data.content)}<br/>
+            <span className="hearing-comment-edited-notification">(<FormattedMessage id={modifiedMessageId} />)</span>
+          </p>
         </div>
       );
     }
