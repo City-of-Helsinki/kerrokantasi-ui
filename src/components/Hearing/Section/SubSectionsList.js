@@ -12,6 +12,7 @@ import {
   getSectionURL,
   isSectionCommentable,
   userCanComment,
+  hasAnyQuestions,
 } from '../../../utils/section';
 
 // eslint-disable-next-line import/no-unresolved
@@ -89,7 +90,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                         to={{ path: getSectionURL(hearing.slug, section), hash: "#comments-section" }}
                         className="btn btn-sm btn-default"
                       >
-                        <FormattedMessage id="commentSubsectionBtn" />
+                        <FormattedMessage id={hasAnyQuestions(section) ? "commentAndVoteSubsectionBtn" : "commentSubsectionBtn"} />
                       </Link>
                     )}
                   </div>

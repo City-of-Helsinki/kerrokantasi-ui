@@ -481,15 +481,16 @@ export class BaseCommentForm extends React.Component {
 
   render() {
     const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment} = this.props;
+    const hasQuestions = hasAnyQuestions(section);
+
     if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-          <Icon name="comment"/> <FormattedMessage id="addComment"/>
+          <Icon name="comment"/> <FormattedMessage id={hasQuestions ? "addCommentAndVote" : "addComment"} />
         </Button>
       );
     }
 
-    const hasQuestions = hasAnyQuestions(section);
     const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
     const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
     const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
