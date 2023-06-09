@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 import {injectIntl, intlShape} from 'react-intl';
 import Helmet from 'react-helmet';
-import CookieManagementModal from "../../components/CookieBar/CookieManagementModal";
 import getMessage from '../../utils/getMessage';
 
 function getContent(language) {
@@ -30,24 +29,6 @@ function getContent(language) {
 }
 
 class Info extends React.Component {
-  state = {
-    showCookieManagementModal: false,
-  };
-
-  openCookieManagementModal = () => {
-    this.setState({showCookieManagementModal: true});
-  };
-
-  closeCookieManagementModal = () => {
-    this.setState({showCookieManagementModal: false});
-  };
-
-  handleKeyDown = (ev) => {
-    if (ev && ev.key === "Enter") {
-      this.openCookieManagementModal();
-    }
-  };
-
   render() {
     const content = getContent(this.props.language);
     const {intl} = this.props;
@@ -65,23 +46,6 @@ class Info extends React.Component {
             <div dangerouslySetInnerHTML={{__html: content}}/>
           </Col>
         </Row>
-        {false && (
-          <React.Fragment>
-            <a
-              id="cookiebar-link"
-              tabIndex="0"
-              role="button"
-              onClick={() => this.openCookieManagementModal()}
-              onKeyDown={(ev) => this.handleKeyDown(ev)}
-            >
-              {getMessage('cookieBar.link.text')}
-            </a>
-            <CookieManagementModal
-              isOpen={this.state.showCookieManagementModal}
-              close={this.closeCookieManagementModal}
-            />
-          </React.Fragment>
-        )}
       </div>
     );
   }
