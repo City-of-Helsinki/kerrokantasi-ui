@@ -28,6 +28,7 @@ export default class Html extends React.Component {
       enableCookies,
       matomoCookieDomain,
       matomoDomains,
+      matomoSiteId,
       matomoScriptFilename,
       matomoScriptUrl,
       enableCookiebot,
@@ -58,6 +59,7 @@ export default class Html extends React.Component {
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
     window.MATOMO_COOKIE_DOMAIN = ${JSON.stringify(matomoCookieDomain)};
     window.MATOMO_DOMAINS = ${JSON.stringify(matomoDomains)};
+    window.MATOMO_SITE_ID = ${JSON.stringify(matomoSiteId)};
     window.MATOMO_SCRIPT_URL = ${JSON.stringify(matomoScriptUrl)};
     window.MATOMO_SCRIPT_FILENAME = ${JSON.stringify(matomoScriptFilename)};
     window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
@@ -104,6 +106,7 @@ Html.propTypes = {
   enableCookies: PropTypes.bool,
   matomoCookieDomain: PropTypes.string,
   matomoDomains: PropTypes.array,
+  matomoSiteId: PropTypes.number,
   matomoScriptFilename: PropTypes.string,
   matomoScriptUrl: PropTypes.string,
   enableCookiebot: PropTypes.bool,

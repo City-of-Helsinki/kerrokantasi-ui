@@ -35,6 +35,7 @@ const defaults = {
   enable_cookies: false,
   matomo_cookie_domain: '',
   matomo_domains: [],
+  matomo_site_id: '',
   matomo_script_url: '',
   matomo_script_filename: '',
   // Hearing admin help link url
