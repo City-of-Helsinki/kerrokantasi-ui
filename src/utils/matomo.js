@@ -18,7 +18,7 @@ const setupMatomo = () => {
     
     var u = config.matomoScriptUrl;
     _paq.push(['setTrackerUrl', u + 'tracker.php']);
-    _paq.push(['setSiteId', '380']);
+    _paq.push(['setSiteId', config.matomoSiteId]);
     var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
     g.type = 'text/javascript';
     g.async = true;
