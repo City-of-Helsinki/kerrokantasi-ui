@@ -67,6 +67,36 @@ export function getCookieScripts() {
   return null;
 }
 
+export function getHDSCookieConfig(siteName, language, setLanguage, modal = true) {
+  let config = {
+    siteName: siteName,
+    currentLanguage: language,
+    optionalCookies: {
+      groups: [
+        {
+          commonGroup: 'statistics',
+          cookies: [{
+            commonCookie: 'matomo'
+          }],
+        },
+      ],
+    },
+    language: {
+      onLanguageChange: setLanguage,
+    },
+    onAllConsentsGiven: (consents) => {
+      // called when consents are saved
+      // handle changes like:
+      if (consents.matomo) {
+        enableMatomoTracking();
+      }
+    },
+  };
+  if (modal) {
+    config.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
+  }
+  return config;
+}
 
 export default {
   cookieOnComponentDidMount,
@@ -74,4 +104,5 @@ export default {
   getCookieScripts,
   checkCookieConsent,
   enableMatomoTracking,
+  getHDSCookieConfig,
 };

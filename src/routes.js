@@ -10,6 +10,8 @@ const SilentRenew = lazy(() => import(
   /* webpackChunkName: "home" */ './views/Auth/silentRenew'));
 const Info = lazy(() => import(
   /* webpackChunkName: "info" */ './views/Info'));
+const CookieManagement = lazy(() => import(
+  /* webpackChunkName: "cookie_management" */ './views/CookieManagement'));
 const AccessibilityInfo = lazy(() => import(
   /* webpackChunkName: "accessibility_info" */ './views/AccessibilityInfo'));
 const HearingsContainer = lazy(() => import(
@@ -51,6 +53,9 @@ const Routes = () => (
       <Route exact path="/" component={props => <HomeContainer {...props} />} />
       <Route path="/silent-renew" component={props => <SilentRenew {...props}/>} />
       <Route path="/info" component={props => <Info {...props}/>} />
+      {config.enableCookies && (
+        <Route path="/cookies" component={props => <CookieManagement {...props} />} />
+      )}
       <Route path="/callback" component={props => <LoginCallback {...props} />} />
       <Route path="/callback/logout" component={props => <LogoutCallback {...props} />} />
       <Route path="/user-hearings" component={props => <UserHearings {...props} />} />
