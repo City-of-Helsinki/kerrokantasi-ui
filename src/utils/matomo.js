@@ -14,10 +14,9 @@ const setupMatomo = () => {
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function () {
-    
-    
+    var tracker = config.matomoScriptFilename === 'matomo.js' ? 'matomo.php' : 'tracker.php';
     var u = config.matomoScriptUrl;
-    _paq.push(['setTrackerUrl', u + 'tracker.php']);
+    _paq.push(['setTrackerUrl', u + tracker]);
     _paq.push(['setSiteId', config.matomoSiteId]);
     var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
     g.type = 'text/javascript';
