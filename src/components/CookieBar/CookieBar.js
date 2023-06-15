@@ -9,7 +9,6 @@ function CookieBar() {
   const getCookieModalConfig = () => {
     const config = getHDSCookieConfig(siteName, language, setLanguage);
     return config;
-    // return getHDSCookieConfig(siteName, language, setLanguage);
   };
 
   return (
