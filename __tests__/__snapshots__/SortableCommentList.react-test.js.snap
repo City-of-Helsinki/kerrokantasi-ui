@@ -301,6 +301,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "cookieBar.modal.showLess": "Näytä vähemmän",
                 "cookieBar.modal.showMore": "Näytä lisää",
                 "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+                "cookieManagementLink": "Evästeasetukset",
                 "copyHearing": "Kopioi kuuleminen",
                 "copyrightText": "Kerrokantasi",
                 "create": "Luo",
