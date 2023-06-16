@@ -6,9 +6,11 @@ const setupMatomo = () => {
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);
 
+  var domains = config.matomoDomains.split(',');
+
   //_paq.push(['setCookieDomain', '*.kerrokantasi.hel.fi']);
   _paq.push(['setCookieDomain', config.matomoCookieDomain]);
-  _paq.push(['setDomains', config.matomoDomains]);
+  _paq.push(['setDomains', domains]);
   _paq.push(['setDoNotTrack', true]);
   _paq.push(['disableCookies']);
   _paq.push(['trackPageView']);
