@@ -34,7 +34,7 @@ const defaults = {
   // Should cookies to enabled
   enable_cookies: false,
   matomo_cookie_domain: '',
-  matomo_domains: [],
+  matomo_domains: '',
   matomo_site_id: '',
   matomo_script_url: '',
   matomo_script_filename: '',
@@ -59,6 +59,7 @@ const optionalKeys = [
   "enable_cookies",
   "matomo_cookie_domain",
   "matomo_domains",
+  "matomo_site_id",
   "matomo_script_url",
   "matomo_script_filename",
   "openid_client_id",
