@@ -80,6 +80,13 @@ export default function Footer(props) {
                     <FormattedMessage id="privacyPolicy" />
                   </a>
                 </li>
+                {config.enableCookies && (
+                  <li>
+                    <Link to={{ path: "/cookies" }}>
+                      <FormattedMessage id="cookieManagementLink" />
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <a href={getFeedbackUrl(language)} target="_blank" rel="noopener noreferrer">
                     <FormattedMessage id="feedbackLinkText" />

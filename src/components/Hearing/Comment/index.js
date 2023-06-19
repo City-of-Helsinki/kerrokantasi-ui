@@ -401,7 +401,7 @@ class Comment extends React.Component {
    * If a user can edit their comment(s) render hyperlinks
    * @returns {Component|null}
    */
-  renderEditLinks = () => (
+  renderEditLinks = (canDelete) => (
     <div className="hearing-comment__edit-links">
       <a
         href=""
@@ -409,12 +409,15 @@ class Comment extends React.Component {
       >
         <FormattedMessage id="edit"/>
       </a>
-      <a
-        href=""
-        onClick={(event) => this.handleDelete(event)}
-      >
-        <FormattedMessage id="delete"/>
-      </a>
+      {canDelete &&
+        <a
+          href=""
+          onClick={(event) => this.handleDelete(event)}
+
+        >
+          <FormattedMessage id="delete"/>
+        </a>
+      }
     </div>
   );
 
@@ -555,6 +558,7 @@ class Comment extends React.Component {
   render() {
     const {data, canReply} = this.props;
     const canEdit = data.can_edit;
+    const canDelete = data.can_delete;
     const {editorOpen, isReplyEditorOpen} = this.state;
     const isAdminUser = this.props.data
       && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
@@ -632,7 +636,7 @@ class Comment extends React.Component {
               )}
             </div>
           )}
-          {canEdit && !data.deleted && this.renderEditLinks()}
+          {canEdit && !data.deleted && this.renderEditLinks(canDelete)}
           <div className="hearing-comment__actions-bar">
             <div className="hearing-comment__reply-link">
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}

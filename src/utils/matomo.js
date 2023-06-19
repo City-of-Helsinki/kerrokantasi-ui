@@ -6,19 +6,20 @@ const setupMatomo = () => {
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);
 
+  var domains = config.matomoDomains ? config.matomoDomains.split(',') : [];
+
   //_paq.push(['setCookieDomain', '*.kerrokantasi.hel.fi']);
   _paq.push(['setCookieDomain', config.matomoCookieDomain]);
-  _paq.push(['setDomains', config.matomoDomains]);
+  _paq.push(['setDomains', domains]);
   _paq.push(['setDoNotTrack', true]);
   _paq.push(['disableCookies']);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function () {
-    
-    
+    var tracker = config.matomoScriptFilename === 'matomo.js' ? 'matomo.php' : 'tracker.php';
     var u = config.matomoScriptUrl;
-    _paq.push(['setTrackerUrl', u + 'tracker.php']);
-    _paq.push(['setSiteId', '380']);
+    _paq.push(['setTrackerUrl', u + tracker]);
+    _paq.push(['setSiteId', config.matomoSiteId]);
     var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
     g.type = 'text/javascript';
     g.async = true;
