@@ -58,6 +58,8 @@
   "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
   "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
   "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
+  "sectionCommentEditedMessage": "Viestiä on muokattu.",
+  "sectionCommentModeratedMessage": "Viestiä on muokattu koska se rikkoi palvelun käyttöohjeita.",
   "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
   "commentsOnMap": "Kartta koko näytöllä",
   "commentsOutOf": "Näytetään {current}/{total} kommenttia.",
