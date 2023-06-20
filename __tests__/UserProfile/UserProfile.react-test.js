@@ -1,11 +1,11 @@
 import React from 'react';
-import {UnconnectedUserProfile} from '../../src/views/UserProfile';
-import {getIntlAsProp} from '../../test-utils';
-import {shallow} from 'enzyme';
+import { UnconnectedUserProfile } from '../../src/views/UserProfile';
+import { getIntlAsProp } from '../../test-utils';
+import { shallow } from 'enzyme';
 import UserComment from '../../src/components/UserProfile/UserComment';
 import HearingCardList from '../../src/components/HearingCardList';
-import {ControlLabel, FormControl, FormGroup} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import LoadSpinner from '../../src/components/LoadSpinner';
 import Icon from '../../src/utils/Icon';
 
@@ -68,7 +68,7 @@ const defaultProps = {
   fetchComments: jest.fn(),
   fetchFavorites: jest.fn(),
   removeFromFavorites: jest.fn(),
-  user: {favorite_hearings: ['hearingOne', 'someOtherHearing']},
+  user: { favorite_hearings: ['hearingOne', 'someOtherHearing'] },
   userState: {
     userExists: true,
     userLoading: false,
@@ -82,8 +82,8 @@ const defaultProps = {
     favoriteHearings: {
       count: 2,
       results: [
-        {id: 'firstFavoriteHearing'},
-        {id: 'secondFavoriteHearing'}
+        { id: 'firstFavoriteHearing' },
+        { id: 'secondFavoriteHearing' }
       ]
     }
   }
@@ -107,10 +107,10 @@ describe('UserProfile', () => {
           wrapper.instance().componentDidMount();
           expect(defaultProps.fetchComments).toHaveBeenCalledTimes(1);
           expect(defaultProps.fetchFavorites).toHaveBeenCalledTimes(1);
-          expect(defaultProps.fetchFavorites).toHaveBeenCalledWith({following: true});
+          expect(defaultProps.fetchFavorites).toHaveBeenCalledWith({ following: true });
         });
         test('fetchComments and fetchFavorites are not called if userExists && user is false', () => {
-          const wrapper = getWrapper({user: null});
+          const wrapper = getWrapper({ user: null });
           jest.clearAllMocks();
           wrapper.instance().componentDidMount();
           expect(defaultProps.fetchComments).not.toHaveBeenCalled();
@@ -119,22 +119,22 @@ describe('UserProfile', () => {
       });
       describe('componentDidUpdate', () => {
         test('fetchComments & fetchFavorites are called if userState.userLoading changed', () => {
-          const wrapper = getWrapper({user: null, userState: {userLoading: true}});
+          const wrapper = getWrapper({ user: null, userState: { userLoading: true } });
           jest.clearAllMocks();
           wrapper.instance().componentDidMount();
           expect(defaultProps.fetchComments).not.toHaveBeenCalled();
           expect(defaultProps.fetchFavorites).not.toHaveBeenCalled();
-          wrapper.setProps({userState: {userLoading: false}});
+          wrapper.setProps({ userState: { userLoading: false } });
           expect(defaultProps.fetchComments).toHaveBeenCalled();
           expect(defaultProps.fetchFavorites).toHaveBeenCalled();
         });
         test('fetchComments & fetchFavorites are called if props.user changed from previous', () => {
-          const wrapper = getWrapper({user: null});
+          const wrapper = getWrapper({ user: null });
           jest.clearAllMocks();
           wrapper.instance().componentDidMount();
           expect(defaultProps.fetchComments).not.toHaveBeenCalled();
           expect(defaultProps.fetchFavorites).not.toHaveBeenCalled();
-          wrapper.setProps({user: {id: 'foo'}});
+          wrapper.setProps({ user: { id: 'foo' } });
           expect(defaultProps.fetchComments).toHaveBeenCalled();
           expect(defaultProps.fetchFavorites).toHaveBeenCalled();
         });
@@ -149,7 +149,11 @@ describe('UserProfile', () => {
           jest.clearAllMocks();
           instance.componentDidMount();
           const spy = jest.spyOn(instance, 'setCommentCount');
-          wrapper.setProps({profile: {comments: mockComments, favoriteHearings: defaultProps.profile.favoriteHearings}});
+          wrapper.setProps({
+            profile: {
+              comments: mockComments, favoriteHearings: defaultProps.profile.favoriteHearings
+            }
+          });
           expect(spy).toHaveBeenCalledTimes(1);
           expect(spy).toHaveBeenCalledWith(mockComments.count);
         });
@@ -157,7 +161,7 @@ describe('UserProfile', () => {
           const wrapper = getWrapper();
           wrapper.instance().componentDidMount();
           jest.clearAllMocks();
-          wrapper.setProps({user: {favorite_hearings: ['someOtherHearing']}});
+          wrapper.setProps({ user: { favorite_hearings: ['someOtherHearing'] } });
           expect(defaultProps.fetchFavorites).toHaveBeenCalled();
         });
       });
@@ -194,7 +198,7 @@ describe('UserProfile', () => {
     });
     describe('getUserComments', () => {
       test('returns UserComments for all comments by default (same when all is selected)', () => {
-        const {count, results: comments} = defaultProps.profile.comments;
+        const { count, results: comments } = defaultProps.profile.comments;
         const wrapper = getWrapper();
         const userCommentsWrapper = shallow(wrapper.instance().getUserComments());
         expect(userCommentsWrapper).toHaveLength(1);
@@ -206,7 +210,7 @@ describe('UserProfile', () => {
         });
       });
       test('return UserComments for a selected hearing', () => {
-        const {uniqueHearings, results: comments} = defaultProps.profile.comments;
+        const { uniqueHearings, results: comments } = defaultProps.profile.comments;
         const wrapper = getWrapper();
         // Loop through all unique hearings
         uniqueHearings.forEach((hearing) => {
@@ -226,7 +230,7 @@ describe('UserProfile', () => {
     });
     describe('getHearingCards', () => {
       test('returns HearingCardList with correct props', () => {
-        const {profile} = defaultProps;
+        const { profile } = defaultProps;
         const wrapper = getWrapper();
 
         const localWrapper = shallow(<div>{wrapper.instance().getHearingCards()}</div>);
@@ -260,7 +264,7 @@ describe('UserProfile', () => {
       });
       describe('FormControl', () => {
         test('has correct amount of options', () => {
-          const {comments} = defaultProps.profile;
+          const { comments } = defaultProps.profile;
           const outerWrapper = getWrapper();
           const wrapper = shallow(outerWrapper.instance().hearingCommentSelect());
           const formControlElement = wrapper.find(FormControl);
@@ -355,28 +359,30 @@ describe('UserProfile', () => {
   describe('renders', () => {
     describe('LoadSpinner when', () => {
       test('userState.userLoading is true', () => {
-        const wrapper = getWrapper({userState: {userLoading: true, userExists: false}});
+        const wrapper = getWrapper({ userState: { userLoading: true, userExists: false } });
         expect(wrapper.find(LoadSpinner)).toHaveLength(1);
       });
       test('!user, user is false', () => {
-        const wrapper = getWrapper({user: null});
+        const wrapper = getWrapper({ user: null });
         expect(wrapper.find(LoadSpinner)).toHaveLength(1);
       });
     });
     describe('Icon with FormattedMessage when', () => {
       test('user has no favorite hearings', () => {
         const favHearingProps = [
-          {profile:
-              {
-                comments: defaultProps.profile.comments,
-                favoriteHearings: {}
-              }
+          {
+            profile:
+            {
+              comments: defaultProps.profile.comments,
+              favoriteHearings: {}
+            }
           },
-          {profile:
-              {
-                comments: defaultProps.profile.comments,
-                favoriteHearings: {count: 0, results: []}
-              }
+          {
+            profile:
+            {
+              comments: defaultProps.profile.comments,
+              favoriteHearings: { count: 0, results: [] }
+            }
           }
         ];
         favHearingProps.forEach((prop) => {
@@ -393,17 +399,19 @@ describe('UserProfile', () => {
       });
       test('user has no comments', () => {
         const commentProps = [
-          {profile:
-              {
-                comments: {},
-                favoriteHearings: defaultProps.profile.favoriteHearings
-              }
+          {
+            profile:
+            {
+              comments: {},
+              favoriteHearings: defaultProps.profile.favoriteHearings
+            }
           },
-          {profile:
-              {
-                comments: {...defaultProps.profile.comments, results: []},
-                favoriteHearings: defaultProps.profile.favoriteHearings
-              }
+          {
+            profile:
+            {
+              comments: { ...defaultProps.profile.comments, results: [] },
+              favoriteHearings: defaultProps.profile.favoriteHearings
+            }
           }
         ];
         commentProps.forEach((prop) => {
@@ -432,7 +440,7 @@ describe('UserProfile', () => {
         const commentsTextElement = messageElements.filterWhere(
           element => element.prop('id') === 'userAddedComments');
         expect(commentsTextElement).toHaveLength(1);
-        expect(commentsTextElement.prop('values')).toEqual({n: wrapper.state('commentCount')});
+        expect(commentsTextElement.prop('values')).toEqual({ n: wrapper.state('commentCount') });
       });
     });
   });

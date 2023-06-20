@@ -25,8 +25,10 @@ describe('src/utils/map', () => {
       const normalMapTileUrl = "normal url.png";
       const highContrastMapTileUrl = "high contrast url.png";
       const language = "fi";
-      expect(getCorrectContrastMapTileUrl(
-        normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language)).toBe("high contrast url@fi.png");
+
+      expect(
+        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language))
+        .toBe("high contrast url@fi.png");
     });
   });
 });

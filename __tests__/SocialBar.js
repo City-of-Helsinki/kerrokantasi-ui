@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import {renderIntoDocument} from 'react-dom/test-utils';
 import SocialBar from '../src/components/SocialBar';
 import {findDOMNode} from 'react-dom';

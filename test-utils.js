@@ -4,12 +4,12 @@ import createStore from './src/createStore';
 import messages from './src/i18n';
 import React from 'react';
 import express from 'express';
-import {IntlProvider} from 'react-intl';
-import {Provider} from 'react-redux';
-import Response from 'node-fetch/lib/response';
-import {Readable} from 'stream';
+import { IntlProvider } from 'react-intl';
+import { Provider } from 'react-redux';
+import { Response } from 'node-fetch';
+import { Readable } from 'stream';
 
-export const mockUser = {id: "fff", displayName: "Mock von User"};
+export const mockUser = { id: "fff", displayName: "Mock von User" };
 
 /**
  * Wire a component class up with Redux and React-Intl for testing.
@@ -27,8 +27,8 @@ export function wireComponent(store, type, props = {}, children = []) {
   }
   const locale = store.getState().language || "fi";
   const el = React.createElement(type, props, children);
-  const intlProvider = React.createElement(IntlProvider, {locale, messages: messages[locale] || {}}, el);
-  const reduxProvider = React.createElement(Provider, {store}, intlProvider);
+  const intlProvider = React.createElement(IntlProvider, { locale, messages: messages[locale] || {} }, el);
+  const reduxProvider = React.createElement(Provider, { store }, intlProvider);
   return reduxProvider;
 }
 
@@ -61,7 +61,7 @@ function MockResponse(done = noop) {
     }
   };
   res.dump = () => {
-    return {status: _status, body: _body};
+    return { status: _status, body: _body };
   };
 }
 
@@ -76,8 +76,8 @@ function MockResponse(done = noop) {
  */
 export function getRenderPromise(request, initialState = {}, settings = {}) {
   const render = require('./server/render');
-  const finalSettings = assign({}, settings, {serverRendering: true, dev: true});
-  const finalRequest = assign(Object.create(express.request), assign({method: "GET"}, request));
+  const finalSettings = assign({}, settings, { serverRendering: true, dev: true });
+  const finalRequest = assign(Object.create(express.request), assign({ method: "GET" }, request));
   return new Promise((resolve) => {
     const mockResponse = new MockResponse((res) => {
       resolve(res.dump());
@@ -102,8 +102,8 @@ export function withAndWithoutUser(state = null, fn = null) {
     state = {};  // eslint-disable-line no-param-reassign
   }
   [
-    {state: assign({}, state, {user: {data: null, isFetching: false}}), message: "when not logged in"},
-    {state: assign({}, state, {user: {data: mockUser, isFecting: false}}), message: "when logged in"}
+    { state: assign({}, state, { user: { data: null, isFetching: false } }), message: "when not logged in" },
+    { state: assign({}, state, { user: { data: mockUser, isFecting: false } }), message: "when logged in" }
   ].forEach(fn);
 }
 
@@ -150,7 +150,7 @@ export function mockFetch(urlMap) {
       return rv;
     }
     if (typeof rv === "string") {
-      rv = {body: rv, init: {status: 200}};
+      rv = { body: rv, init: { status: 200 } };
     }
     if (rv.body && rv.init) {
       rv = new Response(streamify(rv.body), rv.init);
@@ -179,7 +179,7 @@ export function jsonResponse(content, status = 200) {
 }
 
 export const getIntlAsProp = () => {
-  const intlProvider = new IntlProvider({ locale: 'fi', messages: messages.fi}, {});
+  const intlProvider = new IntlProvider({ locale: 'fi', messages: messages.fi }, {});
   return intlProvider.getChildContext().intl;
 };
 
@@ -480,8 +480,8 @@ export const mockStore = {
     },
     currentlyViewed: '#hearing'
   },
-  dispatch: () => {},
-  fetchLabels: () => {},
+  dispatch: () => { },
+  fetchLabels: () => { },
   match: {
     params: {
       tab: 'list'
@@ -491,9 +491,9 @@ export const mockStore = {
     search: ''
   },
   labels: {
-    data: [{id: 1, label: {fi: 'Mock Von Label'}}, {id: 2, label: {fi: 'Mock Don Label'}}]
+    data: [{ id: 1, label: { fi: 'Mock Von Label' } }, { id: 2, label: { fi: 'Mock Don Label' } }]
   },
-  user: { },
+  user: {},
   accessibility: {
     isHighContrast: false,
   },
@@ -539,7 +539,7 @@ export const mockStore = {
         {
           id: 'aa11',
           n_comments: 0,
-          labels: [{id: 1, label: {fi: 'test label FI'}}],
+          labels: [{ id: 1, label: { fi: 'test label FI' } }],
           open_at: '2021-01-22T21:00:00Z',
           close_at: '2021-02-28T22:00:00Z',
           created_at: '2021-01-13T11:07:26.630423Z',
@@ -551,7 +551,7 @@ export const mockStore = {
         {
           id: 'bb22',
           n_comments: 4,
-          labels: [{id: 5, label: {fi: 'viides label'}}],
+          labels: [{ id: 5, label: { fi: 'viides label' } }],
           open_at: '2021-01-29T21:00:00Z',
           close_at: '2021-02-20T22:00:00Z',
           created_at: '2021-01-17T11:07:26.630423Z',
@@ -563,7 +563,7 @@ export const mockStore = {
         {
           id: 'cc33',
           n_comments: 25,
-          labels: [{id: 6, label: {fi: 'kuudes label'}}],
+          labels: [{ id: 6, label: { fi: 'kuudes label' } }],
           open_at: '2021-01-19T21:00:00Z',
           close_at: '2021-02-20T22:00:00Z',
           created_at: '2021-01-16T11:07:26.630423Z',
@@ -575,7 +575,7 @@ export const mockStore = {
         {
           id: 'dd44',
           n_comments: 2,
-          labels: [{id: 6, label: {fi: 'kuudes label'}}],
+          labels: [{ id: 6, label: { fi: 'kuudes label' } }],
           open_at: '2021-01-31T21:00:00Z',
           close_at: '2021-04-20T22:00:00Z',
           created_at: '2021-01-29T11:07:26.630423Z',
@@ -598,7 +598,7 @@ export const mockStore = {
         {
           id: 'ab4',
           n_comments: 1,
-          labels: [{id: 1, label: {fi: 'test label FI'}}, {id: 2, label: {fi: 'toka'}}],
+          labels: [{ id: 1, label: { fi: 'test label FI' } }, { id: 2, label: { fi: 'toka' } }],
           open_at: '2021-01-02T21:00:00Z',
           close_at: '2021-01-18T22:00:00Z',
           created_at: '2021-01-01T11:07:26.630423Z',
@@ -616,7 +616,7 @@ export const mockStore = {
         {
           id: 'abs5',
           n_comments: 0,
-          labels: [{id: 3, label: {fi: 'luonnos label', sv: 'utkast label'}}],
+          labels: [{ id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } }],
           open_at: '2021-03-02T21:00:00Z',
           close_at: '2021-05-18T22:00:00Z',
           created_at: '2021-01-01T11:07:26.630423Z',
@@ -629,7 +629,7 @@ export const mockStore = {
         {
           id: 'abc6',
           n_comments: 0,
-          labels: [{id: 3, label: {fi: 'luonnos label', sv: 'utkast label'}}],
+          labels: [{ id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } }],
           open_at: '2021-04-02T21:00:00Z',
           close_at: '2021-07-18T22:00:00Z',
           created_at: '2021-02-01T11:07:26.630423Z',
