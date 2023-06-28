@@ -1,6 +1,6 @@
 {
   "hostname": "https://localhost:8086",
-  "privacyPolicy": "https://localhost:8086/rekisteriseloste",
+  "dataProtection": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden%20ja%20palautteiden%20rekisteri.pdf",
   "feedbackEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
   "feedbackFI": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi",
   "feedbackSV": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-sv",

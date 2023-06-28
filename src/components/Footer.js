@@ -76,8 +76,8 @@ export default function Footer(props) {
                   </li>
                 )}
                 <li>
-                  <a href={urls.privacyPolicy} target="_blank">
-                    <FormattedMessage id="privacyPolicy" />
+                  <a href={urls.dataProtection} target="_blank" rel="noopener noreferrer">
+                    <FormattedMessage id="dataProtection" />
                   </a>
                 </li>
                 {config.enableCookies && (
