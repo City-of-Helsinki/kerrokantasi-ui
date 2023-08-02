@@ -22,7 +22,7 @@
     background-position: center;
 
     @media (max-width: $screen-xs-max) {
-        display: none;
+      display: none;
     }
   }
 
@@ -152,7 +152,7 @@
     flex: 0 1 auto;
     font-size: $font-size-large;
     font-weight: 400;
-    margin: 0 $grid-gutter-width*1.5 $grid-gutter-width/2 0;
+    margin: 0 $grid-gutter-width * 1.5 $grid-gutter-width/2 0;
     color: $text-muted;
 
     span {
@@ -206,6 +206,12 @@
 
     #hearings-search-form {
       scroll-margin-top: 100px;
+    }
+
+    .hearings-search-input-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .internal-link {
