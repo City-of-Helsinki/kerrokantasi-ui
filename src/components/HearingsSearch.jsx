@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
-import { SearchInput } from 'hds-react';
+import { Button, SearchInput } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
@@ -29,17 +29,16 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
           }}
           id='hearings-search-form'
         >
-          <div className='hearings-search-input-container'>
+          <div className='hearings-search__controls'>
             <FormGroup className='hearings-search__text' controlId='formControlsSearchText'>
               <SearchInput
+                className='hearings-search__input'
                 label={<FormattedMessage id='searchTitles' />}
-                searchButtonAriaLabel={<FormattedMessage id='searchTitles' />}
-                clearButtonAriaLabel='Clear'
+                searchButtonAriaLabel={intl.formatMessage({ id: 'searchTitles' })}
+                clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
                 value={searchValue}
                 onChange={(newValue) => setSearchValue(newValue)}
-                onSubmit={(value) => {
-                  handleSearch(value);
-                }}
+                onSubmit={(value) => handleSearch(value)}
               />
             </FormGroup>
             <FormGroup className='hearings-search__label' controlId='formControlsSearchSelect'>
@@ -58,7 +57,10 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               )}
             </FormGroup>
           </div>
-          <Button className='hearings-search__button' bsStyle='primary' type='submit'>
+          {/* <Button className="hearings-search__button" bsStyle="primary" type="submit">
+            <FormattedMessage id="search" />
+          </Button> */}
+          <Button type='submit' className='hearings-search__button'>
             <FormattedMessage id='search' />
           </Button>
           <InternalLink destinationId='hearings-section' srOnly>

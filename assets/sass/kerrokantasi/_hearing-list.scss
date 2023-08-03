@@ -208,17 +208,21 @@
       scroll-margin-top: 100px;
     }
 
-    .hearings-search-input-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
     .internal-link {
       float: left;
       margin-left: 8px;
       margin-top: 6px;
     }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__input {
+    --icon-size: var(--spacing-s);
   }
 
   &__label {
@@ -232,6 +236,15 @@
   }
 
   &__button {
+    --background-color: var(--color-black);
+    --background-color-focus: var(--color-black);
+    --border-color: var(--color-black);
+    --border-color-focus: var(--color-black);
+    --background-color-hover: var(--color-black-90);
+    --background-color-hover-focus: var(--color-black-90);
+    --border-color-hover: var(--color-black-90);
+    --border-color-hover-focus: var(--color-black-90);
+
     float: left;
   }
 }
