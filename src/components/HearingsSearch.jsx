@@ -57,9 +57,6 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               )}
             </FormGroup>
           </div>
-          {/* <Button className="hearings-search__button" bsStyle="primary" type="submit">
-            <FormattedMessage id="search" />
-          </Button> */}
           <Button type='submit' className='hearings-search__button'>
             <FormattedMessage id='search' />
           </Button>
