@@ -263,7 +263,7 @@ exports[`Home component should render as expected 1`] = `
               "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
               "favoriteHearings": "Suosikkikuulemiset",
               "feedbackLinkText": "Palaute",
-              "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+              "feedbackPrompt": "Kerro kantasi -kehitysideat",
               "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
               "firstClosing": "Ensimmäisenä sulkeutuvat",
               "follow": "Seuraa",
@@ -720,7 +720,7 @@ exports[`Home component should render as expected 1`] = `
                 "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                 "favoriteHearings": "Suosikkikuulemiset",
                 "feedbackLinkText": "Palaute",
-                "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+                "feedbackPrompt": "Kerro kantasi -kehitysideat",
                 "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
                 "firstClosing": "Ensimmäisenä sulkeutuvat",
                 "follow": "Seuraa",
@@ -1044,30 +1044,6 @@ exports[`Home component should render as expected 1`] = `
     <div
       className="hearings-koro__bottom"
     />
-  </section>
-  <section
-    className="page-section page-section--feedback"
-  >
-    <div
-      className="container"
-    >
-      <h2
-        className="feedback-prompt"
-      >
-        <a
-          className="feedback-box"
-          href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FormattedMessage
-            id="feedbackPrompt"
-            values={{}}
-          />
-           
-        </a>
-      </h2>
-    </div>
   </section>
   <section
     className="page-section page-section--map"
