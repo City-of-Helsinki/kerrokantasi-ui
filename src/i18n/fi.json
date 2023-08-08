@@ -324,6 +324,7 @@
   "registered": "rekisteröitynyt",
   "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
   "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
+  "registeredUserCommentMessage": "Nimesi tai nimimerkkisi näytetään kommenttisi yhteydessä. Voit poistaa nimen tai nimimerkin tyhjentämällä kyseisen kentän.",
   "removedFavorite": "Kuuleminen poistettu suosikeista.",
   "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
   "removeFavorites": "Poista suosikeista",

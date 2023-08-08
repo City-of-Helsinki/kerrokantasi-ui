@@ -1,18 +1,18 @@
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape, FormattedMessage, } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage, } from 'react-intl';
 import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import classnames from 'classnames';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import uuid from 'uuid/v1';
 import Icon from '../utils/Icon';
-import {getImageAsBase64Promise} from '../utils/hearing';
+import { getImageAsBase64Promise } from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
-import {get, includes} from 'lodash';
+import { get, includes } from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
-import {localizedNotifyError} from "../utils/notify";
+import { localizedNotifyError } from "../utils/notify";
 import {
   checkFormErrors,
   getFirstUnansweredQuestion,
@@ -24,14 +24,14 @@ import {
   isEmptyCommentAllowed,
   isSectionCommentingMapEnabled
 } from "../utils/section";
-import {Polygon, GeoJSON, Polyline, Circle} from 'react-leaflet';
+import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 // eslint-disable-next-line import/no-unresolved
 import localization from '@city-i18n/localization.json';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
-import {getCorrectContrastMapTileUrl} from "../utils/map";
-import Leaflet, {LatLng} from 'leaflet';
+import { getCorrectContrastMapTileUrl } from "../utils/map";
+import Leaflet, { LatLng } from 'leaflet';
 import leafletMarkerShadowUrl from "../../assets/images/leaflet/marker-shadow.png";
 import leafletMarkerRetinaIconUrl from "../../assets/images/leaflet/marker-icon-2x.png";
 import CommentFormMap from "./CommentFormMap/CommentFormMap";
@@ -78,18 +78,18 @@ export class BaseCommentForm extends React.Component {
       this.toggle();
     }
     if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '' && !this.isUserAdmin()) {
-      this.setState({nickname: nextProps.defaultNickname});
+      this.setState({ nickname: nextProps.defaultNickname });
     }
     if (this.isUserAdmin() && nextProps.user && nextProps.user.displayName) {
       this.setState({ nickname: nextProps.user.displayName });
     }
     if (this.props.answers !== nextProps.answers) {
-      this.setState({commentOrAnswerRequiredError: false});
+      this.setState({ commentOrAnswerRequiredError: false });
     }
   }
 
   toggle() {
-    const {canComment, section} = this.props;
+    const { canComment, section } = this.props;
     if (canComment) {
       this.setState({
         collapsed: !this.state.collapsed,
@@ -121,20 +121,20 @@ export class BaseCommentForm extends React.Component {
   }
 
   handleNicknameChange(event) {
-    this.setState({nickname: event.target.value});
+    this.setState({ nickname: event.target.value });
   }
 
   hasFormErrors() {
-    const {imageTooBig, commentRequiredError, commentOrAnswerRequiredError} = this.state;
+    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } = this.state;
     return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
   }
 
   clearCommentText() {
-    this.setState({commentText: ""});
+    this.setState({ commentText: "" });
   }
 
   submitComment() {
-    const {section, answers, isReply, loggedIn, user} = this.props;
+    const { section, answers, isReply, loggedIn, user } = this.props;
     const pluginComment = this.getPluginComment();
     let pluginData = this.getPluginData();
     let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
@@ -222,13 +222,13 @@ export class BaseCommentForm extends React.Component {
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
       for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
-        const imageObject = {title: "Title", caption: "Caption"};
+        const imageObject = { title: "Title", caption: "Caption" };
 
         imageObject.image = arrayOfResults[_i];
         images.push(imageObject);
       }
 
-      this.setState({images});
+      this.setState({ images });
     });
   }
 
@@ -237,8 +237,9 @@ export class BaseCommentForm extends React.Component {
    * The array in users with key adminOrganizations should be of length > 0
    */
   isUserAdmin = () => (
+    this.props.loggedIn &&
     this.props.user
-    && Array.isArray(this.props.user.adminOrganizations)
+    && !Array.isArray(this.props.user.adminOrganizations)
     && this.props.user.adminOrganizations.length > 0
   );
 
@@ -270,12 +271,17 @@ export class BaseCommentForm extends React.Component {
   /**
    * When logged in as admin, user may chose to hide their identity.
    */
-  handleToggleHideName = () => {
+  handleToggleHideName = (isAdminUser) => {
     this.setState((prevState) => ({
-      nickname: !prevState.hideName ? this.props.intl.formatMessage({ id: 'employee' }) : this.props.user.displayName,
+      nickname: !prevState.hideName ?
+        this.props.intl.formatMessage({
+          id: isAdminUser ?
+            'employee' :
+            'anonymous'
+        }) : this.props.user.displayName,
       hideName: !prevState.hideName,
     }));
-  }
+  };
 
   /**
    * Toggle the pinning of comment
@@ -294,43 +300,44 @@ export class BaseCommentForm extends React.Component {
       }
     });
     if (isImageTooBig) {
-      this.setState({imageTooBig: true});
+      this.setState({ imageTooBig: true });
     } else {
-      this.setState({imageTooBig: false});
+      this.setState({ imageTooBig: false });
     }
   }
 
   /**
    * When admin user is posting a comment, we will show a closeable warning.
    */
-  renderAdminWarning = () => (
+  renderAdminWarning = (isAdminUser) => (
     <Alert bsStyle="warning">
       <div className="comment-form__comment-alert">
         <div className="comment-form__comment-alert__alert-icon">
           <Icon name="info-circle" size="lg" />
         </div>
-        <span className="comment-form__comment-alert__alert-message"><FormattedMessage id="adminCommentMessage"/></span>
+        <span className="comment-form__comment-alert__alert-message">
+          {isAdminUser ?
+            <FormattedMessage id="adminCommentMessage" /> :
+            <FormattedMessage id="registeredUserCommentMessage" />
+          }
+        </span>
         <div className="comment-form__comment-alert__alert-close">
-          <Icon name="close" onClick={this.handleCloseAlert}/>
+          <Icon name="close" onClick={this.handleCloseAlert} />
         </div>
       </div>
-    </Alert>
-  );
+    </Alert>);
 
   /**
    * Render the checkbox to hide user name and identitiy for admin user.
    */
-  renderHideNameOption = () => (
-    <Checkbox checked={this.state.hideName} key={uuid()} onChange={this.handleToggleHideName}>
-      <FormattedMessage id="hideName"/>
-    </Checkbox>
-  );
+  renderHideNameOption = (isAdminUser) => <Checkbox checked={this.state.hideName} key={uuid()} onChange={() => this.handleToggleHideName(isAdminUser)}> <FormattedMessage id="hideName" /></Checkbox >;
 
   /**
    * For admins, there is slightly different form.
    */
-  renderFormForAdmin =() => {
+  renderFormForAdmin = () => {
     const { user } = this.props;
+
     const organization = this.isUserAdmin() && user.adminOrganizations[0];
     return (
       <FormGroup>
@@ -346,7 +353,7 @@ export class BaseCommentForm extends React.Component {
           type="text"
           placeholder={this.props.intl.formatMessage({ id: 'organization' })}
           value={organization || ''}
-          onChange={() => {}}
+          onChange={() => { }}
           maxLength={32}
           disabled
         />
@@ -367,27 +374,27 @@ export class BaseCommentForm extends React.Component {
         <label htmlFor="commentNickname" className="h4">
           <FormattedMessage id={headingId} />
         </label>
-        { isAdminUser && this.state.showAlert && this.renderAdminWarning() }
-        { isAdminUser && this.renderHideNameOption() }
+        {this.state.showAlert && this.renderAdminWarning(isAdminUser)}
+        {this.renderHideNameOption(isAdminUser)}
         {
           isAdminUser
-          ? (
-            <div className="comment-form__group-admin">
-              { this.renderFormForAdmin() }
-            </div>
-          )
-          : (
-            <FormGroup>
-              <FormControl
-                id="commentNickname"
-                type="text"
-                placeholder={this.props.nicknamePlaceholder}
-                value={this.state.nickname}
-                onChange={this.handleNicknameChange.bind(this)}
-                maxLength={32}
-              />
-            </FormGroup>
-          )
+            ? (
+              <div className="comment-form__group-admin">
+                {this.renderFormForAdmin()}
+              </div>
+            )
+            : (
+              <FormGroup>
+                <FormControl
+                  id="commentNickname"
+                  type="text"
+                  placeholder={this.props.nicknamePlaceholder}
+                  value={this.state.nickname}
+                  onChange={this.handleNicknameChange.bind(this)}
+                  maxLength={32}
+                />
+              </FormGroup>
+            )
         }
       </React.Fragment>
     );
@@ -402,26 +409,26 @@ export class BaseCommentForm extends React.Component {
       className={classnames([
         'comment-form__heading-container__pin__icon',
         {
-        'comment-form__heading-container__pin__pin-comment': !this.state.pinned,
-        'comment-form__heading-container__pin__unpin-comment': this.state.pinned
+          'comment-form__heading-container__pin__pin-comment': !this.state.pinned,
+          'comment-form__heading-container__pin__unpin-comment': this.state.pinned
         }
       ])}
       onClick={this.handleTogglePin}
     />
   );
   onDrawCreate = (event) => {
-    this.setState({geojson: event.layer.toGeoJSON().geometry});
+    this.setState({ geojson: event.layer.toGeoJSON().geometry });
   }
 
   onDrawDelete = () => {
-    this.setState({geojson: null});
+    this.setState({ geojson: null });
   }
 
   handleMapTextChange(event) {
-    this.setState({mapCommentText: event.target.value});
+    this.setState({ mapCommentText: event.target.value });
   }
   getMapBorder() {
-    const {hearingGeojson} = this.props;
+    const { hearingGeojson } = this.props;
 
     if (hearingGeojson && hearingGeojson.type !== 'Point') {
       const contents = [];
@@ -463,7 +470,7 @@ export class BaseCommentForm extends React.Component {
   }
 
   getMapCenter() {
-    const {hearingGeojson} = this.props;
+    const { hearingGeojson } = this.props;
     let center;
     if (hearingGeojson && hearingGeojson.type === 'Point') {
       center = new LatLng(hearingGeojson.coordinates[1], hearingGeojson.coordinates[0]);
@@ -474,19 +481,19 @@ export class BaseCommentForm extends React.Component {
   }
 
   getMapContrastTiles() {
-    const {isHighContrast, language} = this.props;
+    const { isHighContrast, language } = this.props;
     return getCorrectContrastMapTileUrl(urls.rasterMapTiles,
       urls.highContrastRasterMapTiles, isHighContrast, language);
   }
 
   render() {
-    const {language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment} = this.props;
+    const { language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment } = this.props;
     const hasQuestions = hasAnyQuestions(section);
 
     if (!this.props.overrideCollapse && this.state.collapsed) {
       return (
         <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-          <Icon name="comment"/> <FormattedMessage id={hasQuestions ? "addCommentAndVote" : "addComment"} />
+          <Icon name="comment" /> <FormattedMessage id={hasQuestions ? "addCommentAndVote" : "addComment"} />
         </Button>
       );
     }
@@ -498,7 +505,7 @@ export class BaseCommentForm extends React.Component {
     return (
       <div className="comment-form">
         <form>
-          <h2><FormattedMessage id="writeComment"/></h2>
+          <h2><FormattedMessage id="writeComment" /></h2>
           <p>
             <FormattedMessage
               id={commentRequired ? "commentHelpStarRequired" : "commentHelpAnswerOrCommentRequired"}
@@ -537,7 +544,7 @@ export class BaseCommentForm extends React.Component {
           <div className="comment-form__heading-container">
             <div className="comment-form__heading-container__title">
               <label htmlFor="commentTextField" className="h4">
-                <FormattedMessage id="writeComment"/>
+                <FormattedMessage id="writeComment" />
                 {commentRequired && <span aria-hidden="true">*</span>}
               </label>
             </div>
@@ -546,7 +553,7 @@ export class BaseCommentForm extends React.Component {
               && !isReply
               && (
                 <div className="comment-form__heading-container__pin">
-                  { this.renderPinUnpinIcon() }
+                  {this.renderPinUnpinIcon()}
                 </div>
               )
             }
@@ -561,14 +568,14 @@ export class BaseCommentForm extends React.Component {
             required={commentRequired}
           />
           {isSectionCommentingMapEnabled(user, section) && (
-            <div className="comment-form__map-container" style={{ marginTop: 20}}>
+            <div className="comment-form__map-container" style={{ marginTop: 20 }}>
               <div>
                 <label htmlFor="commentMapAddress">
                   <FormattedMessage id="commentMapTitle" />
                 </label>
               </div>
               <FormattedMessage id="commentMapInstructions">
-                {instr => <span style={{fontSize: 13}}>{instr}</span>}
+                {instr => <span style={{ fontSize: 13 }}>{instr}</span>}
               </FormattedMessage>
               <div className="map-padding">
                 <CommentFormMap
@@ -584,7 +591,7 @@ export class BaseCommentForm extends React.Component {
               </div>
               <FormGroup>
                 <ControlLabel htmlFor="map_text">
-                  <FormattedMessage id="commentMapAdditionalInfo"/>
+                  <FormattedMessage id="commentMapAdditionalInfo" />
                 </ControlLabel>
                 <FormControl
                   id="map_text"
@@ -601,7 +608,7 @@ export class BaseCommentForm extends React.Component {
             {this.state.imageTooBig
               ? (
                 <div className="comment-form__image-too-big">
-                  <FormattedMessage id="imageSizeError"/>
+                  <FormattedMessage id="imageSizeError" />
                 </div>
               )
               : this.state.images.map(
@@ -617,7 +624,7 @@ export class BaseCommentForm extends React.Component {
             }
           </div>
           <FormGroup className="comment-form__file">
-            <ControlLabel><FormattedMessage id="add_images"/></ControlLabel>
+            <ControlLabel><FormattedMessage id="add_images" /></ControlLabel>
             <div className="comment-form__select-file">
               <input
                 type="file"
@@ -631,15 +638,15 @@ export class BaseCommentForm extends React.Component {
                 <FormattedMessage id="choose_images" />
               </label>
             </div>
-            <span style={{fontSize: 13, marginTop: 20}}><FormattedMessage id="multipleImages"/></span>
+            <span style={{ fontSize: 13, marginTop: 20 }}><FormattedMessage id="multipleImages" /></span>
           </FormGroup>
-          { this.renderNameFormForUser() }
+          {this.renderNameFormForUser()}
           <div className="comment-buttons clearfix">
             <Button
               bsStyle="default"
               onClick={this.toggle.bind(this)}
             >
-              <FormattedMessage id="cancel"/>
+              <FormattedMessage id="cancel" />
             </Button>
             <Button
               bsStyle="primary"
@@ -647,7 +654,7 @@ export class BaseCommentForm extends React.Component {
               className={this.hasFormErrors() ? 'disabled' : null}
               onClick={this.submitComment.bind(this)}
             >
-              <FormattedMessage id="submit"/>
+              <FormattedMessage id="submit" />
             </Button>
           </div>
           <CommentFormErrors
@@ -655,7 +662,7 @@ export class BaseCommentForm extends React.Component {
             commentOrAnswerRequiredError={this.state.commentOrAnswerRequiredError}
             imageTooBig={this.state.imageTooBig}
           />
-          <CommentDisclaimer/>
+          <CommentDisclaimer />
         </form>
       </div>
     );
@@ -686,7 +693,7 @@ BaseCommentForm.propTypes = {
 BaseCommentForm.defaultProps = {
   defaultNickname: '',
   overrideCollapse: false,
-  onOverrideCollapse: () => {},
+  onOverrideCollapse: () => { },
   isReply: false,
 };
 

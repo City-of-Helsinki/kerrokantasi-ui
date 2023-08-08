@@ -265,6 +265,7 @@
   "register": "Register",
   "registered": "Registered",
   "registeredStrongOnly": "Only strong identification users",
+  "registeredUserCommentMessage": "Your name or nickname will be displayed with your comment. You can remove your name or nickname by clearing the field.",
   "removedFavorite": "Hearing removed from favorites.",
   "removeFavoriteNotFound": "Hearing not found in favorites.",
   "removeFavorites": "Remove from favorites",
