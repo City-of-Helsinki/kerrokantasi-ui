@@ -295,7 +295,6 @@ export const BaseCommentForm = ({
   };
 
   const isImageTooBig = (images) => {
-    // eslint-disable-line class-methods-use-this
     let imageTooBig = false;
     Array.from(images).forEach((image) => {
       if (image.size > 1000000) {
