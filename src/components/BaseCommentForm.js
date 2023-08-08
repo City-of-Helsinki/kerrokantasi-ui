@@ -97,7 +97,7 @@ export const BaseCommentForm = ({
     () =>
       loggedIn &&
       user &&
-      !Array.isArray(user.adminOrganizations) &&
+      Array.isArray(user.adminOrganizations) &&
       user.adminOrganizations.length > 0,
     [loggedIn, user]
   );
