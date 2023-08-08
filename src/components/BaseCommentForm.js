@@ -1,8 +1,15 @@
 /* eslint-disable react/no-did-mount-set-state */
-import React from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage, } from 'react-intl';
-import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormGroup,
+  ControlLabel,
+  Alert,
+} from 'react-bootstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v1';
@@ -12,7 +19,7 @@ import CommentDisclaimer from './CommentDisclaimer';
 import { get, includes } from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
-import { localizedNotifyError } from "../utils/notify";
+import { localizedNotifyError } from '../utils/notify';
 import {
   checkFormErrors,
   getFirstUnansweredQuestion,
@@ -22,19 +29,19 @@ import {
   hasUserAnsweredAllQuestions,
   isCommentRequired,
   isEmptyCommentAllowed,
-  isSectionCommentingMapEnabled
-} from "../utils/section";
+  isSectionCommentingMapEnabled,
+} from '../utils/section';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 // eslint-disable-next-line import/no-unresolved
 import localization from '@city-i18n/localization.json';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
-import { getCorrectContrastMapTileUrl } from "../utils/map";
+import { getCorrectContrastMapTileUrl } from '../utils/map';
 import Leaflet, { LatLng } from 'leaflet';
-import leafletMarkerShadowUrl from "../../assets/images/leaflet/marker-shadow.png";
-import leafletMarkerRetinaIconUrl from "../../assets/images/leaflet/marker-icon-2x.png";
-import CommentFormMap from "./CommentFormMap/CommentFormMap";
+import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
+import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
+import CommentFormMap from './CommentFormMap/CommentFormMap';
 import CommentFormErrors from './CommentFormErrors';
 import config from '../config';
 
@@ -45,313 +52,367 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
-export class BaseCommentForm extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      collapsed: true,
-      commentText: "",
-      nickname: props.defaultNickname || '',
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-      geojson: {},
-      mapCommentText: "",
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    };
-    this.getSelectedImagesAsArray = this.getSelectedImagesAsArray.bind(this);
-    this.hasFormErrors = this.hasFormErrors.bind(this);
-  }
 
-  componentDidMount = () => {
-    if (this.isUserAdmin()) {
-      this.setState({ nickname: this.props.user.displayName });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.collapseForm && nextProps.collapseForm) {
-      this.clearCommentText();
-      this.toggle();
-    }
-    if (this.props.defaultNickname === '' && nextProps.defaultNickname !== '' && !this.isUserAdmin()) {
-      this.setState({ nickname: nextProps.defaultNickname });
-    }
-    if (this.isUserAdmin() && nextProps.user && nextProps.user.displayName) {
-      this.setState({ nickname: nextProps.user.displayName });
-    }
-    if (this.props.answers !== nextProps.answers) {
-      this.setState({ commentOrAnswerRequiredError: false });
-    }
-  }
-
-  toggle() {
-    const { canComment, section } = this.props;
-    if (canComment) {
-      this.setState({
-        collapsed: !this.state.collapsed,
-        commentText: "",
-        nickname: this.props.defaultNickname || '',
-        imageTooBig: false,
-        images: [],
-        pinned: false,
-        showAlert: true,
-        hideName: false,
-        mapCommentText: "",
-        commentRequiredError: false,
-        commentOrAnswerRequiredError: false,
-      });
-      if (this.props.onOverrideCollapse instanceof Function) {
-        this.props.onOverrideCollapse();
-      }
-    } else {
-      localizedNotifyError(getSectionCommentingErrorMessage(section));
-    }
-  }
-
-  handleTextChange(event) {
-    this.setState({
-      commentText: event.target.value,
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    });
-  }
-
-  handleNicknameChange(event) {
-    this.setState({ nickname: event.target.value });
-  }
-
-  hasFormErrors() {
-    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } = this.state;
-    return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
-  }
-
-  clearCommentText() {
-    this.setState({ commentText: "" });
-  }
-
-  submitComment() {
-    const { section, answers, isReply, loggedIn, user } = this.props;
-    const pluginComment = this.getPluginComment();
-    let pluginData = this.getPluginData();
-    let nickname = (this.state.nickname === "" ? this.props.nicknamePlaceholder : this.state.nickname);
-    let commentText = (this.state.commentText === null ? '' : this.state.commentText);
-    let geojson = this.state.geojson;
-    let label = null;
-    let images = this.state.images;
-    let pinned = this.state.pinned;
-    let mapCommentText = this.state.mapCommentText;
-
-    // plugin comment will override comment fields, if provided
-    if (pluginComment) {
-      commentText = pluginComment.content || commentText;
-      nickname = pluginComment.author_name || nickname;
-      pluginData = pluginComment.plugin_data || pluginData;
-      label = pluginComment.label || null;
-      images = pluginComment.image ? [pluginComment.image] : images;
-      geojson = pluginComment.geojson || geojson;
-      pinned = pluginComment.pinned || null;
-      mapCommentText = pluginComment.mapCommentText || mapCommentText;
-    } else if (pluginData && typeof pluginData !== "string") {
-      // this is for old-fashioned plugins with only data
-      pluginData = JSON.stringify(pluginData);
-    }
-
-    // validate form errors here before posting the comment
-    const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
-    const errors = checkFormErrors(
-      this.state.imageTooBig, commentText, section, answers, isReply, userAnsweredAllQuestions
-    );
-    if (errors.length > 0) {
-      this.handleErrorStates(errors);
-      return;
-    }
-
-    // make sure empty comments are not added when not intended
-    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
-      if (!commentText.trim()) {
-        commentText = config.emptyCommentString;
-      }
-    }
-
-    this.props.onPostComment(
-      commentText,
-      nickname,
-      pluginData,
-      geojson,
-      label,
-      images,
-      pinned,
-      mapCommentText,
-    );
-    this.setState({
-      collapsed: false,
-      commentText: "",
-      nickname: this.props.defaultNickname || '',
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-      geojson: {},
-      mapCommentText: "",
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    });
-  }
-
-  handleErrorStates(errors) {
-    this.setState({
-      commentRequiredError: errors.includes('commentRequiredError'),
-      commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
-      imageTooBig: errors.includes('imageTooBig')
-    });
-  }
-
-  handleChange(event) {
-    const imagePromisesArray = [];
-    const images = [];
-    this.isImageTooBig(event.target.files);
-
-    for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
-      imagePromisesArray.push(getImageAsBase64Promise(this.refs.images.files[_i]));
-    }
-
-    Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      for (let _i = 0; _i < this.refs.images.files.length; _i += 1) {
-        const imageObject = { title: "Title", caption: "Caption" };
-
-        imageObject.image = arrayOfResults[_i];
-        images.push(imageObject);
-      }
-
-      this.setState({ images });
-    });
-  }
+export const BaseCommentForm = ({
+  loggedIn,
+  user,
+  collapseForm,
+  defaultNickname,
+  answers,
+  canComment,
+  section,
+  isReply,
+  nicknamePlaceholder,
+  hearingGeojson,
+  isHighContrast,
+  language,
+  closed,
+  overrideCollapse,
+  intl,
+  onOverrideCollapse,
+  onPostComment,
+  onChangeAnswers
+}) => {
+  const [formData, setFormData] = useState({
+    collapsed: true,
+    commentText: '',
+    nickname: defaultNickname || '',
+    imageTooBig: false,
+    images: [],
+    pinned: false,
+    showAlert: true,
+    hideName: false,
+    geojson: {},
+    mapCommentText: '',
+    commentRequiredError: false,
+    commentOrAnswerRequiredError: false,
+  });
 
   /**
    * Determines whether the logged in user is admin or not.
    * The array in users with key adminOrganizations should be of length > 0
    */
-  isUserAdmin = () => (
-    this.props.loggedIn &&
-    this.props.user
-    && !Array.isArray(this.props.user.adminOrganizations)
-    && this.props.user.adminOrganizations.length > 0
+  const isUserAdmin = useMemo(
+    () =>
+      loggedIn &&
+      user &&
+      !Array.isArray(user.adminOrganizations) &&
+      user.adminOrganizations.length > 0,
+    []
   );
 
-  getPluginData() {  // eslint-disable-line class-methods-use-this
-    return undefined;
-  }
-
-  getPluginComment() {  // eslint-disable-line class-methods-use-this
-    return undefined;
-  }
-
-  getSelectedImagesAsArray(files) { // eslint-disable-line class-methods-use-this
-    const imagesArray = [];
-    for (let _i = 0; _i < files.length; _i += 1) {
-      imagesArray.push(files[_i]);
+  useEffect(() => {
+    if (isUserAdmin) {
+      setFormData({ ...formData, nickname: user.displayName });
     }
-    return imagesArray;
-  }
+  }, [isUserAdmin]);
+
+  const toggle = () => {
+    if (canComment) {
+      setFormData({
+        ...formData,
+        collapsed: !formData.collapsed,
+        commentText: '',
+        nickname: defaultNickname || '',
+        imageTooBig: false,
+        images: [],
+        pinned: false,
+        showAlert: true,
+        hideName: false,
+        mapCommentText: '',
+        commentRequiredError: false,
+        commentOrAnswerRequiredError: false,
+      });
+
+      if (onOverrideCollapse instanceof Function) {
+        onOverrideCollapse();
+      }
+    } else {
+      localizedNotifyError(getSectionCommentingErrorMessage(section));
+    }
+  };
+
+  const clearCommentText = () => {
+    setFormData({ ...formData, commentText: '' });
+  };
+
+  useEffect(() => {
+    if (collapseForm) {
+      clearCommentText();
+      toggle();
+    }
+
+    if (
+      defaultNickname !== '' &&
+      !isUserAdmin
+    ) {
+      setFormData({ ...formData, nickname: defaultNickname });
+    }
+
+    if (isUserAdmin && user && user.displayName) {
+      setFormData({ ...formData, nickname: user.displayName });
+    }
+
+    if (answers) {
+      setFormData({ ...formData, commentOrAnswerRequiredError: false });
+    }
+  }, [collapseForm, defaultNickname, isUserAdmin, user, answers]);
+
+  const handleTextChange = (event) => {
+    setFormData({
+      ...formData,
+      commentText: event.target.value,
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    });
+  };
+
+  const handleNicknameChange = (event) => {
+    setFormData({ ...formData, nickname: event.target.value });
+  };
+
+  const hasFormErrors = () => {
+    const {
+      imageTooBig,
+      commentRequiredError,
+      commentOrAnswerRequiredError,
+    } = formData;
+
+    return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
+  };
+
+  const getPluginData = () => {
+    return undefined;
+  };
+
+  const getPluginComment = () => {
+    return undefined;
+  };
+
+  const handleErrorStates = (errors) => {
+    setFormData({
+      ...formData,
+      commentRequiredError: errors.includes('commentRequiredError'),
+      commentOrAnswerRequiredError: errors.includes(
+        'commentOrAnswerRequiredError'
+      ),
+      imageTooBig: errors.includes('imageTooBig'),
+    });
+  };
+
+  const submitComment = () => {
+    const pluginComment = getPluginComment();
+    let pluginData = getPluginData();
+
+    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig } = formData;
+
+    let setNickname =
+      nickname === ''
+        ? nicknamePlaceholder
+        : nickname;
+
+    let setCommentText = commentText === null ? '' : commentText;
+    let setGeojson = geojson;
+    let label = null;
+    let setImages = images;
+    let setPinned = pinned;
+    let setMapCommentText = mapCommentText;
+
+    // plugin comment will override comment fields, if provided
+    if (pluginComment) {
+      setCommentText = pluginComment.content || setCommentText;
+      setNickname = pluginComment.author_name || setNickname;
+      pluginData = pluginComment.plugin_data || pluginData;
+      label = pluginComment.label || null;
+      setImages = pluginComment.image ? [pluginComment.image] : setImages;
+      setGeojson = pluginComment.geojson || setGeojson;
+      setPinned = pluginComment.pinned || null;
+      setMapCommentText = pluginComment.mapCommentText || setMapCommentText;
+    } else if (pluginData && typeof pluginData !== 'string') {
+      // this is for old-fashioned plugins with only data
+      pluginData = JSON.stringify(pluginData);
+    }
+
+    // validate form errors here before posting the comment
+    const userAnsweredAllQuestions =
+      loggedIn && hasUserAnsweredAllQuestions(user, section);
+    const errors = checkFormErrors(
+      imageTooBig,
+      setCommentText,
+      section,
+      answers,
+      isReply,
+      userAnsweredAllQuestions
+    );
+    if (errors.length > 0) {
+      handleErrorStates(errors);
+      return;
+    }
+
+    // make sure empty comments are not added when not intended
+    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
+      if (!setCommentText.trim()) {
+        setCommentText = config.emptyCommentString;
+      }
+    }
+
+    onPostComment(
+      setCommentText,
+      setNickname,
+      pluginData,
+      setGeojson,
+      label,
+      setImages,
+      setPinned,
+      setMapCommentText
+    );
+
+    setFormData({
+      ...formData,
+      collapsed: false,
+      commentText: '',
+      nickname: defaultNickname || '',
+      imageTooBig: false,
+      images: [],
+      pinned: false,
+      showAlert: true,
+      hideName: false,
+      geojson: {},
+      mapCommentText: '',
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    });
+  };
+
+  const isImageTooBig = (images) => {
+    // eslint-disable-line class-methods-use-this
+    let imageTooBig = false;
+    Array.from(images).forEach((image) => {
+      if (image.size > 1000000) {
+        imageTooBig = true;
+      }
+    });
+
+    setFormData({ ...formData, imageTooBig });
+  };
+
+  const imagesRef = useRef();
+
+  const handleChange = (event) => {
+    const imagePromisesArray = [];
+    const images = [];
+
+    isImageTooBig(event.target.files);
+
+    for (let _i = 0; _i < imagesRef.files.length; _i += 1) {
+      imagePromisesArray.push(
+        getImageAsBase64Promise(imagesRef.files[_i])
+      );
+    }
+
+    Promise.all(imagePromisesArray).then((arrayOfResults) => {
+      for (let _i = 0; _i < imagesRef.files.length; _i += 1) {
+        const imageObject = { title: 'Title', caption: 'Caption' };
+
+        imageObject.image = arrayOfResults[_i];
+        images.push(imageObject);
+      }
+
+      setFormData({ ...formData, images });
+    });
+  };
 
   /**
    * When user type is admin, an alert is shown, use this method to close the alert.
    */
-  handleCloseAlert = () => {
-    this.setState((prevState) => ({
-      showAlert: !prevState.showAlert,
-    }));
-  }
+  const handleCloseAlert = () => {
+    setFormData({
+      ...formData,
+      showAlert: !formData.showAlert,
+    });
+  };
 
   /**
    * When logged in as admin, user may chose to hide their identity.
    */
-  handleToggleHideName = (isAdminUser) => {
-    this.setState((prevState) => ({
-      nickname: !prevState.hideName ?
-        this.props.intl.formatMessage({
-          id: isAdminUser ?
-            'employee' :
-            'anonymous'
-        }) : this.props.user.displayName,
-      hideName: !prevState.hideName,
-    }));
+  const handleToggleHideName = (isAdminUser) => {
+    setFormData({
+      ...formData,
+      nickname: !formData.hideName
+        ? intl.formatMessage({
+          id: isAdminUser ? 'employee' : 'anonymous',
+        })
+        : user.displayName,
+      hideName: !formData.hideName,
+    });
   };
 
   /**
    * Toggle the pinning of comment
    */
-  handleTogglePin = () => {
-    this.setState((prevState) => ({
-      pinned: !prevState.pinned,
-    }));
-  }
-
-  isImageTooBig(images) { // eslint-disable-line class-methods-use-this
-    let isImageTooBig = false;
-    Array.from(images).forEach((image) => {
-      if (image.size > 1000000) {
-        isImageTooBig = true;
-      }
+  const handleTogglePin = () => {
+    setFormData({
+      ...formData,
+      pinned: !formData.pinned,
     });
-    if (isImageTooBig) {
-      this.setState({ imageTooBig: true });
-    } else {
-      this.setState({ imageTooBig: false });
-    }
-  }
+  };
 
   /**
-   * When admin user is posting a comment, we will show a closeable warning.
-   */
-  renderAdminWarning = (isAdminUser) => (
+  * When admin user is posting a comment, we will show a closeable warning.
+  */
+  const renderAdminWarning = (isAdminUser) => (
     <Alert bsStyle="warning">
       <div className="comment-form__comment-alert">
         <div className="comment-form__comment-alert__alert-icon">
           <Icon name="info-circle" size="lg" />
         </div>
         <span className="comment-form__comment-alert__alert-message">
-          {isAdminUser ?
-            <FormattedMessage id="adminCommentMessage" /> :
+          {isAdminUser ? (
+            <FormattedMessage id="adminCommentMessage" />
+          ) : (
             <FormattedMessage id="registeredUserCommentMessage" />
-          }
+          )}
         </span>
         <div className="comment-form__comment-alert__alert-close">
-          <Icon name="close" onClick={this.handleCloseAlert} />
+          <Icon name="close" onClick={handleCloseAlert} />
         </div>
       </div>
-    </Alert>);
+    </Alert>
+  );
 
   /**
    * Render the checkbox to hide user name and identitiy for admin user.
    */
-  renderHideNameOption = (isAdminUser) => <Checkbox checked={this.state.hideName} key={uuid()} onChange={() => this.handleToggleHideName(isAdminUser)}> <FormattedMessage id="hideName" /></Checkbox >;
+  const renderHideNameOption = (isAdminUser) => (
+    <Checkbox
+      checked={formData.hideName}
+      key={uuid()}
+      onChange={() => handleToggleHideName(isAdminUser)}
+    >
+      {' '}
+      <FormattedMessage id="hideName" />
+    </Checkbox>
+  );
 
   /**
    * For admins, there is slightly different form.
    */
-  renderFormForAdmin = () => {
-    const { user } = this.props;
+  const renderFormForAdmin = () => {
+    const organization = isUserAdmin && user.adminOrganizations[0];
 
-    const organization = this.isUserAdmin() && user.adminOrganizations[0];
     return (
       <FormGroup>
         <FormControl
           type="text"
-          placeholder={this.props.nicknamePlaceholder}
-          value={this.state.nickname}
-          onChange={this.handleNicknameChange.bind(this)}
+          placeholder={nicknamePlaceholder}
+          value={formData.nickname}
+          onChange={handleNicknameChange}
           maxLength={32}
           disabled
         />
         <FormControl
           type="text"
-          placeholder={this.props.intl.formatMessage({ id: 'organization' })}
+          placeholder={intl.formatMessage({ id: 'organization' })}
           value={organization || ''}
           onChange={() => { }}
           maxLength={32}
@@ -359,315 +420,368 @@ export class BaseCommentForm extends React.Component {
         />
       </FormGroup>
     );
-  }
+  };
 
   /**
    * If an admin type of user is posting comment, the form is slightly different.
    * @returns {JSX<Component>}
    */
-  renderNameFormForUser = () => {
-    const isAdminUser = this.isUserAdmin();
-    const headingId = isAdminUser ? 'nameAndOrganization' : 'nickname';
+  const renderNameFormForUser = () => {
+    const headingId = isUserAdmin ? 'nameAndOrganization' : 'nickname';
 
     return (
       <React.Fragment>
         <label htmlFor="commentNickname" className="h4">
           <FormattedMessage id={headingId} />
         </label>
-        {this.state.showAlert && this.renderAdminWarning(isAdminUser)}
-        {this.renderHideNameOption(isAdminUser)}
-        {
-          isAdminUser
-            ? (
-              <div className="comment-form__group-admin">
-                {this.renderFormForAdmin()}
-              </div>
-            )
-            : (
-              <FormGroup>
-                <FormControl
-                  id="commentNickname"
-                  type="text"
-                  placeholder={this.props.nicknamePlaceholder}
-                  value={this.state.nickname}
-                  onChange={this.handleNicknameChange.bind(this)}
-                  maxLength={32}
-                />
-              </FormGroup>
-            )
-        }
+        {formData.showAlert && renderAdminWarning(isUserAdmin)}
+        {renderHideNameOption(isUserAdmin)}
+        {isUserAdmin ? (
+          <div className="comment-form__group-admin">
+            {renderFormForAdmin()}
+          </div>
+        ) : (
+          <FormGroup>
+            <FormControl
+              id="commentNickname"
+              type="text"
+              placeholder={nicknamePlaceholder}
+              value={formData.nickname}
+              onChange={handleNicknameChange}
+              maxLength={32}
+            />
+          </FormGroup>
+        )}
       </React.Fragment>
     );
-  }
+  };
 
   /**
    * When user is of admin type, they are allowed to pin a comment to top.
    * In the form, an icon can be shown to pin or unpin the comment.
    */
-  renderPinUnpinIcon = () => (
+  const renderPinUnpinIcon = () => (
     <Button
       className={classnames([
         'comment-form__heading-container__pin__icon',
         {
-          'comment-form__heading-container__pin__pin-comment': !this.state.pinned,
-          'comment-form__heading-container__pin__unpin-comment': this.state.pinned
-        }
+          'comment-form__heading-container__pin__pin-comment': !formData
+            .pinned,
+          'comment-form__heading-container__pin__unpin-comment': formData
+            .pinned,
+        },
       ])}
-      onClick={this.handleTogglePin}
+      onClick={handleTogglePin}
     />
   );
-  onDrawCreate = (event) => {
-    this.setState({ geojson: event.layer.toGeoJSON().geometry });
-  }
 
-  onDrawDelete = () => {
-    this.setState({ geojson: null });
-  }
+  const onDrawCreate = (event) => {
+    setFormData({ ...formData, geojson: event.layer.toGeoJSON().geometry });
+  };
 
-  handleMapTextChange(event) {
-    this.setState({ mapCommentText: event.target.value });
-  }
-  getMapBorder() {
-    const { hearingGeojson } = this.props;
+  const onDrawDelete = () => {
+    setFormData({ ...formData, geojson: null });
+  };
 
+  const handleMapTextChange = (event) => {
+    setFormData({ ...formData, mapCommentText: event.target.value });
+  };
+
+  const getMapElement = (geojson) => {
+    switch (geojson.type) {
+      case 'Polygon': {
+        // XXX: This only supports the _first_ ring of coordinates in a Polygon
+        const latLngs = geojson.coordinates[0].map(
+          ([lng, lat]) => new LatLng(lat, lng)
+        );
+        return (
+          <Polygon
+            key={Math.random()}
+            positions={latLngs}
+            color="transparent"
+          />
+        );
+      }
+      case 'Point': {
+        const latLngs = new LatLng(
+          geojson.coordinates[1],
+          geojson.coordinates[0]
+        );
+        return <Circle center={latLngs} radius={10} color="transparent" />;
+      }
+      case 'LineString': {
+        const latLngs = geojson.coordinates.map(
+          ([lng, lat]) => new LatLng(lat, lng)
+        );
+        return (
+          <Polyline
+            key={Math.random()}
+            positions={latLngs}
+            color="transparent"
+          />
+        );
+      }
+      case 'Feature': {
+        return getMapElement(geojson.geometry);
+      }
+      default:
+        // This should never happen
+        return (
+          <GeoJSON
+            data={geojson}
+            key={JSON.stringify(geojson)}
+            color="transparent"
+          />
+        );
+    }
+  };
+
+  const getMapBorder = () => {
     if (hearingGeojson && hearingGeojson.type !== 'Point') {
       const contents = [];
       if (hearingGeojson.type === 'FeatureCollection') {
         hearingGeojson.features.forEach((feature) => {
-          contents.push(this.getMapElement(feature));
+          contents.push(getMapElement(feature));
         });
       } else {
-        contents.push(this.getMapElement(hearingGeojson));
+        contents.push(getMapElement(hearingGeojson));
       }
       return contents;
     }
     return null;
-  }
-  getMapElement(geojson) {
-    switch (geojson.type) {
-      case "Polygon": {
-        // XXX: This only supports the _first_ ring of coordinates in a Polygon
-        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-        return (<Polygon key={Math.random()} positions={latLngs} color="transparent" />);
-      }
-      case "Point": {
-        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-        return (
-          <Circle center={latLngs} radius={10} color="transparent" />
-        );
-      }
-      case "LineString": {
-        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-        return (<Polyline key={Math.random()} positions={latLngs} color="transparent" />);
-      }
-      case "Feature": {
-        return (this.getMapElement(geojson.geometry));
-      }
-      default:
-        // This should never happen
-        return (<GeoJSON data={geojson} key={JSON.stringify(geojson)} color="transparent" />);
-    }
-  }
+  };
 
-  getMapCenter() {
-    const { hearingGeojson } = this.props;
+  const getMapCenter = () => {
     let center;
     if (hearingGeojson && hearingGeojson.type === 'Point') {
-      center = new LatLng(hearingGeojson.coordinates[1], hearingGeojson.coordinates[0]);
+      center = new LatLng(
+        hearingGeojson.coordinates[1],
+        hearingGeojson.coordinates[0]
+      );
     } else {
-      center = new LatLng(localization.mapPosition[0], localization.mapPosition[1]);
-    }
-    return center;
-  }
-
-  getMapContrastTiles() {
-    const { isHighContrast, language } = this.props;
-    return getCorrectContrastMapTileUrl(urls.rasterMapTiles,
-      urls.highContrastRasterMapTiles, isHighContrast, language);
-  }
-
-  render() {
-    const { language, section, onChangeAnswers, answers, loggedIn, closed, user, isReply, canComment } = this.props;
-    const hasQuestions = hasAnyQuestions(section);
-
-    if (!this.props.overrideCollapse && this.state.collapsed) {
-      return (
-        <Button onClick={this.toggle.bind(this)} bsStyle="primary" bsSize="large" block>
-          <Icon name="comment" /> <FormattedMessage id={hasQuestions ? "addCommentAndVote" : "addComment"} />
-        </Button>
+      center = new LatLng(
+        localization.mapPosition[0],
+        localization.mapPosition[1]
       );
     }
+    return center;
+  };
 
-    const userAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
-    const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
-    const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
+  const getMapContrastTiles = () => {
+    return getCorrectContrastMapTileUrl(
+      urls.rasterMapTiles,
+      urls.highContrastRasterMapTiles,
+      isHighContrast,
+      language
+    );
+  };
 
+  const hasQuestions = hasAnyQuestions(section);
+  const userAnsweredAllQuestions =
+    loggedIn && hasUserAnsweredAllQuestions(user, section);
+  const commentRequired = isCommentRequired(
+    hasQuestions,
+    isReply,
+    userAnsweredAllQuestions
+  );
+  const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
+
+  if (!overrideCollapse && formData.collapsed) {
     return (
-      <div className="comment-form">
-        <form>
-          <h2><FormattedMessage id="writeComment" /></h2>
-          <p>
-            <FormattedMessage
-              id={commentRequired ? "commentHelpStarRequired" : "commentHelpAnswerOrCommentRequired"}
-            />
-          </p>
-          {
-            !isReply &&
-            section.questions.map((question) => {
-              const canShowQuestionResult =
-                closed || (loggedIn && includes(get(user, "answered_questions"), question.id));
-              return canShowQuestionResult
-                ? <QuestionResults key={question.id} question={question} lang={language} />
-                : null;
-            })
-          }
-          {
-            !isReply &&
-            section.questions.map((question) => {
-              const canShowQuestionForm = !closed && !includes(get(user, "answered_questions"), question.id);
-              return canShowQuestionForm
-                ? (
-                  <QuestionForm
-                    // give focus when there are unanswered questions
-                    autoFocus={!!firstUnansweredQuestion && firstUnansweredQuestion.id === question.id}
-                    key={question.id}
-                    canAnswer={canComment}
-                    answers={answers.find(answer => answer.question === question.id)}
-                    onChange={onChangeAnswers}
-                    question={question}
-                    lang={language}
-                  />
-                )
-                : null;
-            })
-          }
-          <div className="comment-form__heading-container">
-            <div className="comment-form__heading-container__title">
-              <label htmlFor="commentTextField" className="h4">
-                <FormattedMessage id="writeComment" />
-                {commentRequired && <span aria-hidden="true">*</span>}
-              </label>
-            </div>
-            {
-              this.isUserAdmin()
-              && !isReply
-              && (
-                <div className="comment-form__heading-container__pin">
-                  {this.renderPinUnpinIcon()}
-                </div>
-              )
-            }
-          </div>
-          <FormControl
-            // set focus when there are no questions before to be answered
-            autoFocus={isReply || !firstUnansweredQuestion}
-            componentClass="textarea"
-            value={this.state.commentText}
-            onChange={this.handleTextChange.bind(this)}
-            id="commentTextField"
-            required={commentRequired}
-          />
-          {isSectionCommentingMapEnabled(user, section) && (
-            <div className="comment-form__map-container" style={{ marginTop: 20 }}>
-              <div>
-                <label htmlFor="commentMapAddress">
-                  <FormattedMessage id="commentMapTitle" />
-                </label>
-              </div>
-              <FormattedMessage id="commentMapInstructions">
-                {instr => <span style={{ fontSize: 13 }}>{instr}</span>}
-              </FormattedMessage>
-              <div className="map-padding">
-                <CommentFormMap
-                  center={this.getMapCenter()}
-                  mapBounds={localization.mapBounds || null}
-                  mapTileUrl={this.getMapContrastTiles()}
-                  onDrawCreate={this.onDrawCreate}
-                  onDrawDelete={this.onDrawDelete}
-                  contents={this.getMapBorder()}
-                  tools={section.commenting_map_tools}
-                  language={language}
-                />
-              </div>
-              <FormGroup>
-                <ControlLabel htmlFor="map_text">
-                  <FormattedMessage id="commentMapAdditionalInfo" />
-                </ControlLabel>
-                <FormControl
-                  id="map_text"
-                  type="text"
-                  value={this.state.mapCommentText}
-                  onChange={this.handleMapTextChange.bind(this)}
-                  maxLength={128}
-                />
-              </FormGroup>
-            </div>
-          )}
-
-          <div className="comment-form__selected-images">
-            {this.state.imageTooBig
-              ? (
-                <div className="comment-form__image-too-big">
-                  <FormattedMessage id="imageSizeError" />
-                </div>
-              )
-              : this.state.images.map(
-                (image, key) =>
-                  <img
-                    style={{ marginRight: 10 }}
-                    alt=""
-                    src={image.image}
-                    width={image.width < 100 ? image.width : 100}
-                    height={image.height < 100 ? image.width : 100}
-                    key={key + Math.random()} //eslint-disable-line
-                  />)
-            }
-          </div>
-          <FormGroup className="comment-form__file">
-            <ControlLabel><FormattedMessage id="add_images" /></ControlLabel>
-            <div className="comment-form__select-file">
-              <input
-                type="file"
-                ref="images"
-                id="fileInput"
-                multiple
-                className="custom-file-input"
-                onChange={(event) => this.handleChange(event)}
-              />
-              <label className="btn btn-default btn-sm" htmlFor="fileInput">
-                <FormattedMessage id="choose_images" />
-              </label>
-            </div>
-            <span style={{ fontSize: 13, marginTop: 20 }}><FormattedMessage id="multipleImages" /></span>
-          </FormGroup>
-          {this.renderNameFormForUser()}
-          <div className="comment-buttons clearfix">
-            <Button
-              bsStyle="default"
-              onClick={this.toggle.bind(this)}
-            >
-              <FormattedMessage id="cancel" />
-            </Button>
-            <Button
-              bsStyle="primary"
-              aria-disabled={this.hasFormErrors()}
-              className={this.hasFormErrors() ? 'disabled' : null}
-              onClick={this.submitComment.bind(this)}
-            >
-              <FormattedMessage id="submit" />
-            </Button>
-          </div>
-          <CommentFormErrors
-            commentRequiredError={this.state.commentRequiredError}
-            commentOrAnswerRequiredError={this.state.commentOrAnswerRequiredError}
-            imageTooBig={this.state.imageTooBig}
-          />
-          <CommentDisclaimer />
-        </form>
-      </div>
+      <Button
+        onClick={toggle}
+        bsStyle="primary"
+        bsSize="large"
+        block
+      >
+        <Icon name="comment" />{' '}
+        <FormattedMessage
+          id={hasQuestions ? 'addCommentAndVote' : 'addComment'}
+        />
+      </Button>
     );
   }
-}
+
+
+  return (
+    <div className="comment-form">
+      <form>
+        <h2>
+          <FormattedMessage id="writeComment" />
+        </h2>
+        <p>
+          <FormattedMessage
+            id={
+              commentRequired
+                ? 'commentHelpStarRequired'
+                : 'commentHelpAnswerOrCommentRequired'
+            }
+          />
+        </p>
+        {!isReply &&
+          section.questions.map((question) => {
+            const canShowQuestionResult =
+              closed ||
+              (loggedIn &&
+                includes(get(user, 'answered_questions'), question.id));
+            return canShowQuestionResult ? (
+              <QuestionResults
+                key={question.id}
+                question={question}
+                lang={language}
+              />
+            ) : null;
+          })}
+        {!isReply &&
+          section.questions.map((question) => {
+            const canShowQuestionForm =
+              !closed &&
+              !includes(get(user, 'answered_questions'), question.id);
+            return canShowQuestionForm ? (
+              <QuestionForm
+                // give focus when there are unanswered questions
+                autoFocus={
+                  !!firstUnansweredQuestion &&
+                  firstUnansweredQuestion.id === question.id
+                }
+                key={question.id}
+                canAnswer={canComment}
+                answers={answers.find(
+                  (answer) => answer.question === question.id
+                )}
+                onChange={onChangeAnswers}
+                question={question}
+                lang={language}
+              />
+            ) : null;
+          })}
+        <div className="comment-form__heading-container">
+          <div className="comment-form__heading-container__title">
+            <label htmlFor="commentTextField" className="h4">
+              <FormattedMessage id="writeComment" />
+              {commentRequired && <span aria-hidden="true">*</span>}
+            </label>
+          </div>
+          {isUserAdmin && !isReply && (
+            <div className="comment-form__heading-container__pin">
+              {renderPinUnpinIcon()}
+            </div>
+          )}
+        </div>
+        <FormControl
+          // set focus when there are no questions before to be answered
+          autoFocus={isReply || !firstUnansweredQuestion}
+          componentClass="textarea"
+          value={formData.commentText}
+          onChange={handleTextChange}
+          id="commentTextField"
+          required={commentRequired}
+        />
+        {isSectionCommentingMapEnabled(user, section) && (
+          <div
+            className="comment-form__map-container"
+            style={{ marginTop: 20 }}
+          >
+            <div>
+              <label htmlFor="commentMapAddress">
+                <FormattedMessage id="commentMapTitle" />
+              </label>
+            </div>
+            <FormattedMessage id="commentMapInstructions">
+              {(instr) => <span style={{ fontSize: 13 }}>{instr}</span>}
+            </FormattedMessage>
+            <div className="map-padding">
+              <CommentFormMap
+                center={getMapCenter()}
+                mapBounds={localization.mapBounds || null}
+                mapTileUrl={getMapContrastTiles()}
+                onDrawCreate={onDrawCreate}
+                onDrawDelete={onDrawDelete}
+                contents={getMapBorder()}
+                tools={section.commenting_map_tools}
+                language={language}
+              />
+            </div>
+            <FormGroup>
+              <ControlLabel htmlFor="map_text">
+                <FormattedMessage id="commentMapAdditionalInfo" />
+              </ControlLabel>
+              <FormControl
+                id="map_text"
+                type="text"
+                value={formData.mapCommentText}
+                onChange={handleMapTextChange}
+                maxLength={128}
+              />
+            </FormGroup>
+          </div>
+        )}
+
+        <div className="comment-form__selected-images">
+          {formData.imageTooBig ? (
+            <div className="comment-form__image-too-big">
+              <FormattedMessage id="imageSizeError" />
+            </div>
+          ) : (
+            formData.images.map((image, key) => (
+              <img
+                style={{ marginRight: 10 }}
+                alt=""
+                src={image.image}
+                width={image.width < 100 ? image.width : 100}
+                height={image.height < 100 ? image.width : 100}
+                key={key + Math.random()} //eslint-disable-line
+              />
+            ))
+          )}
+        </div>
+        <FormGroup className="comment-form__file">
+          <ControlLabel>
+            <FormattedMessage id="add_images" />
+          </ControlLabel>
+          <div className="comment-form__select-file">
+            <input
+              type="file"
+              ref={imagesRef}
+              id="fileInput"
+              multiple
+              className="custom-file-input"
+              onChange={(event) => handleChange(event)}
+            />
+            <label className="btn btn-default btn-sm" htmlFor="fileInput">
+              <FormattedMessage id="choose_images" />
+            </label>
+          </div>
+          <span style={{ fontSize: 13, marginTop: 20 }}>
+            <FormattedMessage id="multipleImages" />
+          </span>
+        </FormGroup>
+        {renderNameFormForUser()}
+        <div className="comment-buttons clearfix">
+          <Button bsStyle="default" onClick={toggle}>
+            <FormattedMessage id="cancel" />
+          </Button>
+          <Button
+            bsStyle="primary"
+            aria-disabled={hasFormErrors()}
+            className={hasFormErrors() ? 'disabled' : null}
+            onClick={submitComment}
+          >
+            <FormattedMessage id="submit" />
+          </Button>
+        </div>
+        <CommentFormErrors
+          commentRequiredError={formData.commentRequiredError}
+          commentOrAnswerRequiredError={
+            formData.commentOrAnswerRequiredError
+          }
+          imageTooBig={formData.imageTooBig}
+        />
+        <CommentDisclaimer />
+      </form>
+    </div>
+  );
+};
 
 BaseCommentForm.propTypes = {
   canComment: PropTypes.bool,
@@ -687,7 +801,7 @@ BaseCommentForm.propTypes = {
   user: PropTypes.object,
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
-  hearingGeojson: PropTypes.object
+  hearingGeojson: PropTypes.object,
 };
 
 BaseCommentForm.defaultProps = {
@@ -700,5 +814,9 @@ BaseCommentForm.defaultProps = {
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
-const WrappedBaseCommentForm = connect(mapStateToProps, null)(injectIntl(BaseCommentForm));
+const WrappedBaseCommentForm = connect(
+  mapStateToProps,
+  null
+)(injectIntl(BaseCommentForm));
+
 export default WrappedBaseCommentForm;
