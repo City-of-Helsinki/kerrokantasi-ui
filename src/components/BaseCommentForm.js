@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-mount-set-state */
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
@@ -71,7 +70,7 @@ export const BaseCommentForm = ({
   intl,
   onOverrideCollapse,
   onPostComment,
-  onChangeAnswers
+  onChangeAnswers,
 }) => {
   const [formData, setFormData] = useState({
     collapsed: true,
@@ -88,6 +87,8 @@ export const BaseCommentForm = ({
     commentOrAnswerRequiredError: false,
   });
 
+  const imagesRef = useRef();
+
   /**
    * Determines whether the logged in user is admin or not.
    * The array in users with key adminOrganizations should be of length > 0
@@ -98,14 +99,25 @@ export const BaseCommentForm = ({
       user &&
       !Array.isArray(user.adminOrganizations) &&
       user.adminOrganizations.length > 0,
-    []
+    [loggedIn, user]
   );
 
-  useEffect(() => {
-    if (isUserAdmin) {
-      setFormData({ ...formData, nickname: user.displayName });
-    }
-  }, [isUserAdmin]);
+  const hasQuestions = useMemo(() => hasAnyQuestions(section), [section]);
+
+  const userAnsweredAllQuestions = useMemo(
+    () => loggedIn && hasUserAnsweredAllQuestions(user, section),
+    [loggedIn, user, section]
+  );
+
+  const commentRequired = useMemo(
+    () => isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions),
+    [hasQuestions, isReply, userAnsweredAllQuestions]
+  );
+
+  const firstUnansweredQuestion = useMemo(
+    () => getFirstUnansweredQuestion(user, section),
+    [user, section]
+  );
 
   const toggle = () => {
     if (canComment) {
@@ -132,20 +144,19 @@ export const BaseCommentForm = ({
     }
   };
 
-  const clearCommentText = () => {
-    setFormData({ ...formData, commentText: '' });
-  };
+  useEffect(() => {
+    if (isUserAdmin) {
+      setFormData({ ...formData, nickname: user.displayName });
+    }
+  }, [isUserAdmin]);
 
   useEffect(() => {
     if (collapseForm) {
-      clearCommentText();
+      setFormData({ ...formData, commentText: '' });
       toggle();
     }
 
-    if (
-      defaultNickname !== '' &&
-      !isUserAdmin
-    ) {
+    if (defaultNickname !== '' && !isUserAdmin) {
       setFormData({ ...formData, nickname: defaultNickname });
     }
 
@@ -158,18 +169,16 @@ export const BaseCommentForm = ({
     }
   }, [collapseForm, defaultNickname, isUserAdmin, user, answers]);
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event) =>
     setFormData({
       ...formData,
       commentText: event.target.value,
       commentRequiredError: false,
       commentOrAnswerRequiredError: false,
     });
-  };
 
-  const handleNicknameChange = (event) => {
+  const handleNicknameChange = (event) =>
     setFormData({ ...formData, nickname: event.target.value });
-  };
 
   const hasFormErrors = () => {
     const {
@@ -181,15 +190,10 @@ export const BaseCommentForm = ({
     return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
   };
 
-  const getPluginData = () => {
-    return undefined;
-  };
+  const getPluginData = () => undefined;
+  const getPluginComment = () => undefined;
 
-  const getPluginComment = () => {
-    return undefined;
-  };
-
-  const handleErrorStates = (errors) => {
+  const handleErrorStates = (errors) =>
     setFormData({
       ...formData,
       commentRequiredError: errors.includes('commentRequiredError'),
@@ -198,18 +202,22 @@ export const BaseCommentForm = ({
       ),
       imageTooBig: errors.includes('imageTooBig'),
     });
-  };
 
   const submitComment = () => {
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 
-    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig } = formData;
+    const {
+      nickname,
+      commentText,
+      geojson,
+      images,
+      pinned,
+      mapCommentText,
+      imageTooBig,
+    } = formData;
 
-    let setNickname =
-      nickname === ''
-        ? nicknamePlaceholder
-        : nickname;
+    let setNickname = nickname === '' ? nicknamePlaceholder : nickname;
 
     let setCommentText = commentText === null ? '' : commentText;
     let setGeojson = geojson;
@@ -234,16 +242,18 @@ export const BaseCommentForm = ({
     }
 
     // validate form errors here before posting the comment
-    const userAnsweredAllQuestions =
+    const userHasAnsweredAllQuestions =
       loggedIn && hasUserAnsweredAllQuestions(user, section);
+
     const errors = checkFormErrors(
       imageTooBig,
       setCommentText,
       section,
       answers,
       isReply,
-      userAnsweredAllQuestions
+      userHasAnsweredAllQuestions
     );
+
     if (errors.length > 0) {
       handleErrorStates(errors);
       return;
@@ -296,22 +306,20 @@ export const BaseCommentForm = ({
     setFormData({ ...formData, imageTooBig });
   };
 
-  const imagesRef = useRef();
-
   const handleChange = (event) => {
     const imagePromisesArray = [];
     const images = [];
 
     isImageTooBig(event.target.files);
 
-    for (let _i = 0; _i < imagesRef.files.length; _i += 1) {
+    for (let _i = 0; _i < imagesRef.current.files.length; _i += 1) {
       imagePromisesArray.push(
-        getImageAsBase64Promise(imagesRef.files[_i])
+        getImageAsBase64Promise(imagesRef.current.files[_i])
       );
     }
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      for (let _i = 0; _i < imagesRef.files.length; _i += 1) {
+      for (let _i = 0; _i < imagesRef.current.files.length; _i += 1) {
         const imageObject = { title: 'Title', caption: 'Caption' };
 
         imageObject.image = arrayOfResults[_i];
@@ -325,49 +333,44 @@ export const BaseCommentForm = ({
   /**
    * When user type is admin, an alert is shown, use this method to close the alert.
    */
-  const handleCloseAlert = () => {
+  const handleCloseAlert = () =>
     setFormData({
       ...formData,
       showAlert: !formData.showAlert,
     });
-  };
 
   /**
    * When logged in as admin, user may chose to hide their identity.
    */
-  const handleToggleHideName = (isAdminUser) => {
+  const handleToggleHideName = () =>
     setFormData({
       ...formData,
       nickname: !formData.hideName
-        ? intl.formatMessage({
-          id: isAdminUser ? 'employee' : 'anonymous',
-        })
+        ? intl.formatMessage({ id: isUserAdmin ? 'employee' : 'anonymous' })
         : user.displayName,
       hideName: !formData.hideName,
     });
-  };
 
   /**
    * Toggle the pinning of comment
    */
-  const handleTogglePin = () => {
+  const handleTogglePin = () =>
     setFormData({
       ...formData,
       pinned: !formData.pinned,
     });
-  };
 
   /**
-  * When admin user is posting a comment, we will show a closeable warning.
-  */
-  const renderAdminWarning = (isAdminUser) => (
+   * When admin user is posting a comment, we will show a closeable warning.
+   */
+  const renderWarning = () => (
     <Alert bsStyle="warning">
       <div className="comment-form__comment-alert">
         <div className="comment-form__comment-alert__alert-icon">
           <Icon name="info-circle" size="lg" />
         </div>
         <span className="comment-form__comment-alert__alert-message">
-          {isAdminUser ? (
+          {isUserAdmin ? (
             <FormattedMessage id="adminCommentMessage" />
           ) : (
             <FormattedMessage id="registeredUserCommentMessage" />
@@ -383,13 +386,12 @@ export const BaseCommentForm = ({
   /**
    * Render the checkbox to hide user name and identitiy for admin user.
    */
-  const renderHideNameOption = (isAdminUser) => (
+  const renderHideNameOption = () => (
     <Checkbox
       checked={formData.hideName}
       key={uuid()}
-      onChange={() => handleToggleHideName(isAdminUser)}
+      onChange={() => handleToggleHideName()}
     >
-      {' '}
       <FormattedMessage id="hideName" />
     </Checkbox>
   );
@@ -430,12 +432,12 @@ export const BaseCommentForm = ({
     const headingId = isUserAdmin ? 'nameAndOrganization' : 'nickname';
 
     return (
-      <React.Fragment>
+      <>
         <label htmlFor="commentNickname" className="h4">
           <FormattedMessage id={headingId} />
         </label>
-        {formData.showAlert && renderAdminWarning(isUserAdmin)}
-        {renderHideNameOption(isUserAdmin)}
+        {loggedIn && formData.showAlert && renderWarning()}
+        {loggedIn && renderHideNameOption()}
         {isUserAdmin ? (
           <div className="comment-form__group-admin">
             {renderFormForAdmin()}
@@ -452,7 +454,7 @@ export const BaseCommentForm = ({
             />
           </FormGroup>
         )}
-      </React.Fragment>
+      </>
     );
   };
 
@@ -465,27 +467,22 @@ export const BaseCommentForm = ({
       className={classnames([
         'comment-form__heading-container__pin__icon',
         {
-          'comment-form__heading-container__pin__pin-comment': !formData
-            .pinned,
-          'comment-form__heading-container__pin__unpin-comment': formData
-            .pinned,
+          'comment-form__heading-container__pin__pin-comment': !formData.pinned,
+          'comment-form__heading-container__pin__unpin-comment':
+            formData.pinned,
         },
       ])}
       onClick={handleTogglePin}
     />
   );
 
-  const onDrawCreate = (event) => {
+  const onDrawCreate = (event) =>
     setFormData({ ...formData, geojson: event.layer.toGeoJSON().geometry });
-  };
 
-  const onDrawDelete = () => {
-    setFormData({ ...formData, geojson: null });
-  };
+  const onDrawDelete = () => setFormData({ ...formData, geojson: null });
 
-  const handleMapTextChange = (event) => {
+  const handleMapTextChange = (event) =>
     setFormData({ ...formData, mapCommentText: event.target.value });
-  };
 
   const getMapElement = (geojson) => {
     switch (geojson.type) {
@@ -567,33 +564,17 @@ export const BaseCommentForm = ({
     return center;
   };
 
-  const getMapContrastTiles = () => {
-    return getCorrectContrastMapTileUrl(
+  const getMapContrastTiles = () =>
+    getCorrectContrastMapTileUrl(
       urls.rasterMapTiles,
       urls.highContrastRasterMapTiles,
       isHighContrast,
       language
     );
-  };
-
-  const hasQuestions = hasAnyQuestions(section);
-  const userAnsweredAllQuestions =
-    loggedIn && hasUserAnsweredAllQuestions(user, section);
-  const commentRequired = isCommentRequired(
-    hasQuestions,
-    isReply,
-    userAnsweredAllQuestions
-  );
-  const firstUnansweredQuestion = getFirstUnansweredQuestion(user, section);
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button
-        onClick={toggle}
-        bsStyle="primary"
-        bsSize="large"
-        block
-      >
+      <Button onClick={toggle} bsStyle="primary" bsSize="large" block>
         <Icon name="comment" />{' '}
         <FormattedMessage
           id={hasQuestions ? 'addCommentAndVote' : 'addComment'}
@@ -601,7 +582,6 @@ export const BaseCommentForm = ({
       </Button>
     );
   }
-
 
   return (
     <div className="comment-form">
@@ -624,6 +604,7 @@ export const BaseCommentForm = ({
               closed ||
               (loggedIn &&
                 includes(get(user, 'answered_questions'), question.id));
+
             return canShowQuestionResult ? (
               <QuestionResults
                 key={question.id}
@@ -637,6 +618,7 @@ export const BaseCommentForm = ({
             const canShowQuestionForm =
               !closed &&
               !includes(get(user, 'answered_questions'), question.id);
+
             return canShowQuestionForm ? (
               <QuestionForm
                 // give focus when there are unanswered questions
@@ -772,9 +754,7 @@ export const BaseCommentForm = ({
         </div>
         <CommentFormErrors
           commentRequiredError={formData.commentRequiredError}
-          commentOrAnswerRequiredError={
-            formData.commentOrAnswerRequiredError
-          }
+          commentOrAnswerRequiredError={formData.commentOrAnswerRequiredError}
           imageTooBig={formData.imageTooBig}
         />
         <CommentDisclaimer />
@@ -814,6 +794,7 @@ BaseCommentForm.defaultProps = {
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
+
 const WrappedBaseCommentForm = connect(
   mapStateToProps,
   null
