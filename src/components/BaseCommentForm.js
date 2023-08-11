@@ -52,6 +52,8 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconAnchor: [13, 41],
 });
 
+const IMAGE_MAX_SIZE = 1000000;
+
 export const BaseCommentForm = ({
   loggedIn,
   user,
@@ -217,25 +219,26 @@ export const BaseCommentForm = ({
       imageTooBig,
     } = formData;
 
-    let setNickname = nickname === '' ? nicknamePlaceholder : nickname;
-
-    let setCommentText = commentText === null ? '' : commentText;
-    let setGeojson = geojson;
-    let label = null;
-    let setImages = images;
-    let setPinned = pinned;
-    let setMapCommentText = mapCommentText;
+    const data = {
+      nickname: nickname === '' ? nicknamePlaceholder : nickname,
+      commentText: commentText === null ? '' : commentText,
+      geojson,
+      images,
+      pinned,
+      mapCommentText,
+      label: null
+    };
 
     // plugin comment will override comment fields, if provided
     if (pluginComment) {
-      setCommentText = pluginComment.content || setCommentText;
-      setNickname = pluginComment.author_name || setNickname;
+      data.commentText = pluginComment.content || data.commentText;
+      data.nickname = pluginComment.author_name || data.nickname;
       pluginData = pluginComment.plugin_data || pluginData;
-      label = pluginComment.label || null;
-      setImages = pluginComment.image ? [pluginComment.image] : setImages;
-      setGeojson = pluginComment.geojson || setGeojson;
-      setPinned = pluginComment.pinned || null;
-      setMapCommentText = pluginComment.mapCommentText || setMapCommentText;
+      data.label = pluginComment.label || data.label;
+      data.images = pluginComment.image ? [pluginComment.image] : data.images;
+      data.geojson = pluginComment.geojson || data.geojson;
+      data.pinned = pluginComment.pinned || null;
+      data.commentText = pluginComment.mapCommentText || data.commentText;
     } else if (pluginData && typeof pluginData !== 'string') {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -247,7 +250,7 @@ export const BaseCommentForm = ({
 
     const errors = checkFormErrors(
       imageTooBig,
-      setCommentText,
+      data.commentText,
       section,
       answers,
       isReply,
@@ -261,20 +264,20 @@ export const BaseCommentForm = ({
 
     // make sure empty comments are not added when not intended
     if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
-      if (!setCommentText.trim()) {
-        setCommentText = config.emptyCommentString;
+      if (!data.commentText.trim()) {
+        data.setCommentText = config.emptyCommentString;
       }
     }
 
     onPostComment(
-      setCommentText,
-      setNickname,
+      data.commentText,
+      data.nickname,
       pluginData,
-      setGeojson,
-      label,
-      setImages,
-      setPinned,
-      setMapCommentText
+      data.geojson,
+      data.label,
+      data.images,
+      data.pinned,
+      data.commentText,
     );
 
     setFormData({
@@ -297,7 +300,7 @@ export const BaseCommentForm = ({
   const isImageTooBig = (images) => {
     let imageTooBig = false;
     Array.from(images).forEach((image) => {
-      if (image.size > 1000000) {
+      if (image.size > IMAGE_MAX_SIZE) {
         imageTooBig = true;
       }
     });
@@ -704,14 +707,14 @@ export const BaseCommentForm = ({
               <FormattedMessage id="imageSizeError" />
             </div>
           ) : (
-            formData.images.map((image, key) => (
+            formData.images.map((image) => (
               <img
                 style={{ marginRight: 10 }}
                 alt=""
                 src={image.image}
                 width={image.width < 100 ? image.width : 100}
                 height={image.height < 100 ? image.width : 100}
-                key={key + Math.random()} //eslint-disable-line
+                key={Buffer.from(image.image).toString('base64')}
               />
             ))
           )}
