@@ -387,6 +387,7 @@ exports[`HearingCardList component should render as expected 1`] = `
             "register": "Rekisteröidy",
             "registered": "rekisteröitynyt",
             "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
+            "registeredUserCommentMessage": "Nimesi tai nimimerkkisi näytetään kommenttisi yhteydessä. Voit poistaa nimen tai nimimerkin tyhjentämällä kyseisen kentän.",
             "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
             "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
             "removeFavorites": "Poista suosikeista",
