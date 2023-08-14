@@ -258,6 +258,7 @@
   "register": "Registrera dig",
   "registered": "registrerad",
   "registeredStrongOnly": "Endast starkt autentiserade användare",
+  "registeredUserCommentMessage": "Ditt namn eller pseudonym kommer att visas tillsammans med din kommentar. Du kan ta bort ditt namn eller pseudonym genom att rensa fältet.",
   "removedFavorite": "Hörandet togs bort från favoriter.",
   "removeFavoriteNotFound": "Hörandet finns inte i favoriter.",
   "removeFavorites": "Ta bort från favoriter",
