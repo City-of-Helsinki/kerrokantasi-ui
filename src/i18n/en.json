@@ -54,7 +54,7 @@
   "sectionCommentGenericDeletedMessage": "This message has been deleted.",
   "sectionCommentSelfDeletedMessage": "The author deleted their own message.",
   "sectionCommentEditedMessage": "The message has been edited by the author.",
-  "sectionCommentModeratedMessage": "This message has been edited because it violated the terms of use of the service.",
+  "sectionCommentModeratedMessage": "This message has been edited because it violated the terms of use of the service. https://kerrokantasi.hel.fi/info?lang=en",
   "commentShowMap": "Map marker added. Show on the map",
   "commentsOnMap": "Comments on the map",
   "commentsOutOf": "Showing {current} comments out of {total}.",

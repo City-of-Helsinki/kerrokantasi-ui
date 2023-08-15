@@ -551,7 +551,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
                 "sectionCommentEditedMessage": "Kirjoittaja on muokannut viestiä.",
                 "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
-                "sectionCommentModeratedMessage": "Viestiä on muokattu, koska se rikkoi palvelun käyttöohjeita.",
+                "sectionCommentModeratedMessage": "Viestiä on muokattu, koska se rikkoi palvelun käyttöohjeita. https://kerrokantasi.hel.fi/info",
                 "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
                 "sectionContent": "Tekstisisältö",
                 "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
