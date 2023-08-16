@@ -53,7 +53,7 @@
   "sectionCommentGenericDeletedMessage": "Meddelandet har raderats.",
   "sectionCommentSelfDeletedMessage": "Författaren tog bort sitt eget inlägg.",
   "sectionCommentEditedMessage": "Detta meddelande har redigerats av författaren.",
-  "sectionCommentModeratedMessage": "Detta meddelande har redigerats eftersom det stred mot användarvillkoren för tjänsten.",
+  "sectionCommentModeratedMessage": "Detta meddelande har redigerats eftersom det stred mot användarvillkoren för tjänsten. https://kerrokantasi.hel.fi/info?lang=sv",
   "commentShowMap": "Kartmarkering placerad. Visa på kartan",
   "commentsOnMap": "Åsikter på kartan",
   "commentsOutOf": "Visas {current}/{total} åsikter.",
