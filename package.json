@@ -38,7 +38,7 @@
     "@draft-js-plugins/image": "^4.1.1",
     "@draft-js-plugins/resizeable": "^4.1.0",
     "alertifyjs": "^1.13.1",
-    "autoprefixer": "^8.6.5",
+    "autoprefixer": "^9.0.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
