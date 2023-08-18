@@ -187,7 +187,7 @@ export const initNewProject = () => ({
  * @param {Object} featureCollection
  * @param {string} featureCollection.type
  * @param {Object[]} featureCollection.features
- * @returns {{type: string, features[]}}
+ * @returns {{type: string, features: Object[]}}
  */
 export const parseCollection = (featureCollection) => {
   const normalizedFeatures = featureCollection.features.reduce((features, feature) => {

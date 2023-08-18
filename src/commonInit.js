@@ -1,7 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
 // Init to be run both on server and client
 
-import {addLocaleData} from 'react-intl';
+import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import fi from 'react-intl/locale-data/fi';
 import sv from 'react-intl/locale-data/sv';

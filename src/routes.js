@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
@@ -36,11 +37,11 @@ const UserProfile = lazy(() => import(
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
  */
-const Redirector = ({match}) => (
-    <div>
-      <Redirect to={{path: `/${  match.params.hearingSlug}`}} />
-    </div>
-  );
+const Redirector = ({ match }) => (
+  <div>
+    <Redirect to={{ path: `/${match.params.hearingSlug}` }} />
+  </div>
+);
 
 Redirector.propTypes = {
   match: PropTypes.object
@@ -50,8 +51,8 @@ const Routes = () => (
   <Suspense fallback={<LoadSpinner />}>
     <Switch>
       <Route exact path="/" component={props => <HomeContainer {...props} />} />
-      <Route path="/silent-renew" component={props => <SilentRenew {...props}/>} />
-      <Route path="/info" component={props => <Info {...props}/>} />
+      <Route path="/silent-renew" component={props => <SilentRenew {...props} />} />
+      <Route path="/info" component={props => <Info {...props} />} />
       {config.enableCookies && (
         <Route path="/cookies" component={props => <CookieManagement {...props} />} />
       )}

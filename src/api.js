@@ -40,6 +40,17 @@ export function apiCall(state, endpoint, params, options = {}) {
   return fetch(url, options);
 }
 
+export function jsonRequest(method, state, endpoint, data, params = {}, options = {}) {
+  if (typeof data !== "string") {
+    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
+    options.headers = merge(  // eslint-disable-line no-param-reassign
+      { "Content-Type": "application/json" },
+      options.headers
+    );
+  }
+  return apiCall(state, endpoint, params, merge({ body: data, method }, options));
+}
+
 export function post(state, endpoint, data, params = {}, options = {}) {
   return jsonRequest("POST", state, endpoint, data, params, options);
 }
@@ -52,17 +63,7 @@ export function patch(state, endpoint, data, params = {}, options = {}) {
   return jsonRequest("PATCH", state, endpoint, data, params, options);
 }
 
-export function jsonRequest(method, state, endpoint, data, params = {}, options = {}) {
-  if (typeof data !== "string") {
-    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
-    options.headers = merge(  // eslint-disable-line no-param-reassign
-      { "Content-Type": "application/json" },
-      options.headers
-    );
-  }
-  return apiCall(state, endpoint, params, merge({ body: data, method }, options));
-}
-
+// eslint-disable-next-line default-param-last
 export function apiDelete(state = {}, endpoint, params = {}, options = { method: "DELETE" }) {
   return apiCall(state, endpoint, params, options);
 }
@@ -78,10 +79,10 @@ export const getAllFromEndpoint = (state, endpoint, params = {}, options = {}) =
       const data = response.json();
       if (!responseOk) {
         return data.then(err => {
-          throw {
+          throw new Error({
             ...err,
             status: response.status,
-          };
+          });
         });
       }
       return data;

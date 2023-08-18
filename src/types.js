@@ -1,10 +1,11 @@
+/* eslint-disable react/forbid-prop-types */
 // @flow
 import PropTypes from 'prop-types';
-import {schema} from 'normalizr';
+import { schema } from 'normalizr';
 
 import config from './config';
 
-const {languages} = config;
+const { languages } = config;
 
 export const geoJSONshape = PropTypes.shape({
   type: PropTypes.string,
@@ -29,7 +30,7 @@ export const geoJSONshape = PropTypes.shape({
 export const translatedShape = PropTypes.oneOfType([
   PropTypes.shape(
     languages.reduce((shape, lang) =>
-      ({ ...shape, [lang]: PropTypes.string}), {})
+      ({ ...shape, [lang]: PropTypes.string }), {})
   ),
   PropTypes.string
 ]);
@@ -159,12 +160,12 @@ export const commentShape = PropTypes.shape({
   plugin_data: PropTypes.string,  // Not sure about this
 });
 
-export const labelSchema = new schema.Entity('labels', {}, {idAttribute: 'frontId'});
+export const labelSchema = new schema.Entity('labels', {}, { idAttribute: 'frontId' });
 export const labelResultsSchema = new schema.Array(labelSchema);
-export const sectionSchema = new schema.Entity('sections', {}, {idAttribute: 'frontId'});
-export const contactPersonSchema = new schema.Entity('contactPersons', {}, {idAttribute: 'frontId'});
+export const sectionSchema = new schema.Entity('sections', {}, { idAttribute: 'frontId' });
+export const contactPersonSchema = new schema.Entity('contactPersons', {}, { idAttribute: 'frontId' });
 export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
-export const organizationSchema = new schema.Entity('organizations', {}, {idAttribute: 'frontId'});
+export const organizationSchema = new schema.Entity('organizations', {}, { idAttribute: 'frontId' });
 export const OrganizationResultsSchema = new schema.Array(organizationSchema);
 export const hearingSchema = new schema.Entity('hearing', {
   labels: labelResultsSchema,

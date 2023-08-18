@@ -1,6 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import Raven from 'raven-js';
+import { loadUser } from "redux-oidc";
 
 import getRoot from './getRoot';
 import createStore from './createStore';
@@ -9,8 +10,6 @@ import config from './config';
 // eslint-disable-next-line import/no-unresolved
 import '@city-assets/sass/app.scss';
 import userManager from "./utils/userManager";
-
-import {loadUser} from "redux-oidc";
 
 require('es6-promise').polyfill();
 

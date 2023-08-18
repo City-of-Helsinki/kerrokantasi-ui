@@ -3,15 +3,15 @@ import identity from 'lodash/identity';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
-import {compose, createStore, applyMiddleware} from 'redux';
-import {routerMiddleware} from 'react-router-redux';
+import { compose, createStore, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
 
 import config from './config';
 import headlessMiddleware from './middleware/headless';
 import hearingEditorMiddleware from './middleware/hearingEditor';
 import languageMiddleware from './middleware/language';
 import rootReducer from './reducers';
-import {localizedNotifyError} from './utils/notify';
+import { localizedNotifyError } from './utils/notify';
 
 export const history = createBrowserHistory();
 
@@ -36,7 +36,7 @@ if (config.uiConfig && config.uiConfig.sentryDns) {
   middleware.unshift(RavenMiddleWare(
     config.uiConfig.sentryDns,
     null,
-    {logger: () => localizedNotifyError("APICallFailed")}
+    { logger: () => localizedNotifyError("APICallFailed") }
   ));
 }
 
@@ -44,7 +44,9 @@ export default function createAppStore(initialState = null) {
   // Have to pass in the router to support isomorphic rendering
   const augmentedCreateStore = compose(
     applyMiddleware(...middleware),
+    // eslint-disable-next-line no-underscore-dangle
     typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
+      // eslint-disable-next-line no-underscore-dangle
       ? window.__REDUX_DEVTOOLS_EXTENSION__() : identity,
   )(createStore);
   return augmentedCreateStore(rootReducer, initialState || {});
