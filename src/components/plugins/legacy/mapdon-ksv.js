@@ -1,21 +1,24 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/iframe-has-title */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-string-refs */
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
-import {alert} from '../../../utils/notify';
+import { alert } from '../../../utils/notify';
 import CommentDisclaimer from "../../CommentDisclaimer";
-import {BaseCommentForm} from '../../BaseCommentForm';
+import { BaseCommentForm } from '../../BaseCommentForm';
 
 
 class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = `ksv${  0 | (Math.random() * 10000000)}`;  // eslint-disable-line no-bitwise
-    this.state = Object.assign(this.state, {userDataChanged: false});
+    this.pluginInstanceId = `ksv${0 | (Math.random() * 10000000)}`;  // eslint-disable-line no-bitwise
+    this.state = Object.assign(this.state, { userDataChanged: false });
     this.lastUserData = null;
     this.submitting = false;
   }
@@ -23,13 +26,13 @@ class MapdonKSVPlugin extends BaseCommentForm {
   componentDidMount() {
     // super.componentDidMount();
     const iframe = this.refs.frame;
-    const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
+    const { data, pluginPurpose } = this.props;
+    let { comments } = this.props;
     if (!comments) {
       comments = [];
     }
     if (!this._messageListener) {
-      this._messageListener = this.onReceiveMessage.bind(this);
+      this._messageListener = this.onReceiveMessage;
       if (typeof window !== 'undefined') window.addEventListener("message", this._messageListener, false);
     }
 
@@ -53,8 +56,8 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const {data, pluginPurpose} = this.props;
-    let {comments} = this.props;
+    const { data, pluginPurpose } = this.props;
+    let { comments } = this.props;
     if (!comments) {
       comments = [];
     }
@@ -72,25 +75,25 @@ class MapdonKSVPlugin extends BaseCommentForm {
 
   render() {
     const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
-    const {pluginPurpose} = this.props;
+    const { pluginPurpose } = this.props;
     const commentBox = (
       <div>
-        <br/>
+        <br />
         <FormGroup>
-          <h3><FormattedMessage id="writeComment"/></h3>
+          <h3><FormattedMessage id="writeComment" /></h3>
           <FormControl
             componentClass="textarea"
-            onChange={this.handleTextChange.bind(this)}
+            onChange={this.handleTextChange}
             value={this.state.commentText}
             placeholder="Kommentoi ehdotustasi tässä."
           />
         </FormGroup>
         <p>
-          <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
+          <Button bsStyle="primary" onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
             Lähetä ehdotus
           </Button>
         </p>
-        <CommentDisclaimer/>
+        <CommentDisclaimer />
       </div>
     );
     return (
@@ -128,7 +131,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   onReceiveMessage(event) {
-    const {pluginPurpose} = this.props;
+    const { pluginPurpose } = this.props;
     // override user messages if in visualization mode
     if (pluginPurpose !== 'postComments') {
       return;
@@ -142,7 +145,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
 
     if (payload.message === "userDataChanged") {
-      this.setState({userDataChanged: true});
+      this.setState({ userDataChanged: true });
     }
 
     if (payload.message === "userData") {
@@ -160,7 +163,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
 
   clearCommentText() {
     // after successful posting, user data shall be decimated from the map
-    this.setState({userDataChanged: false});
+    this.setState({ userDataChanged: false });
     super.clearCommentText();
   }
 }

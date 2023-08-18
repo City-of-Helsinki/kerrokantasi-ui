@@ -1,11 +1,11 @@
 import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
-import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { Row, Col, Button, ButtonToolbar, Alert } from 'react-bootstrap';
 
 import Icon from '../../utils/Icon';
-import {hearingShape} from '../../types';
+import { hearingShape } from '../../types';
 
 
 const DATE_FORMAT = "LLLL";
@@ -18,57 +18,57 @@ class HearingToolbar extends React.Component {
   }
 
   render() {
-    const {hearing} = this.props;
+    const { hearing } = this.props;
 
     let statusLabel = "";
     const openingTime = moment(hearing.open_at);
     const actions = [
       <Button bsStyle="default" onClick={this.props.onReportsClick} key="reports">
-        <Icon aria-hidden="true" name="list-alt"/> <FormattedMessage id="commentReportsButtonLabel"/>
+        <Icon aria-hidden="true" name="list-alt" /> <FormattedMessage id="commentReportsButtonLabel" />
       </Button>,
       <Button bsStyle="default" onClick={this.props.onEdit} key="edit">
-        <Icon name="pencil-square-o"/> <FormattedMessage id="editHearing"/>
+        <Icon name="pencil-square-o" /> <FormattedMessage id="editHearing" />
       </Button>
     ];
     if (!hearing.closed && hearing.published) {
-      statusLabel = (<Alert bsStyle="success"><Icon name="eye"/> <FormattedMessage id="published"/></Alert>);
+      statusLabel = (<Alert bsStyle="success"><Icon name="eye" /> <FormattedMessage id="published" /></Alert>);
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
-          <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
+          <Icon name="eye-slash" /> <FormattedMessage id="revertPublishing" />
         </Button>
       );
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onCloseHearing} key="close">
-          <Icon name="ban"/> <FormattedMessage id="closeHearing"/>
+          <Icon name="ban" /> <FormattedMessage id="closeHearing" />
         </Button>
       );
     } else if (hearing.closed && hearing.published && moment(hearing.close_at) <= moment()) {
-      statusLabel = (<Alert bsStyle="danger"><Icon name="ban"/> <FormattedMessage id="closedHearing"/></Alert>);
+      statusLabel = (<Alert bsStyle="danger"><Icon name="ban" /> <FormattedMessage id="closedHearing" /></Alert>);
     } else if (hearing.closed && hearing.published) {
       statusLabel = (
         <Alert bsStyle="warning">
-          <Icon name="clock-o"/> <FormattedMessage id="toBePublishedHearing"/> {openingTime.format(DATE_FORMAT)}
+          <Icon name="clock-o" /> <FormattedMessage id="toBePublishedHearing" /> {openingTime.format(DATE_FORMAT)}
         </Alert>
       );
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onRevertPublishing} key="unpublish">
-          <Icon name="eye-slash"/> <FormattedMessage id="revertPublishing"/>
+          <Icon name="eye-slash" /> <FormattedMessage id="revertPublishing" />
         </Button>
       );
     } else {
-      statusLabel = (<Alert bsStyle="info"><Icon name="pencil"/> <FormattedMessage id="draft"/></Alert>);
-      let publishText = <FormattedMessage id="publishHearing"/>;
+      statusLabel = (<Alert bsStyle="info"><Icon name="pencil" /> <FormattedMessage id="draft" /></Alert>);
+      let publishText = <FormattedMessage id="publishHearing" />;
       if (moment(hearing.open_at).diff(moment()) < 0) {
-        publishText = <FormattedMessage id="publishHearingNow"/>;
+        publishText = <FormattedMessage id="publishHearingNow" />;
       }
       actions.push(
         <Button bsStyle="danger" onClick={this.props.onPublish} key="publish">
-          <Icon name="eye"/> {publishText}
+          <Icon name="eye" /> {publishText}
         </Button>
       );
       actions.push(
         <Button bsStyle="danger" onClick={() => this.props.onDeleteHearingDraft()} key="unpublish">
-          <Icon name="eye-slash"/> <FormattedMessage id="deleteDraft"/>
+          <Icon name="eye-slash" /> <FormattedMessage id="deleteDraft" />
         </Button>
       );
     }

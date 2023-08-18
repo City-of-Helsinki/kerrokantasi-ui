@@ -1,15 +1,25 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
 import React from 'react';
-import {map, forEach, omit, isEmpty} from 'lodash';
-import {Modal, ControlLabel, HelpBlock} from 'react-bootstrap';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import { map, forEach, omit, isEmpty } from 'lodash';
+import { Modal, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import Select from "react-select";
 
 import config from '../../config';
-import {organizationShape} from "../../types";
+import { organizationShape } from "../../types";
 
 class ContactModal extends React.Component {
+  static initializeLanguages() {
+    const titleLanguages = {};
+    forEach(config.languages, (language) => {
+      titleLanguages[language] = false;
+    });
+    return titleLanguages;
+  }
+
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
@@ -24,25 +34,34 @@ class ContactModal extends React.Component {
         title: {}
       },
       titleLanguages: this.constructor.initializeLanguages(),
+      // eslint-disable-next-line react/no-unused-state
       organizations: [],
     };
   }
 
-  static initializeLanguages() {
-    const titleLanguages = {};
-    forEach(config.languages, (language) => {
-      titleLanguages[language] = false;
-    });
-    return titleLanguages;
+  UNSAFE_componentWillMount() {
+    const { contactInfo, organizations } = this.props;
+    this.setState((prevState) => (update(prevState, {
+      titleLanguages: { fi: { $set: true } },
+      contact: {
+        name: { $set: contactInfo.name || '' },
+        phone: { $set: contactInfo.phone || '' },
+        email: { $set: contactInfo.email || '' },
+        title: { $set: contactInfo.title || {} },
+        organization: { $set: contactInfo.organization || '' },
+        additional_info: { $set: contactInfo.additional_info || '' },
+      },
+      organizations: { $set: organizations },
+    })));
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {contactInfo} = nextProps;
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { contactInfo } = nextProps;
     const newTitleLanguages = {};
     forEach(contactInfo.title, (title, language) => {
       newTitleLanguages[language] = !isEmpty(title);
     });
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       contact: {
         id: { $set: contactInfo.id || '' },
         name: { $set: contactInfo.name || '' },
@@ -53,37 +72,21 @@ class ContactModal extends React.Component {
         title: { $set: contactInfo.title || {} },
       },
       titleLanguages: { $set: newTitleLanguages }
-    }));
-  }
-
-  componentWillMount() {
-    const {contactInfo, organizations} = this.props;
-    this.setState(update(this.state, {
-      titleLanguages: { fi: { $set: true }},
-      contact: {
-        name: { $set: contactInfo.name || '' },
-        phone: { $set: contactInfo.phone || '' },
-        email: { $set: contactInfo.email || '' },
-        title: { $set: contactInfo.title || {} },
-        organization: { $set: contactInfo.organization || '' },
-        additional_info: { $set: contactInfo.additional_info || '' },
-      },
-      organizations: { $set: organizations },
-    }));
+    })));
   }
 
   onContactChange(field, value) {
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       contact: {
         [field]: {
           $set: value
         }
       }
-    }));
+    })));
   }
 
   onContactTitleChange(language, value) {
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       contact: {
         title: {
           [language]: {
@@ -91,17 +94,17 @@ class ContactModal extends React.Component {
           }
         }
       }
-    }));
+    })));
   }
 
   onActiveLanguageChange(language) {
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       titleLanguages: {
         [language]: {
-          $set: !this.state.titleLanguages[language]
+          $set: !prevState.titleLanguages[language]
         }
       }
-    }));
+    })));
   }
 
   submitForm(event) {
@@ -137,7 +140,7 @@ class ContactModal extends React.Component {
   generateCheckBoxes() {
     const checkBoxes = map(config.languages, (language) => (
       <div key={language} className="checkbox-container">
-        <FormattedMessage id={`inLanguage-${language}`}/>
+        <FormattedMessage id={`inLanguage-${language}`} />
         <input
           type="checkbox"
           checked={this.state.titleLanguages[language]}
@@ -157,7 +160,7 @@ class ContactModal extends React.Component {
         titleInputs.push(
           <div key={key} className="title-input-container">
             <ControlLabel>
-              <FormattedMessage id={`inLanguage-${key}`}/>
+              <FormattedMessage id={`inLanguage-${key}`} />
             </ControlLabel>
             <input
               className="form-control"
@@ -184,13 +187,13 @@ class ContactModal extends React.Component {
       <Modal className="contact-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>
-            { isCreate ? <FormattedMessage id="createContact"/> : <FormattedMessage id="editContact"/> }
+            {isCreate ? <FormattedMessage id="createContact" /> : <FormattedMessage id="editContact" />}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form ref={(form) => { this.contactForm = form; }} onSubmit={this.submitForm}>
             <div className="input-container name-input">
-              <h4><FormattedMessage id="name"/></h4>
+              <h4><FormattedMessage id="name" /></h4>
               <input
                 className="form-control"
                 onChange={(event) => this.onContactChange('name', event.target.value)}
@@ -201,7 +204,7 @@ class ContactModal extends React.Component {
               />
             </div>
             <div className="input-container phone-input">
-              <h4><FormattedMessage id="phone"/></h4>
+              <h4><FormattedMessage id="phone" /></h4>
               <input
                 className="form-control"
                 onChange={(event) => this.onContactChange('phone', event.target.value)}
@@ -212,7 +215,7 @@ class ContactModal extends React.Component {
               />
             </div>
             <div className="input-container email-input">
-              <h4><FormattedMessage id="email"/></h4>
+              <h4><FormattedMessage id="email" /></h4>
               <input
                 type="email"
                 className="form-control"
@@ -224,12 +227,12 @@ class ContactModal extends React.Component {
               />
             </div>
             <div className="input-container title-input">
-              <h4><FormattedMessage id="contactTitle"/></h4>
+              <h4><FormattedMessage id="contactTitle" /></h4>
               {checkBoxes}
               {titleInputs}
             </div>
             <div className="input-container">
-              <h4><FormattedMessage id="organization"/></h4>
+              <h4><FormattedMessage id="organization" /></h4>
               <Select
                 labelKey="Organisaatio"
                 name="Organisaatio"
@@ -242,10 +245,10 @@ class ContactModal extends React.Component {
                 value={contact.organization}
                 disabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
               />
-              <HelpBlock><FormattedMessage id="contactPersonOrganizationHelpText"/></HelpBlock>
+              <HelpBlock><FormattedMessage id="contactPersonOrganizationHelpText" /></HelpBlock>
             </div>
             <div className="input-container">
-              <h4><FormattedMessage id="additionalInfo"/></h4>
+              <h4><FormattedMessage id="additionalInfo" /></h4>
               <input
                 className="form-control"
                 onChange={(event) => this.onContactChange('additional_info', event.target.value)}
@@ -253,17 +256,17 @@ class ContactModal extends React.Component {
                 placeholder="Lisätiedot yhteyshenkilöstä"
                 maxLength="50"
               />
-              <HelpBlock><FormattedMessage id="contactPersonAdditionalInfoHelpText"/></HelpBlock>
+              <HelpBlock><FormattedMessage id="contactPersonAdditionalInfoHelpText" /></HelpBlock>
             </div>
-            <input type="submit" style={{ display: 'none'}} /> {/* Used to trigger submit remotely. */}
+            <input type="submit" style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => onClose()}>
-            <FormattedMessage id="cancel"/>
+            <FormattedMessage id="cancel" />
           </Button>
           <Button bsStyle="primary" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
-            { isCreate ? <FormattedMessage id="create"/> : <FormattedMessage id="save" /> }
+            {isCreate ? <FormattedMessage id="create" /> : <FormattedMessage id="save" />}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import config from '../../config';
 
-function HearingLanguages({hearingLanguages, onChange}) {
+function HearingLanguages({ hearingLanguages, onChange }) {
   return (
     <fieldset className="hearing-languages">
-      <legend><FormattedMessage id="hearingLanguages"/></legend>
+      <legend><FormattedMessage id="hearingLanguages" /></legend>
       <div className="hearing-languages__row">
         {config.languages.map((lang) => {
           const langIndex = hearingLanguages.indexOf(lang);
@@ -19,7 +19,7 @@ function HearingLanguages({hearingLanguages, onChange}) {
           return (
             <span className="hearing-languages__language" key={lang}>
               <label htmlFor={`kkEditorLanguageSelector-${lang}`}>
-                <FormattedMessage id={`inLanguage-${lang}`}/>
+                <FormattedMessage id={`inLanguage-${lang}`} />
                 <input
                   id={`kkEditorLanguageSelector-${lang}`}
                   type="checkbox"

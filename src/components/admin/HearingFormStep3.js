@@ -1,31 +1,30 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-import {isEmpty, includes, keys, isMatch} from 'lodash';
-import {ZoomControl} from 'react-leaflet';
+import { isEmpty, includes, keys, isMatch } from 'lodash';
+import ReactLeaflet, { ZoomControl } from 'react-leaflet';
+import { EditControl } from "react-leaflet-draw";
 import { connect } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
 
-import {localizedNotifyError} from '../../utils/notify';
+import { localizedNotifyError } from '../../utils/notify';
 import Icon from '../../utils/Icon';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
-
-/* eslint-disable import/no-unresolved */
-
 import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
-/* eslint-enable import/no-unresolved */
-
-import {hearingShape} from '../../types';
+import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl } from '../../utils/map';
-import {parseCollection} from "../../utils/hearingEditor";
+import { parseCollection } from "../../utils/hearingEditor";
 
 // This is needed for the invalidateMap not to fire after the component has dismounted and causing error.
 let mapInvalidator;
@@ -37,6 +36,54 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
+
+/**
+ * Returns map elements according to geojson.type
+ * @param {object} geojson
+ * @returns {JSX.Element|*}
+ */
+function getMapElement(geojson) {
+  const { LatLng } = Leaflet;  // Late import to be isomorphic compatible
+  const { Polygon, GeoJSON, Marker, Polyline } = ReactLeaflet;  // Late import to be isomorphic compatible
+  switch (geojson.type) {
+    case "Polygon": {
+      // XXX: This only supports the _first_ ring of coordinates in a Polygon
+      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+      return <Polygon key={Math.random()} positions={latLngs} />;
+    }
+    case "Point": {
+      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+      return (
+        <Marker
+          key={Math.random()}
+          position={latLngs}
+          icon={new Leaflet.Icon({
+            iconUrl: leafletMarkerIconUrl,
+            shadowUrl: leafletMarkerShadowUrl,
+            iconRetinaUrl: leafletMarkerRetinaIconUrl,
+            iconSize: [25, 41],
+            iconAnchor: [13, 41]
+          })}
+        />
+      );
+    }
+    case "LineString": {
+      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+      return (<Polyline positions={latLngs} />);
+    }
+    case "Feature": {
+      /**
+       * Recursively get the map element
+       * @example
+       * geojson = {type: 'Feature', geometry:{type: 'Point', coordinates: [...]}}
+       */
+      return getMapElement(geojson.geometry);
+    }
+    default:
+      // TODO: Implement support for other geometries too (markers, square, circle)
+      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)} />);
+  }
+}
 
 /**
  * Returns map elements according to hearing.geojson.
@@ -53,18 +100,18 @@ function getHearingArea(hearing) {
   if (!hearing.geojson.type) return null;
 
 
-  const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
-  const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
-  const {geojson} = hearing;
+  const { LatLng } = Leaflet;  // Late import to be isomorphic compatible
+  const { Polygon, GeoJSON, Marker, Polyline } = ReactLeaflet;  // Late import to be isomorphic compatible
+  const { geojson } = hearing;
   switch (geojson.type) {
     case "Polygon": {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon
       const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polygon key={Math.random()} positions={latLngs}/>;
+      return <Polygon key={Math.random()} positions={latLngs} />;
     }
     case "MultiPolygon": {
       const latLngs = geojson.coordinates.map((arr) => arr[0].map(([lng, lat]) => new LatLng(lat, lng)));
-      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem}/>);
+      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem} />);
     }
     case "Point": {
       const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
@@ -84,10 +131,10 @@ function getHearingArea(hearing) {
     }
     case "LineString": {
       const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-      return (<Polyline positions={latLngs}/>);
+      return (<Polyline positions={latLngs} />);
     }
     case "FeatureCollection": {
-      const {features} = geojson;
+      const { features } = geojson;
       const elementCollection = features.reduce((accumulator, currentValue) => {
         accumulator.push(getMapElement(currentValue));
         return accumulator;
@@ -96,58 +143,9 @@ function getHearingArea(hearing) {
     }
     default:
       // TODO: Implement support for other geometries too (markers, square, circle)
-      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
+      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)} />);
   }
 }
-
-/**
- * Returns map elements according to geojson.type
- * @param {object} geojson
- * @returns {JSX.Element|*}
- */
-function getMapElement(geojson) {
-  const {LatLng} = require('leaflet');  // Late import to be isomorphic compatible
-  const {Polygon, GeoJSON, Marker, Polyline} = require('react-leaflet');  // Late import to be isomorphic compatible
-  switch (geojson.type) {
-    case "Polygon": {
-      // XXX: This only supports the _first_ ring of coordinates in a Polygon
-      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polygon key={Math.random()} positions={latLngs}/>;
-    }
-    case "Point": {
-      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-      return (
-        <Marker
-          key={Math.random()}
-          position={latLngs}
-          icon={new Leaflet.Icon({
-            iconUrl: leafletMarkerIconUrl,
-            shadowUrl: leafletMarkerShadowUrl,
-            iconRetinaUrl: leafletMarkerRetinaIconUrl,
-            iconSize: [25, 41],
-            iconAnchor: [13, 41]
-          })}
-        />
-      );
-    }
-    case "LineString": {
-      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-      return (<Polyline positions={latLngs}/>);
-    }
-    case "Feature": {
-      /**
-       * Recursively get the map element
-       * @example
-       * geojson = {type: 'Feature', geometry:{type: 'Point', coordinates: [...]}}
-       */
-      return getMapElement(geojson.geometry);
-    }
-    default:
-      // TODO: Implement support for other geometries too (markers, square, circle)
-      return (<GeoJSON data={geojson} key={JSON.stringify(geojson)}/>);
-  }
-}
-
 
 function getFirstGeometry(featureCollectionGeoJSON) {
   const firstFeature = featureCollectionGeoJSON.features[0];
@@ -176,6 +174,7 @@ function featureReducer(currentFeatures, removedFeatures) {
   }, []);
 }
 
+const STRING_FILE_INCORRECT = "Virheellinen tiedosto.";
 
 class HearingFormStep3 extends React.Component {
   constructor(props) {
@@ -184,15 +183,15 @@ class HearingFormStep3 extends React.Component {
     this.onDrawDeleted = this.onDrawDeleted.bind(this);
     this.onDrawEdited = this.onDrawEdited.bind(this);
     // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
-    this.state = {isEdited: false, initialGeoJSON: this.props.hearing.geojson};
+    this.state = { isEdited: false, initialGeoJSON: this.props.hearing.geojson };
   }
 
   componentDidMount() {
     Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {language} = this.props;
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { language } = this.props;
 
     if (nextProps.language !== language) {
       Leaflet.drawLocal = getTranslatedTooltips(nextProps.language);
@@ -209,7 +208,7 @@ class HearingFormStep3 extends React.Component {
 
   onDrawEdited(event) {
     // TODO: Implement proper onDrawEdited functionality
-    this.setState({isEdited: true});
+    this.setState({ isEdited: true });
     this.props.onHearingChange("geojson", getFirstGeometry(event.layers.toGeoJSON()));
   }
 
@@ -219,7 +218,7 @@ class HearingFormStep3 extends React.Component {
       /**
        * first time an element is created and the map hasn't been edited/elements removed
        */
-      this.setState({isEdited: true});
+      this.setState({ isEdited: true });
       if (!this.props.hearing.geojson || !this.props.hearing.geojson.type) {
         /**
          * if hearing.geojson is null or doesnt have type -> add a single element
@@ -250,6 +249,7 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   onDrawDeleted(event) {
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && this.props.hearing.geojson.features) {
@@ -267,7 +267,7 @@ class HearingFormStep3 extends React.Component {
        * if it was one of the newly added(not saved) elements then it is removed from props.hearing.geojson.
        */
       // if the hearing.geojson is a FeatureCollection that has features
-      const {initialGeoJSON} = this.state;
+      const { initialGeoJSON } = this.state;
       const currentFeatures = this.props.hearing.geojson.features;
       let currentStateFeatures;
       if (initialGeoJSON) {
@@ -297,24 +297,25 @@ class HearingFormStep3 extends React.Component {
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
         this.props.onHearingChange("geojson", {});
-        this.setState({isEdited: false, initialGeoJSON: {}});
+        this.setState({ isEdited: false, initialGeoJSON: {} });
       } else {
         // hearing is a FeatureCollection that still has elements after removal
-        this.props.onHearingChange("geojson", {type: this.props.hearing.geojson.type, features: remainingFeatures});
+        this.props.onHearingChange("geojson", { type: this.props.hearing.geojson.type, features: remainingFeatures });
         if (currentStateFeatures) {
           this.setState({
             isEdited: true,
             initialGeoJSON: {
-              type: this.props.hearing.geojson.type, features: remainingStateFeatures }
+              type: this.props.hearing.geojson.type, features: remainingStateFeatures
+            }
           });
         } else {
-          this.setState({isEdited: true});
+          this.setState({ isEdited: true });
         }
       }
     } else {
       // hearing.geojson is a single element that has been removed
       this.props.onHearingChange("geojson", {});
-      this.setState({isEdited: false, initialGeoJSON: {}});
+      this.setState({ isEdited: false, initialGeoJSON: {} });
     }
   }
 
@@ -337,37 +338,14 @@ class HearingFormStep3 extends React.Component {
           this.props.onHearingChange("geojson", featureCollection.features[0].geometry);
           const parsedFile = parseCollection(featureCollection);
           this.props.onCreateMapMarker(parsedFile);
-          this.setState({initialGeoJSON: parsedFile});
+          this.setState({ initialGeoJSON: parsedFile });
         } else {
-          localizedNotifyError('Virheellinen tiedosto.');
+          localizedNotifyError(STRING_FILE_INCORRECT);
         }
       } catch (err) {
-        localizedNotifyError('Virheellinen tiedosto.');
+        localizedNotifyError(STRING_FILE_INCORRECT);
       }
     });
-  }
-
-  readTextFile = (file, callback) => {
-    try {
-      const reader = new FileReader();
-
-      reader.onload = () => callback(reader.result);
-
-      reader.readAsText(file);
-    } catch (err) {
-      localizedNotifyError('Virheellinen tiedosto.');
-    }
-  }
-
-  invalidateMap() {
-    // Map size needs to be invalidated after dynamically resizing
-    // the map container.
-    const {map} = this;
-    if (map && this.props.visible) {
-      mapInvalidator = setTimeout(() => {
-        map.leafletElement.invalidateSize();
-      }, 200);  // Short delay to wait for the animation to end
-    }
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -388,20 +366,42 @@ class HearingFormStep3 extends React.Component {
     };
   }
 
+  readTextFile = (file, callback) => {
+    try {
+      const reader = new FileReader();
+
+      reader.onload = () => callback(reader.result);
+
+      reader.readAsText(file);
+    } catch (err) {
+      localizedNotifyError(STRING_FILE_INCORRECT);
+    }
+  }
+
   refCallBack = (el) => {
     this.map = el;
   }
 
+  invalidateMap() {
+    // Map size needs to be invalidated after dynamically resizing
+    // the map container.
+    const { map } = this;
+    if (map && this.props.visible) {
+      mapInvalidator = setTimeout(() => {
+        map.leafletElement.invalidateSize();
+      }, 200);  // Short delay to wait for the animation to end
+    }
+  }
+
   render() {
     if (typeof window === "undefined") return null;  // Skip rendering outside of browser context
-    const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible
-    const {EditControl} = require("react-leaflet-draw");
-    const {initialGeoJSON} = this.state;
+    const { FeatureGroup, Map, TileLayer } = ReactLeaflet;  // Late import to be isomorphic compatible
+    const { initialGeoJSON } = this.state;
 
     return (
       <div className="form-step">
         <FormGroup controlId="hearingArea">
-          <ControlLabel><FormattedMessage id="hearingArea"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="hearingArea" /></ControlLabel>
           <Map
             ref={this.refCallBack}
             // onResize={this.invalidateMap.bind(this)}
@@ -410,7 +410,7 @@ class HearingFormStep3 extends React.Component {
             zoom={11}
             className="hearing-map"
           >
-            <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna"/>
+            <ZoomControl zoomInTitle="Lähennä" zoomOutTitle="Loitonna" />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url={getCorrectContrastMapTileUrl(urls.rasterMapTiles,
@@ -418,36 +418,36 @@ class HearingFormStep3 extends React.Component {
             />
             <FeatureGroup ref={(group) => { this.featureGroup = group; }}>
               <EditControl
-                  position="topleft"
-                  onEdited={this.onDrawEdited}
-                  onCreated={this.onDrawCreated}
-                  onDeleted={this.onDrawDeleted}
-                  draw={this.getDrawOptions()}
-                  edit={
-                    {
-                      featureGroup: this.featureGroup,
-                      edit: false
-                    }
+                position="topleft"
+                onEdited={this.onDrawEdited}
+                onCreated={this.onDrawCreated}
+                onDeleted={this.onDrawDeleted}
+                draw={this.getDrawOptions()}
+                edit={
+                  {
+                    featureGroup: this.featureGroup,
+                    edit: false
                   }
+                }
               />
-              {getHearingArea({geojson: initialGeoJSON})}
+              {getHearingArea({ geojson: initialGeoJSON })}
             </FeatureGroup>
           </Map>
         </FormGroup>
         <div className="step-control">
           <label className="geojson_button" htmlFor="geojsonUploader">
-            <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{display: 'none'}} />
-            <Icon className="icon" name="upload" style={{marginRight: '5px'}}/>
-            <FormattedMessage id="addGeojson"/>
+            <input id="geojsonUploader" type="file" onChange={this.onUploadGeoJSON} style={{ display: 'none' }} />
+            <Icon className="icon" name="upload" style={{ marginRight: '5px' }} />
+            <FormattedMessage id="addGeojson" />
           </label>
-          <HelpBlock><FormattedMessage id="addGeojsonInfo"/></HelpBlock>
+          <HelpBlock><FormattedMessage id="addGeojsonInfo" /></HelpBlock>
         </div>
         <div className="step-footer">
           <Button
             bsStyle="default"
             onClick={this.props.onContinue}
           >
-            <FormattedMessage id="hearingFormNext"/>
+            <FormattedMessage id="hearingFormNext" />
           </Button>
         </div>
       </div>
@@ -471,7 +471,7 @@ HearingFormStep3.propTypes = {
   onCreateMapMarker: PropTypes.func,
 };
 
-export {HearingFormStep3 as UnconnectedHearingFormStep3};
+export { HearingFormStep3 as UnconnectedHearingFormStep3 };
 const WrappedHearingFormStep3 = connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
 
 export default WrappedHearingFormStep3;

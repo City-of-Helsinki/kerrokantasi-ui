@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
-import {connect} from 'react-redux';
-import {isEmpty} from 'lodash';
+import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import Icon from '../../utils/Icon';
-import {notifyError} from '../../utils/notify';
-import {getValidationState} from '../../utils/hearingEditor';
+import { notifyError } from '../../utils/notify';
+import { getValidationState } from '../../utils/hearingEditor';
 import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
 import Phase from './Phase';
-import {hearingShape} from '../../types';
+import { hearingShape } from '../../types';
 import {
   changeProjectName,
   changeProject,
@@ -36,7 +36,7 @@ class HearingFormStep5 extends React.Component {
   }
 
   addPhase = () => {
-    const {hearingLanguages} = this.props;
+    const { hearingLanguages } = this.props;
     if (!isEmpty(hearingLanguages)) {
       return this.props.dispatch(addPhase());
     }
@@ -64,7 +64,7 @@ class HearingFormStep5 extends React.Component {
   }
 
   renderProject = (selectedProject) => {
-    const {hearing, hearingLanguages, errors} = this.props;
+    const { hearing, hearingLanguages, errors } = this.props;
     const phasesLength = hearing.project ? hearing.project.phases.length : null;
     const errorStyle = getValidationState(errors, 'project_phase_active') && phasesLength === 0 ? 'has-error' : null;
 
@@ -77,7 +77,7 @@ class HearingFormStep5 extends React.Component {
               key={usedLanguage}
               validationState={getValidationState(errors, 'project_title')}
             >
-              <ControlLabel><FormattedMessage id="projectName"/> ({usedLanguage})* </ControlLabel>
+              <ControlLabel><FormattedMessage id="projectName" /> ({usedLanguage})* </ControlLabel>
               <FormControlOnChange
                 maxLength="100"
                 defaultValue={selectedProject.title[usedLanguage]}
@@ -120,14 +120,14 @@ class HearingFormStep5 extends React.Component {
                 bsSize="small"
                 bsStyle="default"
               >
-                <Icon className="icon" name="plus"/> <FormattedMessage id="addProcess">{txt => txt}</FormattedMessage>
+                <Icon className="icon" name="plus" /> <FormattedMessage id="addProcess">{txt => txt}</FormattedMessage>
               </Button>
             </ButtonToolbar>
           )
         }
         {
           getValidationState(errors, 'project_phase_active') && phasesLength === 0 && (
-          <HelpBlock className={errorStyle}>{errors.project_phase_active}</HelpBlock>
+            <HelpBlock className={errorStyle}>{errors.project_phase_active}</HelpBlock>
           )
         }
       </div>
@@ -135,13 +135,13 @@ class HearingFormStep5 extends React.Component {
   }
 
   render() {
-    const {projects, language, hearing, intl} = this.props;
+    const { projects, language, hearing, intl } = this.props;
     const selectedProject = hearing.project;
 
     return (
       <div>
         <FormGroup controlId="projectLists">
-          <ControlLabel><FormattedMessage id="projectSelection"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="projectSelection" /></ControlLabel>
           <div className="select">
             <FormControl
               componentClass="select"

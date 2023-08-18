@@ -1,14 +1,23 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
-import {Modal, Button, ControlLabel} from 'react-bootstrap';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import { Modal, Button, ControlLabel } from 'react-bootstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 
 import config from '../../config';
 
 class LabelModal extends React.Component {
+  static initializeLanguages() {
+    const labelLanguages = {};
+    forEach(config.languages, (language) => {
+      labelLanguages[language] = false;
+    });
+    return labelLanguages;
+  }
+
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
@@ -20,20 +29,12 @@ class LabelModal extends React.Component {
     };
   }
 
-  static initializeLanguages() {
-    const labelLanguages = {};
-    forEach(config.languages, (language) => {
-      labelLanguages[language] = false;
-    });
-    return labelLanguages;
-  }
-
-  componentWillMount() {
-    this.setState(update(this.state, { labelLanguages: { fi: { $set: true }}}));
+  UNSAFE_componentWillMount() {
+    this.setState((prevState) => (update(prevState, { labelLanguages: { fi: { $set: true } } })));
   }
 
   onLabelChange(language, value) {
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       label: {
         label: {
           [language]: {
@@ -41,17 +42,17 @@ class LabelModal extends React.Component {
           }
         }
       }
-    }));
+    })));
   }
 
   onActiveLanguageChange(language) {
-    this.setState(update(this.state, {
+    this.setState((prevState) => (update(prevState, {
       labelLanguages: {
         [language]: {
-          $set: !this.state.labelLanguages[language]
+          $set: !prevState.labelLanguages[language]
         }
       }
-    }));
+    })));
   }
 
   submitForm(event) {
@@ -63,7 +64,7 @@ class LabelModal extends React.Component {
   generateCheckBoxes() {
     const checkBoxes = map(config.languages, (language) => (
       <div key={language} className="checkbox-container">
-        <FormattedMessage id={`inLanguage-${language}`}/>
+        <FormattedMessage id={`inLanguage-${language}`} />
         <input
           type="checkbox"
           checked={this.state.labelLanguages[language]}
@@ -84,7 +85,7 @@ class LabelModal extends React.Component {
         labelInputs.push(
           <div key={key} className="label-input-container">
             <ControlLabel>
-              <FormattedMessage id={`inLanguage-${key}`}/>
+              <FormattedMessage id={`inLanguage-${key}`} />
             </ControlLabel>
             <input
               className="form-control"
@@ -108,7 +109,7 @@ class LabelModal extends React.Component {
     return (
       <Modal className="label-modal" show={isOpen} onHide={() => onClose()} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage id="createLabel"/></Modal.Title>
+          <Modal.Title><FormattedMessage id="createLabel" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form ref={(form) => { this.labelForm = form; }} onSubmit={this.submitForm}>
@@ -116,15 +117,15 @@ class LabelModal extends React.Component {
               {checkBoxes}
               {labelInputs}
             </div>
-            <input type="submit" style={{ display: 'none'}} /> {/* Used to trigger submit remotely. */}
+            <input type="submit" style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => onClose()}>
-            <FormattedMessage id="cancel"/>
+            <FormattedMessage id="cancel" />
           </Button>
           <Button bsStyle="primary" onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}>
-            <FormattedMessage id="create"/>
+            <FormattedMessage id="create" />
           </Button>
         </Modal.Footer>
       </Modal>

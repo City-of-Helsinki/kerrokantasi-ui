@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import TextInput from './TextInput';
 import TextArea from './TextArea';
@@ -22,28 +23,28 @@ class MultiLanguageTextField extends React.Component {
     return TextFields[fieldType] || TextInput;
   }
 
-  proxyInputEvent(event, handler, lang) {
-    const {value} = this.props;
-
-    if (typeof handler === 'function') {
-      handler({ ...value, [lang]: event.target.value});
-    }
-  }
-
-  proxyInputNonEvent(newValue, handler, lang) {
-    const {value} = this.props;
-
-    if (typeof handler === 'function') {
-      handler({ ...value, [lang]: newValue});
-    }
-  }
-
   onChange(event, lang) {
     this.proxyInputEvent(event, this.props.onChange, lang);
   }
 
   onBlur(event, lang) {
     this.proxyInputEvent(event, this.props.onBlur, lang);
+  }
+
+  proxyInputNonEvent(newValue, handler, lang) {
+    const { value } = this.props;
+
+    if (typeof handler === 'function') {
+      handler({ ...value, [lang]: newValue });
+    }
+  }
+
+  proxyInputEvent(event, handler, lang) {
+    const { value } = this.props;
+
+    if (typeof handler === 'function') {
+      handler({ ...value, [lang]: event.target.value });
+    }
   }
 
   render() {

@@ -1,20 +1,22 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable react/no-string-refs */
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl} from 'react-intl';
+import { injectIntl } from 'react-intl';
 
-import {alert} from '../../../utils/notify';
+import { alert } from '../../../utils/notify';
 import CommentDisclaimer from "../../CommentDisclaimer";
-import {BaseCommentForm} from '../../BaseCommentForm';
+import { BaseCommentForm } from '../../BaseCommentForm';
 
 
 class MapdonHKRPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = `hkr${  0 | (Math.random() * 10000000)}`;  // eslint-disable-line no-bitwise
+    this.pluginInstanceId = `hkr${0 | (Math.random() * 10000000)}`;  // eslint-disable-line no-bitwise
     this.userDataChanged = false;
     this.lastUserData = null;
     this.submitting = false;
@@ -30,20 +32,20 @@ class MapdonHKRPlugin extends BaseCommentForm {
             className="plugin-frame mapdon-hkr-plugin-frame"
             ref="frame"
           />
-          <br/>
+          <br />
           <FormGroup>
             <FormControl
               componentClass="textarea"
-              onChange={this.handleTextChange.bind(this)}
+              onChange={this.handleTextChange}
               placeholder="Kommentoi ehdotustasi tässä."
             />
           </FormGroup>
           <p>
-            <Button bsStyle="primary" onClick={this.getDataAndSubmitComment.bind(this)} disabled={buttonDisabled}>
+            <Button bsStyle="primary" onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
               Lähetä ehdotus
             </Button>
           </p>
-          <CommentDisclaimer/>
+          <CommentDisclaimer />
         </form>
       </div>
     );
@@ -98,7 +100,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
 
   componentDidMount() {
     const iframe = this.refs.frame;
-    const {data} = this.props;
+    const { data } = this.props;
     const self = this;
     if (!self._messageListener) {
       self._messageListener = this.onReceiveMessage.bind(self);

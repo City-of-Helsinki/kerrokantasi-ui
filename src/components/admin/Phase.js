@@ -1,15 +1,16 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
-import {Row, Col} from 'react-bootstrap';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { Row, Col } from 'react-bootstrap';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 
-import {getValidationState} from '../../utils/hearingEditor';
-import {localizedNotifyError} from '../../utils/notify';
+import { getValidationState } from '../../utils/hearingEditor';
+import { localizedNotifyError } from '../../utils/notify';
 import Icon from '../../utils/Icon';
 import FormControlOnChange from '../forms/FormControlOnChange';
 
@@ -38,7 +39,7 @@ const Phase = (props) => {
                 <Col md={12}>
                   <FormGroup validationState={getValidationState(errors, 'project_phase_title')}>
                     <ControlLabel>
-                      <FormattedMessage id="phase"/> {indexNumber + 1} ({usedLanguage})
+                      <FormattedMessage id="phase" /> {indexNumber + 1} ({usedLanguage})
                     </ControlLabel>
                     <div className="label-elements">
                       <div>
@@ -58,23 +59,23 @@ const Phase = (props) => {
                       </div>
                       {
                         index === 0
-                        ? (
-                          <Button
-                            onClick={() => {
-                              if (phaseInfo.has_hearings) {
-                                localizedNotifyError('tryingToDeletePhaseWithHearings');
-                              } else {
-                                onDelete(phaseInfo.id || phaseInfo.frontId);
-                              }
-                            }}
-                            bsStyle="default"
-                            className="pull-right add-label-button"
-                            style={{color: 'red', borderColor: 'red'}}
-                          >
-                            <Icon className="icon" name="trash"/>
-                          </Button>
-                        )
-                        : <span className="pull-right add-label-button" />
+                          ? (
+                            <Button
+                              onClick={() => {
+                                if (phaseInfo.has_hearings) {
+                                  localizedNotifyError('tryingToDeletePhaseWithHearings');
+                                } else {
+                                  onDelete(phaseInfo.id || phaseInfo.frontId);
+                                }
+                              }}
+                              bsStyle="default"
+                              className="pull-right add-label-button"
+                              style={{ color: 'red', borderColor: 'red' }}
+                            >
+                              <Icon className="icon" name="trash" />
+                            </Button>
+                          )
+                          : <span className="pull-right add-label-button" />
                       }
                     </div>
                   </FormGroup>
@@ -82,7 +83,7 @@ const Phase = (props) => {
               </Row>
               <Row>
                 <Col md={6}>
-                  <ControlLabel><FormattedMessage id="phaseDuration"/></ControlLabel>
+                  <ControlLabel><FormattedMessage id="phaseDuration" /></ControlLabel>
                   <FormControlOnChange
                     maxLength="50"
                     defaultValue={phaseInfo.schedule[usedLanguage]}
@@ -93,7 +94,7 @@ const Phase = (props) => {
                   />
                 </Col>
                 <Col md={6}>
-                  <ControlLabel><FormattedMessage id="phaseDescription"/></ControlLabel>
+                  <ControlLabel><FormattedMessage id="phaseDescription" /></ControlLabel>
                   <FormControlOnChange
                     maxLength="100"
                     defaultValue={phaseInfo.description[usedLanguage]}
@@ -106,20 +107,20 @@ const Phase = (props) => {
               </Row>
               {
                 index === 0
-                ? (
-                  <Row>
-                    <Col md={12}>
-                      <Radio
-                        className={getValidationState(errors, 'project_phase_active') ? 'has-error' : ''}
-                        onChange={handleRadioOnChange}
-                        checked={phaseInfo.is_active || false}
-                      >
-                        <FormattedMessage id="phaseActive">{txt => txt}</FormattedMessage>
-                      </Radio>
-                    </Col>
-                  </Row>
-                )
-                : null
+                  ? (
+                    <Row>
+                      <Col md={12}>
+                        <Radio
+                          className={getValidationState(errors, 'project_phase_active') ? 'has-error' : ''}
+                          onChange={handleRadioOnChange}
+                          checked={phaseInfo.is_active || false}
+                        >
+                          <FormattedMessage id="phaseActive">{txt => txt}</FormattedMessage>
+                        </Radio>
+                      </Col>
+                    </Row>
+                  )
+                  : null
               }
             </FormGroup>
           ))

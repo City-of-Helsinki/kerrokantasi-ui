@@ -1,8 +1,8 @@
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-import {get, isEmpty} from 'lodash';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { get, isEmpty } from 'lodash';
 import {
   ControlLabel,
   FormControl,
@@ -14,15 +14,15 @@ import {
   Checkbox,
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
-import {isFirefox, isSafari, browserVersion} from 'react-device-detect';
+import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
 
-import {QuestionForm} from './QuestionForm';
+import { QuestionForm } from './QuestionForm';
 import Icon from '../../utils/Icon';
-import {localizedNotifyError, notifyError} from '../../utils/notify';
+import { localizedNotifyError, notifyError } from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
-import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
-import {sectionShape} from '../../types';
-import {isSpecialSectionType} from '../../utils/section';
+import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
+import { sectionShape } from '../../types';
+import { isSpecialSectionType } from '../../utils/section';
 import config from "../../config";
 
 
@@ -76,9 +76,9 @@ class SectionForm extends React.Component {
   }
 
   componentDidMount() {
-    const {section} = this.props;
+    const { section } = this.props;
     if (section.commenting_map_tools !== 'none') {
-      this.setState({enabledCommentMap: true});
+      this.setState({ enabledCommentMap: true });
     }
   }
 
@@ -89,8 +89,8 @@ class SectionForm extends React.Component {
    */
   onChange(event) {
     // Propagate interesting changes to parent components
-    const {name: field, value} = event.target;
-    const {section} = this.props;
+    const { name: field, value } = event.target;
+    const { section } = this.props;
     switch (field) {
       case "imageCaption":
         this.props.onSectionImageChange(section.frontId, "caption", value);
@@ -104,7 +104,7 @@ class SectionForm extends React.Component {
   }
 
   onFileDrop(files) {
-    const {onSectionImageChange, section} = this.props;
+    const { onSectionImageChange, section } = this.props;
     if (files[0].size > MAX_IMAGE_SIZE) {
       localizedNotifyError('imageSizeError');
       return;
@@ -151,19 +151,19 @@ class SectionForm extends React.Component {
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1000 * 1000;
     if (attachment[0].size > MAX_FILE_SIZE_BYTES) {
       const localizedErrorMessage =
-        <FormattedMessage id="fileSizeError" values={{n: MAX_FILE_SIZE.toString()}}>
+        <FormattedMessage id="fileSizeError" values={{ n: MAX_FILE_SIZE.toString() }}>
           {text => text}
         </FormattedMessage>;
       notifyError(localizedErrorMessage);
       return;
     }
     // Load the file and then upload it.
-    const {section} = this.props;
+    const { section } = this.props;
     const file = attachment[0];
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
       if (this.props.onSectionAttachment) {
-        this.props.onSectionAttachment(section.frontId, fileReader.result, {[this.context.language]: file.name});
+        this.props.onSectionAttachment(section.frontId, fileReader.result, { [this.context.language]: file.name });
       }
     });
     fileReader.readAsDataURL(file);
@@ -182,7 +182,7 @@ class SectionForm extends React.Component {
   }
 
   getImage() {
-    const {images} = this.props.section;
+    const { images } = this.props.section;
     if (images && images.length) {
       // Image property may contain the base64 encoded image
       return images[0].image || images[0].url;
@@ -190,26 +190,30 @@ class SectionForm extends React.Component {
     return "";
   }
 
+  static getImageCaption(section) {
+    return get(section.images, '[0].caption', {});
+  }
+
   /**
-   * When there are attachments inside a section.
-   * Return existing attachments.
-   * @param {Object} section - the section we are editing.
-   * @returns {JS<Component>} react component for displaying attachments.
-   */
+ * When there are attachments inside a section.
+ * Return existing attachments.
+ * @param {Object} section - the section we are editing.
+ * @returns {JS<Component>} react component for displaying attachments.
+ */
   renderAttachments = (section) => {
     const { files } = section;
     if (files && files.length > 0) {
       return (
         <div className="section-attachment-editor-container">
           <ControlLabel>
-            <FormattedMessage id="attachmentName"/>
+            <FormattedMessage id="attachmentName" />
           </ControlLabel>
           {
             files.map((file, index) => {
               const fileIndex = index + 1;
               return (
                 <SectionAttachmentEditor
-                  file={{...file, ordering: file.ordering ? file.ordering : fileIndex }}
+                  file={{ ...file, ordering: file.ordering ? file.ordering : fileIndex }}
                   key={`file-${file.url}`}
                   language={this.context.language}
                   fileCount={files.length}
@@ -227,14 +231,10 @@ class SectionForm extends React.Component {
     return null;
   }
 
-  static getImageCaption(section) {
-    return get(section.images, '[0].caption', {});
-  }
-
   toggleEnableCommentMap() {
-    this.setState({enabledCommentMap: !this.state.enabledCommentMap});
+    this.setState((prevState) => ({ enabledCommentMap: !prevState.enabledCommentMap }));
     if (this.state.enabledCommentMap) {
-      this.onChange({target: {name: 'commenting_map_tools', value: 'none'}});
+      this.onChange({ target: { name: 'commenting_map_tools', value: 'none' } });
     }
   }
 
@@ -255,37 +255,37 @@ class SectionForm extends React.Component {
       sectionMoveDown,
       sectionMoveUp,
     } = this.props;
-    const {language} = this.context;
+    const { language } = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? "dropzone preview" : "dropzone";
-    const {formatMessage} = this.props.intl;
+    const { formatMessage } = this.props.intl;
 
     return (
       <div className="form-step">
         {section.type !== 'closure-info' && section.type !== 'main' &&
-        <div className="section-toolbar">
-          <ButtonGroup bsSize="small">
-            <Button
-              bsStyle="default"
-              className="btn"
-              type="button"
-              onClick={() => sectionMoveUp(section.frontId)}
-              disabled={isFirstSubsection}
-              style={{marginRight: '10px'}}
-            >
-              &uarr; <FormattedMessage id="moveUp" />
-            </Button>
-            <Button
-              bsStyle="default"
-              className="btn"
-              type="button"
-              onClick={() => sectionMoveDown(section.frontId)}
-              disabled={isLastSubsection}
-            >
-              <FormattedMessage id="moveDown" /> &darr;
-            </Button>
-          </ButtonGroup>
-        </div>
+          <div className="section-toolbar">
+            <ButtonGroup bsSize="small">
+              <Button
+                bsStyle="default"
+                className="btn"
+                type="button"
+                onClick={() => sectionMoveUp(section.frontId)}
+                disabled={isFirstSubsection}
+                style={{ marginRight: '10px' }}
+              >
+                &uarr; <FormattedMessage id="moveUp" />
+              </Button>
+              <Button
+                bsStyle="default"
+                className="btn"
+                type="button"
+                onClick={() => sectionMoveDown(section.frontId)}
+                disabled={isLastSubsection}
+              >
+                <FormattedMessage id="moveDown" /> &darr;
+              </Button>
+            </ButtonGroup>
+          </div>
         }
         <FormGroup controlId="image">
 
@@ -301,7 +301,7 @@ class SectionForm extends React.Component {
               /> : null
           }
 
-          <ControlLabel><FormattedMessage id="sectionImage"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="sectionImage" /></ControlLabel>
           <Dropzone
             accept="image/*"
             className={dropZoneClass}
@@ -311,12 +311,12 @@ class SectionForm extends React.Component {
             {this.getImagePreview()}
             <div className="overlay">
               <span className="text">
-                <FormattedMessage id="selectOrDropImage"/>
-                <Icon className="icon" name="upload"/>
+                <FormattedMessage id="selectOrDropImage" />
+                <Icon className="icon" name="upload" />
               </span>
             </div>
           </Dropzone>
-          <HelpBlock><FormattedMessage id="sectionImageHelpText"/></HelpBlock>
+          <HelpBlock><FormattedMessage id="sectionImageHelpText" /></HelpBlock>
         </FormGroup>
 
         <MultiLanguageTextField
@@ -360,7 +360,7 @@ class SectionForm extends React.Component {
         />
 
         <FormGroup controlId="hearingCommenting">
-          <ControlLabel><FormattedMessage id="hearingCommenting"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="hearingCommenting" /></ControlLabel>
           <div className="select">
             <FormControl
               componentClass="select"
@@ -368,26 +368,26 @@ class SectionForm extends React.Component {
               onChange={this.onChange}
             >
               <option selected={section.commenting === 'open'} value="open">
-                {formatMessage({id: "openCommenting"})}
+                {formatMessage({ id: "openCommenting" })}
               </option>
               <option selected={section.commenting === 'registered'} value="registered">
-                {formatMessage({id: "registeredUsersOnly"})}
+                {formatMessage({ id: "registeredUsersOnly" })}
               </option>
               {
                 config.enableStrongAuth &&
                 <option selected={section.commenting === 'strong'} value="strong">
-                  {formatMessage({id: "registeredStrongOnly"})}
+                  {formatMessage({ id: "registeredStrongOnly" })}
                 </option>
               }
               <option selected={section.commenting === 'none'} value="none">
-                {formatMessage({id: "noCommenting"})}
+                {formatMessage({ id: "noCommenting" })}
               </option>
             </FormControl>
           </div>
         </FormGroup>
 
         <FormGroup controlId="commentVoting">
-          <ControlLabel><FormattedMessage id="commentVoting"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="commentVoting" /></ControlLabel>
           <div className="select">
             <FormControl
               componentClass="select"
@@ -395,10 +395,10 @@ class SectionForm extends React.Component {
               onChange={this.onChange}
             >
               <option selected={section.voting === 'open'} value="open">
-                {formatMessage({id: "openVoting"})}
+                {formatMessage({ id: "openVoting" })}
               </option>
               <option selected={section.voting === 'registered'} value="registered">
-                {formatMessage({id: "registeredUsersOnly"})}
+                {formatMessage({ id: "registeredUsersOnly" })}
               </option>
             </FormControl>
           </div>
@@ -408,26 +408,26 @@ class SectionForm extends React.Component {
           <FormattedMessage id="hearingCommentingMap">{txt => txt}</FormattedMessage>
         </Checkbox>
         {this.state.enabledCommentMap && (
-        <FormGroup controlId="hearingCommentingMap">
-          <FormControl
-            componentClass="select"
-            name="commenting_map_tools"
-            onChange={this.onChange}
-          >
-            <option selected={section.commenting_map_tools === 'none'} value="none">
-              {formatMessage({id: "hearingCommentingMapChoice1"})}
-            </option>
-            <option selected={section.commenting_map_tools === 'marker'} value="marker">
-              {formatMessage({id: "hearingCommentingMapChoice2"})}
-            </option>
-            <option selected={section.commenting_map_tools === 'all'} value="all">
-              {formatMessage({id: "hearingCommentingMapChoice3"})}
-            </option>
-          </FormControl>
-        </FormGroup>
+          <FormGroup controlId="hearingCommentingMap">
+            <FormControl
+              componentClass="select"
+              name="commenting_map_tools"
+              onChange={this.onChange}
+            >
+              <option selected={section.commenting_map_tools === 'none'} value="none">
+                {formatMessage({ id: "hearingCommentingMapChoice1" })}
+              </option>
+              <option selected={section.commenting_map_tools === 'marker'} value="marker">
+                {formatMessage({ id: "hearingCommentingMapChoice2" })}
+              </option>
+              <option selected={section.commenting_map_tools === 'all'} value="all">
+                {formatMessage({ id: "hearingCommentingMapChoice3" })}
+              </option>
+            </FormControl>
+          </FormGroup>
         )}
         <FormGroup controlId="hearingFiles">
-          <ControlLabel><FormattedMessage id="hearingFileUpload"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="hearingFileUpload" /></ControlLabel>
           <Dropzone
             accept="application/pdf"
             className={dropZoneClass}
@@ -435,11 +435,11 @@ class SectionForm extends React.Component {
             onDrop={this.onAttachmentDrop}
           >
             <span className="text">
-              <FormattedMessage id="selectOrDropFile"/>
-              <Icon className="icon" name="upload"/>
+              <FormattedMessage id="selectOrDropFile" />
+              <Icon className="icon" name="upload" />
             </span>
           </Dropzone>
-          { this.renderAttachments(section) }
+          {this.renderAttachments(section)}
         </FormGroup>
         <FormGroup>
           <button
@@ -447,26 +447,26 @@ class SectionForm extends React.Component {
             type="button"
             onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
           >
-            {formatMessage({id: "newSingleChoiceQuestion"})}
+            {formatMessage({ id: "newSingleChoiceQuestion" })}
           </button>
           <button
             className="btn btn-default question-control"
             type="button"
             onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
           >
-            {formatMessage({id: "newMultipleChoiceQuestion"})}
+            {formatMessage({ id: "newMultipleChoiceQuestion" })}
           </button>
         </FormGroup>
         {!isEmpty(section.questions) && section.questions.map((question, index) =>
           <div>
-            <h5>{`${formatMessage({id: "question"})} ${index + 1}`}</h5>
+            <h5>{`${formatMessage({ id: "question" })} ${index + 1}`}</h5>
             {question.frontId &&
               <button
                 type="button"
                 className="btn btn-danger pull-right"
                 onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
               >
-                {formatMessage({id: "deleteQuestion"})}
+                {formatMessage({ id: "deleteQuestion" })}
               </button>
             }
             {question.id && !isPublic &&
@@ -475,15 +475,15 @@ class SectionForm extends React.Component {
                 className="btn btn-danger pull-right"
                 onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
               >
-                {formatMessage({id: "deleteQuestion"})}
+                {formatMessage({ id: "deleteQuestion" })}
               </button>
             }
             <FormGroup>
               <h6>
                 * {
                   question.type === 'single-choice'
-                    ? formatMessage({id: "singleChoiceQuestion"})
-                    : formatMessage({id: "multipleChoiceQuestion"})
+                    ? formatMessage({ id: "singleChoiceQuestion" })
+                    : formatMessage({ id: "multipleChoiceQuestion" })
                 }
               </h6>
             </FormGroup>

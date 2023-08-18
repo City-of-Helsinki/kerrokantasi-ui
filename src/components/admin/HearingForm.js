@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import Button from 'react-bootstrap/lib/Button';
@@ -23,7 +24,6 @@ import {
   labelShape, organizationShape,
 } from '../../types';
 
-
 class HearingForm extends React.Component {
   constructor(props) {
     super(props);
@@ -36,18 +36,16 @@ class HearingForm extends React.Component {
   }
 
   setCurrentStep(step) {
-    this.setState({currentStep: parseInt(step, 10)});
+    this.setState({ currentStep: parseInt(step, 10) });
   }
 
-  nextStep() {
-    this.setCurrentStep(this.state.currentStep + 1);
-  }
+
 
   getFormStep(stepNumber) {
     const {
       contactPersons,
       organizations,
-      intl: {formatMessage},
+      intl: { formatMessage },
       hearing,
       labels,
       hearingLanguages,
@@ -62,10 +60,10 @@ class HearingForm extends React.Component {
     } = this.props;
 
     const step = stepNumber.toString();
-    let title = formatMessage({id: `hearingFormHeaderStep${  step}`});
+    let title = formatMessage({ id: `hearingFormHeaderStep${step}` });
     const stepErrors = errors[stepNumber] || {};
     if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
-      title += formatMessage({id: 'hearingFormHeaderContainsErrors'});
+      title += formatMessage({ id: 'hearingFormHeaderContainsErrors' });
     }
     const PhaseTag = this.formSteps[stepNumber - 1];  // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
@@ -120,35 +118,35 @@ class HearingForm extends React.Component {
   }
 
   getActions() {
-    const {hearing, isSaving} = this.props;
+    const { hearing, isSaving, onSaveChanges, onSaveAsCopy, onSaveAndPreview } = this.props;
     let ActionButton;
 
     if (hearing.published) {
       ActionButton = () =>
         <div className="flex-end btn-toolbar">
-          <Button bsStyle="success" onClick={this.props.onSaveAsCopy}>
-            <Icon name="copy"/> <FormattedMessage id="copyHearing"/>
+          <Button bsStyle="success" onClick={onSaveAsCopy}>
+            <Icon name="copy" /> <FormattedMessage id="copyHearing" />
           </Button>
-          <Button bsStyle="success" onClick={this.props.onSaveChanges}>
-            <Icon className="icon" name="check-circle-o"/> <FormattedMessage id="saveHearingChanges"/>
+          <Button bsStyle="success" onClick={onSaveChanges}>
+            <Icon className="icon" name="check-circle-o" /> <FormattedMessage id="saveHearingChanges" />
           </Button>
         </div>;
     } else {
       ActionButton = () =>
-        <Button bsStyle="success" onClick={this.props.onSaveAndPreview}>
-          <Icon className="icon" name="check-circle-o"/>  <FormattedMessage id="saveAndPreviewHearing"/>
+        <Button bsStyle="success" onClick={onSaveAndPreview}>
+          <Icon className="icon" name="check-circle-o" />  <FormattedMessage id="saveAndPreviewHearing" />
         </Button>;
     }
 
     if (!isSaving) {
-      return <ActionButton/>;
+      return <ActionButton />;
     }
 
-    return <div className="pull-right"><LoadSpinner/></div>;
+    return <div className="pull-right"><LoadSpinner /></div>;
   }
 
   getErrors() {
-    const {errors, intl: {formatMessage}} = this.props;
+    const { errors, intl: { formatMessage } } = this.props;
     if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
       return null;
     }
@@ -177,7 +175,7 @@ class HearingForm extends React.Component {
         }, []);
         rootAccumulator.push(
           <li key={currentRootValue}>
-            {formatMessage({id: `hearingFormHeaderStep${  currentRootValue}`})}
+            {formatMessage({ id: `hearingFormHeaderStep${currentRootValue}` })}
             <ul>{subErrors}</ul>
           </li>
         );
@@ -193,6 +191,10 @@ class HearingForm extends React.Component {
     );
   }
 
+  nextStep() {
+    this.setCurrentStep(this.state.currentStep + 1);
+  }
+
   render() {
     return (
       <Modal
@@ -205,7 +207,7 @@ class HearingForm extends React.Component {
         <Modal.Header closeButton bsClass="hearing-modal-header">
           <h2><FormattedMessage id="editHearing" /></h2>
           <a
-            style={{lineHeight: 2}}
+            style={{ lineHeight: 2 }}
             href={config.adminHelpUrl}
             rel="noopener noreferrer"
             target="_blank"
@@ -271,6 +273,6 @@ HearingForm.propTypes = {
   show: PropTypes.bool,
 };
 
-const WrappedHearingForm = connect(null, null, null, {pure: false})(injectIntl(HearingForm));
+const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));
 
 export default WrappedHearingForm;

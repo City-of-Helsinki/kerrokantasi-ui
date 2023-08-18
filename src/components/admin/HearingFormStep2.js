@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
+import { connect } from 'react-redux';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
-import {head, last} from 'lodash';
+import { head, last } from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
@@ -11,13 +11,22 @@ import Panel from 'react-bootstrap/lib/Panel';
 
 import Icon from '../../utils/Icon';
 import SectionForm from './SectionForm';
-import {addSection, removeSection} from '../../actions/hearingEditor';
-import {getMainSection, isPublic} from '../../utils/hearing';
-import {hearingShape} from '../../types';
-import {initNewSection, SectionTypes} from '../../utils/section';
+import { addSection, removeSection } from '../../actions/hearingEditor';
+import { getMainSection, isPublic } from '../../utils/hearing';
+import { hearingShape } from '../../types';
+import { initNewSection, SectionTypes } from '../../utils/section';
 import getAttr from '../../utils/getAttr';
 
 class HearingFormStep2 extends React.Component {
+  static scrollModalToTop = () => {
+    if (document && document.getElementsByClassName) {
+      const modal = head(document.getElementsByClassName('modal'));
+      if (modal) {
+        modal.scrollTop = 0;
+      }
+    }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -27,18 +36,12 @@ class HearingFormStep2 extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
   }
 
-  getDeleteSectionButton(section, sectionID) {
-    if (section.type !== "main") {
-      return (
-        <Button
-          bsStyle="danger"
-          onClick={() => this.deleteSection(sectionID)}
-        >
-          <Icon className="icon" name="trash"/> <FormattedMessage id="deleteSection"/>
-        </Button>
-      );
+  handleSelect(activeSection) {
+    if (activeSection === this.state.activeSection) {
+      this.setState({ activeSection: '' }, HearingFormStep2.scrollModalToTop);
+    } else {
+      this.setState({ activeSection }, HearingFormStep2.scrollModalToTop);
     }
-    return null;
   }
 
   /*
@@ -46,7 +49,7 @@ class HearingFormStep2 extends React.Component {
   * @returns {Array} - Array of Panel elements.
    */
   getSections() {
-    const {language} = this.context;
+    const { language } = this.context;
     const {
       hearing,
       hearingLanguages,
@@ -58,7 +61,7 @@ class HearingFormStep2 extends React.Component {
       onDeleteTemporaryQuestion
     } = this.props;
     return hearing.sections
-      .filter(({type}) => type !== SectionTypes.CLOSURE)
+      .filter(({ type }) => type !== SectionTypes.CLOSURE)
       .map((section, index) => {
         const sectionHeader = this.props.intl.formatMessage({
           id: `${section.type}Section`
@@ -110,21 +113,18 @@ class HearingFormStep2 extends React.Component {
       });
   }
 
-  static scrollModalToTop = () => {
-    if (document && document.getElementsByClassName) {
-      const modal = head(document.getElementsByClassName('modal'));
-      if (modal) {
-        modal.scrollTop = 0;
-      }
+  getDeleteSectionButton(section, sectionID) {
+    if (section.type !== "main") {
+      return (
+        <Button
+          bsStyle="danger"
+          onClick={() => this.deleteSection(sectionID)}
+        >
+          <Icon className="icon" name="trash" /> <FormattedMessage id="deleteSection" />
+        </Button>
+      );
     }
-  };
-
-  handleSelect(activeSection) {
-    if (activeSection === this.state.activeSection) {
-      this.setState({activeSection: ''}, HearingFormStep2.scrollModalToTop);
-    } else {
-      this.setState({activeSection}, HearingFormStep2.scrollModalToTop);
-    }
+    return null;
   }
 
   /*
@@ -136,7 +136,7 @@ class HearingFormStep2 extends React.Component {
     newSection.frontId = uuid();
     newSection.type = type;
     this.props.dispatch(addSection(newSection));
-    this.setState({activeSection: newSection.frontId}, HearingFormStep2.scrollModalToTop);
+    this.setState({ activeSection: newSection.frontId }, HearingFormStep2.scrollModalToTop);
   }
 
   /*
@@ -146,7 +146,7 @@ class HearingFormStep2 extends React.Component {
   deleteSection(sectionID) {
     const { sections } = this.props.hearing;
     this.props.dispatch(removeSection(sectionID));
-    this.setState({activeSection: sections[sections.length - 2].frontId}, HearingFormStep2.scrollModalToTop);
+    this.setState({ activeSection: sections[sections.length - 2].frontId }, HearingFormStep2.scrollModalToTop);
   }
 
   render() {
@@ -162,7 +162,7 @@ class HearingFormStep2 extends React.Component {
               bsStyle="default"
               onClick={() => this.addSection("part")}
             >
-              <Icon className="icon" name="plus"/> <FormattedMessage id="addSection"/>
+              <Icon className="icon" name="plus" /> <FormattedMessage id="addSection" />
             </Button>
           </ButtonToolbar>
         </div>
@@ -171,7 +171,7 @@ class HearingFormStep2 extends React.Component {
             bsStyle="default"
             onClick={this.props.onContinue}
           >
-            <FormattedMessage id="hearingFormNext"/>
+            <FormattedMessage id="hearingFormNext" />
           </Button>
         </div>
       </div>

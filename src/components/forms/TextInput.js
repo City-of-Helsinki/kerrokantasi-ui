@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape} from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -28,44 +29,44 @@ class TextInput extends React.Component {
     }
   }
 
-  setErrorUpdate(prop) {
-    this.setState({error: prop});
-  }
-
   onBlur(event) {
     this.props.onBlur(event);
   }
 
   onChange(event) {
-    const {value} = event.target;
-    this.setState({value});
+    const { value } = event.target;
+    this.setState({ value });
     this.validate(value);
   }
 
+  setErrorUpdate(prop) {
+    this.setState({ error: prop });
+  }
+
+  getPlaceholder() {
+    const { formatMessage } = this.props.intl;
+    if (this.props.placeholderId) {
+      return formatMessage({ id: this.props.placeholderId });
+    }
+    return "";
+  }
+
   /*
-  * Call the passed validation function and assign
-  * valid return value to error state.
-   */
+* Call the passed validation function and assign
+* valid return value to error state.
+ */
   validate(value) {
     if (!this.props.validate) {
       return;
     }
     const error = this.props.validate(value);
     if (typeof error === "string") {
-      this.setState({error});
+      this.setState({ error });
     }
-  }
-
-  getPlaceholder() {
-    const {formatMessage} = this.props.intl;
-    if (this.props.placeholderId) {
-      return formatMessage({id: this.props.placeholderId});
-    }
-    return "";
   }
 
   render() {
-    const {showLabel, label} = this.props;
+    const { showLabel, label } = this.props;
     return (
       <InputBase
         error={this.state.error}
@@ -76,7 +77,7 @@ class TextInput extends React.Component {
         value={this.state.value}
         required={this.props.required}
       >
-        <div style={{display: 'flex'}}>
+        <div style={{ display: 'flex' }}>
           {showLabel &&
             <div style={
               {

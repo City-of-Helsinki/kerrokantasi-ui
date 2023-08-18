@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -10,20 +11,20 @@ class FormControlOnChange extends React.Component {
     };
   }
 
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.setState({
+      value: newProps.defaultValue || ''
+    });
+  }
+
   onChange = (event) => {
     this.setState({
       value: event.target.value
     });
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      value: newProps.defaultValue || ''
-    });
-  }
-
   render() {
-    const {type, onBlur, maxLength} = this.props;
+    const { type, onBlur, maxLength } = this.props;
     return (
       <FormControl
         maxLength={maxLength}

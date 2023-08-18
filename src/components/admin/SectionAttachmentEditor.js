@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import Icon from '../../utils/Icon';
@@ -78,13 +79,13 @@ const SectionAttachmentEditor = (props) => {
    * When field focus is left update the store
    */
   const handleOnBlurField = () => {
-    const updatedAttachment = { ...file, title: { ...file.title, [language]: title }};
+    const updatedAttachment = { ...file, title: { ...file.title, [language]: title } };
     props.onSectionAttachmentEdit(section.frontId, updatedAttachment);
   };
 
   return (
     <div className="section-attachment-editor">
-      <div className="section-attachment-edit-icon"><Icon name="file"/></div>
+      <div className="section-attachment-edit-icon"><Icon name="file" /></div>
       <div className="section-attachment-editor-input">
         <FormControl
           defaultValue={title}
@@ -114,8 +115,8 @@ const SectionAttachmentEditor = (props) => {
           &darr;
         </button>
         <button type="button" className="btn btn-default pull-right" onClick={handleOnClickDeleteButton}>
-          <Icon style={{fontSize: '24px', marginRight: '12px'}} className="icon" name="trash" />
-          <FormattedMessage id="deleteAttachment"/>
+          <Icon style={{ fontSize: '24px', marginRight: '12px' }} className="icon" name="trash" />
+          <FormattedMessage id="deleteAttachment" />
         </button>
       </div>
     </div>
