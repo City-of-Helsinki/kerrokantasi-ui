@@ -1,0 +1,98 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "react-app",
+    // "react-app/jest",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "airbnb",
+    "prettier",
+    "plugin:flowtype/recommended",
+    "plugin:sonarjs/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "ignorePatterns": [
+    "*.scss",
+    "*.css",
+    "*.module.css"
+  ],
+  "plugins": [
+    "react",
+    "prettier",
+    "import",
+    "flowtype",
+    "sonarjs"
+  ],
+  "rules": {
+    "react/function-component-definition": [
+      0
+    ],
+    "react/default-props-match-prop-types": [
+      0
+    ],
+    "react/destructuring-assignment": [
+      0
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-no-constructed-context-values": [
+      0
+    ],
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "components": [
+          "Label"
+        ],
+        "required": {
+          "some": [
+            "nesting",
+            "id"
+          ]
+        },
+        "allowChildren": false
+      }
+    ],
+    "react/no-unstable-nested-components": [
+      0
+    ],
+    "react/require-default-props": [
+      0
+    ],
+    "import/extensions": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "root": true,
+  "globals": {
+    "JSX": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
