@@ -36,24 +36,19 @@ export function getCompiler(settings, withProgress) {
   const compiler = webpack(config);
   let bundleSrc;  // `/app.{SOME_HASH}.js`
 
-  compiler.plugin('emit', (compilation, compileCallback) => {
+  compiler.hooks.afterCompile.tapAsync('Nothing', (compilation) => {
     const stats = compilation.getStats().toJson();
-    const chunks = stats.chunks.sort(sortChunks);
-    bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
+    bundleSrc = stats.hash;
     settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
-    compileCallback();
+    
   });
-
-  compiler.plugin('done', () => {
-    // Save bundle entrypoint filename to a known location.
-    // We need to save the filename somewhere, as it contains a hash which is subject to changing
-    // and it's required to start up the server from a bundle
+  compiler.hooks.done.tapAsync('Done', () => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),
       bundleSrc,
     );
-  });
-
+    console.log('MITÄVITTUA');
+  })
   return compiler;
 }
 

@@ -17,6 +17,9 @@ if (process.env.BUNDLE_ANALYZER) {
 module.exports = {
   context: paths.ROOT,
   resolve: {
+    fallback: {
+      "url": false,
+    },
     alias: {
       "kerrokantasi-ui": path.resolve(__dirname, '../../'),
       "kerrokantasi-ui-modules": path.resolve(__dirname, '../../node_modules'),
@@ -30,22 +33,94 @@ module.exports = {
     'babel-polyfill',
   ],
   output: {
+    hashFunction: "xxhash64",
     path: paths.OUTPUT,
     publicPath: '/',
-    filename: 'app.[hash].js',
-    chunkFilename: '[name].[hash].js'
+    filename: 'app.[contenthash].js',
+    chunkFilename: '[name].[contenthash].js'
   },
   module: {
     rules: [
-      {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
-      {test: /\.svg(\?v=.+)?$/, loader: 'url-loader?limit=100000&mimetype=image/svg+xml'},
-      {test: /\.gif$/, loader: 'url-loader?limit=100000&mimetype=image/gif'},
-      {test: /\.jpg$/, loader: 'file-loader'},
-      {test: /\.woff(2)?(\?v=.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
-      {test: /\.(ttf|eot)(\?v=.+)?$/, loader: 'file-loader'},
-      {test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
-      {test: /\.scss$/, loader: 'style-loader!css-loader!postcss-loader!sass-loader'},
-      {test: /\.md$/, loader: 'html-loader!markdown-loader'},
+      {
+        test: /\.png$/, 
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000000,
+              mimetype: 'image/png',
+            }
+          }
+        ]
+      },
+      {
+        test: /\.svg(\?v=.+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000000,
+              mimetype: 'image/svg+xml',
+            }
+          }
+        ]
+      },
+      {
+        test: /\.gif$/, 
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1000000,
+              mimetype: 'image/gif'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.jpg$/,
+        use: [
+          {
+            loader: 'file-loader',
+          }
+        ]
+      },
+      {
+        test: /\.woff(2)?(\?v=.+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'application/font-woff'
+            } 
+          }
+        ]
+      },
+      {
+        test: /\.(ttf|eot)(\?v=.+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit:1000000, 
+              mimetype: 'image/gif' 
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+      },
+      {
+        test: /\.md$/,
+        use: ['html-loader', 'markdown-loader']
+      },
     ]
   },
   plugins: plugins,

@@ -28,15 +28,15 @@ module.exports = merge(common, {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader'],
+        use: [
+          {
+            loaders: ['babel-loader'],
+            options: {
+              presets: ['react']
+            }
+          }
+        ]
       },
     ],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      __DEVTOOLS__: false,
-      'process.env': {NODE_ENV: JSON.stringify('production')}
-    }),
-    new webpack.LoaderOptionsPlugin({minimize: true}),
-  ]
 });

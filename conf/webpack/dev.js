@@ -13,7 +13,7 @@ module.exports = function getDevConfig() {
       host: '0.0.0.0'
     },
     mode: 'development',
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
     module: {
       rules: [
         {
@@ -26,6 +26,7 @@ module.exports = function getDevConfig() {
             {
               loader: 'babel-loader',
               options: {
+                presets: ['react'],
                 cacheDirectory: true,
               },
             },
@@ -38,9 +39,8 @@ module.exports = function getDevConfig() {
         __DEVTOOLS__: true,
         'process.env': {NODE_ENV: JSON.stringify('development')}
       }),
-      new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.LoaderOptionsPlugin({debug: true}),
+      new webpack.LoaderOptionsPlugin({debug: false}),
     ],
   });
 };
