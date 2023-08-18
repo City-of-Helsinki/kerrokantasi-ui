@@ -17,6 +17,7 @@ commonInit(function initReady() {
   try {
     if (config.uiConfig && config.uiConfig.sentryDns) Raven.config(config.uiConfig.sentryDns).install();
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
   const store = createStore(typeof window !== 'undefined' ? window.STATE : {});

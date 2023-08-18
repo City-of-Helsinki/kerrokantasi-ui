@@ -29,7 +29,7 @@ const byId = handleActions(
         [field]: value,
       },
     }),
-    [EditorActions.ADD_ATTACHMENT]: (state, { payload: { sectionId, attachment }}) => {
+    [EditorActions.ADD_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
       const updatedSection = updeep({
         files: [...state[sectionId].files, attachment]
       }, state[sectionId]);
@@ -38,7 +38,7 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.ORDER_ATTACHMENTS]: (state, {payload: {sectionId, attachments}}) => {
+    [EditorActions.ORDER_ATTACHMENTS]: (state, { payload: { sectionId, attachments } }) => {
       const newOrder = state[sectionId].files.map((file) => {
         const matchingAttachment = attachments.find((attachment) => attachment.id === file.id);
         if (matchingAttachment) return matchingAttachment;
@@ -57,7 +57,7 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, {payload: {sectionId, attachment}}) => {
+    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
       const updatedFile = state[sectionId].files.map((file) => {
         if (file.id === attachment.id) return attachment;
         return file;
@@ -71,7 +71,7 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.EDIT_QUESTION]: (state, { payload: {fieldType, sectionId, questionId, optionKey, value} }) => {
+    [EditorActions.EDIT_QUESTION]: (state, { payload: { fieldType, sectionId, questionId, optionKey, value } }) => {
       // only search for question with frontId which means the newly generated one.
       // editing is not possible for old questions
       let question = find(
@@ -83,9 +83,11 @@ const byId = handleActions(
         if (curr.frontId === questionId || curr.id === questionId) {
           if (fieldType === 'option') {
             question = updeep({
-              options: {[optionKey]: {
-                text: value
-              }}
+              options: {
+                [optionKey]: {
+                  text: value
+                }
+              }
             }, question);
           } else if (fieldType === 'text') {
             question = updeep({
@@ -114,24 +116,24 @@ const byId = handleActions(
       delete newState[sectionID];
       return newState;
     },
-    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => updeep({
-        [sectionId]: {
-          questions: [...state[sectionId].questions, initSingleChoiceQuestion()]
-        }
-      }, state),
-    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => updeep({
-        [sectionId]: {
-          questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]
-        }
-      }, state),
-    [EditorActions.CLEAR_QUESTIONS]: (state, {payload: {sectionId}}) => {
-      const section = {...state[sectionId], questions: []};
+    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, { payload: { sectionId } }) => updeep({
+      [sectionId]: {
+        questions: [...state[sectionId].questions, initSingleChoiceQuestion()]
+      }
+    }, state),
+    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, { payload: { sectionId } }) => updeep({
+      [sectionId]: {
+        questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]
+      }
+    }, state),
+    [EditorActions.CLEAR_QUESTIONS]: (state, { payload: { sectionId } }) => {
+      const section = { ...state[sectionId], questions: [] };
       return {
         ...state,
         [sectionId]: section,
       };
     },
-    [EditorActions.ADD_OPTION]: (state, {payload: {sectionId, questionId}}) => {
+    [EditorActions.ADD_OPTION]: (state, { payload: { sectionId, questionId } }) => {
       const index = findIndex(
         state[sectionId].questions,
         (quest) => quest.frontId === questionId || quest.id === questionId
@@ -147,7 +149,7 @@ const byId = handleActions(
         }
       }, state);
     },
-    [EditorActions.DELETE_LAST_OPTION]: (state, {payload: {sectionId, questionId}}) => {
+    [EditorActions.DELETE_LAST_OPTION]: (state, { payload: { sectionId, questionId } }) => {
       const index = findIndex(
         state[sectionId].questions,
         (quest) => quest.frontId === questionId || quest.id === questionId
@@ -164,7 +166,7 @@ const byId = handleActions(
         }
       }, state);
     },
-    [EditorActions.DELETE_TEMP_QUESTION]: (state, {payload: {sectionId, questionFrontId}}) => {
+    [EditorActions.DELETE_TEMP_QUESTION]: (state, { payload: { sectionId, questionFrontId } }) => {
       const updatedSection = updeep({
         questions: state[sectionId].questions.filter(quest => quest.frontId !== questionFrontId)
       }, state[sectionId]);
@@ -173,7 +175,7 @@ const byId = handleActions(
         [sectionId]: updatedSection
       };
     },
-    [EditorActions.DELETE_EXISTING_QUESTION]: (state, { payload: { sectionId, questionId }}) => {
+    [EditorActions.DELETE_EXISTING_QUESTION]: (state, { payload: { sectionId, questionId } }) => {
       const updatedSection = updeep({
         questions: state[sectionId].questions.filter(question => question.id !== questionId)
       }, state[sectionId]);
@@ -183,7 +185,7 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.DELETE_ATTACHMENT]: (state, { payload: { sectionId, attachment }}) => {
+    [EditorActions.DELETE_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
       const updatedSection = updeep({
         files: state[sectionId].files.filter(file => file.id !== attachment.id)
       }, state[sectionId]);
@@ -194,8 +196,8 @@ const byId = handleActions(
       };
     },
     [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
-      const section = {...state[sectionID], images: [...state[sectionID].images]};
-      const image = {...getMainImage(section)};
+      const section = { ...state[sectionID], images: [...state[sectionID].images] };
+      const image = { ...getMainImage(section) };
       image[field] = value;
       if (field === 'image') {
         // Only one of the two fields should have valid reference to an image.

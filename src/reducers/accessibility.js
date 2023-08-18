@@ -8,4 +8,4 @@ const toggleContrastState = (state) => ({
   isHighContrast: !state.isHighContrast
 });
 
-export default handleActions({toggleContrastState}, INITIAL_STATE);
+export default handleActions({ toggleContrastState }, INITIAL_STATE);

@@ -1,55 +1,55 @@
 import updeep from 'updeep';
-import {handleActions} from 'redux-actions';
-import {has, isEmpty, omit} from 'lodash';
+import { handleActions } from 'redux-actions';
+import { has, isEmpty, omit } from 'lodash';
 
-import {EditorActions} from '../actions/hearingEditor';
+import { EditorActions } from '../actions/hearingEditor';
 
 
-const beginFetchHearing = (state, {payload}) => {
+const beginFetchHearing = (state, { payload }) => {
   if (state[payload.hearingSlug]) {
     // If we already have this hearing, we're only probably refreshing it,
     // so preserve the current state if we can...
     return state;
   }
   return updeep({
-    [payload.hearingSlug]: {state: "pending"}
+    [payload.hearingSlug]: { state: "pending" }
   }, state);
 };
 
 
-const receiveHearing = (state, {payload}) => updeep({
-    [payload.hearingSlug]: {state: "done", data: payload.data}
-  }, state);
+const receiveHearing = (state, { payload }) => updeep({
+  [payload.hearingSlug]: { state: "done", data: payload.data }
+}, state);
 
-const deletingHearingDraft = (state, {payload}) => updeep({
-    [payload.hearingSlug]: {state: "pending"}
-  }, state);
+const deletingHearingDraft = (state, { payload }) => updeep({
+  [payload.hearingSlug]: { state: "pending" }
+}, state);
 
-const deletedHearingDraft = (state, {payload}) => omit(state, [payload.hearingSlug]);
+const deletedHearingDraft = (state, { payload }) => omit(state, [payload.hearingSlug]);
 
-const receiveHearingError = (state, {payload}) => updeep({
-    [payload.hearingSlug]: {state: "error"}
-  }, state);
+const receiveHearingError = (state, { payload }) => updeep({
+  [payload.hearingSlug]: { state: "error" }
+}, state);
 
-const savedHearing = (state, {payload: {hearing}}) => updeep({
-    [hearing.slug]: {state: 'done', data: hearing}
-  }, state);
+const savedHearing = (state, { payload: { hearing } }) => updeep({
+  [hearing.slug]: { state: 'done', data: hearing }
+}, state);
 
-const savedHearingChange = (state, {payload}) => {
-  const {hearing} = payload;
+const savedHearingChange = (state, { payload }) => {
+  const { hearing } = payload;
   if (has(state, hearing.slug) || isEmpty(state)) {
     // We have just saved hearing with the same slug as we have in
     // state. In order to keep the hearing up to date, let's update it
     // accordingly.
     return updeep({
-      [hearing.slug]: {state: "done", data: hearing}
+      [hearing.slug]: { state: "done", data: hearing }
     }, state);
   }
   return state;
 };
 
 const clearNonPublicHearings = (state) => {
-  const clearNonPublic = (hearing) => ((hearing.data && !hearing.data.published) ? {state: "pending"} : hearing);
+  const clearNonPublic = (hearing) => ((hearing.data && !hearing.data.published) ? { state: "pending" } : hearing);
   return updeep.map(clearNonPublic, state);
 };
 

@@ -1,5 +1,5 @@
-import {combineReducers} from 'redux';
-import {routerReducer} from 'react-router-redux';
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import { reducer as oidc } from "redux-oidc";
 
 import language from './language';
@@ -21,7 +21,7 @@ of the last action received.
 This is _strictly_ meant to let local-state-containing components
 such as CommentForm pseudo-subscribe to actions.
 */
-function lastActionType(state = null, action) {
+function lastActionType(action, state = null) {
   return action ? action.type : state;
 }
 

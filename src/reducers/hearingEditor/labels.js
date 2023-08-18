@@ -12,7 +12,7 @@ const byId = handleActions(
       ...entities.labels,
     }),
     [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) =>
-      ({...state, [label.id]: {...label, frontId: label.id}})
+      ({ ...state, [label.id]: { ...label, frontId: label.id } })
   },
   {},
 );
@@ -39,7 +39,7 @@ const all = handleActions(
 
 const labels = handleActions({
   [EditorActions.ADD_LABEL]: () => true,
-  [EditorActions.ADD_LABEL_FAILED]: (state, {payload}) => payload.errors,
+  [EditorActions.ADD_LABEL_FAILED]: (state, { payload }) => payload.errors,
   [EditorActions.ADD_LABEL_SUCCESS]: () => null
 }, {});
 

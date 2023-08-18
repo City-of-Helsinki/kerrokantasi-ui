@@ -1,4 +1,4 @@
-import {handleActions} from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import updeep from 'updeep';
 
 const INITIAL_STATE = {
@@ -12,7 +12,7 @@ const fetchUserData = (state) => ({
   isFetching: true
 });
 
-const receiveUserData = (state, {payload}) => {
+const receiveUserData = (state, { payload }) => {
   if (payload) {
     return updeep({
       isFetching: false,
@@ -24,15 +24,17 @@ const receiveUserData = (state, {payload}) => {
 const clearUserData = (/* state, action */) => INITIAL_STATE;
 
 
-const receiveUserComments = (state, {payload}) => updeep({
-    profile: {comments: {
+const receiveUserComments = (state, { payload }) => updeep({
+  profile: {
+    comments: {
       count: payload.data.count,
       results: payload.data.results,
-    }}
-  }, state);
+    }
+  }
+}, state);
 
 
-const modifyFavoriteHearingsData = (state, {payload}) => {
+const modifyFavoriteHearingsData = (state, { payload }) => {
   const currentFollowed = state.data.favorite_hearings;
   let updatedFollowed;
   if (currentFollowed.includes(payload.hearingId)) {
@@ -42,18 +44,19 @@ const modifyFavoriteHearingsData = (state, {payload}) => {
   }
 
   return updeep({
-    data: {favorite_hearings: updatedFollowed},
+    data: { favorite_hearings: updatedFollowed },
   }, state);
 };
 
 
-const receiveFavoriteHearings = (state, {payload}) => updeep({
-    profile: {favoriteHearings: payload.data}
-  }, state);
+const receiveFavoriteHearings = (state, { payload }) => updeep({
+  profile: { favoriteHearings: payload.data }
+}, state);
 export default handleActions({
   fetchUserData,
   receiveUserData,
   clearUserData,
   receiveUserComments,
   modifyFavoriteHearingsData,
-  receiveFavoriteHearings}, INITIAL_STATE);
+  receiveFavoriteHearings
+}, INITIAL_STATE);

@@ -28,23 +28,25 @@ const data = handleActions(
     // Weird way of getting the normalized hearing when the hearing actually was normalized without any identifier
     [EditorActions.INIT_NEW_HEARING]: (state, { payload: { entities } }) =>
       entities.hearing[head(Object.keys(entities.hearing))],
-    [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => ({ ...state, [field]: value}),
-    [EditorActions.CREATE_MAP_MARKER]: (state, { payload: {value}}) => ({
+    [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => ({ ...state, [field]: value }),
+    [EditorActions.CREATE_MAP_MARKER]: (state, { payload: { value } }) => ({
       ...state,
       geojson: value,
     }),
-    [EditorActions.ADD_MAP_MARKER]: (state, {payload: {value}}) => {
+    [EditorActions.ADD_MAP_MARKER]: (state, { payload: { value } }) => {
       const foo = state.geojson;
 
-      return { ...state, geojson: {
+      return {
+        ...state, geojson: {
           type: 'FeatureCollection',
-          features: [{type: 'Feature', geometry: foo}, { ...value}]
-        }};
+          features: [{ type: 'Feature', geometry: foo }, { ...value }]
+        }
+      };
     },
-    [EditorActions.ADD_MAP_MARKER_TO_COLLECTION]: (state, {payload: {value}}) =>
+    [EditorActions.ADD_MAP_MARKER_TO_COLLECTION]: (state, { payload: { value } }) =>
       updeep({
         geojson: {
-          features: [...state.geojson.features, {...value}]
+          features: [...state.geojson.features, { ...value }]
         }
       }, state),
     [EditorActions.ADD_SECTION]: (state, { payload: { section } }) => ({
@@ -60,40 +62,40 @@ const data = handleActions(
       ...entities.hearing[result],
     }),
     [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) =>
-      updeep({labels: [...state.labels.push(label.id)]}, state),
+      updeep({ labels: [...state.labels.push(label.id)] }, state),
     [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) =>
-      updeep({sections: sectionMoveUp(state.sections, sectionId)}, state),
+      updeep({ sections: sectionMoveUp(state.sections, sectionId) }, state),
     [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) =>
-      updeep({sections: sectionMoveDown(state.sections, sectionId)}, state),
+      updeep({ sections: sectionMoveDown(state.sections, sectionId) }, state),
     [EditorActions.ADD_PHASE]: (state) =>
       updeep({
         project: {
           phases: [...state.project.phases, initNewPhase()]
         }
       }, state),
-    [EditorActions.DELETE_PHASE]: (state, {payload: {phaseId}}) =>
+    [EditorActions.DELETE_PHASE]: (state, { payload: { phaseId } }) =>
       updeep({
         project: {
           phases: state.project.phases.filter(phase => phase.id !== phaseId && phase.frontId !== phaseId)
         }
       }, state),
-    [EditorActions.ACTIVE_PHASE]: (state, {payload: {phaseId}}) =>
+    [EditorActions.ACTIVE_PHASE]: (state, { payload: { phaseId } }) =>
       updeep({
         project: {
           phases: state.project.phases.map(phase => {
             if (phase.id === phaseId || phase.frontId === phaseId) {
-              return updeep({is_active: true}, phase);
+              return updeep({ is_active: true }, phase);
             }
-            return updeep({is_active: false}, phase);
+            return updeep({ is_active: false }, phase);
           })
         }
       }, state),
-    [EditorActions.EDIT_PHASE]: (state, {payload: {
+    [EditorActions.EDIT_PHASE]: (state, { payload: {
       phaseId,
       fieldName,
       language,
       value
-    }}) =>
+    } }) =>
       updeep({
         project: {
           phases: state.project.phases.map(phase => {
@@ -104,15 +106,15 @@ const data = handleActions(
           })
         }
       }, state),
-    [EditorActions.CHANGE_PROJECT]: (state, {payload: {projectId, projectLists}}) => {
+    [EditorActions.CHANGE_PROJECT]: (state, { payload: { projectId, projectLists } }) => {
       let updatedProject;
       if (projectId === '') updatedProject = initNewProject();
       else updatedProject = projectLists.find(project => project.id === projectId) || null;
-      return { ...state, project: updatedProject};
+      return { ...state, project: updatedProject };
     },
-    [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
+    [EditorActions.CHANGE_PROJECT_NAME]: (state, { payload: { fieldname, value } }) =>
       updeep({
-        project: {title: {[fieldname]: value}}
+        project: { title: { [fieldname]: value } }
       }, state)
   },
   null,

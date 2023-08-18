@@ -1,7 +1,7 @@
 import updeep from 'updeep';
-import {handleActions} from 'redux-actions';
+import { handleActions } from 'redux-actions';
 
-const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
+const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
   // we must accept flattened as well as paginated comment listings
   let combinedResults = [];
   let count = 0;
@@ -29,22 +29,22 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   }, state);
 };
 
-const postedComment = (state, {payload: {sectionId, jumpTo}}) => 
+const postedComment = (state, { payload: { sectionId, jumpTo } }) =>
   // whenever we post, we want the newly posted comment displayed first and results reloaded
-   updeep({
+  updeep({
     [sectionId]: {
       jumpTo,
       results: [],
       ordering: '-created_at'
     }
   }, state)
-;
+  ;
 
 /**
  * When comment is edited, no need to fetch the entire list again.
  * Update the object in array.
  */
-const editedComment = (state, {payload: {sectionId, comment}}) => {
+const editedComment = (state, { payload: { sectionId, comment } }) => {
   const isSubComment = comment.comment; // A number usually represents the parent comment.
   if (isSubComment) {
     const commentIndex = state[sectionId].results.findIndex((sectionComment) => sectionComment.id === isSubComment);
@@ -78,7 +78,7 @@ const editedComment = (state, {payload: {sectionId, comment}}) => {
   }, state);
 };
 
-const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
+const postedCommentVote = (state, { payload: { commentId, sectionId, isReply, parentId } }) => {
   // Save voted comment id to localstorage to prevent voting the same comment multiple times for non-authenticated users
   const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
   localStorage.setItem("votedComments", JSON.stringify([commentId, ...votedComments]));
@@ -116,7 +116,7 @@ const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, pare
   }, state);
 };
 
-const postedCommentFlag = (state, {payload: {commentId, sectionId, isReply, parentId}}) => {
+const postedCommentFlag = (state, { payload: { commentId, sectionId, isReply, parentId } }) => {
   // the flagging went through
   if (isReply) {
     const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
@@ -148,7 +148,7 @@ const postedCommentFlag = (state, {payload: {commentId, sectionId, isReply, pare
   }, state);
 };
 
-const beginFetchSectionComments = (state, {payload: {sectionId, ordering, cleanFetch}}) => {
+const beginFetchSectionComments = (state, { payload: { sectionId, ordering, cleanFetch } }) => {
   if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
     return updeep({
       [sectionId]: {
@@ -183,7 +183,9 @@ const recursiveSearch = (root, current, targetId, initialPath = []) => {
     // pushes index of the target, if -1 is pushed that means that the target comment is a reply of a reply.
     finalPath.push(current.results.findIndex(element => element.id === targetId));
     return finalPath;
-  } if (current.comments.includes(targetId)) {
+  }
+
+  if (current.comments.includes(targetId)) {
     // This part is used to figure out the path to a comment that is a reply to a reply.
     finalPath.push(root.results.indexOf(current));
     // loop through subComments and push the final parts of the path once we find the comment.
@@ -212,7 +214,7 @@ const recursiveSearch = (root, current, targetId, initialPath = []) => {
  * @param {string} targetId id of the comment that we are searching for that is to be updated.
  * @returns {string|string[]}
  */
-const replySearch = (root, results = [], targetId) => {
+const replySearch = (root, targetId, results = []) => {
   let pathToReply = '';
   // loop through root comments until we find which root comment reply was replied to.
   for (let index = 0; index < results.length; index += 1) {
@@ -228,8 +230,8 @@ const replySearch = (root, results = [], targetId) => {
  * Begin fetching the sub comments.
  * Show loading spinner on the parent comment description.
  */
-const beginFetchSubComments = (state, {payload: {sectionId, commentId}}) => {
-  let updatedState = {...state[sectionId]};
+const beginFetchSubComments = (state, { payload: { sectionId, commentId } }) => {
+  let updatedState = { ...state[sectionId] };
 
   // Array consisting of the path to commentId comment.
   let updatePath = recursiveSearch(updatedState, updatedState, commentId);
@@ -240,7 +242,7 @@ const beginFetchSubComments = (state, {payload: {sectionId, commentId}}) => {
 
   if (updatePath[1] === -1) {
     // commentId comment was not a reply to a root comment -> it was a reply to a reply.
-    updatePath = replySearch(updatedState, updatedState.results, commentId);
+    updatePath = replySearch(updatedState, commentId, updatedState.results);
   }
   // push the name of the variable that we want to toggle.
   updatePath.push('loadingSubComments');
@@ -263,8 +265,8 @@ const beginFetchSubComments = (state, {payload: {sectionId, commentId}}) => {
 /**
  * Once comments are fetched, update the store with sub comments.
  */
-const subCommentsFetched = (state, {payload: {sectionId, commentId, data, jumpTo}}) => {
-  let updatedState = {...state[sectionId], jumpTo};
+const subCommentsFetched = (state, { payload: { sectionId, commentId, data, jumpTo } }) => {
+  let updatedState = { ...state[sectionId], jumpTo };
 
   // Array consisting of the path to commentId comment for which we fetched comments.
   let updatePath = recursiveSearch(updatedState, updatedState, commentId);
@@ -275,7 +277,7 @@ const subCommentsFetched = (state, {payload: {sectionId, commentId, data, jumpTo
 
   if (updatePath[1] === -1) {
     // commentId comment was not a reply to a root comment -> it was a reply to a reply.
-    updatePath = replySearch(updatedState, updatedState.results, commentId);
+    updatePath = replySearch(updatedState, commentId, updatedState.results);
   }
 
   /**
