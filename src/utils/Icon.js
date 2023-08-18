@@ -5,46 +5,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Icon extends React.Component {
-  render() {
-    const {
-      Component,
-      name, size, rotate, flip, spin, fixedWidth, stack, inverse,
-      pulse, className, ...props
-    } = this.props;
-    let classNames = `fa fa-${name}`;
-    if (size) {
-      classNames = `${classNames} fa-${size}`;
-    }
-    if (rotate) {
-      classNames = `${classNames} fa-rotate-${rotate}`;
-    }
-    if (flip) {
-      classNames = `${classNames} fa-flip-${flip}`;
-    }
-    if (fixedWidth) {
-      classNames = `${classNames} fa-fw`;
-    }
-    if (spin) {
-      classNames = `${classNames} fa-spin`;
-    }
-    if (pulse) {
-      classNames = `${classNames} fa-pulse`;
-    }
+const Icon = (props) => {
+  const {
+    Component,
+    name,
+    size,
+    rotate,
+    flip,
+    spin,
+    fixedWidth,
+    stack,
+    inverse,
+    pulse,
+    className,
+    ...rest
+  } = props;
 
-    if (stack) {
-      classNames = `${classNames} fa-stack-${stack}`;
-    }
-    if (inverse) {
-      classNames = `${classNames} fa-inverse`;
-    }
-
-    if (className) {
-      classNames = `${classNames} ${className}`;
-    }
-    return <Component {...props} className={classNames}/>;
+  let classNames = `fa fa-${name}`;
+  if (size) {
+    classNames = `${classNames} fa-${size}`;
   }
+  if (rotate) {
+    classNames = `${classNames} fa-rotate-${rotate}`;
+  }
+  if (flip) {
+    classNames = `${classNames} fa-flip-${flip}`;
+  }
+  if (fixedWidth) {
+    classNames = `${classNames} fa-fw`;
+  }
+  if (spin) {
+    classNames = `${classNames} fa-spin`;
+  }
+  if (pulse) {
+    classNames = `${classNames} fa-pulse`;
+  }
+
+  if (stack) {
+    classNames = `${classNames} fa-stack-${stack}`;
+  }
+  if (inverse) {
+    classNames = `${classNames} fa-inverse`;
+  }
+
+  if (className) {
+    classNames = `${classNames} ${className}`;
+  }
+  return <Component {...rest} className={classNames} />;
 }
+
 
 
 Icon.propTypes = {
@@ -64,3 +73,5 @@ Icon.propTypes = {
 Icon.defaultProps = {
   Component: 'span',
 };
+
+export default Icon;

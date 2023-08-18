@@ -1,8 +1,5 @@
-/* eslint-disable react/self-closing-comp */
-import cookiebotUtils from './cookiebotUtils';
+import { isCookiebotEnabled, cookieBotAddListener, cookieBotRemoveListener, getCookieBotScripts } from './cookiebotUtils';
 import config from '../config';
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 import setupMatomo from './matomo';
 
 
@@ -11,18 +8,9 @@ function getCookie(name) {
   return decodeURIComponent(cookie ? cookie.at(2) : '');
 }
 
-function cookieOnComponentDidMount() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    cookiebotUtils.cookieBotAddListener();
-  } else if (config.enableCookies) {
-    checkCookieConsent();
-  }
-}
-
-export function cookieOnComponentWillUnmount() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    cookiebotUtils.cookieBotRemoveListener();
-  }
+export function enableMatomoTracking() {
+  // eslint-disable-next-line no-underscore-dangle
+  window._paq.push(['setConsentGiven']);
 }
 
 /**
@@ -41,8 +29,18 @@ export function checkCookieConsent() {
   }
 }
 
-export function enableMatomoTracking() {
-  window._paq.push(['setConsentGiven']);
+function cookieOnComponentDidMount() {
+  if (isCookiebotEnabled()) {
+    cookieBotAddListener();
+  } else if (config.enableCookies) {
+    checkCookieConsent();
+  }
+}
+
+export function cookieOnComponentWillUnmount() {
+  if (isCookiebotEnabled()) {
+    cookieBotRemoveListener();
+  }
 }
 
 /**
@@ -59,16 +57,18 @@ function addCookieScripts() {
  * @returns {JSX.Element|null} script element or null
  */
 export function getCookieScripts() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    return cookiebotUtils.getCookieBotScripts();
-  } if (config.enableCookies) {
+  if (isCookiebotEnabled()) {
+    return getCookieBotScripts();
+  }
+
+  if (config.enableCookies) {
     return addCookieScripts();
   }
   return null;
 }
 
 export function getHDSCookieConfig(siteName, language, setLanguage, modal = true) {
-  const config = {
+  const cookieConfig = {
     siteName,
     currentLanguage: language,
     optionalCookies: {
@@ -95,7 +95,7 @@ export function getHDSCookieConfig(siteName, language, setLanguage, modal = true
   if (modal) {
     config.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
   }
-  return config;
+  return cookieConfig;
 }
 
 export default {

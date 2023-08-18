@@ -6,6 +6,22 @@ import urls from '@city-assets/urls.json';
 import config from '../config';
 
 /**
+ * Returns whether Cookiebot is enabled and should be used or not.
+ * @returns {boolean} true when Cookiebot is enabled, else false if not.
+ */
+export function isCookiebotEnabled() {
+  return config.enableCookies && config.enableCookiebot;
+}
+
+/**
+ * Sets the cookiebot banner's header img src to empty string,
+ * so the image specified by the style rules is shown instead.
+ */
+export function cookieBotImageOverride() {
+  document.getElementById('CybotCookiebotDialogPoweredbyImage').src = '';
+}
+
+/**
  * Add event listener that overrides the image served by cookiebot.
  */
 export function cookieBotAddListener() {
@@ -21,14 +37,6 @@ export function cookieBotRemoveListener() {
   if (isCookiebotEnabled()) {
     window.removeEventListener('CookiebotOnDialogDisplay', cookieBotImageOverride);
   }
-}
-
-/**
- * Sets the cookiebot banner's header img src to empty string,
- * so the image specified by the style rules is shown instead.
- */
-export function cookieBotImageOverride() {
-  document.getElementById('CybotCookiebotDialogPoweredbyImage').src = '';
 }
 
 /**
@@ -61,14 +69,6 @@ export function getCookieBotScripts() {
     >
     </script>
   );
-}
-
-/**
- * Returns whether Cookiebot is enabled and should be used or not.
- * @returns {boolean} true when Cookiebot is enabled, else false if not.
- */
-export function isCookiebotEnabled() {
-  return config.enableCookies && config.enableCookiebot;
 }
 
 export default {

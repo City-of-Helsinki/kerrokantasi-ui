@@ -1,6 +1,7 @@
 import {get, find, merge, includes} from 'lodash';
 import moment from 'moment';
 
+// eslint-disable-next-line import/no-cycle
 import { initNewSection, SectionTypes, userCanComment } from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';

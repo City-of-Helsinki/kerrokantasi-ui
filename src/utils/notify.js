@@ -1,5 +1,6 @@
 // This module uses `require` and late imports to support isomorphic rendering.
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
+import alertify from 'alertifyjs';
 
 import getMessage from "./getMessage";
 
@@ -27,13 +28,13 @@ const infoOptions = {
 
 export function alert(message, title = "Kerrokantasi") {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").alert(title,
+    alertify.alert(title,
       `<div id="alert-dialog" tabindex="0" aria-labelledby="${message}">
         ${message}
       </div>`
     ).set('onfocus', () => {
       document.getElementById("alert-dialog").focus();
-    }).setting({transition: 'slide'});
+    }).setting({ transition: 'slide' });
   }
 }
 

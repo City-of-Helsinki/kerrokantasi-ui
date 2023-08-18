@@ -1,5 +1,4 @@
 import { find, values, merge } from 'lodash';
-// import uuid from 'uuid/v1';
 
 import initAttr from './initAttr';
 import { acceptsComments } from "./hearing";
@@ -12,6 +11,37 @@ export const SectionTypes = {
 };
 
 const specialSectionTypes = values(SectionTypes);
+
+/**
+ * Tells whether section has any questions or not.
+ * @param {Object} section object containing section data
+ * @returns {boolean} true when section has atleast one question, false if not
+ */
+export function hasAnyQuestions(section) {
+  return section.questions && section.questions.length > 0;
+}
+
+
+/**
+ * Tells whether a non empty comment is required or not for a section.
+ * @param {boolean} hasQuestions does the section have questions
+ * @param {boolean} isReply is this comment a reply
+ * @param {boolean} userAnsweredAllQuestions have all questions been answered already
+ * @returns {boolean} true when comment is required, false when not
+ */
+export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions) {
+  return isReply || !hasQuestions || userAnsweredAllQuestions;
+}
+
+
+/**
+ * Tells whether any of the section's questions have been answered or not.
+ * @param {Object[]} answers array of question answers
+ * @returns {boolean} true when at least one question is answered and false if not
+ */
+export function hasAnyAnswers(answers) {
+  return answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
+}
 
 /**
  * Checks whether comment form has errors or not. Returns an array of found errors.
@@ -39,35 +69,6 @@ export function checkFormErrors(imageTooBig, commentText, section, answers, isRe
   }
 
   return errors;
-}
-
-/**
- * Tells whether any of the section's questions have been answered or not.
- * @param {Object[]} answers array of question answers
- * @returns {boolean} true when at least one question is answered and false if not
- */
-export function hasAnyAnswers(answers) {
-  return answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
-}
-
-/**
- * Tells whether section has any questions or not.
- * @param {Object} section object containing section data
- * @returns {boolean} true when section has atleast one question, false if not
- */
-export function hasAnyQuestions(section) {
-  return section.questions && section.questions.length > 0;
-}
-
-/**
- * Tells whether a non empty comment is required or not for a section.
- * @param {boolean} hasQuestions does the section have questions
- * @param {boolean} isReply is this comment a reply
- * @param {boolean} userAnsweredAllQuestions have all questions been answered already
- * @returns {boolean} true when comment is required, false when not
- */
-export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions) {
-  return isReply || !hasQuestions || userAnsweredAllQuestions;
 }
 
 /**
@@ -122,7 +123,9 @@ export function getFirstUnansweredQuestion(user, section) {
     // anon users and users without answers
     if (!user || !hasUserAnsweredQuestions(user)) {
       return questions[0];
-    } if (hasUserAnsweredQuestions(user)) {
+    }
+
+    if (hasUserAnsweredQuestions(user)) {
       const answeredQuestions = user.answered_questions;
       for (let index = 0; index < questions.length; index += 1) {
         if (!answeredQuestions.includes(questions[index].id)) {
