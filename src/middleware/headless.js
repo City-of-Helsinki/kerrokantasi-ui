@@ -1,5 +1,5 @@
-import {setHeadless} from '../actions';
-import {checkHeadlessParam} from '../utils/urlQuery';
+import { setHeadless } from '../actions';
+import { checkHeadlessParam } from '../utils/urlQuery';
 
 export const headlessFromUrlMiddleware = store => next => action => {
   if (action.type === '@@router/LOCATION_CHANGE') {
