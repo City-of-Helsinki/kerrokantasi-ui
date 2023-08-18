@@ -1,13 +1,15 @@
 import React from 'react';
 import { shallow } from "enzyme";
+import { FormattedMessage } from "react-intl";
+import { Button } from "react-bootstrap";
+
 import { UnconnectedUserHearings, GET_HEARINGS, SEARCH_PARAMS } from "../src/views/UserHearings";
 import { getIntlAsProp, mockStore, mockUser } from "../test-utils";
 import HearingCard from "../src/components/HearingCard";
 import LoadSpinner from "../src/components/LoadSpinner";
-import { FormattedMessage } from "react-intl";
 import Icon from "../src/utils/Icon";
 import { getUserHearingList } from "../src/selectors/hearing";
-import { Button } from "react-bootstrap";
+
 
 const mockState = mockStore;
 const mockLoggedUser = mockUser;
@@ -207,7 +209,7 @@ describe('UserHearings', () => {
         });
 
         test('returns Icon with FormattedMessage if 0 hearings for type', () => {
-          const foo = Object.assign({}, defaultProps.hearingData);
+          const foo = { ...defaultProps.hearingData};
           foo.draft = [];
           const wrapper = getWrapper({ hearingData: foo });
           const elementWrapper = shallow(wrapper.instance().getHearingListing('draft'));

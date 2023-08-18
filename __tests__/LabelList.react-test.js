@@ -1,10 +1,11 @@
 // LabelList.react-test.js
 import React from 'react';
-import {Labels} from '../src/components/LabelList';
 import renderer from 'react-test-renderer';
 import {MemoryRouter} from 'react-router-dom';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
+
+import {Labels} from '../src/components/LabelList';
 import {getIntlAsProp} from '../test-utils';
 
 test('LabelList can handle empty list', () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import getAttr from '../utils/getAttr';
 
 class HearingImage extends React.Component {

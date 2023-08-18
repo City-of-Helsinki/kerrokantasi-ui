@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import map from 'lodash/map';
-
 import Button from 'react-bootstrap/lib/Button';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -11,6 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Row from 'react-bootstrap/lib/Row';
+import {HelpBlock} from "react-bootstrap";
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
@@ -25,9 +25,7 @@ import {
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import {getDocumentOrigin, getValidationState} from '../../utils/hearingEditor';
-
 import {addLabel, addContact, saveContact} from '../../actions/hearingEditor';
-import {HelpBlock} from "react-bootstrap";
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -129,7 +127,7 @@ class HearingFormStep1 extends React.Component {
           <Col md={6}>
             <FormGroup controlId="hearingLabels" validationState={getValidationState(errors, 'labels')}>
               <ControlLabel>
-                <FormattedMessage id="hearingLabels">{txt => txt + '*'}</FormattedMessage>
+                <FormattedMessage id="hearingLabels">{txt => `${txt  }*`}</FormattedMessage>
               </ControlLabel>
               <div className="label-elements">
                 <Select

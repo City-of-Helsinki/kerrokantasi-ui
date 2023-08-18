@@ -3,6 +3,7 @@ import React from 'react';
 import {Modal, Button, ModalTitle } from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
+
 import IframeCopyPasteField from './IframeCopyPasteField';
 import RichTextModalTextField from '../RichTextModalTextField';
 import IframeSelectField from './IframeSelectField';
@@ -54,9 +55,9 @@ class IframeModal extends React.Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
+    const {target} = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const {name} = target;
 
     this.setState((state) => {
       const inputErrors = {...state.inputErrors, ...{[name]: ''}};
@@ -69,9 +70,9 @@ class IframeModal extends React.Component {
   }
 
   handleInputBlur(event) {
-    const target = event.target;
+    const {target} = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const {name} = target;
     const errorMsg = validateInput(name, value);
 
     this.setState((state) => {

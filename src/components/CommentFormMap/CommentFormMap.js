@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Map, TileLayer, FeatureGroup} from "react-leaflet";
+import Leaflet from 'leaflet';
+import {EditControl} from 'react-leaflet-draw';
+
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
-import Leaflet from 'leaflet';
 import getTranslatedTooltips from "../../utils/getTranslatedTooltips";
-import {EditControl} from 'react-leaflet-draw';
+
 
 /**
  * If a city-specific configuration is in use then
@@ -24,6 +26,7 @@ class CommentFormMap extends React.Component {
   componentDidMount() {
     Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.language !== prevProps.language) {
       Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
@@ -41,6 +44,7 @@ class CommentFormMap extends React.Component {
     }
     return this.props.mapBounds;
   }
+
   render() {
     const {onDrawCreate, onDrawDelete, tools} = this.props;
     // below checks if all commenting map tools are enabled in this section

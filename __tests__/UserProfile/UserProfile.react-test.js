@@ -1,11 +1,12 @@
 import React from 'react';
-import { UnconnectedUserProfile } from '../../src/views/UserProfile';
-import { getIntlAsProp } from '../../test-utils';
 import { shallow } from 'enzyme';
-import UserComment from '../../src/components/UserProfile/UserComment';
-import HearingCardList from '../../src/components/HearingCardList';
 import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
+
+import { UnconnectedUserProfile } from '../../src/views/UserProfile';
+import { getIntlAsProp } from '../../test-utils';
+import UserComment from '../../src/components/UserProfile/UserComment';
+import HearingCardList from '../../src/components/HearingCardList';
 import LoadSpinner from '../../src/components/LoadSpinner';
 import Icon from '../../src/utils/Icon';
 
@@ -89,10 +90,8 @@ const defaultProps = {
   }
 };
 
-const commentCounter = (uniqueHearing) => {
-  return defaultProps.profile.comments.uniqueHearings.find(
+const commentCounter = (uniqueHearing) => defaultProps.profile.comments.uniqueHearings.find(
     value => value.id === uniqueHearing.id).commentCount;
-};
 
 describe('UserProfile', () => {
   function getWrapper(props) {

@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {get, isEmpty} from 'lodash';
-import {QuestionForm} from './QuestionForm';
 import {
   ControlLabel,
   FormControl,
@@ -15,15 +14,17 @@ import {
   Checkbox,
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import {isFirefox, isSafari, browserVersion} from 'react-device-detect';
 
+import {QuestionForm} from './QuestionForm';
 import Icon from '../../utils/Icon';
 import {localizedNotifyError, notifyError} from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, {TextFieldTypes} from '../forms/MultiLanguageTextField';
 import {sectionShape} from '../../types';
 import {isSpecialSectionType} from '../../utils/section';
-import config from './../../config';
-import {isFirefox, isSafari, browserVersion} from 'react-device-detect';
+import config from "../../config";
+
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -74,7 +75,7 @@ class SectionForm extends React.Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const {section} = this.props;
     if (section.commenting_map_tools !== 'none') {
       this.setState({enabledCommentMap: true});
@@ -89,7 +90,7 @@ class SectionForm extends React.Component {
   onChange(event) {
     // Propagate interesting changes to parent components
     const {name: field, value} = event.target;
-    const section = this.props.section;
+    const {section} = this.props;
     switch (field) {
       case "imageCaption":
         this.props.onSectionImageChange(section.frontId, "caption", value);
@@ -157,7 +158,7 @@ class SectionForm extends React.Component {
       return;
     }
     // Load the file and then upload it.
-    const section = this.props.section;
+    const {section} = this.props;
     const file = attachment[0];
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
@@ -181,7 +182,7 @@ class SectionForm extends React.Component {
   }
 
   getImage() {
-    const images = this.props.section.images;
+    const {images} = this.props.section;
     if (images && images.length) {
       // Image property may contain the base64 encoded image
       return images[0].image || images[0].url;
@@ -229,6 +230,7 @@ class SectionForm extends React.Component {
   static getImageCaption(section) {
     return get(section.images, '[0].caption', {});
   }
+
   toggleEnableCommentMap() {
     this.setState({enabledCommentMap: !this.state.enabledCommentMap});
     if (this.state.enabledCommentMap) {

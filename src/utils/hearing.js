@@ -21,8 +21,7 @@ export function getMainSection(hearing) {
 * to force fullscreen query parameter.
  */
 export function getHearingURL(hearing, {fullscreen} = {}) {
-  const url = `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
-  return url;
+  return `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
 }
 
 export function getHearingMainImageURL(hearing) {
@@ -148,9 +147,9 @@ export function getOpenGraphMetaData(hearing, language) {
   if (typeof HOSTNAME === 'string') {
     hostname = HOSTNAME;  // eslint-disable-line no-undef
   } else if (typeof window !== 'undefined') {
-    hostname = window.location.protocol + "//" + window.location.host;
+    hostname = `${window.location.protocol  }//${  window.location.host}`;
   }
-  const url = hostname + "/" + hearing.slug;
+  const url = `${hostname  }/${  hearing.slug}`;
   return [
     {property: "og:url", content: url},
     {property: "og:type", content: "website"},

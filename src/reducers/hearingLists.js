@@ -6,7 +6,7 @@ const hearingListSkeleton = {
 };
 
 const createHearingLists = (listNames) =>
-  listNames.reduce((listState, name) => Object.assign({}, listState, {[name]: hearingListSkeleton}), {});
+  listNames.reduce((listState, name) => ({ ...listState, [name]: hearingListSkeleton}), {});
 
 const beginFetchHearingList = (state, {payload}) => (updeep({
   [payload.listId]: {isFetching: true}
@@ -20,11 +20,9 @@ const receiveMoreHearings = (state, { payload: { listId, data } }) => {
   }, state);
 };
 
-const receiveHearingList = (state, {payload: {listId, data}}) => {
-  return updeep({
+const receiveHearingList = (state, {payload: {listId, data}}) => updeep({
     [listId]: {isFetching: false, data: data.results, count: data.count, next: data.next}
   }, state);
-};
 
 export default handleActions({
   beginFetchHearingList,

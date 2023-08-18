@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import OverviewMap from '../OverviewMap';
 
-const HearingMap = ({hearing, mapContainer, ...props}) => {
-  return (
+const HearingMap = ({hearing, mapContainer, ...props}) => (
     <div className="hearing-map">
       <OverviewMap
         hearings={[hearing]}
@@ -15,7 +14,6 @@ const HearingMap = ({hearing, mapContainer, ...props}) => {
       />
     </div>
   );
-};
 
 HearingMap.propTypes = {
   hearing: PropTypes.object,

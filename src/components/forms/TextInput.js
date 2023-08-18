@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
-
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -22,6 +21,7 @@ class TextInput extends React.Component {
     this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.error !== this.props.error) {
       this.setErrorUpdate(this.props.error);
@@ -37,7 +37,7 @@ class TextInput extends React.Component {
   }
 
   onChange(event) {
-    const value = event.target.value;
+    const {value} = event.target;
     this.setState({value});
     this.validate(value);
   }

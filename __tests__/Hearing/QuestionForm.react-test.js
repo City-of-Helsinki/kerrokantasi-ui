@@ -1,9 +1,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import { getIntlAsProp } from '../../test-utils';
 import { FormattedMessage } from 'react-intl';
-import QuestionForm from '../../src/components/QuestionForm';
 import { Checkbox, FormGroup, HelpBlock, Radio } from 'react-bootstrap';
+
+import { getIntlAsProp } from '../../test-utils';
+import QuestionForm from '../../src/components/QuestionForm';
+
 
 describe('QuestionForm', () => {
   const defaultProps = {
@@ -112,7 +114,7 @@ describe('QuestionForm', () => {
         radios.forEach((radio, index) => {
           expect(radio.prop('autoFocus')).toBe(false);
           expect(radio.prop('checked')).toBe(false);
-          expect(radio.prop('name')).toBe("question_" + defaultProps.question.id);
+          expect(radio.prop('name')).toBe(`question_${  defaultProps.question.id}`);
           expect(radio.prop('value')).toBe(defaultProps.question.options[index].id);
           expect(radio.prop('onChange')).toBeDefined();
           expect(radio.childAt(0).text()).toBe(defaultProps.question.options[index].text.fi);
@@ -136,7 +138,7 @@ describe('QuestionForm', () => {
         checkboxes.forEach((checkbox, index) => {
           expect(checkbox.prop('autoFocus')).toBe(false);
           expect(checkbox.prop('checked')).toBe(false);
-          expect(checkbox.prop('name')).toBe("question_" + defaultProps.question.id);
+          expect(checkbox.prop('name')).toBe(`question_${  defaultProps.question.id}`);
           expect(checkbox.prop('value')).toBe(defaultProps.question.options[index].id);
           expect(checkbox.prop('onChange')).toBeDefined();
           expect(checkbox.childAt(0).text()).toBe(defaultProps.question.options[index].text.fi);

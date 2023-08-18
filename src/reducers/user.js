@@ -24,14 +24,12 @@ const receiveUserData = (state, {payload}) => {
 const clearUserData = (/* state, action */) => INITIAL_STATE;
 
 
-const receiveUserComments = (state, {payload}) => {
-  return updeep({
+const receiveUserComments = (state, {payload}) => updeep({
     profile: {comments: {
       count: payload.data.count,
       results: payload.data.results,
     }}
   }, state);
-};
 
 
 const modifyFavoriteHearingsData = (state, {payload}) => {
@@ -49,11 +47,9 @@ const modifyFavoriteHearingsData = (state, {payload}) => {
 };
 
 
-const receiveFavoriteHearings = (state, {payload}) => {
-  return updeep({
+const receiveFavoriteHearings = (state, {payload}) => updeep({
     profile: {favoriteHearings: payload.data}
   }, state);
-};
 export default handleActions({
   fetchUserData,
   receiveUserData,

@@ -5,6 +5,8 @@ import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { get, isEmpty, keys, throttle, find } from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
@@ -120,7 +122,7 @@ export class SortableCommentListComponent extends Component {
    */
   onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
     const { section, user } = this.props;
-    const answers = this.state.answers;
+    const { answers } = this.state;
     if (user) {
       this.setState({ shouldAnimate: true });
     }

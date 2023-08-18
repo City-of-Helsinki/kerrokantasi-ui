@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { withRouter } from 'react-router-dom';
+import defaultImage from '@city-images/default-image.svg';
 
 import getAttr from '../../../utils/getAttr';
 import Icon from '../../../utils/Icon';
@@ -16,15 +17,12 @@ import {
 } from '../../../utils/section';
 
 // eslint-disable-next-line import/no-unresolved
-import defaultImage from '@city-images/default-image.svg';
 
 const SubsectionList = ({ hearing, language, user, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
-  const bgImage = (section) => {
-    return !isEmpty(section.images) ? 'url("' + section.images[0].url + '")' : `url(${defaultImage})`;
-  };
+  const bgImage = (section) => !isEmpty(section.images) ? `url("${  section.images[0].url  }")` : `url(${defaultImage})`;
 
   const isCommentable = (section) => {
     const hasPlugin = !!section.plugin_identifier;

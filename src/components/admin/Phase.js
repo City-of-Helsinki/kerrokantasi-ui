@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../utils/Icon';
-import {localizedNotifyError} from '../../utils/notify';
-import {getValidationState} from '../../utils/hearingEditor';
 import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import {Row, Col} from 'react-bootstrap';
@@ -10,6 +7,10 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+
+import {getValidationState} from '../../utils/hearingEditor';
+import {localizedNotifyError} from '../../utils/notify';
+import Icon from '../../utils/Icon';
 import FormControlOnChange from '../forms/FormControlOnChange';
 
 const Phase = (props) => {

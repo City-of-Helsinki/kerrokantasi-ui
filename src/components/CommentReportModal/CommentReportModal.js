@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Modal } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
+
 import CommentReportForm from "./CommentReportForm";
 import getMessage from '../../utils/getMessage';
 import { hearingShape } from "../../types";

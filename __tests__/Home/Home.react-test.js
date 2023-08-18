@@ -1,9 +1,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
+import {MemoryRouter} from 'react-router-dom';
+
 import {Home} from '../../src/views/Home';
 import {getIntlAsProp, mockStore} from '../../test-utils';
-import {MemoryRouter} from 'react-router-dom';
 import HearingCardList from '../../src/components/HearingCardList';
 import FullWidthHearing from '../../src/components/FullWidthHearing';
 
@@ -11,11 +12,9 @@ import FullWidthHearing from '../../src/components/FullWidthHearing';
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const {hearingLists: {allHearings}, ...rest} = mockStore;
-  const props = Object.assign({
-    topHearing: allHearings.data[0],
+  const props = {topHearing: allHearings.data[0],
     openHearings: allHearings,
-    ...rest
-  }, propOverrides);
+    ...rest, ...propOverrides};
 
   const wrapper = shallow(<MemoryRouter><Home intl={getIntlAsProp()} {...props} /></MemoryRouter>);
 

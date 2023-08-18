@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, ControlLabel, FormControl} from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
 
-const HearingFormControl = ({formatMessage, changeSort}) => {
-  return (
+const HearingFormControl = ({formatMessage, changeSort}) => (
     <FormGroup controlId="formControlsSelect" className="hearing-list__filter-bar-filter">
       <ControlLabel className="hearing-list__filter-bar-label">
         <FormattedMessage id="sort" />
@@ -24,7 +23,6 @@ const HearingFormControl = ({formatMessage, changeSort}) => {
       </FormControl>
     </FormGroup>
   );
-};
 
 HearingFormControl.propTypes = {
   formatMessage: PropTypes.func,

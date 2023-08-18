@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Button, ButtonToolbar} from 'react-bootstrap';
+
 import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
 

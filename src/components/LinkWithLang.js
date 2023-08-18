@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
+
 import {parseQuery} from '../utils/urlQuery';
 
 /*
@@ -19,7 +20,7 @@ class LinkWithLangComponent extends React.Component {
     const urlHeadless = parseQuery(searchString).headless;
     // update search string with headless param preserved if site is being rendered in webview
     if (!urlHeadless) {
-      searchString = `${searchString ? searchString + `&headless=${headless}` : `?headless=${headless}`}`;
+      searchString = `${searchString ? `${searchString  }&headless=${headless}` : `?headless=${headless}`}`;
     }
     const newTo = {
       pathname: to.path,

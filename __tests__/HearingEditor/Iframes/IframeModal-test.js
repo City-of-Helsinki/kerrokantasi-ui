@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import {Modal, Button, ModalTitle } from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import IframeModal from '../../../src/components/RichTextEditor/Iframe/IframeModal';
 import IframeCopyPasteField from '../../../src/components/RichTextEditor/Iframe/IframeCopyPasteField';
 import RichTextModalTextField from '../../../src/components/RichTextEditor/RichTextModalTextField';

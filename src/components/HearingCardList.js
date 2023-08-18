@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col} from 'react-bootstrap';
+
 import HearingCard from './HearingCard';
 import {hearingShape} from '../types';
 import getAttr from '../utils/getAttr';

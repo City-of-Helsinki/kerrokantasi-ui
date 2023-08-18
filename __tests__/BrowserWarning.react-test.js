@@ -1,7 +1,8 @@
 import React from 'react';
-import BrowserWarning from "../src/views/BrowserWarning";
 import {shallow} from 'enzyme';
 import { Helmet } from 'react-helmet';
+
+import BrowserWarning from "../src/views/BrowserWarning";
 
 describe('src/views/BrowserWarning', () => {
   function getWrapper() {

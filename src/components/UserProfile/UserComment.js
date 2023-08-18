@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {OverlayTrigger, Button, Tooltip, Label} from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
-import Icon from '../../utils/Icon';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
+
+import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
 import HearingMap from '../Hearing/HearingMap';
 import getMessage from '../../utils/getMessage';
@@ -29,18 +30,17 @@ class UserComment extends React.Component {
   parseTimestamp = timestamp => (
     moment(timestamp).format('DD.MM.YYYY hh:mm')
   );
+
   /**
    * Returns a Tooltip component with timestamp from date.
    * @param {string} date
    * @returns {JSX.Element}
    */
-  dateTooltip = date => {
-    return (
+  dateTooltip = date => (
       <Tooltip id="comment-date-tooltip">
         {this.parseTimestamp(date)}
       </Tooltip>
-    );
-  }
+    )
 
   renderCommentText = (comment) => {
     if (!comment.deleted) {
@@ -48,7 +48,7 @@ class UserComment extends React.Component {
     }
     if (comment.deleted_by_type === "self") {
       return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
-    } else if (comment.deleted_by_type === "moderator") {
+    } if (comment.deleted_by_type === "moderator") {
       return (
         <p>
           <FormattedMessage
@@ -67,6 +67,7 @@ class UserComment extends React.Component {
   toggleMap = () => {
     this.setState({displayMap: !this.state.displayMap});
   }
+
   render() {
     const {comment, locale} = this.props;
     const {hearing_data: data} = comment;
@@ -128,15 +129,13 @@ class UserComment extends React.Component {
           </div>
           {comment.geojson && (
             <div className="hearing-comment__map">
-              <React.Fragment>
-                <Button
+              <Button
                   onClick={this.toggleMap}
                   className="hearing-comment__map-toggle"
                   aria-expanded={this.state.displayMap}
                 >
                   <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
                 </Button>
-              </React.Fragment>
               {(this.state.displayMap && comment.geojson) && (
                 <div
                   className="hearing-comment__map-container"

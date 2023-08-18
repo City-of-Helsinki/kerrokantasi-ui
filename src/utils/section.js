@@ -122,7 +122,7 @@ export function getFirstUnansweredQuestion(user, section) {
     // anon users and users without answers
     if (!user || !hasUserAnsweredQuestions(user)) {
       return questions[0];
-    } else if (hasUserAnsweredQuestions(user)) {
+    } if (hasUserAnsweredQuestions(user)) {
       const answeredQuestions = user.answered_questions;
       for (let index = 0; index < questions.length; index += 1) {
         if (!answeredQuestions.includes(questions[index].id)) {
@@ -134,9 +134,7 @@ export function getFirstUnansweredQuestion(user, section) {
   return null;
 }
 
-export const isMainSection = (section) => {
-  return section.type === SectionTypes.MAIN;
-};
+export const isMainSection = (section) => section.type === SectionTypes.MAIN;
 
 export function isSpecialSectionType(sectionType) {
   return specialSectionTypes.includes(sectionType);

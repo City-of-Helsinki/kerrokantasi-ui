@@ -1,8 +1,10 @@
 import React from 'react';
-import FormatRelativeTime from '../../src/utils/FormatRelativeTime';
 import {shallow} from 'enzyme';
-import {getIntlAsProp} from '../../test-utils';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
+
+import FormatRelativeTime from '../../src/utils/FormatRelativeTime';
+import {getIntlAsProp} from '../../test-utils';
+
 
 const {formatTime, formatDate} = getIntlAsProp();
 const defaultProps = {

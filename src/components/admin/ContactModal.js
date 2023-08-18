@@ -4,10 +4,10 @@ import {Modal, ControlLabel, HelpBlock} from 'react-bootstrap';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
+import Select from "react-select";
 
 import config from '../../config';
 import {organizationShape} from "../../types";
-import Select from "react-select";
 
 class ContactModal extends React.Component {
   constructor(props) {

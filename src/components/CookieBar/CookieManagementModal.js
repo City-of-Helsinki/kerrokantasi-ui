@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Panel, PanelGroup, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import Switch from 'react-bootstrap-switch';
+
 import getMessage from '../../utils/getMessage';
 import Icon from '../../utils/Icon';
-import Switch from 'react-bootstrap-switch';
 import {addCookieScript, removeCookieScript, changeCookieConsent} from "../../utils/cookieUtils";
 import Link from '../LinkWithLang';
 

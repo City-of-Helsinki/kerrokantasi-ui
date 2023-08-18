@@ -605,7 +605,7 @@ class RichTextEditor extends React.Component {
           />
         )}
         {!hideIframeControls && (
-          <React.Fragment>
+          <>
             <IframeControls
                   onClick={this.openIframeModal}
             />
@@ -614,10 +614,10 @@ class RichTextEditor extends React.Component {
               onClose={this.closeIframeModal}
               onSubmit={this.confirmIframe}
             />
-          </React.Fragment>
+          </>
         )}
         {!hideImageControls && (
-          <React.Fragment>
+          <>
             <ImageControls
               onClick={this.openImageModal}
             />
@@ -626,10 +626,10 @@ class RichTextEditor extends React.Component {
               onClose={this.closeImageModal}
               onSubmit={this.confirmImage}
             />
-          </React.Fragment>
+          </>
         )}
         {!hideSkipLinkControls && (
-        <React.Fragment>
+        <>
           <SkipLinkControls
             onClick={this.openSkipLinkModal}
           />
@@ -638,7 +638,7 @@ class RichTextEditor extends React.Component {
             onClose={this.closeSkipLinkModal}
             onSubmit={this.confirmSkipLink}
           />
-        </React.Fragment>
+        </>
         )}
         {!hideLinkControls && (
           this.renderHyperlinkButton()

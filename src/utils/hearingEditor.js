@@ -129,8 +129,7 @@ export const filterFrontIdsFromAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID
 
 const filterObjectByLanguages = (object, languages) => pickBy(object, (value, key) => includes(languages, key));
 
-const filterSectionsContentByLanguages = (sections, languages) => {
-  return sections.map((section) => assign(
+const filterSectionsContentByLanguages = (sections, languages) => sections.map((section) => assign(
     section,
     {
       abstract: filterObjectByLanguages(section.abstract, languages),
@@ -139,7 +138,6 @@ const filterSectionsContentByLanguages = (sections, languages) => {
       title: filterObjectByLanguages(section.title, languages)
     }
   ));
-};
 
 export const filterTitleAndContentByLanguage = (data, languages) => assign(
   data,
@@ -171,8 +169,7 @@ export const moveSubsectionInArray = (array, index, delta) => {
   return newArray;
 };
 
-export const initNewPhase = () => {
-  return {
+export const initNewPhase = () => ({
     frontId: uuid(),
     has_hearings: false,
     hearings: [],
@@ -180,16 +177,13 @@ export const initNewPhase = () => {
     title: {},
     description: {},
     schedule: {}
-  };
-};
+  });
 
-export const initNewProject = () => {
-  return {
+export const initNewProject = () => ({
     id: '',
     title: {},
     phases: []
-  };
-};
+  });
 
 
 /**
@@ -257,15 +251,11 @@ export const cleanHearing = (hearing) => {
      * ------
      * {type: 'Point', coordinates: [...]}
      */
-    cleanedHearing = Object.assign({}, hearing, {
-      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
-      geojson: hearing.geojson.features[0].geometry,
-    });
+    cleanedHearing = { ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: ''}], []),
+      geojson: hearing.geojson.features[0].geometry,};
   } else {
-    cleanedHearing = Object.assign({}, hearing, {
-      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
-      geojson: hearing.geojson
-    });
+    cleanedHearing = { ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: ''}], []),
+      geojson: hearing.geojson};
   }
   return cleanedHearing;
 };
@@ -277,6 +267,4 @@ export const cleanHearing = (hearing) => {
  * @param {string} key
  * @returns {'error'|null}
  */
-export const getValidationState = (errors, key) => {
-  return errors[key] ? 'error' : null;
-};
+export const getValidationState = (errors, key) => errors[key] ? 'error' : null;

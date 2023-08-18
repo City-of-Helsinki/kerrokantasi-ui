@@ -3,17 +3,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import i18n from '../../i18n';
-import getAttr from '../../utils/getAttr';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Row from 'react-bootstrap/lib/Row';
 import {isEmpty} from 'lodash';
-
 import DateTime from 'react-datetime/DateTime';
 
+import getAttr from '../../utils/getAttr';
+import i18n from '../../i18n';
 import {getClosureSection} from '../../utils/hearing';
 import {getValidationState} from '../../utils/hearingEditor';
 import {initNewSection, SectionTypes} from '../../utils/section';

@@ -1,10 +1,11 @@
 import {createAction} from 'redux-actions';
-import api from '../api';
-import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../utils/notify';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 import Raven from 'raven-js';
 import { push } from 'react-router-redux';
+
+import {localizedAlert, localizedNotifySuccess, localizedNotifyError} from '../utils/notify';
+import api from '../api';
 import fetch from '../mockable-fetch';
 import {getAccessToken} from '../selectors/user';
 import config from "../config";
@@ -51,8 +52,7 @@ export function requestErrorHandler() {
   };
 }
 
-export const postCommentErrorHandler = () => {
-  return (err) => {
+export const postCommentErrorHandler = () => (err) => {
     Raven.captureException(err);
     if (err.response.status === 403) {
       localizedNotifyError("loginToComment");
@@ -60,10 +60,8 @@ export const postCommentErrorHandler = () => {
       localizedNotifyError(err.message);
     }
   };
-};
 
-export const voteCommentErrorHandler = () => {
-  return (err) => {
+export const voteCommentErrorHandler = () => (err) => {
     Raven.captureException(err);
     if (err.response.status === 403) {
       localizedNotifyError("loginToVoteComment");
@@ -71,14 +69,11 @@ export const voteCommentErrorHandler = () => {
       localizedNotifyError(err.message);
     }
   };
-};
 
-export const flagCommentErrorHandler = () => {
-  return (err) => {
+export const flagCommentErrorHandler = () => (err) => {
     Raven.captureException(err);
     localizedNotifyError(err.message);
   };
-};
 
 export function fetchInitialHearingList(listId, endpoint, params) {
   return (dispatch, getState) => {
@@ -143,8 +138,7 @@ export function fetchUserComments(additionalParams = {}) {
   };
 }
 
-export const fetchMoreHearings = (listId) => {
-  return (dispatch, getState) => {
+export const fetchMoreHearings = (listId) => (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearingList")({listId});
     dispatch(fetchAction);
 
@@ -154,7 +148,6 @@ export const fetchMoreHearings = (listId) => {
       dispatch(createAction('receiveMoreHearings')({listId, data}));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
-};
 
 export function fetchLabels() {
   return (dispatch, getState) => {
@@ -171,7 +164,7 @@ export function fetchHearing(hearingSlug, previewKey = null) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchHearing")({hearingSlug});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingSlug + "/";
+    const url = `v1/hearing/${  hearingSlug  }/`;
     const params = previewKey ? {preview: previewKey} : {};
     return api.get(getState(), url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearing")({hearingSlug, data}));
@@ -213,7 +206,7 @@ export function addHearingToFavorites(hearingSlug, hearingId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginAddHearingToFavorites")({hearingSlug});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingSlug + "/follow";
+    const url = `v1/hearing/${  hearingSlug  }/follow`;
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyFavorite");
@@ -236,7 +229,7 @@ export function removeHearingFromFavorites(hearingSlug, hearingId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("beginRemoveHearingFromFavorites")({hearingSlug});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingSlug + "/unfollow";
+    const url = `v1/hearing/${  hearingSlug  }/unfollow`;
     return api.post(getState(), url).then((data) => {
       if (data.status === 204) {
         dispatch(createAction("receiveRemoveHearingFromFavorites")({hearingSlug, data}));
@@ -287,8 +280,7 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
  * @param {Number} commentId - is of the parent comment.
  * @param {String} sectionId - id of the section the comment belongs to.
  */
-export const getCommentSubComments = (commentId, sectionId, jumpTo) => {
-  return (dispatch, getState) => {
+export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch, getState) => {
     const fetchAction = createAction(MainActions.BEGIN_FETCH_SUB_COMMENTS)({sectionId, commentId});
     dispatch(fetchAction);
     const url = "v1/comment/";
@@ -303,7 +295,6 @@ export const getCommentSubComments = (commentId, sectionId, jumpTo) => {
       dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({sectionId, commentId, data, jumpTo}));
     }).catch(requestErrorHandler());
   };
-};
 
 export function fetchMoreSectionComments(sectionId, ordering = '-n_votes', next) {
   const cleanFetch = false;
@@ -324,7 +315,7 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
   return (dispatch, getState) => {
     const fetchAction = createAction("beginFetchSectionComments")({sectionId, ordering, cleanFetch});
     dispatch(fetchAction);
-    const url = "v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments";
+    const url = `v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments`;
     return api.get(getState(), url, {include: 'plugin_data', ordering}).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({sectionId, data}));
     }).catch(requestErrorHandler());
@@ -335,7 +326,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/");
+    const url = (`/v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments/`);
     let params = {
       content: commentData.text ? commentData.text : "",
       plugin_data: commentData.pluginData ? commentData.pluginData : null,
@@ -373,7 +364,7 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
+    const url = (`/v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments/${  commentId}`);
     const params = commentData;
 
     return api.put(getState(), url, params).then(getResponseJSON).then((responseJSON) => {
@@ -396,7 +387,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshU
   return (dispatch, getState) => {
     const fetchAction = createAction("postingComment")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = ("/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId);
+    const url = (`/v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments/${  commentId}`);
 
     return api.apiDelete(getState(), url).then(() => {
       dispatch(createAction("postedComment")({sectionId}));
@@ -413,7 +404,7 @@ export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/vote";
+    const url = `/v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments/${  commentId  }/vote`;
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyVoted");
@@ -429,7 +420,7 @@ export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
   return (dispatch, getState) => {
     const fetchAction = createAction("postingCommentVote")({hearingSlug, sectionId});
     dispatch(fetchAction);
-    const url = "/v1/hearing/" + hearingSlug + "/sections/" + sectionId + "/comments/" + commentId + "/flag";
+    const url = `/v1/hearing/${  hearingSlug  }/sections/${  sectionId  }/comments/${  commentId  }/flag`;
     return api.post(getState(), url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyFlagged");
@@ -445,9 +436,9 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
   return (dispatch, getState) => {
     const fetchAction = createAction("deletingHearingDraft")({hearingId, hearingSlug});
     dispatch(fetchAction);
-    const url = "/v1/hearing/" + hearingSlug;
+    const url = `/v1/hearing/${  hearingSlug}`;
     return api.apiDelete(getState(), url).then(getResponseJSON).then(() => {
-      dispatch(push('/hearings/list?lang=' + getState().language));
+      dispatch(push(`/hearings/list?lang=${  getState().language}`));
       dispatch(createAction("deletedHearingDraft")({hearingSlug}));
       localizedNotifySuccess("draftDeleted");
     }).catch(
@@ -463,9 +454,7 @@ export function fetchApiToken() {
       fetch(config.openIdApiTokenUrl, {
         method: 'GET',
         headers: {Authorization: `Bearer ${getAccessToken(getState())}`}
-      }).then((response) => {
-        return response.json();
-      }).then((token) => {
+      }).then((response) => response.json()).then((token) => {
         dispatch(createAction('receiveApiToken')(token));
         dispatch(retrieveUserFromSession());
         resolve();

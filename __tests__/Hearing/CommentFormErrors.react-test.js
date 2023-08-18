@@ -1,8 +1,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
+import { FormattedMessage } from 'react-intl';
+
 import CommentFormErrors from '../../src/components/CommentFormErrors';
 import { getIntlAsProp } from '../../test-utils';
-import { FormattedMessage } from 'react-intl';
 
 describe('CommentFormErrors', () => {
   const defaultProps = {

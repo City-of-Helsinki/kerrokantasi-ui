@@ -1,6 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
+
 import {getIntlAsProp, mockStore} from '../../test-utils';
 import HearingCardList from '../../src/components/HearingCardList';
 
@@ -8,10 +9,8 @@ import HearingCardList from '../../src/components/HearingCardList';
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const {labels, hearingLists: {allHearings}, ...rest} = mockStore;
-  const props = Object.assign({
-    hearings: allHearings.data,
-    ...rest
-  }, propOverrides);
+  const props = {hearings: allHearings.data,
+    ...rest, ...propOverrides};
 
   const wrapper = shallow(<HearingCardList intl={getIntlAsProp()} {...props} />);
 

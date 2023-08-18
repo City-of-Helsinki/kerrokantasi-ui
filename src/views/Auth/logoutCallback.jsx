@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {SignoutCallbackComponent} from 'redux-oidc';
-import {push} from "react-router-redux";
+import { connect } from 'react-redux';
+import { SignoutCallbackComponent } from 'redux-oidc';
+import { push } from 'react-router-redux';
 
 import userManager from '../../utils/userManager';
 
@@ -15,19 +15,19 @@ class UnconnectedLogoutCallback extends React.Component {
   }
 
   logoutSuccessful() {
-    localStorage.removeItem("votedComments");
-    this.props.dispatch(push("/"));
+    localStorage.removeItem('votedComments');
+    this.props.dispatch(push('/'));
   }
 
   logoutUnsuccessful() {
-    this.props.dispatch(push("/"));
+    this.props.dispatch(push('/'));
   }
 
   render() {
     return (
       <SignoutCallbackComponent
-        errorCallback={error => this.logoutUnsuccessful(error)}
-        successCallback={user => this.logoutSuccessful(user)}
+        errorCallback={(error) => this.logoutUnsuccessful(error)}
+        successCallback={(user) => this.logoutSuccessful(user)}
         userManager={userManager}
       >
         <div />
@@ -40,5 +40,5 @@ UnconnectedLogoutCallback.propTypes = {
   dispatch: PropTypes.func,
 };
 
-export {UnconnectedLogoutCallback};
+export { UnconnectedLogoutCallback };
 export default connect()(UnconnectedLogoutCallback);

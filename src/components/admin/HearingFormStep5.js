@@ -9,10 +9,11 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
+import {injectIntl, FormattedMessage} from 'react-intl';
+
 import Icon from '../../utils/Icon';
 import {notifyError} from '../../utils/notify';
 import {getValidationState} from '../../utils/hearingEditor';
-import {injectIntl, FormattedMessage} from 'react-intl';
 import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
 import Phase from './Phase';
@@ -33,6 +34,7 @@ class HearingFormStep5 extends React.Component {
       projectLists: this.props.projects
     }));
   }
+
   addPhase = () => {
     const {hearingLanguages} = this.props;
     if (!isEmpty(hearingLanguages)) {
@@ -40,22 +42,27 @@ class HearingFormStep5 extends React.Component {
     }
     return notifyError('Valitse ensin kieli.');
   }
+
   deletePhase = (phaseId) => {
     this.props.dispatch(deletePhase(phaseId));
   }
+
   onChangePhase = (phaseId, fieldName, language, value) => {
     this.props.dispatch(
       changePhase(phaseId, fieldName, language, value)
     );
   }
+
   onChangeProjectName = (fieldname, value) => {
     this.props.dispatch(
       changeProjectName(fieldname, value)
     );
   }
+
   onActivePhase = (phaseId) => {
     this.props.dispatch(activePhase(phaseId));
   }
+
   renderProject = (selectedProject) => {
     const {hearing, hearingLanguages, errors} = this.props;
     const phasesLength = hearing.project ? hearing.project.phases.length : null;
@@ -126,6 +133,7 @@ class HearingFormStep5 extends React.Component {
       </div>
     );
   }
+
   render() {
     const {projects, language, hearing, intl} = this.props;
     const selectedProject = hearing.project;

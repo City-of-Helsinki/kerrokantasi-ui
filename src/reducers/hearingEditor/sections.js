@@ -4,6 +4,7 @@ import updeep from 'updeep';
 import keys from 'lodash/keys';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
+
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
@@ -113,20 +114,16 @@ const byId = handleActions(
       delete newState[sectionID];
       return newState;
     },
-    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      return updeep({
+    [EditorActions.INIT_SINGLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => updeep({
         [sectionId]: {
           questions: [...state[sectionId].questions, initSingleChoiceQuestion()]
         }
-      }, state);
-    },
-    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => {
-      return updeep({
+      }, state),
+    [EditorActions.INIT_MULTIPLECHOICE_QUESTION]: (state, {payload: {sectionId}}) => updeep({
         [sectionId]: {
           questions: [...state[sectionId].questions, initMultipleChoiceQuestion()]
         }
-      }, state);
-    },
+      }, state),
     [EditorActions.CLEAR_QUESTIONS]: (state, {payload: {sectionId}}) => {
       const section = {...state[sectionId], questions: []};
       return {

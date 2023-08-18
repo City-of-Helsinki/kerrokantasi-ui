@@ -47,7 +47,6 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-
 import {getUser} from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiURL } from '../../../api';
@@ -74,10 +73,10 @@ export class SectionContainerComponent extends React.Component {
       ? filteredSections.findIndex(section => section.id === match.params.sectionId)
       : 0;
     const prevPath = currentSectionIndex - 1 >= 0
-      ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex - 1].id
+      ? `/${match.params.hearingSlug}/${  filteredSections[currentSectionIndex - 1].id}`
       : undefined;
     const nextPath = currentSectionIndex + 1 < filteredSections.length
-      ? `/${match.params.hearingSlug}/` + filteredSections[currentSectionIndex + 1].id
+      ? `/${match.params.hearingSlug}/${  filteredSections[currentSectionIndex + 1].id}`
       : undefined;
 
     return {
@@ -95,13 +94,13 @@ export class SectionContainerComponent extends React.Component {
   // downloads report excel with user's credentials
   handleReportDownload = (hearing, apiToken, language) => {
     const accessToken = apiToken.apiToken;
-    const reportUrl = getApiURL('/v1/hearing/' + hearing.slug + '/report');
+    const reportUrl = getApiURL(`/v1/hearing/${  hearing.slug  }/report`);
 
     fetch(reportUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        Authorization: "Bearer " + accessToken
+        Authorization: `Bearer ${  accessToken}`
       },
     })
       .then((response) => response.blob())
@@ -131,6 +130,7 @@ export class SectionContainerComponent extends React.Component {
   handleSetMapContainer = (mapContainer) => {
     this.setState({ mapContainer });
   }
+
   handleSetMapContainerMobile = (mapContainerMobile) => {
     this.setState({ mapContainerMobile });
   }
@@ -145,36 +145,36 @@ export class SectionContainerComponent extends React.Component {
 
   onPostComment = (sectionId, sectionCommentData) => { // Done
     const {match, location} = this.props;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     const {authCode} = parseQuery(location.search);
-    const commentData = Object.assign({authCode}, sectionCommentData);
+    const commentData = {authCode, ...sectionCommentData};
     return this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
   onVoteComment = (commentId, sectionId, isReply, parentId) => {
     const {match} = this.props;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onFlagComment = (commentId, sectionId, isReply, parentId) => {
     const {match} = this.props;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     this.props.postFlag(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
     const {match, location} = this.props;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     const {authCode} = parseQuery(location.search);
-    Object.assign({authCode}, commentData);
+    ({authCode, ...commentData});
     this.props.editComment(hearingSlug, sectionId, commentId, commentData);
   }
 
   onDeleteComment = () => {
     const {match} = this.props;
     const {sectionId, commentId, refreshUser} = this.state.commentToDelete;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     this.props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
     this.forceUpdate();
   }
@@ -183,15 +183,15 @@ export class SectionContainerComponent extends React.Component {
     const sectionCommentData = {text, authorName, pluginData, geojson, label, images};
     const {match, location, sections} = this.props;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     const {authCode} = parseQuery(location.search);
-    const commentData = Object.assign({authCode}, sectionCommentData);
+    const commentData = {authCode, ...sectionCommentData};
     this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   }
 
   onVotePluginComment = (commentId) => {
     const {match, sections} = this.props;
-    const hearingSlug = match.params.hearingSlug;
+    const {hearingSlug} = match.params;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const sectionId = mainSection.id;
     this.props.postVote(commentId, hearingSlug, sectionId);
@@ -415,7 +415,7 @@ export class SectionContainerComponent extends React.Component {
     } = this.props;
 
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
-    const reportUrl = getApiURL('/v1/hearing/' + hearing.slug + '/report');
+    const reportUrl = getApiURL(`/v1/hearing/${  hearing.slug  }/report`);
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
@@ -574,7 +574,7 @@ export class SectionContainerComponent extends React.Component {
     const published = "published" in hearing ? hearing.published : true;
 
     return (
-      <React.Fragment>
+      <>
         {hearing.geojson && (
           <Col xs={12} className="hidden-md hidden-lg">
             <div className="hearing-map-container" ref={this.handleSetMapContainerMobile}>
@@ -625,7 +625,7 @@ export class SectionContainerComponent extends React.Component {
             </div>
           </Col>
         )}
-      </React.Fragment>
+      </>
     );
   }
 
@@ -660,8 +660,7 @@ export class SectionContainerComponent extends React.Component {
     const published = "published" in hearing ? hearing.published : true;
 
     return (
-      <React.Fragment>
-        <Col md={8} mdPush={2}>
+      <Col md={8} mdPush={2}>
           <h2 className="hearing-subsection-title">
             <span className="hearing-subsection-title-counter">
               <FormattedMessage id="subsectionTitle" />
@@ -698,7 +697,6 @@ export class SectionContainerComponent extends React.Component {
 
           {this.renderCommentsSection()}
         </Col>
-      </React.Fragment>
     );
   }
 
@@ -708,7 +706,7 @@ export class SectionContainerComponent extends React.Component {
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
     return (
-      <React.Fragment>
+      <>
         {isEmpty(section) ?
           <div>Loading</div>
         :
@@ -729,7 +727,7 @@ export class SectionContainerComponent extends React.Component {
             />
           </Grid>
         }
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, ControlLabel, Form, FormControl, FormGroup } from "react-bootstrap";
 import { FormattedMessage } from "react-intl";
+import { connect } from "react-redux";
+
 import getAttr from '../../utils/getAttr';
 import Icon from "../../utils/Icon";
-import { connect } from "react-redux";
 import { FILE_FORMATS } from "./constants";
 import { getApiURL } from "../../api";
 
@@ -39,7 +40,7 @@ class CommentReportForm extends React.Component {
       method: 'GET',
       headers: {
         'Content-Type': targetFileFormat.contentType,
-        Authorization: "Bearer " + accessToken
+        Authorization: `Bearer ${  accessToken}`
       },
     })
       .then((response) => response.blob())

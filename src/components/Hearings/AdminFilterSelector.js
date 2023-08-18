@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../utils/Icon';
 import {Nav, NavItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import Icon from '../../utils/Icon';
 
 /**
  * [AdminFilterSelector description]
@@ -15,8 +16,7 @@ const AdminFilterSelector = ({
   active,
   onSelect,
   options,
-}) => {
-  return (
+}) => (
     <Nav activeKey={active} bsStyle="pills" className="admin-filter-selector">
       {options.map((filter) => {
         const {list, iconName, formattedMessage, role} = filter;
@@ -30,7 +30,6 @@ const AdminFilterSelector = ({
       })}
     </Nav>
   );
-};
 
 AdminFilterSelector.propTypes = {
   active: PropTypes.string,

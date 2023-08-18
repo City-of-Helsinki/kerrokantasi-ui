@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Label from 'react-bootstrap/lib/Label';
+import { injectIntl, intlShape } from 'react-intl';
+
 import getAttr from '../utils/getAttr';
 import Link from './LinkWithLang';
-import { injectIntl, intlShape } from 'react-intl';
 
 export class Labels extends React.Component {
   render() {

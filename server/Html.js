@@ -14,6 +14,7 @@ export default class Html extends React.Component {
       kerätään mielipiteitä valmistelussa olevista asioista.`
     };
   }
+
   render() {
     const {
       apiBaseUrl,

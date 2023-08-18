@@ -2,23 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import Leaflet from 'leaflet';
-import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import {isEmpty, includes, keys, isMatch} from 'lodash';
 import {ZoomControl} from 'react-leaflet';
+import { connect } from 'react-redux';
+import localization from '@city-i18n/localization.json';
+import urls from '@city-assets/urls.json';
+
 import {localizedNotifyError} from '../../utils/notify';
 import Icon from '../../utils/Icon';
-import { connect } from 'react-redux';
-
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
+
 /* eslint-disable import/no-unresolved */
-import localization from '@city-i18n/localization.json';
-import urls from '@city-assets/urls.json';
+
+import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 /* eslint-enable import/no-unresolved */
 
 import {hearingShape} from '../../types';
@@ -61,9 +63,7 @@ function getHearingArea(hearing) {
       return <Polygon key={Math.random()} positions={latLngs}/>;
     }
     case "MultiPolygon": {
-      const latLngs = geojson.coordinates.map((arr) => {
-        return arr[0].map(([lng, lat]) => new LatLng(lat, lng));
-      });
+      const latLngs = geojson.coordinates.map((arr) => arr[0].map(([lng, lat]) => new LatLng(lat, lng)));
       return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem}/>);
     }
     case "Point": {
@@ -87,7 +87,7 @@ function getHearingArea(hearing) {
       return (<Polyline positions={latLngs}/>);
     }
     case "FeatureCollection": {
-      const features = geojson.features;
+      const {features} = geojson;
       const elementCollection = features.reduce((accumulator, currentValue) => {
         accumulator.push(getMapElement(currentValue));
         return accumulator;
@@ -362,7 +362,7 @@ class HearingFormStep3 extends React.Component {
   invalidateMap() {
     // Map size needs to be invalidated after dynamically resizing
     // the map container.
-    const map = this.map;
+    const {map} = this;
     if (map && this.props.visible) {
       mapInvalidator = setTimeout(() => {
         map.leafletElement.invalidateSize();
@@ -391,6 +391,7 @@ class HearingFormStep3 extends React.Component {
   refCallBack = (el) => {
     this.map = el;
   }
+
   render() {
     if (typeof window === "undefined") return null;  // Skip rendering outside of browser context
     const {FeatureGroup, Map, TileLayer} = require("react-leaflet");  // Late import to be isomorphic compatible

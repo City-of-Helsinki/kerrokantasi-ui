@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
+
 import {EditorActions} from '../../actions/hearingEditor';
 import hearing from './hearing';
 import labels from './labels';

@@ -3,6 +3,7 @@ import React from 'react';
 import {Modal, Button, ModalTitle} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
+
 import RichTextModalTextField from '../RichTextModalTextField';
 import getMessage from '../../../utils/getMessage';
 import {isFormValid} from './SkipLinkUtils';
@@ -32,9 +33,9 @@ class SkipLinkModal extends React.Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
+    const {target} = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const {name} = target;
 
     this.setState((state) => {
       const inputErrors = {...state.inputErrors, ...{[name]: ''}};
@@ -47,7 +48,7 @@ class SkipLinkModal extends React.Component {
   }
 
   handleInputBlur(event) {
-    const target = event.target;
+    const {target} = event;
     if (target.required && !target.value) {
       this.setState((state) => {
         const inputErrors = {...state.inputErrors, ...{[target.name]: getMessage('validationCantBeEmpty')}};

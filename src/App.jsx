@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,11 +16,19 @@ import { ToastContainer } from 'react-toastify';
 import { checkHeadlessParam } from './utils/urlQuery';
 import classNames from 'classnames';
 import { HashLink } from 'react-router-hash-link';
-import cookieUtil from './utils/cookieUtils';
-import cookiebotUtils from './utils/cookiebotUtils';
-import CookieBar from "./components/CookieBar/CookieBar";
+import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 
+import messages from './i18n';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { fetchApiToken } from './actions';
+import config from './config';
+import Routes from './routes';
+import { checkHeadlessParam } from './utils/urlQuery';
+import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
+import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
+import CookieBar from './components/CookieBar/CookieBar';
 
 class App extends React.Component {
   getChildContext() {
@@ -27,22 +37,24 @@ class App extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.oidc.user && (nextProps.oidc.user !== this.props.oidc.user) && !nextProps.apitoken.isFetching) {
+  componentDidMount() {
+    config.activeLanguage = this.props.language; // for non react-intl localizations
+
+    getCookieScripts();
+
+    if (config.enableCookies) {
+      checkCookieConsent();
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.oidc.user && nextProps.oidc.user !== this.props.oidc.user && !nextProps.apitoken.isFetching) {
       nextProps.fetchApiToken();
     }
   }
 
-  componentDidMount() {
-    config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookieUtil.getCookieScripts();
-    if (config.enableCookies) {
-      cookieUtil.checkCookieConsent();
-    }
-  }
-
   componentWillUnmount() {
-    cookieUtil.cookieOnComponentWillUnmount();
+    cookieOnComponentWillUnmount();
   }
 
   render() {
@@ -71,41 +83,35 @@ class App extends React.Component {
     if (!fullscreen && !headless) {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
-    const mainContainerId = "main-container";
+    const mainContainerId = 'main-container';
     const skipTo = `${this.props.location.pathname}${this.props.location.search}#${mainContainerId}`;
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar language={locale} />}
-          <HashLink className="skip-to-main-content" to={skipTo}>
-            <FormattedMessage id="skipToMainContent" />
+          {config.enableCookies && !isCookiebotEnabled() && <CookieBar language={locale} />}
+          <HashLink className='skip-to-main-content' to={skipTo}>
+            <FormattedMessage id='skipToMainContent' />
           </HashLink>
-          <Helmet
-            titleTemplate="%s - Kerrokantasi"
-            link={favlinks}
-            meta={favmeta}
-          >
+          <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
             <html lang={locale} />
-            {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getCookieBotConsentScripts()}
+            {isCookiebotEnabled() && getCookieBotConsentScripts()}
           </Helmet>
           {header}
           {config.maintenanceShowNotification && <MaintenanceNotification />}
           <main
             className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
             id={mainContainerId}
-            role="main"
-            tabIndex="-1"
+            role='main'
+            tabIndex='-1'
           >
             <Routes />
           </main>
           <Footer language={locale} />
           <ToastContainer
-            bodyClassName={
-              {
-                padding: '7px 7px 7px 12px',
-                fontFamily: fonts,
-              }
-            }
+            bodyClassName={{
+              padding: '7px 7px 7px 12px',
+              fontFamily: fonts,
+            }}
           />
         </div>
       </IntlProvider>

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import updeep from 'updeep';
 import { combineActions, handleActions } from 'redux-actions';
 import { head, findIndex } from 'lodash';
+
 import { moveSubsectionInArray, initNewPhase, initNewProject } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -12,14 +13,12 @@ import { EditorActions } from '../../actions/hearingEditor';
 
 const sectionMoveUp = (sections, sectionId) => {
   const sectionIndex = findIndex(sections, (el) => el === sectionId);
-  const sortedSubsections = moveSubsectionInArray(sections, sectionIndex, -1);
-  return sortedSubsections;
+  return moveSubsectionInArray(sections, sectionIndex, -1);
 };
 
 const sectionMoveDown = (sections, sectionId) => {
   const sectionIndex = findIndex(sections, (el) => el === sectionId);
-  const sortedSubsections = moveSubsectionInArray(sections, sectionIndex, 1);
-  return sortedSubsections;
+  return moveSubsectionInArray(sections, sectionIndex, 1);
 };
 
 const data = handleActions(
@@ -29,9 +28,7 @@ const data = handleActions(
     // Weird way of getting the normalized hearing when the hearing actually was normalized without any identifier
     [EditorActions.INIT_NEW_HEARING]: (state, { payload: { entities } }) =>
       entities.hearing[head(Object.keys(entities.hearing))],
-    [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => {
-      return Object.assign({}, state, { [field]: value });
-    },
+    [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => ({ ...state, [field]: value}),
     [EditorActions.CREATE_MAP_MARKER]: (state, { payload: {value}}) => ({
       ...state,
       geojson: value,
@@ -39,13 +36,10 @@ const data = handleActions(
     [EditorActions.ADD_MAP_MARKER]: (state, {payload: {value}}) => {
       const foo = state.geojson;
 
-      return Object.assign({}, state, {
-        geojson: {
+      return { ...state, geojson: {
           type: 'FeatureCollection',
           features: [{type: 'Feature', geometry: foo}, { ...value}]
-        }
-
-      });
+        }};
     },
     [EditorActions.ADD_MAP_MARKER_TO_COLLECTION]: (state, {payload: {value}}) =>
       updeep({
@@ -114,9 +108,7 @@ const data = handleActions(
       let updatedProject;
       if (projectId === '') updatedProject = initNewProject();
       else updatedProject = projectLists.find(project => project.id === projectId) || null;
-      return Object.assign({}, state, {
-        project: updatedProject
-      });
+      return { ...state, project: updatedProject};
     },
     [EditorActions.CHANGE_PROJECT_NAME]: (state, {payload: {fieldname, value}}) =>
       updeep({

@@ -1,6 +1,7 @@
+import { createStore } from 'redux';
+
 import sections from '../../src/reducers/hearingEditor/sections';
 import { EditorActions } from '../../src/actions/hearingEditor';
-import { createStore } from 'redux';
 
 const INITIAL_STATE = {
   all: ['abc'],

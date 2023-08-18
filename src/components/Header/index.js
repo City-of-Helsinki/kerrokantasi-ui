@@ -3,26 +3,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar } from 'react-bootstrap';
 import { Button, IconUser, IconSignin, Select } from 'hds-react';
-import Icon from '../../utils/Icon';
 import classNames from 'classnames';
-
-import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { withRouter } from 'react-router-dom';
-import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
+import logoBlack from '@city-images/logo-fi-black.svg';
+import logoSwedishBlack from '@city-images/logo-sv-black.svg';
+
+import Link from "../LinkWithLang";
 import { getUser } from '../../selectors/user';
 import userManager from "../../utils/userManager";
 import { toggleContrast } from "../../actions";
 
 // eslint-disable-next-line import/no-unresolved
-import logoBlack from '@city-images/logo-fi-black.svg';
 
 // eslint-disable-next-line import/no-unresolved
-import logoSwedishBlack from '@city-images/logo-sv-black.svg';
+
+import LanguageSwitcher from './LanguageSwitcher';
+import Icon from '../../utils/Icon';
 import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
 
@@ -33,6 +34,7 @@ class Header extends React.Component {
       navbarExpanded: false,
     };
   }
+
   toggleNavbar() {
     this.setState({ navbarExpanded: !this.state.navbarExpanded });
   }
@@ -130,7 +132,7 @@ class Header extends React.Component {
       // so LinkContainer must contain same logic
       return (
         <li className={`nav-item ${active ? 'active' : ''}`}>
-          <LinkContainer to={url + '?lang=' + language} className="nav-link">
+          <LinkContainer to={`${url}?lang=${language}`} className="nav-link">
             {navLink}
           </LinkContainer>
         </li>

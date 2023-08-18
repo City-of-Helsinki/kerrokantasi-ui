@@ -1,6 +1,7 @@
 import cookieUtils from '../../src/utils/cookieUtils';
 // eslint-disable-next-line import/no-unresolved
 import cookiebotUtils from '../../src/utils/cookiebotUtils';
+import config from '../../src/config';
 
 const mockIsCookiebotEnabled = jest.fn();
 jest.mock('../../src/utils/cookiebotUtils', () => {
@@ -16,13 +17,9 @@ jest.mock('../../src/utils/cookiebotUtils', () => {
   };
 });
 
-import config from '../../src/config';
-
-jest.mock('../../src/config', () => {
-  return {
+jest.mock('../../src/config', () => ({
     enableCookies: true
-  };
-});
+  }));
 
 describe('cookieUtils', () => {
   describe('getCookieScripts', () => {

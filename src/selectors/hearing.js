@@ -1,4 +1,5 @@
 import {head, isEmpty} from 'lodash';
+
 import {SectionTypes} from '../utils/section';
 
 export const getTopHearing = (state) =>
@@ -83,11 +84,9 @@ export const getHearingValue = (state, type, key) =>
  * @returns {returnObject}
  * @see getHearingValue
  */
-export const getUserHearingList = (state, key) => {
-  return {
+export const getUserHearingList = (state, key) => ({
     open: getHearingValue(state, 'userHearingsOpen', key),
     queue: getHearingValue(state, 'userHearingsQueue', key),
     closed: getHearingValue(state, 'userHearingsClosed', key),
     draft: getHearingValue(state, 'userHearingsDrafts', key),
-  };
-};
+  });

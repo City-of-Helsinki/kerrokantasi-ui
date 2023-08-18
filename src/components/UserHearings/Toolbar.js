@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from "react-bootstrap";
+import classNames from "classnames";
+
 import Icon from "../../utils/Icon";
 import Link from "../LinkWithLang";
-import classNames from "classnames";
 import HearingFormControl from "./HearingFormControl";
 
-const Toolbar = ({loadOwn, openTools, formatMessage, toggleDropdown, toggleHearingCreator, changeSort}) => {
-  return (
-    <React.Fragment>
+const Toolbar = ({loadOwn, openTools, formatMessage, toggleDropdown, toggleHearingCreator, changeSort}) => (
+    <>
       <div className="col-md-12 tool-buttons">
         <div>
           <Link to={{path: '/hearing/new'}} className="btn btn-success">
@@ -64,9 +64,8 @@ const Toolbar = ({loadOwn, openTools, formatMessage, toggleDropdown, toggleHeari
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
-};
 
 Toolbar.propTypes = {
   loadOwn: PropTypes.bool,

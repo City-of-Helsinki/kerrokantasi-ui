@@ -1,9 +1,10 @@
 import {createAction} from 'redux-actions';
-import api from '../api';
-import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
 import moment from 'moment';
 import {omit} from 'lodash';
 import { push } from 'react-router-redux';
+
+import {notifySuccess, notifyError, localizedNotifyError} from '../utils/notify';
+import api from '../api';
 import {requestErrorHandler} from './index';
 import {getHearingURL, initNewHearing as getHearingSkeleton} from '../utils/hearing';
 import {
@@ -74,24 +75,19 @@ export const EditorActions = {
 /**
  * When editing a sections attachment.
  */
-export const editSectionAttachment = (sectionId, attachment) => {
-  return (dispatch, getState) => {
+export const editSectionAttachment = (sectionId, attachment) => (dispatch, getState) => {
     const url = `/v1/file/${attachment.id}`;
     return api
       .put(getState(), url, attachment)
       .then(checkResponseStatus)
-      .then(() => {
-        return dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachment}));
-      });
+      .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({sectionId, attachment})));
   };
-};
 
 /**
  * For changing order, two requests have to be made.
  * One file is incremented whilst the other decrementd.
  */
-export const editSectionAttachmentOrder = (sectionId, attachments) => {
-  return (dispatch, getState) => {
+export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch, getState) => {
     const promises = attachments.map((attachment) => {
       const url = `/v1/file/${attachment.id}`;
       return api
@@ -99,11 +95,8 @@ export const editSectionAttachmentOrder = (sectionId, attachments) => {
     });
 
     return Promise.all(promises)
-      .then(() => {
-        return dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachments}));
-      });
+      .then(() => dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({sectionId, attachments})));
   };
-};
 
 /**
  * Delete an attached item.
@@ -111,17 +104,13 @@ export const editSectionAttachmentOrder = (sectionId, attachments) => {
  * @param {Object} attachment - attachment in a section or independant of.
  * @reuturns Promise.
  */
-export const deleteSectionAttachment = (sectionId, attachment) => {
-  return (dispatch, getState) => {
+export const deleteSectionAttachment = (sectionId, attachment) => (dispatch, getState) => {
     const url = `/v1/file/${attachment.id}`;
     return api
       .apiDelete(getState(), url, attachment)
       .then(checkResponseStatus)
-      .then(() => {
-        return dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({sectionId, attachment}));
-      });
+      .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({sectionId, attachment})));
   };
-};
 
 export function changeProject(projectId, projectLists) {
   return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
@@ -174,15 +163,11 @@ function checkResponseStatus(response) {
 }
 
 export function startHearingEdit() {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.SHOW_FORM)());
-  };
+  return dispatch => dispatch(createAction(EditorActions.SHOW_FORM)());
 }
 
 export function closeHearingForm() {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.CLOSE_FORM)());
-  };
+  return dispatch => dispatch(createAction(EditorActions.CLOSE_FORM)());
 }
 
 export function sectionMoveUp(sectionId) {
@@ -351,101 +336,61 @@ export function addLabel(label, selectedLabels) {
 }
 
 export function changeHearing(field, value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.EDIT_HEARING)({field, value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({field, value}));
 }
 
 export function changeSection(sectionID, field, value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.EDIT_SECTION)({sectionID, field, value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.EDIT_SECTION)({sectionID, field, value}));
 }
 
 export function changeSectionMainImage(sectionID, field, value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({sectionID, field, value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({sectionID, field, value}));
 }
 
 export function addSection(section) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.ADD_SECTION)({section}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.ADD_SECTION)({section}));
 }
 
 export function createMapMarker(value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({value}));
 }
 
 export function addMapMarker(value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.ADD_MAP_MARKER)({value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER)({value}));
 }
 
 export function addMapMarkerToCollection(value) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({value}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({value}));
 }
 
 export function initSingleChoiceQuestion(sectionId) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({sectionId}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({sectionId}));
 }
 
 export function initMultipleChoiceQuestion(sectionId) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({sectionId}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({sectionId}));
 }
 
 export function clearQuestions(sectionId) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({sectionId}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({sectionId}));
 }
 
-export const addOption = (sectionId, questionId) => {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
-  };
-};
+export const addOption = (sectionId, questionId) => dispatch => dispatch(createAction(EditorActions.ADD_OPTION)({sectionId, questionId}));
 
-export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
-  };
-};
+export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => dispatch => dispatch(createAction(EditorActions.EDIT_QUESTION)({fieldType, sectionId, questionId, value, optionKey}));
 
-export const deleteTemporaryQuestion = (sectionId, questionFrontId) => {
-  return createAction(EditorActions.DELETE_TEMP_QUESTION)({sectionId, questionFrontId});
-};
+export const deleteTemporaryQuestion = (sectionId, questionFrontId) => createAction(EditorActions.DELETE_TEMP_QUESTION)({sectionId, questionFrontId});
 
-export const deleteLastOption = (sectionId, questionId, optionKey) => {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
-  };
-};
+export const deleteLastOption = (sectionId, questionId, optionKey) => dispatch => dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({sectionId, questionId, optionKey}));
 
-export const deleteExistingQuestion = (sectionId, questionId) => {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.DELETE_EXISTING_QUESTION)({sectionId, questionId}));
-  };
-};
+export const deleteExistingQuestion = (sectionId, questionId) => dispatch => dispatch(createAction(EditorActions.DELETE_EXISTING_QUESTION)({sectionId, questionId}));
 
 /*
 * Removes section from hearing
 * @param {str} sectionID - Is compared to section.id and section.frontId in that order
  */
 export function removeSection(sectionID) {
-  return dispatch => {
-    return dispatch(createAction(EditorActions.REMOVE_SECTION)({sectionID}));
-  };
+  return dispatch => dispatch(createAction(EditorActions.REMOVE_SECTION)({sectionID}));
 }
 
 export function changeHearingEditorLanguages(languages) {
@@ -465,7 +410,7 @@ export function saveHearingChanges(hearing) {
 
     const preSaveAction = createAction(EditorActions.SAVE_HEARING)({cleanedHearing});
     dispatch(preSaveAction);
-    const url = '/v1/hearing/' + cleanedHearing.id;
+    const url = `/v1/hearing/${  cleanedHearing.id}`;
     return api
       .put(getState(), url, cleanedHearing)
       .then(checkResponseStatus)
@@ -483,7 +428,7 @@ export function saveHearingChanges(hearing) {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({hearing: hearingJSON}));
             dispatch(closeHearingForm());
-            dispatch(push('/' + hearingJSON.slug + '?lang=' + getState().language));
+            dispatch(push(`/${  hearingJSON.slug  }?lang=${  getState().language}`));
             if (hearing.slug !== hearingJSON.slug) {
               localizedNotifyError("slugInUse");
             }
@@ -515,9 +460,7 @@ export function addSectionAttachment(section, file, title, isNew) {
         if (response.status === 400 && !isNew) {
           localizedNotifyError('errorSaveBeforeAttachment');
         } else {
-          response.json().then((attachment) => {
-            return dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment}));
-          });
+          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({sectionId: section, attachment})));
         }
       });
   };
@@ -532,7 +475,7 @@ export function saveAndPreviewHearingChanges(hearing) {
       cleanedHearing,
     });
     dispatch(preSaveAction);
-    const url = '/v1/hearing/' + cleanedHearing.id;
+    const url = `/v1/hearing/${  cleanedHearing.id}`;
     return api
       .put(getState(), url, cleanedHearing)
       .then(checkResponseStatus)
@@ -632,7 +575,7 @@ export function closeHearing(hearing) {
   return (dispatch, getState) => {
     const preCloseAction = createAction(EditorActions.CLOSE_HEARING)({hearing});
     dispatch(preCloseAction);
-    const url = '/v1/hearing/' + hearing.id;
+    const url = `/v1/hearing/${  hearing.id}`;
     const now = moment().toISOString();
     const changes = {close_at: now};
     return api
@@ -656,7 +599,7 @@ export function publishHearing(hearing) {
   return (dispatch, getState) => {
     const prePublishAction = createAction(EditorActions.PUBLISH_HEARING)({hearing});
     dispatch(prePublishAction);
-    const url = '/v1/hearing/' + hearing.id;
+    const url = `/v1/hearing/${  hearing.id}`;
     const changes = {published: true};
     return api
       .patch(getState(), url, changes)
@@ -679,7 +622,7 @@ export function unPublishHearing(hearing) {
   return (dispatch, getState) => {
     const preUnPublishAction = createAction(EditorActions.UNPUBLISH_HEARING)({hearing});
     dispatch(preUnPublishAction);
-    const url = '/v1/hearing/' + hearing.id;
+    const url = `/v1/hearing/${  hearing.id}`;
     return api
       .patch(getState(), url, {published: false})
       .then(checkResponseStatus)

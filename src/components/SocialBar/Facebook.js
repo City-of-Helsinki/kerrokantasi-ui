@@ -1,4 +1,5 @@
 import React from "react";
+
 import {loadScriptThenCall} from "./utils";
 
 export default class Facebook extends React.Component {
@@ -27,7 +28,7 @@ export default class Facebook extends React.Component {
       return null;
     }
     return (
-      <span ref="container" id={"facebook-" + this.state.id}>
+      <span ref="container" id={`facebook-${  this.state.id}`}>
         <div
           className="fb-share-button"
           data-href={window.location.href}

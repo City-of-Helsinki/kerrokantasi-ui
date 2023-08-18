@@ -11,7 +11,7 @@ import {
 } from "../../src/utils/section";
 
 function createAnswers() {
-  const answers = [
+  return [
     {
       answers: [],
       question: 1,
@@ -23,7 +23,6 @@ function createAnswers() {
       type: "multiple-choice"
     },
   ];
-  return answers;
 }
 
 const sectionEmpty = initNewSection();

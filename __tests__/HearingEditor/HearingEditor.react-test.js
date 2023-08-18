@@ -1,7 +1,8 @@
 import React from 'react';
+import {shallow} from 'enzyme';
+
 import {UnconnectedHearingEditor} from '../../src/components/admin/HearingEditor';
 import {getIntlAsProp, mockStore, mockUser} from '../../test-utils';
-import {shallow} from 'enzyme';
 import {notifyError} from '../../src/utils/notify';
 
 jest.mock('../../src/utils/notify');

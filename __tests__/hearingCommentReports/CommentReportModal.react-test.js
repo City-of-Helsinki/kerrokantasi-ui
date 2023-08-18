@@ -1,10 +1,11 @@
 import React from 'react';
 import {shallow} from "enzyme";
+import { Button, Modal } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+
 import CommentReportModal from '../../src/components/CommentReportModal/CommentReportModal';
 import { mockStore } from '../../test-utils';
-import { Button, Modal } from 'react-bootstrap';
 import getMessage from '../../src/utils/getMessage';
-import { FormattedMessage } from 'react-intl';
 import CommentReportForm from '../../src/components/CommentReportModal/CommentReportForm';
 
 describe('CommentReportModal', () => {

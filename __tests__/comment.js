@@ -1,10 +1,11 @@
 /* eslint-disable react/no-find-dom-node */
 import {renderIntoDocument} from 'react-dom/test-utils';
-import Comment, {UnconnectedComment} from '../src/components/Hearing/Comment';
 import {findDOMNode} from 'react-dom';
-import {wireComponent} from '../test-utils';
 import React from 'react';
 import {shallow} from 'enzyme';
+
+import {wireComponent} from '../test-utils';
+import Comment, {UnconnectedComment} from '../src/components/Hearing/Comment';
 
 const createCommentData = (props) => ({
   data: {

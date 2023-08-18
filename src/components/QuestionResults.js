@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import getAttr from '../utils/getAttr';
-import { v1 as uuid } from 'uuid';
-import {ProgressBar} from 'react-bootstrap';
+import uuid from 'uuid/v1';
+import { ProgressBar } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 
-export const QuestionResultsComponent = ({question, lang}) => {
+import getAttr from '../utils/getAttr';
+
+export const QuestionResultsComponent = ({ question, lang }) => {
   const totalAnswers = question.options.map(option => option.n_answers).reduce((total, answers) => total + answers);
 
   return (
@@ -16,8 +17,8 @@ export const QuestionResultsComponent = ({question, lang}) => {
           const answerPercentage = Math.round((option.n_answers / totalAnswers) * 100) || 0;
           return (
             <div key={uuid()}>
-              <div style={{display: 'flex', alignItems: 'center'}}>
-                <div style={{color: 'blue', margin: '10px'}}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ color: 'blue', margin: '10px' }}>
                   {answerPercentage}%
                 </div>
                 <div>

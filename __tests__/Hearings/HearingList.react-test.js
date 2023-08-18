@@ -1,18 +1,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
-import {HearingList, HearingListItem} from '../../src/components/HearingList';
 import {MemoryRouter} from 'react-router-dom';
+
+import {HearingList, HearingListItem} from '../../src/components/HearingList';
 import {mockStore, getIntlAsProp} from '../../test-utils';
 
 // Renders the HearingList component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const {labels, hearingLists} = mockStore;
-  const props = Object.assign({
-    labels: labels.data,
-    hearings: hearingLists.allHearings.data
-  }, propOverrides);
+  const props = {labels: labels.data,
+    hearings: hearingLists.allHearings.data, ...propOverrides};
 
   const wrapper = shallow(<MemoryRouter><HearingList intl={getIntlAsProp()} {...props} /></MemoryRouter>);
 

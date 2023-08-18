@@ -36,9 +36,9 @@ export const getPopulatedHearing = (state) => {
   if (!hearing) {
     return hearing;
   }
-  const contactPersons = editor.contactPersons;
-  const labels = editor.labels;
-  const sections = editor.sections;
+  const { contactPersons } = editor;
+  const { labels } = editor;
+  const { sections } = editor;
 
   return ({
     ...hearing,

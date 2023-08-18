@@ -1,6 +1,7 @@
 import fs from 'fs';
-import paths from '../conf/paths';
 import path from "path";
+
+import paths from '../conf/paths';
 
 const webpack = require('webpack');
 const ProgressBar = require('progress');

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
@@ -31,7 +30,7 @@ class InputBase extends React.Component {
   }
 
   render() {
-    const error = this.props.error;
+    const {error} = this.props;
 
     return (
       <FormGroup controlId={this.props.name} validationState={error ? "error" : null}>

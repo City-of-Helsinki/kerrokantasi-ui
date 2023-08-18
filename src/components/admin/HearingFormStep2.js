@@ -8,8 +8,8 @@ import Accordion from 'react-bootstrap/lib/Accordion';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
-import Icon from '../../utils/Icon';
 
+import Icon from '../../utils/Icon';
 import SectionForm from './SectionForm';
 import {addSection, removeSection} from '../../actions/hearingEditor';
 import {getMainSection, isPublic} from '../../utils/hearing';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+import defaultImage from '@city-images/default-image.svg';
 
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
@@ -15,7 +16,6 @@ import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
 import getMessage from '../utils/getMessage';
 
 // eslint-disable-next-line import/no-unresolved
-import defaultImage from '@city-images/default-image.svg';
 
 /**
  * Returns a HearingCard with data from the hearing prop.
@@ -62,9 +62,7 @@ const HearingCard = ({
   ) : null;
 
   // For some reason image proportions don't look right on the profile page without a div wrapper.
-  const conditionalWrapper = (children) => {
-    return userProfile ? <div>{children}</div> : children;
-  };
+  const conditionalWrapper = (children) => userProfile ? <div>{children}</div> : children;
   const mainImgCaption = (hearing.main_image && hearing.main_image.caption) ?
     getAttr(hearing.main_image.caption, language) : '';
 

@@ -11,11 +11,16 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
+import uuid from 'uuid/v1';
+import { get, includes } from 'lodash';
+import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
+import urls from '@city-assets/urls.json';
+import localization from '@city-i18n/localization.json';
+import Leaflet, { LatLng } from 'leaflet';
+
 import Icon from '../utils/Icon';
 import { getImageAsBase64Promise } from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
-import { get, includes } from 'lodash';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
 import { localizedNotifyError } from '../utils/notify';
@@ -30,14 +35,12 @@ import {
   isEmptyCommentAllowed,
   isSectionCommentingMapEnabled,
 } from '../utils/section';
-import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
+
 // eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
 // eslint-disable-next-line import/no-unresolved
-import localization from '@city-i18n/localization.json';
+
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
-import Leaflet, { LatLng } from 'leaflet';
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
 import CommentFormMap from './CommentFormMap/CommentFormMap';

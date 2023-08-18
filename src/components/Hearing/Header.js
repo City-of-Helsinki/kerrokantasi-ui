@@ -8,12 +8,14 @@ import { Col, Grid, OverlayTrigger, Row, Tooltip, Button } from 'react-bootstrap
 import { connect } from 'react-redux';
 import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
 import { withRouter } from 'react-router-dom';
+import { stringify } from 'qs';
+
 import {notifyError, notifySuccess} from "../../utils/notify";
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
-import LabelList from '../../components/LabelList';
-import SectionClosureInfo from '../../components/Hearing/Section/SectionClosureInfo';
-import SocialBar from '../../components/SocialBar';
+import LabelList from "../LabelList";
+import SectionClosureInfo from "./Section/SectionClosureInfo";
+import SocialBar from "../SocialBar";
 import getAttr from '../../utils/getAttr';
 import Link from '../LinkWithLang';
 import config from '../../config';
@@ -22,7 +24,6 @@ import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/s
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
 import { getUser} from "../../selectors/user";
-import { stringify } from 'qs';
 import { addHearingToFavorites, removeHearingFromFavorites} from '../../actions';
 import InternalLink from '../InternalLink';
 
@@ -42,18 +43,18 @@ export class HeaderComponent extends React.Component {
         <Icon name="clock-o" />
         <span className="timetable-texts">
           {!hearing.published ? (
-            <React.Fragment>
+            <>
               <del>{openMessage}</del>
               (<FormattedMessage id="draftNotPublished"/>)
               <br />
               <del>{closeMessage}</del>
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               {openMessage}
               <br />
               {closeMessage}
-            </React.Fragment>
+            </>
           )}
         </span>
       </div>
@@ -196,6 +197,7 @@ export class HeaderComponent extends React.Component {
     }
     return <Tooltip id="eye-tooltip">{text}</Tooltip>;
   }
+
   getPreviewLinkButton() {
     const {hearing} = this.props;
 
@@ -263,7 +265,7 @@ export class HeaderComponent extends React.Component {
       : intl.formatMessage({ id: 'defaultClosureInfo' });
 
     return (
-      <React.Fragment>
+      <>
         <div className="header-section">
           <Grid>
             <div className="hearing-header">
@@ -287,7 +289,7 @@ export class HeaderComponent extends React.Component {
                 )}
               </Row>
               {isMainSection(section) ? (
-                <React.Fragment>
+                <>
                   {!isEmpty(section.abstract) &&
                     <Row>
                       <Col md={9}>
@@ -310,19 +312,17 @@ export class HeaderComponent extends React.Component {
                   {!isEmpty(hearing.labels) && (
                     <LabelList className="main-labels" labels={hearing.labels} language={language} />
                   )}
-                </React.Fragment>
+                </>
               ) : (
-                <React.Fragment>
-                  <Link to={{path: getHearingURL({slug: match.params.hearingSlug})}}>
+                <Link to={{path: getHearingURL({slug: match.params.hearingSlug})}}>
                     <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
                   </Link>
-                </React.Fragment>
               )}
             </div>
           </Grid>
         </div>
         {showClosureInfo && <SectionClosureInfo content={closureInfoContent} />}
-      </React.Fragment>
+      </>
     );
   }
 }

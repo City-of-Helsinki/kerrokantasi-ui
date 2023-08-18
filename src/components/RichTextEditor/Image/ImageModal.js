@@ -2,8 +2,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
-import getMessage from '../../../utils/getMessage';
-import {isFormValid} from '../Iframe/IframeUtils';
 import {
   ControlLabel,
   HelpBlock,
@@ -13,9 +11,13 @@ import {
   ModalTitle
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import FormControl from 'react-bootstrap/lib/FormControl';
+
+import getMessage from '../../../utils/getMessage';
+import {isFormValid} from '../Iframe/IframeUtils';
 import Icon from '../../../utils/Icon';
 import {localizedNotifyError} from '../../../utils/notify';
-import FormControl from 'react-bootstrap/lib/FormControl';
+
 
 const initialState = {
   showFormErrorMsg: false,

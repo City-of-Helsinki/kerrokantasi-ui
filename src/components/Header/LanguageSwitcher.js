@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'hds-react';
 import { connect } from 'react-redux';
-import config from '../../config';
 import { withRouter } from "react-router-dom";
 import { stringify } from 'qs';
-
+import classNames from 'classnames';
 
 import getMessage from "../../utils/getMessage";
-import classNames from 'classnames';
+import config from '../../config';
 
 class LanguageSwitcher extends React.Component {
   changeLanguage = (history, location, nextLang) => {
@@ -17,7 +16,7 @@ class LanguageSwitcher extends React.Component {
     if (location.search.includes('lang=')) {
       searchParams = location.search.replace(/lang=\w{2}/, languageParam);
     } else if (location.search) {
-      searchParams = location.search + `&${languageParam}`;
+      searchParams = `${location.search  }&${languageParam}`;
     }
     history.push({
       pathname: location.pathname,

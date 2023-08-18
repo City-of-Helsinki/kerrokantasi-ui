@@ -2,7 +2,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Row, Col} from 'react-bootstrap';
-import Link from './LinkWithLang';
+
 // eslint-disable-next-line import/no-unresolved
 import logoWhite from '@city-images/logo-fi-white.svg';
 // eslint-disable-next-line import/no-unresolved
@@ -10,6 +10,8 @@ import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+
+import Link from './LinkWithLang';
 import config from '../config';
 import {getFeedbackUrl} from '../utils/languageUtils';
 

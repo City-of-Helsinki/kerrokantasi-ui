@@ -1,7 +1,8 @@
 import React from "react";
 import {shallow} from "enzyme";
-import InternalLink from "../src/components/InternalLink";
 import { HashLink } from "react-router-hash-link";
+
+import InternalLink from "../src/components/InternalLink";
 
 describe('InternalLink', () => {
   const defaultProps = {

@@ -1,4 +1,7 @@
 import {combineReducers} from 'redux';
+import {routerReducer} from 'react-router-redux';
+import { reducer as oidc } from "redux-oidc";
+
 import language from './language';
 import user from './user';
 import hearingLists from './hearingLists';
@@ -7,9 +10,7 @@ import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
 import headless from './headless';
-import {routerReducer} from 'react-router-redux';
 import projectLists from './projectLists';
-import { reducer as oidc } from "redux-oidc";
 import apitoken from "./api";
 import accessibility from "./accessibility";
 

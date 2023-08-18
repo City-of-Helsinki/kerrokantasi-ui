@@ -29,16 +29,16 @@ const receiveSectionComments = (state, {payload: {sectionId, data}}) => {
   }, state);
 };
 
-const postedComment = (state, {payload: {sectionId, jumpTo}}) => {
+const postedComment = (state, {payload: {sectionId, jumpTo}}) => 
   // whenever we post, we want the newly posted comment displayed first and results reloaded
-  return updeep({
+   updeep({
     [sectionId]: {
       jumpTo,
       results: [],
       ordering: '-created_at'
     }
-  }, state);
-};
+  }, state)
+;
 
 /**
  * When comment is edited, no need to fetch the entire list again.
@@ -66,7 +66,7 @@ const editedComment = (state, {payload: {sectionId, comment}}) => {
   }
 
   const commentIndex = state[sectionId].results.findIndex(
-    (sectionComment) => { return sectionComment.id === comment.id; });
+    (sectionComment) => sectionComment.id === comment.id);
   return updeep({
     [sectionId]: {
       results: {
@@ -84,7 +84,7 @@ const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, pare
   localStorage.setItem("votedComments", JSON.stringify([commentId, ...votedComments]));
 
   // the vote went through
-  const increment = (votes) => { return votes + 1; };
+  const increment = (votes) => votes + 1;
   if (isReply) {
     const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
     const subComponentIndex = state[sectionId].results[commentIndex].subComments
@@ -104,7 +104,7 @@ const postedCommentVote = (state, {payload: {commentId, sectionId, isReply, pare
     }, state);
   }
   const commentIndex = state[sectionId].results.findIndex(
-    (comment) => { return comment.id === commentId; });
+    (comment) => comment.id === commentId);
   return updeep({
     [sectionId]: {
       results: {
@@ -136,7 +136,7 @@ const postedCommentFlag = (state, {payload: {commentId, sectionId, isReply, pare
       }
     }, state);
   }
-  const commentIndex = state[sectionId].results.findIndex((comment) => { return comment.id === commentId; });
+  const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === commentId);
   return updeep({
     [sectionId]: {
       results: {
@@ -183,7 +183,7 @@ const recursiveSearch = (root, current, targetId, initialPath = []) => {
     // pushes index of the target, if -1 is pushed that means that the target comment is a reply of a reply.
     finalPath.push(current.results.findIndex(element => element.id === targetId));
     return finalPath;
-  } else if (current.comments.includes(targetId)) {
+  } if (current.comments.includes(targetId)) {
     // This part is used to figure out the path to a comment that is a reply to a reply.
     finalPath.push(root.results.indexOf(current));
     // loop through subComments and push the final parts of the path once we find the comment.

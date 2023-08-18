@@ -1,13 +1,15 @@
 import React from 'react';
-import {getIntlAsProp} from '../../test-utils';
 import {shallow} from "enzyme";
-import UserComment from '../../src/components/UserProfile/UserComment';
-import Icon from '../../src/utils/Icon';
 import {Button, Label, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, FormattedRelative} from 'react-intl';
+import moment from 'moment';
+
+import {getIntlAsProp} from '../../test-utils';
+import UserComment from '../../src/components/UserProfile/UserComment';
+import Icon from '../../src/utils/Icon';
 import Link from '../../src/components/LinkWithLang';
 import HearingMap from '../../src/components/Hearing/HearingMap';
-import moment from 'moment';
+
 
 const defaultCommentData = {
   author: 'DefaultUser',
@@ -23,8 +25,7 @@ const defaultCommentData = {
 
 const mockComment = (
   props = {}
-) => {
-  return {
+) => ({
     author_name: props.author || defaultCommentData.author,
     created_at: defaultCommentData.created_at,
     deleted: props.deleted || defaultCommentData.deleted,
@@ -36,8 +37,7 @@ const mockComment = (
     },
     content: props.content || defaultCommentData.content,
     geojson: props.geojson || defaultCommentData.geojson
-  };
-};
+  });
 const defaultProps = {
   comment: mockComment(),
 };

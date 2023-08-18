@@ -2,10 +2,9 @@ import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
-
 import {Row, Col, Button, ButtonToolbar, Alert} from 'react-bootstrap';
-import Icon from '../../utils/Icon';
 
+import Icon from '../../utils/Icon';
 import {hearingShape} from '../../types';
 
 
@@ -19,7 +18,7 @@ class HearingToolbar extends React.Component {
   }
 
   render() {
-    const hearing = this.props.hearing;
+    const {hearing} = this.props;
 
     let statusLabel = "";
     const openingTime = moment(hearing.open_at);

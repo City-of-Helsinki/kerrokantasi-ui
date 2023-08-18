@@ -19,7 +19,7 @@ function cookieOnComponentDidMount() {
   }
 }
 
-function cookieOnComponentWillUnmount() {
+export function cookieOnComponentWillUnmount() {
   if (cookiebotUtils.isCookiebotEnabled()) {
     cookiebotUtils.cookieBotRemoveListener();
   }
@@ -61,15 +61,15 @@ function addCookieScripts() {
 export function getCookieScripts() {
   if (cookiebotUtils.isCookiebotEnabled()) {
     return cookiebotUtils.getCookieBotScripts();
-  } else if (config.enableCookies) {
+  } if (config.enableCookies) {
     return addCookieScripts();
   }
   return null;
 }
 
 export function getHDSCookieConfig(siteName, language, setLanguage, modal = true) {
-  let config = {
-    siteName: siteName,
+  const config = {
+    siteName,
     currentLanguage: language,
     optionalCookies: {
       groups: [

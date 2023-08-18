@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
 import LoadSpinner from './components/LoadSpinner';
-import config from '../src/config';
+import config from "./config";
 
 const HomeContainer = lazy(() => import(
   /* webpackChunkName: "home" */ './views/Home'));
@@ -35,13 +36,11 @@ const UserProfile = lazy(() => import(
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
  */
-const Redirector = ({match}) => {
-  return (
+const Redirector = ({match}) => (
     <div>
-      <Redirect to={{path: '/' + match.params.hearingSlug}} />
+      <Redirect to={{path: `/${  match.params.hearingSlug}`}} />
     </div>
   );
-};
 
 Redirector.propTypes = {
   match: PropTypes.object

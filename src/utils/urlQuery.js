@@ -1,16 +1,12 @@
 import { parse, stringify } from 'qs';
 import {isArray} from 'lodash';
 
-export const parseQuery = searchString => {
-  return parse(searchString, { ignoreQueryPrefix: true });
-};
+export const parseQuery = searchString => parse(searchString, { ignoreQueryPrefix: true });
 
-export const stringifyQuery = searchObject => {
-  return stringify(searchObject, { addQueryPrefix: true, indices: false });
-};
+export const stringifyQuery = searchObject => stringify(searchObject, { addQueryPrefix: true, indices: false });
 
 export const checkHeadlessParam = (searchString) => {
-  const headless = parseQuery(searchString).headless;
+  const {headless} = parseQuery(searchString);
   if (isArray(headless)) {
     return headless.indexOf('true') > -1;
   }

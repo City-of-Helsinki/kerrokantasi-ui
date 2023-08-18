@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import defaultImage from '@city-images/default-image.svg';
 
 import FormatRelativeTime from '../utils/FormatRelativeTime';
 import Icon from '../utils/Icon';
@@ -9,11 +11,9 @@ import Link from './LinkWithLang';
 import MouseOnlyLink from './MouseOnlyLink';
 import config from '../config';
 import getAttr from '../utils/getAttr';
-import { FormattedMessage } from 'react-intl';
 import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
-import defaultImage from '@city-images/default-image.svg';
 
 const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
   const {formatTime, formatDate} = intl;

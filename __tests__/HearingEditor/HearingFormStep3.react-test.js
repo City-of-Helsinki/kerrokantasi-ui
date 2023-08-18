@@ -4,13 +4,10 @@ import { shallow } from 'enzyme';
 import { UnconnectedHearingFormStep3 } from "../../src/components/admin/HearingFormStep3";
 
 
-const generateCoordinates = () => {
-  return [(Math.random() * (21 - 20)) + 20, (Math.random() * (62 - 60)) + 60];
-};
-const mockPoint = () => { return { type: 'Point', coordinates: generateCoordinates() }; };
+const generateCoordinates = () => [(Math.random() * (21 - 20)) + 20, (Math.random() * (62 - 60)) + 60];
+const mockPoint = () => ({ type: 'Point', coordinates: generateCoordinates() });
 
-const mockFeatureCollection = () => {
-  return {
+const mockFeatureCollection = () => ({
     type: 'FeatureCollection',
     features: [
       { type: 'Feature', geometry: mockPoint() },
@@ -18,8 +15,7 @@ const mockFeatureCollection = () => {
       { type: 'Feature', geometry: mockPoint() },
       { type: 'Feature', geometry: mockPoint() }
     ]
-  };
-};
+  });
 const defaultProps = {
   hearing: {},
   onHearingChange: () => { },
@@ -37,9 +33,7 @@ describe('HearingFormStep3', () => {
       function getEvent(props) {
         return {
           layer: {
-            toGeoJSON: () => {
-              return props;
-            }
+            toGeoJSON: () => props
           }
         };
       }

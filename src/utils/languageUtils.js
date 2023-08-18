@@ -4,7 +4,7 @@ import urls from '@city-assets/urls.json';
 export function getFeedbackUrl(language) {
   if (language === 'en') {
     return urls.feedbackEN;
-  } else if (language === 'sv') {
+  } if (language === 'sv') {
     return urls.feedbackSV;
   }
 

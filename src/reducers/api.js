@@ -1,4 +1,5 @@
 import {handleActions} from 'redux-actions';
+
 import config from "../config";
 
 const INITIAL_STATE = {
@@ -20,8 +21,6 @@ const receiveApiToken = (state, {payload}) => {
   return INITIAL_STATE;
 };
 
-const clearApiToken = () => {
-  return INITIAL_STATE;
-};
+const clearApiToken = () => INITIAL_STATE;
 
 export default handleActions({fetchApiToken, receiveApiToken, clearApiToken}, INITIAL_STATE);

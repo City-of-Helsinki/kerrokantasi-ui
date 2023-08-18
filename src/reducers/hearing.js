@@ -17,36 +17,26 @@ const beginFetchHearing = (state, {payload}) => {
 };
 
 
-const receiveHearing = (state, {payload}) => {
-  return updeep({
+const receiveHearing = (state, {payload}) => updeep({
     [payload.hearingSlug]: {state: "done", data: payload.data}
   }, state);
-};
 
-const deletingHearingDraft = (state, {payload}) => {
-  return updeep({
+const deletingHearingDraft = (state, {payload}) => updeep({
     [payload.hearingSlug]: {state: "pending"}
   }, state);
-};
 
-const deletedHearingDraft = (state, {payload}) => {
-  return omit(state, [payload.hearingSlug]);
-};
+const deletedHearingDraft = (state, {payload}) => omit(state, [payload.hearingSlug]);
 
-const receiveHearingError = (state, {payload}) => {
-  return updeep({
+const receiveHearingError = (state, {payload}) => updeep({
     [payload.hearingSlug]: {state: "error"}
   }, state);
-};
 
-const savedHearing = (state, {payload: {hearing}}) => {
-  return updeep({
+const savedHearing = (state, {payload: {hearing}}) => updeep({
     [hearing.slug]: {state: 'done', data: hearing}
   }, state);
-};
 
 const savedHearingChange = (state, {payload}) => {
-  const hearing = payload.hearing;
+  const {hearing} = payload;
   if (has(state, hearing.slug) || isEmpty(state)) {
     // We have just saved hearing with the same slug as we have in
     // state. In order to keep the hearing up to date, let's update it

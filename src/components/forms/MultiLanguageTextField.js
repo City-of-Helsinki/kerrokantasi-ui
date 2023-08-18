@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
+
 import TextInput from './TextInput';
 import TextArea from './TextArea';
 import RichTextEditor from '../RichTextEditor';
@@ -25,7 +26,7 @@ class MultiLanguageTextField extends React.Component {
     const {value} = this.props;
 
     if (typeof handler === 'function') {
-      handler(Object.assign({}, value, {[lang]: event.target.value}));
+      handler({ ...value, [lang]: event.target.value});
     }
   }
 
@@ -33,7 +34,7 @@ class MultiLanguageTextField extends React.Component {
     const {value} = this.props;
 
     if (typeof handler === 'function') {
-      handler(Object.assign({}, value, {[lang]: newValue}));
+      handler({ ...value, [lang]: newValue});
     }
   }
 

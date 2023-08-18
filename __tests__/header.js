@@ -1,10 +1,12 @@
 /* eslint-disable react/no-find-dom-node */
 import React from 'react';
 import { renderIntoDocument } from 'react-dom/test-utils';
-import Header from '../src/components/Header';
 import { findDOMNode } from 'react-dom';
-import { wireComponent } from '../test-utils';
 import { MemoryRouter } from 'react-router-dom';
+
+import Header from '../src/components/Header';
+import { wireComponent } from '../test-utils';
+
 
 const MemoryRouterHeader = () => <MemoryRouter><Header /></MemoryRouter>;
 

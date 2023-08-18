@@ -7,6 +7,7 @@ import { Waypoint } from 'react-waypoint';
 import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
 import { keys, capitalize } from 'lodash';
+import defaultImage from '@city-images/default-image.svg';
 
 import HearingsSearch from './HearingsSearch';
 import Icon from '../utils/Icon';
@@ -14,14 +15,13 @@ import LabelList from './LabelList';
 import Link from './LinkWithLang';
 import LoadSpinner from './LoadSpinner';
 import MouseOnlyLink from './MouseOnlyLink';
-import OverviewMap from '../components/OverviewMap';
+import OverviewMap from "./OverviewMap";
 import config from '../config';
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
 import { getHearingURL, isPublic } from '../utils/hearing';
 
 // eslint-disable-next-line import/no-unresolved
-import defaultImage from '@city-images/default-image.svg';
 import InternalLink from './InternalLink';
 
 const HEARING_LIST_TABS = {
@@ -58,7 +58,7 @@ class HearingListFilters extends React.Component {
 
   sortList = (event) => {
     const { handleSort } = this.props;
-    const value = event.target.value;
+    const {value} = event.target;
     const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
     const showOnlyOpen = value.indexOf('_from_open') !== -1;
     const showOnlyClosed = value.indexOf('_from_closed') !== -1;
@@ -127,7 +127,7 @@ export class HearingListItem extends React.Component {
     };
     if (hearing.main_image) {
       mainImageStyle = {
-        backgroundImage: 'url("' + mainImage.url + '")',
+        backgroundImage: `url("${  mainImage.url  }")`,
       };
     }
 
@@ -139,15 +139,15 @@ export class HearingListItem extends React.Component {
     };
 
     // Preparing the dates for translation.
-    const isPast = (time) => { return new Date(time).getTime() < new Date().getTime(); };
+    const isPast = (time) => new Date(time).getTime() < new Date().getTime();
     const openTime = formatTime(hearing.open_at, {hour: '2-digit', minute: '2-digit'});
     const openDate = formatDate(hearing.open_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
     const closeTime = formatTime(hearing.close_at, {hour: '2-digit', minute: '2-digit'});
     const closeDate = formatDate(hearing.close_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
 
     // Translation ID's for ITIL translation values
-    const openMessageId = 'timeOpen' + (isPast(hearing.open_at) ? 'Past' : 'Future') + 'WithValues';
-    const closeMessageId = 'timeClose' + (isPast(hearing.close_at) ? 'Past' : 'Future') + 'WithValues';
+    const openMessageId = `timeOpen${  isPast(hearing.open_at) ? 'Past' : 'Future'  }WithValues`;
+    const closeMessageId = `timeClose${  isPast(hearing.close_at) ? 'Past' : 'Future'  }WithValues`;
 
     return (
       <div className="hearing-list-item" role="listitem">

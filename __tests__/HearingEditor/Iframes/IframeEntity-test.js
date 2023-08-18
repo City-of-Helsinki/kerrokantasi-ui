@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import IframeEntity from '../../../src/components/RichTextEditor/Iframe/IframeEntity';
 
 describe('IframeEntity', () => {
@@ -12,7 +13,7 @@ describe('IframeEntity', () => {
     getData() { return this.data; },
   };
 
-  const contentState = {getEntity: () => { return entity; }};
+  const contentState = {getEntity: () => entity};
 
   const defaultProps = {
     contentState,

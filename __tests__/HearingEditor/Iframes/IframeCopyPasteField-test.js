@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import IframeCopyPasteField from '../../../src/components/RichTextEditor/Iframe/IframeCopyPasteField';
 import getMessage from '../../../src/utils/getMessage';
 import {
   parseIframeHtml,
   convertStyleDimensionSettings
-} from '../../../src/components/RichTextEditor/Iframe//IframeUtils';
+} from "../../../src/components/RichTextEditor/Iframe/IframeUtils";
 
 
 describe('IframeSelectField', () => {

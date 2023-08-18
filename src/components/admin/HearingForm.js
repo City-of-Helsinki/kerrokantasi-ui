@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
-
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
+
 import Icon from '../../utils/Icon';
-
 import config from '../../config';
-
 import Step1 from './HearingFormStep1';
 import Step2 from './HearingFormStep2';
 import Step3 from './HearingFormStep3';
@@ -64,7 +62,7 @@ class HearingForm extends React.Component {
     } = this.props;
 
     const step = stepNumber.toString();
-    let title = formatMessage({id: 'hearingFormHeaderStep' + step});
+    let title = formatMessage({id: `hearingFormHeaderStep${  step}`});
     const stepErrors = errors[stepNumber] || {};
     if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
       title += formatMessage({id: 'hearingFormHeaderContainsErrors'});
@@ -179,7 +177,7 @@ class HearingForm extends React.Component {
         }, []);
         rootAccumulator.push(
           <li key={currentRootValue}>
-            {formatMessage({id: 'hearingFormHeaderStep' + currentRootValue})}
+            {formatMessage({id: `hearingFormHeaderStep${  currentRootValue}`})}
             <ul>{subErrors}</ul>
           </li>
         );

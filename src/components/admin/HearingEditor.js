@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {injectIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
+
 import {notifyError} from '../../utils/notify';
 import {
   addOption,
@@ -79,12 +80,15 @@ class HearingEditor extends React.Component {
   onSectionChange = (sectionID, field, value) => {
     this.props.dispatch(changeSection(sectionID, field, value));
   }
+
   onCreateMapMarker = (value) => {
     this.props.dispatch(createMapMarker(value));
   }
+
   onAddMapMarker = (value) => {
     this.props.dispatch(addMapMarker(value));
   }
+
   onAddMapMarkersToCollection = (value) => {
     this.props.dispatch(addMapMarkerToCollection(value));
   }
@@ -318,7 +322,7 @@ class HearingEditor extends React.Component {
         {this.getHearingForm()}
 
         {!isNewHearing &&
-        <React.Fragment>
+        <>
           <HearingToolbar
             hearing={hearing}
             onCloseHearing={this.onCloseHearing}
@@ -334,7 +338,7 @@ class HearingEditor extends React.Component {
             isOpen={this.state.commentReportsOpen}
             onClose={this.toggleCommentReports}
           />
-        </React.Fragment>
+        </>
 
         }
       </div>

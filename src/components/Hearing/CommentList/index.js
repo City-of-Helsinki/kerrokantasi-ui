@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
+
 import Comment from '../Comment';
 
 export class CommentList extends React.Component {

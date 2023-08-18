@@ -1,7 +1,8 @@
-import {setLanguage} from '../actions';
-import {parseQuery} from '../utils/urlQuery';
 import isEmpty from 'lodash/isEmpty';
 import find from 'lodash/find';
+
+import {setLanguage} from '../actions';
+import {parseQuery} from '../utils/urlQuery';
 import config from '../config';
 
 export const languageFromUrlMiddleware = store => next => action => {

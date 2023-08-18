@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
-
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -22,7 +21,7 @@ class TextArea extends React.Component {
   }
 
   onChange(event) {
-    const value = event.target.value;
+    const {value} = event.target;
     this.setState({value});
   }
 

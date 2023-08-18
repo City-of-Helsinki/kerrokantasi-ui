@@ -4,6 +4,7 @@ import {FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import Select from 'react-select';
 import {isEmpty} from 'lodash';
+
 import getAttr from '../utils/getAttr';
 import {labelShape} from '../types';
 import InternalLink from './InternalLink';

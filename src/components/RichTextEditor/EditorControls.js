@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import getMessage from '../../utils/getMessage';
 
 const BLOCK_TYPES = [
@@ -92,37 +93,31 @@ InlineStyleControls.propTypes = {
   onToggle: PropTypes.func
 };
 
-export const IframeControls = (props) => {
-  return (
+export const IframeControls = (props) => (
     <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
       <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('iframeAddButton')}</button>
     </div>
   );
-};
 
 IframeControls.propTypes = {
   onClick: PropTypes.func,
 };
 
-export const SkipLinkControls = (props) => {
-  return (
+export const SkipLinkControls = (props) => (
     <button className="RichEditor-styleButton" onClick={props.onClick}>
       {getMessage('skipLinkAddButton')}
     </button>
   );
-};
 
 SkipLinkControls.propTypes = {
   onClick: PropTypes.func,
 };
 
-export const ImageControls = (props) => {
-  return (
+export const ImageControls = (props) => (
     <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
       <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('imageAddButton')}</button>
     </div>
   );
-};
 
 ImageControls.propTypes = {
   onClick: PropTypes.func,

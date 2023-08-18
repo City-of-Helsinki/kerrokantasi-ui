@@ -1,17 +1,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import toJson from 'enzyme-to-json';
+import {Button} from 'react-bootstrap';
+
 import {HeaderComponent} from '../../src/components/Hearing/Header';
 import {mockStore, getIntlAsProp} from '../../test-utils';
 import Icon from '../../src/utils/Icon';
-import {Button} from 'react-bootstrap';
 
 // Renders the Hearings component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const {mockHearingWithSections} = mockStore;
-  const props = Object.assign({
-    hearing: mockHearingWithSections.data,
+  const props = {hearing: mockHearingWithSections.data,
     sections: mockHearingWithSections.data.sections,
     activeLanguage: 'fi',
     dispatch: () => {},
@@ -22,8 +22,7 @@ const setup = propOverrides => {
       params: {
         sectionId: mockHearingWithSections.data.sections[0].id
       }
-    },
-  }, propOverrides);
+    }, ...propOverrides};
 
   const wrapper = shallow(<HeaderComponent intl={getIntlAsProp()} {...props} />);
 

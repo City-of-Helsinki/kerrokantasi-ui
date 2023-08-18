@@ -1,6 +1,6 @@
 /**
- * 
- * @param {AppState} state 
+ *
+ * @param {AppState} state
  * @returns Array<Object>
  */
 export const getProjects = (state) => {

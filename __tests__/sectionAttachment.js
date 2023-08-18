@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, } from 'enzyme';
+
 import SectionAttachment, { getFileTitle } from '../src/components/Hearing/Section/SectionAttachment';
 
 const props = {

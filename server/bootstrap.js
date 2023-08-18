@@ -1,17 +1,20 @@
 /* eslint-disable no-console */
+import {inspect} from 'util';
+import path from 'path';
+import fs from 'fs';
+
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
+import morgan from 'morgan';
+
 import getSettings from './getSettings';
 import {getCompiler, applyCompilerMiddleware} from './bundler';
-import {inspect} from 'util';
-import morgan from 'morgan';
 import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 import assetPaths from '../conf/assetPaths';
-import path from 'path';
-import fs from 'fs';
+
 
 function ignition() {
   const settings = getSettings();

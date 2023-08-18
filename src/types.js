@@ -1,9 +1,10 @@
 // @flow
 import PropTypes from 'prop-types';
 import {schema} from 'normalizr';
+
 import config from './config';
 
-const languages = config.languages;
+const {languages} = config;
 
 export const geoJSONshape = PropTypes.shape({
   type: PropTypes.string,
@@ -28,7 +29,7 @@ export const geoJSONshape = PropTypes.shape({
 export const translatedShape = PropTypes.oneOfType([
   PropTypes.shape(
     languages.reduce((shape, lang) =>
-      Object.assign({}, shape, {[lang]: PropTypes.string}), {})
+      ({ ...shape, [lang]: PropTypes.string}), {})
   ),
   PropTypes.string
 ]);

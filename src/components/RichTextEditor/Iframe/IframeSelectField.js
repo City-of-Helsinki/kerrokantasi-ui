@@ -6,11 +6,9 @@ function IframeSelectField(props) {
   const errorId = `iframe-input-error-${name}`;
 
   // options = [{value: "value", text: "text"}]
-  const optionElements = options.map(option => {
-    return (
+  const optionElements = options.map(option => (
       <option value={option.value} key={option.value}>{option.text}</option>
-    );
-  });
+    ));
 
   return (
     <div className="input-container">

@@ -6,19 +6,17 @@ import { Button, FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
+import forEach from 'lodash/forEach';
+import find from 'lodash/find';
+import moment from 'moment';
 
 import CommentForm from '../../BaseCommentForm';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
-
 import Icon from '../../../utils/Icon';
 import {localizedNotifyError, notifyError, notifyInfo} from '../../../utils/notify';
-import forEach from 'lodash/forEach';
-import find from 'lodash/find';
 import getAttr from '../../../utils/getAttr';
-import moment from 'moment';
-
 import HearingMap from "../HearingMap";
 import getMessage from '../../../utils/getMessage';
 
@@ -41,7 +39,7 @@ class Comment extends React.Component {
     showReplies: this.props.showReplies,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
       // Jump to this comment
       this.commentRef.current.scrollIntoView({
@@ -254,17 +252,13 @@ class Comment extends React.Component {
     this.setState({ answers: updatedAnswer });
   }
 
-  dateTooltip = data => {
-    return (
+  dateTooltip = data => (
       <Tooltip id="comment-date-tooltip">
         {this.parseTimestamp(data.created_at)}
       </Tooltip>
     );
-  };
 
-  canFlagComments = () => {
-    return this.props.user && this.props.canFlag;
-  }
+  canFlagComments = () => this.props.user && this.props.canFlag
 
   /**
    * Renders the header area for the comment
@@ -328,8 +322,7 @@ class Comment extends React.Component {
    * When an admin user is logged in and editing their comment.
    * Allow the user to pin and unpin a comment.
    */
-  renderPinUnpinButton = () => {
-    return (
+  renderPinUnpinButton = () => (
       <div className="hearing-comment__pin">
         <Button
           className={classnames([
@@ -342,8 +335,7 @@ class Comment extends React.Component {
           onClick={this.handleTogglePin}
         />
       </div>
-    );
-  }
+    )
 
   /**
    * For each answer answered, a user may edit the answer.
@@ -369,7 +361,7 @@ class Comment extends React.Component {
    * @returns {Component}
    */
   renderEditorForm = () => (
-    <React.Fragment>
+    <>
       { this.isAdminUser()
         && this.props.data.can_edit
         && !this.props.isReply
@@ -394,7 +386,7 @@ class Comment extends React.Component {
         </FormGroup>
         <Button type="submit"><FormattedMessage id="save"/></Button>
       </form>
-    </React.Fragment>
+    </>
   );
 
   /**
@@ -425,7 +417,7 @@ class Comment extends React.Component {
    * If a thread can be replied to, render reply links
    */
   renderReplyLinks = () => (
-    <React.Fragment>
+    <>
       <Icon name="reply"/>
       <a
         href=""
@@ -434,7 +426,7 @@ class Comment extends React.Component {
       >
         <FormattedMessage id="reply"/>
       </a>
-    </React.Fragment>
+    </>
   );
 
   /**
@@ -534,7 +526,7 @@ class Comment extends React.Component {
     }
     if (data.deleted_by_type === "self") {
       return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
-    } else if (data.deleted_by_type === "moderator") {
+    } if (data.deleted_by_type === "moderator") {
       return (
         <p>
           <FormattedMessage
@@ -611,15 +603,13 @@ class Comment extends React.Component {
           </div>
           {data.geojson && (
             <div className="hearing-comment__map">
-              <React.Fragment>
-                <Button
+              <Button
                   onClick={this.toggleMap}
                   className="hearing-comment__map-toggle"
                   aria-expanded={this.state.displayMap}
                 >
                   <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
                 </Button>
-              </React.Fragment>
               {(this.state.displayMap && data.geojson) && (
                 <div
                 className="hearing-comment__map-container"

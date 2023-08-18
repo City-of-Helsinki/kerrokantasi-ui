@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage} from 'react-intl';
+
 import LoadSpinner from '../../LoadSpinner';
 import Icon from '../../../utils/Icon';
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import { mount } from 'enzyme';
 
 import { UnconnectedLanguageSwitcher } from "../src/components/Header/LanguageSwitcher";
-import { mount } from 'enzyme';
 import getMessage from "../src/utils/getMessage";
 import config from "../src/config";
 
@@ -67,7 +67,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         getDropdown(element).find('li').at(2).simulate('click', { preventDefault: () => { } });
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithParams.pathname,
-          search: locationWithParams.search + `&lang=${config.languages[2]}`
+          search: `${locationWithParams.search  }&lang=${config.languages[2]}`
         });
       });
 
@@ -137,7 +137,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
     });
 
     describe('dropdown', () => {
-      const languages = config.languages;
+      const {languages} = config;
 
       test('item count according to config.languages', () => {
         const correctAmount = languages.length;

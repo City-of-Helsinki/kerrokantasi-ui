@@ -1,21 +1,22 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
-import {connect} from 'react-redux';
-import {getUser} from '../../selectors/user';
-import {fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites} from '../../actions/index';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
+import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
+
+import { getUser } from '../../selectors/user';
+import { fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites } from '../../actions/index';
 import HearingCardList from '../../components/HearingCardList';
-import Helmet from "react-helmet";
-import {ControlLabel, FormControl, FormGroup} from 'react-bootstrap';
 import UserComment from '../../components/UserProfile/UserComment';
 import getAttr from '../../utils/getAttr';
 import getMessage from '../../utils/getMessage';
 import Icon from '../../utils/Icon';
 import LoadSpinner from '../../components/LoadSpinner';
 
-
 // Default params when fetching favorite/followed hearings.
-const PARAMS = {following: true};
+const PARAMS = { following: true };
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -25,13 +26,18 @@ class UserProfile extends React.Component {
       commentCount: this.props.profile.comments.count || 0,
     };
   }
+
   componentDidMount() {
-    const {userState: {userExists}, user} = this.props;
+    const {
+      userState: { userExists },
+      user,
+    } = this.props;
     if (userExists && user) {
       this.props.fetchComments();
       this.props.fetchFavorites(PARAMS);
     }
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.userState.userLoading && !this.props.userState.userLoading) {
       this.props.fetchComments();
@@ -44,7 +50,7 @@ class UserProfile extends React.Component {
     if (prevProps.profile.comments.count !== this.props.profile.comments.count) {
       this.setCommentCount(this.props.profile.comments.count);
     }
-    if (prevProps.user && (prevProps.user.favorite_hearings !== this.props.user.favorite_hearings)) {
+    if (prevProps.user && prevProps.user.favorite_hearings !== this.props.user.favorite_hearings) {
       this.props.fetchFavorites(PARAMS);
     }
   }
@@ -54,21 +60,23 @@ class UserProfile extends React.Component {
    * @param {string} value - hearing id or empty string when 'all' hearings.
    */
   setSelectedHearing = (value) => {
-    const {profile: { comments }} = this.props;
-    let {count} = comments;
+    const {
+      profile: { comments },
+    } = this.props;
+    let { count } = comments;
     if (value) {
-      count = comments.uniqueHearings.find(hearing => hearing.id === value).commentCount;
+      count = comments.uniqueHearings.find((hearing) => hearing.id === value).commentCount;
     }
-    this.setState({selectedHearing: value, commentCount: count});
-  }
+    this.setState({ selectedHearing: value, commentCount: count });
+  };
 
   /**
    * Updates state.commentCount with value.
    * @param {number} value
    */
   setCommentCount = (value) => {
-    this.setState({commentCount: value});
-  }
+    this.setState({ commentCount: value });
+  };
 
   /**
    * Returns comments according to state.selectedHearing,
@@ -76,20 +84,18 @@ class UserProfile extends React.Component {
    * @returns {JSX.Element|*[]}
    */
   getUserComments() {
-    const {profile: { comments }, intl: {locale}} = this.props;
-    const {selectedHearing} = this.state;
+    const {
+      profile: { comments },
+      intl: { locale },
+    } = this.props;
+    const { selectedHearing } = this.state;
 
     return (
-      <div className="row">
-        <div className="commentlist">
+      <div className='row'>
+        <div className='commentlist'>
           {comments.results.reduce((visibleComments, comment) => {
             if (!selectedHearing || selectedHearing === comment.hearing) {
-              visibleComments.push(
-                <UserComment
-                  comment={comment}
-                  key={comment.id}
-                  locale={locale}
-                />);
+              visibleComments.push(<UserComment comment={comment} key={comment.id} locale={locale} />);
             }
             return visibleComments;
           }, [])}
@@ -103,11 +109,14 @@ class UserProfile extends React.Component {
    * @returns {JSX.Element|*[]}
    */
   getHearingCards() {
-    const {intl, profile: { favoriteHearings}} = this.props;
+    const {
+      intl,
+      profile: { favoriteHearings },
+    } = this.props;
 
     return (
       <HearingCardList
-        className="user-favorite"
+        className='user-favorite'
         hearings={favoriteHearings.results}
         intl={intl}
         language={intl.locale}
@@ -119,27 +128,80 @@ class UserProfile extends React.Component {
   }
 
   /**
+   * Returns comment order selection component.
+   * @returns {JSX.Element}
+   */
+  getCommentOrderSelect() {
+    const ORDERING_CRITERIA = {
+      CREATED_AT_DESC: '-created_at',
+      CREATED_AT_ASC: 'created_at',
+    };
+    return (
+      <div className='col-md-4'>
+        <div className='order-wrapper'>
+          <FormGroup controlId='sort-select'>
+            <ControlLabel>
+              <FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>
+            </ControlLabel>
+            <FormControl
+              componentClass='select'
+              onChange={(event) => this.props.fetchComments({ ordering: event.target.value })}
+            >
+              {Object.keys(ORDERING_CRITERIA).map((key) => (
+                <FormattedMessage id={key} key={key}>
+                  {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
+                </FormattedMessage>
+              ))}
+            </FormControl>
+          </FormGroup>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * Used to display an icon and text informing user that certain content was not found.
+   * @param {string} messageID - passed to FormattedMessage
+   * @returns {JSX.Element}
+   */
+  // eslint-disable-next-line class-methods-use-this
+  getContentNotFound(messageID) {
+    return (
+      <div className='content-not-found'>
+        <Icon name='search' size='2x' aria-hidden />
+        <FormattedMessage id={messageID}>{(txt) => <p>{txt}</p>}</FormattedMessage>
+      </div>
+    );
+  }
+
+  /**
    * Returns the hearing selection component with options based on profile.comments.uniqueHearings array.
    * @returns {JSX.Element}
    */
   hearingCommentSelect() {
-    const {profile: {comments: {uniqueHearings}}, intl: {locale}} = this.props;
+    const {
+      profile: {
+        comments: { uniqueHearings },
+      },
+      intl: { locale },
+    } = this.props;
     const allText = getMessage('all', locale);
 
     return (
-      <div className="col-md-8">
-        <div className="selection-wrappers">
-          <FormGroup controlId="hearing-select">
-
+      <div className='col-md-8'>
+        <div className='selection-wrappers'>
+          <FormGroup controlId='hearing-select'>
             <ControlLabel>
-              <FormattedMessage id="selectHearingComments">{txt => txt}</FormattedMessage>
+              <FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>
             </ControlLabel>
 
             <FormControl
-              componentClass="select"
-              onChange={(event) => { this.setSelectedHearing(event.target.value); }}
+              componentClass='select'
+              onChange={(event) => {
+                this.setSelectedHearing(event.target.value);
+              }}
             >
-              <option value="">{allText}</option>
+              <option value=''>{allText}</option>
               {uniqueHearings.reduce((hearingOptions, hearing) => {
                 let textValue = getAttr(hearing.data.title, locale);
                 // Option text is limited to 100 chars because the width of the dropdown is based on the widest text.
@@ -159,10 +221,14 @@ class UserProfile extends React.Component {
                   }
                   // If text length is still over 100 -> use first 96 characters of text + '...'
                   if (textValue.length > 100) {
-                    textValue = textValue.slice(0, 96) + '...';
+                    textValue = `${textValue.slice(0, 96)}...`;
                   }
                 }
-                hearingOptions.push(<option key={hearing.id} value={hearing.id}>{textValue}</option>);
+                hearingOptions.push(
+                  <option key={hearing.id} value={hearing.id}>
+                    {textValue}
+                  </option>,
+                );
                 return hearingOptions;
               }, [])}
             </FormControl>
@@ -172,102 +238,56 @@ class UserProfile extends React.Component {
     );
   }
 
-  /**
-   * Returns comment order selection component.
-   * @returns {JSX.Element}
-   */
-  getCommentOrderSelect() {
-    const ORDERING_CRITERIA = {
-      CREATED_AT_DESC: '-created_at',
-      CREATED_AT_ASC: 'created_at',
-    };
-    return (
-      <div className="col-md-4">
-        <div className="order-wrapper">
-          <FormGroup controlId="sort-select">
-            <ControlLabel>
-              <FormattedMessage id="sort">{txt => txt}</FormattedMessage>
-            </ControlLabel>
-            <FormControl
-              componentClass="select"
-              onChange={(event) => this.props.fetchComments({ordering: event.target.value})}
-            >
-              {Object.keys(ORDERING_CRITERIA).map(key =>
-                <FormattedMessage id={key} key={key}>
-                  {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option> }
-                </FormattedMessage>
-              )}
-            </FormControl>
-          </FormGroup>
-        </div>
-      </div>
-    );
-  }
-
-  /**
-   * Used to display an icon and text informing user that certain content was not found.
-   * @param {string} messageID - passed to FormattedMessage
-   * @returns {JSX.Element}
-   */
-  getContentNotFound(messageID) { // eslint-disable-line class-methods-use-this
-    return (
-      <div className="content-not-found">
-        <Icon name="search" size="2x" aria-hidden/>
-        <FormattedMessage id={messageID}>{txt => <p>{txt}</p>}</FormattedMessage>
-      </div>
-    );
-  }
-
   render() {
-    const {userState: {userLoading}, user, intl, profile: {favoriteHearings, comments}} = this.props;
+    const {
+      userState: { userLoading },
+      user,
+      intl,
+      profile: { favoriteHearings, comments },
+    } = this.props;
 
     if (userLoading || !user) {
-      return (<LoadSpinner />);
+      return <LoadSpinner />;
     }
-    const {commentCount} = this.state;
+    const { commentCount } = this.state;
     // True when favorites have been fetched and results array has content.
     const hearingsLoaded = Object.keys(favoriteHearings).length > 0 && favoriteHearings.results.length !== 0;
     // True when comments have been fetched and results array has content.
     const commentsLoaded = Object.keys(comments).includes('results') && comments.results.length !== 0;
     return (
-      <div className="container user-profile">
-        <Helmet title={intl.formatMessage({id: 'userInfo'})} />
-        <div className="row">
-          <FormattedMessage id="userInfo">
-            {txt => <h1>{txt}</h1>}
-          </FormattedMessage>
-          <FormattedMessage id="favoriteHearings">
-            {txt => <h2>{txt}</h2>}
-          </FormattedMessage>
+      <div className='container user-profile'>
+        <Helmet title={intl.formatMessage({ id: 'userInfo' })} />
+        <div className='row'>
+          <FormattedMessage id='userInfo'>{(txt) => <h1>{txt}</h1>}</FormattedMessage>
+          <FormattedMessage id='favoriteHearings'>{(txt) => <h2>{txt}</h2>}</FormattedMessage>
         </div>
-        <div className="row">
-          <div className="col-md-12">
-            { hearingsLoaded ? this.getHearingCards() : this.getContentNotFound('noFavoriteHearings')}
+        <div className='row'>
+          <div className='col-md-12'>
+            {hearingsLoaded ? this.getHearingCards() : this.getContentNotFound('noFavoriteHearings')}
           </div>
         </div>
-        <div className="row">
-          <FormattedMessage id="userAddedComments" values={{n: commentCount}}>
-            {txt => <h2>{txt}</h2>}
+        <div className='row'>
+          <FormattedMessage id='userAddedComments' values={{ n: commentCount }}>
+            {(txt) => <h2>{txt}</h2>}
           </FormattedMessage>
-          <div className="col-md-12">
-            {commentsLoaded ?
-              <div className="user-comments-wrapper">
-                <div className="row">
+          <div className='col-md-12'>
+            {commentsLoaded ? (
+              <div className='user-comments-wrapper'>
+                <div className='row'>
                   {this.hearingCommentSelect()}
                   {this.getCommentOrderSelect()}
                 </div>
                 {this.getUserComments()}
               </div>
-              :
+            ) : (
               this.getContentNotFound('noAddedComments')
-            }
+            )}
           </div>
         </div>
       </div>
     );
   }
 }
-
 
 UserProfile.propTypes = {
   fetchComments: PropTypes.func,
@@ -278,16 +298,14 @@ UserProfile.propTypes = {
   user: PropTypes.object,
   userState: PropTypes.shape({
     userExists: PropTypes.bool,
-    userLoading: PropTypes.bool
+    userLoading: PropTypes.bool,
   }),
 };
 
-const existsSelector = state => {
-  return {
-    userExists: !state.oidc.isLoadingUser && state.oidc.user !== null,
-    userLoading: state.oidc.isLoadingUser,
-  };
-};
+const existsSelector = (state) => ({
+  userExists: !state.oidc.isLoadingUser && state.oidc.user !== null,
+  userLoading: state.oidc.isLoadingUser,
+});
 
 /**
  * Returns array with objects for each unique hearing that
@@ -296,7 +314,9 @@ const existsSelector = state => {
  * @returns {*[]|*}
  */
 const uniqueHearingsCommented = (state) => {
-  if (!state.user.profile.comments) { return []; }
+  if (!state.user.profile.comments) {
+    return [];
+  }
   const comments = state.user.profile.comments.results;
   if (comments) {
     // get unique hearing id's
@@ -308,7 +328,7 @@ const uniqueHearingsCommented = (state) => {
     }, []);
     // return array with objects for each unique hearing
     return uniqueIDs.reduce((uniqueHearings, uniqueID) => {
-      const specificHearing = comments.find(element => element.hearing === uniqueID);
+      const specificHearing = comments.find((element) => element.hearing === uniqueID);
       const hearingCommentCount = comments.reduce((totalCount, current) => {
         if (current.hearing === uniqueID) {
           return totalCount + 1;
@@ -332,36 +352,30 @@ const uniqueHearingsCommented = (state) => {
  * @param {string} key
  * @returns {*}
  */
-const profileSelector = (state, key) => {
-  return {
-    ...state.user.profile[key]
-  };
-};
-
-const profileCombiner = (state) => {
-  return {
-    comments: {
-      ...profileSelector(state, 'comments'),
-      uniqueHearings: uniqueHearingsCommented(state)
-    },
-    favoriteHearings: profileSelector(state, 'favoriteHearings'),
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  fetchComments: (params) => dispatch(fetchUserComments(params)),
-  fetchFavorites: (params) => dispatch(fetchFavoriteHearings(params)),
-  removeFromFavorites: (slug, hearingId) => dispatch(removeHearingFromFavorites(slug, hearingId))
+const profileSelector = (state, key) => ({
+  ...state.user.profile[key],
 });
 
-const mapStateToProps = state => ({
+const profileCombiner = (state) => ({
+  comments: {
+    ...profileSelector(state, 'comments'),
+    uniqueHearings: uniqueHearingsCommented(state),
+  },
+  favoriteHearings: profileSelector(state, 'favoriteHearings'),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchComments: (params) => dispatch(fetchUserComments(params)),
+  fetchFavorites: (params) => dispatch(fetchFavoriteHearings(params)),
+  removeFromFavorites: (slug, hearingId) => dispatch(removeHearingFromFavorites(slug, hearingId)),
+});
+
+const mapStateToProps = (state) => ({
   user: getUser(state),
   userState: existsSelector(state),
   profile: profileCombiner(state),
-
 });
 
-export {UserProfile as UnconnectedUserProfile};
+export { UserProfile as UnconnectedUserProfile };
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UserProfile));
-

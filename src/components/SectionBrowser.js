@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from './LinkWithLang';
 import {FormattedMessage} from 'react-intl';
 
-export const SectionBrowserComponent = ({sectionNav}) => {
-  return (
+import Link from './LinkWithLang';
+
+export const SectionBrowserComponent = ({sectionNav}) => (
     <div
       className="section-browser"
       role="navigation"
@@ -29,7 +29,6 @@ export const SectionBrowserComponent = ({sectionNav}) => {
       </ul>
     </div>
   );
-};
 
 export default SectionBrowserComponent;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import IframeSelectField from '../../../src/components/RichTextEditor/Iframe/IframeSelectField';
 
 describe('IframeSelectField', () => {
@@ -26,14 +27,14 @@ describe('IframeSelectField', () => {
         const label = getWrapper({isRequired}).find('label');
         expect(label).toHaveLength(1);
         expect(label.prop('htmlFor')).toBe(`iframe-${defaultProps.name}`);
-        expect(label.text()).toBe(defaultProps.label + " ");
+        expect(label.text()).toBe(`${defaultProps.label  } `);
       });
       test('when field is required', () => {
         const isRequired = true;
         const label = getWrapper({isRequired}).find('label');
         expect(label).toHaveLength(1);
         expect(label.prop('htmlFor')).toBe(`iframe-${defaultProps.name}`);
-        expect(label.text()).toBe(defaultProps.label + " *");
+        expect(label.text()).toBe(`${defaultProps.label  } *`);
       });
     });
 
@@ -63,7 +64,7 @@ describe('IframeSelectField', () => {
       test('when prop errorMsg is not falsy', () => {
         const errorId = `iframe-input-error-${defaultProps.name}`;
         const errorMsg = "error-text";
-        const errorParagraph = getWrapper({errorMsg}).find('#' + errorId);
+        const errorParagraph = getWrapper({errorMsg}).find(`#${  errorId}`);
         expect(errorParagraph).toHaveLength(1);
         expect(errorParagraph.prop('role')).toBe('alert');
         expect(errorParagraph.prop('className')).toBe('iframe-input-error');
@@ -72,7 +73,7 @@ describe('IframeSelectField', () => {
       test('is not rendered if errorMsg is falsy', () => {
         const errorId = `iframe-input-error-${defaultProps.name}`;
         const errorMsg = "";
-        const errorParagraph = getWrapper({errorMsg}).find('#' + errorId);
+        const errorParagraph = getWrapper({errorMsg}).find(`#${  errorId}`);
         expect(errorParagraph).toHaveLength(0);
       });
     });

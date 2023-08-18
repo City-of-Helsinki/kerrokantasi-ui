@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from "enzyme";
+import { Button, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+
 import {
   UnconnectedCommentReportForm as CommentReportForm
 } from '../../src/components/CommentReportModal/CommentReportForm';
 import { mockStore } from '../../test-utils';
-import { Button, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
 import { FILE_FORMATS } from '../../src/components/CommentReportModal/constants';
 import Icon from '../../src/utils/Icon';
 

@@ -1,10 +1,10 @@
 import React from 'react';
-
-import CommentFormMap from "../src/components/CommentFormMap/CommentFormMap";
 import { shallow } from 'enzyme';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import Leaflet from 'leaflet';
+
+import CommentFormMap from "../src/components/CommentFormMap/CommentFormMap";
 import leafletMarkerIconUrl from "../assets/images/leaflet/marker-icon.png";
 import leafletMarkerShadowUrl from "../assets/images/leaflet/marker-shadow.png";
 import leafletMarkerRetinaIconUrl from "../assets/images/leaflet/marker-icon-2x.png";

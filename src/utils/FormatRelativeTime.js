@@ -41,7 +41,7 @@ function FormatRelativeTime({messagePrefix, timeVal, frontpage = false, formatTi
       </FormattedMessage>
     );
   }
-  return (<React.Fragment><FormattedMessage id={messageId}/> <FormattedRelative value={timeVal}/></React.Fragment>);
+  return (<><FormattedMessage id={messageId}/> <FormattedRelative value={timeVal}/></>);
 }
 
 FormatRelativeTime.propTypes = {

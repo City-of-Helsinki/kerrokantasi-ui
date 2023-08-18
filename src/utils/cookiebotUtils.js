@@ -1,8 +1,9 @@
 /* eslint-disable react/self-closing-comp */
-import config from '../config';
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+
+import config from '../config';
 
 /**
  * Add event listener that overrides the image served by cookiebot.

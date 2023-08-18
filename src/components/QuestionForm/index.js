@@ -5,8 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import getAttr from '../../utils/getAttr';
 
-const QuestionForm = ({autoFocus, question, lang, onChange, answers, canAnswer}) => {
-  return (
+const QuestionForm = ({autoFocus, question, lang, onChange, answers, canAnswer}) => (
     <FormGroup
       className="question-form-group"
       onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}
@@ -49,7 +48,6 @@ const QuestionForm = ({autoFocus, question, lang, onChange, answers, canAnswer})
       </fieldset>
     </FormGroup>
   );
-};
 
 QuestionForm.propTypes = {
   autoFocus: PropTypes.bool,

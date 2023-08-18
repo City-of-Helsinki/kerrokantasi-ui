@@ -9,16 +9,19 @@ class FormControlOnChange extends React.Component {
       value: this.props.defaultValue || ''
     };
   }
+
   onChange = (event) => {
     this.setState({
       value: event.target.value
     });
   }
+
   componentWillReceiveProps(newProps) {
     this.setState({
       value: newProps.defaultValue || ''
     });
   }
+
   render() {
     const {type, onBlur, maxLength} = this.props;
     return (
