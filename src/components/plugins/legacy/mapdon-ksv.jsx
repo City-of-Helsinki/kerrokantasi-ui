@@ -1,11 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable react/no-string-refs */
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
@@ -16,10 +15,12 @@ import { BaseCommentForm } from '../../BaseCommentForm';
 class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = `ksv${0 | (Math.random() * 10000000)}`; // eslint-disable-line no-bitwise
+    this.pluginInstanceId = `ksv${Math.random() * 10000000}`;
     this.state = Object.assign(this.state, { userDataChanged: false });
     this.lastUserData = null;
     this.submitting = false;
+
+    this.iframeRef = createRef();
   }
 
   componentDidMount() {
@@ -107,7 +108,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
           <iframe
             src='/assets/mapdon-ksv/plugin-inline.html'
             className='plugin-frame mapdon-ksv-plugin-frame'
-            ref='frame'
+            ref={this.iframeRef}
           />
           {pluginPurpose === 'postComments' ? commentBox : null}
         </form>

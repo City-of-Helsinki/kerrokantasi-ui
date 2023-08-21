@@ -91,7 +91,6 @@ describe('HearingFormStep3', () => {
         expect(wrapper.state('isEdited')).toBe(true);
       });
 
-      // eslint-disable-next-line max-len
       test('calls onAddMapMarkersToCollection when adding an element to a hearing with a featurecollection that has been edited', () => {
         // ie isEdited is true
         const mockOnAddMapMarkersToCollection = jest.fn();

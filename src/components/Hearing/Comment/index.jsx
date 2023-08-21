@@ -166,7 +166,7 @@ class Comment extends React.Component {
 
   getStrigifiedAnswer = (answer) => {
     const { questions, intl } = this.props;
-    const question = find(questions, (que) => que.id === answer.question); // eslint-disable-line
+    const question = find(questions, (que) => que.id === answer.question);
     let selectedOption = {};
     return {
       question: question ? getAttr(question.text, intl.locale) : '',

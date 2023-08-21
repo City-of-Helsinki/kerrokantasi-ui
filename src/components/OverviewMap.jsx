@@ -60,7 +60,6 @@ class OverviewMap extends React.Component {
   getHearingMapContent(hearings) {
     const contents = [];
     hearings.forEach((hearing) => {
-      /* eslint-disable-next-line no-unused-vars */
       const { geojson } = hearing;
 
       if (geojson) {
@@ -91,7 +90,6 @@ class OverviewMap extends React.Component {
         case 'Polygon': {
           // XXX: This only supports the _first_ ring of coordinates in a Polygon
           const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-          // eslint-disable-next-line react/jsx-indent
           return (
             <Polygon key={`${id}${Math.random()}`} positions={latLngs}>
               {this.getPopupContent(hearing, geojson)}

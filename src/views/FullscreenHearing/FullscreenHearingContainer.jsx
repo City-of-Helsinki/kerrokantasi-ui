@@ -28,9 +28,6 @@ import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
 import { getUser } from '../../selectors/user';
 
-// eslint-disable-next-line import/no-unresolved
-// eslint-disable-next-line import/no-unresolved
-
 export class FullscreenHearingContainerComponent extends React.Component {
   UNSAFE_componentWillMount() {
     const {

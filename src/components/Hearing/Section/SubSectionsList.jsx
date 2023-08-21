@@ -13,8 +13,6 @@ import Link from '../../LinkWithLang';
 import MouseOnlyLink from '../../MouseOnlyLink';
 import { getSectionURL, isSectionCommentable, userCanComment, hasAnyQuestions } from '../../../utils/section';
 
-// eslint-disable-next-line import/no-unresolved
-
 const SubsectionList = ({ hearing, language, user, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');

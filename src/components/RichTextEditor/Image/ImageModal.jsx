@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -89,7 +88,9 @@ class ImageModal extends React.Component {
     return (
       <Modal show={isOpen} onHide={onClose}>
         <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>{<FormattedMessage id='imageModalTitle' />}</ModalTitle>
+          <ModalTitle componentClass='h3'>
+            <FormattedMessage id='imageModalTitle' />
+          </ModalTitle>
         </Modal.Header>
         <Modal.Body className='form-modal image-modal'>
           <div className='form-group'>
@@ -124,7 +125,7 @@ class ImageModal extends React.Component {
             <FormattedMessage id='cancel' />
           </Button>
           <Button bsStyle='primary' onClick={this.confirmImage}>
-            {<FormattedMessage id='formButtonAcceptAndAdd' />}
+            <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (
             <p id='skip-link-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>

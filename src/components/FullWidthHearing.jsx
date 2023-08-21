@@ -15,8 +15,6 @@ import config from '../config';
 import getAttr from '../utils/getAttr';
 import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 
-// eslint-disable-next-line import/no-unresolved
-
 const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
   const { formatTime, formatDate } = intl;
   const backgroundImage = getHearingMainImageURL(hearing);

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-underscore-dangle */
@@ -236,7 +237,6 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
   dispatch: PropTypes.func,
   history: PropTypes.object,
   language: PropTypes.string,

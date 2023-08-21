@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import { Modal, Button, ModalTitle } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
@@ -94,7 +93,9 @@ class SkipLinkModal extends React.Component {
     return (
       <Modal show={isOpen} onHide={onClose}>
         <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>{<FormattedMessage id='skipLinkModalTitle' />}</ModalTitle>
+          <ModalTitle componentClass='h3'>
+            <FormattedMessage id='skipLinkModalTitle' />
+          </ModalTitle>
         </Modal.Header>
         <Modal.Body>
           <RichTextModalTextField
@@ -144,7 +145,7 @@ class SkipLinkModal extends React.Component {
             <FormattedMessage id='cancel' />
           </Button>
           <Button bsStyle='primary' onClick={this.confirmSkipLink}>
-            {<FormattedMessage id='formButtonAcceptAndAdd' />}
+            <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (
             <p id='skip-link-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>

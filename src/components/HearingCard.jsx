@@ -17,8 +17,6 @@ import getAttr from '../utils/getAttr';
 import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 import getMessage from '../utils/getMessage';
 
-// eslint-disable-next-line import/no-unresolved
-
 /**
  * Returns a HearingCard with data from the hearing prop.
  * @param {object} props

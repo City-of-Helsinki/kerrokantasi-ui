@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 import RavenMiddleWare from 'redux-raven-middleware';
 import identity from 'lodash/identity';
 import thunk from 'redux-thunk';
@@ -16,9 +18,7 @@ import { localizedNotifyError } from './utils/notify';
 export const history = createBrowserHistory();
 
 const historySettings = {
-  /* eslint-disable */
   documentTitle: (location) => document.title || "Kerrokantasi",
-  /* eslint-enable */
   announcePageNavigation: false, // default true
   setPageTitle: false,
   primaryFocusTarget: "body",
@@ -44,9 +44,7 @@ export default function createAppStore(initialState = null) {
   // Have to pass in the router to support isomorphic rendering
   const augmentedCreateStore = compose(
     applyMiddleware(...middleware),
-    // eslint-disable-next-line no-underscore-dangle
     typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
-      // eslint-disable-next-line no-underscore-dangle
       ? window.__REDUX_DEVTOOLS_EXTENSION__() : identity,
   )(createStore);
   return augmentedCreateStore(rootReducer, initialState || {});

@@ -146,7 +146,8 @@ export function getImageAsBase64Promise(image) {
 export function getOpenGraphMetaData(hearing, language) {
   let hostname = "http://kerrokantasi.hel.fi";
   if (typeof HOSTNAME === 'string') {
-    hostname = HOSTNAME;  // eslint-disable-line no-undef
+    // eslint-disable-next-line no-undef
+    hostname = HOSTNAME;
   } else if (typeof window !== 'undefined') {
     hostname = `${window.location.protocol}//${window.location.host}`;
   }

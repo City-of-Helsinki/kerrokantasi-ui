@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable prefer-arrow-callback */
 import { render } from 'react-dom';
 import Raven from 'raven-js';
@@ -7,7 +8,6 @@ import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
-// eslint-disable-next-line import/no-unresolved
 import '@city-assets/sass/app.scss';
 import userManager from "./utils/userManager";
 

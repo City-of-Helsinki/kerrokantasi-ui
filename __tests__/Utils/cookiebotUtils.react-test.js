@@ -13,8 +13,6 @@ import {
 } from '../../src/utils/cookiebotUtils';
 import config from '../../src/config';
 
-// eslint-disable-next-line import/no-unresolved
-
 jest.mock('../../src/config', () => ({
   enableCookies: true,
   enableCookiebot: true,

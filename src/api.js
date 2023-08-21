@@ -27,14 +27,14 @@ export function apiCall(state, endpoint, params, options = {}) {
     throw new Error("API calls require redux state for authentication");
   }
   const token = getApiToken(state);
-  options = merge({ method: "GET", credentials: "include" }, options);  // eslint-disable-line no-param-reassign
+  options = merge({ method: "GET", credentials: "include" }, options);
   const defaultHeaders = {
     "Accept": "application/json"  // eslint-disable-line quote-props
   };
   if (token) {
     defaultHeaders.Authorization = `Bearer ${token}`;
   }
-  options.headers = merge(defaultHeaders, options.headers || {});  // eslint-disable-line no-param-reassign
+  options.headers = merge(defaultHeaders, options.headers || {});
 
   const url = getApiURL(endpoint, params);
   return fetch(url, options);
@@ -42,8 +42,8 @@ export function apiCall(state, endpoint, params, options = {}) {
 
 export function jsonRequest(method, state, endpoint, data, params = {}, options = {}) {
   if (typeof data !== "string") {
-    data = JSON.stringify(data);  // eslint-disable-line no-param-reassign
-    options.headers = merge(  // eslint-disable-line no-param-reassign
+    data = JSON.stringify(data);
+    options.headers = merge(
       { "Content-Type": "application/json" },
       options.headers
     );

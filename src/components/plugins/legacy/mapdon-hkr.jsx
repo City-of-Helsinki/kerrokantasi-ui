@@ -1,10 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/iframe-has-title */
-/* eslint-disable react/no-string-refs */
 import Button from 'react-bootstrap/lib/Button';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
@@ -15,10 +14,12 @@ import { BaseCommentForm } from '../../BaseCommentForm';
 class MapdonHKRPlugin extends BaseCommentForm {
   constructor(props) {
     super(props);
-    this.pluginInstanceId = `hkr${0 | (Math.random() * 10000000)}`; // eslint-disable-line no-bitwise
+    this.pluginInstanceId = `hkr${Math.random() * 10000000}`;
     this.userDataChanged = false;
     this.lastUserData = null;
     this.submitting = false;
+
+    this.iframeRef = createRef();
   }
 
   render() {
@@ -29,7 +30,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
           <iframe
             src='/assets/mapdon-hkr/plugin-inlined.html'
             className='plugin-frame mapdon-hkr-plugin-frame'
-            ref='frame'
+            ref={this.iframeRef}
           />
           <br />
           <FormGroup>

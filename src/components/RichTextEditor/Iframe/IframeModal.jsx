@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unused-class-component-methods */
-/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import { Modal, Button, ModalTitle } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
@@ -103,7 +102,9 @@ class IframeModal extends React.Component {
     return (
       <Modal show={isOpen} onHide={() => onClose()}>
         <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>{<FormattedMessage id='iframeModalTitle' />}</ModalTitle>
+          <ModalTitle componentClass='h3'>
+            <FormattedMessage id='iframeModalTitle' />
+          </ModalTitle>
         </Modal.Header>
         <Modal.Body>
           <form
@@ -175,7 +176,7 @@ class IframeModal extends React.Component {
             <FormattedMessage id='cancel' />
           </Button>
           <Button bsStyle='primary' onClick={(event) => this.handleFormSubmit(event, fields)}>
-            {<FormattedMessage id='formButtonAcceptAndAdd' />}
+            <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (
             <p id='iframe-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>

@@ -39,7 +39,7 @@ function cookieOnComponentDidMount() {
   }
 }
 
-function cookieOnComponentWillUnmount() {
+export function cookieOnComponentWillUnmount() {
   if (isCookiebotEnabled()) {
     cookieBotRemoveListener();
   }
@@ -50,7 +50,7 @@ function cookieOnComponentWillUnmount() {
 /**
  * This is the initial setup for trackers that can be disabled on initialization.
  */
-function addCookieScripts() {
+export function addCookieScripts() {
   setupMatomo();
   return true;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
 import React from 'react';
@@ -30,7 +31,6 @@ import InternalLink from '../InternalLink';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) {
-    // eslint-disable-line class-methods-use-this
     const {
       intl: { formatTime, formatDate },
     } = this.props;
@@ -184,7 +184,6 @@ export class HeaderComponent extends React.Component {
   }
 
   getEyeTooltip() {
-    // eslint-disable-line class-methods-use-this
     const { formatMessage } = this.props.intl;
     const openingTime = moment(this.props.hearing.open_at);
     let text = <FormattedMessage id='eyeTooltip' />;
@@ -341,7 +340,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
-  /* eslint-disable-next-line react/no-unused-prop-types */
   history: PropTypes.object,
   intl: intlShape.isRequired,
   language: PropTypes.string,
