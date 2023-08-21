@@ -780,7 +780,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchSectionComments(sectionId, ordering))
   ),
   fetchMoreComments: (sectionId, ordering, nextUrl) => (
-    dispatch(fetchMoreSectionComments(sectionId, ordering, nextUrl))
+    dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering))
   ),
 });
 

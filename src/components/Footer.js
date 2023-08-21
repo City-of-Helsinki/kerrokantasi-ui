@@ -1,19 +1,16 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Row, Col} from 'react-bootstrap';
-
-// eslint-disable-next-line import/no-unresolved
+import { FormattedMessage } from 'react-intl';
+import { Row, Col } from 'react-bootstrap';
 import logoWhite from '@city-images/logo-fi-white.svg';
-// eslint-disable-next-line import/no-unresolved
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import PropTypes from "prop-types";
-// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 
 import Link from './LinkWithLang';
 import config from '../config';
-import {getFeedbackUrl} from '../utils/languageUtils';
+import { getFeedbackUrl } from '../utils/languageUtils';
 
 const getCurrentYear = () => {
   const today = new Date();
@@ -21,7 +18,7 @@ const getCurrentYear = () => {
 };
 
 export default function Footer(props) {
-  const {language} = props;
+  const { language } = props;
 
   return (
     <footer className="site-footer">
@@ -48,17 +45,17 @@ export default function Footer(props) {
               <div className="footer-header">Kerrokantasi</div>
               <ul className="footer-links">
                 <li>
-                  <Link to={{path: "/hearings/list"}}>
+                  <Link to={{ path: "/hearings/list" }}>
                     <FormattedMessage id="hearingsHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={{path: "/hearings/map"}}>
+                  <Link to={{ path: "/hearings/map" }}>
                     <FormattedMessage id="hearingMapHeaderText" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={{path: "/info"}}>
+                  <Link to={{ path: "/info" }}>
                     <FormattedMessage id="infoHeaderText" />
                   </Link>
                 </li>

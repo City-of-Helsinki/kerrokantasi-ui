@@ -1,3 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -17,11 +21,6 @@ import Link from "../LinkWithLang";
 import { getUser } from '../../selectors/user';
 import userManager from "../../utils/userManager";
 import { toggleContrast } from "../../actions";
-
-// eslint-disable-next-line import/no-unresolved
-
-// eslint-disable-next-line import/no-unresolved
-
 import LanguageSwitcher from './LanguageSwitcher';
 import Icon from '../../utils/Icon';
 import config from "../../config";
@@ -33,10 +32,6 @@ class Header extends React.Component {
     this.state = {
       navbarExpanded: false,
     };
-  }
-
-  toggleNavbar() {
-    this.setState({ navbarExpanded: !this.state.navbarExpanded });
   }
 
   componentDidMount() {
@@ -145,6 +140,10 @@ class Header extends React.Component {
     );
   }
 
+  toggleNavbar() {
+    this.setState((prevState) => ({ navbarExpanded: !prevState.navbarExpanded }));
+  }
+
   contrastToggle() {
     if (config.enableHighContrast) {
       return (
@@ -207,7 +206,7 @@ class Header extends React.Component {
               collapseOnSelect
               className="navbar-primary"
               aria-label={headerPagesNavLabel}
-              onToggle={this.toggleNavbar.bind(this)}
+              onToggle={this.toggleNavbar}
             >
               <Navbar.Header>
                 <Navbar.Brand>

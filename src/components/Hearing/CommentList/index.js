@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import Comment from '../Comment';
 
@@ -17,7 +18,7 @@ export class CommentList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {comments: newComments, section} = this.props;
+    const { comments: newComments, section } = this.props;
     if (prevProps.section.id === section.id && prevProps.comments !== newComments) {
       const updatedLoadingState = newComments.reduce((acc, curr, index) => {
         /**
@@ -43,7 +44,7 @@ export class CommentList extends React.Component {
   }
 
   updateShowReplies = (param) => {
-    this.setState({commentShowReplies: param});
+    this.setState({ commentShowReplies: param });
   }
 
   render() {
@@ -67,7 +68,7 @@ export class CommentList extends React.Component {
       }
       return (
         <div className="commentlist">
-          <p><FormattedMessage id="noCommentsAvailable"/></p>
+          <p><FormattedMessage id="noCommentsAvailable" /></p>
         </div>
       );
     }

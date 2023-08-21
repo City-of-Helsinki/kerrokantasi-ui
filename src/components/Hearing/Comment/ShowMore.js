@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import LoadSpinner from '../../LoadSpinner';
 import Icon from '../../../utils/Icon';
@@ -32,7 +33,7 @@ const ShowMore = (props) => {
     <div className="hearing-comment__show-more">
       {
         props.isLoadingSubComment
-          ? <LoadSpinner style={{ padding: '12px' }}/>
+          ? <LoadSpinner style={{ padding: '12px' }} />
           : (
             <span className="hearing-comment__show-more__wrapper">
               <a href="" onClick={handleShowMore} role="button" aria-expanded={props.open}>

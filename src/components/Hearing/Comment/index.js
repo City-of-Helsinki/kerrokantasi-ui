@@ -1,7 +1,9 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage, FormattedRelative} from 'react-intl';
+import { injectIntl, FormattedMessage, FormattedRelative } from 'react-intl';
 import { Button, FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
@@ -15,7 +17,7 @@ import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 import Icon from '../../../utils/Icon';
-import {localizedNotifyError, notifyError, notifyInfo} from '../../../utils/notify';
+import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/notify';
 import getAttr from '../../../utils/getAttr';
 import HearingMap from "../HearingMap";
 import getMessage from '../../../utils/getMessage';
@@ -24,20 +26,22 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.commentRef = React.createRef();
+
+    this.state = {
+      editorOpen: false,
+      isReplyEditorOpen: false,
+      shouldJumpTo: this.props.jumpTo === this.props.data.id,
+      scrollComplete: false,
+      shouldAnimate: false,
+      pinned: this.props.data.pinned,
+      answers: this.props.data.answers || [],
+      mapContainer: null,
+      displayMap: false,
+      showReplies: this.props.showReplies,
+    }
   }
 
-  state = {
-    editorOpen: false,
-    isReplyEditorOpen: false,
-    shouldJumpTo: this.props.jumpTo === this.props.data.id,
-    scrollComplete: false,
-    shouldAnimate: false,
-    pinned: this.props.data.pinned,
-    answers: this.props.data.answers || [],
-    mapContainer: null,
-    displayMap: false,
-    showReplies: this.props.showReplies,
-  }
+
 
   componentDidMount() {
     if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
@@ -72,51 +76,10 @@ class Comment extends React.Component {
     }
   };
 
-  onVote() {
-    if (this.props.canVote) {
-      const {data} = this.props;
-      // If user has already voted for this comment, block the user from voting again
-      const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
-      if (votedComments.includes(data.id)) {
-        localizedNotifyError("alreadyVoted");
-        return;
-      }
-      this.props.onPostVote(data.id, data.section, this.props.isReply, this.props.parentComponentId);
-    } else {
-      notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
-    }
-  }
-
-  onFlag() {
-    if (this.canFlagComments()) {
-      const {data} = this.props;
-      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
-    } else {
-      notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
-    }
-  }
-
-  onCopyURL() {
-    // Build absolute URL for comment
-    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
-    navigator.clipboard.writeText(commentUrl);
-    notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
-  }
-
-  toggleEditor(event) {
-    event.preventDefault();
-
-    if (this.state.editorOpen) {
-      this.setState({editorOpen: false});
-    } else {
-      this.setState({editorOpen: true});
-    }
-  }
-
   handleSubmit(event) {
     event.preventDefault();
-    const {data} = this.props;
-    const {section, id} = data;
+    const { data } = this.props;
+    const { section, id } = data;
     const commentData = {};
 
     forEach(data, (value, key) => {
@@ -130,15 +93,50 @@ class Comment extends React.Component {
     }
     commentData.answers = this.state.answers;
     this.props.onEditComment(section, id, commentData);
-    this.setState({editorOpen: false});
+    this.setState({ editorOpen: false });
   }
 
   handleDelete(event) {
     event.preventDefault();
-    const {data} = this.props;
-    const {section, id, answers} = data;
+    const { data } = this.props;
+    const { section, id, answers } = data;
     // userdata is updated if the comment contained answers
     this.props.onDeleteComment(section, id, answers.length > 0);
+  }
+
+  onVote() {
+    if (this.props.canVote) {
+      const { data } = this.props;
+      // If user has already voted for this comment, block the user from voting again
+      const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
+      if (votedComments.includes(data.id)) {
+        localizedNotifyError("alreadyVoted");
+        return;
+      }
+      this.props.onPostVote(data.id, data.section, this.props.isReply, this.props.parentComponentId);
+    } else {
+      notifyError("Kirjaudu sisään äänestääksesi kommenttia.");
+    }
+  }
+
+
+
+  onFlag() {
+    if (this.canFlagComments()) {
+      const { data } = this.props;
+      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
+    } else {
+      notifyError("Kirjaudu sisään liputtaaksesi kommentin.");
+    }
+  }
+
+
+
+  onCopyURL() {
+    // Build absolute URL for comment
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
+    navigator.clipboard.writeText(commentUrl);
+    notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
   }
 
   /**
@@ -165,7 +163,7 @@ class Comment extends React.Component {
    * Toggle whether to display replies or not.
    */
   toggleReplies = () => {
-    this.setState({showReplies: !this.state.showReplies});
+    this.setState((prevState) => ({ showReplies: !prevState.showReplies }));
   }
 
   /**
@@ -176,7 +174,7 @@ class Comment extends React.Component {
   )
 
   getStrigifiedAnswer = (answer) => {
-    const {questions, intl} = this.props;
+    const { questions, intl } = this.props;
     const question = find(questions, que => que.id === answer.question); // eslint-disable-line
     let selectedOption = {};
     return {
@@ -200,8 +198,8 @@ class Comment extends React.Component {
    * Handle posting of a reply
    */
   handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
-    const {section} = this.props;
-    let commentData = {text, authorName, pluginData, geojson, label, images};
+    const { section } = this.props;
+    let commentData = { text, authorName, pluginData, geojson, label, images };
     if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
       if (this.props.isReply && this.props.parentComponentId) {
         commentData = { ...commentData, comment: this.props.parentComponentId };
@@ -234,7 +232,7 @@ class Comment extends React.Component {
       updatedAnswer = this.state.answers.map((allAnswers) => {
         if (allAnswers.question === question) {
           if (questionType === 'single-choice') {
-            return {...allAnswers, answers: [answer]};
+            return { ...allAnswers, answers: [answer] };
           }
           const isDeselecting = allAnswers.answers.includes(answer);
           return {
@@ -253,10 +251,10 @@ class Comment extends React.Component {
   }
 
   dateTooltip = data => (
-      <Tooltip id="comment-date-tooltip">
-        {this.parseTimestamp(data.created_at)}
-      </Tooltip>
-    );
+    <Tooltip id="comment-date-tooltip">
+      {this.parseTimestamp(data.created_at)}
+    </Tooltip>
+  );
 
   canFlagComments = () => this.props.user && this.props.canFlag
 
@@ -278,12 +276,12 @@ class Comment extends React.Component {
               <Icon name="user" aria-hidden="true" />&nbsp;
               {
                 isAdminUser ? data.organization
-                : <FormattedMessage id="registered"/>
-                }
+                  : <FormattedMessage id="registered" />
+              }
               :&nbsp;
             </span>
             : null}
-          {data.author_name || <FormattedMessage id="anonymous"/>}
+          {data.author_name || <FormattedMessage id="anonymous" />}
         </span>
         <OverlayTrigger placement="top" overlay={this.dateTooltip(data)} delayShow={300}>
           <span className="hearing-comment-date">
@@ -292,20 +290,20 @@ class Comment extends React.Component {
         </OverlayTrigger>
       </div>
       {this.canFlagComments() &&
-      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onCopyURL.bind(this)}>
-        <Icon name="link" aria-hidden="true"/>
-      </Button>
+        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onCopyURL}>
+          <Icon name="link" aria-hidden="true" />
+        </Button>
       }
-      { this.canFlagComments() && !data.deleted &&
-      <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag.bind(this)}>
-        <Icon
-          name={classnames({
-            'flag-o': !data.flagged,
-            flag: data.flagged,
-          })}
-          aria-hidden="true"
-        />
-      </Button>
+      {this.canFlagComments() && !data.deleted &&
+        <Button className="btn-sm hearing-comment-vote-link" onClick={this.onFlag}>
+          <Icon
+            name={classnames({
+              'flag-o': !data.flagged,
+              flag: data.flagged,
+            })}
+            aria-hidden="true"
+          />
+        </Button>
       }
     </div>
   );
@@ -323,19 +321,19 @@ class Comment extends React.Component {
    * Allow the user to pin and unpin a comment.
    */
   renderPinUnpinButton = () => (
-      <div className="hearing-comment__pin">
-        <Button
-          className={classnames([
-            'hearing-comment__pin__icon',
-            {
+    <div className="hearing-comment__pin">
+      <Button
+        className={classnames([
+          'hearing-comment__pin__icon',
+          {
             'hearing-comment__pin__pin-comment': !this.state.pinned,
             'hearing-comment__pin__unpin-comment': this.state.pinned
-            }
-          ])}
-          onClick={this.handleTogglePin}
-        />
-      </div>
-    )
+          }
+        ])}
+        onClick={this.handleTogglePin}
+      />
+    </div>
+  )
 
   /**
    * For each answer answered, a user may edit the answer.
@@ -362,7 +360,7 @@ class Comment extends React.Component {
    */
   renderEditorForm = () => (
     <>
-      { this.isAdminUser()
+      {this.isAdminUser()
         && this.props.data.can_edit
         && !this.props.isReply
         && this.renderPinUnpinButton()
@@ -371,9 +369,9 @@ class Comment extends React.Component {
         <FormGroup controlId="formControlsTextarea">
           {
             this.state.answers
-            && this.state.answers.length > 0
-            ? this.state.answers.map(answer => this.renderQuestionsForAnswer(answer))
-            : null
+              && this.state.answers.length > 0
+              ? this.state.answers.map(answer => this.renderQuestionsForAnswer(answer))
+              : null
           }
           <textarea
             className="form-control"
@@ -384,7 +382,7 @@ class Comment extends React.Component {
             }}
           />
         </FormGroup>
-        <Button type="submit"><FormattedMessage id="save"/></Button>
+        <Button type="submit"><FormattedMessage id="save" /></Button>
       </form>
     </>
   );
@@ -399,7 +397,7 @@ class Comment extends React.Component {
         href=""
         onClick={(event) => this.toggleEditor(event)}
       >
-        <FormattedMessage id="edit"/>
+        <FormattedMessage id="edit" />
       </a>
       {canDelete &&
         <a
@@ -407,7 +405,7 @@ class Comment extends React.Component {
           onClick={(event) => this.handleDelete(event)}
 
         >
-          <FormattedMessage id="delete"/>
+          <FormattedMessage id="delete" />
         </a>
       }
     </div>
@@ -418,13 +416,13 @@ class Comment extends React.Component {
    */
   renderReplyLinks = () => (
     <>
-      <Icon name="reply"/>
+      <Icon name="reply" />
       <a
         href=""
-        style={{marginLeft: 6, fontWeight: 'bold'}}
+        style={{ marginLeft: 6, fontWeight: 'bold' }}
         onClick={this.handleToggleReplyEditor}
       >
-        <FormattedMessage id="reply"/>
+        <FormattedMessage id="reply" />
       </a>
     </>
   );
@@ -461,7 +459,7 @@ class Comment extends React.Component {
    * @returns {JSX.Element|null}
    */
   renderViewReplies = () => {
-    const {data} = this.props;
+    const { data } = this.props;
     const subCommentsLoaded = Array.isArray(data.comments) && data.comments.length && data.subComments;
     if (Array.isArray(data.comments) && data.comments.length) {
       return <ShowMore
@@ -480,10 +478,10 @@ class Comment extends React.Component {
    * @returns {JSX.Element}
    */
   renderSubComments = () => {
-    const {showReplies} = this.state;
-    const {data} = this.props;
+    const { showReplies } = this.state;
+    const { data } = this.props;
     return (
-      <ul className={classnames('sub-comments', {'list-hidden': !showReplies})}>
+      <ul className={classnames('sub-comments', { 'list-hidden': !showReplies })}>
         {
           data.subComments.map((subComment) => (
             <Comment
@@ -518,25 +516,27 @@ class Comment extends React.Component {
       return (
         <div>
           <p>
-            {nl2br(data.content)}<br/>
+            {nl2br(data.content)}<br />
             <span className="hearing-comment-edited-notification">(<FormattedMessage id={modifiedMessageId} />)</span>
           </p>
         </div>
       );
     }
     if (data.deleted_by_type === "self") {
-      return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
-    } if (data.deleted_by_type === "moderator") {
+      return <FormattedMessage id="sectionCommentSelfDeletedMessage" />;
+    }
+
+    if (data.deleted_by_type === "moderator") {
       return (
         <p>
           <FormattedMessage
-          id="sectionCommentDeletedMessage"
-          values={{date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
+            id="sectionCommentDeletedMessage"
+            values={{ date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : '' }}
           />
         </p>
       );
     }
-    return <FormattedMessage id="sectionCommentGenericDeletedMessage"/>;
+    return <FormattedMessage id="sectionCommentGenericDeletedMessage" />;
   }
 
   handleSetMapContainer = (mapContainer) => {
@@ -544,14 +544,24 @@ class Comment extends React.Component {
   }
 
   toggleMap = () => {
-    this.setState({displayMap: !this.state.displayMap});
+    this.setState((prevState) => ({ displayMap: !prevState.displayMap }));
+  }
+
+  toggleEditor(event) {
+    event.preventDefault();
+
+    if (this.state.editorOpen) {
+      this.setState({ editorOpen: false });
+    } else {
+      this.setState({ editorOpen: true });
+    }
   }
 
   render() {
-    const {data, canReply} = this.props;
+    const { data, canReply } = this.props;
     const canEdit = data.can_edit;
     const canDelete = data.can_delete;
-    const {editorOpen, isReplyEditorOpen} = this.state;
+    const { editorOpen, isReplyEditorOpen } = this.state;
     const isAdminUser = this.props.data
       && (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
 
@@ -578,7 +588,7 @@ class Comment extends React.Component {
         <div className="hearing-comment__comment-wrapper">
           {this.renderCommentHeader(isAdminUser)}
           {!this.props.isReply && this.renderCommentAnswers()}
-          <div className={classnames('hearing-comment-body', {'hearing-comment-body-disabled': data.deleted})}>
+          <div className={classnames('hearing-comment-body', { 'hearing-comment-body-disabled': data.deleted })}>
             {this.renderCommentText(data)}
           </div>
           <div className="hearing-comment__images">
@@ -604,23 +614,23 @@ class Comment extends React.Component {
           {data.geojson && (
             <div className="hearing-comment__map">
               <Button
-                  onClick={this.toggleMap}
-                  className="hearing-comment__map-toggle"
-                  aria-expanded={this.state.displayMap}
-                >
-                  <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
-                </Button>
+                onClick={this.toggleMap}
+                className="hearing-comment__map-toggle"
+                aria-expanded={this.state.displayMap}
+              >
+                <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
+              </Button>
               {(this.state.displayMap && data.geojson) && (
                 <div
-                className="hearing-comment__map-container"
-                ref={this.handleSetMapContainer}
+                  className="hearing-comment__map-container"
+                  ref={this.handleSetMapContainer}
                 >
                   {data.geojson && (
-                  <HearingMap
-                  hearing={{geojson: data.geojson}}
-                  mapContainer={this.state.mapContainer}
-                  mapSettings={{dragging: false}}
-                  />
+                    <HearingMap
+                      hearing={{ geojson: data.geojson }}
+                      mapContainer={this.state.mapContainer}
+                      mapSettings={{ dragging: false }}
+                    />
                   )}
                 </div>
               )}
@@ -632,8 +642,8 @@ class Comment extends React.Component {
               {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
             </div>
             <div className="hearing-comment-votes">
-              { !data.deleted &&
-                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote.bind(this)}>
+              {!data.deleted &&
+                <Button className="btn-sm hearing-comment-vote-link" onClick={this.onVote}>
                   <Icon name="thumbs-o-up" aria-hidden="true" /> {data.n_votes}
                   <span className="sr-only">
                     <FormattedMessage id="voteButtonLikes" />. <FormattedMessage id="voteButtonText" />
@@ -683,5 +693,5 @@ Comment.propTypes = {
 Comment.defaultProps = {
   isReply: false,
 };
-export {Comment as UnconnectedComment};
+export { Comment as UnconnectedComment };
 export default injectIntl(Comment);

@@ -1,8 +1,9 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Map, TileLayer, FeatureGroup} from "react-leaflet";
+import { Map, TileLayer, FeatureGroup } from "react-leaflet";
 import Leaflet from 'leaflet';
-import {EditControl} from 'react-leaflet-draw';
+import { EditControl } from 'react-leaflet-draw';
 
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
@@ -46,7 +47,7 @@ class CommentFormMap extends React.Component {
   }
 
   render() {
-    const {onDrawCreate, onDrawDelete, tools} = this.props;
+    const { onDrawCreate, onDrawDelete, tools } = this.props;
     // below checks if all commenting map tools are enabled in this section
     // if enabled then rectangle and polygon tools are also available in addition to the marker
     const allToolsEnabled = tools === 'all';
@@ -57,7 +58,7 @@ class CommentFormMap extends React.Component {
         zoom={15}
         maxZoom={18}
         minZoom={11}
-        style={{height: 300, width: '100%'}}
+        style={{ height: 300, width: '100%' }}
         maxBounds={(this.getMapBounds())}
       >
         <TileLayer
@@ -94,7 +95,8 @@ class CommentFormMap extends React.Component {
                   iconSize: [25, 41],
                   iconAnchor: [13, 41],
                 })
-              }}}
+              }
+            }}
             edit={{
               edit: false,
             }}

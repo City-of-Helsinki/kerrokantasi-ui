@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, ControlLabel, Form, FormControl, FormGroup } from "react-bootstrap";
@@ -23,24 +24,24 @@ class CommentReportForm extends React.Component {
   }
 
   handleFileFormatChange(event) {
-    this.setState({fileFormat: event.target.value});
+    this.setState({ fileFormat: event.target.value });
   }
 
   handleDownloadClick(event) {
     event.preventDefault();
-    const {fileFormat} = this.state;
-    const {apiToken, hearing, language} = this.props;
+    const { fileFormat } = this.state;
+    const { apiToken, hearing, language } = this.props;
 
     const accessToken = apiToken.apiToken;
     const targetFileFormat = Object.values(FILE_FORMATS).find(format => format.id === fileFormat);
     const reportUrl = new URL(getApiURL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`));
-    reportUrl.search = new URLSearchParams({lang: language});
+    reportUrl.search = new URLSearchParams({ lang: language });
 
     fetch(reportUrl, {
       method: 'GET',
       headers: {
         'Content-Type': targetFileFormat.contentType,
-        Authorization: `Bearer ${  accessToken}`
+        Authorization: `Bearer ${accessToken}`
       },
     })
       .then((response) => response.blob())
@@ -67,11 +68,11 @@ class CommentReportForm extends React.Component {
   }
 
   render() {
-    const {fileFormat} = this.state;
+    const { fileFormat } = this.state;
     return (
       <Form>
         <FormGroup controlId="file-format-select">
-          <ControlLabel><FormattedMessage id="commentReportsSelectFileType"/></ControlLabel>
+          <ControlLabel><FormattedMessage id="commentReportsSelectFileType" /></ControlLabel>
           <FormControl
             componentClass="select"
             onChange={this.handleFileFormatChange}
@@ -82,7 +83,7 @@ class CommentReportForm extends React.Component {
           </FormControl>
         </FormGroup>
         <Button onClick={this.handleDownloadClick} type="submit">
-          <Icon name="download" aria-hidden="true"/> <FormattedMessage id="commentReportsDownload"/>
+          <Icon name="download" aria-hidden="true" /> <FormattedMessage id="commentReportsDownload" />
         </Button>
       </Form>
     );
@@ -100,5 +101,5 @@ CommentReportForm.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-export {CommentReportForm as UnconnectedCommentReportForm};
+export { CommentReportForm as UnconnectedCommentReportForm };
 export default connect(mapStateToProps, null)(CommentReportForm);

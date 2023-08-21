@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import {
@@ -35,10 +37,6 @@ import {
   isEmptyCommentAllowed,
   isSectionCommentingMapEnabled,
 } from '../utils/section';
-
-// eslint-disable-next-line import/no-unresolved
-// eslint-disable-next-line import/no-unresolved
-
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
@@ -124,7 +122,7 @@ export const BaseCommentForm = ({
     [user, section]
   );
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     if (canComment) {
       setFormData({
         ...formData,
@@ -147,13 +145,13 @@ export const BaseCommentForm = ({
     } else {
       localizedNotifyError(getSectionCommentingErrorMessage(section));
     }
-  };
+  }, [canComment, defaultNickname, formData, onOverrideCollapse, section]);
 
   useEffect(() => {
     if (isUserAdmin) {
       setFormData({ ...formData, nickname: user.displayName });
     }
-  }, [isUserAdmin]);
+  }, [formData, isUserAdmin, user.displayName]);
 
   useEffect(() => {
     if (collapseForm) {
@@ -172,7 +170,7 @@ export const BaseCommentForm = ({
     if (answers) {
       setFormData({ ...formData, commentOrAnswerRequiredError: false });
     }
-  }, [collapseForm, defaultNickname, isUserAdmin, user, answers]);
+  }, [collapseForm, defaultNickname, isUserAdmin, user, answers, formData, toggle]);
 
   const handleTextChange = (event) =>
     setFormData({
@@ -208,6 +206,7 @@ export const BaseCommentForm = ({
       imageTooBig: errors.includes('imageTooBig'),
     });
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
       localizedNotifyError('maintenanceNotificationText');
@@ -272,10 +271,8 @@ export const BaseCommentForm = ({
     }
 
     // make sure empty comments are not added when not intended
-    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
-      if (!data.commentText.trim()) {
-        data.setCommentText = config.emptyCommentString;
-      }
+    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers)) && !data.commentText.trim()) {
+      data.setCommentText = config.emptyCommentString;
     }
 
     onPostComment(
@@ -323,17 +320,17 @@ export const BaseCommentForm = ({
 
     isImageTooBig(event.target.files);
 
-    for (let _i = 0; _i < imagesRef.current.files.length; _i += 1) {
+    for (let i = 0; i < imagesRef.current.files.length; i += 1) {
       imagePromisesArray.push(
-        getImageAsBase64Promise(imagesRef.current.files[_i])
+        getImageAsBase64Promise(imagesRef.current.files[i])
       );
     }
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      for (let _i = 0; _i < imagesRef.current.files.length; _i += 1) {
+      for (let i = 0; i < imagesRef.current.files.length; i += 1) {
         const imageObject = { title: 'Title', caption: 'Caption' };
 
-        imageObject.image = arrayOfResults[_i];
+        imageObject.image = arrayOfResults[i];
         images.push(imageObject);
       }
 

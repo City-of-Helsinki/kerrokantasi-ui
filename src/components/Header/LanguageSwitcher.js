@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'hds-react';
@@ -16,7 +17,7 @@ class LanguageSwitcher extends React.Component {
     if (location.search.includes('lang=')) {
       searchParams = location.search.replace(/lang=\w{2}/, languageParam);
     } else if (location.search) {
-      searchParams = `${location.search  }&${languageParam}`;
+      searchParams = `${location.search}&${languageParam}`;
     }
     history.push({
       pathname: location.pathname,
