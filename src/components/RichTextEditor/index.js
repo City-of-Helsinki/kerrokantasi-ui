@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/forbid-prop-types */
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -28,18 +30,20 @@ import {
   ImageControls
 } from './EditorControls';
 import IframeModal from './Iframe/IframeModal';
-import {stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs} from './Iframe/IframeUtils';
+import { stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs } from './Iframe/IframeUtils';
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
 import ImageEntity from './Image/ImageEntity';
 import { textEditorHideControlsShape } from '../../types';
 
+const CLASS_NAME_IMAGE_CAPTION = "image-caption";
+
 const getBlockStyle = (block) => {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
     case 'LEAD': return 'lead';
-    case 'ImageCaption': return 'image-caption';
+    case 'ImageCaption': return CLASS_NAME_IMAGE_CAPTION;
     default: return null;
   }
 };
@@ -57,10 +61,10 @@ const kerrokantasiBlockRenderMap = Map({
 const htmlOptions = {
   blockStyleFn: (block) => {
     if (block.getType() === 'LEAD') {
-      return {attributes: {className: 'lead'}};
+      return { attributes: { className: 'lead' } };
     }
     if (block.getType() === 'ImageCaption') {
-      return {attributes: {className: 'image-caption'}};
+      return { attributes: { className: CLASS_NAME_IMAGE_CAPTION } };
     }
     return null;
   },
@@ -141,7 +145,7 @@ const decorator = composeDecorators(
   blockDndPlugin.decorator,
   resizeablePlugin.decorator
 );
-const imagePlugin = createImagePlugin({decorator});
+const imagePlugin = createImagePlugin({ decorator });
 
 const kerrokantasiPlugins = {
   decorators: [
@@ -166,21 +170,25 @@ class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
 
+    this.editorRef = createRef();
+    this.urlRef = createRef();
+
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     const createEditorState = () => {
       if (this.props.value) {
         const contentState = convertFromHTML({
           htmlToBlock: (nodeName, node) => {
             if (node.className === 'lead') {
-              return {type: 'LEAD', data: {}};
+              return { type: 'LEAD', data: {} };
             }
-            if (node.className === 'image-caption') {
-              return {type: 'ImageCaption', data: {}};
+            if (node.className === CLASS_NAME_IMAGE_CAPTION) {
+              return { type: 'ImageCaption', data: {} };
             }
             if (nodeName === 'iframe') {
-              return {type: 'atomic', data: {}};
+              return { type: 'atomic', data: {} };
             }
             if (nodeName === 'img') {
-              return {type: 'atomic', data: {}};
+              return { type: 'atomic', data: {} };
             }
             return null;
           },
@@ -194,7 +202,7 @@ class RichTextEditor extends React.Component {
               return createEntity(
                 'LINK',
                 'MUTABLE',
-                {url: href, target, id: node.id, className: node.className, title: node.id}
+                { url: href, target, id: node.id, className: node.className, title: node.id }
               );
             }
             if (nodeName === 'iframe') {
@@ -262,7 +270,7 @@ class RichTextEditor extends React.Component {
 
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
-    const {editorState} = this.state;
+    const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -308,6 +316,137 @@ class RichTextEditor extends React.Component {
     // and add iframe wrappers which help with iframe screen overflow
     const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithLinkIds);
     this.props.onBlur(addIframeWrapperDivs(iframeWithoutFigureWrap));
+  }
+
+  onLinkInputKeyDown(event) {
+    if (event.which === 13) {
+      this.confirmLink(event);
+    }
+  }
+
+  onFocus() {
+    this.editorRef.current.focus();
+  }
+
+  getPlaceholder() {
+    const { formatMessage } = this.props.intl;
+    if (this.props.placeholderId) {
+      return formatMessage({ id: this.props.placeholderId });
+    }
+    return "";
+  }
+
+  removeLink(event) {
+    event.preventDefault();
+    const { editorState } = this.state;
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      this.setState({
+        editorState: RichUtils.toggleLink(editorState, selection, null),
+      });
+    }
+  }
+
+  openSkipLinkModal(event) {
+    event.preventDefault();
+    this.setState({ showSkipLinkModal: true });
+  }
+
+  closeSkipLinkModal() {
+    this.setState({ showSkipLinkModal: false });
+  }
+
+  openIframeModal(event) {
+    event.preventDefault();
+    this.setState({ showIframeModal: true });
+  }
+
+  closeIframeModal() {
+    this.setState({ showIframeModal: false });
+  }
+
+  confirmIframe(iframeValues) {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'IFRAME',
+      'IMMUTABLE',
+      { ...iframeValues }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      { currentContent: contentStateWithEntity }
+    );
+    this.setState({
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        newEditorState,
+        entityKey,
+        ' '
+      ),
+      showIframeModal: false,
+    }, () => {
+      setTimeout(() => this.onFocus(), 0);
+    });
+  }
+
+  confirmImage(imageValues, imageAltText) {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'image',
+      'IMMUTABLE',
+      { src: imageValues, alt: imageAltText }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(
+      editorState,
+      { currentContent: contentStateWithEntity }
+    );
+    this.setState({
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        newEditorState,
+        entityKey,
+        ' '
+      ),
+      showImageModal: false,
+    }, () => {
+      setTimeout(() => this.onFocus(), 0);
+    });
+  }
+
+  openImageModal(event) {
+    event.preventDefault();
+    this.setState({ showImageModal: true });
+  }
+
+  closeImageModal() {
+    this.setState({ showImageModal: false });
+  }
+
+
+
+  /* TOGGLE BUTTONS */
+  toggleBlockType(blockType) {
+    this.onChange(
+      RichUtils.toggleBlockType(
+        this.state.editorState,
+        blockType
+      )
+    );
+  }
+
+  toggleInlineStyle(inlineStyle) {
+    this.onChange(
+      RichUtils.toggleInlineStyle(
+        this.state.editorState,
+        inlineStyle
+      )
+    );
   }
 
   /* HYPERLINK CONTROLS */
@@ -412,126 +551,6 @@ class RichTextEditor extends React.Component {
     });
   }
 
-  onLinkInputKeyDown(event) {
-    if (event.which === 13) {
-      this.confirmLink(event);
-    }
-  }
-
-  removeLink(event) {
-    event.preventDefault();
-    const { editorState } = this.state;
-    const selection = editorState.getSelection();
-    if (!selection.isCollapsed()) {
-      this.setState({
-        editorState: RichUtils.toggleLink(editorState, selection, null),
-      });
-    }
-  }
-
-  openSkipLinkModal(event) {
-    event.preventDefault();
-    this.setState({showSkipLinkModal: true});
-  }
-
-  closeSkipLinkModal() {
-    this.setState({showSkipLinkModal: false});
-  }
-
-  openIframeModal(event) {
-    event.preventDefault();
-    this.setState({showIframeModal: true});
-  }
-
-  closeIframeModal() {
-    this.setState({showIframeModal: false});
-  }
-
-  confirmIframe(iframeValues) {
-    const {editorState} = this.state;
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      'IFRAME',
-      'IMMUTABLE',
-      {...iframeValues}
-    );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(
-      editorState,
-      {currentContent: contentStateWithEntity}
-    );
-    this.setState({
-      // The third parameter here is a space string, not an empty string
-      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
-      editorState: AtomicBlockUtils.insertAtomicBlock(
-        newEditorState,
-        entityKey,
-        ' '
-      ),
-      showIframeModal: false,
-    }, () => {
-      setTimeout(() => this.onFocus(), 0);
-    });
-  }
-
-  confirmImage(imageValues, imageAltText) {
-    const {editorState} = this.state;
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      'image',
-      'IMMUTABLE',
-      { src: imageValues, alt: imageAltText}
-    );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(
-      editorState,
-      {currentContent: contentStateWithEntity}
-    );
-    this.setState({
-      // The third parameter here is a space string, not an empty string
-      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
-      editorState: AtomicBlockUtils.insertAtomicBlock(
-        newEditorState,
-        entityKey,
-        ' '
-      ),
-      showImageModal: false,
-    }, () => {
-      setTimeout(() => this.onFocus(), 0);
-    });
-  }
-
-  openImageModal(event) {
-    event.preventDefault();
-    this.setState({showImageModal: true});
-  }
-
-  closeImageModal() {
-    this.setState({showImageModal: false});
-  }
-
-  onFocus() {
-    this.refs.editor.focus();
-  }
-
-  /* TOGGLE BUTTONS */
-  toggleBlockType(blockType) {
-    this.onChange(
-      RichUtils.toggleBlockType(
-        this.state.editorState,
-        blockType
-      )
-    );
-  }
-
-  toggleInlineStyle(inlineStyle) {
-    this.onChange(
-      RichUtils.toggleInlineStyle(
-        this.state.editorState,
-        inlineStyle
-      )
-    );
-  }
 
   /* RENDERING */
   renderHyperlinkButton() {
@@ -541,7 +560,7 @@ class RichTextEditor extends React.Component {
         <div className="url-input-container">
           <input
             className="url-input"
-            ref="url"
+            ref={this.urlRef}
             type="text"
             value={this.state.urlValue}
             onKeyDown={this.onLinkInputKeyDown}
@@ -569,14 +588,6 @@ class RichTextEditor extends React.Component {
     );
   }
 
-  getPlaceholder() {
-    const {formatMessage} = this.props.intl;
-    if (this.props.placeholderId) {
-      return formatMessage({id: this.props.placeholderId});
-    }
-    return "";
-  }
-
   render() {
     const { editorState } = this.state;
     const {
@@ -590,7 +601,7 @@ class RichTextEditor extends React.Component {
     return (
       <div className="rich-text-editor">
         <ControlLabel>
-          <FormattedMessage id={this.props.labelId}/>
+          <FormattedMessage id={this.props.labelId} />
         </ControlLabel>
         {!hideBlockStyleControls && (
           <BlockStyleControls
@@ -607,7 +618,7 @@ class RichTextEditor extends React.Component {
         {!hideIframeControls && (
           <>
             <IframeControls
-                  onClick={this.openIframeModal}
+              onClick={this.openIframeModal}
             />
             <IframeModal
               isOpen={this.state.showIframeModal}
@@ -629,16 +640,16 @@ class RichTextEditor extends React.Component {
           </>
         )}
         {!hideSkipLinkControls && (
-        <>
-          <SkipLinkControls
-            onClick={this.openSkipLinkModal}
-          />
-          <SkipLinkModal
-            isOpen={this.state.showSkipLinkModal}
-            onClose={this.closeSkipLinkModal}
-            onSubmit={this.confirmSkipLink}
-          />
-        </>
+          <>
+            <SkipLinkControls
+              onClick={this.openSkipLinkModal}
+            />
+            <SkipLinkModal
+              isOpen={this.state.showSkipLinkModal}
+              onClose={this.closeSkipLinkModal}
+              onSubmit={this.confirmSkipLink}
+            />
+          </>
         )}
         {!hideLinkControls && (
           this.renderHyperlinkButton()
@@ -656,7 +667,7 @@ class RichTextEditor extends React.Component {
             onTab={this.onTab}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
-            ref="editor"
+            ref={this.editorRef}
           />
         </div>
       </div>

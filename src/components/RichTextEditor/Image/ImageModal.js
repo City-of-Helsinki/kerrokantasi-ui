@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   ControlLabel,
@@ -14,9 +14,9 @@ import Dropzone from 'react-dropzone';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import getMessage from '../../../utils/getMessage';
-import {isFormValid} from '../Iframe/IframeUtils';
+import { isFormValid } from '../Iframe/IframeUtils';
 import Icon from '../../../utils/Icon';
-import {localizedNotifyError} from '../../../utils/notify';
+import { localizedNotifyError } from '../../../utils/notify';
 
 
 const initialState = {
@@ -41,33 +41,6 @@ class ImageModal extends React.Component {
     this.setImageAltText = this.setImageAltText.bind(this);
   }
 
-  validateForm() {
-    const {fileReaderResult} = this.state;
-
-    const inputErrors = {
-      fileReaderResult: fileReaderResult ? '' : getMessage('validationCantBeEmpty'),
-    };
-
-    return isFormValid(inputErrors);
-  }
-
-
-  confirmImage() {
-    const {fileReaderResult, imageAltText} = this.state;
-    if (this.validateForm()) {
-      this.props.onSubmit(fileReaderResult, imageAltText);
-      this.setState(initialState);
-    } else {
-      this.setState({
-        showFormErrorMsg: true,
-      });
-    }
-  }
-
-  setImageAltText(event) {
-    this.setState({imageAltText: event.target.value});
-  }
-
   onFileDrop(files) {
     if (files[0].size > MAX_IMAGE_SIZE) {
       localizedNotifyError('imageSizeError');
@@ -76,7 +49,7 @@ class ImageModal extends React.Component {
     const file = files[0];  // Only one file is supported for now.
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
-      this.setState({fileReaderResult: fileReader.result});
+      this.setState({ fileReaderResult: fileReader.result });
     }, false);
     fileReader.readAsDataURL(file);
   }
@@ -88,6 +61,32 @@ class ImageModal extends React.Component {
     return false;
   }
 
+  setImageAltText(event) {
+    this.setState({ imageAltText: event.target.value });
+  }
+
+  confirmImage() {
+    const { fileReaderResult, imageAltText } = this.state;
+    if (this.validateForm()) {
+      this.props.onSubmit(fileReaderResult, imageAltText);
+      this.setState(initialState);
+    } else {
+      this.setState({
+        showFormErrorMsg: true,
+      });
+    }
+  }
+
+  validateForm() {
+    const { fileReaderResult } = this.state;
+
+    const inputErrors = {
+      fileReaderResult: fileReaderResult ? '' : getMessage('validationCantBeEmpty'),
+    };
+
+    return isFormValid(inputErrors);
+  }
+
   render() {
     const { isOpen, onClose } = this.props;
     const dropZoneClass = this.state.fileReaderResult ? "dropzone preview" : "dropzone";
@@ -95,12 +94,12 @@ class ImageModal extends React.Component {
       <Modal show={isOpen} onHide={onClose}>
         <Modal.Header closeButton>
           <ModalTitle componentClass="h3">
-            {<FormattedMessage id="imageModalTitle"/>}
+            {<FormattedMessage id="imageModalTitle" />}
           </ModalTitle>
         </Modal.Header>
         <Modal.Body className="form-modal image-modal">
           <div className="form-group">
-            <ControlLabel><FormattedMessage id="sectionImage"/></ControlLabel>
+            <ControlLabel><FormattedMessage id="sectionImage" /></ControlLabel>
             <Dropzone
               accept="image/*"
               className={dropZoneClass}
@@ -110,13 +109,13 @@ class ImageModal extends React.Component {
               {this.getImagePreview()}
               <div className="overlay">
                 <span className="text">
-                  <FormattedMessage id="selectOrDropImage"/>
-                  <Icon className="icon" name="upload"/>
+                  <FormattedMessage id="selectOrDropImage" />
+                  <Icon className="icon" name="upload" />
                 </span>
               </div>
             </Dropzone>
-            <HelpBlock><FormattedMessage id="sectionImageHelpText"/></HelpBlock>
-            <ControlLabel><FormattedMessage id="sectionImageCaption"/></ControlLabel>
+            <HelpBlock><FormattedMessage id="sectionImageHelpText" /></HelpBlock>
+            <ControlLabel><FormattedMessage id="sectionImageCaption" /></ControlLabel>
             <FormControl
               type="text"
               className="sectionImageCaptionInput"
@@ -127,13 +126,13 @@ class ImageModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onClose}>
-            <FormattedMessage id="cancel"/>
+            <FormattedMessage id="cancel" />
           </Button>
           <Button
             bsStyle="primary"
             onClick={this.confirmImage}
           >
-            { <FormattedMessage id="formButtonAcceptAndAdd" /> }
+            {<FormattedMessage id="formButtonAcceptAndAdd" />}
           </Button>
           {this.state.showFormErrorMsg &&
             <p id="skip-link-form-submit-error" role="alert" className="rich-text-editor-form-input-error">

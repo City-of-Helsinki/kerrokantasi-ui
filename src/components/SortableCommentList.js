@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
@@ -36,39 +38,12 @@ export class SortableCommentListComponent extends Component {
       showLoader: false,
       collapseForm: false,
       shouldAnimate: false,
-      answers: this._defaultAnswerState()
+      answers: this.defaultAnswerState()
     };
 
-    this.fetchMoreComments = throttle(this._fetchMoreComments).bind(this);
+    this.fetchMoreComments = throttle(this.fetchMoreComments).bind(this);
     this.handleReachBottom = this.handleReachBottom.bind(this);
     this.fetchComments = this.fetchComments.bind(this);
-  }
-
-  _defaultAnswerState() {
-    return this.props.section.questions.map(
-      question => ({
-        question: question.id,
-        type: question.type,
-        answers: []
-      })
-    );
-  }
-
-  _fetchMoreComments() {
-    const { section: { id: sectionId }, sectionComments: { ordering, next }, fetchMoreComments } = this.props;
-
-    if (next) {
-      fetchMoreComments(sectionId, ordering, next);
-    }
-  }
-
-  fetchComments(sectionId, ordering) {
-    // if a plugin is involved, we must fetch all the comments for display, not just a select few
-    const { fetchComments, fetchAllComments, section, hearingSlug, displayVisualization } = this.props;
-    if (displayVisualization && section.plugin_identifier) {
-      return fetchAllComments(hearingSlug, sectionId, ordering);
-    }
-    return fetchComments(sectionId, ordering);
   }
 
   componentDidMount() {
@@ -79,7 +54,7 @@ export class SortableCommentListComponent extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { section } = this.props;
     const isFetching = get(nextProps.sectionComments, 'isFetching');
     const results = get(nextProps.sectionComments, 'results');
@@ -116,6 +91,13 @@ export class SortableCommentListComponent extends Component {
     }
   }
 
+  handleReachBottom() {
+    const { sectionComments } = this.props;
+    if (sectionComments && sectionComments.count !== sectionComments.results.length) {
+      setTimeout(() => this.fetchMoreComments(), 1000);
+      this.setState({ showLoader: true });
+    }
+  }
 
   /**
    * When posting a new comment.
@@ -130,7 +112,7 @@ export class SortableCommentListComponent extends Component {
 
     if (this.props.onPostComment) {
       this.props.onPostComment(section.id, commentData).then(() => {
-        this.setState({ answers: this._defaultAnswerState() });
+        this.setState({ answers: this.defaultAnswerState() });
       });
     }
   }
@@ -142,57 +124,48 @@ export class SortableCommentListComponent extends Component {
     this.props.onPostComment(sectionId, data);
   }
 
-
   onChangeAnswers = (questionId, questionType, value) => {
     const oldAnswer = find(this.state.answers, answer => answer.question === questionId);
     if (questionType === 'single-choice') {
-      this.setState(
-        {
-          answers: [
-            ...this.state.answers.filter(answer => answer.question !== questionId),
-            {
-              question: questionId,
-              type: questionType,
-              answers: [value]
-            }
-          ]
-        }
-      );
+      this.setState((prevState) =>
+      ({
+        answers: [
+          ...prevState.answers.filter(answer => answer.question !== questionId),
+          {
+            question: questionId,
+            type: questionType,
+            answers: [value]
+          }
+        ]
+      }
+      ));
     } else if (questionType === 'multiple-choice' && oldAnswer && oldAnswer.answers.includes(value)) {
-      this.setState(
-        {
-          answers: [
-            ...this.state.answers.filter(answer => answer.question !== questionId),
-            {
-              ...oldAnswer,
-              answers: oldAnswer.answers.filter(answer => answer !== value)
-            }
-          ]
-        }
-      );
+      this.setState((prevState) =>
+      ({
+        answers: [
+          ...prevState.answers.filter(answer => answer.question !== questionId),
+          {
+            ...oldAnswer,
+            answers: oldAnswer.answers.filter(answer => answer !== value)
+          }
+        ]
+      }
+      ));
     } else if (questionType === 'multiple-choice' && oldAnswer) {
-      this.setState(
-        {
-          answers: [
-            ...this.state.answers.filter(answer => answer.question !== questionId),
-            {
-              ...oldAnswer,
-              answers: [
-                ...oldAnswer.answers,
-                value
-              ]
-            }
-          ]
-        }
-      );
-    }
-  }
-
-  handleReachBottom() {
-    const { sectionComments } = this.props;
-    if (sectionComments && sectionComments.count !== sectionComments.results.length) {
-      setTimeout(() => this.fetchMoreComments(), 1000);
-      this.setState({ showLoader: true });
+      this.setState((prevState) =>
+      ({
+        answers: [
+          ...prevState.answers.filter(answer => answer.question !== questionId),
+          {
+            ...oldAnswer,
+            answers: [
+              ...oldAnswer.answers,
+              value
+            ]
+          }
+        ]
+      }
+      ));
     }
   }
 
@@ -206,6 +179,33 @@ export class SortableCommentListComponent extends Component {
 
   handlePostFlag = (commentId, sectionId, isReply, parentId) => {
     this.props.onPostFlag(commentId, sectionId, isReply, parentId);
+  }
+
+  fetchComments(sectionId, ordering) {
+    // if a plugin is involved, we must fetch all the comments for display, not just a select few
+    const { fetchComments, fetchAllComments, section, hearingSlug, displayVisualization } = this.props;
+    if (displayVisualization && section.plugin_identifier) {
+      return fetchAllComments(hearingSlug, sectionId, ordering);
+    }
+    return fetchComments(sectionId, ordering);
+  }
+
+  defaultAnswerState() {
+    return this.props.section.questions.map(
+      question => ({
+        question: question.id,
+        type: question.type,
+        answers: []
+      })
+    );
+  }
+
+  fetchMoreComments() {
+    const { section: { id: sectionId }, sectionComments: { ordering, next }, fetchMoreComments } = this.props;
+
+    if (next) {
+      fetchMoreComments(sectionId, ordering, next);
+    }
   }
 
   renderMapVisualization() {

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import getMessage from '../../../utils/getMessage';
 
 // finds <iframe> tags wrapped with <figure> in given input,
@@ -38,15 +39,20 @@ export function parseIframeHtml(htmlInput) {
 
   const iframeAttributes = iframeElements[0].attributes;
   return Object.assign({},
-    ...Array.from(iframeAttributes, ({name, value}) => ({[name]: value}))
+    ...Array.from(iframeAttributes, ({ name, value }) => ({ [name]: value }))
   );
+}
+
+export function removeCssImportant(cssString) {
+  const importantRemoveRegex = / !important/gi;
+  return cssString.replace(importantRemoveRegex, '');
 }
 
 // removes width and/or height from attribute style string,
 // adds or replaces attribute width and height properties with removed style values
 // and returns the resulting attribute object.
 export function convertStyleDimensionSettings(attributes) {
-  const newAttributes = {...attributes};
+  const newAttributes = { ...attributes };
   if ("style" in newAttributes) {
     const style = removeCssImportant(newAttributes.style);
     const widthRegex = /width:\D*(\d+)(?=\D*;)/gi;
@@ -70,16 +76,8 @@ export function convertStyleDimensionSettings(attributes) {
   return newAttributes;
 }
 
-export function removeCssImportant(cssString) {
-  const importantRemoveRegex = / !important/gi;
-  return cssString.replace(importantRemoveRegex, '');
-}
-
 export function validateIsNotEmpty(value) {
-  if (!value || value === '') {
-    return false;
-  }
-  return true;
+  return !value || value === ''
 }
 
 export function validateIsNumber(value) {
@@ -106,10 +104,8 @@ export function validateInput(inputName, value) {
   const validationRules = Object.keys(IFRAME_VALIDATION);
   for (let index = 0; index < validationRules.length; index += 1) {
     const rule = IFRAME_VALIDATION[validationRules[index]];
-    if (rule.fields.includes(inputName)) {
-      if (!rule.isValidFn(value)) {
-        return rule.errorMsg;
-      }
+    if (rule.fields.includes(inputName) && !rule.isValidFn(value)) {
+      return rule.errorMsg;
     }
   }
   return '';

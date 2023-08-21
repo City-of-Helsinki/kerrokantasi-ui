@@ -1,10 +1,17 @@
-import React from "react";
+/* eslint-disable camelcase */
+import React, { createRef } from "react";
 
-import {loadScriptThenCall} from "./utils";
+import { loadScriptThenCall } from "./utils";
 
 export default class Facebook extends React.Component {
-  componentWillMount() {
-    this.setState({id: Math.random().toString(36)});
+  constructor() {
+    super();
+
+    this.containerRef = createRef();
+  }
+
+  UNSAFE_componentWillMount() {
+    this.setState({ id: Math.random().toString(36) });
   }
 
   componentDidMount() {
@@ -18,8 +25,8 @@ export default class Facebook extends React.Component {
   }
 
   setupFacebookWidget(FB) {
-    FB.init({version: 'v2.4'});
-    FB.XFBML.parse(this.refs.container);
+    FB.init({ version: 'v2.4' });
+    FB.XFBML.parse(this.containerRef.current);
   }
 
   render() {
@@ -28,7 +35,7 @@ export default class Facebook extends React.Component {
       return null;
     }
     return (
-      <span ref="container" id={`facebook-${  this.state.id}`}>
+      <span ref={this.containerRef} id={`facebook-${this.state.id}`}>
         <div
           className="fb-share-button"
           data-href={window.location.href}

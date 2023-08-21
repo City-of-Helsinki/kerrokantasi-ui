@@ -1,9 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {OverlayTrigger, Button, Tooltip, Label} from 'react-bootstrap';
+import { OverlayTrigger, Button, Tooltip, Label } from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
-import {FormattedMessage, FormattedRelative} from 'react-intl';
+import { FormattedMessage, FormattedRelative } from 'react-intl';
 
 import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
@@ -37,40 +38,43 @@ class UserComment extends React.Component {
    * @returns {JSX.Element}
    */
   dateTooltip = date => (
-      <Tooltip id="comment-date-tooltip">
-        {this.parseTimestamp(date)}
-      </Tooltip>
-    )
+    <Tooltip id="comment-date-tooltip">
+      {this.parseTimestamp(date)}
+    </Tooltip>
+  )
 
   renderCommentText = (comment) => {
     if (!comment.deleted) {
       return <p>{nl2br(comment.content)}</p>;
     }
+
     if (comment.deleted_by_type === "self") {
-      return <FormattedMessage id="sectionCommentSelfDeletedMessage"/>;
-    } if (comment.deleted_by_type === "moderator") {
+      return <FormattedMessage id="sectionCommentSelfDeletedMessage" />;
+    }
+
+    if (comment.deleted_by_type === "moderator") {
       return (
         <p>
           <FormattedMessage
             id="sectionCommentDeletedMessage"
-            values={{date: comment.deleted_at ? moment(new Date(comment.deleted_at)).format(' DD.MM.YYYY HH:mm') : ''}}
+            values={{ date: comment.deleted_at ? moment(new Date(comment.deleted_at)).format(' DD.MM.YYYY HH:mm') : '' }}
           />
         </p>
       );
     }
-    return <FormattedMessage id="sectionCommentGenericDeletedMessage"/>;
+    return <FormattedMessage id="sectionCommentGenericDeletedMessage" />;
   }
 
   /**
    * Toggles state.displayMap value
    */
   toggleMap = () => {
-    this.setState({displayMap: !this.state.displayMap});
+    this.setState((prevState) => ({ displayMap: !prevState.displayMap }));
   }
 
   render() {
-    const {comment, locale} = this.props;
-    const {hearing_data: data} = comment;
+    const { comment, locale } = this.props;
+    const { hearing_data: data } = comment;
     const hearingStatus = {
       style: data.closed ? 'default' : 'success',
       id: data.closed ? 'closedHearing' : 'openHearing'
@@ -94,12 +98,12 @@ class UserComment extends React.Component {
               <div>
                 <Label bsStyle={hearingStatus.style}>
                   <FormattedMessage id="commentHearingStatus">
-                    {txt => <span className="sr-only">{txt}</span> }
+                    {txt => <span className="sr-only">{txt}</span>}
                   </FormattedMessage>
                   <FormattedMessage id={hearingStatus.id}>{txt => txt}</FormattedMessage>
                 </Label>
               </div>
-              <Link to={{path: `/${data.slug}`}}>
+              <Link to={{ path: `/${data.slug}` }}>
                 {getAttr(data.title, locale)}
               </Link>
             </div>
@@ -130,12 +134,12 @@ class UserComment extends React.Component {
           {comment.geojson && (
             <div className="hearing-comment__map">
               <Button
-                  onClick={this.toggleMap}
-                  className="hearing-comment__map-toggle"
-                  aria-expanded={this.state.displayMap}
-                >
-                  <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
-                </Button>
+                onClick={this.toggleMap}
+                className="hearing-comment__map-toggle"
+                aria-expanded={this.state.displayMap}
+              >
+                <FormattedMessage id="commentShowMap">{text => text}</FormattedMessage>
+              </Button>
               {(this.state.displayMap && comment.geojson) && (
                 <div
                   className="hearing-comment__map-container"
@@ -143,9 +147,9 @@ class UserComment extends React.Component {
                 >
                   {comment.geojson && (
                     <HearingMap
-                      hearing={{geojson: comment.geojson}}
+                      hearing={{ geojson: comment.geojson }}
                       mapContainer={this.state.mapContainer}
-                      mapSettings={{dragging: false}}
+                      mapSettings={{ dragging: false }}
                     />
                   )}
                 </div>
