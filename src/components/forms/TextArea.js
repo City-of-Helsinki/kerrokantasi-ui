@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, intlShape} from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -21,14 +21,14 @@ class TextArea extends React.Component {
   }
 
   onChange(event) {
-    const {value} = event.target;
-    this.setState({value});
+    const { value } = event.target;
+    this.setState({ value });
   }
 
   getPlaceholder() {
-    const {formatMessage} = this.props.intl;
+    const { formatMessage } = this.props.intl;
     if (this.props.placeholderId) {
-      return formatMessage({id: this.props.placeholderId});
+      return formatMessage({ id: this.props.placeholderId });
     }
     return "";
   }

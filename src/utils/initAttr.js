@@ -1,12 +1,12 @@
 import config from '../config';
 
 const INIT_ATTR = config.languages.reduce((attr, lang) => {
-  const temp = { ...attr};
+  const temp = { ...attr };
   temp[lang] = '';
   return temp;
 }, {});
 
 const initAttr = () =>
-  ({ ...INIT_ATTR});
+  ({ ...INIT_ATTR });
 
 export default initAttr;

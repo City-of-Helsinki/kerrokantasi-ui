@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function RichTextModalTextField(props) {
-  const {name, label, handleInputChange, handleInputBlur, value, isRequired, errorMsg, formName} = props;
+  const { name, label, handleInputChange, handleInputBlur, value, isRequired, errorMsg, formName } = props;
   const errorId = `${formName}-input-error-${name}`;
 
   return (

@@ -91,7 +91,7 @@ const defaultProps = {
 };
 
 const commentCounter = (uniqueHearing) => defaultProps.profile.comments.uniqueHearings.find(
-    value => value.id === uniqueHearing.id).commentCount;
+  value => value.id === uniqueHearing.id).commentCount;
 
 describe('UserProfile', () => {
   function getWrapper(props) {

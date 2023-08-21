@@ -1,20 +1,21 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
-import {HeaderComponent} from '../../src/components/Hearing/Header';
-import {mockStore, getIntlAsProp} from '../../test-utils';
+import { HeaderComponent } from '../../src/components/Hearing/Header';
+import { mockStore, getIntlAsProp } from '../../test-utils';
 import Icon from '../../src/utils/Icon';
 
 // Renders the Hearings component using enzymes shallow rendering.
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
-  const {mockHearingWithSections} = mockStore;
-  const props = {hearing: mockHearingWithSections.data,
+  const { mockHearingWithSections } = mockStore;
+  const props = {
+    hearing: mockHearingWithSections.data,
     sections: mockHearingWithSections.data.sections,
     activeLanguage: 'fi',
-    dispatch: () => {},
+    dispatch: () => { },
     location: {
       pathname: mockHearingWithSections.data.sections[0].id
     },
@@ -22,7 +23,8 @@ const setup = propOverrides => {
       params: {
         sectionId: mockHearingWithSections.data.sections[0].id
       }
-    }, ...propOverrides};
+    }, ...propOverrides
+  };
 
   const wrapper = shallow(<HeaderComponent intl={getIntlAsProp()} {...props} />);
 
@@ -33,13 +35,13 @@ const setup = propOverrides => {
 };
 
 test('Header component should render as expected', () => {
-  const {wrapper} = setup();
+  const { wrapper } = setup();
   const tree = toJson(wrapper);
   expect(tree).toMatchSnapshot();
 });
 describe('methods', () => {
   describe('getFavorite', () => {
-    const {props} = setup();
+    const { props } = setup();
     const expectedFavoriteValues = {
       // First value if favorite, otherwise second
       icon: ['heart', 'heart-o'],
@@ -47,9 +49,11 @@ describe('methods', () => {
       id: ['removeFavorites', 'addFavorites']
     };
     test('returns correct elements when hearing is not in users favorites', () => {
-      const {wrapper} = setup({user: {
-        id: '123123',
-        favorite_hearings: []}
+      const { wrapper } = setup({
+        user: {
+          id: '123123',
+          favorite_hearings: []
+        }
       });
       const elements = shallow(wrapper.instance().getFavorite());
       expect(elements.children()).toHaveLength(2);
@@ -65,10 +69,12 @@ describe('methods', () => {
     });
 
     test('returns correct elements when hearing is in users favorites', () => {
-      const {mockHearingWithSections} = mockStore;
-      const {wrapper} = setup({user: {
-        id: '123123',
-        favorite_hearings: [mockHearingWithSections.data.id]}
+      const { mockHearingWithSections } = mockStore;
+      const { wrapper } = setup({
+        user: {
+          id: '123123',
+          favorite_hearings: [mockHearingWithSections.data.id]
+        }
       });
       const elements = shallow(wrapper.instance().getFavorite());
       expect(elements.children()).toHaveLength(2);
@@ -82,9 +88,9 @@ describe('methods', () => {
 
     test('Button onClick calls removeFromFavorites prop when hearing is favorite', () => {
       const mockRemoveFromFavorites = jest.fn();
-      const {mockHearingWithSections} = mockStore;
-      const {slug: expectedSlug, id: expectedId} = mockHearingWithSections.data;
-      const {wrapper} = setup({
+      const { mockHearingWithSections } = mockStore;
+      const { slug: expectedSlug, id: expectedId } = mockHearingWithSections.data;
+      const { wrapper } = setup({
         user: {
           id: '123123',
           favorite_hearings: [mockHearingWithSections.data.id]
@@ -99,9 +105,9 @@ describe('methods', () => {
 
     test('Button onClick calls addToFavorites prop when hearing is not favorite', () => {
       const mockAddToFavorites = jest.fn();
-      const {mockHearingWithSections} = mockStore;
-      const {slug: expectedSlug, id: expectedId} = mockHearingWithSections.data;
-      const {wrapper} = setup({
+      const { mockHearingWithSections } = mockStore;
+      const { slug: expectedSlug, id: expectedId } = mockHearingWithSections.data;
+      const { wrapper } = setup({
         user: {
           id: '123123',
           favorite_hearings: []

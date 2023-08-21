@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
-import {Modal, Button, ModalTitle} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';
 import getMessage from '../../../utils/getMessage';
-import {isFormValid} from './SkipLinkUtils';
+import { isFormValid } from './SkipLinkUtils';
 
 const initialState = {
   linkText: '',
@@ -33,12 +33,12 @@ class SkipLinkModal extends React.Component {
   }
 
   handleInputChange(event) {
-    const {target} = event;
+    const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const {name} = target;
+    const { name } = target;
 
     this.setState((state) => {
-      const inputErrors = {...state.inputErrors, ...{[name]: ''}};
+      const inputErrors = { ...state.inputErrors, ...{ [name]: '' } };
       return ({
         showFormErrorMsg: false,
         [name]: value,
@@ -48,10 +48,10 @@ class SkipLinkModal extends React.Component {
   }
 
   handleInputBlur(event) {
-    const {target} = event;
+    const { target } = event;
     if (target.required && !target.value) {
       this.setState((state) => {
-        const inputErrors = {...state.inputErrors, ...{[target.name]: getMessage('validationCantBeEmpty')}};
+        const inputErrors = { ...state.inputErrors, ...{ [target.name]: getMessage('validationCantBeEmpty') } };
         return ({
           inputErrors,
         });
@@ -60,7 +60,7 @@ class SkipLinkModal extends React.Component {
   }
 
   validateForm() {
-    const {linkText, linkOwnId, linkTargetId} = this.state;
+    const { linkText, linkOwnId, linkTargetId } = this.state;
 
     const inputErrors = {
       linkText: linkText ? '' : getMessage('validationCantBeEmpty'),
@@ -77,7 +77,7 @@ class SkipLinkModal extends React.Component {
 
 
   confirmSkipLink() {
-    const {linkText, linkOwnId, linkTargetId, linkIsHidden} = this.state;
+    const { linkText, linkOwnId, linkTargetId, linkIsHidden } = this.state;
 
     if (this.validateForm()) {
       this.props.onSubmit(linkText, linkOwnId, linkTargetId, linkIsHidden);
@@ -96,7 +96,7 @@ class SkipLinkModal extends React.Component {
       <Modal show={isOpen} onHide={onClose}>
         <Modal.Header closeButton>
           <ModalTitle componentClass="h3">
-            {<FormattedMessage id="skipLinkModalTitle"/>}
+            {<FormattedMessage id="skipLinkModalTitle" />}
           </ModalTitle>
         </Modal.Header>
         <Modal.Body>
@@ -147,13 +147,13 @@ class SkipLinkModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onClose}>
-            <FormattedMessage id="cancel"/>
+            <FormattedMessage id="cancel" />
           </Button>
           <Button
             bsStyle="primary"
             onClick={this.confirmSkipLink}
           >
-            { <FormattedMessage id="formButtonAcceptAndAdd" /> }
+            {<FormattedMessage id="formButtonAcceptAndAdd" />}
           </Button>
           {this.state.showFormErrorMsg &&
             <p id="skip-link-form-submit-error" role="alert" className="rich-text-editor-form-input-error">

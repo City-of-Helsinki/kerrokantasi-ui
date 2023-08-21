@@ -15,4 +15,4 @@ export const FILE_FORMATS = {
   }
 };
 
-export default {FILE_FORMATS};
+export default { FILE_FORMATS };

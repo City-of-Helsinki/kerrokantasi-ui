@@ -8,20 +8,20 @@ import getMessage from '../../utils/getMessage';
 import { hearingShape } from "../../types";
 
 
-function CommentReportModal({isOpen, hearing, onClose}) {
+function CommentReportModal({ isOpen, hearing, onClose }) {
   return (
     <Modal animation={false} className="comment-reports-modal" onHide={onClose} show={isOpen} >
       <Modal.Header closeButton closeLabel={getMessage('commentReportsClose')}>
         <Modal.Title componentClass="h1">
-          <FormattedMessage id="commentReportsTitle"/>
+          <FormattedMessage id="commentReportsTitle" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CommentReportForm hearing={hearing}/>
+        <CommentReportForm hearing={hearing} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onClose}>
-          <FormattedMessage id="commentReportsClose"/>
+          <FormattedMessage id="commentReportsClose" />
         </Button>
       </Modal.Footer>
     </Modal>

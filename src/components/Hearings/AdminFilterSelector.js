@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Nav, NavItem} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { Nav, NavItem } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from '../../utils/Icon';
 
@@ -17,19 +17,19 @@ const AdminFilterSelector = ({
   onSelect,
   options,
 }) => (
-    <Nav activeKey={active} bsStyle="pills" className="admin-filter-selector">
-      {options.map((filter) => {
-        const {list, iconName, formattedMessage, role} = filter;
-        // NavItem role is button by default if filter.role doesnt exist
-        return (
-          <NavItem key={list} eventKey={list} onSelect={onSelect} role={role}>
-            <Icon name={iconName} aria-hidden />
-            <FormattedMessage id={formattedMessage}>{txt => txt}</FormattedMessage>
-          </NavItem>
-        );
-      })}
-    </Nav>
-  );
+  <Nav activeKey={active} bsStyle="pills" className="admin-filter-selector">
+    {options.map((filter) => {
+      const { list, iconName, formattedMessage, role } = filter;
+      // NavItem role is button by default if filter.role doesnt exist
+      return (
+        <NavItem key={list} eventKey={list} onSelect={onSelect} role={role}>
+          <Icon name={iconName} aria-hidden />
+          <FormattedMessage id={formattedMessage}>{txt => txt}</FormattedMessage>
+        </NavItem>
+      );
+    })}
+  </Nav>
+);
 
 AdminFilterSelector.propTypes = {
   active: PropTypes.string,

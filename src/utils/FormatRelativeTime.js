@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedRelative} from 'react-intl';
+import { FormattedMessage, FormattedRelative } from 'react-intl';
 
-function FormatRelativeTime({messagePrefix, timeVal, frontpage = false, formatTime, formatDate}) {
+function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
   if (!timeVal || !messagePrefix) {
-    return <span/>;
+    return <span />;
   }
   const time = new Date(timeVal);
   // timeVal is before current date?
@@ -28,10 +28,10 @@ function FormatRelativeTime({messagePrefix, timeVal, frontpage = false, formatTi
 
   // a closing message and date that is not older than 1 month ago
   if (closeTimeMessage && !pastMoreThanMonth) {
-    const closeTime = formatTime(timeVal, {hour: '2-digit', minute: '2-digit'});
-    const closeDate = formatDate(timeVal, {day: '2-digit', month: '2-digit'});
+    const closeTime = formatTime(timeVal, { hour: '2-digit', minute: '2-digit' });
+    const closeDate = formatDate(timeVal, { day: '2-digit', month: '2-digit' });
     return (
-      <FormattedMessage id={messageId} values={{time: closeTime, date: closeDate}}>
+      <FormattedMessage id={messageId} values={{ time: closeTime, date: closeDate }}>
         {txt =>
           <div>
             {txt}
@@ -41,7 +41,7 @@ function FormatRelativeTime({messagePrefix, timeVal, frontpage = false, formatTi
       </FormattedMessage>
     );
   }
-  return (<><FormattedMessage id={messageId}/> <FormattedRelative value={timeVal}/></>);
+  return (<><FormattedMessage id={messageId} /> <FormattedRelative value={timeVal} /></>);
 }
 
 FormatRelativeTime.propTypes = {

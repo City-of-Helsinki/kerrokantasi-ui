@@ -10,7 +10,8 @@ import { mockStore, getIntlAsProp } from '../test-utils';
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const { sectionComments, hearingLists: { allHearings }, mockHearingWithSections, dispatch } = mockStore;
-  const props = {hearingSlug: allHearings.data[0].slug,
+  const props = {
+    hearingSlug: allHearings.data[0].slug,
     sectionComments: sectionComments.mock,
     dispatch,
     canVote: true,
@@ -21,7 +22,8 @@ const setup = propOverrides => {
     section: mockHearingWithSections.data.sections[1],
     language: 'fi',
     published: true,
-    fetchComments: () => { }, ...propOverrides};
+    fetchComments: () => { }, ...propOverrides
+  };
 
   const wrapper = shallow(
     <MemoryRouter>

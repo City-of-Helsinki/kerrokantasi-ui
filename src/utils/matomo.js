@@ -24,7 +24,7 @@ const setupMatomo = () => {
     g.type = 'text/javascript';
     g.async = true;
     g.src = u + config.matomoScriptFilename;
-    if(s) {
+    if (s) {
       s.parentNode.insertBefore(g, s);
     }
   })();

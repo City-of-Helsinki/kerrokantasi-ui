@@ -2,7 +2,7 @@ import React from 'react';
 import { HashLink } from 'react-router-hash-link';
 import PropTypes from 'prop-types';
 
-function InternalLink({children, destinationId, srOnly}) {
+function InternalLink({ children, destinationId, srOnly }) {
   const skipTo = `${window.location.pathname}${window.location.search}#${destinationId}`;
   return (
     <HashLink className={srOnly ? 'internal-link hidden-link' : 'internal-link'} to={skipTo}>

@@ -14,7 +14,7 @@ describe('RichTextModalTextField', () => {
   };
 
   function getWrapper(props) {
-    return shallow(<RichTextModalTextField {...defaultProps} {...props}/>);
+    return shallow(<RichTextModalTextField {...defaultProps} {...props} />);
   }
 
   describe('renders', () => {
@@ -25,17 +25,17 @@ describe('RichTextModalTextField', () => {
     describe('label with correct props', () => {
       test('when field is not required', () => {
         const isRequired = false;
-        const label = getWrapper({isRequired}).find('label');
+        const label = getWrapper({ isRequired }).find('label');
         expect(label).toHaveLength(1);
         expect(label.prop('htmlFor')).toBe(`${defaultProps.formName}-${defaultProps.name}`);
-        expect(label.text()).toBe(`${defaultProps.label  } `);
+        expect(label.text()).toBe(`${defaultProps.label} `);
       });
       test('when field is required', () => {
         const isRequired = true;
-        const label = getWrapper({isRequired}).find('label');
+        const label = getWrapper({ isRequired }).find('label');
         expect(label).toHaveLength(1);
         expect(label.prop('htmlFor')).toBe(`${defaultProps.formName}-${defaultProps.name}`);
-        expect(label.text()).toBe(`${defaultProps.label  } *`);
+        expect(label.text()).toBe(`${defaultProps.label} *`);
       });
     });
 
@@ -53,13 +53,13 @@ describe('RichTextModalTextField', () => {
         expect(input.prop('required')).toBe(defaultProps.isRequired);
       });
       test('prop aria-describedby is undefined when errorMsg is falsy', () => {
-        const input = getWrapper({errorMsg: ''}).find('input');
+        const input = getWrapper({ errorMsg: '' }).find('input');
         expect(input.prop('aria-describedby')).toBe(undefined);
       });
       test('prop aria-describedby is correct value when errorMsg is not falsy', () => {
         const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "error-text";
-        const input = getWrapper({errorMsg}).find('input');
+        const input = getWrapper({ errorMsg }).find('input');
         expect(input.prop('aria-describedby')).toBe(errorId);
       });
     });
@@ -68,7 +68,7 @@ describe('RichTextModalTextField', () => {
       test('when prop errorMsg is not falsy', () => {
         const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "error-text";
-        const errorParagraph = getWrapper({errorMsg}).find(`#${  errorId}`);
+        const errorParagraph = getWrapper({ errorMsg }).find(`#${errorId}`);
         expect(errorParagraph).toHaveLength(1);
         expect(errorParagraph.prop('role')).toBe('alert');
         expect(errorParagraph.prop('className')).toBe('rich-text-editor-form-input-error');
@@ -77,7 +77,7 @@ describe('RichTextModalTextField', () => {
       test('is not rendered if errorMsg is falsy', () => {
         const errorId = `${defaultProps.formName}-input-error-${defaultProps.name}`;
         const errorMsg = "";
-        const errorParagraph = getWrapper({errorMsg}).find(`#${  errorId}`);
+        const errorParagraph = getWrapper({ errorMsg }).find(`#${errorId}`);
         expect(errorParagraph).toHaveLength(0);
       });
     });

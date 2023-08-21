@@ -8,14 +8,14 @@ const generateCoordinates = () => [(Math.random() * (21 - 20)) + 20, (Math.rando
 const mockPoint = () => ({ type: 'Point', coordinates: generateCoordinates() });
 
 const mockFeatureCollection = () => ({
-    type: 'FeatureCollection',
-    features: [
-      { type: 'Feature', geometry: mockPoint() },
-      { type: 'Feature', geometry: mockPoint() },
-      { type: 'Feature', geometry: mockPoint() },
-      { type: 'Feature', geometry: mockPoint() }
-    ]
-  });
+  type: 'FeatureCollection',
+  features: [
+    { type: 'Feature', geometry: mockPoint() },
+    { type: 'Feature', geometry: mockPoint() },
+    { type: 'Feature', geometry: mockPoint() },
+    { type: 'Feature', geometry: mockPoint() }
+  ]
+});
 const defaultProps = {
   hearing: {},
   onHearingChange: () => { },

@@ -2,13 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const SectionClosureInfoComponent = ({content}) => (
-    <div className="closure-info">
-      <div className="container">
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-      </div>
+export const SectionClosureInfoComponent = ({ content }) => (
+  <div className="closure-info">
+    <div className="container">
+      <div dangerouslySetInnerHTML={{ __html: content }} />
     </div>
-  );
+  </div>
+);
 
 SectionClosureInfoComponent.propTypes = {
   content: PropTypes.string

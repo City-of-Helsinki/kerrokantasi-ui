@@ -5,7 +5,7 @@ describe('getAttr', () => {
   const SV = 'sv';
   const EN = 'en';
   const str = 'foobar';
-  const onlySV = {'sv': 'foobar'};
+  const onlySV = { 'sv': 'foobar' };
   const all = {
     [FI]: str,
     [SV]: SV,
@@ -22,12 +22,12 @@ describe('getAttr', () => {
   });
 
   it('`dev` option should append language code to output', () => {
-    expect(getAttr(str, FI, {dev: true})).toMatch(FI);
-    expect(getAttr('', FI, {dev: true})).toMatch(FI);
-    expect(getAttr(123, FI, {dev: true})).toMatch(FI);
-    expect(getAttr(0, FI, {dev: true})).toMatch(FI);
-    expect(getAttr(undefined, FI, {dev: true})).toMatch(FI);
-    expect(getAttr([], FI, {dev: true})).toMatch(FI);
+    expect(getAttr(str, FI, { dev: true })).toMatch(FI);
+    expect(getAttr('', FI, { dev: true })).toMatch(FI);
+    expect(getAttr(123, FI, { dev: true })).toMatch(FI);
+    expect(getAttr(0, FI, { dev: true })).toMatch(FI);
+    expect(getAttr(undefined, FI, { dev: true })).toMatch(FI);
+    expect(getAttr([], FI, { dev: true })).toMatch(FI);
   });
 
   it('should translate to correct lng', () =>
@@ -35,7 +35,7 @@ describe('getAttr', () => {
   );
 
   it('should translate to correct lng with `exact`', () =>
-    expect(getAttr(all, FI, {exact: true})).toBe(str)
+    expect(getAttr(all, FI, { exact: true })).toBe(str)
   );
 
   it('should return some translation when exact translation is not available', () => {
@@ -43,12 +43,12 @@ describe('getAttr', () => {
   });
 
   it('should return undefined with `exact` option when exact translation is not available', () => {
-    expect(getAttr(onlySV, FI, {exact: true})).toBeUndefined();
-    expect(getAttr(str, FI, {exact: true})).toBeUndefined();
-    expect(getAttr('', FI, {exact: true})).toBeUndefined();
-    expect(getAttr(123, FI, {exact: true})).toBeUndefined();
-    expect(getAttr(0, FI, {exact: true})).toBeUndefined();
-    expect(getAttr(undefined, FI, {exact: true})).toBeUndefined();
-    expect(getAttr([], FI, {exact: true})).toBeUndefined();
+    expect(getAttr(onlySV, FI, { exact: true })).toBeUndefined();
+    expect(getAttr(str, FI, { exact: true })).toBeUndefined();
+    expect(getAttr('', FI, { exact: true })).toBeUndefined();
+    expect(getAttr(123, FI, { exact: true })).toBeUndefined();
+    expect(getAttr(0, FI, { exact: true })).toBeUndefined();
+    expect(getAttr(undefined, FI, { exact: true })).toBeUndefined();
+    expect(getAttr([], FI, { exact: true })).toBeUndefined();
   });
 });

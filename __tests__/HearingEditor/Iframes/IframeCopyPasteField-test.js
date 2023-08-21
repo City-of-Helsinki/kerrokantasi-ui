@@ -15,7 +15,7 @@ describe('IframeSelectField', () => {
   };
 
   function getWrapper(props) {
-    return shallow(<IframeCopyPasteField {...defaultProps} {...props}/>);
+    return shallow(<IframeCopyPasteField {...defaultProps} {...props} />);
   }
 
   describe('renders', () => {
@@ -53,13 +53,13 @@ describe('IframeSelectField', () => {
       test('updates state.htmlCopyPaste value', () => {
         const instance = getWrapper().instance();
         instance.state.htmlCopyPaste = "old-value";
-        const event = {target: {value: "new-value"}};
+        const event = { target: { value: "new-value" } };
         instance.handleCopyPasteChange(event);
         expect(instance.state.htmlCopyPaste).toBe("new-value");
       });
       test('calls props.updateAttributes', () => {
         const instance = getWrapper().instance();
-        const event = {target: {value: '<iframe title="test-title" style="width: 150px;"></iframe>'}};
+        const event = { target: { value: '<iframe title="test-title" style="width: 150px;"></iframe>' } };
         instance.handleCopyPasteChange(event);
         expect(defaultProps.updateAttributes.mock.calls.length).toBe(1);
         expect(defaultProps.updateAttributes.mock.calls[0][0])

@@ -16,8 +16,8 @@ class IframeCopyPasteField extends React.Component {
   }
 
   handleCopyPasteChange(event) {
-    const {value} = event.target;
-    this.setState({htmlCopyPaste: value});
+    const { value } = event.target;
+    this.setState({ htmlCopyPaste: value });
 
     // if iframe has width and/or height in the style attribute
     // convert the dimensions into their own attributes
@@ -30,11 +30,11 @@ class IframeCopyPasteField extends React.Component {
       <div className="input-container html-copy-paste-input">
         <label htmlFor="iframe-html-copy-paste">{getMessage("iframeHtmlCopyPaste")}</label>
         <textarea
-            id="iframe-html-copy-paste"
-            name="htmlCopyPaste"
-            className="form-control"
-            onChange={this.handleCopyPasteChange}
-            value={this.state.htmlCopyPaste}
+          id="iframe-html-copy-paste"
+          name="htmlCopyPaste"
+          className="form-control"
+          onChange={this.handleCopyPasteChange}
+          value={this.state.htmlCopyPaste}
         />
       </div>
     );

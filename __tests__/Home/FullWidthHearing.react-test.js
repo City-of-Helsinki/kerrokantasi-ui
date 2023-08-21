@@ -10,7 +10,7 @@ import FullWidthHearing from '../../src/components/FullWidthHearing';
 // You can pass props you want to override as a parameter.
 const setup = propOverrides => {
   const { hearingLists: { allHearings } } = mockStore;
-  const props = {hearing: allHearings.data[0], ...propOverrides};
+  const props = { hearing: allHearings.data[0], ...propOverrides };
 
   const wrapper = shallow(<MemoryRouter><FullWidthHearing intl={getIntlAsProp()} {...props} /></MemoryRouter>);
 

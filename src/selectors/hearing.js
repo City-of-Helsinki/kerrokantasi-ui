@@ -1,6 +1,6 @@
-import {head, isEmpty} from 'lodash';
+import { head, isEmpty } from 'lodash';
 
-import {SectionTypes} from '../utils/section';
+import { SectionTypes } from '../utils/section';
 
 export const getTopHearing = (state) =>
   state.hearingLists.topHearing && state.hearingLists.topHearing.data && head(state.hearingLists.topHearing.data);
@@ -85,8 +85,8 @@ export const getHearingValue = (state, type, key) =>
  * @see getHearingValue
  */
 export const getUserHearingList = (state, key) => ({
-    open: getHearingValue(state, 'userHearingsOpen', key),
-    queue: getHearingValue(state, 'userHearingsQueue', key),
-    closed: getHearingValue(state, 'userHearingsClosed', key),
-    draft: getHearingValue(state, 'userHearingsDrafts', key),
-  });
+  open: getHearingValue(state, 'userHearingsOpen', key),
+  queue: getHearingValue(state, 'userHearingsQueue', key),
+  closed: getHearingValue(state, 'userHearingsClosed', key),
+  draft: getHearingValue(state, 'userHearingsDrafts', key),
+});

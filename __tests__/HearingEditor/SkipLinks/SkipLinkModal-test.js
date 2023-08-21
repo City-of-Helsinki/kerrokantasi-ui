@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { shallow } from 'enzyme';
-import {Modal, Button, ModalTitle } from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 import getMessage from '../../../src/utils/getMessage';
 import SkipLinkModal from '../../../src/components/RichTextEditor/SkipLink/SkipLinkModal';
@@ -15,7 +16,7 @@ describe('SkipLinkModal', () => {
   };
 
   function getWrapper(props) {
-    return shallow(<SkipLinkModal {...defaultProps} {...props}/>);
+    return shallow(<SkipLinkModal {...defaultProps} {...props} />);
   }
 
   describe('renders', () => {
@@ -50,9 +51,9 @@ describe('SkipLinkModal', () => {
       const instance = wrapper.instance();
       const textFields = wrapper.find(RichTextModalTextField);
       const textFieldData = [
-        {name: 'linkText', label: getMessage('skipLinkFormFieldText'), isRequired: true},
-        {name: 'linkOwnId', label: getMessage('skipLinkFormFieldOwnId'), isRequired: true},
-        {name: 'linkTargetId', label: getMessage('skipLinkFormFieldTargetId'), isRequired: true},
+        { name: 'linkText', label: getMessage('skipLinkFormFieldText'), isRequired: true },
+        { name: 'linkOwnId', label: getMessage('skipLinkFormFieldOwnId'), isRequired: true },
+        { name: 'linkTargetId', label: getMessage('skipLinkFormFieldTargetId'), isRequired: true },
       ];
       expect(textFields).toHaveLength(textFieldData.length);
       textFields.forEach((field, index) => {
@@ -111,7 +112,7 @@ describe('SkipLinkModal', () => {
       });
       describe('form error text', () => {
         test('is shown when state.showFormErrorMsg is true', () => {
-          instance.setState({showFormErrorMsg: true});
+          instance.setState({ showFormErrorMsg: true });
           const errorText = wrapper.find('#skip-link-form-submit-error');
           expect(errorText).toHaveLength(1);
           expect(errorText.prop('role')).toBe('alert');
@@ -119,7 +120,7 @@ describe('SkipLinkModal', () => {
           expect(errorText.text()).toBe(getMessage('formCheckErrors'));
         });
         test('is not shown when state.showFormErrorMsg is false', () => {
-          instance.setState({showFormErrorMsg: false});
+          instance.setState({ showFormErrorMsg: false });
           const errorText = wrapper.find('#skip-link-form-submit-error');
           expect(errorText).toHaveLength(0);
         });
@@ -131,22 +132,22 @@ describe('SkipLinkModal', () => {
     describe('handleInputChange', () => {
       test('updates given state input and its value', () => {
         const instance = getWrapper().instance();
-        const event = {target: {type: 'text', name: 'linkText', value: 'test text'}};
+        const event = { target: { type: 'text', name: 'linkText', value: 'test text' } };
         instance.handleInputChange(event);
         expect(instance.state.linkText).toBe('test text');
       });
       test('removes any errors from given input', () => {
         const instance = getWrapper().instance();
-        const inputErrors = {linkText: 'error'};
-        instance.setState({linkText: '', inputErrors, showFormErrorMsg: true});
-        const event = {target: {type: 'text', name: 'linkText', value: 'test text'}};
+        const inputErrors = { linkText: 'error' };
+        instance.setState({ linkText: '', inputErrors, showFormErrorMsg: true });
+        const event = { target: { type: 'text', name: 'linkText', value: 'test text' } };
         instance.handleInputChange(event);
         expect(instance.state.inputErrors.linkText).toBe('');
       });
       test('sets showFormErrorMsg to false', () => {
         const instance = getWrapper().instance();
-        instance.setState({showFormErrorMsg: true});
-        const event = {target: {type: 'text', name: 'linkText', value: 'test text'}};
+        instance.setState({ showFormErrorMsg: true });
+        const event = { target: { type: 'text', name: 'linkText', value: 'test text' } };
         instance.handleInputChange(event);
         expect(instance.state.showFormErrorMsg).toBe(false);
       });
@@ -155,22 +156,22 @@ describe('SkipLinkModal', () => {
     describe('handleInputBlur', () => {
       test('adds an error message for given input if it is required and falsy', () => {
         const instance = getWrapper().instance();
-        instance.setState({linkText: 'test'});
-        const event = {target: {type: 'text', name: 'linkText', value: '', required: true}};
+        instance.setState({ linkText: 'test' });
+        const event = { target: { type: 'text', name: 'linkText', value: '', required: true } };
         instance.handleInputBlur(event);
         expect(instance.state.inputErrors.linkText).toBe(getMessage('validationCantBeEmpty'));
       });
       test('doesnt add error message for given input if input value is truthy', () => {
         const instance = getWrapper().instance();
-        instance.setState({linkText: ''});
-        const event = {target: {type: 'text', name: 'linkText', value: 'abc', required: true}};
+        instance.setState({ linkText: '' });
+        const event = { target: { type: 'text', name: 'linkText', value: 'abc', required: true } };
         instance.handleInputBlur(event);
         expect(instance.state.inputErrors.linkText).toBe('');
       });
       test('doesnt add error message for given input if input value is not required', () => {
         const instance = getWrapper().instance();
-        instance.setState({linkText: ''});
-        const event = {target: {type: 'text', name: 'linkText', value: '', required: false}};
+        instance.setState({ linkText: '' });
+        const event = { target: { type: 'text', name: 'linkText', value: '', required: false } };
         instance.handleInputBlur(event);
         expect(instance.state.inputErrors.linkText).toBe('');
       });
@@ -180,7 +181,7 @@ describe('SkipLinkModal', () => {
       test('updates state inputErrors based on state input values', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
-        instance.setState({linkText: 'abc', linkOwnId: '', linkTargetId: '', inputErrors: {linkText: 'error'}});
+        instance.setState({ linkText: 'abc', linkOwnId: '', linkTargetId: '', inputErrors: { linkText: 'error' } });
         instance.validateForm();
         expect(instance.state.inputErrors.linkText).toBe('');
         expect(instance.state.inputErrors.linkOwnId).toBe(getMessage('validationCantBeEmpty'));
@@ -196,21 +197,21 @@ describe('SkipLinkModal', () => {
       test('sets state.showFormErrorMsg to true if form contains errors', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
-        instance.setState({linkText: 'abc', linkOwnId: '', linkTargetId: '123'});
+        instance.setState({ linkText: 'abc', linkOwnId: '', linkTargetId: '123' });
         instance.confirmSkipLink();
         expect(instance.state.showFormErrorMsg).toBe(true);
       });
       test('doesnt set state.showFormErrorMsg to true if form has no errors', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
-        instance.setState({linkText: 'abc', linkOwnId: 'abc', linkTargetId: '123', showFormErrorMsg: false});
+        instance.setState({ linkText: 'abc', linkOwnId: 'abc', linkTargetId: '123', showFormErrorMsg: false });
         instance.confirmSkipLink();
         expect(instance.state.showFormErrorMsg).toBe(false);
       });
       test('calls props.onSubmit when form has no errors', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
-        instance.setState({linkText: 'text', linkOwnId: 'own id', linkTargetId: 'target id'});
+        instance.setState({ linkText: 'text', linkOwnId: 'own id', linkTargetId: 'target id' });
         instance.confirmSkipLink();
         expect(defaultProps.onSubmit).toHaveBeenCalledTimes(1);
         expect(defaultProps.onSubmit).toHaveBeenCalledWith('text', 'own id', 'target id', false);
@@ -218,8 +219,8 @@ describe('SkipLinkModal', () => {
       test('sets state to initial state when form has no errors', () => {
         const wrapper = getWrapper();
         const instance = wrapper.instance();
-        const initialState = {...instance.state};
-        instance.setState({linkText: 'text', linkOwnId: 'own id', linkTargetId: 'target id'});
+        const initialState = { ...instance.state };
+        instance.setState({ linkText: 'text', linkOwnId: 'own id', linkTargetId: 'target id' });
         instance.confirmSkipLink();
         expect(instance.state).toEqual(initialState);
       });

@@ -1,9 +1,9 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 
-import {UnconnectedHearingEditor} from '../../src/components/admin/HearingEditor';
-import {getIntlAsProp, mockStore, mockUser} from '../../test-utils';
-import {notifyError} from '../../src/utils/notify';
+import { UnconnectedHearingEditor } from '../../src/components/admin/HearingEditor';
+import { getIntlAsProp, mockStore, mockUser } from '../../test-utils';
+import { notifyError } from '../../src/utils/notify';
 
 jest.mock('../../src/utils/notify');
 
@@ -13,7 +13,7 @@ const defaultProps = {
   show: true,
   hearing: mockStore.hearing.mockHearing.data,
   hearingLanguages: ['fi'],
-  labels: [{id: 1, label: 'text'}],
+  labels: [{ id: 1, label: 'text' }],
   user: mockUser,
   language: 'fi',
   isNewHearing: true,
@@ -30,22 +30,22 @@ describe('HearingEditor', () => {
         fi: 'yksi',
         sv: '',
       },
-      labels: [{id: 1, label: {fi: 'labelSuomeksi', sv: 'labelSvenska'}}],
+      labels: [{ id: 1, label: { fi: 'labelSuomeksi', sv: 'labelSvenska' } }],
       slug: 'urlSlug',
       contact_persons: mockStore.hearing.mockHearing.data.contact_persons,
       open_at: '2021-05-12T21:00:00Z',
       close_at: '2021-11-28T22:00:00Z',
       project: {
-        title: {fi: 'nimi', sv: 'namn'},
+        title: { fi: 'nimi', sv: 'namn' },
         phases: [
           {
-            title: {fi: 'vaihe', sv: 'fas'},
+            title: { fi: 'vaihe', sv: 'fas' },
             is_active: true,
           }
         ]
       }
     };
-    const wrapper = getWrapper({hearingLanguages: ['fi', 'sv']});
+    const wrapper = getWrapper({ hearingLanguages: ['fi', 'sv'] });
     const instance = wrapper.instance();
     const mockCallBack = jest.fn();
 

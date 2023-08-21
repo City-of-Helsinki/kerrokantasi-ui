@@ -1,9 +1,9 @@
 /* eslint-disable react/no-find-dom-node */
-import {renderIntoDocument} from 'react-dom/test-utils';
-import {findDOMNode} from 'react-dom';
+import { renderIntoDocument } from 'react-dom/test-utils';
+import { findDOMNode } from 'react-dom';
 
 import SocialBar from '../src/components/SocialBar';
-import {wireComponent} from '../test-utils';
+import { wireComponent } from '../test-utils';
 
 describe('SocialBar', () => {
   it('should have a container for Facebook Sharing', () => {

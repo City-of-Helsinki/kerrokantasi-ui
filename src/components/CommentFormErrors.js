@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-function CommentFormErrors({commentRequiredError, commentOrAnswerRequiredError, imageTooBig}) {
+function CommentFormErrors({ commentRequiredError, commentOrAnswerRequiredError, imageTooBig }) {
   if (!commentRequiredError && !commentOrAnswerRequiredError && !imageTooBig) {
     return null;
   }
@@ -10,14 +10,14 @@ function CommentFormErrors({commentRequiredError, commentOrAnswerRequiredError, 
   return (
     <ul role="alert" className="comment-form-errors">
       {commentRequiredError && (
-        <li><FormattedMessage id="commentRequiredError"/></li>
-        )}
+        <li><FormattedMessage id="commentRequiredError" /></li>
+      )}
       {commentOrAnswerRequiredError && (
-        <li><FormattedMessage id="commentOrAnswerRequiredError"/></li>
-        )}
+        <li><FormattedMessage id="commentOrAnswerRequiredError" /></li>
+      )}
       {imageTooBig && (
-      <li><FormattedMessage id="imageSizeError"/></li>
-        )}
+        <li><FormattedMessage id="imageSizeError" /></li>
+      )}
     </ul>
   );
 }

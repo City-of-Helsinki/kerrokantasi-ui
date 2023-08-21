@@ -1,4 +1,4 @@
-import {has, isObject, isArray, keys} from 'lodash';
+import { has, isObject, isArray, keys } from 'lodash';
 
 const DefaultOptions = {
   exact: false,
@@ -18,7 +18,7 @@ const DefaultOptions = {
  *               and option `exact === true`.
  */
 const getAttr = (attr, lang, options = DefaultOptions) => {
-  const {exact, dev} = options;
+  const { exact, dev } = options;
   let translated = isObject(attr) && has(attr, lang) ? attr[lang] : attr;
 
   if (exact && (!isObject(attr) || !translated || isObject(translated))) {

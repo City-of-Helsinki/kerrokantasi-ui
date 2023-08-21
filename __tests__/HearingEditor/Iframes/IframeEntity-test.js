@@ -13,7 +13,7 @@ describe('IframeEntity', () => {
     getData() { return this.data; },
   };
 
-  const contentState = {getEntity: () => entity};
+  const contentState = { getEntity: () => entity };
 
   const defaultProps = {
     contentState,
@@ -21,14 +21,14 @@ describe('IframeEntity', () => {
   };
 
   function getWrapper(props) {
-    return shallow(<IframeEntity {...defaultProps} {...props}/>);
+    return shallow(<IframeEntity {...defaultProps} {...props} />);
   }
   test('renders with correct props', () => {
     const wrapper = getWrapper();
-    expect(wrapper.prop('style')).toEqual({overflow: "hidden"});
+    expect(wrapper.prop('style')).toEqual({ overflow: "hidden" });
     const iframe = wrapper.find('iframe');
     expect(iframe).toHaveLength(1);
-    const {title, src} = defaultProps.contentState.getEntity().getData();
+    const { title, src } = defaultProps.contentState.getEntity().getData();
     expect(iframe.prop('title')).toBe(title);
     expect(iframe.prop('src')).toBe(src);
   });

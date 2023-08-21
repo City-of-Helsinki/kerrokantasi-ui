@@ -1,13 +1,13 @@
 import validationFunction from '../../src/utils/validation';
-import {mockStore} from '../../test-utils';
+import { mockStore } from '../../test-utils';
 
-const {hearing: {mockHearing}} = mockStore;
+const { hearing: { mockHearing } } = mockStore;
 
 describe('validateFunction', () => {
   const languages = ['fi', 'sv', 'en'];
   describe('title validation', () => {
     test('returns true if one or more of the titles is empty', () => {
-      const titlesMissingEN = {fi: 'otsikko', sv: 'rubrik', en: ''};
+      const titlesMissingEN = { fi: 'otsikko', sv: 'rubrik', en: '' };
       let returnValue = validationFunction.title(titlesMissingEN, languages);
       expect(returnValue).toBe(true);
       titlesMissingEN.sv = '';
@@ -15,7 +15,7 @@ describe('validateFunction', () => {
       expect(returnValue).toBe(true);
     });
     test('return false if none of the titles are empty', () => {
-      const titles = {fi: 'a', sv: 'b', en: 'c'};
+      const titles = { fi: 'a', sv: 'b', en: 'c' };
       const returnValue = validationFunction.title(titles, languages);
       expect(returnValue).toBe(false);
     });
@@ -69,7 +69,7 @@ describe('validateFunction', () => {
   describe('project validation', () => {
     describe('project exists validation', () => {
       test('return true if project is not empty', () => {
-        expect(validationFunction.project({id: '11'})).toBe(true);
+        expect(validationFunction.project({ id: '11' })).toBe(true);
       });
       test('return false if project is empty', () => {
         expect(validationFunction.project({})).toBe(false);
@@ -78,17 +78,17 @@ describe('validateFunction', () => {
 
     describe('project title validation', () => {
       test('return true if one or more language specific title is empty', () => {
-        const titlesMissing = {fi: 'otsikko', sv: 'rubrik', en: ''};
+        const titlesMissing = { fi: 'otsikko', sv: 'rubrik', en: '' };
         expect(validationFunction.project_title(titlesMissing, languages)).toBe(true);
         titlesMissing.sv = '';
         expect(validationFunction.project_title(titlesMissing, languages)).toBe(true);
       });
       test('return true if a language is missing from titles', () => {
-        const titlesMissingFI = {sv: 'rubrik', en: 'header'};
+        const titlesMissingFI = { sv: 'rubrik', en: 'header' };
         expect(validationFunction.project_title(titlesMissingFI, languages)).toBe(true);
       });
       test('return false if none of the language specific titles are empty or missing', () => {
-        const titles = {fi: 'otsikko', sv: 'rubrik', en: 'header'};
+        const titles = { fi: 'otsikko', sv: 'rubrik', en: 'header' };
         expect(validationFunction.project_title(titles, languages)).toBe(false);
       });
     });
@@ -98,9 +98,9 @@ describe('validateFunction', () => {
 
       beforeEach(() => {
         phases = [
-          {title: {fi: 'yksi', sv: 'kaksi', en: 'kolme'}},
-          {title: {fi: 'one', sv: 'two', en: 'three'}},
-          {title: {fi: 'ett', sv: 'två', en: 'tre'}},
+          { title: { fi: 'yksi', sv: 'kaksi', en: 'kolme' } },
+          { title: { fi: 'one', sv: 'two', en: 'three' } },
+          { title: { fi: 'ett', sv: 'två', en: 'tre' } },
         ];
       });
       test('return true if one or more of the phases contain a language specific title that is empty', () => {
@@ -116,9 +116,9 @@ describe('validateFunction', () => {
 
     describe('project phases active validation', () => {
       const phases = [
-        {is_active: false},
-        {is_active: false},
-        {is_active: false},
+        { is_active: false },
+        { is_active: false },
+        { is_active: false },
       ];
       test('return true if none of the phases are active', () => {
         expect(validationFunction.project_phases_active(phases)).toBe(true);

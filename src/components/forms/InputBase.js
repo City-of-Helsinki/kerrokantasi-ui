@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
@@ -8,12 +8,12 @@ import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 
 class InputBase extends React.Component {
   getLabelHint() {
-    const {maxLength, value, required} = this.props;
+    const { maxLength, value, required } = this.props;
 
     const LengthHint = () => (maxLength && value ? (
       <span>
         {` (${value.length} / ${maxLength} `}
-        <FormattedMessage id="characters"/>)
+        <FormattedMessage id="characters" />)
       </span>
     ) : null);
 
@@ -23,19 +23,19 @@ class InputBase extends React.Component {
 
     return (
       <small className="field-hint">
-        <LengthHint/>
-        <RequiredHint/>
+        <LengthHint />
+        <RequiredHint />
       </small>
     );
   }
 
   render() {
-    const {error} = this.props;
+    const { error } = this.props;
 
     return (
       <FormGroup controlId={this.props.name} validationState={error ? "error" : null}>
         <ControlLabel>
-          <FormattedMessage id={this.props.labelId}/>
+          <FormattedMessage id={this.props.labelId} />
           {this.getLabelHint()}
         </ControlLabel>
         {this.props.children}

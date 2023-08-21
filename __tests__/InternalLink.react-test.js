@@ -1,5 +1,5 @@
 import React from "react";
-import {shallow} from "enzyme";
+import { shallow } from "enzyme";
 import { HashLink } from "react-router-hash-link";
 
 import InternalLink from "../src/components/InternalLink";
@@ -25,7 +25,7 @@ describe('InternalLink', () => {
     });
 
     test('HashLink with correct className when prop srOnly is true', () => {
-      const link = getWrapper({srOnly: true}).find(HashLink);
+      const link = getWrapper({ srOnly: true }).find(HashLink);
       expect(link).toHaveLength(1);
       expect(link.prop('className')).toBe('internal-link hidden-link');
     });

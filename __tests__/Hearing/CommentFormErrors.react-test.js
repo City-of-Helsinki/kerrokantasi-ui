@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import { FormattedMessage } from 'react-intl';
 
 import CommentFormErrors from '../../src/components/CommentFormErrors';
@@ -24,7 +24,7 @@ describe('CommentFormErrors', () => {
 
     describe('when there are errors', () => {
       test('wrapping ul', () => {
-        const ulElement = getWrapper({commentRequiredError: true}).find('ul');
+        const ulElement = getWrapper({ commentRequiredError: true }).find('ul');
         expect(ulElement).toHaveLength(1);
         expect(ulElement.prop('role')).toBe('alert');
         expect(ulElement.prop('className')).toBe('comment-form-errors');
@@ -32,7 +32,7 @@ describe('CommentFormErrors', () => {
 
       describe('correct list item', () => {
         test('when there is comment required error', () => {
-          const liElement = getWrapper({commentRequiredError: true}).find('li');
+          const liElement = getWrapper({ commentRequiredError: true }).find('li');
           expect(liElement).toHaveLength(1);
           const text = liElement.find(FormattedMessage);
           expect(text).toHaveLength(1);
@@ -40,7 +40,7 @@ describe('CommentFormErrors', () => {
         });
 
         test('when there is comment or answer required error', () => {
-          const liElement = getWrapper({commentOrAnswerRequiredError: true}).find('li');
+          const liElement = getWrapper({ commentOrAnswerRequiredError: true }).find('li');
           expect(liElement).toHaveLength(1);
           const text = liElement.find(FormattedMessage);
           expect(text).toHaveLength(1);
@@ -48,7 +48,7 @@ describe('CommentFormErrors', () => {
         });
 
         test('when there is image size error', () => {
-          const liElement = getWrapper({imageTooBig: true}).find('li');
+          const liElement = getWrapper({ imageTooBig: true }).find('li');
           expect(liElement).toHaveLength(1);
           const text = liElement.find(FormattedMessage);
           expect(text).toHaveLength(1);

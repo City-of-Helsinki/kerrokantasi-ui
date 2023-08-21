@@ -209,7 +209,7 @@ describe('UserHearings', () => {
         });
 
         test('returns Icon with FormattedMessage if 0 hearings for type', () => {
-          const foo = { ...defaultProps.hearingData};
+          const foo = { ...defaultProps.hearingData };
           foo.draft = [];
           const wrapper = getWrapper({ hearingData: foo });
           const elementWrapper = shallow(wrapper.instance().getHearingListing('draft'));

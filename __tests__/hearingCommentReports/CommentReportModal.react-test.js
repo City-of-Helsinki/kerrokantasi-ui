@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from "enzyme";
+import { shallow } from "enzyme";
 import { Button, Modal } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,7 +12,7 @@ describe('CommentReportModal', () => {
   const defaultProps = {
     hearing: mockStore.mockHearingWithSections,
     isOpen: false,
-    onClose: () => {},
+    onClose: () => { },
   };
 
   function getWrapper(props) {
