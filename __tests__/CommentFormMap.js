@@ -43,6 +43,8 @@ function setDrawOptions(options) {
   };
 }
 
+const TEST_WITH_CORRECT_PROPS = 'with correct props';
+
 describe('src/components/CommentFormMap/CommentFormMap.js', () => {
   function getWrapper(props) {
     return shallow(<CommentFormMap {...defaultProps} {...props} />);
@@ -52,7 +54,7 @@ describe('src/components/CommentFormMap/CommentFormMap.js', () => {
       function getMap(props) {
         return getWrapper(props).find(Map);
       }
-      test('with correct props', () => {
+      test(TEST_WITH_CORRECT_PROPS, () => {
         const element = getMap();
         expect(element).toHaveLength(1);
         expect(element.prop('center')).toEqual(defaultProps.center);
@@ -65,7 +67,7 @@ describe('src/components/CommentFormMap/CommentFormMap.js', () => {
       });
     });
     describe('TileLayer', () => {
-      test('with correct props', () => {
+      test(TEST_WITH_CORRECT_PROPS, () => {
         const element = getWrapper().find(TileLayer);
         expect(element).toHaveLength(1);
         expect(element.prop('url')).toEqual(defaultProps.mapTileUrl);
@@ -73,13 +75,13 @@ describe('src/components/CommentFormMap/CommentFormMap.js', () => {
       });
     });
     describe('FeatureGroup', () => {
-      test('with correct props', () => {
+      test(TEST_WITH_CORRECT_PROPS, () => {
         const element = getWrapper().find(FeatureGroup);
         expect(element).toHaveLength(1);
       });
     });
     describe('EditControl', () => {
-      test('with correct props', () => {
+      test(TEST_WITH_CORRECT_PROPS, () => {
         const element = getWrapper().find(EditControl);
         expect(element).toHaveLength(1);
         expect(element.prop('position')).toBe('topleft');

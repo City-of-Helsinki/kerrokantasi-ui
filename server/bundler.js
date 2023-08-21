@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import fs from 'fs';
 import path from "path";
 
@@ -10,10 +11,10 @@ const debug = require('debug')('bundler');
 function getProgressPlugin() {
   const progress = new ProgressBar(
     '[:bar] :percent :etas :state',
-    {incomplete: ' ', complete: '#', width: 60, total: 100}
+    { incomplete: ' ', complete: '#', width: 60, total: 100 }
   );
   return new webpack.ProgressPlugin((percentage, msg) => {
-    progress.update(percentage, {state: msg.replace(/[\r\n]/g, '')});
+    progress.update(percentage, { state: msg.replace(/[\r\n]/g, '') });
   });
 }
 

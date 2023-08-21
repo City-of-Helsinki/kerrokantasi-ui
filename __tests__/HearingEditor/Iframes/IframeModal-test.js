@@ -1,15 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import {Modal, Button, ModalTitle } from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 import IframeModal from '../../../src/components/RichTextEditor/Iframe/IframeModal';
 import IframeCopyPasteField from '../../../src/components/RichTextEditor/Iframe/IframeCopyPasteField';
 import RichTextModalTextField from '../../../src/components/RichTextEditor/RichTextModalTextField';
 import IframeSelectField from '../../../src/components/RichTextEditor/Iframe/IframeSelectField';
-import {validateInput} from '../../../src/components/RichTextEditor/Iframe/IframeUtils';
+import { validateInput } from '../../../src/components/RichTextEditor/Iframe/IframeUtils';
 import getMessage from '../../../src/utils/getMessage';
 
+
+const SOME_TITLE = 'some title';
+const TEST_URL = "https://google.fi";
 
 describe('IframeModal', () => {
   const defaultProps = {
@@ -19,7 +22,7 @@ describe('IframeModal', () => {
   };
 
   function getWrapper(props) {
-    return shallow(<IframeModal {...defaultProps} {...props}/>);
+    return shallow(<IframeModal {...defaultProps} {...props} />);
   }
 
   describe('renders', () => {
@@ -74,11 +77,11 @@ describe('IframeModal', () => {
       const instance = wrapper.instance();
       const textFields = wrapper.find(RichTextModalTextField);
       const textFieldData = [
-        {name: 'title', label: getMessage('iframeFormFieldTitle'), isRequired: true},
-        {name: 'src', label: getMessage('iframeFormFieldSrc'), isRequired: true},
-        {name: 'width', label: getMessage('iframeFormFieldWidth')},
-        {name: 'height', label: getMessage('iframeFormFieldHeight')},
-        {name: 'allow', label: getMessage('iframeFormFieldAllow')},
+        { name: 'title', label: getMessage('iframeFormFieldTitle'), isRequired: true },
+        { name: 'src', label: getMessage('iframeFormFieldSrc'), isRequired: true },
+        { name: 'width', label: getMessage('iframeFormFieldWidth') },
+        { name: 'height', label: getMessage('iframeFormFieldHeight') },
+        { name: 'allow', label: getMessage('iframeFormFieldAllow') },
       ];
       expect(textFields).toHaveLength(textFieldData.length);
       textFields.forEach((field, index) => {
@@ -98,9 +101,9 @@ describe('IframeModal', () => {
       const instance = wrapper.instance();
       const selectField = wrapper.find(IframeSelectField);
       const scrollingOptions = [
-        {value: "no", text: getMessage('generalNo')},
-        {value: "yes", text: getMessage('generalYes')},
-        {value: "auto", text: 'auto'},
+        { value: "no", text: getMessage('generalNo') },
+        { value: "yes", text: getMessage('generalYes') },
+        { value: "auto", text: 'auto' },
       ];
       expect(selectField).toHaveLength(1);
       expect(selectField.prop('name')).toBe('scrolling');
@@ -131,7 +134,7 @@ describe('IframeModal', () => {
         test('is shown when state.showFormErrorMsg is true', () => {
           const wrapper = getWrapper();
           const instance = wrapper.instance();
-          instance.setState({showFormErrorMsg: true});
+          instance.setState({ showFormErrorMsg: true });
           const errorText = wrapper.find('#iframe-form-submit-error');
           expect(errorText).toHaveLength(1);
           expect(errorText.prop('role')).toBe('alert');
@@ -140,7 +143,7 @@ describe('IframeModal', () => {
         test('is not shown when state.showFormErrorMsg is false', () => {
           const wrapper = getWrapper();
           const instance = wrapper.instance();
-          instance.setState({showFormErrorMsg: false});
+          instance.setState({ showFormErrorMsg: false });
           const errorText = wrapper.find('#iframe-form-submit-error');
           expect(errorText).toHaveLength(0);
         });
@@ -152,15 +155,15 @@ describe('IframeModal', () => {
     describe('updateAttributes', () => {
       test('updates state with given input', () => {
         const instance = getWrapper().instance();
-        const attributes = {title: "some title", src: "https://google.fi"};
+        const attributes = { title: SOME_TITLE, src: TEST_URL };
         instance.updateAttributes(attributes);
-        expect(instance.state.title).toBe("some title");
-        expect(instance.state.src).toBe("https://google.fi");
+        expect(instance.state.title).toBe(SOME_TITLE);
+        expect(instance.state.src).toBe(TEST_URL);
       });
       test('removes error messages', () => {
         const instance = getWrapper().instance();
-        instance.setState({showFormErrorMsg: true, inputErrors: {title: "some error"}});
-        const attributes = {title: "some title", src: "https://google.fi"};
+        instance.setState({ showFormErrorMsg: true, inputErrors: { title: "some error" } });
+        const attributes = { title: SOME_TITLE, src: TEST_URL };
         instance.updateAttributes(attributes);
         expect(instance.state.inputErrors.title).toBe("");
         expect(instance.state.showFormErrorMsg).toBe(false);
@@ -170,15 +173,15 @@ describe('IframeModal', () => {
     describe('handleInputChange', () => {
       test('updates given state input and its value', () => {
         const instance = getWrapper().instance();
-        const event = {target: {type: 'text', name: 'title', value: 'test name'}};
+        const event = { target: { type: 'text', name: 'title', value: 'test name' } };
         instance.handleInputChange(event);
         expect(instance.state.title).toBe('test name');
       });
       test('removes any errors from given input', () => {
         const instance = getWrapper().instance();
-        const inputErrors = {title: 'some error'};
-        instance.setState({title: 'this title has an error', inputErrors});
-        const event = {target: {type: 'text', name: 'title', value: 'test name'}};
+        const inputErrors = { title: 'some error' };
+        instance.setState({ title: 'this title has an error', inputErrors });
+        const event = { target: { type: 'text', name: 'title', value: 'test name' } };
         instance.handleInputChange(event);
         expect(instance.state.inputErrors.title).toBe('');
       });
@@ -187,14 +190,14 @@ describe('IframeModal', () => {
     describe('handleInputBlur', () => {
       test('updates given state input and its value', () => {
         const instance = getWrapper().instance();
-        const event = {target: {type: 'text', name: 'title', value: 'test name'}};
+        const event = { target: { type: 'text', name: 'title', value: 'test name' } };
         instance.handleInputBlur(event);
         expect(instance.state.title).toBe(event.target.value);
       });
       test('adds an error message for given input if it fails validation', () => {
         const instance = getWrapper().instance();
-        instance.setState({title: 'test'});
-        const event = {target: {type: 'text', name: 'title', value: ''}};
+        instance.setState({ title: 'test' });
+        const event = { target: { type: 'text', name: 'title', value: '' } };
         instance.handleInputBlur(event);
         const errorMsg = validateInput(event.target.name, event.target.value);
         expect(instance.state.inputErrors.title).toBe(errorMsg);

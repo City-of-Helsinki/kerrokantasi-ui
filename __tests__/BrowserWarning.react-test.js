@@ -1,8 +1,10 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import { Helmet } from 'react-helmet';
 
 import BrowserWarning from "../src/views/BrowserWarning";
+
+const BROWSER_WARING_CONTAINER_CLASS = '.browser-warning-text-container';
 
 describe('src/views/BrowserWarning', () => {
   function getWrapper() {
@@ -26,12 +28,12 @@ describe('src/views/BrowserWarning', () => {
     });
     test('correct amount of text containers, 1 for each language so 3 in total', () => {
       const element = getWrapper();
-      const textContainers = element.find('.browser-warning-text-container');
+      const textContainers = element.find(BROWSER_WARING_CONTAINER_CLASS);
       expect(element).toHaveLength(1);
       expect(textContainers).toHaveLength(3);
     });
     test('2 p elements per language', () => {
-      const textContainers = getWrapper().find('.browser-warning-text-container');
+      const textContainers = getWrapper().find(BROWSER_WARING_CONTAINER_CLASS);
       const finnishTexts = textContainers.at(0).find('p');
       const swedishTexts = textContainers.at(1).find('p');
       const englishTexts = textContainers.at(2).find('p');
@@ -41,7 +43,7 @@ describe('src/views/BrowserWarning', () => {
       expect(englishTexts).toHaveLength(2);
     });
     test('3 links per language', () => {
-      const textContainers = getWrapper().find('.browser-warning-text-container');
+      const textContainers = getWrapper().find(BROWSER_WARING_CONTAINER_CLASS);
       const finnishLinks = textContainers.at(0).find('a');
       const swedishLinks = textContainers.at(1).find('a');
       const englishLinks = textContainers.at(2).find('a');

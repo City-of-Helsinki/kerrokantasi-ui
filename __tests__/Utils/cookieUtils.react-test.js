@@ -1,6 +1,6 @@
-import cookieUtils from '../../src/utils/cookieUtils';
+import { getCookieScripts, } from '../../src/utils/cookieUtils';
 // eslint-disable-next-line import/no-unresolved
-import cookiebotUtils from '../../src/utils/cookiebotUtils';
+import { getCookieBotScripts } from '../../src/utils/cookiebotUtils';
 import config from '../../src/config';
 
 const mockIsCookiebotEnabled = jest.fn();
@@ -18,8 +18,8 @@ jest.mock('../../src/utils/cookiebotUtils', () => {
 });
 
 jest.mock('../../src/config', () => ({
-    enableCookies: true
-  }));
+  enableCookies: true
+}));
 
 describe('cookieUtils', () => {
   describe('getCookieScripts', () => {
@@ -31,7 +31,7 @@ describe('cookieUtils', () => {
       });
 
       test('returns cookiebotUtils getCookieScripts', () => {
-        expect(cookieUtils.getCookieScripts()).toEqual(cookiebotUtils.getCookieBotScripts());
+        expect(getCookieScripts()).toEqual(getCookieBotScripts());
       });
     });
 
@@ -43,12 +43,12 @@ describe('cookieUtils', () => {
 
       test('when cookies are enabled, calls addCookieScripts', () => {
         config.enableCookies = true;
-        expect(cookieUtils.getCookieScripts()).toEqual(true);
+        expect(getCookieScripts()).toEqual(true);
       });
 
       test('when cookies are not enabled, returns null', () => {
         config.enableCookies = false;
-        expect(cookieUtils.getCookieScripts()).toBe(null);
+        expect(getCookieScripts()).toBe(null);
       });
     });
   });

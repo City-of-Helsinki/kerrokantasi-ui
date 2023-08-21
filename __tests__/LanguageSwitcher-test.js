@@ -12,6 +12,10 @@ const defaults = {
     search: ''
   }
 };
+
+const PATH_CURRENT_HEARING_SLUR = '/currentHearingSlug';
+const ARIA_EXPANDED = 'aria-expanded';
+
 describe('src/components/Header/LanguageSwitcherV2', () => {
   function getWrapper(props) {
     return mount(<UnconnectedLanguageSwitcher {...defaults} {...props} />);
@@ -45,7 +49,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('when no url params exist', () => {
         const locationNoParams = {
-          pathname: '/currentHearingSlug',
+          pathname: PATH_CURRENT_HEARING_SLUR,
           search: ''
         };
         const element = getWrapper({ location: locationNoParams, history: mockHistory });
@@ -59,7 +63,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('when url params exist but not the lang param', () => {
         const locationWithParams = {
-          pathname: '/currentHearingSlug',
+          pathname: PATH_CURRENT_HEARING_SLUR,
           search: '?headless=true'
         };
         const element = getWrapper({ location: locationWithParams, history: mockHistory });
@@ -67,13 +71,13 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
         getDropdown(element).find('li').at(2).simulate('click', { preventDefault: () => { } });
         expect(mockHistory.push).toHaveBeenCalledWith({
           pathname: locationWithParams.pathname,
-          search: `${locationWithParams.search  }&lang=${config.languages[2]}`
+          search: `${locationWithParams.search}&lang=${config.languages[2]}`
         });
       });
 
       test('when url param already contains a lang param', () => {
         const locationWithLangParams = {
-          pathname: '/currentHearingSlug',
+          pathname: PATH_CURRENT_HEARING_SLUR,
           search: '?preview=OLA9dke-79qqd&lang=fi&headless=true'
         };
         const element = getWrapper({ location: locationWithLangParams, history: mockHistory });
@@ -106,7 +110,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       test('has correct props', () => {
         const wrapper = getWrapper();
         const element = wrapper.find('button');
-        expect(element.prop('aria-expanded')).toBe(false);
+        expect(element.prop(ARIA_EXPANDED)).toBe(false);
         expect(element.prop('aria-haspopup')).toBe('listbox');
         expect(element.prop('onClick')).toBeDefined();
       });
@@ -127,17 +131,17 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
       describe('onClick', () => {
         test('toggleDropdown', () => {
           const element = getWrapper();
-          expect(element.find('button').prop('aria-expanded')).toBe(false);
+          expect(element.find('button').prop(ARIA_EXPANDED)).toBe(false);
           element.find('button').at(0).simulate('click');
-          expect(element.find('button').prop('aria-expanded')).toBe(true);
+          expect(element.find('button').prop(ARIA_EXPANDED)).toBe(true);
           element.find('button').at(0).simulate('click');
-          expect(element.find('button').prop('aria-expanded')).toBe(false);
+          expect(element.find('button').prop(ARIA_EXPANDED)).toBe(false);
         });
       });
     });
 
     describe('dropdown', () => {
-      const {languages} = config;
+      const { languages } = config;
 
       test('item count according to config.languages', () => {
         const correctAmount = languages.length;

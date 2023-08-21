@@ -1,10 +1,10 @@
 import React from 'react';
-import {shallow} from "enzyme";
-import {Button, Label, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, FormattedRelative} from 'react-intl';
+import { shallow } from "enzyme";
+import { Button, Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FormattedMessage, FormattedRelative } from 'react-intl';
 import moment from 'moment';
 
-import {getIntlAsProp} from '../../test-utils';
+import { getIntlAsProp } from '../../test-utils';
 import UserComment from '../../src/components/UserProfile/UserComment';
 import Icon from '../../src/utils/Icon';
 import Link from '../../src/components/LinkWithLang';
@@ -26,32 +26,37 @@ const defaultCommentData = {
 const mockComment = (
   props = {}
 ) => ({
-    author_name: props.author || defaultCommentData.author,
-    created_at: defaultCommentData.created_at,
-    deleted: props.deleted || defaultCommentData.deleted,
-    deleted_at: props.deletedAt || defaultCommentData.deletedAt,
-    deleted_by_type: props.deletedByType || defaultCommentData.deletedByType,
-    hearing_data: {
-      closed: props.closed || defaultCommentData.closed,
-      slug: props.slug || defaultCommentData.slug,
-    },
-    content: props.content || defaultCommentData.content,
-    geojson: props.geojson || defaultCommentData.geojson
-  });
+  author_name: props.author || defaultCommentData.author,
+  created_at: defaultCommentData.created_at,
+  deleted: props.deleted || defaultCommentData.deleted,
+  deleted_at: props.deletedAt || defaultCommentData.deletedAt,
+  deleted_by_type: props.deletedByType || defaultCommentData.deletedByType,
+  hearing_data: {
+    closed: props.closed || defaultCommentData.closed,
+    slug: props.slug || defaultCommentData.slug,
+  },
+  content: props.content || defaultCommentData.content,
+  geojson: props.geojson || defaultCommentData.geojson
+});
 const defaultProps = {
   comment: mockComment(),
 };
+
+const HEARING_COMMENT_BODY_CLASS = 'div.hearing-comment-body';
+const HEARING_MAP_CONTAINER_CLASS = '.hearing-comment__map-container';
+const ARIA_EXPANDED = 'aria-expanded';
+
 describe('UserComment', () => {
   function getWrapper(props) {
     return (shallow(<UserComment intl={getIntlAsProp()} {...defaultProps} {...props} />));
   }
   describe('renders', () => {
     describe('elements inside .hearing-comment-publisher container', () => {
-      const expectedValue = {author: 'ConcernedCitizen'};
+      const expectedValue = { author: 'ConcernedCitizen' };
       let wrapper;
       let containerElement;
       beforeEach(() => {
-        wrapper = getWrapper({comment: mockComment(expectedValue)});
+        wrapper = getWrapper({ comment: mockComment(expectedValue) });
         containerElement = wrapper.find('.hearing-comment-publisher');
       });
 
@@ -85,12 +90,12 @@ describe('UserComment', () => {
     });
     describe('div.hearing-comment-status', () => {
       const commentProps = [
-        {comment: {closed: false, slug: 'openHearingSlug'}, style: 'success', id: 'openHearing'},
-        {comment: {closed: true, slug: 'closedHearingSlug'}, style: 'default', id: 'closedHearing'},
+        { comment: { closed: false, slug: 'openHearingSlug' }, style: 'success', id: 'openHearing' },
+        { comment: { closed: true, slug: 'closedHearingSlug' }, style: 'default', id: 'closedHearing' },
       ];
       test('Icon and FormattedMessage components with correct props based on if hearing is open or not', () => {
         commentProps.forEach((prop) => {
-          const wrapper = getWrapper({comment: mockComment(prop.comment)});
+          const wrapper = getWrapper({ comment: mockComment(prop.comment) });
           // div.hearing-comment-status
           const containerElement = wrapper.find('.hearing-comment-status');
           expect(containerElement).toHaveLength(1);
@@ -109,14 +114,14 @@ describe('UserComment', () => {
           // Link
           const linkElement = containerElement.find(Link);
           expect(linkElement).toHaveLength(1);
-          expect(linkElement.prop('to')).toEqual({"path": `/${prop.comment.slug}`});
+          expect(linkElement.prop('to')).toEqual({ "path": `/${prop.comment.slug}` });
         });
       });
     });
     describe('hearing comment body', () => {
       test('contains correct text from comment.content', () => {
         const wrapper = getWrapper();
-        const element = wrapper.find('div.hearing-comment-body');
+        const element = wrapper.find(HEARING_COMMENT_BODY_CLASS);
         expect(element).toHaveLength(1);
         expect(element.text()).toEqual(defaultCommentData.content);
       });
@@ -124,31 +129,32 @@ describe('UserComment', () => {
       describe('when comment is deleted', () => {
         const deleted = true;
         const deletedAt = '2022-01-31T09:45:00.284857Z';
-        const deletedByTypes = {moderator: 'moderator', self: 'self'};
+        const deletedByTypes = { moderator: 'moderator', self: 'self' };
 
         test('by self', () => {
-          const comment = mockComment({deleted, deletedAt, deletedByType: deletedByTypes.self});
-          const wrapper = getWrapper({comment});
-          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          const comment = mockComment({ deleted, deletedAt, deletedByType: deletedByTypes.self });
+          const wrapper = getWrapper({ comment });
+          const element = wrapper.find(HEARING_COMMENT_BODY_CLASS).find(FormattedMessage);
           expect(element).toHaveLength(1);
           expect(element.prop('id')).toBe('sectionCommentSelfDeletedMessage');
         });
 
         test('by moderator', () => {
-          const comment = mockComment({deleted, deletedAt, deletedByType: deletedByTypes.moderator});
-          const wrapper = getWrapper({comment});
-          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          const comment = mockComment({ deleted, deletedAt, deletedByType: deletedByTypes.moderator });
+          const wrapper = getWrapper({ comment });
+          const element = wrapper.find(HEARING_COMMENT_BODY_CLASS).find(FormattedMessage);
           expect(element).toHaveLength(1);
           expect(element.prop('id')).toBe('sectionCommentDeletedMessage');
-          expect(element.prop('values')).toEqual({date:
-            moment(new Date(deletedAt)).format(' DD.MM.YYYY HH:mm')
+          expect(element.prop('values')).toEqual({
+            date:
+              moment(new Date(deletedAt)).format(' DD.MM.YYYY HH:mm')
           });
         });
 
         test('by unknown type', () => {
-          const comment = mockComment({deleted, deletedAt});
-          const wrapper = getWrapper({comment});
-          const element = wrapper.find('div.hearing-comment-body').find(FormattedMessage);
+          const comment = mockComment({ deleted, deletedAt });
+          const wrapper = getWrapper({ comment });
+          const element = wrapper.find(HEARING_COMMENT_BODY_CLASS).find(FormattedMessage);
           expect(element).toHaveLength(1);
           expect(element.prop('id')).toBe('sectionCommentGenericDeletedMessage');
         });
@@ -158,13 +164,13 @@ describe('UserComment', () => {
       test('certain elements arent rendered if comment doesnt have geojson', () => {
         const wrapper = getWrapper();
         expect(wrapper.find('.hearing-comment__map')).toHaveLength(0);
-        expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(0);
+        expect(wrapper.find(HEARING_MAP_CONTAINER_CLASS)).toHaveLength(0);
         expect(wrapper.find(Button)).toHaveLength(0);
         expect(wrapper.find(HearingMap)).toHaveLength(0);
       });
       test('map toggle button is rendered if comment has geojson', () => {
-        const geojsonValues = {geojson: {type: 'Point', coordinates: [22.254456, 60.459252]}};
-        const wrapper = getWrapper({comment: mockComment(geojsonValues)});
+        const geojsonValues = { geojson: { type: 'Point', coordinates: [22.254456, 60.459252] } };
+        const wrapper = getWrapper({ comment: mockComment(geojsonValues) });
         let toggleButton = wrapper.find(Button);
         expect(toggleButton).toHaveLength(1);
         expect(toggleButton.prop('className')).toEqual('hearing-comment__map-toggle');
@@ -173,40 +179,40 @@ describe('UserComment', () => {
         expect(toggleButton.childAt(0).prop('id')).toBe('commentShowMap');
 
         // aria-expanded value changes between true/false when clicked
-        expect(toggleButton.prop('aria-expanded')).toBe(false);
+        expect(toggleButton.prop(ARIA_EXPANDED)).toBe(false);
         toggleButton.simulate('click');
         toggleButton = wrapper.find(Button);
-        expect(toggleButton.prop('aria-expanded')).toBe(true);
+        expect(toggleButton.prop(ARIA_EXPANDED)).toBe(true);
         toggleButton.simulate('click');
         toggleButton = wrapper.find(Button);
-        expect(toggleButton.prop('aria-expanded')).toBe(false);
+        expect(toggleButton.prop(ARIA_EXPANDED)).toBe(false);
       });
       describe('map-container and HearingMap', () => {
         test('are rendered based on state.displayMap', () => {
-          const geojsonValues = {geojson: {type: 'Point', coordinates: [22.254456, 60.459252]}};
-          const wrapper = getWrapper({comment: mockComment(geojsonValues)});
-          expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(0);
+          const geojsonValues = { geojson: { type: 'Point', coordinates: [22.254456, 60.459252] } };
+          const wrapper = getWrapper({ comment: mockComment(geojsonValues) });
+          expect(wrapper.find(HEARING_MAP_CONTAINER_CLASS)).toHaveLength(0);
           expect(wrapper.find(HearingMap)).toHaveLength(0);
           wrapper.find(Button).simulate('click');
-          expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(1);
+          expect(wrapper.find(HEARING_MAP_CONTAINER_CLASS)).toHaveLength(1);
           expect(wrapper.find(HearingMap)).toHaveLength(1);
         });
         test('HearingMap is called with correct props', () => {
-          const geojsonValues = {geojson: {type: 'Point', coordinates: [22.254456, 60.459252]}};
-          const wrapper = getWrapper({comment: mockComment(geojsonValues)});
+          const geojsonValues = { geojson: { type: 'Point', coordinates: [22.254456, 60.459252] } };
+          const wrapper = getWrapper({ comment: mockComment(geojsonValues) });
           wrapper.find(Button).simulate('click');
           const mapElement = wrapper.find(HearingMap);
           expect(mapElement.prop('hearing')).toEqual(geojsonValues);
           expect(mapElement.prop('mapContainer')).toEqual(wrapper.state('mapContainer'));
-          expect(mapElement.prop('mapSettings')).toEqual({dragging: false});
+          expect(mapElement.prop('mapSettings')).toEqual({ dragging: false });
         });
       });
     });
   });
   describe('methods', () => {
     test('toggleMap toggles state.displayMap', () => {
-      const geojsonValues = {geojson: {type: 'Point', coordinates: [22.254456, 60.459252]}};
-      const wrapper = getWrapper({comment: mockComment(geojsonValues)});
+      const geojsonValues = { geojson: { type: 'Point', coordinates: [22.254456, 60.459252] } };
+      const wrapper = getWrapper({ comment: mockComment(geojsonValues) });
       expect(wrapper.state('displayMap')).toBe(false);
       wrapper.find(Button).simulate('click');
       expect(wrapper.state('displayMap')).toBe(true);

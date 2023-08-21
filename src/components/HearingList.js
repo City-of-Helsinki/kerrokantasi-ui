@@ -122,7 +122,7 @@ HearingListFilters.propTypes = {
   formatMessage: PropTypes.func,
 };
 
-const HearingListItem = (props) => {
+export const HearingListItem = (props) => {
 
   const { hearing, language, history, formatTime, formatDate } = props;
   const mainImage = hearing.main_image;

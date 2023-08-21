@@ -1,11 +1,11 @@
 /* eslint-disable react/no-find-dom-node */
-import {renderIntoDocument} from 'react-dom/test-utils';
-import {findDOMNode} from 'react-dom';
+import { renderIntoDocument } from 'react-dom/test-utils';
+import { findDOMNode } from 'react-dom';
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 
-import {wireComponent} from '../test-utils';
-import Comment, {UnconnectedComment} from '../src/components/Hearing/Comment';
+import { wireComponent } from '../test-utils';
+import Comment, { UnconnectedComment } from '../src/components/Hearing/Comment';
 
 const createCommentData = (props) => ({
   data: {
@@ -22,9 +22,14 @@ const createCommentData = (props) => ({
 const defaults = {
   data: createCommentData(),
 };
+
+const MAP_TOGGLE_CLASS = 'hearing-comment__map-toggle';
+const MAP_CONTAINER_CLASS = '.hearing-comment__map-container';
+const ARIA_EXPANDED = 'aria-expanded';
+
 describe('Comment', () => {
   function getWrapper(props) {
-    return shallow(<UnconnectedComment {...defaults} {...props}/>);
+    return shallow(<UnconnectedComment {...defaults} {...props} />);
   }
 
   describe('methods', () => {
@@ -53,7 +58,7 @@ describe('Comment', () => {
 
   describe('map', () => {
     describe('when comment contains geojson data', () => {
-      const geojsonComment = createCommentData({"geojson": {coordinates: [11, 22], type: "Point"}});
+      const geojsonComment = createCommentData({ "geojson": { coordinates: [11, 22], type: "Point" } });
       let wrapper;
       beforeEach(() => {
         wrapper = getWrapper(geojsonComment);
@@ -62,30 +67,30 @@ describe('Comment', () => {
         expect(wrapper.find('.hearing-comment__map')).toHaveLength(1);
       });
       test('a button to toggle the map is rendered', () => {
-        expect(wrapper.find('.hearing-comment__map-toggle')).toHaveLength(1);
+        expect(wrapper.find(MAP_TOGGLE_CLASS)).toHaveLength(1);
       });
 
       test('toggle button aria-expanded changes when button is pressed', () => {
-        const buttonElement = wrapper.find('.hearing-comment__map-toggle');
-        expect(wrapper.find('.hearing-comment__map-toggle').prop('aria-expanded')).toBe(false);
+        const buttonElement = wrapper.find(MAP_TOGGLE_CLASS);
+        expect(wrapper.find(MAP_TOGGLE_CLASS).prop(ARIA_EXPANDED)).toBe(false);
         buttonElement.simulate('click');
-        expect(wrapper.find('.hearing-comment__map-toggle').prop('aria-expanded')).toBe(true);
+        expect(wrapper.find(MAP_TOGGLE_CLASS).prop(ARIA_EXPANDED)).toBe(true);
         buttonElement.simulate('click');
-        expect(wrapper.find('.hearing-comment__map-toggle').prop('aria-expanded')).toBe(false);
+        expect(wrapper.find(MAP_TOGGLE_CLASS).prop(ARIA_EXPANDED)).toBe(false);
       });
 
       test('map container is not rendered by default(displayMap: false)', () => {
-        expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(0);
+        expect(wrapper.find(MAP_CONTAINER_CLASS)).toHaveLength(0);
       });
 
       test('map container render changes when button is pressed', () => {
         // default - displayMap: false
-        expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(0);
+        expect(wrapper.find(MAP_CONTAINER_CLASS)).toHaveLength(0);
         const buttonElement = wrapper.find('.hearing-comment__map-toggle');
         buttonElement.simulate('click'); // displayMap: false -> true
-        expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(1);
+        expect(wrapper.find(MAP_CONTAINER_CLASS)).toHaveLength(1);
         buttonElement.simulate('click'); // displayMap: true -> false
-        expect(wrapper.find('.hearing-comment__map-container')).toHaveLength(0);
+        expect(wrapper.find(MAP_CONTAINER_CLASS)).toHaveLength(0);
       });
     });
     describe('when comment does not have geojson data', () => {

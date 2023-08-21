@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ export default class Html extends React.Component {
     return {
       title: 'Kerrokantasi',
       url: heroImageURL,
-      description: `Kaupungin Kerrokantasi-palvelussa kaupunkilaisilta 
+      description: `Kaupungin Kerrokantasi-palvelussa kaupunkilaisilta
       kerätään mielipiteitä valmistelussa olevista asioista.`
     };
   }

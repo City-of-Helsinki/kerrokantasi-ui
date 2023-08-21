@@ -1,5 +1,6 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import urls from '@city-assets/urls.json';
 
 import {
@@ -15,10 +16,10 @@ import config from '../../src/config';
 // eslint-disable-next-line import/no-unresolved
 
 jest.mock('../../src/config', () => ({
-    enableCookies: true,
-    enableCookiebot: true,
-    cookiebotDataCbid: '123-abc'
-  }));
+  enableCookies: true,
+  enableCookiebot: true,
+  cookiebotDataCbid: '123-abc'
+}));
 describe('cookiebotUtils', () => {
   describe('cookieBotAddListener', () => {
     afterEach(() => {
