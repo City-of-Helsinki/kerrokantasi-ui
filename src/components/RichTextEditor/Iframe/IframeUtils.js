@@ -7,6 +7,7 @@ export function stripWrappingFigureTags(htmlInput) {
   const startRegex = /<figure><iframe/gi;
   const endRegex = /<\/iframe><\/figure>/gi;
   const firstStrip = htmlInput.replace(startRegex, '<iframe');
+
   return firstStrip.replace(endRegex, '</iframe>');
 }
 
@@ -14,6 +15,7 @@ export function stripWrappingFigureTags(htmlInput) {
 // removes the wrapping <div> tags and returns the result
 export function stripIframeWrapperDivs(htmlInput) {
   const wrapperRegex = /(<div class="iframe-wrapper"><iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
+
   return htmlInput.replace(wrapperRegex, '<iframe$2</iframe>');
 }
 
@@ -23,6 +25,7 @@ export function addIframeWrapperDivs(htmlInput) {
   const endRegex = /<\/iframe>/gi;
   const responsiveDiv = '<div class="iframe-wrapper">';
   const firstAddition = htmlInput.replace(startRegex, `${responsiveDiv}<iframe`);
+
   return firstAddition.replace(endRegex, '</iframe></div>');
 }
 
@@ -38,6 +41,7 @@ export function parseIframeHtml(htmlInput) {
   }
 
   const iframeAttributes = iframeElements[0].attributes;
+
   return Object.assign({},
     ...Array.from(iframeAttributes, ({ name, value }) => ({ [name]: value }))
   );
@@ -76,8 +80,14 @@ export function convertStyleDimensionSettings(attributes) {
   return newAttributes;
 }
 
+
+
 export function validateIsNotEmpty(value) {
-  return !value || value === ''
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
+  if (!value || value === '') {
+    return false;
+  }
+  return true;
 }
 
 export function validateIsNumber(value) {

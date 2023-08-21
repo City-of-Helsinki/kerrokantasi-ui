@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { isCookiebotEnabled, cookieBotAddListener, cookieBotRemoveListener, getCookieBotScripts } from './cookiebotUtils';
 import config from '../config';
 import setupMatomo from './matomo';
@@ -9,9 +10,9 @@ function getCookie(name) {
 }
 
 export function enableMatomoTracking() {
-  // eslint-disable-next-line no-underscore-dangle
   window._paq.push(['setConsentGiven']);
 }
+
 
 /**
  * Initial check on page load to enable cookies if
@@ -29,6 +30,7 @@ export function checkCookieConsent() {
   }
 }
 
+
 function cookieOnComponentDidMount() {
   if (isCookiebotEnabled()) {
     cookieBotAddListener();
@@ -37,16 +39,18 @@ function cookieOnComponentDidMount() {
   }
 }
 
-export function cookieOnComponentWillUnmount() {
+function cookieOnComponentWillUnmount() {
   if (isCookiebotEnabled()) {
     cookieBotRemoveListener();
   }
 }
 
+
+
 /**
  * This is the initial setup for trackers that can be disabled on initialization.
  */
-export function addCookieScripts() {
+function addCookieScripts() {
   setupMatomo();
   return true;
 }
@@ -64,6 +68,7 @@ export function getCookieScripts() {
   if (config.enableCookies) {
     return addCookieScripts();
   }
+
   return null;
 }
 
@@ -93,7 +98,7 @@ export function getHDSCookieConfig(siteName, language, setLanguage, modal = true
     },
   };
   if (modal) {
-    config.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
+    cookieConfig.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
   }
   return cookieConfig;
 }

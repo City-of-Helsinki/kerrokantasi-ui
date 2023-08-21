@@ -1,0 +1,515 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionContainer component should render as expected 1`] = `
+<Grid
+  bsClass="container"
+  componentClass="div"
+  fluid={false}
+>
+  <div
+    className="hearing-content-section main"
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        md={8}
+        mdPush={2}
+      >
+        <section
+          className="hearing-section main-content"
+        >
+          <h2>
+            <button
+              aria-controls="hearing-section-details-accordion"
+              aria-expanded="true"
+              className="hearing-section-toggle-button"
+              id="hearing-section-details-accordion-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <Icon
+                Component="span"
+                aria-hidden="true"
+                className="open"
+                name="angle-right"
+              />
+              <FormattedMessage
+                id="sectionInformationTitle"
+                values={{}}
+              />
+            </button>
+          </h2>
+          <Collapse
+            appear={false}
+            aria-hidden="false"
+            dimension="height"
+            getDimensionValue={[Function]}
+            id="hearing-section-details-accordion"
+            in={true}
+            mountOnEnter={false}
+            role="region"
+            timeout={300}
+            unmountOnExit={false}
+          >
+            <div
+              className="accordion-content"
+            >
+              <div
+                className="section-content-spacer"
+              >
+                <SectionImageComponent
+                  caption="A Wonderfull caption"
+                  closeLightbox={[Function]}
+                  image={
+                    {
+                      "caption": {
+                        "fi": "A Wonderfull caption",
+                      },
+                      "height": 631,
+                      "id": 92,
+                      "title": {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                      "width": 893,
+                    }
+                  }
+                  openLightbox={[Function]}
+                  showLightbox={false}
+                />
+                <div
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>",
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </Collapse>
+        </section>
+        <withRouter(SubsectionList)
+          hearing={
+            {
+              "abstract": {
+                "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+              },
+              "borough": {},
+              "close_at": "2200-11-28T22:00:00Z",
+              "closed": false,
+              "contact_persons": [
+                {
+                  "email": "seija.suunnittelija@hel.fi",
+                  "id": "KmzDwlU21Qs6KPgboWgOwRIBAKi4x60X",
+                  "name": "Seija Suunnittelija",
+                  "organization": "Kaupunkisuunnitteluvirasto",
+                  "phone": "09 123 456",
+                  "title": {
+                    "fi": "arkkitehti",
+                  },
+                },
+              ],
+              "created_at": "2017-10-23T11:07:26.630423Z",
+              "default_to_fullscreen": false,
+              "geojson": null,
+              "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+              "labels": [],
+              "main_image": {
+                "caption": {
+                  "fi": "Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala",
+                },
+                "height": 631,
+                "id": 92,
+                "title": {},
+                "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                "width": 893,
+              },
+              "n_comments": 1,
+              "open_at": "2017-10-22T21:00:00Z",
+              "organization": "Kaupunkisuunnitteluvirasto",
+              "published": true,
+              "sections": [
+                {
+                  "abstract": {
+                    "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                  },
+                  "commenting": "open",
+                  "content": {
+                    "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>",
+                  },
+                  "created_at": "2017-10-23T11:07:26.668934Z",
+                  "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                  "images": [
+                    {
+                      "caption": {
+                        "fi": "A Wonderfull caption",
+                      },
+                      "height": 631,
+                      "id": 92,
+                      "title": {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                      "width": 893,
+                    },
+                  ],
+                  "n_comments": 1,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": false,
+                  "questions": [
+                    {
+                      "id": 6,
+                      "is_independent_poll": false,
+                      "n_answers": 1,
+                      "options": [
+                        {
+                          "id": 115,
+                          "n_answers": 1,
+                          "text": {
+                            "en": "NO",
+                            "fi": "EI !",
+                          },
+                        },
+                        {
+                          "id": 116,
+                          "n_answers": 0,
+                          "text": {
+                            "en": "Yes",
+                            "fi": "Joo",
+                          },
+                        },
+                      ],
+                      "text": {
+                        "en": " do you like music ?",
+                        "fi": "Pidätkö sinä musiikista ?",
+                      },
+                      "type": "single-choice",
+                    },
+                  ],
+                  "title": {},
+                  "type": "main",
+                  "type_name_plural": "pääosiot",
+                  "type_name_singular": "pääosio",
+                  "voting": "registered",
+                },
+                {
+                  "abstract": {},
+                  "commenting": "open",
+                  "content": {
+                    "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
+
+<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
+
+<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>
+
+<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>
+
+<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>
+
+<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>",
+                  },
+                  "created_at": "2016-01-15T08:31:03.264760Z",
+                  "id": "asuminen-a-asuinalueiden-elinvoi",
+                  "images": [
+                    {
+                      "caption": {
+                        "fi": "Asuinalueiden elinvoimaisuus.",
+                      },
+                      "height": 1067,
+                      "id": 24,
+                      "title": {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
+                      "width": 1211,
+                    },
+                  ],
+                  "n_comments": 59,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": true,
+                  "questions": [],
+                  "title": {
+                    "fi": "A. Asuinalueiden elinvoimaisuus",
+                  },
+                  "type": "part",
+                  "type_name_plural": "osa-alueet",
+                  "type_name_singular": "osa-alue",
+                  "voting": "registered",
+                },
+                {
+                  "abstract": {},
+                  "commenting": "open",
+                  "content": {
+                    "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
+
+<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
+
+<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>
+
+<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>
+
+<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>
+
+<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>",
+                  },
+                  "created_at": "2016-01-15T08:31:03.264760Z",
+                  "id": "asuminen-b-asuinalueiden-elinvoi",
+                  "images": [
+                    {
+                      "caption": {
+                        "fi": "Asuinalueiden elinvoimaisuus.",
+                      },
+                      "height": 1067,
+                      "id": 24,
+                      "title": {},
+                      "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
+                      "width": 1211,
+                    },
+                  ],
+                  "n_comments": 59,
+                  "plugin_data": "",
+                  "plugin_fullscreen": false,
+                  "plugin_identifier": "",
+                  "plugin_iframe_url": "",
+                  "published": true,
+                  "questions": [],
+                  "title": {
+                    "fi": "A. Asuinalueiden elinvoimaisuus",
+                  },
+                  "type": "part",
+                  "type_name_plural": "osa-alueet",
+                  "type_name_singular": "osa-alue",
+                  "voting": "registered",
+                },
+              ],
+              "servicemap_url": "",
+              "slug": "isosaari",
+              "title": {
+                "fi": "Ideoi Isosaaren tulevaisuutta",
+              },
+            }
+          }
+          language="fi"
+          user={{}}
+        />
+        <section
+          className="hearing-section comments-section"
+          id="comments-section"
+          tabIndex={-1}
+        >
+          <p
+            className="report-download text-right small"
+          >
+            <a
+              href="http://localhost:8000/v1/hearing/isosaari/report/"
+            >
+              <Icon
+                Component="span"
+                aria-hidden="true"
+                name="download"
+              />
+               
+              <FormattedMessage
+                id="downloadReport"
+                values={{}}
+              />
+            </a>
+          </p>
+          <Connect(InjectIntl(SortableCommentListComponent))
+            canComment={true}
+            canFlag={false}
+            canVote={true}
+            closed={false}
+            displayVisualization={false}
+            hearingGeojson={null}
+            isSectionComments={
+              {
+                "abstract": {
+                  "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                },
+                "commenting": "open",
+                "content": {
+                  "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>",
+                },
+                "created_at": "2017-10-23T11:07:26.668934Z",
+                "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                "images": [
+                  {
+                    "caption": {
+                      "fi": "A Wonderfull caption",
+                    },
+                    "height": 631,
+                    "id": 92,
+                    "title": {},
+                    "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                    "width": 893,
+                  },
+                ],
+                "n_comments": 1,
+                "plugin_data": "",
+                "plugin_fullscreen": false,
+                "plugin_identifier": "",
+                "plugin_iframe_url": "",
+                "published": false,
+                "questions": [
+                  {
+                    "id": 6,
+                    "is_independent_poll": false,
+                    "n_answers": 1,
+                    "options": [
+                      {
+                        "id": 115,
+                        "n_answers": 1,
+                        "text": {
+                          "en": "NO",
+                          "fi": "EI !",
+                        },
+                      },
+                      {
+                        "id": 116,
+                        "n_answers": 0,
+                        "text": {
+                          "en": "Yes",
+                          "fi": "Joo",
+                        },
+                      },
+                    ],
+                    "text": {
+                      "en": " do you like music ?",
+                      "fi": "Pidätkö sinä musiikista ?",
+                    },
+                    "type": "single-choice",
+                  },
+                ],
+                "title": {},
+                "type": "main",
+                "type_name_plural": "pääosiot",
+                "type_name_singular": "pääosio",
+                "voting": "registered",
+              }
+            }
+            onDeleteComment={[Function]}
+            onEditComment={[Function]}
+            onGetSubComments={[Function]}
+            onPostComment={[Function]}
+            onPostFlag={[Function]}
+            onPostVote={[Function]}
+            published={true}
+            section={
+              {
+                "abstract": {
+                  "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                },
+                "commenting": "open",
+                "content": {
+                  "fi": "<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>
+<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>
+<ul>
+  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>
+  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>
+  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>
+</ul>
+<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>
+<p>Lisätietoja:</p>
+<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>",
+                },
+                "created_at": "2017-10-23T11:07:26.668934Z",
+                "id": "7CxRxrlvrW9uCCjEaB9rW1dENHQMudeK",
+                "images": [
+                  {
+                    "caption": {
+                      "fi": "A Wonderfull caption",
+                    },
+                    "height": 631,
+                    "id": 92,
+                    "title": {},
+                    "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                    "width": 893,
+                  },
+                ],
+                "n_comments": 1,
+                "plugin_data": "",
+                "plugin_fullscreen": false,
+                "plugin_identifier": "",
+                "plugin_iframe_url": "",
+                "published": false,
+                "questions": [
+                  {
+                    "id": 6,
+                    "is_independent_poll": false,
+                    "n_answers": 1,
+                    "options": [
+                      {
+                        "id": 115,
+                        "n_answers": 1,
+                        "text": {
+                          "en": "NO",
+                          "fi": "EI !",
+                        },
+                      },
+                      {
+                        "id": 116,
+                        "n_answers": 0,
+                        "text": {
+                          "en": "Yes",
+                          "fi": "Joo",
+                        },
+                      },
+                    ],
+                    "text": {
+                      "en": " do you like music ?",
+                      "fi": "Pidätkö sinä musiikista ?",
+                    },
+                    "type": "single-choice",
+                  },
+                ],
+                "title": {},
+                "type": "main",
+                "type_name_plural": "pääosiot",
+                "type_name_singular": "pääosio",
+                "voting": "registered",
+              }
+            }
+          />
+        </section>
+      </Col>
+    </Row>
+  </div>
+  <DeleteModal
+    close={[Function]}
+    isOpen={false}
+    onDeleteComment={[Function]}
+  />
+</Grid>
+`;

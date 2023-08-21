@@ -1,9 +1,11 @@
 /* eslint-disable react/self-closing-comp */
+/* eslint-disable import/no-unresolved */
+
 import React from 'react';
-// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 
 import config from '../config';
+
 
 /**
  * Returns whether Cookiebot is enabled and should be used or not.
@@ -20,6 +22,7 @@ export function isCookiebotEnabled() {
 export function cookieBotImageOverride() {
   document.getElementById('CybotCookiebotDialogPoweredbyImage').src = '';
 }
+
 
 /**
  * Add event listener that overrides the image served by cookiebot.
@@ -70,6 +73,7 @@ export function getCookieBotScripts() {
     </script>
   );
 }
+
 
 export default {
   cookieBotAddListener,
