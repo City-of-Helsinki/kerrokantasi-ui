@@ -1,13 +1,14 @@
+/* eslint-disable react/no-unused-class-component-methods */
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
-import {Modal, Button, ModalTitle } from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IframeCopyPasteField from './IframeCopyPasteField';
 import RichTextModalTextField from '../RichTextModalTextField';
 import IframeSelectField from './IframeSelectField';
-import {validateInput, validateForm, isFormValid} from './IframeUtils';
+import { validateInput, validateForm, isFormValid } from './IframeUtils';
 import getMessage from '../../../utils/getMessage';
 
 
@@ -28,9 +29,9 @@ const initialState = {
 };
 
 const scrollingOptions = [
-  {value: "no", text: getMessage('generalNo')},
-  {value: "yes", text: getMessage('generalYes')},
-  {value: "auto", text: 'auto'},
+  { value: "no", text: getMessage('generalNo') },
+  { value: "yes", text: getMessage('generalYes') },
+  { value: "auto", text: 'auto' },
 ];
 
 class IframeModal extends React.Component {
@@ -45,6 +46,47 @@ class IframeModal extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
+  handleFormSubmit(event, fields) {
+    event.preventDefault();
+    const inputErrors = validateForm(fields);
+    if (isFormValid(inputErrors)) {
+      this.props.onSubmit({ ...fields });
+      this.setState(initialState);
+    } else {
+      this.setState({ inputErrors, showFormErrorMsg: true });
+    }
+  }
+
+  handleInputBlur(event) {
+    const { target } = event;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
+    const errorMsg = validateInput(name, value);
+
+    this.setState((state) => {
+      const inputErrors = { ...state.inputErrors, ...{ [name]: errorMsg } };
+      return ({
+        [name]: value,
+        inputErrors,
+      });
+    });
+  }
+
+  handleInputChange(event) {
+    const { target } = event;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
+
+    this.setState((state) => {
+      const inputErrors = { ...state.inputErrors, ...{ [name]: '' } };
+      return ({
+        showFormErrorMsg: false,
+        [name]: value,
+        inputErrors,
+      });
+    });
+  }
+
   // expects data to be parsed attribute values for iframe
   updateAttributes(attributes) {
     this.setState({
@@ -54,57 +96,16 @@ class IframeModal extends React.Component {
     });
   }
 
-  handleInputChange(event) {
-    const {target} = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const {name} = target;
-
-    this.setState((state) => {
-      const inputErrors = {...state.inputErrors, ...{[name]: ''}};
-      return ({
-        showFormErrorMsg: false,
-        [name]: value,
-        inputErrors,
-      });
-    });
-  }
-
-  handleInputBlur(event) {
-    const {target} = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const {name} = target;
-    const errorMsg = validateInput(name, value);
-
-    this.setState((state) => {
-      const inputErrors = {...state.inputErrors, ...{[name]: errorMsg}};
-      return ({
-        [name]: value,
-        inputErrors,
-      });
-    });
-  }
-
-  handleFormSubmit(event, fields) {
-    event.preventDefault();
-    const inputErrors = validateForm(fields);
-    if (isFormValid(inputErrors)) {
-      this.props.onSubmit({...fields});
-      this.setState(initialState);
-    } else {
-      this.setState({inputErrors, showFormErrorMsg: true});
-    }
-  }
-
   render() {
     const { isOpen, onClose } = this.props;
-    const {inputErrors, ...fields} = this.state;
+    const { inputErrors, ...fields } = this.state;
     const formName = "iframe";
 
     return (
       <Modal show={isOpen} onHide={() => onClose()}>
         <Modal.Header closeButton>
           <ModalTitle componentClass="h3">
-            {<FormattedMessage id="iframeModalTitle"/>}
+            {<FormattedMessage id="iframeModalTitle" />}
           </ModalTitle>
         </Modal.Header>
         <Modal.Body>
@@ -169,13 +170,13 @@ class IframeModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => onClose()}>
-            <FormattedMessage id="cancel"/>
+            <FormattedMessage id="cancel" />
           </Button>
           <Button
             bsStyle="primary"
             onClick={(event) => this.handleFormSubmit(event, fields)}
           >
-            { <FormattedMessage id="formButtonAcceptAndAdd" /> }
+            {<FormattedMessage id="formButtonAcceptAndAdd" />}
           </Button>
           {this.state.showFormErrorMsg &&
             <p id="iframe-form-submit-error" role="alert" className="rich-text-editor-form-input-error">

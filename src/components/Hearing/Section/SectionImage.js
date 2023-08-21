@@ -1,8 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Lightbox from 'react-image-lightbox';
 
-export const SectionImageComponent = ({image, altText, caption, title, showLightbox, openLightbox, closeLightbox}) => {
+export const SectionImageComponent = ({ image, altText, caption, title, showLightbox, openLightbox, closeLightbox }) => {
   const defineImageAlt = () => altText || caption || title || '';
 
   return (
@@ -16,7 +18,7 @@ export const SectionImageComponent = ({image, altText, caption, title, showLight
       />
       {
         showLightbox && <Lightbox
-          reactModalProps={{className: "image-lightbox"}}
+          reactModalProps={{ className: "image-lightbox" }}
           mainSrc={image.url}
           onCloseRequest={closeLightbox}
         />

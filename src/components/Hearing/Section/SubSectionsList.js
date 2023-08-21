@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
@@ -22,7 +24,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
-  const bgImage = (section) => !isEmpty(section.images) ? `url("${  section.images[0].url  }")` : `url(${defaultImage})`;
+  const bgImage = (section) => !isEmpty(section.images) ? `url("${section.images[0].url}")` : `url(${defaultImage})`;
 
   const isCommentable = (section) => {
     const hasPlugin = !!section.plugin_identifier;
@@ -58,7 +60,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                     <div className="section-card-title-prefix">
                       <FormattedMessage id="sectionCardSubsectionTitle" /> {index + 1}/{subSections.length}
                     </div>
-                    <Link to={{path: getSectionURL(match.params.hearingSlug, section)}} className="section-card-title">
+                    <Link to={{ path: getSectionURL(match.params.hearingSlug, section) }} className="section-card-title">
                       <h3 id={`subsection-title-${section.id}`}>
                         {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
                       </h3>
@@ -78,7 +80,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                   )}
                   <div className="section-card-buttons">
                     <Link
-                      to={{path: getSectionURL(match.params.hearingSlug, section)}}
+                      to={{ path: getSectionURL(match.params.hearingSlug, section) }}
                       className="btn btn-sm btn-primary"
                     >
                       <FormattedMessage id="showSubsectionBtn" />

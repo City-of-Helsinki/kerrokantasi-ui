@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
 /**
  * Created by riku on 11.5.2017.
  */
@@ -19,7 +21,7 @@ export default class PluginContent extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { hearingSlug, section } = this.props;
     const isFetching = get(nextProps.comments, 'isFetching');
     const results = get(nextProps.comments, 'results');

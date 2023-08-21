@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
 import React from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
@@ -47,36 +48,42 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-import {getUser} from '../../../selectors/user';
+import { getUser } from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiURL } from '../../../api';
 
 export class SectionContainerComponent extends React.Component {
-  state = {
-    showDeleteModal: false,
-    commentToDelete: {},
-    showLightbox: false,
-    mapContainer: null,
-    mapContainerMobile: null,
-    // Open on desktop, closed on mobile
-    mainHearingDetailsOpen: typeof window !== 'undefined' && window.innerWidth >= 768,
-    mainHearingProjectOpen: false,
-    mainHearingContactsOpen: false,
-    mainHearingAttachmentsOpen: false,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      showDeleteModal: false,
+      commentToDelete: {},
+      showLightbox: false,
+      mapContainer: null,
+      mapContainerMobile: null,
+      // Open on desktop, closed on mobile
+      mainHearingDetailsOpen: typeof window !== 'undefined' && window.innerWidth >= 768,
+      mainHearingProjectOpen: false,
+      mainHearingContactsOpen: false,
+      mainHearingAttachmentsOpen: false,
+    };
+  }
+
+
 
   getSectionNav = () => {
-    const {sections, match} = this.props;
+    const { sections, match } = this.props;
     const filterNotClosedSections = sections.filter(section => section.type !== SectionTypes.CLOSURE);
     const filteredSections = filterNotClosedSections.filter(section => section.type !== SectionTypes.MAIN);
     const currentSectionIndex = match.params.sectionId
       ? filteredSections.findIndex(section => section.id === match.params.sectionId)
       : 0;
     const prevPath = currentSectionIndex - 1 >= 0
-      ? `/${match.params.hearingSlug}/${  filteredSections[currentSectionIndex - 1].id}`
+      ? `/${match.params.hearingSlug}/${filteredSections[currentSectionIndex - 1].id}`
       : undefined;
     const nextPath = currentSectionIndex + 1 < filteredSections.length
-      ? `/${match.params.hearingSlug}/${  filteredSections[currentSectionIndex + 1].id}`
+      ? `/${match.params.hearingSlug}/${filteredSections[currentSectionIndex + 1].id}`
       : undefined;
 
     return {
@@ -94,13 +101,13 @@ export class SectionContainerComponent extends React.Component {
   // downloads report excel with user's credentials
   handleReportDownload = (hearing, apiToken, language) => {
     const accessToken = apiToken.apiToken;
-    const reportUrl = getApiURL(`/v1/hearing/${  hearing.slug  }/report`);
+    const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
 
     fetch(reportUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        Authorization: `Bearer ${  accessToken}`
+        Authorization: `Bearer ${accessToken}`
       },
     })
       .then((response) => response.blob())
@@ -144,80 +151,83 @@ export class SectionContainerComponent extends React.Component {
   }
 
   onPostComment = (sectionId, sectionCommentData) => { // Done
-    const {match, location} = this.props;
-    const {hearingSlug} = match.params;
-    const {authCode} = parseQuery(location.search);
-    const commentData = {authCode, ...sectionCommentData};
+    const { match, location } = this.props;
+    const { hearingSlug } = match.params;
+    const { authCode } = parseQuery(location.search);
+    const commentData = { authCode, ...sectionCommentData };
     return this.props.postSectionComment(hearingSlug, sectionId, commentData);
   }
 
   onVoteComment = (commentId, sectionId, isReply, parentId) => {
-    const {match} = this.props;
-    const {hearingSlug} = match.params;
+    const { match } = this.props;
+    const { hearingSlug } = match.params;
     this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onFlagComment = (commentId, sectionId, isReply, parentId) => {
-    const {match} = this.props;
-    const {hearingSlug} = match.params;
+    const { match } = this.props;
+    const { hearingSlug } = match.params;
     this.props.postFlag(commentId, hearingSlug, sectionId, isReply, parentId);
   }
 
   onEditComment = (sectionId, commentId, commentData) => {
-    const {match, location} = this.props;
-    const {hearingSlug} = match.params;
-    const {authCode} = parseQuery(location.search);
-    ({authCode, ...commentData});
+    const { match, location } = this.props;
+    const { hearingSlug } = match.params;
+    const { authCode } = parseQuery(location.search);
+
+    // eslint-disable-next-line prefer-object-spread
+    Object.assign({ authCode }, commentData);
+
     this.props.editComment(hearingSlug, sectionId, commentId, commentData);
   }
 
   onDeleteComment = () => {
-    const {match} = this.props;
-    const {sectionId, commentId, refreshUser} = this.state.commentToDelete;
-    const {hearingSlug} = match.params;
+    const { match } = this.props;
+    const { sectionId, commentId, refreshUser } = this.state.commentToDelete;
+    const { hearingSlug } = match.params;
     this.props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
     this.forceUpdate();
   }
 
   onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => { // Done
-    const sectionCommentData = {text, authorName, pluginData, geojson, label, images};
-    const {match, location, sections} = this.props;
+    const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
+    const { match, location, sections } = this.props;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
-    const {hearingSlug} = match.params;
-    const {authCode} = parseQuery(location.search);
-    const commentData = {authCode, ...sectionCommentData};
+    const { hearingSlug } = match.params;
+    const { authCode } = parseQuery(location.search);
+    const commentData = { authCode, ...sectionCommentData };
     this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   }
 
   onVotePluginComment = (commentId) => {
-    const {match, sections} = this.props;
-    const {hearingSlug} = match.params;
+    const { match, sections } = this.props;
+    const { hearingSlug } = match.params;
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const sectionId = mainSection.id;
     this.props.postVote(commentId, hearingSlug, sectionId);
   }
 
   handleDeleteClick = (sectionId, commentId, refreshUser) => {
-    this.setState({commentToDelete: {sectionId, commentId, refreshUser}});
+    this.setState({ commentToDelete: { sectionId, commentId, refreshUser } });
     this.openDeleteModal();
   }
 
   openDeleteModal = () => {
-    this.setState({showDeleteModal: true});
+    this.setState({ showDeleteModal: true });
   }
 
   closeDeleteModal = () => {
-    this.setState({showDeleteModal: false, commentToDelete: {}});
+    this.setState({ showDeleteModal: false, commentToDelete: {} });
   }
 
   openLightbox = () => {
     document.body.classList.remove('nav-fixed');
-    this.setState({showLightbox: true});
+    this.setState({ showLightbox: true });
   }
 
   closeLightbox = () => {
     document.body.classList.add('nav-fixed');
-    this.setState({showLightbox: false});
+    this.setState({ showLightbox: false });
   }
 
   isHearingAdmin = () => (
@@ -231,7 +241,7 @@ export class SectionContainerComponent extends React.Component {
    * @returns {JSX<Component>} component if files exist.
    */
   renderFileSection = (section, language, published) => {
-    const {files} = section;
+    const { files } = section;
 
     if (!(files && files.length > 0)) {
       return null;
@@ -241,8 +251,9 @@ export class SectionContainerComponent extends React.Component {
       <section className="hearing-section hearing-attachments">
         <h2>
           <button
+            type='button'
             className="hearing-section-toggle-button"
-            onClick={() => this.setState({ mainHearingAttachmentsOpen: !this.state.mainHearingAttachmentsOpen })}
+            onClick={() => this.setState((prevState) => ({ mainHearingAttachmentsOpen: !prevState.mainHearingAttachmentsOpen }))}
             aria-controls="hearing-section-attachments-accordion"
             id="hearing-section-attachments-accordion-button"
             aria-expanded={this.state.mainHearingAttachmentsOpen ? "true" : "false"}
@@ -263,7 +274,7 @@ export class SectionContainerComponent extends React.Component {
         >
           <div className="accordion-content">
             <div className="section-content-spacer">
-              {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
+              {!published && <p><FormattedMessage id="unpublishedAttachments" /></p>}
               {files.map((file) => (
                 <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
               ))}
@@ -288,8 +299,9 @@ export class SectionContainerComponent extends React.Component {
       <section className="hearing-section hearing-project">
         <h2>
           <button
+            type='button'
             className="hearing-section-toggle-button"
-            onClick={() => this.setState({ mainHearingProjectOpen: !this.state.mainHearingProjectOpen })}
+            onClick={() => this.setState((prevState) => ({ mainHearingProjectOpen: !prevState.mainHearingProjectOpen }))}
             aria-controls="hearing-section-project-accordion"
             id="hearing-section-project-accordion-button"
             aria-expanded={this.state.mainHearingProjectOpen ? "true" : "false"}
@@ -363,8 +375,9 @@ export class SectionContainerComponent extends React.Component {
       <section className="hearing-section hearing-contacts">
         <h2>
           <button
+            type='button'
             className="hearing-section-toggle-button"
-            onClick={() => this.setState({ mainHearingContactsOpen: !this.state.mainHearingContactsOpen })}
+            onClick={() => this.setState((prevState) => ({ mainHearingContactsOpen: !prevState.mainHearingContactsOpen }))}
             aria-controls="hearing-section-contacts-accordion"
             id="hearing-section-contacts-accordion-button"
             aria-expanded={this.state.mainHearingContactsOpen ? "true" : "false"}
@@ -415,7 +428,7 @@ export class SectionContainerComponent extends React.Component {
     } = this.props;
 
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
-    const reportUrl = getApiURL(`/v1/hearing/${  hearing.slug  }/report`);
+    const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
@@ -454,10 +467,10 @@ export class SectionContainerComponent extends React.Component {
       return (
         <Row className="row-no-gutters text-right">
           <Button
-              bsSize="xsmall"
-              bsStyle="link"
-              className="pull-right report-download-button"
-              onClick={() => this.handleReportDownload(hearing, apiToken, language)}
+            bsSize="xsmall"
+            bsStyle="link"
+            className="pull-right report-download-button"
+            onClick={() => this.handleReportDownload(hearing, apiToken, language)}
           >
             <Icon name="download" aria-hidden="true" /> <FormattedMessage id="downloadReport" />
           </Button>
@@ -523,8 +536,9 @@ export class SectionContainerComponent extends React.Component {
         <section className="hearing-section main-content">
           <h2>
             <button
+              type='button'
               className="hearing-section-toggle-button"
-              onClick={() => this.setState({ mainHearingDetailsOpen: !this.state.mainHearingDetailsOpen })}
+              onClick={() => this.setState((prevState) => ({ mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen }))}
               aria-controls="hearing-section-details-accordion"
               id="hearing-section-details-accordion-button"
               aria-expanded={this.state.mainHearingDetailsOpen ? "true" : "false"}
@@ -630,7 +644,7 @@ export class SectionContainerComponent extends React.Component {
   }
 
   renderSubSectionAttachments = (section, language, published) => {
-    const {files} = section;
+    const { files } = section;
 
     if (!(files && files.length > 0)) {
       return null;
@@ -639,10 +653,10 @@ export class SectionContainerComponent extends React.Component {
       <div className="hearing-subsection-attachments">
         <h3><FormattedMessage id="attachments" /></h3>
         <div >
-          {!published && <p><FormattedMessage id="unpublishedAttachments"/></p>}
+          {!published && <p><FormattedMessage id="unpublishedAttachments" /></p>}
           {files.map((file) => (
             <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
-        ))}
+          ))}
         </div>
       </div>
     );
@@ -661,42 +675,42 @@ export class SectionContainerComponent extends React.Component {
 
     return (
       <Col md={8} mdPush={2}>
-          <h2 className="hearing-subsection-title">
-            <span className="hearing-subsection-title-counter">
-              <FormattedMessage id="subsectionTitle" />
-              <span className="aria-hidden">&nbsp;</span>
-              {this.getSectionNav().currentNum}/{this.getSectionNav().totalNum}
-            </span>
-            {getAttr(section.title, language)}
-          </h2>
+        <h2 className="hearing-subsection-title">
+          <span className="hearing-subsection-title-counter">
+            <FormattedMessage id="subsectionTitle" />
+            <span className="aria-hidden">&nbsp;</span>
+            {this.getSectionNav().currentNum}/{this.getSectionNav().totalNum}
+          </span>
+          {getAttr(section.title, language)}
+        </h2>
 
-          {!(section.commenting === 'none') && (
-            <div className="hearing-subsection-comments-header">
-              <div className="hearing-subsection-comments">
-                <Icon name="comment-o" fixedWidth />&nbsp;
-                <FormattedPlural
-                  value={section.n_comments}
-                  one={<FormattedMessage id="sectionTotalComment" values={{ n: section.n_comments }} />}
-                  other={<FormattedMessage id="sectionTotalComments" values={{ n: section.n_comments }} />}
-                />
-              </div>
-              {isSectionCommentable(hearing, section, user) && (
-                <AnchorLink offset="100" href="#comments-section" className="hearing-subsection-write-comment-link">
-                  <FormattedMessage id="headerWriteCommentLink" />
-                </AnchorLink>
-              )}
+        {!(section.commenting === 'none') && (
+          <div className="hearing-subsection-comments-header">
+            <div className="hearing-subsection-comments">
+              <Icon name="comment-o" fixedWidth />&nbsp;
+              <FormattedPlural
+                value={section.n_comments}
+                one={<FormattedMessage id="sectionTotalComment" values={{ n: section.n_comments }} />}
+                other={<FormattedMessage id="sectionTotalComments" values={{ n: section.n_comments }} />}
+              />
             </div>
-          )}
+            {isSectionCommentable(hearing, section, user) && (
+              <AnchorLink offset="100" href="#comments-section" className="hearing-subsection-write-comment-link">
+                <FormattedMessage id="headerWriteCommentLink" />
+              </AnchorLink>
+            )}
+          </div>
+        )}
 
-          {this.renderSectionImage(section, language)}
-          {this.renderSectionAbstract(section, language)}
-          {this.renderSectionContent(section, language)}
-          {this.renderSubSectionAttachments(section, language, published)}
+        {this.renderSectionImage(section, language)}
+        {this.renderSectionAbstract(section, language)}
+        {this.renderSectionContent(section, language)}
+        {this.renderSubSectionAttachments(section, language, published)}
 
-          {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
+        {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
 
-          {this.renderCommentsSection()}
-        </Col>
+        {this.renderCommentsSection()}
+      </Col>
     );
   }
 
@@ -706,28 +720,25 @@ export class SectionContainerComponent extends React.Component {
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 
     return (
-      <>
-        {isEmpty(section) ?
-          <div>Loading</div>
+      isEmpty(section) ?
+        <div>Loading</div>
         :
-          <Grid>
-            <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
-              <Row>
-                {isMainSection(section) ? (
-                  this.renderMainHearing(section, mainSection)
-                ) : (
-                  this.renderSubHearing(section)
-                )}
-              </Row>
-            </div>
-            <DeleteModal
-              isOpen={this.state.showDeleteModal}
-              close={this.closeDeleteModal}
-              onDeleteComment={this.onDeleteComment}
-            />
-          </Grid>
-        }
-      </>
+        <Grid>
+          <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
+            <Row>
+              {isMainSection(section) ? (
+                this.renderMainHearing(section, mainSection)
+              ) : (
+                this.renderSubHearing(section)
+              )}
+            </Row>
+          </div>
+          <DeleteModal
+            isOpen={this.state.showDeleteModal}
+            close={this.closeDeleteModal}
+            onDeleteComment={this.onDeleteComment}
+          />
+        </Grid>
     );
   }
 }

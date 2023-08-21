@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
@@ -10,7 +11,7 @@ import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-
 import { withRouter } from 'react-router-dom';
 import { stringify } from 'qs';
 
-import {notifyError, notifySuccess} from "../../utils/notify";
+import { notifyError, notifySuccess } from "../../utils/notify";
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from "../LabelList";
@@ -23,14 +24,14 @@ import { isPublic, getHearingURL, hasCommentableSections } from "../../utils/hea
 import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
-import { getUser} from "../../selectors/user";
-import { addHearingToFavorites, removeHearingFromFavorites} from '../../actions';
+import { getUser } from "../../selectors/user";
+import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
 import InternalLink from '../InternalLink';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) { // eslint-disable-line class-methods-use-this
-    const {intl: {formatTime, formatDate}} = this.props;
-    const openMessage = <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at}/>;
+    const { intl: { formatTime, formatDate } } = this.props;
+    const openMessage = <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />;
     const closeMessage = <FormatRelativeTime
       messagePrefix="timeClose"
       timeVal={hearing.close_at}
@@ -45,7 +46,7 @@ export class HeaderComponent extends React.Component {
           {!hearing.published ? (
             <>
               <del>{openMessage}</del>
-              (<FormattedMessage id="draftNotPublished"/>)
+              (<FormattedMessage id="draftNotPublished" />)
               <br />
               <del>{closeMessage}</del>
             </>
@@ -127,7 +128,7 @@ export class HeaderComponent extends React.Component {
               {!translationAvailable && noTranslationMessage}
               {intl.formatMessage({ id: 'hearingOnlyAvailableIn' })}&nbsp;
               <Link
-                to={{path: location.pathname, search: stringifyQuery({lang: languageOptions[0]})}}
+                to={{ path: location.pathname, search: stringifyQuery({ lang: languageOptions[0] }) }}
                 className="language-select__language"
               >
                 {intl.formatMessage({ id: `hearingOnlyAvailableInLang-${languageOptions[0]}` })}
@@ -152,11 +153,11 @@ export class HeaderComponent extends React.Component {
         search: location.search,
       };
       if (location.search.includes('lang=')) {
-        urlObject.search = location.search.replace(/lang=\w{2}/, stringify({lang: code}));
+        urlObject.search = location.search.replace(/lang=\w{2}/, stringify({ lang: code }));
       } else if (location.search) {
-        urlObject.search += `&${stringify({lang: code})}`;
+        urlObject.search += `&${stringify({ lang: code })}`;
       } else {
-        urlObject.search += stringifyQuery({lang: code});
+        urlObject.search += stringifyQuery({ lang: code });
       }
       return urlObject;
     };
@@ -184,14 +185,14 @@ export class HeaderComponent extends React.Component {
 
   getEyeTooltip() {
     // eslint-disable-line class-methods-use-this
-    const {formatMessage} = this.props.intl;
+    const { formatMessage } = this.props.intl;
     const openingTime = moment(this.props.hearing.open_at);
     let text = <FormattedMessage id="eyeTooltip" />;
     if (this.props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
       const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
       const differenceText = duration.asHours() < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
-      text = `${formatMessage({id: 'eyeTooltipOpens'})} ${Math.ceil(durationAs)} ${formatMessage({
+      text = `${formatMessage({ id: 'eyeTooltipOpens' })} ${Math.ceil(durationAs)} ${formatMessage({
         id: differenceText,
       })}`;
     }
@@ -199,7 +200,7 @@ export class HeaderComponent extends React.Component {
   }
 
   getPreviewLinkButton() {
-    const {hearing} = this.props;
+    const { hearing } = this.props;
 
     return (
       <div className="hearing-meta__element">
@@ -219,7 +220,7 @@ export class HeaderComponent extends React.Component {
   }
 
   getFavorite() {
-    const {user, hearing, addToFavorites, removeFromFavorites} = this.props;
+    const { user, hearing, addToFavorites, removeFromFavorites } = this.props;
     if (!user || !user.favorite_hearings) { return <div />; }
     const isFollowed = user.favorite_hearings.includes(hearing.id);
     const favConfig = {
@@ -314,9 +315,9 @@ export class HeaderComponent extends React.Component {
                   )}
                 </>
               ) : (
-                <Link to={{path: getHearingURL({slug: match.params.hearingSlug})}}>
-                    <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
-                  </Link>
+                <Link to={{ path: getHearingURL({ slug: match.params.hearingSlug }) }}>
+                  <Icon name="arrow-left" /> <FormattedMessage id="backToHearingMain" />
+                </Link>
               )}
             </div>
           </Grid>

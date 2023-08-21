@@ -1,4 +1,6 @@
-/* eslint-disable jsx-a11y/href-no-hash */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
@@ -12,27 +14,25 @@ import getAttr from '../utils/getAttr';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
-
-/* eslint-disable import/no-unresolved */
-
 import { getCorrectContrastMapTileUrl } from '../utils/map';
-/* eslint-enable import/no-unresolved */
 
 class OverviewMap extends React.Component {
-  state = {
-    height: this.props.showOnCarousel ? null : this.props.style.height,
-    width: this.props.showOnCarousel ? null : this.props.style.width,
+  constructor() {
+    super();
+
+    this.state = {
+      height: this.props.showOnCarousel ? null : this.props.style.height,
+      width: this.props.showOnCarousel ? null : this.props.style.width,
+    }
   }
+
+
 
   componentDidMount() {
     window.addEventListener("resize", this.updateDimensions);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
-  }
-
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.mapContainer
       && typeof nextProps.mapContainer !== 'undefined'
@@ -41,8 +41,8 @@ class OverviewMap extends React.Component {
     }
   }
 
-  updateDimensions = () => {
-    this.handleUpdateMapDimensions(this.props.mapContainer);
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   /**
@@ -57,16 +57,6 @@ class OverviewMap extends React.Component {
       }
     }
   }
-
-  /**
-   * ensures whether it is the right time to render map.
-   * In case of carousel, we require static width and height.
-   * @returns {Bool}
-   */
-  shouldMapRender = () => (
-    this.props.showOnCarousel ? (this.state.height && this.state.width) : true
-  );
-
 
   getHearingMapContent(hearings) {
     const contents = [];
@@ -105,7 +95,7 @@ class OverviewMap extends React.Component {
           // eslint-disable-next-line react/jsx-indent
           return (
             <Polygon
-              key={`${id  }${  Math.random()}`}
+              key={`${id}${Math.random()}`}
               positions={latLngs}
             >
               {this.getPopupContent(hearing, geojson)}
@@ -116,7 +106,7 @@ class OverviewMap extends React.Component {
           return (
             <Marker
               position={latLngs}
-              key={`${id  }${  Math.random()}`}
+              key={`${id}${Math.random()}`}
               icon={new Leaflet.Icon({
                 iconUrl: leafletMarkerIconUrl,
                 shadowUrl: leafletMarkerShadowUrl,
@@ -132,7 +122,7 @@ class OverviewMap extends React.Component {
         case "LineString": {
           const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
           return (
-            <Polyline key={`${id  }${  Math.random()}`} positions={latLngs}>
+            <Polyline key={`${id}${Math.random()}`} positions={latLngs}>
               {this.getPopupContent(hearing, geojson)}
             </Polyline>
           );
@@ -161,7 +151,7 @@ class OverviewMap extends React.Component {
         default:
           // TODO: Implement support for other geometries too (markers, square, circle)
           return (
-            <GeoJSON data={geojson} key={`${id  }${  Math.random()}`}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
+            <GeoJSON data={geojson} key={`${id}${Math.random()}`}>{this.getPopupContent(hearing, geojson)}</GeoJSON>
           );
       }
     }
@@ -212,6 +202,19 @@ class OverviewMap extends React.Component {
     }
     return { keyboard: false };
   }
+
+  updateDimensions = () => {
+    this.handleUpdateMapDimensions(this.props.mapContainer);
+  }
+
+  /**
+  * ensures whether it is the right time to render map.
+  * In case of carousel, we require static width and height.
+  * @returns {Bool}
+  */
+  shouldMapRender = () => (
+    this.props.showOnCarousel ? (this.state.height && this.state.width) : true
+  );
 
   render() {
     if (typeof window === "undefined") return null;

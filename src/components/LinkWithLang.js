@@ -1,10 +1,12 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 
-import {parseQuery} from '../utils/urlQuery';
+import { parseQuery } from '../utils/urlQuery';
 
 /*
  * THIS COMPONENT SHOULD BE ALWAYS USED INSTEAD OF VANILLA <Link /> from react-router.
@@ -13,26 +15,28 @@ import {parseQuery} from '../utils/urlQuery';
  * back button awkward or impossible) and without breaking old links.
  */
 
-class LinkWithLangComponent extends React.Component {
-  render() {
-    const {to, className, children, style, headless, location} = this.props;
-    let searchString = to.search || location.search;
-    const urlHeadless = parseQuery(searchString).headless;
-    // update search string with headless param preserved if site is being rendered in webview
-    if (!urlHeadless) {
-      searchString = `${searchString ? `${searchString  }&headless=${headless}` : `?headless=${headless}`}`;
-    }
-    const newTo = {
-      pathname: to.path,
-      search: searchString,
-      hash: to.hash || '',
-      state: to.state || {}
-    };
-    return (
-      <Link className={className} to={newTo} style={style}>{children}</Link>
-    );
+const LinkWithLangComponent = (props) => {
+
+  const { to, className, children, style, headless, location } = props;
+  let searchString = to.search || location.search;
+  const urlHeadless = parseQuery(searchString).headless;
+  // update search string with headless param preserved if site is being rendered in webview
+  if (!urlHeadless) {
+    // eslint-disable-next-line sonarjs/no-nested-template-literals
+    searchString = `${searchString ? `${searchString}&headless=${headless}` : `?headless=${headless}`}`;
   }
+  const newTo = {
+    pathname: to.path,
+    search: searchString,
+    hash: to.hash || '',
+    state: to.state || {}
+  };
+
+  return (
+    <Link className={className} to={newTo} style={style}>{children}</Link>
+  );
 }
+
 
 LinkWithLangComponent.propTypes = {
   to: PropTypes.shape({

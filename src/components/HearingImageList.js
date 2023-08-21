@@ -1,17 +1,18 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import HearingImage from './HearingImage';
 
-class HearingImageList extends React.Component {
-  render() {
-    const {images} = this.props;
-    return (
-      <div className="hearing-image-list">
-        {images.map((image) => <HearingImage data={image} key={image.url}/>)}
-      </div>
-    );
-  }
+const HearingImageList = (props) => {
+  const { images } = props;
+
+  return (
+    <div className="hearing-image-list">
+      {images.map((image) => <HearingImage data={image} key={image.url} />)}
+    </div>
+  );
+
 }
 
 HearingImageList.propTypes = {

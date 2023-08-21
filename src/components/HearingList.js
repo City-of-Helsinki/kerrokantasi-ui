@@ -1,4 +1,6 @@
-/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
@@ -20,8 +22,6 @@ import config from '../config';
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
 import { getHearingURL, isPublic } from '../utils/hearing';
-
-// eslint-disable-next-line import/no-unresolved
 import InternalLink from './InternalLink';
 
 const HEARING_LIST_TABS = {
@@ -29,7 +29,7 @@ const HEARING_LIST_TABS = {
   MAP: 'map',
 };
 
-const HearingListTabs = ({activeTab, changeTab}) => (
+const HearingListTabs = ({ activeTab, changeTab }) => (
   <Row>
     <Col md={8} mdPush={2}>
       <Nav className="hearing-list__tabs" bsStyle="tabs" activeKey={activeTab} role="tablist">
@@ -52,13 +52,17 @@ HearingListTabs.propTypes = {
 };
 
 class HearingListFilters extends React.Component {
-  state = {
-    sortChangeStatusMessages: [],
+  constructor() {
+    super();
+
+    this.state = {
+      sortChangeStatusMessages: [],
+    }
   }
 
   sortList = (event) => {
     const { handleSort } = this.props;
-    const {value} = event.target;
+    const { value } = event.target;
     const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
     const showOnlyOpen = value.indexOf('_from_open') !== -1;
     const showOnlyClosed = value.indexOf('_from_closed') !== -1;
@@ -99,13 +103,13 @@ class HearingListFilters extends React.Component {
             placeholder="select"
             onChange={event => this.sortList(event)}
           >
-            <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
-            <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-            <option value="-close_at_from_open">{formatMessage({id: 'lastClosing'})}</option>
-            <option value="close_at_from_open">{formatMessage({id: 'firstClosing'})}</option>
-            <option value="-close_at_from_closed">{formatMessage({id: 'lastClosed'})}</option>
-            <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
-            <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
+            <option value="-created_at">{formatMessage({ id: 'newestFirst' })}</option>
+            <option value="created_at">{formatMessage({ id: 'oldestFirst' })}</option>
+            <option value="-close_at_from_open">{formatMessage({ id: 'lastClosing' })}</option>
+            <option value="close_at_from_open">{formatMessage({ id: 'firstClosing' })}</option>
+            <option value="-close_at_from_closed">{formatMessage({ id: 'lastClosed' })}</option>
+            <option value="-n_comments">{formatMessage({ id: 'mostCommented' })}</option>
+            <option value="n_comments">{formatMessage({ id: 'leastCommented' })}</option>
           </FormControl>
         </FormGroup>
       </div>
@@ -118,103 +122,102 @@ HearingListFilters.propTypes = {
   formatMessage: PropTypes.func,
 };
 
-export class HearingListItem extends React.Component {
-  render() {
-    const { hearing, language, history, formatTime, formatDate } = this.props;
-    const mainImage = hearing.main_image;
-    let mainImageStyle = {
-      backgroundImage: `url(${defaultImage})`,
+const HearingListItem = (props) => {
+
+  const { hearing, language, history, formatTime, formatDate } = props;
+  const mainImage = hearing.main_image;
+  let mainImageStyle = {
+    backgroundImage: `url(${defaultImage})`,
+  };
+  if (hearing.main_image) {
+    mainImageStyle = {
+      backgroundImage: `url("${mainImage.url}")`,
     };
-    if (hearing.main_image) {
-      mainImageStyle = {
-        backgroundImage: `url("${  mainImage.url  }")`,
-      };
-    }
-
-    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
-    const availableInLanguageMessages = {
-      fi: 'Kuuleminen saatavilla suomeksi',
-      sv: 'Hörandet tillgängligt på svenska',
-      en: 'Questionnaire available in English',
-    };
-
-    // Preparing the dates for translation.
-    const isPast = (time) => new Date(time).getTime() < new Date().getTime();
-    const openTime = formatTime(hearing.open_at, {hour: '2-digit', minute: '2-digit'});
-    const openDate = formatDate(hearing.open_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
-    const closeTime = formatTime(hearing.close_at, {hour: '2-digit', minute: '2-digit'});
-    const closeDate = formatDate(hearing.close_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
-
-    // Translation ID's for ITIL translation values
-    const openMessageId = `timeOpen${  isPast(hearing.open_at) ? 'Past' : 'Future'  }WithValues`;
-    const closeMessageId = `timeClose${  isPast(hearing.close_at) ? 'Past' : 'Future'  }WithValues`;
-
-    return (
-      <div className="hearing-list-item" role="listitem">
-        <MouseOnlyLink
-          className="hearing-list-item-image"
-          style={mainImageStyle}
-          history={history}
-          url={getHearingURL(hearing)}
-          altText={getAttr(hearing.title, language)}
-        />
-        <div className="hearing-list-item-content">
-          <div className="hearing-list-item-title-wrap">
-            <h2 className="h4 hearing-list-item-title">
-              <Link to={{ path: getHearingURL(hearing) }}>
-                {!isPublic(hearing) ? (
-                  <FormattedMessage id="hearingListNotPublished">
-                    {(label) => <Icon name="eye-slash" aria-label={label} />}
-                  </FormattedMessage>
-                ) : null}{' '}
-                {getAttr(hearing.title, language)}
-              </Link>
-            </h2>
-            <div className="hearing-list-item-comments">
-              <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
-              <span className="sr-only">
-                {hearing.n_comments === 1 ? (
-                  <FormattedMessage id="hearingListComment" />
-                ) : <FormattedMessage id="hearingListComments" />}
-              </span>
-            </div>
-          </div>
-          <div className="hearing-list-item-times">
-            <div>
-              <FormattedMessage id={openMessageId} values={{time: openTime, date: openDate}} />
-            </div>
-            <div>
-              <FormattedMessage id={closeMessageId} values={{time: closeTime, date: closeDate}} />
-            </div>
-          </div>
-          <div className="hearing-list-item-labels clearfix">
-            <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
-            {hearing.closed ? (
-              <div className="hearing-list-item-closed">
-                <Label>
-                  <FormattedMessage id="hearingClosed" />
-                </Label>
-              </div>
-            ) : null}
-          </div>
-          {!translationAvailable && (
-            <div className="hearing-card-notice">
-              <Icon name="exclamation-circle" aria-hidden="true" />
-              <FormattedMessage id="hearingTranslationNotAvailable" />
-              {config.languages.map(
-                lang =>
-                  (getAttr(hearing.title, lang, { exact: true }) ? (
-                    <div className="language-available-message" key={lang} lang={lang}>
-                      {availableInLanguageMessages[lang]}
-                    </div>
-                  ) : null)
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    );
   }
+
+  const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
+  const availableInLanguageMessages = {
+    fi: 'Kuuleminen saatavilla suomeksi',
+    sv: 'Hörandet tillgängligt på svenska',
+    en: 'Questionnaire available in English',
+  };
+
+  // Preparing the dates for translation.
+  const isPast = (time) => new Date(time).getTime() < new Date().getTime();
+  const openTime = formatTime(hearing.open_at, { hour: '2-digit', minute: '2-digit' });
+  const openDate = formatDate(hearing.open_at, { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const closeTime = formatTime(hearing.close_at, { hour: '2-digit', minute: '2-digit' });
+  const closeDate = formatDate(hearing.close_at, { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+  // Translation ID's for ITIL translation values
+  const openMessageId = `timeOpen${isPast(hearing.open_at) ? 'Past' : 'Future'}WithValues`;
+  const closeMessageId = `timeClose${isPast(hearing.close_at) ? 'Past' : 'Future'}WithValues`;
+
+  return (
+    <div className="hearing-list-item" role="listitem">
+      <MouseOnlyLink
+        className="hearing-list-item-image"
+        style={mainImageStyle}
+        history={history}
+        url={getHearingURL(hearing)}
+        altText={getAttr(hearing.title, language)}
+      />
+      <div className="hearing-list-item-content">
+        <div className="hearing-list-item-title-wrap">
+          <h2 className="h4 hearing-list-item-title">
+            <Link to={{ path: getHearingURL(hearing) }}>
+              {!isPublic(hearing) ? (
+                <FormattedMessage id="hearingListNotPublished">
+                  {(label) => <Icon name="eye-slash" aria-label={label} />}
+                </FormattedMessage>
+              ) : null}{' '}
+              {getAttr(hearing.title, language)}
+            </Link>
+          </h2>
+          <div className="hearing-list-item-comments">
+            <Icon name="comment-o" aria-hidden="true" />&nbsp;{hearing.n_comments}
+            <span className="sr-only">
+              {hearing.n_comments === 1 ? (
+                <FormattedMessage id="hearingListComment" />
+              ) : <FormattedMessage id="hearingListComments" />}
+            </span>
+          </div>
+        </div>
+        <div className="hearing-list-item-times">
+          <div>
+            <FormattedMessage id={openMessageId} values={{ time: openTime, date: openDate }} />
+          </div>
+          <div>
+            <FormattedMessage id={closeMessageId} values={{ time: closeTime, date: closeDate }} />
+          </div>
+        </div>
+        <div className="hearing-list-item-labels clearfix">
+          <LabelList labels={hearing.labels} className="hearing-list-item-labellist" language={language} />
+          {hearing.closed ? (
+            <div className="hearing-list-item-closed">
+              <Label>
+                <FormattedMessage id="hearingClosed" />
+              </Label>
+            </div>
+          ) : null}
+        </div>
+        {!translationAvailable && (
+          <div className="hearing-card-notice">
+            <Icon name="exclamation-circle" aria-hidden="true" />
+            <FormattedMessage id="hearingTranslationNotAvailable" />
+            {config.languages.map(
+              lang =>
+              (getAttr(hearing.title, lang, { exact: true }) ? (
+                <div className="language-available-message" key={lang} lang={lang}>
+                  {availableInLanguageMessages[lang]}
+                </div>
+              ) : null)
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 HearingListItem.propTypes = {
@@ -246,19 +249,19 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter(hearing => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
-  const {formatMessage, formatTime, formatDate} = intl;
+  const { formatMessage, formatTime, formatDate } = intl;
 
   const hearingListMap = hearingsToShow ? (
     <Row>
       <Col xs={12}>
         <Helmet title={formatMessage({ id: 'mapView' })} />
         <div className="hearing-list-map map">
-          <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{marginBottom: 10}}>
+          <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{ marginBottom: 10 }}>
             <FormattedMessage id="showOnlyOpen" />
           </Checkbox>
           <OverviewMap
             hearings={hearingsToShow}
-            style={{width: '100%', height: isMobile ? '100%' : 600}}
+            style={{ width: '100%', height: isMobile ? '100%' : 600 }}
             enablePopups
           />
         </div>

@@ -1,19 +1,23 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import getMessage from '../../utils/getMessage';
 
 const BLOCK_TYPES = [
-  {label: 'Väliotsikko', style: 'header-three'},
-  {label: 'Lista', style: 'unordered-list-item'},
-  {label: 'Numeroitu lista', style: 'ordered-list-item'},
-  {label: 'Korostettu kappale', style: 'LEAD'},
-  {label: 'Kuvateksti', style: 'ImageCaption'},
+  { label: 'Väliotsikko', style: 'header-three' },
+  { label: 'Lista', style: 'unordered-list-item' },
+  { label: 'Numeroitu lista', style: 'ordered-list-item' },
+  { label: 'Korostettu kappale', style: 'LEAD' },
+  { label: 'Kuvateksti', style: 'ImageCaption' },
 ];
 
 const INLINE_STYLES = [
-  {label: 'Lihavointi', style: 'BOLD'},
+  { label: 'Lihavointi', style: 'BOLD' },
 ];
+
+const STYLE_INLINE_BLOCK = 'inline-block';
 
 class StyleButton extends React.Component {
   constructor() {
@@ -74,7 +78,7 @@ BlockStyleControls.propTypes = {
 export const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
+    <div className="RichEditor-controls" style={{ display: STYLE_INLINE_BLOCK }}>
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}
@@ -94,30 +98,30 @@ InlineStyleControls.propTypes = {
 };
 
 export const IframeControls = (props) => (
-    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
-      <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('iframeAddButton')}</button>
-    </div>
-  );
+  <div className="RichEditor-controls" style={{ display: STYLE_INLINE_BLOCK }}>
+    <button type='button' className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('iframeAddButton')}</button>
+  </div>
+);
 
 IframeControls.propTypes = {
   onClick: PropTypes.func,
 };
 
 export const SkipLinkControls = (props) => (
-    <button className="RichEditor-styleButton" onClick={props.onClick}>
-      {getMessage('skipLinkAddButton')}
-    </button>
-  );
+  <button type='button' className="RichEditor-styleButton" onClick={props.onClick}>
+    {getMessage('skipLinkAddButton')}
+  </button>
+);
 
 SkipLinkControls.propTypes = {
   onClick: PropTypes.func,
 };
 
 export const ImageControls = (props) => (
-    <div className="RichEditor-controls" style={{ display: 'inline-block' }}>
-      <button className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('imageAddButton')}</button>
-    </div>
-  );
+  <div className="RichEditor-controls" style={{ display: STYLE_INLINE_BLOCK }}>
+    <button type='button' className="RichEditor-styleButton" onClick={props.onClick}>{getMessage('imageAddButton')}</button>
+  </div>
+);
 
 ImageControls.propTypes = {
   onClick: PropTypes.func,

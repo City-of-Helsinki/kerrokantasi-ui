@@ -1,8 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {withRouter} from 'react-router-dom';
-import {FormattedMessage} from 'react-intl';
+import { withRouter } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import defaultImage from '@city-images/default-image.svg';
 
 import FormatRelativeTime from '../utils/FormatRelativeTime';
@@ -12,7 +14,7 @@ import Link from './LinkWithLang';
 import MouseOnlyLink from './MouseOnlyLink';
 import config from '../config';
 import getAttr from '../utils/getAttr';
-import {getHearingURL, getHearingMainImageURL} from '../utils/hearing';
+import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 import getMessage from '../utils/getMessage';
 
 // eslint-disable-next-line import/no-unresolved
@@ -47,7 +49,7 @@ const HearingCard = ({
   };
 
   // FIXME: Should there be direct linking to hearing using certain language?
-  const translationAvailable = !!getAttr(hearing.title, language, {exact: true});
+  const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
   const favoriteButtonText = getMessage('removeFavorites', language);
   const commentCount = showCommentCount && hearing.n_comments ? (
@@ -70,16 +72,16 @@ const HearingCard = ({
     <div className={`hearing-card ${className}`}>
       {conditionalWrapper(
         <MouseOnlyLink
-        className="hearing-card-image"
-        style={cardImageStyle}
-        history={history}
-        url={getHearingURL(hearing)}
-        altText={mainImgCaption || getAttr(hearing.title, language)}
+          className="hearing-card-image"
+          style={cardImageStyle}
+          history={history}
+          url={getHearingURL(hearing)}
+          altText={mainImgCaption || getAttr(hearing.title, language)}
         />)}
 
       <div className="hearing-card-content">
         <h3 className="h4 hearing-card-title">
-          <Link to={{path: getHearingURL(hearing)}}>{getAttr(hearing.title, language)}</Link>
+          <Link to={{ path: getHearingURL(hearing) }}>{getAttr(hearing.title, language)}</Link>
         </h3>
         {commentCount}
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
@@ -96,6 +98,7 @@ const HearingCard = ({
         {userProfile && (
           <div className="favorite-button-wrapper">
             <button
+              type='button'
               className="favorite-icon"
               onClick={() => unFavoriteAction(hearing.slug, hearing.id)}
               title={favoriteButtonText}
@@ -110,13 +113,13 @@ const HearingCard = ({
             <FormattedMessage id="hearingTranslationNotAvailable" />
             {config.languages.map(
               lang =>
-                (getAttr(hearing.title, lang, { exact: true }) ? (
-                  <div className="language-available-message" key={lang} lang={lang}>
-                    <FormattedMessage id={`hearingAvailable-${lang}`}>{txt => txt}</FormattedMessage>
-                    &nbsp;
-                    <FormattedMessage id={`hearingAvailableInLang-${lang}`}>{txt => txt}</FormattedMessage>
-                  </div>
-                ) : null)
+              (getAttr(hearing.title, lang, { exact: true }) ? (
+                <div className="language-available-message" key={lang} lang={lang}>
+                  <FormattedMessage id={`hearingAvailable-${lang}`}>{txt => txt}</FormattedMessage>
+                  &nbsp;
+                  <FormattedMessage id={`hearingAvailableInLang-${lang}`}>{txt => txt}</FormattedMessage>
+                </div>
+              ) : null)
             )}
           </div>
         )}
