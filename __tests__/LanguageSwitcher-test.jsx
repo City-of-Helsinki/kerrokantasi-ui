@@ -13,7 +13,7 @@ const defaults = {
   },
 };
 
-const PATH_CURRENT_HEARING_SLUR = '/currentHearingSlug';
+const PATH_CURRENT_HEARING_SLUG = '/currentHearingSlug';
 const ARIA_EXPANDED = 'aria-expanded';
 
 describe('src/components/Header/LanguageSwitcherV2', () => {
@@ -55,7 +55,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('when no url params exist', () => {
         const locationNoParams = {
-          pathname: PATH_CURRENT_HEARING_SLUR,
+          pathname: PATH_CURRENT_HEARING_SLUG,
           search: '',
         };
         const element = getWrapper({ location: locationNoParams, history: mockHistory });
@@ -72,7 +72,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('when url params exist but not the lang param', () => {
         const locationWithParams = {
-          pathname: PATH_CURRENT_HEARING_SLUR,
+          pathname: PATH_CURRENT_HEARING_SLUG,
           search: '?headless=true',
         };
         const element = getWrapper({ location: locationWithParams, history: mockHistory });
@@ -89,7 +89,7 @@ describe('src/components/Header/LanguageSwitcherV2', () => {
 
       test('when url param already contains a lang param', () => {
         const locationWithLangParams = {
-          pathname: PATH_CURRENT_HEARING_SLUR,
+          pathname: PATH_CURRENT_HEARING_SLUG,
           search: '?preview=OLA9dke-79qqd&lang=fi&headless=true',
         };
         const element = getWrapper({ location: locationWithLangParams, history: mockHistory });
