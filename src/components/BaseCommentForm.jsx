@@ -139,7 +139,8 @@ export const BaseCommentForm = ({
     if (isUserAdmin) {
       setFormData({ ...formData, nickname: user.displayName });
     }
-  }, [formData, isUserAdmin, user.displayName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUserAdmin, user]);
 
   useEffect(() => {
     if (collapseForm) {
@@ -158,7 +159,8 @@ export const BaseCommentForm = ({
     if (answers) {
       setFormData({ ...formData, commentOrAnswerRequiredError: false });
     }
-  }, [collapseForm, defaultNickname, isUserAdmin, user, answers, formData, toggle]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collapseForm, defaultNickname, isUserAdmin, user, answers]);
 
   const handleTextChange = (event) =>
     setFormData({
