@@ -123,7 +123,6 @@ export function validateInput(inputName, value) {
 
 // returns error messages for all given fields
 export function validateForm(fields) {
-  // fields = {fieldName1: value, fieldName2: value,...}
   const inputErrors = {};
   const fieldNames = Object.keys(fields);
   for (let index = 0; index < fieldNames.length; index += 1) {

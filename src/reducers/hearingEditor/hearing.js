@@ -6,11 +6,6 @@ import { head, findIndex } from 'lodash';
 import { moveSubsectionInArray, initNewPhase, initNewProject } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
-// const getNormalizedHearing = (rawHearing) => {
-//   const normalizedHearing = normalize(rawHearing, hearingSchema);
-//   return normalizedHearing.entities.hearing[rawHearing.id];
-// };
-
 const sectionMoveUp = (sections, sectionId) => {
   const sectionIndex = findIndex(sections, (el) => el === sectionId);
   return moveSubsectionInArray(sections, sectionIndex, -1);

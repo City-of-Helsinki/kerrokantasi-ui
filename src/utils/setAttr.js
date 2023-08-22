@@ -1,5 +1,4 @@
 export function deepSetEntityAttr(/* entity, keyPath, update */) {
-  // const attr = get(entity, keyPath);
   throw new Error({ error: 'deepSetEntityAttr is not implemented yet!' });
 }
 

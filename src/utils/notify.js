@@ -40,7 +40,6 @@ export function alert(message, title = "Kerrokantasi") {
 
 export function notifyError(message) {
   if (typeof window !== 'undefined') {
-    // require("alertifyjs").notify(message, 'error', 0);
     if (message) {
       toast.error(message, errorOptions); // add type: 'success' to options
     } else {
@@ -51,7 +50,6 @@ export function notifyError(message) {
 
 export function notifySuccess(message) {
   if (typeof window !== 'undefined') {
-    // require("alertifyjs").notify(message, 'success', 5);
     if (message) {
       toast.success(message, successOptions); // add type: 'success' to options
     } else {
@@ -65,7 +63,6 @@ export function localizedAlert(string) {
 }
 
 export function localizedNotifyError(string) {
-  // return notifyError(getMessage(string));
   if (string) {
     toast.error(getMessage(string), errorOptions); // add type: 'success' to options
   } else {
@@ -74,7 +71,6 @@ export function localizedNotifyError(string) {
 }
 
 export function localizedNotifySuccess(string) {
-  // notifySuccess(getMessage(string));
   if (string) {
     toast.success(getMessage(string), successOptions); // add type: 'success' to options
   } else {

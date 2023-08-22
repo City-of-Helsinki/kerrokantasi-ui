@@ -180,16 +180,6 @@ export function initNewHearing() {
   return createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
 }
 
-// export const getAllFromEndpoint = (endpoint, actions, params = {limit: 2}, options = {}) => {
-//   return (dispatch, getState) => {
-//     const fetchAction = createAction(actions.fetch)();
-//     dispatch(fetchAction);
-//     getAllFromEndpoint(getState(), endpoint, params, options)
-//       .then((labels) => dispatch(createAction(actions.success)({labels})))
-//       .catch((error) => dispatch(createAction(actions.error)({error})));
-//   };
-// };
-
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
  * list of available labels and contact persons.

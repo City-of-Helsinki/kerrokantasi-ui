@@ -34,6 +34,5 @@ export function getCorrectContrastMapTileUrl(
     return `${highContrastMapTilesUrl.split('.').slice(0, -1).join('.')}.png`;
   }
   // Start using commented return once language specific map tiles are implemented
-  // return `${normalMapTilesUrl.split('.').slice(0, -1).join('.')}@${language}.png`;
   return `${normalMapTilesUrl.split('.').slice(0, -1).join('.')}.png`;
 }

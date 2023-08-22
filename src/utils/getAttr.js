@@ -2,7 +2,6 @@ import { has, isObject, isArray, keys } from 'lodash';
 
 const DefaultOptions = {
   exact: false,
-  // dev: true
   dev: false
 };
 

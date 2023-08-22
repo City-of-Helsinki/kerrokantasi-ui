@@ -8,8 +8,6 @@ import findIndex from 'lodash/findIndex';
 import { EditorActions } from '../../actions/hearingEditor';
 import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
-// import {getOrCreateSectionByID} from '../../utils/hearing';
-// import type {SectionState} from '../../types';
 
 const SECTIONS = 'sections';
 

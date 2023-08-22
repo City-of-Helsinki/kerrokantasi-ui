@@ -28,15 +28,6 @@ const all = handleActions(
   [],
 );
 
-// const isFetching = handleActions(
-//   {
-//     [EditorActions.FETCH_META_DATA]: () => true,
-//     [EditorActions.RECEIVE_META_DATA]: () => false,
-//     [EditorActions.ERROR_META_DATA]: () => false,
-//   },
-//   false,
-// );
-
 const labels = handleActions({
   [EditorActions.ADD_LABEL]: () => true,
   [EditorActions.ADD_LABEL_FAILED]: (state, { payload }) => payload.errors,
@@ -46,6 +37,5 @@ const labels = handleActions({
 export default combineReducers({
   byId,
   all,
-  // isFetching,
   labels
 });

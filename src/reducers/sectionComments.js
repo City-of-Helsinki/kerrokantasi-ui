@@ -14,11 +14,7 @@ const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
     count = data.count;
     next = data.next;
   }
-  // if ('results' in data) {
-  //   combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
-  // } else {
-  //   combinedResults = data;
-  // }
+
   return updeep({
     [sectionId]: {
       isFetching: false,
