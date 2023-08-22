@@ -148,8 +148,7 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
 
 export const getDocumentOrigin = () => (
-  `${window.location.protocol}//${window.location.hostname}${window.location.port || ''}/`
-);
+  `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`);
 
 export const moveSubsectionInArray = (array, index, delta) => {
   const newArray = array.slice();
