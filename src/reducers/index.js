@@ -21,7 +21,8 @@ of the last action received.
 This is _strictly_ meant to let local-state-containing components
 such as CommentForm pseudo-subscribe to actions.
 */
-function lastActionType(action, state = null) {
+// eslint-disable-next-line default-param-last
+function lastActionType(state = null, action) {
   return action ? action.type : state;
 }
 

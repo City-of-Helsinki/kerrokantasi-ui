@@ -5,7 +5,6 @@
   },
   "extends": [
     "react-app",
-    // "react-app/jest",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -14,6 +13,7 @@
     "plugin:flowtype/recommended",
     "plugin:sonarjs/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {

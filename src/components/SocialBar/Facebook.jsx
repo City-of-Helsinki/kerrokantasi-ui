@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { createRef } from 'react';
 
-import { loadScriptThenCall } from './utils';
+import loadScriptThenCall from './utils';
 
 export default class Facebook extends React.Component {
   constructor() {
