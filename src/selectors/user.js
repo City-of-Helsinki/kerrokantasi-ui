@@ -1,11 +1,23 @@
-// @flow
-import type {AppState, User} from '../types';
-
-export const getUser = (state: AppState): User =>
+/**
+ * 
+ * @param {AppState} state 
+ * @returns User
+ */
+export const getUser = (state) =>
   state.user.data;
 
-export const getApiToken = (state: AppState): User =>
+/**
+ * 
+ * @param {AppState} state 
+ * @returns boolean
+ */
+export const getApiToken = (state) =>
   state.apitoken && state.apitoken.apiToken;
 
-export const getAccessToken = (state: AppState): User =>
+/**
+ * 
+ * @param {AppState} state 
+ * @returns boolean
+ */
+export const getAccessToken = (state) =>
   state.oidc.user && state.oidc.user.access_token;

@@ -1,8 +1,6 @@
-// @flow
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid/v1';
+import { v1 as uuid } from 'uuid';
 import {connect} from 'react-redux';
 import {isEmpty} from 'lodash';
 import Button from 'react-bootstrap/lib/Button';

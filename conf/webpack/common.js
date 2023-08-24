@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const paths = require('../paths');
 const path = require('path');
 const assetPaths = require('../assetPaths');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
@@ -16,18 +17,19 @@ if (process.env.BUNDLE_ANALYZER) {
 
 module.exports = {
   context: paths.ROOT,
+  optimization: {
+    moduleIds: 'named',
+  },
   resolve: {
-    fallback: {
-      "url": false,
-    },
+    extensions: ['.js'],
     alias: {
-      "kerrokantasi-ui": path.resolve(__dirname, '../../'),
-      "kerrokantasi-ui-modules": path.resolve(__dirname, '../../node_modules'),
-      "@city-config": assetPaths.cityConfig,
-      "@city-assets": assetPaths.cityAssets,
-      "@city-i18n": assetPaths.cityi18n,
-      "@city-images": assetPaths.cityImages,
-    }
+      '@city-config': assetPaths.cityConfig,
+      '@city-assets': assetPaths.cityAssets,
+      '@city-i18n': assetPaths.cityi18n,
+      '@city-images': assetPaths.cityImages,
+      'kerrokantasi-ui': path.resolve(__dirname, '../../'),
+      'kerrokantasi-ui-modules': path.resolve(__dirname, '../../node_modules'),
+    },
   },
   entry: [
     'babel-polyfill',
@@ -91,7 +93,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 1000000,
               mimetype: 'application/font-woff'
             } 
           }
@@ -103,7 +105,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit:1000000, 
+              limit: 1000000,
               mimetype: 'image/gif' 
             }
           }

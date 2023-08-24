@@ -1,4 +1,3 @@
-// @flow
 import { combineReducers } from 'redux';
 import { combineActions, handleActions } from 'redux-actions';
 import updeep from 'updeep';

@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 const common = require('./common');
 const paths = require('../paths');
@@ -17,18 +17,21 @@ module.exports = function getDevConfig() {
     module: {
       rules: [
         {
-          test: /\.js$/,
-          include: paths.SRC,
+          test: /\.js|.jsx$/,
+          exclude: /node_modules/,
           use: [
-            {
-              loader: 'react-hot-loader/webpack',
-            },
             {
               loader: 'babel-loader',
               options: {
                 presets: ['react'],
                 cacheDirectory: true,
               },
+            },
+            {
+              loader: 'react-hot-loader/webpack',
+              options: {
+                presets: ['react']
+              }
             },
           ],
         },
@@ -39,8 +42,7 @@ module.exports = function getDevConfig() {
         __DEVTOOLS__: true,
         'process.env': {NODE_ENV: JSON.stringify('development')}
       }),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.LoaderOptionsPlugin({debug: false}),
+      new webpack.LoaderOptionsPlugin({debug: true}),
     ],
   });
 };

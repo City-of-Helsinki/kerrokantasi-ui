@@ -16,13 +16,6 @@ function getProgressPlugin() {
   });
 }
 
-function sortChunks(chunk1, chunk2) {
-  if (chunk1.entry !== chunk2.entry) {
-    return chunk2.entry ? 1 : -1;
-  }
-  return chunk2.id - chunk1.id;
-}
-
 export function getCompiler(settings, withProgress) {
   let config;
   if (settings.dev) {
@@ -36,18 +29,16 @@ export function getCompiler(settings, withProgress) {
   const compiler = webpack(config);
   let bundleSrc;  // `/app.{SOME_HASH}.js`
 
-  compiler.hooks.afterCompile.tapAsync('Nothing', (compilation) => {
+  compiler.hooks.afterCompile.tapAsync('Done', (compilation) => {
     const stats = compilation.getStats().toJson();
     bundleSrc = stats.hash;
     settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
-    
   });
   compiler.hooks.done.tapAsync('Done', () => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),
       bundleSrc,
     );
-    console.log('MITÄVITTUA');
   })
   return compiler;
 }
