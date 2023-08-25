@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const paths = require('../paths');
 const path = require('path');
 const assetPaths = require('../assetPaths');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
@@ -21,7 +20,8 @@ module.exports = {
     moduleIds: 'named',
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.sass', '.json'],
+    modules: ['src', 'node_modules'],
     alias: {
       '@city-config': assetPaths.cityConfig,
       '@city-assets': assetPaths.cityAssets,
@@ -31,9 +31,7 @@ module.exports = {
       'kerrokantasi-ui-modules': path.resolve(__dirname, '../../node_modules'),
     },
   },
-  entry: [
-    'babel-polyfill',
-  ],
+  entry: paths.ENTRY,
   output: {
     hashFunction: "xxhash64",
     path: paths.OUTPUT,

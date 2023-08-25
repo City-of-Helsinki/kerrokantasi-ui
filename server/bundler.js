@@ -19,7 +19,7 @@ function getProgressPlugin() {
 export function getCompiler(settings, withProgress) {
   let config;
   if (settings.dev) {
-    config = require('../conf/webpack/dev')();
+    config = require('../conf/webpack/dev');
   } else {
     config = require('../conf/webpack/prod');
   }
@@ -27,19 +27,19 @@ export function getCompiler(settings, withProgress) {
     config.plugins.push(getProgressPlugin());
   }
   const compiler = webpack(config);
-  let bundleSrc;  // `/app.{SOME_HASH}.js`
 
-  compiler.hooks.afterCompile.tapAsync('Done', (compilation) => {
+  compiler.hooks.emit.tapAsync('Compiled', (compilation) => {
     const stats = compilation.getStats().toJson();
-    bundleSrc = stats.hash;
-    settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
+    settings.bundleSrc = stats.hash;
   });
-  compiler.hooks.done.tapAsync('Done', () => {
+  
+  compiler.hooks.afterEmit.tapAsync('Finished', () => {
+    console.log('jaa-a');
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),
-      bundleSrc,
+      settings.bundleSrc,
     );
-  })
+  });
   return compiler;
 }
 

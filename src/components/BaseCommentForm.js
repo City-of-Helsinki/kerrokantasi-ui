@@ -32,9 +32,9 @@ import {
 } from '../utils/section';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
 // eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
+import urls from 'Cityassets/urls.json';
 // eslint-disable-next-line import/no-unresolved
-import localization from '@city-i18n/localization.json';
+import localization from 'Cityi18n/localization.json';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 import Leaflet, { LatLng } from 'leaflet';
