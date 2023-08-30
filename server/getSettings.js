@@ -43,6 +43,7 @@ const defaults = {
   // String value that is considered as an empty comment
   empty_comment_string: '-',
   maintenance_show_notification: false,
+  maintenance_disable_login: false,
 };
 
 const optionalKeys = [
@@ -70,7 +71,8 @@ const optionalKeys = [
   "enable_highcontrast",
   "admin_help_url",
   "empty_comment_string",
-  "maintenance_show_notification"
+  "maintenance_show_notification",
+  "maintenance_disable_login"
 ];
 
 const mandatoryKeys = [

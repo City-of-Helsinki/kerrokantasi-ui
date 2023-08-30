@@ -59,7 +59,7 @@ class Header extends React.Component {
 
   async handleLogin() {
     try {
-      if (config.maintenanceShowNotification) {
+      if (config.maintenanceDisableLogin) {
         localizedNotifyError("maintenanceNotificationText");
 
         return;

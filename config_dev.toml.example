@@ -97,3 +97,7 @@ city_config="cities/helsinki"
 # Show maintanance message below page navigation
 # Default: false
 # maintenance_show_notification=
+
+# Disable login during maintenance
+# Default: false
+# maintenance_disable_login=

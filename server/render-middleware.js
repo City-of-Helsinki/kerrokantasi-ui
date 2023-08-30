@@ -57,6 +57,7 @@ function renderHTMLSkeleton(req, res, settings) {
         adminHelpUrl={settings.admin_help_url}
         emptyCommentString={settings.empty_comment_string}
         maintenanceShowNotification={settings.maintenance_show_notification}
+        maintenanceDisableLogin={settings.maintenance_disable_login}
       />
     );
     res.status(200).send(html);
