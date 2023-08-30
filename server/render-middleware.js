@@ -56,6 +56,7 @@ function renderHTMLSkeleton(req, res, settings) {
         enableStrongAuth={settings.enable_strong_auth}
         adminHelpUrl={settings.admin_help_url}
         emptyCommentString={settings.empty_comment_string}
+        maintenanceShowNotification={settings.maintenance_show_notification}
       />
     );
     res.status(200).send(html);

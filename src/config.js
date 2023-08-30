@@ -27,6 +27,7 @@ const config = {
   enableStrongAuth: typeof window !== 'undefined' ? window.ENABLE_STRONG_AUTH : false,
   adminHelpUrl: typeof window !== 'undefined' ? window.ADMIN_HELP_URL : "",
   emptyCommentString: typeof window !== 'undefined' ? window.EMPTY_COMMENT_STRING : "",
+  maintenanceShowNotification: typeof window !== 'undefined' ? window.MAINTENANCE_SHOW_NOTIFICATION : false,
 };
 
 export default config;

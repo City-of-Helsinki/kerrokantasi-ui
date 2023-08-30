@@ -42,6 +42,7 @@ export default class Html extends React.Component {
       enableStrongAuth,
       adminHelpUrl,
       emptyCommentString,
+      maintenanceShowNotification,
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -67,14 +68,15 @@ export default class Html extends React.Component {
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     window.EMPTY_COMMENT_STRING = ${JSON.stringify(emptyCommentString)};
+    window.MAINTENANCE_SHOW_NOTIFICATION = ${JSON.stringify(maintenanceShowNotification)};
     `;
-    const {title, description, url} = this.getDefaultMeta();
+    const { title, description, url } = this.getDefaultMeta();
     return (
       <html lang="fi">
         <head>
-          <meta charSet="utf-8"/>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-          <meta content="width=device-width, initial-scale=1" name="viewport"/>
+          <meta charSet="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
           <meta property="og:title" content={title} />
@@ -83,9 +85,9 @@ export default class Html extends React.Component {
           <meta property="og:image" content={url} />
         </head>
         <body>
-          <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
-          <script dangerouslySetInnerHTML={{ __html: initialStateHtml }}/>
-          <script src={bundleSrc}/>
+          <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }} />
+          <script dangerouslySetInnerHTML={{ __html: initialStateHtml }} />
+          <script src={bundleSrc} />
         </body>
       </html>
     );
@@ -119,4 +121,5 @@ Html.propTypes = {
   enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
   emptyCommentString: PropTypes.string,
+  maintenanceShowNotification: PropTypes.bool,
 };

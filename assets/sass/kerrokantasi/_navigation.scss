@@ -35,7 +35,7 @@
   }
 }
 
-.contrast-button{
+.contrast-button {
   position: relative;
   display: inline-block;
   vertical-align: middle;
@@ -51,16 +51,14 @@
 }
 
 .language-switcher {
-  display: inline-block;
+  display: inline-flex;
   padding: 0px 0px 0px 4px;
-  vertical-align: middle;
 
   span {
     text-transform: uppercase;
   }
 
   div {
-    width: 64px;
     ul {
       min-width: 100px;
       left: auto;
@@ -75,10 +73,12 @@
   button {
     font-size: 16px;
     font-weight: 500;
+    padding: var(--spacing-s);
   }
   svg {
     --icon-size: 18px !important;
     height: 20px;
+    top: var(--spacing-s);
   }
   li {
     font-size: 16px;
@@ -88,14 +88,13 @@
     margin-left: 5px;
   }
 
-  &.active > a:after{
+  &.active > a:after {
     display: none;
   }
 }
 
 .user-menu {
-  vertical-align: middle;
-  display: inline-block;
+  display: inline-flex;
 
   .user-name {
     display: none;
@@ -103,9 +102,11 @@
     margin-left: 8px;
   }
 
-  div, span {
-    display: inline-block;
-    vertical-align: middle;
+  div,
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 0px;
   }
 
@@ -142,15 +143,16 @@
 }
 
 .navbar-default .navbar-collapse {
-  border-top-color: rgba($dark-gray, .2);
+  border-top-color: rgba($dark-gray, 0.2);
 
   .nav {
-    border-bottom-color: rgba($dark-gray, .2);
+    border-bottom-color: rgba($dark-gray, 0.2);
   }
 }
 
 .navbar-right.nav-user-menu {
-  margin-top: 9px;
+  display: flex;
+  margin-top: 3px;
   margin-left: -15px;
 
   @media (min-width: $screen-sm-min) {
@@ -158,14 +160,14 @@
     margin-left: 0;
   }
 
-  .fa.fa-adjust{
+  .fa.fa-adjust {
     font-size: 1.2em;
-    margin-right: .5em;
+    margin-right: 0.5em;
   }
 
   .user-nav-icon {
     font-size: 1.2em;
-    margin-right: .5em;
+    margin-right: 0.5em;
   }
 
   li > a {
@@ -202,7 +204,7 @@
       }
     }
     &:after {
-      display:none;
+      display: none;
     }
   }
 

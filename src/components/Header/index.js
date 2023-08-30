@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
-import {getUser} from '../../selectors/user';
+import { getUser } from '../../selectors/user';
 import userManager from "../../utils/userManager";
 import { toggleContrast } from "../../actions";
 
@@ -34,7 +34,7 @@ class Header extends React.Component {
     };
   }
   toggleNavbar() {
-    this.setState({navbarExpanded: !this.state.navbarExpanded});
+    this.setState({ navbarExpanded: !this.state.navbarExpanded });
   }
 
   componentDidMount() {
@@ -59,6 +59,12 @@ class Header extends React.Component {
 
   async handleLogin() {
     try {
+      if (config.maintenanceShowNotification) {
+        localizedNotifyError("maintenanceNotificationText");
+
+        return;
+      }
+
       await userManager.signinRedirect({ ui_locales: this.props.language });
     } catch (error) {
       localizedNotifyError("loginAttemptFailed");
@@ -66,7 +72,7 @@ class Header extends React.Component {
   }
 
   getUserItems() {
-    const {user} = this.props;
+    const { user } = this.props;
 
     if (user) {
       return [
@@ -81,7 +87,7 @@ class Header extends React.Component {
                   <span className="user-name">{user.displayName}</span>
                 </span>
               }
-              options={[{label: logout}]}
+              options={[{ label: logout }]}
               onChange={() => userManager.signoutRedirect()}
             />
           )}
@@ -106,7 +112,7 @@ class Header extends React.Component {
   }
 
   getNavItem(id, url, addSuffix = true) {
-    const {history, language, user} = this.props;
+    const { history, language, user } = this.props;
     const active = history && history.location.pathname === url;
     let messageId = id;
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
@@ -148,7 +154,7 @@ class Header extends React.Component {
               className="contrast-button"
               onClick={() => this.props.toggleContrast()}
             >
-              <Icon name="adjust"/>
+              <Icon name="adjust" />
               <span className="contrast-title">{text}</span>
             </Button>
           )}
@@ -161,7 +167,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const {language} = this.props;
+    const { language } = this.props;
     const userItems = this.getUserItems();
     return (
       <div>
@@ -185,7 +191,7 @@ class Header extends React.Component {
               <div className="nav-user-menu navbar-right">
                 {this.contrastToggle()}
                 {userItems}
-                <LanguageSwitcher currentLanguage={this.props.language}/>
+                <LanguageSwitcher currentLanguage={this.props.language} />
               </div>
             </Navbar>
           )}
@@ -203,13 +209,13 @@ class Header extends React.Component {
             >
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to={{path: "/"}}>
+                  <Link to={{ path: "/" }}>
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
                 <FormattedMessage id="navigationMenu">
                   {navigationMenu => (
-                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded}/>
+                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded} />
                   )}
                 </FormattedMessage>
               </Navbar.Header>

@@ -1,4 +1,4 @@
-import {Provider} from 'nconf';
+import { Provider } from 'nconf';
 
 const defaults = {
   // Server will listen on this address and port
@@ -42,6 +42,7 @@ const defaults = {
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
   // String value that is considered as an empty comment
   empty_comment_string: '-',
+  maintenance_show_notification: false,
 };
 
 const optionalKeys = [
@@ -69,6 +70,7 @@ const optionalKeys = [
   "enable_highcontrast",
   "admin_help_url",
   "empty_comment_string",
+  "maintenance_show_notification"
 ];
 
 const mandatoryKeys = [
@@ -91,10 +93,10 @@ export default function getOptions() {
   if (defaults.dev || shouldReadFile) {
     // TOML can be used similarly to an 'env'-file (key=value pairs), although
     // it is really extended INI-like format
-    nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
+    nconf.file('toml', { file: 'config_dev.toml', format: require('nconf-toml') });
     // JSON is kept for backwards compabitibility, to not to annoy the developer
     // using it
-    nconf.file('json', {file: 'config_dev.json'});
+    nconf.file('json', { file: 'config_dev.json' });
   } else {
     // We want somewhere to store ui_config, without file we have only
     // read-only stores
