@@ -101,3 +101,7 @@ city_config="cities/helsinki"
 # Disable login during maintenance
 # Default: false
 # maintenance_disable_login=
+
+# Disable comments during maintenance
+# Default: false
+# maintenance_disable_comments=
