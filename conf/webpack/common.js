@@ -20,8 +20,7 @@ module.exports = {
     moduleIds: 'named',
   },
   resolve: {
-    extensions: ['.js', '.sass', '.json'],
-    modules: ['src', 'node_modules'],
+    extensions: ['.js', '.jsx', '.sass', '.json'],
     alias: {
       '@city-config': assetPaths.cityConfig,
       '@city-assets': assetPaths.cityAssets,
@@ -31,7 +30,9 @@ module.exports = {
       'kerrokantasi-ui-modules': path.resolve(__dirname, '../../node_modules'),
     },
   },
-  entry: paths.ENTRY,
+  entry: [
+    'babel-polyfill',
+  ],
   output: {
     hashFunction: "xxhash64",
     path: paths.OUTPUT,

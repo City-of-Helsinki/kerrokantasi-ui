@@ -17,20 +17,18 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
+        include: paths.SRC,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              preset: ['@babel/preset-env', '@babel/preset-react']
-            }
-          },
           {
             loader: 'react-hot-loader/webpack',
             options: {
-              preset: ['@babel/preset-env', '@babel/preset-react']
-            }
+              presets: ['@babel/preset-react', '@babel/preset-env']
+            },
           },
+          {
+
+            loader: 'babel-loader',
+          }
         ],
       },
     ],
@@ -40,6 +38,7 @@ module.exports = merge(common, {
       __DEVTOOLS__: true,
       'process.env': {NODE_ENV: JSON.stringify('development')}
     }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({debug: true}),
   ],
 });

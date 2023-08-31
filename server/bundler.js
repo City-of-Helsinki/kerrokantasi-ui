@@ -16,6 +16,13 @@ function getProgressPlugin() {
   });
 }
 
+function sortChunks(chunk1, chunk2) {
+  if (chunk1.entry !== chunk2.entry) {
+    return chunk2.entry ? 1 : -1;
+  }
+  return chunk2.id - chunk1.id;
+}
+
 export function getCompiler(settings, withProgress) {
   let config;
   if (settings.dev) {
@@ -28,17 +35,19 @@ export function getCompiler(settings, withProgress) {
   }
   const compiler = webpack(config);
 
-  compiler.hooks.emit.tapAsync('Compiled', (compilation) => {
+  compiler.hooks.emit.tapAsync({name: 'Get file name'}, (compilation, callback) => {
     const stats = compilation.getStats().toJson();
-    settings.bundleSrc = stats.hash;
+    const chunks = stats.chunks.sort(sortChunks);
+    settings.bundleSrc = (compilation.options.output.publicPath || './') + chunks[0].files[0];
+    callback();
   });
   
-  compiler.hooks.afterEmit.tapAsync('Finished', () => {
-    console.log('jaa-a');
+  compiler.hooks.afterEmit.tapAsync('Finished', (compilation, callback) => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),
       settings.bundleSrc,
     );
+    callback();
   });
   return compiler;
 }
