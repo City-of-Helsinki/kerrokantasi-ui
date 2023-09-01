@@ -44,6 +44,7 @@ const defaults = {
   empty_comment_string: '-',
   maintenance_show_notification: false,
   maintenance_disable_login: false,
+  maintenance_disable_comments: false
 };
 
 const optionalKeys = [
@@ -72,7 +73,8 @@ const optionalKeys = [
   "admin_help_url",
   "empty_comment_string",
   "maintenance_show_notification",
-  "maintenance_disable_login"
+  "maintenance_disable_login",
+  "maintenance_disable_comments"
 ];
 
 const mandatoryKeys = [

@@ -44,6 +44,7 @@ export default class Html extends React.Component {
       emptyCommentString,
       maintenanceShowNotification,
       maintenanceDisableLogin,
+      maintenanceDisableComments
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -71,6 +72,7 @@ export default class Html extends React.Component {
     window.EMPTY_COMMENT_STRING = ${JSON.stringify(emptyCommentString)};
     window.MAINTENANCE_SHOW_NOTIFICATION = ${JSON.stringify(maintenanceShowNotification)};
     window.MAINTENANCE_DISABLE_LOGIN = ${JSON.stringify(maintenanceDisableLogin)};
+    window.MAINTENANCE_DISABLE_COMMENTS = ${JSON.stringify(maintenanceDisableComments)};
     `;
     const { title, description, url } = this.getDefaultMeta();
     return (
@@ -125,4 +127,5 @@ Html.propTypes = {
   emptyCommentString: PropTypes.string,
   maintenanceShowNotification: PropTypes.bool,
   maintenanceDisableLogin: PropTypes.bool,
+  maintenanceDisableComments: PropTypes.bool,
 };

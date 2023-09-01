@@ -29,6 +29,7 @@ const config = {
   emptyCommentString: typeof window !== 'undefined' ? window.EMPTY_COMMENT_STRING : "",
   maintenanceShowNotification: typeof window !== 'undefined' ? window.MAINTENANCE_SHOW_NOTIFICATION : false,
   maintenanceDisableLogin: typeof window !== 'undefined' ? window.MAINTENANCE_DISABLE_LOGIN : false,
+  maintenanceDisableComments: typeof window !== 'undefined' ? window.MAINTENANCE_DISABLE_COMMENTS : false,
 };
 
 export default config;
