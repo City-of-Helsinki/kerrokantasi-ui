@@ -518,6 +518,8 @@ exports[`HearingContainer component should render as expected 1`] = `
             "logout": "Kirjaudu ulos",
             "mainMenu": "Päävalikko",
             "mainSection": "Pääosio",
+            "maintenanceNotificationLabel": "Palvelua päivitetään",
+            "maintenanceNotificationText": "Keskiviikkona 6.9. Kerro kantasi -palvelua päivitetään. Kyseisenä päivänä sisältöjen tekeminen, esimerkiksi kommentointi tai kirjautuminen ei ole mahdollista.",
             "map": "Kartta",
             "mapView": "Kaikki kuulemiset kartalla",
             "mostCommented": "Eniten kommentoidut",

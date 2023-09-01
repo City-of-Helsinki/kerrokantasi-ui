@@ -93,3 +93,11 @@ city_config="cities/helsinki"
 # String value that is considered as an empty comment
 # Default: '-'
 # empty_comment_string=
+
+# Show maintanance message below page navigation
+# Default: false
+# maintenance_show_notification=
+
+# Disable login during maintenance
+# Default: false
+# maintenance_disable_login=
