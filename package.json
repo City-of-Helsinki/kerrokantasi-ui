@@ -81,7 +81,7 @@
     "morgan": "^1.10.0",
     "nconf": "^0.12.0",
     "nconf-toml": "^0.0.2",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^2.6.10",
     "normalizr": "^3.6.1",
     "oaf-react-router": "^2.1.1",
     "oidc-client": "^1.11.5",
