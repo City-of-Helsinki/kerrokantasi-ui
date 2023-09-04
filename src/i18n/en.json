@@ -216,6 +216,8 @@
   "logout": "Logout",
   "main": "Main section",
   "mainMenu": "Main menu",
+  "maintenanceNotificationLabel": "Maintenance",
+  "maintenanceNotificationText": "On Wednesday 6 September, the Kerro kantasi service will be updated. No commenting, content creation or login will be possible on that day.",
   "map": "Map",
   "mapView": "All hearings on map",
   "mostCommented": "Most commented",

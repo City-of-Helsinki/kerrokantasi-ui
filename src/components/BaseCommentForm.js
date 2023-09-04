@@ -206,6 +206,12 @@ export const BaseCommentForm = ({
     });
 
   const submitComment = () => {
+    if (config.maintenanceDisableComments) {
+      localizedNotifyError('maintenanceNotificationText');
+
+      return;
+    }
+
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 

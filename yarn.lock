@@ -4847,15 +4847,32 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hds-core@2.13.0:
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-2.13.0.tgz#dee00975686f6a55d32cafdeb89eb76ff3a8dec0"
-  integrity sha512-Ck4lnHAjZ0reBmotzXeMLfGNCVJHe2ZI9wzYFkzXF8LxODZ5sNatepFsAxD5At9WQ4//MKRqpCFfl6Gmnn6jIQ==
+hash-base@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/hash-base/-/hash-base-3.1.0.tgz#55c381d9e06e1d2997a883b4a3fddfe7f0d3af33"
+  integrity sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==
+  dependencies:
+    inherits "^2.0.4"
+    readable-stream "^3.6.0"
+    safe-buffer "^5.2.0"
 
-hds-react@^2.13.0:
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-2.13.0.tgz#742b8d650bd22c7603586a0222a79f8dee853a6c"
-  integrity sha512-jKnKXq/nG5mgcbDvlnHK3D9/e1ZDEK9XZWII9hwIwJZFY3/K59O2nSpkv3DXq/2ORskLLgxskL7agChtlJSvTw==
+hash.js@^1.0.0, hash.js@^1.0.3:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
+  integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
+  dependencies:
+    inherits "^2.0.3"
+    minimalistic-assert "^1.0.1"
+
+hds-core@2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-2.17.0.tgz#05bb9febbaea6314df86e6930dfd485950daf37f"
+  integrity sha512-OKYAU3bGsogDXAuJ40WMaGDxNfSXPp4zvgIrHM/O/f2lenQTqVjdL2zJTMcIFufXevwxdiY1bmJ1qXyksMmtBw==
+
+hds-react@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-2.17.0.tgz#7dfffc7dc6673bb59bd222699c2893cbaa0b0557"
+  integrity sha512-nfN6sCCGGkZpv9++9qf0X3Dn+grTI5hPNXFGbFWCrV0dlTYBrDEzV2P3rsJiT6uYs5Yl0kqGBbr+uxQWw3s3wg==
   dependencies:
     "@babel/runtime" "7.17.9"
     "@emotion/styled-base" "^11.0.0"
@@ -4869,7 +4886,7 @@ hds-react@^2.13.0:
     crc-32 "1.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "2.13.0"
+    hds-core "2.17.0"
     kashe "1.0.4"
     lodash.get "^4.4.2"
     lodash.isequal "4.5.0"
@@ -4888,6 +4905,7 @@ hds-react@^2.13.0:
     react-spring "9.3.0"
     react-use-measure "2.0.1"
     react-virtual "2.10.4"
+    uuid "^9.0.0"
     yup "^1.0.2"
 
 hel-bootstrap-3@1.0.0-beta.4:

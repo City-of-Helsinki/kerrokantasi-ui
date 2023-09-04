@@ -15,7 +15,7 @@ h1:focus,
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 16px;
   height: 100%;
 }
 
@@ -51,7 +51,7 @@ main {
 .required,
 .required-field {
   .control-label:before {
-    content: "*";
+    content: '*';
     color: $brand-danger;
     margin-left: 1px;
   }
@@ -59,11 +59,11 @@ main {
 
 .label {
   text-transform: uppercase;
-  padding: .4em .75em .3em;
+  padding: 0.4em 0.75em 0.3em;
   display: inline-block;
   vertical-align: middle;
   font-size: 60%;
-  letter-spacing: .03em;
+  letter-spacing: 0.03em;
 }
 
 .main-labels {
@@ -101,14 +101,15 @@ textarea {
 }
 
 // Adds icon to show user that the link is opening to new tab/window
-a[target=_blank]::after {
+a[target='_blank']::after {
   content: '\f08e';
   font-family: FontAwesome;
   padding-left: 5px;
 }
 
 a.list-group-item {
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     > .badge {
       background: #fff;
       color: $theme-highlight-dark;
@@ -212,4 +213,11 @@ a.fullwidth {
 }
 .Select-clear-zone {
   color: $text-muted !important;
+}
+
+.maintenance-notification {
+  &-container {
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+  }
 }
