@@ -12,7 +12,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-* Node v16 LTS (`nvm use`)
+* Node v18 LTS (`nvm use`)
 * Yarn
 * Docker
 
