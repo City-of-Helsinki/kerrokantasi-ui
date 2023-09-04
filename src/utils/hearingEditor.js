@@ -25,7 +25,7 @@ export const fillFrontId = (
 ) => (
   {
     ...obj,
-    frontId: obj.frontId || obj.id || idGenerator(),
+    frontId: obj.frontId || obj.id || (idGenerator ? idGenerator() : uuid()),
   }
 );
 /**
