@@ -208,6 +208,8 @@
   "logout": "Logga ut",
   "main": "Huvudavsnitt",
   "mainMenu": "Huvudmeny",
+  "maintenanceNotificationLabel": "Underhåll",
+  "maintenanceNotificationText": "Onsdagen den 6 september kommer tjänsten Kerro kantasi att uppdateras. Det är inte möjligt att kommentera, skapa innehåll eller logga in den dagen.",
   "map": "Karta",
   "mapView": "Alla höranden på kartan",
   "mostCommented": "Mest kommenterade",

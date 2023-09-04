@@ -2,8 +2,9 @@ import { find, values, merge } from 'lodash';
 // import uuid from 'uuid/v1';
 
 import initAttr from './initAttr';
-import {acceptsComments} from "./hearing";
-import {isAdmin} from "./user";
+import { acceptsComments } from "./hearing";
+import { isAdmin } from "./user";
+import config from '../config';
 
 export const SectionTypes = {
   MAIN: 'main',
@@ -96,7 +97,7 @@ export function hasUserAnsweredQuestions(user) {
  */
 export function hasUserAnsweredAllQuestions(user, section) {
   if (hasAnyQuestions(section) && hasUserAnsweredQuestions(user)) {
-    const {questions} = section;
+    const { questions } = section;
     const answeredQuestions = user.answered_questions;
     for (let index = 0; index < questions.length; index += 1) {
       if (!answeredQuestions.includes(questions[index].id)) {
@@ -117,7 +118,7 @@ export function hasUserAnsweredAllQuestions(user, section) {
  */
 export function getFirstUnansweredQuestion(user, section) {
   if (hasAnyQuestions(section)) {
-    const {questions} = section;
+    const { questions } = section;
     // anon users and users without answers
     if (!user || !hasUserAnsweredQuestions(user)) {
       return questions[0];
@@ -157,9 +158,10 @@ export function isSectionVotable(hearing, section, user) {
 
 export function isSectionCommentable(hearing, section, user) {
   return (
+    !config.maintenanceDisableComments &&
     acceptsComments(hearing)
-      && userCanComment(user, section)
-      && !section.plugin_identifier // comment box not available for sections with plugins
+    && userCanComment(user, section)
+    && !section.plugin_identifier // comment box not available for sections with plugins
   );
 }
 
@@ -184,6 +186,10 @@ export function isSectionCommentingMapEnabled(user, section) {
  * @returns {string} id
  */
 export function getSectionCommentingErrorMessage(section) {
+  if (config.maintenanceDisableComments) {
+    return 'maintenanceNotificationText';
+  }
+
   return section.commenting === 'strong' ? 'commentStrongRegisteredUsersOnly' : 'loginToComment';
 }
 

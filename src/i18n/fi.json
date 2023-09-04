@@ -258,6 +258,8 @@
   "logout": "Kirjaudu ulos",
   "mainSection": "Pääosio",
   "mainMenu": "Päävalikko",
+  "maintenanceNotificationLabel": "Palvelua päivitetään",
+  "maintenanceNotificationText": "Keskiviikkona 6.9. Kerro kantasi -palvelua päivitetään. Kyseisenä päivänä sisältöjen tekeminen, esimerkiksi kommentointi tai kirjautuminen ei ole mahdollista.",
   "map": "Kartta",
   "mapView": "Kaikki kuulemiset kartalla",
   "mostCommented": "Eniten kommentoidut",

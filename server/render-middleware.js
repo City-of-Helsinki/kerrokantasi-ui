@@ -1,5 +1,5 @@
 import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import Html from './Html';
 import fetch from 'node-fetch';
 
@@ -56,6 +56,9 @@ function renderHTMLSkeleton(req, res, settings) {
         enableStrongAuth={settings.enable_strong_auth}
         adminHelpUrl={settings.admin_help_url}
         emptyCommentString={settings.empty_comment_string}
+        maintenanceShowNotification={settings.maintenance_show_notification}
+        maintenanceDisableLogin={settings.maintenance_disable_login}
+        maintenanceDisableComments={settings.maintenance_disable_comments}
       />
     );
     res.status(200).send(html);
@@ -64,7 +67,7 @@ function renderHTMLSkeleton(req, res, settings) {
 
 export default function renderMiddleware(settings) {
   return (req, res, next) => {
-    const {accept} = req.headers;
+    const { accept } = req.headers;
     if (req.method !== 'GET') {
       return next();
     }
