@@ -88,15 +88,7 @@ module.exports = {
       },
       {
         test: /\.woff(2)?(\?v=.+)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1000000,
-              mimetype: 'application/font-woff'
-            } 
-          }
-        ]
+        type: 'asset/resource'
       },
       {
         test: /\.(ttf|eot)(\?v=.+)?$/,
