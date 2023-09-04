@@ -1,6 +1,6 @@
 /**
  * 
- * @param {AppState} state 
+ * @param {Object} state 
  * @returns User
  */
 export const getUser = (state) =>
@@ -8,7 +8,7 @@ export const getUser = (state) =>
 
 /**
  * 
- * @param {AppState} state 
+ * @param {Object} state 
  * @returns boolean
  */
 export const getApiToken = (state) =>
@@ -16,7 +16,7 @@ export const getApiToken = (state) =>
 
 /**
  * 
- * @param {AppState} state 
+ * @param {Object} state 
  * @returns boolean
  */
 export const getAccessToken = (state) =>
