@@ -3,6 +3,7 @@ const paths = require('../paths');
 const path = require('path');
 const assetPaths = require('../assetPaths');
 
+
 const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi|sv/),
 ];
@@ -112,7 +113,17 @@ module.exports = {
       },
       {
         test: /\.md$/,
-        use: ['html-loader', 'markdown-loader']
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              esModule: false,
+            }
+          },
+          {
+            loader: 'markdown-loader',
+          },
+        ]
       },
     ]
   },
