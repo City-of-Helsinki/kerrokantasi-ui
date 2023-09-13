@@ -26,6 +26,11 @@ export default class Html extends React.Component {
       showAccessibilityInfo,
       showSocialMediaSharing,
       enableCookies,
+      matomoCookieDomain,
+      matomoDomains,
+      matomoSiteId,
+      matomoScriptFilename,
+      matomoScriptUrl,
       enableCookiebot,
       cookiebotDataCbid,
       uiConfig,
@@ -37,6 +42,9 @@ export default class Html extends React.Component {
       enableStrongAuth,
       adminHelpUrl,
       emptyCommentString,
+      maintenanceShowNotification,
+      maintenanceDisableLogin,
+      maintenanceDisableComments
     } = this.props;
     const initialStateHtml = `
     window.STATE = ${JSON.stringify(initialState || {})};
@@ -52,19 +60,27 @@ export default class Html extends React.Component {
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
+    window.MATOMO_COOKIE_DOMAIN = ${JSON.stringify(matomoCookieDomain)};
+    window.MATOMO_DOMAINS = ${JSON.stringify(matomoDomains)};
+    window.MATOMO_SITE_ID = ${JSON.stringify(matomoSiteId)};
+    window.MATOMO_SCRIPT_URL = ${JSON.stringify(matomoScriptUrl)};
+    window.MATOMO_SCRIPT_FILENAME = ${JSON.stringify(matomoScriptFilename)};
     window.ENABLE_COOKIEBOT = ${JSON.stringify(enableCookiebot)};
     window.COOKIEBOT_DATA_CBID = ${JSON.stringify(cookiebotDataCbid)};
     window.ENABLE_STRONG_AUTH = ${JSON.stringify(enableStrongAuth)}
     window.ADMIN_HELP_URL = ${JSON.stringify(adminHelpUrl)};
     window.EMPTY_COMMENT_STRING = ${JSON.stringify(emptyCommentString)};
+    window.MAINTENANCE_SHOW_NOTIFICATION = ${JSON.stringify(maintenanceShowNotification)};
+    window.MAINTENANCE_DISABLE_LOGIN = ${JSON.stringify(maintenanceDisableLogin)};
+    window.MAINTENANCE_DISABLE_COMMENTS = ${JSON.stringify(maintenanceDisableComments)};
     `;
-    const {title, description, url} = this.getDefaultMeta();
+    const { title, description, url } = this.getDefaultMeta();
     return (
       <html lang="fi">
         <head>
-          <meta charSet="utf-8"/>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-          <meta content="width=device-width, initial-scale=1" name="viewport"/>
+          <meta charSet="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
           {head ? head.meta.toComponent() : null}
           {head ? head.link.toComponent() : null}
           <meta property="og:title" content={title} />
@@ -73,9 +89,9 @@ export default class Html extends React.Component {
           <meta property="og:image" content={url} />
         </head>
         <body>
-          <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }}/>
-          <script dangerouslySetInnerHTML={{ __html: initialStateHtml }}/>
-          <script src={bundleSrc}/>
+          <div id="root" dangerouslySetInnerHTML={{ __html: content || "" }} />
+          <script dangerouslySetInnerHTML={{ __html: initialStateHtml }} />
+          <script src={bundleSrc} />
         </body>
       </html>
     );
@@ -94,6 +110,11 @@ Html.propTypes = {
   showAccessibilityInfo: PropTypes.bool,
   showSocialMediaSharing: PropTypes.bool,
   enableCookies: PropTypes.bool,
+  matomoCookieDomain: PropTypes.string,
+  matomoDomains: PropTypes.array,
+  matomoSiteId: PropTypes.number,
+  matomoScriptFilename: PropTypes.string,
+  matomoScriptUrl: PropTypes.string,
   enableCookiebot: PropTypes.bool,
   cookiebotDataCbid: PropTypes.string,
   openIdClientId: PropTypes.string,
@@ -104,4 +125,7 @@ Html.propTypes = {
   enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
   emptyCommentString: PropTypes.string,
+  maintenanceShowNotification: PropTypes.bool,
+  maintenanceDisableLogin: PropTypes.bool,
+  maintenanceDisableComments: PropTypes.bool,
 };

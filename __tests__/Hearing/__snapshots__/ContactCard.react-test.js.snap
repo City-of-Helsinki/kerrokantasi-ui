@@ -13,7 +13,7 @@ exports[`ContactCard component should render as expected 1`] = `
     <h3
       className="h5"
       style={
-        Object {
+        {
           "marginBottom": 5,
         }
       }

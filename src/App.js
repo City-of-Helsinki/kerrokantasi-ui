@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {FormattedMessage, IntlProvider} from 'react-intl';
+import { connect } from 'react-redux';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 import messages from './i18n';
 import Helmet from 'react-helmet';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import {fetchApiToken} from './actions';
+import { fetchApiToken } from './actions';
 import config from './config';
 import Routes from './routes';
-import {withRouter} from 'react-router-dom';
-import {ToastContainer} from 'react-toastify';
-import {checkHeadlessParam} from './utils/urlQuery';
+import { withRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { checkHeadlessParam } from './utils/urlQuery';
 import classNames from 'classnames';
 import { HashLink } from 'react-router-hash-link';
 import cookieUtil from './utils/cookieUtils';
 import cookiebotUtils from './utils/cookiebotUtils';
-import CookieBar from "./components/cookieBar/cookieBar";
+import CookieBar from "./components/CookieBar/CookieBar";
+import MaintenanceNotification from './components/MaintenanceNotification';
 
 
 class App extends React.Component {
@@ -34,7 +35,10 @@ class App extends React.Component {
 
   componentDidMount() {
     config.activeLanguage = this.props.language; // for non react-intl localizations
-    cookieUtil.cookieOnComponentDidMount();
+    cookieUtil.getCookieScripts();
+    if (config.enableCookies) {
+      cookieUtil.checkCookieConsent();
+    }
   }
 
   componentWillUnmount() {
@@ -43,18 +47,18 @@ class App extends React.Component {
 
   render() {
     const locale = this.props.language;
-    const contrastClass = classNames({'high-contrast': this.props.isHighContrast});
+    const contrastClass = classNames({ 'high-contrast': this.props.isHighContrast });
     const favlinks = [
-      {rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png'},
-      {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png'},
-      {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png'},
-      {rel: 'manifest', href: '/favicon/manifest.json'},
-      {rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#0072c6'},
-      {rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon/favicon.ico'},
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
+      { rel: 'manifest', href: '/favicon/manifest.json' },
+      { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#0072c6' },
+      { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon/favicon.ico' },
     ];
     const favmeta = [
-      {name: 'msapplication-config', content: '/favicon/browserconfig.xml'},
-      {name: 'theme-color', content: '#ffffff'},
+      { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
+      { name: 'theme-color', content: '#ffffff' },
     ];
     const fullscreen = this.props.match.params.fullscreen === 'true';
     const headless = checkHeadlessParam(this.props.location.search);
@@ -72,7 +76,7 @@ class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
-          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar />}
+          {(config.enableCookies && !cookiebotUtils.isCookiebotEnabled()) && <CookieBar language={locale} />}
           <HashLink className="skip-to-main-content" to={skipTo}>
             <FormattedMessage id="skipToMainContent" />
           </HashLink>
@@ -83,11 +87,11 @@ class App extends React.Component {
           >
             <html lang={locale} />
             {cookiebotUtils.isCookiebotEnabled() && cookiebotUtils.getCookieBotConsentScripts()}
-            {cookieUtil.getCookieScripts()}
           </Helmet>
           {header}
+          {config.maintenanceShowNotification && <MaintenanceNotification />}
           <main
-            className={fullscreen ? 'fullscreen' : classNames('main-content', {headless})}
+            className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
             id={mainContainerId}
             role="main"
             tabIndex="-1"

@@ -15,10 +15,10 @@ exports[`LabelList can handle list of label objects 1`] = `
   <withRouter(Connect(LinkWithLangComponent))
     key="1"
     to={
-      Object {
+      {
         "path": "/hearings/list",
         "search": "?label=1",
-        "state": Object {
+        "state": {
           "filteredByLabelLink": true,
         },
       }
@@ -35,10 +35,10 @@ exports[`LabelList can handle list of label objects 1`] = `
   <withRouter(Connect(LinkWithLangComponent))
     key="2"
     to={
-      Object {
+      {
         "path": "/hearings/list",
         "search": "?label=2",
-        "state": Object {
+        "state": {
           "filteredByLabelLink": true,
         },
       }

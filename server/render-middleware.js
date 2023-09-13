@@ -1,5 +1,5 @@
 import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import Html from './Html';
 import fetch from 'node-fetch';
 
@@ -41,6 +41,11 @@ function renderHTMLSkeleton(req, res, settings) {
         showAccessibilityInfo={settings.show_accessibility_info}
         showSocialMediaSharing={settings.show_social_media_sharing}
         enableCookies={settings.enable_cookies}
+        matomoCookieDomain={settings.matomo_cookie_domain}
+        matomoDomains={settings.matomo_domains}
+        matomoSiteId={settings.matomo_site_id}
+        matomoScriptUrl={settings.matomo_script_url}
+        matomoScriptFilename={settings.matomo_script_filename}
         enableCookiebot={settings.enable_cookiebot}
         cookiebotDataCbid={settings.cookiebot_data_cbid}
         openIdClientId={settings.openid_client_id}
@@ -51,6 +56,9 @@ function renderHTMLSkeleton(req, res, settings) {
         enableStrongAuth={settings.enable_strong_auth}
         adminHelpUrl={settings.admin_help_url}
         emptyCommentString={settings.empty_comment_string}
+        maintenanceShowNotification={settings.maintenance_show_notification}
+        maintenanceDisableLogin={settings.maintenance_disable_login}
+        maintenanceDisableComments={settings.maintenance_disable_comments}
       />
     );
     res.status(200).send(html);
@@ -59,7 +67,7 @@ function renderHTMLSkeleton(req, res, settings) {
 
 export default function renderMiddleware(settings) {
   return (req, res, next) => {
-    const {accept} = req.headers;
+    const { accept } = req.headers;
     if (req.method !== 'GET') {
       return next();
     }

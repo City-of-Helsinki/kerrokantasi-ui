@@ -12,7 +12,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
         className="comment-form-container"
       >
         <Connect(InjectIntl(BaseCommentForm))
-          answers={Array []}
+          answers={[]}
           canComment={true}
           collapseForm={false}
           defaultNickname=""
@@ -23,10 +23,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
           onChangeAnswers={[Function]}
           onPostComment={[Function]}
           section={
-            Object {
-              "abstract": Object {},
+            {
+              "abstract": {},
               "commenting": "open",
-              "content": Object {
+              "content": {
                 "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
@@ -41,14 +41,14 @@ exports[`SortableCommentList component should render as expected 1`] = `
               },
               "created_at": "2016-01-15T08:31:03.264760Z",
               "id": "asuminen-a-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
+              "images": [
+                {
+                  "caption": {
                     "fi": "Asuinalueiden elinvoimaisuus.",
                   },
                   "height": 1067,
                   "id": 24,
-                  "title": Object {},
+                  "title": {},
                   "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
                   "width": 1211,
                 },
@@ -59,8 +59,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "plugin_identifier": "",
               "plugin_iframe_url": "",
               "published": true,
-              "questions": Array [],
-              "title": Object {
+              "questions": [],
+              "title": {
                 "fi": "A. Asuinalueiden elinvoimaisuus",
               },
               "type": "part",
@@ -76,7 +76,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
       <h2>
         <FormattedMessage
           id="comments"
-          values={Object {}}
+          values={{}}
         />
         <div
           className="commenticon"
@@ -109,7 +109,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
             >
               <FormattedMessage
                 id="commentOrder"
-                values={Object {}}
+                values={{}}
               />
             </ControlLabel>
             <div
@@ -123,28 +123,28 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 <FormattedMessage
                   id="CREATED_AT_DESC"
                   key="CREATED_AT_DESC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="CREATED_AT_ASC"
                   key="CREATED_AT_ASC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_DESC"
                   key="POPULARITY_DESC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
                 <FormattedMessage
                   id="POPULARITY_ASC"
                   key="POPULARITY_ASC"
-                  values={Object {}}
+                  values={{}}
                 >
                   <Component />
                 </FormattedMessage>
@@ -158,11 +158,11 @@ exports[`SortableCommentList component should render as expected 1`] = `
           canReply={true}
           canVote={true}
           comments={
-            Array [
-              Object {
-                "answers": Array [
-                  Object {
-                    "answers": Array [
+            [
+              {
+                "answers": [
+                  {
+                    "answers": [
                       115,
                     ],
                     "question": 6,
@@ -176,7 +176,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "geojson": null,
                 "hearing": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
                 "id": 2615,
-                "images": Array [],
+                "images": [],
                 "is_registered": true,
                 "label": null,
                 "language_code": "",
@@ -189,8 +189,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
           defaultNickname=""
           hearingId="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
           intl={
-            Object {
-              "defaultFormats": Object {},
+            {
+              "defaultFormats": {},
               "defaultLocale": "en",
               "formatDate": [Function],
               "formatHTMLMessage": [Function],
@@ -199,8 +199,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "formatPlural": [Function],
               "formatRelative": [Function],
               "formatTime": [Function],
-              "formats": Object {},
-              "formatters": Object {
+              "formats": {},
+              "formatters": {
                 "getDateTimeFormat": [Function],
                 "getMessageFormat": [Function],
                 "getNumberFormat": [Function],
@@ -208,7 +208,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "getRelativeFormat": [Function],
               },
               "locale": "fi",
-              "messages": Object {
+              "messages": {
                 "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
                 "CREATED_AT_ASC": "Vanhin ensin",
                 "CREATED_AT_DESC": "Uusin ensin",
@@ -217,6 +217,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "accessibilityLink": "Saavutettavuusseloste",
                 "accessibilityPage": "Saavutettavuusseloste",
                 "addComment": "Kirjoita kommentti",
+                "addCommentAndVote": "Äänestä ja kommentoi",
                 "addFavorites": "Lisää suosikkeihin",
                 "addGeojson": "Lisää geojson tiedostona",
                 "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
@@ -245,6 +246,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "closeHearing": "Sulje kuuleminen",
                 "closedCount": "Sulkeutuneet ({n})",
                 "closedHearing": "Suljettu",
+                "commentAndVoteSubsectionBtn": "Äänestä ja kommentoi",
                 "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
                 "commentDeleted": "Kommenttisi on poistettu.",
                 "commentEdited": "Kommenttisi on muokattu. Kiitos!",
@@ -299,12 +301,14 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "cookieBar.modal.showLess": "Näytä vähemmän",
                 "cookieBar.modal.showMore": "Näytä lisää",
                 "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+                "cookieManagementLink": "Evästeasetukset",
                 "copyHearing": "Kopioi kuuleminen",
                 "copyrightText": "Kerrokantasi",
                 "create": "Luo",
                 "createContact": "Luo uusi yhteyshenkilö",
                 "createHearing": "Luo uusi kuuleminen",
                 "createLabel": "Luo uusi asiasana",
+                "dataProtection": "Tietosuoja",
                 "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
                 "defaultProject": "Lisää uusi projekti",
                 "delete": "Poista",
@@ -336,8 +340,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "feedbackLinkText": "Palaute",
                 "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
                 "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
-                "firstClosing": "Ensimmäisenä sulkeutuva",
-                "firstOpen": "Ensimmäisenä auennut",
+                "firstClosing": "Ensimmäisenä sulkeutuvat",
                 "follow": "Seuraa",
                 "followingHearing": "Seuraat kuulemista.",
                 "footerCityLink": "www.example.com",
@@ -448,12 +451,12 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "lang-fi": "Suomi",
                 "lang-sv": "Svenska",
                 "languageSwitchLabel": "Valitse sivuston kieli",
-                "lastClosing": "Viimeisenä sulkeutuva",
-                "lastOpen": "Viimeisenä auennut",
-                "leastCommented": "Vähiten kommentoitu",
+                "lastClosed": "Viimeisenä sulkeutuneet",
+                "lastClosing": "Viimeisenä sulkeutuvat",
+                "leastCommented": "Vähiten kommentoidut",
                 "list": "Lista",
                 "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
-                "login": "Kirjaudu sisään",
+                "login": "Kirjaudu",
                 "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
                 "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
                 "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -462,9 +465,11 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "logout": "Kirjaudu ulos",
                 "mainMenu": "Päävalikko",
                 "mainSection": "Pääosio",
+                "maintenanceNotificationLabel": "Palvelua päivitetään",
+                "maintenanceNotificationText": "Keskiviikkona 6.9. Kerro kantasi -palvelua päivitetään. Kyseisenä päivänä sisältöjen tekeminen, esimerkiksi kommentointi tai kirjautuminen ei ole mahdollista.",
                 "map": "Kartta",
                 "mapView": "Kaikki kuulemiset kartalla",
-                "mostCommented": "Eniten kommentoitu",
+                "mostCommented": "Eniten kommentoidut",
                 "moveDown": "Siirrä alas",
                 "moveUp": "Siirrä ylös",
                 "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
@@ -475,7 +480,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "newHearingPageTitle": "Uusi kuuleminen",
                 "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
                 "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
-                "newestFirst": "Uusin ensin",
+                "newestFirst": "Uusimmat ensin",
                 "newestHearings": "Uusimmat kuulemiset",
                 "next": "Seuraava",
                 "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
@@ -486,7 +491,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "noFavoriteHearings": "Ei lisättyjä suosikkeja",
                 "noHearings": "Kuulemisia ei löytynyt",
                 "noProject": "Ei projektia",
-                "oldestFirst": "Vanhin ensin",
+                "oldestFirst": "Vanhimmat ensin",
                 "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
                 "openCommenting": "Avoin kommentointi",
                 "openCount": "Avoimet ({n})",
@@ -508,7 +513,6 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "phone": "Puhelinnumero",
                 "pinnedComment": "Kiinnitetty julkaisu",
                 "previous": "Edellinen",
-                "privacyPolicy": "Rekisteriseloste",
                 "project": "Hanke:",
                 "projectName": "Projektin nimi",
                 "projectSelection": "Jos kuuleminen kuuluu monivaiheiseen projektiin, valitse projekti tästä.",
@@ -526,6 +530,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "register": "Rekisteröidy",
                 "registered": "rekisteröitynyt",
                 "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
+                "registeredUserCommentMessage": "Nimesi tai nimimerkkisi näytetään kommenttisi yhteydessä. Voit poistaa nimen tai nimimerkin tyhjentämällä kyseisen kentän.",
                 "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
                 "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
                 "removeFavorites": "Poista suosikeista",
@@ -547,7 +552,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
                 "sectionCardSubsectionTitle": "Alaosio",
                 "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
+                "sectionCommentEditedMessage": "Kirjoittaja on muokannut viestiä.",
                 "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
+                "sectionCommentModeratedMessage": "Viestiä on muokattu, koska se rikkoi palvelun käyttöohjeita. https://kerrokantasi.hel.fi/info",
                 "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
                 "sectionContent": "Tekstisisältö",
                 "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
@@ -587,7 +594,9 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "timeClosePast": "Sulkeutui",
                 "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
                 "timeOpenFuture": "Avautuu",
+                "timeOpenFutureWithValues": "Avautuu {date} klo {time}",
                 "timeOpenPast": "Avautui",
+                "timeOpenPastWithValues": "Avautui {date} klo {time}",
                 "timetable": "Aikajana",
                 "title": "Otsikko",
                 "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
@@ -638,10 +647,10 @@ exports[`SortableCommentList component should render as expected 1`] = `
           onPostReply={[Function]}
           onPostVote={[Function]}
           section={
-            Object {
-              "abstract": Object {},
+            {
+              "abstract": {},
               "commenting": "open",
-              "content": Object {
+              "content": {
                 "fi": "<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>
 
 <p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>
@@ -656,14 +665,14 @@ exports[`SortableCommentList component should render as expected 1`] = `
               },
               "created_at": "2016-01-15T08:31:03.264760Z",
               "id": "asuminen-a-asuinalueiden-elinvoi",
-              "images": Array [
-                Object {
-                  "caption": Object {
+              "images": [
+                {
+                  "caption": {
                     "fi": "Asuinalueiden elinvoimaisuus.",
                   },
                   "height": 1067,
                   "id": 24,
-                  "title": Object {},
+                  "title": {},
                   "url": "https://api.hel.fi/kerrokantasi-test/media/images/asuminen/section_1/main_image.png",
                   "width": 1211,
                 },
@@ -674,8 +683,8 @@ exports[`SortableCommentList component should render as expected 1`] = `
               "plugin_identifier": "",
               "plugin_iframe_url": "",
               "published": true,
-              "questions": Array [],
-              "title": Object {
+              "questions": [],
+              "title": {
                 "fi": "A. Asuinalueiden elinvoimaisuus",
               },
               "type": "part",

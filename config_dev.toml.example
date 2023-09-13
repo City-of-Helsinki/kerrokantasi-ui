@@ -66,6 +66,18 @@ city_config="cities/helsinki"
 # Default: false
 # enable_cookies=true
 
+# Matomo cookie domains
+# If using Matomo for tracking, setup the matomo parameters here
+# 
+# matomo_cookie_domain="*.kerrokantasi.hel.fi"
+# matomo_domains="*.kerrokantasi.hel.fi,*.kerrokantasi.hel.fi"
+# matomo_site_id=380
+
+
+# Matomo script configuration
+# matomo_script_url = '//webanalytics.digiaiiris.com/js/'
+# matomo_script_filename = 'piwik.min.js'
+
 # Cookiebot consent management platform configuration.
 # If enabled, default cookie bar is disabled and replaced with a Cookie Bot modal.
 # To use Cookiebot set both enable_cookies and enable_cookiebot to true.
@@ -81,3 +93,15 @@ city_config="cities/helsinki"
 # String value that is considered as an empty comment
 # Default: '-'
 # empty_comment_string=
+
+# Show maintanance message below page navigation
+# Default: false
+# maintenance_show_notification=
+
+# Disable login during maintenance
+# Default: false
+# maintenance_disable_login=
+
+# Disable comments during maintenance
+# Default: false
+# maintenance_disable_comments=

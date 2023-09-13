@@ -1,20 +1,20 @@
 import React from 'react';
-import {shallow} from "enzyme";
-import {UnconnectedUserHearings, GET_HEARINGS, SEARCH_PARAMS} from "../src/views/UserHearings";
-import {getIntlAsProp, mockStore, mockUser} from "../test-utils";
+import { shallow } from "enzyme";
+import { UnconnectedUserHearings, GET_HEARINGS, SEARCH_PARAMS } from "../src/views/UserHearings";
+import { getIntlAsProp, mockStore, mockUser } from "../test-utils";
 import HearingCard from "../src/components/HearingCard";
 import LoadSpinner from "../src/components/LoadSpinner";
-import {FormattedMessage} from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Icon from "../src/utils/Icon";
-import {getUserHearingList} from "../src/selectors/hearing";
-import {Button} from "react-bootstrap";
+import { getUserHearingList } from "../src/selectors/hearing";
+import { Button } from "react-bootstrap";
 
 const mockState = mockStore;
 const mockLoggedUser = mockUser;
 mockLoggedUser.adminOrganizations = ['usersOrganization'];
 const defaultProps = {
   user: mockLoggedUser,
-  userState: {userExists: true, userLoading: false},
+  userState: { userExists: true, userLoading: false },
   fetching: getUserHearingList(mockState, 'isFetching'),
   fetchHearingList: jest.fn(),
   hearingCount: getUserHearingList(mockState, 'count'),
@@ -40,7 +40,7 @@ describe('UserHearings', () => {
         });
 
         test('does not call fetchAllHearings if userExists && user is false', () => {
-          const wrapper = getWrapper({userState: { userExists: false, userLoading: false}});
+          const wrapper = getWrapper({ userState: { userExists: false, userLoading: false } });
           wrapper.instance().fetchAllHearings = jest.fn();
           wrapper.instance().forceUpdate();
           const instance = wrapper.instance();
@@ -53,13 +53,13 @@ describe('UserHearings', () => {
 
       describe('componentDidUpdate', () => {
         test('calls fetchAllHearings if !prevProps.user && this.props.user', () => {
-          const wrapper = getWrapper({user: null, userState: {userExists: false, userLoading: false}});
+          const wrapper = getWrapper({ user: null, userState: { userExists: false, userLoading: false } });
           wrapper.instance().fetchAllHearings = jest.fn();
           wrapper.instance().forceUpdate();
           const instance = wrapper.instance();
           const spy = jest.spyOn(instance, 'fetchAllHearings');
 
-          wrapper.setProps({user: defaultProps.user, userState: {userExists: true, userLoading: false}});
+          wrapper.setProps({ user: defaultProps.user, userState: { userExists: true, userLoading: false } });
           expect(spy).toHaveBeenCalled();
         });
 
@@ -92,13 +92,13 @@ describe('UserHearings', () => {
 
           test('if state.sortHearingsBy changes', () => {
             expect(wrapper.state('sortHearingsBy')).toBe('-created_at');
-            instance.changeSort({target: {value: 'open_at'}});
+            instance.changeSort({ target: { value: 'open_at' } });
             expect(spy).toHaveBeenCalledTimes(1);
             expect(wrapper.state('sortHearingsBy')).toBe('open_at');
 
             spy.mockReset();
 
-            instance.changeSort({target: {value: 'close_at'}});
+            instance.changeSort({ target: { value: 'close_at' } });
             expect(spy).toHaveBeenCalledTimes(1);
             expect(wrapper.state('sortHearingsBy')).toBe('close_at');
           });
@@ -116,9 +116,9 @@ describe('UserHearings', () => {
 
       test('changeSort updates state.sortHearingsBy', () => {
         expect(wrapper.state('sortHearingsBy')).toBe('-created_at');
-        instance.changeSort({target: {value: 'close_at'}});
+        instance.changeSort({ target: { value: 'close_at' } });
         expect(wrapper.state('sortHearingsBy')).toBe('close_at');
-        instance.changeSort({target: {value: 'open_at'}});
+        instance.changeSort({ target: { value: 'open_at' } });
         expect(wrapper.state('sortHearingsBy')).toBe('open_at');
       });
 
@@ -153,14 +153,14 @@ describe('UserHearings', () => {
           HEARING_KEYS.forEach((key, index) => {
             const specificParams = SEARCH_PARAMS[key];
             const listID = GET_HEARINGS[key];
-            expect(spy.mock.calls[index]).toEqual([listID, {...specificParams, ...defaultParams}]);
+            expect(spy.mock.calls[index]).toEqual([listID, { ...specificParams, ...defaultParams }]);
           });
         });
       });
       describe('fetchHearing', () => {
         test('calls fetchHearingList', () => {
           const mockFetchHearingList = jest.fn();
-          const wrapper = getWrapper({fetchHearingList: mockFetchHearingList});
+          const wrapper = getWrapper({ fetchHearingList: mockFetchHearingList });
           const instance = wrapper.instance();
 
           mockFetchHearingList.mockReset();
@@ -189,7 +189,7 @@ describe('UserHearings', () => {
             const defaultParams = instance.getDefaultParams();
             delete specificParams.limit;
             instance.getRemainingHearings(key);
-            expect(spy).toHaveBeenCalledWith(listID, {...specificParams, ...defaultParams});
+            expect(spy).toHaveBeenCalledWith(listID, { ...specificParams, ...defaultParams });
             spy.mockReset();
           });
         });
@@ -198,7 +198,7 @@ describe('UserHearings', () => {
     describe('hearing list/card methods', () => {
       describe('getHearingListing', () => {
         test('returns LoadSpinner if type isFetching', () => {
-          const wrapper = getWrapper({fetching: {open: true, queue: true, closed: true, draft: true}});
+          const wrapper = getWrapper({ fetching: { open: true, queue: true, closed: true, draft: true } });
           HEARING_KEYS.forEach((key) => {
             const keyType = key.toLowerCase();
             const element = wrapper.instance().getHearingListing(keyType);
@@ -209,7 +209,7 @@ describe('UserHearings', () => {
         test('returns Icon with FormattedMessage if 0 hearings for type', () => {
           const foo = Object.assign({}, defaultProps.hearingData);
           foo.draft = [];
-          const wrapper = getWrapper({hearingData: foo});
+          const wrapper = getWrapper({ hearingData: foo });
           const elementWrapper = shallow(wrapper.instance().getHearingListing('draft'));
           const iconElement = elementWrapper.find(Icon);
           const messageElement = elementWrapper.find(FormattedMessage);
@@ -239,7 +239,7 @@ describe('UserHearings', () => {
           const messageElement = elementWrapper.find(FormattedMessage);
           expect(messageElement).toHaveLength(1);
           expect(messageElement.prop('id')).toBe('showAll');
-          expect(messageElement.prop('values')).toEqual({n: defaultProps.hearingCount.open});
+          expect(messageElement.prop('values')).toEqual({ n: defaultProps.hearingCount.open });
         });
       });
       describe('getHearingCards', () => {
@@ -257,12 +257,13 @@ describe('UserHearings', () => {
           HEARING_KEYS.forEach((key) => {
             const keyType = key.toLowerCase();
             const messageWrapper = shallow(
+              // eslint-disable-next-line react/no-unknown-property
               <div intl={getIntlAsProp()}>{wrapper.instance().getHearingHeader(keyType)}</div>
             );
             const messageElement = messageWrapper.find(FormattedMessage);
             expect(messageElement).toHaveLength(1);
             expect(messageElement.prop('id')).toBe(`${keyType}Count`);
-            const expectedValues = {n: defaultProps.hearingCount[keyType]};
+            const expectedValues = { n: defaultProps.hearingCount[keyType] };
             expect(messageElement.prop('values')).toEqual(expectedValues);
           });
         });

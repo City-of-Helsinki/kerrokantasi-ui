@@ -8,7 +8,6 @@ import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
 import { keys, capitalize } from 'lodash';
 
-import FormatRelativeTime from '../utils/FormatRelativeTime';
 import HearingsSearch from './HearingsSearch';
 import Icon from '../utils/Icon';
 import LabelList from './LabelList';
@@ -59,8 +58,12 @@ class HearingListFilters extends React.Component {
 
   sortList = (event) => {
     const { handleSort } = this.props;
+    const value = event.target.value;
+    const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
+    const showOnlyOpen = value.indexOf('_from_open') !== -1;
+    const showOnlyClosed = value.indexOf('_from_closed') !== -1;
 
-    handleSort(event.target.value);
+    handleSort(sortBy, showOnlyOpen, showOnlyClosed);
 
     const newMessage = {
       id: Math.random(),
@@ -98,10 +101,9 @@ class HearingListFilters extends React.Component {
           >
             <option value="-created_at">{formatMessage({id: 'newestFirst'})}</option>
             <option value="created_at">{formatMessage({id: 'oldestFirst'})}</option>
-            <option value="-close_at">{formatMessage({id: 'lastClosing'})}</option>
-            <option value="close_at">{formatMessage({id: 'firstClosing'})}</option>
-            <option value="-open_at">{formatMessage({id: 'lastOpen'})}</option>
-            <option value="open_at">{formatMessage({id: 'firstOpen'})}</option>
+            <option value="-close_at_from_open">{formatMessage({id: 'lastClosing'})}</option>
+            <option value="close_at_from_open">{formatMessage({id: 'firstClosing'})}</option>
+            <option value="-close_at_from_closed">{formatMessage({id: 'lastClosed'})}</option>
             <option value="-n_comments">{formatMessage({id: 'mostCommented'})}</option>
             <option value="n_comments">{formatMessage({id: 'leastCommented'})}</option>
           </FormControl>
@@ -136,6 +138,17 @@ export class HearingListItem extends React.Component {
       en: 'Questionnaire available in English',
     };
 
+    // Preparing the dates for translation.
+    const isPast = (time) => { return new Date(time).getTime() < new Date().getTime(); };
+    const openTime = formatTime(hearing.open_at, {hour: '2-digit', minute: '2-digit'});
+    const openDate = formatDate(hearing.open_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
+    const closeTime = formatTime(hearing.close_at, {hour: '2-digit', minute: '2-digit'});
+    const closeDate = formatDate(hearing.close_at, {day: '2-digit', month: '2-digit', year: 'numeric'});
+
+    // Translation ID's for ITIL translation values
+    const openMessageId = 'timeOpen' + (isPast(hearing.open_at) ? 'Past' : 'Future') + 'WithValues';
+    const closeMessageId = 'timeClose' + (isPast(hearing.close_at) ? 'Past' : 'Future') + 'WithValues';
+
     return (
       <div className="hearing-list-item" role="listitem">
         <MouseOnlyLink
@@ -168,15 +181,10 @@ export class HearingListItem extends React.Component {
           </div>
           <div className="hearing-list-item-times">
             <div>
-              <FormatRelativeTime messagePrefix="timeOpen" timeVal={hearing.open_at} />
+              <FormattedMessage id={openMessageId} values={{time: openTime, date: openDate}} />
             </div>
             <div>
-              <FormatRelativeTime
-                messagePrefix="timeClose"
-                timeVal={hearing.close_at}
-                formatTime={formatTime}
-                formatDate={formatDate}
-              />
+              <FormattedMessage id={closeMessageId} values={{time: closeTime, date: closeDate}} />
             </div>
           </div>
           <div className="hearing-list-item-labels clearfix">

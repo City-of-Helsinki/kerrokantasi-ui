@@ -17,11 +17,19 @@ const config = {
   showSocialMediaSharing: typeof window !== 'undefined' ? window.SHOW_SOCIAL_MEDIA_SHARING : true,
   enableHighContrast: typeof window !== 'undefined' ? window.ENABLE_HIGHCONTRAST : false,
   enableCookies: typeof window !== 'undefined' ? window.ENABLE_COOKIES : false,
+  matomoCookieDomain: typeof window !== 'undefined' ? window.MATOMO_COOKIE_DOMAIN : '',
+  matomoDomains: typeof window !== 'undefined' ? window.MATOMO_DOMAINS : [],
+  matomoSiteId: typeof window !== 'undefined' ? window.MATOMO_SITE_ID : '',
+  matomoScriptUrl: typeof window !== 'undefined' ? window.MATOMO_SCRIPT_URL : '',
+  matomoScriptFilename: typeof window !== 'undefined' ? window.MATOMO_SCRIPT_FILENAME : '',
   enableCookiebot: typeof window !== 'undefined' ? window.ENABLE_COOKIEBOT : false,
   cookiebotDataCbid: typeof window !== 'undefined' ? window.COOKIEBOT_DATA_CBID : null,
   enableStrongAuth: typeof window !== 'undefined' ? window.ENABLE_STRONG_AUTH : false,
   adminHelpUrl: typeof window !== 'undefined' ? window.ADMIN_HELP_URL : "",
   emptyCommentString: typeof window !== 'undefined' ? window.EMPTY_COMMENT_STRING : "",
+  maintenanceShowNotification: typeof window !== 'undefined' ? window.MAINTENANCE_SHOW_NOTIFICATION : false,
+  maintenanceDisableLogin: typeof window !== 'undefined' ? window.MAINTENANCE_DISABLE_LOGIN : false,
+  maintenanceDisableComments: typeof window !== 'undefined' ? window.MAINTENANCE_DISABLE_COMMENTS : false,
 };
 
 export default config;

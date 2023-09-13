@@ -1,4 +1,4 @@
-import {Provider} from 'nconf';
+import { Provider } from 'nconf';
 
 const defaults = {
   // Server will listen on this address and port
@@ -33,10 +33,18 @@ const defaults = {
   enable_highcontrast: false,
   // Should cookies to enabled
   enable_cookies: false,
+  matomo_cookie_domain: '',
+  matomo_domains: '',
+  matomo_site_id: '',
+  matomo_script_url: '',
+  matomo_script_filename: '',
   // Hearing admin help link url
   admin_help_url: 'https://drive.google.com/open?id=1vtUNzbJNVcp7K9JPrE6XP8yTmkBLW3N3FGEsR1NbbIw',
   // String value that is considered as an empty comment
   empty_comment_string: '-',
+  maintenance_show_notification: false,
+  maintenance_disable_login: false,
+  maintenance_disable_comments: false
 };
 
 const optionalKeys = [
@@ -52,6 +60,11 @@ const optionalKeys = [
   "show_accessibility_info",
   "show_social_media_sharing",
   "enable_cookies",
+  "matomo_cookie_domain",
+  "matomo_domains",
+  "matomo_site_id",
+  "matomo_script_url",
+  "matomo_script_filename",
   "openid_client_id",
   "openid_audience",
   "openid_authority",
@@ -59,6 +72,9 @@ const optionalKeys = [
   "enable_highcontrast",
   "admin_help_url",
   "empty_comment_string",
+  "maintenance_show_notification",
+  "maintenance_disable_login",
+  "maintenance_disable_comments"
 ];
 
 const mandatoryKeys = [
@@ -81,10 +97,10 @@ export default function getOptions() {
   if (defaults.dev || shouldReadFile) {
     // TOML can be used similarly to an 'env'-file (key=value pairs), although
     // it is really extended INI-like format
-    nconf.file('toml', {file: 'config_dev.toml', format: require('nconf-toml')});
+    nconf.file('toml', { file: 'config_dev.toml', format: require('nconf-toml') });
     // JSON is kept for backwards compabitibility, to not to annoy the developer
     // using it
-    nconf.file('json', {file: 'config_dev.json'});
+    nconf.file('json', { file: 'config_dev.json' });
   } else {
     // We want somewhere to store ui_config, without file we have only
     // read-only stores
@@ -103,6 +119,6 @@ export default function getOptions() {
     throw new Error("Server rendering is not currently supported.");
   }
 
-  console.info(nconf.get());
+  // console.info(nconf.get());
   return nconf.get();
 }

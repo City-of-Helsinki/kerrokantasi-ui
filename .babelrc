@@ -1,19 +1,20 @@
 {
   "presets": [
-    "react",
-    "env",
+    "@babel/preset-react",
+    "@babel/preset-env",
     [
-      "env",
+      "@babel/preset-env",
       {
         "modules": false
-      }
+      },
+      "babel-preset-env"
     ],
-    "flow"
+    "@babel/preset-flow"
   ],
   "plugins": [
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
     [
       "transform-imports",
       {
@@ -31,15 +32,17 @@
   "env": {
     "test": {
       "presets": [
-        "react",
+        "@babel/preset-react",
         [
-          "env", {}
+          "@babel/preset-env",
+          {},
+          "babel-preset-env-test"
         ],
-        "flow"
+        "@babel/preset-flow"
       ],
       "plugins": [
-        "transform-class-properties",
-        "transform-object-rest-spread",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-object-rest-spread",
         "dynamic-import-node",
         [
           "transform-imports",

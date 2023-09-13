@@ -1,8 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
+import { Button, IconUser, IconSignin, Select } from 'hds-react';
 import Icon from '../../utils/Icon';
+import classNames from 'classnames';
 
 import LanguageSwitcher from './LanguageSwitcher';
 import { FormattedMessage } from 'react-intl';
@@ -12,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../components/LinkWithLang';
 import throttle from 'lodash/throttle';
 import scrolltop from 'scrolltop';
-import {getUser} from '../../selectors/user';
+import { getUser } from '../../selectors/user';
 import userManager from "../../utils/userManager";
 import { toggleContrast } from "../../actions";
 
@@ -32,7 +34,7 @@ class Header extends React.Component {
     };
   }
   toggleNavbar() {
-    this.setState({navbarExpanded: !this.state.navbarExpanded});
+    this.setState({ navbarExpanded: !this.state.navbarExpanded });
   }
 
   componentDidMount() {
@@ -57,6 +59,12 @@ class Header extends React.Component {
 
   async handleLogin() {
     try {
+      if (config.maintenanceDisableLogin) {
+        localizedNotifyError("maintenanceNotificationText");
+
+        return;
+      }
+
       await userManager.signinRedirect({ ui_locales: this.props.language });
     } catch (error) {
       localizedNotifyError("loginAttemptFailed");
@@ -64,42 +72,38 @@ class Header extends React.Component {
   }
 
   getUserItems() {
-    const {user} = this.props;
+    const { user } = this.props;
 
     if (user) {
       return [
-        <DropdownButton
-          pullRight
-          key="profile"
-          id="userMenu"
-          className="user-menu user-menu--logged"
-          title={
-            <span>
-              <Icon name="user" className="user-nav-icon" aria-hidden="true" />
-              <span className="user-name">{user.displayName}</span>
-            </span>
-          }
-        >
-          <MenuItem
-            key="logout"
-            eventKey="logout"
-            onClick={() => userManager.signoutRedirect()}
-          >
-            <FormattedMessage id="logout" />
-          </MenuItem>
-        </DropdownButton>,
+        <FormattedMessage key="logout" id="logout">
+          {logout => (
+            <Select
+              id="userMenu"
+              className={classNames('user-menu', 'user-menu--logged')}
+              icon={
+                <span>
+                  <IconUser />
+                  <span className="user-name">{user.displayName}</span>
+                </span>
+              }
+              options={[{ label: logout }]}
+              onChange={() => userManager.signoutRedirect()}
+            />
+          )}
+        </FormattedMessage>
       ];
     }
     return [
       <FormattedMessage key="login" id="login">
         {login => (
           <Button
-            key="login"
-            aria-label={login}
-            className="user-menu login-link user-menu--unlogged"
+            variant="supplementary"
+            theme="black"
+            iconLeft={<IconSignin />}
+            className={classNames('user-menu', 'login-link', 'user-menu--unlogged')}
             onClick={() => this.handleLogin()}
           >
-            <Icon name="user-o" className="user-nav-icon" aria-hidden="true" />
             <span className="user-name">{login}</span>
           </Button>
         )}
@@ -108,7 +112,7 @@ class Header extends React.Component {
   }
 
   getNavItem(id, url, addSuffix = true) {
-    const {history, language, user} = this.props;
+    const { history, language, user } = this.props;
     const active = history && history.location.pathname === url;
     let messageId = id;
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
@@ -150,7 +154,7 @@ class Header extends React.Component {
               className="contrast-button"
               onClick={() => this.props.toggleContrast()}
             >
-              <Icon name="adjust"/>
+              <Icon name="adjust" />
               <span className="contrast-title">{text}</span>
             </Button>
           )}
@@ -163,7 +167,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const {language} = this.props;
+    const { language } = this.props;
     const userItems = this.getUserItems();
     return (
       <div>
@@ -186,8 +190,8 @@ class Header extends React.Component {
 
               <div className="nav-user-menu navbar-right">
                 {this.contrastToggle()}
-                <LanguageSwitcher currentLanguage={this.props.language}/>
                 {userItems}
+                <LanguageSwitcher currentLanguage={this.props.language} />
               </div>
             </Navbar>
           )}
@@ -195,16 +199,23 @@ class Header extends React.Component {
 
         <FormattedMessage id="headerPagesNavLabel">
           {headerPagesNavLabel => (
-            <Navbar default fluid collapseOnSelect className="navbar-primary" aria-label={headerPagesNavLabel} onToggle={this.toggleNavbar.bind(this)}>
+            <Navbar
+              default
+              fluid
+              collapseOnSelect
+              className="navbar-primary"
+              aria-label={headerPagesNavLabel}
+              onToggle={this.toggleNavbar.bind(this)}
+            >
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to={{path: "/"}}>
+                  <Link to={{ path: "/" }}>
                     Kerrokantasi
                   </Link>
                 </Navbar.Brand>
                 <FormattedMessage id="navigationMenu">
                   {navigationMenu => (
-                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded}/>
+                    <Navbar.Toggle aria-label={navigationMenu} aria-expanded={this.state.navbarExpanded} />
                   )}
                 </FormattedMessage>
               </Navbar.Header>

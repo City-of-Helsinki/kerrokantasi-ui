@@ -20,7 +20,6 @@ import SectionAttachment from './SectionAttachment';
 import SectionBrowser from '../../SectionBrowser';
 import SectionImage from './SectionImage';
 import SortableCommentList from '../../SortableCommentList';
-import config from '../../../config';
 import getAttr from '../../../utils/getAttr';
 import SubSectionsList from './SubSectionsList';
 import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';
@@ -51,6 +50,7 @@ import {
 
 import {getUser} from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
+import { getApiURL } from '../../../api';
 
 export class SectionContainerComponent extends React.Component {
   state = {
@@ -95,7 +95,7 @@ export class SectionContainerComponent extends React.Component {
   // downloads report excel with user's credentials
   handleReportDownload = (hearing, apiToken, language) => {
     const accessToken = apiToken.apiToken;
-    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
+    const reportUrl = getApiURL('/v1/hearing/' + hearing.slug + '/report');
 
     fetch(reportUrl, {
       method: 'GET',
@@ -415,7 +415,7 @@ export class SectionContainerComponent extends React.Component {
     } = this.props;
 
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
-    const reportUrl = config.apiBaseUrl + '/v1/hearing/' + hearing.slug + '/report';
+    const reportUrl = getApiURL('/v1/hearing/' + hearing.slug + '/report');
     const mainSection = sections.find(sec => sec.type === SectionTypes.MAIN);
     const section = sections.find(sec => sec.id === match.params.sectionId) || mainSection;
 

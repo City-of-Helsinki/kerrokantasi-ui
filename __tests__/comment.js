@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import {renderIntoDocument} from 'react-dom/test-utils';
 import Comment, {UnconnectedComment} from '../src/components/Hearing/Comment';
 import {findDOMNode} from 'react-dom';

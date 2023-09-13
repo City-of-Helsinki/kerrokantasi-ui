@@ -2,15 +2,15 @@ import React from 'react';
 
 import CommentFormMap from "../src/components/CommentFormMap/CommentFormMap";
 import { shallow } from 'enzyme';
-import {Map, TileLayer, FeatureGroup} from 'react-leaflet';
-import {EditControl} from 'react-leaflet-draw';
+import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
 import Leaflet from 'leaflet';
 import leafletMarkerIconUrl from "../assets/images/leaflet/marker-icon.png";
 import leafletMarkerShadowUrl from "../assets/images/leaflet/marker-shadow.png";
 import leafletMarkerRetinaIconUrl from "../assets/images/leaflet/marker-icon-2x.png";
 
 const defaultProps = {
-  center: {type: 'Point', coordinates: [60.451744, 22.266601]},
+  center: { type: 'Point', coordinates: [60.451744, 22.266601] },
   mapTileUrl: 'someurl',
   onDrawCreate: () => null,
   onDrawDelete: () => null,
@@ -86,18 +86,18 @@ describe('src/components/CommentFormMap/CommentFormMap.js', () => {
         expect(element.prop('onCreated')).toBe(defaultProps.onDrawCreate);
         expect(element.prop('onDeleted')).toBe(defaultProps.onDrawDelete);
         expect(element.prop('draw')).toBeDefined();
-        expect(element.prop('edit')).toEqual({edit: false});
+        expect(element.prop('edit')).toEqual({ edit: false });
       });
       test('draw prop is correct when tools !== all', () => {
-        const element = getWrapper({tools: 'marker'}).find(EditControl);
+        const element = getWrapper({ tools: 'marker' }).find(EditControl);
         expect(element).toHaveLength(1);
         expect(element.prop('draw')).toMatchObject(setDrawOptions('marker'));
       });
       test('draw prop is correct when tools === all', () => {
-        const element = getWrapper({tools: 'all'}).find(EditControl);
+        const element = getWrapper({ tools: 'all' }).find(EditControl);
         expect(element).toHaveLength(1);
         expect(element.prop('draw')).toMatchObject(setDrawOptions('all'));
       });
     });
   });
-})
+});

@@ -24,12 +24,12 @@ exports[`Hearings component should render as expected 1`] = `
             defer={true}
             encodeSpecialCharacters={true}
             meta={
-              Array [
-                Object {
+              [
+                {
                   "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                   "name": "description",
                 },
-                Object {
+                {
                   "content": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
                   "property": "og:description",
                 },
@@ -39,7 +39,7 @@ exports[`Hearings component should render as expected 1`] = `
           />
           <FormattedMessage
             id="allHearings"
-            values={Object {}}
+            values={{}}
           >
             <Component />
           </FormattedMessage>
@@ -54,26 +54,26 @@ exports[`Hearings component should render as expected 1`] = `
     handleSort={[Function]}
     hearingCount={0}
     hearings={
-      Array [
-        Object {
-          "abstract": Object {
+      [
+        {
+          "abstract": {
             "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
           },
-          "borough": Object {},
+          "borough": {},
           "close_at": "2200-11-28T22:00:00Z",
           "closed": false,
           "created_at": "2017-10-23T11:07:26.630423Z",
           "default_to_fullscreen": false,
           "geojson": null,
           "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
-          "labels": Array [],
-          "main_image": Object {
-            "caption": Object {
+          "labels": [],
+          "main_image": {
+            "caption": {
               "fi": "A Wonderfull caption",
             },
             "height": 631,
             "id": 92,
-            "title": Object {},
+            "title": {},
             "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
             "width": 893,
           },
@@ -83,15 +83,15 @@ exports[`Hearings component should render as expected 1`] = `
           "published": true,
           "servicemap_url": "",
           "slug": "mockHearing",
-          "title": Object {
+          "title": {
             "fi": "Mock Hearing",
           },
         },
       ]
     }
     intl={
-      Object {
-        "defaultFormats": Object {},
+      {
+        "defaultFormats": {},
         "defaultLocale": "en",
         "formatDate": [Function],
         "formatHTMLMessage": [Function],
@@ -100,8 +100,8 @@ exports[`Hearings component should render as expected 1`] = `
         "formatPlural": [Function],
         "formatRelative": [Function],
         "formatTime": [Function],
-        "formats": Object {},
-        "formatters": Object {
+        "formats": {},
+        "formatters": {
           "getDateTimeFormat": [Function],
           "getMessageFormat": [Function],
           "getNumberFormat": [Function],
@@ -109,7 +109,7 @@ exports[`Hearings component should render as expected 1`] = `
           "getRelativeFormat": [Function],
         },
         "locale": "fi",
-        "messages": Object {
+        "messages": {
           "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
           "CREATED_AT_ASC": "Vanhin ensin",
           "CREATED_AT_DESC": "Uusin ensin",
@@ -118,6 +118,7 @@ exports[`Hearings component should render as expected 1`] = `
           "accessibilityLink": "Saavutettavuusseloste",
           "accessibilityPage": "Saavutettavuusseloste",
           "addComment": "Kirjoita kommentti",
+          "addCommentAndVote": "Äänestä ja kommentoi",
           "addFavorites": "Lisää suosikkeihin",
           "addGeojson": "Lisää geojson tiedostona",
           "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
@@ -146,6 +147,7 @@ exports[`Hearings component should render as expected 1`] = `
           "closeHearing": "Sulje kuuleminen",
           "closedCount": "Sulkeutuneet ({n})",
           "closedHearing": "Suljettu",
+          "commentAndVoteSubsectionBtn": "Äänestä ja kommentoi",
           "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
           "commentDeleted": "Kommenttisi on poistettu.",
           "commentEdited": "Kommenttisi on muokattu. Kiitos!",
@@ -200,12 +202,14 @@ exports[`Hearings component should render as expected 1`] = `
           "cookieBar.modal.showLess": "Näytä vähemmän",
           "cookieBar.modal.showMore": "Näytä lisää",
           "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+          "cookieManagementLink": "Evästeasetukset",
           "copyHearing": "Kopioi kuuleminen",
           "copyrightText": "Kerrokantasi",
           "create": "Luo",
           "createContact": "Luo uusi yhteyshenkilö",
           "createHearing": "Luo uusi kuuleminen",
           "createLabel": "Luo uusi asiasana",
+          "dataProtection": "Tietosuoja",
           "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
           "defaultProject": "Lisää uusi projekti",
           "delete": "Poista",
@@ -237,8 +241,7 @@ exports[`Hearings component should render as expected 1`] = `
           "feedbackLinkText": "Palaute",
           "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
           "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
-          "firstClosing": "Ensimmäisenä sulkeutuva",
-          "firstOpen": "Ensimmäisenä auennut",
+          "firstClosing": "Ensimmäisenä sulkeutuvat",
           "follow": "Seuraa",
           "followingHearing": "Seuraat kuulemista.",
           "footerCityLink": "www.example.com",
@@ -349,12 +352,12 @@ exports[`Hearings component should render as expected 1`] = `
           "lang-fi": "Suomi",
           "lang-sv": "Svenska",
           "languageSwitchLabel": "Valitse sivuston kieli",
-          "lastClosing": "Viimeisenä sulkeutuva",
-          "lastOpen": "Viimeisenä auennut",
-          "leastCommented": "Vähiten kommentoitu",
+          "lastClosed": "Viimeisenä sulkeutuneet",
+          "lastClosing": "Viimeisenä sulkeutuvat",
+          "leastCommented": "Vähiten kommentoidut",
           "list": "Lista",
           "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
-          "login": "Kirjaudu sisään",
+          "login": "Kirjaudu",
           "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
           "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
           "loginToContinue": "Kirjaudu sisään jatkaaksesi",
@@ -363,9 +366,11 @@ exports[`Hearings component should render as expected 1`] = `
           "logout": "Kirjaudu ulos",
           "mainMenu": "Päävalikko",
           "mainSection": "Pääosio",
+          "maintenanceNotificationLabel": "Palvelua päivitetään",
+          "maintenanceNotificationText": "Keskiviikkona 6.9. Kerro kantasi -palvelua päivitetään. Kyseisenä päivänä sisältöjen tekeminen, esimerkiksi kommentointi tai kirjautuminen ei ole mahdollista.",
           "map": "Kartta",
           "mapView": "Kaikki kuulemiset kartalla",
-          "mostCommented": "Eniten kommentoitu",
+          "mostCommented": "Eniten kommentoidut",
           "moveDown": "Siirrä alas",
           "moveUp": "Siirrä ylös",
           "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
@@ -376,7 +381,7 @@ exports[`Hearings component should render as expected 1`] = `
           "newHearingPageTitle": "Uusi kuuleminen",
           "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
           "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
-          "newestFirst": "Uusin ensin",
+          "newestFirst": "Uusimmat ensin",
           "newestHearings": "Uusimmat kuulemiset",
           "next": "Seuraava",
           "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
@@ -387,7 +392,7 @@ exports[`Hearings component should render as expected 1`] = `
           "noFavoriteHearings": "Ei lisättyjä suosikkeja",
           "noHearings": "Kuulemisia ei löytynyt",
           "noProject": "Ei projektia",
-          "oldestFirst": "Vanhin ensin",
+          "oldestFirst": "Vanhimmat ensin",
           "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
           "openCommenting": "Avoin kommentointi",
           "openCount": "Avoimet ({n})",
@@ -409,7 +414,6 @@ exports[`Hearings component should render as expected 1`] = `
           "phone": "Puhelinnumero",
           "pinnedComment": "Kiinnitetty julkaisu",
           "previous": "Edellinen",
-          "privacyPolicy": "Rekisteriseloste",
           "project": "Hanke:",
           "projectName": "Projektin nimi",
           "projectSelection": "Jos kuuleminen kuuluu monivaiheiseen projektiin, valitse projekti tästä.",
@@ -427,6 +431,7 @@ exports[`Hearings component should render as expected 1`] = `
           "register": "Rekisteröidy",
           "registered": "rekisteröitynyt",
           "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
+          "registeredUserCommentMessage": "Nimesi tai nimimerkkisi näytetään kommenttisi yhteydessä. Voit poistaa nimen tai nimimerkin tyhjentämällä kyseisen kentän.",
           "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
           "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
           "removeFavorites": "Poista suosikeista",
@@ -448,7 +453,9 @@ exports[`Hearings component should render as expected 1`] = `
           "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
           "sectionCardSubsectionTitle": "Alaosio",
           "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
+          "sectionCommentEditedMessage": "Kirjoittaja on muokannut viestiä.",
           "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
+          "sectionCommentModeratedMessage": "Viestiä on muokattu, koska se rikkoi palvelun käyttöohjeita. https://kerrokantasi.hel.fi/info",
           "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
           "sectionContent": "Tekstisisältö",
           "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
@@ -488,7 +495,9 @@ exports[`Hearings component should render as expected 1`] = `
           "timeClosePast": "Sulkeutui",
           "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
           "timeOpenFuture": "Avautuu",
+          "timeOpenFutureWithValues": "Avautuu {date} klo {time}",
           "timeOpenPast": "Avautui",
+          "timeOpenPastWithValues": "Avautui {date} klo {time}",
           "timetable": "Aikajana",
           "title": "Otsikko",
           "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
@@ -533,23 +542,23 @@ exports[`Hearings component should render as expected 1`] = `
     }
     isLoading={true}
     labels={
-      Array [
-        Object {
+      [
+        {
           "id": 1,
-          "label": Object {
+          "label": {
             "fi": "Mock Von Label",
           },
         },
-        Object {
+        {
           "id": 2,
-          "label": Object {
+          "label": {
             "fi": "Mock Don Label",
           },
         },
       ]
     }
     onTabChange={[Function]}
-    selectedLabels={Array []}
+    selectedLabels={[]}
     showOnlyOpen={false}
     tab="list"
     toggleShowOnlyOpen={[Function]}

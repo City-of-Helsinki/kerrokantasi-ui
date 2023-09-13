@@ -1,10 +1,10 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import { shallow, } from 'enzyme';
 import SectionAttachment, { getFileTitle } from '../src/components/Hearing/Section/SectionAttachment';
 
 const props = {
   language: 'fi',
-  file: { 
+  file: {
     url: 'http://mock.url',
     title: {
       fi: 'Title in finnish',
@@ -17,10 +17,10 @@ let wrapper;
 
 describe('<SectionAttachment />', () => {
   beforeEach(() => {
-    wrapper = shallow(<SectionAttachment { ...props } />);
+    wrapper = shallow(<SectionAttachment {...props} />);
   });
 
-  test('Should match snapshot' , () => {
+  test('Should match snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   });
 

@@ -1,20 +1,17 @@
-import React from 'react';
 import cookieUtils from '../../src/utils/cookieUtils';
-import {shallow} from 'enzyme';
 // eslint-disable-next-line import/no-unresolved
-import urls from '@city-assets/urls.json';
 import cookiebotUtils from '../../src/utils/cookiebotUtils';
 
-const isCookiebotEnabledMock = jest.fn();
+const mockIsCookiebotEnabled = jest.fn();
 jest.mock('../../src/utils/cookiebotUtils', () => {
   const originalModule = jest.requireActual('../../src/utils/cookiebotUtils');
   return {
     __esModule: true,
     ...originalModule,
-    isCookiebotEnabled: isCookiebotEnabledMock,
+    isCookiebotEnabled: mockIsCookiebotEnabled,
     default: {
       ...originalModule.default,
-      isCookiebotEnabled: () => isCookiebotEnabledMock(),
+      isCookiebotEnabled: () => mockIsCookiebotEnabled(),
     }
   };
 });
@@ -28,19 +25,9 @@ jest.mock('../../src/config', () => {
 });
 
 describe('cookieUtils', () => {
-  describe('getDefaultCookieScripts', () => {
-    test('returns a script element', () => {
-      const element = cookieUtils.getDefaultCookieScripts();
-      const wrapper = shallow(<div>{element}</div>);
-      expect(wrapper.find('script')).toHaveLength(1);
-      expect(wrapper.find('script').prop('src')).toEqual(urls.analytics);
-      expect(wrapper.find('script').prop('type')).toEqual('text/javascript');
-    });
-  });
-
   describe('getCookieScripts', () => {
     describe('when isCookiebotEnabled returns true', () => {
-      isCookiebotEnabledMock.mockReturnValueOnce(true);
+      mockIsCookiebotEnabled.mockReturnValueOnce(true);
 
       afterEach(() => {
         jest.clearAllMocks();
@@ -52,15 +39,14 @@ describe('cookieUtils', () => {
     });
 
     describe('when isCookiebotEnabled returns false', () => {
-      isCookiebotEnabledMock.mockReturnValue(false);
-
+      mockIsCookiebotEnabled.mockReturnValue(false);
       afterEach(() => {
         jest.clearAllMocks();
       });
 
-      test('when cookies are enabled, returns getDefaultCookieScripts', () => {
+      test('when cookies are enabled, calls addCookieScripts', () => {
         config.enableCookies = true;
-        expect(cookieUtils.getCookieScripts()).toEqual(cookieUtils.getDefaultCookieScripts());
+        expect(cookieUtils.getCookieScripts()).toEqual(true);
       });
 
       test('when cookies are not enabled, returns null', () => {

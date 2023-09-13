@@ -1,7 +1,8 @@
 import React from 'react';
-import {shallow} from "enzyme";
-import {UnconnectedCommentReportForm as CommentReportForm}
-  from '../../src/components/CommentReportModal/CommentReportForm';
+import { shallow } from "enzyme";
+import {
+  UnconnectedCommentReportForm as CommentReportForm
+} from '../../src/components/CommentReportModal/CommentReportForm';
 import { mockStore } from '../../test-utils';
 import { Button, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
@@ -11,7 +12,7 @@ import Icon from '../../src/utils/Icon';
 
 describe('CommentReportForm', () => {
   const defaultProps = {
-    apiToken: {apiInitialized: true, apiToken: '123-abc', isFetching: false, loadingToken: false},
+    apiToken: { apiInitialized: true, apiToken: '123-abc', isFetching: false, loadingToken: false },
     hearing: mockStore.mockHearingWithSections,
     language: 'fi',
   };
@@ -94,11 +95,11 @@ describe('CommentReportForm', () => {
     describe('handleFileFormatChange', () => {
       test('calls setState with correct params', () => {
         const instance = getWrapper().instance();
-        const event = {target: {value: 'test-value'}};
+        const event = { target: { value: 'test-value' } };
         const spy = jest.spyOn(instance, 'setState');
         instance.handleFileFormatChange(event);
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith({fileFormat: event.target.value});
+        expect(spy).toHaveBeenCalledWith({ fileFormat: event.target.value });
       });
     });
   });

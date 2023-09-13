@@ -263,6 +263,10 @@
         margin-left: $margin-small;
       }
     }
+    &-edited-notification {
+      color: $gray;
+      font-size: 0.9em;
+    }
 
     &__edit-links {
       padding-bottom: $grid-gutter-width/3;
