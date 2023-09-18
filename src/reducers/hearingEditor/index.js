@@ -20,6 +20,8 @@ const editorPending = handleActions({
   receiveHearingError: (state) => state - 1,
   [EditorActions.FETCH_META_DATA]: (state) => state + 1,
   [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
+  [EditorActions.FETCH_CONTACT_PERSONS]: (state) => state - 1,
+  [EditorActions.RECEIVE_CONTACT_PERSONS]: (state) => state + 1,
 }, 0);
 
 const editorIsSaving = handleActions({
