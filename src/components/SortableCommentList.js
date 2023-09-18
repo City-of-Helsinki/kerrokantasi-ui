@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
-import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
@@ -216,6 +215,7 @@ export class SortableCommentListComponent extends Component {
           pluginPurpose="viewHeatmap"
           comments={sectionComments.results}
           pluginSource={section.plugin_iframe_url}
+          pluginInstanceId="map"
         />
         <div className="image-caption">Kaikkien merkintöjen ja äänien tiheyskartta.</div>
       </div>
@@ -233,9 +233,9 @@ export class SortableCommentListComponent extends Component {
         // This is legacy support.
         return (
           <div className="comments-visualization">
-            <MapdonKSVPlugin data={section.plugin_data} pluginPurpose="viewComments" comments={comments} />
+            <MapQuestionnaire data={section.plugin_data} pluginInstanceId="ksv" pluginPurpose="viewComments" comments={comments} />
             <div className="image-caption">Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
-            <MapdonKSVPlugin data={section.plugin_data} pluginPurpose="viewHeatmap" comments={comments} />
+            <MapQuestionnaire data={section.plugin_data} pluginInstanceId="ksv" pluginPurpose="viewHeatmap" comments={comments} />
             <div className="image-caption">Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
           </div>
         );
