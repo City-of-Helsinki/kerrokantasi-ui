@@ -174,6 +174,10 @@ const MapQuestionnaire = ({
   };
 
   const onReceiveMessage = (event) => {
+    if (!event) {
+      return;
+    }
+
     const payload = event.data;
 
     if (typeof payload === 'string') {
@@ -330,7 +334,7 @@ const MapQuestionnaire = ({
               <iframe
                 src="/assets/mapdon-ksv/plugin-inline.html"
                 className="plugin-frame mapdon-ksv-plugin-frame"
-                ref="frame"
+                ref={frameRef}
               />
               {pluginPurpose === 'postComments' ? commentBox : null}
             </form>
