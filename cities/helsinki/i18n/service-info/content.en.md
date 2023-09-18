@@ -1,79 +1,123 @@
-# Terms of Kerrokantasi service
+# Terms of use for the Kerrokantasi service
 
-Kerrokantasi (Voice your opinion) is a web service maintained by the City of Helsinki. On the site, city residents can voice their opinions on different kinds of topics, which will be prepared or which are already under preparation. Other users can see and comment on the opinions and they will be reported and summarised for the preparers and decision-makers. A summary of the opinions can be downloaded in Excel format.
+Kerrokantasi (Voice your opinion) is a web service maintained by the City of Helsinki. On the site, city residents can express their opinions on various topics that are being prepared or are already in preparation. Other users can view and comment on the opinions, which are then reported and summarized for the preparers and decision-makers. A summary of the opinions can be downloaded in Excel format.
 
-The Kerrokantasi service is a way to realise the City’s participation and interaction model (https://www.hel.fi/helsinki/en/administration/participate/channels/participation-model/). According to Section 22 in the Local Government Act, the municipality must ensure that the municipality’s residents can participate in and influence the activities of the municipality, especially by surveying their opinions before the decision-making.
+The Kerrokantasi service is a way of implementing [the City's participation and interaction model](https://www.hel.fi/en/decision-making/get-involved). According to Section 22 of the Local Government Act, the municipality must ensure that the residents of the municipality can participate in and influence the activities of the municipality, in particular by seeking their opinions before taking decisions.
 
-The online service is provided by the City of Helsinki. You can give feedback about the online service by following the Feedback link www.hel.fi/feedback or by email (kerrokantasi at hel.fi).
+The online service is provided by the City of Helsinki. You can give feedback on the online service by following the feedback link https://palautteet.hel.fi/en or by e-mail (kerrokantasi at hel.fi).
 
-## Terms of use
+## Using the service
 
-In the Kerrokantasi service, the user can write their opinions on the current topic either with their name or anonymously. If you want to sign your opinion, write your name in the name field of the form.
+In the Kerrokantasi service, users can write their opinions on the current topic either with their name or anonymously. If you want to sign your opinion, write your name in the name field of the form.
 
-By signing in to the service, you agree that proposals and comments submitted by you may be published under your name, and texts written by you may be edited or deleted by moderators, if they are deemed to be abusive or inappropriate. Your personal data are not disclosed to external parties or used for other purposes than matters concerning the usage of the Kerrokantasi service.
+### Log in
+
+Some hearings may require you to sign in if you want to post a comment, support an opinion (= thumbs up) or vote on options. By logging in, you agree to the use of your information. Your name or nickname may be displayed on the Service in connection with your opinion or comment. You can control the visibility of your information when you post a comment by hiding your name or nickname.
+
+You can log in to the service using one of the various existing service IDs you have created (Yleisradio ID, Google, Facebook) or as a city employee using the AD login.
+
+### User responsibility
+
+All users are fully responsible for their own writings and the content of these writings. As a user, you agree to comply with good practice and applicable law in the content you create and add, such as text, images and other attachments (the "Material").
+
+By uploading or otherwise submitting Material to the Service, you agree that any copyrighted Material is licensed under a [Creative Commons "Attribution-NonCommercial-ShareAlike 4.0 International" (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en) license. 
+
+As a user, you assume full responsibility for and warrant that you have the rights to submit material to the Service, and that the material itself or its submission to the Service does not violate the intellectual property or other rights of others. 
 
 Using another person’s name without their permission is forbidden. Everyone is individually responsible for the consequences of using another person’s name without permission.
 
-### Signing up
+### Monitoring of discussions
 
-Registration to the service is required, if you want to like (=thumb up) an opinion as a registered user.
+The service is monitored mainly during office hours on weekdays. Comments are not reviewed in advance. You can also report inappropriate messages using the [feedback form](https://palautteet.hel.fi/en) or by e-mail (kerrokantasi at hel.fi).
 
-Signing up requires an email address, to which the password for signing in will be sent.
+User opinions and comments may be deleted and edited by the administrator if they are deemed unlawful or inappropriate. As a registered user, you can edit or delete your opinions and comments on the service yourself.
 
-### User’s responsibility
+The City of Helsinki reserves the right to use messages published on the Service in other contexts. The City of Helsinki is in no way responsible for the content of the posts.
 
-All users have the full responsibility for their own writings and for the content of these.
+The comment and the thread will indicate whether the comment has been edited or deleted as inappropriate.
 
-As a user you agree and promise, regarding any content that you produce or submit, such as texts, pictures, videos, other attachments and materials (together called ’Material’ here), to observe good manners and current legislation.
+#### Illegal and inappropriate comments
 
-By loading or otherwise submitting Material to the service you agree that any Material subject to copyright is licensed with the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (CC BY-NC-SA 4.0).
+The messages sent to the service must respect good discussion practices and be relevant to the topic of the discussion. Any message that can be considered illegal under Finnish law will be hidden from the public.
 
-As a user you take full responsibility for and guarantee that you own the rights for submitting the Material to the service, and that the Material itself or its being submitted to the service does not violate others’ immaterial or other rights.
+For example, an illegal message:
+* may be considered defamatory
+* contains personal and private information about another person
+* contains confidential information
+* be considered an incitement to ethnic hatred
+* may be considered an incitement to commit a criminal offence.
 
-### Discussion moderation
+Whether a message is inappropriate or unrelated in nature to the topic of discussion will be determined on a case-by-case basis.
 
-The service is mostly moderated during office hours on business days. Comments are not checked in advance before they become public. You can report an inappropriate message by by following the Feedback link www.hel.fi/feedback or by email (kerrokantasi at hel.fi).
+For example, an inappropriate message may include:
+* contains swearing or vulgar language
+* is not related to the topic of the discussion or contains links to online material that is not related to the topic
+* is not necessarily illegal, but may be considered offensive to an individual or group of individuals
+* contain commercial messages
+* contains the personal information or contact details of any private individual.
 
-The moderators of the service have the right to delete and edit messages. The City of Helsinki reserves the right to use messages published in the service in other contexts. The City of Helsinki is in no way responsible for the content of the writings.
+If the material you submit infringes copyright or is otherwise unlawful or inappropriate, it will be deleted.
 
-### Inappropriate and unlawful messages
+## Data protection notices
 
-The messages sent to the service must observe good manners of discussion and be relevant to the topic of the discussion. Any messages that can be deemed unlawful according to Finnish legislation are hidden from the public.
+Kerrokantasi.hel.fi is operated by the City of Helsinki. The City of Helsinki is committed to protecting the privacy of users of its online services in accordance with the Data Protection Act (2018), the EU General Data Protection Regulation (2016/679) and other applicable legislation.
 
-Unlawful messages are messages that, for example:
+When you are a customer of City services or otherwise interact with the City, the City of Helsinki collects personal data for various purposes. The processing of personal data is governed by a Data protection, which can be found at www.hel.fi/tietosuoja. For information on the data protection for the Kerrokantasi website see the [Processing of personal data in the feedback channels and digital participation services of the City of Helsinki](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Processing%20of%20personal%20data%20in%20the%20feedback%20channels%20and%20digital%20participation%20services%20of%20the%20City%20of%20Helsinki.pdf) and digital participation services, and [the register of electronic services](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf) (in Finnish).
 
-* can be deemed defamatory
-* include another person’s personal and private information
-* include confidential information
-* can be deemed an incitement to ethnic hatred
-* can be deemed an incitement to commit a criminal act.
+Personal information collected through the Kerrokantasi service:
+* Email address 
+* Given name or nickname
+* Date of first login to the service
 
-Inappropriate messages and texts may be deleted or edited. Whether a message is inappropriate or unrelated in nature to the topic of discussion will be determined on a case by case basis.
+will not be disclosed to third parties or used for other purposes. The information will only be used in connection with the processing and further work about the hearing.
 
-Inappropriate messages are messages that, for example:
+For Kerrokantasi content production, the information collected is:
+* Email address
+* Name and surname
+* Organisation represented
+* Date of first login to the service
 
-* include swearing or vulgar language
-* are not related to the topic of discussion or include links to online material that is not related to the topic
-* are not necessarily unlawful, but can be deemed to insult an individual or a group of individuals
-* include commercial messages
-* include the personal data or contact details of a private person.
+Kerrokantasi service is hosted on the City of Helsinki's Azure cloud, with servers located in Ireland. They are not mirrored to other Azure locations. The backups are in Azure in the same region as the servers themselves. No personal data is processed outside of Helsinki.
 
-If the Material that you submit violates copyright or is in some other way against the law or inappropriate, it will be deleted.
+All personal data processed in the City's cloud service is protected by appropriate security keys (Microsoft EU Data Boundary). The data is kept for ten years after the event, in accordance with the retention period for municipal records.
 
-### Personal data file description
+The email address and name of the content creator are displayed to the admin users of the hearings, and the name or nickname and email address are displayed to the moderators of the comments. In total, there are 7-10 such users. The content and comments of the hearings are accessible through the interfaces.
 
-If you become a customer of the City’s services or use the services in another manner, the City will collect your personal data only to the extent necessary for the purposes of providing these services. The data are collected in different registers according to the purpose of use of the data. The registers’ personal data file descriptions can be found at www.hel.fi/rekisteriseloste. The page includes the personal data file description for participation and feedback on the Kerrokantasi website. More information about the relevant rights as stated in the EU General Data Protection Regulation in the online services of the City of Helsinki.
+Users can share the link addresses of individual pages on Facebook and X (formerly known as Twitter using the buttons on the pages. In this case, the user must also agree to the use of data from these services.
 
-### Content licensing
+More information [about your rights under the EU General Data Protection Regulation on the City of Helsinki's online services](https://www.hel.fi/en/decision-making/information-on-helsinki/data-protection-and-information-management/data-protection/rights-of-data-subjects-and-exercising-these-rights).
 
-Any creative content subject to copyright, such as texts, pictures, fonts, sound recordings and videos, that is submitted to the service by the user is published on the terms of the Creative Commons BY-NC-SA 4.0 licence: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi
+You can request the deletion of your user data by sending an e-mail to kerrokantasi at hel.fi.
 
-All data in the service are published as open data, on the terms of the Open Data Commons Open Database Licence (ODbL).
+The service also uses the city's Matomo solution for visitor tracking solution, the data collected by which is described in the Cookies section.
 
-### Cookies
+## Licensing of content
 
-Cookies are files stored on the user’s device by the browser. Cookies are used to enable features that make the use of the service easier and to collect data on users in order to improve the service. Cookies allow us to provide you with a more easy-to-use and functional website that meets your demands more efficiently.
+Any creative content subject to copyright, such as text, images, fonts, sound and video, submitted to the Service by the User will be published under [the terms of the Creative CommonsAttribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) Licence](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en). 
 
-Regarding the collection of user data, cookies include anonymous unique identifiers that allow us to collect data about users who visit our website, such as information on their browsers and devices. The administrators of the website do not have access to the users’ unique identifier data. Cookies provide us with information about the browsers used on our sites and what pages are viewed the most.
+All data in the Service is published as open data under the terms of the Open Data Commons Open Database Licence (ODbL).
 
-This website also includes content provided by external online service providers. External online service providers can install their own cookies on browsers.
+## About cookies
+
+Cookies are files stored by the browser on the user's device. Cookies are used to enable features that make the Service easier to use and to collect information about users to improve the Service. Cookies allow us to provide you with a more user-friendly and functional website that better meets your needs.
+
+In terms of user data collection, cookies contain anonymous unique identifiers that allow us to collect information about users who visit our website, such as information about their browsers and devices. Website administrators do not have access to users' unique identifiers. Cookies provide us with information about which browsers are used on our sites and which pages are most frequently viewed.
+
+This website also contains content provided by external online service providers. External online service providers may install their own cookies on browsers.
+
+The user can control the use of cookies through a cookie consent.
+
+The information collected by Matomo solution for the purposes of visitor statistics is anonymous and cannot be linked to any individual person. This information includes
+* IP address
+* Geographical location on a city level
+* Device model and operating system
+* Browser used
+* the time
+* Pages entering and leaving the service
+* Pages visited and site activity
+
+#### Manage cookies
+
+In addition to visitor tracking, some content providers, such as YouTube videos, also use their own cookies, which can be managed through the cookie settings.
+
+Suggestions for improving the service can be sent to kerrokantasi at hel.fi.

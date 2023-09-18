@@ -1,93 +1,129 @@
-# Information om tjänsten
+# Information om tjänsten Kerrokantasi
 
-Kerrokantasi (Säg din åsikt) är Helsingfors stads webbtjänst, där kommuninvånarna kan uttrycka sina åsikter och bli hörda i frågor av olika slag som ska tas upp i beredningen eller redan bereds. Andra användare kan se och kommentera åsikterna och de upptas också i rapporter och sammanfattningar som beredarna och beslutsfattarna kan utnyttja. Åsikterna kan laddas ned i Excel-format.
+Kerrokantasi (Säg din åsikt) är en webbtjänst som upprätthålls av Helsingfors stad. På webbplatsen kan stadsborna uttrycka sina åsikter om olika ämnen som är under beredning eller redan har beretts. Andra användare kan se och kommentera åsikterna, som sedan rapporteras och sammanfattas för beredarna och beslutsfattarna. En sammanfattning av yttrandena kan laddas ner i Excel-format.
 
-Kerrokantasi-tjänsten förverkligar stadens modell för delaktighet och interaktion (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/kanaler/verksamhetsmodeller-for-delaktighet/). Enligt 22 § i kommunallagen bör kommunen se till att kommuninvånarna kan delta och påverka kommunens verksamhet, särskilt genom att utreda invånarnas åsikter före beslutsfattandet.
+Kerrokantasi -tjänsten är ett sätt att genomföra [stadens modell för delaktighet och interaktion](https://www.hel.fi/sv/beslutsfattande-och-forvaltning/delta-och-paverka). Enligt 22 § i kommunallagen ska kommunen se till att kommuninvånarna kan delta i och påverka kommunens verksamhet, särskilt genom att utreda invånarnas åsikter före beslutsfattandet.
 
-E-tjänsten produceras av Helsingfors stad. Du kan ge respons på tjänsten via länken för respons www.hel.fi/respons eller du kan skicka email (kerrokantasi at hel.fi).
+Webbtjänsten tillhandahålls av Helsingfors stad. Du kan ge respons på webbtjänsten genom att [följa responslänken](https://palautteet.hel.fi/sv) eller per e-post (kerrokantasi at hel.fi).
 
-## Användarvillkor
+## Använda tjänsten
 
-E-tjänsten produceras av Helsingfors stad. Du kan ge respons på tjänsten via länken för respons www.hel.fi/respons eller du kan skicka email (kerrokantasi at hel.fi).
+I Kerrokantasi -tjänsten kan användarna skriva sina åsikter om det aktuella ämnet antingen med sitt namn eller anonymt. Om du vill underteckna din åsikt, skriv ditt namn i namnfältet i formuläret.
 
-## Användarvillkor
+### Logga in
 
-I Kerrokantasi-tjänsten kan användaren skriva sin åsikt antingen med sitt eget namn eller under en pseudonym. Om du vill underteckna din åsikt, skriv då ditt namn i formulärets namnfält.
+Vissa utfrågningar kan kräva att du loggar in om du vill lämna en kommentar, stödja en åsikt (= tummen upp) eller rösta om alternativ.
 
-Genom att logga in i tjänsten ger du ditt samtycke till att dina idéer och kommentarer publiceras med ditt namn eller din signatur och att administrationen kan radera eller redigera dina inlägg om de anses vara förolämpande eller i övrigt olämpliga. Dina personuppgifter lämnas inte ut till utomstående och används inte för andra syften än dem som gäller användningen av tjänsten Kerrokantasi.
+Genom att logga in samtycker du till att dina uppgifter används. Ditt namn eller smeknamn kan komma att visas på tjänsten i samband med din åsikt eller kommentar. Du kan styra synligheten av din information när du publicerar en kommentar genom att dölja ditt namn eller smeknamn.
 
-Det är förbjudet att olovligen använda en annan persons namn. Var och en ansvarar själv för de eventuella följder som orsakas av missbruk av en annan persons namn.
-
-## Registrering
-
-Registrering i tjänsten krävs om du vill gilla (=tumme upp) en åsikt som inloggad användare.
-
-Registreringen kräver en fungerande e-postadress, dit lösenordet för inloggning skickas.
+Du kan också logga in på tjänsten med ett av de olika befintliga tjänste-ID som du har skapat (Yleisradio ID, Google, Facebook) eller som stadsanställd med AD-inloggningen.
 
 ## Användarens ansvar
 
-Alla användare har det fulla ansvaret för sina skriverier och deras innehåll.
+Alla användare har det fulla ansvaret för sina skriverier och deras innehåll. Som användare förbinder du dig att i det innehåll du producerar eller lägger till, såsom texter, bilder, videor eller andra bilagor och material (här sammantaget kallat ’Material’), iakttaga god sed och gällande lagstiftning.
 
-Som användare förbinder du dig att i det innehåll du producerar eller lägger till, såsom texter, bilder, videor eller andra bilagor och material (här sammantaget kallat ’Material’), iakttaga god sed och gällande lagstiftning.
-
-Genom att ladda eller på annat sätt lägga till Material till tjänsten ger du ditt samtycke till att Material som omfattas av upphovsrätten licenseras med Creative Commons –licensen Erkännande-Icke-Kommersiell-DelaLika 4.0 Internationell (CC BY-NC-SA 4.0).
+Genom att ladda upp eller på annat sätt skicka Material till tjänsten samtycker du till att allt upphovsrättsskyddat Material är licensierat under en Creative Commons ["Erkännande-IckeKommersiell-DelaLika 4.0 Internationell (CC BY-NC-SA 4.0)”](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sv) licens.
 
 Som användare garanterar du och svarar för att du har rätt att tillägga Materialet till tjänsten, och att Materialet eller att det läggs till tjänsten inte kränker andras immateriella eller andra rättigheter.
 
+Det är förbjudet att olovligen använda en annan persons namn. Var och en ansvarar själv för de eventuella följder som orsakas av missbruk av en annan persons namn.
+
 ## Övervakning av diskussioner
 
-Tjänsten övervakas närmast under kontorstid på vardagar. Kommentarerna granskas inte på förhand. Du kan anmäla osakliga inlägg via länken för respons.via länken för respons www.hel.fi/respons eller du kan skicka email (kerrokantasi at hel.fi).
+Tjänsten övervakas huvudsakligen under kontorstid på vardagar. Kommentarer granskas inte i förväg. Du kan också rapportera olämpliga inlägg med hjälp av [feedbackformuläret](https://palautteet.hel.fi/sv) eller per e-post (kerrokantasi at hel.fi).
 
-De som övervakar tjänsten har rätt att radera och redigera inläggen. Helsingfors stad förbehåller sig rätten att också använda de inlägg som publiceras i tjänsten i andra sammanhang. Helsingfors stad tar inget ansvar för innehållet i skriverierna.
+Användarnas åsikter och kommentarer kan raderas och redigeras av administratören om de anses vara olagliga eller olämpliga. Som registrerad användare kan du själv redigera eller radera dina åsikter och kommentarertw i tjänsten.
 
-## Olämpliga och lagstridiga inlägg
+Helsingfors stad förbehåller sig rätten att också använda de inlägg som publiceras i tjänsten i andra sammanhang. Helsingfors stad tar inget ansvar för innehållet i skriverierna.
 
-Inläggen i tjänsten ska följa god diskussionssed och anknyta till det aktuella temat. Inlägget döljs om det fastställts som olagligt i den finska lagstiftningen.
+I kommentaren och tråden anges om kommentaren har redigerats eller raderats som olämplig.
 
-Exempel: olagliga inlägg
+### Olagliga och olämpliga kommentarer
 
-•	är ärekränkande 
+Inläggen i tjänsten måste följa god diskussionssed och vara relevanta för diskussionsämnet. Inlägget som kan anses vara olagliga enligt finsk lag kommer att döljas för allmänheten.
 
-•	sprider information som kränker privatlivet
+Till exempel kan ett olagligt inlägg:
+* kan anses vara ärekränkande
+* innehåller personlig och privat information om en annan person
+* innehåller konfidentiell information
+* anses vara en uppmaning till etniskt hat
+* kan anses vara en uppmaning att begå en brottslig handling.
 
-•	sprider information om omständigheter som ska hållas hemliga
+Huruvida en text är olämplig eller inte har något samband med det ämne som diskuteras kommer att avgöras från fall till fall.
 
-•	hetsar mot folkgrupp
+Ett olämpligt inlägg kan till exempel innehålla:
+* innefattar svordomar eller vulgära uttryck
+* hänger inte ihop med det ämne som diskuteras eller länkar till internetmaterial som inte främjar detta ämne
+* är inte nödvändigtvis lagstridiga men kränker någon individ eller grupp
+* innehåller kommersiella budskap
+* innehåller privatpersoners person- eller kontaktuppgifter
 
-•	anstiftar till brott
+Om det material du skickar in bryter mot upphovsrätten eller på annat sätt är olagligt eller olämpligt kommer det att raderas.
 
-Otillbörliga inlägg eller texter kan raderas eller redigeras. Huruvida inlägget är otillbörligt eller saknar samband med temat avgörs från fall till fall.
+## Dataskyddsbeskrivning
 
-Exempel: otillbörliga inlägg
+Kerrokantasi.hel.fi drivs av Helsingfors stad. Helsingfors stad har förbundit sig att skydda integriteten för användarna av sina webbtjänster i enlighet med dataskyddslagen (2018), EU:s allmänna dataskyddsförordning (2016/679) och annan tillämplig lagstiftning.
 
-•	innefattar svordomar eller vulgära uttryck
+När du är klient vid stadens tjänster eller på annat sätt sköter ärenden med staden, samlar staden in personuppgifter om dig i den utsträckning som krävs för ärendet. Alla uppgifter samlas in i olika register beroende på användningsändamålet med uppgifterna. Dataskyddsbeskrivningar finns för registren. De finns på www.hel.fi/tietosuoja. På sidan finns [Behandlingen av personuppgifter i Helsingfors stads responskanal och digitala delaktighetstjänster](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Behandlingen%20av%20personuppgifter%20i%20Helsingfors%20stads%20responskanal%20och%20digitala%20delaktighetstjanster.pdf) för webbplatsen Kerrokantasi. Mer information om de rättigheter som enligt [EU:s dataskyddsförordning](https://www.hel.fi/sv/beslutsfattande-och-forvaltning/information-om-helsingfors/dataskydd-och-informationshantering/dataskydd/den-registrerades-rattigheter-och-hur-man-kan-havda-dem) gäller i Helsingfors stads webbtjänster.
 
-•	hänger inte ihop med det ämne som diskuteras eller länkar till internetmaterial som inte främjar detta ämne
+Personuppgifter som samlas in via Kerrokantasi-tjänsten:
+* E-postadress 
+* Förnamn eller smeknamn
+* Datum för första inloggning till tjänsten
 
-•	är inte nödvändigtvis lagstridiga men kränker någon individ eller grupp
+kommer inte att lämnas ut till tredje part eller användas för andra ändamål. Uppgifterna kommer endast att användas i samband med behandlingen och det fortsatta arbetet med den fråga som hörandet gäller.
 
-•	innehåller kommersiella budskap
+För produktion av Kerrokantasi-innehåll är den information som samlas in:
+* E-postadress
+* Namn och efternamn
+* Organisation som representeras
+* Datum för första inloggning i tjänsten
 
-•	innehåller privatpersoners person- eller kontaktuppgifter
+Tjänsten Kerrokantasi finns i Helsingfors stads Azure-moln med servrar i Irland. De speglas inte till andra Azure-platser. Säkerhetskopiorna finns i Azure i samma region som själva servrarna. Inga personuppgifter behandlas utanför Helsingfors.
 
-Ifall det Material du lägger till kränker upphovsrätten eller annars är mot lagen eller opassande tas det bort.
+Alla personuppgifter som behandlas i stadens molntjänst skyddas av lämpliga säkerhetsnycklar (Microsoft EU Data Boundary). Uppgifterna sparas i tio år efter händelsen, i enlighet med arkiveringstiden för kommunala register.
 
-## Registerbeskrivning
+Innehållsskaparens e-postadress och namn visas för utfrågningarnas administratörer, och namn eller smeknamn och e-postadress visas för kommentarernas moderatorer. Totalt finns det 7-10 sådana användare. Innehållet och kommentarerna i utfrågningarna är tillgängliga via gränssnitten.
 
-När du är klient vid stadens tjänster eller på annat sätt sköter ärenden med staden, samlar staden in personuppgifter om dig i den utsträckning som krävs för ärendet. Alla uppgifter samlas in i olika register beroende på användningsändamålet med uppgifterna. Registerbeskrivningar finns för registren. De finns på www.hel.fi/rekisteriseloste. På sidan finns ett Register över delaktighet och respons (https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Keha/Kanslia-EU-Osallisuuden-ja-palautteiden-rekisteri-SV.pdf) för webbplatsen Kerrokantasi. Mer information om de rättigheter som enligt EU:s dataskyddsförordning (https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd/) gäller i Helsingfors stads webbtjänster.
+Användare kan dela länkadresserna till enskilda sidor på Facebook och X (ex-Twitter) med hjälp av knapparna på sidorna. I detta fall måste användaren också samtycka till användningen av data från dessa tjänster.
 
-## Licensiering av innehållet
+Mer information om [dina rättigheter enligt EU:s allmänna dataskyddsförordning på Helsingfors stads webbtjänster](https://www.hel.fi/sv/beslutsfattande-och-forvaltning/information-om-helsingfors/dataskydd-och-informationshantering/dataskydd/den-registrerades-rattigheter-och-hur-man-kan-havda-dem).
 
-Alla de kreativa under upphovsrätten lydande innehåll, såsom texter, bilder, fonter, ljudupptagningar och videor, som användaren lägger till tjänsten publiceras enligt villkoren i Creative Commons –licensen BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi.
+Du kan begära att dina användaruppgifter raderas genom att skicka ett e-postmeddelande till kerrokantasi at hel.fi.
+
+I tjänsten används också stadens Matomo-lösning för besökaruppföljning, vars insamlade uppgifter beskrivs i avsnittet Kakor.
+
+## Licensiering av innehåll
+
+Alla de kreativa under upphovsrätten lydande innehåll, såsom texter, bilder, fonter, ljudupptagningar och videor, som användaren lägger till tjänsten publiceras enligt villkoren i [Creative Commons –licensen Erkännande-IckeKommersiell-DelaLika 4.0 Internationell (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.sv)
 
 All data inom tjänsten publiceras som öppen data, enligt villkoren i Open Data Commons Open Database Licence (ODbL).
 
-## Kakor
+## Om kakor
 
 Den här webbplatsen använder webbkakor.
 
-En webbkaka (cookie) är en textfil som webbläsaren lagrar på användarens enhet. Kakor möjliggör egenskaper som underlättar användningen av tjänsten. De kan också användas för att samla in information om användarna i syfte att förbättra tjänsten. Med hjälp av kakor skapar vi en smidigare och mer välfungerande webbplats som allt bättre kan beakta användarnas behov.
+En webbkaka (cookie) är filer som lagras av webbläsaren på användarens enhet. Kakor används för att möjliggöra funktioner som gör tjänsten enklare att använda och för att samla in information om användare i syfte att förbättra tjänsten. Kakor gör det möjligt för oss att ge dig en mer användarvänlig och funktionell webbplats som bättre uppfyller dina behov.
 
-I fråga om webbanalys innefattar kakorna en anonym, individuell kod som ger oss information om olika besökare på webbplatsen och bland annat om besökarnas webbläsare och enheter. Webbadministratören ser inga uppgifter som identifierar besökaren. Kakorna ger information om hur man rör sig på webbplatsen via webbläsaren och vilka sidor som visas.
+När det gäller insamling av användardata innehåller kakor anonyma unika identifierare som gör det möjligt för oss att samla in information om användare som besöker vår webbplats, t.ex. information om deras webbläsare och enheter.
 
-Dessutom används innehåll ur utomstående webbtjänster på webbplatsen. De utomstående webbtjänsterna kan placera egna kakor i webbläsaren.
+Webbplatsadministratörer har inte tillgång till användarnas unika identifierare. Kakor ger oss information om vilka webbläsare som används på våra webbplatser och vilka sidor som oftast besöks.
+
+Denna webbplats innehåller också innehåll som tillhandahålls av externa leverantörer av onlinetjänster. Externa leverantörer av onlinetjänster kan installera sina egna kakor i webbläsare.
+
+Användaren har möjlighet att kontrollera användningen av kakor genom ett kakor samtycke.
+
+Den information som Matomo samlar in för besöksstatistik är anonym och kan inte kopplas till någon enskild person. Denna information omfattar
+* IP-adress
+* Geografisk plats på stadsnivå
+* Enhetsmodell och operativsystem
+* Webbläsare som används
+* tid
+* Sidor som går in i och ut ur tjänsten
+* Besökta sidor och aktivitet på webbplatsen
+
+#### Hantera webbkakor
+
+Förutom spårning av besökare använder vissa innehållsleverantörer, till exempel YouTube-videor, också sina egna kakor, som kan hanteras via kakinställningarna.
+
+Förslag till förbättringar av tjänsten kan skickas till kerrokantasi at hel.fi.
