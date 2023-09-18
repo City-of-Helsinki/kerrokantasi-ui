@@ -10,7 +10,7 @@ const CONTACTS = 'contactPersons';
 
 const byId = handleActions(
   {
-    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { contactPersons } }) => {
+    [EditorActions.RECEIVE_CONTACT_PERSONS]: (state, { payload: { contactPersons } }) => {
       return contactPersons.entities.contactPersons ? contactPersons.entities.contactPersons : [];
     },
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { entities } }) => ({
@@ -23,7 +23,7 @@ const byId = handleActions(
 
 const all = handleActions(
   {
-    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { contactPersons } }) =>
+    [EditorActions.RECEIVE_CONTACT_PERSONS]: (state, { payload: { contactPersons } }) =>
       contactPersons.result.map(key => key.toString()),
     [EditorActions.UPDATE_HEARING_AFTER_SAVE]: (state, { payload: { entities } }) => [
       ...new Set([...state, ...keys(entities[CONTACTS])]),

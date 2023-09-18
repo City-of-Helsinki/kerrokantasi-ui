@@ -31,12 +31,26 @@ export const normalizeReceiveEditorMetaData =
   () => (next: (action: FSA) => any) => (action: FSA) => {
     if (action.type === EditorActions.RECEIVE_META_DATA) {
       const labels = get(action, 'payload.labels');
-      const contacts = get(action, 'payload.contactPersons');
       const organizations = get(action, 'payload.organizations');
       const normalizedMetaData = {
         labels: normalize(fillFrontIds(labels), labelResultsSchema),
-        contactPersons: normalize(fillFrontIds(contacts), contactPersonResultsSchema),
         organizations: normalize(fillFrontIds(organizations), OrganizationResultsSchema),
+      };
+      next({
+        type: action.type,
+        payload: normalizedMetaData,
+      });
+    } else {
+      next(action);
+    }
+  };
+
+export const normalizeReceiveEditorContactPersons =
+  () => (next: (action: FSA) => any) => (action: FSA) => {
+    if (action.type === EditorActions.RECEIVE_CONTACT_PERSONS) {
+      const contacts = get(action, 'payload.contactPersons');
+      const normalizedMetaData = {
+        contactPersons: normalize(fillFrontIds(contacts), contactPersonResultsSchema),
       };
       next({
         type: action.type,
@@ -79,6 +93,7 @@ export const sectionFrontIds = () => (next: (action: FSA) => any) => (action: FS
 export default [
   sectionFrontIds,
   normalizeReceiveEditorMetaData,
+  normalizeReceiveEditorContactPersons,
   normalizeReceivedHearing,
   normalizeSavedHearing
 ];

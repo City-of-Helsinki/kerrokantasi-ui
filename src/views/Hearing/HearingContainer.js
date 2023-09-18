@@ -24,7 +24,7 @@ const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */'../../c
 export class HearingContainerComponent extends React.Component {
   constructor(props) {
     super(props);
-    const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}, location} = this.props;
+    const {fetchProjectsList, fetchHearing, fetchEditorMetaData, match: {params}, location } = this.props;
     if (location.search.includes('?preview')) {
       // regex match to get the ?preview=key and substring to retrieve the key part
       fetchHearing(params.hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
@@ -76,7 +76,6 @@ export class HearingContainerComponent extends React.Component {
       hearingDraft,
       hearingLanguages,
       isLoading,
-      contactPersons,
       organizations,
       setLanguage
     } = this.props;
@@ -103,7 +102,6 @@ export class HearingContainerComponent extends React.Component {
                   labels={labels}
                   user={user}
                   isLoading={isLoading}
-                  contactPersons={contactPersons}
                   organizations={organizations}
                 />
               </Suspense>
@@ -140,7 +138,6 @@ HearingContainerComponent.propTypes = {
   hearingDraft: PropTypes.object,
   hearingLanguages: PropTypes.array,
   isLoading: PropTypes.bool,
-  contactPersons: PropTypes.array,
   organizations: PropTypes.arrayOf(organizationShape),
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
@@ -158,7 +155,6 @@ const mapStateToProps = (state, ownProps) => ({
   labels: HearingEditorSelector.getLabels(state),
   user: getUser(state),
   isLoading: HearingEditorSelector.getIsLoading(state),
-  contactPersons: HearingEditorSelector.getContactPersons(state),
   organizations: state.hearingEditor.organizations.all,
 });
 

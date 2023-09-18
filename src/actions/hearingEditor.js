@@ -47,6 +47,7 @@ export const EditorActions = {
   EDIT_SECTION: 'changeSection',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
+  FETCH_CONTACT_PERSONS: 'beginFetchHearingEditorContactPersons',
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   INIT_NEW_HEARING: 'initNewHearing',
   INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
@@ -56,6 +57,7 @@ export const EditorActions = {
   PUBLISH_HEARING: 'publishingHearing',
   RECEIVE_HEARING: 'editorReceiveHearing',
   RECEIVE_META_DATA: 'receiveHearingEditorMetaData',
+  RECEIVE_CONTACT_PERSONS: 'receiveHearingEditorContactPersons',
   REMOVE_SECTION: 'removeSection',
   SAVE_HEARING_FAILED: 'saveHearingFailed',
   SAVE_HEARING_SUCCESS: 'savedHearingChange',
@@ -212,21 +214,46 @@ export function fetchHearingEditorMetaData() {
     dispatch(fetchAction);
     return Promise.all([
       /* labels */ api.getAllFromEndpoint(getState(), '/v1/label/'),
-      /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
       /* organizations */ api.getAllFromEndpoint(getState(), '/v1/organization/'),
     ])
-      .then(([labels, contacts, organizations]) => {
+      .then(([labels, organizations]) => {
         dispatch(
           createAction(EditorActions.RECEIVE_META_DATA)({
             // Unwrap the DRF responses:
             labels,
-            contactPersons: contacts,
             organizations,
           }),
         );
       })
       .catch(err => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({err}));
+        return err;
+      })
+      .then(err => {
+        if (err) {
+          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+        }
+      });
+  };
+}
+
+export function fetchHearingEditorContactPersons() {
+  return (dispatch, getState) => {
+    const fetchAction = createAction(EditorActions.FETCH_CONTACT_PERSONS)();
+    dispatch(fetchAction);
+    return Promise.all([
+    /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
+    ])
+      .then(([contacts]) => {
+        dispatch(
+          createAction(EditorActions.RECEIVE_CONTACT_PERSONS)({
+            // Unwrap the DRF responses:
+            contactPersons: contacts,
+          }),
+        );
+      })
+      .catch(err => {
+        dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
         return err;
       })
       .then(err => {
@@ -264,7 +291,7 @@ export function addContact(contact, selectedContacts) {
           notifySuccess('Luonti onnistui');
         }
       })
-      .then(() => dispatch(fetchHearingEditorMetaData()))
+      .then(() => dispatch(fetchHearingEditorContactPersons()))
       .catch(requestErrorHandler(dispatch, postContactAction));
   };
 }
@@ -286,7 +313,7 @@ export function saveContact(contact) {
           notifySuccess('Muokkaus onnistui');
         }
       })
-      .then(() => dispatch(fetchHearingEditorMetaData()))
+      .then(() => dispatch(fetchHearingEditorContactPersons()))
       .catch(requestErrorHandler());
   };
 }
