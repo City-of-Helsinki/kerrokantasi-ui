@@ -16,6 +16,7 @@ const defaultProps = {
   user: mockUser,
   language: 'fi',
   isNewHearing: true,
+  fetchEditorContactPersons: jest.fn(),
 };
 
 describe('HearingEditor', () => {
