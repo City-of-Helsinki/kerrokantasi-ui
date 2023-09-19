@@ -3,15 +3,13 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapdonHKRPlugin from './plugins/legacy/mapdon-hkr';
-import MapdonKSVPlugin from './plugins/legacy/mapdon-ksv';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import config from '../config';
-import {get} from 'lodash';
+import { get } from 'lodash';
 
 export default class PluginContent extends React.Component {
   componentDidMount() {
-    const {hearingSlug, section, comments} = this.props;
+    const { hearingSlug, section, comments } = this.props;
     // comment fetching may already be taking place in a comment list!
     // legacy plugins have no need for comments
     if (!get(comments, 'isFetching') &&
@@ -22,7 +20,7 @@ export default class PluginContent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {hearingSlug, section} = this.props;
+    const { hearingSlug, section } = this.props;
     const isFetching = get(nextProps.comments, 'isFetching');
     const results = get(nextProps.comments, 'results');
 
@@ -33,7 +31,7 @@ export default class PluginContent extends React.Component {
   }
 
   render() {
-    const {user, section, onPostComment, onPostVote} = this.props;
+    const { section, onPostComment, onPostVote } = this.props;
     const comments = this.props.comments ? this.props.comments.results : [];
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
@@ -42,32 +40,33 @@ export default class PluginContent extends React.Component {
       // reserved word for legacy plugin
       case "mapdon-hkr":
         return (
-          <MapdonHKRPlugin
+          <MapQuestionnaire
             data={section.plugin_data}
             onPostComment={onPostComment}
+            pluginInstanceId="hkr"
           />
         );
       // reserved word for legacy plugin
       case "mapdon-ksv":
         return (
-          <MapdonKSVPlugin
+          <MapQuestionnaire
             data={section.plugin_data}
             onPostComment={onPostComment}
+            onPostVote={onPostVote}
+            pluginInstanceId="ksv"
             pluginPurpose="postComments"
-            canSetNickname={user === null}
           />
         );
       // include here any other matching criteria, e.g. for non-map plugins
       default:
         return (
           <MapQuestionnaire
+            comments={comments}
             data={section.plugin_data}
             onPostComment={onPostComment}
             onPostVote={onPostVote}
-            comments={comments}
+            pluginInstanceId="map"
             pluginPurpose="postComments"
-            canSetNickname={user === null}
-            displayCommentBox={false}
             pluginSource={config.pluginMap[section.plugin_identifier].path} //
           />
         );

@@ -34,6 +34,7 @@ import {
   sectionMoveUp,
   startHearingEdit,
   unPublishHearing,
+  fetchHearingEditorContactPersons,
 } from '../../actions/hearingEditor';
 import {deleteHearingDraft} from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -63,6 +64,8 @@ class HearingEditor extends React.Component {
       errors: {},
       commentReportsOpen: false,
     };
+    const { fetchEditorContactPersons } = this.props;
+    fetchEditorContactPersons();
   }
 
   toggleCommentReports() {
@@ -309,7 +312,7 @@ class HearingEditor extends React.Component {
   }
 
   render() {
-    const {hearing, isNewHearing} = this.props;
+    const {hearing, isNewHearing, dispatch } = this.props;
     return (
       <div className="hearing-editor">
         {this.getHearingForm()}
@@ -319,7 +322,7 @@ class HearingEditor extends React.Component {
           <HearingToolbar
             hearing={hearing}
             onCloseHearing={this.onCloseHearing}
-            onEdit={() => this.props.dispatch(startHearingEdit())}
+            onEdit={() => dispatch(startHearingEdit())}
             onPublish={this.onPublish}
             onReportsClick={this.toggleCommentReports}
             onRevertPublishing={this.onUnPublish}
@@ -351,13 +354,22 @@ HearingEditor.propTypes = {
   language: PropTypes.string,
   isNewHearing: PropTypes.bool,
   intl: PropTypes.object,
+  fetchEditorContactPersons: PropTypes.func,
 };
+
+const mapDispatchToProps = dispatch => ({
+  fetchEditorContactPersons: () => dispatch(fetchHearingEditorContactPersons()),
+  dispatch,
+});
+
+const mapStateToProps = (state) => ({
+  show: EditorSelector.getShowForm(state),
+  language: state.language,
+  contactPersons: EditorSelector.getContactPersons(state),
+});
 
 export {HearingEditor as UnconnectedHearingEditor};
 
-const WrappedHearingEditor = connect((state) => ({
-  show: EditorSelector.getShowForm(state),
-  language: state.language
-}))(injectIntl(HearingEditor));
+const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;
