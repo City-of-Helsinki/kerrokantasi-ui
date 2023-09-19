@@ -7,7 +7,7 @@ import {notifyError} from '../../src/utils/notify';
 jest.mock('../../src/utils/notify');
 
 const defaultProps = {
-  contactPersons: mockStore.hearing.mockHearing.data.contact_persons,
+  contactPersons: [],
   dispatch: jest.fn(),
   show: true,
   hearing: mockStore.hearing.mockHearing.data,
@@ -16,7 +16,7 @@ const defaultProps = {
   user: mockUser,
   language: 'fi',
   isNewHearing: true,
-  fetchEditorContactPersons: jest.fn(),
+  fetchEditorContactPersons: jest.fn().mockResolvedValue(mockStore.hearing.mockHearing.data.contact_persons),
 };
 
 describe('HearingEditor', () => {
