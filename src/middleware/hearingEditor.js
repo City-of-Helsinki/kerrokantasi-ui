@@ -40,7 +40,7 @@ export const normalizeReceiveEditorMetaData =
   };
 
 export const normalizeReceiveEditorContactPersons =
-  () => (next: (action: FSA) => any) => (action: FSA) => {
+  () => (next) => (action) => {
     if (action.type === EditorActions.RECEIVE_CONTACT_PERSONS) {
       const contacts = get(action, 'payload.contactPersons');
       const normalizedMetaData = {
