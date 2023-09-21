@@ -10,8 +10,12 @@ import classNames from 'classnames';
 import getMessage from '../../utils/getMessage';
 import config from '../../config';
 
-class LanguageSwitcher extends React.Component {
-  changeLanguage = (history, location, nextLang) => {
+const LanguageSwitcher = ({ currentLanguage, history, location }) => {
+  const { languages } = config;
+
+  const options = languages.map((code) => ({ code, label: getMessage(`lang-${code}`) }));
+
+  const changeLanguage = (nextLang) => {
     const languageParam = stringify({ lang: nextLang });
     let searchParams;
     if (location.search.includes('lang=')) {
@@ -25,21 +29,16 @@ class LanguageSwitcher extends React.Component {
     });
   };
 
-  render() {
-    const { currentLanguage, history, location } = this.props;
-    const { languages } = config;
-    const options = languages.map((code) => ({ code, label: getMessage(`lang-${code}`) }));
-    return (
-      <Select
-        className={classNames('language-switcher')}
-        icon={<span style={{ width: '20px', marginRight: '12px' }}>{currentLanguage}</span>}
-        defaultValue={options.find((item) => item.code === currentLanguage)}
-        options={options}
-        onChange={(selected) => this.changeLanguage(history, location, selected.code)}
-      />
-    );
-  }
-}
+  return (
+    <Select
+      className={classNames('language-switcher')}
+      icon={<span style={{ width: '20px', marginRight: '12px' }}>{currentLanguage}</span>}
+      defaultValue={options.find((item) => item.code === currentLanguage)}
+      options={options}
+      onChange={(selected) => changeLanguage(selected.code)}
+    />
+  );
+};
 
 LanguageSwitcher.propTypes = {
   currentLanguage: PropTypes.string,
