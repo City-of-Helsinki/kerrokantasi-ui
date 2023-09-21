@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, OverlayTrigger, Tooltip, Label} from 'react-bootstrap';
+import {OverlayTrigger, Button, Tooltip, Label} from 'react-bootstrap';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
 import Icon from '../../utils/Icon';

@@ -1,6 +1,5 @@
-// @flow
 import {normalize} from 'normalizr';
-import uuid from 'uuid/v1';
+import { v1 as uuid } from 'uuid';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
 import {assign, flowRight} from 'lodash';
@@ -14,29 +13,58 @@ const ATTR_WITH_FRONT_ID = [
   'contact_persons',
 ];
 
+/**
+ * 
+ * @param {Object} obj 
+ * @param {Function} idGenerator 
+ * @returns 
+ */
 export const fillFrontId = (
-  obj: {frontId: ?string, id: ?string},
-  idGenerator: () => string = uuid
+  obj,
+  idGenerator,
 ) => (
   {
     ...obj,
-    frontId: obj.frontId || obj.id || idGenerator(),
+    frontId: obj.frontId || obj.id || (idGenerator ? idGenerator() : uuid()),
   }
 );
-
-export const fillFrontIds = (thingz: Array<Object>, idGenerator: () => string = uuid) =>
+/**
+ * 
+ * @param {Object} thingz 
+ * @param {Function} idGenerator 
+ * @returns 
+ */
+export const fillFrontIds = (thingz, idGenerator) =>
   thingz.map((thing) => fillFrontId(thing, idGenerator));
 
-export const normalizeEntitiesByFrontId = (data: Object, entityKey: string, idGenerator: () => string = uuid) =>
+/**
+ * 
+ * @param {Object} data 
+ * @param {String} entityKey 
+ * @param {Function} idGenerator 
+ * @returns 
+ */
+export const normalizeEntitiesByFrontId = (data, entityKey, idGenerator) =>
   normalize({
     ...data,
     [entityKey]: fillFrontIds(data[entityKey], idGenerator),
   }, hearingSchema).entities[entityKey] || {};
 
-export const normalizeHearing = (hearing: Object) =>
+/**
+ * 
+ * @param {Hearing} hearing 
+ * @returns 
+ */
+export const normalizeHearing = (hearing) =>
   normalize(hearing, hearingSchema);
 
-export const fillFrontIdsForAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => ({
+/**
+ * 
+ * @param {Object} data 
+ * @param {Array<string>} attrKeys 
+ * @returns 
+ */
+export const fillFrontIdsForAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => ({
   ...data,
   ...attrKeys.reduce((filled, key) => ({
     ...filled,
@@ -44,16 +72,30 @@ export const fillFrontIdsForAttributes = (data: Object, attrKeys: Array<string> 
   }), {})
 });
 
-export const removeFrontId = (obj: Object) => {
+/**
+ * 
+ * @param {Object} obj 
+ * @returns 
+ */
+export const removeFrontId = (obj) => {
   const result = {...obj};
   delete result.frontId;
   return result;
 };
 
-export const filterFrontIds = (thingz: Array<Object>) =>
+/**
+ * 
+ * @param {Object} thingz 
+ * @returns 
+ */
+export const filterFrontIds = (thingz) =>
   thingz.map(removeFrontId);
 
-export const filterFrontIdFromPhases = (data: Object) => {
+/**
+ * @param {Object} data
+ * @returns
+ */
+export const filterFrontIdFromPhases = (data) => {
   const cleanedPhases = data.project.phases.map(phase => {
     if (phase.frontId) return removeFrontId(updeep({id: ''}, phase));
     return phase;
@@ -65,7 +107,13 @@ export const filterFrontIdFromPhases = (data: Object) => {
   }, data);
 };
 
-export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => {
+/**
+ * 
+ * @param {Object} data 
+ * @param {Array<string>} attrKeys 
+ * @returns 
+ */
+export const filterFrontIdsFromAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => {
   let filteredPhasesData = data;
   if (data.project && data.project.phases) {
     filteredPhasesData = filterFrontIdFromPhases(data);

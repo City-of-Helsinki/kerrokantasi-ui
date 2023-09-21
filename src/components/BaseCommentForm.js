@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import uuid from 'uuid/v1';
+import { v1 as uuid } from 'uuid';
 import Icon from '../utils/Icon';
 import { getImageAsBase64Promise } from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
