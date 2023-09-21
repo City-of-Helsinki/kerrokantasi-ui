@@ -7,6 +7,12 @@ import updeep from 'updeep';
 
 import { hearingSchema } from '../types';
 
+const ATTR_WITH_FRONT_ID = [
+  'sections',
+  'labels',
+  'contact_persons',
+];
+
 /**
  *
  * @param {Object} obj
@@ -148,6 +154,7 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
 
 export const getDocumentOrigin = () => (
+  // eslint-disable-next-line sonarjs/no-nested-template-literals
   `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`);
 
 export const moveSubsectionInArray = (array, index, delta) => {

@@ -1,6 +1,7 @@
 import { find, values, merge } from 'lodash';
 
 import initAttr from './initAttr';
+// eslint-disable-next-line import/no-cycle
 import { acceptsComments } from "./hearing";
 import { isAdmin } from "./user";
 import config from '../config';

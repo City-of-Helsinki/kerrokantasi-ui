@@ -18,7 +18,6 @@ import CommentForm from './BaseCommentForm';
 import { getNickname, getAuthorDisplayName } from '../utils/user';
 import { getSectionCommentingMessage } from '../utils/section';
 import { getUser } from '../selectors/user';
-import classnames from 'classnames';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',

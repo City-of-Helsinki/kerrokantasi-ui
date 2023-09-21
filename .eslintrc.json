@@ -10,10 +10,9 @@
     "plugin:import/warnings",
     "airbnb",
     "prettier",
-    "plugin:flowtype/recommended",
     "plugin:sonarjs/recommended"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {
@@ -29,7 +28,6 @@
     "react",
     "prettier",
     "import",
-    "flowtype",
     "sonarjs"
   ],
   "rules": {

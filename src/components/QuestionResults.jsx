@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid/v1';
+import { v1 as uuid } from 'uuid';
 import { ProgressBar } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 

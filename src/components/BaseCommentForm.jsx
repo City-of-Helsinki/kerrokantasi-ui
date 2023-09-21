@@ -6,7 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import uuid from 'uuid/v1';
+import { v1 as uuid } from 'uuid';
 import { get, includes } from 'lodash';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
 import urls from '@city-assets/urls.json';

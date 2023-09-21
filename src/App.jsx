@@ -5,20 +5,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
-import messages from './i18n';
 import Helmet from 'react-helmet';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { fetchApiToken } from './actions';
-import config from './config';
-import Routes from './routes';
 import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { checkHeadlessParam } from './utils/urlQuery';
 import classNames from 'classnames';
 import { HashLink } from 'react-router-hash-link';
-import CookieBar from './components/CookieBar/CookieBar';
-import MaintenanceNotification from './components/MaintenanceNotification';
 
 import messages from './i18n';
 import Header from './components/Header';
@@ -27,9 +18,10 @@ import { fetchApiToken } from './actions';
 import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
+import CookieBar from './components/CookieBar/CookieBar';
+import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import CookieBar from './components/CookieBar/CookieBar';
 
 class App extends React.Component {
   getChildContext() {

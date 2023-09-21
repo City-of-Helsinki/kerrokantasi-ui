@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import { Provider } from 'nconf';
 
 const defaults = {

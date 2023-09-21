@@ -1,9 +1,7 @@
-import fetch from './mockable-fetch';
-import config from './config';
-import merge from 'lodash/merge';
-import qs from 'querystring-es3';
+/* eslint-disable no-param-reassign */
 import urlUtil from 'url';
 
+import qs from 'querystring-es3';
 import merge from 'lodash/merge';
 
 import fetch from './mockable-fetch';

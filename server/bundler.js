@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 import fs from 'fs';
 import path from "path";
@@ -43,7 +44,7 @@ export function getCompiler(settings, withProgress) {
     settings.bundleSrc = (compilation.options.output.publicPath || './') + chunks[0].files[0];
     callback();
   });
-  
+
   compiler.hooks.afterEmit.tapAsync('Finished', (compilation, callback) => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),

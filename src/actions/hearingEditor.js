@@ -190,9 +190,8 @@ export function fetchHearingEditorMetaData() {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
     dispatch(fetchAction);
     return Promise.all([
-      /* labels */ api.getAllFromEndpoint(getState(), '/v1/label/'),
-      /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
-      /* organizations */ api.getAllFromEndpoint(getState(), '/v1/organization/'),
+      /* labels */ getAllFromEndpoint(getState(), '/v1/label/'),
+      /* organizations */ getAllFromEndpoint(getState(), '/v1/organization/'),
     ])
       .then(([labels, organizations]) => {
         dispatch(
@@ -220,7 +219,7 @@ export function fetchHearingEditorContactPersons() {
     const fetchAction = createAction(EditorActions.FETCH_CONTACT_PERSONS)();
     dispatch(fetchAction);
     return Promise.all([
-    /* contacts */ api.getAllFromEndpoint(getState(), '/v1/contact_person/'),
+    /* contacts */ getAllFromEndpoint(getState(), '/v1/contact_person/'),
     ])
       .then(([contacts]) => {
         dispatch(
@@ -240,6 +239,10 @@ export function fetchHearingEditorContactPersons() {
         }
       });
   };
+}
+
+export function changeHearing(field, value) {
+  return dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
 }
 
 export function addContact(contact, selectedContacts) {
