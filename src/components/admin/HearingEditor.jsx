@@ -65,7 +65,9 @@ class HearingEditor extends React.Component {
       errors: {},
       commentReportsOpen: false,
     };
+
     const { fetchEditorContactPersons } = this.props;
+
     fetchEditorContactPersons();
   }
 
@@ -171,11 +173,6 @@ class HearingEditor extends React.Component {
     this.props.dispatch(closeHearing(this.props.hearing));
   }
 
-  onDeleteHearingDraft = () => {
-    const { hearing } = this.props;
-    this.props.dispatch(deleteHearingDraft(hearing.id, hearing.slug));
-  };
-
   getHearingForm() {
     const { contactPersons, organizations, hearing, hearingLanguages, labels, dispatch, show, language } = this.props;
     const { errors } = this.state;
@@ -224,6 +221,19 @@ class HearingEditor extends React.Component {
     );
   }
 
+  sectionMoveUp = (sectionId) => {
+    this.props.dispatch(sectionMoveUp(sectionId));
+  };
+
+  sectionMoveDown = (sectionId) => {
+    this.props.dispatch(sectionMoveDown(sectionId));
+  };
+
+  onDeleteHearingDraft = () => {
+    const { hearing } = this.props;
+    this.props.dispatch(deleteHearingDraft(hearing.id, hearing.slug));
+  };
+
   initSingleChoiceQuestion = (sectionId) => {
     const { dispatch } = this.props;
     dispatch(initSingleChoiceQuestion(sectionId));
@@ -247,14 +257,6 @@ class HearingEditor extends React.Component {
   deleteOption = (sectionId, questionId) => {
     const { dispatch } = this.props;
     dispatch(deleteLastOption(sectionId, questionId));
-  };
-
-  sectionMoveUp = (sectionId) => {
-    this.props.dispatch(sectionMoveUp(sectionId));
-  };
-
-  sectionMoveDown = (sectionId) => {
-    this.props.dispatch(sectionMoveDown(sectionId));
   };
 
   /**
@@ -306,6 +308,7 @@ class HearingEditor extends React.Component {
     }
 
     // true if one of the keys in localErrors contain entries
+    // eslint-disable-next-line no-unused-vars
     this.setState({ errors: localErrors });
     const containsError = Object.entries(localErrors).some(([, v]) => Object.entries(v).length > 0);
     if (!containsError) {
@@ -315,7 +318,7 @@ class HearingEditor extends React.Component {
   };
 
   toggleCommentReports() {
-    this.setState((prevState) => ({ commentReportsOpen: !prevState.commentReportsOpen }));
+    this.setState((prevState) => ({ ...prevState, commentReportsOpen: !prevState.commentReportsOpen }));
   }
 
   render() {
@@ -376,9 +379,6 @@ const mapStateToProps = (state) => ({
 
 export { HearingEditor as UnconnectedHearingEditor };
 
-const WrappedHearingEditor = connect((state) => ({
-  show: EditorSelector.getShowForm(state),
-  language: state.language,
-}))(injectIntl(HearingEditor));
+const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(injectIntl(HearingEditor));
 
 export default WrappedHearingEditor;
