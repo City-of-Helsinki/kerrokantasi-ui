@@ -1,8 +1,6 @@
-/* eslint-disable react/self-closing-comp */
-import cookiebotUtils from './cookiebotUtils';
+/* eslint-disable no-underscore-dangle */
+import { isCookiebotEnabled, cookieBotAddListener, cookieBotRemoveListener, getCookieBotScripts } from './cookiebotUtils';
 import config from '../config';
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 import setupMatomo from './matomo';
 
 
@@ -11,19 +9,10 @@ function getCookie(name) {
   return decodeURIComponent(cookie ? cookie.at(2) : '');
 }
 
-function cookieOnComponentDidMount() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    cookiebotUtils.cookieBotAddListener();
-  } else if (config.enableCookies) {
-    checkCookieConsent();
-  }
+export function enableMatomoTracking() {
+  window._paq.push(['setConsentGiven']);
 }
 
-function cookieOnComponentWillUnmount() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    cookiebotUtils.cookieBotRemoveListener();
-  }
-}
 
 /**
  * Initial check on page load to enable cookies if
@@ -41,14 +30,27 @@ export function checkCookieConsent() {
   }
 }
 
-export function enableMatomoTracking() {
-  window._paq.push(['setConsentGiven']);
+
+function cookieOnComponentDidMount() {
+  if (isCookiebotEnabled()) {
+    cookieBotAddListener();
+  } else if (config.enableCookies) {
+    checkCookieConsent();
+  }
 }
+
+export function cookieOnComponentWillUnmount() {
+  if (isCookiebotEnabled()) {
+    cookieBotRemoveListener();
+  }
+}
+
+
 
 /**
  * This is the initial setup for trackers that can be disabled on initialization.
  */
-function addCookieScripts() {
+export function addCookieScripts() {
   setupMatomo();
   return true;
 }
@@ -59,17 +61,20 @@ function addCookieScripts() {
  * @returns {JSX.Element|null} script element or null
  */
 export function getCookieScripts() {
-  if (cookiebotUtils.isCookiebotEnabled()) {
-    return cookiebotUtils.getCookieBotScripts();
-  } else if (config.enableCookies) {
+  if (isCookiebotEnabled()) {
+    return getCookieBotScripts();
+  }
+
+  if (config.enableCookies) {
     return addCookieScripts();
   }
+
   return null;
 }
 
 export function getHDSCookieConfig(siteName, language, setLanguage, modal = true) {
-  let config = {
-    siteName: siteName,
+  const cookieConfig = {
+    siteName,
     currentLanguage: language,
     optionalCookies: {
       groups: [
@@ -93,9 +98,9 @@ export function getHDSCookieConfig(siteName, language, setLanguage, modal = true
     },
   };
   if (modal) {
-    config.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
+    cookieConfig.focusTargetSelector = '#focused-element-after-cookie-consent-closed';
   }
-  return config;
+  return cookieConfig;
 }
 
 export default {

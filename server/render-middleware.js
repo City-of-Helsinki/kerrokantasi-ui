@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import Html from './Html';
 import fetch from 'node-fetch';
+
+import Html from './Html';
 
 const hearingDataCache = {};
 function getHearingDataCached(settings, hearingSlug, ttl = 30 * 60 * 1000) {

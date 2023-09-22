@@ -35,9 +35,9 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       __DEVTOOLS__: true,
-      'process.env': {NODE_ENV: JSON.stringify('development')}
+      'process.env': { NODE_ENV: JSON.stringify('development') }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.LoaderOptionsPlugin({debug: true}),
+    new webpack.LoaderOptionsPlugin({ debug: true }),
   ],
 });

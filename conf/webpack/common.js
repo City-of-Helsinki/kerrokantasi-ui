@@ -10,7 +10,7 @@ const plugins = [
 
 if (process.env.BUNDLE_ANALYZER) {
   // eslint-disable-next-line import/no-extraneous-dependencies
-  const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
   plugins.push(new BundleAnalyzerPlugin());
 }
 
@@ -44,7 +44,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.png$/, 
+        test: /\.png$/,
         use: [
           {
             loader: 'url-loader',
@@ -68,7 +68,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.gif$/, 
+        test: /\.gif$/,
         use: [
           {
             loader: 'url-loader',
@@ -98,7 +98,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 1000000,
-              mimetype: 'image/gif' 
+              mimetype: 'image/gif'
             }
           }
         ]

@@ -1,23 +1,26 @@
 /* eslint-disable no-console */
+import { inspect } from 'util';
+import path from 'path';
+import fs from 'fs';
+
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
-import getSettings from './getSettings';
-import {getCompiler, applyCompilerMiddleware} from './bundler';
-import {inspect} from 'util';
 import morgan from 'morgan';
+
+import getSettings from './getSettings';
+import { getCompiler, applyCompilerMiddleware } from './bundler';
 import renderMiddleware from "./render-middleware";
 import paths from '../conf/paths';
 import assetPaths from '../conf/assetPaths';
-import path from 'path';
-import fs from 'fs';
+
 
 function ignition() {
   const settings = getSettings();
 
   if (settings.dev) {
-    console.log("Settings:\n", inspect(settings, {colors: true}));
+    console.log("Settings:\n", inspect(settings, { colors: true }));
   }
   const server = express();
 
@@ -28,7 +31,7 @@ function ignition() {
   server.use('/favicon', express.static(faviconPath));
   server.use(morgan(settings.dev ? 'dev' : 'combined'));
   server.use(cookieParser());
-  server.use(bodyParser.urlencoded({extended: true}));
+  server.use(bodyParser.urlencoded({ extended: true }));
   server.use((req, res, next) => {
     if (/127\.0\.0\.1/.test(req.hostname)) {
       res.status(400).send("Please use localhost, not 127.0.0.1.");
@@ -36,7 +39,7 @@ function ignition() {
       next();
     }
   });
-  server.use(cookieSession({name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000}));
+  server.use(cookieSession({ name: 's', secret: settings.expressjs_session_secret, maxAge: 86400 * 1000 }));
 
   if (settings.dev) {
     const compiler = getCompiler(settings, true);

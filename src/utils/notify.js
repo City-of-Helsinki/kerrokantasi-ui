@@ -1,6 +1,8 @@
 // This module uses `require` and late imports to support isomorphic rendering.
+import { toast } from 'react-toastify';
+import alertify from 'alertifyjs';
+
 import getMessage from "./getMessage";
-import {toast} from 'react-toastify';
 
 const successOptions = {
   autoClose: 6000,
@@ -26,19 +28,18 @@ const infoOptions = {
 
 export function alert(message, title = "Kerrokantasi") {
   if (typeof window !== 'undefined') {
-    require("alertifyjs").alert(title,
+    alertify.alert(title,
       `<div id="alert-dialog" tabindex="0" aria-labelledby="${message}">
         ${message}
       </div>`
     ).set('onfocus', () => {
       document.getElementById("alert-dialog").focus();
-    }).setting({transition: 'slide'});
+    }).setting({ transition: 'slide' });
   }
 }
 
 export function notifyError(message) {
   if (typeof window !== 'undefined') {
-    // require("alertifyjs").notify(message, 'error', 0);
     if (message) {
       toast.error(message, errorOptions); // add type: 'success' to options
     } else {
@@ -49,7 +50,6 @@ export function notifyError(message) {
 
 export function notifySuccess(message) {
   if (typeof window !== 'undefined') {
-    // require("alertifyjs").notify(message, 'success', 5);
     if (message) {
       toast.success(message, successOptions); // add type: 'success' to options
     } else {
@@ -63,7 +63,6 @@ export function localizedAlert(string) {
 }
 
 export function localizedNotifyError(string) {
-  // return notifyError(getMessage(string));
   if (string) {
     toast.error(getMessage(string), errorOptions); // add type: 'success' to options
   } else {
@@ -72,7 +71,6 @@ export function localizedNotifyError(string) {
 }
 
 export function localizedNotifySuccess(string) {
-  // notifySuccess(getMessage(string));
   if (string) {
     toast.success(getMessage(string), successOptions); // add type: 'success' to options
   } else {

@@ -5,7 +5,7 @@ const config = {
   languages: ['fi', 'sv', 'en'],
   activeLanguage: 'fi',
   publicUrl: (typeof window !== 'undefined' ? window.PUBLIC_URL : null) || 'http://localhost:8086/',
-  apiBaseUrl: (typeof window !== 'undefined' ? window.API_BASE_URL : null) || 'http://localhost:8000/',
+  apiBaseUrl: (typeof window !== 'undefined' ? window.API_BASE_URL : null) || 'http://localhost:8080/',
   uiConfig: typeof window !== 'undefined' ? window.UI_CONFIG : null,
   openIdClientId: typeof window !== 'undefined' ? window.OPENID_CLIENT_ID : null,
   openIdAudience: typeof window !== 'undefined' ? window.OPENID_AUDIENCE : null,

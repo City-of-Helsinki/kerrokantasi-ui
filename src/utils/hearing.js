@@ -1,6 +1,7 @@
-import {get, find, merge, includes} from 'lodash';
+import { get, find, merge, includes } from 'lodash';
 import moment from 'moment';
 
+// eslint-disable-next-line import/no-cycle
 import { initNewSection, SectionTypes, userCanComment } from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';
@@ -20,9 +21,8 @@ export function getMainSection(hearing) {
 * Return URL to hearing view. Accepts optional fullscreen parameter
 * to force fullscreen query parameter.
  */
-export function getHearingURL(hearing, {fullscreen} = {}) {
-  const url = `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
-  return url;
+export function getHearingURL(hearing, { fullscreen } = {}) {
+  return `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
 }
 
 export function getHearingMainImageURL(hearing) {
@@ -83,7 +83,7 @@ export function getSectionByID(hearing, sectionID) {
  * @return {object} Section object
  */
 export function getOrCreateSectionByID(hearing, sectionID) {
-  return getSectionByID(hearing, sectionID) || initNewSection({id: sectionID});
+  return getSectionByID(hearing, sectionID) || initNewSection({ id: sectionID });
 }
 
 /*
@@ -146,16 +146,17 @@ export function getImageAsBase64Promise(image) {
 export function getOpenGraphMetaData(hearing, language) {
   let hostname = "http://kerrokantasi.hel.fi";
   if (typeof HOSTNAME === 'string') {
-    hostname = HOSTNAME;  // eslint-disable-line no-undef
+    // eslint-disable-next-line no-undef
+    hostname = HOSTNAME;
   } else if (typeof window !== 'undefined') {
-    hostname = window.location.protocol + "//" + window.location.host;
+    hostname = `${window.location.protocol}//${window.location.host}`;
   }
-  const url = hostname + "/" + hearing.slug;
+  const url = `${hostname}/${hearing.slug}`;
   return [
-    {property: "og:url", content: url},
-    {property: "og:type", content: "website"},
-    {property: "og:title", content: getAttr(hearing.title, language)},
-    {property: "og:image", content: get(hearing, 'main_image.url', '')},
-    {property: "og:description", content: getAttr(hearing.abstract, language)}
+    { property: "og:url", content: url },
+    { property: "og:type", content: "website" },
+    { property: "og:title", content: getAttr(hearing.title, language) },
+    { property: "og:image", content: get(hearing, 'main_image.url', '') },
+    { property: "og:description", content: getAttr(hearing.abstract, language) }
   ];
 }

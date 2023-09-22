@@ -1,18 +1,18 @@
 
-import {get} from 'lodash';
-import {normalize} from 'normalizr';
+import { get } from 'lodash';
+import { normalize } from 'normalizr';
 
 import {
   EditorActions,
   receiveHearing,
   updateHearingAfterSave
 } from '../actions/hearingEditor';
-import {fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing} from '../utils/hearingEditor';
-import {labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSchema} from '../types';
+import { fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing } from '../utils/hearingEditor';
+import { labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSchema } from '../types';
 
 
 export const normalizeReceivedHearing =
-  ({dispatch}) => (next) => (action) => {
+  ({ dispatch }) => (next) => (action) => {
     const NORMALIZE_ACTIONS = ['receiveHearing'];
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.data');
@@ -56,7 +56,7 @@ export const normalizeReceiveEditorContactPersons =
   };
 
 export const normalizeSavedHearing =
-  ({dispatch}) => (next) => (action) => {
+  ({ dispatch }) => (next) => (action) => {
     const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
 
     if (NORMALIZE_ACTIONS.includes(action.type)) {

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import getMessage from '../../../utils/getMessage';
 
 // finds <iframe> tags wrapped with <figure> in given input,
@@ -6,16 +7,16 @@ export function stripWrappingFigureTags(htmlInput) {
   const startRegex = /<figure><iframe/gi;
   const endRegex = /<\/iframe><\/figure>/gi;
   const firstStrip = htmlInput.replace(startRegex, '<iframe');
-  const secondStrip = firstStrip.replace(endRegex, '</iframe>');
-  return secondStrip;
+
+  return firstStrip.replace(endRegex, '</iframe>');
 }
 
 // finds <iframe> tags wrapped with <div class="iframe-wrapper>"> in given input,
 // removes the wrapping <div> tags and returns the result
 export function stripIframeWrapperDivs(htmlInput) {
   const wrapperRegex = /(<div class="iframe-wrapper"><iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
-  const result = htmlInput.replace(wrapperRegex, '<iframe$2</iframe>');
-  return result;
+
+  return htmlInput.replace(wrapperRegex, '<iframe$2</iframe>');
 }
 
 // adds wrapping <div> tags to all <iframe> tags
@@ -24,8 +25,8 @@ export function addIframeWrapperDivs(htmlInput) {
   const endRegex = /<\/iframe>/gi;
   const responsiveDiv = '<div class="iframe-wrapper">';
   const firstAddition = htmlInput.replace(startRegex, `${responsiveDiv}<iframe`);
-  const secondAddition = firstAddition.replace(endRegex, '</iframe></div>');
-  return secondAddition;
+
+  return firstAddition.replace(endRegex, '</iframe></div>');
 }
 
 // returns an object with iframe attributes
@@ -40,18 +41,22 @@ export function parseIframeHtml(htmlInput) {
   }
 
   const iframeAttributes = iframeElements[0].attributes;
-  const attributeObject = Object.assign({},
-    ...Array.from(iframeAttributes, ({name, value}) => ({[name]: value}))
-  );
 
-  return attributeObject;
+  return Object.assign({},
+    ...Array.from(iframeAttributes, ({ name, value }) => ({ [name]: value }))
+  );
+}
+
+export function removeCssImportant(cssString) {
+  const importantRemoveRegex = / !important/gi;
+  return cssString.replace(importantRemoveRegex, '');
 }
 
 // removes width and/or height from attribute style string,
 // adds or replaces attribute width and height properties with removed style values
 // and returns the resulting attribute object.
 export function convertStyleDimensionSettings(attributes) {
-  const newAttributes = {...attributes};
+  const newAttributes = { ...attributes };
   if ("style" in newAttributes) {
     const style = removeCssImportant(newAttributes.style);
     const widthRegex = /width:\D*(\d+)(?=\D*;)/gi;
@@ -75,12 +80,10 @@ export function convertStyleDimensionSettings(attributes) {
   return newAttributes;
 }
 
-export function removeCssImportant(cssString) {
-  const importantRemoveRegex = / !important/gi;
-  return cssString.replace(importantRemoveRegex, '');
-}
+
 
 export function validateIsNotEmpty(value) {
+  // eslint-disable-next-line sonarjs/prefer-single-boolean-return
   if (!value || value === '') {
     return false;
   }
@@ -111,10 +114,8 @@ export function validateInput(inputName, value) {
   const validationRules = Object.keys(IFRAME_VALIDATION);
   for (let index = 0; index < validationRules.length; index += 1) {
     const rule = IFRAME_VALIDATION[validationRules[index]];
-    if (rule.fields.includes(inputName)) {
-      if (!rule.isValidFn(value)) {
-        return rule.errorMsg;
-      }
+    if (rule.fields.includes(inputName) && !rule.isValidFn(value)) {
+      return rule.errorMsg;
     }
   }
   return '';
@@ -122,7 +123,6 @@ export function validateInput(inputName, value) {
 
 // returns error messages for all given fields
 export function validateForm(fields) {
-  // fields = {fieldName1: value, fieldName2: value,...}
   const inputErrors = {};
   const fieldNames = Object.keys(fields);
   for (let index = 0; index < fieldNames.length; index += 1) {

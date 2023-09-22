@@ -1,4 +1,3 @@
-
 export const getAll = (state) =>
   state.all.map(id => state.byId[id]);
 

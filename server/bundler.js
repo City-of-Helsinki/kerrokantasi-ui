@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable global-require */
 import fs from 'fs';
-import paths from '../conf/paths';
 import path from "path";
+
+import paths from '../conf/paths';
 
 const webpack = require('webpack');
 const ProgressBar = require('progress');
@@ -9,10 +12,10 @@ const debug = require('debug')('bundler');
 function getProgressPlugin() {
   const progress = new ProgressBar(
     '[:bar] :percent :etas :state',
-    {incomplete: ' ', complete: '#', width: 60, total: 100}
+    { incomplete: ' ', complete: '#', width: 60, total: 100 }
   );
   return new webpack.ProgressPlugin((percentage, msg) => {
-    progress.update(percentage, {state: msg.replace(/[\r\n]/g, '')});
+    progress.update(percentage, { state: msg.replace(/[\r\n]/g, '') });
   });
 }
 
@@ -41,7 +44,7 @@ export function getCompiler(settings, withProgress) {
     settings.bundleSrc = (compilation.options.output.publicPath || './') + chunks[0].files[0];
     callback();
   });
-  
+
   compiler.hooks.afterEmit.tapAsync('Finished', (compilation, callback) => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),

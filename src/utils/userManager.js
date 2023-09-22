@@ -1,4 +1,6 @@
+/* eslint-disable sonarjs/no-nested-template-literals */
 import { createUserManager } from "redux-oidc";
+
 import config from "../config";
 
 const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ?

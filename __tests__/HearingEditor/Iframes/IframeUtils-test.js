@@ -13,6 +13,9 @@ import {
   isFormValid,
 } from '../../../src/components/RichTextEditor/Iframe/IframeUtils';
 
+const TEST_URL = "https://google.fi";
+const BORDER_NONE = "border: none;";
+
 describe('IframeUtils', () => {
   describe('stripWrappingFigureTags', () => {
     test('removes figure tags surrounding iframe tags and returns the result', () => {
@@ -45,7 +48,7 @@ describe('IframeUtils', () => {
   describe('parseIframeHtml', () => {
     test('returns an object with iframe attributes when iframe with attributes is found in input', () => {
       const htmlString = '<div><iframe src="https://google.fi" title="test"></iframe></div>';
-      const expectedObj = {src: "https://google.fi", title: "test"};
+      const expectedObj = { src: TEST_URL, title: "test" };
       expect(parseIframeHtml(htmlString)).toEqual(expectedObj);
     });
     test('returns an empty object if iframe doesnt have any attributes', () => {
@@ -63,66 +66,66 @@ describe('IframeUtils', () => {
       const attributesA = { title: "test", style: "width: 12px;" };
       const expectedAttributesA = { title: "test", width: "12", style: "" };
       const attributesB = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         style: "border: none; width: 400px; height: 188px;",
       };
       const expectedAttributesB = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "400",
         height: "188",
-        style: "border: none;",
+        style: BORDER_NONE,
       };
       expect(convertStyleDimensionSettings(attributesA)).toEqual(expectedAttributesA);
       expect(convertStyleDimensionSettings(attributesB)).toEqual(expectedAttributesB);
     });
     test('replaces current attribute dimension properties with style dimensions', () => {
       const attributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "200",
         height: "150",
         style: "border: none; width: 400px; height: 188px;",
       };
       const expectedAttributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "400",
         height: "188",
-        style: "border: none;",
+        style: BORDER_NONE,
       };
       expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
     });
     test('converts correctly with only one given style dimension setting', () => {
       const attributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "200",
         height: "150",
         style: "border: none; width: 400px !important;",
       };
       const expectedAttributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "400",
         height: "150",
-        style: "border: none;",
+        style: BORDER_NONE,
       };
       expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
     });
     test('returns copy of original attributes if there are no style dimension settings', () => {
       const attributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "200",
-        style: "border: none;",
+        style: BORDER_NONE,
       };
       const expectedAttributes = {
-        src: "https://google.fi",
+        src: TEST_URL,
         title: "test",
         width: "200",
-        style: "border: none;",
+        style: BORDER_NONE,
       };
       expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
     });
@@ -180,7 +183,7 @@ describe('IframeUtils', () => {
 
   describe('validateForm', () => {
     test('returns error messages for all given fields', () => {
-      const fields = {src: '', title: '', width: '123', height: 'abc'};
+      const fields = { src: '', title: '', width: '123', height: 'abc' };
       const expectedResult = {
         src: IFRAME_VALIDATION.NOT_EMPTY.errorMsg,
         title: IFRAME_VALIDATION.NOT_EMPTY.errorMsg,

@@ -11,7 +11,7 @@ import {
 } from "../../src/utils/section";
 
 function createAnswers() {
-  const answers = [
+  return [
     {
       answers: [],
       question: 1,
@@ -23,11 +23,10 @@ function createAnswers() {
       type: "multiple-choice"
     },
   ];
-  return answers;
 }
 
 const sectionEmpty = initNewSection();
-const sectionWithQuestions = initNewSection({questions: [{id: 1}, {id: 2}]});
+const sectionWithQuestions = initNewSection({ questions: [{ id: 1 }, { id: 2 }] });
 const answersNone = createAnswers();
 const answersAnswered = createAnswers();
 answersAnswered[0].answers.push(10);
@@ -42,7 +41,7 @@ function createUser(initialValues) {
     nickname: 'Test'
   };
 
-  return {...user, ...initialValues};
+  return { ...user, ...initialValues };
 }
 
 describe('section util tests', () => {
@@ -207,14 +206,14 @@ describe('section util tests', () => {
     });
 
     test('returns true when user has answered some questions', () => {
-      const userWithAnswers = createUser({answered_questions: [1, 2]});
+      const userWithAnswers = createUser({ answered_questions: [1, 2] });
       expect(hasUserAnsweredQuestions(userWithAnswers)).toBe(true);
     });
   });
 
   describe('hasUserAnsweredAllQuestions', () => {
-    const userOneAnswer = createUser({answered_questions: [1]});
-    const userAllAnswers = createUser({answered_questions: [1, 2]});
+    const userOneAnswer = createUser({ answered_questions: [1] });
+    const userAllAnswers = createUser({ answered_questions: [1, 2] });
 
     describe('returns false', () => {
       test('when section has no questions', () => {
@@ -239,7 +238,7 @@ describe('section util tests', () => {
       });
 
       test('when section has no unanswered questions', () => {
-        const userWithAnswers = createUser({answered_questions: [1, 2]});
+        const userWithAnswers = createUser({ answered_questions: [1, 2] });
         expect(getFirstUnansweredQuestion(userWithAnswers, sectionWithQuestions)).toBe(null);
       });
     });
@@ -256,9 +255,9 @@ describe('section util tests', () => {
       });
 
       test('when signed in user has answered some questions', () => {
-        expect(getFirstUnansweredQuestion(createUser({answered_questions: [1]}), sectionWithQuestions))
+        expect(getFirstUnansweredQuestion(createUser({ answered_questions: [1] }), sectionWithQuestions))
           .toBe(sectionWithQuestions.questions[1]);
-        expect(getFirstUnansweredQuestion(createUser({answered_questions: [2]}), sectionWithQuestions))
+        expect(getFirstUnansweredQuestion(createUser({ answered_questions: [2] }), sectionWithQuestions))
           .toBe(sectionWithQuestions.questions[0]);
       });
     });

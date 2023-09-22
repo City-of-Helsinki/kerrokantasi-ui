@@ -11,6 +11,7 @@ export function replace(newFetch = null) {
   fetch = newFetch || defaultFetch;
 }
 
+// eslint-disable-next-line func-names
 export default function (...args) {
   // Proxy on to the current fetch implementation
   return fetch.apply(this, args);
