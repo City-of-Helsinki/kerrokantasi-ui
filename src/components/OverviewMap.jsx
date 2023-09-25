@@ -17,9 +17,13 @@ import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.pn
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
 class OverviewMap extends React.Component {
-  state = {
-    height: this.props.showOnCarousel ? null : this.props.style.height,
-    width: this.props.showOnCarousel ? null : this.props.style.width,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      height: this.props.showOnCarousel ? null : this.props.style.height,
+      width: this.props.showOnCarousel ? null : this.props.style.width,
+    };
   }
 
   componentDidMount() {

@@ -5,7 +5,7 @@ import { FormattedMessage, FormattedRelative } from 'react-intl';
 import moment from 'moment';
 
 import { getIntlAsProp } from '../../test-utils';
-import UserComment from '../../src/components/UserProfile/UserComment';
+import UserComment from '../../src/components/UserComment/UserComment';
 import Icon from '../../src/utils/Icon';
 import Link from '../../src/components/LinkWithLang';
 import HearingMap from '../../src/components/Hearing/HearingMap';

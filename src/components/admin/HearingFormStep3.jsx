@@ -370,6 +370,7 @@ class HearingFormStep3 extends React.Component {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   readTextFile = (file, callback) => {
     try {
       const reader = new FileReader();

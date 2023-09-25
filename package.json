@@ -7,7 +7,7 @@
     "build": "rm -rf ./dist && node compile",
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "dev": "node server --dev --host 0.0.0.0",
-    "lint": "eslint src server __tests__",
+    "lint": "eslint \"src/**/*.{js,jsx}\" && eslint \"server/*.{js,jsx}\" && eslint \"__tests__/**/*.{js,jsx}\"",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",
     "test:watch": "jest --watch",

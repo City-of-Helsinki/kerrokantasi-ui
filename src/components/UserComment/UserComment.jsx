@@ -27,6 +27,7 @@ class UserComment extends React.Component {
    * @example "2021-06-12T22:37:00Z" returned as "12.06.2021 22:37"
    * @returns {string}
    */
+  // eslint-disable-next-line class-methods-use-this
   parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY hh:mm');
 
   /**
@@ -36,6 +37,7 @@ class UserComment extends React.Component {
    */
   dateTooltip = (date) => <Tooltip id='comment-date-tooltip'>{this.parseTimestamp(date)}</Tooltip>;
 
+  // eslint-disable-next-line class-methods-use-this
   renderCommentText = (comment) => {
     if (!comment.deleted) {
       return <p>{nl2br(comment.content)}</p>;

@@ -67,6 +67,7 @@ export class HeaderComponent extends React.Component {
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getComments = (hearing, sections, section, user) => {
     const renderWriteCommentLink = () => {
       if (isSectionCommentable(hearing, section, user)) {
@@ -240,6 +241,7 @@ export class HeaderComponent extends React.Component {
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   writeToClipboard = (url) => {
     navigator.clipboard
       .writeText(url)

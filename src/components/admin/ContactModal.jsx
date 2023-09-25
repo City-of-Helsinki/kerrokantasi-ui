@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
-import { Modal, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Modal, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
