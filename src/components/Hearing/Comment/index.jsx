@@ -181,6 +181,7 @@ class Comment extends React.Component {
    * User moment to convert current timestamp to desired format.
    * @returns {String}
    */
+  // eslint-disable-next-line class-methods-use-this
   parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY hh:mm');
 
   /**
@@ -468,12 +469,14 @@ class Comment extends React.Component {
    * When a comment is pinned, a small black box is displayed on top right corner.
    * @returns {JS<Component>}
    */
+  // eslint-disable-next-line class-methods-use-this
   renderPinnedHeader = () => (
     <div className='hearing-comment-pinned-container'>
       <FormattedMessage id='pinnedComment' />
     </div>
   );
 
+  // eslint-disable-next-line class-methods-use-this
   renderCommentText = (data) => {
     if (!data.deleted && !data.edited) {
       return <p>{nl2br(data.content)}</p>;

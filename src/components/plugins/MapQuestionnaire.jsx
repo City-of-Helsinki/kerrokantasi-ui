@@ -1,7 +1,13 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-case-declarations */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import Button from 'react-bootstrap/lib/Button';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+
 import { alert, localizedNotifyError } from '../../utils/notify';
 import {
   checkFormErrors,
@@ -9,10 +15,6 @@ import {
   isEmptyCommentAllowed,
   hasAnyAnswers,
 } from '../../utils/section';
-import Button from 'react-bootstrap/lib/Button';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import { BaseCommentFormDefaulProps } from '../BaseCommentForm';
 import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
 
@@ -73,6 +75,7 @@ const MapQuestionnaire = ({
       imageTooBig: errors.includes('imageTooBig'),
     }));
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
       localizedNotifyError('maintenanceNotificationText');
@@ -128,10 +131,8 @@ const MapQuestionnaire = ({
     }
 
     // make sure empty comments are not added when not intended
-    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers))) {
-      if (!submitData.commentText.trim()) {
-        submitData.setCommentText = config.emptyCommentString;
-      }
+    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers)) && !submitData.commentText.trim()) {
+      submitData.setCommentText = config.emptyCommentString;
     }
 
     onPostComment(
@@ -231,6 +232,7 @@ const MapQuestionnaire = ({
         setMessageListener(null);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -248,6 +250,7 @@ const MapQuestionnaire = ({
         instanceId: formData.pluginInstanceId,
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments, formData.userDataChanged]);
 
   const handleTextChange = (event) =>
@@ -359,6 +362,11 @@ MapQuestionnaire.propTypes = {
   pluginSource: PropTypes.string,
 };
 
-MapQuestionnaire.defaultProps = BaseCommentFormDefaulProps;
+MapQuestionnaire.defaultProps = {
+  defaultNickname: '',
+  overrideCollapse: false,
+  onOverrideCollapse: () => {},
+  isReply: false,
+};
 
 export default injectIntl(MapQuestionnaire);

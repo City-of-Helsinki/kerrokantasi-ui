@@ -699,8 +699,6 @@ BaseCommentForm.defaultProps = {
   isReply: false,
 };
 
-export const BaseCommentFormDefaulProps = BaseCommentForm.propTypes;
-
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });

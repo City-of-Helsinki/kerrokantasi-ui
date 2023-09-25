@@ -5,20 +5,20 @@ import { FormattedMessage } from 'react-intl';
 
 import { UnconnectedUserProfile } from '../../src/views/UserProfile';
 import { getIntlAsProp } from '../../test-utils';
-import UserComment from '../../src/components/UserProfile/UserComment';
+import UserComment from '../../src/components/UserComment/UserComment';
 import HearingCardList from '../../src/components/HearingCardList';
 import LoadSpinner from '../../src/components/LoadSpinner';
 import Icon from '../../src/utils/Icon';
 
 const createUniqueHearing = (id, slug, title, count, closed, ...props) => ({
-  id: id,
+  id,
   commentCount: count,
   data: {
-    slug: slug,
+    slug,
     title: {
       fi: title,
     },
-    closed: closed,
+    closed,
   },
   created_at: '2015-11-16T09:25:37.625607Z',
   ...props,
@@ -42,9 +42,9 @@ const defaultUniqueHearings = [
   ),
 ];
 const createComment = (id, hearing, content, ...props) => ({
-  id: id,
-  hearing: hearing,
-  content: content,
+  id,
+  hearing,
+  content,
   n_votes: 0,
   created_by: null,
   created_at: '2021-11-16T09:25:37.625607Z',

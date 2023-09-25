@@ -9,7 +9,7 @@ import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 import { getUser } from '../../selectors/user';
 import { fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites } from '../../actions/index';
 import HearingCardList from '../../components/HearingCardList';
-import UserComment from '../../components/UserProfile/UserComment';
+import UserComment from '../../components/UserComment/UserComment';
 import getAttr from '../../utils/getAttr';
 import getMessage from '../../utils/getMessage';
 import Icon from '../../utils/Icon';

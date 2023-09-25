@@ -94,6 +94,7 @@ export class SectionContainerComponent extends React.Component {
   };
 
   // downloads report excel with user's credentials
+  // eslint-disable-next-line class-methods-use-this
   handleReportDownload = (hearing, apiToken, language) => {
     const accessToken = apiToken.apiToken;
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
@@ -492,6 +493,7 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
+  // eslint-disable-next-line class-methods-use-this
   renderSectionContent = (section, language) => {
     if (isEmpty(section.content)) {
       return null;
@@ -499,6 +501,7 @@ export class SectionContainerComponent extends React.Component {
     return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
   };
 
+  // eslint-disable-next-line class-methods-use-this
   renderSectionAbstract = (section, language) => {
     if (isEmpty(section.abstract)) {
       return null;
@@ -613,6 +616,7 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
+  // eslint-disable-next-line class-methods-use-this
   renderSubSectionAttachments = (section, language, published) => {
     const { files } = section;
 

@@ -5,9 +5,10 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
+
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import config from '../config';
-import { get } from 'lodash';
 
 export default class PluginContent extends React.Component {
   componentDidMount() {
@@ -79,5 +80,4 @@ PluginContent.propTypes = {
   onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
   section: PropTypes.object.isRequired,
-  user: PropTypes.object,
 };
