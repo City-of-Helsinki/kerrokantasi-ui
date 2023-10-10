@@ -221,7 +221,7 @@ export const BaseCommentForm = ({
       data.images = pluginComment.image ? [pluginComment.image] : data.images;
       data.geojson = pluginComment.geojson || data.geojson;
       data.pinned = pluginComment.pinned || null;
-      data.commentText = pluginComment.mapCommentText || data.commentText;
+      data.mapCommentText = pluginComment.mapCommentText || data.commentText;
     } else if (pluginData && typeof pluginData !== 'string') {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -257,7 +257,7 @@ export const BaseCommentForm = ({
       data.label,
       data.images,
       data.pinned,
-      data.commentText,
+      data.mapCommentText,
     );
 
     setFormData({
