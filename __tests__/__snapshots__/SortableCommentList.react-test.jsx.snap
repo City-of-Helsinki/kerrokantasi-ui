@@ -338,7 +338,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                 "favoriteHearings": "Suosikkikuulemiset",
                 "feedbackLinkText": "Palaute",
-                "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+                "feedbackPrompt": "Kerro kantasi -kehitysideat",
                 "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
                 "firstClosing": "Ensimmäisenä sulkeutuvat",
                 "follow": "Seuraa",

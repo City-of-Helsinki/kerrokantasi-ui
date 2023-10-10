@@ -16,7 +16,7 @@ import { parseQuery } from '../utils/urlQuery';
  */
 
 const LinkWithLangComponent = (props) => {
-  const { to, className, children, style, headless, location } = props;
+  const { to, rel, target, className, children, style, headless, location } = props;
   let searchString = to.search || location.search;
   const urlHeadless = parseQuery(searchString).headless;
   // update search string with headless param preserved if site is being rendered in webview
@@ -32,7 +32,7 @@ const LinkWithLangComponent = (props) => {
   };
 
   return (
-    <Link className={className} to={newTo} style={style}>
+    <Link className={className} to={newTo} rel={rel} target={target} style={style}>
       {children}
     </Link>
   );
@@ -45,6 +45,8 @@ LinkWithLangComponent.propTypes = {
     path: PropTypes.string.isRequired,
     search: PropTypes.string,
   }).isRequired,
+  rel: PropTypes.string,
+  target: PropTypes.string,
   children: PropTypes.any,
   className: PropTypes.string,
   location: PropTypes.object,

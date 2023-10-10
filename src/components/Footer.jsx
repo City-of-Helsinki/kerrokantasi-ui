@@ -57,6 +57,11 @@ export default function Footer(props) {
                     <FormattedMessage id='infoHeaderText' />
                   </Link>
                 </li>
+                <li>
+                  <Link to={{ path: getFeedbackUrl(language) }} rel="noopener noreferrer" target="_blank">
+                    <FormattedMessage id="feedbackPrompt" />
+                  </Link>
+                </li>
               </ul>
             </div>
           </Col>
