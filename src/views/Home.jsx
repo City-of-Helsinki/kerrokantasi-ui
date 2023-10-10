@@ -17,7 +17,6 @@ import Link from '../components/LinkWithLang';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
 import config from '../config';
-import { getFeedbackUrl } from '../utils/languageUtils';
 
 export class Home extends React.Component {
   /**
