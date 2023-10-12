@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import { Provider } from 'nconf';
 
 const defaults = {
@@ -5,7 +6,7 @@ const defaults = {
   listen_address: '0.0.0.0',
   listen_port: '8086',
   // URL for the Kerrokantasi API endpoint
-  kerrokantasi_api_base: 'http://0.0.0.0:8000',
+  kerrokantasi_api_base: 'http://0.0.0.0:8080',
   // We'll request access to KK API instance identified by this
   kerrokantasi_api_jwt_audience: null,
   // URL this frontend runs at, for callbacks

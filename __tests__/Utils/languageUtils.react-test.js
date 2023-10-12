@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
-import {getFeedbackUrl} from '../../src/utils/languageUtils';
+
+import { getFeedbackUrl } from '../../src/utils/languageUtils';
 
 describe('languageUtils', () => {
   describe('getFeedbackUrl', () => {

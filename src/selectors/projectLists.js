@@ -1,8 +1,8 @@
-// @flow
-import type {AppState} from '../types';
-
-export const getProjects = (state: AppState): [Object] => {
-  return state.projectLists.data;
-};
+/**
+ *
+ * @param {AppState} state
+ * @returns Array<Object>
+ */
+export const getProjects = (state) => state.projectLists.data;
 
 export default getProjects;

@@ -1,4 +1,4 @@
-import {isFormValid} from "../../../src/components/RichTextEditor/SkipLink/SkipLinkUtils";
+import { isFormValid } from "../../../src/components/RichTextEditor/SkipLink/SkipLinkUtils";
 
 describe('SkipLinkUtils', () => {
   describe('isFormValid', () => {

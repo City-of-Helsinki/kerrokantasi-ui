@@ -1,6 +1,5 @@
 {
   "presets": [
-    "@babel/preset-react",
     "@babel/preset-env",
     [
       "@babel/preset-env",
@@ -9,7 +8,7 @@
       },
       "babel-preset-env"
     ],
-    "@babel/preset-flow"
+    "@babel/preset-react"
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
@@ -37,8 +36,7 @@
           "@babel/preset-env",
           {},
           "babel-preset-env-test"
-        ],
-        "@babel/preset-flow"
+        ]
       ],
       "plugins": [
         "@babel/plugin-proposal-class-properties",

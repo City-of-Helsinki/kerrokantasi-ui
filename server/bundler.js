@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable global-require */
 import fs from 'fs';
-import paths from '../conf/paths';
 import path from "path";
+
+import paths from '../conf/paths';
 
 const webpack = require('webpack');
 const ProgressBar = require('progress');
@@ -9,10 +12,10 @@ const debug = require('debug')('bundler');
 function getProgressPlugin() {
   const progress = new ProgressBar(
     '[:bar] :percent :etas :state',
-    {incomplete: ' ', complete: '#', width: 60, total: 100}
+    { incomplete: ' ', complete: '#', width: 60, total: 100 }
   );
   return new webpack.ProgressPlugin((percentage, msg) => {
-    progress.update(percentage, {state: msg.replace(/[\r\n]/g, '')});
+    progress.update(percentage, { state: msg.replace(/[\r\n]/g, '') });
   });
 }
 
@@ -26,7 +29,7 @@ function sortChunks(chunk1, chunk2) {
 export function getCompiler(settings, withProgress) {
   let config;
   if (settings.dev) {
-    config = require('../conf/webpack/dev')();
+    config = require('../conf/webpack/dev');
   } else {
     config = require('../conf/webpack/prod');
   }
@@ -34,26 +37,21 @@ export function getCompiler(settings, withProgress) {
     config.plugins.push(getProgressPlugin());
   }
   const compiler = webpack(config);
-  let bundleSrc;  // `/app.{SOME_HASH}.js`
 
-  compiler.plugin('emit', (compilation, compileCallback) => {
+  compiler.hooks.emit.tapAsync({name: 'Get file name'}, (compilation, callback) => {
     const stats = compilation.getStats().toJson();
     const chunks = stats.chunks.sort(sortChunks);
-    bundleSrc = (compilation.options.output.publicPath || "./") + chunks[0].files[0];
-    settings.bundleSrc = bundleSrc;  // eslint-disable-line no-param-reassign
-    compileCallback();
+    settings.bundleSrc = (compilation.options.output.publicPath || './') + chunks[0].files[0];
+    callback();
   });
 
-  compiler.plugin('done', () => {
-    // Save bundle entrypoint filename to a known location.
-    // We need to save the filename somewhere, as it contains a hash which is subject to changing
-    // and it's required to start up the server from a bundle
+  compiler.hooks.afterEmit.tapAsync('Finished', (compilation, callback) => {
     fs.writeFileSync(
       path.resolve(paths.OUTPUT, 'bundle_src.txt'),
-      bundleSrc,
+      settings.bundleSrc,
     );
+    callback();
   });
-
   return compiler;
 }
 

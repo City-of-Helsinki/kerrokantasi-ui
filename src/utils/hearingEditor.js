@@ -1,12 +1,11 @@
-// @flow
-import {normalize} from 'normalizr';
-import uuid from 'uuid/v1';
+import { normalize } from 'normalizr';
+import { v1 as uuid } from 'uuid';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
-import {assign, flowRight} from 'lodash';
+import { assign, flowRight } from 'lodash';
 import updeep from 'updeep';
 
-import {hearingSchema} from '../types';
+import { hearingSchema } from '../types';
 
 const ATTR_WITH_FRONT_ID = [
   'sections',
@@ -14,29 +13,58 @@ const ATTR_WITH_FRONT_ID = [
   'contact_persons',
 ];
 
+/**
+ *
+ * @param {Object} obj
+ * @param {Function} idGenerator
+ * @returns
+ */
 export const fillFrontId = (
-  obj: {frontId: ?string, id: ?string},
-  idGenerator: () => string = uuid
+  obj,
+  idGenerator,
 ) => (
   {
     ...obj,
-    frontId: obj.frontId || obj.id || idGenerator(),
+    frontId: obj.frontId || obj.id || (idGenerator ? idGenerator() : uuid()),
   }
 );
-
-export const fillFrontIds = (thingz: Array<Object>, idGenerator: () => string = uuid) =>
+/**
+ *
+ * @param {Object} thingz
+ * @param {Function} idGenerator
+ * @returns
+ */
+export const fillFrontIds = (thingz, idGenerator) =>
   thingz.map((thing) => fillFrontId(thing, idGenerator));
 
-export const normalizeEntitiesByFrontId = (data: Object, entityKey: string, idGenerator: () => string = uuid) =>
+/**
+ *
+ * @param {Object} data
+ * @param {String} entityKey
+ * @param {Function} idGenerator
+ * @returns
+ */
+export const normalizeEntitiesByFrontId = (data, entityKey, idGenerator) =>
   normalize({
     ...data,
     [entityKey]: fillFrontIds(data[entityKey], idGenerator),
   }, hearingSchema).entities[entityKey] || {};
 
-export const normalizeHearing = (hearing: Object) =>
+/**
+ *
+ * @param {Hearing} hearing
+ * @returns
+ */
+export const normalizeHearing = (hearing) =>
   normalize(hearing, hearingSchema);
 
-export const fillFrontIdsForAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => ({
+/**
+ *
+ * @param {Object} data
+ * @param {Array<string>} attrKeys
+ * @returns
+ */
+export const fillFrontIdsForAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => ({
   ...data,
   ...attrKeys.reduce((filled, key) => ({
     ...filled,
@@ -44,18 +72,32 @@ export const fillFrontIdsForAttributes = (data: Object, attrKeys: Array<string> 
   }), {})
 });
 
-export const removeFrontId = (obj: Object) => {
-  const result = {...obj};
+/**
+ *
+ * @param {Object} obj
+ * @returns
+ */
+export const removeFrontId = (obj) => {
+  const result = { ...obj };
   delete result.frontId;
   return result;
 };
 
-export const filterFrontIds = (thingz: Array<Object>) =>
+/**
+ *
+ * @param {Object} thingz
+ * @returns
+ */
+export const filterFrontIds = (thingz) =>
   thingz.map(removeFrontId);
 
-export const filterFrontIdFromPhases = (data: Object) => {
+/**
+ * @param {Object} data
+ * @returns
+ */
+export const filterFrontIdFromPhases = (data) => {
   const cleanedPhases = data.project.phases.map(phase => {
-    if (phase.frontId) return removeFrontId(updeep({id: ''}, phase));
+    if (phase.frontId) return removeFrontId(updeep({ id: '' }, phase));
     return phase;
   });
   return updeep({
@@ -65,7 +107,13 @@ export const filterFrontIdFromPhases = (data: Object) => {
   }, data);
 };
 
-export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<string> = ATTR_WITH_FRONT_ID) => {
+/**
+ *
+ * @param {Object} data
+ * @param {Array<string>} attrKeys
+ * @returns
+ */
+export const filterFrontIdsFromAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => {
   let filteredPhasesData = data;
   if (data.project && data.project.phases) {
     filteredPhasesData = filterFrontIdFromPhases(data);
@@ -81,17 +129,15 @@ export const filterFrontIdsFromAttributes = (data: Object, attrKeys: Array<strin
 
 const filterObjectByLanguages = (object, languages) => pickBy(object, (value, key) => includes(languages, key));
 
-const filterSectionsContentByLanguages = (sections, languages) => {
-  return sections.map((section) => assign(
-    section,
-    {
-      abstract: filterObjectByLanguages(section.abstract, languages),
-      content: filterObjectByLanguages(section.content, languages),
-      images: section.images.map((image) => assign(image, filterObjectByLanguages(image.abstract))),
-      title: filterObjectByLanguages(section.title, languages)
-    }
-  ));
-};
+const filterSectionsContentByLanguages = (sections, languages) => sections.map((section) => assign(
+  section,
+  {
+    abstract: filterObjectByLanguages(section.abstract, languages),
+    content: filterObjectByLanguages(section.content, languages),
+    images: section.images.map((image) => assign(image, filterObjectByLanguages(image.abstract))),
+    title: filterObjectByLanguages(section.title, languages)
+  }
+));
 
 export const filterTitleAndContentByLanguage = (data, languages) => assign(
   data,
@@ -108,8 +154,8 @@ export const filterTitleAndContentByLanguage = (data, languages) => assign(
 export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
 
 export const getDocumentOrigin = () => (
-  `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`
-);
+  // eslint-disable-next-line sonarjs/no-nested-template-literals
+  `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`);
 
 export const moveSubsectionInArray = (array, index, delta) => {
   const newArray = array.slice();
@@ -123,25 +169,21 @@ export const moveSubsectionInArray = (array, index, delta) => {
   return newArray;
 };
 
-export const initNewPhase = () => {
-  return {
-    frontId: uuid(),
-    has_hearings: false,
-    hearings: [],
-    is_active: false,
-    title: {},
-    description: {},
-    schedule: {}
-  };
-};
+export const initNewPhase = () => ({
+  frontId: uuid(),
+  has_hearings: false,
+  hearings: [],
+  is_active: false,
+  title: {},
+  description: {},
+  schedule: {}
+});
 
-export const initNewProject = () => {
-  return {
-    id: '',
-    title: {},
-    phases: []
-  };
-};
+export const initNewProject = () => ({
+  id: '',
+  title: {},
+  phases: []
+});
 
 
 /**
@@ -193,7 +235,7 @@ export const parseCollection = (featureCollection) => {
     });
     return features;
   }, []);
-  return {type: featureCollection.type, features: normalizedFeatures};
+  return { type: featureCollection.type, features: normalizedFeatures };
 };
 
 export const cleanHearing = (hearing) => {
@@ -209,15 +251,15 @@ export const cleanHearing = (hearing) => {
      * ------
      * {type: 'Point', coordinates: [...]}
      */
-    cleanedHearing = Object.assign({}, hearing, {
-      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
+    cleanedHearing = {
+      ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: '' }], []),
       geojson: hearing.geojson.features[0].geometry,
-    });
+    };
   } else {
-    cleanedHearing = Object.assign({}, hearing, {
-      sections: hearing.sections.reduce((sections, section) => [...sections, Object.assign({}, section, {id: ''})], []),
+    cleanedHearing = {
+      ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: '' }], []),
       geojson: hearing.geojson
-    });
+    };
   }
   return cleanedHearing;
 };
@@ -229,6 +271,4 @@ export const cleanHearing = (hearing) => {
  * @param {string} key
  * @returns {'error'|null}
  */
-export const getValidationState = (errors, key) => {
-  return errors[key] ? 'error' : null;
-};
+export const getValidationState = (errors, key) => errors[key] ? 'error' : null;

@@ -1,11 +1,7 @@
-// @flow
-import type {LabelState} from '../../types';
-
-
-export const getAll = (state: LabelState): Array<Object> =>
+export const getAll = (state) =>
   state.all.map(frontId => state.byId[frontId]);
 
-export const getById = (state: LabelState, id: string): Object =>
+export const getById = (state, id) =>
   state.byId[id];
 
 export default null;

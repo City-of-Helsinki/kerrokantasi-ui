@@ -1,6 +1,7 @@
-import {combineReducers} from 'redux';
-import {handleActions} from 'redux-actions';
-import {EditorActions} from '../../actions/hearingEditor';
+import { combineReducers } from 'redux';
+import { handleActions } from 'redux-actions';
+
+import { EditorActions } from '../../actions/hearingEditor';
 import hearing from './hearing';
 import labels from './labels';
 import contactPersons from './contactPersons';
@@ -39,15 +40,15 @@ const editorState = combineReducers({
 });
 
 const errors = handleActions({
-  [EditorActions.SAVE_HEARING_FAILED]: (state, {payload}) =>
+  [EditorActions.SAVE_HEARING_FAILED]: (state, { payload }) =>
     payload.errors,
   [EditorActions.POST_HEARING_SUCCESS]: () => null
 }, null);
 
 const languages = handleActions({
-  receiveHearing: (state, {payload: {data: {title}}}) =>
+  receiveHearing: (state, { payload: { data: { title } } }) =>
     Object.keys(title).reduce((langArr, lang) => (title[lang] ? [...langArr, lang] : langArr), []),
-  [EditorActions.SET_LANGUAGES]: (state, {payload}) => payload.languages,
+  [EditorActions.SET_LANGUAGES]: (state, { payload }) => payload.languages,
   [EditorActions.INIT_NEW_HEARING]: () => ['fi']
 }, []);
 

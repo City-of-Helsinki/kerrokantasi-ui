@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash";
+import { isEmpty } from "lodash";
 
 export function isUrl(string) {
   try { return Boolean(new URL(string)); } catch (error) { return false; }

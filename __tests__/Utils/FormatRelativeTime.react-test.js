@@ -1,10 +1,12 @@
 import React from 'react';
-import FormatRelativeTime from '../../src/utils/FormatRelativeTime';
-import {shallow} from 'enzyme';
-import {getIntlAsProp} from '../../test-utils';
-import {FormattedMessage, FormattedRelative} from 'react-intl';
+import { shallow } from 'enzyme';
+import { FormattedMessage, FormattedRelative } from 'react-intl';
 
-const {formatTime, formatDate} = getIntlAsProp();
+import FormatRelativeTime from '../../src/utils/FormatRelativeTime';
+import { getIntlAsProp } from '../../test-utils';
+
+
+const { formatTime, formatDate } = getIntlAsProp();
 const defaultProps = {
   messagePrefix: 'timeClose',
   formatTime,
@@ -24,10 +26,10 @@ describe('FormatRelativeTime', () => {
     return shallow(<FormatRelativeTime {...defaultProps} {...props} />);
   }
   function formatTimeString(time) {
-    return formatTime(time, {hour: '2-digit', minute: '2-digit'});
+    return formatTime(time, { hour: '2-digit', minute: '2-digit' });
   }
   function formatDateString(time) {
-    return formatDate(time, {day: '2-digit', month: '2-digit'});
+    return formatDate(time, { day: '2-digit', month: '2-digit' });
   }
   function getCurrentDate() {
     return new Date(
@@ -39,7 +41,7 @@ describe('FormatRelativeTime', () => {
   }
 
   describe('opening message with date', () => {
-    const {open, past, future} = messageVariations;
+    const { open, past, future } = messageVariations;
     let mockDate;
 
     beforeEach(() => {
@@ -49,7 +51,7 @@ describe('FormatRelativeTime', () => {
     test('in the future, 1 month from current date', () => {
       mockDate.setMonth(mockDate.getMonth() + 1);
       const futureDate = mockDate.toString();
-      const wrapper = getWrapper({timeVal: futureDate, messagePrefix: open});
+      const wrapper = getWrapper({ timeVal: futureDate, messagePrefix: open });
       const messageElement = wrapper.find(FormattedMessage);
       const relativeElement = wrapper.find(FormattedRelative);
 
@@ -64,7 +66,7 @@ describe('FormatRelativeTime', () => {
     test('in the past, 1 week ago from current date', () => {
       mockDate.setDate(mockDate.getDate() - 7);
       const pastDate = mockDate.toString();
-      const wrapper = getWrapper({timeVal: pastDate, messagePrefix: open});
+      const wrapper = getWrapper({ timeVal: pastDate, messagePrefix: open });
       const messageElement = wrapper.find(FormattedMessage);
       const relativeElement = wrapper.find(FormattedRelative);
 
@@ -78,7 +80,7 @@ describe('FormatRelativeTime', () => {
   });
 
   describe('closing message with date', () => {
-    const {close, past, future, withValues} = messageVariations;
+    const { close, past, future, withValues } = messageVariations;
     let mockDate;
 
     beforeEach(() => {
@@ -88,7 +90,7 @@ describe('FormatRelativeTime', () => {
     test('in the future, 1 month from current date', () => {
       mockDate.setMonth(mockDate.getMonth() + 1);
       const futureDateString = mockDate.toString();
-      const wrapper = getWrapper({timeVal: futureDateString, messagePrefix: close});
+      const wrapper = getWrapper({ timeVal: futureDateString, messagePrefix: close });
       const messageElement = wrapper.find(FormattedMessage);
 
       const closeTime = formatTimeString(futureDateString);
@@ -105,7 +107,7 @@ describe('FormatRelativeTime', () => {
     test('in the past 1 week ago from current date', () => {
       mockDate.setDate(mockDate.getDate() - 7);
       const pastDate = mockDate.toString();
-      const wrapper = getWrapper({timeVal: pastDate, messagePrefix: close});
+      const wrapper = getWrapper({ timeVal: pastDate, messagePrefix: close });
       const messageElement = wrapper.find(FormattedMessage);
 
       const closeTime = formatTimeString(pastDate);
@@ -122,7 +124,7 @@ describe('FormatRelativeTime', () => {
       mockDate.setMonth(mockDate.getMonth() - 1);
       mockDate.setDate(mockDate.getDate() - 1);
       const pastDate = mockDate.toString();
-      const wrapper = getWrapper({timeVal: pastDate, messagePrefix: close});
+      const wrapper = getWrapper({ timeVal: pastDate, messagePrefix: close });
       const messageElement = wrapper.find(FormattedMessage);
       const relativeElement = wrapper.find(FormattedRelative);
 

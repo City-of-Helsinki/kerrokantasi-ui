@@ -1,10 +1,10 @@
-import {head, isEmpty} from 'lodash';
-import {SectionTypes} from '../utils/section';
+import { head, isEmpty } from 'lodash';
+
+import { SectionTypes } from '../utils/section';
 
 export const getTopHearing = (state) =>
   state.hearingLists.topHearing && state.hearingLists.topHearing.data && head(state.hearingLists.topHearing.data);
 
-// eslint-disable-next-line
 export const getOpenHearings = (state) =>
   state.hearingLists.openHearings;
 
@@ -83,11 +83,9 @@ export const getHearingValue = (state, type, key) =>
  * @returns {returnObject}
  * @see getHearingValue
  */
-export const getUserHearingList = (state, key) => {
-  return {
-    open: getHearingValue(state, 'userHearingsOpen', key),
-    queue: getHearingValue(state, 'userHearingsQueue', key),
-    closed: getHearingValue(state, 'userHearingsClosed', key),
-    draft: getHearingValue(state, 'userHearingsDrafts', key),
-  };
-};
+export const getUserHearingList = (state, key) => ({
+  open: getHearingValue(state, 'userHearingsOpen', key),
+  queue: getHearingValue(state, 'userHearingsQueue', key),
+  closed: getHearingValue(state, 'userHearingsClosed', key),
+  draft: getHearingValue(state, 'userHearingsDrafts', key),
+});

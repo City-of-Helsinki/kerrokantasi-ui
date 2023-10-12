@@ -1,0 +1,636 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HearingsList component should render as expected 1`] = `
+<div>
+  <section
+    className="page-section--hearings-search"
+  >
+    <div
+      className="container"
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          md={10}
+          mdPush={1}
+        >
+          <HearingsSearch
+            intl={
+              {
+                "defaultFormats": {},
+                "defaultLocale": "en",
+                "formatDate": [Function],
+                "formatHTMLMessage": [Function],
+                "formatMessage": [Function],
+                "formatNumber": [Function],
+                "formatPlural": [Function],
+                "formatRelative": [Function],
+                "formatTime": [Function],
+                "formats": {},
+                "formatters": {
+                  "getDateTimeFormat": [Function],
+                  "getMessageFormat": [Function],
+                  "getNumberFormat": [Function],
+                  "getPluralFormat": [Function],
+                  "getRelativeFormat": [Function],
+                },
+                "locale": "fi",
+                "messages": {
+                  "APICallFailed": "Jokin meni pieleen. Kokeile pian uudestaan tai päivitä selain.",
+                  "CREATED_AT_ASC": "Vanhin ensin",
+                  "CREATED_AT_DESC": "Uusin ensin",
+                  "POPULARITY_ASC": "Vähiten suosittu ensin",
+                  "POPULARITY_DESC": "Suosituin ensin",
+                  "accessibilityLink": "Saavutettavuusseloste",
+                  "accessibilityPage": "Saavutettavuusseloste",
+                  "addComment": "Kirjoita kommentti",
+                  "addCommentAndVote": "Äänestä ja kommentoi",
+                  "addFavorites": "Lisää suosikkeihin",
+                  "addGeojson": "Lisää geojson tiedostona",
+                  "addGeojsonInfo": "Huomaa että GeoJSON-formaatissa käytetään wgs84-koordinaatistoa. Tallenna tiedostoon vain yksi aluerajaus.",
+                  "addOption": "Lisää vastausvaihtoehto",
+                  "addProcess": "Lisää uusi vaihe",
+                  "addSection": "Lisää osa-alue",
+                  "add_images": "Lisää kuvia kommenttiisi",
+                  "addedFavorites": "Kuuleminen lisätty suosikkeihin.",
+                  "additionalInfo": "Lisätiedot",
+                  "adminCommentMessage": "Olet kirjautuneena pääkäyttäjänä. Nimesi ja organisaatiosi näytetään kommenttisi yhteydessä",
+                  "all": "Kaikki",
+                  "allHearings": "Kaikki kuulemiset",
+                  "alreadyFavorite": "Kuuleminen kuuluu ennestään suosikkeihin.",
+                  "alreadyFlagged": "Tämä kommentti on jo liputettu.",
+                  "alreadyVoted": "Olet jo antanut äänesi tälle kommentille.",
+                  "anonymous": "Anonyymi",
+                  "asOpenData": "avoimena datana",
+                  "attachmentName": "liitteen nimi (näkyy osion sivulla)",
+                  "attachments": "Liitteet",
+                  "backToHearingMain": "Takaisin kuulemisen etusivulle",
+                  "borough": "Alue",
+                  "cancel": "Peru",
+                  "characters": "merkkiä",
+                  "chooseTopic": "Valitse aihe",
+                  "choose_images": "Valitse kuvia",
+                  "closeHearing": "Sulje kuuleminen",
+                  "closedCount": "Sulkeutuneet ({n})",
+                  "closedHearing": "Suljettu",
+                  "commentAndVoteSubsectionBtn": "Äänestä ja kommentoi",
+                  "commentConditions": "Annetut kommentit julkaistaan {linkToDefinition} palvelussa {linkToLicense}. Tekstejä voidaan muokata loukkaavan tai muutoin törkeän kielenkäytön osalta.",
+                  "commentDeleted": "Kommenttisi on poistettu.",
+                  "commentEdited": "Kommenttisi on muokattu. Kiitos!",
+                  "commentFlagged": "Kommentti liputettu.",
+                  "commentHearingStatus": "Kuulemisen tila: ",
+                  "commentHelpAnswerOrCommentRequired": "Vastaa vähintään yhteen kysymykseen tai kirjoita kommentti.",
+                  "commentHelpStarRequired": "Tähdellä (*) merkityt kentät ovat pakollisia.",
+                  "commentImageAlt": "Kommentoijan lisäämä kuva",
+                  "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
+                  "commentMapInstructions": "Voit merkitä ehdotuksesi valitsemalla merkintätavan ja sen jälkeen merkitsemällä alueen. Voit poistaa merkintäsi napsauttamalla roskakoria ja sitten 'Tyhjennä kaikki'.",
+                  "commentMapTitle": "Merkitse ehdotuksesi kartalle",
+                  "commentOrAnswerRequiredError": "Vastaa vähintään yhteen kysymykseen tai kirjoita kommentti.",
+                  "commentOrder": "Järjestä kommentit:",
+                  "commentReceived": "Kommenttisi on vastaanotettu. Kiitos!",
+                  "commentRegisteredUsersOnly": "Kirjaudu sisään kommentoidaksesi.",
+                  "commentReportsButtonLabel": "Raportit",
+                  "commentReportsClose": "Sulje",
+                  "commentReportsDownload": "Lataa",
+                  "commentReportsSelectFileType": "Valitse tiedostotyyppi",
+                  "commentReportsTitle": "Kommenttiraportit",
+                  "commentRequiredError": "Kirjoita kommentti ennen lähettämistä.",
+                  "commentShowMap": "Karttamerkintä lisätty. Näytä kartta",
+                  "commentStrongRegisteredUsersOnly": "Kirjaudu sisään Suomi.fi-tunnistuksella kommentoidaksesi.",
+                  "commentSubsectionBtn": "Kommentoi",
+                  "commentVoting": "Kommenttien äänestys",
+                  "comments": "Mielipiteet",
+                  "commentsOnMap": "Kartta koko näytöllä",
+                  "commentsOutOf": "Näytetään {current}/{total} kommenttia.",
+                  "contactPersonAdditionalInfoHelpText": "Yritys/Taho, johon yhteyshenkilö kuuluu. Näytetään käyttäjille organisaation nimen sijaan, mikäli organisaatioksi on valittu \`Kaupungin ulkopuoliset toimijat\`",
+                  "contactPersonOrganizationHelpText": "Jos organisaatiota ei ole määritelty, sinun organisaatiotasi käytetään oletuksena.",
+                  "contactPersons": "Yhteyshenkilöt",
+                  "contactTitle": "Virkanimike tai tehtäväkuvaus",
+                  "contactTitlePlaceholder": "Anna yhteyshenkilön virkanimike tai tehtävänkuvaus...",
+                  "contrastTitle": "Kontrasti",
+                  "cookieBar.accept": "Hyväksy kaikki evästeet",
+                  "cookieBar.decline": "Vain välttämättömät evästeet",
+                  "cookieBar.description": "Käytämme evästeitä parantaaksemme käyttökokemustasi. Voit hyväksyä toiminnan kannalta välttämättömät evästeet tai kaikki evästeet, esim. käyttäjäanalytiikan.",
+                  "cookieBar.link.href": null,
+                  "cookieBar.link.text": "Hallitse evästeitä",
+                  "cookieBar.modal.cookieInfoLink": "Välttämättömistä evästeistä saat tietoa {linkToInfo} -sivulta.",
+                  "cookieBar.modal.cookieInfoLinkText": "Tietoa palvelusta",
+                  "cookieBar.modal.header": "Kolmansien osapuolien evästeet",
+                  "cookieBar.modal.panel.alwaysEnabled": "Aina käytössä",
+                  "cookieBar.modal.panel.disabled": "Poista käytöstä",
+                  "cookieBar.modal.panel.enabled": "Käytössä",
+                  "cookieBar.modal.panel.functionalCookies": "Välttämättömät",
+                  "cookieBar.modal.panel.functionalCookiesContent": "Välttämättömiä evästeitä tarvitaan, jotta verkkosivusto ylipäänsä toimii. Nämä evästeet eivät tallenna henkilökohtaisia tietoja.",
+                  "cookieBar.modal.panel.googleAnalytics": "Google Analytics (ei-välttämätön)",
+                  "cookieBar.modal.panel.googleAnalyticsContent": "Näillä evästeillä seurataan käyttäjän toimintaa verkkosivuilla niiden suorituskyvyn ja ulottuvuuden mittaamiseksi. Kesto: 1 vuosi.",
+                  "cookieBar.modal.paragraph1": "Sivustolla käytetään seuraavien kolmansien osapuolien evästeitä, jos annat suostumuksesi niiden käyttämiseksi. Kolmannet osapuolet voivat asettaa laitteellesi omia evästeitään ja kerätä niiden avulla käyttäjätietoja.",
+                  "cookieBar.modal.paragraph2": "Antamasi suostumus tallentuu selaimeesi, jonka jälkeen sinun tulee antaa suostumuksesi uudelleen, kun evästeiden voimassaoloaika päättyy. Ota huomioon, että valinnat ovat selainkohtaisia. Valinnat eivät myöskään tallennu, jos käytät esimerkiksi yksityistä selailua tai selaimessasi on käytössä asetukset, jotka tyhjentävät evästeet käyntikertojen välillä.",
+                  "cookieBar.modal.showLess": "Näytä vähemmän",
+                  "cookieBar.modal.showMore": "Näytä lisää",
+                  "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
+                  "cookieManagementLink": "Evästeasetukset",
+                  "copyHearing": "Kopioi kuuleminen",
+                  "copyrightText": "Kerrokantasi",
+                  "create": "Luo",
+                  "createContact": "Luo uusi yhteyshenkilö",
+                  "createHearing": "Luo uusi kuuleminen",
+                  "createLabel": "Luo uusi asiasana",
+                  "dataProtection": "Tietosuoja",
+                  "defaultClosureInfo": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
+                  "defaultProject": "Lisää uusi projekti",
+                  "delete": "Poista",
+                  "deleteAttachment": "Poista liite",
+                  "deleteComment": "Poista kommentti",
+                  "deleteConfirmation": "Oletko varma, että haluat poistaa kommentin?",
+                  "deleteDraft": "Poista luonnos",
+                  "deleteQuestion": "Poista kysymys",
+                  "deleteSection": "Poista osio",
+                  "descriptionTag": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "disabledLink": "Epäaktiivinen linkki",
+                  "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
+                  "draft": "Luonnos",
+                  "draftCount": "Luonnokset ({n})",
+                  "draftDeleted": "Luonnos poistettiin onnistuneesti",
+                  "draftNotPublished": "Luonnos, ei julkaistu",
+                  "drafts": "Luonnokset",
+                  "edit": "Muokkaa",
+                  "editContact": "Muokkaa yhteystietoa",
+                  "editHearing": "Muokkaa",
+                  "email": "Sähköposti",
+                  "employee": "Työntekijä",
+                  "errorSaveBeforeAttachment": "Tallenna ensin ja palaa sitten lisäämään liitteet",
+                  "eyeTooltip": "Tätä kuulemista ei ole julkaistu eikä se ole julkisesti nähtävissä.",
+                  "eyeTooltipOpens": "Tämä kuuleminen julkaistaan",
+                  "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
+                  "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
+                  "favoriteHearings": "Suosikkikuulemiset",
+                  "feedbackLinkText": "Palaute",
+                  "feedbackPrompt": "Kerro kantasi -kehitysideat",
+                  "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
+                  "firstClosing": "Ensimmäisenä sulkeutuvat",
+                  "follow": "Seuraa",
+                  "followingHearing": "Seuraat kuulemista.",
+                  "footerCityLink": "www.example.com",
+                  "footerLogoAlt": "Kerrokantasi logo",
+                  "formButtonAcceptAndAdd": "Hyväksy ja lisää",
+                  "formCheckErrors": "Korjaa lomakkeen virheet ensin",
+                  "fullscreenHeaderLogoAlt": "Kerrokantasi logo",
+                  "furtherInformation": "Lisätietoja",
+                  "generalNo": "Ei",
+                  "generalYes": "Kyllä",
+                  "headerLogoAlt": "Kerrokantasi logo",
+                  "headerPagesNavLabel": "Sivuvalikko",
+                  "headerUserNavLabel": "Käyttäjävalikko",
+                  "headerWriteCommentLink": "Kirjoita kommentti",
+                  "hearing": "Kuuleminen",
+                  "hearingAbstract": "Lyhyt johdanto",
+                  "hearingArea": "Jos kuuleminen ei koske koko kaupunkia, piirrä kuulemisen tarkka alue kartalle",
+                  "hearingAvailable-en": "Hearing available",
+                  "hearingAvailable-fi": "Kuuleminen saatavilla",
+                  "hearingAvailable-sv": "Hörandet tillgängligt",
+                  "hearingAvailableInLang-en": "in English",
+                  "hearingAvailableInLang-fi": "suomeksi",
+                  "hearingAvailableInLang-sv": "på svenska",
+                  "hearingCardComment": "Kommentti",
+                  "hearingCardComments": "Kommenttia",
+                  "hearingCardFullWidthComment": "Kommentti",
+                  "hearingCardFullWidthComments": "Kommenttia",
+                  "hearingChangesSaved": "Muutokset tallennettu",
+                  "hearingClosed": "Sulkeutunut",
+                  "hearingClosingTime": "Sulkeutumisaika",
+                  "hearingClosingTimePlaceholder": "Valitse...",
+                  "hearingClosureInfo": "Sulkeutumistiedote",
+                  "hearingCommenting": "Kommentointi",
+                  "hearingCommentingMap": "Karttamerkintä kommentoinnissa",
+                  "hearingCommentingMapChoice1": "Ei käytössä",
+                  "hearingCommentingMapChoice2": "Piste merkintä",
+                  "hearingCommentingMapChoice3": "Piste, neliö ja monikulmio merkinnät valittavissa",
+                  "hearingContacts": "Yhteyshenkilöt",
+                  "hearingContactsHelpText": "Yhteystiedot näkyvät kuulemisen sivulla yllä listatussa järjestyksessä.",
+                  "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
+                  "hearingFileUpload": "Osion liitteet",
+                  "hearingFormHeaderContainsErrors": " - sisältää virheitä",
+                  "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
+                  "hearingFormHeaderStep2": "2. Sisältö",
+                  "hearingFormHeaderStep3": "3. Kartta",
+                  "hearingFormHeaderStep4": "4. Julkaisutiedot",
+                  "hearingFormHeaderStep5": "5. Hankkeen vaiheet",
+                  "hearingFormNext": "Jatka",
+                  "hearingImage": "Kuulemisen kuva",
+                  "hearingLabels": "Asiasanat",
+                  "hearingLabelsPlaceholder": "Valitse kuulemiselle sopivat asiasanat",
+                  "hearingLanguages": "Kuulemisen tiedot syötetään",
+                  "hearingListComment": "Kommentti",
+                  "hearingListComments": "Kommenttia",
+                  "hearingListNotPublished": "Julkaisematon kuuleminen,",
+                  "hearingMainContent": "Kuulemisen esittelyteksti",
+                  "hearingMap": "Kuulemiset kartalla",
+                  "hearingMapHeaderDescription": "Näe kuulemiset kartalla",
+                  "hearingMapHeaderText": "Kartta",
+                  "hearingNotFound": "Hakemaasi kuulemista ei löytynyt.",
+                  "hearingOnlyAvailableIn": "Kuuleminen saatavilla vain",
+                  "hearingOnlyAvailableInLang-en": "englanniksi",
+                  "hearingOnlyAvailableInLang-fi": "suomeksi",
+                  "hearingOnlyAvailableInLang-sv": "ruotsiksi",
+                  "hearingOpeningTime": "Avautumisaika",
+                  "hearingOpeningTimePlaceholder": "Valitse...",
+                  "hearingPreviewLink": "Kopioi linkki",
+                  "hearingPreviewLinkFailed": "Linkin kopioiminen epäonnistui.",
+                  "hearingPreviewLinkSuccess": "Linkki kopioitu leikepöydälle.",
+                  "hearingPreviewLinkTooltip": "Kopioi esikatselulinkki leikepöydälle.",
+                  "hearingSavingFailed": "Tallentaminen epäonnistui",
+                  "hearingSlug": "Kuulemisen osoite (täytä osoitteen loppuosa)",
+                  "hearingSlugPlaceholder": "esimerkki-osoite",
+                  "hearingSubsectionsTitle": "Alaosiot",
+                  "hearingTranslationNotAvailable": "Tätä kuulemista ei ole julkaistu suomeksi",
+                  "hearings": "Kuulemiset",
+                  "hearingsHeaderDescription": "Antamalla kommenttisi voit vaikuttaa käsiteltävinä olevien asioiden valmisteluun",
+                  "hearingsHeaderText": "Kuulemiset",
+                  "help": "Ohjeet",
+                  "hideName": "Piilota nimi",
+                  "hideReplies": "Piilota vastaukset",
+                  "iframeAddButton": "Lisää iframe",
+                  "iframeFormFieldAllow": "Tietoturva yms. lisäasetukset (allow)",
+                  "iframeFormFieldHeight": "Korkeus pikseleinä (height)",
+                  "iframeFormFieldScrolling": "Vierityspalkki (scrolling)",
+                  "iframeFormFieldSrc": "Lähde (src)",
+                  "iframeFormFieldTitle": "Otsikko (title)",
+                  "iframeFormFieldWidth": "Leveys pikseleinä (width)",
+                  "iframeHtmlCopyPaste": "Iframe leikkaa ja liitä html",
+                  "iframeModalTitle": "Iframe tiedot",
+                  "imageAddButton": "Lisää kuva",
+                  "imageAddCaptionButton": "Lisää kuvateksti",
+                  "imageFileUploadError": "Jokin meni pieleen kuvan latauksessa.",
+                  "imageGenericError": "Kuvan lisääminen ei ole mahdollista.",
+                  "imageModalTitle": "Kuvan tiedot",
+                  "imageSizeError": "Kuva on liian suuri. Maksimikoko on 1 megatavu.",
+                  "inLanguage-en": "englanniksi",
+                  "inLanguage-fi": "suomeksi",
+                  "inLanguage-sv": "ruotsiksi",
+                  "infoHeaderDescription": "Tämä on palvelun väliaikainen prototyyppi, josta toivomme käyttäjien kommentteja",
+                  "infoHeaderText": "Tietoa palvelusta",
+                  "infoPage": "Tietoa palvelusta",
+                  "jumpToSearchForm": "Siirry hakulomakkeeseen",
+                  "jumpToSearchResults": "Siirry hakutuloksiin",
+                  "labelListTagsTitle": "Asiasanat",
+                  "labelPlaceholder": "Anna asiasanan nimi...",
+                  "lang-en": "English",
+                  "lang-fi": "Suomi",
+                  "lang-sv": "Svenska",
+                  "languageSwitchLabel": "Valitse sivuston kieli",
+                  "lastClosed": "Viimeisenä sulkeutuneet",
+                  "lastClosing": "Viimeisenä sulkeutuvat",
+                  "leastCommented": "Vähiten kommentoidut",
+                  "list": "Lista",
+                  "logInToAnswer": "Kirjaudu sisään äänestääksesi ja katsoaksesi tuloksia",
+                  "login": "Kirjaudu",
+                  "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",
+                  "loginToComment": "Kirjaudu sisään kommentoidaksesi.",
+                  "loginToContinue": "Kirjaudu sisään jatkaaksesi",
+                  "loginToFlagComment": "Kirjaudu sisään liputtaaksesi kommentin.",
+                  "loginToVoteComment": "Kirjaudu sisään äänestääksesi kommenttia.",
+                  "logout": "Kirjaudu ulos",
+                  "mainMenu": "Päävalikko",
+                  "mainSection": "Pääosio",
+                  "maintenanceNotificationLabel": "Palvelua päivitetään",
+                  "maintenanceNotificationText": "Keskiviikkona 6.9. Kerro kantasi -palvelua päivitetään. Kyseisenä päivänä sisältöjen tekeminen, esimerkiksi kommentointi tai kirjautuminen ei ole mahdollista.",
+                  "map": "Kartta",
+                  "mapView": "Kaikki kuulemiset kartalla",
+                  "mostCommented": "Eniten kommentoidut",
+                  "moveDown": "Siirrä alas",
+                  "moveUp": "Siirrä ylös",
+                  "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
+                  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
+                  "name": "Nimi",
+                  "nameAndOrganization": "Nimi ja organisaatio",
+                  "navigationMenu": "Navigaatiovalikko",
+                  "newHearingPageTitle": "Uusi kuuleminen",
+                  "newMultipleChoiceQuestion": "Lisää monivalintakysymys",
+                  "newSingleChoiceQuestion": "Lisää yksivalintakysymys",
+                  "newestFirst": "Uusimmat ensin",
+                  "newestHearings": "Uusimmat kuulemiset",
+                  "next": "Seuraava",
+                  "nextClosingHearing": "Seuraavaksi sulkeutuva kuuleminen",
+                  "nickname": "Nimimerkki",
+                  "noAddedComments": "Ei lisättyjä kommentteja",
+                  "noCommenting": "Ei kommentointia",
+                  "noCommentsAvailable": "Ei kommentteja",
+                  "noFavoriteHearings": "Ei lisättyjä suosikkeja",
+                  "noHearings": "Kuulemisia ei löytynyt",
+                  "noProject": "Ei projektia",
+                  "oldestFirst": "Vanhimmat ensin",
+                  "open-hearings-on-map": "Käynnissä olevat kuulemiset kartalla",
+                  "openCommenting": "Avoin kommentointi",
+                  "openCount": "Avoimet ({n})",
+                  "openFullscreenMap": "Kartta koko näytöllä",
+                  "openHearing": "Avoin",
+                  "openHearings": "Avoimet kuulemiset",
+                  "openVoting": "Avoin äänestäminen",
+                  "option": "Vastausvaihtoehto",
+                  "orderHasBeenChanged": "Kuulemisten järjestystä muutettu",
+                  "organization": "Organisaatio",
+                  "organizationHearings": "Organisaation kuulemiset",
+                  "overview-map": "Kartta",
+                  "ownHearings": "Omat kuulemiset",
+                  "partSection": "Osa-alue",
+                  "phase": "Hankkeen vaiheet",
+                  "phaseActive": "Kuuleminen kuuluu tähän vaiheeseen.",
+                  "phaseDescription": "Vaiheen kuvaus",
+                  "phaseDuration": "Vaiheen kesto",
+                  "phone": "Puhelinnumero",
+                  "pinnedComment": "Kiinnitetty julkaisu",
+                  "previous": "Edellinen",
+                  "project": "Hanke:",
+                  "projectName": "Projektin nimi",
+                  "projectSelection": "Jos kuuleminen kuuluu monivaiheiseen projektiin, valitse projekti tästä.",
+                  "publishHearing": "Hyväksy julkaistavaksi",
+                  "publishHearingNow": "Julkaise kuuleminen",
+                  "published": "Julkaistu",
+                  "publishedHearings": "Julkiset",
+                  "publishingQueue": "Julkaisujono",
+                  "question": "Kysymys",
+                  "questionHelpMulti": "Voit valita yhden tai useamman vaihtoehdon.",
+                  "questionHelpSingle": "Voit valita yhden vaihtoehdon.",
+                  "questionOptionPlaceholder": "Vastausvaihtoehdon teksti.",
+                  "questionTextPlaceholder": "Kirjoita tähän kysymys, johon haluat kaupunkilaisten vastaavan.",
+                  "queueCount": "Julkaisua odottavat ({n})",
+                  "register": "Rekisteröidy",
+                  "registered": "rekisteröitynyt",
+                  "registeredStrongOnly": "Vahvasti kirjautuneet käyttäjät ",
+                  "registeredUserCommentMessage": "Nimesi tai nimimerkkisi näytetään kommenttisi yhteydessä. Voit poistaa nimen tai nimimerkin tyhjentämällä kyseisen kentän.",
+                  "registeredUsersOnly": "Vain kirjautuneet käyttäjät",
+                  "removeFavoriteNotFound": "Poistettavaa kuulemista ei löydy suosikeista.",
+                  "removeFavorites": "Poista suosikeista",
+                  "removeImage": "Poista kuva",
+                  "removedFavorite": "Kuuleminen poistettu suosikeista.",
+                  "reply": "Vastaa",
+                  "revertPublishing": "Peru julkaisu",
+                  "save": "Tallenna",
+                  "saveAndPreviewHearing": "Tallenna ja tarkastele luonnosta",
+                  "saveFailed": "Tallentaminen epäonnistui",
+                  "saveHearingChanges": "Tallenna muutokset",
+                  "scenarioSection": "Vaihtoehto",
+                  "search": "Etsi",
+                  "searchLabels": "Hae aiheista",
+                  "searchPlaceholder": "Etsi...",
+                  "searchSubjects": "Etsi aiheista",
+                  "searchTitles": "Etsi otsikoista",
+                  "sectionAbstract": "Lyhyt johdanto",
+                  "sectionAbstractPlaceholder": "Kuvaa tässä pääasia lyhyesti. Näytetään alussa suuremmalla kirjasinkoolla kuin muu tekstisisältö.",
+                  "sectionCardSubsectionTitle": "Alaosio",
+                  "sectionCommentDeletedMessage": "Viesti on poistettu{date}, koska se ei noudattanut Kerrokantasi-palvelun sääntöjä. https://kerrokantasi.hel.fi/info",
+                  "sectionCommentEditedMessage": "Kirjoittaja on muokannut viestiä.",
+                  "sectionCommentGenericDeletedMessage": "Viesti on poistettu.",
+                  "sectionCommentModeratedMessage": "Viestiä on muokattu, koska se rikkoi palvelun käyttöohjeita. https://kerrokantasi.hel.fi/info",
+                  "sectionCommentSelfDeletedMessage": "Kirjoittaja poisti oman viestinsä.",
+                  "sectionContent": "Tekstisisältö",
+                  "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
+                  "sectionImage": "Kuva",
+                  "sectionImageCaption": "Kuvateksti",
+                  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720. (Max. 1MB)",
+                  "sectionImagePlaceholder": "Selitä tai täydennä kuvaa kuvatekstillä. Mainitse kuvaajan nimi, jos tarpeellista.",
+                  "sectionInformationTitle": "Tiedot",
+                  "sectionTitle": "Osa-alueen otsikko",
+                  "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
+                  "sectionTotalComment": "{n} kommentti",
+                  "sectionTotalComments": "{n} kommenttia",
+                  "selectAnotherImage": "Valitse toinen kuva",
+                  "selectHearingComments": "Valitse tietyn kuulemisen kommentit",
+                  "selectOrDropFile": "Valitse tai pudota liite",
+                  "selectOrDropImage": "Valitse tai pudota kuva",
+                  "show": "Näytä",
+                  "showAll": "Näytä kaikki ({n})",
+                  "showMoreReplies": "Näytä vastaukset",
+                  "showOnlyOpen": "Näytetään vain avoimet",
+                  "showSubsectionBtn": "Näytä tiedot",
+                  "singleChoiceQuestion": "Yksivalintakysymys (vastaaja valitsee yhden vaihtoehdon)",
+                  "skipLinkAddButton": "Lisää hyppylinkki",
+                  "skipLinkFormFieldHide": "Piilota linkki",
+                  "skipLinkFormFieldOwnId": "Linkin oma id",
+                  "skipLinkFormFieldTargetId": "Linkin kohde id",
+                  "skipLinkFormFieldText": "Linkin teksti",
+                  "skipLinkModalTitle": "Hyppylinkin tiedot",
+                  "skipToMainContent": "Siirry pääsisältöön",
+                  "slugInUse": "Valitsemasi osoite oli käytössä ja siksi vaihdettiin.",
+                  "sort": "Järjestä",
+                  "submit": "Lähetä",
+                  "subsectionTitle": "Alaosio",
+                  "table-of-content": "Sisällys",
+                  "timeCloseFuture": "Sulkeutuu",
+                  "timeCloseFutureWithValues": "Sulkeutuu {date} klo {time}",
+                  "timeClosePast": "Sulkeutui",
+                  "timeClosePastWithValues": "Sulkeutui {date} klo {time}",
+                  "timeOpenFuture": "Avautuu",
+                  "timeOpenFutureWithValues": "Avautuu {date} klo {time}",
+                  "timeOpenPast": "Avautui",
+                  "timeOpenPastWithValues": "Avautui {date} klo {time}",
+                  "timetable": "Aikajana",
+                  "title": "Otsikko",
+                  "titlePlaceholder": "Anna kuulemiselle kuvaava otsikko...",
+                  "toBePublishedHearing": "Kuuleminen julkaistaan",
+                  "toolbar": "Työkalupalkki",
+                  "totalNumHearing": "{n} kuuleminen",
+                  "totalNumHearings": "{n} kuulemista",
+                  "totalQuestionVotes": "Ääniä yhteensä: {n}",
+                  "totalSubmittedComment": "Yhteensä {n} kommentti",
+                  "totalSubmittedComments": "Yhteensä {n} kommenttia",
+                  "tryToFixFormErrors": "Yritä korjata seuraavat ongelmat ja kokeile uudestaan",
+                  "tryingToDeletePhaseWithHearings": "Vaihetta, jossa on jo kuulemisia, ei voida poistaa.",
+                  "unpublishedAttachments": "Huom! Liitteet eivät ole ladattavissa, jos kuuleminen ei ole julkaistu.",
+                  "userAddedComments": "Lisäämäni kommentit ({n} kpl)",
+                  "userInfo": "Omat tiedot",
+                  "validationCantBeEmpty": "Tämä kenttä ei voi olla tyhjä",
+                  "validationHearingCloseAt": "Aseta sulkeutumisaika ennen tallentamista.",
+                  "validationHearingContactPersons": "Aseta ainakin yksi yhteyshenkilö.",
+                  "validationHearingLabels": "Aseta ainakin yksi asiasana.",
+                  "validationHearingOpenAt": "Aseta avautumisaika ennen tallentamista.",
+                  "validationHearingProjectPhaseActive": "Projektit tarvitsevat ainakin yhden aktiivisen vaiheen.",
+                  "validationHearingProjectPhaseTitle": "Aseta vaiheen otsikko ennen tallennusta.",
+                  "validationHearingProjectTitle": "Aseta projektin nimi ennen tallennusta.",
+                  "validationHearingSlug": "Aseta osoite ennen tallentamista.",
+                  "validationHearingTitle": "Aseta otsikko ennen tallentamista.",
+                  "validationNotification": "Lomake sisältää virheitä, tarkista virheet ja kokeile uudestaan.",
+                  "validationOnlyNumbers": "Tässä kentässä voi olla vain numeroita",
+                  "vote": "Äänestä",
+                  "voteButtonLikes": "Tykkäystä",
+                  "voteButtonText": "Tykkää tästä kommentista",
+                  "voteReceived": "Ääni vastaanotettu. Kiitos!",
+                  "welcome": "Kerro mielipiteesi",
+                  "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
+                  "withOpenLicense": "avoimella lisenssillä",
+                  "writeComment": "Kommentti",
+                },
+                "now": [Function],
+                "onError": [Function],
+                "textComponent": "span",
+                "timeZone": null,
+              }
+            }
+            labels={
+              [
+                {
+                  "id": 1,
+                  "label": {
+                    "fi": "Mock Von Label",
+                  },
+                },
+                {
+                  "id": 2,
+                  "label": {
+                    "fi": "Mock Don Label",
+                  },
+                },
+              ]
+            }
+          />
+        </Col>
+      </Row>
+    </div>
+  </section>
+  <section
+    className="page-section--hearings-tabs"
+  >
+    <div
+      className="container"
+    >
+      <HearingListTabs
+        activeTab="list"
+      />
+    </div>
+  </section>
+  <section
+    className="page-section page-section--hearings-list"
+    id="hearings-section"
+  >
+    <div
+      className="container"
+    >
+      <Row
+        bsClass="row"
+        componentClass="div"
+      >
+        <Col
+          bsClass="col"
+          componentClass="div"
+          md={8}
+          mdPush={2}
+        >
+          <InternalLink
+            destinationId="hearings-search-form"
+            srOnly={true}
+          >
+            <FormattedMessage
+              id="jumpToSearchForm"
+              values={{}}
+            />
+          </InternalLink>
+          <div>
+            <div
+              className="hearing-list__result-controls"
+            >
+              <h2
+                className="hearing-list__hearing-list-title"
+              >
+                <FormattedPlural
+                  one={
+                    <FormattedMessage
+                      id="totalNumHearing"
+                      values={
+                        {
+                          "n": 0,
+                        }
+                      }
+                    >
+                      [Function]
+                    </FormattedMessage>
+                  }
+                  other={
+                    <FormattedMessage
+                      id="totalNumHearings"
+                      values={
+                        {
+                          "n": 0,
+                        }
+                      }
+                    >
+                      [Function]
+                    </FormattedMessage>
+                  }
+                  style="cardinal"
+                  value={0}
+                >
+                  <Component />
+                </FormattedPlural>
+              </h2>
+              <HearingListFilters
+                formatMessage={[Function]}
+              />
+            </div>
+            <div
+              className="hearing-list"
+            >
+              <div
+                role="list"
+              >
+                <HearingListItem
+                  formatDate={[Function]}
+                  formatTime={[Function]}
+                  hearing={
+                    {
+                      "abstract": {
+                        "fi": "Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.",
+                      },
+                      "borough": {},
+                      "close_at": "2200-11-28T22:00:00Z",
+                      "closed": false,
+                      "created_at": "2017-10-23T11:07:26.630423Z",
+                      "default_to_fullscreen": false,
+                      "geojson": null,
+                      "id": "rXT2L1HxEOZTERjluyxyQZ412aYM8oZE",
+                      "labels": [],
+                      "main_image": {
+                        "caption": {
+                          "fi": "A Wonderfull caption",
+                        },
+                        "height": 631,
+                        "id": 92,
+                        "title": {},
+                        "url": "https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg",
+                        "width": 893,
+                      },
+                      "n_comments": 1,
+                      "open_at": "2017-10-22T21:00:00Z",
+                      "organization": "Mock Inc",
+                      "published": true,
+                      "servicemap_url": "",
+                      "slug": "mockHearing",
+                      "title": {
+                        "fi": "Mock Hearing",
+                      },
+                    }
+                  }
+                  key="rXT2L1HxEOZTERjluyxyQZ412aYM8oZE"
+                />
+              </div>
+              <Waypoint
+                bottomOffset="0px"
+                debug={false}
+                fireOnRapidScroll={true}
+                horizontal={false}
+                onEnter={[Function]}
+                onLeave={[Function]}
+                onPositionChange={[Function]}
+                topOffset="0px"
+              />
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </div>
+  </section>
+</div>
+`;

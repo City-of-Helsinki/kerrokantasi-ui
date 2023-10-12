@@ -1,4 +1,4 @@
-import {checkHeadlessParam} from '../utils/urlQuery';
+import { checkHeadlessParam } from '../utils/urlQuery';
 
 export default function headless(state, action) {
   if (action.type === 'setHeadless') {

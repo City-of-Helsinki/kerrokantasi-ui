@@ -1,7 +1,5 @@
-Kerrokantasi UI
-===============
+# Kerrokantasi UI
 
-[![Build Status](https://travis-ci.org/City-of-Helsinki/kerrokantasi-ui.svg?branch=master)](https://travis-ci.org/City-of-Helsinki/kerrokantasi-ui)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui)
 
 Kerrokantasi UI is the user interface powering kerrokantasi.hel.fi service. It
@@ -12,7 +10,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-* Node v16 LTS (`nvm use`)
+* Node v18 LTS (`nvm use`)
 * Yarn
 * Docker
 
@@ -39,8 +37,10 @@ working configuration for browsing test questionnaires in our test API.
 yarn build
 yarn start
 ```
+
 No separate build step is required to start the development server.
 It is somewhat unstable, but provides hot reloading:
+
 ```
 yarn run dev
 ```
@@ -54,24 +54,25 @@ Node-specific managers can also directly run `compile(/index.js)` & `server(/ind
 
 ### Other commands
 
-* `yarn run fetch-plugins`: fetch optional plugins (see below)
-* `yarn run test`: run tests
-* `yarn test -- -u` update tests
+- `yarn run fetch-plugins`: fetch optional plugins (see below)
+- `yarn run test`: run tests
+- `yarn test -- -u` update tests
 
 ### Running service in Docker
 
 #### How to build a docker image
+
 ```bash
 docker compose build
 ```
 
 #### How to run the docker image
+
 ```bash
 docker compose up
 ```
 
 The web application is running at http://localhost:8086
-
 
 ### Using local Tunnistamo instance for development with docker
 
@@ -131,7 +132,6 @@ openid_apitoken_url="http://tunnistamo-backend:8000/api-tokens/"
 
 Clone the repository (https://github.com/City-of-Helsinki/kerrokantasi). Follow the instructions for running kerrokantasi with docker and using local Tunnistamo.
 
-
 ### Plugins
 
 Questionnaires can make use of plugins. As of yet, their use case
@@ -144,8 +144,7 @@ The plugins are installed in `assets/plugins`. By default, kerrokantasi-ui
 expects to find them in `assets/plugins` URL prefix. The development server
 serves that path, but you can also use a web server of your choice for this.
 For server insllations, the plugin fetcher supports downloading the plugins
-to a directory specified on the command line (`yarn run fetch-plugins
-/srv/my-kerrokantasi-plugins`).
+to a directory specified on the command line (`yarn run fetch-plugins /srv/my-kerrokantasi-plugins`).
 
 It is also possible to change the paths that kerrokantasi-ui will search for
 specific plugins. See `src/shared_config.json`, which is the configuration
@@ -178,18 +177,20 @@ the kerrokantasi-ui `node_modules/<theme_assets>` folder. If someone can find
 a solution to this, please fix.
 
 **Development steps:**
+
 1. Place the theme assets folder next to the `kerrokantasi-ui` folder
-    * The structure should look like this:
-      ```
-      /
-        /kerrokantasi-ui
-        /<theme-assets-folder>
-      ```
+   - The structure should look like this:
+     ```
+     /
+       /kerrokantasi-ui
+       /<theme-assets-folder>
+     ```
 2. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
 3. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
 4. Set the `city_config` config to `<theme-assets-folder>`
 
 **Production installation:**
+
 1. Add the project to the local `kerrokantasi-ui` project either by installing it
    the same way as in the dev environment, or from GitHub or if the package is published
    to npm, then install it from there.
@@ -198,6 +199,7 @@ a solution to this, please fix.
 ## Creating city specific assets
 
 The assets of a city currently consists of the following things:
+
 1. Styling
 2. Favicons
 3. Images
@@ -210,9 +212,11 @@ folder in this project, or have a look already created theme assets such as:
 https://github.com/City-of-Turku/kerrokantasi-ui-turku
 
 ### Styles
+
 How to apply your theme CSS:
 
 Create a file `assets/app.scss` and apply style imports accordingly:
+
 ```
 // This needs to be imported before kerrokantasi variables
 @import "my-custom-variables.scss";
@@ -227,36 +231,40 @@ Create a file `assets/app.scss` and apply style imports accordingly:
 ```
 
 ### Aliases
+
 The following aliases are available to use in SCSS and JS files:
-* `kerrokantasi-ui`: Points to the root of this project
-* `kerrokantasi-ui-modules`: Points to the node_modules of this project
-* `@city-config`: Points to the root of the city specific assets
-* `@city-assets`: Points to the assets folder in the city specific assets
-* `@city-i18n`: Point to the i18n folder in the city specific assets
-* `@@city-images`: Point to the image folder in the city specific assets
+
+- `kerrokantasi-ui`: Points to the root of this project
+- `kerrokantasi-ui-modules`: Points to the node_modules of this project
+- `@city-config`: Points to the root of the city specific assets
+- `@city-assets`: Points to the assets folder in the city specific assets
+- `@city-i18n`: Point to the i18n folder in the city specific assets
+- `@@city-images`: Point to the image folder in the city specific assets
 
 ### Naming conventions
+
 The following naming conventions needs to be used in order to city assets to
 work.
 
-* `/assets/app.scss`: The base style file that is imported
-* `/i18n/[fi, sv, en].json`: Language files. If no string changes are to be made, only include `{}` in the files
-* `/i18n/localization.json`: Other configuration related to localization. Currently holds map default position
-* `/i18n/service-info/content.[fi, sv, en].md`: Service info page texts, if no file found service will display
-information that content was not found.
-* `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
-* `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo
-* `/assets/urls.json`: Configure where links point to, also holds path to analytics script. If analytics path is
-false analytics is disabled.
+- `/assets/app.scss`: The base style file that is imported
+- `/i18n/[fi, sv, en].json`: Language files. If no string changes are to be made, only include `{}` in the files
+- `/i18n/localization.json`: Other configuration related to localization. Currently holds map default position
+- `/i18n/service-info/content.[fi, sv, en].md`: Service info page texts, if no file found service will display
+  information that content was not found.
+- `/assets/images/logo[fi, sv]-black.svg`: Black/Dark site logo
+- `/assets/images/logo[fi, sv]-white.svg`: White/Light site logo
+- `/assets/urls.json`: Configure where links point to, also holds path to analytics script. If analytics path is
+  false analytics is disabled.
 
 #### Favicons:
+
 The following favicons are recommended, but not mandatory to include.
 
-* `/assets/favicon/favicon.ico`
-* `/assets/favicon/favicon-32x32.png`
-* `/assets/favicon/favicon-16x16.png`
-* `/assets/favicon/manifest.json`
-* `/assets/favicon/safari-pinned-tab.svg`
-* `/assets/favicon/browserconfig.xml`
+- `/assets/favicon/favicon.ico`
+- `/assets/favicon/favicon-32x32.png`
+- `/assets/favicon/favicon-16x16.png`
+- `/assets/favicon/manifest.json`
+- `/assets/favicon/safari-pinned-tab.svg`
+- `/assets/favicon/browserconfig.xml`
 
 If no favicon is provided the UI will use the default kerrokantasi favicon.
