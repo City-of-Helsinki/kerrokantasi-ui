@@ -1,9 +1,9 @@
 {
   "hostname": "https://kerrokantasi.hel.fi",
   "dataProtection": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden%20ja%20palautteiden%20rekisteri.pdf",
-  "feedbackEmailEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
-  "feedbackEmailFI": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi",
-  "feedbackEmailSV": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-sv",
+  "feedbackEmailEN": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
+  "feedbackEmailFI": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
+  "feedbackEmailSV": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
   "feedbackEN": "https://palautteet.hel.fi/en",
   "feedbackFI": "https://palautteet.hel.fi/fi",
   "feedbackSV": "https://palautteet.hel.fi/sv",

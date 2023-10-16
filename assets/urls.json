@@ -1,12 +1,12 @@
 {
   "hostname": "https://localhost:8086",
-  "dataProtection": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden%20ja%20palautteiden%20rekisteri.pdf",
+  "dataProtection": "https://www.example.fi",
   "feedbackEmailEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
   "feedbackEmailFI": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi",
   "feedbackEmailSV": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-sv",
-  "feedbackEN": "https://palautteet.hel.fi/en",
-  "feedbackFI": "https://palautteet.hel.fi/fi",
-  "feedbackSV": "https://palautteet.hel.fi/sv",
+  "feedbackEN": "https://www.example.fi/en",
+  "feedbackFI": "https://www.example.fi/fi",
+  "feedbackSV": "https://www.example.fi/sv",
   "rasterMapTiles": "http://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
   "city": "http://www.google.fi",
   "analytics": false
