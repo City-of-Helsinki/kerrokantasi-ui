@@ -1,11 +1,5 @@
 .footer {
-  &-navigation {
-    &__item {
-    }
-  }
-
-  &-utilities {
-    &__item {
-    }
+  &--is-admin {
+    padding-bottom: 5.5rem;
   }
 }

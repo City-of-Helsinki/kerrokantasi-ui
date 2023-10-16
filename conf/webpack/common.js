@@ -30,6 +30,10 @@ module.exports = {
       'kerrokantasi-ui': path.resolve(__dirname, '../../'),
       'kerrokantasi-ui-modules': path.resolve(__dirname, '../../node_modules'),
     },
+    fallback: {
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify")
+    }
   },
   entry: [
     'babel-polyfill',
