@@ -1,111 +1,88 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Row, Col } from 'react-bootstrap';
-import logoWhite from '@city-images/logo-fi-white.svg';
-import logoSwedishWhite from '@city-images/logo-sv-white.svg';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import { Footer as HDSFooter } from 'hds-react';
 
-import Link from './LinkWithLang';
-import config from '../config';
 import { getFeedbackUrl } from '../utils/languageUtils';
+import config from '../config';
 
-const getCurrentYear = () => {
-  const today = new Date();
-  return today.getFullYear();
-};
 
-export default function Footer(props) {
+
+const Footer = (props) => {
   const { language } = props;
 
   return (
-    <footer className='site-footer'>
-      <div className='container'>
-        <Row>
-          <Col md={3} sm={4}>
-            <div className='footer-branding'>
-              <FormattedMessage id='footerLogoAlt'>
-                {(altText) => (
-                  <img alt={altText} src={language === 'sv' ? logoSwedishWhite : logoWhite} className='footer-logo' />
-                )}
-              </FormattedMessage>
-              <div className='footer-city-link'>
-                <a href={urls.city}>
-                  <FormattedMessage id='footerCityLink' />
-                </a>
-              </div>
-            </div>
-          </Col>
-          <Col md={3} sm={4}>
-            <div className='site-footer-block'>
-              <div className='footer-header'>Kerrokantasi</div>
-              <ul className='footer-links'>
-                <li>
-                  <Link to={{ path: '/hearings/list' }}>
-                    <FormattedMessage id='hearingsHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: '/hearings/map' }}>
-                    <FormattedMessage id='hearingMapHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: '/info' }}>
-                    <FormattedMessage id='infoHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: getFeedbackUrl(language) }} rel="noopener noreferrer" target="_blank">
-                    <FormattedMessage id="feedbackPrompt" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <div className='site-footer-small-print'>
-              <ul className='small-print-nav'>
-                {config.showAccessibilityInfo && (
-                  <li>
-                    <Link to={{ path: '/accessibility' }}>
-                      <FormattedMessage id='accessibilityLink' />
-                    </Link>
-                  </li>
-                )}
-                <li>
-                  <a href={urls.dataProtection} target='_blank' rel='noopener noreferrer'>
-                    <FormattedMessage id='dataProtection' />
-                  </a>
-                </li>
-                {config.enableCookies && (
-                  <li>
-                    <Link to={{ path: '/cookies' }}>
-                      <FormattedMessage id='cookieManagementLink' />
-                    </Link>
-                  </li>
-                )}
-                <li>
-                  <a href={getFeedbackUrl(language)} target='_blank' rel='noopener noreferrer'>
-                    <FormattedMessage id='feedbackLinkText' />
-                  </a>
-                </li>
-                <li>
-                  {getCurrentYear()} <FormattedMessage id='copyrightText' />
-                </li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-      </div>
-    </footer>
+    <HDSFooter
+      className="footer"
+      title="Kerrokantasi"
+      logoLanguage={language}
+      theme={{
+        '--footer-background': 'var(--color-black)',
+        '--footer-color': 'var(--color-white)',
+      }}
+    >
+      <HDSFooter.Navigation>
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="hearingsHeaderText" />}
+          href="/hearings/list"
+        />
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="hearingMapHeaderText" />}
+          href="/hearings/map"
+        />
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="accessibilityLink" />}
+          href="/accessibility"
+        />
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="dataProtection" />}
+          href={urls.dataProtection}
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+        {config.enableCookies && (<HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="cookieManagementLink" />}
+          href="/cookies"
+        />)}
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="infoHeaderText" />}
+          href="/info"
+        />
+        <HDSFooter.Item
+          className="footer-navigation__item"
+          label={<FormattedMessage id="feedbackPrompt" />}
+          href={getFeedbackUrl(language)}
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      </HDSFooter.Navigation>
+      <HDSFooter.Utilities backToTopLabel={<FormattedMessage id="scrollToTop" />}>
+        <HDSFooter.Item
+          className="footer-utilities__item"
+          label={<FormattedMessage id="feedbackLinkText" />}
+          href={getFeedbackUrl(language)}
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      </HDSFooter.Utilities>
+      <HDSFooter.Base
+        copyrightHolder={<FormattedMessage id="copyrightHolder" />}
+        copyrightText={<FormattedMessage id="copyrightText" />}
+      />
+    </HDSFooter >
   );
-}
+};
 
 Footer.propTypes = {
-  language: PropTypes.string,
+  language: PropTypes.string
 };
+
+export default Footer;
