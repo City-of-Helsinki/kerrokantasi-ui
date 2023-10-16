@@ -1,13 +1,12 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
+import settings from '@city-assets/settings.json';
 import { Footer as HDSFooter, Logo } from 'hds-react';
-// eslint-disable-next-line import/no-unresolved
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
-// eslint-disable-next-line import/no-unresolved
 import logoWhite from '@city-images/logo-fi-white.svg';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -28,6 +27,7 @@ const Footer = (props) => {
       className={classNames(['footer', userIsAdmin && 'footer--is-admin'])}
       title='Kerrokantasi'
       logoLanguage={language}
+      korosType={settings.footer.korosType}
       theme={{
         '--footer-background': 'var(--color-black)',
         '--footer-color': 'var(--color-white)',
