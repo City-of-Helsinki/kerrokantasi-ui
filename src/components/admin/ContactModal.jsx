@@ -2,7 +2,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
-import { Modal, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
+import { Modal, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
@@ -300,7 +301,7 @@ class ContactModal extends React.Component {
           <Button onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
+          <Button variant='primary' onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
             {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}
           </Button>
         </Modal.Footer>

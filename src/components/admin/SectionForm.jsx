@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { get, isEmpty } from 'lodash';
-import { ControlLabel, FormControl, FormGroup, HelpBlock, Image, Button, ButtonGroup, Checkbox } from 'react-bootstrap';
+import { ControlLabel, FormControl, FormGroup, HelpBlock, Image, ButtonGroup, Checkbox } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Dropzone from 'react-dropzone';
 import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
 
@@ -423,42 +424,38 @@ class SectionForm extends React.Component {
           {this.renderAttachments(section)}
         </FormGroup>
         <FormGroup>
-          <button
+          <Button
             className='btn btn-default question-control'
-            type='button'
             onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newSingleChoiceQuestion' })}
-          </button>
-          <button
+          </Button>
+          <Button
             className='btn btn-default question-control'
-            type='button'
             onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newMultipleChoiceQuestion' })}
-          </button>
+          </Button>
         </FormGroup>
         {!isEmpty(section.questions) &&
           section.questions.map((question, index) => (
             <div>
               <h5>{`${formatMessage({ id: 'question' })} ${index + 1}`}</h5>
               {question.frontId && (
-                <button
-                  type='button'
+                <Button
                   className='btn btn-danger pull-right'
                   onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}
-                </button>
+                </Button>
               )}
               {question.id && !isPublic && (
-                <button
-                  type='button'
+                <Button
                   className='btn btn-danger pull-right'
                   onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}
-                </button>
+                </Button>
               )}
               <FormGroup>
                 <h6>

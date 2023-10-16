@@ -4,7 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, FormattedRelative } from 'react-intl';
-import { Button, FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';

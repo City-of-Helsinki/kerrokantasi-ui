@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -110,7 +110,7 @@ class HearingFormStep5 extends React.Component {
         </div>
         {selectedProject && (
           <ButtonToolbar>
-            <Button className={errorStyle} onClick={this.addPhase} bsSize='small' bsStyle='default'>
+            <Button className={errorStyle} onClick={this.addPhase} size='small' variant='primary'>
               <Icon className='icon' name='plus' /> <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
             </Button>
           </ButtonToolbar>

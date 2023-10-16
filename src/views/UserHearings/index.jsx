@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Helmet from 'react-helmet';
 
 import { getUser } from '../../selectors/user';

@@ -1,7 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 

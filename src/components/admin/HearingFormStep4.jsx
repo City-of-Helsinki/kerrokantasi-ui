@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Col from 'react-bootstrap/lib/Col';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Row from 'react-bootstrap/lib/Row';
@@ -132,7 +132,7 @@ class HearingFormStep4 extends React.Component {
           languages={hearingLanguages}
         />
         <div className='step-footer'>
-          <Button bsStyle='default' onClick={this.props.onContinue}>
+          <Button variant='primary' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

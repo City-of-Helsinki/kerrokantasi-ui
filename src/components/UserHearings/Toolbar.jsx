@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import classNames from 'classnames';
 
 import Icon from '../../utils/Icon';

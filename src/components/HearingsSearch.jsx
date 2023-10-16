@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
@@ -57,7 +58,7 @@ class HearingsSearch extends React.Component {
                 />
               )}
             </FormGroup>
-            <Button className='hearings-search__button' bsStyle='primary' type='submit'>
+            <Button className='hearings-search__button' variant='primary' type='submit'>
               <FormattedMessage id='search' />
             </Button>
             <InternalLink destinationId='hearings-section' srOnly>

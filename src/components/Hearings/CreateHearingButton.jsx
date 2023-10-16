@@ -2,7 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { ButtonToolbar } from 'react-bootstrap';
+import { Button } from 'hds-react';
 
 import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
@@ -11,7 +12,7 @@ const CreateHearingButton = ({ to }) => (
   <div className='toolbar-bottom create-hearing-button-container'>
     <ButtonToolbar className='actions pull-right'>
       <Link to={to}>
-        <Button bsStyle='success'>
+        <Button theme="kerrokantasi" className={'kerrokantasi-btn success'}>
           <Icon name='plus' />
           &nbsp;&nbsp;
           <FormattedMessage id='createHearing' />

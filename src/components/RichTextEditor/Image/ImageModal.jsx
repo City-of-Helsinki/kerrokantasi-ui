@@ -1,7 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { ControlLabel, HelpBlock, Image, Modal, Button, ModalTitle } from 'react-bootstrap';
+import { ControlLabel, HelpBlock, Image, Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Dropzone from 'react-dropzone';
 import FormControl from 'react-bootstrap/lib/FormControl';
 

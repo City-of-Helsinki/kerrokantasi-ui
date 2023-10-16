@@ -5,7 +5,7 @@ import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import { Row, Col } from 'react-bootstrap';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 

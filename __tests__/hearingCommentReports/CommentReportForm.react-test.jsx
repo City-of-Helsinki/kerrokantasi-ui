@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Button, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 import { UnconnectedCommentReportForm as CommentReportForm } from '../../src/components/CommentReportModal/CommentReportForm';

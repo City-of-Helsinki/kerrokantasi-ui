@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 const DeleteModal = ({ isOpen, close, onDeleteComment }) => (
@@ -15,7 +16,7 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) => (
         <FormattedMessage id='cancel' />
       </Button>
       <Button
-        bsStyle='danger'
+        variant='danger'
         onClick={() => {
           onDeleteComment();
           close();

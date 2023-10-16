@@ -21,26 +21,26 @@ class HearingToolbar extends React.Component {
     let statusLabel = '';
     const openingTime = moment(hearing.open_at);
     const actions = [
-      <Button bsStyle='default' onClick={this.props.onReportsClick} key='reports'>
+      <Button variant='primary' onClick={this.props.onReportsClick} key='reports'>
         <Icon aria-hidden='true' name='list-alt' /> <FormattedMessage id='commentReportsButtonLabel' />
       </Button>,
-      <Button bsStyle='default' onClick={this.props.onEdit} key='edit'>
+      <Button variant='primary' onClick={this.props.onEdit} key='edit'>
         <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
       </Button>,
     ];
     if (!hearing.closed && hearing.published) {
       statusLabel = (
-        <Alert bsStyle='success'>
+        <Alert variant='success'>
           <Icon name='eye' /> <FormattedMessage id='published' />
         </Alert>
       );
       actions.push(
-        <Button bsStyle='danger' onClick={this.props.onRevertPublishing} key='unpublish'>
+        <Button variant='danger' onClick={this.props.onRevertPublishing} key='unpublish'>
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
         </Button>,
       );
       actions.push(
-        <Button bsStyle='danger' onClick={this.props.onCloseHearing} key='close'>
+        <Button variant='danger' onClick={this.props.onCloseHearing} key='close'>
           <Icon name='ban' /> <FormattedMessage id='closeHearing' />
         </Button>,
       );
@@ -57,7 +57,7 @@ class HearingToolbar extends React.Component {
         </Alert>
       );
       actions.push(
-        <Button bsStyle='danger' onClick={this.props.onRevertPublishing} key='unpublish'>
+        <Button variant='danger' onClick={this.props.onRevertPublishing} key='unpublish'>
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
         </Button>,
       );
@@ -72,12 +72,12 @@ class HearingToolbar extends React.Component {
         publishText = <FormattedMessage id='publishHearingNow' />;
       }
       actions.push(
-        <Button bsStyle='danger' onClick={this.props.onPublish} key='publish'>
+        <Button variant='danger' onClick={this.props.onPublish} key='publish'>
           <Icon name='eye' /> {publishText}
         </Button>,
       );
       actions.push(
-        <Button bsStyle='danger' onClick={() => this.props.onDeleteHearingDraft()} key='unpublish'>
+        <Button variant='danger' onClick={() => this.props.onDeleteHearingDraft()} key='unpublish'>
           <Icon name='eye-slash' /> <FormattedMessage id='deleteDraft' />
         </Button>,
       );

@@ -221,3 +221,15 @@ a.fullwidth {
     padding-bottom: var(--spacing-s);
   }
 }
+
+.kerrokantasi-btn[type="button"] {
+  &.success {
+    background-color: transparent;
+    border-color: $theme-success;
+    color: $theme-success;
+    &:hover {
+      border-color: $theme-success;
+      background-color: lighten($theme-success-light, 50%);
+    }
+  }
+}

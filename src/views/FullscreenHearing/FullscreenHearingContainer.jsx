@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import logoWhite from '@city-images/logo-fi-white.svg';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 
