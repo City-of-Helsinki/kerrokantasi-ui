@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import urls from '@city-assets/urls.json';
 import settings from '@city-assets/settings.json';
@@ -18,7 +18,7 @@ import { getUser } from '../selectors/user';
 import { isAdmin } from '../utils/user';
 
 const Footer = (props) => {
-  const { language, user } = props;
+  const { language, user, intl } = props;
 
   const userIsAdmin = isAdmin(user);
 
@@ -57,7 +57,13 @@ const Footer = (props) => {
         copyrightHolder={<FormattedMessage id='copyrightHolder' />}
         copyrightText={<FormattedMessage id='copyrightText' />}
         backToTopLabel={<FormattedMessage id='scrollToTop' />}
-        logo={<Logo src={language === 'sv' ? logoSwedishWhite : logoWhite} size='medium' />}
+        logo={
+          <Logo
+            src={language === 'sv' ? logoSwedishWhite : logoWhite}
+            size='medium'
+            alt={intl.formatMessage({ id: 'footerLogoAlt' })}
+          />
+        }
       >
         <HDSFooter.Link label={<FormattedMessage id='accessibilityLink' />} href='/accessibility' />
         <HDSFooter.Link
@@ -76,6 +82,7 @@ const Footer = (props) => {
 };
 
 Footer.propTypes = {
+  intl: intlShape.isRequired,
   language: PropTypes.string,
   user: PropTypes.object,
 };
@@ -83,5 +90,5 @@ Footer.propTypes = {
 export default withRouter(
   connect((state) => ({
     user: getUser(state),
-  }))(Footer),
+  }))(injectIntl(Footer)),
 );
