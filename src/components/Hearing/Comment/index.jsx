@@ -73,7 +73,7 @@ class Comment extends React.Component {
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { data } = this.props;
     const { section, id } = data;
@@ -93,7 +93,7 @@ class Comment extends React.Component {
     this.setState({ editorOpen: false });
   }
 
-  handleDelete(event) {
+  handleDelete = (event) => {
     event.preventDefault();
     const { data } = this.props;
     const { section, id, answers } = data;
@@ -101,7 +101,7 @@ class Comment extends React.Component {
     this.props.onDeleteComment(section, id, answers.length > 0);
   }
 
-  onVote() {
+  onVote = () => {
     if (this.props.canVote) {
       const { data } = this.props;
       // If user has already voted for this comment, block the user from voting again
@@ -116,7 +116,7 @@ class Comment extends React.Component {
     }
   }
 
-  onFlag() {
+  onFlag = () => {
     if (this.canFlagComments()) {
       const { data } = this.props;
       this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
@@ -125,7 +125,7 @@ class Comment extends React.Component {
     }
   }
 
-  onCopyURL() {
+  onCopyURL = () => {
     // Build absolute URL for comment
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
