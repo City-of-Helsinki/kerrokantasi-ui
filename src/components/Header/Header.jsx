@@ -104,6 +104,7 @@ class Header extends React.Component {
             closeIcon={<LoadingSpinner small />}
             onClick={user ? () => userManager.signoutRedirect() : () => this.handleLogin()}
             id="action-bar-login"
+            className={user ? "logout-button" : "login-button"}
           />
         </HDSHeader.ActionBar>
 
