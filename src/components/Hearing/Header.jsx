@@ -234,7 +234,7 @@ export class HeaderComponent extends React.Component {
     };
     return (
       <div className='hearing-meta__element hearing-favorite'>
-        <Icon className={'vittumitäsäätöä'} name={favConfig.icon} />
+        <Icon className={'icon-adjustment'} name={favConfig.icon} />
         <Button className={'kerrokantasi-btn secondary'} onClick={() => favConfig.click(hearing.slug, hearing.id)}>
           <FormattedMessage id={favConfig.id}>{(txt) => txt}</FormattedMessage>
         </Button>
