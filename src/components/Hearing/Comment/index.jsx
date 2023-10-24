@@ -276,12 +276,12 @@ class Comment extends React.Component {
         </OverlayTrigger>
       </div>
       {this.canFlagComments() && (
-        <Button className='btn-sm hearing-comment-vote-link' onClick={this.onCopyURL}>
+        <Button className='hearing-comment-vote-link' onClick={this.onCopyURL}>
           <Icon name='link' aria-hidden='true' />
         </Button>
       )}
       {this.canFlagComments() && !data.deleted && (
-        <Button className='btn-sm hearing-comment-vote-link' onClick={this.onFlag}>
+        <Button className='hearing-comment-vote-link' onClick={this.onFlag}>
           <Icon
             name={classnames({
               'flag-o': !data.flagged,

@@ -12,11 +12,11 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) => (
       </Modal.Title>
     </Modal.Header>
     <Modal.Footer>
-      <Button onClick={() => close()}>
+      <Button className={'kerrokantasi-btn'} onClick={() => close()}>
         <FormattedMessage id='cancel' />
       </Button>
       <Button
-        variant='danger'
+        className={'kerrokantasi-btn danger'}
         onClick={() => {
           onDeleteComment();
           close();

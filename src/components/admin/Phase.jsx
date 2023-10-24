@@ -57,8 +57,8 @@ const Phase = (props) => {
                             onDelete(phaseInfo.id || phaseInfo.frontId);
                           }
                         }}
-                        bsStyle='default'
-                        className='pull-right add-label-button'
+                        size="small"
+                        className='kerrokantasi-btn pull-right add-label-button'
                         style={{ color: 'red', borderColor: 'red' }}
                       >
                         <Icon className='icon' name='trash' />

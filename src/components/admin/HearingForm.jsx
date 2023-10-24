@@ -115,17 +115,17 @@ class HearingForm extends React.Component {
     if (hearing.published) {
       ActionButton = () => (
         <div className='flex-end btn-toolbar'>
-          <Button variant='success' onClick={onSaveAsCopy}>
+          <Button className={'kerrokantasi-btn success'}  onClick={onSaveAsCopy}>
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
-          <Button variant='success' onClick={onSaveChanges}>
+          <Button className={'kerrokantasi-btn success'}  onClick={onSaveChanges}>
             <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
-        <Button variant='success' onClick={onSaveAndPreview}>
+        <Button className={'kerrokantasi-btn success'}  onClick={onSaveAndPreview}>
           <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );

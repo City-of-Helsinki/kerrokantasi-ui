@@ -96,10 +96,9 @@ class Header extends React.Component {
       <FormattedMessage key='login' id='login'>
         {(login) => (
           <Button
-            variant='supplementary'
             theme='black'
             iconLeft={<IconSignin />}
-            className={classNames('user-menu', 'login-link', 'user-menu--unlogged')}
+            className={classNames('user-menu', 'login-link', 'user-menu--unlogged', 'kerrokantasi-btn', 'supplementary')}
             onClick={() => this.handleLogin()}
           >
             <span className='user-name'>{login}</span>

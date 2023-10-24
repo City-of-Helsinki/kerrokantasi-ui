@@ -510,7 +510,7 @@ export const BaseCommentForm = ({
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button onClick={toggle} variant='primary' theme="black" size='large' block>
+      <Button onClick={toggle} className={"kerrokantasi-btn black"} size='large' block>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
       </Button>
     );
@@ -639,7 +639,7 @@ export const BaseCommentForm = ({
               className='custom-file-input'
               onChange={(event) => handleChange(event)}
             />
-            <Button>
+            <Button className='kerrokantasi-btn'>
               <label htmlFor='fileInput'>
                 <FormattedMessage id='choose_images' />
               </label>
@@ -651,13 +651,12 @@ export const BaseCommentForm = ({
         </FormGroup>
         {renderNameFormForUser()}
         <div className='comment-buttons clearfix'>
-          <Button variant='danger' onClick={toggle}>
+          <Button className='kerrokantasi-btn danger' onClick={toggle}>
             <FormattedMessage id='cancel' />
           </Button>
           <Button
-            bsStyle='primary'
             aria-disabled={hasFormErrors()}
-            className={hasFormErrors() ? 'disabled' : null}
+            className={(hasFormErrors() ? 'disabled' : null) + ' kerrokantasi-btn'}
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />

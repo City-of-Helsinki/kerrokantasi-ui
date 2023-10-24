@@ -263,9 +263,6 @@ class SectionForm extends React.Component {
           <div className='section-toolbar'>
             <ButtonGroup bsSize='small'>
               <Button
-                bsStyle='default'
-                className='btn'
-                type='button'
                 onClick={() => sectionMoveUp(section.frontId)}
                 disabled={isFirstSubsection}
                 style={{ marginRight: '10px' }}
@@ -273,9 +270,6 @@ class SectionForm extends React.Component {
                 &uarr; <FormattedMessage id='moveUp' />
               </Button>
               <Button
-                bsStyle='default'
-                className='btn'
-                type='button'
                 onClick={() => sectionMoveDown(section.frontId)}
                 disabled={isLastSubsection}
               >
@@ -425,13 +419,13 @@ class SectionForm extends React.Component {
         </FormGroup>
         <FormGroup>
           <Button
-            className='btn btn-default question-control'
+            className='question-control kerrokantasi-btn'
             onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newSingleChoiceQuestion' })}
           </Button>
           <Button
-            className='btn btn-default question-control'
+            className='question-control kerrokantasi-btn'
             onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newMultipleChoiceQuestion' })}
@@ -443,7 +437,7 @@ class SectionForm extends React.Component {
               <h5>{`${formatMessage({ id: 'question' })} ${index + 1}`}</h5>
               {question.frontId && (
                 <Button
-                  className='btn btn-danger pull-right'
+                  className='kerrokantasi-btn danger pull-right'
                   onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}
@@ -451,7 +445,7 @@ class SectionForm extends React.Component {
               )}
               {question.id && !isPublic && (
                 <Button
-                  className='btn btn-danger pull-right'
+                  className='kerrokantasi-btn danger pull-right'
                   onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}

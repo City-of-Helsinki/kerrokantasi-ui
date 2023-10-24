@@ -128,7 +128,6 @@ describe('IframeModal', () => {
       test('accept button', () => {
         const acceptButton = footer.find(Button).last();
         expect(acceptButton.prop('onClick')).toBeDefined();
-        expect(acceptButton.prop('bsStyle')).toBe('primary');
         const acceptButtonText = acceptButton.find('FormattedMessage');
         expect(acceptButtonText.prop('id')).toBe('formButtonAcceptAndAdd');
       });

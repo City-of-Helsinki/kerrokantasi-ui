@@ -24,17 +24,6 @@
           }
         }
       }
-      button {
-        border: medium none;
-
-        .fa-gear {
-          color: #333;
-
-          &.active {
-            color: #0062ae;
-          }
-        }
-      }
     }
     .tool-dropdown {
       display: none;

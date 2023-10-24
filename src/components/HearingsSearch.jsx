@@ -58,7 +58,7 @@ class HearingsSearch extends React.Component {
                 />
               )}
             </FormGroup>
-            <Button className='hearings-search__button' variant='primary' type='submit'>
+            <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
               <FormattedMessage id='search' />
             </Button>
             <InternalLink destinationId='hearings-section' srOnly>

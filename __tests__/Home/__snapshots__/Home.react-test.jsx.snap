@@ -1025,19 +1025,22 @@ exports[`Home component should render as expected 1`] = `
         <p
           className="text-center"
         >
-          <withRouter(Connect(LinkWithLangComponent))
-            className="btn btn-default"
-            to={
-              {
-                "path": "/hearings/list",
-              }
-            }
+          <ForwardRef
+            className="kerrokantasi-btn secondary"
           >
-            <FormattedMessage
-              id="allHearings"
-              values={{}}
-            />
-          </withRouter(Connect(LinkWithLangComponent))>
+            <withRouter(Connect(LinkWithLangComponent))
+              to={
+                {
+                  "path": "/hearings/list",
+                }
+              }
+            >
+              <FormattedMessage
+                id="allHearings"
+                values={{}}
+              />
+            </withRouter(Connect(LinkWithLangComponent))>
+          </ForwardRef>
         </p>
       </div>
     </div>
