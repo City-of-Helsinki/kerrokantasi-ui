@@ -10,7 +10,7 @@ export const languageFromUrlMiddleware = store => next => action => {
     return next(action);
   }
   
-  const queryLang = action.payload.location ? parseQuery(action.payload.location.search).lang : '';
+  const queryLang = action.payload.search ? parseQuery(action.payload.search).lang : '';
   
   if (isEmpty(queryLang)) {
     store.dispatch(setLanguage('fi'));
