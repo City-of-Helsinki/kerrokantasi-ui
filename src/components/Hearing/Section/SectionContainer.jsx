@@ -1,7 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
 import React from 'react';
-import AnchorLink from 'react-anchor-link-smooth-scroll';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -15,6 +14,7 @@ import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
 import HearingMap from '../HearingMap';
 import Icon from '../../../utils/Icon';
+import InternalLink from '../../InternalLink';
 import Link from '../../LinkWithLang';
 import PluginContent from '../../PluginContent';
 import SectionAttachment from './SectionAttachment';
@@ -671,9 +671,9 @@ export class SectionContainerComponent extends React.Component {
               />
             </div>
             {isSectionCommentable(hearing, section, user) && (
-              <AnchorLink offset='100' href='#comments-section' className='hearing-subsection-write-comment-link'>
+              <InternalLink destinationId='comments-section' className='hearing-subsection-write-comment-link'>
                 <FormattedMessage id='headerWriteCommentLink' />
-              </AnchorLink>
+              </InternalLink>
             )}
           </div>
         )}
