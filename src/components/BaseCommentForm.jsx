@@ -656,7 +656,12 @@ export const BaseCommentForm = ({
           </Button>
           <Button
             aria-disabled={hasFormErrors()}
-            className={(hasFormErrors() ? 'disabled' : null) + ' kerrokantasi-btn'}
+            className={
+              classnames(
+                {'disabled': hasFormErrors()},
+                'kerrokantasi-btn'
+              )
+            }
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />
