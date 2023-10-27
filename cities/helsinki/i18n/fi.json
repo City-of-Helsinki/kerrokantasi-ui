@@ -3,6 +3,7 @@
   "fullscreenHeaderLogoAlt": "Helsinki logo",
   "footerLogoAlt": "Helsinki logo",
   "headerLogoAlt": "Siirry etusivulle",
-  "copyrightText": "Helsingin kaupunki",
+  "copyrightHolder": "Helsingin kaupunki",
+  "copyrightText": "Kaikki oikeudet pidätetään.",
   "footerCityLink": "www.hel.fi"
 }
