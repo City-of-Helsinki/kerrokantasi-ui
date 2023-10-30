@@ -47,6 +47,7 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               </ControlLabel>
               {!isEmpty(labels) && (
                 <Select
+                  className="hearings-search__select"
                   multi
                   value={selectedLabels}
                   options={labelsAsOptions}

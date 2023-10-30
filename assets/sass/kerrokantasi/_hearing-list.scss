@@ -225,9 +225,40 @@
     --icon-size: var(--spacing-s);
   }
 
+  &__select {
+    background-color: var(--color-white);
+
+    * {
+      border-radius: 0;
+    }
+
+    > div {
+      border: 2px solid var(--color-black-50) !important;
+
+      span {
+        background-color: var(--color-white);
+
+        span {
+          left: 5;
+          top: 1;
+        }
+      }
+    }
+
+    .Select-menu-outer {
+      > div {
+        border: none;
+      }
+    }
+  }
+
   &__label {
     width: 48%;
     float: right;
+
+    label {
+      font-weight: 500;
+    }
   }
 
   &__text {
