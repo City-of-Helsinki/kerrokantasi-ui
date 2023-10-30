@@ -44,7 +44,7 @@ class Header extends React.Component {
       if (window.location.search.includes('lang=')) {
         searchParams = window.location.search.replace(/lang=\w{2}/, languageParam);
       } else if (window.location.search) {
-        searchParams = `${window.location.search  }&${languageParam}`;
+        searchParams = `${window.location.search}&${languageParam}`;
       }
       this.props.history.push({
         pathname: window.location.pathname,
@@ -85,7 +85,7 @@ class Header extends React.Component {
     );
 
     return (
-      <HDSHeader onDidChangeLanguage={this.onLanguageChange} languages={languages}>
+      <HDSHeader onDidChangeLanguage={this.onLanguageChange} languages={languages} defaultLanguage={language}>
         <HDSHeader.ActionBar
           title='Kerrokantasi'
           titleAriaLabel='Kerrokantasi'
