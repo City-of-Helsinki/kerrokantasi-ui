@@ -62,9 +62,11 @@ class Header extends React.Component {
     }
     if (id === 'userInfo' && !user) { return null; }
     if (addSuffix) { messageId += 'HeaderText'; }
+
+    const styleFix = {flexGrow: "1", padding: "17px 16px", position: "relative", margin: "0", outlineOffset: "-3px"}
     return (
       <FormattedMessage id={messageId}>
-        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} />)}
+        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} style={styleFix} />)}
       </FormattedMessage>
     );
   }
