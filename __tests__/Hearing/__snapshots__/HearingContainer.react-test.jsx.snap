@@ -296,6 +296,7 @@ exports[`HearingContainer component should render as expected 1`] = `
             "characters": "merkkiä",
             "chooseTopic": "Valitse aihe",
             "choose_images": "Valitse kuvia",
+            "clear": "Tyhjennä",
             "closeHearing": "Sulje kuuleminen",
             "closedCount": "Sulkeutuneet ({n})",
             "closedHearing": "Suljettu",
