@@ -12,7 +12,7 @@ const CreateHearingButton = ({ to }) => (
   <div className='toolbar-bottom create-hearing-button-container'>
     <ButtonToolbar className='actions pull-right'>
       <Link to={to}>
-        <Button theme="kerrokantasi" className="kerrokantasi-btn success">
+        <Button className="kerrokantasi-btn success">
           <Icon name='plus' />
           &nbsp;&nbsp;
           <FormattedMessage id='createHearing' />

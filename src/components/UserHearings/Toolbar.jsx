@@ -13,7 +13,7 @@ const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHear
     <div className='col-md-12 tool-buttons'>
 
       <Link to={{ path: '/hearing/new' }}>
-        <Button theme="kerrokantasi" className="kerrokantasi-btn success">
+        <Button className="kerrokantasi-btn success">
           <Icon name='plus' aria-hidden />
           &nbsp;&nbsp;
           <FormattedMessage id='createHearing' />
