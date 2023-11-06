@@ -117,15 +117,6 @@ a.list-group-item {
   }
 }
 
-a.fullwidth {
-  display: block;
-  width: 100%;
-  padding: $navbar-padding-vertical;
-  background: $light-gray;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
 // These styles could be eventually introduced to common Bootstrap theme
 .btn.btn-default {
   background-color: transparent;
