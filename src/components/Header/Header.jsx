@@ -24,33 +24,32 @@ import { getUser } from '../../selectors/user';
 import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
 
-class Header extends React.Component {
-  async handleLogin() {
+const Header = ({ history, language, user }) => {
+  const handleLogin = async () => {
     try {
       if (config.maintenanceDisableLogin) {
         localizedNotifyError("maintenanceNotificationText");
         return;
       }
-      await userManager.signinRedirect({ ui_locales: this.props.language });
+      await userManager.signinRedirect({ ui_locales: language });
     } catch (error) {
       localizedNotifyError("loginAttemptFailed");
     }
-  }
+  };
 
-  onLanguageChange = (newLanguage) => {
-    if (newLanguage !== this.props.language) {
+  const onLanguageChange = (newLanguage) => {
+    if (newLanguage !== language) {
       const urlSearchParams = new URLSearchParams(window.location.search);
       urlSearchParams.set('lang', newLanguage);
 
-      this.props.history.push({
+      history.push({
         pathname: window.location.pathname,
         search: urlSearchParams.toString()
       });
     }
   };
 
-  getNavItem(id, url, addSuffix = true) {
-    const { history, language, user } = this.props;
+  const getNavItem = (id, url, addSuffix = true) => {
     const active = history && history.location.pathname === url;
     let messageId = id;
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
@@ -64,61 +63,57 @@ class Header extends React.Component {
         {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} className={classnames('nav-item')} />)}
       </FormattedMessage>
     );
-  }
+  };
 
-  render() {
-    const { language, user } = this.props;
+  const languages = [
+    { label: 'Suomi', value: 'fi', isPrimary: true },
+    { label: 'Svenska', value: 'sv', isPrimary: true },
+    { label: 'English', value: 'en', isPrimary: true },
+  ];
 
-    const languages = [
-      { label: 'Suomi', value: 'fi', isPrimary: true },
-      { label: 'Svenska', value: 'sv', isPrimary: true },
-      { label: 'English', value: 'en', isPrimary: true },
-    ];
+  const logo = (
+    <FormattedMessage id="headerLogoAlt">
+      {altText => <Logo src={language === 'sv' ? logoSwedishBlack : logoBlack} alt={altText} />}
+    </FormattedMessage>
+  );
 
-    const logo = (
-      <FormattedMessage id="headerLogoAlt">
-        {altText => <Logo src={language === 'sv' ? logoSwedishBlack : logoBlack} alt={altText} />}
-      </FormattedMessage>
-    );
+  const navigationItems = [
+    getNavItem('hearings', '/hearings/list'),
+    getNavItem('hearingMap', '/hearings/map'),
+    getNavItem('info', '/info'),
+    getNavItem('ownHearings', '/user-hearings', false),
+    getNavItem('userInfo', '/user-profile', false),
+  ];
 
-    const navigationItems = [
-      this.getNavItem('hearings', '/hearings/list'),
-      this.getNavItem('hearingMap', '/hearings/map'),
-      this.getNavItem('info', '/info'),
-      this.getNavItem('ownHearings', '/user-hearings', false),
-      this.getNavItem('userInfo', '/user-profile', false),
-    ];
+  return (
+    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language}>
+      <HDSHeader.ActionBar
+        title='Kerrokantasi'
+        titleAriaLabel='Kerrokantasi'
+        frontPageLabel='Kerrokantasi'
+        titleHref="/"
+        logoHref="/"
+        openFrontPageLinksAriaLabel={<FormattedMessage id="headerOpenFrontPageLinks" />}
+        logo={logo}
+      >
+        <HDSHeader.LanguageSelector />
+        <HDSHeader.ActionBarItem
+          fixedRightPosition
+          label={user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
+          icon={user ? <IconUser /> : <IconSignin />}
+          closeLabel=''
+          closeIcon={<LoadingSpinner small />}
+          onClick={user ? () => userManager.signoutRedirect() : () => handleLogin()}
+          id="action-bar-login"
+          className={user ? "logout-button" : "login-button"}
+        />
+      </HDSHeader.ActionBar>
 
-    return (
-      <HDSHeader onDidChangeLanguage={this.onLanguageChange} languages={languages} defaultLanguage={language}>
-        <HDSHeader.ActionBar
-          title='Kerrokantasi'
-          titleAriaLabel='Kerrokantasi'
-          frontPageLabel='Kerrokantasi'
-          titleHref="/"
-          logoHref="/"
-          openFrontPageLinksAriaLabel={<FormattedMessage id="headerOpenFrontPageLinks" />}
-          logo={logo}
-        >
-          <HDSHeader.LanguageSelector />
-          <HDSHeader.ActionBarItem
-            fixedRightPosition
-            label={user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
-            icon={this.props.user ? <IconUser /> : <IconSignin />}
-            closeLabel=''
-            closeIcon={<LoadingSpinner small />}
-            onClick={user ? () => userManager.signoutRedirect() : () => this.handleLogin()}
-            id="action-bar-login"
-            className={user ? "logout-button" : "login-button"}
-          />
-        </HDSHeader.ActionBar>
+      <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
 
-        <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
-
-      </HDSHeader>
-    );
-  }
-}
+    </HDSHeader>
+  );
+};
 
 Header.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
@@ -130,15 +125,10 @@ Header.propTypes = {
   user: PropTypes.object,
 };
 
-Header.contextTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object,
-};
-
 const mapDispatchToProps = () => ({});
 
 export default withRouter(connect(state => ({
-  user: getUser(state), // User dropdown requires this state
-  language: state.language, // Language switch requires this state
-  router: state.router, // Navigation activity requires this state
+  user: getUser(state),
+  language: state.language,
+  router: state.router,
 }), mapDispatchToProps)(Header));
