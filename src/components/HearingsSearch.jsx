@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { FormGroup, ControlLabel } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
-import { SearchInput } from 'hds-react';
+import { SearchInput, Button } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
