@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -8,6 +7,7 @@ import {
   Logo,
   LoadingSpinner
 } from 'hds-react';
+import classnames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 // eslint-disable-next-line import/order
@@ -39,16 +39,12 @@ class Header extends React.Component {
 
   onLanguageChange = (newLanguage) => {
     if (newLanguage !== this.props.language) {
-      const languageParam = `lang=${newLanguage}`;
-      let searchParams;
-      if (window.location.search.includes('lang=')) {
-        searchParams = window.location.search.replace(/lang=\w{2}/, languageParam);
-      } else if (window.location.search) {
-        searchParams = `${window.location.search}&${languageParam}`;
-      }
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      urlSearchParams.set('lang', newLanguage);
+
       this.props.history.push({
         pathname: window.location.pathname,
-        search: searchParams || languageParam
+        search: urlSearchParams.toString()
       });
     }
   };
@@ -63,10 +59,9 @@ class Header extends React.Component {
     if (id === 'userInfo' && !user) { return null; }
     if (addSuffix) { messageId += 'HeaderText'; }
 
-    const styleFix = {flexGrow: "1", padding: "17px 16px", position: "relative", margin: "0", outlineOffset: "-3px"}
     return (
       <FormattedMessage id={messageId}>
-        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} style={styleFix} />)}
+        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} className={classnames('nav-item')} />)}
       </FormattedMessage>
     );
   }
@@ -86,6 +81,14 @@ class Header extends React.Component {
       </FormattedMessage>
     );
 
+    const navigationItems = [
+      this.getNavItem('hearings', '/hearings/list'),
+      this.getNavItem('hearingMap', '/hearings/map'),
+      this.getNavItem('info', '/info'),
+      this.getNavItem('ownHearings', '/user-hearings', false),
+      this.getNavItem('userInfo', '/user-profile', false),
+    ];
+
     return (
       <HDSHeader onDidChangeLanguage={this.onLanguageChange} languages={languages} defaultLanguage={language}>
         <HDSHeader.ActionBar
@@ -94,7 +97,7 @@ class Header extends React.Component {
           frontPageLabel='Kerrokantasi'
           titleHref="/"
           logoHref="/"
-          openFrontPageLinksAriaLabel="Avaa Etusivun linkkivalikko"
+          openFrontPageLinksAriaLabel={<FormattedMessage id="headerOpenFrontPageLinks" />}
           logo={logo}
         >
           <HDSHeader.LanguageSelector />
@@ -110,13 +113,7 @@ class Header extends React.Component {
           />
         </HDSHeader.ActionBar>
 
-        <HDSHeader.NavigationMenu>
-          {this.getNavItem('hearings', '/hearings/list')}
-          {this.getNavItem('hearingMap', '/hearings/map')}
-          {this.getNavItem('info', '/info')}
-          {this.getNavItem('ownHearings', '/user-hearings', false)}
-          {this.getNavItem('userInfo', '/user-profile', false)}
-        </HDSHeader.NavigationMenu>
+        <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
 
       </HDSHeader>
     );
