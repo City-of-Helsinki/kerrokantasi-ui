@@ -3,7 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
-import { Button, ProgressBar } from 'react-bootstrap';
+import { ProgressBar } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';

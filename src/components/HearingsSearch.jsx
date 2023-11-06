@@ -58,14 +58,14 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
                 />
               )}
             </FormGroup>
-            <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
-              <FormattedMessage id='search' />
-            </Button>
-            <InternalLink destinationId='hearings-section' srOnly>
-              <FormattedMessage id='jumpToSearchResults' />
-            </InternalLink>
-          </form>
-        </div>
+          </div>
+          <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
+            <FormattedMessage id='search' />
+          </Button>
+          <InternalLink destinationId='hearings-section' srOnly>
+            <FormattedMessage id='jumpToSearchResults' />
+          </InternalLink>
+        </form>
       </div>
     </div>
   );
