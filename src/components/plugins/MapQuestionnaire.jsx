@@ -107,7 +107,7 @@ const MapQuestionnaire = ({
       submitData.images = pluginComment.image ? [pluginComment.image] : submitData.images;
       submitData.geojson = pluginComment.geojson || submitData.geojson;
       submitData.pinned = pluginComment.pinned || null;
-      submitData.commentText = pluginComment.mapCommentText || submitData.commentText;
+      submitData.mapCommentText = pluginComment.mapCommentText || submitData.commentText;
     } else if (pluginData && typeof pluginData !== 'string') {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
@@ -143,7 +143,7 @@ const MapQuestionnaire = ({
       submitData.label,
       submitData.images,
       submitData.pinned,
-      submitData.commentText,
+      submitData.mapCommentText,
     );
 
     setFormData((prevState) => ({

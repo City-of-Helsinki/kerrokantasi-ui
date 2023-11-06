@@ -3,6 +3,7 @@
   "fullscreenHeaderLogoAlt": "City of Helsinki logo",
   "footerLogoAlt": "City of Helsinki logo",
   "headerLogoAlt": "Go to the home page",
-  "copyrightText": "City of Helsinki",
+  "copyrightHolder": "City of Helsinki",
+  "copyrightText": "All rights reserved.",
   "footerCityLink": "www.hel.fi"
 }

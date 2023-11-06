@@ -1,6 +1,18 @@
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 
+export function getFeedbackEmailUrl(language) {
+  if (language === 'en') {
+    return urls.feedbackEmailEN;
+  }
+
+  if (language === 'sv') {
+    return urls.feedbackEmailSV;
+  }
+
+  return urls.feedbackEmailFI;
+}
+
 export function getFeedbackUrl(language) {
   if (language === 'en') {
     return urls.feedbackEN;
@@ -11,6 +23,4 @@ export function getFeedbackUrl(language) {
   }
 
   return urls.feedbackFI;
-}
-
-export default getFeedbackUrl;
+};

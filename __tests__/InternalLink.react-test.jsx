@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { HashLink } from 'react-router-hash-link';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
 
 import InternalLink from '../src/components/InternalLink';
 
@@ -19,17 +19,17 @@ describe('InternalLink', () => {
   }
 
   describe('renders', () => {
-    test('HashLink with correct default props', () => {
-      const link = getWrapper().find(HashLink);
+    test('AnchorLink with correct default props', () => {
+      const link = getWrapper().find(AnchorLink);
       expect(link).toHaveLength(1);
-      const to = `${window.location.pathname}${window.location.search}#${defaultProps.destinationId}`;
+      const href = `#${defaultProps.destinationId}`;
       expect(link.prop('className')).toBe('internal-link');
-      expect(link.prop('to')).toBe(to);
+      expect(link.prop('href')).toBe(href);
       expect(link.prop('children')).toEqual(<span>test link</span>);
     });
 
-    test('HashLink with correct className when prop srOnly is true', () => {
-      const link = getWrapper({ srOnly: true }).find(HashLink);
+    test('AnchorLink with correct className when prop srOnly is true', () => {
+      const link = getWrapper({ srOnly: true }).find(AnchorLink);
       expect(link).toHaveLength(1);
       expect(link.prop('className')).toBe('internal-link hidden-link');
     });
