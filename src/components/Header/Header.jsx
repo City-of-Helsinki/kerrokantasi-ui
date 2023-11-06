@@ -59,7 +59,7 @@ const Header = ({ history, language, user }) => {
     if (addSuffix) { messageId += 'HeaderText'; }
 
     return (
-      <FormattedMessage id={messageId}>
+      <FormattedMessage id={messageId} key={messageId}>
         {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} className={classnames('nav-item')} />)}
       </FormattedMessage>
     );
