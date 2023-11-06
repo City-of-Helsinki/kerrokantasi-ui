@@ -2614,6 +2614,11 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
+await-to-js@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/await-to-js/-/await-to-js-3.0.0.tgz#70929994185616f4675a91af6167eb61cc92868f"
+  integrity sha512-zJAaP9zxTcvTHRlejau3ZOY4V7SRpiByf3/dxx2uyKxxor19tpmpV2QRsTKikckwhaPmr2dVpxxMr7jOCYVp5g==
+
 axe-core@^4.6.2:
   version "4.8.2"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.8.2.tgz#2f6f3cde40935825cf4465e3c1c9e77b240ff6ae"
@@ -3486,7 +3491,7 @@ crypto-browserify@^3.12.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-js@^4.0.0:
+crypto-js@^4.0.0, crypto-js@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
   integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
@@ -5057,15 +5062,15 @@ hasown@^2.0.0:
   dependencies:
     function-bind "^1.1.2"
 
-hds-core@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.0.0.tgz#fa6d17b5d739081357c26ab4b127de98c2e06829"
-  integrity sha512-KJyu85gOOpI7W/pTDk5MzGE1XDYswM22/ABrCqU6gs+ILcd1RFFk+1bVm5LgPYncPFiqU11OKLuKs0YkgRGaXg==
+hds-core@3.1.0, hds-core@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.1.0.tgz#7b1112f9e30ce21cd49e8bd4f902ad01c510d5e5"
+  integrity sha512-md+b+2dlTABN3VVTWzbsUyOmXjCzBhzZkH8ANu+H0sSTHXBbEOWFkrdMwwvKSEWNeXoVMf5pHo/NDAURubepMA==
 
-hds-react@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.0.0.tgz#c2b53475e919ae2ba7be229091f9cc103b0c4611"
-  integrity sha512-7+MfLsGugSPumiVCC7172P8ptEBVOhhVMBmRGnW1JK+j10eUAon+Zwt2xKFxWz4R6g/BjK61yNyXbOnNEJfSOA==
+hds-react@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.1.0.tgz#4a8e7bebe5d735bf70f7b12bd33747fdbce86a74"
+  integrity sha512-N6QZe4XP9CYDfmWbVd6khQ0QwrlDAKZnhryr3SBWfI3wsXgRGa1cYAdJQ4+Vh08sXkg55M15bPHJgsi9Mn0fww==
   dependencies:
     "@babel/runtime" "7.17.9"
     "@emotion/styled-base" "^11.0.0"
@@ -5075,11 +5080,14 @@ hds-react@^3.0.0:
     "@react-aria/visually-hidden" "3.8.0"
     "@types/cookie" "^0.4.1"
     "@typescript-eslint/parser" "^5.56.0"
+    await-to-js "^3.0.0"
     cookie "^0.4.1"
     crc-32 "1.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "3.0.0"
+    hds-core "3.1.0"
+    http-status-typed "^1.0.1"
+    jwt-decode "^3.1.2"
     kashe "1.0.4"
     lodash.flatten "^4.4.0"
     lodash.get "^4.4.2"
@@ -5093,6 +5101,7 @@ hds-react@^3.0.0:
     lodash.uniqueid "4.0.1"
     lodash.xor "^4.5.0"
     memoize-one "5.2.1"
+    oidc-client-ts "^2.2.2"
     react-hook-form "^7.43.3"
     react-merge-refs "1.1.0"
     react-popper "2.2.5"
@@ -5245,6 +5254,11 @@ http-proxy-agent@^5.0.0:
     "@tootallnate/once" "2"
     agent-base "6"
     debug "4"
+
+http-status-typed@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/http-status-typed/-/http-status-typed-1.0.1.tgz#25a8b08efb4dfc6711c0214b575adb4974616d1a"
+  integrity sha512-U8jF221dmNNZbdBiOoK2HduguCwparnsP0z11PQZaDtaHBHuxG3gCimxQi8Cfb8VECave4yoVbONSByQU6z0Ew==
 
 https-proxy-agent@^5.0.0, https-proxy-agent@^5.0.1:
   version "5.0.1"
@@ -6334,6 +6348,11 @@ just-curry-it@^3.1.0:
   resolved "https://registry.yarnpkg.com/just-curry-it/-/just-curry-it-3.2.1.tgz#7bb18284c8678ed816bfc5c19e44400605fbe461"
   integrity sha512-Q8206k8pTY7krW32cdmPsP+DqqLgWx/hYPSj9/+7SYqSqz7UuwPbfSe07lQtvuuaVyiSJveXk0E5RydOuWwsEg==
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 kashe@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/kashe/-/kashe-1.0.4.tgz#72f538d641f220eb4533a050f1f39b3acac7fafb"
@@ -7028,6 +7047,14 @@ object.values@^1.1.1, object.values@^1.1.5, object.values@^1.1.6, object.values@
     call-bind "^1.0.2"
     define-properties "^1.2.0"
     es-abstract "^1.22.1"
+
+oidc-client-ts@^2.2.2:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/oidc-client-ts/-/oidc-client-ts-2.4.0.tgz#764c8a33de542026e2798de9849ce8049047d7e5"
+  integrity sha512-WijhkTrlXK2VvgGoakWJiBdfIsVGz6CFzgjNNqZU1hPKV2kyeEaJgLs7RwuiSp2WhLfWBQuLvr2SxVlZnk3N1w==
+  dependencies:
+    crypto-js "^4.2.0"
+    jwt-decode "^3.1.2"
 
 oidc-client@^1.11.5:
   version "1.11.5"
