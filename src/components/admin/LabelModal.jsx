@@ -135,7 +135,7 @@ class LabelModal extends React.Component {
           <Button onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}>
+          <Button className={'kerrokantasi-btn'} onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}>
             <FormattedMessage id='create' />
           </Button>
         </Modal.Footer>

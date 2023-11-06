@@ -132,7 +132,7 @@ class HearingFormStep4 extends React.Component {
           languages={hearingLanguages}
         />
         <div className='step-footer'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
+          <Button className={'kerrokantasi-btn'} onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

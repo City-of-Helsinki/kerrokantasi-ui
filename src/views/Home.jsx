@@ -119,11 +119,11 @@ export class Home extends React.Component {
                   intl={intl}
                 />
                 <p className='text-center'>
-                  <Button className={'kerrokantasi-btn secondary'}>
-                    <Link to={{ path: '/hearings/list' }}>
-                      <FormattedMessage id='allHearings' />
-                    </Link>
-                  </Button>
+                  <Link to={{ path: '/hearings/list' }}>
+                    <Button className={'kerrokantasi-btn'}>
+                        <FormattedMessage id='allHearings' />
+                    </Button>
+                  </Link>
                 </p>
               </div>
             )}

@@ -125,7 +125,7 @@ class ImageModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={this.confirmImage}>
+          <Button className={'kerrokantasi-btn'} onClick={this.confirmImage}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

@@ -213,7 +213,7 @@ export class HeaderComponent extends React.Component {
             </Tooltip>
           }
         >
-          <Button bsStyle='info' onClick={() => this.writeToClipboard(hearing.preview_url)}>
+          <Button className={'kerrokantasi-btn info'}onClick={() => this.writeToClipboard(hearing.preview_url)}>
             <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>

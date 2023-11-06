@@ -214,7 +214,7 @@ class HearingFormStep1 extends React.Component {
           </HelpBlock>
         </FormGroup>
         <div className='step-footer'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
+          <Button className={'kerrokantasi-btn'} onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

@@ -41,7 +41,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
             />
           </FormGroup>
           <p>
-            <Button bsStyle='primary' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+            <Button className={'kerrokantasi-btn'} onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
               Lähetä ehdotus
             </Button>
           </p>

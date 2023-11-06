@@ -639,7 +639,7 @@ export const BaseCommentForm = ({
               className='custom-file-input'
               onChange={(event) => handleChange(event)}
             />
-            <Button className='kerrokantasi-btn'>
+            <Button className={'kerrokantasi-btn'}>
               <label htmlFor='fileInput'>
                 <FormattedMessage id='choose_images' />
               </label>

@@ -290,7 +290,7 @@ const MapQuestionnaire = ({
                 />
               </FormGroup>
               <p>
-                <Button bsStyle='primary' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
+                <Button className={'kerrokantasi-btn'} onClick={getDataAndSubmitComment} disabled={formData.submitting}>
                   Lähetä ehdotus
                 </Button>
               </p>
@@ -317,7 +317,7 @@ const MapQuestionnaire = ({
               />
             </FormGroup>
             <p>
-              <Button bsStyle='primary' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
+              <Button className={'kerrokantasi-btn'} onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
                 Lähetä ehdotus
               </Button>
             </p>

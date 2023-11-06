@@ -22,10 +22,10 @@ class HearingToolbar extends React.Component {
     let statusLabel = '';
     const openingTime = moment(hearing.open_at);
     const actions = [
-      <Button className='kerrokantasi-btn' onClick={this.props.onReportsClick} key='reports' size="small">
+      <Button className={'kerrokantasi-btn'} onClick={this.props.onReportsClick} key='reports' size="small">
         <Icon aria-hidden='true' name='list-alt' /> <FormattedMessage id='commentReportsButtonLabel' />
       </Button>,
-      <Button className='kerrokantasi-btn' onClick={this.props.onEdit} key='edit' size="small">
+      <Button className={'kerrokantasi-btn'} onClick={this.props.onEdit} key='edit' size="small">
         <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
       </Button>,
     ];

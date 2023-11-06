@@ -57,7 +57,7 @@ export class QuestionForm extends React.Component {
             <div style={{ flex: '1', marginTop: '48px', marginLeft: '15px' }}>
               {question.options.length > 2 && index === question.options.length - 1 && (
                 <Button
-                  bsStyle='danger'
+                className={'kerrokantasi-btn danger'}
                   onClick={() => deleteOption(sectionId, question.frontId || question.id, index)}
                 >
                   <Icon style={{ fontSize: '24px' }} className='icon' name='trash' />
@@ -67,7 +67,7 @@ export class QuestionForm extends React.Component {
           </div>
         ))}
         <div>
-          <Button bsStyle='default' onClick={() => addOption(sectionId, question.frontId || question.id)}>
+          <Button className={'kerrokantasi-btn'} onClick={() => addOption(sectionId, question.frontId || question.id)}>
             <Icon className='icon' name='plus' /> <FormattedMessage id='addOption' />
           </Button>
         </div>
@@ -98,7 +98,7 @@ export class QuestionForm extends React.Component {
                 </div>
               );
             })}
-            <Button bsStyle='danger' onClick={this.handleDeleteExistingQuestion}>
+            <Button className={'kerrokantasi-btn danger'} onClick={this.handleDeleteExistingQuestion}>
               <FormattedMessage id='deleteQuestion' />
             </Button>
           </div>
