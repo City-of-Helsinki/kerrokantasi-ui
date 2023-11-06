@@ -3,6 +3,7 @@
   "fullscreenHeaderLogoAlt": "Helsingfors stads logo",
   "footerLogoAlt": "Helsingfors stads logo",
   "headerLogoAlt": "Gå till hemsidan",
-  "copyrightText": "Helsingfors stad",
+  "copyrightHolder": "Helsingfors stad",
+  "copyrightText": "Alla rättigheter förbehållna.",
   "footerCityLink": "www.hel.fi"
 }

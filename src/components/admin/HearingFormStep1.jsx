@@ -27,9 +27,17 @@ import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
 class HearingFormStep1 extends React.Component {
   constructor(props) {
     super(props);
+
     this.onChange = this.onChange.bind(this);
     this.onLabelsChange = this.onLabelsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
+    this.onCreateLabel = this.onCreateLabel.bind(this);
+    this.onCreateContact = this.onCreateContact.bind(this);
+    this.onEditContact = this.onEditContact.bind(this);
+    this.closeLabelModal = this.closeLabelModal.bind(this);
+    this.openContactModal = this.openContactModal.bind(this);
+    this.openContactModal = this.openContactModal.bind(this);
+    this.closeContactModal = this.closeContactModal.bind(this);
 
     this.state = {
       showLabelModal: false,

@@ -9,11 +9,11 @@ import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
-import { HashLink } from 'react-router-hash-link';
 
 import messages from './i18n';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import InternalLink from './components/InternalLink';
 import { fetchApiToken } from './actions';
 import config from './config';
 import Routes from './routes';
@@ -77,14 +77,13 @@ class App extends React.Component {
       header = <Header slim={this.props.history.location.pathname !== '/'} history={this.props.history} />;
     }
     const mainContainerId = 'main-container';
-    const skipTo = `${this.props.location.pathname}${this.props.location.search}#${mainContainerId}`;
     return (
       <IntlProvider locale={locale} messages={messages[locale] || {}}>
         <div className={contrastClass}>
           {config.enableCookies && !isCookiebotEnabled() && <CookieBar language={locale} />}
-          <HashLink className='skip-to-main-content' to={skipTo}>
+          <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
             <FormattedMessage id='skipToMainContent' />
-          </HashLink>
+          </InternalLink>
           <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
             <html lang={locale} />
             {isCookiebotEnabled() && getCookieBotConsentScripts()}

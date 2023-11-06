@@ -117,25 +117,6 @@ a.list-group-item {
   }
 }
 
-.feedback-box {
-  top: 60px;
-  background-color: $theme-primary-light;
-  padding: $line-height-computed;
-  text-align: center;
-  color: $black;
-  display: block;
-
-  .feedback-prompt {
-    margin: 0;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: lighten($theme-primary-light, 5%);
-    text-decoration: none;
-  }
-}
-
 a.fullwidth {
   display: block;
   width: 100%;

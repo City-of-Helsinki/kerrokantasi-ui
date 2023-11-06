@@ -168,6 +168,7 @@ exports[`Home component should render as expected 1`] = `
               "characters": "merkkiä",
               "chooseTopic": "Valitse aihe",
               "choose_images": "Valitse kuvia",
+              "clear": "Tyhjennä",
               "closeHearing": "Sulje kuuleminen",
               "closedCount": "Sulkeutuneet ({n})",
               "closedHearing": "Suljettu",
@@ -228,7 +229,8 @@ exports[`Home component should render as expected 1`] = `
               "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
               "cookieManagementLink": "Evästeasetukset",
               "copyHearing": "Kopioi kuuleminen",
-              "copyrightText": "Kerrokantasi",
+              "copyrightHolder": "Kerrokantasi",
+              "copyrightText": "Kaikki oikeudet pidätetään.",
               "create": "Luo",
               "createContact": "Luo uusi yhteyshenkilö",
               "createHearing": "Luo uusi kuuleminen",
@@ -262,8 +264,8 @@ exports[`Home component should render as expected 1`] = `
               "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
               "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
               "favoriteHearings": "Suosikkikuulemiset",
-              "feedbackLinkText": "Palaute",
-              "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+              "feedbackLinkText": "Anna palautetta",
+              "feedbackPrompt": "Kerro kantasi -kehitysideat",
               "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
               "firstClosing": "Ensimmäisenä sulkeutuvat",
               "follow": "Seuraa",
@@ -468,6 +470,7 @@ exports[`Home component should render as expected 1`] = `
               "saveFailed": "Tallentaminen epäonnistui",
               "saveHearingChanges": "Tallenna muutokset",
               "scenarioSection": "Vaihtoehto",
+              "scrollToTop": "Takaisin ylös",
               "search": "Etsi",
               "searchLabels": "Hae aiheista",
               "searchPlaceholder": "Etsi...",
@@ -625,6 +628,7 @@ exports[`Home component should render as expected 1`] = `
                 "characters": "merkkiä",
                 "chooseTopic": "Valitse aihe",
                 "choose_images": "Valitse kuvia",
+                "clear": "Tyhjennä",
                 "closeHearing": "Sulje kuuleminen",
                 "closedCount": "Sulkeutuneet ({n})",
                 "closedHearing": "Suljettu",
@@ -685,7 +689,8 @@ exports[`Home component should render as expected 1`] = `
                 "cookieBar.title": "Kerrokantasi.fi käyttää evästeitä",
                 "cookieManagementLink": "Evästeasetukset",
                 "copyHearing": "Kopioi kuuleminen",
-                "copyrightText": "Kerrokantasi",
+                "copyrightHolder": "Kerrokantasi",
+                "copyrightText": "Kaikki oikeudet pidätetään.",
                 "create": "Luo",
                 "createContact": "Luo uusi yhteyshenkilö",
                 "createHearing": "Luo uusi kuuleminen",
@@ -719,8 +724,8 @@ exports[`Home component should render as expected 1`] = `
                 "eyeTooltipOpensDays": "päivän kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                 "eyeTooltipOpensHours": "tunnin kuluttua. Se ei ole vielä julkisesti nähtävissä.",
                 "favoriteHearings": "Suosikkikuulemiset",
-                "feedbackLinkText": "Palaute",
-                "feedbackPrompt": "Kerro meille sähköpostitse, miten tätä palvelua pitäisi kehittää!",
+                "feedbackLinkText": "Anna palautetta",
+                "feedbackPrompt": "Kerro kantasi -kehitysideat",
                 "fileSizeError": "Liitetiedosto on liian suuri. Maksimikoko on noin {n} megatavua.",
                 "firstClosing": "Ensimmäisenä sulkeutuvat",
                 "follow": "Seuraa",
@@ -925,6 +930,7 @@ exports[`Home component should render as expected 1`] = `
                 "saveFailed": "Tallentaminen epäonnistui",
                 "saveHearingChanges": "Tallenna muutokset",
                 "scenarioSection": "Vaihtoehto",
+                "scrollToTop": "Takaisin ylös",
                 "search": "Etsi",
                 "searchLabels": "Hae aiheista",
                 "searchPlaceholder": "Etsi...",
@@ -1047,30 +1053,6 @@ exports[`Home component should render as expected 1`] = `
     <div
       className="hearings-koro__bottom"
     />
-  </section>
-  <section
-    className="page-section page-section--feedback"
-  >
-    <div
-      className="container"
-    >
-      <h2
-        className="feedback-prompt"
-      >
-        <a
-          className="feedback-box"
-          href="mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FormattedMessage
-            id="feedbackPrompt"
-            values={{}}
-          />
-           
-        </a>
-      </h2>
-    </div>
   </section>
   <section
     className="page-section page-section--map"

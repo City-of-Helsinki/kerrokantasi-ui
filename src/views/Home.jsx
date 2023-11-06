@@ -18,7 +18,6 @@ import Link from '../components/LinkWithLang';
 import CreateHearingButton from '../components/Hearings/CreateHearingButton';
 import { isAdmin } from '../utils/user';
 import config from '../config';
-import { getFeedbackUrl } from '../utils/languageUtils';
 
 export class Home extends React.Component {
   /**
@@ -129,15 +128,6 @@ export class Home extends React.Component {
             )}
           </div>
           <div className='hearings-koro__bottom' />
-        </section>
-        <section className='page-section page-section--feedback'>
-          <div className='container'>
-            <h2 className='feedback-prompt'>
-              <a href={getFeedbackUrl(language)} target='_blank' rel='noopener noreferrer' className='feedback-box'>
-                <FormattedMessage id='feedbackPrompt' />{' '}
-              </a>
-            </h2>
-          </div>
         </section>
         <section className='page-section page-section--map'>
           <div className='container'>{hearingMap}</div>

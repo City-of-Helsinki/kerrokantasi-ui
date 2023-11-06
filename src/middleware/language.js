@@ -9,9 +9,9 @@ export const languageFromUrlMiddleware = store => next => action => {
   if (action.type !== '@@router/LOCATION_CHANGE') {
     return next(action);
   }
-  
-  const queryLang = action.payload.location ? parseQuery(action.payload.location.search).lang : '';
-  
+  const historyState = action.payload.location ? action.payload.location : action.payload;
+  const queryLang = historyState.search ? parseQuery(historyState.search).lang : '';
+
   if (isEmpty(queryLang)) {
     store.dispatch(setLanguage('fi'));
     return next(action);
