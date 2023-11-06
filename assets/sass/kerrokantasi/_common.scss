@@ -227,7 +227,9 @@ a.fullwidth {
   color: $black;
   background: transparent;
   &:hover {
-    background-color: $light-gray;
+    border-color: $black;
+    color: $black;
+    background: $light-gray;
   }
   &.black {
     background: $black;
@@ -247,7 +249,7 @@ a.fullwidth {
     color: $theme-danger;
     &:hover {
       border-color: $theme-danger;
-      background-color: lighten($theme-danger-light, 50%);
+      background: lighten($theme-danger-light, 50%);
     }
   }
   &.success {
@@ -255,7 +257,7 @@ a.fullwidth {
     color: $theme-success;
     &:hover {
       border-color: $theme-success;
-      background-color: lighten($theme-success-light, 50%);
+      background: lighten($theme-success-light, 50%);
     }
   }
   &.gear {
