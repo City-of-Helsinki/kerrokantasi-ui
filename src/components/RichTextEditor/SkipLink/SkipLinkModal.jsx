@@ -145,7 +145,7 @@ class SkipLinkModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className={'kerrokantasi-btn'} onClick={this.confirmSkipLink}>
+          <Button className="kerrokantasi-btn" onClick={this.confirmSkipLink}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

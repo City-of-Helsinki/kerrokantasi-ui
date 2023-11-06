@@ -213,7 +213,7 @@ export class HeaderComponent extends React.Component {
             </Tooltip>
           }
         >
-          <Button className={'kerrokantasi-btn info'}onClick={() => this.writeToClipboard(hearing.preview_url)}>
+          <Button className="kerrokantasi-btn info"onClick={() => this.writeToClipboard(hearing.preview_url)}>
             <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>
@@ -234,8 +234,8 @@ export class HeaderComponent extends React.Component {
     };
     return (
       <div className='hearing-meta__element hearing-favorite'>
-        <Icon className={'icon-adjustment'} name={favConfig.icon} />
-        <Button className={'kerrokantasi-btn secondary'} onClick={() => favConfig.click(hearing.slug, hearing.id)}>
+        <Icon className="icon-adjustment" name={favConfig.icon} />
+        <Button className="kerrokantasi-btn secondary" onClick={() => favConfig.click(hearing.slug, hearing.id)}>
           <FormattedMessage id={favConfig.id}>{(txt) => txt}</FormattedMessage>
         </Button>
       </div>

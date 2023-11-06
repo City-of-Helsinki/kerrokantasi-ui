@@ -510,7 +510,7 @@ export const BaseCommentForm = ({
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button onClick={toggle} className={"kerrokantasi-btn black"} size='large' block>
+      <Button onClick={toggle} className="kerrokantasi-btn black" size='large' block>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
       </Button>
     );
@@ -639,7 +639,7 @@ export const BaseCommentForm = ({
               className='custom-file-input'
               onChange={(event) => handleChange(event)}
             />
-            <Button className={'kerrokantasi-btn'}>
+            <Button className="kerrokantasi-btn">
               <label htmlFor='fileInput'>
                 <FormattedMessage id='choose_images' />
               </label>

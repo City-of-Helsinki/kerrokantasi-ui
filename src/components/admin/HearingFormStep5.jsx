@@ -110,7 +110,7 @@ class HearingFormStep5 extends React.Component {
         </div>
         {selectedProject && (
           <ButtonToolbar>
-            <Button className={errorStyle + ' kerrokantasi-btn'} onClick={this.addPhase} size='small' >
+            <Button className={`${errorStyle  } kerrokantasi-btn`} onClick={this.addPhase} size='small' >
               <Icon className='icon' name='plus' /> <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
             </Button>
           </ButtonToolbar>

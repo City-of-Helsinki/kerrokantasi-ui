@@ -85,7 +85,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                       <Link
                       to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}
                       >
-                        <Button size="small" className={'kerrokantasi-btn'}>
+                        <Button size="small" className="kerrokantasi-btn">
                           <FormattedMessage
                               id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
                             />

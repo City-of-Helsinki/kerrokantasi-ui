@@ -173,10 +173,10 @@ class IframeModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className={'kerrokantasi-btn'} onClick={() => onClose()}>
+          <Button className="kerrokantasi-btn" onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className={'kerrokantasi-btn'} onClick={(event) => this.handleFormSubmit(event, fields)}>
+          <Button className="kerrokantasi-btn" onClick={(event) => this.handleFormSubmit(event, fields)}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

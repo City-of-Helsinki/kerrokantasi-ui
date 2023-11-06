@@ -1025,22 +1025,22 @@ exports[`Home component should render as expected 1`] = `
         <p
           className="text-center"
         >
-          <ForwardRef
-            className="kerrokantasi-btn secondary"
-          >
-            <withRouter(Connect(LinkWithLangComponent))
-              to={
-                {
-                  "path": "/hearings/list",
-                }
+          <withRouter(Connect(LinkWithLangComponent))
+            to={
+              {
+                "path": "/hearings/list",
               }
+            }
+          >
+            <ForwardRef
+              className="kerrokantasi-btn"
             >
               <FormattedMessage
                 id="allHearings"
                 values={{}}
               />
-            </withRouter(Connect(LinkWithLangComponent))>
-          </ForwardRef>
+            </ForwardRef>
+          </withRouter(Connect(LinkWithLangComponent))>
         </p>
       </div>
     </div>

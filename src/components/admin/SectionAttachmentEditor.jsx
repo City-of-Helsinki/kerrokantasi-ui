@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
+import Button from 'hds-react';
 
 import Icon from '../../utils/Icon';
 

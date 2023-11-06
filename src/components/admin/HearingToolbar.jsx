@@ -22,10 +22,10 @@ class HearingToolbar extends React.Component {
     let statusLabel = '';
     const openingTime = moment(hearing.open_at);
     const actions = [
-      <Button className={'kerrokantasi-btn'} onClick={this.props.onReportsClick} key='reports' size="small">
+      <Button className="kerrokantasi-btn" onClick={this.props.onReportsClick} key='reports' size="small">
         <Icon aria-hidden='true' name='list-alt' /> <FormattedMessage id='commentReportsButtonLabel' />
       </Button>,
-      <Button className={'kerrokantasi-btn'} onClick={this.props.onEdit} key='edit' size="small">
+      <Button className="kerrokantasi-btn" onClick={this.props.onEdit} key='edit' size="small">
         <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
       </Button>,
     ];
@@ -36,12 +36,12 @@ class HearingToolbar extends React.Component {
         </Alert>
       );
       actions.push(
-        <Button className={'kerrokantasi-btn danger'} onClick={this.props.onRevertPublishing} key='unpublish' size="small">
+        <Button className="kerrokantasi-btn danger" onClick={this.props.onRevertPublishing} key='unpublish' size="small">
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
         </Button>,
       );
       actions.push(
-        <Button className={'kerrokantasi-btn danger'} onClick={this.props.onCloseHearing} key='close' size="small">
+        <Button className="kerrokantasi-btn danger" onClick={this.props.onCloseHearing} key='close' size="small">
           <Icon name='ban' /> <FormattedMessage id='closeHearing' />
         </Button>,
       );
@@ -58,7 +58,7 @@ class HearingToolbar extends React.Component {
         </Alert>
       );
       actions.push(
-        <Button className={'kerrokantasi-btn danger'} onClick={this.props.onRevertPublishing} key='unpublish' size="small">
+        <Button className="kerrokantasi-btn danger" onClick={this.props.onRevertPublishing} key='unpublish' size="small">
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
         </Button>,
       );
@@ -73,12 +73,12 @@ class HearingToolbar extends React.Component {
         publishText = <FormattedMessage id='publishHearingNow' />;
       }
       actions.push(
-        <Button className={'kerrokantasi-btn danger'} onClick={this.props.onPublish} key='publish' size="small">
+        <Button className="kerrokantasi-btn danger" onClick={this.props.onPublish} key='publish' size="small">
           <Icon name='eye' /> {publishText}
         </Button>,
       );
       actions.push(
-        <Button className={'kerrokantasi-btn danger'} onClick={() => this.props.onDeleteHearingDraft()} key='unpublish' size="small">
+        <Button className="kerrokantasi-btn danger" onClick={() => this.props.onDeleteHearingDraft()} key='unpublish' size="small">
           <Icon name='eye-slash' /> <FormattedMessage id='deleteDraft' />
         </Button>,
       );

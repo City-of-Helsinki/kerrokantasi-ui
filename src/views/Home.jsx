@@ -120,7 +120,7 @@ export class Home extends React.Component {
                 />
                 <p className='text-center'>
                   <Link to={{ path: '/hearings/list' }}>
-                    <Button className={'kerrokantasi-btn'}>
+                    <Button className="kerrokantasi-btn">
                         <FormattedMessage id='allHearings' />
                     </Button>
                   </Link>
