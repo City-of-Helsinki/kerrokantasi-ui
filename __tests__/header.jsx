@@ -4,7 +4,7 @@ import { renderIntoDocument } from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 
-import Header from '../src/components/Header';
+import Header from '../src/components/Header/Header';
 import { wireComponent } from '../test-utils';
 
 const MemoryRouterHeader = () => (
@@ -16,10 +16,10 @@ const MemoryRouterHeader = () => (
 describe('Header', () => {
   it('should show a login link when not logged in', () => {
     const comp = renderIntoDocument(wireComponent({ user: { data: null } }, MemoryRouterHeader));
-    expect(findDOMNode(comp).querySelector('.login-link')).toBeTruthy();
+    expect(findDOMNode(comp).querySelector('.login-button')).toBeTruthy();
   });
 
-  it('should show an username when logged in', () => {
+  it('should show a logout link when logged in', () => {
     const comp = renderIntoDocument(
       wireComponent(
         {
@@ -34,8 +34,8 @@ describe('Header', () => {
         MemoryRouterHeader,
       ),
     );
-
-    expect(findDOMNode(comp).querySelector('.login-link')).not.toBeTruthy();
-    expect(findDOMNode(comp).innerHTML).toContain('Mock von User');
+    expect(findDOMNode(comp).querySelector('.login-button')).not.toBeTruthy();
+    expect(findDOMNode(comp).querySelector('.logout-button')).toBeTruthy();
   });
+
 });

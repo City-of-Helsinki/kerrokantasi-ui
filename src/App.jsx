@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 
 import messages from './i18n';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import InternalLink from './components/InternalLink';
 import { fetchApiToken } from './actions';
