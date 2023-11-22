@@ -354,6 +354,7 @@ exports[`SortableCommentList component should render as expected 1`] = `
                 "generalNo": "Ei",
                 "generalYes": "Kyllä",
                 "headerLogoAlt": "Kerrokantasi logo",
+                "headerOpenFrontPageLinks": "Avaa Etusivun linkkivalikko",
                 "headerPagesNavLabel": "Sivuvalikko",
                 "headerUserNavLabel": "Käyttäjävalikko",
                 "headerWriteCommentLink": "Kirjoita kommentti",
