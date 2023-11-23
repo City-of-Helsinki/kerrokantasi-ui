@@ -8,6 +8,7 @@
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "dev": "node server --dev --host 0.0.0.0",
     "lint": "eslint \"src/**/*.{js,jsx}\" && eslint \"server/*.{js,jsx}\" && eslint \"__tests__/**/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix && eslint \"server/*.{js,jsx}\" --fix && eslint \"__tests__/**/*.{js,jsx}\" --fix",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",
     "test:watch": "jest --watch",

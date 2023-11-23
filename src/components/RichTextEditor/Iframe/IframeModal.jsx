@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -172,10 +173,10 @@ class IframeModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => onClose()}>
+          <Button className="kerrokantasi-btn" onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={(event) => this.handleFormSubmit(event, fields)}>
+          <Button className="kerrokantasi-btn" onClick={(event) => this.handleFormSubmit(event, fields)}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

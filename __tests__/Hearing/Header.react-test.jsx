@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { Button } from 'react-bootstrap';
+import { Button } from 'hds-react';
 
 import { HeaderComponent } from '../../src/components/Hearing/Header';
 import { mockStore, getIntlAsProp } from '../../test-utils';

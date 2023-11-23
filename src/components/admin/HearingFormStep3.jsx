@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
@@ -459,7 +459,7 @@ class HearingFormStep3 extends React.Component {
           </HelpBlock>
         </div>
         <div className='step-footer'>
-          <Button bsStyle='default' onClick={this.props.onContinue}>
+          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

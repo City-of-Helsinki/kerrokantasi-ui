@@ -5,7 +5,7 @@ import Radio from 'react-bootstrap/lib/Radio';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import { Row, Col } from 'react-bootstrap';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 
@@ -57,8 +57,8 @@ const Phase = (props) => {
                             onDelete(phaseInfo.id || phaseInfo.frontId);
                           }
                         }}
-                        bsStyle='default'
-                        className='pull-right add-label-button'
+                        size="small"
+                        className='kerrokantasi-btn pull-right add-label-button'
                         style={{ color: 'red', borderColor: 'red' }}
                       >
                         <Icon className='icon' name='trash' />

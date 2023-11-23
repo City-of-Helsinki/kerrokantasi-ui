@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -158,7 +158,7 @@ class HearingFormStep1 extends React.Component {
                   valueKey='frontId'
                   menuContainerStyle={{ zIndex: 10 }}
                 />
-                <Button bsStyle='primary' className='pull-right add-label-button' onClick={() => this.openLabelModal()}>
+                <Button size="small" className='kerrokantasi-btn pull-right add-label-button' onClick={() => this.openLabelModal()}>
                   <Icon className='icon' name='plus' />
                 </Button>
               </div>
@@ -210,8 +210,8 @@ class HearingFormStep1 extends React.Component {
               valueKey='id'
             />
             <Button
-              bsStyle='primary'
-              className='pull-right add-contact-button'
+              size='small'
+              className='kerrokantasi-btn pull-right add-contact-button'
               onClick={() => this.openContactModal({})}
             >
               <Icon className='icon' name='plus' />
@@ -222,7 +222,7 @@ class HearingFormStep1 extends React.Component {
           </HelpBlock>
         </FormGroup>
         <div className='step-footer'>
-          <Button bsStyle='default' onClick={this.props.onContinue}>
+          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

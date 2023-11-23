@@ -4,7 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, FormattedRelative } from 'react-intl';
-import { Button, FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -275,12 +276,12 @@ class Comment extends React.Component {
         </OverlayTrigger>
       </div>
       {this.canFlagComments() && (
-        <Button className='btn-sm hearing-comment-vote-link' onClick={this.onCopyURL}>
+        <Button className='hearing-comment-vote-link' onClick={this.onCopyURL}>
           <Icon name='link' aria-hidden='true' />
         </Button>
       )}
       {this.canFlagComments() && !data.deleted && (
-        <Button className='btn-sm hearing-comment-vote-link' onClick={this.onFlag}>
+        <Button className='hearing-comment-vote-link' onClick={this.onFlag}>
           <Icon
             name={classnames({
               'flag-o': !data.flagged,

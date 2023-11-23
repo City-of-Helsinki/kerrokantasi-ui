@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
@@ -144,7 +145,7 @@ class SkipLinkModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={this.confirmSkipLink}>
+          <Button className="kerrokantasi-btn" onClick={this.confirmSkipLink}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

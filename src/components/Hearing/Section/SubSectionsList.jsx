@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
+import { Button } from 'hds-react';
 import { withRouter } from 'react-router-dom';
 import defaultImage from '@city-images/default-image.svg';
 
@@ -74,19 +75,21 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                   )}
                   <div className='section-card-buttons'>
                     <Link
-                      to={{ path: getSectionURL(match.params.hearingSlug, section) }}
-                      className='btn btn-sm btn-primary'
+                        to={{ path: getSectionURL(match.params.hearingSlug, section) }}
                     >
-                      <FormattedMessage id='showSubsectionBtn' />
+                      <Button size="small" className='kerrokantasi-btn black'>
+                        <FormattedMessage id='showSubsectionBtn' />
+                      </Button> 
                     </Link>
                     {!hearing.closed && isCommentable(section) && userCanComment(user, section) && (
                       <Link
-                        to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}
-                        className='btn btn-sm btn-default'
+                      to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}
                       >
-                        <FormattedMessage
-                          id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
-                        />
+                        <Button size="small" className="kerrokantasi-btn">
+                          <FormattedMessage
+                              id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
+                            />
+                        </Button>
                       </Link>
                     )}
                   </div>

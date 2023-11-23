@@ -5,7 +5,8 @@ import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Collapse, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Collapse } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -452,9 +453,8 @@ export class SectionContainerComponent extends React.Component {
       return (
         <Row className='row-no-gutters text-right'>
           <Button
-            bsSize='xsmall'
-            bsStyle='link'
-            className='pull-right report-download-button'
+            size='small'
+            className='pull-right report-download-button kerrokantasi-btn supplementary'
             onClick={() => this.handleReportDownload(hearing, apiToken, language)}
           >
             <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
@@ -589,14 +589,15 @@ export class SectionContainerComponent extends React.Component {
                 user={user}
               />
               {hasFullscreenMapPlugin(hearing) && (
-                <Link
-                  to={{ path: getHearingURL(hearing, { fullscreen: true }) }}
-                  className='btn btn-lg btn-block btn-primary'
-                >
-                  <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
-                  &nbsp;
-                  <FormattedMessage id='openFullscreenMap' />
-                </Link>
+                <Button>
+                  <Link
+                    to={{ path: getHearingURL(hearing, { fullscreen: true }) }}
+                  >
+                    <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
+                    &nbsp;
+                    <FormattedMessage id='openFullscreenMap' />
+                  </Link>
+                </Button>
               )}
             </section>
           )}

@@ -6,7 +6,8 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Col, Grid, OverlayTrigger, Row, Tooltip, Button } from 'react-bootstrap';
+import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -212,7 +213,7 @@ export class HeaderComponent extends React.Component {
             </Tooltip>
           }
         >
-          <Button bsStyle='info' onClick={() => this.writeToClipboard(hearing.preview_url)}>
+          <Button className="kerrokantasi-btn info"onClick={() => this.writeToClipboard(hearing.preview_url)}>
             <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>
@@ -233,8 +234,8 @@ export class HeaderComponent extends React.Component {
     };
     return (
       <div className='hearing-meta__element hearing-favorite'>
-        <Icon name={favConfig.icon} />
-        <Button bsStyle='link' onClick={() => favConfig.click(hearing.slug, hearing.id)}>
+        <Icon className="icon-adjustment" name={favConfig.icon} />
+        <Button className="kerrokantasi-btn secondary" onClick={() => favConfig.click(hearing.slug, hearing.id)}>
           <FormattedMessage id={favConfig.id}>{(txt) => txt}</FormattedMessage>
         </Button>
       </div>

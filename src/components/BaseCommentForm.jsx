@@ -3,7 +3,8 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Button, Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
@@ -509,7 +510,7 @@ export const BaseCommentForm = ({
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button onClick={toggle} bsStyle='primary' bsSize='large' block>
+      <Button onClick={toggle} className="kerrokantasi-btn black" size='large' block>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
       </Button>
     );
@@ -638,9 +639,11 @@ export const BaseCommentForm = ({
               className='custom-file-input'
               onChange={(event) => handleChange(event)}
             />
-            <label className='btn btn-default btn-sm' htmlFor='fileInput'>
-              <FormattedMessage id='choose_images' />
-            </label>
+            <Button className="kerrokantasi-btn">
+              <label htmlFor='fileInput'>
+                <FormattedMessage id='choose_images' />
+              </label>
+            </Button>
           </div>
           <span style={{ fontSize: 13, marginTop: 20 }}>
             <FormattedMessage id='multipleImages' />
@@ -648,13 +651,17 @@ export const BaseCommentForm = ({
         </FormGroup>
         {renderNameFormForUser()}
         <div className='comment-buttons clearfix'>
-          <Button bsStyle='default' onClick={toggle}>
+          <Button className='kerrokantasi-btn danger' onClick={toggle}>
             <FormattedMessage id='cancel' />
           </Button>
           <Button
-            bsStyle='primary'
             aria-disabled={hasFormErrors()}
-            className={hasFormErrors() ? 'disabled' : null}
+            className={
+              classnames(
+                {'disabled': hasFormErrors()},
+                'kerrokantasi-btn'
+              )
+            }
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />

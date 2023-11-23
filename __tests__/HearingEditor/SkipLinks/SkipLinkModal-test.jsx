@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 import getMessage from '../../../src/utils/getMessage';
@@ -107,7 +108,6 @@ describe('SkipLinkModal', () => {
       test('accept button', () => {
         const acceptButton = footer.find(Button).last();
         expect(acceptButton.prop('onClick')).toBe(instance.confirmSkipLink);
-        expect(acceptButton.prop('bsStyle')).toBe('primary');
         const acceptButtonText = acceptButton.find('FormattedMessage');
         expect(acceptButtonText.prop('id')).toBe('formButtonAcceptAndAdd');
       });

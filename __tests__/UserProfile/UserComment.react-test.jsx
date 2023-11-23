@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Button, Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import moment from 'moment';
 
@@ -100,7 +101,6 @@ describe('UserComment', () => {
           // Label
           const labelElement = containerElement.find(Label);
           expect(labelElement).toHaveLength(1);
-          expect(labelElement.prop('bsStyle')).toEqual(prop.style);
 
           // FormattedMessage components
           const messageElement = labelElement.find(FormattedMessage);

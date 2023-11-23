@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { FormattedMessage } from 'react-intl';
-import { Button } from 'react-bootstrap';
+import { Button } from 'hds-react';
 
 import { UnconnectedUserHearings, GET_HEARINGS, SEARCH_PARAMS } from '../src/views/UserHearings';
 import { getIntlAsProp, mockStore, mockUser } from '../test-utils';

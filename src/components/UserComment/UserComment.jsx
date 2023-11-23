@@ -1,7 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Button, Tooltip, Label } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
 import { FormattedMessage, FormattedRelative } from 'react-intl';

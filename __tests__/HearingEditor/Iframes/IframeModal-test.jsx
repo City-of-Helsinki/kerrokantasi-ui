@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 import IframeModal from '../../../src/components/RichTextEditor/Iframe/IframeModal';
@@ -127,7 +128,6 @@ describe('IframeModal', () => {
       test('accept button', () => {
         const acceptButton = footer.find(Button).last();
         expect(acceptButton.prop('onClick')).toBeDefined();
-        expect(acceptButton.prop('bsStyle')).toBe('primary');
         const acceptButtonText = acceptButton.find('FormattedMessage');
         expect(acceptButtonText.prop('id')).toBe('formButtonAcceptAndAdd');
       });
