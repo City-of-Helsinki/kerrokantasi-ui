@@ -22,6 +22,7 @@
   background-color: $theme-secondary-light;
 }
 
-.progressBar {
+// Yes, the progressBar-wrapper is required beacuse if it's not included, the more specific definition of style is used.
+.progressBar-wrapper .progressBar {
   background: $theme-primary-dark;
 }
