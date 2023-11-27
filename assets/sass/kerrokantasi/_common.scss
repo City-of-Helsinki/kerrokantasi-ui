@@ -264,5 +264,8 @@ a.list-group-item {
     position: relative;
     border-radius: inherit;
     background: blue;
+    &.in-viewport {
+      transition: width 2s;
+    }
   }
 }
