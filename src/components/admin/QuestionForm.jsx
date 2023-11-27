@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
-import { ProgressBar } from 'react-bootstrap';
+import ProgressBar from '../ProgressBar';
 import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 

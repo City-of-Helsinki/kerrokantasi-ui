@@ -252,3 +252,17 @@ a.list-group-item {
 .icon-adjustment {
   top: $font-size-base;
 }
+
+.progressBar-wrapper {
+  height: 1.4em;
+  position: relative;
+  width: 100%;
+  border-radius: 5px;
+  background: $light-gray;
+  .progressBar {
+    height: 100%;
+    position: relative;
+    border-radius: inherit;
+    background: blue;
+  }
+}
