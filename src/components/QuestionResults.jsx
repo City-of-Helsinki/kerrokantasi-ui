@@ -2,9 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
-import ProgressBar from './ProgressBar';
 import { FormattedMessage } from 'react-intl';
 
+import ProgressBar from './ProgressBar';
 import getAttr from '../utils/getAttr';
 
 export const QuestionResultsComponent = ({ question, lang }) => {
