@@ -20,8 +20,15 @@ trigger:
 # Opt out of pull request validation
 pr: none
 
+# Deploy test environment
+parameters:
+  - name: deployTest
+    displayName: Deploy test environment
+    type: boolean
+    default: false
+
 # By default, use self-hosted agents for production
-pool: Production
+pool: Default
 
 resources:
   repositories:
@@ -34,7 +41,8 @@ resources:
 extends:
   # Filename in Azure DevOps Repository
   template: azure-pipelines-kerrokantasi-ui-release.yml@kerrokantasi-pipelines
-  # parameters:
+  parameters:
+    deployTest: ${{ parameters.deployTest }}
     # Application build arguments and config map values as key value pairs.
     # Does not contain all buildArguments or configMap values, the rest located in kerrokantasi-pipelines
     # Default value to nodeVersion is set on template.
