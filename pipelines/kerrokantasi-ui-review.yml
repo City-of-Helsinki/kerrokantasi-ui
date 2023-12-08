@@ -12,7 +12,7 @@ trigger: none
 # such a pull request.
 #
 # GitHub creates a new ref when a pull request is created. The ref points to a 
-# merge commit, which is the merged code between the source and target branches 
+# merge commit, which is the merged code between the source and target branches
 # of the pull request.
 #
 # Pull request validation
