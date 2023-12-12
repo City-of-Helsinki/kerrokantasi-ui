@@ -52,15 +52,15 @@
     flex-flow: row wrap;
 
     &__element {
-      margin: $grid-gutter-width/2 $grid-gutter-width*2 $grid-gutter-width/2 0;
+      margin: $grid-gutter-width/2 $grid-gutter-width * 2 $grid-gutter-width/2 0;
       position: relative;
-      padding-left: $grid-gutter-width*2;
+      padding-left: $grid-gutter-width * 2;
       min-width: 290px;
 
       .fa {
         position: absolute;
         left: 0;
-        width: $grid-gutter-width*2;
+        width: $grid-gutter-width * 2;
         text-align: center;
         color: $theme-primary-dark;
         font-size: 1.5em;
@@ -110,10 +110,10 @@
 
 .hearing-map-container {
   position: relative;
-  margin-bottom: $grid-gutter-width*1.5;
+  margin-bottom: $grid-gutter-width * 1.5;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     padding-top: 50%;
 
@@ -149,7 +149,7 @@
       display: block;
       border: 0;
       margin: 0;
-      padding: 0 $grid-gutter-width*1.25;
+      padding: 0 $grid-gutter-width * 1.25;
       background: 0;
       width: 100%;
       text-align: left;
@@ -180,11 +180,11 @@
     }
 
     .fa-angle-right {
-      width: $grid-gutter-width*1.25;
+      width: $grid-gutter-width * 1.25;
       text-align: center;
       color: $text-muted !important;
-      transition: transform .2s;
-      margin-left: -$grid-gutter-width*1.25;
+      transition: transform 0.2s;
+      margin-left: -$grid-gutter-width * 1.25;
       text-decoration: none !important;
 
       &.open {
@@ -193,7 +193,7 @@
     }
   }
 
-  &+.hearing-section {
+  & + .hearing-section {
     border-top: 1px solid $border-color;
   }
 
@@ -201,7 +201,7 @@
     margin: $grid-gutter-width 0 $grid-gutter-width/2 0;
 
     @media (min-width: $screen-md-min) {
-      padding-left: $grid-gutter-width*1.25;
+      padding-left: $grid-gutter-width * 1.25;
     }
   }
 
@@ -220,7 +220,7 @@
       display: flex;
       flex-direction: column;
 
-      >div:first-child {
+      > div:first-child {
         margin-bottom: 10px;
       }
 
@@ -275,7 +275,7 @@
       padding-bottom: $line-height-computed;
 
       &::after {
-        content: "";
+        content: '';
         height: 100%;
         width: $border-weight;
         background: black;
@@ -374,13 +374,13 @@
     margin-bottom: $line-height-computed;
 
     @media (max-width: $screen-sm-max) {
-      &:nth-child(2n+1) {
+      &:nth-child(2n + 1) {
         clear: both;
       }
     }
 
     @media (min-width: $screen-md-min) {
-      &:nth-child(3n+1) {
+      &:nth-child(3n + 1) {
         clear: both;
       }
     }
@@ -395,7 +395,7 @@
     opacity: 0.65;
   }
 
-  &.disabled>button {
+  &.disabled > button {
     opacity: 0.6;
     cursor: not-allowed;
   }
@@ -438,23 +438,17 @@
   }
 
   .custom-file-input {
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute !important;
-    white-space: nowrap;
-    width: 1px;
+    button[type='button'] {
+      margin: 0px 2px;
+      border-color: $black;
+      color: $black;
+      background: transparent;
 
-    &+label {
-      @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
-    }
-
-    &:focus+label {
-      border-color: $input-border-focus;
-      outline: 5px auto -webkit-focus-ring-color;
-      outline-offset: -2px;
+      &:hover {
+        border-color: $black;
+        color: $black;
+        background: $light-gray;
+      }
     }
   }
 
@@ -526,20 +520,17 @@
   }
 
   &__group-admin {
-
     & .form-group {
-
       display: flex;
       flex-direction: row;
 
-      &>* {
+      & > * {
         margin-left: 24px;
       }
 
       & :first-child {
         margin-left: 0px;
       }
-
     }
   }
 
@@ -688,7 +679,7 @@
   border: solid $border-color;
   border-width: 1px 0;
   padding: $grid-gutter-width 0;
-  margin: $grid-gutter-width*2 0 $grid-gutter-width 0;
+  margin: $grid-gutter-width * 2 0 $grid-gutter-width 0;
 
   &.top {
     margin-top: 0;
@@ -708,7 +699,7 @@
       font-size: 115%;
     }
 
-    >span {
+    > span {
       border: 0;
       background: transparent;
       padding: 0;
@@ -729,7 +720,7 @@
 }
 
 .hearing-subsection-title {
-  margin-top: $grid-gutter-width*1.5;
+  margin-top: $grid-gutter-width * 1.5;
   margin-bottom: $line-height-computed;
 
   &-counter {
@@ -755,7 +746,7 @@
   margin-left: 1em;
 
   &:before {
-    content: "";
+    content: '';
     background: $text-muted;
     width: 5px;
     height: 5px;

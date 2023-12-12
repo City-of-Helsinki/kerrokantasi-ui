@@ -1,10 +1,11 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
+
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Button, FileInput } from 'hds-react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
@@ -84,7 +85,7 @@ export const BaseCommentForm = ({
     commentOrAnswerRequiredError: false,
   });
 
-  const imagesRef = useRef();
+  // const imagesRef = useRef();
 
   /**
    * Determines whether the logged in user is admin or not.
@@ -97,17 +98,15 @@ export const BaseCommentForm = ({
 
   const hasQuestions = useMemo(() => hasAnyQuestions(section), [section]);
 
-  const userAnsweredAllQuestions = useMemo(() => loggedIn && hasUserAnsweredAllQuestions(user, section), [
-    loggedIn,
-    user,
-    section,
-  ]);
+  const userAnsweredAllQuestions = useMemo(
+    () => loggedIn && hasUserAnsweredAllQuestions(user, section),
+    [loggedIn, user, section],
+  );
 
-  const commentRequired = useMemo(() => isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions), [
-    hasQuestions,
-    isReply,
-    userAnsweredAllQuestions,
-  ]);
+  const commentRequired = useMemo(
+    () => isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions),
+    [hasQuestions, isReply, userAnsweredAllQuestions],
+  );
 
   const firstUnansweredQuestion = useMemo(() => getFirstUnansweredQuestion(user, section), [user, section]);
 
@@ -289,23 +288,19 @@ export const BaseCommentForm = ({
     setFormData({ ...formData, imageTooBig });
   };
 
-  const handleChange = (event) => {
-    const imagePromisesArray = [];
-    const images = [];
+  const handleChange = (files) => {
+    isImageTooBig(files);
 
-    isImageTooBig(event.target.files);
-
-    for (let i = 0; i < imagesRef.current.files.length; i += 1) {
-      imagePromisesArray.push(getImageAsBase64Promise(imagesRef.current.files[i]));
-    }
+    const imagePromisesArray = files.map((image) => getImageAsBase64Promise(image));
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      for (let i = 0; i < imagesRef.current.files.length; i += 1) {
+      const images = arrayOfResults.map((result) => {
         const imageObject = { title: 'Title', caption: 'Caption' };
 
-        imageObject.image = arrayOfResults[i];
-        images.push(imageObject);
-      }
+        imageObject.image = result;
+
+        return imageObject;
+      });
 
       setFormData({ ...formData, images });
     });
@@ -510,7 +505,7 @@ export const BaseCommentForm = ({
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button onClick={toggle} className="kerrokantasi-btn black" size='large' block>
+      <Button onClick={toggle} className='kerrokantasi-btn black' size='large' block>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
       </Button>
     );
@@ -609,21 +604,10 @@ export const BaseCommentForm = ({
         )}
 
         <div className='comment-form__selected-images'>
-          {formData.imageTooBig ? (
+          {formData.imageTooBig && (
             <div className='comment-form__image-too-big'>
               <FormattedMessage id='imageSizeError' />
             </div>
-          ) : (
-            formData.images.map((image) => (
-              <img
-                style={{ marginRight: 10 }}
-                alt=''
-                src={image.image}
-                width={image.width < 100 ? image.width : 100}
-                height={image.height < 100 ? image.width : 100}
-                key={Buffer.from(image.image).toString('base64')}
-              />
-            ))
           )}
         </div>
         <FormGroup className='comment-form__file'>
@@ -631,19 +615,15 @@ export const BaseCommentForm = ({
             <FormattedMessage id='add_images' />
           </ControlLabel>
           <div className='comment-form__select-file'>
-            <input
-              type='file'
-              ref={imagesRef}
+            <FileInput
               id='fileInput'
-              multiple
+              defaultValue={formData.images}
               className='custom-file-input'
-              onChange={(event) => handleChange(event)}
+              multiple
+              label={<FormattedMessage id='choose_images' />}
+              onChange={(files) => handleChange(files)}
+              maxSize={IMAGE_MAX_SIZE}
             />
-            <Button className="kerrokantasi-btn">
-              <label htmlFor='fileInput'>
-                <FormattedMessage id='choose_images' />
-              </label>
-            </Button>
           </div>
           <span style={{ fontSize: 13, marginTop: 20 }}>
             <FormattedMessage id='multipleImages' />
@@ -656,12 +636,7 @@ export const BaseCommentForm = ({
           </Button>
           <Button
             aria-disabled={hasFormErrors()}
-            className={
-              classnames(
-                {'disabled': hasFormErrors()},
-                'kerrokantasi-btn'
-              )
-            }
+            className={classnames({ disabled: hasFormErrors() }, 'kerrokantasi-btn')}
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />
