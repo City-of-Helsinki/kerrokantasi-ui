@@ -85,8 +85,6 @@ export const BaseCommentForm = ({
     commentOrAnswerRequiredError: false,
   });
 
-  // const imagesRef = useRef();
-
   /**
    * Determines whether the logged in user is admin or not.
    * The array in users with key adminOrganizations should be of length > 0
@@ -505,7 +503,7 @@ export const BaseCommentForm = ({
 
   if (!overrideCollapse && formData.collapsed) {
     return (
-      <Button onClick={toggle} className='kerrokantasi-btn black' size='large' block>
+      <Button onClick={toggle} className='kerrokantasi-btn black' size='large' fullWidth>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
       </Button>
     );

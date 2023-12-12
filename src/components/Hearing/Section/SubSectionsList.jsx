@@ -79,7 +79,7 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                     >
                       <Button size="small" className='kerrokantasi-btn black'>
                         <FormattedMessage id='showSubsectionBtn' />
-                      </Button> 
+                      </Button>
                     </Link>
                     {!hearing.closed && isCommentable(section) && userCanComment(user, section) && (
                       <Link
