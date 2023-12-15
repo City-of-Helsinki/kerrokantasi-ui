@@ -451,13 +451,17 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
 }
 
 export function fetchApiToken() {
+  console.log('ANNA MUN APITOKEN');
   return (dispatch, getState) => {
+    console.log('tehdään kutsu')
     dispatch(createAction('fetchApiToken')());
     return new Promise((resolve) => {
+      console.log('mitäs vittua')
       fetch(config.openIdApiTokenUrl, {
         method: 'GET',
         headers: { Authorization: `Bearer ${getAccessToken(getState())}` }
       }).then((response) => response.json()).then((token) => {
+        console.log('tokeni?: ' + response)
         dispatch(createAction('receiveApiToken')(token));
         dispatch(retrieveUserFromSession());
         resolve();

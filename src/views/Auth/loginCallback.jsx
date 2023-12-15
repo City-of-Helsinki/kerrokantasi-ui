@@ -1,10 +1,8 @@
 import React from 'react';
-import { CallbackComponent } from 'redux-oidc';
+import { LoginCallbackHandler } from 'hds-react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import userManager from '../../utils/userManager';
 
 class CallbackPage extends React.Component {
   success = () => {
@@ -18,9 +16,9 @@ class CallbackPage extends React.Component {
 
   render() {
     return (
-      <CallbackComponent userManager={userManager} successCallback={this.success} errorCallback={this.failure}>
+      <LoginCallbackHandler onSuccess={this.success} onError={this.failure}>
         <div>Redirecting...</div>
-      </CallbackComponent>
+      </LoginCallbackHandler>
     );
   }
 }

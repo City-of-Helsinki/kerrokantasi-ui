@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { get as apiGet } from '../api';
 
 export default function retrieveUserFromSession() {
+  console.log('haetaan käyttäjän tiedot');
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();

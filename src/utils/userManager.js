@@ -1,12 +1,10 @@
 /* eslint-disable sonarjs/no-nested-template-literals */
-import { createUserManager } from "redux-oidc";
-
 import config from "../config";
 
 const baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ?
   `:${window.location.port}` : ''}`;
 
-const userManagerConfig = {
+export const userManagerConfig = {
   client_id: config.openIdClientId,
   redirect_uri: `${baseUrl}/callback`,
   response_type: 'id_token token',
@@ -19,6 +17,14 @@ const userManagerConfig = {
   loadUserInfo: true,
 };
 
-const userManager = createUserManager(userManagerConfig);
+export const profiiliConfig = {
+  client_id: config.openIdClientId,
+  //redirect_uri: `${baseUrl}/callback`,
+  //response_type: 'id_token token',
+  //scope: 'openid profile',
+  silent_redirect_uri: `${baseUrl}/silent-renew/`,
+  authority: config.openIdAuthority,
+  //debug: true,
+}
 
-export default userManager;
+export default {};

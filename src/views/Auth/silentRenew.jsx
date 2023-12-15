@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { processSilentRenew } from 'redux-oidc';
+import { useOidcClient } from 'hds-react';
 
-class SilentRenew extends React.Component {
-  componentDidMount() {
-    processSilentRenew();
-  }
-
-  render() {
-    return <div>Silent Renew</div>;
-  }
+function SilentRenew() {
+  const { getUserManager } = useOidcClient();
+  const userManager = getUserManager();
+  userManager.signinSilentCallback();
+  return <div>Silent Renew</div>;
 }
 
 export default connect()(SilentRenew);

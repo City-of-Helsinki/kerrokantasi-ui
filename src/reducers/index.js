@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { reducer as oidc } from "redux-oidc";
 
 import language from './language';
 import user from './user';
@@ -34,7 +33,6 @@ export default combineReducers({
   language,
   accessibility,
   headless,
-  oidc,
   apitoken,
   lastActionType,
   sectionComments,

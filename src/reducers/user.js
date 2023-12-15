@@ -13,7 +13,9 @@ const fetchUserData = (state) => ({
 });
 
 const receiveUserData = (state, { payload }) => {
+  console.log('MISSÄ MUN USERI ON!??!?!');
   if (payload) {
+    console.log(payload);
     return updeep({
       isFetching: false,
       data: payload,

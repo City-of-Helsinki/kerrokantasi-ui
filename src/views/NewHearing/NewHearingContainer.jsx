@@ -10,13 +10,14 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { getUser } from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
-import userManager from '../../utils/userManager';
 import { localizedNotifyError } from '../../utils/notify';
 import { contactShape, organizationShape } from '../../types';
+import { useOidcClient } from 'hds-react';
 
 async function handleLogin() {
+  const {login} = useOidcClient();
   try {
-    await userManager.signinRedirect();
+    login();
   } catch (error) {
     localizedNotifyError('loginAttemptFailed');
   }

@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Button,
   IconUser,
   IconSignin,
   Header as HDSHeader,
   Logo,
-  LoadingSpinner
+  LoadingSpinner,
+  LoginButton,
+  useOidcClient
 } from 'hds-react';
 import classnames from 'classnames';
 import { FormattedMessage } from 'react-intl';
@@ -19,12 +22,27 @@ import logoBlack from '@city-images/logo-fi-black.svg';
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
-import userManager from "../../utils/userManager";
 import { getUser } from '../../selectors/user';
 import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
 
+
+
 const Header = ({ history, language, user }) => {
+  const { isAuthenticated, getUser, login, logout } = useOidcClient();
+
+  const doLogin = async () => {
+    const profiili_user = getUser();
+    console.log(profiili_user);
+    if (!isAuthenticated()) {
+      login();
+      console.log('sisään')
+    } else {
+      logout();
+      console.log('ulos')
+    }
+  }
+  /*
   const handleLogin = async () => {
     try {
       if (config.maintenanceDisableLogin) {
@@ -36,7 +54,7 @@ const Header = ({ history, language, user }) => {
       localizedNotifyError("loginAttemptFailed");
     }
   };
-
+ */
   const onLanguageChange = (newLanguage) => {
     if (newLanguage !== language) {
       const urlSearchParams = new URLSearchParams(window.location.search);
@@ -97,6 +115,10 @@ const Header = ({ history, language, user }) => {
         logo={logo}
       >
         <HDSHeader.LanguageSelector />
+        <Button onClick={doLogin}>
+          {user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
+        </Button>
+        {/*
         <HDSHeader.ActionBarItem
           fixedRightPosition
           label={user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
@@ -107,6 +129,7 @@ const Header = ({ history, language, user }) => {
           id="action-bar-login"
           className={user ? "logout-button" : "login-button"}
         />
+        */}
       </HDSHeader.ActionBar>
 
       <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
