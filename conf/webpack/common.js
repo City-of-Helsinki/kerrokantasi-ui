@@ -62,15 +62,7 @@ module.exports = {
       },
       {
         test: /\.svg(\?v=.+)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1000000,
-              mimetype: 'image/svg+xml',
-            }
-          }
-        ]
+        type: 'asset/inline',
       },
       {
         test: /\.gif$/,
