@@ -1,0 +1,6 @@
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="5.805827999999999">
+<testsuite name="pages/frontpage-spec.js" timestamp="2023-12-21T18:49:38.589Z" hostname="logged-out" tests="1" failures="0" skipped="0" time="0.027" errors="0">
+<testcase name="Frontpage › title" classname="pages/frontpage-spec.js" time="0.027">
+</testcase>
+</testsuite>
+</testsuites>
