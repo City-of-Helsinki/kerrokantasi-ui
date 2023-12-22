@@ -13,6 +13,10 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
+    "test:e2e:install": "yarn playwright install",
+    "test:e2e:ci": "npx playwright test",
+    "test:e2e:start": "npx playwright test",
+    "test:e2e:record": "npx playwright codegen https://kerrokantasi.dev.hel.ninja/",
     "snyk-protect": "snyk protect",
     "coverage": "jest --coverage --coverageReporters=cobertura",
     "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi"
@@ -170,7 +174,9 @@
     "react-test-renderer": "^16.13.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^18.19.3"
   },
   "jest": {
     "collectCoverageFrom": [
