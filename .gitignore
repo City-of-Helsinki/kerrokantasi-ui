@@ -38,3 +38,6 @@ bower_components
 /assets/plugins
 
 /assets/js/tracker
+
+# tests
+report/
