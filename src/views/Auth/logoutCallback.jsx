@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { SignoutCallbackComponent } from 'redux-oidc';
 import { push } from 'react-router-redux';
 
-import userManager from '../../utils/userManager';
+import userManager from '../../utils/oidcConfig';
 
 class UnconnectedLogoutCallback extends React.Component {
   constructor(props) {

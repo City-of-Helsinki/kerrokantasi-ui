@@ -26,6 +26,7 @@ openid_client_id="client-id-configured-to-your-opendid-provider"
 openid_audience="https://auth-url.domain/path"
 openid_authority="your-authority"
 openid_apitoken_url="https://auth-url.domain/api-tokens/"
+openid_scope="space delimitted scopes"
 
 # Makes `Strongly authenticated` option visible as a commenting option for hearings
 # Default: false

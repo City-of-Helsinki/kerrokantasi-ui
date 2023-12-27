@@ -7,10 +7,8 @@ import { push } from 'react-router-redux';
 
 import { localizedAlert, localizedNotifySuccess, localizedNotifyError } from '../utils/notify';
 import { get as apiGet, getAllFromEndpoint, post, put, apiDelete } from '../api';
-import fetch from '../mockable-fetch';
-import { getAccessToken } from '../selectors/user';
-import config from "../config";
-import retrieveUserFromSession from "./user";
+import enrichUserData from "./user";
+
 
 export const setLanguage = createAction('setLanguage');
 export const setHeadless = createAction('setHeadless');
@@ -357,7 +355,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug, null, commentData.comment));
       // also, update user answered questions
-      dispatch(retrieveUserFromSession());
+      dispatch(enrichUserData());
       localizedAlert("commentReceived");
     }).catch(postCommentErrorHandler());
   };
@@ -397,7 +395,7 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshU
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
       // update user answered questions if refreshUser is true
-      if (refreshUser) { dispatch(retrieveUserFromSession()); }
+      if (refreshUser) { dispatch(enrichUserData()); }
       localizedAlert("commentDeleted");
     }).catch(requestErrorHandler());
   };
@@ -450,24 +448,12 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
   };
 }
 
-export function fetchApiToken() {
-  console.log('ANNA MUN APITOKEN');
-  return (dispatch, getState) => {
-    console.log('tehdään kutsu')
-    dispatch(createAction('fetchApiToken')());
-    return new Promise((resolve) => {
-      console.log('mitäs vittua')
-      fetch(config.openIdApiTokenUrl, {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${getAccessToken(getState())}` }
-      }).then((response) => response.json()).then((token) => {
-        console.log('tokeni?: ' + response)
-        dispatch(createAction('receiveApiToken')(token));
-        dispatch(retrieveUserFromSession());
-        resolve();
-      });
-    });
-  };
+export function setApiToken(apitoken) {
+  return (dispatch) => {
+    dispatch(createAction('receiveApiToken')(apitoken[0]));
+    dispatch(enrichUserData());
+  }
+  
 }
 
 export function toggleContrast() {
@@ -475,4 +461,10 @@ export function toggleContrast() {
     const toggleContrastState = createAction("toggleContrastState")();
     dispatch(toggleContrastState);
   };
+}
+
+export function setOidcUser(oidcUser) {
+  return (dispatch) => {
+    dispatch(createAction("receiveOidcUserData")({oidcUser}))
+  }
 }

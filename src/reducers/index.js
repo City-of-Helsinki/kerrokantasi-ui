@@ -9,6 +9,7 @@ import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
 import headless from './headless';
+import oidc from './oidc';
 import projectLists from './projectLists';
 import apitoken from "./api";
 import accessibility from "./accessibility";
@@ -29,6 +30,7 @@ export default combineReducers({
   hearing,
   hearingEditor,
   hearingLists,
+  oidc,
   projectLists,
   language,
   accessibility,

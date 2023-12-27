@@ -1,60 +1,25 @@
-import { shallow } from 'enzyme';
+import { screen } from '@testing-library/react'
 import React from 'react';
+import { createBrowserHistory } from 'history';
 
-import { UnconnectedCallbackPage } from '../../src/views/Auth/loginCallback';
+import {UnconnectedLoginCallback} from '../../src/views/Auth/loginCallback';
+import renderWithProviders from '../../src/utils/renderWithProviders';
+
 
 describe('src/views/Auth/loginCallback', () => {
-  const dispatch = jest.fn();
 
-  function getWrapper(props) {
+
+  function renderComponent(props) {
     const defaultProps = {
-      dispatch,
+      history: createBrowserHistory(),
     };
-    return shallow(<UnconnectedCallbackPage {...defaultProps} {...props} />);
+    renderWithProviders(<UnconnectedLoginCallback {...defaultProps} {...props} />);
   }
 
   describe('renders', () => {
     test('CallbackComponent with correct props', () => {
-      const callbackWrapper = getWrapper();
-      expect(callbackWrapper.length).toBe(1);
-      expect(callbackWrapper.prop('errorCallback')).toBeDefined();
-      expect(callbackWrapper.prop('successCallback')).toBeDefined();
-      expect(callbackWrapper.prop('userManager')).toBeDefined();
-    });
-
-    test('a div', () => {
-      const div = getWrapper().find('div');
-      expect(div.length).toBe(1);
-    });
-  });
-
-  describe('success', () => {
-    afterEach(() => {
-      dispatch.mockReset();
-    });
-
-    test('calls dispatch push with correct path', () => {
-      const instance = getWrapper().instance();
-      instance.success();
-
-      expect(dispatch.mock.calls.length).toBe(1);
-      expect(dispatch.mock.calls[0][0].payload.method).toBe('push');
-      expect(dispatch.mock.calls[0][0].payload.args[0]).toBe('/');
-    });
-  });
-
-  describe('failure', () => {
-    afterEach(() => {
-      dispatch.mockReset();
-    });
-
-    test('calls dispatch push with correct path', () => {
-      const instance = getWrapper().instance();
-      instance.failure();
-
-      expect(dispatch.mock.calls.length).toBe(1);
-      expect(dispatch.mock.calls[0][0].payload.method).toBe('push');
-      expect(dispatch.mock.calls[0][0].payload.args[0]).toBe('/');
+      renderComponent({});
+      expect(screen.getByText('Redirecting...')).toBeTruthy();
     });
   });
 });

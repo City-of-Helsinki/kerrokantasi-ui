@@ -2,19 +2,19 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { isIE } from 'react-device-detect';
+import { LoginProvider } from 'hds-react';
 
 import App from './App';
 import { history } from './createStore';
 import ScrollToTop from './scrollToTop';
 import BrowserWarning from './views/BrowserWarning';
-import { LoginProvider } from 'hds-react';
-import { profiiliConfig } from './utils/userManager';
+import { userOidcConfig, apiTokenClientConfig } from './utils/oidcConfig';
 
   
 const loginProviderProps = {
-  userManagerSettings: profiiliConfig,
-  sessionPollerSettings: { pollIntervalInMs: 10000 },
-  debug: true,
+  userManagerSettings: userOidcConfig,
+  apiTokensClientSettings: apiTokenClientConfig,
+  sessionPollerSettings: { pollIntervalInMs: 10000 }, 
 }
 
 export default function getRoot(store) {

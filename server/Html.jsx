@@ -40,6 +40,7 @@ export default class Html extends React.Component {
       openIdAudience,
       openIdAuthority,
       openIdApiTokenUrl,
+      openIdScope,
       enableHighContrast,
       enableStrongAuth,
       adminHelpUrl,
@@ -59,6 +60,7 @@ export default class Html extends React.Component {
     window.OPENID_AUDIENCE = ${JSON.stringify(openIdAudience)};
     window.OPENID_AUTHORITY = ${JSON.stringify(openIdAuthority)};
     window.OPENID_APITOKEN_URL = ${JSON.stringify(openIdApiTokenUrl)};
+    window.OPENID_SCOPE = ${JSON.stringify(openIdScope)}
     window.SHOW_SOCIAL_MEDIA_SHARING = ${JSON.stringify(showSocialMediaSharing)};
     window.ENABLE_HIGHCONTRAST = ${JSON.stringify(enableHighContrast)}
     window.ENABLE_COOKIES = ${JSON.stringify(enableCookies)};
@@ -123,6 +125,7 @@ Html.propTypes = {
   openIdAudience: PropTypes.string,
   openIdAuthority: PropTypes.string,
   openIdApiTokenUrl: PropTypes.string,
+  openIdScope: PropTypes.string,
   enableHighContrast: PropTypes.bool,
   enableStrongAuth: PropTypes.bool,
   adminHelpUrl: PropTypes.string,
