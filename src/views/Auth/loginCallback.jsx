@@ -1,33 +1,37 @@
 import React from 'react';
-import { CallbackComponent } from 'redux-oidc';
-import { push } from 'react-router-redux';
+import { LoginCallbackHandler } from 'hds-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import userManager from '../../utils/userManager';
+import useUpdateApiTokens from './hooks/useUpdateApiTokens';
 
-class CallbackPage extends React.Component {
-  success = () => {
+const UnconnectedLoginCallback = (props) => {
+
+  const { history } = props;
+  const { updateApiTokens } = useUpdateApiTokens();
+
+  const success = async () => {
+    await updateApiTokens();
     localStorage.removeItem('votedComments');
-    this.props.dispatch(push('/'));
+    history.push('/');
   };
 
-  failure = () => {
-    this.props.dispatch(push('/'));
+  const failure = () => {
+    history.push('/');
   };
 
-  render() {
-    return (
-      <CallbackComponent userManager={userManager} successCallback={this.success} errorCallback={this.failure}>
-        <div>Redirecting...</div>
-      </CallbackComponent>
-    );
-  }
+  return (
+    <LoginCallbackHandler onSuccess={success} onError={failure}>
+      <div>Redirecting...</div>
+    </LoginCallbackHandler>
+  );
 }
 
-CallbackPage.propTypes = {
-  dispatch: PropTypes.func,
+UnconnectedLoginCallback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export { CallbackPage as UnconnectedCallbackPage };
-export default connect()(CallbackPage);
+export { UnconnectedLoginCallback };
+export default connect()(UnconnectedLoginCallback);

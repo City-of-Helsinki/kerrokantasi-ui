@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { reducer as oidc } from "redux-oidc";
 
 import language from './language';
 import user from './user';
@@ -10,6 +9,7 @@ import sectionComments from './sectionComments';
 import labels from './labels';
 import hearingEditor from './hearingEditor';
 import headless from './headless';
+import oidc from './oidc';
 import projectLists from './projectLists';
 import apitoken from "./api";
 import accessibility from "./accessibility";
@@ -30,11 +30,11 @@ export default combineReducers({
   hearing,
   hearingEditor,
   hearingLists,
+  oidc,
   projectLists,
   language,
   accessibility,
   headless,
-  oidc,
   apitoken,
   lastActionType,
   sectionComments,

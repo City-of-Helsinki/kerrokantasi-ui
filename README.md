@@ -133,6 +133,21 @@ openid_client_id="https://api.hel.fi/auth/kerrokantasi-ui"
 openid_audience="https://api.hel.fi/auth/kerrokantasi"
 openid_authority="http://tunnistamo-backend:8000"
 openid_apitoken_url="http://tunnistamo-backend:8000/api-tokens/"
+openid_scope="openid profile https://api.hel.fi/auth/kerrokantasi"
+```
+
+#### Configure Helsinki Profiili to frontend
+
+Change the following configuration in `config_dev.toml`
+
+```
+kerrokantasi_api_base="http://localhost:8080"
+
+openid_client_id="kerrokantasi-ui-dev"
+openid_audience="kerrokantasi-api-dev"
+openid_authority="https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus"
+openid_apitoken_url="https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/protocol/openid-connect/token"
+openid_scope="openid profile email"
 ```
 
 #### Install Kerrokantasi API locally

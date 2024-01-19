@@ -5,7 +5,7 @@ import {
   IconSignin,
   Header as HDSHeader,
   Logo,
-  LoadingSpinner
+  LoadingSpinner,
 } from 'hds-react';
 import classnames from 'classnames';
 import { FormattedMessage } from 'react-intl';
@@ -19,23 +19,30 @@ import logoBlack from '@city-images/logo-fi-black.svg';
 // eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
-import userManager from "../../utils/userManager";
-import { getUser } from '../../selectors/user';
-import config from "../../config";
 import { localizedNotifyError } from '../../utils/notify';
+import config from '../../config';
+import { getUser } from '../../selectors/user';
+import useAuthHook from '../../hooks/useAuth';
 
 const Header = ({ history, language, user }) => {
-  const handleLogin = async () => {
-    try {
-      if (config.maintenanceDisableLogin) {
-        localizedNotifyError("maintenanceNotificationText");
-        return;
-      }
-      await userManager.signinRedirect({ ui_locales: language });
-    } catch (error) {
-      localizedNotifyError("loginAttemptFailed");
+  const { authenticated, login, logout } = useAuthHook();
+
+  const doLogin = async () => {
+    if (config.maintenanceDisableLogin) {
+      localizedNotifyError("maintenanceNotificationText");
+      return;
     }
-  };
+    if (!authenticated) {
+      try {
+        await login();
+      }
+      catch {
+        localizedNotifyError("loginAttemptFailed");
+      }
+    } else {
+      logout();
+    }
+  }
 
   const onLanguageChange = (newLanguage) => {
     if (newLanguage !== language) {
@@ -103,7 +110,7 @@ const Header = ({ history, language, user }) => {
           icon={user ? <IconUser /> : <IconSignin />}
           closeLabel=''
           closeIcon={<LoadingSpinner small />}
-          onClick={user ? () => userManager.signoutRedirect() : () => handleLogin()}
+          onClick={doLogin}
           id="action-bar-login"
           className={user ? "logout-button" : "login-button"}
         />

@@ -11,6 +11,7 @@ const config = {
   openIdAudience: typeof window !== 'undefined' ? window.OPENID_AUDIENCE : null,
   openIdAuthority: typeof window !== 'undefined' ? window.OPENID_AUTHORITY : null,
   openIdApiTokenUrl: typeof window !== 'undefined' ? window.OPENID_APITOKEN_URL : null,
+  openIdScope: typeof window !== 'undefined' ? window.OPENID_SCOPE : null,
   heroImageURL: (typeof window !== 'undefined' ? window.HERO_IMAGE_URL : null)
     || 'http://materialbank.myhelsinki.fi/detail/1192/download/7',
   showAccessibilityInfo: typeof window !== 'undefined' ? window.SHOW_ACCESSIBILITY_INFO : false,
