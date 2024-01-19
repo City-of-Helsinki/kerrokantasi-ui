@@ -71,6 +71,7 @@ const optionalKeys = [
   "openid_audience",
   "openid_authority",
   "openid_apitoken_url",
+  "openid_scope",
   "enable_highcontrast",
   "admin_help_url",
   "empty_comment_string",
