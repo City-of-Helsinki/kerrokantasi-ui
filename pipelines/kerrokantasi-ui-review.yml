@@ -38,20 +38,22 @@ resources:
     # Azure DevOps repository
     - repository: kerrokantasi-pipelines
       type: git
+      ref: refs/heads/tunnistus_review_OH-39
       # Azure DevOps project/repository
       name: kerrokantasi/kerrokantasi-pipelines
 
 extends:
   # Filename in Azure DevOps Repository
   template: azure-pipelines-kerrokantasi-ui-review.yml@kerrokantasi-pipelines
-  # parameters:
+  parameters:
     # Application build arguments and config map values as key value pairs.
     # Does not contain all buildArguments or configMap values, the rest located in kerrokantasi-pipelines
     # Default value to nodeVersion is set on template.
     # The values here will override the values defined in the kerrokantasi-pipelines repository
     # buildArgs:
     #   DEBUG: 1
-    # configMap: # pod environment variables
+    configMap: # pod environment variables
+      KERROKANTASI_API_BASE: https://kerrokantasi-pr473.api.dev.hel.ninja
     #   DEBUG: 1
     ## Used tool version
     # nodeVersion: 18
