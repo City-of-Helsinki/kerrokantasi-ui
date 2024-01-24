@@ -14,9 +14,9 @@ I Kerrokantasi -tjänsten kan användarna skriva sina åsikter om det aktuella �
 
 Vissa utfrågningar kan kräva att du loggar in om du vill lämna en kommentar, stödja en åsikt (= tummen upp) eller rösta om alternativ.
 
-Genom att logga in samtycker du till att dina uppgifter används. Ditt namn eller smeknamn kan komma att visas på tjänsten i samband med din åsikt eller kommentar. Du kan styra synligheten av din information när du publicerar en kommentar genom att dölja ditt namn eller smeknamn.
+Du kan logga in på tjänsten genom att identifiera dig med din Helsingforsprofils Helsingfors-ID, som består av en e-postadress och ett lösenord. Om du loggar in för första gången måste du skapa en Helsingfors-ID om du inte redan har en. Stadens anställda loggar in med AD.
 
-Du kan också logga in på tjänsten med ett av de olika befintliga tjänste-ID som du har skapat (Yleisradio ID, Google, Facebook) eller som stadsanställd med AD-inloggningen.
+När du loggar in för första gången kommer du att se vilken information tjänsten kommer att använda om dig. Ditt namn eller smeknamn kan visas på tjänsten i samband med din åsikt eller kommentar. Du kan kontrollera synligheten av din information när du kommenterar genom att dölja ditt namn eller smeknamn.
 
 ## Användarens ansvar
 
@@ -78,6 +78,8 @@ För produktion av Kerrokantasi-innehåll är den information som samlas in:
 * Namn och efternamn
 * Organisation som representeras
 * Datum för första inloggning i tjänsten
+
+De uppgifter som samlas in under höranden kommer att behandlas baserat på det samtycke som användaren har gett. Möjligheterna till deltagande och inflytande i enlighet med artikel 22 i kommunallagen genomförs genom kommentarer på tjänsten. Genom digitala delaktighetskanaler samlas invånarnas kommentarer, åsikter och förslag till förbättringar av saker och tjänster som är under beredning. Kommentarer, åsikter och utvecklingsförslag som lämnas in till tjänsten kommer att behandlas i enlighet med Helsingfors stads rättsliga skyldighet.
 
 Tjänsten Kerrokantasi finns i Helsingfors stads Azure-moln med servrar i Irland. De speglas inte till andra Azure-platser. Säkerhetskopiorna finns i Azure i samma region som själva servrarna. Inga personuppgifter behandlas utanför Helsingfors.
 
