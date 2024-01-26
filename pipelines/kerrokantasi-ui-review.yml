@@ -53,7 +53,7 @@ extends:
     # buildArgs:
     #   DEBUG: 1
     configMap: # pod environment variables
-      KERROKANTASI_API_BASE: https://kerrokantasi-pr473.api.dev.hel.ninja
+      kerrokantasi_api_base: https://kerrokantasi-pr473.api.dev.hel.ninja
     #   DEBUG: 1
     ## Used tool version
     # nodeVersion: 18
