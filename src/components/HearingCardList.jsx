@@ -29,7 +29,7 @@ const HearingCardList = ({
   userProfile = false,
   unFavoriteAction,
 }) => (
-  <Row className='hearing-card-list'>
+  <Row data-testid='hearing-card-list' className='hearing-card-list'>
     {hearings &&
       hearings.map((hearing) => {
         // Hearings with long titles have larger HearingCards on the profile page.

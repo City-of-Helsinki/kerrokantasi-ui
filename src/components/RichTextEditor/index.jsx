@@ -30,7 +30,7 @@ import {
   ImageControls,
 } from './EditorControls';
 import IframeModal from './Iframe/IframeModal';
-import { stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs } from './Iframe/IframeUtils';
+import { stripWrappingFigureTags, stripIframeWrapperDivs, addIframeWrapperDivs } from '../../utils/iframeUtils';
 import IframeEntity from './Iframe/IframeEntity';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';

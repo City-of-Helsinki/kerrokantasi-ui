@@ -196,6 +196,7 @@ class UserProfile extends React.Component {
             </ControlLabel>
 
             <FormControl
+              data-testid='hearing-select'
               componentClass='select'
               onChange={(event) => {
                 this.setSelectedHearing(event.target.value);

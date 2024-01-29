@@ -34,7 +34,7 @@ export const Labels = (props) => {
 
   return (
     <div className={className} aria-label={ariaLabel}>
-      {labels.map((label) => labelToHTML(label))}
+      {labels?.map((label) => labelToHTML(label))}
     </div>
   );
 };

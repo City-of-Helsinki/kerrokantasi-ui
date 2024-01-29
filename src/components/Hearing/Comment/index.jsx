@@ -56,7 +56,7 @@ class Comment extends React.Component {
     } else if (
       // Jump to child sub-comment
       this.props.jumpTo &&
-      this.props.data.comments.includes(this.props.jumpTo) &&
+      this.props.data.comments?.includes(this.props.jumpTo) &&
       !this.props.data.loadingSubComments &&
       ((Array.isArray(this.props.data.subComments) && this.props.data.subComments.length === 0) ||
         this.props.data.subComments === undefined)
@@ -92,7 +92,7 @@ class Comment extends React.Component {
     commentData.answers = this.state.answers;
     this.props.onEditComment(section, id, commentData);
     this.setState({ editorOpen: false });
-  }
+  };
 
   handleDelete = (event) => {
     event.preventDefault();
@@ -100,7 +100,7 @@ class Comment extends React.Component {
     const { section, id, answers } = data;
     // userdata is updated if the comment contained answers
     this.props.onDeleteComment(section, id, answers.length > 0);
-  }
+  };
 
   onVote = () => {
     if (this.props.canVote) {
@@ -115,7 +115,7 @@ class Comment extends React.Component {
     } else {
       notifyError('Kirjaudu sisään äänestääksesi kommenttia.');
     }
-  }
+  };
 
   onFlag = () => {
     if (this.canFlagComments()) {
@@ -124,14 +124,14 @@ class Comment extends React.Component {
     } else {
       notifyError('Kirjaudu sisään liputtaaksesi kommentin.');
     }
-  }
+  };
 
   onCopyURL = () => {
     // Build absolute URL for comment
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
     notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
-  }
+  };
 
   /**
    * Open reply editor
@@ -543,6 +543,7 @@ class Comment extends React.Component {
     if (!data.content) {
       return null;
     }
+
     return (
       <li
         className={classnames([
@@ -596,7 +597,11 @@ class Comment extends React.Component {
                 <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
               </Button>
               {this.state.displayMap && data.geojson && (
-                <div className='hearing-comment__map-container' ref={this.handleSetMapContainer}>
+                <div
+                  data-testid='hearing-comment-map-container'
+                  className='hearing-comment__map-container'
+                  ref={this.handleSetMapContainer}
+                >
                   {data.geojson && (
                     <HearingMap
                       hearing={{ geojson: data.geojson }}

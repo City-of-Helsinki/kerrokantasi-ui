@@ -97,7 +97,7 @@ class UserHearings extends React.Component {
     }
     return (
       <div>
-        <div className='row card-list'>{elements}</div>
+        <div data-testid="hearing-cards" className='row card-list'>{elements}</div>
         {elements.length === 4 && hearingCount[type] > 4 && (
           <Button onClick={() => this.getRemainingHearings(type)}>
             <FormattedMessage id='showAll' values={{ n: hearingCount[type] }}>
