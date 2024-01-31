@@ -8,7 +8,7 @@ trigger:
   paths:
     exclude:
     - '*release-please*'
-    - '**/*.md'
+    - '*.md'
     - '.github/'
     - 'pipelines/kerrokantasi-ui-release.yml'
     - 'pipelines/kerrokantasi-ui-review.yml'
