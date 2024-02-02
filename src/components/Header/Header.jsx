@@ -106,18 +106,26 @@ const Header = ({ history, language, user }) => {
         <HDSHeader.LanguageSelector />
         <HDSHeader.ActionBarItem
           fixedRightPosition
-          label={user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
+          label={user ? user.displayName : <FormattedMessage key="login" id="login" />}
           icon={user ? <IconUser /> : <IconSignin />}
-          closeLabel=''
-          closeIcon={<LoadingSpinner small />}
-          onClick={doLogin}
+          closeIcon={user ? <IconUser /> : <IconSignin />}
+          closeLabel={user?.displayName}
+          onClick={user ?  () => { return } : doLogin }
           id="action-bar-login"
           className={user ? "logout-button" : "login-button"}
-        />
+        >{user &&
+          <HDSHeader.ActionBarItem 
+            label={<FormattedMessage key="logout" id="logout" />}
+            closeLabel=''
+            closeIcon={<LoadingSpinner small />}
+            onClick={doLogin}
+            id="action-bar-login"
+            className={"logout-button"}
+          />
+        }
+        </HDSHeader.ActionBarItem>
       </HDSHeader.ActionBar>
-
       <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
-
     </HDSHeader>
   );
 };
