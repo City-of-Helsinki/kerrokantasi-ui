@@ -142,6 +142,8 @@ Header.propTypes = {
 
 const mapDispatchToProps = () => ({});
 
+
+export {Header as UnconnectedHeader};
 export default withRouter(connect(state => ({
   user: getUser(state),
   language: state.language,
