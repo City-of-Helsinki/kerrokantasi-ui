@@ -110,7 +110,7 @@ const Header = ({ history, language, user }) => {
           icon={user ? <IconUser /> : <IconSignin />}
           closeIcon={user ? <IconUser /> : <IconSignin />}
           closeLabel={user?.displayName}
-          onClick={user ?  () => { return } : doLogin }
+          onClick={user ?  () => {  } : doLogin }
           id="action-bar-login"
           className={user ? "logout-button" : "login-button"}
         >{user &&
@@ -120,7 +120,7 @@ const Header = ({ history, language, user }) => {
             closeIcon={<LoadingSpinner small />}
             onClick={doLogin}
             id="action-bar-login"
-            className={"logout-button"}
+            className="logout-button"
           />
         }
         </HDSHeader.ActionBarItem>
