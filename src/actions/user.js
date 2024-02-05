@@ -7,6 +7,9 @@ export default function enrichUserData() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
+    if (!state.oidc.user) {
+      return null;
+    }
     const url = `v1/users/${state.oidc.user.profile.sub}`;
     return apiGet(state, url).then((democracyUser) => democracyUser.json()).then((democracyUserJSON) => {
       const userWithOrganization = {
