@@ -7,7 +7,7 @@ import Dropzone from 'react-dropzone';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import getMessage from '../../../utils/getMessage';
-import { isFormValid } from '../Iframe/IframeUtils';
+import { isFormValid } from '../../../utils/iframeUtils';
 import Icon from '../../../utils/Icon';
 import { localizedNotifyError } from '../../../utils/notify';
 
@@ -125,7 +125,7 @@ class ImageModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className="kerrokantasi-btn" onClick={this.confirmImage}>
+          <Button className='kerrokantasi-btn' onClick={this.confirmImage}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

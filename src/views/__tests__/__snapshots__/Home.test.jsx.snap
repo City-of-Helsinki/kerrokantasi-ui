@@ -1,0 +1,310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> should render correctly 1`] = `
+<div>
+  <div>
+    <section
+      class="page-section page-section--welcome"
+      style="background-image: url(http://materialbank.myhelsinki.fi/detail/1192/download/7);"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="welcome-content col-md-8 col-xs-10"
+          >
+            <h1>
+              <span>
+                welcome
+              </span>
+            </h1>
+            <p
+              class="lead"
+            >
+              <span>
+                welcomeMessage
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="welcome-koro__bottom"
+      />
+    </section>
+    <section
+      class="page-section page-section--hearing-card"
+    >
+      <div
+        class="container"
+      >
+        <h2
+          class="page-title"
+        >
+          <span>
+            openHearings
+          </span>
+        </h2>
+        <div
+          class="fullwidth-hearing "
+        >
+          <div
+            alt="A Wonderfull caption"
+            class="mouse-only-click-element fullwidth-hearing-image"
+            style="background-image: url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg);"
+          />
+          <div
+            class="fullwidth-hearing-header"
+          >
+            <div
+              class="fullwidth-hearing-title-wrap"
+            >
+              <h3
+                class="h2 fullwidth-hearing-title"
+              >
+                <a
+                  href="/mockHearing?headless=false"
+                >
+                  Mock Hearing
+                </a>
+              </h3>
+            </div>
+            <div
+              class="fullwidth-hearing-comments"
+            >
+              <span
+                aria-hidden="true"
+                class="fa fa-comment-o"
+              />
+               
+              1
+              <span
+                class="sr-only"
+              >
+                <span>
+                  hearingCardFullWidthComment
+                </span>
+              </span>
+            </div>
+            <div
+              class="fullwidth-hearing-times"
+            >
+              <span>
+                <span>
+                  timeOpenPast
+                </span>
+                 
+                <span>
+                  6 vuotta sitten
+                </span>
+                .
+              </span>
+               
+              <div>
+                timeCloseFutureWithValues
+                .
+              </div>
+            </div>
+            <div
+              class="fullwidth-hearing-labels clearfix"
+            >
+              <div
+                aria-label="labelListTagsTitle"
+                class="hearing-list-item-labellist"
+              />
+            </div>
+            <div
+              class="hearing-card-notice"
+            >
+              <span
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+              <span>
+                hearingTranslationNotAvailable
+              </span>
+              <div
+                class="language-available-message"
+                lang="fi"
+              >
+                Kuuleminen saatavilla suomeksi
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="list"
+        >
+          <div
+            class="hearing-card-list row"
+            data-testid="hearing-card-list"
+          />
+          <p
+            class="text-center"
+          >
+            <a
+              href="/hearings/list?headless=false"
+            >
+              <button
+                class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO kerrokantasi-btn"
+                type="button"
+              >
+                <span
+                  class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+                >
+                  <span>
+                    allHearings
+                  </span>
+                </span>
+              </button>
+            </a>
+          </p>
+        </div>
+      </div>
+      <div
+        class="hearings-koro__bottom"
+      />
+    </section>
+    <section
+      class="page-section page-section--map"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="map"
+        >
+          <h2>
+            <span>
+              open-hearings-on-map
+            </span>
+          </h2>
+          <div
+            class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+            style="height: 600px; width: 100%; position: relative;"
+            tabindex="0"
+          >
+            <div
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
+            >
+              <div
+                class="leaflet-pane leaflet-tile-pane"
+              >
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
+                >
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      src="http://tiles.hel.ninja/styles/hel-osm-bright/10/582/296@2x.png"
+                      style="width: 256px; height: 256px; left: -245px; top: -70px;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
+            <div
+              class="leaflet-control-container"
+            >
+              <div
+                class="leaflet-top leaflet-left"
+              >
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
+                >
+                  <a
+                    aria-disabled="false"
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </a>
+                  <a
+                    aria-disabled="false"
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      −
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="leaflet-top leaflet-right"
+              />
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JavaScript library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                   
+                  <span
+                    aria-hidden="true"
+                  >
+                    |
+                  </span>
+                   © 
+                  <a
+                    href="http://osm.org/copyright"
+                  >
+                    OpenStreetMap
+                  </a>
+                   contributors
+                </div>
+              </div>
+            </div>
+            <div />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;

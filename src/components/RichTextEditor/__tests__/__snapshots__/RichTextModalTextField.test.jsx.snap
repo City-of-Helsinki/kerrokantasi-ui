@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RichTextModalTextField /> should render correctly 1`] = `
+<div>
+  <div
+    class="input-container"
+  >
+    <label
+      for="test-form-test-name"
+    >
+      test-label
+       
+      *
+    </label>
+    <input
+      class="form-control"
+      data-testid="test-form-test-name"
+      id="test-form-test-name"
+      name="test-name"
+      required=""
+      type="text"
+      value="test-value"
+    />
+  </div>
+</div>
+`;

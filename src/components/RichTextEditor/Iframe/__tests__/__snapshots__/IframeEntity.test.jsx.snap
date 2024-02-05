@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IframeEntity /> should render correctly 1`] = `
+<div>
+  <div
+    style="overflow: hidden;"
+  >
+    <iframe
+      src="https://google.fi"
+      title="some title"
+    />
+  </div>
+</div>
+`;

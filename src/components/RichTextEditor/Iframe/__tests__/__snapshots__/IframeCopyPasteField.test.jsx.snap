@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IframeSelectField /> should render correctly 1`] = `
+<div>
+  <div
+    class="input-container html-copy-paste-input"
+  >
+    <label
+      for="iframe-html-copy-paste"
+    >
+      Iframe leikkaa ja liitä html
+    </label>
+    <textarea
+      class="form-control"
+      id="iframe-html-copy-paste"
+      name="htmlCopyPaste"
+    />
+  </div>
+</div>
+`;
