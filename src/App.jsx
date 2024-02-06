@@ -9,6 +9,8 @@ import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
+import { useApiTokens } from 'hds-react';
+
 import messages from './i18n';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
@@ -20,7 +22,9 @@ import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import useAuthHook from './hooks/useAuth';
+import useAuthHook from './hooks/useAuth';  
+import { setOidcUser, setApiToken } from './actions';
+import { getUser } from './selectors/user';
 
 function App({
   language,
@@ -28,20 +32,28 @@ function App({
   location,
   history,
   match,
+  ...props
 }) {
+  const { user, dispatchSetOidcUser, dispatchSetApiToken} = props;
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
   }
-
-  const { user } = useAuthHook();
+  const { authenticated } = useAuthHook();
+  const oidcUser = useAuthHook().user;
+  const { getStoredApiTokens } = useApiTokens();
 
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
+    if (!user && authenticated) {
+      const tmpToken = getStoredApiTokens().filter(token => token);
+      dispatchSetOidcUser(oidcUser);
+      dispatchSetApiToken(tmpToken);
+    }
     return () => {
       cookieOnComponentWillUnmount();
     }
-  }, [language, user]);
+  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
@@ -105,7 +117,13 @@ function App({
 const mapStateToProps = (state) => ({
   language: state.language,
   isHighContrast: state.accessibility.isHighContrast,
+  user: getUser(state),
 });
+
+const mapDispatchToProps = (dispatch) => ({
+    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+    dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
+  })
 
 App.propTypes = {
   history: PropTypes.object,
@@ -113,5 +131,8 @@ App.propTypes = {
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
+  user: PropTypes.object,
+  dispatchSetApiToken: PropTypes.func,
+  dispatchSetOidcUser: PropTypes.func,
 };
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

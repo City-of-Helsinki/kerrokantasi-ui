@@ -1,12 +1,11 @@
 import React from 'react';
-import { LoginCallbackHandler } from 'hds-react';
+import { LoginCallbackHandler , useApiTokens } from 'hds-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setOidcUser, setApiToken } from '../../actions';
 
+import { setOidcUser, setApiToken } from '../../actions';
 import useUpdateApiTokens from './hooks/useUpdateApiTokens';
 import useAuthHook from '../../hooks/useAuth';
-import { useApiTokens } from 'hds-react';
 
 const UnconnectedLoginCallback = (props) => {
 
@@ -17,9 +16,11 @@ const UnconnectedLoginCallback = (props) => {
 
   const success = async () => {
     await updateApiTokens();
-    const tmpToken = getStoredApiTokens().filter(token => token);
-    await dispatchSetOidcUser(user);
-    await dispatchSetApiToken(tmpToken);
+    if (user) {
+      const tmpToken = getStoredApiTokens().filter(token => token);
+      dispatchSetOidcUser(user);
+      dispatchSetApiToken(tmpToken);
+    }
     localStorage.removeItem('votedComments');
     history.push('/');
   };
@@ -35,12 +36,10 @@ const UnconnectedLoginCallback = (props) => {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
     dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
     dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
-  }
-}
+  })
 
 UnconnectedLoginCallback.propTypes = {
   history: PropTypes.shape({

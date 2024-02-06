@@ -7,11 +7,10 @@ import {
   Logo,
   LoadingSpinner,
 } from 'hds-react';
-import classnames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 // eslint-disable-next-line import/order
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 // eslint-disable-next-line import/no-unresolved, import/order
 import logoBlack from '@city-images/logo-fi-black.svg';
@@ -67,7 +66,12 @@ const Header = ({ history, language, user }) => {
 
     return (
       <FormattedMessage id={messageId} key={messageId}>
-        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} className={classnames('nav-item')} />)}
+      {url 
+        ?
+            (text) => (<HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active}  />)
+        : 
+          (text) => ( <p>{ text }</p>)
+      }
       </FormattedMessage>
     );
   };
