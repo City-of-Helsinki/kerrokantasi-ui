@@ -9,13 +9,10 @@ import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
-import { useApiTokens } from 'hds-react';
-
 import messages from './i18n';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import InternalLink from './components/InternalLink';
-import { setOidcUser, setApiToken } from './actions';
 import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
@@ -31,27 +28,20 @@ function App({
   location,
   history,
   match,
-  ...props
 }) {
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
   }
-  const {dispatchSetOidcUser, dispatchSetApiToken} = props;
+
   const { user } = useAuthHook();
-  const { getStoredApiTokens } = useApiTokens();
 
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
-    if (user) {
-      dispatchSetOidcUser(user);
-      const tmpToken = getStoredApiTokens().filter(token => token);
-      dispatchSetApiToken(tmpToken);
-    }
     return () => {
       cookieOnComponentWillUnmount();
     }
-  }, [language, user, getStoredApiTokens, dispatchSetOidcUser, dispatchSetApiToken]);
+  }, [language, user]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
@@ -117,18 +107,11 @@ const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
-  })
-
 App.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
-  dispatchSetOidcUser: PropTypes.func,
-  dispatchSetApiToken: PropTypes.func,
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps)(App));

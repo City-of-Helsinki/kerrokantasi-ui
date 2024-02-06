@@ -21,16 +21,14 @@ export default function getRoot(store) {
   return isIE ? (
     <BrowserWarning />
   ) : (
-    <div>
-      <LoginProvider {...loginProviderProps}>
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <ScrollToTop>
-              <App />
-            </ScrollToTop>
-          </ConnectedRouter>
-        </Provider>
-      </LoginProvider>
-    </div>
+    <LoginProvider {...loginProviderProps}>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>
+        </ConnectedRouter>
+      </Provider>
+    </LoginProvider>
   );
 }
