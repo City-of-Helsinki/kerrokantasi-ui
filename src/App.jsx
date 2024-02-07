@@ -39,8 +39,7 @@ function App({
   if (config.enableCookies) {
     checkCookieConsent();
   }
-  const { authenticated, logout } = useAuthHook();
-  const oidcUser = useAuthHook().user;
+  const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
 
   useEffect(() => {
