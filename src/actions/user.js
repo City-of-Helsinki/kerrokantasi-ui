@@ -15,7 +15,7 @@ export default function enrichUserData() {
       if (response.status > 400) {
         throw new Error("Bad response");
       }
-      response.json()
+      return response.json()
     }).then((democracyUser) => {
       const userWithOrganization = {
         displayName: `${get(democracyUser, 'first_name')} ${get(democracyUser, 'last_name')}`,
