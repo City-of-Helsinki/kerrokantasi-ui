@@ -39,7 +39,7 @@ function App({
   if (config.enableCookies) {
     checkCookieConsent();
   }
-  const { authenticated } = useAuthHook();
+  const { authenticated, logout } = useAuthHook();
   const oidcUser = useAuthHook().user;
   const { getStoredApiTokens } = useApiTokens();
 
@@ -47,8 +47,12 @@ function App({
     config.activeLanguage = language; // for non react-intl localizations
     if (!user && authenticated) {
       const tmpToken = getStoredApiTokens().filter(token => token);
-      dispatchSetOidcUser(oidcUser);
-      dispatchSetApiToken(tmpToken);
+      try {
+        dispatchSetOidcUser(oidcUser);
+        dispatchSetApiToken(tmpToken);
+      } catch (e) {
+        logout();
+      }
     }
     return () => {
       cookieOnComponentWillUnmount();
