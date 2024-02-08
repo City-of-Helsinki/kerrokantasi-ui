@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import getMessage from '../../../utils/getMessage';
-import { parseIframeHtml, convertStyleDimensionSettings } from './IframeUtils';
+import { parseIframeHtml, convertStyleDimensionSettings } from '../../../utils/iframeUtils';
 
 class IframeCopyPasteField extends React.Component {
   constructor(props) {

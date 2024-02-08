@@ -138,7 +138,7 @@ export function getFirstUnansweredQuestion(user, section) {
   return null;
 }
 
-export const isMainSection = (section) => section.type === SectionTypes.MAIN;
+export const isMainSection = (section) => section?.type === SectionTypes.MAIN;
 
 export function isSpecialSectionType(sectionType) {
   return specialSectionTypes.includes(sectionType);

@@ -11,6 +11,7 @@ function RichTextModalTextField(props) {
         {label} {isRequired && '*'}
       </label>
       <input
+        data-testid={`${formName}-${name}`}
         id={`${formName}-${name}`}
         name={name}
         className='form-control'
