@@ -46,7 +46,6 @@ function App({
     config.activeLanguage = language; // for non react-intl localizations
     if (!user && authenticated) {
       const tmpToken = getStoredApiTokens().filter(token => token);
-      console.log('Api Token: ' + JSON.stringify(tmpToken));
       try {
         dispatchSetOidcUser(oidcUser);
         dispatchSetApiToken(tmpToken);
@@ -57,7 +56,7 @@ function App({
     return () => {
       cookieOnComponentWillUnmount();
     }
-  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser]);
+  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser, logout]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });

@@ -15,7 +15,6 @@ const fetchApiToken = (state) => ({
 });
 
 const receiveApiToken = (state, { payload }) => {
-  console.log('Reducer payload: ' + JSON.stringify(payload));
   if (payload) {
     return { ...state, isFetching: false, apiToken: payload[config.openIdAudience] };
   }
