@@ -8,11 +8,13 @@ export default function enrichUserData() {
     dispatch(createAction('fetchUserData')());
     const state = getState();
     if (!state.oidc.user) {
-      return null;
+      dispatch(createAction('clearUserData')());
+      throw new Error("No authenticated user");
     }
     const url = `v1/users/${state.oidc.user.profile.sub}`;
     return apiGet(state, url).then((response) => {
       if (response.status > 400) {
+        dispatch(createAction('clearUserData')());
         throw new Error("Bad response");
       }
       return response.json()
