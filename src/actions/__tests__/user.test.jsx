@@ -1,5 +1,6 @@
-import { createTestStore } from "../../../test-utils";
 import { createAction } from 'redux-actions';
+
+import { createTestStore } from "../../../test-utils";
 import enrichUserData from "../user";
 
 const INITIAL_STATE = {
