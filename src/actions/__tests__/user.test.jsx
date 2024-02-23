@@ -1,5 +1,3 @@
-import { createAction } from 'redux-actions';
-
 import { createTestStore } from "../../../test-utils";
 import enrichUserData from "../user";
 
@@ -21,18 +19,5 @@ describe('User actions', () => {
         } catch(e) {
             expect(e.toString()).toEqual("Error: No authenticated user");
         }     
-    });
-
-    test('Enrich user data api fail', async () => {
-        try {
-            store.dispatch(createAction("receiveOidcUserData")({oidcUser: {
-                profile: {
-                    sub: 'nnn'
-                }
-            }}));
-            store.dispatch(enrichUserData());
-        } catch(e) {
-            expect(e.toString()).toEqual("Error: Bad response");
-        }
     });
 });

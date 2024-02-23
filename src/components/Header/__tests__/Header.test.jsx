@@ -28,4 +28,5 @@ describe('Header', () => {
     renderComponent({store, user: {displayName: testName, adminOrganizations: []}})
     expect(screen.getByText(testName)).toBeTruthy();
   })
+
 });

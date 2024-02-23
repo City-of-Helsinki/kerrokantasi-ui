@@ -196,7 +196,9 @@
       "^@city-images(.*)$": "<rootDir>/assets/images$1"
     },
     "testEnvironment": "jest-environment-jsdom",
-    "testPathIgnorePatterns": ["e2e"]
+    "testPathIgnorePatterns": [
+      "e2e"
+    ]
   },
   "snyk": true
 }
