@@ -2,16 +2,17 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import Header from '../Header';
-import createStore from '../../../createStore';
+import { UnconnectedHeader } from '../Header';
+import createAppStore from '../../../createStore';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
-const store = createStore();
+const store = createAppStore();
+const testName = 'Testihenkilö';
 
 function renderComponent(props) {
   renderWithProviders(
     <MemoryRouter>
-      <Header {...props} />
+      <UnconnectedHeader {...props} />
     </MemoryRouter>,
     { props },
   );
@@ -22,4 +23,10 @@ describe('Header', () => {
     renderComponent({ store });
     expect(screen.getByText('login')).toBeTruthy();
   });
+
+  it('should show a username when logged in', () => {
+    renderComponent({store, user: {displayName: testName, adminOrganizations: []}})
+    expect(screen.getByText(testName)).toBeTruthy();
+  })
+
 });

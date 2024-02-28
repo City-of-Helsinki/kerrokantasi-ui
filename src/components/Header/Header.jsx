@@ -7,11 +7,10 @@ import {
   Logo,
   LoadingSpinner,
 } from 'hds-react';
-import classnames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 // eslint-disable-next-line import/order
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 // eslint-disable-next-line import/no-unresolved, import/order
 import logoBlack from '@city-images/logo-fi-black.svg';
@@ -67,7 +66,12 @@ const Header = ({ history, language, user }) => {
 
     return (
       <FormattedMessage id={messageId} key={messageId}>
-        {(text) => (<HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} className={classnames('nav-item')} />)}
+      {url 
+        ?
+            (text) => (<HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active}  />)
+        : 
+          (text) => ( <p>{ text }</p>)
+      }
       </FormattedMessage>
     );
   };
@@ -106,18 +110,26 @@ const Header = ({ history, language, user }) => {
         <HDSHeader.LanguageSelector />
         <HDSHeader.ActionBarItem
           fixedRightPosition
-          label={user ? <FormattedMessage key="logout" id="logout" /> : <FormattedMessage key="login" id="login" />}
+          label={user ? user.displayName : <FormattedMessage key="login" id="login" />}
           icon={user ? <IconUser /> : <IconSignin />}
-          closeLabel=''
-          closeIcon={<LoadingSpinner small />}
-          onClick={doLogin}
+          closeIcon={user ? <IconUser /> : <IconSignin />}
+          closeLabel={user?.displayName}
+          onClick={user ?  () => {  } : doLogin }
           id="action-bar-login"
           className={user ? "logout-button" : "login-button"}
-        />
+        >{user &&
+          <HDSHeader.ActionBarItem 
+            label={<FormattedMessage key="logout" id="logout" />}
+            closeLabel=''
+            closeIcon={<LoadingSpinner small />}
+            onClick={doLogin}
+            id="action-bar-login"
+            className="logout-button"
+          />
+        }
+        </HDSHeader.ActionBarItem>
       </HDSHeader.ActionBar>
-
       <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
-
     </HDSHeader>
   );
 };
@@ -134,6 +146,8 @@ Header.propTypes = {
 
 const mapDispatchToProps = () => ({});
 
+
+export {Header as UnconnectedHeader};
 export default withRouter(connect(state => ({
   user: getUser(state),
   language: state.language,

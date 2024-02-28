@@ -11,7 +11,7 @@ const commonOidcConfig = {
   post_logout_redirect_uri: `${baseUrl}/callback/logout`,
 }
 
-// profiili config
+// userManager config
 export const userOidcConfig = {
   client_id: config.openIdClientId,
   scope: config.openIdScope,
@@ -20,11 +20,13 @@ export const userOidcConfig = {
 
 export const apiTokenClientConfig = {
   url: config.openIdApiTokenUrl,
+  /* Profiili specific config
   queryProps: {
     grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
     permission: '#access',
   },
   audiences: [config.openIdAudience],
+  */
 }
 
 export default {};

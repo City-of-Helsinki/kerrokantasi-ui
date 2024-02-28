@@ -15,7 +15,6 @@ import messages from './i18n';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import InternalLink from './components/InternalLink';
-import { setOidcUser, setApiToken } from './actions';
 import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
@@ -23,7 +22,9 @@ import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import useAuthHook from './hooks/useAuth';
+import useAuthHook from './hooks/useAuth';  
+import { setOidcUser, setApiToken } from './actions';
+import { getUser } from './selectors/user';
 
 function App({
   language,
@@ -33,25 +34,29 @@ function App({
   match,
   ...props
 }) {
+  const { user, dispatchSetOidcUser, dispatchSetApiToken} = props;
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
   }
-  const {dispatchSetOidcUser, dispatchSetApiToken} = props;
-  const { user } = useAuthHook();
+  const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
 
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
-    if (user) {
-      dispatchSetOidcUser(user);
+    if (!user && authenticated) {
       const tmpToken = getStoredApiTokens().filter(token => token);
-      dispatchSetApiToken(tmpToken);
+      try {
+        dispatchSetOidcUser(oidcUser);
+        dispatchSetApiToken(tmpToken);
+      } catch (e) {
+        logout();
+      }
     }
     return () => {
       cookieOnComponentWillUnmount();
     }
-  }, [language, user, getStoredApiTokens, dispatchSetOidcUser, dispatchSetApiToken]);
+  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser, logout]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
@@ -115,6 +120,7 @@ function App({
 const mapStateToProps = (state) => ({
   language: state.language,
   isHighContrast: state.accessibility.isHighContrast,
+  user: getUser(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -128,7 +134,8 @@ App.propTypes = {
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
-  dispatchSetOidcUser: PropTypes.func,
+  user: PropTypes.object,
   dispatchSetApiToken: PropTypes.func,
+  dispatchSetOidcUser: PropTypes.func,
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
