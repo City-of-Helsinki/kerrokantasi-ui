@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
@@ -10,17 +11,20 @@ import HearingFormControl from './HearingFormControl';
 const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHearingCreator, changeSort }) => (
   <>
     <div className='col-md-12 tool-buttons'>
-      <div>
-        <Link to={{ path: '/hearing/new' }} className='btn btn-success'>
+
+      <Link to={{ path: '/hearing/new' }}>
+        <Button className="kerrokantasi-btn success">
           <Icon name='plus' aria-hidden />
-          {formatMessage({ id: 'createHearing' })}
-        </Link>
-      </div>
+          &nbsp;&nbsp;
+          <FormattedMessage id='createHearing' />
+        </Button>
+      </Link>
       <Button
         aria-label={formatMessage({ id: 'toolbar' })}
         aria-expanded={openTools}
         aria-haspopup='true'
         onClick={() => toggleDropdown()}
+        className="kerrokantasi-btn gear"
       >
         <Icon className={classNames({ active: openTools })} name='gear' size='2x' aria-hidden />
       </Button>

@@ -1,29 +1,34 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { OidcProvider } from 'redux-oidc';
 import { isIE } from 'react-device-detect';
+import { LoginProvider } from 'hds-react';
 
 import App from './App';
 import { history } from './createStore';
 import ScrollToTop from './scrollToTop';
-import userManager from './utils/userManager';
 import BrowserWarning from './views/BrowserWarning';
+import { userOidcConfig, apiTokenClientConfig } from './utils/oidcConfig';
+
+  
+const loginProviderProps = {
+  userManagerSettings: userOidcConfig,
+  apiTokensClientSettings: apiTokenClientConfig,
+  sessionPollerSettings: { pollIntervalInMs: 10000 }, 
+}
 
 export default function getRoot(store) {
   return isIE ? (
     <BrowserWarning />
   ) : (
-    <div>
+    <LoginProvider {...loginProviderProps}>
       <Provider store={store}>
-        <OidcProvider store={store} userManager={userManager}>
-          <ConnectedRouter history={history}>
-            <ScrollToTop>
-              <App />
-            </ScrollToTop>
-          </ConnectedRouter>
-        </OidcProvider>
+        <ConnectedRouter history={history}>
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>
+        </ConnectedRouter>
       </Provider>
-    </div>
+    </LoginProvider>
   );
 }

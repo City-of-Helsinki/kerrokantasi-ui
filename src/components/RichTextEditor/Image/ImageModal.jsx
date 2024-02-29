@@ -1,12 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { ControlLabel, HelpBlock, Image, Modal, Button, ModalTitle } from 'react-bootstrap';
+import { ControlLabel, HelpBlock, Image, Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Dropzone from 'react-dropzone';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import getMessage from '../../../utils/getMessage';
-import { isFormValid } from '../Iframe/IframeUtils';
+import { isFormValid } from '../../../utils/iframeUtils';
 import Icon from '../../../utils/Icon';
 import { localizedNotifyError } from '../../../utils/notify';
 
@@ -124,7 +125,7 @@ class ImageModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={this.confirmImage}>
+          <Button className='kerrokantasi-btn' onClick={this.confirmImage}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

@@ -6,7 +6,8 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Col, Grid, OverlayTrigger, Row, Tooltip, Button } from 'react-bootstrap';
+import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -86,7 +87,7 @@ export class HeaderComponent extends React.Component {
     };
 
     const renderCommentsElem = () => (
-      <div className='hearing-meta__element comment-summary'>
+      <div data-testid='comment-summary' className='hearing-meta__element comment-summary'>
         <Icon name='comment-o' />
         <span className='comment-summary-texts'>
           <div className='commentNumber'>
@@ -165,7 +166,7 @@ export class HeaderComponent extends React.Component {
 
     // If multiple languages available for the hearing
     return (
-      <div className='hearing-meta__element language-select'>
+      <div data-testid='language-select' className='hearing-meta__element language-select'>
         <Icon name='globe' className='user-nav-icon' />
         {!translationAvailable && noTranslationMessage}
         {languageOptions.map((code) => (
@@ -212,7 +213,7 @@ export class HeaderComponent extends React.Component {
             </Tooltip>
           }
         >
-          <Button bsStyle='info' onClick={() => this.writeToClipboard(hearing.preview_url)}>
+          <Button className='kerrokantasi-btn info' onClick={() => this.writeToClipboard(hearing.preview_url)}>
             <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
           </Button>
         </OverlayTrigger>
@@ -233,8 +234,8 @@ export class HeaderComponent extends React.Component {
     };
     return (
       <div className='hearing-meta__element hearing-favorite'>
-        <Icon name={favConfig.icon} />
-        <Button bsStyle='link' onClick={() => favConfig.click(hearing.slug, hearing.id)}>
+        <Icon className='icon-adjustment' name={favConfig.icon} />
+        <Button className='kerrokantasi-btn secondary' onClick={() => favConfig.click(hearing.slug, hearing.id)}>
           <FormattedMessage id={favConfig.id}>{(txt) => txt}</FormattedMessage>
         </Button>
       </div>
@@ -256,10 +257,10 @@ export class HeaderComponent extends React.Component {
   render() {
     const { hearing, language, sections, match, showClosureInfo, intl, user } = this.props;
 
-    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const section = sections.find((sec) => sec.id === match.params.sectionId) || mainSection;
-    const closureInfoContent = sections.find((sec) => sec.type === SectionTypes.CLOSURE)
-      ? getAttr(sections.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
+    const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
+    const section = sections?.find((sec) => sec.id === match.params.sectionId) || mainSection;
+    const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE)
+      ? getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
       : intl.formatMessage({ id: 'defaultClosureInfo' });
 
     return (

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';
 import getMessage from '../../../utils/getMessage';
-import { isFormValid } from './SkipLinkUtils';
+import { isFormValid } from '../../../utils/isFormValid';
 
 const initialState = {
   linkText: '',
@@ -144,11 +145,16 @@ class SkipLinkModal extends React.Component {
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={this.confirmSkipLink}>
+          <Button className='kerrokantasi-btn' onClick={this.confirmSkipLink}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (
-            <p id='skip-link-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>
+            <p
+              data-testid='skip-link-form-submit-error'
+              id='skip-link-form-submit-error'
+              role='alert'
+              className='rich-text-editor-form-input-error'
+            >
               {getMessage('formCheckErrors')}
             </p>
           )}

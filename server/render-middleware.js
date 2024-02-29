@@ -54,6 +54,7 @@ function renderHTMLSkeleton(req, res, settings) {
         openIdAudience={settings.openid_audience}
         openIdAuthority={settings.openid_authority}
         openIdApiTokenUrl={settings.openid_apitoken_url}
+        openIdScope={settings.openid_scope}
         enableHighContrast={settings.enable_highcontrast}
         enableStrongAuth={settings.enable_strong_auth}
         adminHelpUrl={settings.admin_help_url}
@@ -83,9 +84,6 @@ export default function renderMiddleware(settings) {
         accept.indexOf('*/*') === -1
       )
     ) {
-      return next();
-    }
-    if (req.url.indexOf(".") > -1) {
       return next();
     }
     return renderHTMLSkeleton(req, res, settings);

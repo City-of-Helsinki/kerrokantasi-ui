@@ -1,19 +1,25 @@
 {
   "name": "kerrokantasi-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node server",
     "build": "rm -rf ./dist && node compile",
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "dev": "node server --dev --host 0.0.0.0",
-    "lint": "eslint \"src/**/*.{js,jsx}\" && eslint \"server/*.{js,jsx}\" && eslint \"__tests__/**/*.{js,jsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\" && eslint \"server/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix && eslint \"server/*.{js,jsx}\" --fix",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src server",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
+    "test:e2e:install": "yarn playwright install",
+    "test:e2e:ci": "npx playwright test",
+    "test:e2e:start": "npx playwright test",
+    "test:e2e:record": "npx playwright codegen https://kerrokantasi.dev.hel.ninja/",
     "snyk-protect": "snyk protect",
-    "coverage": "jest --coverage --coverageReporters=cobertura"
+    "coverage": "jest --coverage --coverageReporters=cobertura",
+    "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi"
   },
   "repository": {
     "type": "git",
@@ -37,6 +43,9 @@
     "@draft-js-plugins/focus": "^4.1.1",
     "@draft-js-plugins/image": "^4.1.1",
     "@draft-js-plugins/resizeable": "^5.0.4",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "alertifyjs": "^1.13.1",
     "autoprefixer": "^10.4.15",
     "babel-loader": "^9.0.0",
@@ -46,10 +55,12 @@
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.19.0",
     "bootstrap-sass": "3.4.3",
+    "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "codecov": "^3.8.1",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^2.0.0-alpha.1",
+    "crypto-browserify": "^3.12.0",
     "css-loader": "^6.8.1",
     "debug": "^4.3.1",
     "draft-convert": "^2.1.10",
@@ -68,7 +79,8 @@
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "font-awesome": "^4.7.0",
-    "hds-react": "^2.17.0",
+    "hds-core": "^3.2.0",
+    "hds-react": "^3.2.0",
     "hel-bootstrap-3": "1.0.0-beta.4",
     "history": "^5.3.0",
     "html-loader": "^4.2.0",
@@ -133,6 +145,7 @@
     "scrolltop": "0.0.1",
     "simple-git": "^3.3.0",
     "snyk": "^1.695.0",
+    "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.2.5",
     "updeep": "^1.2.0",
@@ -149,10 +162,13 @@
     "@babel/plugin-proposal-export-default-from": "^7.22.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-proposal-throw-expressions": "^7.22.5",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@playwright/test": "^1.40.1",
+    "@testing-library/jest-dom": "^6.3.0",
+    "@types/node": "^18.19.3",
     "babel-jest": "^29.6.3",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.0",
-    "enzyme-to-json": "^3.1.4",
+    "husky": "^8.0.3",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "jest-localstorage-mock": "^2.4.26",
@@ -168,18 +184,21 @@
       "server/**/*.{js,jsx}",
       "src/**/*.{js,jsx}"
     ],
-    "setupFiles": [
-      "./test-setup.js",
+    "setupFilesAfterEnv": [
+      "./src/setupTests.js",
       "jest-localstorage-mock"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js",
       "^@city-i18n(.*)$": "<rootDir>/src/i18n$1",
       "^@city-assets(.*)$": "<rootDir>/assets$1",
       "^@city-images(.*)$": "<rootDir>/assets/images$1"
     },
-    "testEnvironment": "jest-environment-jsdom"
+    "testEnvironment": "jest-environment-jsdom",
+    "testPathIgnorePatterns": [
+      "e2e"
+    ]
   },
   "snyk": true
 }

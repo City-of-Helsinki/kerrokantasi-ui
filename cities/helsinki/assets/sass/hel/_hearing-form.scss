@@ -13,6 +13,14 @@
 }
 
 .toolbar-bottom {
+  .btn-toolbar {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    button[type="button"] {
+      margin: 2px;
+    }
+  }
   .alert {
     &.alert-success {
       color: $white;

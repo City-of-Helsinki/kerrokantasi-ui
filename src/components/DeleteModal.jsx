@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
 const DeleteModal = ({ isOpen, close, onDeleteComment }) => (
@@ -11,11 +12,11 @@ const DeleteModal = ({ isOpen, close, onDeleteComment }) => (
       </Modal.Title>
     </Modal.Header>
     <Modal.Footer>
-      <Button onClick={() => close()}>
+      <Button className="kerrokantasi-btn" onClick={() => close()}>
         <FormattedMessage id='cancel' />
       </Button>
       <Button
-        bsStyle='danger'
+        className="kerrokantasi-btn danger"
         onClick={() => {
           onDeleteComment();
           close();

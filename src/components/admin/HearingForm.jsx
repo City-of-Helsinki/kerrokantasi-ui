@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
 
@@ -115,17 +115,17 @@ class HearingForm extends React.Component {
     if (hearing.published) {
       ActionButton = () => (
         <div className='flex-end btn-toolbar'>
-          <Button bsStyle='success' onClick={onSaveAsCopy}>
+          <Button className="kerrokantasi-btn success"  onClick={onSaveAsCopy}>
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
-          <Button bsStyle='success' onClick={onSaveChanges}>
+          <Button className="kerrokantasi-btn success"  onClick={onSaveChanges}>
             <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
-        <Button bsStyle='success' onClick={onSaveAndPreview}>
+        <Button className="kerrokantasi-btn success"  onClick={onSaveAndPreview}>
           <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );

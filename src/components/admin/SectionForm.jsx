@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { get, isEmpty } from 'lodash';
-import { ControlLabel, FormControl, FormGroup, HelpBlock, Image, Button, ButtonGroup, Checkbox } from 'react-bootstrap';
+import { ControlLabel, FormControl, FormGroup, HelpBlock, Image, ButtonGroup, Checkbox } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Dropzone from 'react-dropzone';
 import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
 
@@ -262,9 +263,6 @@ class SectionForm extends React.Component {
           <div className='section-toolbar'>
             <ButtonGroup bsSize='small'>
               <Button
-                bsStyle='default'
-                className='btn'
-                type='button'
                 onClick={() => sectionMoveUp(section.frontId)}
                 disabled={isFirstSubsection}
                 style={{ marginRight: '10px' }}
@@ -272,9 +270,6 @@ class SectionForm extends React.Component {
                 &uarr; <FormattedMessage id='moveUp' />
               </Button>
               <Button
-                bsStyle='default'
-                className='btn'
-                type='button'
                 onClick={() => sectionMoveDown(section.frontId)}
                 disabled={isLastSubsection}
               >
@@ -423,42 +418,38 @@ class SectionForm extends React.Component {
           {this.renderAttachments(section)}
         </FormGroup>
         <FormGroup>
-          <button
-            className='btn btn-default question-control'
-            type='button'
+          <Button
+            className='question-control kerrokantasi-btn'
             onClick={() => this.props.initSingleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newSingleChoiceQuestion' })}
-          </button>
-          <button
-            className='btn btn-default question-control'
-            type='button'
+          </Button>
+          <Button
+            className='question-control kerrokantasi-btn'
             onClick={() => this.props.initMultipleChoiceQuestion(section.frontId)}
           >
             {formatMessage({ id: 'newMultipleChoiceQuestion' })}
-          </button>
+          </Button>
         </FormGroup>
         {!isEmpty(section.questions) &&
           section.questions.map((question, index) => (
             <div>
               <h5>{`${formatMessage({ id: 'question' })} ${index + 1}`}</h5>
               {question.frontId && (
-                <button
-                  type='button'
-                  className='btn btn-danger pull-right'
+                <Button
+                  className='kerrokantasi-btn danger pull-right'
                   onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}
-                </button>
+                </Button>
               )}
               {question.id && !isPublic && (
-                <button
-                  type='button'
-                  className='btn btn-danger pull-right'
+                <Button
+                  className='kerrokantasi-btn danger pull-right'
                   onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
                 >
                   {formatMessage({ id: 'deleteQuestion' })}
-                </button>
+                </Button>
               )}
               <FormGroup>
                 <h6>

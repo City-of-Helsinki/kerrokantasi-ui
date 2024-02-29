@@ -1,111 +1,94 @@
 /* eslint-disable import/no-unresolved */
-/* eslint-disable react/jsx-no-target-blank */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Row, Col } from 'react-bootstrap';
-import logoWhite from '@city-images/logo-fi-white.svg';
-import logoSwedishWhite from '@city-images/logo-sv-white.svg';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import urls from '@city-assets/urls.json';
+import settings from '@city-assets/settings.json';
+import { Footer as HDSFooter, Logo } from 'hds-react';
+import logoSwedishWhite from '@city-images/logo-sv-white.svg';
+import logoWhite from '@city-images/logo-fi-white.svg';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
 
-import Link from './LinkWithLang';
+import { getFeedbackEmailUrl, getFeedbackUrl } from '../utils/languageUtils';
 import config from '../config';
-import { getFeedbackUrl } from '../utils/languageUtils';
+import { getUser } from '../selectors/user';
+import { isAdmin } from '../utils/user';
 
-const getCurrentYear = () => {
-  const today = new Date();
-  return today.getFullYear();
-};
+const Footer = (props) => {
+  const { language, user, intl } = props;
 
-export default function Footer(props) {
-  const { language } = props;
+  const userIsAdmin = isAdmin(user);
 
   return (
-    <footer className='site-footer'>
-      <div className='container'>
-        <Row>
-          <Col md={3} sm={4}>
-            <div className='footer-branding'>
-              <FormattedMessage id='footerLogoAlt'>
-                {(altText) => (
-                  <img alt={altText} src={language === 'sv' ? logoSwedishWhite : logoWhite} className='footer-logo' />
-                )}
-              </FormattedMessage>
-              <div className='footer-city-link'>
-                <a href={urls.city}>
-                  <FormattedMessage id='footerCityLink' />
-                </a>
-              </div>
-            </div>
-          </Col>
-          <Col md={3} sm={4}>
-            <div className='site-footer-block'>
-              <div className='footer-header'>Kerrokantasi</div>
-              <ul className='footer-links'>
-                <li>
-                  <Link to={{ path: '/hearings/list' }}>
-                    <FormattedMessage id='hearingsHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: '/hearings/map' }}>
-                    <FormattedMessage id='hearingMapHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: '/info' }}>
-                    <FormattedMessage id='infoHeaderText' />
-                  </Link>
-                </li>
-                <li>
-                  <Link to={{ path: getFeedbackUrl(language) }} rel="noopener noreferrer" target="_blank">
-                    <FormattedMessage id="feedbackPrompt" />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <div className='site-footer-small-print'>
-              <ul className='small-print-nav'>
-                {config.showAccessibilityInfo && (
-                  <li>
-                    <Link to={{ path: '/accessibility' }}>
-                      <FormattedMessage id='accessibilityLink' />
-                    </Link>
-                  </li>
-                )}
-                <li>
-                  <a href={urls.dataProtection} target='_blank' rel='noopener noreferrer'>
-                    <FormattedMessage id='dataProtection' />
-                  </a>
-                </li>
-                {config.enableCookies && (
-                  <li>
-                    <Link to={{ path: '/cookies' }}>
-                      <FormattedMessage id='cookieManagementLink' />
-                    </Link>
-                  </li>
-                )}
-                <li>
-                  <a href={getFeedbackUrl(language)} target='_blank' rel='noopener noreferrer'>
-                    <FormattedMessage id='feedbackLinkText' />
-                  </a>
-                </li>
-                <li>
-                  {getCurrentYear()} <FormattedMessage id='copyrightText' />
-                </li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-      </div>
-    </footer>
+    <HDSFooter
+      className={classNames(['footer', userIsAdmin && 'footer--is-admin'])}
+      title='Kerrokantasi'
+      logoLanguage={language}
+      korosType={settings.footer.korosType}
+      theme={{
+        '--footer-background': 'var(--color-black)',
+        '--footer-color': 'var(--color-white)',
+      }}
+    >
+      <HDSFooter.Navigation>
+        <HDSFooter.Link label={<FormattedMessage id='hearingsHeaderText' />} href='/hearings/list' />
+        <HDSFooter.Link label={<FormattedMessage id='hearingMapHeaderText' />} href='/hearings/map' />
+        {userIsAdmin && <HDSFooter.Link label={<FormattedMessage id='ownHearings' />} href='/user-hearings' />}
+        {user && <HDSFooter.Link label={<FormattedMessage id='userInfo' />} href='/user-profile' />}
+      </HDSFooter.Navigation>
+      <HDSFooter.Utilities>
+        <HDSFooter.Link
+          label={<FormattedMessage id='feedbackPrompt' />}
+          href={getFeedbackEmailUrl(language)}
+          target='_blank'
+          rel='noopener noreferrer'
+        />
+        <HDSFooter.Link
+          label={<FormattedMessage id='feedbackLinkText' />}
+          href={getFeedbackUrl(language)}
+          target='_blank'
+          rel='noopener noreferrer'
+        />
+      </HDSFooter.Utilities>
+      <HDSFooter.Base
+        copyrightHolder={<FormattedMessage id='copyrightHolder' />}
+        copyrightText={<FormattedMessage id='copyrightText' />}
+        backToTopLabel={<FormattedMessage id='scrollToTop' />}
+        logo={
+          <Logo
+            src={language === 'sv' ? logoSwedishWhite : logoWhite}
+            size='medium'
+            alt={intl.formatMessage({ id: 'footerLogoAlt' })}
+          />
+        }
+      >
+        <HDSFooter.Link label={<FormattedMessage id='accessibilityLink' />} href='/accessibility' />
+        <HDSFooter.Link
+          label={<FormattedMessage id='dataProtection' />}
+          href={urls.dataProtection}
+          target='_blank'
+          rel='noopener noreferrer'
+        />
+        {config.enableCookies && (
+          <HDSFooter.Link label={<FormattedMessage id='cookieManagementLink' />} href='/cookies' />
+        )}
+        <HDSFooter.Link label={<FormattedMessage id='infoHeaderText' />} href='/info' />
+      </HDSFooter.Base>
+    </HDSFooter>
   );
-}
+};
 
 Footer.propTypes = {
+  intl: intlShape.isRequired,
   language: PropTypes.string,
+  user: PropTypes.object,
 };
+
+export default withRouter(
+  connect((state) => ({
+    user: getUser(state),
+  }))(injectIntl(Footer)),
+);

@@ -10,9 +10,9 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-* Node v18 LTS (`nvm use`)
-* Yarn
-* Docker
+- Node v18 LTS (`nvm use`)
+- Yarn
+- Docker
 
 ### Configuration
 
@@ -74,6 +74,13 @@ docker compose up
 
 The web application is running at http://localhost:8086
 
+## Commit message format
+
+New commit messages must adhere to the [Conventional Commits](https://www.conventionalcommits.org/)
+specification, and line length is limited to 72 characters.
+
+[commitlint](https://github.com/conventional-changelog/commitlint) checks every new commit for the correct format.
+
 ### Using local Tunnistamo instance for development with docker
 
 #### Set tunnistamo hostname
@@ -108,10 +115,10 @@ After you've got tunnistamo running locally, ssh to the tunnistamo docker contai
 and execute the following four commands inside your docker container:
 
 ```bash
-./manage.py add_oidc_client -n kerrokantasi-ui -t "id_token token" -u "http://localhost:8086/callback" "http://localhost:8086/silent-callback" -i https://api.hel.fi/auth/kerrokantasi-ui -m github -s dev
-./manage.py add_oidc_client -n kerrokantasi-api -t "code" -u http://localhost:8080/pysocial/complete/tunnistamo/ -i https://api.hel.fi/auth/kerrokantasi -m github -s dev -c
+./manage.py add_oidc_client -n kerrokantasi-ui -t "id_token token" -u "http://localhost:8086/callback" "http://localhost:8086/silent-renew" -i https://api.hel.fi/auth/kerrokantasi-ui -m github -s dev
+./manage.py add_oidc_client -n kerrokantasi-api -t "code" -u http://localhost:8080/complete/tunnistamo/ -i https://api.hel.fi/auth/kerrokantasi -m github -s dev -c
 ./manage.py add_oidc_api -n kerrokantasi -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/kerrokantasi
-./manage.py add_oidc_api_scope -an kerrokantasi -c https://api.hel.fi/auth/kerrokantasi -n "Kerrokantasi" -d"Lorem ipsum"
+./manage.py add_oidc_api_scope -an kerrokantasi -c https://api.hel.fi/auth/kerrokantasi -n "Kerrokantasi" -d "Lorem ipsum"
 ./manage.py add_oidc_client_to_api_scope -asi https://api.hel.fi/auth/kerrokantasi -c https://api.hel.fi/auth/kerrokantasi-ui
 ```
 
@@ -126,6 +133,21 @@ openid_client_id="https://api.hel.fi/auth/kerrokantasi-ui"
 openid_audience="https://api.hel.fi/auth/kerrokantasi"
 openid_authority="http://tunnistamo-backend:8000"
 openid_apitoken_url="http://tunnistamo-backend:8000/api-tokens/"
+openid_scope="openid profile https://api.hel.fi/auth/kerrokantasi"
+```
+
+#### Configure Helsinki Profiili to frontend
+
+Change the following configuration in `config_dev.toml`
+
+```
+kerrokantasi_api_base="http://localhost:8080"
+
+openid_client_id="kerrokantasi-ui-dev"
+openid_audience="kerrokantasi-api-dev"
+openid_authority="https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus"
+openid_apitoken_url="https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/protocol/openid-connect/token"
+openid_scope="openid profile email"
 ```
 
 #### Install Kerrokantasi API locally

@@ -1,45 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
+import { SearchInput, Button } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
 import InternalLink from './InternalLink';
 
-class HearingsSearch extends React.Component {
-  render() {
-    const { handleSearch, handleSelectLabels, labels, language, searchPhrase, selectedLabels, intl } = this.props;
+const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, searchPhrase, selectedLabels, intl }) => {
+  const [searchValue, setSearchValue] = useState(searchPhrase);
 
-    const labelsAsOptions = labels.map(({ label, id }) => ({
-      label: getAttr(label, language),
-      value: getAttr(label, language),
-      id,
-    }));
+  const labelsAsOptions = labels.map(({ label, id }) => ({
+    label: getAttr(label, language),
+    value: getAttr(label, language),
+    id,
+  }));
 
-    return (
-      <div className='hearings-search__container'>
-        <div className='hearings-search__content'>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleSearch(this.input.value, true);
-            }}
-            id='hearings-search-form'
-          >
+  return (
+    <div className='hearings-search__container'>
+      <div className='hearings-search__content'>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleSearch(searchValue);
+          }}
+          id='hearings-search-form'
+        >
+          <div className='hearings-search__controls'>
             <FormGroup className='hearings-search__text' controlId='formControlsSearchText'>
-              <ControlLabel>
-                <FormattedMessage id='searchTitles' />
-              </ControlLabel>
-              <FormControl
-                type='text'
-                inputRef={(ref) => {
-                  this.input = ref;
-                }}
-                defaultValue={searchPhrase}
-                onBlur={() => handleSearch(this.input.value)}
+              <SearchInput
+                className='hearings-search__input'
+                label={<FormattedMessage id='searchTitles' />}
+                searchButtonAriaLabel={intl.formatMessage({ id: 'searchTitles' })}
+                clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
+                value={searchValue}
+                onChange={(newValue) => setSearchValue(newValue)}
+                onSubmit={(value) => handleSearch(value)}
               />
             </FormGroup>
             <FormGroup className='hearings-search__label' controlId='formControlsSearchSelect'>
@@ -48,6 +47,7 @@ class HearingsSearch extends React.Component {
               </ControlLabel>
               {!isEmpty(labels) && (
                 <Select
+                  className="hearings-search__select"
                   multi
                   value={selectedLabels}
                   options={labelsAsOptions}
@@ -57,18 +57,18 @@ class HearingsSearch extends React.Component {
                 />
               )}
             </FormGroup>
-            <Button className='hearings-search__button' bsStyle='primary' type='submit'>
-              <FormattedMessage id='search' />
-            </Button>
-            <InternalLink destinationId='hearings-section' srOnly>
-              <FormattedMessage id='jumpToSearchResults' />
-            </InternalLink>
-          </form>
-        </div>
+          </div>
+          <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
+            <FormattedMessage id='search' />
+          </Button>
+          <InternalLink destinationId='hearings-section' srOnly>
+            <FormattedMessage id='jumpToSearchResults' />
+          </InternalLink>
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 HearingsSearch.propTypes = {
   handleSearch: PropTypes.func,

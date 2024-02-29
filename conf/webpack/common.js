@@ -30,6 +30,11 @@ module.exports = {
       'kerrokantasi-ui': path.resolve(__dirname, '../../'),
       'kerrokantasi-ui-modules': path.resolve(__dirname, '../../node_modules'),
     },
+    fallback: {
+      "buffer": require.resolve("buffer/"),
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify")
+    }
   },
   entry: [
     'babel-polyfill',
@@ -57,15 +62,7 @@ module.exports = {
       },
       {
         test: /\.svg(\?v=.+)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1000000,
-              mimetype: 'image/svg+xml',
-            }
-          }
-        ]
+        type: 'asset/inline',
       },
       {
         test: /\.gif$/,

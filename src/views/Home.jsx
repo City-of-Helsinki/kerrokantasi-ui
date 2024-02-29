@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Col, Grid, Row } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import orderBy from 'lodash/orderBy';
 
 import { fetchHearingList } from '../actions';
@@ -117,8 +118,10 @@ export class Home extends React.Component {
                   intl={intl}
                 />
                 <p className='text-center'>
-                  <Link to={{ path: '/hearings/list' }} className='btn btn-default'>
-                    <FormattedMessage id='allHearings' />
+                  <Link to={{ path: '/hearings/list' }}>
+                    <Button className="kerrokantasi-btn">
+                        <FormattedMessage id='allHearings' />
+                    </Button>
                   </Link>
                 </p>
               </div>

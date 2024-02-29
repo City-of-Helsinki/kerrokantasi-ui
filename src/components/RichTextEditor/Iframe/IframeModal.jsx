@@ -1,13 +1,14 @@
 /* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
-import { Modal, Button, ModalTitle } from 'react-bootstrap';
+import { Modal, ModalTitle } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IframeCopyPasteField from './IframeCopyPasteField';
 import RichTextModalTextField from '../RichTextModalTextField';
 import IframeSelectField from './IframeSelectField';
-import { validateInput, validateForm, isFormValid } from './IframeUtils';
+import { validateInput, validateForm, isFormValid } from '../../../utils/iframeUtils';
 import getMessage from '../../../utils/getMessage';
 
 const initialState = {
@@ -172,14 +173,19 @@ class IframeModal extends React.Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => onClose()}>
+          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button bsStyle='primary' onClick={(event) => this.handleFormSubmit(event, fields)}>
+          <Button className='kerrokantasi-btn' onClick={(event) => this.handleFormSubmit(event, fields)}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (
-            <p id='iframe-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>
+            <p
+              data-testid='iframe-form-submit-error'
+              id='iframe-form-submit-error'
+              role='alert'
+              className='rich-text-editor-form-input-error'
+            >
               {getMessage('formCheckErrors')}
             </p>
           )}

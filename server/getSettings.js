@@ -28,6 +28,7 @@ const defaults = {
   openid_audience: "https://api.hel.fi/auth/kerrokantasiapitest",
   openid_authority: "https://api.hel.fi/sso/",
   openid_apitoken_url: 'https://api.hel.fi/sso/api-tokens/',
+  openid_scope: 'kerrokantasi-ui',
   // Should display social media sharing buttons
   show_social_media_sharing: true,
   // Should display & enable contrast toggle button
@@ -70,6 +71,7 @@ const optionalKeys = [
   "openid_audience",
   "openid_authority",
   "openid_apitoken_url",
+  "openid_scope",
   "enable_highcontrast",
   "admin_help_url",
   "empty_comment_string",

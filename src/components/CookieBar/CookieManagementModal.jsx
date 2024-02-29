@@ -3,7 +3,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Panel, PanelGroup, Button } from 'react-bootstrap';
+import { Modal, Panel, PanelGroup } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import Switch from 'react-bootstrap-switch';
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/iframe-has-title */
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import React, { createRef } from 'react';
@@ -41,7 +41,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
             />
           </FormGroup>
           <p>
-            <Button bsStyle='primary' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+            <Button className="kerrokantasi-btn" onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
               Lähetä ehdotus
             </Button>
           </p>

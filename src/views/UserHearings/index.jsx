@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
+import { Button } from 'hds-react';
 import Helmet from 'react-helmet';
 
 import { getUser } from '../../selectors/user';
@@ -96,7 +97,7 @@ class UserHearings extends React.Component {
     }
     return (
       <div>
-        <div className='row card-list'>{elements}</div>
+        <div data-testid="hearing-cards" className='row card-list'>{elements}</div>
         {elements.length === 4 && hearingCount[type] > 4 && (
           <Button onClick={() => this.getRemainingHearings(type)}>
             <FormattedMessage id='showAll' values={{ n: hearingCount[type] }}>

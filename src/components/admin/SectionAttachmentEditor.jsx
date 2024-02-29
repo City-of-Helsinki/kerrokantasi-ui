@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
+import { Button } from 'hds-react';
 
 import Icon from '../../utils/Icon';
 
@@ -100,26 +101,22 @@ const SectionAttachmentEditor = (props) => {
         />
       </div>
       <div className='Section-attachment-editor-actions'>
-        <button
-          type='button'
-          className='btn btn-default pull-right'
+        <Button
           disabled={isDisabled(fileCount, file.ordering, 'increment')}
           onClick={handleIncrementOrder}
         >
           &uarr;
-        </button>
-        <button
-          type='button'
-          className='btn btn-default pull-right'
+        </Button>
+        <Button
           disabled={isDisabled(fileCount, file.ordering, 'decrement')}
           onClick={handleDecrementOrder}
         >
           &darr;
-        </button>
-        <button type='button' className='btn btn-default pull-right' onClick={handleOnClickDeleteButton}>
+        </Button>
+        <Button onClick={handleOnClickDeleteButton}>
           <Icon style={{ fontSize: '24px', marginRight: '12px' }} className='icon' name='trash' />
           <FormattedMessage id='deleteAttachment' />
-        </button>
+        </Button>
       </div>
     </div>
   );

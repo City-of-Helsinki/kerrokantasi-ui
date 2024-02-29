@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -10,55 +10,59 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import { getUser } from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
-import userManager from '../../utils/userManager';
 import { localizedNotifyError } from '../../utils/notify';
 import { contactShape, organizationShape } from '../../types';
+import useAuthHook from '../../hooks/useAuth';
 
-async function handleLogin() {
-  try {
-    await userManager.signinRedirect();
-  } catch (error) {
-    localizedNotifyError('loginAttemptFailed');
+function NewHearingContainerComponent(props) {
+  const { login } = useAuthHook();
+  const handleLogin = async () => {
+    try {
+      await login();
+    } catch (error) {
+      localizedNotifyError('loginAttemptFailed');
+    }
   }
-}
+  const [hasLoaded, setHasLoaded] = useState(false);
 
-export class NewHearingContainerComponent extends React.Component {
-  componentDidMount() {
-    const { fetchEditorMetaData, initHearing, fetchProjectsList } = this.props;
-    initHearing();
-    fetchEditorMetaData();
-    fetchProjectsList();
-  }
+  const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = props;
+  const { fetchEditorMetaData, initHearing, fetchProjectsList } = props;
 
-  render() {
-    const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = this.props;
-    return (
-      <div>
-        {isLoading ? (
-          <LoadSpinner />
-        ) : (
-          <div>
-            {!user ? (
-              <div className='hearing-page'>
-                <PleaseLogin login={handleLogin} />
-              </div>
-            ) : (
-              <HearingEditor
-                hearing={hearingDraft}
-                hearingLanguages={hearingLanguages}
-                labels={labels}
-                user={user}
-                isLoading={isLoading}
-                contactPersons={contactPersons}
-                organizations={organizations}
-                isNewHearing
-              />
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
+  useEffect(() => {
+    if(!hasLoaded && user) {
+      setHasLoaded(true);
+      initHearing();
+      fetchEditorMetaData();
+      fetchProjectsList();
+    }
+  }, [fetchEditorMetaData, initHearing, fetchProjectsList, hasLoaded, user]);
+
+  return (
+    <div>
+      {isLoading ? (
+        <LoadSpinner />
+      ) : (
+        <div>
+          {!user ? (
+            <div className='hearing-page'>
+              <PleaseLogin login={handleLogin} />
+            </div>
+          ) : (
+            <HearingEditor
+              hearing={hearingDraft}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              user={user}
+              isLoading={isLoading}
+              contactPersons={contactPersons}
+              organizations={organizations}
+              isNewHearing
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 NewHearingContainerComponent.propTypes = {

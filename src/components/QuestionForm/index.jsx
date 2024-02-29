@@ -8,6 +8,7 @@ import getAttr from '../../utils/getAttr';
 
 const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer }) => (
   <FormGroup
+    data-testid='question-form-group'
     className='question-form-group'
     onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}
   >

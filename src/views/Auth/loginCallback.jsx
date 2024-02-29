@@ -1,33 +1,53 @@
 import React from 'react';
-import { CallbackComponent } from 'redux-oidc';
-import { push } from 'react-router-redux';
+import { LoginCallbackHandler , useApiTokens } from 'hds-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import userManager from '../../utils/userManager';
+import { setOidcUser, setApiToken } from '../../actions';
+import useUpdateApiTokens from './hooks/useUpdateApiTokens';
+import useAuthHook from '../../hooks/useAuth';
 
-class CallbackPage extends React.Component {
-  success = () => {
+const UnconnectedLoginCallback = (props) => {
+
+  const { history, dispatchSetOidcUser, dispatchSetApiToken} = props;
+  const { updateApiTokens } = useUpdateApiTokens();
+  const { getStoredApiTokens } = useApiTokens();
+  const { user } = useAuthHook();
+
+  const success = async () => {
+    await updateApiTokens();
+    if (user) {
+      const tmpToken = getStoredApiTokens().filter(token => token);
+      dispatchSetOidcUser(user);
+      dispatchSetApiToken(tmpToken);
+    }
     localStorage.removeItem('votedComments');
-    this.props.dispatch(push('/'));
+    history.push('/');
   };
 
-  failure = () => {
-    this.props.dispatch(push('/'));
+  const failure = () => {
+    history.push('/');
   };
 
-  render() {
-    return (
-      <CallbackComponent userManager={userManager} successCallback={this.success} errorCallback={this.failure}>
-        <div>Redirecting...</div>
-      </CallbackComponent>
-    );
-  }
+  return (
+    <LoginCallbackHandler onSuccess={success} onError={failure}>
+      <div>Redirecting...</div>
+    </LoginCallbackHandler>
+  );
 }
 
-CallbackPage.propTypes = {
-  dispatch: PropTypes.func,
+const mapDispatchToProps = (dispatch) => ({
+    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+    dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
+  })
+
+UnconnectedLoginCallback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  dispatchSetApiToken: PropTypes.func,
+  dispatchSetOidcUser: PropTypes.func,
 };
 
-export { CallbackPage as UnconnectedCallbackPage };
-export default connect()(CallbackPage);
+export { UnconnectedLoginCallback };
+export default connect(null, mapDispatchToProps)(UnconnectedLoginCallback);

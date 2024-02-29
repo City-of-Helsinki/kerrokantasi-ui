@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IframeSelectField /> should render correctly 1`] = `
+<div>
+  <div
+    class="input-container"
+  >
+    <label
+      for="iframe-test-name"
+    >
+      test-label
+       
+    </label>
+    <select
+      class="rich-text-editor-form-select-input"
+      id="iframe-test-name"
+      name="test-name"
+    >
+      <option
+        value="no"
+      >
+        text-no
+      </option>
+      <option
+        value="yes"
+      >
+        text-yes
+      </option>
+    </select>
+  </div>
+</div>
+`;

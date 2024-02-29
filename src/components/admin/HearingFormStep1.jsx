@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -27,9 +27,17 @@ import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
 class HearingFormStep1 extends React.Component {
   constructor(props) {
     super(props);
+
     this.onChange = this.onChange.bind(this);
     this.onLabelsChange = this.onLabelsChange.bind(this);
     this.onContactsChange = this.onContactsChange.bind(this);
+    this.onCreateLabel = this.onCreateLabel.bind(this);
+    this.onCreateContact = this.onCreateContact.bind(this);
+    this.onEditContact = this.onEditContact.bind(this);
+    this.closeLabelModal = this.closeLabelModal.bind(this);
+    this.openContactModal = this.openContactModal.bind(this);
+    this.openContactModal = this.openContactModal.bind(this);
+    this.closeContactModal = this.closeContactModal.bind(this);
 
     this.state = {
       showLabelModal: false,
@@ -150,7 +158,7 @@ class HearingFormStep1 extends React.Component {
                   valueKey='frontId'
                   menuContainerStyle={{ zIndex: 10 }}
                 />
-                <Button bsStyle='primary' className='pull-right add-label-button' onClick={() => this.openLabelModal()}>
+                <Button size="small" className='kerrokantasi-btn pull-right add-label-button' onClick={() => this.openLabelModal()}>
                   <Icon className='icon' name='plus' />
                 </Button>
               </div>
@@ -202,8 +210,8 @@ class HearingFormStep1 extends React.Component {
               valueKey='id'
             />
             <Button
-              bsStyle='primary'
-              className='pull-right add-contact-button'
+              size='small'
+              className='kerrokantasi-btn pull-right add-contact-button'
               onClick={() => this.openContactModal({})}
             >
               <Icon className='icon' name='plus' />
@@ -214,7 +222,7 @@ class HearingFormStep1 extends React.Component {
           </HelpBlock>
         </FormGroup>
         <div className='step-footer'>
-          <Button bsStyle='default' onClick={this.props.onContinue}>
+          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 
@@ -290,7 +290,7 @@ const MapQuestionnaire = ({
                 />
               </FormGroup>
               <p>
-                <Button bsStyle='primary' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
+                <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={formData.submitting}>
                   Lähetä ehdotus
                 </Button>
               </p>
@@ -317,7 +317,7 @@ const MapQuestionnaire = ({
               />
             </FormGroup>
             <p>
-              <Button bsStyle='primary' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
+              <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
                 Lähetä ehdotus
               </Button>
             </p>

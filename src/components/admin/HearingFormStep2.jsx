@@ -5,7 +5,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
-import Button from 'react-bootstrap/lib/Button';
+import { Button } from 'hds-react';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Panel from 'react-bootstrap/lib/Panel';
 
@@ -108,7 +108,7 @@ class HearingFormStep2 extends React.Component {
   getDeleteSectionButton(section, sectionID) {
     if (section.type !== 'main') {
       return (
-        <Button bsStyle='danger' onClick={() => this.deleteSection(sectionID)}>
+        <Button className="kerrokantasi-btn danger" onClick={() => this.deleteSection(sectionID)}>
           <Icon className='icon' name='trash' /> <FormattedMessage id='deleteSection' />
         </Button>
       );
@@ -146,13 +146,13 @@ class HearingFormStep2 extends React.Component {
         </Accordion>
         <div className='new-section-toolbar'>
           <ButtonToolbar>
-            <Button bsSize='small' bsStyle='default' onClick={() => this.addSection('part')}>
+            <Button size='small' className="kerrokantasi-btn" onClick={() => this.addSection('part')}>
               <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
             </Button>
           </ButtonToolbar>
         </div>
         <div className='step-footer'>
-          <Button bsStyle='default' onClick={this.props.onContinue}>
+          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
