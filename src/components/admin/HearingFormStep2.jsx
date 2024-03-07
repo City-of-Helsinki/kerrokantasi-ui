@@ -171,6 +171,7 @@ HearingFormStep2.propTypes = {
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
+  language: PropTypes.string,
   onContinue: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,

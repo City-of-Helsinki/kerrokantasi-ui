@@ -269,6 +269,7 @@ OverviewMap.propTypes = {
   hearings: PropTypes.array.isRequired,
   hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
+  language: PropTypes.string,
   mapContainer: PropTypes.object,
   mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,

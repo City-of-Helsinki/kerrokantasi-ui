@@ -13,6 +13,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Row from 'react-bootstrap/lib/Row';
 import { HelpBlock } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
@@ -23,7 +24,6 @@ import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { getDocumentOrigin, getValidationState } from '../../utils/hearingEditor';
 import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
-import { connect } from 'react-redux';
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -253,6 +253,7 @@ HearingFormStep1.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
+  language: PropTypes.string,
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
