@@ -95,7 +95,7 @@ const Header = ({ history, language, user }) => {
   ];
 
   return (
-    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language}>
+    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language} key={language}>
       <HDSHeader.ActionBar
         title='Kerrokantasi'
         titleAriaLabel='Kerrokantasi'
