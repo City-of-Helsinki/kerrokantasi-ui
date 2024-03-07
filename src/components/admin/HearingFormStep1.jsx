@@ -23,6 +23,7 @@ import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { getDocumentOrigin, getValidationState } from '../../utils/hearingEditor';
 import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
+import { connect } from 'react-redux';
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -111,8 +112,8 @@ class HearingFormStep1 extends React.Component {
       onHearingChange,
       onLanguagesChange,
       organizations,
+      language,
     } = this.props;
-    const { language } = this.context;
 
     return (
       <div className='form-step'>
@@ -262,6 +263,10 @@ HearingFormStep1.contextTypes = {
   language: PropTypes.string,
 };
 
+const mapStateToProps = (state) => ({
+  language: state.language
+});
+
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);
 
-export default WrappedHearingFormStep1;
+export default connect(mapStateToProps, null)(WrappedHearingFormStep1);

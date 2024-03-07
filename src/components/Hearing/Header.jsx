@@ -132,6 +132,7 @@ export class HeaderComponent extends React.Component {
               <Link
                 to={{ path: location.pathname, search: stringifyQuery({ lang: languageOptions[0] }) }}
                 className='language-select__language'
+                reloadDocument
               >
                 {intl.formatMessage({ id: `hearingOnlyAvailableInLang-${languageOptions[0]}` })}
               </Link>
@@ -161,7 +162,8 @@ export class HeaderComponent extends React.Component {
       } else {
         urlObject.search += stringifyQuery({ lang: code });
       }
-      return urlObject;
+
+      return urlObject.path + '' + urlObject.search;
     };
 
     // If multiple languages available for the hearing
@@ -174,9 +176,9 @@ export class HeaderComponent extends React.Component {
             {!(code === language) ? (
               <div lang={code}>
                 {intl.formatMessage({ id: `hearingAvailable-${code}` })}&nbsp;
-                <Link to={langSpecificURL(code)} className='language-select__language'>
+                <a href={langSpecificURL(code)} className='language-select__language' reloadDocument>
                   {intl.formatMessage({ id: `hearingAvailableInLang-${code}` })}
-                </Link>
+                </a>
               </div>
             ) : null}
           </span>
