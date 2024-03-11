@@ -44,15 +44,13 @@ const Header = ({ history, language, user }) => {
   }
 
   const onLanguageChange = (newLanguage) => {
-    if (newLanguage !== language) {
-      const urlSearchParams = new URLSearchParams(window.location.search);
-      urlSearchParams.set('lang', newLanguage);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    urlSearchParams.set('lang', newLanguage);
 
-      history.push({
-        pathname: window.location.pathname,
-        search: urlSearchParams.toString()
-      });
-    }
+    history.push({
+      pathname: window.location.pathname,
+      search: urlSearchParams.toString()
+    });
   };
 
   const getNavItem = (id, url, addSuffix = true) => {
@@ -97,7 +95,7 @@ const Header = ({ history, language, user }) => {
   ];
 
   return (
-    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language}>
+    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language} key={language}>
       <HDSHeader.ActionBar
         title='Kerrokantasi'
         titleAriaLabel='Kerrokantasi'

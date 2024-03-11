@@ -161,6 +161,7 @@ export class HeaderComponent extends React.Component {
       } else {
         urlObject.search += stringifyQuery({ lang: code });
       }
+
       return urlObject;
     };
 

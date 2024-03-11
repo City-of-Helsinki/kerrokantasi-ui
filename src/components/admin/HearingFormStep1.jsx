@@ -13,6 +13,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Row from 'react-bootstrap/lib/Row';
 import { HelpBlock } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
@@ -111,8 +112,8 @@ class HearingFormStep1 extends React.Component {
       onHearingChange,
       onLanguagesChange,
       organizations,
+      language,
     } = this.props;
-    const { language } = this.context;
 
     return (
       <div className='form-step'>
@@ -252,6 +253,7 @@ HearingFormStep1.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
+  language: PropTypes.string,
   onContinue: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
@@ -262,6 +264,10 @@ HearingFormStep1.contextTypes = {
   language: PropTypes.string,
 };
 
+const mapStateToProps = (state) => ({
+  language: state.language
+});
+
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);
 
-export default WrappedHearingFormStep1;
+export default connect(mapStateToProps, null)(WrappedHearingFormStep1);

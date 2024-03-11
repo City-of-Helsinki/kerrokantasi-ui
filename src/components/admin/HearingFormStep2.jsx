@@ -49,7 +49,6 @@ class HearingFormStep2 extends React.Component {
    * @returns {Array} - Array of Panel elements.
    */
   getSections() {
-    const { language } = this.context;
     const {
       hearing,
       hearingLanguages,
@@ -59,6 +58,7 @@ class HearingFormStep2 extends React.Component {
       deleteOption,
       onQuestionChange,
       onDeleteTemporaryQuestion,
+      language
     } = this.props;
     return hearing.sections
       .filter(({ type }) => type !== SectionTypes.CLOSURE)
@@ -171,6 +171,7 @@ HearingFormStep2.propTypes = {
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   intl: intlShape.isRequired,
+  language: PropTypes.string,
   onContinue: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
@@ -189,6 +190,10 @@ HearingFormStep2.contextTypes = {
   language: PropTypes.string,
 };
 
-const WrappedHearingFormStep2 = connect()(injectIntl(HearingFormStep2));
+const mapStateToProps = (state) => ({
+  language: state.language
+}); 
 
-export default WrappedHearingFormStep2;
+const WrappedHearingFormStep2 = injectIntl(HearingFormStep2);
+
+export default connect(mapStateToProps, null)(WrappedHearingFormStep2);

@@ -165,8 +165,7 @@ class OverviewMap extends React.Component {
    * @returns {JSX.Element|null}
    */
   getPopupContent(hearing, geojson) {
-    const { language } = this.context;
-    const { enablePopups } = this.props;
+    const { enablePopups, language } = this.props;
     // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
     const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
     if (enablePopups) {
@@ -195,8 +194,7 @@ class OverviewMap extends React.Component {
    * @returns {{alt: *}|{keyboard: boolean}}
    */
   getAdditionalParams(hearing) {
-    const { enablePopups } = this.props;
-    const { language } = this.context;
+    const { enablePopups, language } = this.props;
     if (enablePopups) {
       return { alt: getAttr(hearing.title, language) };
     }
@@ -216,7 +214,7 @@ class OverviewMap extends React.Component {
 
   render() {
     if (typeof window === 'undefined') return null;
-    const { hearings } = this.props;
+    const { hearings, language } = this.props;
     const contents = this.getHearingMapContent(hearings);
     if (!contents.length && this.props.hideIfEmpty) {
       return null;
@@ -236,7 +234,7 @@ class OverviewMap extends React.Component {
               urls.rasterMapTiles,
               urls.highContrastRasterMapTiles,
               this.props.isHighContrast,
-              this.context.language,
+              language,
             )}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
@@ -259,6 +257,7 @@ class OverviewMap extends React.Component {
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
+  language: state.language
 });
 
 OverviewMap.defaultProps = {
@@ -270,6 +269,7 @@ OverviewMap.propTypes = {
   hearings: PropTypes.array.isRequired,
   hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
+  language: PropTypes.string,
   mapContainer: PropTypes.object,
   mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,

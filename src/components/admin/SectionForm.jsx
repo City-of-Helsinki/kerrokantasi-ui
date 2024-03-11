@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { get, isEmpty } from 'lodash';
@@ -157,12 +158,12 @@ class SectionForm extends React.Component {
       return;
     }
     // Load the file and then upload it.
-    const { section } = this.props;
+    const { section, language } = this.props;
     const file = attachment[0];
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
       if (this.props.onSectionAttachment) {
-        this.props.onSectionAttachment(section.frontId, fileReader.result, { [this.context.language]: file.name });
+        this.props.onSectionAttachment(section.frontId, fileReader.result, { [language]: file.name });
       }
     });
     fileReader.readAsDataURL(file);
@@ -200,6 +201,7 @@ class SectionForm extends React.Component {
    * @returns {JS<Component>} react component for displaying attachments.
    */
   renderAttachments = (section) => {
+    const { language } = this.props;
     const { files } = section;
     if (files && files.length > 0) {
       return (
@@ -213,7 +215,7 @@ class SectionForm extends React.Component {
               <SectionAttachmentEditor
                 file={{ ...file, ordering: file.ordering ? file.ordering : fileIndex }}
                 key={`file-${file.url}`}
-                language={this.context.language}
+                language={language}
                 fileCount={files.length}
                 section={section}
                 onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
@@ -242,6 +244,7 @@ class SectionForm extends React.Component {
       isFirstSubsection,
       isLastSubsection,
       isPublic,
+      language,
       onDeleteExistingQuestion,
       onDeleteTemporaryQuestion,
       onQuestionChange,
@@ -252,7 +255,6 @@ class SectionForm extends React.Component {
       sectionMoveDown,
       sectionMoveUp,
     } = this.props;
-    const { language } = this.context;
     const imageCaption = SectionForm.getImageCaption(section, language);
     const dropZoneClass = this.getImage() ? 'dropzone preview' : 'dropzone';
     const { formatMessage } = this.props.intl;
@@ -491,6 +493,7 @@ SectionForm.propTypes = {
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
   isPublic: PropTypes.bool,
+  language: PropTypes.string,
   maxAbstractLength: PropTypes.number,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
@@ -511,6 +514,10 @@ SectionForm.contextTypes = {
   language: PropTypes.string,
 };
 
+const mapStateToProps = (state) => ({
+  language: state.language
+});
+
 const WrappedSectionForm = injectIntl(SectionForm);
 
-export default WrappedSectionForm;
+export default connect(mapStateToProps, null)(WrappedSectionForm);
