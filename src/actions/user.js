@@ -12,7 +12,6 @@ export default function enrichUserData() {
       throw new Error("No authenticated user");
     }
     const url = `v1/users/${state.oidc.user.profile.sub}`;
-
     
     return apiGet(state, url).then((response) => response.json()).then((democracyUser) => {
         const userWithOrganization = {
