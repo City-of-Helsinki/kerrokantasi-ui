@@ -7,7 +7,7 @@ import HearingEditor from '../../components/admin/HearingEditor';
 import { fetchProjects } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 import { localizedNotifyError } from '../../utils/notify';
@@ -22,14 +22,14 @@ function NewHearingContainerComponent(props) {
     } catch (error) {
       localizedNotifyError('loginAttemptFailed');
     }
-  }
+  };
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = props;
   const { fetchEditorMetaData, initHearing, fetchProjectsList } = props;
 
   useEffect(() => {
-    if(!hasLoaded && user) {
+    if (!hasLoaded && user) {
       setHasLoaded(true);
       initHearing();
       fetchEditorMetaData();
@@ -39,7 +39,7 @@ function NewHearingContainerComponent(props) {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading && !hasLoaded ? (
         <LoadSpinner />
       ) : (
         <div>
@@ -48,16 +48,18 @@ function NewHearingContainerComponent(props) {
               <PleaseLogin login={handleLogin} />
             </div>
           ) : (
-            <HearingEditor
-              hearing={hearingDraft}
-              hearingLanguages={hearingLanguages}
-              labels={labels}
-              user={user}
-              isLoading={isLoading}
-              contactPersons={contactPersons}
-              organizations={organizations}
-              isNewHearing
-            />
+            <div>
+              <HearingEditor
+                hearing={hearingDraft}
+                hearingLanguages={hearingLanguages}
+                labels={labels}
+                user={user}
+                isLoading={isLoading}
+                contactPersons={contactPersons}
+                organizations={organizations}
+                isNewHearing
+              />
+            </div>
           )}
         </div>
       )}

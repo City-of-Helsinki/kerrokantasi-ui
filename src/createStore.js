@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 import RavenMiddleWare from 'redux-raven-middleware';
 import identity from 'lodash/identity';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
-import { wrapHistory } from "oaf-react-router";
+import { wrapRouter } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 
@@ -17,14 +17,15 @@ import { localizedNotifyError } from './utils/notify';
 
 export const history = createBrowserHistory();
 
+
+/*
 const historySettings = {
   documentTitle: (location) => document.title || "Kerrokantasi",
   announcePageNavigation: false, // default true
   setPageTitle: false,
   primaryFocusTarget: "body",
 };
-
-wrapHistory(history, historySettings);
+*/
 
 const middleware = [
   thunk,

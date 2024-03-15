@@ -11,7 +11,6 @@ import hearingEditor from './hearingEditor';
 import headless from './headless';
 import oidc from './oidc';
 import projectLists from './projectLists';
-import apitoken from "./api";
 import accessibility from "./accessibility";
 
 /**
@@ -35,7 +34,6 @@ export default combineReducers({
   language,
   accessibility,
   headless,
-  apitoken,
   lastActionType,
   sectionComments,
   user,

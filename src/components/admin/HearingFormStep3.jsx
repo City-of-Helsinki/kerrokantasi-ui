@@ -400,7 +400,7 @@ class HearingFormStep3 extends React.Component {
 
   render() {
     if (typeof window === 'undefined') return null; // Skip rendering outside of browser context
-    const { FeatureGroup, Map, TileLayer } = require('react-leaflet'); // Late import to be isomorphic compatible
+    const { FeatureGroup, MapContainer, TileLayer } = require('react-leaflet'); // Late import to be isomorphic compatible
     const { EditControl } = require('react-leaflet-draw');
     const { initialGeoJSON } = this.state;
 
@@ -410,7 +410,7 @@ class HearingFormStep3 extends React.Component {
           <ControlLabel>
             <FormattedMessage id='hearingArea' />
           </ControlLabel>
-          <Map
+          <MapContainer
             ref={this.refCallBack}
             // onResize={this.invalidateMap.bind(this)}
             zoomControl={false}
@@ -446,7 +446,7 @@ class HearingFormStep3 extends React.Component {
               />
               {getHearingArea({ geojson: initialGeoJSON })}
             </FeatureGroup>
-          </Map>
+          </MapContainer>
         </FormGroup>
         <div className='step-control'>
           <label className='geojson_button' htmlFor='geojsonUploader'>

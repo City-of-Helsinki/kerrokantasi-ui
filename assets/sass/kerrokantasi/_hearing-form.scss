@@ -1,9 +1,14 @@
-.form-modal {
-  width: 80%;
+div:has(> .hearing-form-modal) {
+  z-index: 1003;
+}
 
-  .modal-content {
-    padding: 20px;
-    background: $gray-lighter;
+div:has(> .hearing-form-child-modal) {
+  z-index: 1004;
+}
+
+.form-container {
+  &.hearing-form-modal {
+    width: 80% !important;
   }
 
   .panel {
@@ -184,7 +189,7 @@
 .toolbar-bottom {
   background: $light-gray;
   bottom: 0;
-  box-shadow: 0 0 5px rgba(0,0,0,.33);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.33);
   left: 0;
   padding: $line-height-computed / 2;
   position: fixed;
@@ -217,15 +222,6 @@
   .add-label-button {
     margin-left: 5px;
     width: 38px;
-  }
-}
-
-.hearing-modal-header {
-  border: 0;
-  padding: 0;
-
-  h2 {
-    margin-top: 0;
   }
 }
 

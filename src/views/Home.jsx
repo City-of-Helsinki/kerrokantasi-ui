@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Col, Grid, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
@@ -10,7 +10,7 @@ import orderBy from 'lodash/orderBy';
 
 import { fetchHearingList } from '../actions';
 import { getTopHearing, getOpenHearings } from '../selectors/hearing';
-import { getUser } from '../selectors/user';
+import getUser from '../selectors/user';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import OverviewMap from '../components/OverviewMap';
@@ -139,7 +139,6 @@ export class Home extends React.Component {
 }
 
 Home.propTypes = {
-  intl: intlShape.isRequired,
   dispatch: PropTypes.func,
   openHearings: PropTypes.object,
   topHearing: PropTypes.object,

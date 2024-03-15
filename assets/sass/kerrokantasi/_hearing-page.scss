@@ -655,14 +655,6 @@
   }
 }
 
-.delete-modal {
-  margin-top: 25%;
-
-  @media (max-width: $screen-sm-max) {
-    margin-top: 55%;
-  }
-}
-
 .commentlist .commentlist__load-more {
   background: $gray-light;
   padding: 20px 15px 15px;

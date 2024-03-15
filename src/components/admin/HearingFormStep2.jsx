@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
 import Accordion from 'react-bootstrap/lib/Accordion';
@@ -170,7 +170,6 @@ HearingFormStep2.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
-  intl: intlShape.isRequired,
   language: PropTypes.string,
   onContinue: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,

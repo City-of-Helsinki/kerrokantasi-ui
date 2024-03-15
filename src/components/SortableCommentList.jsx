@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { get, isEmpty, keys, throttle, find } from 'lodash';
@@ -17,7 +17,7 @@ import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import { getNickname, getAuthorDisplayName } from '../utils/user';
 import { getSectionCommentingMessage } from '../utils/section';
-import { getUser } from '../selectors/user';
+import getUser from '../selectors/user';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
@@ -404,7 +404,6 @@ SortableCommentListComponent.propTypes = {
   hearingGeojson: PropTypes.object,
   hearingId: PropTypes.string,
   hearingSlug: PropTypes.string,
-  intl: intlShape.isRequired,
   language: PropTypes.string,
   onDeleteComment: PropTypes.func,
   onEditComment: PropTypes.func,

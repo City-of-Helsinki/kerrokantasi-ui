@@ -3,10 +3,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
 
 import { parseQuery } from '../utils/urlQuery';
+import { useLocation } from 'react-router-dom';
 
 /*
  * THIS COMPONENT SHOULD BE ALWAYS USED INSTEAD OF VANILLA <Link /> from react-router.
@@ -16,7 +16,8 @@ import { parseQuery } from '../utils/urlQuery';
  */
 
 const LinkWithLangComponent = (props) => {
-  const { to, rel, target, className, children, style, headless, location } = props;
+  const { to, rel, target, className, children, style, headless } = props;
+  const location = useLocation();
   let searchString = to.search || location.search;
   const urlHeadless = parseQuery(searchString).headless;
   // update search string with headless param preserved if site is being rendered in webview
@@ -49,7 +50,6 @@ LinkWithLangComponent.propTypes = {
   target: PropTypes.string,
   children: PropTypes.any,
   className: PropTypes.string,
-  location: PropTypes.object,
   style: PropTypes.object,
   headless: PropTypes.bool,
 };
@@ -59,4 +59,4 @@ const mapStateToProps = (state) => ({
   headless: state.headless,
 });
 
-export default withRouter(connect(mapStateToProps)(LinkWithLangComponent));
+export default connect(mapStateToProps)(LinkWithLangComponent);

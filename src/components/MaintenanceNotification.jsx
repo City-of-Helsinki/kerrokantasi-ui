@@ -13,8 +13,6 @@ const MaintenanceNotification = () => (
       <p><FormattedMessage id='maintenanceNotificationText' /></p>
       <p><FormattedMessage id='maintenanceNotificationText2' /></p>
       <p><FormattedMessage id='maintenanceNotificationText3' /></p>
-      <p><FormattedMessage id='maintenanceNotificationText4' /></p>
-      <p><FormattedMessage id='maintenanceNotificationText5' /></p>
     </Notification>
   </div>
 );

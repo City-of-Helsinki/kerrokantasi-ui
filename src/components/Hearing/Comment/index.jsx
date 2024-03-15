@@ -3,7 +3,7 @@
 /* eslint-disable react/no-did-mount-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage, FormattedRelative } from 'react-intl';
+import { injectIntl, FormattedMessage, FormattedRelativeTime } from 'react-intl';
 import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
@@ -22,6 +22,7 @@ import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/no
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
+import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -271,7 +272,7 @@ class Comment extends React.Component {
         </span>
         <OverlayTrigger placement='top' overlay={this.dateTooltip(data)} delayShow={300}>
           <span className='hearing-comment-date'>
-            <FormattedRelative value={data.created_at} />
+            <FormatRelativeTime value={data.created_at} />
           </span>
         </OverlayTrigger>
       </div>

@@ -13,9 +13,14 @@ Kerrokantasi -palvelussa käyttäjä voi kirjoittaa mielipiteensä kyseessä ole
 
 ### Kirjautuminen
 
-Kirjautumista palveluun voidaan edellyttää joissakin kuulemisissa, mikäli haluat kommentoida, kannattaa (=peukuttaa) annettua mielipidettä tai äänestää vaihtoehdoista. Kirjautumisen yhteydessä hyväksyt tietojesi käyttämisen. Nimesi tai nimimerkkisi voidaan näyttää palvelussa mielipiteesi tai kommenttisi yhteydessä. Voit itse hallinnoida tietojesi näkyvyyttä kommentoinnin yhteydessä piilottamalla nimesi tai nimimerkkisi.
+Kirjautumista palveluun voidaan edellyttää joissakin kuulemisissa, mikäli haluat kommentoida, kannattaa (=peukuttaa) annettua mielipidettä tai äänestää vaihtoehdoista. 
 
-Voit myös kirjautua palveluun tunnistautumalla olemassa olevien eri palveluun luomiesi tunnusten avulla (Yle Tunnus, Google, Facebook) tai kaupungin työntekijänä AD-tunnistautumisen kautta. 
+Voit kirjautua palveluun tunnistautumalla Helsinki profiilin Helsinki-tunnuksella, joka koostuu sähköpostista ja salasanasta. Ensimmäisellä kirjautumiskerralla käyttäjän pitää luoda Helsinki-tunnus, jos sellaista ei vielä ole. Kaupungin työntekijät kirjautuvat AD-tunnistautuen.
+
+Ensimmäisen kirjautumisen yhteydessä näet, mitä tietojasi palvelu hyödyntää. Nimesi tai nimimerkkisi voidaan näyttää palvelussa mielipiteesi tai kommenttisi yhteydessä. Voit itse hallinnoida tietojesi näkyvyyttä kommentoinnin yhteydessä piilottamalla nimesi tai nimimerkkisi.
+
+Voit poistaa Kerrokantasi-palvelulta oikeuden käyttää tietojasi milloin tahansa [Helsinki-profiili-palvelussa](https://profiili.hel.fi/login)
+
 
 ### Käyttäjän vastuu
 
@@ -70,6 +75,8 @@ Kerrokantasi -palvelussa kerättyjä henkilötietoja
 * sähköpostiosoite 
 * annettu nimi tai nimimerkki
 * palveluun ensimmäisen kerran kirjautumisajankohta
+* kirjautuneena kirjoitetut kommentit
+
 
 ei luovuteta kaupungin ulkopuolisille tahoille eikä käytetä muihin tarkoituksiin. Tietoja käytetään vain kuulemiseen liittyvän aiheen käsittelyn ja jatkotyöstön yhteydessä.
 
@@ -78,6 +85,9 @@ Kerrokantasi -sisällöntuotannon osalta käyttäjästä tallennetaan:
 * etu- ja sukunimi
 * edustettu organisaatio
 * palveluun ensimmäisen kerran kirjautumisajankohta
+* kirjautuneena kirjoitetut kommentit
+
+Kuulemisten yhteydessä kerättävää tietoa käsitellään käyttäjän suostumuksen pohjalta. Palvelun kommenteilla toteutetaan kuntalain 22 §:n mukaisia kuntalaisten osallistumis- ja vaikuttamismahdollisuuksia. Digitaalisten osallistumiskanavien kautta kuntalaisilta kerätään kommentteja, mielipiteitä ja kehittämisehdotuksia valmistelussa olevista asioista ja palveluista. Palvelussa esitettyjen kommenttien, mielipiteiden ja kehittämisehdotusten osalta käsittely perustuu Helsingin kaupungin lakisääteisen velvoitteen noudattamiseen.
 
 Kerrokantasi -palvelu sijaitsee Helsingin kaupungin Azure-pilvipalvelussa, ja palvelimet sijaitsevat Irlannissa. Niitä ei peilata muihin Azure-lokaatioihin. Varmuuskopiot sijaitsevat Azuressa samalla alueella kuin itse palvelimetkin. Henkilötietoja ei käsitellä muualla kuin Helsingissä.
 
@@ -89,7 +99,7 @@ Käyttäjä voi jakaa yksittäisten sivujen linkkiosoitteet Facebookiin ja X:ä�
 
 Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/fi/paatoksenteko-ja-hallinto/tietoa-helsingista/tietosuoja-ja-tiedonhallinta/tietosuoja/rekisteroidyn-oikeudet-ja-niiden) Helsingin kaupungin verkkopalveluissa.
 
-Voit pyytää käyttäjätietojen poistoa lähettämällä viestin sähköpostiosoitteeseen kerrokantasi at hel.fi.
+Voit poistaa Kerrokantasi-palvelulta oikeuden käyttää tietojasi milloin tahansa [Helsinki-profiili-palvelussa](https://profiili.hel.fi/login).
 
 Palvelussa hyödynnetään myös kävijäseurantaan kaupungin Matomo-ratkaisua, jonka keräämät tiedot on kuvattu Evästeet-kohdassa.
 

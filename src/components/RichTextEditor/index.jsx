@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   EditorState,
@@ -248,8 +248,19 @@ class RichTextEditor extends React.Component {
     };
   }
 
+ myKeyBindingFn(e) {
+    if (e.keyCode === 83) {
+      return 'custom-tab';
+    }
+    return getDefaultKeyBinding(e);
+  }
+
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
+    if (command == 'custom-tab') {
+      this.onTab();
+      return true;
+    }
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -587,7 +598,7 @@ class RichTextEditor extends React.Component {
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            onTab={this.onTab}
+            keyBindingFn={this.myKeyBindingFn}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
             ref={this.editorRef}
@@ -617,7 +628,6 @@ RichTextEditor.propTypes = {
   value: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
-  intl: intlShape.isRequired,
 };
 
 export default RichTextEditor;

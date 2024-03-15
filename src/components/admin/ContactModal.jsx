@@ -2,9 +2,9 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
-import { Modal, ControlLabel, HelpBlock } from 'react-bootstrap';
-import { Button } from 'hds-react';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Button, Dialog } from 'hds-react';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
@@ -188,21 +188,31 @@ class ContactModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose, contactInfo, organizations } = this.props;
+    const { isOpen, intl, onClose, contactInfo, organizations } = this.props;
     const { contact } = this.state;
     const checkBoxes = this.generateCheckBoxes();
     const titleInputs = this.generateTitleInputs();
     const isCreate = isEmpty(contactInfo);
 
+    const titleId = 'contact-modal-title';
+    const descriptionId = 'contact-modal-description';
+
     return (
-      <Modal className='contact-modal' show={isOpen} onHide={() => onClose()} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {isCreate ? <FormattedMessage id='createContact' /> : <FormattedMessage id='editContact' />}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Dialog
+        className='hearing-form-child-modal'
+        isOpen={isOpen}
+        close={onClose}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header
+          id={titleId}
+          title={isCreate ? <FormattedMessage id='createContact' /> : <FormattedMessage id='editContact' />}
+        />
+        <Dialog.Content>
           <form
+            id={descriptionId}
             ref={(form) => {
               this.contactForm = form;
             }}
@@ -296,22 +306,24 @@ class ContactModal extends React.Component {
             </div>
             <input type='submit' style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
           </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="kerrokantasi-btn" onClick={() => onClose()}>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
+          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className="kerrokantasi-btn" onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}>
+          <Button
+            className='kerrokantasi-btn'
+            onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}
+          >
             {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
 
 ContactModal.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onCreateContact: PropTypes.func,

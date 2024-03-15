@@ -31,6 +31,7 @@ import {
   publishHearing,
   saveAndPreviewHearingChanges,
   saveAndPreviewNewHearing,
+  saveAndPreviewHearingAsCopy,
   saveHearingChanges,
   sectionMoveDown,
   sectionMoveUp,
@@ -149,7 +150,7 @@ class HearingEditor extends React.Component {
 
   onSaveAsCopy() {
     const { hearing } = this.props;
-    this.validateHearing(hearing, saveAndPreviewNewHearing);
+    this.validateHearing(hearing, saveAndPreviewHearingAsCopy);
   }
 
   onSaveAndPreview() {
@@ -322,12 +323,13 @@ class HearingEditor extends React.Component {
   }
 
   render() {
-    const { hearing, isNewHearing, dispatch } = this.props;
+    const { hearing, isNewHearing, dispatch, contactPersons, labels, organizations } = this.props;
+
     return (
       <div className='hearing-editor'>
         {this.getHearingForm()}
 
-        {!isNewHearing && (
+        {!isNewHearing && contactPersons.length && labels.length && organizations.length && (
           <>
             <HearingToolbar
               hearing={hearing}

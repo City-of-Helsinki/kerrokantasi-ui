@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
 import { Button } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
@@ -36,7 +36,6 @@ class HearingFormStep1 extends React.Component {
     this.onCreateContact = this.onCreateContact.bind(this);
     this.onEditContact = this.onEditContact.bind(this);
     this.closeLabelModal = this.closeLabelModal.bind(this);
-    this.openContactModal = this.openContactModal.bind(this);
     this.openContactModal = this.openContactModal.bind(this);
     this.closeContactModal = this.closeContactModal.bind(this);
 
@@ -251,7 +250,6 @@ HearingFormStep1.propTypes = {
   errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
   onContinue: PropTypes.func,
@@ -269,5 +267,5 @@ const mapStateToProps = (state) => ({
 });
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);
-
+export { WrappedHearingFormStep1 as UnconnectedHearingFormStep1 };
 export default connect(mapStateToProps, null)(WrappedHearingFormStep1);

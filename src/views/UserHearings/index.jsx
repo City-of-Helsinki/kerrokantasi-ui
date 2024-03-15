@@ -1,13 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import Helmet from 'react-helmet';
 
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import { getUserHearingList } from '../../selectors/hearing';
 import { fetchHearingList as fetchHearingListAction } from '../../actions/index';
 import HearingCard from '../../components/HearingCard';
@@ -229,7 +229,6 @@ UserHearings.propTypes = {
     userExists: PropTypes.bool,
     userLoading: PropTypes.bool,
   }),
-  intl: intlShape.isRequired,
   fetching: PropTypes.object,
   fetchHearingList: PropTypes.func,
   hearingData: PropTypes.object,
