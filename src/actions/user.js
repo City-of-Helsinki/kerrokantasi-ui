@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { create, get } from 'lodash';
+import { get } from 'lodash';
 
 import { get as apiGet } from '../api';
 
@@ -17,7 +17,7 @@ export default function enrichUserData() {
       (response) => {
         if(response.status >= 400) {
           dispatch(createAction('clearUserData')());
-          throw new Error("Api responded with error: " + response.body)
+          throw new Error(`Api responded with error: ${  response.body}`)
         }
         response.json().then((democracyUser) => {
           const userWithOrganization = {
