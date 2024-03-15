@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import defaultImage from '@city-images/default-image.svg';
 
@@ -141,4 +140,4 @@ HearingCard.propTypes = {
   userProfile: PropTypes.bool,
 };
 
-export default withRouter(HearingCard);
+export default HearingCard;

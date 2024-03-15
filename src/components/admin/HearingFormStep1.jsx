@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
 import { Button } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
@@ -250,7 +250,6 @@ HearingFormStep1.propTypes = {
   errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  intl: intlShape.isRequired,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
   onContinue: PropTypes.func,

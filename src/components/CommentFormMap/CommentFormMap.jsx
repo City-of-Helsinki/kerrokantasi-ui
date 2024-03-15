@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, FeatureGroup } from 'react-leaflet';
 import Leaflet from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
@@ -51,7 +51,7 @@ class CommentFormMap extends React.Component {
     // if enabled then rectangle and polygon tools are also available in addition to the marker
     const allToolsEnabled = tools === 'all';
     return (
-      <Map
+      <MapContainer
         center={this.props.center}
         scrollWheelZoom={false}
         zoom={15}
@@ -99,7 +99,7 @@ class CommentFormMap extends React.Component {
             }}
           />
         </FeatureGroup>
-      </Map>
+      </MapContainer>
     );
   }
 }

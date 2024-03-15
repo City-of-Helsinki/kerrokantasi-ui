@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import { Button, Dialog } from 'hds-react';
@@ -258,7 +258,6 @@ HearingForm.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
-  intl: intlShape.isRequired,
   isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,

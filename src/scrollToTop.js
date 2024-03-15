@@ -1,7 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
@@ -21,4 +20,4 @@ ScrollToTop.propTypes = {
   pathname: PropTypes.string,
 };
 
-export default withRouter(ScrollToTop);
+export default ScrollToTop;

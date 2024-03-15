@@ -2,7 +2,7 @@
 import identity from 'lodash/identity';
 import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
-import { wrapHistory } from "oaf-react-router";
+import { wrapRouter } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -15,6 +15,8 @@ import rootReducer from './reducers';
 
 export const history = createBrowserHistory();
 
+
+/*
 const historySettings = {
   // eslint-disable-next-line no-unused-vars
   documentTitle: (location) => document.title || "Kerrokantasi",
@@ -22,8 +24,7 @@ const historySettings = {
   setPageTitle: false,
   primaryFocusTarget: "body",
 };
-
-wrapHistory(history, historySettings);
+*/
 
 const middleware = [
   thunk,

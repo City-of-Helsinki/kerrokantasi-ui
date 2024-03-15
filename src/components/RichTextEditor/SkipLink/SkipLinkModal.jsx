@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';

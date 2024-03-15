@@ -1,21 +1,11 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  IconUser,
-  IconSignin,
-  Header as HDSHeader,
-  Logo,
-  LoadingSpinner,
-} from 'hds-react';
+import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-// eslint-disable-next-line import/order
-import { NavLink, withRouter } from 'react-router-dom';
-
-// eslint-disable-next-line import/no-unresolved, import/order
 import logoBlack from '@city-images/logo-fi-black.svg';
-
-// eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
 import { localizedNotifyError } from '../../utils/notify';
@@ -28,20 +18,19 @@ const Header = ({ history, language, user }) => {
 
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
-      localizedNotifyError("maintenanceNotificationText");
+      localizedNotifyError('maintenanceNotificationText');
       return;
     }
     if (!authenticated) {
       try {
         await login();
-      }
-      catch {
-        localizedNotifyError("loginAttemptFailed");
+      } catch {
+        localizedNotifyError('loginAttemptFailed');
       }
     } else {
       logout();
     }
-  }
+  };
 
   const onLanguageChange = (newLanguage) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -49,7 +38,7 @@ const Header = ({ history, language, user }) => {
 
     history.push({
       pathname: window.location.pathname,
-      search: urlSearchParams.toString()
+      search: urlSearchParams.toString(),
     });
   };
 
@@ -59,8 +48,12 @@ const Header = ({ history, language, user }) => {
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
       return null;
     }
-    if (id === 'userInfo' && !user) { return null; }
-    if (addSuffix) { messageId += 'HeaderText'; }
+    if (id === 'userInfo' && !user) {
+      return null;
+    }
+    if (addSuffix) {
+      messageId += 'HeaderText';
+    }
 
     return (
       <FormattedMessage id={messageId} key={messageId}>
@@ -81,8 +74,8 @@ const Header = ({ history, language, user }) => {
   ];
 
   const logo = (
-    <FormattedMessage id="headerLogoAlt">
-      {altText => <Logo src={language === 'sv' ? logoSwedishBlack : logoBlack} alt={altText} />}
+    <FormattedMessage id='headerLogoAlt'>
+      {(altText) => <Logo src={language === 'sv' ? logoSwedishBlack : logoBlack} alt={altText} />}
     </FormattedMessage>
   );
 
@@ -100,15 +93,15 @@ const Header = ({ history, language, user }) => {
         title='Kerrokantasi'
         titleAriaLabel='Kerrokantasi'
         frontPageLabel='Kerrokantasi'
-        titleHref="/"
-        logoHref="/"
-        openFrontPageLinksAriaLabel={<FormattedMessage id="headerOpenFrontPageLinks" />}
+        titleHref='/'
+        logoHref='/'
+        openFrontPageLinksAriaLabel={<FormattedMessage id='headerOpenFrontPageLinks' />}
         logo={logo}
       >
         <HDSHeader.LanguageSelector />
         <HDSHeader.ActionBarItem
           fixedRightPosition
-          label={user ? user.displayName : <FormattedMessage key="login" id="login" />}
+          label={user ? user.displayName : <FormattedMessage key='login' id='login' />}
           icon={user ? <IconUser /> : <IconSignin />}
           closeIcon={user ? <IconUser /> : <IconSignin />}
           closeLabel={user?.displayName}
@@ -133,21 +126,14 @@ const Header = ({ history, language, user }) => {
 };
 
 Header.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  dispatch: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
   language: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object,
 };
 
-const mapDispatchToProps = () => ({});
-
-
-export {Header as UnconnectedHeader};
-export default withRouter(connect(state => ({
+export { Header as UnconnectedHeader };
+export default connect((state) => ({
   user: getUser(state),
   language: state.language,
   router: state.router,
-}), mapDispatchToProps)(Header));
+}))(Header);
