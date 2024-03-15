@@ -57,7 +57,7 @@ const data = handleActions(
       ...entities.hearing[result],
     }),
     [EditorActions.ADD_LABEL_SUCCESS]: (state, { payload: { label } }) =>
-      updeep({ labels: [...state.labels.push(label.id)] }, state),
+      updeep({ labels: [state.labels.push(label.id)] }, state),
     [EditorActions.SECTION_MOVE_UP]: (state, { payload: sectionId }) =>
       updeep({ sections: sectionMoveUp(state.sections, sectionId) }, state),
     [EditorActions.SECTION_MOVE_DOWN]: (state, { payload: sectionId }) =>
