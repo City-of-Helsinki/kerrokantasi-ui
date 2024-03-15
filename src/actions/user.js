@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { get } from 'lodash';
+import { create, get } from 'lodash';
 
 import { get as apiGet } from '../api';
 
@@ -12,17 +12,25 @@ export default function enrichUserData() {
       throw new Error("No authenticated user");
     }
     const url = `v1/users/${state.oidc.user.profile.sub}`;
-    
-    return apiGet(state, url).then((response) => response.json()).then((democracyUser) => {
-        const userWithOrganization = {
-          displayName: `${get(democracyUser, 'first_name')} ${get(democracyUser, 'last_name')}`,
-          nickname: get(democracyUser, 'nickname'),
-          answered_questions: get(democracyUser, 'answered_questions'),
-          favorite_hearings: get(democracyUser, 'followed_hearings'),
-          adminOrganizations: get(democracyUser, 'admin_organizations', []),
-          hasStrongAuth: get(democracyUser, 'has_strong_auth', false)
-      };
-      return dispatch(createAction('receiveUserData')(userWithOrganization));
-    });
+
+    return apiGet(state, url).then(
+      (response) => {
+        if(response.status >= 400) {
+          dispatch(createAction('clearUserData')());
+          throw new Error("Api responded with error: " + response.body)
+        }
+        response.json().then((democracyUser) => {
+          const userWithOrganization = {
+            displayName: `${get(democracyUser, 'first_name')} ${get(democracyUser, 'last_name')}`,
+            nickname: get(democracyUser, 'nickname'),
+            answered_questions: get(democracyUser, 'answered_questions'),
+            favorite_hearings: get(democracyUser, 'followed_hearings'),
+            adminOrganizations: get(democracyUser, 'admin_organizations', []),
+            hasStrongAuth: get(democracyUser, 'has_strong_auth', false)
+          };
+          return dispatch(createAction('receiveUserData')(userWithOrganization));
+        })
+      },
+    );
   };
 }
