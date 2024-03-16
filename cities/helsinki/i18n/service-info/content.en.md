@@ -12,9 +12,12 @@ In the Kerrokantasi service, users can write their opinions on the current topic
 
 ### Log in
 
-Some hearings may require you to sign in if you want to post a comment, support an opinion (= thumbs up) or vote on options. By logging in, you agree to the use of your information. Your name or nickname may be displayed on the Service in connection with your opinion or comment. You can control the visibility of your information when you post a comment by hiding your name or nickname.
+Some hearings may require you to sign in if you want to post a comment, support an opinion (= thumbs up) or vote on options.
 
-You can log in to the service using one of the various existing service IDs you have created (Yleisradio ID, Google, Facebook) or as a city employee using the AD login.
+You can log in to the Service by authenticating with your Helsinki profiles’s Helsinki ID, which consists of an email address and password. If you are logging in for the first time, you will need to create a Helsinki profile if you do not already have one. City employees log in with AD.
+
+When you log in for the first time, you will see what information the service will use about you. Your name or nickname may be displayed on the service in connection with your opinion or comment. You can control the visibility of your information when commenting by hiding your name or nickname.
+
 
 ### User responsibility
 
@@ -76,6 +79,8 @@ For Kerrokantasi content production, the information collected is:
 * Name and surname
 * Organisation represented
 * Date of first login to the service
+
+The data collected during the hearings will be processed based on the consent given by the user. The opportunities for participation and influence in accordance with Article 22 of the Local Government Act are implemented through comments on the service. The digital participation channels are used to collect comments, opinions and suggestions from the citizens regarding the developing services. The processing of the comments, opinions and development proposals submitted to the service is based on the legal obligation of the City of Helsinki.
 
 Kerrokantasi service is hosted on the City of Helsinki's Azure cloud, with servers located in Ireland. They are not mirrored to other Azure locations. The backups are in Azure in the same region as the servers themselves. No personal data is processed outside of Helsinki.
 
