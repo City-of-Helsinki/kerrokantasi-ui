@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "9aacf285f60966eca253b1d31f6908e122f75cc4",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "kerrokantasi-ui"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
