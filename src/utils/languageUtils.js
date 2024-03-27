@@ -24,3 +24,10 @@ export function getFeedbackUrl(language) {
 
   return urls.feedbackFI;
 };
+
+export function getDataProtectionUrl(language) {
+  if (language === 'sv') {
+    return urls.dataProtectionSV;
+  }
+  return urls.dataProtectionFI;
+}
