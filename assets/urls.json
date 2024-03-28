@@ -1,6 +1,7 @@
 {
   "hostname": "https://localhost:8086",
-  "dataProtection": "https://www.example.fi",
+  "dataProtectionFI": "https://www.example.fi",
+  "dataProtectionSV": "http://www.example.sv",
   "feedbackEmailEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
   "feedbackEmailFI": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-fi",
   "feedbackEmailSV": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-sv",
