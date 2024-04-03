@@ -449,9 +449,12 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
 }
 
 export function setApiToken(apitoken) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const refresh = !!getState().apitoken.apiToken;
     dispatch(createAction('receiveApiToken')(apitoken[0]));
-    dispatch(enrichUserData());
+    if (!refresh) {
+      dispatch(enrichUserData());
+    }
   }
   
 }

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
@@ -41,22 +41,41 @@ function App({
   }
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
+  const [intervalSet, setIntervalSet] = useState(false);
+
+  const storeApiToken = useCallback(() => {
+    const tmpToken = getStoredApiTokens().filter(token => token);
+    try {
+      dispatchSetApiToken(tmpToken);
+    } catch (e) {
+      logout();
+    }
+  }, [dispatchSetApiToken, getStoredApiTokens, logout]);
 
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
+    return () => {
+      cookieOnComponentWillUnmount();
+    }
+  }, [language]);
+
+  useEffect(() => { 
+    if (!intervalSet && user) {
+      setInterval(storeApiToken, 1000 * 60);
+      setIntervalSet(true);
+    }
+  }, [intervalSet, user, storeApiToken])
+
+  useEffect(() => {
     if (!user && authenticated) {
-      const tmpToken = getStoredApiTokens().filter(token => token);
       try {
         dispatchSetOidcUser(oidcUser);
-        dispatchSetApiToken(tmpToken);
+        storeApiToken();
       } catch (e) {
         logout();
       }
     }
-    return () => {
-      cookieOnComponentWillUnmount();
-    }
-  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser, logout]);
+  }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, storeApiToken]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
