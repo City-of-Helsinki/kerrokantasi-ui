@@ -3,7 +3,6 @@
 import React from 'react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import urls from '@city-assets/urls.json';
 import settings from '@city-assets/settings.json';
 import { Footer as HDSFooter, Logo } from 'hds-react';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
