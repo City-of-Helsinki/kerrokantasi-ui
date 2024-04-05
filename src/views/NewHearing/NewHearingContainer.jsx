@@ -7,7 +7,7 @@ import HearingEditor from '../../components/admin/HearingEditor';
 import { fetchProjects } from '../../actions';
 import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
 import { localizedNotifyError } from '../../utils/notify';

@@ -14,7 +14,7 @@ import classNames from 'classnames';
 
 import { getFeedbackEmailUrl, getFeedbackUrl } from '../utils/languageUtils';
 import config from '../config';
-import { getUser } from '../selectors/user';
+import getUser from '../selectors/user';
 import { isAdmin } from '../utils/user';
 
 const Footer = (props) => {

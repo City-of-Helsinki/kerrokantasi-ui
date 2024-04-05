@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import { fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites } from '../../actions/index';
 import HearingCardList from '../../components/HearingCardList';
 import UserComment from '../../components/UserComment/UserComment';

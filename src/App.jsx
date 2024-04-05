@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
@@ -23,8 +23,9 @@ import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
 import useAuthHook from './hooks/useAuth';  
-import { setOidcUser, setApiToken } from './actions';
-import { getUser } from './selectors/user';
+import { setOidcUser } from './actions';
+import getUser from './selectors/user';
+import enrichUserData from './actions/user';
 
 function App({
   language,
@@ -34,24 +35,14 @@ function App({
   match,
   ...props
 }) {
-  const { user, dispatchSetOidcUser, dispatchSetApiToken} = props;
+  const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
   }
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
-  const [intervalSet, setIntervalSet] = useState(false);
-
-  const storeApiToken = useCallback(() => {
-    const tmpToken = getStoredApiTokens().filter(token => token);
-    try {
-      dispatchSetApiToken(tmpToken);
-    } catch (e) {
-      logout();
-    }
-  }, [dispatchSetApiToken, getStoredApiTokens, logout]);
-
+  getStoredApiTokens();
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
     return () => {
@@ -59,23 +50,16 @@ function App({
     }
   }, [language]);
 
-  useEffect(() => { 
-    if (!intervalSet && user) {
-      setInterval(storeApiToken, 1000 * 60);
-      setIntervalSet(true);
-    }
-  }, [intervalSet, user, storeApiToken])
-
   useEffect(() => {
     if (!user && authenticated) {
       try {
         dispatchSetOidcUser(oidcUser);
-        storeApiToken();
+        dispatchEnrichUser();
       } catch (e) {
         logout();
       }
     }
-  }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, storeApiToken]);
+  }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
@@ -144,7 +128,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
+    dispatchEnrichUser: () => dispatch(enrichUserData()),
   })
 
 App.propTypes = {
@@ -154,7 +138,7 @@ App.propTypes = {
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
   user: PropTypes.object,
-  dispatchSetApiToken: PropTypes.func,
+  dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

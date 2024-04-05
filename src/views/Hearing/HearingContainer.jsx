@@ -17,7 +17,7 @@ import { canEdit } from '../../utils/hearing';
 import { fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects } from '../../actions';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import { getHearingWithSlug } from '../../selectors/hearing';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import { organizationShape } from '../../types';
 import { html2text } from '../../utils/commonUtils';
 

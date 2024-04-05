@@ -77,38 +77,38 @@ export const flagCommentErrorHandler = () => (err) => {
 };
 
 export function fetchInitialHearingList(listId, endpoint, params) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginFetchHearingList")({ listId, params });
     dispatch(fetchAction);
 
     // make sure the results will get paginated
     const paramsWithLimit = merge({ limit: 10 }, params);
 
-    return apiGet(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
+    return apiGet(endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearingList")({ listId, data }));
     }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
 export function fetchHearingList(listId, endpoint, params) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginFetchHearingList")({ listId, params });
     dispatch(fetchAction);
 
     // make sure the results won't get paginated
     const paramsWithLimit = merge({ limit: 99998 }, params);
 
-    return apiGet(getState(), endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
+    return apiGet(endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearingList")({ listId, data }));
     }).catch(requestErrorHandler());
   };
 }
 
 export function fetchProjects() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction('fetchProjects')();
     dispatch(fetchAction);
-    return apiGet(getState(), 'v1/project').then(getResponseJSON).then(data => {
+    return apiGet('v1/project').then(getResponseJSON).then(data => {
       dispatch(createAction('receiveProjects')({ data }));
     }).catch(() => {
       dispatch(createAction("receiveProjectsError")());
@@ -123,14 +123,14 @@ export function fetchProjects() {
  * @returns {function(*, *): *}
  */
 export function fetchUserComments(additionalParams = {}) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction('beginFetchUserComments')();
     dispatch(fetchAction);
     const params = {
       created_by: 'me',
       ...additionalParams
     };
-    return apiGet(getState(), 'v1/comment', params).then(getResponseJSON).then(data => {
+    return apiGet('v1/comment', params).then(getResponseJSON).then(data => {
       dispatch(createAction('receiveUserComments')({ data }));
     }).catch(() => {
       dispatch(createAction("receiveUserCommentsError")());
@@ -145,29 +145,29 @@ export const fetchMoreHearings = (listId) => (dispatch, getState) => {
 
   const url = parse(getState().hearingLists[listId].next, true);
 
-  return apiGet(getState(), 'v1/hearing/', url.query).then(getResponseJSON).then((data) => {
+  return apiGet('v1/hearing/', url.query).then(getResponseJSON).then((data) => {
     dispatch(createAction('receiveMoreHearings')({ listId, data }));
   }).catch(requestErrorHandler(dispatch, fetchAction));
 };
 
 export function fetchLabels() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction('beginFetchLabels');
     dispatch(fetchAction);
 
-    return getAllFromEndpoint(getState(), '/v1/label/').then((data) => {
+    return getAllFromEndpoint('/v1/label/').then((data) => {
       dispatch(createAction('receiveLabels')({ data }));
     }).catch(requestErrorHandler());
   };
 }
 
 export function fetchHearing(hearingSlug, previewKey = null) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginFetchHearing")({ hearingSlug });
     dispatch(fetchAction);
     const url = `v1/hearing/${hearingSlug}/`;
     const params = previewKey ? { preview: previewKey } : {};
-    return apiGet(getState(), url, params).then(getResponseJSON).then((data) => {
+    return apiGet(url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearing")({ hearingSlug, data }));
     }).catch(() => {
       dispatch(createAction("receiveHearingError")({ hearingSlug }));
@@ -183,11 +183,11 @@ export function fetchHearing(hearingSlug, previewKey = null) {
  * @returns {function(*, *): *}
  */
 export function fetchFavoriteHearings(params) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginFetchFavoriteHearings")();
     dispatch(fetchAction);
     const url = "v1/hearing/";
-    return apiGet(getState(), url, params).then(getResponseJSON).then((data) => {
+    return apiGet(url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveFavoriteHearings")({ data }));
     }).catch(() => {
       dispatch(createAction("receiveFavoriteHearingsError"));
@@ -204,11 +204,11 @@ export function fetchFavoriteHearings(params) {
  * @returns {function(*, *): *}
  */
 export function addHearingToFavorites(hearingSlug, hearingId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginAddHearingToFavorites")({ hearingSlug });
     dispatch(fetchAction);
     const url = `v1/hearing/${hearingSlug}/follow`;
-    return post(getState(), url).then(getResponseJSON).then((data) => {
+    return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyFavorite");
       } else {
@@ -227,11 +227,11 @@ export function addHearingToFavorites(hearingSlug, hearingId) {
  * @returns {function(*, *): *}
  */
 export function removeHearingFromFavorites(hearingSlug, hearingId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginRemoveHearingFromFavorites")({ hearingSlug });
     dispatch(fetchAction);
     const url = `v1/hearing/${hearingSlug}/unfollow`;
-    return post(getState(), url).then((data) => {
+    return post(url).then((data) => {
       if (data.status === 204) {
         dispatch(createAction("receiveRemoveHearingFromFavorites")({ hearingSlug, data }));
         dispatch(createAction("modifyFavoriteHearingsData")({ hearingSlug, hearingId }));
@@ -247,7 +247,7 @@ export function removeHearingFromFavorites(hearingSlug, hearingId) {
 }
 
 export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetch = true) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     const fetchAction = createAction("beginFetchSectionComments")({ sectionId, ordering, cleanFetch });
     dispatch(fetchAction);
 
@@ -260,8 +260,8 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
     };
 
     const promises = [
-      apiGet(getState(), URL_COMMENT, { ...params, pinned: false }).then(getResponseJSON),
-      apiGet(getState(), URL_COMMENT, { ...params, pinned: true }).then(getResponseJSON)
+      apiGet(URL_COMMENT, { ...params, pinned: false }).then(getResponseJSON),
+      apiGet(URL_COMMENT, { ...params, pinned: true }).then(getResponseJSON)
     ];
 
     const [unpinnedResponse, pinnedResponse] = await Promise.all(promises);
@@ -281,7 +281,7 @@ export function fetchSectionComments(sectionId, ordering = '-n_votes', cleanFetc
  * @param {Number} commentId - is of the parent comment.
  * @param {String} sectionId - id of the section the comment belongs to.
  */
-export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch, getState) => {
+export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch) => {
   const fetchAction = createAction(MainActions.BEGIN_FETCH_SUB_COMMENTS)({ sectionId, commentId });
   dispatch(fetchAction);
 
@@ -292,7 +292,7 @@ export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch
     comment: commentId,
     ordering: 'created_at',
   };
-  return apiGet(getState(), URL_COMMENT, params).then(getResponseJSON).then((data) => {
+  return apiGet(URL_COMMENT, params).then(getResponseJSON).then((data) => {
     dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({ sectionId, commentId, data, jumpTo }));
   }).catch(requestErrorHandler());
 };
@@ -300,11 +300,11 @@ export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch
 export function fetchMoreSectionComments(sectionId, next, ordering = '-n_votes') {
   const cleanFetch = false;
 
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction('beginFetchSectionComments')({ sectionId, ordering, cleanFetch });
     dispatch(fetchAction);
     const url = parse(next, true);
-    return apiGet(getState(), 'v1/comment/', url.query).then(getResponseJSON).then((data) => {
+    return apiGet('v1/comment/', url.query).then(getResponseJSON).then((data) => {
       dispatch(createAction('receiveSectionComments')({ sectionId, data }));
     }).catch(requestErrorHandler());
   };
@@ -313,18 +313,18 @@ export function fetchMoreSectionComments(sectionId, next, ordering = '-n_votes')
 export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_votes') {
   const cleanFetch = true;
 
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("beginFetchSectionComments")({ sectionId, ordering, cleanFetch });
     dispatch(fetchAction);
     const url = `v1/hearing/${hearingSlug}/sections/${sectionId}/comments`;
-    return apiGet(getState(), url, { include: 'plugin_data', ordering }).then(getResponseJSON).then((data) => {
+    return apiGet(url, { include: 'plugin_data', ordering }).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({ sectionId, data }));
     }).catch(requestErrorHandler());
   };
 }
 
 export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("postingComment")({ hearingSlug, sectionId });
     dispatch(fetchAction);
     const url = (`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/`);
@@ -346,7 +346,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       params = { ...params, comment: commentData.comment };
     }
 
-    return post(getState(), url, params).then(getResponseJSON).then((data) => {
+    return post(url, params).then(getResponseJSON).then((data) => {
       if (commentData.comment && typeof commentData.comment !== 'undefined') {
         dispatch(getCommentSubComments(commentData.comment, sectionId, data.id));
       } else {
@@ -362,13 +362,13 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
 }
 
 export function editSectionComment(hearingSlug, sectionId, commentId, commentData = {}) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("postingComment")({ hearingSlug, sectionId });
     dispatch(fetchAction);
     const url = (`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}`);
     const params = commentData;
 
-    return put(getState(), url, params).then(getResponseJSON).then((responseJSON) => {
+    return put(url, params).then(getResponseJSON).then((responseJSON) => {
       dispatch(createAction("editedComment")({ sectionId, comment: responseJSON }));
       dispatch(fetchHearing(hearingSlug));
       localizedAlert("commentEdited");
@@ -385,12 +385,12 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
  * @returns {function(*, *): *}
  */
 export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser = false) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("postingComment")({ hearingSlug, sectionId });
     dispatch(fetchAction);
     const url = (`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}`);
 
-    return apiDelete(getState(), url).then(() => {
+    return apiDelete(url).then(() => {
       dispatch(createAction("postedComment")({ sectionId }));
       // we must update hearing comment count
       dispatch(fetchHearing(hearingSlug));
@@ -402,11 +402,11 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshU
 }
 
 export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("postingCommentVote")({ hearingSlug, sectionId });
     dispatch(fetchAction);
     const url = `/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}/vote`;
-    return post(getState(), url).then(getResponseJSON).then((data) => {
+    return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyVoted");
       } else {
@@ -418,11 +418,11 @@ export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
 }
 
 export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("postingCommentVote")({ hearingSlug, sectionId });
     dispatch(fetchAction);
     const url = `/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}/flag`;
-    return post(getState(), url).then(getResponseJSON).then((data) => {
+    return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
         localizedNotifyError("alreadyFlagged");
       } else {
@@ -438,7 +438,7 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
     const fetchAction = createAction("deletingHearingDraft")({ hearingId, hearingSlug });
     dispatch(fetchAction);
     const url = `/v1/hearing/${hearingSlug}`;
-    return apiDelete(getState(), url).then(getResponseJSON).then(() => {
+    return apiDelete(url).then(getResponseJSON).then(() => {
       dispatch(push(`/hearings/list?lang=${getState().language}`));
       dispatch(createAction("deletedHearingDraft")({ hearingSlug }));
       localizedNotifySuccess("draftDeleted");
@@ -446,17 +446,6 @@ export function deleteHearingDraft(hearingId, hearingSlug) {
       requestErrorHandler()
     );
   };
-}
-
-export function setApiToken(apitoken) {
-  return (dispatch, getState) => {
-    const refresh = !!getState().apitoken.apiToken;
-    dispatch(createAction('receiveApiToken')(apitoken[0]));
-    if (!refresh) {
-      dispatch(enrichUserData());
-    }
-  }
-  
 }
 
 export function toggleContrast() {

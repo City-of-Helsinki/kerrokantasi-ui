@@ -105,9 +105,9 @@ export function sectionMoveDown(sectionId) {
 /**
  * When editing a sections attachment.
  */
-export const editSectionAttachment = (sectionId, attachment) => (dispatch, getState) => {
+export const editSectionAttachment = (sectionId, attachment) => (dispatch) => {
   const url = `/v1/file/${attachment.id}`;
-  return put(getState(), url, attachment)
+  return put(url, attachment)
     .then(checkResponseStatus)
     .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({ sectionId, attachment })));
 };
@@ -116,10 +116,10 @@ export const editSectionAttachment = (sectionId, attachment) => (dispatch, getSt
  * For changing order, two requests have to be made.
  * One file is incremented whilst the other decrementd.
  */
-export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch, getState) => {
+export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch) => {
   const promises = attachments.map((attachment) => {
     const url = `/v1/file/${attachment.id}`;
-    return put(getState(), url, attachment);
+    return put(url, attachment);
   });
 
   return Promise.all(promises)
@@ -132,9 +132,9 @@ export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch,
  * @param {Object} attachment - attachment in a section or independant of.
  * @reuturns Promise.
  */
-export const deleteSectionAttachment = (sectionId, attachment) => (dispatch, getState) => {
+export const deleteSectionAttachment = (sectionId, attachment) => (dispatch) => {
   const url = `/v1/file/${attachment.id}`;
-  return apiDelete(getState(), url, attachment)
+  return apiDelete(url, attachment)
     .then(checkResponseStatus)
     .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({ sectionId, attachment })));
 };
@@ -186,12 +186,12 @@ export function initNewHearing() {
  * Fetched meta data will be dispatched onwards so that it can be reduced as needed.
  */
 export function fetchHearingEditorMetaData() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction(EditorActions.FETCH_META_DATA)();
     dispatch(fetchAction);
     return Promise.all([
-      /* labels */ getAllFromEndpoint(getState(), '/v1/label/'),
-      /* organizations */ getAllFromEndpoint(getState(), '/v1/organization/'),
+      /* labels */ getAllFromEndpoint('/v1/label/'),
+      /* organizations */ getAllFromEndpoint('/v1/organization/'),
     ])
       .then(([labels, organizations]) => {
         dispatch(
@@ -215,11 +215,11 @@ export function fetchHearingEditorMetaData() {
 }
 
 export function fetchHearingEditorContactPersons() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction(EditorActions.FETCH_CONTACT_PERSONS)();
     dispatch(fetchAction);
     return Promise.all([
-    /* contacts */ getAllFromEndpoint(getState(), '/v1/contact_person/'),
+    /* contacts */ getAllFromEndpoint('/v1/contact_person/'),
     ])
       .then(([contacts]) => {
         dispatch(
@@ -246,11 +246,11 @@ export function changeHearing(field, value) {
 }
 
 export function addContact(contact, selectedContacts) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const postContactAction = createAction(EditorActions.ADD_CONTACT)();
     dispatch(postContactAction);
     const url = '/v1/contact_person/';
-    return post(getState(), url, contact)
+    return post(url, contact)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -277,10 +277,10 @@ export function addContact(contact, selectedContacts) {
 }
 
 export function saveContact(contact) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const url = `/v1/contact_person/${contact.id}/`;
     const contactInfo = omit(contact, ['id']);
-    return put(getState(), url, contactInfo)
+    return put(url, contactInfo)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -298,11 +298,11 @@ export function saveContact(contact) {
 }
 
 export function addLabel(label, selectedLabels) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const postLabelAction = createAction(EditorActions.ADD_LABEL)();
     dispatch(postLabelAction);
     const url = '/v1/label/';
-    return post(getState(), url, label)
+    return post(url, label)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -400,7 +400,7 @@ export function saveHearingChanges(hearing) {
     const preSaveAction = createAction(EditorActions.SAVE_HEARING)({ cleanedHearing });
     dispatch(preSaveAction);
     const url = `/v1/hearing/${cleanedHearing.id}`;
-    return put(getState(), url, cleanedHearing)
+    return put(url, cleanedHearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -435,13 +435,13 @@ export function saveHearingChanges(hearing) {
  */
 export function addSectionAttachment(section, file, title, isNew) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const url = '/v1/file';
     let data = { file, title };
     if (!isNew) {
       data = { ...data, section };
     }
-    return post(getState(), url, data)
+    return post(url, data)
       .then(checkResponseStatus)
       .then((response) => {
         if (response.status === 400 && !isNew) {
@@ -463,7 +463,7 @@ export function saveAndPreviewHearingChanges(hearing) {
     });
     dispatch(preSaveAction);
     const url = `/v1/hearing/${cleanedHearing.id}`;
-    return put(getState(), url, cleanedHearing)
+    return put(url, cleanedHearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -498,7 +498,7 @@ export function saveNewHearing(hearing) {
     const preSaveAction = createAction(EditorActions.POST_HEARING)({ hearing: cleanedHearing });
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
-    return post(getState(), url, cleanedHearing)
+    return post(url, cleanedHearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -524,13 +524,13 @@ export function saveNewHearing(hearing) {
 export function saveAndPreviewNewHearing(hearing) {
   // Clean up section IDs assigned by UI before POSTing the hearing
   const cleanedHearing = cleanHearing(hearing);
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
       hearing: cleanedHearing,
     });
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
-    return post(getState(), url, cleanedHearing)
+    return post(url, cleanedHearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -556,13 +556,13 @@ export function saveAndPreviewNewHearing(hearing) {
 }
 
 export function closeHearing(hearing) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const preCloseAction = createAction(EditorActions.CLOSE_HEARING)({ hearing });
     dispatch(preCloseAction);
     const url = `/v1/hearing/${hearing.id}`;
     const now = moment().toISOString();
     const changes = { close_at: now };
-    return patch(getState(), url, changes)
+    return patch(url, changes)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {
@@ -579,12 +579,12 @@ export function closeHearing(hearing) {
 }
 
 export function publishHearing(hearing) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const prePublishAction = createAction(EditorActions.PUBLISH_HEARING)({ hearing });
     dispatch(prePublishAction);
     const url = `/v1/hearing/${hearing.id}`;
     const changes = { published: true };
-    return patch(getState(), url, changes)
+    return patch(url, changes)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {
@@ -601,11 +601,11 @@ export function publishHearing(hearing) {
 }
 
 export function unPublishHearing(hearing) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const preUnPublishAction = createAction(EditorActions.UNPUBLISH_HEARING)({ hearing });
     dispatch(preUnPublishAction);
     const url = `/v1/hearing/${hearing.id}`;
-    return patch(getState(), url, { published: false })
+    return patch(url, { published: false })
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {

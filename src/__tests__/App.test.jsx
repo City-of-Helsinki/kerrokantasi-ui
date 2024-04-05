@@ -10,7 +10,7 @@ const renderComponent = (props) => renderWithProviders(
     </MemoryRouter>,
   );
 
-const {container, store} = renderComponent();
+const {container, store} = renderComponent({user: {test}});
 
 describe('<App />', () => {
   it('renders correctly', () => {

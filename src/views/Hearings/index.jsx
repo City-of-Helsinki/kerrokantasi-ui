@@ -21,7 +21,7 @@ import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
 import { hearingShape, labelShape, userShape } from '../../types';
 import getAttr from '../../utils/getAttr';
 import { parseQuery, stringifyQuery } from '../../utils/urlQuery';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 
 const now = () => new Date().toISOString();
 

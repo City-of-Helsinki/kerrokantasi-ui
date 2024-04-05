@@ -26,7 +26,7 @@ import {
 } from '../../actions';
 import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 
 export class FullscreenHearingContainerComponent extends React.Component {
   UNSAFE_componentWillMount() {
