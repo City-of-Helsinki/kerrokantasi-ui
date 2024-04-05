@@ -5,15 +5,15 @@ import { getDataProtectionUrl, getFeedbackEmailUrl, getFeedbackUrl } from '../la
 
 describe('languageUtils', () => {
   describe('getFeedbackUrl', () => {
-    it('returns correct url when language param is en', () => {
+    it('returns en url when language param is en', () => {
       expect(getFeedbackUrl('en')).toBe(urls.feedbackEN);
     });
 
-    it('returns correct url when language param is sv', () => {
+    it('returns sv url when language param is sv', () => {
       expect(getFeedbackUrl('sv')).toBe(urls.feedbackSV);
     });
 
-    it('returns correct url when language param is fi', () => {
+    it('returns fi url when language param is fi', () => {
       expect(getFeedbackUrl('fi')).toBe(urls.feedbackFI);
     });
 

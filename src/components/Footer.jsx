@@ -64,7 +64,7 @@ const Footer = (props) => {
           />
         }
       >
-        <HDSFooter.Link label={<FormattedMessage id='accessibilityLink' />} to={"/accessibility?lang="+language} as={Link} />
+        <HDSFooter.Link label={<FormattedMessage id='accessibilityLink' />} to={`/accessibility?lang=${language}`} as={Link} />
         <HDSFooter.Link
           label={<FormattedMessage id='dataProtection' />}
           href={getDataProtectionUrl(language)}
@@ -72,9 +72,9 @@ const Footer = (props) => {
           rel='noopener noreferrer'
         />
         {config.enableCookies && (
-          <HDSFooter.Link label={<FormattedMessage id='cookieManagementLink' />} to={"/cookies?lang="+language} as={Link} />
+          <HDSFooter.Link label={<FormattedMessage id='cookieManagementLink' />} to={`/cookies?lang=${language}`} as={Link} />
         )}
-        <HDSFooter.Link label={<FormattedMessage id='infoHeaderText' />} to={"/info?lang="+language} as={Link} />
+        <HDSFooter.Link label={<FormattedMessage id='infoHeaderText' />} to={`/info?lang=${language}`} as={Link} />
       </HDSFooter.Base>
     </HDSFooter>
   );
