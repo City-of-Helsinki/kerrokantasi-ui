@@ -1,6 +1,8 @@
-import { getApiURL, getApiTokenFromStorage, storeApiTokenToStorage, getBaseApiURL, apiCall} from "../api";
+import { before } from "lodash";
+import { getApiURL, getApiTokenFromStorage, storeApiTokenToStorage, getBaseApiURL, apiCall, get, post, put, patch} from "../api";
 import config from "../config"
 import { replace } from "../mockable-fetch"
+import { beforeEach } from "node:test";
 
 const testKey = 'testiavain';
 
@@ -8,6 +10,9 @@ const mockFetch = jest.fn();
 beforeAll(() => {
     replace(mockFetch);
 })
+afterEach(() => {
+    jest.clearAllMocks();
+});
 afterAll(() => {
     replace(false);
 })
@@ -36,5 +41,12 @@ describe('Api utility functions', () => {
         expect(mockFetch).not.toHaveBeenCalled();
         apiCall('testpoint');
         expect(mockFetch).toHaveBeenCalled();
+    })
+    it('should call fetch at the end of all types of calls', () => {
+        get('testurl');
+        post('testurl', {test_data: 'test_value'});
+        put('testurl', {test_data: 'test_value'});
+        patch('testurl', {test_data: 'test_value'});
+        expect(mockFetch).toHaveBeenCalledTimes(4);
     })
 });
