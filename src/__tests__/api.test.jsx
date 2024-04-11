@@ -2,11 +2,11 @@ import { getApiURL, getApiTokenFromStorage, storeApiTokenToStorage, getBaseApiUR
 import config from "../config"
 import { replace } from "../mockable-fetch"
 
-const test_key = 'testiavain';
+const testKey = 'testiavain';
 
-const mock_fetch = jest.fn();
+const mockFetch = jest.fn();
 beforeAll(() => {
-    replace(mock_fetch);
+    replace(mockFetch);
 })
 afterAll(() => {
     replace(false);
@@ -22,19 +22,19 @@ describe('Api utility functions', () => {
         expect(test3).toEqual(test4);
     })
     it('should be able to return correct API url', () => {
-        const test_url = getApiURL('/test_endpoint', {test_param: 'test_value'})
-        const test_url2 = getApiURL('test_endpoint', {test_param: 'test_value'})
-        expect(test_url).toEqual(config.apiBaseUrl + 'test_endpoint/?test_param=test_value')
-        expect(test_url).toEqual(test_url2);
+        const testUrl = getApiURL('/test_endpoint', {test_param: 'test_value'})
+        const testUrl2 = getApiURL('test_endpoint', {test_param: 'test_value'})
+        expect(testUrl).toEqual(`${config.apiBaseUrl  }test_endpoint/?test_param=test_value`)
+        expect(testUrl).toEqual(testUrl2);
     });
     it('should be able to store and read api token from storage', () => {
-        storeApiTokenToStorage(test_key);
+        storeApiTokenToStorage(testKey);
         const avain = getApiTokenFromStorage();
-        expect(avain).toEqual(test_key);
+        expect(avain).toEqual(testKey);
     });
     it('should call the mockable-fetch jest.fn', () => {
-        expect(mock_fetch).not.toHaveBeenCalled();
+        expect(mockFetch).not.toHaveBeenCalled();
         apiCall('testpoint');
-        expect(mock_fetch).toHaveBeenCalled();
+        expect(mockFetch).toHaveBeenCalled();
     })
 });
