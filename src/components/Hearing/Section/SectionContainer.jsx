@@ -46,7 +46,7 @@ import {
 } from '../../../actions';
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
-import { getApiURL } from '../../../api';
+import { getApiTokenFromStorage, getApiURL } from '../../../api';
 
 export class SectionContainerComponent extends React.Component {
   constructor(props) {
