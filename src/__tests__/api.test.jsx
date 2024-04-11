@@ -1,8 +1,6 @@
-import { before } from "lodash";
 import { getApiURL, getApiTokenFromStorage, storeApiTokenToStorage, getBaseApiURL, apiCall, get, post, put, patch} from "../api";
 import config from "../config"
 import { replace } from "../mockable-fetch"
-import { beforeEach } from "node:test";
 
 const testKey = 'testiavain';
 
