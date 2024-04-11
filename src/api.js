@@ -21,8 +21,20 @@ export const getApiTokenFromStorage = () => {
   return null;
 };
 
+export const storeApiTokenToStorage = (token) => {
+  apiAccessTokenStorage.setItem(
+    storageKey,
+    JSON.stringify({[config.openIdAudience]: token})
+    )
+}
+
+export function getBaseApiURL(baseUrl) {
+  return (`${baseUrl.replace(/\/$/g, '')}`);
+}
+
 export function getApiURL(endpoint, params = null) {
-  let url = (`${config.apiBaseUrl.replace(/\/$/g, '')}/${endpoint.replace(/^\//g, '')}`);
+  const baseUrl = getBaseApiURL(config.apiBaseUrl);
+  let url = (`${baseUrl}/${endpoint.replace(/^\//g, '')}`);
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
   if (params) {
     if (url.indexOf("?") > -1) {
