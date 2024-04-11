@@ -37,7 +37,6 @@ class HearingFormStep1 extends React.Component {
     this.onEditContact = this.onEditContact.bind(this);
     this.closeLabelModal = this.closeLabelModal.bind(this);
     this.openContactModal = this.openContactModal.bind(this);
-    this.openContactModal = this.openContactModal.bind(this);
     this.closeContactModal = this.closeContactModal.bind(this);
 
     this.state = {
@@ -269,5 +268,5 @@ const mapStateToProps = (state) => ({
 });
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);
-
+export { WrappedHearingFormStep1 as UnconnectedHearingFormStep1 };
 export default connect(mapStateToProps, null)(WrappedHearingFormStep1);

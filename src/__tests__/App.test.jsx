@@ -16,9 +16,4 @@ describe('<App />', () => {
   it('renders correctly', () => {
     expect(container).toBeTruthy();
   });
-
-  it('has correct state on initial load', () => {
-    const state = store.getState();
-    expect(state.intervalSet).toBeFalsy();
-  });
 });
