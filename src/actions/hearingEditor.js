@@ -85,21 +85,13 @@ const HEARING_CREATED_MESSAGE = 'Luonti onnistui';
 const HEARING_CHECK_HEARING_INFORMATION_MESSAGE = 'Tarkista kuulemisen tiedot.';
 const HEARING_CANT_MODIFY = 'Et voi muokata tätä kuulemista.';
 
-export function startHearingEdit() {
-  return dispatch => dispatch(createAction(EditorActions.SHOW_FORM)());
-}
+export const startHearingEdit = () => dispatch => dispatch(createAction(EditorActions.SHOW_FORM)());
 
-export function closeHearingForm() {
-  return dispatch => dispatch(createAction(EditorActions.CLOSE_FORM)());
-}
+export const closeHearingForm = () => dispatch => dispatch(createAction(EditorActions.CLOSE_FORM)());
 
-export function sectionMoveUp(sectionId) {
-  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
-}
+export const sectionMoveUp = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
 
-export function sectionMoveDown(sectionId) {
-  return dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
-}
+export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
 
 
 /**
@@ -139,25 +131,15 @@ export const deleteSectionAttachment = (sectionId, attachment) => (dispatch) => 
     .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({ sectionId, attachment })));
 };
 
-export function changeProject(projectId, projectLists) {
-  return createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
-}
+export const changeProject = (projectId, projectLists) => createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
 
-export function updateProjectLanguage(languages) {
-  return createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({ languages });
-}
+export const updateProjectLanguage = (languages) => createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({ languages });
 
-export function changeProjectName(fieldname, value) {
-  return createAction(EditorActions.CHANGE_PROJECT_NAME)({ fieldname, value });
-}
+export const changeProjectName = (fieldname, value) => createAction(EditorActions.CHANGE_PROJECT_NAME)({ fieldname, value });
 
-export function deletePhase(phaseId) {
-  return createAction(EditorActions.DELETE_PHASE)({ phaseId });
-}
+export const deletePhase = (phaseId) => createAction(EditorActions.DELETE_PHASE)({ phaseId });
 
-export function activePhase(phaseId) {
-  return createAction(EditorActions.ACTIVE_PHASE)({ phaseId });
-}
+export const activePhase = (phaseId) => createAction(EditorActions.ACTIVE_PHASE)({ phaseId });
 
 export function changePhase(phaseId, fieldName, language, value) {
   return createAction(EditorActions.EDIT_PHASE)({
@@ -168,17 +150,11 @@ export function changePhase(phaseId, fieldName, language, value) {
   });
 }
 
-export function addPhase() {
-  return createAction(EditorActions.ADD_PHASE)();
-}
+export const addPhase = () => createAction(EditorActions.ADD_PHASE)();
 
-export function receiveHearing(normalizedHearing) {
-  return createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
-}
+export const receiveHearing = (normalizedHearing) => createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
 
-export function initNewHearing() {
-  return createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
-}
+export const initNewHearing = () => createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
 
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
@@ -241,9 +217,7 @@ export function fetchHearingEditorContactPersons() {
   };
 }
 
-export function changeHearing(field, value) {
-  return dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
-}
+export const changeHearing = (field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
 
 export function addContact(contact, selectedContacts) {
   return (dispatch) => {
@@ -328,41 +302,23 @@ export function addLabel(label, selectedLabels) {
   };
 }
 
-export function changeSection(sectionID, field, value) {
-  return dispatch => dispatch(createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value }));
-}
+export const changeSection = (sectionID, field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value }));
 
-export function changeSectionMainImage(sectionID, field, value) {
-  return dispatch => dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({ sectionID, field, value }));
-}
+export const changeSectionMainImage = (sectionID, field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({ sectionID, field, value }));
 
-export function addSection(section) {
-  return dispatch => dispatch(createAction(EditorActions.ADD_SECTION)({ section }));
-}
+export const addSection = (section) => dispatch => dispatch(createAction(EditorActions.ADD_SECTION)({ section }));
 
-export function createMapMarker(value) {
-  return dispatch => dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({ value }));
-}
+export const createMapMarker = (value) => dispatch => dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({ value }));
 
-export function addMapMarker(value) {
-  return dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER)({ value }));
-}
+export const addMapMarker = (value) => dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER)({ value }));
 
-export function addMapMarkerToCollection(value) {
-  return dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({ value }));
-}
+export const addMapMarkerToCollection = (value) => dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({ value }));
 
-export function initSingleChoiceQuestion(sectionId) {
-  return dispatch => dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({ sectionId }));
-}
+export const initSingleChoiceQuestion = (sectionId) => dispatch => dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({ sectionId }));
 
-export function initMultipleChoiceQuestion(sectionId) {
-  return dispatch => dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({ sectionId }));
-}
+export const initMultipleChoiceQuestion = (sectionId) => dispatch => dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({ sectionId }));
 
-export function clearQuestions(sectionId) {
-  return dispatch => dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({ sectionId }));
-}
+export const clearQuestions = (sectionId) => dispatch => dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({ sectionId }));
 
 export const addOption = (sectionId, questionId) => dispatch => dispatch(createAction(EditorActions.ADD_OPTION)({ sectionId, questionId }));
 
@@ -378,13 +334,9 @@ export const deleteExistingQuestion = (sectionId, questionId) => dispatch => dis
 * Removes section from hearing
 * @param {str} sectionID - Is compared to section.id and section.frontId in that order
  */
-export function removeSection(sectionID) {
-  return dispatch => dispatch(createAction(EditorActions.REMOVE_SECTION)({ sectionID }));
-}
+export const removeSection = (sectionID) => dispatch => dispatch(createAction(EditorActions.REMOVE_SECTION)({ sectionID }));
 
-export function changeHearingEditorLanguages(languages) {
-  return dispatch => dispatch(createAction(EditorActions.SET_LANGUAGES)({ languages }));
-}
+export const changeHearingEditorLanguages = (languages) => dispatch => dispatch(createAction(EditorActions.SET_LANGUAGES)({ languages }));
 
 /*
 * Save changes made to an existing hearing.
@@ -621,6 +573,4 @@ export function unPublishHearing(hearing) {
   };
 }
 
-export function updateHearingAfterSave(normalizedHearing) {
-  return createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
-}
+export const updateHearingAfterSave = (normalizedHearing) => createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
