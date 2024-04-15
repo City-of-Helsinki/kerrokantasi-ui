@@ -1,8 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { createAction } from 'redux-actions';
+
 import * as api from "../../api";
 import * as actions from '../index';
-import { createAction } from 'redux-actions';
 
 jest.mock('../../api', () => ({
     get: jest.fn(),
