@@ -1,19 +1,44 @@
 // Testing addContact function
 import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk';
+import { push } from 'react-router-redux';
 
 import * as api from "../../api"; // Ensure this is the correct path
 import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
 
+
 // Mocking API module and middleware setup
 jest.mock('./../../api');
 
+
+jest.mock('react-router-redux', () => ({
+  push: jest.fn().mockImplementation((path) => ({ type: 'PUSH', path }))
+}));
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares);
 
 describe('HearingEditor actions', () => {
-    const initialState = {};
+    const mockHearing = {
+        id: '1',
+        title: 'Original Title',
+        sections: [],
+        labels: [],
+        contact_persons: []
+    };
+    const mockProcessedHearing = {
+        id: '1',
+        title: {}, 
+        sections: [],
+        labels: [],
+        contact_persons: [],
+        abstract: {},
+        main_image: null
+    };
+    const initialState = {
+        hearingEditor: { languages: ['en', 'fi'] },
+        language: 'en'
+    };
     let store = mockStore(initialState);
 
     afterEach(() => {
@@ -78,9 +103,9 @@ describe('HearingEditor actions', () => {
             };
             expect(actions.activePhase(phaseId)).toEqual(expectedAction);
         });
-      });
+    });
 
-      describe('Asynchronous Actions', () => {
+    describe('Asynchronous Actions', () => {
         it('fetches metadata and dispatches RECEIVE_META_DATA', async () => {
             // Mock API responses
             api.getAllFromEndpoint.mockImplementation(endpoint => {
@@ -95,7 +120,7 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.fetchHearingEditorMetaData());
             expect(store.getActions()).toEqual(expectedActions);
         });
-      
+        
         it('handles errors in fetching metadata', async () => {
             const error = new Error('Network Error');
             api.getAllFromEndpoint.mockRejectedValue(error);
@@ -106,7 +131,7 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.fetchHearingEditorMetaData());
             expect(store.getActions()).toContainEqual(expectedActions[1]);
         });
-      
+        
         it('adds an attachment and dispatches ADD_ATTACHMENT', async () => {
             const section = 'section1';
             const file = new Blob(['file content'], { type: 'text/plain' });
@@ -122,8 +147,8 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.addSectionAttachment(section, file, title, isNew));
             expect(store.getActions()).toEqual(expectedActions);
         });
-      });
-      describe('Deletion Actions', () => {
+    });
+    describe('Deletion Actions', () => {
         it('deletes a section attachment and dispatches DELETE_ATTACHMENT', async () => {
             const sectionId = 'sec123';
             const attachment = { id: 'att123' };
@@ -136,7 +161,7 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.deleteSectionAttachment(sectionId, attachment));
             expect(store.getActions()).toEqual(expectedActions);
         });
-    
+
         it('deletes a phase and dispatches DELETE_PHASE', async () => {
             const phaseId = 'phase123';
             const expectedAction = {
@@ -147,8 +172,8 @@ describe('HearingEditor actions', () => {
             store.dispatch(actions.deletePhase(phaseId));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
-      });
-      describe('Modification Actions', () => {
+    });
+    describe('Modification Actions', () => {
         it('dispatches EDIT_SECTION when changing a section', () => {
             const sectionID = 'sec123';
             const field = 'title';
@@ -161,7 +186,7 @@ describe('HearingEditor actions', () => {
             store.dispatch(actions.changeSection(sectionID, field, value));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
-        
+    
         it('dispatches EDIT_QUESTION when editing a question', () => {
             const fieldType = 'text';
             const sectionId = 'sec123';
@@ -175,5 +200,54 @@ describe('HearingEditor actions', () => {
             store.dispatch(actions.editQuestion(fieldType, sectionId, questionId, optionKey, value));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
-      });      
+    });    
+    describe('saveHearingChanges', () => {      
+        it('dispatches SAVE_HEARING_SUCCESS and navigates on successful save', async () => {
+          const hearing = mockHearing;
+          const hearingJSON = { id: '1', title: 'Original Title', slug: 'new-slug' };
+          const response = { status: 200, json: () => Promise.resolve(hearingJSON) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
+            { type: EditorActions.SAVE_HEARING_SUCCESS, payload: { hearing: hearingJSON } }
+          ];
+      
+          await store.dispatch(actions.saveHearingChanges(hearing));
+      
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(push).toHaveBeenCalledWith(`/${hearingJSON.slug}?lang=${initialState.language}`);
+        });
+      
+        it('dispatches SAVE_HEARING_FAILED on API bad request', async () => {
+          const hearing = mockHearing;
+          const errors = { message: 'Invalid data' };
+          const response = { status: 400, json: () => Promise.resolve(errors) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
+            { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: { message: 'Invalid data' } } }
+          ];
+      
+          await store.dispatch(actions.saveHearingChanges(hearing));
+      
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+        });
+      
+        it('handles unauthorized error', async () => {
+          const hearing = mockHearing;
+          const response = { status: 401, json: () => Promise.resolve({}) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } }
+          ];
+      
+          await store.dispatch(actions.saveHearingChanges(hearing));
+      
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+        });
+      });
+        
 });
