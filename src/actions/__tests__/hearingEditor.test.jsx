@@ -86,6 +86,7 @@ describe('HearingEditor actions', () => {
             api.getAllFromEndpoint.mockImplementation(endpoint => {
                 if (endpoint === '/v1/label/') return Promise.resolve(['Label 1', 'Label 2']);
                 if (endpoint === '/v1/organization/') return Promise.resolve(['Org 1', 'Org 2']);
+                return Promise.resolve();
             });
             const expectedActions = [
                 { type: EditorActions.FETCH_META_DATA },
