@@ -4,7 +4,6 @@ import { createAction } from 'redux-actions';
 
 import * as api from "../../api";
 import * as actions from '../index';
-import { parseQuery } from '../../utils/urlQuery';
 
 jest.mock('../../api', () => ({
     get: jest.fn(),
