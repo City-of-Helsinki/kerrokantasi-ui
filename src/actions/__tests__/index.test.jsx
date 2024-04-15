@@ -4,6 +4,7 @@ import { createAction } from 'redux-actions';
 
 import * as api from "../../api";
 import * as actions from '../index';
+import { parseQuery } from '../../utils/urlQuery';
 
 jest.mock('../../api', () => ({
     get: jest.fn(),
@@ -163,6 +164,49 @@ describe('fetchUserComments', () => {
       ];
 
       await store.dispatch(actions.fetchUserComments(additionalParams));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+});
+describe('fetchMoreHearings', () => {
+    let store;
+    const listId = 'hearingsList';
+    const mockNextUrl = 'http://api.example.com/v1/hearing/?page=2';
+
+    beforeEach(() => {
+      // Setting up the mock store with initial state that includes the next URL
+      store = mockStore({
+        hearingLists: {
+          [listId]: {
+            next: mockNextUrl
+          }
+        }
+      });
+      api.get.mockClear();
+    });
+
+    it('dispatches beginFetchHearingList and receiveMoreHearings when fetching more hearings successfully', async () => {
+      const mockHearingsData = { results: [{ id: 3, title: 'Hearing Three' }, { id: 4, title: 'Hearing Four' }] };
+      api.get.mockResolvedValue({ json: () => Promise.resolve(mockHearingsData) });
+
+      const expectedActions = [
+        { type: 'beginFetchHearingList', payload: { listId } },
+        { type: 'receiveMoreHearings', payload: { listId, data: mockHearingsData } }
+      ];
+
+      await store.dispatch(actions.fetchMoreHearings(listId));
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(api.get).toHaveBeenCalledWith('v1/hearing/', { page: "2"});
+    });
+
+    it('handles errors during fetching more hearings', async () => {
+      const error = new Error('API request failed');
+      api.get.mockRejectedValue(error);
+
+      const expectedActions = [
+        { type: 'beginFetchHearingList', payload: { listId } }
+      ];
+
+      await store.dispatch(actions.fetchMoreHearings(listId));
       expect(store.getActions()).toEqual(expectedActions);
     });
 });
