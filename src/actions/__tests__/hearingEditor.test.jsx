@@ -3,15 +3,13 @@ import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk';
 import { push } from 'react-router-redux';
 
-import * as api from "../../api"; // Ensure this is the correct path
+import * as api from "../../api";
 import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
 
 
 // Mocking API module and middleware setup
 jest.mock('./../../api');
-
-
 jest.mock('react-router-redux', () => ({
   push: jest.fn().mockImplementation((path) => ({ type: 'PUSH', path }))
 }));

@@ -10,7 +10,8 @@ jest.mock('../../api', () => ({
     post: jest.fn(),
     put: jest.fn(),
     apiDelete: jest.fn(),
-  }));
+    getApiTokenFromStorage: jest.fn(() => 'dummykey'),
+}));
   
 
 const middlewares = [thunk];
@@ -207,6 +208,82 @@ describe('fetchMoreHearings', () => {
 
       await store.dispatch(actions.fetchMoreHearings(listId));
       expect(store.getActions()).toEqual(expectedActions);
+    });
+});
+describe('postSectionComment', () => {
+    let store;
+    const hearingSlug = 'sample-slug';
+    const sectionId = 'section1';
+    const commentData = {
+        text: "This is a sample comment",
+        pluginData: {},
+        authCode: "authcode123",
+        geojson: null,
+        label: null,
+        images: [],
+        answers: [],
+        pinned: false,
+        mapCommentText: ""
+    };
+    const commentReturned = {
+        content: "This is a sample comment",
+        plugin_data: {},
+        authorization_code: "authcode123",
+        geojson: null,
+        label: null,
+        images: [],
+        answers: [],
+        pinned: false,
+        map_comment_text: ""
+    }
+
+    beforeEach(() => {
+        store = mockStore({
+            oidc: {
+                user: {
+                    profile: {
+                        sub: 'testi'
+                    }
+                }
+            }
+        });
+        api.post.mockClear();
+    });
+
+    it('dispatches postingComment and postedComment when posting a comment successfully', async () => {
+      const mockResponse = {
+        status: 200,
+        json: () =>  Promise.resolve({ id: '123', status: 'created' }),
+      }
+      api.post.mockResolvedValue(mockResponse);
+
+      const expectedActions = [
+        createAction("postingComment")({ hearingSlug, sectionId }),
+        createAction("postedComment")({ sectionId, jumpTo: '123' }),
+        createAction("beginFetchHearing")({ hearingSlug }),
+        createAction("fetchUserData")(),
+      ];
+
+      await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(api.post).toHaveBeenCalledWith(`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/`, commentReturned);
+    });
+
+    it('handles errors when posting a comment fails', async () => {
+        const error = {
+            response: {
+                status: 403
+            },
+            message: 'Forbidden'
+        };
+        api.post.mockRejectedValue(error);
+
+        const expectedActions = [
+            createAction("postingComment")({ hearingSlug, sectionId }),
+        ];
+
+        await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
+        expect(store.getActions()).toEqual(expectedActions);
     });
 });
 
