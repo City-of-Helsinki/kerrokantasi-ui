@@ -152,8 +152,7 @@ export const fetchMoreHearings = (listId) => (dispatch, getState) => {
 
 export function fetchLabels() {
   return (dispatch) => {
-    const fetchAction = createAction('beginFetchLabels');
-    dispatch(fetchAction);
+    dispatch(createAction('beginFetchLabels')());
 
     return getAllFromEndpoint('/v1/label/').then((data) => {
       dispatch(createAction('receiveLabels')({ data }));

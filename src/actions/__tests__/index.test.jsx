@@ -11,6 +11,7 @@ jest.mock('../../api', () => ({
     put: jest.fn(),
     apiDelete: jest.fn(),
     getApiTokenFromStorage: jest.fn(() => 'dummykey'),
+    getAllFromEndpoint: jest.fn(),
 }));
   
 
@@ -286,5 +287,24 @@ describe('postSectionComment', () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 });
+describe('fetchLabels', () => {
+    let store;
 
+    beforeEach(() => {
+        store = mockStore({});
+    });
 
+    it('dispatches beginFetchLabels and receiveLabels when fetching labels successfully', async () => {
+        const mockLabelsData = { results: [{ id: '1', name: 'Label One' }, { id: '2', name: 'Label Two' }], next: null };
+        api.getAllFromEndpoint.mockResolvedValue(mockLabelsData);  // Ensure that the mock returns only the results part
+
+        const expectedActions = [
+            createAction('beginFetchLabels')(),
+            createAction('receiveLabels')({ data: mockLabelsData })
+        ];
+
+        await store.dispatch(actions.fetchLabels());
+        expect(store.getActions()).toEqual(expectedActions);  // Ensure actions are correctly created
+        expect(api.getAllFromEndpoint).toHaveBeenCalledWith('/v1/label/');
+    });
+});
