@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import RavenMiddleWare from 'redux-raven-middleware';
 import identity from 'lodash/identity';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
