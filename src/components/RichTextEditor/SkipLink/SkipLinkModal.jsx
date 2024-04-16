@@ -1,7 +1,6 @@
 import React from 'react';
-import { Modal, ModalTitle } from 'react-bootstrap';
-import { Button } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
+import { Button, Dialog } from 'hds-react';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';
@@ -89,60 +88,67 @@ class SkipLinkModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, intl, onClose } = this.props;
     const formName = 'skip-link';
+    const titleId = 'skip-link-modal-title';
+    const descriptionId = 'skip-link-modal-description';
+
     return (
-      <Modal show={isOpen} onHide={onClose}>
-        <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>
-            <FormattedMessage id='skipLinkModalTitle' />
-          </ModalTitle>
-        </Modal.Header>
-        <Modal.Body>
-          <RichTextModalTextField
-            name='linkText'
-            label={getMessage('skipLinkFormFieldText')}
-            handleInputChange={this.handleInputChange}
-            handleInputBlur={this.handleInputBlur}
-            value={this.state.linkText}
-            isRequired
-            errorMsg={this.state.inputErrors.linkText}
-            formName={formName}
-          />
-          <RichTextModalTextField
-            name='linkOwnId'
-            label={getMessage('skipLinkFormFieldOwnId')}
-            handleInputChange={this.handleInputChange}
-            handleInputBlur={this.handleInputBlur}
-            value={this.state.linkOwnId}
-            isRequired
-            errorMsg={this.state.inputErrors.linkOwnId}
-            formName={formName}
-          />
-          <RichTextModalTextField
-            name='linkTargetId'
-            label={getMessage('skipLinkFormFieldTargetId')}
-            handleInputChange={this.handleInputChange}
-            handleInputBlur={this.handleInputBlur}
-            value={this.state.linkTargetId}
-            isRequired
-            errorMsg={this.state.inputErrors.linkTargetId}
-            formName={formName}
-          />
-          <label htmlFor='skip-link-is-hidden' className='rich-text-editor-form-checkbox-label'>
-            {getMessage('skipLinkFormFieldHide')}
-          </label>
-          <input
-            type='checkbox'
-            id='skip-link-is-hidden'
-            name='linkIsHidden'
-            className='rich-text-editor-form-checkbox-input'
-            checked={this.state.linkIsHidden}
-            onChange={this.handleInputChange}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={onClose}>
+      <Dialog
+        isOpen={isOpen}
+        close={onClose}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header id={titleId} title={<FormattedMessage id='skipLinkModalTitle' />} />
+        <Dialog.Content>
+          <div id={descriptionId}>
+            <RichTextModalTextField
+              name='linkText'
+              label={getMessage('skipLinkFormFieldText')}
+              handleInputChange={this.handleInputChange}
+              handleInputBlur={this.handleInputBlur}
+              value={this.state.linkText}
+              isRequired
+              errorMsg={this.state.inputErrors.linkText}
+              formName={formName}
+            />
+            <RichTextModalTextField
+              name='linkOwnId'
+              label={getMessage('skipLinkFormFieldOwnId')}
+              handleInputChange={this.handleInputChange}
+              handleInputBlur={this.handleInputBlur}
+              value={this.state.linkOwnId}
+              isRequired
+              errorMsg={this.state.inputErrors.linkOwnId}
+              formName={formName}
+            />
+            <RichTextModalTextField
+              name='linkTargetId'
+              label={getMessage('skipLinkFormFieldTargetId')}
+              handleInputChange={this.handleInputChange}
+              handleInputBlur={this.handleInputBlur}
+              value={this.state.linkTargetId}
+              isRequired
+              errorMsg={this.state.inputErrors.linkTargetId}
+              formName={formName}
+            />
+            <label htmlFor='skip-link-is-hidden' className='rich-text-editor-form-checkbox-label'>
+              {getMessage('skipLinkFormFieldHide')}
+            </label>
+            <input
+              type='checkbox'
+              id='skip-link-is-hidden'
+              name='linkIsHidden'
+              className='rich-text-editor-form-checkbox-input'
+              checked={this.state.linkIsHidden}
+              onChange={this.handleInputChange}
+            />
+          </div>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
+          <Button onClick={onClose} type='button'>
             <FormattedMessage id='cancel' />
           </Button>
           <Button className='kerrokantasi-btn' onClick={this.confirmSkipLink}>
@@ -158,16 +164,17 @@ class SkipLinkModal extends React.Component {
               {getMessage('formCheckErrors')}
             </p>
           )}
-        </Modal.Footer>
-      </Modal>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
 
 SkipLinkModal.propTypes = {
   isOpen: PropTypes.bool,
+  intl: intlShape.isRequired,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
-export default SkipLinkModal;
+export default injectIntl(SkipLinkModal);

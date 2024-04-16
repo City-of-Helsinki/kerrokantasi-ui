@@ -266,7 +266,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -326,7 +326,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -386,7 +386,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -446,7 +446,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -506,7 +506,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -566,7 +566,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
@@ -626,7 +626,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                         class="hearing-comment-date"
                       >
                         <span>
-                          2 vuotta sitten
+                          3 vuotta sitten
                         </span>
                       </span>
                     </div>
