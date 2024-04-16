@@ -63,9 +63,10 @@ class CommentReportForm extends React.Component {
   }
 
   render() {
+    const { id } = this.props;
     const { fileFormat } = this.state;
     return (
-      <Form>
+      <Form id={id}>
         <FormGroup controlId='file-format-select'>
           <ControlLabel>
             <FormattedMessage id='commentReportsSelectFileType' />
