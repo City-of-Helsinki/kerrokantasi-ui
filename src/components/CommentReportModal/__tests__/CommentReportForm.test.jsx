@@ -9,6 +9,7 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 
 const renderComponent = (propsOverrides) => {
   const props = {
+    id: 'test',
     apiToken: { apiInitialized: true, apiToken: '123-abc', isFetching: false, loadingToken: false },
     hearing: mockStore.mockHearingWithSections,
     language: 'fi',

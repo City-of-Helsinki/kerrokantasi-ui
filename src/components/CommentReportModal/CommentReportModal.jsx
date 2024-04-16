@@ -1,37 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
-import { Button } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
+import { Button, Dialog, IconInfoCircle } from 'hds-react';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import CommentReportForm from './CommentReportForm';
-import getMessage from '../../utils/getMessage';
 import { hearingShape } from '../../types';
 
-function CommentReportModal({ isOpen, hearing, onClose }) {
+const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
+  const titleId = 'comment-report-modal-title';
+  const descriptionId = 'comment-report-modal-description';
+
   return (
-    <Modal animation={false} className='comment-reports-modal' onHide={onClose} show={isOpen}>
-      <Modal.Header closeButton closeLabel={getMessage('commentReportsClose')}>
-        <Modal.Title componentClass='h1'>
-          <FormattedMessage id='commentReportsTitle' />
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <CommentReportForm hearing={hearing} />
-      </Modal.Body>
-      <Modal.Footer>
+    <Dialog
+      isOpen={isOpen}
+      close={onClose}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+    >
+      <Dialog.Header
+        id={titleId}
+        title={<FormattedMessage id='commentReportsTitle' />}
+        iconLeft={<IconInfoCircle aria-hidden='true' />}
+      />
+      <Dialog.Content>
+        <CommentReportForm hearing={hearing} id={descriptionId} />
+      </Dialog.Content>
+      <Dialog.ActionButtons>
         <Button onClick={onClose}>
           <FormattedMessage id='commentReportsClose' />
         </Button>
-      </Modal.Footer>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
-}
+};
 
 CommentReportModal.propTypes = {
   hearing: hearingShape.isRequired,
+  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default CommentReportModal;
+export default injectIntl(CommentReportModal);

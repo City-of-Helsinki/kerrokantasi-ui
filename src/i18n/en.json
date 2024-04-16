@@ -26,6 +26,7 @@
   "choose_images": "Choose images",
   "chooseTopic": "Choose topic",
   "clear": "Clear",
+  "close": "Close",
   "closedCount": "Closed ({n})",
   "closedHearing": "Closed",
   "commentConditions": "All comments will be published {linkToDefinition} in the online service {linkToLicense}. If you are not logged in, you may leave an anonymous comment. The comments may be moderated if they contain insulting or offensive language.",
