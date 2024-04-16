@@ -92,6 +92,7 @@ const mapStateToProps = (state) => ({
 });
 
 CommentReportForm.propTypes = {
+  id: PropTypes.string.isRequired,
   hearing: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
 };

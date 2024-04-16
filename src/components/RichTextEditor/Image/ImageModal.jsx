@@ -93,7 +93,7 @@ class ImageModal extends React.Component {
             <FormattedMessage id='imageModalTitle' />
           </ModalTitle>
         </Modal.Header>
-        <Modal.Body className='form-modal image-modal'>
+        <Modal.Body className='form-container image-modal'>
           <div className='form-group'>
             <ControlLabel>
               <FormattedMessage id='sectionImage' />
