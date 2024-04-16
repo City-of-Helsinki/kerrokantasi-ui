@@ -6,7 +6,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import { Button } from 'hds-react';
-import Modal from 'react-bootstrap/lib/Modal';
 import Panel from 'react-bootstrap/lib/Panel';
 
 import Icon from '../../utils/Icon';
@@ -115,17 +114,17 @@ class HearingForm extends React.Component {
     if (hearing.published) {
       ActionButton = () => (
         <div className='flex-end btn-toolbar'>
-          <Button className="kerrokantasi-btn success"  onClick={onSaveAsCopy}>
+          <Button className='kerrokantasi-btn success' onClick={onSaveAsCopy}>
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
-          <Button className="kerrokantasi-btn success"  onClick={onSaveChanges}>
+          <Button className='kerrokantasi-btn success' onClick={onSaveChanges}>
             <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
-        <Button className="kerrokantasi-btn success"  onClick={onSaveAndPreview}>
+        <Button className='kerrokantasi-btn success' onClick={onSaveAndPreview}>
           <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );
@@ -197,21 +196,13 @@ class HearingForm extends React.Component {
 
   render() {
     return (
-      <Modal
-        backdrop='static'
-        bsSize='large'
-        dialogClassName='form-modal'
-        onHide={this.props.onLeaveForm}
-        show={this.props.show}
-      >
-        <Modal.Header closeButton bsClass='hearing-modal-header'>
-          <h2>
-            <FormattedMessage id='editHearing' />
-          </h2>
-          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
-            <FormattedMessage id='help' />
-          </a>
-        </Modal.Header>
+      <div className='form-container container'>
+        <h2>
+          <FormattedMessage id='editHearing' />
+        </h2>
+        <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+          <FormattedMessage id='help' />
+        </a>
         {this.getErrors()}
         <form>
           <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
@@ -223,7 +214,7 @@ class HearingForm extends React.Component {
           </Accordion>
           <div className='editor-footer'>{this.getActions()}</div>
         </form>
-      </Modal>
+      </div>
     );
   }
 }
@@ -254,7 +245,6 @@ HearingForm.propTypes = {
   onEditSectionAttachmentOrder: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
-  onLeaveForm: PropTypes.func,
   onQuestionChange: PropTypes.func,
   onSaveAndPreview: PropTypes.func,
   onSaveChanges: PropTypes.func,
@@ -266,7 +256,6 @@ HearingForm.propTypes = {
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  show: PropTypes.bool,
 };
 
 const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));

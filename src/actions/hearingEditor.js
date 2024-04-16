@@ -35,7 +35,6 @@ export const EditorActions = {
   CHANGE_PROJECT_NAME: 'changeProjectName',
   CHANGE_PROJECT: 'changeProject',
   CLEAR_QUESTIONS: 'clearQuestions',
-  CLOSE_FORM: 'closeHearingForm',
   CLOSE_HEARING: 'closeHearing',
   CREATE_MAP_MARKER: 'createMapMarker',
   DELETE_LAST_OPTION: 'deleteLastOption',
@@ -367,7 +366,6 @@ export function saveHearingChanges(hearing) {
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
-            dispatch(closeHearingForm());
             dispatch(push(`/${hearingJSON.slug}?lang=${getState().language}`));
             if (hearing.slug !== hearingJSON.slug) {
               localizedNotifyError("slugInUse");
@@ -396,7 +394,7 @@ export function addSectionAttachment(section, file, title, isNew) {
         if (response.status === 400 && !isNew) {
           localizedNotifyError('errorSaveBeforeAttachment');
         } else {
-          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: {...attachment, isNew: true} })));
+          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: { ...attachment, isNew: true } })));
         }
       });
   };

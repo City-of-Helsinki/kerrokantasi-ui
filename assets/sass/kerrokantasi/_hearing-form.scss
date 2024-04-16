@@ -1,6 +1,4 @@
-.form-modal {
-  width: 80%;
-
+.form-container {
   .modal-content {
     padding: 20px;
     background: $gray-lighter;
@@ -184,7 +182,7 @@
 .toolbar-bottom {
   background: $light-gray;
   bottom: 0;
-  box-shadow: 0 0 5px rgba(0,0,0,.33);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.33);
   left: 0;
   padding: $line-height-computed / 2;
   position: fixed;
