@@ -2,11 +2,11 @@
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
-import { Button } from 'hds-react';
-import { Modal, ControlLabel } from 'react-bootstrap';
+import { ControlLabel } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
+import { Button, Dialog } from 'hds-react';
 
 import config from '../../config';
 
@@ -107,19 +107,25 @@ class LabelModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, intl, onClose } = this.props;
     const checkBoxes = this.generateCheckBoxes();
     const labelInputs = this.generateLabelInputs();
 
+    const titleId = 'label-modal-title';
+    const descriptionId = 'label-modal-description';
+
     return (
-      <Modal className='label-modal' show={isOpen} onHide={() => onClose()} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <FormattedMessage id='createLabel' />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Dialog
+        isOpen={isOpen}
+        close={onClose}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header id={titleId} title={<FormattedMessage id='createLabel' />} />
+        <Dialog.Content>
           <form
+            id={descriptionId}
             ref={(form) => {
               this.labelForm = form;
             }}
@@ -131,16 +137,19 @@ class LabelModal extends React.Component {
             </div>
             <input type='submit' style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
           </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => onClose()}>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
+          <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className="kerrokantasi-btn" onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}>
+          <Button
+            className='kerrokantasi-btn'
+            onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}
+          >
             <FormattedMessage id='create' />
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
