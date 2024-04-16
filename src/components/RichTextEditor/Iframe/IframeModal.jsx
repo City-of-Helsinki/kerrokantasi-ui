@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
-import { Modal, ModalTitle } from 'react-bootstrap';
-import { Button } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
+import { Button, Dialog } from 'hds-react';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IframeCopyPasteField from './IframeCopyPasteField';
@@ -96,19 +95,25 @@ class IframeModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, intl, onClose } = this.props;
     const { inputErrors, ...fields } = this.state;
     const formName = 'iframe';
 
+    const titleId = 'iframe-modal-title';
+    const descriptionId = 'iframe-modal-description';
+
     return (
-      <Modal show={isOpen} onHide={() => onClose()}>
-        <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>
-            <FormattedMessage id='iframeModalTitle' />
-          </ModalTitle>
-        </Modal.Header>
-        <Modal.Body>
+      <Dialog
+        isOpen={isOpen}
+        close={onClose}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header id={titleId} title={<FormattedMessage id='iframeModalTitle' />} />
+        <Dialog.Content>
           <form
+            id={descriptionId}
             ref={(form) => {
               this.iframeForm = form;
             }}
@@ -171,8 +176,8 @@ class IframeModal extends React.Component {
               options={scrollingOptions}
             />
           </form>
-        </Modal.Body>
-        <Modal.Footer>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
           <Button className='kerrokantasi-btn' onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
@@ -189,16 +194,17 @@ class IframeModal extends React.Component {
               {getMessage('formCheckErrors')}
             </p>
           )}
-        </Modal.Footer>
-      </Modal>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
 
 IframeModal.propTypes = {
   isOpen: PropTypes.bool,
+  intl: intlShape.isRequired,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
-export default IframeModal;
+export default injectIntl(IframeModal);
