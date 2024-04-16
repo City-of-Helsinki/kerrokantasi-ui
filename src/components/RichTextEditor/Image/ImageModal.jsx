@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
-import { ControlLabel, HelpBlock, Image, Modal, ModalTitle } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { ControlLabel, HelpBlock, Image } from 'react-bootstrap';
+import { Button, Dialog } from 'hds-react';
 import Dropzone from 'react-dropzone';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
@@ -84,17 +84,23 @@ class ImageModal extends React.Component {
   }
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, intl, onClose } = this.props;
     const dropZoneClass = this.state.fileReaderResult ? 'dropzone preview' : 'dropzone';
+
+    const titleId = 'image-modal-title';
+    const descriptionId = 'image-modal-description';
+
     return (
-      <Modal show={isOpen} onHide={onClose}>
-        <Modal.Header closeButton>
-          <ModalTitle componentClass='h3'>
-            <FormattedMessage id='imageModalTitle' />
-          </ModalTitle>
-        </Modal.Header>
-        <Modal.Body className='form-container image-modal'>
-          <div className='form-group'>
+      <Dialog
+        isOpen={isOpen}
+        close={onClose}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header id={titleId} title={<FormattedMessage id='imageModalTitle' />} />
+        <Dialog.Content>
+          <div id={descriptionId} className='form-container image-modal form-group'>
             <ControlLabel>
               <FormattedMessage id='sectionImage' />
             </ControlLabel>
@@ -120,8 +126,8 @@ class ImageModal extends React.Component {
               onChange={this.setImageAltText}
             />
           </div>
-        </Modal.Body>
-        <Modal.Footer>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
           <Button onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
@@ -133,16 +139,17 @@ class ImageModal extends React.Component {
               {getMessage('formCheckErrors')}
             </p>
           )}
-        </Modal.Footer>
-      </Modal>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
 
 ImageModal.propTypes = {
   isOpen: PropTypes.bool,
+  intl: intlShape.isRequired,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
-export default ImageModal;
+export default injectIntl(ImageModal);
