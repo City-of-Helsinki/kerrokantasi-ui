@@ -12,16 +12,16 @@ test.describe('Hearing list page', () => {
     await page.close();
   });
 
-  test('Title', async () => {
+  test('should have correct title', async () => {
     const pageTitle = await page.title();
     expect(pageTitle).toContain('kuulemiset');
   });
 
-  test('Headings', async () => {
+  test('should display all headings', async () => {
     await expect(page.getByRole('heading', { name: 'Kaikki kuulemiset' })).toBeVisible();
   });
 
-  test('Search controls', async () => {
+  test('should have search controls', async () => {
     const searchTextInput = page.getByRole('combobox', { name: 'Etsi otsikoista' });
     
     // Labels
