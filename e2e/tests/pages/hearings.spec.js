@@ -13,8 +13,7 @@ test.describe('Hearing list page', () => {
   });
 
   test('should have correct title', async () => {
-    const pageTitle = await page.title();
-    expect(pageTitle).toContain('kuulemiset');
+    await expect(page).toHaveTitle(/.*kuulemiset/);
   });
 
   test('should display all headings', async () => {
@@ -23,11 +22,11 @@ test.describe('Hearing list page', () => {
 
   test('should have search controls', async () => {
     const searchTextInput = page.getByRole('combobox', { name: 'Etsi otsikoista' });
-    
+
     // Labels
     await expect.soft(page.getByText('Etsi otsikoista')).toBeVisible();
     await expect.soft(page.getByText('Hae aiheista')).toBeVisible();
-    
+
     // Submit button
     await expect.soft(page.getByRole('button', { name: 'Etsi', exact: true })).toBeEnabled();
 
