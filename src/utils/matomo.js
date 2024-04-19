@@ -3,6 +3,9 @@ import config from '../config';
 const setupMatomo = () => {
   /* eslint-disable */
   var _paq = window._paq = window._paq || [];
+  if (doesScriptExistOnPage()) {
+    return;
+  }
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);
 
@@ -22,12 +25,18 @@ const setupMatomo = () => {
     _paq.push(['setSiteId', config.matomoSiteId]);
     var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
     g.type = 'text/javascript';
+    g.id = 'matomo-script';
     g.async = true;
     g.src = u + config.matomoScriptFilename;
     if (s) {
       s.parentNode.insertBefore(g, s);
     }
   })();
+}
+
+const doesScriptExistOnPage = () => {
+  let matomo = document.getElementById('matomo-script');
+  return !!matomo
 }
 
 export default setupMatomo;
