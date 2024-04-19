@@ -164,7 +164,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.22.5",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@playwright/test": "^1.40.1",
+    "@playwright/test": "^1.43.1",
     "@testing-library/jest-dom": "^6.3.0",
     "@types/node": "^18.19.3",
     "babel-jest": "^29.6.3",
