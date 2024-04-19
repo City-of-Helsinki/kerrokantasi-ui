@@ -25,10 +25,6 @@ test.describe('Hearing', () => {
     await page.goto(hearing.slug);
   });
 
-  test.afterAll(async () => {
-    await page.close();
-  });
-
   test('should display Finnish title', async () => {
     await expect(page.locator('main')).toContainText(hearing.title.fi);
   });

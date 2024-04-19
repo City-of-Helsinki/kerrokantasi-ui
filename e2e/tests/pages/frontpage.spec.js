@@ -12,12 +12,11 @@ test.describe('Frontpage', () => {
     await page.close();
   });
 
-  test('Title', async () => {
-    const pageTitle = await page.title();
-    expect(pageTitle).toContain('Kerrokantasi');
+  test('page title', async () => {
+    await expect(page).toHaveTitle(/.*Kerrokantasi/);
   });
 
-  test('Map', async () => {
+  test('map section', async () => {
     await expect(page.locator('.map')).toBeVisible();
     await expect.soft(page.getByRole('heading', { name: 'Käynnissä olevat kuulemiset kartalla' })).toBeVisible();
 
@@ -26,7 +25,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByLabel('Zoom out')).toBeEnabled();
   });
 
-  test('Footer', async () => {
+  test('footer section', async () => {
     await expect.soft(page.getByRole('link', { name: 'Kerro kantasi -kehitysideat' })).toBeVisible();
     await expect.soft(page.getByRole('link', { name: 'Anna palautetta' })).toBeVisible();
 
@@ -36,7 +35,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByRole('link', { name: 'Takaisin ylös' })).toBeVisible();
   });
 
-  test('Header', async () => {
+  test('header section', async () => {
     // Action bar
     await expect.soft(page.getByRole('button', { name: 'Suomi', exact: true })).toBeEnabled();
     await expect.soft(page.getByRole('button', { name: 'Svenska' })).toBeEnabled();
@@ -47,5 +46,47 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByRole('list').getByRole('link', { name: 'Kuulemiset' })).toBeVisible();
     await expect.soft(page.getByRole('list').getByRole('link', { name: 'Kartta' })).toBeVisible();
     await expect.soft(page.getByRole('list').getByRole('link', { name: 'Tietoa palvelusta' })).toBeVisible();
+  });
+
+  test('swedish translations', async () => {
+    await page.goto('/?lang=sv');
+
+    // Navbar
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'Höranden' })).toBeVisible();
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'Karta' })).toBeVisible();
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'Information om tjänsten' })).toBeVisible();
+
+    // Headings
+    await expect.soft(page.locator('main')).toContainText('Säg din åsikt');
+    await expect.soft(page.locator('main')).toContainText('Öppna höranden');
+    await expect.soft(page.locator('main')).toContainText('Pågående höranden på kartan');
+
+    // Footer
+    await expect.soft(page.getByRole('link', { name: 'Ge respons' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Tillgänglighetsutlåtande' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Dataskydd' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Cookie -inställningar' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Tillbaka till toppen' })).toBeVisible();
+  });
+
+  test('english translations', async () => {
+    await page.goto('/?lang=en');
+
+    // Navbar
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'Hearings' })).toBeVisible();
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'Map' })).toBeVisible();
+    await expect.soft(page.getByRole('list').getByRole('link', { name: 'About the service' })).toBeVisible();
+
+    // Headings
+    await expect.soft(page.locator('main')).toContainText('Voice your opinion');
+    await expect.soft(page.locator('main')).toContainText('Open hearings');
+    await expect.soft(page.locator('main')).toContainText('Open hearings on map');
+
+    // Footer
+    await expect.soft(page.getByRole('link', { name: 'Give feedback' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Accessibility Statement' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Data Protection' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Data Protection' })).toBeVisible();
+    await expect.soft(page.getByRole('link', { name: 'Back to top' })).toBeVisible();
   });
 });
