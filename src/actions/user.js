@@ -3,11 +3,16 @@ import { get } from 'lodash';
 
 import { get as apiGet, getApiTokenFromStorage } from '../api';
 
+/*
+ * This function is called for both logged in and
+ * not logged in users and it cannot cause errors
+ * because of that
+*/
 export default function enrichUserData() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
-    if (!state.oidc?.user) {
+    if (!state.oidc?.user) 
       return null;
     }
     const token = getApiTokenFromStorage();
