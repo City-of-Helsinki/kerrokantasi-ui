@@ -12,7 +12,7 @@ export default function enrichUserData() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
-    if (!state.oidc?.user) 
+    if (!state.oidc?.user) {
       return null;
     }
     const token = getApiTokenFromStorage();
