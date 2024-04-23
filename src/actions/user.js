@@ -3,13 +3,17 @@ import { get } from 'lodash';
 
 import { get as apiGet } from '../api';
 
+/*
+ * This function is called for both logged in and
+ * not logged in users and it cannot cause errors
+ * because of that
+*/
 export default function enrichUserData() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
     if (!state.oidc.user) {
-      dispatch(createAction('clearUserData')());
-      throw new Error("No authenticated user");
+      return null;
     }
     const url = `v1/users/${state.oidc.user.profile.sub}`;
 
