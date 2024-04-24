@@ -13,7 +13,6 @@ const commonOidcConfig = {
 
 const apiTokenClientConfigCommon = {
   url: config.openIdApiTokenUrl,
-  audiences: [config.openIdAudience],
 }
 
 const apiTokenClientConfigProfiili = {
@@ -21,7 +20,8 @@ const apiTokenClientConfigProfiili = {
   queryProps: {
     grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
     permission: '#access',
-  }
+  },
+  audiences: [config.openIdAudience],
 }
 
 const resolveApiTokenClientConfig = () => {

@@ -15,7 +15,7 @@ export const getApiTokenFromStorage = () => {
   const apiTokensStr = apiAccessTokenStorage.getItem(storageKey);
 
   if (apiTokensStr) {
-    return JSON.parse(apiTokensStr)[config.openIdAudience];
+    return  JSON.parse(apiTokensStr)[config.openIdAudience];
   }
 
   return null;
