@@ -27,9 +27,8 @@ const apiTokenClientConfigProfiili = {
 const resolveApiTokenClientConfig = () => {
   if (config.openIdScope === 'openid profile email') {
     return apiTokenClientConfigProfiili;
-  } else {
-    return apiTokenClientConfigCommon;
   }
+  return apiTokenClientConfigCommon;
 }
 
 const exportedApiTokenClientConfig = resolveApiTokenClientConfig();
