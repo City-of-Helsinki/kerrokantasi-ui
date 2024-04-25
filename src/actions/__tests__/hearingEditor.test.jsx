@@ -9,7 +9,14 @@ import { EditorActions } from '../hearingEditor';
 
 
 // Mocking API module and middleware setup
-jest.mock('./../../api');
+jest.mock('../../api', () => ({
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    apiDelete: jest.fn(),
+    getApiTokenFromStorage: jest.fn(() => 'dummykey'),
+    getAllFromEndpoint: jest.fn(),
+}));
 jest.mock('react-router-redux', () => ({
   push: jest.fn().mockImplementation((path) => ({ type: 'PUSH', path }))
 }));
@@ -44,7 +51,7 @@ describe('HearingEditor actions', () => {
         store = mockStore(initialState);
     });
     describe('addContact', () => {
-        it('dispatches ADD_CONTACT_SUCCESS on successful contact addition', () => {
+        it('dispatches ADD_CONTACT_SUCCESS on successful contact addition', async () => {
             const contact = { name: 'John Doe', email: 'john@example.com' };
             const response = { id: '123', name: 'John Doe', email: 'john@example.com' };
             api.post.mockResolvedValue({ status: 201, json: () => Promise.resolve(response) });
@@ -54,11 +61,12 @@ describe('HearingEditor actions', () => {
             { type: EditorActions.ADD_CONTACT_SUCCESS, payload: { contact: response } }
             ];
 
-            store.dispatch(actions.addContact(contact, []));
-            expect(store.getActions().type).toEqual(expectedActions.type);
+            await store.dispatch(actions.addContact(contact, []));
+            expect(store.getActions()).toContainEqual(expectedActions[0]);
+            expect(store.getActions()).toContainEqual(expectedActions[1]);
         });
 
-        it('dispatches ADD_CONTACT_FAILED on failure', () => {
+        it('dispatches ADD_CONTACT_FAILED on failure', async () => {
             const contact = { name: 'John Doe', email: 'invalid-email' };
             api.post.mockResolvedValue({ status: 400, json: () => Promise.resolve({ message: 'Invalid email' }) });
 
@@ -67,9 +75,10 @@ describe('HearingEditor actions', () => {
             { type: EditorActions.ADD_CONTACT_FAILED, payload: { errors: { message: 'Invalid email' } } }
             ];
 
-            store.dispatch(actions.addContact(contact, []));
+            await store.dispatch(actions.addContact(contact, []));
 
-            expect(store.getActions().type).toEqual(expectedActions.type);
+            expect(store.getActions()).toContainEqual(expectedActions[0]);
+            expect(store.getActions()).toContainEqual(expectedActions[1]);
         });
     });
     describe('Simple Synchronous Actions', () => {
