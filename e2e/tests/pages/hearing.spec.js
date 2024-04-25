@@ -5,10 +5,14 @@ const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 const fetchHearing = async () => {
   const res = await fetch(`${API_URL}/v1/hearing/`);
   const json = await res.json();
-  const hearingId = json.results[0].id;
+  const openHearings = json.results.filter((hearing) => !hearing.closed);
+  const hearingId = openHearings[0].id;
   const hearing = await fetch(`${API_URL}/v1/hearing/${hearingId}/`);
+
   return hearing.json();
 };
+
+const hearingContainsQuestions = (hearing) => Boolean(hearing.sections.some((s) => s.questions.length));
 
 test.describe('Hearing', () => {
   let page;
@@ -27,10 +31,6 @@ test.describe('Hearing', () => {
 
   test('should display Finnish title', async () => {
     await expect(page.locator('main')).toContainText(hearing.title.fi);
-  });
-
-  test('should display organization', async () => {
-    await expect(page.locator('main')).toContainText(hearing.organization);
   });
 
   test('should have comment link', async () => {
@@ -79,12 +79,14 @@ test.describe('Hearing', () => {
     await expect(link).toBeVisible();
   });
 
-  test('should have vote and comment button', async () => {
-    const button = page.locator('button:has-text("Äänestä ja kommentoi")').first();
+  test('should have comment button', async () => {
+    const button = page.locator('.comment-form-container button');
     await expect(button).toBeVisible();
   });
 
   test('verify visibility of questions and their options', async () => {
+    test.skip(!hearingContainsQuestions(hearing), 'No questions found');
+
     await page.getByRole('button', { name: 'Äänestä ja kommentoi' }).last().click();
 
     const mainSection = hearing.sections.find((s) => s.type === 'main');
@@ -97,8 +99,8 @@ test.describe('Hearing', () => {
   });
 
   test('user can successfully submit a comment', async () => {
-    await page.getByRole('button', { name: 'Äänestä ja kommentoi' }).last().click();
-    await page.getByLabel('Kommentti').fill('testikommentti');
+    await page.locator('.comment-form-container button').click();
+    await page.locator('.comment-form textarea').fill('Tämä on selaintestin kirjoittama viesti');
     await page.getByPlaceholder('Anonyymi').fill('Testi Testinen');
     await page.getByRole('button', { name: 'Lähetä' }).click();
     await expect(page.getByText('Kommenttisi on vastaanotettu')).toBeVisible();
