@@ -44,14 +44,13 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-import { getUser } from '../../../selectors/user';
+import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
-import { getApiURL } from '../../../api';
+import { getApiTokenFromStorage, getApiURL } from '../../../api';
 
 export class SectionContainerComponent extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       showDeleteModal: false,
       commentToDelete: {},
@@ -96,8 +95,8 @@ export class SectionContainerComponent extends React.Component {
 
   // downloads report excel with user's credentials
   // eslint-disable-next-line class-methods-use-this
-  handleReportDownload = (hearing, apiToken, language) => {
-    const accessToken = apiToken.apiToken;
+  handleReportDownload = (hearing, language) => {
+    const accessToken = getApiTokenFromStorage();
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
 
     fetch(reportUrl, {
@@ -402,7 +401,6 @@ export class SectionContainerComponent extends React.Component {
 
   renderCommentsSection = () => {
     const {
-      apiToken,
       fetchAllComments,
       fetchCommentsForSortableList,
       fetchMoreComments,
@@ -420,7 +418,7 @@ export class SectionContainerComponent extends React.Component {
 
     return (
       <section className='hearing-section comments-section' id='comments-section' tabIndex={-1}>
-        {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, apiToken, language)}
+        {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
         <SortableCommentList
           section={section}
           canComment={isSectionCommentable(hearing, section, user)}
@@ -447,7 +445,7 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  renderReportDownload = (reportUrl, userIsAdmin, hearing, apiToken, language) => {
+  renderReportDownload = (reportUrl, userIsAdmin, hearing, language) => {
     // render either admin download button or normal download link for others
     if (userIsAdmin) {
       return (
@@ -455,7 +453,7 @@ export class SectionContainerComponent extends React.Component {
           <Button
             size='small'
             className='pull-right report-download-button kerrokantasi-btn supplementary'
-            onClick={() => this.handleReportDownload(hearing, apiToken, language)}
+            onClick={() => this.handleReportDownload(hearing, language)}
           >
             <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
           </Button>
@@ -723,7 +721,6 @@ const mapStateToProps = (state, ownProps) => ({
   language: state.language,
   contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
   user: getUser(state),
-  apiToken: state.apitoken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -745,7 +742,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SectionContainerComponent.propTypes = {
-  apiToken: PropTypes.object,
   contacts: PropTypes.array,
   deleteSectionComment: PropTypes.func,
   editComment: PropTypes.func,

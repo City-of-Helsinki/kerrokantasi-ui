@@ -10,7 +10,7 @@ import orderBy from 'lodash/orderBy';
 
 import { fetchHearingList } from '../actions';
 import { getTopHearing, getOpenHearings } from '../selectors/hearing';
-import { getUser } from '../selectors/user';
+import getUser from '../selectors/user';
 import FullWidthHearing from '../components/FullWidthHearing';
 import HearingCardList from '../components/HearingCardList';
 import OverviewMap from '../components/OverviewMap';

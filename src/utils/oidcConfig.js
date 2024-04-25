@@ -11,6 +11,28 @@ const commonOidcConfig = {
   post_logout_redirect_uri: `${baseUrl}/callback/logout`,
 }
 
+const apiTokenClientConfigCommon = {
+  url: config.openIdApiTokenUrl,
+}
+
+const apiTokenClientConfigProfiili = {
+  ...apiTokenClientConfigCommon,
+  queryProps: {
+    grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
+    permission: '#access',
+  },
+  audiences: [config.openIdAudience],
+}
+
+const resolveApiTokenClientConfig = () => {
+  if (config.openIdScope === 'openid profile email') {
+    return apiTokenClientConfigProfiili;
+  }
+  return apiTokenClientConfigCommon;
+}
+
+const exportedApiTokenClientConfig = resolveApiTokenClientConfig();
+
 // userManager config
 export const userOidcConfig = {
   client_id: config.openIdClientId,
@@ -18,13 +40,6 @@ export const userOidcConfig = {
   ...commonOidcConfig,
 }
 
-export const apiTokenClientConfig = {
-  url: config.openIdApiTokenUrl,
-  queryProps: {
-    grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
-    permission: '#access',
-  },
-  audiences: [config.openIdAudience],
-}
+export const apiTokenClientConfig = exportedApiTokenClientConfig;
 
 export default {};

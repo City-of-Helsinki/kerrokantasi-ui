@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 import { get } from 'lodash';
 
-import { get as apiGet } from '../api';
+import { get as apiGet, getApiTokenFromStorage } from '../api';
 
 /*
  * This function is called for both logged in and
@@ -12,12 +12,15 @@ export default function enrichUserData() {
   return (dispatch, getState) => {
     dispatch(createAction('fetchUserData')());
     const state = getState();
-    if (!state.oidc.user) {
+    if (!state.oidc?.user) {
       return null;
     }
+    const token = getApiTokenFromStorage();
     const url = `v1/users/${state.oidc.user.profile.sub}`;
-
-    return apiGet(state, url).then(
+    if (!token) {
+      return null;
+    }
+    return apiGet(url).then(
       (response) => {
         if(response.status >= 400) {
           dispatch(createAction('clearUserData')());

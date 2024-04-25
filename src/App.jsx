@@ -23,8 +23,9 @@ import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
 import useAuthHook from './hooks/useAuth';  
-import { setOidcUser, setApiToken } from './actions';
-import { getUser } from './selectors/user';
+import { setOidcUser } from './actions';
+import getUser from './selectors/user';
+import enrichUserData from './actions/user';
 
 function App({
   language,
@@ -34,29 +35,31 @@ function App({
   match,
   ...props
 }) {
-  const { user, dispatchSetOidcUser, dispatchSetApiToken} = props;
+  const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
   }
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
-
+  getStoredApiTokens();
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
+    return () => {
+      cookieOnComponentWillUnmount();
+    }
+  }, [language]);
+
+  useEffect(() => {
     if (!user && authenticated) {
-      const tmpToken = getStoredApiTokens().filter(token => token);
       try {
         dispatchSetOidcUser(oidcUser);
-        dispatchSetApiToken(tmpToken);
+        dispatchEnrichUser();
       } catch (e) {
         logout();
       }
     }
-    return () => {
-      cookieOnComponentWillUnmount();
-    }
-  }, [language, user, authenticated, dispatchSetApiToken, dispatchSetOidcUser, getStoredApiTokens, oidcUser, logout]);
+  }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
 
   const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
@@ -125,7 +128,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchSetApiToken: (token) => dispatch(setApiToken(token)),
+    dispatchEnrichUser: () => dispatch(enrichUserData()),
   })
 
 App.propTypes = {
@@ -135,7 +138,7 @@ App.propTypes = {
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
   user: PropTypes.object,
-  dispatchSetApiToken: PropTypes.func,
+  dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

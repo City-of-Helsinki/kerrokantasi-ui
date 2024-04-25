@@ -2,7 +2,8 @@
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
-import { Modal, Button, ControlLabel } from 'react-bootstrap';
+import { Button } from 'hds-react';
+import { Modal, ControlLabel } from 'react-bootstrap';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';

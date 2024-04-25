@@ -26,7 +26,7 @@ import { isPublic, getHearingURL, hasCommentableSections } from '../../utils/hea
 import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
 import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
 import InternalLink from '../InternalLink';
 

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { FILE_FORMATS } from './constants';
-import { getApiURL } from '../../api';
+import { getApiTokenFromStorage, getApiURL } from '../../api';
 
 class CommentReportForm extends React.Component {
   constructor(props) {
@@ -30,9 +30,9 @@ class CommentReportForm extends React.Component {
   handleDownloadClick(event) {
     event.preventDefault();
     const { fileFormat } = this.state;
-    const { apiToken, hearing, language } = this.props;
+    const { hearing, language } = this.props;
 
-    const accessToken = apiToken.apiToken;
+    const accessToken = getApiTokenFromStorage();
     const targetFileFormat = Object.values(FILE_FORMATS).find((format) => format.id === fileFormat);
     const reportUrl = new URL(getApiURL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`));
     reportUrl.search = new URLSearchParams({ lang: language });
@@ -88,11 +88,9 @@ class CommentReportForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   language: state.language,
-  apiToken: state.apitoken,
 });
 
 CommentReportForm.propTypes = {
-  apiToken: PropTypes.object.isRequired,
   hearing: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
 };

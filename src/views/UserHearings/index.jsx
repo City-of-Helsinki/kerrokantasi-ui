@@ -7,7 +7,7 @@ import { Col, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import Helmet from 'react-helmet';
 
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import { getUserHearingList } from '../../selectors/hearing';
 import { fetchHearingList as fetchHearingListAction } from '../../actions/index';
 import HearingCard from '../../components/HearingCard';

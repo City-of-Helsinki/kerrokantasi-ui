@@ -20,7 +20,7 @@ import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
 import { localizedNotifyError } from '../../utils/notify';
 import config from '../../config';
-import { getUser } from '../../selectors/user';
+import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
 
 const Header = ({ history, language, user }) => {

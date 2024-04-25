@@ -17,7 +17,7 @@ import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
 import { getNickname, getAuthorDisplayName } from '../utils/user';
 import { getSectionCommentingMessage } from '../utils/section';
-import { getUser } from '../selectors/user';
+import getUser from '../selectors/user';
 
 const ORDERING_CRITERIA = {
   CREATED_AT_DESC: '-created_at',
