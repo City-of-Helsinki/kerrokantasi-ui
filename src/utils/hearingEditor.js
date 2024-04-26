@@ -238,8 +238,35 @@ export const parseCollection = (featureCollection) => {
   return { type: featureCollection.type, features: normalizedFeatures };
 };
 
-export const cleanHearing = (hearing) => {
-  let cleanedHearing = {};
+export const prepareSection = (section) => ({
+  ...section,
+  id: '',
+  images: section.images.reduce((images, image) => [...images, { ...image, id: '', reference_id: image.id }], []),
+  files: section.files.reduce(
+    (files, file) => [...files, { ...file, id: file.isNew ? file.id : '', reference_id: file.isNew ? '' : file.id }],
+    [],
+  ),
+  questions: section.questions.reduce(
+    (questions, question) => [
+      ...questions,
+      {
+        ...question,
+        id: '',
+        options: question?.options.reduce((options, option) => [...options, { ...option, id: '' }], []),
+      },
+    ],
+    [],
+  ),
+});
+
+export const prepareHearingForSave = (hearing) => {
+  // Scrub ids from sections and their children
+  let preparedHearing = {
+    ...hearing,
+    sections: hearing.sections.reduce((sections, section) => [...sections, prepareSection(section)], []),
+  };
+
+  // Add geojson to cleanedHearing
   if (hearing.geojson && hearing.geojson.type === 'FeatureCollection' && hearing.geojson.features.length === 1) {
     /**
      * If the features array only has 1 feature then we just send that features geometry
@@ -251,17 +278,18 @@ export const cleanHearing = (hearing) => {
      * ------
      * {type: 'Point', coordinates: [...]}
      */
-    cleanedHearing = {
-      ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: '' }], []),
+    preparedHearing = {
+      ...preparedHearing,
       geojson: hearing.geojson.features[0].geometry,
     };
   } else {
-    cleanedHearing = {
-      ...hearing, sections: hearing.sections.reduce((sections, section) => [...sections, { ...section, id: '' }], []),
-      geojson: hearing.geojson
+    preparedHearing = {
+      ...preparedHearing,
+      geojson: hearing.geojson,
     };
   }
-  return cleanedHearing;
+
+  return preparedHearing;
 };
 
 /**
