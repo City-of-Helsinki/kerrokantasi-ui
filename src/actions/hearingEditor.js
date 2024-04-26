@@ -11,7 +11,7 @@ import {
   fillFrontIdsAndNormalizeHearing,
   filterFrontIdsFromAttributes,
   filterTitleAndContentByLanguage,
-  cleanHearing,
+  prepareHearingForSave,
 } from '../utils/hearingEditor';
 
 export const EditorActions = {
@@ -399,7 +399,7 @@ export function addSectionAttachment(section, file, title, isNew) {
         if (response.status === 400 && !isNew) {
           localizedNotifyError('errorSaveBeforeAttachment');
         } else {
-          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment })));
+          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: {...attachment, isNew: true} })));
         }
       });
   };
@@ -474,15 +474,13 @@ export function saveNewHearing(hearing) {
 }
 
 export function saveAndPreviewNewHearing(hearing) {
-  // Clean up section IDs assigned by UI before POSTing the hearing
-  const cleanedHearing = cleanHearing(hearing);
   return (dispatch) => {
     const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
-      hearing: cleanedHearing,
+      hearing,
     });
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
-    return post(url, cleanedHearing)
+    return post(url, hearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -505,6 +503,11 @@ export function saveAndPreviewNewHearing(hearing) {
       })
       .catch(requestErrorHandler(dispatch, preSaveAction));
   };
+}
+
+export function saveAndPreviewHearingAsCopy(hearing) {
+  const preparedHearing = prepareHearingForSave(hearing);
+  return saveAndPreviewNewHearing(preparedHearing);
 }
 
 export function closeHearing(hearing) {
