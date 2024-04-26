@@ -39,7 +39,7 @@ function NewHearingContainerComponent(props) {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading && !hasLoaded ? (
         <LoadSpinner />
       ) : (
         <div>
