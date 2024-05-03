@@ -389,10 +389,7 @@ export function addSectionAttachment(section, file, title, isNew) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch) => {
     const url = '/v1/file';
-    let data = { file, title };
-    if (!isNew) {
-      data = { ...data, section };
-    }
+    const data = { file, title };
     return post(url, data)
       .then(checkResponseStatus)
       .then((response) => {
