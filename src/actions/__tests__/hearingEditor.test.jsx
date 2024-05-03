@@ -33,7 +33,7 @@ describe('HearingEditor actions', () => {
     };
     const mockProcessedHearing = {
         id: '1',
-        title: {}, 
+        title: {},
         sections: [],
         labels: [],
         contact_persons: [],
@@ -92,7 +92,7 @@ describe('HearingEditor actions', () => {
             const response = actions.changeProject(projectId, projectLists)
             expect(response.payload).toEqual(expectedAction.payload.projectId);
         });
-      
+
         it('should create an action to update project language', () => {
             const languages = ['en', 'fi'];
             const expectedAction = {
@@ -101,7 +101,7 @@ describe('HearingEditor actions', () => {
             };
             expect(actions.updateProjectLanguage(languages)).toEqual(expectedAction);
         });
-      
+
         it('should create an action to activate a phase', () => {
             const phaseId = 'phase1';
             const expectedAction = {
@@ -127,7 +127,7 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.fetchHearingEditorMetaData());
             expect(store.getActions()).toEqual(expectedActions);
         });
-        
+
         it('handles errors in fetching metadata', async () => {
             const error = new Error('Network Error');
             api.getAllFromEndpoint.mockRejectedValue(error);
@@ -138,7 +138,7 @@ describe('HearingEditor actions', () => {
             await store.dispatch(actions.fetchHearingEditorMetaData());
             expect(store.getActions()).toContainEqual(expectedActions[1]);
         });
-        
+
         it('adds an attachment and dispatches ADD_ATTACHMENT', async () => {
             const section = 'section1';
             const file = new Blob(['file content'], { type: 'text/plain' });
@@ -146,11 +146,14 @@ describe('HearingEditor actions', () => {
             const isNew = true;
             const attachment = { id: '123', title: 'New Attachment' };
             api.post.mockResolvedValue({ status: 200, json: () => Promise.resolve(attachment) });
-        
+
             const expectedActions = [
-                { type: EditorActions.ADD_ATTACHMENT, payload: { sectionId: section, attachment } }
+              {
+                type: EditorActions.ADD_ATTACHMENT,
+                payload: { sectionId: section, attachment: { ...attachment, isNew: true } },
+              },
             ];
-        
+
             await store.dispatch(actions.addSectionAttachment(section, file, title, isNew));
             expect(store.getActions()).toEqual(expectedActions);
         });
@@ -160,11 +163,11 @@ describe('HearingEditor actions', () => {
             const sectionId = 'sec123';
             const attachment = { id: 'att123' };
             api.apiDelete.mockResolvedValue({ status: 200 });
-        
+
             const expectedActions = [
                 { type: EditorActions.DELETE_ATTACHMENT, payload: { sectionId, attachment } }
             ];
-        
+
             await store.dispatch(actions.deleteSectionAttachment(sectionId, attachment));
             expect(store.getActions()).toEqual(expectedActions);
         });
@@ -175,7 +178,7 @@ describe('HearingEditor actions', () => {
                 type: EditorActions.DELETE_PHASE,
                 payload: { phaseId }
             };
-        
+
             store.dispatch(actions.deletePhase(phaseId));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
@@ -189,11 +192,11 @@ describe('HearingEditor actions', () => {
             type: EditorActions.EDIT_SECTION,
             payload: { sectionID, field, value }
             };
-        
+
             store.dispatch(actions.changeSection(sectionID, field, value));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
-    
+
         it('dispatches EDIT_QUESTION when editing a question', () => {
             const fieldType = 'text';
             const sectionId = 'sec123';
@@ -207,54 +210,54 @@ describe('HearingEditor actions', () => {
             store.dispatch(actions.editQuestion(fieldType, sectionId, questionId, optionKey, value));
             expect(store.getActions()).toContainEqual(expectedAction);
         });
-    });    
-    describe('saveHearingChanges', () => {      
+    });
+    describe('saveHearingChanges', () => {
         it('dispatches SAVE_HEARING_SUCCESS and navigates on successful save', async () => {
           const hearing = mockHearing;
           const hearingJSON = { id: '1', title: 'Original Title', slug: 'new-slug' };
           const response = { status: 200, json: () => Promise.resolve(hearingJSON) };
           api.put.mockResolvedValue(response);
-      
+
           const expectedActions = [
             { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
             { type: EditorActions.SAVE_HEARING_SUCCESS, payload: { hearing: hearingJSON } }
           ];
-      
+
           await store.dispatch(actions.saveHearingChanges(hearing));
-      
+
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
           expect(push).toHaveBeenCalledWith(`/${hearingJSON.slug}?lang=${initialState.language}`);
         });
-      
+
         it('dispatches SAVE_HEARING_FAILED on API bad request', async () => {
           const hearing = mockHearing;
           const errors = { message: 'Invalid data' };
           const response = { status: 400, json: () => Promise.resolve(errors) };
           api.put.mockResolvedValue(response);
-      
+
           const expectedActions = [
             { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
             { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: { message: 'Invalid data' } } }
           ];
-      
+
           await store.dispatch(actions.saveHearingChanges(hearing));
-      
+
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
-      
+
         it('handles unauthorized error', async () => {
           const hearing = mockHearing;
           const response = { status: 401, json: () => Promise.resolve({}) };
           api.put.mockResolvedValue(response);
-      
+
           const expectedActions = [
             { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } }
           ];
-      
+
           await store.dispatch(actions.saveHearingChanges(hearing));
-      
+
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
       });
-        
+
 });
