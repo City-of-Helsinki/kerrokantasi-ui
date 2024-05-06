@@ -238,29 +238,24 @@ export const parseCollection = (featureCollection) => {
 export const prepareSection = (section) => ({
   ...section,
   id: '',
-  images: section.images.reduce((images, image) => [...images, { ...image, id: '', reference_id: image.id }], []),
-  files: section.files.reduce(
-    (files, file) => [...files, { ...file, id: file.isNew ? file.id : '', reference_id: file.isNew ? '' : file.id }],
-    [],
-  ),
-  questions: section.questions.reduce(
-    (questions, question) => [
-      ...questions,
-      {
-        ...question,
-        id: '',
-        options: question?.options.reduce((options, option) => [...options, { ...option, id: '' }], []),
-      },
-    ],
-    [],
-  ),
+  images: section.images.map((image) => ({ ...image, id: '', reference_id: image.id })),
+  files: section.files.map((file) => ({
+    ...file,
+    id: file.isNew ? file.id : '',
+    reference_id: file.isNew ? '' : file.id,
+  })),
+  questions: section.questions.map((question) => ({
+    ...question,
+    id: '',
+    options: question?.options.map((option) => ({ ...option, id: '' })),
+  })),
 });
 
 export const prepareHearingForSave = (hearing) => {
   // Scrub ids from sections and their children
   let preparedHearing = {
     ...hearing,
-    sections: hearing.sections.reduce((sections, section) => [...sections, prepareSection(section)], []),
+    sections: hearing.sections.map((section) => ({ ...prepareSection(section) })),
   };
 
   // Add geojson to cleanedHearing
