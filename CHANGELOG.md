@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.4...kerrokantasi-ui-v1.2.5) (2024-05-07)
+
+
+### Bug Fixes
+
+* Fix typos in maintenance notification ([bf314f4](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bf314f4f84e24caed72dfab041302edb2d0a4a00))
+
 ## [1.2.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.3...kerrokantasi-ui-v1.2.4) (2024-05-07)
 
 
