@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.3...kerrokantasi-ui-v1.2.4) (2024-05-07)
+
+
+### Bug Fixes
+
+* Don't assign a new file to a section before saving hearing ([0fbb9c8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0fbb9c830e8c9b8149aff8fa2b44d71729e6cdd0))
+* Fix save hearing as copy ([094d901](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/094d9017dba80bbddabb11185bd4acbe3db40067))
+* KER-353 new notificiation texts ([693e350](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/693e350d24f2335f6cf4385185f14dd28fcdb1a2))
+
 ## [1.2.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.2...kerrokantasi-ui-v1.2.3) (2024-04-26)
 
 
