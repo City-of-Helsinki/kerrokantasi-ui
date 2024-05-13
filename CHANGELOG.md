@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.5...kerrokantasi-ui-v1.2.6) (2024-05-13)
+
+
+### Bug Fixes
+
+* Hearing toolbar wait for metadata KER-345 ([#1032](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1032)) ([0ba9c8a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0ba9c8a8b065dfcb0eb8a902a0ac4b3ea973bc7c))
+* Subsections should show comment if not authenticated KER-361 ([#1030](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1030)) ([b8db2c7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b8db2c74e0ad8643e939aa2d11915017d7c92bc3))
+
 ## [1.2.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.4...kerrokantasi-ui-v1.2.5) (2024-05-07)
 
 
