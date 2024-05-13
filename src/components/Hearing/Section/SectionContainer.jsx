@@ -600,7 +600,7 @@ export class SectionContainerComponent extends React.Component {
             </section>
           )}
 
-          <SubSectionsList hearing={hearing} language={language} user={user} />
+          <SubSectionsList hearing={hearing} language={language} />
 
           {this.renderCommentsSection()}
         </Col>

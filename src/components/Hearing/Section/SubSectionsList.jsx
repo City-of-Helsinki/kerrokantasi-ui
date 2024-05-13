@@ -12,22 +12,18 @@ import getAttr from '../../../utils/getAttr';
 import Icon from '../../../utils/Icon';
 import Link from '../../LinkWithLang';
 import MouseOnlyLink from '../../MouseOnlyLink';
-import { getSectionURL, isSectionCommentable, userCanComment, hasAnyQuestions } from '../../../utils/section';
+import { getSectionURL, hasAnyQuestions } from '../../../utils/section';
 
-const SubsectionList = ({ hearing, language, user, history, match }) => {
+const SubsectionList = ({ hearing, language, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
   const bgImage = (section) => (!isEmpty(section.images) ? `url("${section.images[0].url}")` : `url(${defaultImage})`);
 
-  const isCommentable = (section) => {
-    const hasPlugin = !!section.plugin_identifier;
-    return isSectionCommentable(hearing, section, user) && !hasPlugin;
-  };
-
   if (!subSections.length) {
     return null;
   }
+
   return (
     <section className='hearing-section subsections-list'>
       <h2>
@@ -74,21 +70,17 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
                     </div>
                   )}
                   <div className='section-card-buttons'>
-                    <Link
-                        to={{ path: getSectionURL(match.params.hearingSlug, section) }}
-                    >
-                      <Button size="small" className='kerrokantasi-btn black'>
+                    <Link to={{ path: getSectionURL(match.params.hearingSlug, section) }}>
+                      <Button size='small' className='kerrokantasi-btn black'>
                         <FormattedMessage id='showSubsectionBtn' />
                       </Button>
                     </Link>
-                    {!hearing.closed && isCommentable(section) && userCanComment(user, section) && (
-                      <Link
-                      to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}
-                      >
-                        <Button size="small" className="kerrokantasi-btn">
+                    {!hearing.closed && (
+                      <Link to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}>
+                        <Button size='small' className='kerrokantasi-btn'>
                           <FormattedMessage
-                              id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
-                            />
+                            id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
+                          />
                         </Button>
                       </Link>
                     )}
@@ -106,7 +98,6 @@ const SubsectionList = ({ hearing, language, user, history, match }) => {
 SubsectionList.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
-  user: PropTypes.object,
   history: PropTypes.object,
   match: PropTypes.object,
 };
