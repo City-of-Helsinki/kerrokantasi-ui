@@ -18,6 +18,8 @@ Du kan logga in på tjänsten genom att identifiera dig med din Helsingforsprofi
 
 När du loggar in för första gången kommer du att se vilken information tjänsten kommer att använda om dig. Ditt namn eller smeknamn kan visas på tjänsten i samband med din åsikt eller kommentar. Du kan kontrollera synligheten av din information när du kommenterar genom att dölja ditt namn eller smeknamn.
 
+Du kan när som helst ta bort rätten för Kerrokantasi-tjänst att använda dina uppgifter i [Helsinki Profile-tjänsten](https://profiili.hel.fi/login).
+
 ## Användarens ansvar
 
 Alla användare har det fulla ansvaret för sina skriverier och deras innehåll. Som användare förbinder du dig att i det innehåll du producerar eller lägger till, såsom texter, bilder, videor eller andra bilagor och material (här sammantaget kallat ’Material’), iakttaga god sed och gällande lagstiftning.
@@ -70,6 +72,7 @@ Personuppgifter som samlas in via Kerrokantasi-tjänsten:
 * E-postadress 
 * Förnamn eller smeknamn
 * Datum för första inloggning till tjänsten
+* Kommentarer skrivna när du är inloggad
 
 kommer inte att lämnas ut till tredje part eller användas för andra ändamål. Uppgifterna kommer endast att användas i samband med behandlingen och det fortsatta arbetet med den fråga som hörandet gäller.
 
@@ -78,6 +81,7 @@ För produktion av Kerrokantasi-innehåll är den information som samlas in:
 * Namn och efternamn
 * Organisation som representeras
 * Datum för första inloggning i tjänsten
+* Kommentarer skrivna när du är inloggad
 
 De uppgifter som samlas in under höranden kommer att behandlas baserat på det samtycke som användaren har gett. Möjligheterna till deltagande och inflytande i enlighet med artikel 22 i kommunallagen genomförs genom kommentarer på tjänsten. Genom digitala delaktighetskanaler samlas invånarnas kommentarer, åsikter och förslag till förbättringar av saker och tjänster som är under beredning. Kommentarer, åsikter och utvecklingsförslag som lämnas in till tjänsten kommer att behandlas i enlighet med Helsingfors stads rättsliga skyldighet.
 
@@ -91,7 +95,7 @@ Användare kan dela länkadresserna till enskilda sidor på Facebook och X (ex-T
 
 Mer information om [dina rättigheter enligt EU:s allmänna dataskyddsförordning på Helsingfors stads webbtjänster](https://www.hel.fi/sv/beslutsfattande-och-forvaltning/information-om-helsingfors/dataskydd-och-informationshantering/dataskydd/den-registrerades-rattigheter-och-hur-man-kan-havda-dem).
 
-Du kan begära att dina användaruppgifter raderas genom att skicka ett e-postmeddelande till kerrokantasi at hel.fi.
+Du kan när som helst ta bort rätten för Kerrokantasi-tjänst att använda dina uppgifter i [Helsinki Profile-tjänsten](https://profiili.hel.fi/login).
 
 I tjänsten används också stadens Matomo-lösning för besökaruppföljning, vars insamlade uppgifter beskrivs i avsnittet Kakor.
 

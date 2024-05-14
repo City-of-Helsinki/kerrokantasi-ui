@@ -18,6 +18,7 @@ You can log in to the Service by authenticating with your Helsinki profiles’s 
 
 When you log in for the first time, you will see what information the service will use about you. Your name or nickname may be displayed on the service in connection with your opinion or comment. You can control the visibility of your information when commenting by hiding your name or nickname.
 
+You can remove the right for Kerrokantasi service to use your data at any time in the [Helsinki Profile service](https://profiili.hel.fi/login).
 
 ### User responsibility
 
@@ -71,6 +72,7 @@ Personal information collected through the Kerrokantasi service:
 * Email address 
 * Given name or nickname
 * Date of first login to the service
+* Comments written when you are logged in
 
 will not be disclosed to third parties or used for other purposes. The information will only be used in connection with the processing and further work about the hearing.
 
@@ -79,6 +81,7 @@ For Kerrokantasi content production, the information collected is:
 * Name and surname
 * Organisation represented
 * Date of first login to the service
+* Comments written when you are logged in
 
 The data collected during the hearings will be processed based on the consent given by the user. The opportunities for participation and influence in accordance with Article 22 of the Local Government Act are implemented through comments on the service. The digital participation channels are used to collect comments, opinions and suggestions from the citizens regarding the developing services. The processing of the comments, opinions and development proposals submitted to the service is based on the legal obligation of the City of Helsinki.
 
@@ -92,7 +95,7 @@ Users can share the link addresses of individual pages on Facebook and X (former
 
 More information [about your rights under the EU General Data Protection Regulation on the City of Helsinki's online services](https://www.hel.fi/en/decision-making/information-on-helsinki/data-protection-and-information-management/data-protection/rights-of-data-subjects-and-exercising-these-rights).
 
-You can request the deletion of your user data by sending an e-mail to kerrokantasi at hel.fi.
+You can remove the right for Kerrokantasi service to use your data at any time in the [Helsinki Profile service](https://profiili.hel.fi/login).
 
 The service also uses the city's Matomo solution for visitor tracking solution, the data collected by which is described in the Cookies section.
 

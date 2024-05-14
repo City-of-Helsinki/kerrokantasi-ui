@@ -19,6 +19,8 @@ Voit kirjautua palveluun tunnistautumalla Helsinki profiilin Helsinki-tunnuksell
 
 Ensimmäisen kirjautumisen yhteydessä näet, mitä tietojasi palvelu hyödyntää. Nimesi tai nimimerkkisi voidaan näyttää palvelussa mielipiteesi tai kommenttisi yhteydessä. Voit itse hallinnoida tietojesi näkyvyyttä kommentoinnin yhteydessä piilottamalla nimesi tai nimimerkkisi.
 
+Voit poistaa Kerrokantasi-palvelulta oikeuden käyttää tietojasi milloin tahansa [Helsinki-profiili-palvelussa](https://profiili.hel.fi/login)
+
 
 ### Käyttäjän vastuu
 
@@ -97,7 +99,7 @@ Käyttäjä voi jakaa yksittäisten sivujen linkkiosoitteet Facebookiin ja X:ä�
 
 Lisätietoa [EU:n yleisen tietosuoja-asetuksen mukaisista oikeuksista](https://www.hel.fi/fi/paatoksenteko-ja-hallinto/tietoa-helsingista/tietosuoja-ja-tiedonhallinta/tietosuoja/rekisteroidyn-oikeudet-ja-niiden) Helsingin kaupungin verkkopalveluissa.
 
-Voit pyytää käyttäjätietojen poistoa lähettämällä viestin sähköpostiosoitteeseen kerrokantasi at hel.fi.
+Voit poistaa Kerrokantasi-palvelulta oikeuden käyttää tietojasi milloin tahansa [Helsinki-profiili-palvelussa](https://profiili.hel.fi/login).
 
 Palvelussa hyödynnetään myös kävijäseurantaan kaupungin Matomo-ratkaisua, jonka keräämät tiedot on kuvattu Evästeet-kohdassa.
 
