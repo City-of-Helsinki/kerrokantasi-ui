@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.6...kerrokantasi-ui-v1.3.0) (2024-05-14)
+
+
+### Features
+
+* New service-info texts for profile change ([#1000](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1000)) ([68afd0b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/68afd0ba2edd7039b86a6376d1f6d9007dbe0ebc))
+
 ## [1.2.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.5...kerrokantasi-ui-v1.2.6) (2024-05-13)
 
 
