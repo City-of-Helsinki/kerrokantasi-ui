@@ -1,4 +1,4 @@
-import defaultFetch from 'isomorphic-fetch';
+import defaultFetch from 'cross-fetch';
 
 let fetch = defaultFetch;
 

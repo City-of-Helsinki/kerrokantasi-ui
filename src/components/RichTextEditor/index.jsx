@@ -248,8 +248,19 @@ class RichTextEditor extends React.Component {
     };
   }
 
+ myKeyBindingFn(e) {
+    if (e.keyCode === 83) {
+      return 'custom-tab';
+    }
+    return getDefaultKeyBinding(e);
+  }
+
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
+    if (command == 'custom-tab') {
+      this.onTab();
+      return true;
+    }
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -587,7 +598,7 @@ class RichTextEditor extends React.Component {
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            onTab={this.onTab}
+            keyBindingFn={this.myKeyBindingFn}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
             ref={this.editorRef}
