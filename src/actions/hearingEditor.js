@@ -35,6 +35,7 @@ export const EditorActions = {
   CHANGE_PROJECT_NAME: 'changeProjectName',
   CHANGE_PROJECT: 'changeProject',
   CLEAR_QUESTIONS: 'clearQuestions',
+  CLOSE_FORM: 'closeHearingForm',
   CLOSE_HEARING: 'closeHearing',
   CREATE_MAP_MARKER: 'createMapMarker',
   DELETE_LAST_OPTION: 'deleteLastOption',
@@ -366,6 +367,7 @@ export function saveHearingChanges(hearing) {
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+            dispatch(closeHearingForm());
             dispatch(push(`/${hearingJSON.slug}?lang=${getState().language}`));
             if (hearing.slug !== hearingJSON.slug) {
               localizedNotifyError("slugInUse");

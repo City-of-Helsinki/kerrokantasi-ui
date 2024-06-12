@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
-import { Button } from 'hds-react';
+import { Button, Dialog } from 'hds-react';
 import Panel from 'react-bootstrap/lib/Panel';
 
 import Icon from '../../utils/Icon';
@@ -195,26 +195,50 @@ class HearingForm extends React.Component {
   }
 
   render() {
+    const titleId = 'hearing-form-title';
+    const descriptionId = 'hearing-form-description';
+
     return (
-      <div className='form-container container'>
-        <h2>
-          <FormattedMessage id='editHearing' />
-        </h2>
-        <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
-          <FormattedMessage id='help' />
-        </a>
-        {this.getErrors()}
-        <form>
-          <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
-            {this.getFormStep(1)}
-            {this.getFormStep(2)}
-            {this.getFormStep(3)}
-            {this.getFormStep(4)}
-            {this.getFormStep(5)}
-          </Accordion>
-          <div className='editor-footer'>{this.getActions()}</div>
-        </form>
-      </div>
+      <Dialog
+        className='form-container container hearing-form-modal'
+        isOpen={this.props.show}
+        close={this.props.onLeaveForm}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={this.props.intl.formatMessage({ id: 'close' })}
+      >
+        <Dialog.Header
+          id={titleId}
+          title={
+            <h2>
+              <FormattedMessage id='editHearing' />
+            </h2>
+          }
+        />
+        <Dialog.Content>
+          <div id={descriptionId}>
+            <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+              <FormattedMessage id='help' />
+            </a>
+            {this.getErrors()}
+            <form>
+              <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
+                {this.getFormStep(1)}
+                {this.getFormStep(2)}
+                {this.getFormStep(3)}
+                {this.getFormStep(4)}
+                {this.getFormStep(5)}
+              </Accordion>
+              <div className='editor-footer'>{this.getActions()}</div>
+            </form>
+          </div>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
+          <Button className='kerrokantasi-btn' onClick={this.props.onLeaveForm}>
+            <FormattedMessage id='cancel' />
+          </Button>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
@@ -245,6 +269,7 @@ HearingForm.propTypes = {
   onEditSectionAttachmentOrder: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
+  onLeaveForm: PropTypes.func,
   onQuestionChange: PropTypes.func,
   onSaveAndPreview: PropTypes.func,
   onSaveChanges: PropTypes.func,
@@ -256,6 +281,7 @@ HearingForm.propTypes = {
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
+  show: PropTypes.bool,
 };
 
 const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));
