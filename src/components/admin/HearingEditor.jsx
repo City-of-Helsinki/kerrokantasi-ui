@@ -17,6 +17,7 @@ import {
   changeSectionMainImage,
   clearQuestions,
   closeHearing,
+  closeHearingForm,
   createMapMarker,
   deleteLastOption,
   deleteSectionAttachment,
@@ -37,7 +38,6 @@ import {
   startHearingEdit,
   unPublishHearing,
   fetchHearingEditorContactPersons,
-  closeHearingForm,
 } from '../../actions/hearingEditor';
 import { deleteHearingDraft } from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -175,7 +175,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const { contactPersons, organizations, hearing, hearingLanguages, labels, language, dispatch, show } = this.props;
+    const { contactPersons, organizations, hearing, hearingLanguages, labels, dispatch, show, language } = this.props;
     const { errors } = this.state;
     if (isEmpty(hearing)) {
       return null;
