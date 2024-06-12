@@ -4,12 +4,7 @@ div:has(> .hearing-form-modal) {
 
 .form-container {
   &.hearing-form-modal {
-    width: 80%;
-  }
-
-  .modal-content {
-    padding: 20px;
-    background: $gray-lighter;
+    width: 80% !important;
   }
 
   .panel {
@@ -223,15 +218,6 @@ div:has(> .hearing-form-modal) {
   .add-label-button {
     margin-left: 5px;
     width: 38px;
-  }
-}
-
-.hearing-modal-header {
-  border: 0;
-  padding: 0;
-
-  h2 {
-    margin-top: 0;
   }
 }
 

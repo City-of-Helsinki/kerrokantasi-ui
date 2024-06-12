@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import map from 'lodash/map';
 import { Button } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -42,13 +43,8 @@ class HearingFormStep1 extends React.Component {
       showLabelModal: false,
       contactInfo: {},
       showContactModal: false,
-      selectedLabels: this.props.hearing.labels
-        ? this.props.hearing.labels.filter(({ id }) => !!id).map(({ id }) => id)
-        : [],
-      selectedContacts: [],
-      // selectedContacts: this.props.hearing.contact_persons
-      //   ? this.props.hearing.contact_persons.filter(({ id }) => !!id).map(({ id }) => id)
-      //   : [],
+      selectedLabels: map(this.props.hearing.labels, ({ id }) => id),
+      selectedContacts: map(this.props.hearing.contact_persons, ({ id }) => id),
     };
   }
 
@@ -162,11 +158,7 @@ class HearingFormStep1 extends React.Component {
                   valueKey='frontId'
                   menuContainerStyle={{ zIndex: 10 }}
                 />
-                <Button
-                  size='small'
-                  className='kerrokantasi-btn pull-right add-label-button'
-                  onClick={() => this.openLabelModal()}
-                >
+                <Button size="small" className='kerrokantasi-btn pull-right add-label-button' onClick={() => this.openLabelModal()}>
                   <Icon className='icon' name='plus' />
                 </Button>
               </div>
@@ -230,7 +222,7 @@ class HearingFormStep1 extends React.Component {
           </HelpBlock>
         </FormGroup>
         <div className='step-footer'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
+          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
@@ -272,7 +264,7 @@ HearingFormStep1.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language,
+  language: state.language
 });
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);

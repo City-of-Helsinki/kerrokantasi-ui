@@ -1,4 +1,12 @@
+div:has(> .hearing-form-modal) {
+  z-index: 1050;
+}
+
 .form-container {
+  &.hearing-form-modal {
+    width: 80% !important;
+  }
+
   .panel-heading {
     background: $hel-engel;
   }
@@ -17,7 +25,7 @@
     display: flex;
     align-content: flex-start;
     flex-wrap: wrap;
-    button[type="button"] {
+    button[type='button'] {
       margin: 2px;
     }
   }
