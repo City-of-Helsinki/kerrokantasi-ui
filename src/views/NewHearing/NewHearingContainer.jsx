@@ -22,14 +22,14 @@ function NewHearingContainerComponent(props) {
     } catch (error) {
       localizedNotifyError('loginAttemptFailed');
     }
-  }
+  };
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = props;
   const { fetchEditorMetaData, initHearing, fetchProjectsList } = props;
 
   useEffect(() => {
-    if(!hasLoaded && user) {
+    if (!hasLoaded && user) {
       setHasLoaded(true);
       initHearing();
       fetchEditorMetaData();
@@ -48,16 +48,18 @@ function NewHearingContainerComponent(props) {
               <PleaseLogin login={handleLogin} />
             </div>
           ) : (
-            <HearingEditor
-              hearing={hearingDraft}
-              hearingLanguages={hearingLanguages}
-              labels={labels}
-              user={user}
-              isLoading={isLoading}
-              contactPersons={contactPersons}
-              organizations={organizations}
-              isNewHearing
-            />
+            <div>
+              <HearingEditor
+                hearing={hearingDraft}
+                hearingLanguages={hearingLanguages}
+                labels={labels}
+                user={user}
+                isLoading={isLoading}
+                contactPersons={contactPersons}
+                organizations={organizations}
+                isNewHearing
+              />
+            </div>
           )}
         </div>
       )}

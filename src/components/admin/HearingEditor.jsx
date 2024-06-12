@@ -37,6 +37,7 @@ import {
   startHearingEdit,
   unPublishHearing,
   fetchHearingEditorContactPersons,
+  closeHearingForm,
 } from '../../actions/hearingEditor';
 import { deleteHearingDraft } from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -174,7 +175,7 @@ class HearingEditor extends React.Component {
   }
 
   getHearingForm() {
-    const { contactPersons, organizations, hearing, hearingLanguages, labels, language } = this.props;
+    const { contactPersons, organizations, hearing, hearingLanguages, labels, language, dispatch, show } = this.props;
     const { errors } = this.state;
     if (isEmpty(hearing)) {
       return null;
@@ -203,6 +204,7 @@ class HearingEditor extends React.Component {
         onEditSectionAttachmentOrder={this.onEditSectionAttachmentOrder}
         onHearingChange={this.onHearingChange}
         onLanguagesChange={this.onLanguagesChange}
+        onLeaveForm={() => dispatch(closeHearingForm())}
         onQuestionChange={this.onQuestionChange}
         onSaveAndPreview={this.onSaveAndPreview}
         onSaveChanges={this.onSaveChanges}
@@ -215,6 +217,7 @@ class HearingEditor extends React.Component {
         sectionMoveDown={this.sectionMoveDown}
         sectionMoveUp={this.sectionMoveUp}
         sections={hearing.sections}
+        show={show}
       />
     );
   }
@@ -354,6 +357,7 @@ HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   organizations: PropTypes.arrayOf(organizationShape),
   dispatch: PropTypes.func,
+  show: PropTypes.bool,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
@@ -370,6 +374,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
+  show: EditorSelector.getShowForm(state),
   language: state.language,
   contactPersons: EditorSelector.getContactPersons(state),
 });
