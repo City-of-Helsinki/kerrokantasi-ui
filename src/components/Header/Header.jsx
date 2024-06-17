@@ -1,15 +1,11 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-// eslint-disable-next-line import/order
-import { NavLink } from 'react-router-dom';
-
-// eslint-disable-next-line import/no-unresolved, import/order
 import logoBlack from '@city-images/logo-fi-black.svg';
-
-// eslint-disable-next-line import/no-unresolved
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 
 import { localizedNotifyError } from '../../utils/notify';
@@ -62,7 +58,7 @@ const Header = ({ history, language, user }) => {
     return (
       <FormattedMessage id={messageId} key={messageId}>
         {url
-          ? (text) => <HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active} />
+          ? (text) => <HDSHeader.Link href={`${url}?lang=${language}`} label={text} active={active} />
           : (text) => <p>{text}</p>}
       </FormattedMessage>
     );
@@ -128,23 +124,14 @@ const Header = ({ history, language, user }) => {
 };
 
 Header.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  dispatch: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object,
   language: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object,
 };
 
-const mapDispatchToProps = () => ({});
-
 export { Header as UnconnectedHeader };
-export default connect(
-  (state) => ({
-    user: getUser(state),
-    language: state.language,
-    router: state.router,
-  }),
-  mapDispatchToProps,
-)(Header);
+export default connect((state) => ({
+  user: getUser(state),
+  language: state.language,
+  router: state.router,
+}))(Header);
