@@ -10,7 +10,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 // eslint-disable-next-line import/order
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 // eslint-disable-next-line import/no-unresolved, import/order
 import logoBlack from '@city-images/logo-fi-black.svg';
@@ -146,8 +146,8 @@ const mapDispatchToProps = () => ({});
 
 
 export {Header as UnconnectedHeader};
-export default withRouter(connect(state => ({
+export default connect(state => ({
   user: getUser(state),
   language: state.language,
   router: state.router,
-}), mapDispatchToProps)(Header));
+}), mapDispatchToProps)(Header);

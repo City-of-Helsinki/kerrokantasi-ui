@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import { Button, FileInput } from 'hds-react';
 import classnames from 'classnames';
@@ -655,7 +655,6 @@ BaseCommentForm.propTypes = {
   canComment: PropTypes.bool,
   onPostComment: PropTypes.func,
   onOverrideCollapse: PropTypes.func,
-  intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: PropTypes.string,
   overrideCollapse: PropTypes.bool,

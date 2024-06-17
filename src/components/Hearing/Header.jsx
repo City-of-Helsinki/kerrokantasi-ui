@@ -9,8 +9,7 @@ import moment from 'moment';
 import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedPlural, FormattedMessage, intlShape } from 'react-intl';
-import { withRouter } from 'react-router-dom';
+import { injectIntl, FormattedPlural, FormattedMessage } from 'react-intl';
 import { stringify } from 'qs';
 
 import { notifyError, notifySuccess } from '../../utils/notify';
@@ -29,6 +28,7 @@ import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../se
 import getUser from '../../selectors/user';
 import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
 import InternalLink from '../InternalLink';
+import { useParams } from 'react-router-dom';
 
 export class HeaderComponent extends React.Component {
   getTimetableText(hearing) {
@@ -256,10 +256,11 @@ export class HeaderComponent extends React.Component {
   };
 
   render() {
-    const { hearing, language, sections, match, showClosureInfo, intl, user } = this.props;
+    const { hearing, language, sections, showClosureInfo, intl, user } = this.props;
+    const params = useParams();
 
     const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
-    const section = sections?.find((sec) => sec.id === match.params.sectionId) || mainSection;
+    const section = sections?.find((sec) => sec.id === params.sectionId) || mainSection;
     const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE)
       ? getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
       : intl.formatMessage({ id: 'defaultClosureInfo' });
@@ -316,7 +317,7 @@ export class HeaderComponent extends React.Component {
                   )}
                 </>
               ) : (
-                <Link to={{ path: getHearingURL({ slug: match.params.hearingSlug }) }}>
+                <Link to={{ path: getHearingURL({ slug: params.hearingSlug }) }}>
                   <Icon name='arrow-left' /> <FormattedMessage id='backToHearingMain' />
                 </Link>
               )}
@@ -330,10 +331,10 @@ export class HeaderComponent extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  sections: getSections(state, ownProps.match.params.hearingSlug),
+  sections: getSections(state, ownProps.params.hearingSlug),
   showClosureInfo:
-    getIsHearingClosed(state, ownProps.match.params.hearingSlug) &&
-    getIsHearingPublished(state, ownProps.match.params.hearingSlug),
+    getIsHearingClosed(state, ownProps.params.hearingSlug) &&
+    getIsHearingPublished(state, ownProps.params.hearingSlug),
   user: getUser(state),
 });
 
@@ -345,10 +346,9 @@ const mapDispatchToProps = (dispatch) => ({
 HeaderComponent.propTypes = {
   hearing: PropTypes.object,
   history: PropTypes.object,
-  intl: intlShape.isRequired,
   language: PropTypes.string,
   location: PropTypes.object,
-  match: PropTypes.object,
+  params: PropTypes.object,
   sections: PropTypes.array,
   showClosureInfo: PropTypes.bool,
   user: PropTypes.object,
@@ -356,4 +356,4 @@ HeaderComponent.propTypes = {
   removeFromFavorites: PropTypes.func,
 };
 
-export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(HeaderComponent)));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HeaderComponent));

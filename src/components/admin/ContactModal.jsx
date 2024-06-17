@@ -4,7 +4,7 @@ import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
 import { Modal, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Button } from 'hds-react';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
@@ -311,7 +311,6 @@ class ContactModal extends React.Component {
 }
 
 ContactModal.propTypes = {
-  intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onCreateContact: PropTypes.func,

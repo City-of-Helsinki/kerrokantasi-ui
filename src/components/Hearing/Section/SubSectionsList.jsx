@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { Button } from 'hds-react';
-import { withRouter } from 'react-router-dom';
 import defaultImage from '@city-images/default-image.svg';
 
 import getAttr from '../../../utils/getAttr';
@@ -102,4 +101,4 @@ SubsectionList.propTypes = {
   match: PropTypes.object,
 };
 
-export default withRouter(SubsectionList);
+export default SubsectionList;

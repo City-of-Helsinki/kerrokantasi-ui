@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 /*
  * Purpose of this component is to allow keyboard clicks only
@@ -68,4 +67,4 @@ const mapStateToProps = (state) => ({
   headless: state.headless,
 });
 
-export default withRouter(connect(mapStateToProps)(MouseOnlyLink));
+export default connect(mapStateToProps)(MouseOnlyLink);

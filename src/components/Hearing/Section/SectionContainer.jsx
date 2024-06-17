@@ -9,7 +9,6 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-import { withRouter } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -762,4 +761,4 @@ SectionContainerComponent.propTypes = {
   user: PropTypes.object,
 };
 
-export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));
