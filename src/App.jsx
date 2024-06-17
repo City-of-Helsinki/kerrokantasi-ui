@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
-import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
@@ -26,16 +25,17 @@ import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
+import { useParams } from 'react-router-dom';
 
 function App({
   language,
   isHighContrast,
-  location,
   history,
-  match,
   ...props
 }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
+  const params  = useParams();
+  
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
@@ -75,7 +75,7 @@ function App({
     { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
     { name: 'theme-color', content: '#ffffff' },
   ];
-  const fullscreen = match.params.fullscreen === 'true';
+  const fullscreen = params.fullscreen === 'true';
   const headless = checkHeadlessParam(location.search);
   const fonts = `"HelsinkiGrotesk",
     Arial, -apple-system,
@@ -133,7 +133,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 App.propTypes = {
   history: PropTypes.object,
-  match: PropTypes.object,
+  params: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
@@ -141,4 +141,4 @@ App.propTypes = {
   dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

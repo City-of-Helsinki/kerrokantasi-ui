@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 
 function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
   if (!timeVal || !messagePrefix) {
@@ -41,7 +41,7 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatT
       </FormattedMessage>
     );
   }
-  return (<><FormattedMessage id={messageId} /> <FormattedRelative value={timeVal} /></>);
+  return (<><FormattedMessage id={messageId} /> <FormattedRelativeTime value={timeVal} /></>);
 }
 
 FormatRelativeTime.propTypes = {

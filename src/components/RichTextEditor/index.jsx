@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   EditorState,
@@ -628,7 +628,6 @@ RichTextEditor.propTypes = {
   value: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
-  intl: intlShape.isRequired,
 };
 
 export default RichTextEditor;

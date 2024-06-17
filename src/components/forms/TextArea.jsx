@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -67,7 +67,6 @@ TextArea.propTypes = {
   onBlur: PropTypes.func,
   rows: PropTypes.string,
   value: PropTypes.string,
-  intl: intlShape.isRequired,
   placeholderId: PropTypes.string,
 };
 

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable prefer-arrow-callback */
 import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client'
 import Raven from 'raven-js';
 
 import getRoot from './getRoot';
@@ -19,6 +20,8 @@ commonInit(function initReady() {
     console.error(err);
   }
   const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
-  const root = getRoot(store);
-  render(root, document.getElementById('root'));
+  const app = getRoot(store);
+  const container = document.getElementById('root');
+  const root = createRoot(container);
+  root.render(app)
 });
