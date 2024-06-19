@@ -16,13 +16,13 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatT
   let difference = currentTime.getDate() - time.getDate();
   const weeksDifference = Math.floor(difference / 7);
   let unit = 'day';
-  if (yearsDifference != 0) {
+  if (yearsDifference !== 0) {
     unit = 'year';
     difference = yearsDifference;
-  } else if (monthsDifference != 0) {
+  } else if (monthsDifference !== 0) {
     unit = 'month';
     difference = monthsDifference;
-  } else if (weeksDifference != 0) {
+  } else if (weeksDifference !== 0) {
     unit = 'week';
     difference = weeksDifference;
   }

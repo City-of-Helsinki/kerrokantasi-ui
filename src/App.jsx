@@ -9,6 +9,7 @@ import Helmet from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import messages from './i18n';
 import Header from './components/Header/Header';
@@ -21,21 +22,16 @@ import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import useAuthHook from './hooks/useAuth';  
+import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
-import { useParams } from 'react-router-dom';
 
-function App({
-  language,
-  isHighContrast,
-  history,
-  ...props
-}) {
+function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
-  const params  = useParams();
-  
+  const params = useParams();
+  const location = useLocation();
+
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
@@ -47,7 +43,7 @@ function App({
     config.activeLanguage = language; // for non react-intl localizations
     return () => {
       cookieOnComponentWillUnmount();
-    }
+    };
   }, [language]);
 
   useEffect(() => {
@@ -84,7 +80,7 @@ function App({
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={history.location.pathname !== '/'} history={history} />;
+    header = <Header slim={location.pathname !== '/'} history={history} />;
   }
   const mainContainerId = 'main-container';
   return (
@@ -127,9 +123,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchEnrichUser: () => dispatch(enrichUserData()),
-  })
+  dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+  dispatchEnrichUser: () => dispatch(enrichUserData()),
+});
 
 App.propTypes = {
   history: PropTypes.object,

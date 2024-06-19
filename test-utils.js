@@ -1,8 +1,10 @@
-import { assign, noop } from 'lodash';
+/* eslint-disable sonarjs/no-duplicate-string */
+import { createIntl } from 'react-intl';
+
 import commonInit from './src/commonInit';
 import createStore from './src/createStore';
 import messages from './src/i18n';
-import { IntlProvider } from 'react-intl';
+
 
 export const mockUser = { id: "fff", displayName: "Mock von User" };
 
@@ -11,10 +13,7 @@ export function createTestStore(state) {
   return createStore(state || {});
 }
 
-export const getIntlAsProp = () => {
-  const intlProvider = new IntlProvider({ locale: 'fi', messages: messages.fi }, {});
-  return intlProvider.getChildContext().intl;
-};
+export const getIntlAsProp = () => createIntl({ locale: 'fi', messages: messages.fi }, {});
 
 // Contains ready to use mock data & functions for testing purposes
 export const mockStore = {
