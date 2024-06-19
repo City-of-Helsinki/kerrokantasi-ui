@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
 import '@testing-library/jest-dom';
+import { TextEncoder, TextDecoder } from 'util';
 
 jest.setTimeout(100000);
 
@@ -15,6 +16,8 @@ window.matchMedia = window.matchMedia || function () {
 };
 
 window.scrollTo = jest.fn();
+
+Object.assign(global, { TextDecoder, TextEncoder });
 
 const originalError = console.error.bind(console.error);
 
