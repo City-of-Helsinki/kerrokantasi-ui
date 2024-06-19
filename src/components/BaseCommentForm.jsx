@@ -54,19 +54,19 @@ export const BaseCommentForm = ({
   loggedIn,
   user,
   collapseForm,
-  defaultNickname,
+  defaultNickname = '',
   answers,
   canComment,
   section,
-  isReply,
+  isReply = false,
   nicknamePlaceholder,
   hearingGeojson,
   isHighContrast,
   language,
   closed,
-  overrideCollapse,
+  overrideCollapse = false,
   intl,
-  onOverrideCollapse,
+  onOverrideCollapse = () => {},
   onPostComment,
   onChangeAnswers,
 }) => {
@@ -669,13 +669,6 @@ BaseCommentForm.propTypes = {
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   hearingGeojson: PropTypes.object,
-};
-
-BaseCommentForm.defaultProps = {
-  defaultNickname: '',
-  overrideCollapse: false,
-  onOverrideCollapse: () => {},
-  isReply: false,
 };
 
 const mapStateToProps = (state) => ({

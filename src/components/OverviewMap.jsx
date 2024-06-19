@@ -16,15 +16,15 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
-const OverviewMap = (props) => {
+const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer = undefined, ...props }) => {
   const [dimensions, setDimensions] = useState({
-    height: props.showOnCarousel ? null : props.style.height,
-    width: props.showOnCarousel ? null : props.style.width,
+    height: showOnCarousel ? null : props.style.height,
+    width: showOnCarousel ? null : props.style.width,
   });
 
   useEffect(() => {
     const handleResize = () => {
-      handleUpdateMapDimensions(props.mapContainer);
+      handleUpdateMapDimensions(mapContainer);
     };
 
     window.addEventListener('resize', handleResize);
@@ -32,21 +32,17 @@ const OverviewMap = (props) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [props.mapContainer]);
+  }, [mapContainer]);
 
   useEffect(() => {
-    if (
-      props.mapContainer &&
-      typeof props.mapContainer !== 'undefined' &&
-      props.mapContainer.getBoundingClientRect()
-    ) {
-      handleUpdateMapDimensions(props.mapContainer);
+    if (mapContainer && typeof mapContainer !== 'undefined' && mapContainer.getBoundingClientRect()) {
+      handleUpdateMapDimensions(mapContainer);
     }
-  }, [props.mapContainer]);
+  }, [mapContainer]);
 
-  const handleUpdateMapDimensions = (mapContainer) => {
-    if (mapContainer) {
-      const { width, height } = mapContainer.getBoundingClientRect();
+  const handleUpdateMapDimensions = (container) => {
+    if (container) {
+      const { width, height } = container.getBoundingClientRect();
       if (width > 0 && height > 0) {
         setDimensions({ width: `${width}px`, height: `${height}px` });
       }
@@ -69,7 +65,7 @@ const OverviewMap = (props) => {
       }
     });
     return contents;
-  }
+  };
 
   /**
    * Return Map element based on geojson.type.
@@ -78,7 +74,6 @@ const OverviewMap = (props) => {
    * @returns {JSX.Element|*}
    */
   const getMapElement = (geojson, hearing) => {
-    const { mapElementLimit } = props;
     const { id } = hearing;
     if (geojson) {
       switch (geojson.type) {
@@ -151,7 +146,7 @@ const OverviewMap = (props) => {
       }
     }
     return [];
-  }
+  };
 
   /**
    * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
@@ -177,7 +172,7 @@ const OverviewMap = (props) => {
       );
     }
     return null;
-  }
+  };
 
   /**
    * Returns additional parameters for Markers.
@@ -194,22 +189,22 @@ const OverviewMap = (props) => {
       return { alt: getAttr(hearing.title, language) };
     }
     return { keyboard: false };
-  }
+  };
 
-  handleUpdateMapDimensions(props.mapContainer);
+  handleUpdateMapDimensions(mapContainer);
 
   /**
    * ensures whether it is the right time to render map.
    * In case of carousel, we require static width and height.
    * @returns {Bool}
    */
-  const shouldMapRender = () => (props.showOnCarousel ? dimensions.height && dimensions.width : true);
+  const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
 
   if (typeof window === 'undefined') return null;
   const { hearings, language } = props;
   const contents = getHearingMapContent(hearings);
 
-  console.debug('contents', contents, contents)
+  console.debug('contents', contents, contents);
   if (!contents.length && props.hideIfEmpty) {
     return null;
   }
@@ -232,22 +227,16 @@ const OverviewMap = (props) => {
           )}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <FeatureGroup>
-          {contents}
-        </FeatureGroup>
+        <FeatureGroup>{contents}</FeatureGroup>
       </MapContainer>
     )
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
-  language: state.language
+  language: state.language,
 });
-
-OverviewMap.defaultProps = {
-  mapElementLimit: 0,
-};
 
 OverviewMap.propTypes = {
   enablePopups: PropTypes.bool,
@@ -264,11 +253,6 @@ OverviewMap.propTypes = {
 
 OverviewMap.contextTypes = {
   language: PropTypes.string.isRequired,
-};
-
-OverviewMap.defaultProps = {
-  showOnCarousel: false,
-  mapContainer: undefined,
 };
 
 export default connect(mapStateToProps, null)(OverviewMap);

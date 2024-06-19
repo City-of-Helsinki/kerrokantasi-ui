@@ -235,7 +235,7 @@ export const HearingList = ({
   handleSelectLabels,
   handleSort,
   hearings,
-  hearingCount,
+  hearingCount = 0,
   isLoading,
   isMobile,
   labels,
@@ -374,11 +374,6 @@ HearingList.propTypes = {
   tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,
   handleReachBottom: PropTypes.func,
-};
-
-HearingList.defaultProps = {
-  tab: HEARING_LIST_TABS.LIST,
-  hearingCount: 0,
 };
 
 export default HearingList;
