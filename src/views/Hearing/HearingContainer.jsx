@@ -4,9 +4,8 @@ import React, { lazy, Suspense, useState, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { Routes, Route, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
 
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import Header from '../../components/Hearing/Header';
@@ -28,15 +27,18 @@ function HearingContainerComponent(props) {
     fetchProjectsList,
     fetchHearing,
     fetchEditorMetaData,
-    history,
-    hearing,
     user,
     language,
   } = props;
   const location = useLocation();
-  const [hearingSlug, setHearingSlug] = useState();
+  const navigate = useNavigate();
   const params = useParams();
-  setHearingSlug(params.hearingSlug);
+  const [hearingSlug, setHearingSlug] = useState(null);
+  const hearing = useSelector(state => getHearingWithSlug(state, hearingSlug));
+
+  useEffect(() => {
+    setHearingSlug(params.hearingSlug);
+  }, [params.hearingSlug]);
 
   useEffect(() => {
     if (location.search.includes('?preview')) {
@@ -47,6 +49,7 @@ function HearingContainerComponent(props) {
     }
     fetchEditorMetaData();
     fetchProjectsList();
+    
   }, [fetchProjectsList, fetchHearing, fetchEditorMetaData, location.search, hearingSlug]);
 
   useEffect(() => {
@@ -54,24 +57,28 @@ function HearingContainerComponent(props) {
       if (
         !isEmpty(hearing) &&
         hearing.default_to_fullscreen &&
-        !props.location.state.fromFullscreen
+        !location.state.fromFullscreen
       ) {
-        history.push({
-          pathname: `/${props.hearing.slug}/fullscreen`,
+        navigate({
+          pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
         });
       }
-    } else if (!isEmpty(props.hearing) && props.hearing.default_to_fullscreen) {
-      history.push({
-        pathname: `/${props.hearing.slug}/fullscreen`,
+    } else if (!isEmpty(hearing) && hearing.default_to_fullscreen) {
+      navigate({
+        pathname: `/${hearing.slug}/fullscreen`,
         search: `?lang=${language}`,
       });
     }
-    /*
-    if (isEmpty(user) && isEmpty(hearing) && !isEmpty(nextProps.user)) {
-      props.fetchHearing(hearingSlug);
-    } */
-  }, [hearingSlug, location, history, hearing, user, language, props]);
+  }, [hearing, language, navigate, location.state]);
+
+  const helmetMeta = [
+    { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
+    { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
+  ]
+  if (hearing?.main_image?.url) {
+    helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
+  }
 
   return (
     <div className='hearing-page'>
@@ -79,12 +86,7 @@ function HearingContainerComponent(props) {
         <>
           <Helmet
             title={getAttr(hearing.title, language)}
-            meta={[
-              { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
-              { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
-              hearing.main_image != null &&
-                hearing.main_image.url && { property: 'og:image', content: hearing.main_image.url },
-            ]}
+            meta={helmetMeta}
           />
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
@@ -99,15 +101,18 @@ function HearingContainerComponent(props) {
             </Suspense>
           )}
           <div className='hearing-wrapper' id='hearing-wrapper'>
-            <Header hearing={hearing} language={language} intl={intl} setLanguage={setLanguage} />
+            <Header hearing={hearing} language={language} />
             <Routes>
-              <Route path='/:hearingSlug/:sectionId' element={Section} />
-              <Route path='/:hearingSlug' element={Section} />
+              <Route path='/:sectionId' element={<Section />} />
+              <Route path='/' element={<Section />} />
             </Routes>
           </div>
         </>
       ) : (
-        <LoadSpinner />
+        <>
+          <p>Am I showing this only?</p>
+          <LoadSpinner />
+        </>
       )}
     </div>
   );
@@ -131,7 +136,6 @@ HearingContainerComponent.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  hearing: getHearingWithSlug(state, state.hearingSlug),
   language: state.language,
   hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,
@@ -148,4 +152,4 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProjectsList: () => dispatch(fetchProjects()),
 });
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent));
+export default connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent);

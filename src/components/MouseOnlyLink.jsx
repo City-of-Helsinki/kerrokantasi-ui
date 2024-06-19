@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /*
  * Purpose of this component is to allow keyboard clicks only
@@ -15,14 +16,16 @@ import { connect } from 'react-redux';
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 const MouseOnlyLink = (props) => {
-  const { children, className, history, headless, language, location, style, url, altText } = props;
+  const { children, className, headless, language, style, url, altText } = props;
+  const location = useLocation();
+  const navigate = useNavigate();
   const combinedUrl = `${url}?headless=${headless}&lang=${language}`;
 
   const defineImageAlt = () => altText || '';
 
   const handleClick = (event, path) => {
     event.preventDefault();
-    return history.push(path);
+    return navigate(path);
   };
 
   if (isEmpty(children)) {

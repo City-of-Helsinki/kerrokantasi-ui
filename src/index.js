@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable prefer-arrow-callback */
-import { render } from 'react-dom';
 import { createRoot } from 'react-dom/client'
 import Raven from 'raven-js';
 
@@ -9,8 +8,10 @@ import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
 import '@city-assets/sass/app.scss';
+import '@formatjs/intl-relativetimeformat/polyfill'
 
 require('es6-promise').polyfill();
+
 
 commonInit(function initReady() {
   try {
