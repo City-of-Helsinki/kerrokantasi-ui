@@ -1,5 +1,9 @@
 div:has(> .hearing-form-modal) {
-  z-index: 1050;
+  z-index: 1003;
+}
+
+div:has(> .hearing-form-child-modal) {
+  z-index: 1004;
 }
 
 .form-container {

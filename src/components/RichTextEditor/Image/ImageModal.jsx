@@ -92,6 +92,7 @@ class ImageModal extends React.Component {
 
     return (
       <Dialog
+        className='hearing-form-child-modal'
         isOpen={isOpen}
         close={onClose}
         aria-labelledby={titleId}
