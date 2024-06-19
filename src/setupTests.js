@@ -14,6 +14,8 @@ window.matchMedia = window.matchMedia || function () {
   };
 };
 
+window.scrollTo = jest.fn();
+
 const originalError = console.error.bind(console.error);
 
 console.error = (msg, ...optionalParams) => {
