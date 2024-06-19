@@ -1,16 +1,21 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 import renderWithProviders from '../utils/renderWithProviders';
 import App from '../App';
 
-const renderComponent = (props) => renderWithProviders(
-    <MemoryRouter>
-      <App {...props} />
-    </MemoryRouter>,
-  );
+const renderComponent = (props) => {
+  const history = createBrowserHistory();
 
-const {container} = renderComponent({user: {test}});
+  return renderWithProviders(
+    <BrowserRouter history={history}>
+      <App {...props} />
+    </BrowserRouter>,
+  );
+};
+
+const { container } = renderComponent({ user: { test } });
 
 describe('<App />', () => {
   it('renders correctly', () => {
