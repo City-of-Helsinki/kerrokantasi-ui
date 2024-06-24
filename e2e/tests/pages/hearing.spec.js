@@ -71,6 +71,10 @@ test.describe('Hearing', () => {
 
   test('should have image with caption', async () => {
     const img = page.locator('.section-image img');
+    const noImage = !!hearing.main_image === false;
+
+    test.skip(noImage, "No image caption available")
+
     await expect(img).toHaveAttribute('alt', hearing.main_image.caption.fi);
   });
 
