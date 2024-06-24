@@ -1,26 +1,22 @@
+/* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
 import { Button } from 'hds-react';
 import logoWhite from '@city-images/logo-fi-white.svg';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
+import { useParams, useLocation } from 'react-router-dom';
 
 import PluginContent from '../../components/PluginContent';
 import { getHearingWithSlug, getMainSection, getMainSectionComments } from '../../selectors/hearing';
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
 import { parseQuery } from '../../utils/urlQuery';
-import {
-  fetchHearing as fetchHearingAction,
-  postSectionComment,
-  postVote,
-} from '../../actions';
+import { fetchHearing as fetchHearingAction, postSectionComment, postVote } from '../../actions';
 import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
 import getUser from '../../selectors/user';
-import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 const FullscreenHearingContainerComponent = (ownProps) => {
   const dispatch = useDispatch();
@@ -36,10 +32,12 @@ const FullscreenHearingContainerComponent = (ownProps) => {
     if (isEmpty(hearing)) {
       dispatch(fetchHearingAction(params.hearingSlug));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPostComment = (text, authorName, pluginData, geojson, label, images) => {
     const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
+    // eslint-disable-next-line no-shadow
     const { mainSection } = ownProps;
     const { hearingSlug } = params;
     const { authCode } = parseQuery(location.search);
@@ -48,6 +46,7 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   };
 
   const onVoteComment = (commentId) => {
+    // eslint-disable-next-line no-shadow
     const { mainSection } = ownProps;
     const { hearingSlug } = params;
     const sectionId = mainSection.id;
@@ -73,9 +72,7 @@ const FullscreenHearingContainerComponent = (ownProps) => {
               </Link>
             </div>
             <div className='header-title'>
-              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
-                {getAttr(hearing.title, language)}
-              </Link>
+              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>{getAttr(hearing.title, language)}</Link>
             </div>
             <div className='minimize'>
               <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
@@ -88,6 +85,7 @@ const FullscreenHearingContainerComponent = (ownProps) => {
           <div className='plugin-content'>
             <PluginContent
               hearingSlug={params.hearingSlug}
+              // eslint-disable-next-line no-undef
               fetchAllComments={fetchAllComments}
               section={mainSection}
               comments={mainSectionComments}

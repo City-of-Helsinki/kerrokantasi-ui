@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -9,6 +9,7 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
+import { useLocation, useParams } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -46,8 +47,8 @@ import {
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL } from '../../../api';
-import { useParams } from 'react-router-dom';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function SectionContainerComponent(props) {
   const { language, user, onPostReply, fetchAllComments, fetchMoreComments, fetchCommentsForSortableList } = props;
   const showDeleteModal = false;
@@ -61,22 +62,22 @@ function SectionContainerComponent(props) {
   const mainHearingContactsOpen = false;
   const mainHearingAttachmentsOpen = false;
   const params = useParams();
+  const location = useLocation();
   const { hearingSlug, sectionId } = params;
-  const hearing = useSelector(state => getHearingWithSlug(state, params.hearingSlug));
-  const sections = useSelector(state => getSections(state, params.hearingSlug));
-  const mainSectionComments = useSelector(state => getMainSectionComments(state, params.hearingSlug));
-  const contacts = useSelector(state => getHearingContacts(state, params.hearingSlug));
+  const hearing = useSelector((state) => getHearingWithSlug(state, params.hearingSlug));
+  const sections = useSelector((state) => getSections(state, params.hearingSlug));
+  const mainSectionComments = useSelector((state) => getMainSectionComments(state, params.hearingSlug));
+  const contacts = useSelector((state) => getHearingContacts(state, params.hearingSlug));
+
+  // eslint-disable-next-line no-unused-vars
+  const [_, setState] = useState();
 
   const getSectionNav = () => {
     const filterNotClosedSections = sections.filter((section) => section.type !== SectionTypes.CLOSURE);
     const filteredSections = filterNotClosedSections.filter((section) => section.type !== SectionTypes.MAIN);
-    const currentSectionIndex = sectionId
-      ? filteredSections.findIndex((section) => section.id === sectionId)
-      : 0;
+    const currentSectionIndex = sectionId ? filteredSections.findIndex((section) => section.id === sectionId) : 0;
     const prevPath =
-      currentSectionIndex - 1 >= 0
-        ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}`
-        : undefined;
+      currentSectionIndex - 1 >= 0 ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}` : undefined;
     const nextPath =
       currentSectionIndex + 1 < filteredSections.length
         ? `/${hearingSlug}/${filteredSections[currentSectionIndex + 1].id}`
@@ -96,9 +97,9 @@ function SectionContainerComponent(props) {
 
   // downloads report excel with user's credentials
   // eslint-disable-next-line class-methods-use-this
-  const handleReportDownload = (hearing, language) => {
+  const handleReportDownload = (reportHearing, reportLanguage) => {
     const accessToken = getApiTokenFromStorage();
-    const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
+    const reportUrl = getApiURL(`/v1/hearing/${reportHearing.slug}/report`);
 
     fetch(reportUrl, {
       method: 'GET',
@@ -113,8 +114,8 @@ function SectionContainerComponent(props) {
         const link = document.createElement('a');
         link.href = url;
         // remove filename special characters to avoid potential naming issues
-        const filename = hearing.title
-          ? `${getAttr(hearing.title, language).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
+        const filename = reportHearing.title
+          ? `${getAttr(reportHearing.title, reportLanguage).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
           : 'kuuluminen.xlsx';
 
         link.setAttribute('download', filename);
@@ -127,49 +128,50 @@ function SectionContainerComponent(props) {
 
   // In order to keep a track of map container dimensions
   // Save reference in state.
-  const handleSetMapContainer = (mapContainer) => {
-    setState({ mapContainer });
+  const handleSetMapContainer = (setMapContainer) => {
+    setState({ mapContainer: setMapContainer });
   };
 
-  const handleSetMapContainerMobile = (mapContainerMobile) => {
-    setState({ mapContainerMobile });
+  const handleSetMapContainerMobile = (setMapContainerMobile) => {
+    setState({ mapContainerMobile: setMapContainerMobile });
   };
 
   /**
    * When "Show replies" is pressed.
    * Call the redecer to fetch sub comments and populate inside the specific comment
    */
-  const handleGetSubComments = (commentId, sectionId) => {
-    props.getCommentSubComments(commentId, sectionId);
+  const handleGetSubComments = (commentId, commentSectionId) => {
+    props.getCommentSubComments(commentId, commentSectionId);
   };
 
-  const onPostComment = (sectionId, sectionCommentData) => {
+  const onPostComment = (commentSectionId, sectionCommentData) => {
     // Done
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    return props.postSectionComment(hearingSlug, sectionId, commentData);
+    return props.postSectionComment(hearingSlug, commentSectionId, commentData);
   };
 
-  const onVoteComment = (commentId, sectionId, isReply, parentId) => {
-    props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
+  const onVoteComment = (commentId, commentSectionId, isReply, parentId) => {
+    props.postVote(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
-  const onFlagComment = (commentId, sectionId, isReply, parentId) => {
-    props.postFlag(commentId, hearingSlug, sectionId, isReply, parentId);
+  const onFlagComment = (commentId, commentSectionId, isReply, parentId) => {
+    props.postFlag(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
-  const onEditComment = (sectionId, commentId, commentData) => {
+  const onEditComment = (commentSectionId, commentId, commentData) => {
     const { authCode } = parseQuery(location.search);
 
     // eslint-disable-next-line prefer-object-spread
     Object.assign({ authCode }, commentData);
 
-    props.editComment(hearingSlug, sectionId, commentId, commentData);
+    props.editComment(hearingSlug, commentSectionId, commentId, commentData);
   };
 
   const onDeleteComment = () => {
-    const { sectionId, commentId, refreshUser } = commentToDelete;
-    props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
+    const { sectionId: commentSectionId, commentId, refreshUser } = commentToDelete;
+    props.deleteSectionComment(hearingSlug, commentSectionId, commentId, refreshUser);
+    // eslint-disable-next-line no-undef
     forceUpdate();
   };
 
@@ -184,17 +186,17 @@ function SectionContainerComponent(props) {
 
   const onVotePluginComment = (commentId) => {
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const sectionId = mainSection.id;
-    postVote(commentId, hearingSlug, sectionId);
-  };
-
-  const handleDeleteClick = (sectionId, commentId, refreshUser) => {
-    setState({ commentToDelete: { sectionId, commentId, refreshUser } });
-    openDeleteModal();
+    const commentSectionId = mainSection.id;
+    postVote(commentId, hearingSlug, commentSectionId);
   };
 
   const openDeleteModal = () => {
     setState({ showDeleteModal: true });
+  };
+
+  const handleDeleteClick = (commentSectionId, commentId, refreshUser) => {
+    setState({ commentToDelete: { sectionId: commentSectionId, commentId, refreshUser } });
+    openDeleteModal();
   };
 
   const closeDeleteModal = () => {
@@ -220,7 +222,7 @@ function SectionContainerComponent(props) {
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  const renderFileSection = (section, language, published) => {
+  const renderFileSection = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -239,12 +241,9 @@ function SectionContainerComponent(props) {
             aria-controls='hearing-section-attachments-accordion'
             id='hearing-section-attachments-accordion-button'
             aria-expanded={mainHearingAttachmentsOpen ? 'true' : 'false'}
+            aria-label={<FormattedMessage id='attachments' />}
           >
-            <Icon
-              name='angle-right'
-              className={mainHearingAttachmentsOpen ? 'open' : ''}
-              aria-hidden='true'
-            />
+            <Icon name='angle-right' className={mainHearingAttachmentsOpen ? 'open' : ''} aria-hidden='true' />
             <FormattedMessage id='attachments' />
           </button>
         </h2>
@@ -262,7 +261,7 @@ function SectionContainerComponent(props) {
                 </p>
               )}
               {files.map((file) => (
-                <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+                <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
               ))}
             </div>
           </div>
@@ -271,8 +270,8 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const renderProjectPhaseSection = (hearing, language) => {
-    const project = get(hearing, 'project');
+  const renderProjectPhaseSection = (renderHearing, renderLanguage) => {
+    const project = get(renderHearing, 'project');
     const phases = get(project, 'phases') || [];
     const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
     const numberOfItems = phases.length;
@@ -287,9 +286,7 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              setState((prevState) => ({ mainHearingProjectOpen: !prevState.mainHearingProjectOpen }))
-            }
+            onClick={() => setState((prevState) => ({ mainHearingProjectOpen: !prevState.mainHearingProjectOpen }))}
             aria-controls='hearing-section-project-accordion'
             id='hearing-section-project-accordion-button'
             aria-expanded={mainHearingProjectOpen ? 'true' : 'false'}
@@ -299,7 +296,7 @@ function SectionContainerComponent(props) {
               <FormattedMessage id='phase' /> {activePhaseIndex + 1}/{numberOfItems}
             </span>
             <span className='hearing-section-toggle-button-subtitle'>
-              <FormattedMessage id='project' /> {getAttr(project.title, language)}
+              <FormattedMessage id='project' /> {getAttr(project.title, renderLanguage)}
             </span>
           </button>
         </h2>
@@ -327,13 +324,13 @@ function SectionContainerComponent(props) {
                   <div className='phase-texts'>
                     <span className='phase-title'>
                       {!isEmpty(phase.hearings) ? (
-                        <Link to={{ path: phase.hearings[0] }}>{getAttr(phase.title, language)}</Link>
+                        <Link to={{ path: phase.hearings[0] }}>{getAttr(phase.title, renderLanguage)}</Link>
                       ) : (
-                        <span>{getAttr(phase.title, language)}</span>
+                        <span>{getAttr(phase.title, renderLanguage)}</span>
                       )}
                     </span>
-                    <span className='phase-description'>{getAttr(phase.description, language)}</span>
-                    <span className='phase-schedule'>{getAttr(phase.schedule, language)}</span>
+                    <span className='phase-description'>{getAttr(phase.description, renderLanguage)}</span>
+                    <span className='phase-schedule'>{getAttr(phase.schedule, renderLanguage)}</span>
                   </div>
                 </div>
               ))}
@@ -344,8 +341,8 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const renderContacts = (contacts, language) => {
-    if (isEmpty(contacts)) {
+  const renderContacts = (renderContactlist, renderLanguage) => {
+    if (isEmpty(renderContactlist)) {
       return null;
     }
 
@@ -355,12 +352,11 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              setState((prevState) => ({ mainHearingContactsOpen: !prevState.mainHearingContactsOpen }))
-            }
+            onClick={() => setState((prevState) => ({ mainHearingContactsOpen: !prevState.mainHearingContactsOpen }))}
             aria-controls='hearing-section-contacts-accordion'
             id='hearing-section-contacts-accordion-button'
             aria-expanded={mainHearingContactsOpen ? 'true' : 'false'}
+            aria-label={<FormattedMessage id='contactPersons' />}
           >
             <Icon name='angle-right' className={mainHearingContactsOpen ? 'open' : ''} aria-hidden='true' />
             <FormattedMessage id='contactPersons' />
@@ -375,14 +371,39 @@ function SectionContainerComponent(props) {
           <div className='accordion-content'>
             <div className='section-content-spacer'>
               <Row>
-                {contacts.map((person) => (
-                  <ContactCard activeLanguage={language} key={person.id} {...person} />
+                {renderContactlist.map((person) => (
+                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
                 ))}
               </Row>
             </div>
           </div>
         </Collapse>
       </section>
+    );
+  };
+
+  const renderReportDownload = (reportUrl, userIsAdmin, renderHearing, renderLanguage) => {
+    // render either admin download button or normal download link for others
+    if (userIsAdmin) {
+      return (
+        <Row className='row-no-gutters text-right'>
+          <Button
+            size='small'
+            className='pull-right report-download-button kerrokantasi-btn supplementary'
+            onClick={() => handleReportDownload(renderHearing, renderLanguage)}
+          >
+            <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+          </Button>
+        </Row>
+      );
+    }
+
+    return (
+      <p className='report-download text-right small'>
+        <a href={reportUrl} aria-label={<FormattedMessage id='downloadReport' />}>
+          <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+        </a>
+      </p>
     );
   };
 
@@ -421,32 +442,7 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const renderReportDownload = (reportUrl, userIsAdmin, hearing, language) => {
-    // render either admin download button or normal download link for others
-    if (userIsAdmin) {
-      return (
-        <Row className='row-no-gutters text-right'>
-          <Button
-            size='small'
-            className='pull-right report-download-button kerrokantasi-btn supplementary'
-            onClick={() => handleReportDownload(hearing, language)}
-          >
-            <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
-          </Button>
-        </Row>
-      );
-    }
-
-    return (
-      <p className='report-download text-right small'>
-        <a href={reportUrl}>
-          <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
-        </a>
-      </p>
-    );
-  };
-
-  const renderSectionImage = (section, language) => {
+  const renderSectionImage = (section, renderLanguage) => {
     const sectionImage = section.images[0];
 
     if (!sectionImage) {
@@ -456,9 +452,9 @@ function SectionContainerComponent(props) {
     return (
       <SectionImage
         image={sectionImage}
-        caption={getAttr(sectionImage.caption, language)}
-        title={getAttr(sectionImage.title, language)}
-        altText={getAttr(sectionImage.alt_text, language)}
+        caption={getAttr(sectionImage.caption, renderLanguage)}
+        title={getAttr(sectionImage.title, renderLanguage)}
+        altText={getAttr(sectionImage.alt_text, renderLanguage)}
         showLightbox={showLightbox}
         openLightbox={openLightbox}
         closeLightbox={closeLightbox}
@@ -467,23 +463,23 @@ function SectionContainerComponent(props) {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  const renderSectionContent = (section, language) => {
+  const renderSectionContent = (section, renderLanguage) => {
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
+    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, renderLanguage) }} />;
   };
 
   // eslint-disable-next-line class-methods-use-this
-  const renderSectionAbstract = (section, language) => {
+  const renderSectionAbstract = (section, renderLanguage) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
 
-    return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }} />;
+    return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, renderLanguage) }} />;
   };
 
-  const renderMainDetails = (hearing, section, language) => {
+  const renderMainDetails = (renderHearing, section, renderLanguage) => {
     const sectionImage = section.images[0];
 
     if (!isEmpty(section.content) || sectionImage) {
@@ -493,12 +489,11 @@ function SectionContainerComponent(props) {
             <button
               type='button'
               className='hearing-section-toggle-button'
-              onClick={() =>
-                setState((prevState) => ({ mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen }))
-              }
+              onClick={() => setState((prevState) => ({ mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen }))}
               aria-controls='hearing-section-details-accordion'
               id='hearing-section-details-accordion-button'
               aria-expanded={mainHearingDetailsOpen ? 'true' : 'false'}
+              aria-label={<FormattedMessage id='sectionInformationTitle' />}
             >
               <Icon name='angle-right' className={mainHearingDetailsOpen ? 'open' : ''} aria-hidden='true' />
               <FormattedMessage id='sectionInformationTitle' />
@@ -512,12 +507,13 @@ function SectionContainerComponent(props) {
           >
             <div className='accordion-content'>
               <div className='section-content-spacer'>
-                {renderSectionImage(section, language)}
+                {renderSectionImage(section, renderLanguage)}
                 {/* Render main section title if it exists and it's not the same as the hearing title */}
-                {!isEmpty(section.title) && getAttr(hearing.title, language) !== getAttr(section.title, language) && (
-                  <h3>{getAttr(section.title, language)}</h3>
-                )}
-                {renderSectionContent(section, language)}
+                {!isEmpty(section.title) &&
+                  getAttr(renderHearing.title, renderLanguage) !== getAttr(section.title, renderLanguage) && (
+                    <h3>{getAttr(section.title, renderLanguage)}</h3>
+                  )}
+                {renderSectionContent(section, renderLanguage)}
               </div>
             </div>
           </Collapse>
@@ -561,9 +557,7 @@ function SectionContainerComponent(props) {
               />
               {hasFullscreenMapPlugin(hearing) && (
                 <Button>
-                  <Link
-                    to={{ path: getHearingURL(hearing, { fullscreen: true }) }}
-                  >
+                  <Link to={{ path: getHearingURL(hearing, { fullscreen: true }) }}>
                     <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
                     &nbsp;
                     <FormattedMessage id='openFullscreenMap' />
@@ -589,7 +583,7 @@ function SectionContainerComponent(props) {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  const renderSubSectionAttachments = (section, language, published) => {
+  const renderSubSectionAttachments = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -607,7 +601,7 @@ function SectionContainerComponent(props) {
             </p>
           )}
           {files.map((file) => (
-            <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+            <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
           ))}
         </div>
       </div>
@@ -615,7 +609,6 @@ function SectionContainerComponent(props) {
   };
 
   const renderSubHearing = (section) => {
-
     const showSectionBrowser = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
     const published = 'published' in hearing ? hearing.published : true;
 
@@ -669,15 +662,9 @@ function SectionContainerComponent(props) {
   ) : (
     <Grid>
       <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
-        <Row>
-          {isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}
-        </Row>
+        <Row>{isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}</Row>
       </div>
-      <DeleteModal
-        isOpen={showDeleteModal}
-        close={closeDeleteModal}
-        onDeleteComment={onDeleteComment}
-      />
+      <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />
     </Grid>
   );
 }
@@ -725,6 +712,7 @@ SectionContainerComponent.propTypes = {
   postFlag: PropTypes.func,
   sections: PropTypes.array,
   user: PropTypes.object,
+  onPostReply: PropTypes.func,
 };
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));

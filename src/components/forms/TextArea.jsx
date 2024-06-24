@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
@@ -68,6 +69,7 @@ TextArea.propTypes = {
   rows: PropTypes.string,
   value: PropTypes.string,
   placeholderId: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextArea);

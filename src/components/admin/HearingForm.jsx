@@ -217,7 +217,13 @@ class HearingForm extends React.Component {
         />
         <Dialog.Content>
           <div id={descriptionId}>
-            <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+            <a
+              style={{ lineHeight: 2 }}
+              href={config.adminHelpUrl}
+              rel='noopener noreferrer'
+              target='_blank'
+              aria-label={<FormattedMessage id='help' />}
+            >
               <FormattedMessage id='help' />
             </a>
             {this.getErrors()}
@@ -281,6 +287,7 @@ HearingForm.propTypes = {
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
+  intl: PropTypes.object,
 };
 
 const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));
