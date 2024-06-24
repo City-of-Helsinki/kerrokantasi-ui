@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
 import { Button, Dialog } from 'hds-react';
@@ -204,7 +205,7 @@ class IframeModal extends React.Component {
 
 IframeModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
