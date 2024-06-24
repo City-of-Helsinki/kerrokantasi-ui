@@ -43,6 +43,7 @@ Labels.propTypes = {
   labels: PropTypes.array,
   className: PropTypes.string,
   language: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(Labels);

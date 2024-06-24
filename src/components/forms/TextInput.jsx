@@ -122,6 +122,7 @@ TextInput.propTypes = {
   value: PropTypes.string,
   showLabel: PropTypes.bool,
   label: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextInput);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { SectionContainerComponent } from '../SectionContainer';
+import SectionContainerComponent from '../SectionContainer';
 import { mockStore, getIntlAsProp } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 

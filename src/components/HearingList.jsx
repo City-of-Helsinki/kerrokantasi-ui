@@ -374,6 +374,7 @@ HearingList.propTypes = {
   tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,
   handleReachBottom: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 export default HearingList;

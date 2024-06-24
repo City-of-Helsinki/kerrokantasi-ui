@@ -415,6 +415,7 @@ SortableCommentListComponent.propTypes = {
   section: PropTypes.object,
   sectionComments: PropTypes.object,
   user: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state, { section: { id: sectionId } }) => ({

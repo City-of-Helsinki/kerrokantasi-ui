@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable global-require */
@@ -49,6 +50,7 @@ const AccessibilityInfo = (props) => {
 
 AccessibilityInfo.propTypes = {
   language: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(connect((state) => ({ language: state.language }))(AccessibilityInfo));

@@ -233,6 +233,7 @@ UserHearings.propTypes = {
   fetchHearingList: PropTypes.func,
   hearingData: PropTypes.object,
   hearingCount: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 /**

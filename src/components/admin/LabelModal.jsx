@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React from 'react';
 import map from 'lodash/map';
@@ -160,6 +161,7 @@ LabelModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onCreateLabel: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(LabelModal);

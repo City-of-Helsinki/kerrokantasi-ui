@@ -16,11 +16,21 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer = undefined, ...props }) => {
   const [dimensions, setDimensions] = useState({
     height: showOnCarousel ? null : props.style.height,
     width: showOnCarousel ? null : props.style.width,
   });
+
+  const handleUpdateMapDimensions = (container) => {
+    if (container) {
+      const { width, height } = container.getBoundingClientRect();
+      if (width > 0 && height > 0) {
+        setDimensions({ width: `${width}px`, height: `${height}px` });
+      }
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,31 +50,47 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer
     }
   }, [mapContainer]);
 
-  const handleUpdateMapDimensions = (container) => {
-    if (container) {
-      const { width, height } = container.getBoundingClientRect();
-      if (width > 0 && height > 0) {
-        setDimensions({ width: `${width}px`, height: `${height}px` });
-      }
+  /**
+   * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
+   * @param {Object} hearing
+   * @param {Object} geojson
+   * @returns {JSX.Element|null}
+   */
+  const getPopupContent = (hearing, geojson) => {
+    const { enablePopups, language } = props;
+    // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
+    const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
+    if (enablePopups) {
+      const hearingURL = getHearingURL(hearing) + document.location.search;
+      return (
+        <Popup {...options}>
+          <div>
+            <h4>
+              <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
+            </h4>
+            <p>{getAttr(hearing.abstract, language)}</p>
+          </div>
+        </Popup>
+      );
     }
+    return null;
   };
 
-  const getHearingMapContent = (hearings) => {
-    const contents = [];
-    hearings.forEach((hearing) => {
-      const { geojson } = hearing;
-      if (geojson) {
-        const mapElement = getMapElement(geojson, hearing);
-        if (Array.isArray(mapElement) && mapElement.length > 0) {
-          mapElement.forEach((mapEl) => {
-            contents.push(mapEl);
-          });
-        } else if (mapElement && !Array.isArray(mapElement)) {
-          contents.push(mapElement);
-        }
-      }
-    });
-    return contents;
+  /**
+   * Returns additional parameters for Markers.
+   *
+   * If enablePopups is true then return params that enable tabIndex and correct alt text.
+   *
+   * Otherwise return params that disable tabIndex
+   * @param {Object} hearing
+   * @returns {{alt: *}|{keyboard: boolean}}
+   */
+  const getAdditionalParams = (hearing) => {
+    const { enablePopups, language } = props;
+    if (enablePopups) {
+      return { alt: getAttr(hearing.title, language) };
+    }
+    return { keyboard: false };
   };
 
   /**
@@ -148,47 +174,22 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer
     return [];
   };
 
-  /**
-   * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
-   * @param {Object} hearing
-   * @param {Object} geojson
-   * @returns {JSX.Element|null}
-   */
-  const getPopupContent = (hearing, geojson) => {
-    const { enablePopups, language } = props;
-    // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
-    const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
-    if (enablePopups) {
-      const hearingURL = getHearingURL(hearing) + document.location.search;
-      return (
-        <Popup {...options}>
-          <div>
-            <h4>
-              <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
-            </h4>
-            <p>{getAttr(hearing.abstract, language)}</p>
-          </div>
-        </Popup>
-      );
-    }
-    return null;
-  };
-
-  /**
-   * Returns additional parameters for Markers.
-   *
-   * If enablePopups is true then return params that enable tabIndex and correct alt text.
-   *
-   * Otherwise return params that disable tabIndex
-   * @param {Object} hearing
-   * @returns {{alt: *}|{keyboard: boolean}}
-   */
-  const getAdditionalParams = (hearing) => {
-    const { enablePopups, language } = props;
-    if (enablePopups) {
-      return { alt: getAttr(hearing.title, language) };
-    }
-    return { keyboard: false };
+  const getHearingMapContent = (hearings) => {
+    const contents = [];
+    hearings.forEach((hearing) => {
+      const { geojson } = hearing;
+      if (geojson) {
+        const mapElement = getMapElement(geojson, hearing);
+        if (Array.isArray(mapElement) && mapElement.length > 0) {
+          mapElement.forEach((mapEl) => {
+            contents.push(mapEl);
+          });
+        } else if (mapElement && !Array.isArray(mapElement)) {
+          contents.push(mapElement);
+        }
+      }
+    });
+    return contents;
   };
 
   handleUpdateMapDimensions(mapContainer);
@@ -204,6 +205,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer
   const { hearings, language } = props;
   const contents = getHearingMapContent(hearings);
 
+  // eslint-disable-next-line no-console
   console.debug('contents', contents, contents);
   if (!contents.length && props.hideIfEmpty) {
     return null;

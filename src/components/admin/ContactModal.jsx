@@ -323,6 +323,7 @@ ContactModal.propTypes = {
   onEditContact: PropTypes.func,
   contactInfo: PropTypes.object,
   organizations: PropTypes.arrayOf(organizationShape),
+  intl: PropTypes.object,
 };
 
 export default injectIntl(ContactModal);

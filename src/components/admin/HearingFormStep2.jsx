@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -58,7 +59,7 @@ class HearingFormStep2 extends React.Component {
       deleteOption,
       onQuestionChange,
       onDeleteTemporaryQuestion,
-      language
+      language,
     } = this.props;
     return hearing.sections
       .filter(({ type }) => type !== SectionTypes.CLOSURE)
@@ -108,7 +109,7 @@ class HearingFormStep2 extends React.Component {
   getDeleteSectionButton(section, sectionID) {
     if (section.type !== 'main') {
       return (
-        <Button className="kerrokantasi-btn danger" onClick={() => this.deleteSection(sectionID)}>
+        <Button className='kerrokantasi-btn danger' onClick={() => this.deleteSection(sectionID)}>
           <Icon className='icon' name='trash' /> <FormattedMessage id='deleteSection' />
         </Button>
       );
@@ -146,13 +147,13 @@ class HearingFormStep2 extends React.Component {
         </Accordion>
         <div className='new-section-toolbar'>
           <ButtonToolbar>
-            <Button size='small' className="kerrokantasi-btn" onClick={() => this.addSection('part')}>
+            <Button size='small' className='kerrokantasi-btn' onClick={() => this.addSection('part')}>
               <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
             </Button>
           </ButtonToolbar>
         </div>
         <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
+          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
@@ -183,6 +184,7 @@ HearingFormStep2.propTypes = {
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 HearingFormStep2.contextTypes = {
@@ -190,8 +192,8 @@ HearingFormStep2.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language
-}); 
+  language: state.language,
+});
 
 const WrappedHearingFormStep2 = injectIntl(HearingFormStep2);
 

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 
@@ -669,6 +670,7 @@ BaseCommentForm.propTypes = {
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   hearingGeojson: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
