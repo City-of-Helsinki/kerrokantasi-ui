@@ -374,11 +374,11 @@ class Comment extends React.Component {
    */
   renderEditLinks = (canDelete) => (
     <div className='hearing-comment__edit-links'>
-      <a href='' onClick={(event) => this.toggleEditor(event)}>
+      <a href='' onClick={(event) => this.toggleEditor(event)} aria-label={<FormattedMessage id='edit' />}>
         <FormattedMessage id='edit' />
       </a>
       {canDelete && (
-        <a href='' onClick={(event) => this.handleDelete(event)}>
+        <a href='' onClick={(event) => this.handleDelete(event)} aria-label={<FormattedMessage id='delete' />}>
           <FormattedMessage id='delete' />
         </a>
       )}
@@ -391,7 +391,12 @@ class Comment extends React.Component {
   renderReplyLinks = () => (
     <>
       <Icon name='reply' />
-      <a href='' style={{ marginLeft: 6, fontWeight: 'bold' }} onClick={this.handleToggleReplyEditor}>
+      <a
+        href=''
+        style={{ marginLeft: 6, fontWeight: 'bold' }}
+        onClick={this.handleToggleReplyEditor}
+        aria-label={<FormattedMessage id='delete' />}
+      >
         <FormattedMessage id='reply' />
       </a>
     </>

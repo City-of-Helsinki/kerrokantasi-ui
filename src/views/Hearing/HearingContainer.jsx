@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React, { lazy, Suspense, useState, useEffect } from 'react';
@@ -29,12 +30,17 @@ function HearingContainerComponent(props) {
     fetchEditorMetaData,
     user,
     language,
+    hearingDraft,
+    hearingLanguages,
+    organizations,
+    isLoading,
+    labels,
   } = props;
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
   const [hearingSlug, setHearingSlug] = useState(null);
-  const hearing = useSelector(state => getHearingWithSlug(state, hearingSlug));
+  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
 
   useEffect(() => {
     setHearingSlug(params.hearingSlug);
@@ -53,11 +59,7 @@ function HearingContainerComponent(props) {
 
   useEffect(() => {
     if (location.state) {
-      if (
-        !isEmpty(hearing) &&
-        hearing.default_to_fullscreen &&
-        !location.state.fromFullscreen
-      ) {
+      if (!isEmpty(hearing) && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
         navigate({
           pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
@@ -74,7 +76,7 @@ function HearingContainerComponent(props) {
   const helmetMeta = [
     { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
     { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
-  ]
+  ];
   if (hearing?.main_image?.url) {
     helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
   }
@@ -83,10 +85,7 @@ function HearingContainerComponent(props) {
     <div className='hearing-page'>
       {!isEmpty(hearing) ? (
         <>
-          <Helmet
-            title={getAttr(hearing.title, language)}
-            meta={helmetMeta}
-          />
+          <Helmet title={getAttr(hearing.title, language)} meta={helmetMeta} />
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
               <HearingEditor

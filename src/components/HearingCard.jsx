@@ -104,6 +104,7 @@ const HearingCard = ({
               className='favorite-icon'
               onClick={() => unFavoriteAction(hearing.slug, hearing.id)}
               title={favoriteButtonText}
+              aria-label={favoriteButtonText}
             >
               <Icon name='heart' aria-hidden='true' />
             </button>

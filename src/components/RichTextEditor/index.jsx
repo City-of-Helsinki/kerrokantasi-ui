@@ -248,16 +248,9 @@ class RichTextEditor extends React.Component {
     };
   }
 
- myKeyBindingFn(e) {
-    if (e.keyCode === 83) {
-      return 'custom-tab';
-    }
-    return getDefaultKeyBinding(e);
-  }
-
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
-    if (command == 'custom-tab') {
+    if (command === 'custom-tab') {
       this.onTab();
       return true;
     }
@@ -325,6 +318,15 @@ class RichTextEditor extends React.Component {
       return formatMessage({ id: this.props.placeholderId });
     }
     return '';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  myKeyBindingFn(e) {
+    if (e.keyCode === 83) {
+      return 'custom-tab';
+    }
+    // eslint-disable-next-line no-undef
+    return getDefaultKeyBinding(e);
   }
 
   removeLink(event) {
@@ -628,6 +630,7 @@ RichTextEditor.propTypes = {
   value: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default RichTextEditor;

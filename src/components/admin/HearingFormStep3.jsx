@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 /* eslint-disable global-require */
@@ -459,7 +460,7 @@ class HearingFormStep3 extends React.Component {
           </HelpBlock>
         </div>
         <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
+          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>

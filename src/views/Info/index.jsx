@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-danger */
 /* eslint-disable global-require */
@@ -49,6 +50,7 @@ const Info = (props) => {
 
 Info.propTypes = {
   language: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(connect((state) => ({ language: state.language }))(Info));
