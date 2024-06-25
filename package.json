@@ -194,7 +194,8 @@
       "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js",
       "^@city-i18n(.*)$": "<rootDir>/src/i18n$1",
       "^@city-assets(.*)$": "<rootDir>/assets$1",
-      "^@city-images(.*)$": "<rootDir>/assets/images$1"
+      "^@city-images(.*)$": "<rootDir>/assets/images$1",
+      "react-leaflet": "<rootDir>/src/__mocks__/reactLeafletMock.jsx"
     },
     "testEnvironment": "jest-environment-jsdom",
     "testPathIgnorePatterns": [
