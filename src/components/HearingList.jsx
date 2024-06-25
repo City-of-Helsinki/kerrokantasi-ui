@@ -251,6 +251,7 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
+
   const { formatMessage, formatTime, formatDate } = intl;
 
   const hearingListMap = hearingsToShow ? (
