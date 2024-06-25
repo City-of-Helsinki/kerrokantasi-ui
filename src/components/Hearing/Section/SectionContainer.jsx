@@ -704,7 +704,6 @@ SectionContainerComponent.propTypes = {
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
-  location: PropTypes.object,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
   postSectionComment: PropTypes.func,
