@@ -35,10 +35,12 @@ function HeaderComponent(props) {
   const location = useLocation();
   const { language, hearing } = props;
   const { user, addToFavorites, removeFromFavorites } = props;
+
   const { hearingSlug } = useParams();
   const intl = useIntl();
 
   const sections = useSelector((state) => getSections(state, hearingSlug));
+
   const isHearingClosed = useSelector((state) => getIsHearingClosed(state, hearingSlug));
   const isHearingPublished = useSelector((state) => getIsHearingPublished(state, hearingSlug));
   const showClosureInfo = isHearingClosed && isHearingPublished;
@@ -257,6 +259,7 @@ function HeaderComponent(props) {
       return <div />;
     }
     const isFollowed = user.favorite_hearings.includes(hearing.id);
+
     const favConfig = {
       icon: isFollowed ? 'heart' : 'heart-o',
       click: isFollowed ? removeFromFavorites : addToFavorites,
@@ -359,8 +362,6 @@ HeaderComponent.propTypes = {
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
-  location: PropTypes.object,
-  params: PropTypes.object,
   sections: PropTypes.array,
   showClosureInfo: PropTypes.bool,
   user: PropTypes.object,
@@ -368,5 +369,6 @@ HeaderComponent.propTypes = {
   removeFromFavorites: PropTypes.func,
 };
 
+export const UnconnectedHeader = HeaderComponent;
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
