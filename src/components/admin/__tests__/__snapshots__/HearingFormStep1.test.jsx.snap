@@ -9,9 +9,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       class="hearing-languages"
     >
       <legend>
-        <span>
-          hearingLanguages
-        </span>
+        hearingLanguages
       </legend>
       <div
         class="hearing-languages__row"
@@ -22,9 +20,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-fi"
           >
-            <span>
-              inLanguage-fi
-            </span>
+            inLanguage-fi
             <input
               id="kkEditorLanguageSelector-fi"
               name="language"
@@ -39,9 +35,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-sv"
           >
-            <span>
-              inLanguage-sv
-            </span>
+            inLanguage-sv
             <input
               id="kkEditorLanguageSelector-sv"
               name="language"
@@ -56,9 +50,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-en"
           >
-            <span>
-              inLanguage-en
-            </span>
+            inLanguage-en
             <input
               id="kkEditorLanguageSelector-en"
               name="language"
@@ -95,46 +87,85 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="label-elements"
           >
             <div
-              class="Select is-clearable is-searchable Select--multi"
+              class=" css-b62m3t-container"
             >
+              <span
+                class="css-1f43avz-a11yText-A11yText"
+                id="react-select-2-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                class="css-1f43avz-a11yText-A11yText"
+                role="log"
+              />
               <div
-                class="Select-control"
+                class=" css-13cymwt-control"
               >
                 <div
-                  class="Select-multi-value-wrapper"
-                  id="react-select-2--value"
+                  class=" css-1fdsijx-ValueContainer"
                 >
                   <div
-                    class="Select-placeholder"
+                    class=" css-1jqq78o-placeholder"
+                    id="react-select-2-placeholder"
                   >
                     hearingLabelsPlaceholder
                   </div>
                   <div
-                    class="Select-input"
-                    style="display: inline-block;"
+                    class=" css-qbdosj-Input"
+                    data-value=""
                   >
                     <input
-                      aria-activedescendant="react-select-2--value"
+                      aria-activedescendant=""
+                      aria-autocomplete="list"
+                      aria-describedby="react-select-2-placeholder"
                       aria-expanded="false"
-                      aria-haspopup="false"
-                      aria-owns=""
+                      aria-haspopup="true"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      autocorrect="off"
+                      class=""
+                      id="react-select-2-input"
                       role="combobox"
-                      style="box-sizing: content-box; width: 5px;"
+                      spellcheck="false"
+                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                      tabindex="0"
+                      type="text"
                       value=""
-                    />
-                    <div
-                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
                     />
                   </div>
                 </div>
-                <span
-                  class="Select-arrow-zone"
+                <div
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="Select-arrow"
+                    class=" css-1u9des2-indicatorSeparator"
                   />
-                </span>
+                  <div
+                    aria-hidden="true"
+                    class=" css-1xc3v61-indicatorContainer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="css-tj5bde-Svg"
+                      focusable="false"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      width="20"
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
+              <input
+                name="labels"
+                type="hidden"
+                value=""
+              />
             </div>
             <button
               class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO Button-module_size-small__3lizH button_hds-button--small__2NFef kerrokantasi-btn pull-right add-label-button"
@@ -161,9 +192,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="control-label"
             for="hearingSlug"
           >
-            <span>
-              hearingSlug
-            </span>
+            hearingSlug
             *
           </label>
           <span
@@ -193,55 +222,92 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         class="control-label"
         for="hearingContacts"
       >
-        <span>
-          hearingContacts
-        </span>
+        hearingContacts
         *
       </label>
       <div
         class="contact-elements"
       >
         <div
-          class="Select is-clearable is-searchable Select--multi"
+          class=" css-b62m3t-container"
         >
+          <span
+            class="css-1f43avz-a11yText-A11yText"
+            id="react-select-3-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            class="css-1f43avz-a11yText-A11yText"
+            role="log"
+          />
           <div
-            class="Select-control"
+            class=" css-13cymwt-control"
           >
             <div
-              class="Select-multi-value-wrapper"
-              id="react-select-3--value"
+              class=" css-1fdsijx-ValueContainer"
             >
               <div
-                class="Select-placeholder"
+                class=" css-1jqq78o-placeholder"
+                id="react-select-3-placeholder"
               >
                 hearingContactsPlaceholder
               </div>
               <div
-                class="Select-input"
-                style="display: inline-block;"
+                class=" css-qbdosj-Input"
+                data-value=""
               >
                 <input
-                  aria-activedescendant="react-select-3--value"
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-describedby="react-select-3-placeholder"
                   aria-expanded="false"
-                  aria-haspopup="false"
-                  aria-owns=""
+                  aria-haspopup="true"
+                  autocapitalize="none"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class=""
+                  id="react-select-3-input"
                   role="combobox"
-                  style="box-sizing: content-box; width: 5px;"
+                  spellcheck="false"
+                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                  tabindex="0"
+                  type="text"
                   value=""
-                />
-                <div
-                  style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
                 />
               </div>
             </div>
-            <span
-              class="Select-arrow-zone"
+            <div
+              class=" css-1hb7zxy-IndicatorsContainer"
             >
               <span
-                class="Select-arrow"
+                class=" css-1u9des2-indicatorSeparator"
               />
-            </span>
+              <div
+                aria-hidden="true"
+                class=" css-1xc3v61-indicatorContainer"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
+          <input
+            name="contacts"
+            type="hidden"
+            value=""
+          />
         </div>
         <button
           class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO Button-module_size-small__3lizH button_hds-button--small__2NFef kerrokantasi-btn pull-right add-contact-button"
@@ -259,9 +325,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       <span
         class="help-block"
       >
-        <span>
-          hearingContactsHelpText
-        </span>
+        hearingContactsHelpText
       </span>
     </div>
     <div
@@ -274,9 +338,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         <span
           class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
         >
-          <span>
-            hearingFormNext
-          </span>
+          hearingFormNext
         </span>
       </button>
     </div>
