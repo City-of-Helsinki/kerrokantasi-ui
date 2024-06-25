@@ -248,6 +248,7 @@ function Hearings(props) {
 
   const getHearings = () => {
     const { hearingLists } = props;
+
     const hearingListKey = getHearingListName();
     return get(hearingLists, [hearingListKey, 'data'], null);
   };
@@ -282,10 +283,13 @@ function Hearings(props) {
     .map((label) => getAttr(label.label, language));
   const searchTitle = parseQuery(location.search).search;
   const hearings = getHearings();
+
   const hearingCount = getHearingsCount();
+
   if (user && user.isFetching) {
     return <LoadSpinner />;
   }
+
   return (
     <div className='hearings'>
       <section className='page-section page-section--all-hearings-header'>
@@ -356,9 +360,9 @@ Hearings.propTypes = {
   ),
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
-  location: PropTypes.shape({
-    search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  }),
+  // location: PropTypes.shape({
+  //   search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+  // }),
   user: PropTypes.shape({
     data: userShape,
     isFetching: PropTypes.bool,
@@ -379,5 +383,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
+
+export const UnconnectedHearings = Hearings;
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Hearings));

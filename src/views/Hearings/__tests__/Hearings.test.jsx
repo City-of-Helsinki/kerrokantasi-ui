@@ -1,13 +1,25 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 
 import Hearings from '../index';
-import { mockStore, getIntlAsProp } from '../../../../test-utils';
+import { mockStore, getIntlAsProp, mockUser } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
+import createAppStore from '../../../createStore';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: '/hearings/list',
+    search: '',
+  }),
+}));
 
 const renderComponent = (propOverrides) => {
-  const { labels, ...rest } = mockStore;
+  const { labels, hearingLists, ...rest } = mockStore;
+  const history = createMemoryHistory();
+  const storeMock = createAppStore({ hearingLists, labels, language: 'fi', user: mockUser });
 
   const props = {
     labels: labels.data,
@@ -19,6 +31,7 @@ const renderComponent = (propOverrides) => {
     <MemoryRouter>
       <Hearings intl={getIntlAsProp()} {...props} />
     </MemoryRouter>,
+    { store: storeMock, history },
   );
 };
 
