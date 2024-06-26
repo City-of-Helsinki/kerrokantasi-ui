@@ -120,6 +120,7 @@ class ContactModal extends React.Component {
 
   submitForm(event) {
     event.preventDefault();
+
     if (isEmpty(this.props.contactInfo)) {
       this.props.onCreateContact(omit(this.state.contact, ['id']));
     } else {
@@ -212,13 +213,7 @@ class ContactModal extends React.Component {
           title={isCreate ? <FormattedMessage id='createContact' /> : <FormattedMessage id='editContact' />}
         />
         <Dialog.Content>
-          <form
-            id={descriptionId}
-            ref={(form) => {
-              this.contactForm = form;
-            }}
-            onSubmit={this.submitForm}
-          >
+          <form id={descriptionId} onSubmit={this.submitForm}>
             <div className='input-container name-input'>
               <h4>
                 <FormattedMessage id='name' />
@@ -309,10 +304,7 @@ class ContactModal extends React.Component {
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button
-            className='kerrokantasi-btn black'
-            onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}
-          >
+          <Button className='kerrokantasi-btn black' onClick={this.submitForm}>
             {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}
           </Button>
           <Button className='kerrokantasi-btn' onClick={() => onClose()}>
