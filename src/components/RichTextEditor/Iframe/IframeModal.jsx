@@ -110,6 +110,7 @@ class IframeModal extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header id={titleId} title={<FormattedMessage id='iframeModalTitle' />} />
         <Dialog.Content>
@@ -182,7 +183,7 @@ class IframeModal extends React.Component {
           <Button className='kerrokantasi-btn' onClick={() => onClose()}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className='kerrokantasi-btn' onClick={(event) => this.handleFormSubmit(event, fields)}>
+          <Button className='kerrokantasi-btn black' onClick={(event) => this.handleFormSubmit(event, fields)}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

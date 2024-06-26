@@ -113,18 +113,18 @@ class HearingForm extends React.Component {
 
     if (hearing.published) {
       ActionButton = () => (
-        <div className='flex-end btn-toolbar'>
-          <Button className='kerrokantasi-btn success' onClick={onSaveAsCopy}>
+        <div className='btn-toolbar'>
+          <Button className='kerrokantasi-btn' onClick={onSaveAsCopy}>
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
-          <Button className='kerrokantasi-btn success' onClick={onSaveChanges}>
+          <Button className='kerrokantasi-btn black' onClick={onSaveChanges}>
             <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
-        <Button className='kerrokantasi-btn success' onClick={onSaveAndPreview}>
+        <Button className='kerrokantasi-btn black' onClick={onSaveAndPreview}>
           <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );
@@ -206,6 +206,7 @@ class HearingForm extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={this.props.intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header
           id={titleId}
@@ -229,14 +230,14 @@ class HearingForm extends React.Component {
                 {this.getFormStep(4)}
                 {this.getFormStep(5)}
               </Accordion>
-              <div className='editor-footer'>{this.getActions()}</div>
             </form>
           </div>
         </Dialog.Content>
-        <Dialog.ActionButtons>
+        <Dialog.ActionButtons className='hearing-form-action-buttons'>
           <Button className='kerrokantasi-btn' onClick={this.props.onLeaveForm}>
             <FormattedMessage id='cancel' />
           </Button>
+          {this.getActions()}
         </Dialog.ActionButtons>
       </Dialog>
     );

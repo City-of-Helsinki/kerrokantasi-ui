@@ -9,6 +9,10 @@ div:has(> .hearing-form-child-modal) {
 .form-container {
   &.hearing-form-modal {
     width: 80% !important;
+
+    .hearing-form-action-buttons {
+      justify-content: space-between;
+    }
   }
 
   .panel-heading {

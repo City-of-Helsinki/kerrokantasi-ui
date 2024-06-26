@@ -206,12 +206,12 @@ a.list-group-item {
   }
   &.black {
     background: $black;
-    border: $black;
+    border-color: $black;
     color: $white;
     &:hover {
       color: $white;
       background: lighten($black, 15%);
-      border: $black;
+      border-color: $black;
     }
   }
   &.secondary {

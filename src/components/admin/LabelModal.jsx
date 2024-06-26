@@ -122,6 +122,7 @@ class LabelModal extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header id={titleId} title={<FormattedMessage id='createLabel' />} />
         <Dialog.Content>
@@ -140,11 +141,11 @@ class LabelModal extends React.Component {
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button onClick={onClose}>
+          <Button className='kerrokantasi-btn' onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
           <Button
-            className='kerrokantasi-btn'
+            className='kerrokantasi-btn black'
             onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}
           >
             <FormattedMessage id='create' />
