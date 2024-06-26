@@ -180,11 +180,11 @@ class IframeModal extends React.Component {
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
-            <FormattedMessage id='cancel' />
-          </Button>
           <Button className='kerrokantasi-btn black' onClick={(event) => this.handleFormSubmit(event, fields)}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
+          </Button>
+          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
+            <FormattedMessage id='cancel' />
           </Button>
           {this.state.showFormErrorMsg && (
             <p

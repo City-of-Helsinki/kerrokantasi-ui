@@ -130,11 +130,11 @@ class ImageModal extends React.Component {
           </div>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button className='kerrokantasi-btn' onClick={onClose}>
-            <FormattedMessage id='cancel' />
-          </Button>
           <Button className='kerrokantasi-btn black' onClick={this.confirmImage}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
+          </Button>
+          <Button className='kerrokantasi-btn' onClick={onClose}>
+            <FormattedMessage id='cancel' />
           </Button>
           {this.state.showFormErrorMsg && (
             <p id='skip-link-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>

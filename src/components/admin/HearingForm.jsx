@@ -234,10 +234,10 @@ class HearingForm extends React.Component {
           </div>
         </Dialog.Content>
         <Dialog.ActionButtons className='hearing-form-action-buttons'>
+          {this.getActions()}
           <Button className='kerrokantasi-btn' onClick={this.props.onLeaveForm}>
             <FormattedMessage id='cancel' />
           </Button>
-          {this.getActions()}
         </Dialog.ActionButtons>
       </Dialog>
     );
