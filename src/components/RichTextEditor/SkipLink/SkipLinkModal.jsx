@@ -101,6 +101,7 @@ class SkipLinkModal extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header id={titleId} title={<FormattedMessage id='skipLinkModalTitle' />} />
         <Dialog.Content>
@@ -149,10 +150,10 @@ class SkipLinkModal extends React.Component {
           </div>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button onClick={onClose} type='button'>
+          <Button className='kerrokantasi-btn' onClick={onClose} type='button'>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className='kerrokantasi-btn' onClick={this.confirmSkipLink}>
+          <Button className='kerrokantasi-btn black' onClick={this.confirmSkipLink}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

@@ -205,6 +205,7 @@ class ContactModal extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header
           id={titleId}
@@ -312,7 +313,7 @@ class ContactModal extends React.Component {
             <FormattedMessage id='cancel' />
           </Button>
           <Button
-            className='kerrokantasi-btn'
+            className='kerrokantasi-btn black'
             onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}
           >
             {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}

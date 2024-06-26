@@ -629,12 +629,12 @@ export const BaseCommentForm = ({
         </FormGroup>
         {renderNameFormForUser()}
         <div className='comment-buttons clearfix'>
-          <Button className='kerrokantasi-btn danger' onClick={toggle}>
+          <Button className='kerrokantasi-btn' onClick={toggle}>
             <FormattedMessage id='cancel' />
           </Button>
           <Button
             aria-disabled={hasFormErrors()}
-            className={classnames({ disabled: hasFormErrors() }, 'kerrokantasi-btn')}
+            className={classnames({ disabled: hasFormErrors() }, 'kerrokantasi-btn black')}
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />

@@ -98,6 +98,7 @@ class ImageModal extends React.Component {
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+        theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
         <Dialog.Header id={titleId} title={<FormattedMessage id='imageModalTitle' />} />
         <Dialog.Content>
@@ -129,10 +130,10 @@ class ImageModal extends React.Component {
           </div>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button onClick={onClose}>
+          <Button className='kerrokantasi-btn' onClick={onClose}>
             <FormattedMessage id='cancel' />
           </Button>
-          <Button className='kerrokantasi-btn' onClick={this.confirmImage}>
+          <Button className='kerrokantasi-btn black' onClick={this.confirmImage}>
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           {this.state.showFormErrorMsg && (

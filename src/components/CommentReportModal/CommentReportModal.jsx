@@ -17,6 +17,7 @@ const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      theme={{ '--accent-line-color': 'var(--color-black)' }}
     >
       <Dialog.Header
         id={titleId}
@@ -27,7 +28,7 @@ const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
         <CommentReportForm hearing={hearing} id={descriptionId} />
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button onClick={onClose}>
+        <Button className='kerrokantasi-btn' onClick={onClose}>
           <FormattedMessage id='commentReportsClose' />
         </Button>
       </Dialog.ActionButtons>
