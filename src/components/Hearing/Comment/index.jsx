@@ -22,6 +22,7 @@ import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/no
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
+import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -271,7 +272,7 @@ class Comment extends React.Component {
         </span>
         <OverlayTrigger placement='top' overlay={this.dateTooltip(data)} delayShow={300}>
           <span className='hearing-comment-date'>
-            <FormattedRelativeTime value={data.created_at} />
+            <FormatRelativeTime value={data.created_at} />
           </span>
         </OverlayTrigger>
       </div>
