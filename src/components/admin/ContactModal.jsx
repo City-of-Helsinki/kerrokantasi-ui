@@ -309,14 +309,14 @@ class ContactModal extends React.Component {
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
-            <FormattedMessage id='cancel' />
-          </Button>
           <Button
             className='kerrokantasi-btn black'
             onClick={() => this.contactForm.querySelector('input[type="submit"]').click()}
           >
             {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}
+          </Button>
+          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
+            <FormattedMessage id='cancel' />
           </Button>
         </Dialog.ActionButtons>
       </Dialog>

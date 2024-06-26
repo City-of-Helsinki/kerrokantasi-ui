@@ -28,7 +28,7 @@ const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
         <CommentReportForm hearing={hearing} id={descriptionId} />
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button className='kerrokantasi-btn' onClick={onClose}>
+        <Button className='kerrokantasi-btn black' onClick={onClose}>
           <FormattedMessage id='commentReportsClose' />
         </Button>
       </Dialog.ActionButtons>

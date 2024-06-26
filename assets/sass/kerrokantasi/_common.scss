@@ -194,7 +194,8 @@ a.list-group-item {
   }
 }
 
-.kerrokantasi-btn[type="button"], .kerrokantasi-btn[type="submit"] {
+.kerrokantasi-btn[type='button'],
+.kerrokantasi-btn[type='submit'] {
   margin: 0px 2px;
   border-color: $black;
   color: $black;
@@ -218,11 +219,13 @@ a.list-group-item {
     border-color: transparent;
   }
   &.danger {
+    background: $theme-danger;
     border-color: $theme-danger;
-    color: $theme-danger;
+    color: $white;
     &:hover {
-      border-color: $theme-danger;
-      background: lighten($theme-danger-light, 50%);
+      color: $white;
+      border-color:  darken($theme-danger, 15%);
+      background: darken($theme-danger, 15%);
     }
   }
   &.success {

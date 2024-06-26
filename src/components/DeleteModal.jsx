@@ -14,7 +14,7 @@ const DeleteModal = ({ isOpen, intl, close, onDeleteComment }) => {
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       closeButtonLabelText={intl.formatMessage({ id: 'close' })}
-      theme={{ '--accent-line-color': 'var(--color-black)' }}
+      theme={{ '--accent-line-color': 'rgb(176, 16, 56)' }}
     >
       <Dialog.Header id={titleId} title={<FormattedMessage id='deleteComment' />} />
       <Dialog.Content>
@@ -27,7 +27,7 @@ const DeleteModal = ({ isOpen, intl, close, onDeleteComment }) => {
           <FormattedMessage id='cancel' />
         </Button>
         <Button
-          className='kerrokantasi-btn black'
+          className='kerrokantasi-btn danger'
           onClick={() => {
             onDeleteComment();
             close();
