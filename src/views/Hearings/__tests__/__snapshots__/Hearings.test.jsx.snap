@@ -62,9 +62,7 @@ exports[`<Hearings /> should render correctly 1`] = `
                             for="downshift-0-input"
                             id="downshift-1-label"
                           >
-                            <span>
-                              searchTitles
-                            </span>
+                            searchTitles
                           </label>
                           <div
                             class="SearchInput-module_wrapper__114JK"
@@ -87,7 +85,7 @@ exports[`<Hearings /> should render correctly 1`] = `
                               class="SearchInput-module_buttons__2O_2t search-input_hds-search-input__buttons__3PawT"
                             >
                               <button
-                                aria-label="Etsi otsikoista"
+                                aria-label="searchTitles"
                                 class="SearchInput-module_button__z7NIp search-input_hds-search-input__button__1-cj-"
                                 type="button"
                               >
@@ -125,51 +123,83 @@ exports[`<Hearings /> should render correctly 1`] = `
                           class="control-label"
                           for="formControlsSearchSelect"
                         >
-                          <span>
-                            searchLabels
-                          </span>
+                          searchLabels
                         </label>
                         <div
-                          class="Select hearings-search__select is-clearable is-searchable Select--multi"
+                          class="hearings-search__select css-b62m3t-container"
+                          id="formControlsSearchSelect"
                         >
+                          <span
+                            class="css-1f43avz-a11yText-A11yText"
+                            id="react-select-2-live-region"
+                          />
+                          <span
+                            aria-atomic="false"
+                            aria-live="polite"
+                            aria-relevant="additions text"
+                            class="css-1f43avz-a11yText-A11yText"
+                            role="log"
+                          />
                           <div
-                            class="Select-control"
+                            class=" css-13cymwt-control"
                           >
                             <div
-                              class="Select-multi-value-wrapper"
-                              id="react-select-2--value"
+                              class=" css-1fdsijx-ValueContainer"
                             >
                               <div
-                                class="Select-placeholder"
+                                class=" css-1jqq78o-placeholder"
+                                id="react-select-2-placeholder"
                               >
-                                Etsi...
+                                searchPlaceholder
                               </div>
                               <div
-                                class="Select-input"
-                                style="display: inline-block;"
+                                class=" css-qbdosj-Input"
+                                data-value=""
                               >
                                 <input
-                                  aria-activedescendant="react-select-2--value"
+                                  aria-activedescendant=""
+                                  aria-autocomplete="list"
+                                  aria-describedby="react-select-2-placeholder"
                                   aria-expanded="false"
-                                  aria-haspopup="false"
-                                  aria-owns=""
-                                  id="formControlsSearchSelect"
+                                  aria-haspopup="true"
+                                  autocapitalize="none"
+                                  autocomplete="off"
+                                  autocorrect="off"
+                                  class=""
+                                  id="react-select-2-input"
                                   role="combobox"
-                                  style="box-sizing: content-box; width: 5px;"
+                                  spellcheck="false"
+                                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                                  tabindex="0"
+                                  type="text"
                                   value=""
-                                />
-                                <div
-                                  style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
                                 />
                               </div>
                             </div>
-                            <span
-                              class="Select-arrow-zone"
+                            <div
+                              class=" css-1hb7zxy-IndicatorsContainer"
                             >
                               <span
-                                class="Select-arrow"
+                                class=" css-1u9des2-indicatorSeparator"
                               />
-                            </span>
+                              <div
+                                aria-hidden="true"
+                                class=" css-1xc3v61-indicatorContainer"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="css-tj5bde-Svg"
+                                  focusable="false"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  width="20"
+                                >
+                                  <path
+                                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -181,18 +211,14 @@ exports[`<Hearings /> should render correctly 1`] = `
                       <span
                         class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
                       >
-                        <span>
-                          search
-                        </span>
+                        search
                       </span>
                     </button>
                     <a
                       class="internal-link hidden-link"
                       href="#hearings-section"
                     >
-                      <span>
-                        jumpToSearchResults
-                      </span>
+                      jumpToSearchResults
                     </a>
                   </form>
                 </div>
@@ -227,9 +253,7 @@ exports[`<Hearings /> should render correctly 1`] = `
                     role="tab"
                     title="List"
                   >
-                    <span>
-                      list
-                    </span>
+                    list
                   </a>
                 </li>
                 <li
@@ -243,9 +267,7 @@ exports[`<Hearings /> should render correctly 1`] = `
                     tabindex="-1"
                     title="Map"
                   >
-                    <span>
-                      map
-                    </span>
+                    map
                   </a>
                 </li>
               </ul>
@@ -270,181 +292,8 @@ exports[`<Hearings /> should render correctly 1`] = `
                 class="internal-link hidden-link"
                 href="#hearings-search-form"
               >
-                <span>
-                  jumpToSearchForm
-                </span>
+                jumpToSearchForm
               </a>
-              <div>
-                <div
-                  class="hearing-list__result-controls"
-                >
-                  <h2
-                    class="hearing-list__hearing-list-title"
-                  >
-                    totalNumHearings
-                  </h2>
-                  <div
-                    class="hearing-list__filter-bar clearfix"
-                  >
-                    <div
-                      class="sr-only"
-                    />
-                    <div
-                      class="hearing-list__filter-bar-filter form-group"
-                    >
-                      <label
-                        class="hearing-list__filter-bar-label control-label"
-                        for="formControlsSelect"
-                      >
-                        <span>
-                          sort
-                        </span>
-                      </label>
-                      <select
-                        class="select form-control"
-                        id="formControlsSelect"
-                        placeholder="select"
-                      >
-                        <option
-                          value="-created_at"
-                        >
-                          Uusimmat ensin
-                        </option>
-                        <option
-                          value="created_at"
-                        >
-                          Vanhimmat ensin
-                        </option>
-                        <option
-                          value="-close_at_from_open"
-                        >
-                          Viimeisenä sulkeutuvat
-                        </option>
-                        <option
-                          value="close_at_from_open"
-                        >
-                          Ensimmäisenä sulkeutuvat
-                        </option>
-                        <option
-                          value="-close_at_from_closed"
-                        >
-                          Viimeisenä sulkeutuneet
-                        </option>
-                        <option
-                          value="-n_comments"
-                        >
-                          Eniten kommentoidut
-                        </option>
-                        <option
-                          value="n_comments"
-                        >
-                          Vähiten kommentoidut
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="hearing-list"
-                >
-                  <div
-                    role="list"
-                  >
-                    <div
-                      class="hearing-list-item"
-                      role="listitem"
-                    >
-                      <div
-                        alt="Mock Hearing"
-                        class="mouse-only-click-element hearing-list-item-image"
-                        style="background-image: url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg);"
-                      />
-                      <div
-                        class="hearing-list-item-content"
-                      >
-                        <div
-                          class="hearing-list-item-title-wrap"
-                        >
-                          <h2
-                            class="h4 hearing-list-item-title"
-                          >
-                            <a
-                              href="/mockHearing?headless=false"
-                            >
-                               
-                              Mock Hearing
-                            </a>
-                          </h2>
-                          <div
-                            class="hearing-list-item-comments"
-                          >
-                            <span
-                              aria-hidden="true"
-                              class="fa fa-comment-o"
-                            />
-                             
-                            1
-                            <span
-                              class="sr-only"
-                            >
-                              <span>
-                                hearingListComment
-                              </span>
-                            </span>
-                          </div>
-                        </div>
-                        <div
-                          class="hearing-list-item-times"
-                        >
-                          <div>
-                            <span>
-                              timeOpenPastWithValues
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              timeCloseFutureWithValues
-                            </span>
-                          </div>
-                        </div>
-                        <div
-                          class="hearing-list-item-labels clearfix"
-                        >
-                          <div
-                            aria-label="labelListTagsTitle"
-                            class="hearing-list-item-labellist"
-                          />
-                        </div>
-                        <div
-                          class="hearing-card-notice"
-                        >
-                          <span
-                            aria-hidden="true"
-                            class="fa fa-exclamation-circle"
-                          />
-                          <span>
-                            hearingTranslationNotAvailable
-                          </span>
-                          <div
-                            class="language-available-message"
-                            lang="fi"
-                          >
-                            Kuuleminen saatavilla suomeksi
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="loader-wrap"
-                    data-testid="load-spinner"
-                  >
-                    <span
-                      class="fa fa-hourglass-o fa-2x fa-spin"
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

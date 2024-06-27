@@ -396,7 +396,7 @@ export function addSectionAttachment(section, file, title, isNew) {
         if (response.status === 400 && !isNew) {
           localizedNotifyError('errorSaveBeforeAttachment');
         } else {
-          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: {...attachment, isNew: true} })));
+          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: { ...attachment, isNew: true } })));
         }
       });
   };

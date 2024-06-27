@@ -5,10 +5,12 @@ import { screen, waitFor } from '@testing-library/react';
 
 import SkipLinkModal from '../SkipLinkModal';
 import renderWithProviders from '../../../../utils/renderWithProviders';
+import { getIntlAsProp } from '../../../../../test-utils';
 
 const renderComponent = (propOverrides) => {
   const props = {
     isOpen: true,
+    intl: getIntlAsProp(),
     onClose: jest.fn(),
     onSubmit: jest.fn(),
     ...propOverrides,
@@ -24,6 +26,20 @@ const renderComponent = (propOverrides) => {
 describe('<SkipLinkModal />', () => {
   it('should render correctly', () => {
     renderComponent();
+  });
+
+  it('should call onClose when cancel button is clicked', async () => {
+    const onCloseMock = jest.fn();
+
+    renderComponent({ onClose: onCloseMock });
+
+    const cancelButton = await screen.findByRole('button', { name: 'cancel' });
+
+    userEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should handle input changes', () => {
@@ -63,18 +79,5 @@ describe('<SkipLinkModal />', () => {
     const errorMessage = await screen.findByTestId('skip-link-form-submit-error');
 
     expect(errorMessage).toBeInTheDocument();
-  });
-
-  it('should call onClose when cancel button is clicked', async () => {
-    const onCloseMock = jest.fn();
-
-    renderComponent({ onClose: onCloseMock });
-
-    const cancelButton = screen.getByRole('button', { name: 'cancel' });
-    userEvent.click(cancelButton);
-
-    await waitFor(() => {
-      expect(onCloseMock).toHaveBeenCalledTimes(1);
-    });
   });
 });

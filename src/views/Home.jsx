@@ -144,6 +144,7 @@ Home.propTypes = {
   topHearing: PropTypes.object,
   language: PropTypes.string, // make sure changing language refreshes
   user: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

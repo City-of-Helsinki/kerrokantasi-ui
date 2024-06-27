@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -24,7 +25,7 @@ export default defineConfig({
   // Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: process.env.E2E_TESTS_ENV_URL ?? 'https://kerrokantasi.dev.hel.ninja/',
+    baseURL: process.env.E2E_TESTS_ENV_URL ?? 'https://kerrokantasi.dev.hel.ninja',
 
     // Whether to ignore HTTPS errors when sending network requests
     ignoreHTTPSErrors: true,

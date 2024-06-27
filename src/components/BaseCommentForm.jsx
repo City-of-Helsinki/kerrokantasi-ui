@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 
@@ -54,19 +55,19 @@ export const BaseCommentForm = ({
   loggedIn,
   user,
   collapseForm,
-  defaultNickname,
+  defaultNickname = '',
   answers,
   canComment,
   section,
-  isReply,
+  isReply = false,
   nicknamePlaceholder,
   hearingGeojson,
   isHighContrast,
   language,
   closed,
-  overrideCollapse,
+  overrideCollapse = false,
   intl,
-  onOverrideCollapse,
+  onOverrideCollapse = () => {},
   onPostComment,
   onChangeAnswers,
 }) => {
@@ -669,13 +670,7 @@ BaseCommentForm.propTypes = {
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   hearingGeojson: PropTypes.object,
-};
-
-BaseCommentForm.defaultProps = {
-  defaultNickname: '',
-  overrideCollapse: false,
-  onOverrideCollapse: () => {},
-  isReply: false,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

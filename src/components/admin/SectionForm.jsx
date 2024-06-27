@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -66,13 +67,13 @@ class SectionForm extends React.Component {
     };
     this.acceptedFiles = {
       'application/pdf': ['.pdf'],
-    }
+    };
     this.acceptedImages = {
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png'],
       'image/webp': ['.webp'],
       'image/gif': ['.gif'],
-    }
+    };
   }
 
   componentDidMount() {
@@ -280,10 +281,7 @@ class SectionForm extends React.Component {
               >
                 &uarr; <FormattedMessage id='moveUp' />
               </Button>
-              <Button
-                onClick={() => sectionMoveDown(section.frontId)}
-                disabled={isLastSubsection}
-              >
+              <Button onClick={() => sectionMoveDown(section.frontId)} disabled={isLastSubsection}>
                 <FormattedMessage id='moveDown' /> &darr;
               </Button>
             </ButtonGroup>
@@ -305,22 +303,20 @@ class SectionForm extends React.Component {
             <FormattedMessage id='sectionImage' />
           </ControlLabel>
           <Dropzone accept={this.acceptedImages} multiple={false} onDrop={this.onFileDrop}>
-            {
-              ({getRootProps, getInputProps}) => (
-                <>
-                  {this.getImagePreview()}
-                  <div className={dropZoneClass}>
-                    <div {...getRootProps()}>
-                      <input {...getInputProps()} />
-                      <span className='text'>
-                        <FormattedMessage id='selectOrDropImage' />
-                        <Icon className='icon' name='upload' />
-                      </span>
-                    </div>
+            {({ getRootProps, getInputProps }) => (
+              <>
+                {this.getImagePreview()}
+                <div className={dropZoneClass}>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <span className='text'>
+                      <FormattedMessage id='selectOrDropImage' />
+                      <Icon className='icon' name='upload' />
+                    </span>
                   </div>
-                </>
-              )
-            }
+                </div>
+              </>
+            )}
           </Dropzone>
           <HelpBlock>
             <FormattedMessage id='sectionImageHelpText' />
@@ -430,19 +426,17 @@ class SectionForm extends React.Component {
             <FormattedMessage id='hearingFileUpload' />
           </ControlLabel>
           <Dropzone accept={this.acceptedFiles} multiple={false} onDrop={this.onAttachmentDrop}>
-            {
-              ({getRootProps, getInputProps}) => (
-                <div className={dropZoneClass}>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <span className='text'>
-                      <FormattedMessage id='selectOrDropFile' />
-                      <Icon className='icon' name='upload' />
-                    </span>
-                  </div>
+            {({ getRootProps, getInputProps }) => (
+              <div className={dropZoneClass}>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <span className='text'>
+                    <FormattedMessage id='selectOrDropFile' />
+                    <Icon className='icon' name='upload' />
+                  </span>
                 </div>
-              )
-            }
+              </div>
+            )}
           </Dropzone>
           {this.renderAttachments(section)}
         </FormGroup>
@@ -534,6 +528,7 @@ SectionForm.propTypes = {
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
+  intl: PropTypes.object,
 };
 
 SectionForm.contextTypes = {
@@ -541,7 +536,7 @@ SectionForm.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language
+  language: state.language,
 });
 
 const WrappedSectionForm = injectIntl(SectionForm);

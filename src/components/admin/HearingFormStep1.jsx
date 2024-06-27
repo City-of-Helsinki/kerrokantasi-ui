@@ -158,7 +158,11 @@ class HearingFormStep1 extends React.Component {
                   valueKey='frontId'
                   menuContainerStyle={{ zIndex: 10 }}
                 />
-                <Button size="small" className='kerrokantasi-btn pull-right add-label-button' onClick={() => this.openLabelModal()}>
+                <Button
+                  size='small'
+                  className='kerrokantasi-btn pull-right add-label-button'
+                  onClick={() => this.openLabelModal()}
+                >
                   <Icon className='icon' name='plus' />
                 </Button>
               </div>
@@ -222,7 +226,7 @@ class HearingFormStep1 extends React.Component {
           </HelpBlock>
         </FormGroup>
         <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
+          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
@@ -256,6 +260,7 @@ HearingFormStep1.propTypes = {
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   organizations: PropTypes.arrayOf(organizationShape),
+  intl: PropTypes.object,
 };
 
 HearingFormStep1.contextTypes = {
@@ -263,7 +268,7 @@ HearingFormStep1.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language
+  language: state.language,
 });
 
 const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);

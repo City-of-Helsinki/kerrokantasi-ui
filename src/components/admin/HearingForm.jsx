@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
-import { Button } from 'hds-react';
-import Modal from 'react-bootstrap/lib/Modal';
+import { Button, Dialog } from 'hds-react';
 import Panel from 'react-bootstrap/lib/Panel';
 
 import Icon from '../../utils/Icon';
@@ -115,17 +114,17 @@ class HearingForm extends React.Component {
     if (hearing.published) {
       ActionButton = () => (
         <div className='flex-end btn-toolbar'>
-          <Button className="kerrokantasi-btn success"  onClick={onSaveAsCopy}>
+          <Button className='kerrokantasi-btn success' onClick={onSaveAsCopy}>
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
-          <Button className="kerrokantasi-btn success"  onClick={onSaveChanges}>
+          <Button className='kerrokantasi-btn success' onClick={onSaveChanges}>
             <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
-        <Button className="kerrokantasi-btn success"  onClick={onSaveAndPreview}>
+        <Button className='kerrokantasi-btn success' onClick={onSaveAndPreview}>
           <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );
@@ -196,34 +195,56 @@ class HearingForm extends React.Component {
   }
 
   render() {
+    const titleId = 'hearing-form-title';
+    const descriptionId = 'hearing-form-description';
+
     return (
-      <Modal
-        backdrop='static'
-        bsSize='large'
-        dialogClassName='form-modal'
-        onHide={this.props.onLeaveForm}
-        show={this.props.show}
+      <Dialog
+        className='form-container container hearing-form-modal'
+        isOpen={this.props.show}
+        close={this.props.onLeaveForm}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        closeButtonLabelText={this.props.intl.formatMessage({ id: 'close' })}
       >
-        <Modal.Header closeButton bsClass='hearing-modal-header'>
-          <h2>
-            <FormattedMessage id='editHearing' />
-          </h2>
-          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
-            <FormattedMessage id='help' />
-          </a>
-        </Modal.Header>
-        {this.getErrors()}
-        <form>
-          <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
-            {this.getFormStep(1)}
-            {this.getFormStep(2)}
-            {this.getFormStep(3)}
-            {this.getFormStep(4)}
-            {this.getFormStep(5)}
-          </Accordion>
-          <div className='editor-footer'>{this.getActions()}</div>
-        </form>
-      </Modal>
+        <Dialog.Header
+          id={titleId}
+          title={
+            <h2>
+              <FormattedMessage id='editHearing' />
+            </h2>
+          }
+        />
+        <Dialog.Content>
+          <div id={descriptionId}>
+            <a
+              style={{ lineHeight: 2 }}
+              href={config.adminHelpUrl}
+              rel='noopener noreferrer'
+              target='_blank'
+              aria-label={<FormattedMessage id='help' />}
+            >
+              <FormattedMessage id='help' />
+            </a>
+            {this.getErrors()}
+            <form>
+              <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
+                {this.getFormStep(1)}
+                {this.getFormStep(2)}
+                {this.getFormStep(3)}
+                {this.getFormStep(4)}
+                {this.getFormStep(5)}
+              </Accordion>
+              <div className='editor-footer'>{this.getActions()}</div>
+            </form>
+          </div>
+        </Dialog.Content>
+        <Dialog.ActionButtons>
+          <Button className='kerrokantasi-btn' onClick={this.props.onLeaveForm}>
+            <FormattedMessage id='cancel' />
+          </Button>
+        </Dialog.ActionButtons>
+      </Dialog>
     );
   }
 }
@@ -266,6 +287,7 @@ HearingForm.propTypes = {
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
+  intl: PropTypes.object,
 };
 
 const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));

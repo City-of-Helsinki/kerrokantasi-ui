@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { Button } from 'hds-react';
 import defaultImage from '@city-images/default-image.svg';
+import { useParams } from 'react-router-dom';
 
 import getAttr from '../../../utils/getAttr';
 import Icon from '../../../utils/Icon';
@@ -49,10 +50,7 @@ const SubsectionList = ({ hearing, language, history }) => {
                     <div className='section-card-title-prefix'>
                       <FormattedMessage id='sectionCardSubsectionTitle' /> {index + 1}/{subSections.length}
                     </div>
-                    <Link
-                      to={{ path: getSectionURL(hearingSlug, section) }}
-                      className='section-card-title'
-                    >
+                    <Link to={{ path: getSectionURL(hearingSlug, section) }} className='section-card-title'>
                       <h3 id={`subsection-title-${section.id}`}>
                         {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
                       </h3>
@@ -100,7 +98,6 @@ SubsectionList.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
-  match: PropTypes.object,
 };
 
 export default SubsectionList;

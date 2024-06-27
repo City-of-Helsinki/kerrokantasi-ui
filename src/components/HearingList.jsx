@@ -235,7 +235,7 @@ export const HearingList = ({
   handleSelectLabels,
   handleSort,
   hearings,
-  hearingCount,
+  hearingCount = 0,
   isLoading,
   isMobile,
   labels,
@@ -251,6 +251,7 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
+
   const { formatMessage, formatTime, formatDate } = intl;
 
   const hearingListMap = hearingsToShow ? (
@@ -374,11 +375,7 @@ HearingList.propTypes = {
   tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,
   handleReachBottom: PropTypes.func,
-};
-
-HearingList.defaultProps = {
-  tab: HEARING_LIST_TABS.LIST,
-  hearingCount: 0,
+  intl: PropTypes.object,
 };
 
 export default HearingList;

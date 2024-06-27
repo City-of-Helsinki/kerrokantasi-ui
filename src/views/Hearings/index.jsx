@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 import { Col, Row } from 'react-bootstrap';
 import { get, find, includes, set } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
@@ -104,18 +105,73 @@ function Hearings(props) {
     const { fetchLabels } = props;
     fetchLabels();
     // Hearing List is fetched when labels are available -> componentWillReceiveProps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const forwardToUserHearings = () => {
+    const searchParams = parseQuery(location.search);
+    navigate({
+      pathname: '/user-hearings',
+      search: stringifyQuery(searchParams),
+    });
+  };
+
+  const getHearingListName = () => (isAdmin(user) ? adminFilter : HearingLists.ALL.list);
+
+  const getLabelsFromQuery = (labelsInQuery = []) => {
+    if (Array.isArray(labelsInQuery)) return labelsInQuery;
+
+    return [labelsInQuery];
+  };
+
+  const getSearchParams = () => {
+    const searchParams = {};
+
+    if (parseQuery(location.search).search) Object.assign(params, { title: parseQuery(location.search).search });
+    if (parseQuery(location.search).label) {
+      Object.assign(searchParams, { label: getLabelsFromQuery(parseQuery(location.search).label.toString()) });
+    }
+    return params;
+  };
+
+  const fetchHearingList = (fetchProps = props) => {
+    const { fetchInitialHearingList, fetchAllHearings } = fetchProps;
+    const list = getHearingListName();
+    const filterByOpen = (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
+    const fetchParams = {
+      ...getHearingListParams(list),
+      ordering: sortBy,
+      ...(filterByOpen && { open: showOnlyOpen }),
+      ...getSearchParams(),
+    };
+
+    if (tab === 'map') {
+      fetchAllHearings(list, fetchParams);
+    } else {
+      fetchInitialHearingList(list, fetchParams);
+    }
+    setInitHearingsFetched({ initHearingsFetched: true });
+  };
+
+  const handleAdminFilter = (filter) => {
+    if (filter === 'ownHearings') {
+      forwardToUserHearings();
+    } else {
+      setAdminFilter({ adminFilter: filter }, () => fetchHearingList());
+    }
+  };
+
   useEffect(() => {
-    
     const shouldSetAdminFilter = isAdmin(user) && (!user || !adminFilter);
     const shouldNullAdminFilter = isAdmin(user) && !user;
     const shouldFetchHearings =
       labels &&
       ((!labels.length && labels.length) ||
+        // eslint-disable-next-line sonarjs/no-identical-expressions, no-self-compare
         (labels.length && location.search !== location.search) ||
         (!user && user) ||
         (user && !user) ||
+        // eslint-disable-next-line sonarjs/no-identical-expressions, no-self-compare
         params.tab !== params.tab ||
         !initHearingsFetched);
 
@@ -130,24 +186,8 @@ function Hearings(props) {
     if (shouldFetchHearings) {
       fetchHearingList(props);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, labels, params, location, adminFilter, initHearingsFetched]);
-
-
-  const getSearchParams = () => {
-    const searchParams = {};
-
-    if (parseQuery(location.search).search) Object.assign(params, { title: parseQuery(location.search).search });
-    if (parseQuery(location.search).label) {
-      Object.assign(searchParams, { label: getLabelsFromQuery(parseQuery(location.search).label.toString()) });
-    }
-    return params;
-  }
-
-  const getLabelsFromQuery = (labelsInQuery = []) => {
-    if (Array.isArray(labelsInQuery)) return labelsInQuery;
-
-    return [labelsInQuery];
-  };
 
   const handleSearch = (searchTitle, force = false) => {
     const searchParams = parseQuery(location.search);
@@ -177,53 +217,41 @@ function Hearings(props) {
         search: stringifyQuery(searchParams),
       });
     }
-  }
+  };
 
-  const handleSelectLabels = (labels) => {
+  const handleSelectLabels = (selectLabels) => {
     const searchParams = parseQuery(location.search);
-    searchParams.label = labels.map(({ id }) => id);
+    searchParams.label = selectLabels.map(({ id }) => id);
     navigate({
       path: location.pathname,
       search: stringifyQuery(searchParams),
     });
-  }
+  };
 
-  const handleSort = (sortBy, showOnlyOpen, showOnlyClosed) => {
-    setSortBy(sortBy);
-    setShowOnlyOpen(showOnlyOpen);
-    setShowOnlyClosed(showOnlyClosed);
+  const handleSort = (newSortBy, newShowOnlyOpen, newShowOnlyClosed) => {
+    setSortBy(newSortBy);
+    setShowOnlyOpen(newShowOnlyOpen);
+    setShowOnlyClosed(newShowOnlyClosed);
     fetchHearingList();
-  }
-
-  const handleAdminFilter = (filter) => {
-    if (filter === 'ownHearings') {
-      forwardToUserHearings();
-    } else {
-      setAdminFilter({ adminFilter: filter }, () => fetchHearingList());
-    }
-  }
+  };
 
   const getIsLoading = () => {
     const { hearingLists } = props;
     const name = getHearingListName();
     return get(hearingLists, [name, 'isFetching'], true);
-  }
-
-  const getHearingListName = () => {
-    return isAdmin(user) ? adminFilter : HearingLists.ALL.list;
-  }
+  };
 
   const getHearingsCount = () => {
     const { hearingLists } = props;
     const list = getHearingListName();
     return get(hearingLists, [list, 'count'], 0);
-  }
+  };
 
   const getHearings = () => {
     const { hearingLists } = props;
     const hearingListKey = getHearingListName();
     return get(hearingLists, [hearingListKey, 'data'], null);
-  }
+  };
 
   const handleReachBottom = () => {
     const { fetchMoreHearings, hearingLists } = props;
@@ -241,37 +269,7 @@ function Hearings(props) {
 
   const toggleShowOnlyOpen = () => {
     setShowOnlyOpen(!showOnlyOpen);
-  }
-
-  const forwardToUserHearings = () => {
-    const searchParams = parseQuery(location.search);
-    navigate({
-      pathname: '/user-hearings',
-      search: stringifyQuery(searchParams),
-    });
-  }
-
-  const fetchHearingList = (props = props) => {
-    const {
-      fetchInitialHearingList,
-      fetchAllHearings
-    } = props;
-    const list = getHearingListName();
-    const filterByOpen = (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
-    const params = {
-      ...getHearingListParams(list),
-      ordering: sortBy,
-      ...(filterByOpen && { open: showOnlyOpen }),
-      ...getSearchParams(props),
-    };
-
-    if (tab === 'map') {
-      fetchAllHearings(list, params);
-    } else {
-      fetchInitialHearingList(list, params);
-    }
-    setInitHearingsFetched({ initHearingsFetched: true });
-  }
+  };
 
   const {
     intl: { formatMessage },
@@ -285,10 +283,13 @@ function Hearings(props) {
     .map((label) => getAttr(label.label, language));
   const searchTitle = parseQuery(location.search).search;
   const hearings = getHearings();
+
   const hearingCount = getHearingsCount();
+
   if (user && user.isFetching) {
     return <LoadSpinner />;
   }
+
   return (
     <div className='hearings'>
       <section className='page-section page-section--all-hearings-header'>
@@ -359,9 +360,9 @@ Hearings.propTypes = {
   ),
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
-  location: PropTypes.shape({
-    search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  }),
+  // location: PropTypes.shape({
+  //   search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+  // }),
   user: PropTypes.shape({
     data: userShape,
     isFetching: PropTypes.bool,
@@ -382,5 +383,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
+
+export const UnconnectedHearings = Hearings;
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Hearings));
