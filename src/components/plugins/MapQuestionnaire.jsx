@@ -232,7 +232,7 @@ const MapQuestionnaire = ({
         setMessageListener(null);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -250,7 +250,7 @@ const MapQuestionnaire = ({
         instanceId: formData.pluginInstanceId,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments, formData.userDataChanged]);
 
   const handleTextChange = (event) =>
@@ -290,7 +290,7 @@ const MapQuestionnaire = ({
                 />
               </FormGroup>
               <p>
-                <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={formData.submitting}>
+                <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
                   Lähetä ehdotus
                 </Button>
               </p>
@@ -317,7 +317,7 @@ const MapQuestionnaire = ({
               />
             </FormGroup>
             <p>
-              <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
+              <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
                 Lähetä ehdotus
               </Button>
             </p>
@@ -360,13 +360,6 @@ MapQuestionnaire.propTypes = {
   pluginInstanceId: PropTypes.string,
   pluginPurpose: PropTypes.string,
   pluginSource: PropTypes.string,
-};
-
-MapQuestionnaire.defaultProps = {
-  defaultNickname: '',
-  overrideCollapse: false,
-  onOverrideCollapse: () => {},
-  isReply: false,
 };
 
 export default injectIntl(MapQuestionnaire);

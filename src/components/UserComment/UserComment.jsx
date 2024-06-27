@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 
 import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
@@ -88,7 +88,7 @@ class UserComment extends React.Component {
               </span>
               <OverlayTrigger placement='top' overlay={this.dateTooltip(comment.created_at)} delayShow={300}>
                 <span className='hearing-comment-date'>
-                  <FormattedRelative value={comment.created_at} />
+                  <FormattedRelativeTime value={comment.created_at} />
                 </span>
               </OverlayTrigger>
             </div>

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Col, Grid, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
@@ -139,12 +139,12 @@ export class Home extends React.Component {
 }
 
 Home.propTypes = {
-  intl: intlShape.isRequired,
   dispatch: PropTypes.func,
   openHearings: PropTypes.object,
   topHearing: PropTypes.object,
   language: PropTypes.string, // make sure changing language refreshes
   user: PropTypes.object,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

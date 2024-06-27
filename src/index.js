@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable prefer-arrow-callback */
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client'
 import Raven from 'raven-js';
 
 import getRoot from './getRoot';
@@ -8,8 +8,10 @@ import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
 import '@city-assets/sass/app.scss';
+import '@formatjs/intl-relativetimeformat/polyfill'
 
 require('es6-promise').polyfill();
+
 
 commonInit(function initReady() {
   try {
@@ -19,6 +21,8 @@ commonInit(function initReady() {
     console.error(err);
   }
   const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
-  const root = getRoot(store);
-  render(root, document.getElementById('root'));
+  const app = getRoot(store);
+  const container = document.getElementById('root');
+  const root = createRoot(container);
+  root.render(app)
 });

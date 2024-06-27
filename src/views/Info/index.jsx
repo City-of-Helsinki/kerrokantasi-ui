@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-danger */
 /* eslint-disable global-require */
@@ -6,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import Helmet from 'react-helmet';
 
 function getContent(language) {
@@ -49,7 +50,7 @@ const Info = (props) => {
 
 Info.propTypes = {
   language: PropTypes.string,
-  intl: intlShape,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(connect((state) => ({ language: state.language }))(Info));

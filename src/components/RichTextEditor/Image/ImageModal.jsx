@@ -1,5 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { ControlLabel, HelpBlock, Image } from 'react-bootstrap';
 import { Button, Dialog } from 'hds-react';
@@ -106,14 +107,24 @@ class ImageModal extends React.Component {
             <ControlLabel>
               <FormattedMessage id='sectionImage' />
             </ControlLabel>
-            <Dropzone accept='image/*' className={dropZoneClass} multiple={false} onDrop={this.onFileDrop}>
-              {this.getImagePreview()}
-              <div className='overlay'>
-                <span className='text'>
-                  <FormattedMessage id='selectOrDropImage' />
-                  <Icon className='icon' name='upload' />
-                </span>
-              </div>
+            <Dropzone accept='image/*' multiple={false} onDrop={this.onFileDrop}>
+              {
+                ({getRootProps, getInputProps}) => (
+                  <>
+                    {this.getImagePreview()}
+                    <div className={dropZoneClass}>
+                      <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <span className='text'>
+                          <FormattedMessage id='selectOrDropImage' />
+                          <Icon className='icon' name='upload' />
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )
+              }
+
             </Dropzone>
             <HelpBlock>
               <FormattedMessage id='sectionImageHelpText' />
@@ -149,7 +160,7 @@ class ImageModal extends React.Component {
 
 ImageModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
