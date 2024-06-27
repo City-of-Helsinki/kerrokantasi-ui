@@ -73,7 +73,7 @@ class HearingToolbar extends React.Component {
         publishText = <FormattedMessage id='publishHearingNow' />;
       }
       actions.push(
-        <Button className="kerrokantasi-btn danger" onClick={this.props.onPublish} key='publish' size="small">
+        <Button className="kerrokantasi-btn black" onClick={this.props.onPublish} key='publish' size="small">
           <Icon name='eye' /> {publishText}
         </Button>,
       );

@@ -360,7 +360,7 @@ class Comment extends React.Component {
             }}
           />
         </FormGroup>
-        <Button type='submit'>
+        <Button className='kerrokantasi-btn black' type='submit'>
           <FormattedMessage id='save' />
         </Button>
       </form>
