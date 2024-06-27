@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.4.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.3.0...kerrokantasi-ui-v1.4.0) (2024-06-27)
+
+
+### Features
+
+* Comment report modal replace bootstrap KER-298 ([c06a33e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c06a33ee30752547e8c43e7826fe0688fe880843))
+* Contact modal replace bootstrap KER-298 ([a6648e8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a6648e814d5cddedd29d21105ded6cb5d44e35f4))
+* Delete modal replace with HDS dialog KER-298 ([d9bfe10](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d9bfe10453dc263cc8b52e23c9f8b8cccc9e88b1))
+* Hearing editor modal replace bootstrap KER-298 ([a6c910b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a6c910b795be438ea20e08da5e118b310f3e7021))
+* Hearing form move out of modal KER-298 ([cb81526](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/cb81526a0fb999a3362d5fdf67432f094b5ed428))
+* Iframe modal replace bootstrap KER-298 ([f6ea7e2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f6ea7e260cba19258ec58f0371d7a2ee55117dfa))
+* Image modal replace boostrap KER-298 ([ab935c0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ab935c0036c1c8428c134840ea5bc565cc6c3cc6))
+* Label modal replace bootstrap KER-298 ([7806ebd](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7806ebd07726eb969870d0e9f5efbb350d6f4fd5))
+* Skip link modal replace bootstrap KER-298 ([b4f5637](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b4f563783d2c2280d2e3bf89c3c8749af444efb1))
+
+
+### Bug Fixes
+
+* Dialogs use correct colors KER-298 ([be19fb0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/be19fb0585a4ecc5d6b5d93f790d424351cc8f4e))
+* Hearing modal should never overlap children KER-298 ([551ae45](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/551ae454f1cf8eeda113c2a2de8d327d96ca3d76))
+* Modal button orders, change hel theme danger color KER-298 ([645fdca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/645fdca824a3586437767bab779b0d8784d25e79))
+
 ## [1.3.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.2.6...kerrokantasi-ui-v1.3.0) (2024-05-14)
 
 
