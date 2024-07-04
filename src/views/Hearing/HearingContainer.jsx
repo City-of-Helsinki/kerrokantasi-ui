@@ -47,14 +47,16 @@ function HearingContainerComponent(props) {
   }, [params.hearingSlug]);
 
   useEffect(() => {
-    if (location.search.includes('?preview')) {
-      // regex match to get the ?preview=key and substring to retrieve the key part
-      fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
-    } else {
-      fetchHearing(hearingSlug);
+    if (hearingSlug !== null) {
+      if (location.search.includes('?preview')) {
+        // regex match to get the ?preview=key and substring to retrieve the key part
+        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
+      } else {
+        fetchHearing(hearingSlug);
+      }
+      fetchEditorMetaData();
+      fetchProjectsList();
     }
-    fetchEditorMetaData();
-    fetchProjectsList();
   }, [fetchProjectsList, fetchHearing, fetchEditorMetaData, location.search, hearingSlug]);
 
   useEffect(() => {
@@ -77,6 +79,7 @@ function HearingContainerComponent(props) {
     { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
     { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
   ];
+  
   if (hearing?.main_image?.url) {
     helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
   }

@@ -29,8 +29,6 @@ import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../se
 import getUser from '../../selectors/user';
 import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
 import InternalLink from '../InternalLink';
-import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 function HeaderComponent(props) {
   const params = useParams();
@@ -276,11 +274,6 @@ function HeaderComponent(props) {
       </div>
     );
   };
-  const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
-  const section = sections?.find((sec) => sec.id === params.sectionId) || mainSection;
-  const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE)
-    ? getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
-    : <FormattedMessage id='defaultClosureInfo' />;
 
   const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections?.find((sec) => sec.id === params.sectionId) || mainSection;

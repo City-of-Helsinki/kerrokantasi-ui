@@ -9,7 +9,6 @@ import App from './App';
 import ScrollToTop from './scrollToTop';
 import BrowserWarning from './views/BrowserWarning';
 import { userOidcConfig, apiTokenClientConfig } from './utils/oidcConfig';
-import { BrowserRouter } from 'react-router-dom';
 
 const loginProviderProps = {
   userManagerSettings: userOidcConfig,

@@ -9,10 +9,7 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-<<<<<<< HEAD
-=======
 import { useLocation, useParams } from 'react-router-dom';
->>>>>>> 69ef6ba466a6ca42ed6e75519bba6a1fb5ed7417
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -50,7 +47,6 @@ import {
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL } from '../../../api';
-import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function SectionContainerComponent(props) {
@@ -61,10 +57,10 @@ function SectionContainerComponent(props) {
   const mapContainer = null;
   const mapContainerMobile = null;
   // Open on desktop, closed on mobile
-  const mainHearingDetailsOpen = typeof window !== 'undefined' && window.innerWidth >= 768;
-  const mainHearingProjectOpen = false;
-  const mainHearingContactsOpen = false;
-  const mainHearingAttachmentsOpen = false;
+  const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 768);
+  const [mainHearingProjectOpen, setMainHearingProjectOpen] = useState(false);
+  const [mainHearingContactsOpen, setMainHearingContactsOpen] = useState(false);
+  const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
   const params = useParams();
   const location = useLocation();
   const { hearingSlug, sectionId } = params;
@@ -218,9 +214,9 @@ function SectionContainerComponent(props) {
   };
 
   const isHearingAdmin = () =>
-    props.user &&
+    user &&
     Array.isArray(props.user.adminOrganizations) &&
-    props.user.adminOrganizations.includes(props.hearing.organization);
+    user.adminOrganizations.includes(hearing.organization);
 
   /**
    * If files are attached to the section, render the files section
@@ -240,7 +236,7 @@ function SectionContainerComponent(props) {
             type='button'
             className='hearing-section-toggle-button'
             onClick={() =>
-              setState((prevState) => ({ mainHearingAttachmentsOpen: !prevState.mainHearingAttachmentsOpen }))
+              setMainHearingAttachmentsOpen(!mainHearingAttachmentsOpen)
             }
             aria-controls='hearing-section-attachments-accordion'
             id='hearing-section-attachments-accordion-button'
@@ -290,7 +286,7 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() => setState((prevState) => ({ mainHearingProjectOpen: !prevState.mainHearingProjectOpen }))}
+            onClick={() => setMainHearingProjectOpen(!mainHearingProjectOpen) }
             aria-controls='hearing-section-project-accordion'
             id='hearing-section-project-accordion-button'
             aria-expanded={mainHearingProjectOpen ? 'true' : 'false'}
@@ -356,7 +352,7 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() => setState((prevState) => ({ mainHearingContactsOpen: !prevState.mainHearingContactsOpen }))}
+            onClick={() => setMainHearingContactsOpen(!mainHearingContactsOpen)}
             aria-controls='hearing-section-contacts-accordion'
             id='hearing-section-contacts-accordion-button'
             aria-expanded={mainHearingContactsOpen ? 'true' : 'false'}
@@ -493,7 +489,7 @@ function SectionContainerComponent(props) {
             <button
               type='button'
               className='hearing-section-toggle-button'
-              onClick={() => setState((prevState) => ({ mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen }))}
+              onClick={() => setMainHearingDetailsOpen(!mainHearingDetailsOpen)}
               aria-controls='hearing-section-details-accordion'
               id='hearing-section-details-accordion-button'
               aria-expanded={mainHearingDetailsOpen ? 'true' : 'false'}

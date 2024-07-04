@@ -13,7 +13,6 @@ import Icon from '../../../utils/Icon';
 import Link from '../../LinkWithLang';
 import MouseOnlyLink from '../../MouseOnlyLink';
 import { getSectionURL, hasAnyQuestions } from '../../../utils/section';
-import { useParams } from 'react-router-dom';
 
 const SubsectionList = ({ hearing, language, history }) => {
   const { hearingSlug } = useParams();

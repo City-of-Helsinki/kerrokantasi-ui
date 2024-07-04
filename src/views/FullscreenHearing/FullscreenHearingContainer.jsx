@@ -17,8 +17,6 @@ import { fetchHearing as fetchHearingAction, postSectionComment, postVote } from
 import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
 import getUser from '../../selectors/user';
-import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 const FullscreenHearingContainerComponent = (ownProps) => {
   const dispatch = useDispatch();
