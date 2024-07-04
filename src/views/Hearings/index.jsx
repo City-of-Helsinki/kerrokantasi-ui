@@ -28,36 +28,42 @@ const now = () => new Date().toISOString();
 const HearingLists = {
   ALL: {
     list: 'allHearings',
+    isFetching: false,
     params: {},
     formattedMessage: 'allHearings',
     iconName: 'globe',
   },
   OPEN: {
     list: 'openHearings',
+    isFetching: false,
     params: {},
     formattedMessage: 'openHearings',
     iconName: 'commenting-o',
   },
   PUBLISHED: {
     list: 'publishedHearings',
+    isFetching: false,
     params: { published: 'True' },
     formattedMessage: 'publishedHearings',
     iconName: 'eye',
   },
   QUEUE: {
     list: 'publishingQueueHearings',
+    isFetching: false,
     params: { published: 'True' },
     formattedMessage: 'publishingQueue',
     iconName: 'calendar-check-o',
   },
   DRAFTS: {
     list: 'draftHearings',
+    isFetching: false,
     params: { published: 'False' },
     formattedMessage: 'drafts',
     iconName: 'pencil-square-o',
   },
   OWN: {
     list: 'ownHearings',
+    isFetching: false,
     params: {},
     formattedMessage: 'ownHearings',
     iconName: 'user',
@@ -99,13 +105,6 @@ function Hearings(props) {
   const [sortBy, setSortBy] = useState('-created_at');
 
   const tab = params.tab || 'list';
-
-  useEffect(() => {
-    const { fetchLabels } = props;
-    fetchLabels();
-    // Hearing List is fetched when labels are available -> componentWillReceiveProps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const forwardToUserHearings = () => {
     const searchParams = parseQuery(location.search);
@@ -149,44 +148,18 @@ function Hearings(props) {
     } else {
       fetchInitialHearingList(list, fetchParams);
     }
-    setInitHearingsFetched({ initHearingsFetched: true });
+    setInitHearingsFetched(true);
   };
 
   const handleAdminFilter = (filter) => {
+    console.debug('we should not do this if there is no user')
     if (filter === 'ownHearings') {
       forwardToUserHearings();
     } else {
-      setAdminFilter({ adminFilter: filter }, () => fetchHearingList());
+      setAdminFilter(filter);
     }
   };
 
-  useEffect(() => {
-    const shouldSetAdminFilter = isAdmin(user) && (!user || !adminFilter);
-    const shouldNullAdminFilter = isAdmin(user) && !user;
-    const shouldFetchHearings =
-      labels &&
-      ((!labels.length && labels.length) ||
-        // eslint-disable-next-line sonarjs/no-identical-expressions, no-self-compare
-        (labels.length && location.search !== location.search) ||
-        (!user && user) ||
-        (user && !user) ||
-        // eslint-disable-next-line sonarjs/no-identical-expressions, no-self-compare
-        params.tab !== params.tab ||
-        !initHearingsFetched);
-
-    if (shouldSetAdminFilter) {
-      handleAdminFilter(AdminFilters[0].list);
-    }
-
-    if (shouldNullAdminFilter) {
-      handleAdminFilter(null);
-    }
-
-    if (shouldFetchHearings) {
-      fetchHearingList(props);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, labels, params, location, adminFilter, initHearingsFetched]);
 
   const handleSearch = (searchTitle, force = false) => {
     const searchParams = parseQuery(location.search);
@@ -231,7 +204,7 @@ function Hearings(props) {
     setSortBy(newSortBy);
     setShowOnlyOpen(newShowOnlyOpen);
     setShowOnlyClosed(newShowOnlyClosed);
-    fetchHearingList();
+    setInitHearingsFetched(false);
   };
 
   const getIsLoading = () => {
@@ -250,7 +223,7 @@ function Hearings(props) {
     const { hearingLists } = props;
 
     const hearingListKey = getHearingListName();
-    return get(hearingLists, [hearingListKey, 'data'], null);
+    return get(hearingLists, [hearingListKey, 'data'], []);
   };
 
   const handleReachBottom = () => {
@@ -285,6 +258,41 @@ function Hearings(props) {
   const hearings = getHearings();
 
   const hearingCount = getHearingsCount();
+
+  useEffect(() => {
+    const { fetchLabels } = props;
+    fetchLabels();
+    // Hearing List is fetched when labels are available -> componentWillReceiveProps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!initHearingsFetched && !isEmpty(labels)) {
+      fetchHearingList();
+    }
+  }, [initHearingsFetched, fetchHearingList, labels]);
+
+  useEffect(() => {
+    const shouldSetAdminFilter = isAdmin(user) && (!user || !adminFilter);
+    const shouldNullAdminFilter = !user || !isAdmin(user);
+    const shouldFetchHearings =
+      labels &&
+      (!user || (user && adminFilter)) &&
+      !isEmpty(getHearingListName());
+
+    if (shouldSetAdminFilter) {
+      handleAdminFilter(AdminFilters[0].list);
+    }
+
+    if (shouldNullAdminFilter) {
+      setAdminFilter(null);
+    }
+
+    if (shouldFetchHearings) {
+      fetchHearingList();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, labels, params, location, adminFilter]);
 
   if (user && user.isFetching) {
     return <LoadSpinner />;
@@ -354,7 +362,7 @@ Hearings.propTypes = {
   fetchLabels: PropTypes.func,
   hearingLists: PropTypes.objectOf(
     PropTypes.shape({
-      isFetching: PropTypes.boolean,
+      isFetching: PropTypes.bool,
       data: PropTypes.arrayOf(hearingShape),
     }),
   ),
