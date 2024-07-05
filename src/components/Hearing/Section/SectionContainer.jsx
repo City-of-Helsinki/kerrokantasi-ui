@@ -54,8 +54,6 @@ function SectionContainerComponent(props) {
   const showDeleteModal = false;
   const commentToDelete = {};
   const showLightbox = false;
-  const mapContainer = null;
-  const mapContainerMobile = null;
   // Open on desktop, closed on mobile
   const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 768);
   const [mainHearingProjectOpen, setMainHearingProjectOpen] = useState(false);
@@ -124,16 +122,6 @@ function SectionContainerComponent(props) {
         link.click();
         link.parentNode.removeChild(link);
       });
-  };
-
-  // In order to keep a track of map container dimensions
-  // Save reference in state.
-  const handleSetMapContainer = (setMapContainer) => {
-    setState({ mapContainer: setMapContainer });
-  };
-
-  const handleSetMapContainerMobile = (setMapContainerMobile) => {
-    setState({ mapContainerMobile: setMapContainerMobile });
   };
 
   /**
@@ -530,12 +518,13 @@ function SectionContainerComponent(props) {
       <>
         {hearing.geojson && (
           <Col xs={12} className='hidden-md hidden-lg'>
-            <div className='hearing-map-container' ref={handleSetMapContainerMobile}>
-              <HearingMap hearing={hearing} mapContainer={mapContainerMobile} />
+            <div className='hearing-map-container'>
+              <HearingMap hearing={hearing} />
             </div>
           </Col>
         )}
         <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
+
           {renderMainDetails(hearing, section, language)}
 
           {renderProjectPhaseSection(hearing, language)}
@@ -543,7 +532,6 @@ function SectionContainerComponent(props) {
           {renderContacts(contacts, language)}
 
           {renderFileSection(section, language, published)}
-
           {mainSection.plugin_identifier && (
             <section className='hearing-section plugin-content'>
               <PluginContent
@@ -570,14 +558,16 @@ function SectionContainerComponent(props) {
           <SubSectionsList hearing={hearing} language={language} />
 
           {renderCommentsSection()}
+          
         </Col>
         {hearing.geojson && (
           <Col md={4} lg={3} lgPush={1} className='hidden-xs visible-sm visible-md visible-lg'>
-            <div className='hearing-map-container' ref={handleSetMapContainer}>
-              <HearingMap hearing={hearing} mapContainer={mapContainer} />
+            <div className='hearing-map-container'>
+              <HearingMap hearing={hearing} />
             </div>
           </Col>
         )}
+
       </>
     );
   };

@@ -46,7 +46,7 @@ const renderComponent = (propOverrides) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <SectionContainerComponent intl={getIntlAsProp()} {...props} />
+      <SectionContainerComponent {...props} />
     </MemoryRouter>,
     { store: storeMock, history },
   );

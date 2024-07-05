@@ -12,10 +12,11 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
-import { ZoomControl } from 'react-leaflet';
 import { connect } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
+import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
+import { EditControl } from 'react-leaflet-draw';
 
 import { localizedNotifyError } from '../../utils/notify';
 import Icon from '../../utils/Icon';
@@ -394,15 +395,13 @@ class HearingFormStep3 extends React.Component {
     const { map } = this;
     if (map && this.props.visible) {
       mapInvalidator = setTimeout(() => {
-        map.leafletElement.invalidateSize();
+        map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end
     }
   }
 
   render() {
     if (typeof window === 'undefined') return null; // Skip rendering outside of browser context
-    const { FeatureGroup, MapContainer, TileLayer } = require('react-leaflet'); // Late import to be isomorphic compatible
-    const { EditControl } = require('react-leaflet-draw');
     const { initialGeoJSON } = this.state;
 
     return (
@@ -412,14 +411,11 @@ class HearingFormStep3 extends React.Component {
             <FormattedMessage id='hearingArea' />
           </ControlLabel>
           <MapContainer
-            ref={this.refCallBack}
-            // onResize={this.invalidateMap.bind(this)}
-            zoomControl={false}
             center={localization.mapPosition}
-            zoom={11}
-            className='hearing-map'
+            style={{ width: '100%', height: 600 }}
+            zoom={10}
+            ref={this.refCallBack}
           >
-            <ZoomControl zoomInTitle='Lähennä' zoomOutTitle='Loitonna' />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url={getCorrectContrastMapTileUrl(
@@ -485,7 +481,6 @@ HearingFormStep3.propTypes = {
   onCreateMapMarker: PropTypes.func,
 };
 
-export { HearingFormStep3 as UnconnectedHearingFormStep3 };
-const WrappedHearingFormStep3 = connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
-
-export default WrappedHearingFormStep3;
+const WrappedHearingFormStep3 = injectIntl(HearingFormStep3);
+export { WrappedHearingFormStep3 as UnconnectedHearingFormStep3 };
+export default connect(mapStateToProps, null)(WrappedHearingFormStep3);
