@@ -18,8 +18,6 @@ jest.mock('react-router-dom', () => ({
 
 const renderComponent = (propOverrides) => {
   const { labels, hearingLists, ...rest } = mockStore;
-  const history = createMemoryHistory();
-  const storeMock = createAppStore({ hearingLists, labels, language: 'fi', user: mockUser });
 
   const props = {
     labels: labels.data,
@@ -29,9 +27,8 @@ const renderComponent = (propOverrides) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <Hearings intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
-    { store: storeMock, history },
+      <Hearings {...props} />
+    </MemoryRouter>
   );
 };
 

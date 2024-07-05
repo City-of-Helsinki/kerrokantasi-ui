@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, MapContainer, Polyline, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
@@ -17,7 +17,8 @@ import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.pn
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer = undefined, ...props }) => {
+const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) => {
+  const mapContainer = undefined;
   const [dimensions, setDimensions] = useState({
     height: showOnCarousel ? null : props.style.height,
     width: showOnCarousel ? null : props.style.width,
@@ -32,23 +33,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, mapContainer
     }
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      handleUpdateMapDimensions(mapContainer);
-    };
 
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [mapContainer]);
-
-  useEffect(() => {
-    if (mapContainer && typeof mapContainer !== 'undefined' && mapContainer.getBoundingClientRect()) {
-      handleUpdateMapDimensions(mapContainer);
-    }
-  }, [mapContainer]);
 
   /**
    * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
@@ -246,7 +231,6 @@ OverviewMap.propTypes = {
   hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   language: PropTypes.string,
-  mapContainer: PropTypes.object,
   mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,
   showOnCarousel: PropTypes.bool,

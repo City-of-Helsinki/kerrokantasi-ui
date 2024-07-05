@@ -136,11 +136,10 @@ class UserComment extends React.Component {
                 <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
               </Button>
               {this.state.displayMap && comment.geojson && (
-                <div className='hearing-comment__map-container' ref={this.handleSetMapContainer}>
+                <div className='hearing-comment__map-container'>
                   {comment.geojson && (
                     <HearingMap
                       hearing={{ geojson: comment.geojson }}
-                      mapContainer={this.state.mapContainer}
                       mapSettings={{ dragging: false }}
                     />
                   )}
