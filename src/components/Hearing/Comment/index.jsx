@@ -519,10 +519,6 @@ class Comment extends React.Component {
     return <FormattedMessage id='sectionCommentGenericDeletedMessage' />;
   };
 
-  handleSetMapContainer = (mapContainer) => {
-    this.setState({ mapContainer });
-  };
-
   toggleMap = () => {
     this.setState((prevState) => ({ displayMap: !prevState.displayMap }));
   };
@@ -606,12 +602,10 @@ class Comment extends React.Component {
                 <div
                   data-testid='hearing-comment-map-container'
                   className='hearing-comment__map-container'
-                  ref={this.handleSetMapContainer}
                 >
                   {data.geojson && (
                     <HearingMap
                       hearing={{ geojson: data.geojson }}
-                      mapContainer={this.state.mapContainer}
                       mapSettings={{ dragging: false }}
                     />
                   )}
