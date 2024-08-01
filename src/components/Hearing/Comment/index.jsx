@@ -270,7 +270,7 @@ class Comment extends React.Component {
         </span>
         <OverlayTrigger placement='top' overlay={this.dateTooltip(data)} delayShow={300}>
           <span className='hearing-comment-date'>
-            <FormatRelativeTime value={data.created_at} />
+            <FormattedRelativeTime value={data.created_at} />
           </span>
         </OverlayTrigger>
       </div>
