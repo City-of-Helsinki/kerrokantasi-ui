@@ -12,14 +12,12 @@ import Link from '../LinkWithLang';
 import HearingMap from '../Hearing/HearingMap';
 import getMessage from '../../utils/getMessage';
 import getAttr from '../../utils/getAttr';
-import FormatRelativeTime from '../../utils/FormatRelativeTime';
 
 class UserComment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayMap: false,
-      mapContainer: null,
     };
   }
 
@@ -138,10 +136,7 @@ class UserComment extends React.Component {
               {this.state.displayMap && comment.geojson && (
                 <div className='hearing-comment__map-container'>
                   {comment.geojson && (
-                    <HearingMap
-                      hearing={{ geojson: comment.geojson }}
-                      mapSettings={{ dragging: false }}
-                    />
+                    <HearingMap hearing={{ geojson: comment.geojson }} mapSettings={{ dragging: false }} />
                   )}
                 </div>
               )}

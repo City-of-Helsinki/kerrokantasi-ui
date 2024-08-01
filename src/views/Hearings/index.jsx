@@ -173,7 +173,6 @@ function Hearings({
   ]);
 
   const handleAdminFilter = (filter) => {
-    console.debug('we should not do this if there is no user');
     if (filter === 'ownHearings') {
       forwardToUserHearings();
     } else {

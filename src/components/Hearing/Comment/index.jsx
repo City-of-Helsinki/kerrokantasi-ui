@@ -22,7 +22,6 @@ import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/no
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
-import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -37,7 +36,6 @@ class Comment extends React.Component {
       shouldAnimate: false,
       pinned: this.props.data.pinned,
       answers: this.props.data.answers || [],
-      mapContainer: null,
       displayMap: false,
       showReplies: this.props.showReplies,
     };
@@ -599,16 +597,8 @@ class Comment extends React.Component {
                 <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
               </Button>
               {this.state.displayMap && data.geojson && (
-                <div
-                  data-testid='hearing-comment-map-container'
-                  className='hearing-comment__map-container'
-                >
-                  {data.geojson && (
-                    <HearingMap
-                      hearing={{ geojson: data.geojson }}
-                      mapSettings={{ dragging: false }}
-                    />
-                  )}
+                <div data-testid='hearing-comment-map-container' className='hearing-comment__map-container'>
+                  {data.geojson && <HearingMap hearing={{ geojson: data.geojson }} mapSettings={{ dragging: false }} />}
                 </div>
               )}
             </div>
