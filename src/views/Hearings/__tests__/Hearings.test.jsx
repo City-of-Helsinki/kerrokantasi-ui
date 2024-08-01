@@ -51,7 +51,7 @@ describe('Hearings', () => {
     expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
   });
 
-  it('displays hearing list when labels are available', () => {
+  it('displays hearing list when labels are available', async () => {
     renderComponent({
       hearingLists: {
         allHearings: {
@@ -70,8 +70,8 @@ describe('Hearings', () => {
       },
     });
 
-    expect(screen.getByTestId('hearing-list')).toBeInTheDocument();
-    expect(screen.getByText('Hearing One')).toBeInTheDocument();
-    expect(screen.getByText('Hearing Two')).toBeInTheDocument();
+    expect(await screen.findByTestId('hearing-list')).toBeInTheDocument();
+    expect(await screen.findByText('Hearing One')).toBeInTheDocument();
+    expect(await screen.findByText('Hearing Two')).toBeInTheDocument();
   });
 });
