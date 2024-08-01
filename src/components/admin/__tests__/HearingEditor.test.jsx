@@ -4,7 +4,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { UnconnectedHearingEditor } from '../HearingEditor';
-import { mockStore, mockUser } from '../../../../test-utils';
+import { getIntlAsProp, mockStore, mockUser } from '../../../../test-utils';
 import { notifyError } from '../../../utils/notify';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
@@ -59,7 +59,7 @@ const renderComponent = (propOverrides) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <UnconnectedHearingEditor {...props} />
+      <UnconnectedHearingEditor intl={getIntlAsProp()} {...props} />
     </MemoryRouter>,
   );
 };

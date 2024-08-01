@@ -1,5 +1,6 @@
 import React from 'react';
-import UnconnectedHearingFormStep3 from '../HearingFormStep3';
+
+import { UnconnectedHearingFormStep3 } from '../HearingFormStep3';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
@@ -15,9 +16,7 @@ const renderComponent = (propOverrides) => {
     ...propOverrides,
   };
 
-  return renderWithProviders(
-    <UnconnectedHearingFormStep3 {...props} />
-  );
+  return renderWithProviders(<UnconnectedHearingFormStep3 {...props} />);
 };
 
 describe('<HearingFormStep3 />', () => {
