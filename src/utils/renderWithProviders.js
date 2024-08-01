@@ -6,7 +6,6 @@ import { LoginProvider } from 'hds-react';
 import { IntlProvider } from 'react-intl';
 
 import createStore from "../createStore"; // Add missing import statement
-
 import { userOidcConfig, apiTokenClientConfig } from './oidcConfig';
 
 const loginProviderConfig = {

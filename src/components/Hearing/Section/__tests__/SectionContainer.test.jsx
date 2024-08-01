@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import SectionContainerComponent from '../SectionContainer';
-import { mockStore, getIntlAsProp } from '../../../../../test-utils';
+import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 import createAppStore from '../../../../createStore';
 
