@@ -13,7 +13,7 @@ jest.mock('../../api', () => ({
     getApiTokenFromStorage: jest.fn(() => 'dummykey'),
     getAllFromEndpoint: jest.fn(),
 }));
-  
+
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -62,35 +62,35 @@ describe('fetchInitialHearingList', () => {
     const listId = 'initialList';
     const endpoint = 'v1/hearing';
     const params = { limit: 10 };  // Example of default parameters for initial fetch
-  
+
     beforeEach(() => {
       store = mockStore({});
       api.get.mockClear();
     });
-  
+
     it('dispatches actions for initial hearing list fetch successfully', async () => {
       const mockHearingData = { data: [{ id: 1, title: 'Hearing One' }] };
       api.get.mockResolvedValue({ json: () => Promise.resolve(mockHearingData) });
-  
+
       const expectedActions = [
         { type: 'beginFetchHearingList', payload: { listId, params } },
         { type: 'receiveHearingList', payload: { listId, data: mockHearingData } }
       ];
-  
+
       await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
       expect(store.getActions()).toEqual(expectedActions);
       expect(api.get).toHaveBeenCalledWith(endpoint, expect.objectContaining(params));
     });
-  
+
     it('handles errors during initial hearing list fetch', async () => {
       const error = new Error('Failed to fetch');
       api.get.mockRejectedValue(error);
-  
+
       const expectedActions = [
         { type: 'beginFetchHearingList', payload: { listId, params } }
         // Assuming requestErrorHandler handles dispatching an error action
       ];
-  
+
       await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
       expect(store.getActions()).toEqual(expectedActions);
     });
