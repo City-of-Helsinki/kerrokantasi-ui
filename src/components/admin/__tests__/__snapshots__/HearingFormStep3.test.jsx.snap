@@ -12,203 +12,19 @@ exports[`<HearingFormStep3 /> should render correctly 1`] = `
         class="control-label"
         for="hearingArea"
       >
-        <span>
-          hearingArea
-        </span>
+        hearingArea
       </label>
       <div
-        class="hearing-map leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
-        tabindex="0"
+        data-testid="MapContainer"
       >
         <div
-          class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
-        >
-          <div
-            class="leaflet-pane leaflet-tile-pane"
-          >
-            <div
-              class="leaflet-layer "
-              style="z-index: 1;"
-            >
-              <div
-                class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
-              >
-                <img
-                  alt=""
-                  class="leaflet-tile"
-                  src="http://tiles.hel.ninja/styles/hel-osm-bright/11/1165/592@2x.png"
-                  style="width: 256px; height: 256px; left: -234px; top: -140px;"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            class="leaflet-pane leaflet-overlay-pane"
-          />
-          <div
-            class="leaflet-pane leaflet-shadow-pane"
-          />
-          <div
-            class="leaflet-pane leaflet-marker-pane"
-          />
-          <div
-            class="leaflet-pane leaflet-tooltip-pane"
-          />
-          <div
-            class="leaflet-pane leaflet-popup-pane"
-          />
-        </div>
+          data-testid="TileLayer"
+        />
         <div
-          class="leaflet-control-container"
+          data-testid="FeatureGroup"
         >
           <div
-            class="leaflet-top leaflet-left"
-          >
-            <div
-              class="leaflet-control-zoom leaflet-bar leaflet-control"
-            >
-              <a
-                aria-disabled="false"
-                aria-label="Lähennä"
-                class="leaflet-control-zoom-in"
-                href="#"
-                role="button"
-                title="Lähennä"
-              >
-                <span
-                  aria-hidden="true"
-                >
-                  +
-                </span>
-              </a>
-              <a
-                aria-disabled="false"
-                aria-label="Loitonna"
-                class="leaflet-control-zoom-out"
-                href="#"
-                role="button"
-                title="Loitonna"
-              >
-                <span
-                  aria-hidden="true"
-                >
-                  −
-                </span>
-              </a>
-            </div>
-            <div
-              class="leaflet-draw leaflet-control"
-            >
-              <div
-                class="leaflet-draw-section"
-              >
-                <div
-                  class="leaflet-draw-toolbar leaflet-bar leaflet-draw-toolbar-top"
-                >
-                  <a
-                    class="leaflet-draw-draw-polygon"
-                    href="#"
-                    title="Piirrä monikulmio alue"
-                  >
-                    <span
-                      class="sr-only"
-                    >
-                      Piirrä monikulmio alue
-                    </span>
-                  </a>
-                  <a
-                    class="leaflet-draw-draw-rectangle"
-                    href="#"
-                    title="Piirrä neliö"
-                  >
-                    <span
-                      class="sr-only"
-                    >
-                      Piirrä neliö
-                    </span>
-                  </a>
-                  <a
-                    class="leaflet-draw-draw-marker"
-                    href="#"
-                    title="Piirrä merkki"
-                  >
-                    <span
-                      class="sr-only"
-                    >
-                      Piirrä merkki
-                    </span>
-                  </a>
-                </div>
-                <ul
-                  class="leaflet-draw-actions"
-                />
-              </div>
-              <div
-                class="leaflet-draw-section"
-              >
-                <div
-                  class="leaflet-draw-toolbar leaflet-bar"
-                >
-                  <a
-                    class="leaflet-draw-edit-remove leaflet-disabled"
-                    href="#"
-                    title="Ei poistettavaa"
-                  >
-                    <span
-                      class="sr-only"
-                    >
-                      Poista piirros
-                    </span>
-                  </a>
-                </div>
-                <ul
-                  class="leaflet-draw-actions"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            class="leaflet-top leaflet-right"
-          />
-          <div
-            class="leaflet-bottom leaflet-left"
-          />
-          <div
-            class="leaflet-bottom leaflet-right"
-          >
-            <div
-              class="leaflet-control-attribution leaflet-control"
-            >
-              <a
-                href="https://leafletjs.com"
-                title="A JavaScript library for interactive maps"
-              >
-                Leaflet
-              </a>
-               
-              <span
-                aria-hidden="true"
-              >
-                |
-              </span>
-               © 
-              <a
-                href="http://osm.org/copyright"
-              >
-                OpenStreetMap
-              </a>
-               contributors
-            </div>
-          </div>
-        </div>
-        <div
-          style="display: none;"
-        >
-          <div
-            style="display: none;"
+            data-testid="EditControl"
           />
         </div>
       </div>
@@ -229,16 +45,12 @@ exports[`<HearingFormStep3 /> should render correctly 1`] = `
           class="fa fa-upload icon"
           style="margin-right: 5px;"
         />
-        <span>
-          addGeojson
-        </span>
+        addGeojson
       </label>
       <span
         class="help-block"
       >
-        <span>
-          addGeojsonInfo
-        </span>
+        addGeojsonInfo
       </span>
     </div>
     <div
@@ -251,9 +63,7 @@ exports[`<HearingFormStep3 /> should render correctly 1`] = `
         <span
           class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
         >
-          <span>
-            hearingFormNext
-          </span>
+          hearingFormNext
         </span>
       </button>
     </div>

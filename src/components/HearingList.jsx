@@ -332,7 +332,7 @@ export const HearingList = ({
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
 
-                  <div className='hearing-list'>
+                  <div className='hearing-list' data-testid='hearing-list'>
                     <div role='list'>
                       {hearings.map((hearing) => (
                         <HearingListItem

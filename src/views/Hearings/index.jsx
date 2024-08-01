@@ -2,7 +2,7 @@
 // TODO: remove this disable once https://github.com/yannickcr/eslint-plugin-react/pull/1628 lands
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -93,8 +93,17 @@ const getHearingListParams = (listName) => {
   return params;
 };
 
-function Hearings(props) {
-  const { user, labels } = props;
+function Hearings({
+  user,
+  labels,
+  fetchInitialHearingList,
+  fetchAllHearings,
+  hearingLists,
+  fetchMoreHearings,
+  intl,
+  language,
+  fetchLabels,
+}) {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -108,13 +117,17 @@ function Hearings(props) {
 
   const forwardToUserHearings = () => {
     const searchParams = parseQuery(location.search);
+
     navigate({
       pathname: '/user-hearings',
       search: stringifyQuery(searchParams),
     });
   };
 
-  const getHearingListName = () => (isAdmin(user) ? adminFilter : HearingLists.ALL.list);
+  const getHearingListName = useCallback(
+    () => (isAdmin(user) ? adminFilter : HearingLists.ALL.list),
+    [adminFilter, user],
+  );
 
   const getLabelsFromQuery = (labelsInQuery = []) => {
     if (Array.isArray(labelsInQuery)) return labelsInQuery;
@@ -122,7 +135,7 @@ function Hearings(props) {
     return [labelsInQuery];
   };
 
-  const getSearchParams = () => {
+  const getSearchParams = useCallback(() => {
     const searchParams = {};
 
     if (parseQuery(location.search).search) Object.assign(params, { title: parseQuery(location.search).search });
@@ -130,10 +143,9 @@ function Hearings(props) {
       Object.assign(searchParams, { label: getLabelsFromQuery(parseQuery(location.search).label.toString()) });
     }
     return params;
-  };
+  }, [location.search, params]);
 
-  const fetchHearingList = (fetchProps = props) => {
-    const { fetchInitialHearingList, fetchAllHearings } = fetchProps;
+  const fetchHearingList = useCallback(() => {
     const list = getHearingListName();
     const filterByOpen = (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
     const fetchParams = {
@@ -149,17 +161,25 @@ function Hearings(props) {
       fetchInitialHearingList(list, fetchParams);
     }
     setInitHearingsFetched(true);
-  };
+  }, [
+    fetchAllHearings,
+    fetchInitialHearingList,
+    getHearingListName,
+    getSearchParams,
+    showOnlyClosed,
+    showOnlyOpen,
+    sortBy,
+    tab,
+  ]);
 
   const handleAdminFilter = (filter) => {
-    console.debug('we should not do this if there is no user')
+    console.debug('we should not do this if there is no user');
     if (filter === 'ownHearings') {
       forwardToUserHearings();
     } else {
       setAdminFilter(filter);
     }
   };
-
 
   const handleSearch = (searchTitle, force = false) => {
     const searchParams = parseQuery(location.search);
@@ -208,26 +228,21 @@ function Hearings(props) {
   };
 
   const getIsLoading = () => {
-    const { hearingLists } = props;
     const name = getHearingListName();
     return get(hearingLists, [name, 'isFetching'], true);
   };
 
   const getHearingsCount = () => {
-    const { hearingLists } = props;
     const list = getHearingListName();
     return get(hearingLists, [list, 'count'], 0);
   };
 
   const getHearings = () => {
-    const { hearingLists } = props;
-
     const hearingListKey = getHearingListName();
     return get(hearingLists, [hearingListKey, 'data'], []);
   };
 
   const handleReachBottom = () => {
-    const { fetchMoreHearings, hearingLists } = props;
     const list = getHearingListName();
 
     if (
@@ -244,23 +259,23 @@ function Hearings(props) {
     setShowOnlyOpen(!showOnlyOpen);
   };
 
-  const {
-    intl: { formatMessage },
-    language,
-  } = props;
+  const { formatMessage } = intl;
+
   const labelsInQuery = Array.isArray(parseQuery(location.search).label)
     ? parseQuery(location.search).label
     : [parseQuery(location.search).label];
+
   const selectedLabels = labels
     .filter((label) => includes(labelsInQuery, label.id.toString()))
     .map((label) => getAttr(label.label, language));
+
   const searchTitle = parseQuery(location.search).search;
+
   const hearings = getHearings();
 
   const hearingCount = getHearingsCount();
 
   useEffect(() => {
-    const { fetchLabels } = props;
     fetchLabels();
     // Hearing List is fetched when labels are available -> componentWillReceiveProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,10 +290,7 @@ function Hearings(props) {
   useEffect(() => {
     const shouldSetAdminFilter = isAdmin(user) && (!user || !adminFilter);
     const shouldNullAdminFilter = !user || !isAdmin(user);
-    const shouldFetchHearings =
-      labels &&
-      (!user || (user && adminFilter)) &&
-      !isEmpty(getHearingListName());
+    const shouldFetchHearings = labels && (!user || (user && adminFilter)) && !isEmpty(getHearingListName());
 
     if (shouldSetAdminFilter) {
       handleAdminFilter(AdminFilters[0].list);
@@ -339,7 +351,7 @@ function Hearings(props) {
           toggleShowOnlyOpen={toggleShowOnlyOpen}
           language={language}
           tab={tab}
-          intl={props.intl}
+          intl={intl}
           handleReachBottom={handleReachBottom}
           onTabChange={(value) => {
             const url = `/hearings/${value}`;
