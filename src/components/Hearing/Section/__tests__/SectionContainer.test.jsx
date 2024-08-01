@@ -2,12 +2,24 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-import SectionContainerComponent from '../SectionContainer';
+import {UnconnectedSectionContainerComponent} from '../SectionContainer';
 import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 import createAppStore from '../../../../createStore';
 
+import * as mockApi from '../../../../api';
+
 const { labels, sectionComments, mockHearingWithSections, user } = mockStore;
+
+const mockedData = {
+    results: []
+  };
+jest.spyOn(mockApi, 'get').mockImplementation(() => ( 
+  Promise.resolve(
+    {
+      json: () => Promise.resolve(mockedData),
+    }
+  )));
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -46,7 +58,7 @@ const renderComponent = (propOverrides) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <SectionContainerComponent {...props} />
+      <UnconnectedSectionContainerComponent {...props} />
     </MemoryRouter>,
     { store: storeMock, history },
   );

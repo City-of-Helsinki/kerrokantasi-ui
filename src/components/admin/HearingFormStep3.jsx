@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
@@ -181,83 +181,71 @@ function featureReducer(currentFeatures, removedFeatures) {
 
 const MESSAGE_INCORRECT_FILE = 'Virheellinen tiedosto.';
 
-class HearingFormStep3 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onDrawCreated = this.onDrawCreated.bind(this);
-    this.onDrawDeleted = this.onDrawDeleted.bind(this);
-    this.onDrawEdited = this.onDrawEdited.bind(this);
-    // This is necessary to prevent getHearingArea() from rendering drawings twice after editing
-    this.state = { isEdited: false, initialGeoJSON: this.props.hearing.geojson };
-  }
+const HearingFormStep3 = (props) => {
+  let map;
+  let featureGroup;
+  const { hearing, language, isHighContrast } = props; // const props
+  const {
+    onHearingChange,
+    onCreateMapMarker,
+    onAddMapMarker,
+    onAddMapMarkersToCollection,
+    onContinue,
+  } = props; // function props
+  const [isEdited, setIsEdited] = useState(false);
+  const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
-  componentDidMount() {
-    Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
-  }
+  useEffect(() => {
+    Leaflet.drawLocal = getTranslatedTooltips(language);
+  }, [language]);
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { language } = this.props;
-
-    if (nextProps.language !== language) {
-      Leaflet.drawLocal = getTranslatedTooltips(nextProps.language);
-    }
-  }
-
-  componentDidUpdate() {
-    this.invalidateMap();
-  }
-
-  componentWillUnmount() {
-    clearTimeout(mapInvalidator);
-  }
-
-  onDrawEdited(event) {
+  const onDrawEdited = (event) => {
     // TODO: Implement proper onDrawEdited functionality
-    this.setState({ isEdited: true });
-    this.props.onHearingChange('geojson', getFirstGeometry(event.layers.toGeoJSON()));
+    setIsEdited(true);
+    onHearingChange('geojson', getFirstGeometry(event.layers.toGeoJSON()));
   }
 
-  onDrawCreated(event) {
+  const onDrawCreated = (event) => {
     // TODO: Implement proper onDrawCreated functionality
-    if (!this.state.isEdited) {
+    if (isEdited) {
       /**
        * first time an element is created and the map hasn't been edited/elements removed
        */
-      this.setState({ isEdited: true });
-      if (!this.props.hearing.geojson || !this.props.hearing.geojson.type) {
+      setIsEdited(true);
+      if (!hearing.geojson || !hearing.geojson.type) {
         /**
          * if hearing.geojson is null or doesnt have type -> add a single element
          */
-        this.props.onCreateMapMarker(event.layer.toGeoJSON().geometry);
-      } else if (this.props.hearing.geojson.type !== 'FeatureCollection') {
+        onCreateMapMarker(event.layer.toGeoJSON().geometry);
+      } else if (hearing.geojson.type !== 'FeatureCollection') {
         /**
          * if hearing.geojson has a type that isn't FeatureCollection
          * -> add element and transform hearing.geojson to FeatureCollection
          */
-        this.props.onAddMapMarker(event.layer.toGeoJSON());
-      } else if (this.props.hearing.geojson.type === 'FeatureCollection') {
+        onAddMapMarker(event.layer.toGeoJSON());
+      } else if (hearing.geojson.type === 'FeatureCollection') {
         /**
          * if hearing.geojson type is FeatureCollection - add element to geojson.features
          */
-        this.props.onAddMapMarkersToCollection(event.layer.toGeoJSON());
+        onAddMapMarkersToCollection(event.layer.toGeoJSON());
       }
-    } else if (this.props.hearing.geojson.coordinates) {
+    } else if (hearing.geojson.coordinates) {
       /**
        * if geojson has coordinates -> transform hearing.geojson to FeatureCollection and add element
        */
-      this.props.onAddMapMarker(event.layer.toGeoJSON());
+      onAddMapMarker(event.layer.toGeoJSON());
     } else {
       /**
        * hearing.geojson is a FeatureCollection -> add element to geojson.features
        */
-      this.props.onAddMapMarkersToCollection(event.layer.toGeoJSON());
+      onAddMapMarkersToCollection(event.layer.toGeoJSON());
     }
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  onDrawDeleted(event) {
+  const onDrawDeleted = (event) => {
     // TODO: Implement proper onDrawDeleted functionality
-    if (event.layers && !isEmpty(event.layers._layers) && this.props.hearing.geojson.features) {
+    if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
       /**
        * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
        * initialGeoJSON contains the hearings original map data and it is ONLY modified
@@ -272,12 +260,11 @@ class HearingFormStep3 extends React.Component {
        * if it was one of the newly added(not saved) elements then it is removed from props.hearing.geojson.
        */
       // if the hearing.geojson is a FeatureCollection that has features
-      const { initialGeoJSON } = this.state;
-      const currentFeatures = this.props.hearing.geojson.features;
+      const currentFeatures = hearing.geojson.features;
       let currentStateFeatures;
       if (initialGeoJSON) {
         // initialGeoJSON is truthy if editing existing hearing or a geojson file has been uploaded
-        currentStateFeatures = initialGeoJSON.type === 'FeatureCollection' ? this.state.initialGeoJSON.features : null;
+        currentStateFeatures = initialGeoJSON.type === 'FeatureCollection' ? initialGeoJSON.features : null;
       }
       // event.layers._layers object has unique keys for each deleted map element
       const layerKeys = Object.keys(event.layers._layers);
@@ -301,31 +288,28 @@ class HearingFormStep3 extends React.Component {
 
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
-        this.props.onHearingChange('geojson', {});
-        this.setState({ isEdited: false, initialGeoJSON: {} });
+        onHearingChange('geojson', {});
+        setIsEdited(false);
+        setInitialGeoJSON({});
       } else {
         // hearing is a FeatureCollection that still has elements after removal
-        this.props.onHearingChange('geojson', { type: this.props.hearing.geojson.type, features: remainingFeatures });
+        onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
         if (currentStateFeatures) {
-          this.setState({
-            isEdited: true,
-            initialGeoJSON: {
-              type: this.props.hearing.geojson.type,
-              features: remainingStateFeatures,
-            },
-          });
+          setIsEdited(true);
+          setInitialGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
         } else {
-          this.setState({ isEdited: true });
+          setIsEdited(true);
         }
       }
     } else {
       // hearing.geojson is a single element that has been removed
-      this.props.onHearingChange('geojson', {});
-      this.setState({ isEdited: false, initialGeoJSON: {} });
+      onHearingChange('geojson', {});
+      setIsEdited(false);
+      setInitialGeoJSON({});
     }
   }
 
-  onUploadGeoJSON = (event) => {
+  const onUploadGeoJSON = (event) => {
     this.readTextFile(event.target.files[0], (json) => {
       try {
         const featureCollection = JSON.parse(json);
@@ -341,10 +325,10 @@ class HearingFormStep3 extends React.Component {
             localizedNotifyError('Tiedostosta ei löytynyt koordinaatteja.');
             return;
           }
-          this.props.onHearingChange('geojson', featureCollection.features[0].geometry);
+          onHearingChange('geojson', featureCollection.features[0].geometry);
           const parsedFile = parseCollection(featureCollection);
-          this.props.onCreateMapMarker(parsedFile);
-          this.setState({ initialGeoJSON: parsedFile });
+          onCreateMapMarker(parsedFile);
+          setInitialGeoJSON(parsedFile);
         } else {
           localizedNotifyError(MESSAGE_INCORRECT_FILE);
         }
@@ -355,7 +339,7 @@ class HearingFormStep3 extends React.Component {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  getDrawOptions() {
+  const getDrawOptions  = () => {
     return {
       circle: false,
       circlemarker: false,
@@ -373,7 +357,7 @@ class HearingFormStep3 extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  readTextFile = (file, callback) => {
+  const readTextFile = (file, callback) => {
     try {
       const reader = new FileReader();
 
@@ -385,84 +369,79 @@ class HearingFormStep3 extends React.Component {
     }
   };
 
-  refCallBack = (el) => {
-    this.map = el;
+  const refCallBack = (el) => {
+    map = el;
   };
 
-  invalidateMap() {
+  const invalidateMap = () => {
     // Map size needs to be invalidated after dynamically resizing
     // the map container.
-    const { map } = this;
-    if (map && this.props.visible) {
+    if (map && visible) {
       mapInvalidator = setTimeout(() => {
         map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end
     }
   }
+  if (typeof window === undefined) return null;
 
-  render() {
-    if (typeof window === 'undefined') return null; // Skip rendering outside of browser context
-    const { initialGeoJSON } = this.state;
-
-    return (
-      <div className='form-step'>
-        <FormGroup controlId='hearingArea'>
-          <ControlLabel>
-            <FormattedMessage id='hearingArea' />
-          </ControlLabel>
-          <MapContainer
-            center={localization.mapPosition}
-            style={{ width: '100%', height: 600 }}
-            zoom={10}
-            ref={this.refCallBack}
+  return (
+    <div className='form-step'>
+      <FormGroup controlId='hearingArea'>
+        <ControlLabel>
+          <FormattedMessage id='hearingArea' />
+        </ControlLabel>
+        <MapContainer
+          center={localization.mapPosition}
+          style={{ width: '100%', height: 600 }}
+          zoom={10}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={getCorrectContrastMapTileUrl(
+              urls.rasterMapTiles,
+              urls.highContrastRasterMapTiles,
+              isHighContrast,
+              language,
+            )}
+          />
+          <FeatureGroup
+            ref={(group) => {
+              featureGroup = group;
+            }}
           >
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url={getCorrectContrastMapTileUrl(
-                urls.rasterMapTiles,
-                urls.highContrastRasterMapTiles,
-                this.props.isHighContrast,
-                this.props.language,
-              )}
-            />
-            <FeatureGroup
-              ref={(group) => {
-                this.featureGroup = group;
+            <EditControl
+              position='topleft'
+              onEdited={onDrawEdited}
+              onCreated={onDrawCreated}
+              onDeleted={onDrawDeleted}
+              draw={getDrawOptions()}
+              edit={{
+                featureGroup: featureGroup,
+                edit: false,
               }}
-            >
-              <EditControl
-                position='topleft'
-                onEdited={this.onDrawEdited}
-                onCreated={this.onDrawCreated}
-                onDeleted={this.onDrawDeleted}
-                draw={this.getDrawOptions()}
-                edit={{
-                  featureGroup: this.featureGroup,
-                  edit: false,
-                }}
-              />
-              {getHearingArea({ geojson: initialGeoJSON })}
-            </FeatureGroup>
-          </MapContainer>
-        </FormGroup>
-        <div className='step-control'>
-          <label className='geojson_button' htmlFor='geojsonUploader'>
-            <input id='geojsonUploader' type='file' onChange={this.onUploadGeoJSON} style={{ display: 'none' }} />
-            <Icon className='icon' name='upload' style={{ marginRight: '5px' }} />
-            <FormattedMessage id='addGeojson' />
-          </label>
-          <HelpBlock>
-            <FormattedMessage id='addGeojsonInfo' />
-          </HelpBlock>
-        </div>
-        <div className='step-footer'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
-            <FormattedMessage id='hearingFormNext' />
-          </Button>
-        </div>
+            />
+            {getHearingArea({ geojson: initialGeoJSON })}
+          </FeatureGroup>
+        </MapContainer>
+      </FormGroup>
+
+      <div className='step-control'>
+        <label className='geojson_button' htmlFor='geojsonUploader'>
+          <input id='geojsonUploader' type='file' onChange={onUploadGeoJSON} style={{ display: 'none' }} />
+          <Icon className='icon' name='upload' style={{ marginRight: '5px' }} />
+          <FormattedMessage id='addGeojson' />
+        </label>
+        <HelpBlock>
+          <FormattedMessage id='addGeojsonInfo' />
+        </HelpBlock>
       </div>
-    );
-  }
+      <div className='step-footer'>
+        <Button className='kerrokantasi-btn' onClick={onContinue}>
+          <FormattedMessage id='hearingFormNext' />
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => ({
