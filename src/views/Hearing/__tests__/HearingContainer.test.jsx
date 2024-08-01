@@ -1,9 +1,9 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 import HearingContainerComponent from '../HearingContainer';
 import { mockStore } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { MemoryRouter } from 'react-router-dom';
 
 const renderComponent = (propOverrides) => {
   const {
@@ -39,7 +39,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <HearingContainerComponent {...props} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 };
 

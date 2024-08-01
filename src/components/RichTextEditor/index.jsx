@@ -248,13 +248,6 @@ class RichTextEditor extends React.Component {
     };
   }
 
- myKeyBindingFn(e) {
-    if (e.keyCode === 83) {
-      return 'custom-tab';
-    }
-    return getDefaultKeyBinding(e);
-  }
-
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
     if (command === 'custom-tab') {
