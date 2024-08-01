@@ -704,4 +704,5 @@ SectionContainerComponent.propTypes = {
   onPostReply: PropTypes.func,
 };
 
+export {SectionContainerComponent as UnconnectedSectionContainerComponent};
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));
