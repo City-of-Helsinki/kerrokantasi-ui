@@ -87,7 +87,7 @@ class UserComment extends React.Component {
               </span>
               <OverlayTrigger placement='top' overlay={this.dateTooltip(comment.created_at)} delayShow={300}>
                 <span className='hearing-comment-date'>
-                  <FormatRelativeTime value={comment.created_at} />
+                  <FormattedRelativeTime value={comment.created_at} />
                 </span>
               </OverlayTrigger>
             </div>

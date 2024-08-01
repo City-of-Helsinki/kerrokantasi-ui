@@ -345,11 +345,7 @@ function HeaderComponent(props) {
   );
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  sections: getSections(state, ownProps.params.hearingSlug),
-  showClosureInfo:
-    getIsHearingClosed(state, ownProps.params.hearingSlug) &&
-    getIsHearingPublished(state, ownProps.params.hearingSlug),
+const mapStateToProps = (state) => ({
   user: getUser(state),
 });
 
