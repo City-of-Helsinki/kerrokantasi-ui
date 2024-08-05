@@ -6,7 +6,6 @@ import {UnconnectedSectionContainerComponent} from '../SectionContainer';
 import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 import createAppStore from '../../../../createStore';
-
 import * as mockApi from '../../../../api';
 
 const { labels, sectionComments, mockHearingWithSections, user } = mockStore;
