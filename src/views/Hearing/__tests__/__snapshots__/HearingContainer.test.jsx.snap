@@ -6,45 +6,12 @@ exports[`<HearingContainer /> should render correctly 1`] = `
     class="hearing-page"
   >
     <div
-      class="hearing-wrapper"
-      id="hearing-wrapper"
+      class="loader-wrap"
+      data-testid="load-spinner"
     >
-      <div
-        class="header-section"
-      >
-        <div
-          class="container"
-        >
-          <div
-            class="hearing-header"
-          >
-            <div
-              class="row"
-            >
-              <div
-                class="col-md-9"
-              >
-                <h1
-                  class="hearing-header-title"
-                >
-                  Ideoi Isosaaren tulevaisuutta
-                </h1>
-              </div>
-            </div>
-            <a
-              href="/undefined?headless=false"
-            >
-              <span
-                class="fa fa-arrow-left"
-              />
-               
-              <span>
-                backToHearingMain
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
+      <span
+        class="fa fa-hourglass-o fa-2x fa-spin"
+      />
     </div>
   </div>
 </div>

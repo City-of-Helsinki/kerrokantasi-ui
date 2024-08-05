@@ -1,8 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { HearingContainerComponent } from '../HearingContainer';
-import { mockStore, getIntlAsProp } from '../../../../test-utils';
+import HearingContainerComponent from '../HearingContainer';
+import { mockStore } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
@@ -38,7 +38,7 @@ const renderComponent = (propOverrides) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <HearingContainerComponent intl={getIntlAsProp()} {...props} />
+      <HearingContainerComponent {...props} />
     </MemoryRouter>,
   );
 };

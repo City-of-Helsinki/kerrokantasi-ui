@@ -21,6 +21,20 @@ export const getApiTokenFromStorage = () => {
   return null;
 };
 
+export const isApiTokenExpired = () => {
+  const apiTokensStr = apiAccessTokenStorage.getItem(storageKey);
+
+  if (apiTokensStr) {
+    const apiTokens = JSON.parse(apiTokensStr);
+    if (apiTokens[config.openIdAudience]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// FOR TESTING PURPOSES
 export const storeApiTokenToStorage = (token) => {
   apiAccessTokenStorage.setItem(
     storageKey,

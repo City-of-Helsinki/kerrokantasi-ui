@@ -1,31 +1,41 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
-import { SectionContainerComponent } from '../SectionContainer';
-import { mockStore, getIntlAsProp } from '../../../../../test-utils';
+import {UnconnectedSectionContainerComponent} from '../SectionContainer';
+import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
+import createAppStore from '../../../../createStore';
+import * as mockApi from '../../../../api';
+
+const { labels, sectionComments, mockHearingWithSections, user } = mockStore;
+
+const mockedData = {
+    results: []
+  };
+jest.spyOn(mockApi, 'get').mockImplementation(() => ( 
+  Promise.resolve(
+    {
+      json: () => Promise.resolve(mockedData),
+    }
+  )));
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: `/${mockHearingWithSections.data.id}`,
+    search: '',
+  }),
+  useParams: () => ({
+    hearingSlug: mockHearingWithSections.data.id,
+  }),
+}));
 
 const renderComponent = (propOverrides) => {
-  const {
-    labels,
-    sectionComments,
-    hearingLists: { allHearings },
-    mockHearingWithSections,
-    user,
-  } = mockStore;
-
   const props = {
     labels: labels.data,
     hearing: mockHearingWithSections.data,
     hearingDraft: {},
-    match: {
-      params: {
-        hearingSlug: allHearings.data[0].slug,
-      },
-    },
-    location: {
-      pathname: `/${allHearings.data[0].slug}`,
-    },
     sectionComments,
     showClosureInfo: true,
     sections: mockHearingWithSections.data.sections,
@@ -36,10 +46,20 @@ const renderComponent = (propOverrides) => {
     ...propOverrides,
   };
 
+  const history = createMemoryHistory();
+  const storeMock = createAppStore({
+    hearing: {
+      [mockHearingWithSections.data.id]: {
+        ...mockHearingWithSections,
+      },
+    },
+  });
+
   return renderWithProviders(
     <MemoryRouter>
-      <SectionContainerComponent intl={getIntlAsProp()} {...props} />
+      <UnconnectedSectionContainerComponent {...props} />
     </MemoryRouter>,
+    { store: storeMock, history },
   );
 };
 

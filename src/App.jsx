@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
-import { withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import messages from './i18n';
 import Header from './components/Header/Header';
@@ -22,20 +22,16 @@ import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import useAuthHook from './hooks/useAuth';  
+import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 
-function App({
-  language,
-  isHighContrast,
-  location,
-  history,
-  match,
-  ...props
-}) {
+function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
+  const params = useParams();
+  const location = useLocation();
+
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
@@ -47,7 +43,7 @@ function App({
     config.activeLanguage = language; // for non react-intl localizations
     return () => {
       cookieOnComponentWillUnmount();
-    }
+    };
   }, [language]);
 
   useEffect(() => {
@@ -75,7 +71,7 @@ function App({
     { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
     { name: 'theme-color', content: '#ffffff' },
   ];
-  const fullscreen = match.params.fullscreen === 'true';
+  const fullscreen = params.fullscreen === 'true';
   const headless = checkHeadlessParam(location.search);
   const fonts = `"HelsinkiGrotesk",
     Arial, -apple-system,
@@ -84,7 +80,7 @@ function App({
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={history.location.pathname !== '/'} history={history} />;
+    header = <Header slim={location.pathname !== '/'} history={history} />;
   }
   const mainContainerId = 'main-container';
   return (
@@ -127,13 +123,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchEnrichUser: () => dispatch(enrichUserData()),
-  })
+  dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+  dispatchEnrichUser: () => dispatch(enrichUserData()),
+});
 
 App.propTypes = {
   history: PropTypes.object,
-  match: PropTypes.object,
+  params: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
@@ -141,4 +137,4 @@ App.propTypes = {
   dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

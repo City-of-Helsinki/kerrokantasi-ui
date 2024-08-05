@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel } from 'react-bootstrap';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
 import { SearchInput, Button } from 'hds-react';
@@ -47,7 +48,7 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               </ControlLabel>
               {!isEmpty(labels) && (
                 <Select
-                  className="hearings-search__select"
+                  className='hearings-search__select'
                   multi
                   value={selectedLabels}
                   options={labelsAsOptions}
@@ -77,7 +78,7 @@ HearingsSearch.propTypes = {
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
 };
 
 export default HearingsSearch;
