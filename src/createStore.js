@@ -5,11 +5,14 @@ import { createBrowserHistory } from 'history';
 import { wrapHistory } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as Sentry from "@sentry/react";
 
 import headlessMiddleware from './middleware/headless';
 import hearingEditorMiddleware from './middleware/hearingEditor';
 import languageMiddleware from './middleware/language';
 import rootReducer from './reducers';
+
 
 export const history = createBrowserHistory();
 
@@ -31,9 +34,12 @@ const middleware = [
   ...hearingEditorMiddleware];
 
 export default function createAppStore(initialState = null) {
+  const sentryReduxEnhancer = Sentry.createReduxEnhancer();
+
   // Have to pass in the router to support isomorphic rendering
   const augmentedCreateStore = compose(
     applyMiddleware(...middleware),
+    sentryReduxEnhancer,
     typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__() : identity,
   )(createStore);
