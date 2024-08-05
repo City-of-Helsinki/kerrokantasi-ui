@@ -184,7 +184,7 @@ const MESSAGE_INCORRECT_FILE = 'Virheellinen tiedosto.';
 const HearingFormStep3 = (props) => {
   let map;
   let featureGroup;
-  const { hearing, language, isHighContrast } = props; // const props
+  const { hearing, language, isHighContrast, visible } = props; // const props
   const {
     onHearingChange,
     onCreateMapMarker,
@@ -368,7 +368,9 @@ const HearingFormStep3 = (props) => {
       localizedNotifyError(MESSAGE_INCORRECT_FILE);
     }
   };
-
+  useEffect(() => {
+    invalidateMap();
+  }, [visible, map])
   const refCallBack = (el) => {
     map = el;
   };
@@ -391,6 +393,7 @@ const HearingFormStep3 = (props) => {
           <FormattedMessage id='hearingArea' />
         </ControlLabel>
         <MapContainer
+          ref={refCallBack}
           center={localization.mapPosition}
           style={{ width: '100%', height: 600 }}
           zoom={10}
