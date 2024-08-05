@@ -28,9 +28,6 @@ import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 
-// This is needed for the invalidateMap not to fire after the component has dismounted and causing error.
-let mapInvalidator;
-
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
   shadowUrl: leafletMarkerShadowUrl,
@@ -309,8 +306,20 @@ const HearingFormStep3 = (props) => {
     }
   }
 
+  const readTextFile = (file, callback) => {
+    try {
+      const reader = new FileReader();
+
+      reader.onload = () => callback(reader.result);
+
+      reader.readAsText(file);
+    } catch (err) {
+      localizedNotifyError(MESSAGE_INCORRECT_FILE);
+    }
+  };
+
   const onUploadGeoJSON = (event) => {
-    this.readTextFile(event.target.files[0], (json) => {
+    readTextFile(event.target.files[0], (json) => {
       try {
         const featureCollection = JSON.parse(json);
         if (
@@ -339,8 +348,7 @@ const HearingFormStep3 = (props) => {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  const getDrawOptions  = () => {
-    return {
+  const getDrawOptions  = () => ({
       circle: false,
       circlemarker: false,
       polyline: false,
@@ -353,38 +361,23 @@ const HearingFormStep3 = (props) => {
           iconAnchor: [13, 41],
         }),
       },
-    };
-  }
+    })
 
-  // eslint-disable-next-line class-methods-use-this
-  const readTextFile = (file, callback) => {
-    try {
-      const reader = new FileReader();
 
-      reader.onload = () => callback(reader.result);
 
-      reader.readAsText(file);
-    } catch (err) {
-      localizedNotifyError(MESSAGE_INCORRECT_FILE);
-    }
-  };
-  useEffect(() => {
-    invalidateMap();
-  }, [visible, map])
-  const refCallBack = (el) => {
-    map = el;
-  };
-
-  const invalidateMap = () => {
-    // Map size needs to be invalidated after dynamically resizing
-    // the map container.
+  useEffect(() => () => {
     if (map && visible) {
-      mapInvalidator = setTimeout(() => {
+      setTimeout(() => {
         map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end
     }
-  }
-  if (typeof window === undefined) return null;
+    }, [visible, map])
+
+  const refCallBack = (el) => {
+    map = el;
+  };
+  
+  if (typeof window === "undefined") return null;
 
   return (
     <div className='form-step'>
@@ -419,7 +412,7 @@ const HearingFormStep3 = (props) => {
               onDeleted={onDrawDeleted}
               draw={getDrawOptions()}
               edit={{
-                featureGroup: featureGroup,
+                featureGroup,
                 edit: false,
               }}
             />
