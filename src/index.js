@@ -1,23 +1,30 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable prefer-arrow-callback */
 import { render } from 'react-dom';
-import Raven from 'raven-js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as Sentry from '@sentry/react';
 
 import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
+// eslint-disable-next-line import/no-unresolved
 import '@city-assets/sass/app.scss';
 
 require('es6-promise').polyfill();
 
-commonInit(function initReady() {
-  try {
-    if (config.uiConfig && config.uiConfig.sentryDns) Raven.config(config.uiConfig.sentryDns).install();
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-  }
+commonInit(() => {
+  if (config.uiConfig && config.uiConfig.sentryDns && config.uiConfig.sentryEnvironment) {
+    Sentry.init({
+      dsn: config.uiConfig.sentryDns,
+      environment: config.uiConfig.sentryEnvironment,
+      integrations: [Sentry.browserTracingIntegration()],
+      tracesSampleRate: 1.0,
+      ignoreErrors: [
+        'ResizeObserver loop completed with undelivered notifications',
+        'ResizeObserver loop limit exceeded',
+      ],
+    })
+  };
+
   const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
   const root = getRoot(store);
   render(root, document.getElementById('root'));

@@ -2,7 +2,8 @@
 import { createAction } from 'redux-actions';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
-import Raven from 'raven-js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as Sentry from '@sentry/react';
 import { push } from 'react-router-redux';
 
 import { localizedAlert, localizedNotifySuccess, localizedNotifyError } from '../utils/notify';
@@ -26,7 +27,7 @@ function checkResponseStatus(response) {
     const err = new Error("Bad response from server");
     err.response = response;
     response.json().then((jsonResponse) => {
-      Raven.captureException(jsonResponse, {
+      Sentry.captureException(jsonResponse, {
         extra: {
           url: response.url,
           status: response.status,
@@ -47,14 +48,14 @@ export function getResponseJSON(response) {
 
 export function requestErrorHandler() {
   return (err) => {
-    Raven.captureException(err);
+    Sentry.captureException(err);
     localizedNotifyError(err.message);
     // localizedNotifyError("APICallFailed");
   };
 }
 
 export const postCommentErrorHandler = () => (err) => {
-  Raven.captureException(err);
+  Sentry.captureException(err);
   if (err.response.status === 403) {
     localizedNotifyError("loginToComment");
   } else {
@@ -63,7 +64,7 @@ export const postCommentErrorHandler = () => (err) => {
 };
 
 export const voteCommentErrorHandler = () => (err) => {
-  Raven.captureException(err);
+  Sentry.captureException(err);
   if (err.response.status === 403) {
     localizedNotifyError("loginToVoteComment");
   } else {
@@ -72,7 +73,7 @@ export const voteCommentErrorHandler = () => (err) => {
 };
 
 export const flagCommentErrorHandler = () => (err) => {
-  Raven.captureException(err);
+  Sentry.captureException(err);
   localizedNotifyError(err.message);
 };
 
@@ -456,6 +457,6 @@ export function toggleContrast() {
 
 export function setOidcUser(oidcUser) {
   return (dispatch) => {
-    dispatch(createAction("receiveOidcUserData")({oidcUser}))
+    dispatch(createAction("receiveOidcUserData")({ oidcUser }))
   }
 }
