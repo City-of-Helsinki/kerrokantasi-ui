@@ -12,9 +12,9 @@ import '@city-assets/sass/app.scss';
 require('es6-promise').polyfill();
 
 commonInit(() => {
-  if (config.uiConfig && config.uiConfig.sentryDns && config.uiConfig.sentryEnvironment) {
+  if (config.uiConfig && config.uiConfig.sentryDsn && config.uiConfig.sentryEnvironment) {
     Sentry.init({
-      dsn: config.uiConfig.sentryDns,
+      dsn: config.uiConfig.sentryDsn,
       environment: config.uiConfig.sentryEnvironment,
       integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 1.0,
