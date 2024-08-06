@@ -6,7 +6,7 @@ import setupMatomo from './matomo';
 
 function getCookie(name) {
   const cookie = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return decodeURIComponent(cookie ? cookie.at(2) : '');
+  return decodeURIComponent(cookie && Array.isArray(cookie) ? cookie.at(2) : '');
 }
 
 export function enableMatomoTracking() {
