@@ -8,6 +8,7 @@ import commonInit from './commonInit';
 import config from './config';
 // eslint-disable-next-line import/no-unresolved
 import '@city-assets/sass/app.scss';
+import { beforeSend, beforeSendTransaction } from './utils/sentry';
 
 require('es6-promise').polyfill();
 
@@ -22,6 +23,8 @@ commonInit(() => {
         'ResizeObserver loop completed with undelivered notifications',
         'ResizeObserver loop limit exceeded',
       ],
+      beforeSend,
+      beforeSendTransaction
     })
   };
 
