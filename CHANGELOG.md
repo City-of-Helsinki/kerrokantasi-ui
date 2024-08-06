@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.4.0...kerrokantasi-ui-v1.5.0) (2024-08-06)
+
+
+### Features
+
+* CookieUtils getCookie is array KER-376 ([22d658a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/22d658ac011b17fd01d5eab90b01cd94fff1cbdd))
+* CreateStore use Sentry integration KER-376 ([ee11e56](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ee11e56a98037c536ac26e3a347a59f638d63b30))
+* HearingEditor actions catch error KER-376 ([de2edcd](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/de2edcd726797da4533897502be13c7dd39bd498))
+* Replace raven-js with sentry/react KER-376 ([463f92d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/463f92d49550b9f7cd3489ca64c92c2c1d3dd502))
+
+
+### Bug Fixes
+
+* Env variable name sentryDsn KER-376 ([8df2e2b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8df2e2b81871b8ba084765cbd01fa64834cc6b51))
+
 ## [1.4.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.3.0...kerrokantasi-ui-v1.4.0) (2024-06-27)
 
 
