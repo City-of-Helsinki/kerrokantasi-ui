@@ -180,13 +180,9 @@ export function fetchHearingEditorMetaData() {
       })
       .catch(err => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
-        return err;
+
+        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
       })
-      .then(err => {
-        if (err) {
-          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
-        }
-      });
   };
 }
 
@@ -207,13 +203,9 @@ export function fetchHearingEditorContactPersons() {
       })
       .catch(err => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
-        return err;
+
+        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
       })
-      .then(err => {
-        if (err) {
-          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
-        }
-      });
   };
 }
 
@@ -376,7 +368,6 @@ export function saveHearingChanges(hearing) {
           notifySuccess('Tallennus onnistui');
         }
       })
-      .then({})
       .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
@@ -433,7 +424,6 @@ export function saveAndPreviewHearingChanges(hearing) {
           notifySuccess('Tallennus onnistui');
         }
       })
-      .then({})
       .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
