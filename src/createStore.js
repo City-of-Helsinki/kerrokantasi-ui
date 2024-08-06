@@ -13,7 +13,6 @@ import hearingEditorMiddleware from './middleware/hearingEditor';
 import languageMiddleware from './middleware/language';
 import rootReducer from './reducers';
 
-
 export const history = createBrowserHistory();
 
 const historySettings = {
