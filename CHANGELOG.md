@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.5.0...kerrokantasi-ui-v1.6.0) (2024-08-07)
+
+
+### Features
+
+* Sentry add beforeSend KER-376 ([42c20b5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/42c20b5e849391c8990aba9d763290c71abc560a))
+
 ## [1.5.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.4.0...kerrokantasi-ui-v1.5.0) (2024-08-06)
 
 
