@@ -137,13 +137,12 @@ function Hearings({
 
   const getSearchParams = useCallback(() => {
     const searchParams = {};
-
-    if (parseQuery(location.search).search) Object.assign(params, { title: parseQuery(location.search).search });
+    if (parseQuery(location.search).search) Object.assign(searchParams, { title: parseQuery(location.search).search });
     if (parseQuery(location.search).label) {
       Object.assign(searchParams, { label: getLabelsFromQuery(parseQuery(location.search).label.toString()) });
     }
-    return params;
-  }, [location.search, params]);
+    return searchParams;
+  }, [location.search]);
 
   const fetchHearingList = useCallback(() => {
     const list = getHearingListName();
@@ -211,8 +210,9 @@ function Hearings({
   };
 
   const handleSelectLabels = (selectLabels) => {
+    const selectArray = Array.isArray(selectLabels) ? selectLabels : [selectLabels];
     const searchParams = parseQuery(location.search);
-    searchParams.label = selectLabels.map(({ id }) => id);
+    searchParams.label = selectArray.map(({ id }) => id);
     navigate({
       path: location.pathname,
       search: stringifyQuery(searchParams),
@@ -266,7 +266,13 @@ function Hearings({
 
   const selectedLabels = labels
     .filter((label) => includes(labelsInQuery, label.id.toString()))
-    .map((label) => getAttr(label.label, language));
+    .map((label) => {
+      const translatedLabel = getAttr(label.label, language);
+      return {
+        id: label.id,
+        label: translatedLabel,
+        value: translatedLabel
+      }});
 
   const searchTitle = parseQuery(location.search).search;
 

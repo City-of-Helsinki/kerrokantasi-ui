@@ -8,6 +8,7 @@ const renderComponent = (propOverrides) => {
   const props = {
     hearing: {labels: [], contact_persons: []},
     labels: [],
+    contactPersons: [],
     hearingLanguages: [],
     errors: {title: ''},
     ...propOverrides,

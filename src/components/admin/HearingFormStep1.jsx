@@ -2,10 +2,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
-import { Button } from 'hds-react';
+import { Button, Select} from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -25,6 +24,28 @@ import Icon from '../../utils/Icon';
 import { getDocumentOrigin, getValidationState } from '../../utils/hearingEditor';
 import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
 
+const ContactLabel = ({
+    person = {},
+    openContactModal = () => null,
+    selected = false
+  }) => {
+  const handleClick = () => {
+    const isMenuOpen = document.querySelectorAll('.contact-elements li').length > 0;
+    if(selected && !isMenuOpen) {
+      openContactModal(person);
+    }
+  }
+  
+  return (
+    <span onMouseDown={handleClick}>{person.name}</span>
+  )
+}
+ContactLabel.propTypes = {
+  person: PropTypes.object,
+  openContactModal: PropTypes.func,
+  selected: PropTypes.bool
+}
+
 class HearingFormStep1 extends React.Component {
   constructor(props) {
     super(props);
@@ -43,8 +64,8 @@ class HearingFormStep1 extends React.Component {
       showLabelModal: false,
       contactInfo: {},
       showContactModal: false,
-      selectedLabels: map(this.props.hearing.labels, ({ id }) => id),
-      selectedContacts: map(this.props.hearing.contact_persons, ({ id }) => id),
+      selectedLabels: map(this.props.hearing.labels, ({id}) => id),
+      selectedContacts: map(this.props.hearing.contact_persons, ({id}) => id),
     };
   }
 
@@ -57,18 +78,18 @@ class HearingFormStep1 extends React.Component {
   }
 
   onLabelsChange(selectedLabels) {
-    this.setState({ selectedLabels: selectedLabels.map(({ id }) => id) });
+    this.setState({ selectedLabels: selectedLabels.map(({id}) => id) });
     this.props.onHearingChange(
       'labels',
-      selectedLabels.map(({ id }) => id),
+      selectedLabels.map(({id}) => id),
     );
   }
 
   onContactsChange(selectedContacts) {
-    this.setState({ selectedContacts: selectedContacts.map(({ id }) => id) });
+    this.setState({ selectedContacts: selectedContacts.map(({id}) => id) });
     this.props.onHearingChange(
       'contact_persons',
-      selectedContacts.map(({ id }) => id),
+      selectedContacts.map(({id}) => id),
     );
   }
 
@@ -138,25 +159,21 @@ class HearingFormStep1 extends React.Component {
               </ControlLabel>
               <div className='label-elements'>
                 <Select
-                  multi
-                  clearAllText='Poista'
-                  clearValueText='Poista'
+                  style={{flex: 1}}
+                  multiselect
                   name='labels'
+                  defaultValue={hearing.labels.map((opt) => ({
+                    id: opt.id,
+                    title: getAttr(opt.label, language),
+                    label: getAttr(opt.label, language)
+                  }))}
                   onChange={this.onLabelsChange}
                   options={labelOptions.map((opt) => ({
-                    ...opt,
+                    id: opt.id,
                     title: getAttr(opt.label, language),
                     label: getAttr(opt.label, language),
                   }))}
                   placeholder={formatMessage({ id: 'hearingLabelsPlaceholder' })}
-                  simpleValue={false}
-                  value={hearing.labels.map((label) => ({
-                    ...label,
-                    title: 'Poista',
-                    label: getAttr(label.label, language),
-                  }))}
-                  valueKey='frontId'
-                  menuContainerStyle={{ zIndex: 10 }}
                 />
                 <Button
                   size='small'
@@ -193,25 +210,30 @@ class HearingFormStep1 extends React.Component {
           </ControlLabel>
           <div className='contact-elements'>
             <Select
-              valueRenderer={(options) => (
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onMouseDown={() => {
-                    this.openContactModal(options);
-                  }}
-                >
-                  {options.name}
-                </span>
-              )}
-              labelKey='name'
-              multi
+              style={{flex: 1}}
+              multiselect
               name='contacts'
               onChange={this.onContactsChange}
-              options={contactOptions}
+              optionKeyField='id'
+              value={hearing.contact_persons.map((person) => ({
+                id: person.id,
+                title: person.name,
+                label: <ContactLabel 
+                  person={person} 
+                  selected
+                  openContactModal={this.openContactModal}
+                />
+              }))}
+              options={contactOptions.map(person => ({
+                id: person.id,
+                title: person.name,
+                label: <ContactLabel
+                  person={person}
+                  selected={hearing.contact_persons.some((contact) => contact.id === person.id)}
+                  openContactModal={this.openContactModal}
+                />
+              }))}
               placeholder={formatMessage({ id: 'hearingContactsPlaceholder' })}
-              simpleValue={false}
-              value={hearing.contact_persons.map((person) => ({ ...person }))}
-              valueKey='id'
             />
             <Button
               size='small'
