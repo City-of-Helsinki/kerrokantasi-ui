@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, MapContainer, Polyline, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
@@ -18,6 +18,8 @@ import { getCorrectContrastMapTileUrl } from '../utils/map';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) => {
+  const { hearings, language } = props;
+  const [contents, setContents] = useState(null);
   const mapContainer = undefined;
   const [dimensions, setDimensions] = useState({
     height: showOnCarousel ? null : props.style.height,
@@ -33,8 +35,6 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
     }
   };
 
-
-
   /**
    * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
    * @param {Object} hearing
@@ -42,7 +42,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    * @returns {JSX.Element|null}
    */
   const getPopupContent = (hearing, geojson) => {
-    const { enablePopups, language } = props;
+    const { enablePopups } = props;
     // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
     const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
     if (enablePopups) {
@@ -59,7 +59,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
       );
     }
     return null;
-  };
+  }
 
   /**
    * Returns additional parameters for Markers.
@@ -71,7 +71,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    * @returns {{alt: *}|{keyboard: boolean}}
    */
   const getAdditionalParams = (hearing) => {
-    const { enablePopups, language } = props;
+    const { enablePopups } = props;
     if (enablePopups) {
       return { alt: getAttr(hearing.title, language) };
     }
@@ -159,25 +159,23 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
     return [];
   };
 
-  const getHearingMapContent = (hearings) => {
-    const contents = [];
-    hearings.forEach((hearing) => {
+  const getHearingMapContent = (tmpHearings) => {
+    const mapElements = [];
+    tmpHearings.forEach((hearing) => {
       const { geojson } = hearing;
       if (geojson) {
         const mapElement = getMapElement(geojson, hearing);
         if (Array.isArray(mapElement) && mapElement.length > 0) {
           mapElement.forEach((mapEl) => {
-            contents.push(mapEl);
+            mapElements.push(mapEl);
           });
         } else if (mapElement && !Array.isArray(mapElement)) {
-          contents.push(mapElement);
+          mapElements.push(mapElement);
         }
       }
     });
-    return contents;
+    setContents(mapElements);
   };
-
-  handleUpdateMapDimensions(mapContainer);
 
   /**
    * ensures whether it is the right time to render map.
@@ -185,16 +183,18 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    * @returns {Bool}
    */
   const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
+  
+  useEffect(() => {
+    getHearingMapContent(hearings);
+    handleUpdateMapDimensions(mapContainer);
+    // Add any other functions that should run on component mount or hearings change here
+  }, [hearings]); 
 
   if (typeof window === 'undefined') return null;
-  const { hearings, language } = props;
-  const contents = getHearingMapContent(hearings);
-
-  // eslint-disable-next-line no-console
-  console.debug('contents', contents, contents);
-  if (!contents.length && props.hideIfEmpty) {
+  if (!contents && props.hideIfEmpty) {
     return null;
   }
+  console.debug('contents', contents);
   return (
     shouldMapRender() && (
       <MapContainer

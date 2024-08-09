@@ -49,10 +49,12 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               {!isEmpty(labels) && (
                 <Select
                   className='hearings-search__select'
-                  multi
+                  isMulti
                   value={selectedLabels}
                   options={labelsAsOptions}
-                  onChange={(value) => handleSelectLabels(value)}
+                  onChange={(values) => { 
+                    handleSelectLabels(values);
+                  }}
                   placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
                   id='formControlsSearchSelect'
                 />
