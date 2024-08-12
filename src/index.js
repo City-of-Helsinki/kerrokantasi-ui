@@ -29,10 +29,10 @@ commonInit(function initReady() {
       beforeSend,
       beforeSendTransaction
     })
-    const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
-    const app = getRoot(store);
-    const container = document.getElementById('root');
-    const root = createRoot(container);
-    root.render(app)
   };
+  const store = createStore(typeof window !== 'undefined' ? window.STATE : {});
+  const app = getRoot(store);
+  const container = document.getElementById('root');
+  const root = createRoot(container);
+  root.render(app)
 });

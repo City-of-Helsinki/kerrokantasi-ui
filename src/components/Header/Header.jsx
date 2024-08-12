@@ -12,6 +12,7 @@ import { localizedNotifyError } from '../../utils/notify';
 import config from '../../config';
 import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
+import { NavLink } from 'react-router-dom';
 
 const Header = ({ history, language, user }) => {
   const { authenticated, login, logout } = useAuthHook();
