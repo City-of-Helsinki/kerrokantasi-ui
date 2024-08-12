@@ -7,12 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import logoBlack from '@city-images/logo-fi-black.svg';
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
+import { NavLink } from 'react-router-dom';
 
 import { localizedNotifyError } from '../../utils/notify';
 import config from '../../config';
 import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
-import { NavLink } from 'react-router-dom';
 
 const Header = ({ history, language, user }) => {
   const { authenticated, login, logout } = useAuthHook();

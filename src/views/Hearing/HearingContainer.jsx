@@ -110,9 +110,7 @@ function HearingContainerComponent(props) {
           </div>
         </>
       ) : (
-        <>
-          <LoadSpinner />
-        </>
+        <LoadSpinner />
       )}
     </div>
   );

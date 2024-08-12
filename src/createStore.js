@@ -2,7 +2,6 @@
 import identity from 'lodash/identity';
 import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
-import { wrapRouter } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
