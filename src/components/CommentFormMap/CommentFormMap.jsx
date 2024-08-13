@@ -65,13 +65,6 @@ class CommentFormMap extends React.Component {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <FeatureGroup
-          ref={(input) => {
-            if (!input) return;
-            const bounds = input.leafletElement.getBounds();
-            if (bounds.isValid()) {
-              input.context.map.fitBounds(bounds);
-            }
-          }}
         >
           {this.props.contents !== null && <div>{this.props.contents}</div>}
           <EditControl

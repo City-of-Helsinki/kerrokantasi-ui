@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 
 function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
-  if (!timeVal || !messagePrefix) {
+  if (!timeVal) {
     return <span />;
   }
   const time = new Date(timeVal);
@@ -57,6 +57,9 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatT
         }
       </FormattedMessage>
     );
+  }
+  if (!messagePrefix) {
+    return (<FormattedRelativeTime value={difference * -1} unit={unit} />);
   }
   return (<><FormattedMessage id={messageId} /> <FormattedRelativeTime value={difference * -1} unit={unit} /></>);
 }

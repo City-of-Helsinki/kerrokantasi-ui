@@ -267,7 +267,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -325,7 +325,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -383,7 +383,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -441,7 +441,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -499,7 +499,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -557,7 +557,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -615,7 +615,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        2021-11-16T09:25:37.625607Z
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
