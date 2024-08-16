@@ -1,52 +1,42 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
 import HearingContainerComponent from '../HearingContainer';
-import { mockStore } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
+import { mockStore as mockData } from '../../../../test-utils';
 
-const renderComponent = (propOverrides) => {
-  const {
-    labels,
-    sectionComments,
-    hearingLists: { allHearings },
-    mockHearingWithSections,
-    user,
-  } = mockStore;
-  const props = {
-    labels: labels.data,
-    hearing: mockHearingWithSections.data,
-    hearingDraft: {},
-    match: {
-      params: {
-        hearingSlug: allHearings.data[0].slug,
-      },
-    },
-    location: {
-      pathname: `/${allHearings.data[0].slug}`,
-      search: '',
-    },
-    sectionComments,
-    fetchHearing: () => null,
-    language: 'fi',
-    user,
-    isLoading: false,
-    fetchEditorMetaData: () => null,
-    fetchProjectsList: () => null,
-    ...propOverrides,
-  };
-
-  return renderWithProviders(
-    <MemoryRouter>
-      <HearingContainerComponent {...props} />
-    </MemoryRouter>,
-  );
-};
+const mockStore = configureStore([thunk]);
 
 describe('<HearingContainer />', () => {
-  it('should render correctly', () => {
-    const { container } = renderComponent();
+  const { mockHearingWithSections, labels, user } = mockData;
 
-    expect(container).toMatchSnapshot();
+  const store = mockStore({
+    hearing: mockHearingWithSections.data,
+    hearingEditor: {
+      languages: ['en', 'fi'],
+      organizations: { all: [{ name: 'Kaupunkisuunnitteluvirasto', external_organization: false, frontId: '123' }] },
+      hearing: mockHearingWithSections.data,
+      labels: { all: ['1', '2'], byId: labels.data },
+      editorState: {
+        show: false,
+        pending: 0,
+        isSaving: false,
+      },
+    },
+    user,
+  });
+
+  it('should render the component', () => {
+    renderWithProviders(
+      <Provider store={store}>
+        <MemoryRouter>
+          <HearingContainerComponent />
+        </MemoryRouter>
+      </Provider>,
+      { store },
+    );
   });
 });
