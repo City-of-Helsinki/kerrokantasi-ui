@@ -535,7 +535,7 @@ const Comment = (props) => {
         toggleContainer.querySelector('a').focus();
       }
     }
-  }, commentRef);
+  }, [commentRef]);
 
   if (!data.content) {
     return null;

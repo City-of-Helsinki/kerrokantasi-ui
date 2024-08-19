@@ -194,7 +194,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
   if (!contents && props.hideIfEmpty) {
     return null;
   }
-  console.debug('contents', contents);
+  
   return (
     shouldMapRender() && (
       <MapContainer

@@ -3,19 +3,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import logoBlack from '@city-images/logo-fi-black.svg';
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { localizedNotifyError } from '../../utils/notify';
 import config from '../../config';
 import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
 
-const Header = ({ history, language, user }) => {
+const Header = ({ user }) => {
   const { authenticated, login, logout } = useAuthHook();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const intl = useIntl();
+  const language = intl.locale;
 
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
@@ -37,14 +41,13 @@ const Header = ({ history, language, user }) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     urlSearchParams.set('lang', newLanguage);
 
-    history.push({
-      pathname: window.location.pathname,
-      search: urlSearchParams.toString(),
-    });
+    navigate(
+      `${window.location.pathname  }?${  urlSearchParams.toString()}`
+    );
   };
 
   const getNavItem = (id, url, addSuffix = true) => {
-    const active = history && history.location.pathname === url;
+    const active = location.pathname === url;
     let messageId = id;
     if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
       return null;
@@ -127,8 +130,6 @@ const Header = ({ history, language, user }) => {
 };
 
 Header.propTypes = {
-  history: PropTypes.object,
-  language: PropTypes.string,
   user: PropTypes.object,
 };
 
