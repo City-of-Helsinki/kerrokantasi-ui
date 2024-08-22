@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
@@ -176,7 +177,7 @@ class OverviewMap extends React.Component {
             <h4>
               <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
             </h4>
-            <p>{getAttr(hearing.abstract, language)}</p>
+            <div dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }} />
           </div>
         </Popup>
       );
@@ -257,7 +258,7 @@ class OverviewMap extends React.Component {
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
-  language: state.language
+  language: state.language,
 });
 
 OverviewMap.defaultProps = {
