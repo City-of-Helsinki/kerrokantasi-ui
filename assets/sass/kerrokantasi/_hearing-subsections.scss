@@ -51,7 +51,7 @@
   }
 
   &-title-prefix {
-    color: $text-muted;
+    color: var(--color-black-60);
     font-size: $font-size-small;
     text-transform: uppercase;
   }

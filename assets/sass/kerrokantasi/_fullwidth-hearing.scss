@@ -37,7 +37,7 @@
 
   &-times {
     margin-bottom: $line-height-computed / 2;
-    color: $text-muted;
+    color: var(--color-black-60);
     font-size: 1.4rem;
   }
 

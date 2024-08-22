@@ -166,7 +166,7 @@
     }
 
     &-date {
-      color: $text-muted;
+      color: var(--color-black-60);
       font-size: $font-size-small;
       position: relative;
 
@@ -174,7 +174,7 @@
         &:before {
           content: "";
           margin-right: 10px;
-          background-color: $text-muted;
+          background-color: var(--color-black-60);
           width: 4px;
           height: 4px;
           border-radius: 50%;
@@ -275,7 +275,7 @@
       font-size: $font-size-small;
 
       a {
-        color: $text-muted;
+        color: var(--color-black-60);
 
         &:hover,
         &:focus {
@@ -285,7 +285,7 @@
         & + a {
           margin-left: $grid-gutter-width/4;
           padding-left: $grid-gutter-width/4;
-          border-left: 1px solid $text-muted;
+          border-left: 1px solid var(--color-black-60);
         }
       }
     }

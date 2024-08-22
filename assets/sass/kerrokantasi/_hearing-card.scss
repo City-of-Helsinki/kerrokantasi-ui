@@ -33,7 +33,7 @@
 
     .hearing-card-time {
       margin-bottom: $line-height-computed / 2;
-      color: $text-muted;
+      color: var(--color-black-60);
       font-size: $font-size-small;
 
       &.expires {
@@ -65,7 +65,7 @@
 
     .language-available-message {
       font-size: 90%;
-      color: $text-muted;
+      color: var(--color-black-60);
     }
   }
 }
