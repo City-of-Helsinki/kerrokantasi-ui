@@ -73,7 +73,7 @@
   }
 
   &-times {
-    color: $text-muted;
+    color: var(--color-black-60);
     font-size: $font-size-small;
     margin-bottom: $line-height-computed/1.5;
   }
@@ -153,7 +153,7 @@
     font-size: $font-size-large;
     font-weight: 400;
     margin: 0 $grid-gutter-width * 1.5 $grid-gutter-width/2 0;
-    color: $text-muted;
+    color: var(--color-black-60);
 
     span {
       margin-left: 0.15em;
@@ -201,7 +201,7 @@
     height: 80px;
 
     .Select-placeholder {
-      color: $text-muted;
+      color: var(--color-black-60);
     }
 
     #hearings-search-form {

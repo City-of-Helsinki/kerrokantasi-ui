@@ -164,7 +164,7 @@
 
         .hearing-section-toggle-button-subtitle,
         .hearing-section-toggle-button-subtitle * {
-          color: $text-muted;
+          color: var(--color-black-60);
           text-decoration: none !important;
         }
       }
@@ -174,7 +174,7 @@
         font-size: $font-size-large;
         font-weight: normal;
         margin-top: $line-height-computed/2;
-        color: $text-muted;
+        color: var(--color-black-60);
         text-decoration: none;
       }
     }
@@ -182,7 +182,7 @@
     .fa-angle-right {
       width: $grid-gutter-width * 1.25;
       text-align: center;
-      color: $text-muted !important;
+      color: var(--color-black-60) !important;
       transition: transform 0.2s;
       margin-left: -$grid-gutter-width * 1.25;
       text-decoration: none !important;
@@ -333,7 +333,7 @@
       }
 
       .phase-schedule {
-        color: $text-muted;
+        color: var(--color-black-60);
       }
     }
   }
@@ -705,7 +705,8 @@
 
     .disabled {
       span {
-        border-color: $text-muted;
+        border-color: var(--color-black-60);
+        color: var(--color-black-60);
       }
     }
   }
@@ -719,7 +720,7 @@
     display: block;
     margin-bottom: $line-height-computed;
     text-transform: uppercase;
-    color: $text-muted;
+    color: var(--color-black-60);
     font-size: $font-size-large;
     font-weight: normal;
   }
@@ -739,7 +740,7 @@
 
   &:before {
     content: '';
-    background: $text-muted;
+    background: var(--color-black-60);
     width: 5px;
     height: 5px;
     border-radius: 50%;
