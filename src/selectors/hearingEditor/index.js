@@ -38,9 +38,9 @@ export const getPopulatedHearing = (state) => {
 
   return ({
     ...hearing,
-    contact_persons: hearing.contact_persons.map(frontId => contactPersons.byId[frontId]),
-    labels: hearing.labels.map(frontId => labels.byId[frontId]),
-    sections: hearing.sections.map(frontId => sections.byId[frontId]),
+    contact_persons: hearing.contact_persons ? hearing.contact_persons.map(frontId => contactPersons.byId[frontId]) : [],
+    labels: hearing.labels ? hearing.labels.map(frontId => labels.byId[frontId]) : [],
+    sections: hearing.sections ? hearing.sections.map(frontId => sections.byId[frontId]) : [],
   });
 };
 
