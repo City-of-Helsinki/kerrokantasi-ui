@@ -18,6 +18,7 @@
   "anonymous": "Anonym",
   "APICallFailed": "API-anropet {callName} misslyckades: {err}. Försök igen snart.",
   "asOpenData": "som öppna data",
+  "attachment": "Bilaga",
   "attachments": "Bilagor",
   "backToHearingMain": "Tillbaka till hörandets hemsida",
   "borough": "Område",
