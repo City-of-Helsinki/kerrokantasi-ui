@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.0...kerrokantasi-ui-v1.6.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* HearingEditor selector get hearing check KER-378 ([d539078](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d5390783e133a5b446791620986fbd221f9d54aa))
+
 ## [1.6.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.5.0...kerrokantasi-ui-v1.6.0) (2024-08-07)
 
 
