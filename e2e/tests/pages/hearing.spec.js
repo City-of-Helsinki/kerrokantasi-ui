@@ -30,7 +30,7 @@ test.describe('Hearing', () => {
   });
 
   test('should display Finnish title', async () => {
-    await expect(page.locator('main')).toContainText(hearing.title.fi);
+    await expect(page.locator('.hearing-header-title')).toContainText(hearing.title.fi);
   });
 
   test('should have comment link', async () => {
@@ -39,7 +39,7 @@ test.describe('Hearing', () => {
   });
 
   test('should display comment count', async () => {
-    await expect(page.getByTestId('comment-summary')).toContainText(`Yhteensä ${hearing.n_comments} kommentti`);
+    await expect(page.getByTestId('comment-summary')).toContainText(`Yhteensä ${hearing.n_comments} kommenttia`);
   });
 
   test('should have Swedish link if available', async () => {
