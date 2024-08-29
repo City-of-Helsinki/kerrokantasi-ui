@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.1...kerrokantasi-ui-v1.6.2) (2024-08-29)
+
+
+### Bug Fixes
+
+* Overview map set popup content as html KER-260 ([302ba2f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/302ba2f9c9569283ce0bda9c1964fa34d13e20d2))
+* Replace low contrast text-muted css variable KER-377 ([2e9dbda](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2e9dbda68c55a3c50a4deb210b0c7cfbc04ef073))
+* Section attachment default title KER-378 ([f270fc8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f270fc80355c92f6e2fcb54d6a438d5df50b96cf))
+
 ## [1.6.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.0...kerrokantasi-ui-v1.6.1) (2024-08-28)
 
 
