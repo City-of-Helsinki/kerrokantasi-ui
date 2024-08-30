@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.3...kerrokantasi-ui-v1.6.4) (2024-08-30)
+
+
+### Bug Fixes
+
+* HearingContainer fetch metadata before projects KER-378 ([07058a7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/07058a7ee98077c663a6476965a9710782f824ed))
+
 ## [1.6.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.2...kerrokantasi-ui-v1.6.3) (2024-08-30)
 
 
