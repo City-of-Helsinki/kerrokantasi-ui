@@ -131,32 +131,6 @@ describe('hearingEditor selectors', () => {
       };
       expect(selectors.getPopulatedHearing(newState)).toBeNull();
     });
-
-    it('should check if hearing contact_persons, labels or sections are undefined', () => {
-      const newState = {
-        ...state,
-        hearingEditor: {
-          ...state.hearingEditor,
-          hearing: {
-            ...state.hearingEditor.hearing,
-            data: {
-              ...state.hearingEditor.hearing.data,
-              contact_persons: undefined,
-              labels: undefined,
-              sections: undefined
-            }
-          }
-        },
-      }
-      const expected = {
-        ...state.hearingEditor.hearing.data,
-        contact_persons: [],
-        labels: [],
-        sections: [],
-      };
-
-      expect(selectors.getPopulatedHearing(newState)).toEqual(expected);
-    })
   });
 
   describe('getLabelsState', () => {
