@@ -6,7 +6,7 @@ import { EditorActions } from '../../actions/hearingEditor';
 
 const all = handleActions(
   {
-    [EditorActions.RECEIVE_META_DATA]: (state, { payload: { organizations } }) => organizations.entities.organizations ? Object.values(organizations.entities.organizations) : [],
+    [EditorActions.RECEIVE_META_DATA]: (_state, { payload: { organizations } }) => organizations.entities.organizations ? Object.values(organizations.entities.organizations) : [],
   },
   [],
 );
