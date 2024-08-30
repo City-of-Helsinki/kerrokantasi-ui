@@ -61,7 +61,7 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   return (
     <div id='hearing'>
       {isEmpty(hearing) ? (
-        <LoadSpinner role="status" />
+        <LoadSpinner />
       ) : (
         <div className='fullscreen-hearing'>
           <div className='fullscreen-navigation'>

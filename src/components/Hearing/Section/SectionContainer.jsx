@@ -47,6 +47,7 @@ import {
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL } from '../../../api';
+import LoadSpinner from '../../LoadSpinner';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function SectionContainerComponent(props) {
@@ -648,10 +649,10 @@ function SectionContainerComponent(props) {
   const section = sections.find((sec) => sec.id === sectionId) || mainSection;
 
   return isEmpty(section) ? (
-    <div>Loading</div>
+    <LoadSpinner />
   ) : (
     <Grid>
-      <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
+      <div data-testid="hearing-content-section" className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
         <Row>{isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}</Row>
       </div>
       <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />

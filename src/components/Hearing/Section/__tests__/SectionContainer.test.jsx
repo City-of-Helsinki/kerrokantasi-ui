@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import { screen } from '@testing-library/react';
 
 import {UnconnectedSectionContainerComponent} from '../SectionContainer';
 import { mockStore } from '../../../../../test-utils';
@@ -66,5 +67,11 @@ const renderComponent = (propOverrides) => {
 describe('<SectionContainer />', () => {
   it('should render correctly', () => {
     renderComponent();
+    expect(screen.getByTestId('hearing-content-section')).toBeInTheDocument();
+  });
+
+  it('should display the correct image caption from first section', () => {
+    renderComponent();
+    expect(screen.getByText(mockHearingWithSections.data.sections[0].images[0].caption.fi)).toBeInTheDocument();
   });
 });
