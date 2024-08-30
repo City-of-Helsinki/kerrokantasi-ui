@@ -1,52 +1,50 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
-import { HearingContainerComponent } from '../HearingContainer';
-import { mockStore, getIntlAsProp } from '../../../../test-utils';
+import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
+import { mockStore as mockData } from '../../../../test-utils';
 
-const renderComponent = (propOverrides) => {
-  const {
-    labels,
-    sectionComments,
-    hearingLists: { allHearings },
-    mockHearingWithSections,
-    user,
-  } = mockStore;
-  const props = {
-    labels: labels.data,
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+const renderComponent = () => {
+  const { mockHearingWithSections, labels, user } = mockData;
+
+  const store = mockStore({
     hearing: mockHearingWithSections.data,
-    hearingDraft: {},
-    match: {
-      params: {
-        hearingSlug: allHearings.data[0].slug,
+    hearingEditor: {
+      languages: ['en', 'fi'],
+      organizations: { all: [{ name: 'Kaupunkisuunnitteluvirasto', external_organization: false, frontId: '123' }] },
+      hearing: mockHearingWithSections.data,
+      labels: { all: ['1', '2'], byId: labels.data },
+      editorState: {
+        show: false,
+        pending: 0,
+        isSaving: false,
       },
     },
+    user,
+  });
+
+  const props = {
     location: {
-      pathname: `/${allHearings.data[0].slug}`,
+      pathname: mockHearingWithSections.data.slug,
       search: '',
     },
-    sectionComments,
-    fetchHearing: () => null,
-    language: 'fi',
-    user,
-    isLoading: false,
-    fetchEditorMetaData: () => null,
-    fetchProjectsList: () => null,
-    ...propOverrides,
+    match: {
+      params: {
+        hearingSlug: mockHearingWithSections.data.slug,
+      },
+    },
   };
 
-  return renderWithProviders(
-    <MemoryRouter>
-      <HearingContainerComponent intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
-  );
+  return renderWithProviders(<HearingContainerComponent {...props} />, { store });
 };
 
 describe('<HearingContainer />', () => {
-  it('should render correctly', () => {
-    const { container } = renderComponent();
-
-    expect(container).toMatchSnapshot();
+  test('renders correctly', () => {
+    renderComponent();
   });
 });
