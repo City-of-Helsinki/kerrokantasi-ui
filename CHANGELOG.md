@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.2...kerrokantasi-ui-v1.6.3) (2024-08-30)
+
+
+### Bug Fixes
+
+* Normalize hearing data bug KER-378 ([f01be68](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f01be6851cf91dc4ad69c5ecbb224184b05b7d9c))
+
 ## [1.6.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.1...kerrokantasi-ui-v1.6.2) (2024-08-29)
 
 
