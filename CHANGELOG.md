@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.4...kerrokantasi-ui-v1.6.5) (2024-09-02)
+
+
+### Bug Fixes
+
+* Hearing page limit amount of actions KER-378 ([b737aa9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b737aa9d00b72fefed7550abf8a963832188e587))
+* Revert hearingEditor action changes KER-378 ([da83f6a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/da83f6ab047117936a4eb279d2db3ccf8c4b7486))
+
 ## [1.6.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.3...kerrokantasi-ui-v1.6.4) (2024-08-30)
 
 
