@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.5...kerrokantasi-ui-v1.6.6) (2024-09-02)
+
+
+### Bug Fixes
+
+* Reduce hearing actions when logged in KER-378 ([4b03ed7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4b03ed731d52be8c28024ee86e123dfc3c1d432f))
+
 ## [1.6.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.4...kerrokantasi-ui-v1.6.5) (2024-09-02)
 
 
