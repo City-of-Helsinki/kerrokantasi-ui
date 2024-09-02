@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useCallback, useEffect, Suspense, lazy } from 'react';
+import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
@@ -42,6 +42,8 @@ const HearingContainerComponent = ({
 }) => {
   const { hearingSlug } = params;
 
+  const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
+
   const fetchHearingData = useCallback(() => {
     if (hearingSlug !== null) {
       if (location.search.includes('?preview')) {
@@ -56,18 +58,18 @@ const HearingContainerComponent = ({
   }, [fetchHearing, fetchProjectsList, location.search, hearingSlug]);
 
   useEffect(() => {
-    if (isEmpty(hearing)) {
+    if (isEmpty(hearing) && !isLoading) {
       fetchHearingData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search, hearingSlug]);
+  }, [isLoading]);
 
   useEffect(() => {
-    if (!isEmpty(hearing) && !isEmpty(user) && canEdit(user, hearing)) {
+    if (!isEmpty(hearing) && !isEmpty(user) && userCanEditHearing) {
       fetchEditorMetaData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hearing, user]);
+  }, [userCanEditHearing]);
 
   useEffect(() => {
     if (location.state) {
