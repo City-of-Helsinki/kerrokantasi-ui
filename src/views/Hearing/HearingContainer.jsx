@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useCallback, useEffect, Suspense, lazy, useState } from 'react';
+import React, { useCallback, useEffect, Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
@@ -40,30 +40,34 @@ const HearingContainerComponent = ({
   setLanguage,
   user,
 }) => {
-  const { hearingSlug: slug } = params;
-
-  const [hearingSlug, setHearingSlug] = useState(null);
-
-  useEffect(() => {
-    setHearingSlug(slug);
-  }, [slug]);
+  const { hearingSlug } = params;
 
   const fetchHearingData = useCallback(() => {
     if (hearingSlug !== null) {
       if (location.search.includes('?preview')) {
         // regex match to get the ?preview=key and substring to retrieve the key part
-        fetchHearing(params.hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
+        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
       } else {
-        fetchHearing(params.hearingSlug);
+        fetchHearing(hearingSlug);
       }
+
+      fetchProjectsList();
     }
-  }, [fetchHearing, hearingSlug, location.search, params.hearingSlug]);
+  }, [fetchHearing, fetchProjectsList, location.search, hearingSlug]);
 
   useEffect(() => {
-    fetchHearingData();
+    if (isEmpty(hearing)) {
+      fetchHearingData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search, hearingSlug]);
 
-    fetchEditorMetaData().then(() => fetchProjectsList());
-  }, [fetchEditorMetaData, fetchHearingData, fetchProjectsList]);
+  useEffect(() => {
+    if (!isEmpty(hearing) && !isEmpty(user) && canEdit(user, hearing)) {
+      fetchEditorMetaData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hearing, user]);
 
   useEffect(() => {
     if (location.state) {
