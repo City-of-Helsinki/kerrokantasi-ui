@@ -181,8 +181,14 @@ export function fetchHearingEditorMetaData() {
       .catch(err => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
 
-        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+        return err;
       })
+      .then(err => {
+        if (err) {
+          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+        }
+      }
+      )
   };
 }
 
@@ -204,8 +210,13 @@ export function fetchHearingEditorContactPersons() {
       .catch(err => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
 
-        requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+        return err;
       })
+      .then(err => {
+        if (err) {
+          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
+        }
+      });
   };
 }
 
