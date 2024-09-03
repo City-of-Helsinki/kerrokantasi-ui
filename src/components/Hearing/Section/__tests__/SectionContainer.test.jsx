@@ -1,23 +1,32 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
 
 import { SectionContainerComponent } from '../SectionContainer';
-import { mockStore, getIntlAsProp } from '../../../../../test-utils';
+import { mockStore as mockData } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 const renderComponent = (propOverrides) => {
   const {
-    labels,
-    sectionComments,
     hearingLists: { allHearings },
     mockHearingWithSections,
     user,
-  } = mockStore;
+  } = mockData;
+
+  const store = mockStore({
+    hearing: mockHearingWithSections.data,
+    accessibility: {
+      isHighContrast: false,
+    },
+    user,
+  });
 
   const props = {
-    labels: labels.data,
     hearing: mockHearingWithSections.data,
-    hearingDraft: {},
     match: {
       params: {
         hearingSlug: allHearings.data[0].slug,
@@ -26,20 +35,16 @@ const renderComponent = (propOverrides) => {
     location: {
       pathname: `/${allHearings.data[0].slug}`,
     },
-    sectionComments,
-    showClosureInfo: true,
     sections: mockHearingWithSections.data.sections,
-    language: 'fi',
-    contacts: mockHearingWithSections.data.contacts,
-    user,
     fetchCommentsForSortableList: jest.fn(),
     ...propOverrides,
   };
 
   return renderWithProviders(
-    <MemoryRouter>
-      <SectionContainerComponent intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    <BrowserRouter>
+      <SectionContainerComponent {...props} />
+    </BrowserRouter>,
+    { store },
   );
 };
 
