@@ -3,9 +3,8 @@
 
 import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
 
@@ -33,17 +32,14 @@ const HearingContainerComponent = ({
   hearingDraft,
   hearingLanguages,
   history,
-  intl,
   isLoading,
   labels,
   language,
   location,
-  match: { params },
   organizations,
-  setLanguage,
   user,
 }) => {
-  const { hearingSlug } = params;
+  const { hearingSlug } = useParams();
 
   const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
 
