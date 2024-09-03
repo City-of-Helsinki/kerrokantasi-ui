@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -9,7 +9,6 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-import { withRouter } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -47,38 +46,50 @@ import {
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL } from '../../../api';
+import LoadSpinner from '../../LoadSpinner';
 
-export class SectionContainerComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showDeleteModal: false,
-      commentToDelete: {},
-      showLightbox: false,
-      mapContainer: null,
-      mapContainerMobile: null,
-      // Open on desktop, closed on mobile
-      mainHearingDetailsOpen: typeof window !== 'undefined' && window.innerWidth >= 768,
-      mainHearingProjectOpen: false,
-      mainHearingContactsOpen: false,
-      mainHearingAttachmentsOpen: false,
-    };
-  }
+const SectionContainerComponent = ({
+  contacts,
+  editComment,
+  fetchAllComments,
+  fetchMoreComments,
+  fetchCommentsForSortableList,
+  hearing,
+  mainSectionComments,
+  match: { params },
+  language,
+  location,
+  onPostReply,
+  sections,
+  user,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+}) => {
+  const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(
+    typeof window !== 'undefined' && window.innerWidth >= 768,
+  );
+  const [mainHearingProjectOpen, setMainHearingProjectOpen] = useState(false);
+  const [mainHearingContactsOpen, setMainHearingContactsOpen] = useState(false);
+  const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
 
-  getSectionNav = () => {
-    const { sections, match } = this.props;
+  const { hearingSlug, sectionId } = params;
+
+  const [data, setData] = useState({
+    showDeleteModal: false,
+    commentToDelete: {},
+    showLightbox: false,
+    mapContainer: null,
+    mapContainerMobile: null,
+  });
+
+  const getSectionNav = () => {
     const filterNotClosedSections = sections.filter((section) => section.type !== SectionTypes.CLOSURE);
     const filteredSections = filterNotClosedSections.filter((section) => section.type !== SectionTypes.MAIN);
-    const currentSectionIndex = match.params.sectionId
-      ? filteredSections.findIndex((section) => section.id === match.params.sectionId)
-      : 0;
+    const currentSectionIndex = sectionId ? filteredSections.findIndex((section) => section.id === sectionId) : 0;
     const prevPath =
-      currentSectionIndex - 1 >= 0
-        ? `/${match.params.hearingSlug}/${filteredSections[currentSectionIndex - 1].id}`
-        : undefined;
+      currentSectionIndex - 1 >= 0 ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}` : undefined;
     const nextPath =
       currentSectionIndex + 1 < filteredSections.length
-        ? `/${match.params.hearingSlug}/${filteredSections[currentSectionIndex + 1].id}`
+        ? `/${hearingSlug}/${filteredSections[currentSectionIndex + 1].id}`
         : undefined;
 
     return {
@@ -94,10 +105,9 @@ export class SectionContainerComponent extends React.Component {
   };
 
   // downloads report excel with user's credentials
-  // eslint-disable-next-line class-methods-use-this
-  handleReportDownload = (hearing, language) => {
+  const handleReportDownload = (reportHearing, reportLanguage) => {
     const accessToken = getApiTokenFromStorage();
-    const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
+    const reportUrl = getApiURL(`/v1/hearing/${reportHearing.slug}/report`);
 
     fetch(reportUrl, {
       method: 'GET',
@@ -112,8 +122,8 @@ export class SectionContainerComponent extends React.Component {
         const link = document.createElement('a');
         link.href = url;
         // remove filename special characters to avoid potential naming issues
-        const filename = hearing.title
-          ? `${getAttr(hearing.title, language).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
+        const filename = reportHearing.title
+          ? `${getAttr(reportHearing.title, reportLanguage).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
           : 'kuuluminen.xlsx';
 
         link.setAttribute('download', filename);
@@ -124,116 +134,88 @@ export class SectionContainerComponent extends React.Component {
       });
   };
 
-  // In order to keep a track of map container dimensions
-  // Save reference in state.
-  handleSetMapContainer = (mapContainer) => {
-    this.setState({ mapContainer });
-  };
-
-  handleSetMapContainerMobile = (mapContainerMobile) => {
-    this.setState({ mapContainerMobile });
-  };
-
   /**
    * When "Show replies" is pressed.
    * Call the redecer to fetch sub comments and populate inside the specific comment
    */
-  handleGetSubComments = (commentId, sectionId) => {
-    this.props.getCommentSubComments(commentId, sectionId);
+  const handleGetSubComments = (commentId, commentSectionId) => {
+    getCommentSubComments(commentId, commentSectionId);
   };
 
-  onPostComment = (sectionId, sectionCommentData) => {
+  const onPostComment = (commentSectionId, sectionCommentData) => {
     // Done
-    const { match, location } = this.props;
-    const { hearingSlug } = match.params;
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    return this.props.postSectionComment(hearingSlug, sectionId, commentData);
+    return postSectionComment(hearingSlug, commentSectionId, commentData);
   };
 
-  onVoteComment = (commentId, sectionId, isReply, parentId) => {
-    const { match } = this.props;
-    const { hearingSlug } = match.params;
-    this.props.postVote(commentId, hearingSlug, sectionId, isReply, parentId);
+  const onVoteComment = (commentId, commentSectionId, isReply, parentId) => {
+    postVote(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
-  onFlagComment = (commentId, sectionId, isReply, parentId) => {
-    const { match } = this.props;
-    const { hearingSlug } = match.params;
-    this.props.postFlag(commentId, hearingSlug, sectionId, isReply, parentId);
+  const onFlagComment = (commentId, commentSectionId, isReply, parentId) => {
+    postFlag(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
-  onEditComment = (sectionId, commentId, commentData) => {
-    const { match, location } = this.props;
-    const { hearingSlug } = match.params;
+  const onEditComment = (commentSectionId, commentId, commentData) => {
     const { authCode } = parseQuery(location.search);
 
-    // eslint-disable-next-line prefer-object-spread
-    Object.assign({ authCode }, commentData);
+    const updatedCommentData = { ...commentData, authCode };
 
-    this.props.editComment(hearingSlug, sectionId, commentId, commentData);
+    editComment(hearingSlug, commentSectionId, commentId, updatedCommentData);
   };
 
-  onDeleteComment = () => {
-    const { match } = this.props;
-    const { sectionId, commentId, refreshUser } = this.state.commentToDelete;
-    const { hearingSlug } = match.params;
-    this.props.deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser);
-    this.forceUpdate();
+  const onDeleteComment = () => {
+    const { commentToDelete } = data;
+    const { sectionId: commentSectionId, commentId, refreshUser } = commentToDelete;
+    deleteSectionComment(hearingSlug, commentSectionId, commentId, refreshUser);
   };
 
-  onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
-    // Done
+  const onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
     const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
-    const { match, location, sections } = this.props;
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const { hearingSlug } = match.params;
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
+    postSectionComment(hearingSlug, mainSection.id, commentData);
   };
 
-  onVotePluginComment = (commentId) => {
-    const { match, sections } = this.props;
-    const { hearingSlug } = match.params;
+  const onVotePluginComment = (commentId) => {
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const sectionId = mainSection.id;
-    this.props.postVote(commentId, hearingSlug, sectionId);
+    const commentSectionId = mainSection.id;
+    postVote(commentId, hearingSlug, commentSectionId);
   };
 
-  handleDeleteClick = (sectionId, commentId, refreshUser) => {
-    this.setState((prevState) => ({ ...prevState, commentToDelete: { sectionId, commentId, refreshUser } }));
-    this.openDeleteModal();
+  const openDeleteModal = () => {
+    setData({ ...data, showDeleteModal: true });
   };
 
-  openDeleteModal = () => {
-    this.setState((prevState) => ({ ...prevState, showDeleteModal: true }));
+  const handleDeleteClick = (commentSectionId, commentId, refreshUser) => {
+    setData({ ...data, commentToDelete: { sectionId: commentSectionId, commentId, refreshUser } });
+    openDeleteModal();
   };
 
-  closeDeleteModal = () => {
-    this.setState((prevState) => ({ ...prevState, showDeleteModal: false, commentToDelete: {} }));
+  const closeDeleteModal = () => {
+    setData({ ...data, showDeleteModal: false, commentToDelete: {} });
   };
 
-  openLightbox = () => {
+  const openLightbox = () => {
     document.body.classList.remove('nav-fixed');
-    this.setState((prevState) => ({ ...prevState, showLightbox: true }));
+    setData({ ...data, showLightbox: true });
   };
 
-  closeLightbox = () => {
+  const closeLightbox = () => {
     document.body.classList.add('nav-fixed');
-    this.setState((prevState) => ({ ...prevState, showLightbox: false }));
+    setData({ ...data, showLightbox: false });
   };
 
-  isHearingAdmin = () =>
-    this.props.user &&
-    Array.isArray(this.props.user.adminOrganizations) &&
-    this.props.user.adminOrganizations.includes(this.props.hearing.organization);
+  const isHearingAdmin = () =>
+    user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.includes(hearing.organization);
 
   /**
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  renderFileSection = (section, language, published) => {
+  const renderFileSection = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -246,28 +228,20 @@ export class SectionContainerComponent extends React.Component {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              this.setState((prevState) => ({
-                ...prevState,
-                mainHearingAttachmentsOpen: !prevState.mainHearingAttachmentsOpen,
-              }))
-            }
+            onClick={() => setMainHearingAttachmentsOpen(!mainHearingAttachmentsOpen)}
             aria-controls='hearing-section-attachments-accordion'
             id='hearing-section-attachments-accordion-button'
-            aria-expanded={this.state.mainHearingAttachmentsOpen ? 'true' : 'false'}
+            aria-expanded={mainHearingAttachmentsOpen ? 'true' : 'false'}
+            aria-label={<FormattedMessage id='attachments' />}
           >
-            <Icon
-              name='angle-right'
-              className={this.state.mainHearingAttachmentsOpen ? 'open' : ''}
-              aria-hidden='true'
-            />
+            <Icon name='angle-right' className={mainHearingAttachmentsOpen ? 'open' : ''} aria-hidden='true' />
             <FormattedMessage id='attachments' />
           </button>
         </h2>
         <Collapse
-          in={this.state.mainHearingAttachmentsOpen}
+          in={mainHearingAttachmentsOpen}
           id='hearing-section-attachments-accordion'
-          aria-hidden={this.state.mainHearingAttachmentsOpen ? 'false' : 'true'}
+          aria-hidden={mainHearingAttachmentsOpen ? 'false' : 'true'}
           role='region'
         >
           <div className='accordion-content'>
@@ -278,7 +252,7 @@ export class SectionContainerComponent extends React.Component {
                 </p>
               )}
               {files.map((file) => (
-                <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+                <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
               ))}
             </div>
           </div>
@@ -287,8 +261,8 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  renderProjectPhaseSection = (hearing, language) => {
-    const project = get(hearing, 'project');
+  const renderProjectPhaseSection = (renderHearing, renderLanguage) => {
+    const project = get(renderHearing, 'project');
     const phases = get(project, 'phases') || [];
     const activePhaseIndex = findIndex(phases, (phase) => phase.is_active);
     const numberOfItems = phases.length;
@@ -303,29 +277,24 @@ export class SectionContainerComponent extends React.Component {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              this.setState((prevState) => ({
-                ...prevState,
-                mainHearingProjectOpen: !prevState.mainHearingProjectOpen,
-              }))
-            }
+            onClick={() => setMainHearingProjectOpen(!mainHearingProjectOpen)}
             aria-controls='hearing-section-project-accordion'
             id='hearing-section-project-accordion-button'
-            aria-expanded={this.state.mainHearingProjectOpen ? 'true' : 'false'}
+            aria-expanded={mainHearingProjectOpen ? 'true' : 'false'}
           >
             <span>
-              <Icon name='angle-right' className={this.state.mainHearingProjectOpen ? 'open' : ''} aria-hidden='true' />
+              <Icon name='angle-right' className={mainHearingProjectOpen ? 'open' : ''} aria-hidden='true' />
               <FormattedMessage id='phase' /> {activePhaseIndex + 1}/{numberOfItems}
             </span>
             <span className='hearing-section-toggle-button-subtitle'>
-              <FormattedMessage id='project' /> {getAttr(project.title, language)}
+              <FormattedMessage id='project' /> {getAttr(project.title, renderLanguage)}
             </span>
           </button>
         </h2>
         <Collapse
-          in={this.state.mainHearingProjectOpen}
+          in={mainHearingProjectOpen}
           id='hearing-section-project-accordion'
-          aria-hidden={this.state.mainHearingProjectOpen ? 'false' : 'true'}
+          aria-hidden={mainHearingProjectOpen ? 'false' : 'true'}
           role='region'
         >
           <div className='accordion-content'>
@@ -346,13 +315,13 @@ export class SectionContainerComponent extends React.Component {
                   <div className='phase-texts'>
                     <span className='phase-title'>
                       {!isEmpty(phase.hearings) ? (
-                        <Link to={{ path: phase.hearings[0] }}>{getAttr(phase.title, language)}</Link>
+                        <Link to={{ path: phase.hearings[0] }}>{getAttr(phase.title, renderLanguage)}</Link>
                       ) : (
-                        <span>{getAttr(phase.title, language)}</span>
+                        <span>{getAttr(phase.title, renderLanguage)}</span>
                       )}
                     </span>
-                    <span className='phase-description'>{getAttr(phase.description, language)}</span>
-                    <span className='phase-schedule'>{getAttr(phase.schedule, language)}</span>
+                    <span className='phase-description'>{getAttr(phase.description, renderLanguage)}</span>
+                    <span className='phase-schedule'>{getAttr(phase.schedule, renderLanguage)}</span>
                   </div>
                 </div>
               ))}
@@ -363,8 +332,8 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  renderContacts = (contacts, language) => {
-    if (isEmpty(contacts)) {
+  const renderContacts = (renderContactlist, renderLanguage) => {
+    if (isEmpty(renderContactlist)) {
       return null;
     }
 
@@ -374,31 +343,27 @@ export class SectionContainerComponent extends React.Component {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              this.setState((prevState) => ({
-                ...prevState,
-                mainHearingContactsOpen: !prevState.mainHearingContactsOpen,
-              }))
-            }
+            onClick={() => setMainHearingContactsOpen(!mainHearingContactsOpen)}
             aria-controls='hearing-section-contacts-accordion'
             id='hearing-section-contacts-accordion-button'
-            aria-expanded={this.state.mainHearingContactsOpen ? 'true' : 'false'}
+            aria-expanded={mainHearingContactsOpen ? 'true' : 'false'}
+            aria-label={<FormattedMessage id='contactPersons' />}
           >
-            <Icon name='angle-right' className={this.state.mainHearingContactsOpen ? 'open' : ''} aria-hidden='true' />
+            <Icon name='angle-right' className={mainHearingContactsOpen ? 'open' : ''} aria-hidden='true' />
             <FormattedMessage id='contactPersons' />
           </button>
         </h2>
         <Collapse
-          in={this.state.mainHearingContactsOpen}
+          in={mainHearingContactsOpen}
           id='hearing-section-contacts-accordion'
-          aria-hidden={this.state.mainHearingContactsOpen ? 'false' : 'true'}
+          aria-hidden={mainHearingContactsOpen ? 'false' : 'true'}
           role='region'
         >
           <div className='accordion-content'>
             <div className='section-content-spacer'>
               <Row>
-                {contacts.map((person) => (
-                  <ContactCard activeLanguage={language} key={person.id} {...person} />
+                {renderContactlist.map((person) => (
+                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
                 ))}
               </Row>
             </div>
@@ -408,40 +373,55 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  renderCommentsSection = () => {
-    const {
-      fetchAllComments,
-      fetchCommentsForSortableList,
-      fetchMoreComments,
-      hearing,
-      language,
-      match,
-      sections,
-      user,
-    } = this.props;
+  const renderReportDownload = (reportUrl, userIsAdmin, renderHearing, renderLanguage) => {
+    // render either admin download button or normal download link for others
+    if (userIsAdmin) {
+      return (
+        <Row className='row-no-gutters text-right'>
+          <Button
+            size='small'
+            className='pull-right report-download-button kerrokantasi-btn supplementary'
+            onClick={() => handleReportDownload(renderHearing, renderLanguage)}
+          >
+            <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+          </Button>
+        </Row>
+      );
+    }
 
+    return (
+      <p className='report-download text-right small'>
+        <a href={reportUrl} aria-label={<FormattedMessage id='downloadReport' />}>
+          <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+        </a>
+      </p>
+    );
+  };
+
+  const renderCommentsSection = () => {
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
+
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const section = sections.find((sec) => sec.id === match.params.sectionId) || mainSection;
+    const section = sections.find((sec) => sec.id === sectionId) || mainSection;
 
     return (
       <section className='hearing-section comments-section' id='comments-section' tabIndex={-1}>
-        {reportUrl && this.renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
+        {reportUrl && renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
         <SortableCommentList
           section={section}
           canComment={isSectionCommentable(hearing, section, user)}
-          onPostComment={this.onPostComment}
-          onPostReply={this.onPostReply}
-          onGetSubComments={this.handleGetSubComments}
+          onPostComment={onPostComment}
+          onPostReply={onPostReply}
+          onGetSubComments={handleGetSubComments}
           canVote={isSectionVotable(hearing, section, user)}
-          canFlag={this.isHearingAdmin()}
-          onPostVote={this.onVoteComment}
-          onPostFlag={this.onFlagComment}
+          canFlag={isHearingAdmin()}
+          onPostVote={onVoteComment}
+          onPostFlag={onFlagComment}
           defaultNickname={user && user.displayName}
           isSectionComments={section}
-          onDeleteComment={this.handleDeleteClick}
-          onEditComment={this.onEditComment}
+          onDeleteComment={handleDeleteClick}
+          onEditComment={onEditComment}
           fetchAllComments={fetchAllComments}
           fetchComments={fetchCommentsForSortableList}
           fetchMoreComments={fetchMoreComments}
@@ -454,34 +434,9 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  renderReportDownload = (reportUrl, userIsAdmin, hearing, language) => {
-    // render either admin download button or normal download link for others
-    if (userIsAdmin) {
-      return (
-        <Row className='row-no-gutters text-right'>
-          <Button
-            size='small'
-            className='pull-right report-download-button kerrokantasi-btn supplementary'
-            onClick={() => this.handleReportDownload(hearing, language)}
-          >
-            <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
-          </Button>
-        </Row>
-      );
-    }
-
-    return (
-      <p className='report-download text-right small'>
-        <a href={reportUrl}>
-          <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
-        </a>
-      </p>
-    );
-  };
-
-  renderSectionImage = (section, language) => {
-    const { showLightbox } = this.state;
+  const renderSectionImage = (section, renderLanguage) => {
     const sectionImage = section.images[0];
+    const { showLightbox } = data;
 
     if (!sectionImage) {
       return null;
@@ -490,34 +445,32 @@ export class SectionContainerComponent extends React.Component {
     return (
       <SectionImage
         image={sectionImage}
-        caption={getAttr(sectionImage.caption, language)}
-        title={getAttr(sectionImage.title, language)}
-        altText={getAttr(sectionImage.alt_text, language)}
+        caption={getAttr(sectionImage.caption, renderLanguage)}
+        title={getAttr(sectionImage.title, renderLanguage)}
+        altText={getAttr(sectionImage.alt_text, renderLanguage)}
         showLightbox={showLightbox}
-        openLightbox={this.openLightbox}
-        closeLightbox={this.closeLightbox}
+        openLightbox={openLightbox}
+        closeLightbox={closeLightbox}
       />
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  renderSectionContent = (section, language) => {
+  const renderSectionContent = (section, renderLanguage) => {
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, language) }} />;
+    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, renderLanguage) }} />;
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  renderSectionAbstract = (section, language) => {
+  const renderSectionAbstract = (section, renderLanguage) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
 
-    return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }} />;
+    return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, renderLanguage) }} />;
   };
 
-  renderMainDetails = (hearing, section, language) => {
+  const renderMainDetails = (renderHearing, section, renderLanguage) => {
     const sectionImage = section.images[0];
 
     if (!isEmpty(section.content) || sectionImage) {
@@ -527,34 +480,31 @@ export class SectionContainerComponent extends React.Component {
             <button
               type='button'
               className='hearing-section-toggle-button'
-              onClick={() =>
-                this.setState((prevState) => ({
-                  ...prevState,
-                  mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen,
-                }))
-              }
+              onClick={() => setMainHearingDetailsOpen(!mainHearingDetailsOpen)}
               aria-controls='hearing-section-details-accordion'
               id='hearing-section-details-accordion-button'
-              aria-expanded={this.state.mainHearingDetailsOpen ? 'true' : 'false'}
+              aria-expanded={mainHearingDetailsOpen ? 'true' : 'false'}
+              aria-label={<FormattedMessage id='sectionInformationTitle' />}
             >
-              <Icon name='angle-right' className={this.state.mainHearingDetailsOpen ? 'open' : ''} aria-hidden='true' />
+              <Icon name='angle-right' className={mainHearingDetailsOpen ? 'open' : ''} aria-hidden='true' />
               <FormattedMessage id='sectionInformationTitle' />
             </button>
           </h2>
           <Collapse
-            in={this.state.mainHearingDetailsOpen}
+            in={mainHearingDetailsOpen}
             id='hearing-section-details-accordion'
-            aria-hidden={this.state.mainHearingDetailsOpen ? 'false' : 'true'}
+            aria-hidden={mainHearingDetailsOpen ? 'false' : 'true'}
             role='region'
           >
             <div className='accordion-content'>
               <div className='section-content-spacer'>
-                {this.renderSectionImage(section, language)}
+                {renderSectionImage(section, renderLanguage)}
                 {/* Render main section title if it exists and it's not the same as the hearing title */}
-                {!isEmpty(section.title) && getAttr(hearing.title, language) !== getAttr(section.title, language) && (
-                  <h3>{getAttr(section.title, language)}</h3>
-                )}
-                {this.renderSectionContent(section, language)}
+                {!isEmpty(section.title) &&
+                  getAttr(renderHearing.title, renderLanguage) !== getAttr(section.title, renderLanguage) && (
+                    <h3>{getAttr(section.title, renderLanguage)}</h3>
+                  )}
+                {renderSectionContent(section, renderLanguage)}
               </div>
             </div>
           </Collapse>
@@ -564,38 +514,35 @@ export class SectionContainerComponent extends React.Component {
     return null;
   };
 
-  renderMainHearing = (section, mainSection) => {
-    const { contacts, fetchAllComments, hearing, language, mainSectionComments, match, user } = this.props;
-
+  const renderMainHearing = (section, mainSection) => {
     const published = 'published' in hearing ? hearing.published : true;
 
     return (
       <>
         {hearing.geojson && (
           <Col xs={12} className='hidden-md hidden-lg'>
-            <div className='hearing-map-container' ref={this.handleSetMapContainerMobile}>
-              <HearingMap hearing={hearing} mapContainer={this.state.mapContainerMobile} />
+            <div className='hearing-map-container'>
+              <HearingMap hearing={hearing} />
             </div>
           </Col>
         )}
         <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
-          {this.renderMainDetails(hearing, section, language)}
+          {renderMainDetails(hearing, section, language)}
 
-          {this.renderProjectPhaseSection(hearing, language)}
+          {renderProjectPhaseSection(hearing, language)}
 
-          {this.renderContacts(contacts, language)}
+          {renderContacts(contacts, language)}
 
-          {this.renderFileSection(section, language, published)}
-
+          {renderFileSection(section, language, published)}
           {mainSection.plugin_identifier && (
             <section className='hearing-section plugin-content'>
               <PluginContent
-                hearingSlug={match.params.hearingSlug}
+                hearingSlug={hearingSlug}
                 fetchAllComments={fetchAllComments}
                 section={mainSection}
                 comments={mainSectionComments}
-                onPostComment={this.onPostPluginComment}
-                onPostVote={this.onVotePluginComment}
+                onPostComment={onPostPluginComment}
+                onPostVote={onVotePluginComment}
                 user={user}
               />
               {hasFullscreenMapPlugin(hearing) && (
@@ -612,12 +559,12 @@ export class SectionContainerComponent extends React.Component {
 
           <SubSectionsList hearing={hearing} language={language} />
 
-          {this.renderCommentsSection()}
+          {renderCommentsSection()}
         </Col>
         {hearing.geojson && (
           <Col md={4} lg={3} lgPush={1} className='hidden-xs visible-sm visible-md visible-lg'>
-            <div className='hearing-map-container' ref={this.handleSetMapContainer}>
-              <HearingMap hearing={hearing} mapContainer={this.state.mapContainer} />
+            <div className='hearing-map-container'>
+              <HearingMap hearing={hearing} />
             </div>
           </Col>
         )}
@@ -625,8 +572,7 @@ export class SectionContainerComponent extends React.Component {
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  renderSubSectionAttachments = (section, language, published) => {
+  const renderSubSectionAttachments = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -644,16 +590,14 @@ export class SectionContainerComponent extends React.Component {
             </p>
           )}
           {files.map((file) => (
-            <SectionAttachment file={file} key={`file-${file.url}`} language={language} />
+            <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
           ))}
         </div>
       </div>
     );
   };
 
-  renderSubHearing = (section) => {
-    const { hearing, language, sections, user } = this.props;
-
+  const renderSubHearing = (section) => {
     const showSectionBrowser = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
     const published = 'published' in hearing ? hearing.published : true;
 
@@ -663,7 +607,7 @@ export class SectionContainerComponent extends React.Component {
           <span className='hearing-subsection-title-counter'>
             <FormattedMessage id='subsectionTitle' />
             <span className='aria-hidden'>&nbsp;</span>
-            {this.getSectionNav().currentNum}/{this.getSectionNav().totalNum}
+            {getSectionNav().currentNum}/{getSectionNav().totalNum}
           </span>
           {getAttr(section.title, language)}
         </h2>
@@ -687,41 +631,37 @@ export class SectionContainerComponent extends React.Component {
           </div>
         )}
 
-        {this.renderSectionImage(section, language)}
-        {this.renderSectionAbstract(section, language)}
-        {this.renderSectionContent(section, language)}
-        {this.renderSubSectionAttachments(section, language, published)}
+        {renderSectionImage(section, language)}
+        {renderSectionAbstract(section, language)}
+        {renderSectionContent(section, language)}
+        {renderSubSectionAttachments(section, language, published)}
 
-        {showSectionBrowser && <SectionBrowser sectionNav={this.getSectionNav()} />}
+        {showSectionBrowser && <SectionBrowser sectionNav={getSectionNav()} />}
 
-        {this.renderCommentsSection()}
+        {renderCommentsSection()}
       </Col>
     );
   };
 
-  render() {
-    const { match, sections } = this.props;
-    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const section = sections.find((sec) => sec.id === match.params.sectionId) || mainSection;
+  const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
+  const section = sections.find((sec) => sec.id === sectionId) || mainSection;
 
-    return isEmpty(section) ? (
-      <div>Loading</div>
-    ) : (
-      <Grid>
-        <div className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
-          <Row>
-            {isMainSection(section) ? this.renderMainHearing(section, mainSection) : this.renderSubHearing(section)}
-          </Row>
-        </div>
-        <DeleteModal
-          isOpen={this.state.showDeleteModal}
-          close={this.closeDeleteModal}
-          onDeleteComment={this.onDeleteComment}
-        />
-      </Grid>
-    );
-  }
-}
+  const { showDeleteModal } = data;
+
+  return isEmpty(section) ? (
+    <LoadSpinner />
+  ) : (
+    <Grid>
+      <div
+        data-testid='hearing-content-section'
+        className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}
+      >
+        <Row>{isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}</Row>
+      </div>
+      <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />
+    </Grid>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => ({
   hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
@@ -770,6 +710,7 @@ SectionContainerComponent.propTypes = {
   postFlag: PropTypes.func,
   sections: PropTypes.array,
   user: PropTypes.object,
+  onPostReply: PropTypes.func,
 };
 
-export default withRouter(injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)));
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));
