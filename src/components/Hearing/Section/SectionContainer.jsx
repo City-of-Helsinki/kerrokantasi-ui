@@ -50,16 +50,21 @@ import LoadSpinner from '../../LoadSpinner';
 
 const SectionContainerComponent = ({
   contacts,
-  editComment,
-  fetchAllComments,
-  fetchMoreComments,
-  fetchCommentsForSortableList,
+  editCommentFn,
+  deleteSectionCommentFn,
+  fetchAllCommentsFn,
+  fetchMoreCommentsFn,
+  fetchCommentsForSortableListFn,
+  getCommentSubCommentsFn,
   hearing,
   mainSectionComments,
   match: { params },
   language,
   location,
   onPostReply,
+  postSectionCommentFn,
+  postFlagFn,
+  postVoteFn,
   sections,
   user,
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -139,22 +144,23 @@ const SectionContainerComponent = ({
    * Call the redecer to fetch sub comments and populate inside the specific comment
    */
   const handleGetSubComments = (commentId, commentSectionId) => {
-    getCommentSubComments(commentId, commentSectionId);
+    getCommentSubCommentsFn(commentId, commentSectionId);
   };
 
   const onPostComment = (commentSectionId, sectionCommentData) => {
     // Done
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    return postSectionComment(hearingSlug, commentSectionId, commentData);
+
+    return postSectionCommentFn(hearingSlug, commentSectionId, commentData);
   };
 
   const onVoteComment = (commentId, commentSectionId, isReply, parentId) => {
-    postVote(commentId, hearingSlug, commentSectionId, isReply, parentId);
+    postVoteFn(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
   const onFlagComment = (commentId, commentSectionId, isReply, parentId) => {
-    postFlag(commentId, hearingSlug, commentSectionId, isReply, parentId);
+    postFlagFn(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
   const onEditComment = (commentSectionId, commentId, commentData) => {
@@ -162,13 +168,13 @@ const SectionContainerComponent = ({
 
     const updatedCommentData = { ...commentData, authCode };
 
-    editComment(hearingSlug, commentSectionId, commentId, updatedCommentData);
+    editCommentFn(hearingSlug, commentSectionId, commentId, updatedCommentData);
   };
 
   const onDeleteComment = () => {
     const { commentToDelete } = data;
     const { sectionId: commentSectionId, commentId, refreshUser } = commentToDelete;
-    deleteSectionComment(hearingSlug, commentSectionId, commentId, refreshUser);
+    deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
   };
 
   const onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
@@ -176,13 +182,13 @@ const SectionContainerComponent = ({
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    postSectionComment(hearingSlug, mainSection.id, commentData);
+    postSectionCommentFn(hearingSlug, mainSection.id, commentData);
   };
 
   const onVotePluginComment = (commentId) => {
     const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
     const commentSectionId = mainSection.id;
-    postVote(commentId, hearingSlug, commentSectionId);
+    postVoteFn(commentId, hearingSlug, commentSectionId);
   };
 
   const openDeleteModal = () => {
@@ -422,9 +428,9 @@ const SectionContainerComponent = ({
           isSectionComments={section}
           onDeleteComment={handleDeleteClick}
           onEditComment={onEditComment}
-          fetchAllComments={fetchAllComments}
-          fetchComments={fetchCommentsForSortableList}
-          fetchMoreComments={fetchMoreComments}
+          fetchAllComments={fetchAllCommentsFn}
+          fetchComments={fetchCommentsForSortableListFn}
+          fetchMoreComments={fetchMoreCommentsFn}
           displayVisualization={userIsAdmin || hearing.closed}
           published={hearing.published} // Needed so comments are not diplayed in hearing drafts
           closed={hearing.closed}
@@ -538,7 +544,7 @@ const SectionContainerComponent = ({
             <section className='hearing-section plugin-content'>
               <PluginContent
                 hearingSlug={hearingSlug}
-                fetchAllComments={fetchAllComments}
+                fetchAllComments={fetchAllCommentsFn}
                 section={mainSection}
                 comments={mainSectionComments}
                 onPostComment={onPostPluginComment}
@@ -674,40 +680,41 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postSectionComment: (hearingSlug, sectionId, commentData) =>
+  postSectionCommentFn: (hearingSlug, sectionId, commentData) =>
     dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
-  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+  getCommentSubCommentsFn: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
+  postVoteFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
-  postFlag: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+  postFlagFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postFlag(commentId, hearingSlug, sectionId, isReply, parentId)),
-  editComment: (hearingSlug, sectionId, commentId, commentData) =>
+  editCommentFn: (hearingSlug, sectionId, commentId, commentData) =>
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
-  deleteSectionComment: (hearingSlug, sectionId, commentId, refreshUser) =>
+  deleteSectionCommentFn: (hearingSlug, sectionId, commentId, refreshUser) =>
     dispatch(deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser)),
-  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+  fetchAllCommentsFn: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
-  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
+  fetchCommentsForSortableListFn: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreCommentsFn: (sectionId, ordering, nextUrl) =>
+    dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
 });
 
 SectionContainerComponent.propTypes = {
   contacts: PropTypes.array,
-  deleteSectionComment: PropTypes.func,
-  editComment: PropTypes.func,
-  fetchAllComments: PropTypes.func,
-  fetchCommentsForSortableList: PropTypes.func,
-  fetchMoreComments: PropTypes.func,
-  getCommentSubComments: PropTypes.func,
+  deleteSectionCommentFn: PropTypes.func,
+  editCommentFn: PropTypes.func,
+  fetchAllCommentsFn: PropTypes.func,
+  fetchCommentsForSortableListFn: PropTypes.func,
+  fetchMoreCommentsFn: PropTypes.func,
+  getCommentSubCommentsFn: PropTypes.func,
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
-  postSectionComment: PropTypes.func,
-  postVote: PropTypes.func,
-  postFlag: PropTypes.func,
+  postSectionCommentFn: PropTypes.func,
+  postVoteFn: PropTypes.func,
+  postFlagFn: PropTypes.func,
   sections: PropTypes.array,
   user: PropTypes.object,
   onPostReply: PropTypes.func,
