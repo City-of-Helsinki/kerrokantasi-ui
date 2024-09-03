@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { FormattedMessage } from 'react-intl';
 
 import SectionAttachment, { getFileTitle } from '../SectionAttachment';
 
@@ -31,5 +32,11 @@ describe('<SectionAttachment />', () => {
     const title = getFileTitle(props.file.title, 'en');
 
     expect(title).toBe(props.file.title.en);
+  });
+
+  it('should return default title', () => {
+    const title = getFileTitle({}, 'asdf');
+
+    expect(title).toStrictEqual(<FormattedMessage id='attachment' />);
   });
 });

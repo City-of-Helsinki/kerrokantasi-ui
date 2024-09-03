@@ -1,6 +1,4 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
@@ -8,9 +6,11 @@ import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { mockStore as mockData } from '../../../../test-utils';
 
-const mockStore = configureStore([thunk]);
 
-describe('<HearingContainer />', () => {
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+const renderComponent = () => {
   const { mockHearingWithSections, labels, user } = mockData;
 
   const store = mockStore({
@@ -29,14 +29,23 @@ describe('<HearingContainer />', () => {
     user,
   });
 
-  it('should render the component', () => {
-    renderWithProviders(
-      <Provider store={store}>
-        <MemoryRouter>
-          <HearingContainerComponent />
-        </MemoryRouter>
-      </Provider>,
-      { store },
-    );
+  const props = {
+    location: {
+      pathname: mockHearingWithSections.data.slug,
+      search: '',
+    },
+    match: {
+      params: {
+        hearingSlug: mockHearingWithSections.data.slug,
+      },
+    },
+  };
+
+  return renderWithProviders(<HearingContainerComponent {...props} />, { store });
+};
+
+describe('<HearingContainer />', () => {
+  test('renders correctly', () => {
+    renderComponent();
   });
 });

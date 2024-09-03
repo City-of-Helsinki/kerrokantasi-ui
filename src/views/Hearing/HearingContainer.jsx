@@ -1,52 +1,53 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
-import React, { lazy, Suspense, useState, useEffect } from 'react';
-import Helmet from 'react-helmet';
-import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { Routes, Route, useParams, useLocation, useNavigate } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
 
+import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
+import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import Helmet from 'react-helmet';
+
+import { organizationShape } from '../../types';
+import { getHearingWithSlug } from '../../selectors/hearing';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
-import Header from '../../components/Hearing/Header';
-import LoadSpinner from '../../components/LoadSpinner';
-import Section from '../../components/Hearing/Section/SectionContainer';
-import getAttr from '../../utils/getAttr';
-import { canEdit } from '../../utils/hearing';
+import getUser from '../../selectors/user';
 import { fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects } from '../../actions';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
-import { getHearingWithSlug } from '../../selectors/hearing';
-import getUser from '../../selectors/user';
-import { organizationShape } from '../../types';
+import getAttr from '../../utils/getAttr';
 import { html2text } from '../../utils/commonUtils';
+import { canEdit } from '../../utils/hearing';
+import LoadSpinner from '../../components/LoadSpinner';
+import Header from '../../components/Hearing/Header';
+import Section from '../../components/Hearing/Section/SectionContainer';
 
-const HearingEditor = lazy(() => import(/* webpackChunkName: "editor" */ '../../components/admin/HearingEditor'));
 
-function HearingContainerComponent(props) {
-  const {
-    fetchProjectsList,
-    fetchHearing,
-    fetchEditorMetaData,
-    user,
-    language,
-    hearingDraft,
-    hearingLanguages,
-    organizations,
-    isLoading,
-    labels,
-  } = props;
-  const location = useLocation();
-  const navigate = useNavigate();
-  const params = useParams();
-  const [hearingSlug, setHearingSlug] = useState(null);
-  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
+const HearingEditor = lazy(() => import('../../components/admin/HearingEditor'));
 
-  useEffect(() => {
-    setHearingSlug(params.hearingSlug);
-  }, [params.hearingSlug]);
+const HearingContainerComponent = ({
+  fetchProjectsList,
+  fetchHearing,
+  fetchEditorMetaData,
+  hearing,
+  hearingDraft,
+  hearingLanguages,
+  history,
+  intl,
+  isLoading,
+  labels,
+  language,
+  location,
+  match: { params },
+  organizations,
+  setLanguage,
+  user,
+}) => {
+  const { hearingSlug } = params;
 
-  useEffect(() => {
+  const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
+
+  const fetchHearingData = useCallback(() => {
     if (hearingSlug !== null) {
       if (location.search.includes('?preview')) {
         // regex match to get the ?preview=key and substring to retrieve the key part
@@ -54,32 +55,46 @@ function HearingContainerComponent(props) {
       } else {
         fetchHearing(hearingSlug);
       }
-      fetchEditorMetaData();
+
       fetchProjectsList();
     }
-  }, [fetchProjectsList, fetchHearing, fetchEditorMetaData, location.search, hearingSlug]);
+  }, [fetchHearing, fetchProjectsList, location.search, hearingSlug]);
+
+  useEffect(() => {
+    if (isEmpty(hearing) && !isLoading) {
+      fetchHearingData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isEmpty(hearing) && !isEmpty(user) && userCanEditHearing) {
+      fetchEditorMetaData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userCanEditHearing]);
 
   useEffect(() => {
     if (location.state) {
       if (!isEmpty(hearing) && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
-        navigate({
+        history.push({
           pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
         });
       }
     } else if (!isEmpty(hearing) && hearing.default_to_fullscreen) {
-      navigate({
+      history.push({
         pathname: `/${hearing.slug}/fullscreen`,
         search: `?lang=${language}`,
       });
     }
-  }, [hearing, language, navigate, location.state]);
+  }, [hearing, language, history, location.state]);
 
   const helmetMeta = [
     { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
     { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
   ];
-
+  
   if (hearing?.main_image?.url) {
     helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
   }
@@ -114,7 +129,7 @@ function HearingContainerComponent(props) {
       )}
     </div>
   );
-}
+};
 
 HearingContainerComponent.propTypes = {
   hearing: PropTypes.object,

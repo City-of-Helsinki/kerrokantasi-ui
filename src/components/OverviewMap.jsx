@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
@@ -53,7 +54,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
             <h4>
               <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
             </h4>
-            <p>{getAttr(hearing.abstract, language)}</p>
+            <div dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }} />
           </div>
         </Popup>
       );

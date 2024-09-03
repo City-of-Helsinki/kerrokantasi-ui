@@ -1,3 +1,5 @@
+import { isEmpty } from 'lodash';
+
 import * as LabelsSelector from './labels';
 import * as SectionsSelector from './sections';
 import * as ContactPersonsSelector from './contactPersons';
@@ -38,9 +40,9 @@ export const getPopulatedHearing = (state) => {
 
   return ({
     ...hearing,
-    contact_persons: hearing.contact_persons.map(frontId => contactPersons.byId[frontId]),
-    labels: hearing.labels.map(frontId => labels.byId[frontId]),
-    sections: hearing.sections.map(frontId => sections.byId[frontId]),
+    contact_persons: !isEmpty(contactPersons.byId) ? hearing.contact_persons?.map(frontId => contactPersons.byId[frontId]) : hearing.contact_persons,
+    labels: !isEmpty(labels.byId) ? hearing.labels?.map(frontId => labels.byId[frontId]) : hearing.labels,
+    sections: !isEmpty(sections.byId) ? hearing.sections?.map(frontId => sections.byId[frontId]) : hearing.sections,
   });
 };
 

@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.6.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.5...kerrokantasi-ui-v1.6.6) (2024-09-02)
+
+
+### Bug Fixes
+
+* Reduce hearing actions when logged in KER-378 ([4b03ed7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4b03ed731d52be8c28024ee86e123dfc3c1d432f))
+
+## [1.6.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.4...kerrokantasi-ui-v1.6.5) (2024-09-02)
+
+
+### Bug Fixes
+
+* Hearing page limit amount of actions KER-378 ([b737aa9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b737aa9d00b72fefed7550abf8a963832188e587))
+* Revert hearingEditor action changes KER-378 ([da83f6a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/da83f6ab047117936a4eb279d2db3ccf8c4b7486))
+
+## [1.6.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.3...kerrokantasi-ui-v1.6.4) (2024-08-30)
+
+
+### Bug Fixes
+
+* HearingContainer fetch metadata before projects KER-378 ([07058a7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/07058a7ee98077c663a6476965a9710782f824ed))
+
+## [1.6.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.2...kerrokantasi-ui-v1.6.3) (2024-08-30)
+
+
+### Bug Fixes
+
+* Normalize hearing data bug KER-378 ([f01be68](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f01be6851cf91dc4ad69c5ecbb224184b05b7d9c))
+
+## [1.6.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.1...kerrokantasi-ui-v1.6.2) (2024-08-29)
+
+
+### Bug Fixes
+
+* Overview map set popup content as html KER-260 ([302ba2f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/302ba2f9c9569283ce0bda9c1964fa34d13e20d2))
+* Replace low contrast text-muted css variable KER-377 ([2e9dbda](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2e9dbda68c55a3c50a4deb210b0c7cfbc04ef073))
+* Section attachment default title KER-378 ([f270fc8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f270fc80355c92f6e2fcb54d6a438d5df50b96cf))
+
+## [1.6.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.0...kerrokantasi-ui-v1.6.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* HearingEditor selector get hearing check KER-378 ([d539078](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d5390783e133a5b446791620986fbd221f9d54aa))
+
 ## [1.6.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.5.0...kerrokantasi-ui-v1.6.0) (2024-08-07)
 
 
