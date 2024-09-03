@@ -9,7 +9,7 @@ const CommentDisclaimer = () => (
       values={{
         linkToDefinition: (
           <a
-            href='http://www.hri.fi/fi/mita-on-avoin-data/'
+            href='https://www.hri.fi/fi/mita-on-avoin-data/'
             target='_blank'
             aria-label={<FormattedMessage id='asOpenData' />}
           >
@@ -18,7 +18,7 @@ const CommentDisclaimer = () => (
         ),
         linkToLicense: (
           <a
-            href='http://creativecommons.org/licenses/by/4.0/deed.fi'
+            href='https://creativecommons.org/licenses/by/4.0/deed.fi'
             target='_blank'
             aria-label={<FormattedMessage id='withOpenLicense' />}
           >
