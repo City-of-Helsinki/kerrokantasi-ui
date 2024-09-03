@@ -202,26 +202,26 @@ export class SectionContainerComponent extends React.Component {
   };
 
   handleDeleteClick = (sectionId, commentId, refreshUser) => {
-    this.setState({ commentToDelete: { sectionId, commentId, refreshUser } });
+    this.setState((prevState) => ({ ...prevState, commentToDelete: { sectionId, commentId, refreshUser } }));
     this.openDeleteModal();
   };
 
   openDeleteModal = () => {
-    this.setState({ showDeleteModal: true });
+    this.setState((prevState) => ({ ...prevState, showDeleteModal: true }));
   };
 
   closeDeleteModal = () => {
-    this.setState({ showDeleteModal: false, commentToDelete: {} });
+    this.setState((prevState) => ({ ...prevState, showDeleteModal: false, commentToDelete: {} }));
   };
 
   openLightbox = () => {
     document.body.classList.remove('nav-fixed');
-    this.setState({ showLightbox: true });
+    this.setState((prevState) => ({ ...prevState, showLightbox: true }));
   };
 
   closeLightbox = () => {
     document.body.classList.add('nav-fixed');
-    this.setState({ showLightbox: false });
+    this.setState((prevState) => ({ ...prevState, showLightbox: false }));
   };
 
   isHearingAdmin = () =>
@@ -247,7 +247,10 @@ export class SectionContainerComponent extends React.Component {
             type='button'
             className='hearing-section-toggle-button'
             onClick={() =>
-              this.setState((prevState) => ({ mainHearingAttachmentsOpen: !prevState.mainHearingAttachmentsOpen }))
+              this.setState((prevState) => ({
+                ...prevState,
+                mainHearingAttachmentsOpen: !prevState.mainHearingAttachmentsOpen,
+              }))
             }
             aria-controls='hearing-section-attachments-accordion'
             id='hearing-section-attachments-accordion-button'
@@ -301,7 +304,10 @@ export class SectionContainerComponent extends React.Component {
             type='button'
             className='hearing-section-toggle-button'
             onClick={() =>
-              this.setState((prevState) => ({ mainHearingProjectOpen: !prevState.mainHearingProjectOpen }))
+              this.setState((prevState) => ({
+                ...prevState,
+                mainHearingProjectOpen: !prevState.mainHearingProjectOpen,
+              }))
             }
             aria-controls='hearing-section-project-accordion'
             id='hearing-section-project-accordion-button'
@@ -369,7 +375,10 @@ export class SectionContainerComponent extends React.Component {
             type='button'
             className='hearing-section-toggle-button'
             onClick={() =>
-              this.setState((prevState) => ({ mainHearingContactsOpen: !prevState.mainHearingContactsOpen }))
+              this.setState((prevState) => ({
+                ...prevState,
+                mainHearingContactsOpen: !prevState.mainHearingContactsOpen,
+              }))
             }
             aria-controls='hearing-section-contacts-accordion'
             id='hearing-section-contacts-accordion-button'
@@ -519,7 +528,10 @@ export class SectionContainerComponent extends React.Component {
               type='button'
               className='hearing-section-toggle-button'
               onClick={() =>
-                this.setState((prevState) => ({ mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen }))
+                this.setState((prevState) => ({
+                  ...prevState,
+                  mainHearingDetailsOpen: !prevState.mainHearingDetailsOpen,
+                }))
               }
               aria-controls='hearing-section-details-accordion'
               id='hearing-section-details-accordion-button'
@@ -588,9 +600,7 @@ export class SectionContainerComponent extends React.Component {
               />
               {hasFullscreenMapPlugin(hearing) && (
                 <Button>
-                  <Link
-                    to={{ path: getHearingURL(hearing, { fullscreen: true }) }}
-                  >
+                  <Link to={{ path: getHearingURL(hearing, { fullscreen: true }) }}>
                     <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
                     &nbsp;
                     <FormattedMessage id='openFullscreenMap' />
