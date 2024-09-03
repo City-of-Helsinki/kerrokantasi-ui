@@ -1,7 +1,9 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
+import { fireEvent, screen } from '@testing-library/react';
 
 import SectionContainerComponent from '../SectionContainer';
 import { mockStore as mockData } from '../../../../../test-utils';
@@ -20,8 +22,8 @@ jest.spyOn(mockApi, 'get').mockImplementation(() =>
   }),
 );
 
-const renderComponent = () => {
-  const { mockHearingWithSections, user, sectionComments } = mockData;
+const renderComponent = (storeOverrides) => {
+  const { mockHearingWithSections, mockUser, sectionComments } = mockData;
 
   const store = mockStore({
     hearing: {
@@ -33,7 +35,10 @@ const renderComponent = () => {
       isHighContrast: false,
     },
     sectionComments,
-    user,
+    user: {
+      data: mockUser,
+    },
+    ...storeOverrides,
   });
 
   const props = {
@@ -64,5 +69,27 @@ const renderComponent = () => {
 describe('<SectionContainer />', () => {
   it('should render correctly', () => {
     renderComponent();
+  });
+
+  it('should render correctly when user is admin', () => {
+    const mockUser = { ...mockData.mockUser, adminOrganizations: [mockData.mockHearingWithSections.data.organization] };
+
+    renderComponent({ user: { data: mockUser } });
+  });
+
+  it('should toggle accordions', async () => {
+    const mockUser = { ...mockData.mockUser, adminOrganizations: [mockData.mockHearingWithSections.data.organization] };
+
+    renderComponent({ user: { data: mockUser } });
+
+    const toggleButtons = await screen.findAllByRole('button');
+    const filteredButtons = toggleButtons.filter((button) => button.hasAttribute('aria-expanded'));
+    const currentExpanded = toggleButtons.map((button) => button.getAttribute('aria-expanded'));
+
+    filteredButtons.forEach(async (button) => fireEvent.click(button));
+
+    filteredButtons.forEach((button, index) =>
+      expect(button.getAttribute('aria-expanded')).not.toEqual(currentExpanded[index]),
+    );
   });
 });
