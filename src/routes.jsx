@@ -1,6 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Suspense, lazy } from 'react';
-import PropTypes from 'prop-types';
 import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 
 import LoadSpinner from './components/LoadSpinner';
