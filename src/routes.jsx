@@ -45,12 +45,7 @@ const Redirector = () => {
   </div>
 )};
 
-Redirector.propTypes = {
-  match: PropTypes.object
-};
-
-const AppRoutes = () => {
-  return (
+const AppRoutes = () => (
   <Suspense fallback={<LoadSpinner />}>
     <Routes>
       <Route exact path="/" Component={props => <HomeContainer {...props} />} />
@@ -73,6 +68,6 @@ const AppRoutes = () => {
       <Route path="/:hearingSlug/*" Component={props => <HearingContainer {...props} />} />
     </Routes>
   </Suspense>
-)};
+);
 
 export default AppRoutes;

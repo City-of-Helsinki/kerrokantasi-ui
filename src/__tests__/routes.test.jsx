@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
 import AppRoutes from '../routes';
 import config from "../config";
 
@@ -20,16 +21,13 @@ jest.mock('../views/UserHearings', () => () => <div>UserHearings</div>);
 jest.mock('../views/UserProfile', () => () => <div>UserProfile</div>);
 
 describe('AppRoutes', () => {
-  const renderWithRouter = (route) => {
-    return render(
+  const renderWithRouter = (route) => render(
         <MemoryRouter initialEntries={[route]}>
             <AppRoutes />
         </MemoryRouter>
     );
-  };
 
   it('should render Home component for the root route', async () => {
-    act
     await act(async () => {
         renderWithRouter('/');
     })

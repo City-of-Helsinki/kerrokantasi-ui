@@ -1,11 +1,11 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
 
 import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { mockStore as mockData } from '../../../../test-utils';
-import { BrowserRouter } from 'react-router-dom';
 
 
 const middlewares = [thunk];
