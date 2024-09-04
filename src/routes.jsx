@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 
 import LoadSpinner from './components/LoadSpinner';
 import config from "./config";
@@ -37,17 +37,20 @@ const UserProfile = lazy(() => import(
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
  */
-const Redirector = ({ match }) => (
+const Redirector = () => {
+  const { hearingSlug } = useParams();
+  return (
   <div>
-    <Navigate to={{ path: `/${match.params.hearingSlug}` }} />
+    <Navigate to={`/${hearingSlug}`} />
   </div>
-);
+)};
 
 Redirector.propTypes = {
   match: PropTypes.object
 };
 
-const AppRoutes = () => (
+const AppRoutes = () => {
+  return (
   <Suspense fallback={<LoadSpinner />}>
     <Routes>
       <Route exact path="/" Component={props => <HomeContainer {...props} />} />
@@ -70,6 +73,6 @@ const AppRoutes = () => (
       <Route path="/:hearingSlug/*" Component={props => <HearingContainer {...props} />} />
     </Routes>
   </Suspense>
-);
+)};
 
 export default AppRoutes;

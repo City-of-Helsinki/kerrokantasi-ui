@@ -3,8 +3,8 @@
 
 import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
 
@@ -28,18 +28,18 @@ const HearingContainerComponent = ({
   fetchProjectsList,
   fetchHearing,
   fetchEditorMetaData,
-  hearing,
   hearingDraft,
   hearingLanguages,
   history,
   isLoading,
   labels,
   language,
-  location,
   organizations,
   user,
 }) => {
   const { hearingSlug } = useParams();
+  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
+  const location = useLocation();
 
   const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
 
@@ -128,7 +128,6 @@ const HearingContainerComponent = ({
 };
 
 HearingContainerComponent.propTypes = {
-  hearing: PropTypes.object,
   language: PropTypes.string,
   user: PropTypes.object,
   labels: PropTypes.array,
@@ -140,12 +139,10 @@ HearingContainerComponent.propTypes = {
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
   history: PropTypes.object,
-  location: PropTypes.object,
   fetchProjectsList: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  hearing: getHearingWithSlug(state, state.hearingSlug),
   language: state.language,
   hearingDraft: HearingEditorSelector.getPopulatedHearing(state),
   hearingLanguages: state.hearingEditor.languages,

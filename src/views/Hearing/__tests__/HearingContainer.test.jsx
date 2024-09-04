@@ -5,6 +5,7 @@ import { thunk } from 'redux-thunk';
 import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { mockStore as mockData } from '../../../../test-utils';
+import { BrowserRouter } from 'react-router-dom';
 
 
 const middlewares = [thunk];
@@ -29,19 +30,12 @@ const renderComponent = () => {
     user,
   });
 
-  const props = {
-    location: {
-      pathname: mockHearingWithSections.data.slug,
-      search: '',
-    },
-    match: {
-      params: {
-        hearingSlug: mockHearingWithSections.data.slug,
-      },
-    },
-  };
-
-  return renderWithProviders(<HearingContainerComponent {...props} />, { store });
+  return renderWithProviders(
+    <BrowserRouter>
+      <HearingContainerComponent />
+    </BrowserRouter>,
+    { store }
+  );
 };
 
 describe('<HearingContainer />', () => {
