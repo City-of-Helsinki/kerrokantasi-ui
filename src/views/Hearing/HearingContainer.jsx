@@ -103,6 +103,7 @@ const HearingContainerComponent = ({
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
               <HearingEditor
+                data-testid="hearingEditor"
                 hearing={hearingDraft}
                 hearingLanguages={hearingLanguages}
                 labels={labels}
