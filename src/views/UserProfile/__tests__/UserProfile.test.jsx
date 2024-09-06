@@ -1,11 +1,22 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
-import { UnconnectedUserProfile } from '..';
+import UserProfile from '..';
 import { getIntlAsProp } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+jest.mock('../../../api', () => ({
+  get: jest.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
+  post: jest.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
+}));
 
 const createUniqueHearing = (id, slug, title, count, closed, ...props) => ({
   id,
@@ -38,7 +49,8 @@ const defaultUniqueHearings = [
     false,
   ),
 ];
-const createComment = (id, hearing, content, ...props) => ({
+
+const createComment = (id, slug, title, hearing, content, ...props) => ({
   id,
   hearing,
   content,
@@ -47,31 +59,44 @@ const createComment = (id, hearing, content, ...props) => ({
   created_at: '2021-11-16T09:25:37.625607Z',
   answers: [],
   hearing_data: {
+    slug,
+    title: {
+      fi: title,
+    },
     closed: false,
   },
   ...props,
 });
 
 const defaultComments = [
-  createComment('1', 'hearingOne', 'first comment'),
-  createComment('2', 'hearingTwo', 'second comment'),
-  createComment('3', 'hearingTwo', 'third comment'),
-  createComment('4', 'hearingThree', 'fourth comment'),
-  createComment('5', 'hearingThree', 'fifth comment'),
-  createComment('6', 'hearingThree', 'sixth comment'),
-  createComment('7', 'hearingFour', 'seventh comment'),
+  createComment('1', 'slugOne', 'this str contains a full stop so it will be cut.'.repeat(3), 'first comment'),
+  createComment(
+    '2',
+    'slugTwo',
+    'FILLER LOREM IPSUM FILLER. this contains a date near the end so it is sliced 12.12.2020. LOREM IPSUM FILLER.',
+    'second comment',
+  ),
+  createComment(
+    '3',
+    'slugTwo',
+    'FILLER LOREM IPSUM FILLER. this contains a date near the end so it is sliced 12.12.2020. LOREM IPSUM FILLER.',
+    'third comment',
+  ),
+  createComment('4', 'slugThree', 'this is 88 characters.'.repeat(4), 'fourth comment'),
+  createComment('5', 'slugThree', 'this is 88 characters.'.repeat(4), 'fifth comment'),
+  createComment('6', 'slugThree', 'this is 88 characters.'.repeat(4), 'sixth comment'),
+  createComment(
+    '7',
+    'slugFour',
+    'this is supposed to be a title that is over 100 characters.'.repeat(2),
+    'seventh comment',
+  ),
 ];
 
-const renderComponent = (propOverrides) => {
-  const props = {
-    intl: getIntlAsProp(),
-    fetchComments: jest.fn(),
-    fetchFavorites: jest.fn(),
-    removeFromFavorites: jest.fn(),
-    user: { favorite_hearings: ['hearingOne', 'someOtherHearing'] },
-    userState: {
-      userExists: true,
-      userLoading: false,
+const defaultState = {
+  user: {
+    data: {
+      favorite_hearings: ['hearingOne'],
     },
     profile: {
       comments: {
@@ -82,84 +107,171 @@ const renderComponent = (propOverrides) => {
       favoriteHearings: {
         count: 2,
         results: [
-          { id: 'firstFavoriteHearing', title: 'firstFavoriteHearing' },
-          { id: 'secondFavoriteHearing', title: 'secondFavoriteHearing' },
+          { id: 'hearingOne', slug: 'slugOne', title: 'this str contains a full stop so it will be cut.'.repeat(3) },
         ],
       },
     },
-    ...propOverrides,
+  },
+  oidc: { isLoadingUser: false, user: {} },
+  userState: {
+    userExists: true,
+    userLoading: false,
+  },
+};
+
+const renderComponent = (storeOverride = false) => {
+  const props = {
+    intl: getIntlAsProp(),
+    fetchComments: jest.fn(),
+    fetchFavorites: jest.fn(),
+    removeFromFavorites: jest.fn(),
   };
 
+  const store = storeOverride || mockStore(defaultState);
+
   return renderWithProviders(
-    <MemoryRouter>
-      <UnconnectedUserProfile {...props} />
-    </MemoryRouter>,
+    <BrowserRouter>
+      <UserProfile {...props} />
+    </BrowserRouter>,
+    { store },
   );
 };
 
 describe('<UserProfile />', () => {
   it('should render correctly', () => {
-    const { container } = renderComponent();
-
-    expect(container).toMatchSnapshot();
+    renderComponent();
   });
 
   it('should fetchComments and fetchFavorites if userExists && user', () => {
-    const fetchCommentsMock = jest.fn();
-    const fetchFavoritesMock = jest.fn();
+    const store = mockStore(defaultState);
 
-    renderComponent({ fetchComments: fetchCommentsMock, fetchFavorites: fetchFavoritesMock });
+    renderComponent(store);
 
-    expect(fetchCommentsMock).toHaveBeenCalledTimes(1);
-    expect(fetchFavoritesMock).toHaveBeenCalledTimes(1);
-    expect(fetchFavoritesMock).toHaveBeenCalledWith({ following: true });
+    const expected = [{ type: 'beginFetchUserComments' }, { type: 'beginFetchFavoriteHearings' }];
+
+    expect(store.getActions()).toEqual(expected);
   });
 
   it('should not fetchComments and fetchFavorites if userExists && user is false', () => {
-    const fetchCommentsMock = jest.fn();
-    const fetchFavoritesMock = jest.fn();
+    const store = mockStore({ ...defaultState, user: { ...defaultState.user, data: null } });
 
-    renderComponent({ fetchComments: fetchCommentsMock, fetchFavorites: fetchFavoritesMock, user: null });
+    renderComponent(store);
 
-    expect(fetchCommentsMock).not.toHaveBeenCalled();
-    expect(fetchFavoritesMock).not.toHaveBeenCalled();
+    expect(store.getActions()).toEqual([]);
   });
 
   it('should not fetchComments & fetchFavorites if userLoading', async () => {
-    const fetchCommentsMock = jest.fn();
-    const fetchFavoritesMock = jest.fn();
-
-    renderComponent({
-      fetchComments: fetchCommentsMock,
-      fetchFavorites: fetchFavoritesMock,
-      user: null,
-      userState: { userLoading: true },
+    const store = mockStore({
+      ...defaultState,
+      user: { ...defaultState.user, data: null },
+      userState: { userExists: false, userLoading: true },
     });
+
+    renderComponent(store);
 
     expect(await screen.findByTestId('load-spinner')).toBeInTheDocument();
 
-    expect(fetchCommentsMock).not.toHaveBeenCalled();
-    expect(fetchFavoritesMock).not.toHaveBeenCalled();
+    expect(store.getActions()).toEqual([]);
   });
 
   it('should have correct amount of options', async () => {
     renderComponent();
 
-    const select = await screen.findByTestId('hearing-select');
+    const user = userEvent.setup();
 
-    expect(select.children).toHaveLength(defaultUniqueHearings.length + 1);
+    const controls = await screen.findByTestId('hearing-selects');
+    const buttons = await within(controls).findAllByRole('button');
+    const toggle = buttons[0];
+
+    const select = toggle.nextSibling;
+
+    await user.click(toggle);
+
+    expect(select.children).toHaveLength(8);
   });
 
   it('should select hearing', async () => {
     renderComponent();
 
-    const select = await screen.findByTestId('hearing-select');
-    const option = await screen.findByRole('option', { name: /this contains a date near the end/i });
+    const user = userEvent.setup();
+
+    const controls = await screen.findByTestId('hearing-selects');
+    const buttons = await within(controls).findAllByRole('button');
+    const toggle = buttons[0];
+    const select = toggle.nextSibling;
+
+    await user.click(toggle);
+
+    await user.click(select.children[2]);
+
+    const commentList = await screen.findByTestId('commentlist');
+
+    expect(commentList.children).toHaveLength(1);
+  });
+
+  it('should change order', async () => {
+    renderComponent();
 
     const user = userEvent.setup();
 
-    await user.selectOptions(select, option);
+    const controls = await screen.findByTestId('hearing-selects');
+    const buttons = await within(controls).findAllByRole('button');
+    const toggle = buttons[1];
+    const select = toggle.nextSibling;
 
-    expect(option.selected).toBe(true);
+    const commentList = await screen.findByTestId('commentlist');
+
+    expect(commentList.children).toHaveLength(7);
+
+    await user.click(toggle);
+    await user.click(select.children[1]);
+
+    expect(commentList.children).toHaveLength(7);
+  });
+
+  it('should render no content found', async () => {
+    const store = mockStore({
+      ...defaultState,
+      user: {
+        ...defaultState.user,
+        profile: {
+          ...defaultState.user.profile,
+          favoriteHearings: {
+            count: 0,
+            results: [],
+          },
+        },
+      },
+    });
+
+    renderComponent(store);
+
+    expect(screen.queryByText('noFavoriteHearings')).toBeInTheDocument();
+  });
+
+  it('should remove from favorites', async () => {
+    const store = mockStore(defaultState);
+
+    renderComponent(store);
+
+    const user = userEvent.setup();
+
+    const hearingCards = await screen.findByTestId('hearing-card-list');
+
+    expect(hearingCards.children).toHaveLength(1);
+
+    const removeFromFavorites = await within(hearingCards.children[0]).findByRole('button');
+
+    await user.click(removeFromFavorites);
+
+    const expected = [
+      { type: 'beginFetchUserComments' },
+      { type: 'beginFetchFavoriteHearings' },
+      { type: 'receiveUserComments', payload: { data: {} } },
+      { type: 'receiveFavoriteHearings', payload: { data: {} } },
+      { type: 'beginRemoveHearingFromFavorites', payload: { hearingSlug: 'slugOne' } },
+    ];
+
+    expect(store.getActions()).toEqual(expected);
   });
 });
