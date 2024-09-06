@@ -1,8 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Button, Select } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
@@ -27,15 +26,15 @@ const CommentReportForm = ({ hearing, id, language }) => {
   /**
    * Handles the change event of the file format input.
    *
-   * @param {Event} event - The change event.
+   * @param {OptionType} selected - The change event.
    * @returns {void}
    */
-  const handleFileFormatChange = (event) => setFileFormat(event.target.value);
+  const handleFileFormatChange = (selected) => setFileFormat(selected.value);
 
   /**
    * Handles the click event for downloading a report.
    *
-   * @param {Event} event - The click event.
+   * @param {Event} event - The submit event.
    * @returns {Promise<void>} - A promise that resolves when the download is complete.
    */
   const handleDownloadClick = async (event) => {
@@ -78,24 +77,21 @@ const CommentReportForm = ({ hearing, id, language }) => {
     }
   };
 
+  const options = Object.values(FILE_FORMATS).map((format) => ({ value: format.id, label: format.name }));
+
   return (
-    <Form id={id}>
-      <FormGroup controlId='file-format-select'>
-        <ControlLabel>
-          <FormattedMessage id='commentReportsSelectFileType' />
-        </ControlLabel>
-        <FormControl componentClass='select' onChange={handleFileFormatChange} value={fileFormat}>
-          {Object.values(FILE_FORMATS).map((format) => (
-            <option key={format.id} value={format.id}>
-              {format.name}
-            </option>
-          ))}
-        </FormControl>
-      </FormGroup>
-      <Button onClick={handleDownloadClick} type='submit'>
+    <form id={id} onSubmit={handleDownloadClick}>
+      <Select
+        onChange={handleFileFormatChange}
+        label={<FormattedMessage id='commentReportsSelectFileType' />}
+        options={options}
+        style={{ marginBottom: 'var(--spacing-l)' }}
+      />
+
+      <Button type='submit'>
         <Icon name='download' aria-hidden='true' /> <FormattedMessage id='commentReportsDownload' />
       </Button>
-    </Form>
+    </form>
   );
 };
 
@@ -109,5 +105,4 @@ CommentReportForm.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-export { CommentReportForm as UnconnectedCommentReportForm };
 export default connect(mapStateToProps, null)(CommentReportForm);
