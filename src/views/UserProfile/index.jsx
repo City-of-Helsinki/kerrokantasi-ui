@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
+import { Select } from 'hds-react';
 
 import getUser from '../../selectors/user';
 import { fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites } from '../../actions/index';
@@ -90,21 +90,21 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
       CREATED_AT_ASC: 'created_at',
     };
 
+    const options = Object.keys(ORDERING_CRITERIA).map((key) => {
+      const message = intl.formatMessage({ id: key });
+
+      return { value: ORDERING_CRITERIA[key], label: message };
+    });
+
     return (
       <div className='col-md-4'>
         <div className='order-wrapper'>
-          <FormGroup controlId='sort-select'>
-            <ControlLabel>
-              <FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>
-            </ControlLabel>
-            <FormControl componentClass='select' onChange={(event) => fetchComments({ ordering: event.target.value })}>
-              {Object.keys(ORDERING_CRITERIA).map((key) => (
-                <FormattedMessage id={key} key={key}>
-                  {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
-                </FormattedMessage>
-              ))}
-            </FormControl>
-          </FormGroup>
+          <Select
+            label={<FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>}
+            options={options}
+            defaultValue={options[0]}
+            onChange={(selected) => fetchComments({ ordering: selected.value })}
+          />
         </div>
       </div>
     );
@@ -131,51 +131,43 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
   const hearingCommentSelect = () => {
     const allText = getMessage('all', locale);
 
+    const uniqueHearings = comments.uniqueHearings.map((hearing) => {
+      let textValue = getAttr(hearing.data.title, locale);
+
+      // Option text is limited to 100 chars because the width of the dropdown is based on the widest text.
+      if (textValue.length > 100) {
+        // Check if text contains any dates like 20.11.2021
+        const containsDateAt = textValue.search(/(\d.*)/g);
+        // Check if text contains full stops/points in the last 15 chars before the 100th character
+        const pointsBetweenRange = [...textValue.matchAll(/[.]/g)].reduce((points, point) => {
+          if (point.index > 85 && point.index < 100) {
+            points.push(point.index);
+          }
+          return points;
+        }, []);
+        // If the text contains a point near the limit and doesnt contain any dates -> slice at point.
+        if (pointsBetweenRange.length > 0 && containsDateAt === -1) {
+          textValue = textValue.slice(0, pointsBetweenRange[0] + 1);
+        }
+        // If text length is still over 100 -> use first 96 characters of text + '...'
+        if (textValue.length > 100) {
+          textValue = `${textValue.slice(0, 96)}...`;
+        }
+      }
+
+      return { value: hearing.id, label: textValue };
+    });
+
+    const options = [{ value: '', label: allText }, ...uniqueHearings];
+
     return (
       <div className='col-md-8'>
         <div className='selection-wrappers'>
-          <FormGroup controlId='hearing-select'>
-            <ControlLabel>
-              <FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>
-            </ControlLabel>
-
-            <FormControl
-              data-testid='hearing-select'
-              componentClass='select'
-              onChange={(event) => selectHearing(event.target.value)}
-            >
-              <option value=''>{allText}</option>
-              {comments.uniqueHearings.reduce((hearingOptions, hearing) => {
-                let textValue = getAttr(hearing.data.title, locale);
-                // Option text is limited to 100 chars because the width of the dropdown is based on the widest text.
-                if (textValue.length > 100) {
-                  // Check if text contains any dates like 20.11.2021
-                  const containsDateAt = textValue.search(/(\d.*)/g);
-                  // Check if text contains full stops/points in the last 15 chars before the 100th character
-                  const pointsBetweenRange = [...textValue.matchAll(/[.]/g)].reduce((points, point) => {
-                    if (point.index > 85 && point.index < 100) {
-                      points.push(point.index);
-                    }
-                    return points;
-                  }, []);
-                  // If the text contains a point near the limit and doesnt contain any dates -> slice at point.
-                  if (pointsBetweenRange.length > 0 && containsDateAt === -1) {
-                    textValue = textValue.slice(0, pointsBetweenRange[0] + 1);
-                  }
-                  // If text length is still over 100 -> use first 96 characters of text + '...'
-                  if (textValue.length > 100) {
-                    textValue = `${textValue.slice(0, 96)}...`;
-                  }
-                }
-                hearingOptions.push(
-                  <option key={hearing.id} value={hearing.id}>
-                    {textValue}
-                  </option>,
-                );
-                return hearingOptions;
-              }, [])}
-            </FormControl>
-          </FormGroup>
+          <Select
+            label={<FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>}
+            options={options}
+            onChange={(selected) => selectHearing(selected.value)}
+          />
         </div>
       </div>
     );
@@ -203,12 +195,12 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
         <div className='col-md-12'>
           {commentsLoaded ? (
             <div className='user-comments-wrapper'>
-              <div className='row'>
+              <div className='row' data-testid='hearing-selects'>
                 {hearingCommentSelect()}
                 {getCommentOrderSelect()}
               </div>
               <div className='row'>
-                <div className='commentlist'>
+                <div className='commentlist' data-testid='commentlist'>
                   {comments.results.reduce((visibleComments, comment) => {
                     if (!selectedHearing || selectedHearing === comment.hearing) {
                       visibleComments.push(<UserComment comment={comment} key={comment.id} locale={locale} />);
@@ -249,6 +241,7 @@ const uniqueHearingsCommented = (state) => {
     return [];
   }
   const comments = state.user.profile.comments.results;
+
   if (comments) {
     // get unique hearing id's
     const uniqueIDs = comments.reduce((uniqueIDTotal, comment) => {
@@ -257,6 +250,7 @@ const uniqueHearingsCommented = (state) => {
       }
       return uniqueIDTotal;
     }, []);
+
     // return array with objects for each unique hearing
     return uniqueIDs.reduce((uniqueHearings, uniqueID) => {
       const specificHearing = comments.find((element) => element.hearing === uniqueID);
@@ -320,7 +314,5 @@ const mapStateToProps = (state) => ({
   userState: existsSelector(state),
   profile: profileCombiner(state),
 });
-
-export { UserProfile as UnconnectedUserProfile };
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UserProfile));
