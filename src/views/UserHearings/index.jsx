@@ -97,7 +97,9 @@ class UserHearings extends React.Component {
     }
     return (
       <div>
-        <div data-testid="hearing-cards" className='row card-list'>{elements}</div>
+        <div data-testid='hearing-cards' className='row card-list'>
+          {elements}
+        </div>
         {elements.length === 4 && hearingCount[type] > 4 && (
           <Button onClick={() => this.getRemainingHearings(type)}>
             <FormattedMessage id='showAll' values={{ n: hearingCount[type] }}>
@@ -138,8 +140,8 @@ class UserHearings extends React.Component {
     );
   }
 
-  changeSort = (event) => {
-    this.setState({ sortHearingsBy: event.target.value });
+  changeSort = (sort) => {
+    this.setState({ sortHearingsBy: sort });
   };
 
   toggleHearingCreator = () => {
