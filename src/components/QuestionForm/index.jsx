@@ -1,58 +1,54 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, Checkbox, Radio, HelpBlock } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
+import { Fieldset, RadioButton, Checkbox } from 'hds-react';
 
 import getAttr from '../../utils/getAttr';
 
+/**
+ * Renders a form for a question.
+ *
+ * @component
+ * @param {boolean} autoFocus - Determines if the first input should be auto-focused.
+ * @param {Object} question - The question object.
+ * @param {string} lang - The language code for localization.
+ * @param {function} onChange - The callback function for handling changes in the form.
+ * @param {Object} answers - The answers object.
+ * @param {boolean} canAnswer - Determines if the user can answer the question.
+ * @returns {JSX.Element} The rendered QuestionForm component.
+ */
 const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer }) => (
-  <FormGroup
-    data-testid='question-form-group'
-    className='question-form-group'
-    onChange={(ev) => onChange(question.id, question.type, parseInt(ev.target.value, 10))}
-  >
-    <fieldset className='question-form-fieldset'>
-      <legend>
-        <h3 className='h4 question-label'>{getAttr(question.text, lang)}</h3>
-        <HelpBlock>
-          <FormattedMessage id={question.type === 'multiple-choice' ? 'questionHelpMulti' : 'questionHelpSingle'} />
-        </HelpBlock>
-      </legend>
+  <div data-testid='question-form-group' className='question-form-group'>
+    <Fieldset
+      heading={getAttr(question.text, lang)}
+      className='question-form-fieldset'
+      helperText={
+        <FormattedMessage id={question.type === 'multiple-choice' ? 'questionHelpMulti' : 'questionHelpSingle'} />
+      }
+    >
       {canAnswer &&
-        question.type === 'single-choice' &&
         question.options.map((option, index) => {
-          const optionContent = getAttr(option.text, lang);
-          return (
-            <Radio
-              autoFocus={autoFocus && index === 0}
-              checked={answers && answers.answers.includes(option.id)}
-              key={option.id}
-              name={`question_${question.id}`}
-              value={option.id}
-              onChange={() => {}}
-            >
-              {optionContent}
-            </Radio>
-          );
+          const props = {
+            id: option.id,
+            key: option.id,
+            autoFocus: autoFocus && index === 0,
+            checked: answers?.answers.includes(option.id),
+            name: `question_${question.id}`,
+            value: option.id,
+            onChange: (e) => onChange(question.id, question.type, parseInt(e.target.value, 10)),
+            label: getAttr(option.text, lang),
+          };
+
+          if (question.type === 'single-choice') {
+            return <RadioButton {...props} />;
+          }
+
+          return <Checkbox {...props} />;
         })}
-      {canAnswer &&
-        question.type === 'multiple-choice' &&
-        question.options.map((option, index) => (
-          <Checkbox
-            autoFocus={autoFocus && index === 0}
-            checked={answers && answers.answers.includes(option.id)}
-            key={option.id}
-            name={`question_${question.id}`}
-            value={option.id}
-            onChange={() => {}}
-          >
-            {getAttr(option.text, lang)}
-          </Checkbox>
-        ))}
       {!canAnswer && <FormattedMessage id='logInToAnswer' />}
-    </fieldset>
-  </FormGroup>
+    </Fieldset>
+  </div>
 );
 
 QuestionForm.propTypes = {

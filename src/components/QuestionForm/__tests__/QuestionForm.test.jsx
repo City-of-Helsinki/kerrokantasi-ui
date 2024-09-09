@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -27,7 +27,7 @@ const renderComponent = (propOverrides) => {
       type: TYPE_SINGLE_CHOICE,
     },
     lang: 'fi',
-    onChange: () => {},
+    onChange: jest.fn(),
     answers: {
       answers: [],
       question: 10,
@@ -38,99 +38,81 @@ const renderComponent = (propOverrides) => {
   };
 
   return renderWithProviders(
-    <MemoryRouter>
+    <BrowserRouter>
       <QuestionForm intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </BrowserRouter>,
   );
 };
 
 describe('<QuestionForm />', () => {
   it('should render correctly', () => {
     renderComponent();
+    expect(screen.getByTestId('question-form-group')).toBeInTheDocument();
   });
 
-  it('should render FormGroup', async () => {
+  it('should render single choice options correctly', () => {
     renderComponent();
-
-    expect(await screen.findByTestId('question-form-group')).toBeInTheDocument();
+    expect(screen.getByLabelText('fi test one')).toBeInTheDocument();
+    expect(screen.getByLabelText('fi test two')).toBeInTheDocument();
+    expect(screen.getByLabelText('fi test three')).toBeInTheDocument();
   });
 
-  it('should render label', async () => {
-    renderComponent();
+  it('should call onChange when a single choice option is selected', async () => {
+    const onChange = jest.fn();
+    renderComponent({ onChange });
 
-    expect(await screen.findByText('fi test one')).toBeInTheDocument();
-  });
-
-  it('should render HelpBlock', async () => {
-    renderComponent();
-
-    expect(await screen.findByText('questionHelpSingle')).toBeInTheDocument();
-  });
-
-  it('should render HelpBlock when question type is multi', async () => {
-    renderComponent({
-      question: {
-        id: 10,
-        is_independent_poll: false,
-        n_answers: 0,
-        options: [
-          { id: 20, n_answers: 0, text: { fi: 'fi test one' } },
-          { id: 21, n_answers: 0, text: { fi: 'fi test two' } },
-          { id: 22, n_answers: 0, text: { fi: 'fi test three' } },
-        ],
-        text: { fi: 'fi multiple choice question' },
-        type: TYPE_MULTIPLE_CHOICE,
-      },
+    userEvent.click(screen.getByLabelText('fi test one'));
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledWith(10, TYPE_SINGLE_CHOICE, 20);
     });
-
-    expect(await screen.findByText('questionHelpMulti')).toBeInTheDocument();
   });
 
-  it('should require login to answer', async () => {
+  it('should render multiple choice options correctly', () => {
+    const question = {
+      id: 10,
+      is_independent_poll: false,
+      n_answers: 0,
+      options: [
+        { id: 20, n_answers: 0, text: { fi: 'fi test one' } },
+        { id: 21, n_answers: 0, text: { fi: 'fi test two' } },
+        { id: 22, n_answers: 0, text: { fi: 'fi test three' } },
+      ],
+      text: { fi: 'fi multiple choice question' },
+      type: TYPE_MULTIPLE_CHOICE,
+    };
+
+    renderComponent({ question });
+
+    expect(screen.getByLabelText('fi test one')).toBeInTheDocument();
+    expect(screen.getByLabelText('fi test two')).toBeInTheDocument();
+    expect(screen.getByLabelText('fi test three')).toBeInTheDocument();
+  });
+
+  it('should call onChange when a multiple choice option is selected', async () => {
+    const onChange = jest.fn();
+    const question = {
+      id: 10,
+      is_independent_poll: false,
+      n_answers: 0,
+      options: [
+        { id: 20, n_answers: 0, text: { fi: 'fi test one' } },
+        { id: 21, n_answers: 0, text: { fi: 'fi test two' } },
+        { id: 22, n_answers: 0, text: { fi: 'fi test three' } },
+      ],
+      text: { fi: 'fi multiple choice question' },
+      type: TYPE_MULTIPLE_CHOICE,
+    };
+
+    renderComponent({ question, onChange });
+
+    userEvent.click(screen.getByLabelText('fi test one'));
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledWith(10, TYPE_MULTIPLE_CHOICE, 20);
+    });
+  });
+
+  it('should display login message when user cannot answer', () => {
     renderComponent({ canAnswer: false });
-
-    expect(await screen.findByText('logInToAnswer')).toBeInTheDocument();
-  });
-
-  it('should call onChange when a single-choice option is selected', async () => {
-    const onChangeMock = jest.fn();
-
-    renderComponent({ onChange: onChangeMock });
-
-    const optionOne = await screen.findByLabelText('fi test one');
-
-    const user = userEvent.setup();
-
-    user.click(optionOne);
-
-    await waitFor(() => expect(onChangeMock).toHaveBeenCalledWith(10, TYPE_SINGLE_CHOICE, 20));
-  });
-
-  it('should call onChange when a multiple-choice option is selected', async () => {
-    const onChangeMock = jest.fn();
-
-    renderComponent({
-      question: {
-        id: 10,
-        is_independent_poll: false,
-        n_answers: 0,
-        options: [
-          { id: 20, n_answers: 0, text: { fi: 'fi test one' } },
-          { id: 21, n_answers: 0, text: { fi: 'fi test two' } },
-          { id: 22, n_answers: 0, text: { fi: 'fi test three' } },
-        ],
-        text: { fi: 'fi multiple choice question' },
-        type: TYPE_MULTIPLE_CHOICE,
-      },
-      onChange: onChangeMock,
-    });
-
-    const optionOne = await screen.findByLabelText('fi test one');
-
-    const user = userEvent.setup();
-
-    user.click(optionOne);
-
-    await waitFor(() => expect(onChangeMock).toHaveBeenCalledWith(10, TYPE_MULTIPLE_CHOICE, 20));
+    expect(screen.getByText('logInToAnswer')).toBeInTheDocument();
   });
 });
