@@ -1,9 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-underscore-dangle */
-import { Button } from 'hds-react';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, TextArea } from 'hds-react';
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -83,19 +81,15 @@ class MapdonKSVPlugin extends BaseCommentForm {
     const commentBox = (
       <div>
         <br />
-        <FormGroup>
-          <h3>
-            <FormattedMessage id='writeComment' />
-          </h3>
-          <FormControl
-            componentClass='textarea'
-            onChange={this.handleTextChange}
-            value={this.state.commentText}
-            placeholder='Kommentoi ehdotustasi tässä.'
-          />
-        </FormGroup>
+        <TextArea
+          label={<FormattedMessage id='writeComment' />}
+          placeholder='Kommentoi ehdotustasi tässä.'
+          value={this.state.commentText}
+          onChange={this.handleTextChange}
+          style={{ marginBottom: 'var(--spacing-s)' }}
+        />
         <p>
-          <Button className="kerrokantasi-btn" onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+          <Button className='kerrokantasi-btn' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
             Lähetä ehdotus
           </Button>
         </p>
