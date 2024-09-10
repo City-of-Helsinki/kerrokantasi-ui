@@ -45,7 +45,7 @@ import {
 } from '../../../actions';
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
-import { getApiTokenFromStorage, getApiURL } from '../../../api';
+import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 
 const SectionContainerComponent = ({
@@ -114,8 +114,7 @@ const SectionContainerComponent = ({
     const accessToken = getApiTokenFromStorage();
     const reportUrl = getApiURL(`/v1/hearing/${reportHearing.slug}/report`);
 
-    fetch(reportUrl, {
-      method: 'GET',
+    apiGet(reportUrl, null, {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         Authorization: `Bearer ${accessToken}`,
