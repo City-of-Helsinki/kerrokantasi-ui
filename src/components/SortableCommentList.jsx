@@ -3,11 +3,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { get, isEmpty, keys, throttle, find } from 'lodash';
+import { get, isEmpty, throttle, find } from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Select } from 'hds-react';
 
 import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
@@ -299,6 +299,15 @@ export class SortableCommentListComponent extends Component {
         </div>
       ) : null;
     const pluginContent = showCommentList && displayVisualization ? this.renderPluginContent() : null;
+
+    const sortOptions = Object.keys(ORDERING_CRITERIA).map((key) => {
+      const message = intl.formatMessage({ id: key });
+
+      return { value: ORDERING_CRITERIA[key], label: message };
+    });
+
+    const defaultSortOption = sortOptions.find((option) => option.value === get(sectionComments, 'ordering'));
+
     return (
       <div>
         {section.commenting !== 'none' && (
@@ -331,26 +340,14 @@ export class SortableCommentListComponent extends Component {
               {showCommentList && (
                 <div className='row'>
                   <form className='sort-selector'>
-                    <FormGroup controlId='sort-select'>
-                      <ControlLabel>
-                        <FormattedMessage id='commentOrder' />
-                      </ControlLabel>
-                      <div className='select'>
-                        <FormControl
-                          componentClass='select'
-                          onChange={(event) => {
-                            this.fetchComments(section.id, event.target.value);
-                          }}
-                          value={get(sectionComments, 'ordering')}
-                        >
-                          {keys(ORDERING_CRITERIA).map((key) => (
-                            <FormattedMessage id={key} key={key}>
-                              {(message) => <option value={ORDERING_CRITERIA[key]}>{message}</option>}
-                            </FormattedMessage>
-                          ))}
-                        </FormControl>
-                      </div>
-                    </FormGroup>
+                    <div id='sort-select'>
+                      <Select
+                        label={<FormattedMessage id='commentOrder' />}
+                        options={sortOptions}
+                        defaultValue={defaultSortOption}
+                        onChange={(selected) => this.fetchComments(section.id, selected.value)}
+                      />
+                    </div>
                   </form>
                 </div>
               )}

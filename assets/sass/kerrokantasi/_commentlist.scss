@@ -17,14 +17,12 @@
   }
 
   .sort-selector {
-    @extend .col-md-4;
-    @extend .col-md-offset-8;
-    @extend .col-sm-6;
-    @extend .col-sm-offset-6;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     font-size: 1.2rem;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    height: 50px;
+    margin: 0;
+    padding: 0 var(--spacing-s);
   }
 
   &__loader {
