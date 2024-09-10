@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/iframe-has-title */
-import { Button } from 'hds-react';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, TextArea } from 'hds-react';
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
@@ -33,13 +31,11 @@ class MapdonHKRPlugin extends BaseCommentForm {
             ref={this.iframeRef}
           />
           <br />
-          <FormGroup>
-            <FormControl
-              componentClass='textarea'
-              onChange={this.handleTextChange}
-              placeholder='Kommentoi ehdotustasi tässä.'
-            />
-          </FormGroup>
+          <TextArea
+            placeholder='Kommentoi ehdotustasi tässä.'
+            onChange={this.handleTextChange}
+            style={{ marginBottom: 'var(--spacing-s)' }}
+          />
           <p>
             <Button className='kerrokantasi-btn' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
               Lähetä ehdotus
