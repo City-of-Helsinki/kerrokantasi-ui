@@ -4,9 +4,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Button } from 'hds-react';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Button, TextArea } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
 import { alert, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
@@ -286,13 +284,11 @@ const MapQuestionnaire = ({
                 ref={frameRef}
               />
               <br />
-              <FormGroup>
-                <FormControl
-                  componentClass='textarea'
-                  onChange={handleTextChange}
-                  placeholder='Kommentoi ehdotustasi tässä.'
-                />
-              </FormGroup>
+              <TextArea
+                placeholder='Kommentoi ehdotustasi tässä.'
+                onChange={handleTextChange}
+                style={{ marginBottom: 'var(--spacing-s)' }}
+              />
               <p>
                 <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
                   Lähetä ehdotus
@@ -309,17 +305,13 @@ const MapQuestionnaire = ({
         const commentBox = (
           <div>
             <br />
-            <FormGroup>
-              <h3>
-                <FormattedMessage id='writeComment' />
-              </h3>
-              <FormControl
-                componentClass='textarea'
-                onChange={handleTextChange}
-                value={formData.commentText}
-                placeholder='Kommentoi ehdotustasi tässä.'
-              />
-            </FormGroup>
+            <TextArea
+              label={<FormattedMessage id='writeComment' />}
+              placeholder='Kommentoi ehdotustasi tässä.'
+              value={formData.commentText}
+              onChange={handleTextChange}
+              style={{ marginBottom: 'var(--spacing-s)' }}
+            />
             <p>
               <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
                 Lähetä ehdotus
