@@ -9,7 +9,7 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -26,12 +26,6 @@ import getAttr from '../../../utils/getAttr';
 import SubSectionsList from './SubSectionsList';
 import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';
 import { parseQuery } from '../../../utils/urlQuery';
-import {
-  getSections,
-  getHearingContacts,
-  getHearingWithSlug,
-  getMainSectionComments,
-} from '../../../selectors/hearing';
 import { SectionTypes, isSectionVotable, isSectionCommentable, isMainSection } from '../../../utils/section';
 import {
   postSectionComment,
@@ -44,37 +38,57 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
+import { getHearingWithSlug, getMainSectionComments, getSections, getHearingContacts } from '../../../selectors/hearing';
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
-import { getApiTokenFromStorage, getApiURL } from '../../../api';
+import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-function SectionContainerComponent(props) {
-  const { language, user, onPostReply, fetchAllComments, fetchMoreComments, fetchCommentsForSortableList } = props;
-  const showDeleteModal = false;
-  const commentToDelete = {};
-  const showLightbox = false;
-  // Open on desktop, closed on mobile
-  const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 768);
+const SectionContainerComponent = ({
+  editCommentFn,
+  deleteSectionCommentFn,
+  fetchAllCommentsFn,
+  fetchMoreCommentsFn,
+  fetchCommentsForSortableListFn,
+  getCommentSubCommentsFn,
+  language,
+  onPostReply,
+  postSectionCommentFn,
+  postFlagFn,
+  postVoteFn,
+  user,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+}) => {
+  const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(
+    typeof window !== 'undefined' && window.innerWidth >= 768,
+  );
   const [mainHearingProjectOpen, setMainHearingProjectOpen] = useState(false);
   const [mainHearingContactsOpen, setMainHearingContactsOpen] = useState(false);
   const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
-  const params = useParams();
-  const location = useLocation();
-  const { hearingSlug, sectionId } = params;
-  const hearing = useSelector((state) => getHearingWithSlug(state, params.hearingSlug));
-  const sections = useSelector((state) => getSections(state, params.hearingSlug));
-  const mainSectionComments = useSelector((state) => getMainSectionComments(state, params.hearingSlug));
-  const contacts = useSelector((state) => getHearingContacts(state, params.hearingSlug));
 
-  // eslint-disable-next-line no-unused-vars
-  const [_, setState] = useState();
+  const { hearingSlug, sectionId } = useParams();
+  const { search }  = useLocation();
+
+  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
+  const sections = useSelector((state) => getSections(state, hearingSlug));
+  const mainSectionComments = useSelector((state) => getMainSectionComments(state, hearingSlug));
+  const contacts = useSelector((state) => getHearingContacts(state, hearingSlug));
+  const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
+  const section = sections.find((sec) => sec.id === sectionId) || mainSection;
+  const [data, setData] = useState({
+    showDeleteModal: false,
+    commentToDelete: {},
+    showLightbox: false,
+    mapContainer: null,
+    mapContainerMobile: null,
+  });
+
+  const { showDeleteModal } = data;
 
   const getSectionNav = () => {
-    const filterNotClosedSections = sections.filter((section) => section.type !== SectionTypes.CLOSURE);
-    const filteredSections = filterNotClosedSections.filter((section) => section.type !== SectionTypes.MAIN);
-    const currentSectionIndex = sectionId ? filteredSections.findIndex((section) => section.id === sectionId) : 0;
+    const filterNotClosedSections = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE);
+    const filteredSections = filterNotClosedSections.filter((sec) => sec.type !== SectionTypes.MAIN);
+    const currentSectionIndex = sectionId ? filteredSections.findIndex((sec) => sec.id === sectionId) : 0;
     const prevPath =
       currentSectionIndex - 1 >= 0 ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}` : undefined;
     const nextPath =
@@ -95,13 +109,11 @@ function SectionContainerComponent(props) {
   };
 
   // downloads report excel with user's credentials
-  // eslint-disable-next-line class-methods-use-this
   const handleReportDownload = (reportHearing, reportLanguage) => {
     const accessToken = getApiTokenFromStorage();
     const reportUrl = getApiURL(`/v1/hearing/${reportHearing.slug}/report`);
 
-    fetch(reportUrl, {
-      method: 'GET',
+    apiGet(reportUrl, null, {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         Authorization: `Bearer ${accessToken}`,
@@ -130,88 +142,82 @@ function SectionContainerComponent(props) {
    * Call the redecer to fetch sub comments and populate inside the specific comment
    */
   const handleGetSubComments = (commentId, commentSectionId) => {
-    props.getCommentSubComments(commentId, commentSectionId);
+    getCommentSubCommentsFn(commentId, commentSectionId);
   };
 
   const onPostComment = (commentSectionId, sectionCommentData) => {
     // Done
-    const { authCode } = parseQuery(location.search);
+    const { authCode } = parseQuery(search);
     const commentData = { authCode, ...sectionCommentData };
-    return props.postSectionComment(hearingSlug, commentSectionId, commentData);
+
+    return postSectionCommentFn(hearingSlug, commentSectionId, commentData);
   };
 
   const onVoteComment = (commentId, commentSectionId, isReply, parentId) => {
-    props.postVote(commentId, hearingSlug, commentSectionId, isReply, parentId);
+    postVoteFn(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
   const onFlagComment = (commentId, commentSectionId, isReply, parentId) => {
-    props.postFlag(commentId, hearingSlug, commentSectionId, isReply, parentId);
+    postFlagFn(commentId, hearingSlug, commentSectionId, isReply, parentId);
   };
 
   const onEditComment = (commentSectionId, commentId, commentData) => {
-    const { authCode } = parseQuery(location.search);
+    const { authCode } = parseQuery(search);
 
-    // eslint-disable-next-line prefer-object-spread
-    Object.assign({ authCode }, commentData);
+    const updatedCommentData = { ...commentData, authCode };
 
-    props.editComment(hearingSlug, commentSectionId, commentId, commentData);
+    editCommentFn(hearingSlug, commentSectionId, commentId, updatedCommentData);
   };
 
   const onDeleteComment = () => {
+    const { commentToDelete } = data;
     const { sectionId: commentSectionId, commentId, refreshUser } = commentToDelete;
-    props.deleteSectionComment(hearingSlug, commentSectionId, commentId, refreshUser);
-    // eslint-disable-next-line no-undef
-    forceUpdate();
+    deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
   };
 
   const onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
-    // Done
     const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
-    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const { authCode } = parseQuery(location.search);
+    const { authCode } = parseQuery(search);
     const commentData = { authCode, ...sectionCommentData };
-    postSectionComment(hearingSlug, mainSection.id, commentData);
+    postSectionCommentFn(hearingSlug, mainSection.id, commentData);
   };
 
   const onVotePluginComment = (commentId) => {
-    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
     const commentSectionId = mainSection.id;
-    postVote(commentId, hearingSlug, commentSectionId);
+    postVoteFn(commentId, hearingSlug, commentSectionId);
   };
 
   const openDeleteModal = () => {
-    setState({ showDeleteModal: true });
+    setData({ ...data, showDeleteModal: true });
   };
 
   const handleDeleteClick = (commentSectionId, commentId, refreshUser) => {
-    setState({ commentToDelete: { sectionId: commentSectionId, commentId, refreshUser } });
+    setData({ ...data, commentToDelete: { sectionId: commentSectionId, commentId, refreshUser } });
     openDeleteModal();
   };
 
   const closeDeleteModal = () => {
-    setState({ showDeleteModal: false, commentToDelete: {} });
+    setData({ ...data, showDeleteModal: false, commentToDelete: {} });
   };
 
   const openLightbox = () => {
     document.body.classList.remove('nav-fixed');
-    setState({ showLightbox: true });
+    setData({ ...data, showLightbox: true });
   };
 
   const closeLightbox = () => {
     document.body.classList.add('nav-fixed');
-    setState({ showLightbox: false });
+    setData({ ...data, showLightbox: false });
   };
 
   const isHearingAdmin = () =>
-    user &&
-    Array.isArray(props.user.adminOrganizations) &&
-    user.adminOrganizations.includes(hearing.organization);
+    user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.includes(hearing.organization);
 
   /**
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  const renderFileSection = (section, renderLanguage, published) => {
+  const renderFileSection = (renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -224,9 +230,7 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() =>
-              setMainHearingAttachmentsOpen(!mainHearingAttachmentsOpen)
-            }
+            onClick={() => setMainHearingAttachmentsOpen(!mainHearingAttachmentsOpen)}
             aria-controls='hearing-section-attachments-accordion'
             id='hearing-section-attachments-accordion-button'
             aria-expanded={mainHearingAttachmentsOpen ? 'true' : 'false'}
@@ -275,7 +279,7 @@ function SectionContainerComponent(props) {
           <button
             type='button'
             className='hearing-section-toggle-button'
-            onClick={() => setMainHearingProjectOpen(!mainHearingProjectOpen) }
+            onClick={() => setMainHearingProjectOpen(!mainHearingProjectOpen)}
             aria-controls='hearing-section-project-accordion'
             id='hearing-section-project-accordion-button'
             aria-expanded={mainHearingProjectOpen ? 'true' : 'false'}
@@ -399,9 +403,6 @@ function SectionContainerComponent(props) {
   const renderCommentsSection = () => {
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
-    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-    const section = sections.find((sec) => sec.id === sectionId) || mainSection;
-
     return (
       <section className='hearing-section comments-section' id='comments-section' tabIndex={-1}>
         {reportUrl && renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
@@ -419,9 +420,9 @@ function SectionContainerComponent(props) {
           isSectionComments={section}
           onDeleteComment={handleDeleteClick}
           onEditComment={onEditComment}
-          fetchAllComments={fetchAllComments}
-          fetchComments={fetchCommentsForSortableList}
-          fetchMoreComments={fetchMoreComments}
+          fetchAllComments={fetchAllCommentsFn}
+          fetchComments={fetchCommentsForSortableListFn}
+          fetchMoreComments={fetchMoreCommentsFn}
           displayVisualization={userIsAdmin || hearing.closed}
           published={hearing.published} // Needed so comments are not diplayed in hearing drafts
           closed={hearing.closed}
@@ -431,8 +432,9 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const renderSectionImage = (section, renderLanguage) => {
+  const renderSectionImage = (renderLanguage) => {
     const sectionImage = section.images[0];
+    const { showLightbox } = data;
 
     if (!sectionImage) {
       return null;
@@ -451,16 +453,14 @@ function SectionContainerComponent(props) {
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  const renderSectionContent = (section, renderLanguage) => {
+  const renderSectionContent = (renderLanguage) => {
     if (isEmpty(section.content)) {
       return null;
     }
     return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, renderLanguage) }} />;
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  const renderSectionAbstract = (section, renderLanguage) => {
+  const renderSectionAbstract = (renderLanguage) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
@@ -468,10 +468,10 @@ function SectionContainerComponent(props) {
     return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, renderLanguage) }} />;
   };
 
-  const renderMainDetails = (renderHearing, section, renderLanguage) => {
-    const sectionImage = section.images[0];
+  const renderMainDetails = (renderHearing, renderSection, renderLanguage) => {
+    const sectionImage = renderSection.images[0];
 
-    if (!isEmpty(section.content) || sectionImage) {
+    if (!isEmpty(renderSection.content) || sectionImage) {
       return (
         <section className='hearing-section main-content'>
           <h2>
@@ -496,13 +496,13 @@ function SectionContainerComponent(props) {
           >
             <div className='accordion-content'>
               <div className='section-content-spacer'>
-                {renderSectionImage(section, renderLanguage)}
+                {renderSectionImage(renderLanguage)}
                 {/* Render main section title if it exists and it's not the same as the hearing title */}
-                {!isEmpty(section.title) &&
-                  getAttr(renderHearing.title, renderLanguage) !== getAttr(section.title, renderLanguage) && (
-                    <h3>{getAttr(section.title, renderLanguage)}</h3>
+                {!isEmpty(renderSection.title) &&
+                  getAttr(renderHearing.title, renderLanguage) !== getAttr(renderSection.title, renderLanguage) && (
+                    <h3>{getAttr(renderSection.title, renderLanguage)}</h3>
                   )}
-                {renderSectionContent(section, renderLanguage)}
+                {renderSectionContent(renderLanguage)}
               </div>
             </div>
           </Collapse>
@@ -512,7 +512,7 @@ function SectionContainerComponent(props) {
     return null;
   };
 
-  const renderMainHearing = (section, mainSection) => {
+  const renderMainHearing = () => {
     const published = 'published' in hearing ? hearing.published : true;
 
     return (
@@ -525,19 +525,18 @@ function SectionContainerComponent(props) {
           </Col>
         )}
         <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
-
           {renderMainDetails(hearing, section, language)}
 
-          {renderProjectPhaseSection(hearing, language)}
+          {renderProjectPhaseSection(language)}
 
           {renderContacts(contacts, language)}
 
-          {renderFileSection(section, language, published)}
+          {renderFileSection(language, published)}
           {mainSection.plugin_identifier && (
             <section className='hearing-section plugin-content'>
               <PluginContent
                 hearingSlug={hearingSlug}
-                fetchAllComments={fetchAllComments}
+                fetchAllComments={fetchAllCommentsFn}
                 section={mainSection}
                 comments={mainSectionComments}
                 onPostComment={onPostPluginComment}
@@ -559,7 +558,6 @@ function SectionContainerComponent(props) {
           <SubSectionsList hearing={hearing} language={language} />
 
           {renderCommentsSection()}
-          
         </Col>
         {hearing.geojson && (
           <Col md={4} lg={3} lgPush={1} className='hidden-xs visible-sm visible-md visible-lg'>
@@ -573,8 +571,7 @@ function SectionContainerComponent(props) {
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  const renderSubSectionAttachments = (section, renderLanguage, published) => {
+  const renderSubSectionAttachments = (renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -599,7 +596,7 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const renderSubHearing = (section) => {
+  const renderSubHearing = () => {
     const showSectionBrowser = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
     const published = 'published' in hearing ? hearing.published : true;
 
@@ -633,10 +630,10 @@ function SectionContainerComponent(props) {
           </div>
         )}
 
-        {renderSectionImage(section, language)}
-        {renderSectionAbstract(section, language)}
-        {renderSectionContent(section, language)}
-        {renderSubSectionAttachments(section, language, published)}
+        {renderSectionImage(language)}
+        {renderSectionAbstract(language)}
+        {renderSectionContent(language)}
+        {renderSubSectionAttachments(language, published)}
 
         {showSectionBrowser && <SectionBrowser sectionNav={getSectionNav()} />}
 
@@ -645,20 +642,20 @@ function SectionContainerComponent(props) {
     );
   };
 
-  const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-  const section = sections.find((sec) => sec.id === sectionId) || mainSection;
-
   return isEmpty(section) ? (
     <LoadSpinner />
   ) : (
     <Grid>
-      <div data-testid="hearing-content-section" className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}>
-        <Row>{isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}</Row>
+      <div
+        data-testid='hearing-content-section'
+        className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}
+      >
+        <Row>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</Row>
       </div>
       <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />
     </Grid>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   sectionComments: state.sectionComments,
@@ -667,43 +664,43 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  postSectionComment: (hearingSlug, sectionId, commentData) =>
+  postSectionCommentFn: (hearingSlug, sectionId, commentData) =>
     dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  getCommentSubComments: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
-  postVote: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+  getCommentSubCommentsFn: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
+  postVoteFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
-  postFlag: (commentId, hearingSlug, sectionId, isReply, parentId) =>
+  postFlagFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postFlag(commentId, hearingSlug, sectionId, isReply, parentId)),
-  editComment: (hearingSlug, sectionId, commentId, commentData) =>
+  editCommentFn: (hearingSlug, sectionId, commentId, commentData) =>
     dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
-  deleteSectionComment: (hearingSlug, sectionId, commentId, refreshUser) =>
+  deleteSectionCommentFn: (hearingSlug, sectionId, commentId, refreshUser) =>
     dispatch(deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser)),
-  fetchAllComments: (hearingSlug, sectionId, ordering) =>
+  fetchAllCommentsFn: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
-  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
+  fetchCommentsForSortableListFn: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreCommentsFn: (sectionId, ordering, nextUrl) =>
+    dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
 });
 
 SectionContainerComponent.propTypes = {
   contacts: PropTypes.array,
-  deleteSectionComment: PropTypes.func,
-  editComment: PropTypes.func,
-  fetchAllComments: PropTypes.func,
-  fetchCommentsForSortableList: PropTypes.func,
-  fetchMoreComments: PropTypes.func,
-  getCommentSubComments: PropTypes.func,
+  deleteSectionCommentFn: PropTypes.func,
+  editCommentFn: PropTypes.func,
+  fetchAllCommentsFn: PropTypes.func,
+  fetchCommentsForSortableListFn: PropTypes.func,
+  fetchMoreCommentsFn: PropTypes.func,
+  getCommentSubCommentsFn: PropTypes.func,
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
-  postSectionComment: PropTypes.func,
-  postVote: PropTypes.func,
-  postFlag: PropTypes.func,
+  postSectionCommentFn: PropTypes.func,
+  postVoteFn: PropTypes.func,
+  postFlagFn: PropTypes.func,
   sections: PropTypes.array,
   user: PropTypes.object,
   onPostReply: PropTypes.func,
 };
 
-export {SectionContainerComponent as UnconnectedSectionContainerComponent};
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));
