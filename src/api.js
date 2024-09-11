@@ -4,7 +4,6 @@ import urlUtil from 'url';
 import qs from 'querystring-es3';
 import merge from 'lodash/merge';
 
-import fetch from './mockable-fetch';
 import config from './config';
 
 const apiAccessTokenStorage = sessionStorage;
@@ -15,7 +14,7 @@ export const getApiTokenFromStorage = () => {
   const apiTokensStr = apiAccessTokenStorage.getItem(storageKey);
 
   if (apiTokensStr) {
-    return  JSON.parse(apiTokensStr)[config.openIdAudience];
+    return JSON.parse(apiTokensStr)[config.openIdAudience];
   }
 
   return null;
@@ -38,8 +37,8 @@ export const isApiTokenExpired = () => {
 export const storeApiTokenToStorage = (token) => {
   apiAccessTokenStorage.setItem(
     storageKey,
-    JSON.stringify({[config.openIdAudience]: token})
-    )
+    JSON.stringify({ [config.openIdAudience]: token })
+  )
 }
 
 export function getBaseApiURL(baseUrl) {
