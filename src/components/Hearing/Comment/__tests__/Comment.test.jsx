@@ -18,7 +18,12 @@ const createCommentData = (props) => ({
     geojson: { coordinates: [11, 22], type: 'Point' },
     ...props,
   },
+  section: {
+    questions: []
+  },
 });
+
+jest.mock('../../../BaseCommentForm', () => () => <div data-testid="commentForm">CommentForm</div>)
 
 const defaultProps = createCommentData();
 
@@ -51,5 +56,17 @@ describe('<Comment />', () => {
     user.click(toggleButton);
 
     await waitFor(() => expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true'));
+  });
+
+  it('should toggle reply editor visibility', async () => {
+    renderComponent({canReply: true});
+
+    const replyButton = await screen.getByTestId('replyLink');
+
+    const user = userEvent.setup();
+
+    user.click(replyButton);
+
+    await waitFor(() => expect(screen.getByTestId('commentForm')).toBeInTheDocument());
   });
 });

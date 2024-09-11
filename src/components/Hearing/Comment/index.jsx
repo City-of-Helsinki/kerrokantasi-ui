@@ -390,6 +390,7 @@ const Comment = (props) => {
         style={{ marginLeft: 6, fontWeight: 'bold' }}
         onClick={handleToggleReplyEditor}
         aria-label={<FormattedMessage id='delete' />}
+        data-testid='replyLink'
       >
         <FormattedMessage id='reply' />
       </a>
