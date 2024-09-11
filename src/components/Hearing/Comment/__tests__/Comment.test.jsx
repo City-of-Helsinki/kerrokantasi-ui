@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 import { UnconnectedComment } from '..';
 import renderWithProviders from '../../../../utils/renderWithProviders';
-import { FormattedMessage } from 'react-intl';
 
 const createCommentData = (props) => ({
   data: {
@@ -86,7 +85,7 @@ describe('<Comment />', () => {
     renderComponent(props)
     await waitFor(() => expect(screen.getByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument())
   });
-  
+
   it('should show proper delete message if comment was deleted by user', async () => {
     const props = createCommentData({
       deleted: true,
