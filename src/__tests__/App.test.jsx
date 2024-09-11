@@ -1,24 +1,45 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
 import renderWithProviders from '../utils/renderWithProviders';
 import App from '../App';
+import { mockStore as mockData } from '../../test-utils';
 
-const renderComponent = (props) => {
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
+}));
+
+const { mockUser, hearingLists } = mockData;
+
+const defaultState = {
+  language: 'fi',
+  hearingLists,
+  accessibility: { isHighContrast: false },
+  user: { data: mockUser },
+};
+
+const renderComponent = (storeOverride) => {
   const history = createBrowserHistory();
+
+  const store = storeOverride || mockStore(defaultState);
 
   return renderWithProviders(
     <BrowserRouter history={history}>
-      <App {...props} />
+      <App />
     </BrowserRouter>,
+    { store },
   );
 };
 
-const { container } = renderComponent({ user: { test } });
-
 describe('<App />', () => {
   it('renders correctly', () => {
-    expect(container).toBeTruthy();
+    renderComponent();
   });
 });
