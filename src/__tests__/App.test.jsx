@@ -6,7 +6,7 @@ import { thunk } from 'redux-thunk';
 
 import renderWithProviders from '../utils/renderWithProviders';
 import App from '../App';
-import { mockStore as mockData } from '../../test-utils';
+import { mockStore as mockData, mockUser } from '../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -16,13 +16,13 @@ jest.mock('react-router-dom', () => ({
   useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
 }));
 
-const { mockUser, hearingLists } = mockData;
+const { hearingLists } = mockData;
 
 const defaultState = {
   language: 'fi',
   hearingLists,
   accessibility: { isHighContrast: false },
-  user: { data: mockUser },
+  user: { data: { ...mockUser, adminOrganizations: [] } },
 };
 
 const renderComponent = (storeOverride) => {
