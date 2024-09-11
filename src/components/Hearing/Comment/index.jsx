@@ -332,7 +332,7 @@ const Comment = (props) => {
   const renderEditorForm = () => (
     <>
       {isAdminUser() && props.data.can_edit && !props.isReply && renderPinUnpinButton()}
-      <form className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
+      <form data-testid="editorForm" className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
         <FormGroup controlId='formControlsTextarea'>
           {state.answers && state.answers.length > 0
             ? state.answers.map((answer) => renderQuestionsForAnswer(answer))

@@ -95,4 +95,42 @@ describe('<Comment />', () => {
     renderComponent(props)
     await waitFor(() => expect(screen.getByText('sectionCommentDeletedMessage')).toBeInTheDocument())
   });
+
+  it('should show edit link for user that can edit', async () => {
+    const props = createCommentData({
+      can_edit: true,
+      deleted: false,
+    })
+    renderComponent(props);
+    
+    const user = userEvent.setup();
+    
+    const editButton = screen.getByText('edit');
+    
+    user.click(editButton)
+
+    await waitFor(() => expect(screen.getByTestId('editorForm')).toBeInTheDocument());
+
+  });
+
+  it('should show delete link for user that can delete', async () => {
+    const deleteCommentFn = jest.fn();
+    const props = createCommentData({
+      can_edit: true,
+      can_delete: true,
+      deleted: false,
+    })
+
+    props.onDeleteComment = deleteCommentFn;
+    renderComponent(props);
+    
+    const user = userEvent.setup();
+    
+    const deleteButton = screen.getByText('delete');
+    
+    user.click(deleteButton);
+
+    await waitFor(() => expect(deleteCommentFn).toHaveBeenCalledTimes(1));
+
+  });
 });
