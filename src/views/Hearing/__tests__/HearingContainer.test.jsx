@@ -7,21 +7,6 @@ import { act, screen } from '@testing-library/react';
 import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { mockStore as mockData, mockUser } from '../../../../test-utils';
-import { replace } from '../../../mockable-fetch';
-
-
-const mockFetch = jest.fn(() => {
-  Promise.resolve({})
-});
-beforeAll(() => {
-    replace(mockFetch);
-})
-afterEach(() => {
-    jest.clearAllMocks();
-});
-afterAll(() => {
-    replace(false);
-})
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -33,30 +18,31 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-jest.mock('../../../components/admin/HearingEditor', () => () => (<div data-testid="hearingEditor">HearingEditor</div>))
+jest.mock('../../../components/admin/HearingEditor', () => () => <div data-testid='hearingEditor'>HearingEditor</div>);
 
 jest.mock('../../../actions', () => ({
   ...jest.requireActual('../../../actions'),
   fetchHearing: () => jest.fn(),
   fetchProjects: () => jest.fn(),
   fetchSectionComments: () => jest.fn(),
-}))
+}));
 
 jest.mock('../../../actions/hearingEditor', () => ({
   ...jest.requireActual('../../../actions/hearingEditor'),
   fetchHearingEditorMetaData: () => jest.fn(),
-}))
+}));
 
 jest.mock('../../../utils/hearing', () => ({
   ...jest.requireActual('../../../utils/hearing'),
-  canEdit: () => jest.fn(() => true)
-}))
+  canEdit: () => jest.fn(() => true),
+}));
 
-const renderComponent = (store) => renderWithProviders(
-    <MemoryRouter >
+const renderComponent = (store) =>
+  renderWithProviders(
+    <MemoryRouter>
       <HearingContainerComponent />
     </MemoryRouter>,
-    { store }
+    { store },
   );
 
 describe('<HearingContainer />', () => {
@@ -80,7 +66,7 @@ describe('<HearingContainer />', () => {
 
     await act(async () => {
       renderComponent(store);
-    })
+    });
     expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
   });
 
@@ -112,11 +98,11 @@ describe('<HearingContainer />', () => {
 
     await act(async () => {
       renderComponent(store);
-    })
+    });
     await expect(screen.getByText(mockHearingWithSections.data.title.fi)).toBeInTheDocument();
   });
 
-  test('renders HearingEditor when user can edit hearing',  async () => {
+  test('renders HearingEditor when user can edit hearing', async () => {
     const { mockHearingWithSections, labels } = mockData;
     const user = mockUser;
 
@@ -148,7 +134,7 @@ describe('<HearingContainer />', () => {
 
     await act(async () => {
       renderComponent(store);
-    })
+    });
     expect(screen.getByTestId('hearingEditor')).toBeInTheDocument();
   });
 });

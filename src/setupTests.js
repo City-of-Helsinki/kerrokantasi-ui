@@ -3,8 +3,11 @@
 import '@testing-library/jest-dom';
 import { TextEncoder, TextDecoder } from 'util';
 
+import fetchMock from 'jest-fetch-mock';
+
 jest.setTimeout(100000);
 
+fetchMock.enableMocks();
 // Needed for tests to work with react-slick, check https://github.com/akiran/react-slick#test-setup
 // eslint-disable-next-line func-names
 window.matchMedia = window.matchMedia || function () {
