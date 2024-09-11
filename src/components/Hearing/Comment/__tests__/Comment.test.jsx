@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { UnconnectedComment } from '..';
 import renderWithProviders from '../../../../utils/renderWithProviders';
+import { FormattedMessage } from 'react-intl';
 
 const createCommentData = (props) => ({
   data: {
@@ -58,6 +59,12 @@ describe('<Comment />', () => {
     await waitFor(() => expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true'));
   });
 
+  it('should have edit links open if canReply is true', async () => {
+    renderComponent({canReply: true});
+
+    await waitFor(() => expect(screen.getByTestId('replyLink')).toBeInTheDocument());
+  })
+
   it('should toggle reply editor visibility', async () => {
     renderComponent({canReply: true});
 
@@ -68,5 +75,25 @@ describe('<Comment />', () => {
     user.click(replyButton);
 
     await waitFor(() => expect(screen.getByTestId('commentForm')).toBeInTheDocument());
+  });
+
+  it('should show proper delete message if comment was deleted by user', async () => {
+    const props = createCommentData({
+      deleted: true,
+      deleted_by_type: 'self',
+      edited: true,
+    });
+    renderComponent(props)
+    await waitFor(() => expect(screen.getByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument())
+  });
+  
+  it('should show proper delete message if comment was deleted by user', async () => {
+    const props = createCommentData({
+      deleted: true,
+      deleted_by_type: 'moderator',
+      edited: true,
+    });
+    renderComponent(props)
+    await waitFor(() => expect(screen.getByText('sectionCommentDeletedMessage')).toBeInTheDocument())
   });
 });
