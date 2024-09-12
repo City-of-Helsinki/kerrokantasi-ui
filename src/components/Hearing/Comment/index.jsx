@@ -281,7 +281,7 @@ class Comment extends React.Component {
         </Button>
       )}
       {this.canFlagComments() && !data.deleted && (
-        <Button className='hearing-comment-vote-link' onClick={this.onFlag}>
+        <Button data-testid="flag-comment" className='hearing-comment-vote-link' onClick={this.onFlag}>
           <Icon
             name={classnames({
               'flag-o': !data.flagged,
