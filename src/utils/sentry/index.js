@@ -1,4 +1,4 @@
-import { isObject, snakeCase } from 'lodash';
+import { clone, isObject, snakeCase } from 'lodash';
 
 // https://github.com/getsentry/sentry-python/blob/8094c9e4462c7af4d73bfe3b6382791f9949e7f0/sentry_sdk/scrubber.py#L14
 const DEFAULT_DENYLIST = [
@@ -47,7 +47,7 @@ const DEFAULT_DENYLIST = [
 const SENTRY_DENYLIST = [...DEFAULT_DENYLIST, 'additional_info', 'admin_organizations', 'adminOrganizations', 'answered_questions', 'author_name', 'contact_persons', 'contactPersons', 'contacts', 'displayName', 'email', 'external_organization', 'favorite_hearings', 'first_name', 'firstname', 'followed_hearings', 'has_strong_auth', 'hasStrongAuth', 'last_name', 'lastname', 'name', 'nickname', 'oidc', 'oidcUser', 'organization', 'organizations', 'phone', 'profile', 'provider', 'title', 'user', 'username'];
 
 export const cleanSensitiveData = (data) => {
-  const dataCopy = data;
+  const dataCopy = clone(data);
 
   Object.entries(dataCopy).forEach(([key, value]) => {
     if (

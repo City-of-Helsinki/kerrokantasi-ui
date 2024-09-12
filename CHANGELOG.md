@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.8](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.7...kerrokantasi-ui-v1.6.8) (2024-09-12)
+
+
+### Bug Fixes
+
+* Sentry clean sensitive data clone KER-378 ([7c07eca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7c07eca4d58b87a0c763d2585f40cdaadb94761b))
+
+## [1.6.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.6...kerrokantasi-ui-v1.6.7) (2024-09-10)
+
+
+### Bug Fixes
+
+* Section container setState include previous KER-378 ([b476fa6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b476fa694b0fcb91095f968e39aac0de6dcf96e3))
+* Section container to function KER-378 ([b2c25e5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b2c25e5d11257a6c775e0363a3a21276514d345e))
+
 ## [1.6.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.5...kerrokantasi-ui-v1.6.6) (2024-09-02)
 
 
