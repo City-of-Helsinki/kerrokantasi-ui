@@ -27,7 +27,7 @@ export class CommentList extends React.Component {
          * @type {undefined | boolean}
          */
         const previousLoadingState = prevProps.comments[index]?.loadingSubComments;
-        const currentLoadingState = curr.loadingSubComments;
+        const currentLoadingState = curr?.loadingSubComments;
         // if previously loading and now not loading -> true so the replies are visible once mounted, otherwise false.
         const nextLoadingState = (previousLoadingState && !currentLoadingState) || false;
         acc.push(nextLoadingState);
