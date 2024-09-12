@@ -1,9 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
-import React, { Component } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { get, isEmpty, throttle, find } from 'lodash';
+import { get, isEmpty, find } from 'lodash';
 import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -28,197 +27,291 @@ const ORDERING_CRITERIA = {
 
 const DEFAULT_ORDERING = ORDERING_CRITERIA.CREATED_AT_DESC;
 
-export class SortableCommentListComponent extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showLoader: false,
-      collapseForm: false,
-      shouldAnimate: false,
-      answers: this.defaultAnswerState(),
-    };
-
-    this.fetchMoreComments = throttle(this.fetchMoreComments).bind(this);
-    this.handleReachBottom = this.handleReachBottom.bind(this);
-    this.fetchComments = this.fetchComments.bind(this);
-  }
-
-  componentDidMount() {
-    const { section, sectionComments } = this.props;
-    // comment fetching may already be taking place in the plugin!
-    if (!get(sectionComments, 'isFetching')) {
-      this.fetchComments(section.id, DEFAULT_ORDERING);
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { section } = this.props;
-    const isFetching = get(nextProps.sectionComments, 'isFetching');
-    const results = get(nextProps.sectionComments, 'results');
-    this.setState({
-      answers: this.props.section.questions.map((question) => ({
+/**
+ * SortableCommentListComponent is a component that displays a sortable list of comments.
+ *
+ * @component
+ * @param {boolean} canComment - Indicates if the user can comment.
+ * @param {boolean} canFlag - Indicates if the user can flag comments.
+ * @param {boolean} canVote - Indicates if the user can vote on comments.
+ * @param {boolean} closed - Indicates if the comment section is closed.
+ * @param {string} hearingId - The ID of the hearing.
+ * @param {object} hearingGeojson - The geojson data associated with the hearing.
+ * @param {string} hearingSlug - The slug of the hearing.
+ * @param {boolean} displayVisualization - Indicates if the visualization should be displayed.
+ * @param {object} intl - The internationalization object.
+ * @param {string} language - The language of the component.
+ * @param {boolean} published - Indicates if the hearing is published.
+ * @param {object} section - The section object.
+ * @param {object} sectionComments - The comments for the section.
+ * @param {object} user - The user object.
+ * @param {Function} onGetSubComments - The function to get sub-comments.
+ * @param {Function} onDeleteComment - The function to delete a comment.
+ * @param {Function} onEditComment - The function to edit a comment.
+ * @param {Function} onPostComment - The function to post a comment.
+ * @param {Function} onPostVote - The function to post a vote.
+ * @param {Function} onPostFlag - The function to post a flag.
+ * @param {Function} fetchComments - The function to fetch comments.
+ * @param {Function} fetchAllComments - The function to fetch all comments.
+ * @param {Function} fetchMoreComments - The function to fetch more comments.
+ * @returns {JSX.Element} The rendered SortableCommentListComponent.
+ */
+const SortableCommentListComponent = ({
+  canComment,
+  canFlag,
+  canVote,
+  closed,
+  hearingId,
+  hearingGeojson,
+  hearingSlug,
+  displayVisualization,
+  intl,
+  language,
+  published,
+  section,
+  sectionComments,
+  user,
+  onGetSubComments,
+  onDeleteComment,
+  onEditComment,
+  onPostComment: onPostCommentFn,
+  onPostVote,
+  onPostFlag,
+  fetchComments: fetchCommentsFn,
+  fetchAllComments,
+  fetchMoreComments: fetchMoreCommentsFn,
+}) => {
+  const answersInitialState = useMemo(
+    () =>
+      section.questions.map((question) => ({
         question: question.id,
         type: question.type,
         answers: [],
       })),
-      showLoader: isFetching,
-      collapseForm: false, // whenever things change, no longer force the form to collapse
-    });
+    [section.questions],
+  );
 
-    if (!isFetching && !this.props.user && nextProps.user) {
-      this.fetchComments(section.id, DEFAULT_ORDERING);
-    }
-
-    if (!isFetching && this.props.user && !nextProps.user) {
-      this.fetchComments(section.id, DEFAULT_ORDERING);
-    }
-
-    if (section.id !== nextProps.section.id) {
-      this.fetchComments(nextProps.section.id, DEFAULT_ORDERING);
-    }
-
-    if (!isFetching && results && results.length === 0 && nextProps.section.n_comments !== 0) {
-      // comments have to be reloaded and form collapsed due to posting
-      this.fetchComments(nextProps.section.id, nextProps.sectionComments.ordering);
-      this.setState({
-        collapseForm: true,
-      });
-    }
-  }
-
-  handleReachBottom() {
-    const { sectionComments } = this.props;
-    if (sectionComments && sectionComments.count !== sectionComments.results.length) {
-      setTimeout(() => this.fetchMoreComments(), 1000);
-      this.setState({ showLoader: true });
-    }
-  }
+  const [listState, setListState] = useState({
+    showLoader: false,
+    collapseForm: false,
+    shouldAnimate: false,
+    answers: answersInitialState,
+  });
 
   /**
-   * When posting a new comment.
+   * Fetches comments based on the provided section ID and ordering.
+   * If a plugin is involved and displayVisualization is true, it fetches all comments for display.
+   * Otherwise, it fetches comments using the fetchCommentsFn function.
+   *
+   * @param {string} sectionId - The ID of the section.
+   * @param {string} ordering - The ordering of the comments.
+   * @returns {Promise} - A promise that resolves to the fetched comments.
    */
-  onPostComment = (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
-    const { section, user } = this.props;
-    const { answers } = this.state;
-    if (user) {
-      this.setState({ shouldAnimate: true });
+  const fetchComments = (sectionId, ordering) => {
+    // if a plugin is involved, we must fetch all the comments for display, not just a select few
+    if (displayVisualization && section.plugin_identifier) {
+      return fetchAllComments(hearingSlug, sectionId, ordering);
     }
+
+    return fetchCommentsFn(sectionId, ordering);
+  };
+
+  useEffect(() => {
+    fetchComments(section.id, DEFAULT_ORDERING);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (sectionComments) {
+      // eslint-disable-next-line no-unused-vars
+      const { isFetching, results } = sectionComments;
+
+      setListState({
+        ...listState,
+        answers: section.questions.map((question) => ({
+          question: question.id,
+          type: question.type,
+          answers: [],
+        })),
+        showLoader: isFetching,
+        collapseForm: false,
+      });
+
+      if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+        fetchComments(section.id, sectionComments.ordering);
+
+        setListState({ ...listState, collapseForm: true });
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [section, sectionComments, user]);
+
+  /**
+   * Fetches more comments for a section.
+   */
+  const fetchMoreComments = () => {
+    const { id: sectionId } = section;
+    const { ordering, next } = sectionComments;
+
+    if (next) {
+      fetchMoreCommentsFn(sectionId, ordering, next);
+    }
+  };
+
+  /**
+   * Handles the reach bottom event.
+   * If there are more section comments to fetch, it calls the fetchMoreComments function after a delay of 1000ms.
+   * It also sets the showLoader state to true.
+   */
+  const handleReachBottom = () => {
+    if (sectionComments && sectionComments.count !== sectionComments.results.length) {
+      setTimeout(() => fetchMoreComments(), 1000);
+
+      setListState({ ...listState, showLoader: true });
+    }
+  };
+
+  /**
+   * Callback function for posting a comment.
+   *
+   * @param {string} text - The comment text.
+   * @param {string} authorName - The name of the comment author.
+   * @param {object} pluginData - Additional data related to the comment.
+   * @param {object} geojson - The geojson data associated with the comment.
+   * @param {string} label - The label of the comment.
+   * @param {array} images - An array of images attached to the comment.
+   * @param {boolean} pinned - Indicates whether the comment is pinned.
+   * @param {string} mapCommentText - The comment text for the map.
+   * @returns {Promise<void>} - A promise that resolves when the comment is posted.
+   */
+  const onPostComment = async (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
+    const { answers } = listState;
+
+    if (user) {
+      setListState({ ...listState, shouldAnimate: true });
+    }
+
     const commentData = { text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText };
 
-    if (this.props.onPostComment) {
-      this.props.onPostComment(section.id, commentData).then(() => {
-        this.setState({ answers: this.defaultAnswerState() });
-      });
+    if (onPostComment) {
+      await onPostCommentFn(section.id, commentData);
+
+      setListState({ ...listState, answers: answersInitialState });
     }
   };
 
   /**
-   * When posting a reply to a comment.
+   * Handles posting a reply to a comment.
+   *
+   * @param {string} sectionId - The ID of the section.
+   * @param {object} data - The data of the comment.
    */
-  handlePostReply = (sectionId, data) => {
-    this.props.onPostComment(sectionId, data);
-  };
+  const handlePostReply = (sectionId, data) => onPostComment(sectionId, data);
 
-  onChangeAnswers = (questionId, questionType, value) => {
-    const oldAnswer = find(this.state.answers, (answer) => answer.question === questionId);
+  /**
+   * Handles the change of answers for a specific question.
+   *
+   * @param {string} questionId - The ID of the question.
+   * @param {string} questionType - The type of the question.
+   * @param {string} value - The new value of the answer.
+   */
+  const onChangeAnswers = (questionId, questionType, value) => {
+    const { answers } = listState;
+
+    const oldAnswer = find(answers, (answer) => answer.question === questionId);
+
     if (questionType === 'single-choice') {
-      this.setState((prevState) => ({
+      setListState({
         answers: [
-          ...prevState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter((answer) => answer.question !== questionId),
           {
             question: questionId,
             type: questionType,
             answers: [value],
           },
         ],
-      }));
+      });
     } else if (questionType === 'multiple-choice' && oldAnswer && oldAnswer.answers.includes(value)) {
-      this.setState((prevState) => ({
+      setListState({
         answers: [
-          ...prevState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter((answer) => answer.question !== questionId),
           {
             ...oldAnswer,
             answers: oldAnswer.answers.filter((answer) => answer !== value),
           },
         ],
-      }));
+      });
     } else if (questionType === 'multiple-choice' && oldAnswer) {
-      this.setState((prevState) => ({
+      listState({
         answers: [
-          ...prevState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter((answer) => answer.question !== questionId),
           {
             ...oldAnswer,
             answers: [...oldAnswer.answers, value],
           },
         ],
-      }));
+      });
     }
   };
 
   /**
-   * When voting, there shouldn't be any animation
+   * Handles the vote for a comment.
+   *
+   * @param {string} commentId - The ID of the comment.
+   * @param {string} sectionId - The ID of the section.
+   * @param {boolean} isReply - Indicates if the comment is a reply.
+   * @param {string} parentId - The ID of the parent comment.
+   * @returns {void}
    */
-  handlePostVote = (commentId, sectionId, isReply, parentId) => {
-    this.setState({ shouldAnimate: false });
-    this.props.onPostVote(commentId, sectionId, isReply, parentId);
+  const handlePostVote = (commentId, sectionId, isReply, parentId) => {
+    setListState({ ...listState, shouldAnimate: false });
+
+    onPostVote(commentId, sectionId, isReply, parentId);
   };
 
-  handlePostFlag = (commentId, sectionId, isReply, parentId) => {
-    this.props.onPostFlag(commentId, sectionId, isReply, parentId);
-  };
+  /**
+   * Handles posting a flag for a comment.
+   *
+   * @param {string} commentId - The ID of the comment.
+   * @param {string} sectionId - The ID of the section.
+   * @param {boolean} isReply - Indicates if the comment is a reply.
+   * @param {string} parentId - The ID of the parent comment (if applicable).
+   */
+  const handlePostFlag = (commentId, sectionId, isReply, parentId) =>
+    onPostFlag(commentId, sectionId, isReply, parentId);
 
-  fetchComments(sectionId, ordering) {
-    // if a plugin is involved, we must fetch all the comments for display, not just a select few
-    const { fetchComments, fetchAllComments, section, hearingSlug, displayVisualization } = this.props;
-    if (displayVisualization && section.plugin_identifier) {
-      return fetchAllComments(hearingSlug, sectionId, ordering);
-    }
-    return fetchComments(sectionId, ordering);
-  }
+  /**
+   * Renders the map visualization component.
+   *
+   * @returns {JSX.Element} The rendered map visualization component.
+   */
+  const renderMapVisualization = () => (
+    <div className='comments-visualization'>
+      <MapQuestionnaire
+        data={section.plugin_data}
+        pluginPurpose='viewHeatmap'
+        comments={sectionComments.results}
+        pluginSource={section.plugin_iframe_url}
+        pluginInstanceId='map'
+      />
+      <div className='image-caption'>Kaikkien merkintöjen ja äänien tiheyskartta.</div>
+    </div>
+  );
 
-  defaultAnswerState() {
-    return this.props.section.questions.map((question) => ({
-      question: question.id,
-      type: question.type,
-      answers: [],
-    }));
-  }
+  /**
+   * Renders the plugin content based on the section's plugin identifier.
+   *
+   * @returns {JSX.Element|null} The rendered plugin content or null if the plugin is not supported.
+   */
+  const renderPluginContent = () => {
+    const { results: comments } = sectionComments;
 
-  fetchMoreComments() {
-    const {
-      section: { id: sectionId },
-      sectionComments: { ordering, next },
-      fetchMoreComments,
-    } = this.props;
-
-    if (next) {
-      fetchMoreComments(sectionId, ordering, next);
-    }
-  }
-
-  renderMapVisualization() {
-    const { section, sectionComments } = this.props;
-    return (
-      <div className='comments-visualization'>
-        <MapQuestionnaire
-          data={section.plugin_data}
-          pluginPurpose='viewHeatmap'
-          comments={sectionComments.results}
-          pluginSource={section.plugin_iframe_url}
-          pluginInstanceId='map'
-        />
-        <div className='image-caption'>Kaikkien merkintöjen ja äänien tiheyskartta.</div>
-      </div>
-    );
-  }
-
-  renderPluginContent() {
-    const { section } = this.props;
-    const comments = this.props.sectionComments.results;
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }
+
     switch (section.plugin_identifier) {
       case 'mapdon-ksv':
         // This is legacy support.
@@ -243,151 +336,133 @@ export class SortableCommentListComponent extends Component {
       case 'map-questionnaire':
         // Only display visualization if the plugin allows non-fullscreen rendering
         if (!section.plugin_fullscreen) {
-          return this.renderMapVisualization();
+          return renderMapVisualization();
         }
         return null;
       default:
         return null; // The plugin does not support result visualization.
     }
-  }
+  };
 
-  render() {
-    const {
-      displayVisualization,
-      hearingId,
-      intl,
-      canComment,
-      section,
-      sectionComments,
-      canVote,
-      canFlag,
-      user,
-      published,
-      language,
-      closed,
-      hearingGeojson,
-    } = this.props;
+  const urlFragmentCommentId = window.location.hash.startsWith('#comment-')
+    ? Number(window.location.hash.replace('#comment-', ''))
+    : null;
 
-    const urlFragmentCommentId = window.location.hash.startsWith('#comment-')
-      ? Number(window.location.hash.replace('#comment-', ''))
-      : null;
+  const showCommentList =
+    section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
 
-    const showCommentList =
-      section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
-    const commentForm =
-      published && !closed ? (
-        <div className='row'>
-          <div className={classnames('comment-form-container', { disabled: !canComment })}>
-            <CommentForm
-              canComment={canComment}
-              hearingId={hearingId}
-              onPostComment={this.onPostComment}
-              defaultNickname={getNickname(user)}
-              nicknamePlaceholder={getAuthorDisplayName(user) || this.props.intl.formatMessage({ id: 'anonymous' })}
-              collapseForm={this.state.collapseForm}
-              section={section}
-              language={language}
-              onChangeAnswers={this.onChangeAnswers}
-              answers={this.state.answers}
-              closed={closed}
-              loggedIn={!isEmpty(user)}
-              user={user}
-              hearingGeojson={hearingGeojson}
-            />
-            {!canComment && <FormattedMessage id={getSectionCommentingMessage(section)} />}
-          </div>
+  const commentForm =
+    published && !closed ? (
+      <div className='row'>
+        <div className={classnames('comment-form-container', { disabled: !canComment })}>
+          <CommentForm
+            canComment={canComment}
+            hearingId={hearingId}
+            onPostComment={onPostComment}
+            defaultNickname={getNickname(user)}
+            nicknamePlaceholder={getAuthorDisplayName(user) || intl.formatMessage({ id: 'anonymous' })}
+            collapseForm={listState.collapseForm}
+            section={section}
+            language={language}
+            onChangeAnswers={onChangeAnswers}
+            answers={listState.answers}
+            closed={closed}
+            loggedIn={!isEmpty(user)}
+            user={user}
+            hearingGeojson={hearingGeojson}
+          />
+          {!canComment && <FormattedMessage id={getSectionCommentingMessage(section)} />}
         </div>
-      ) : null;
-    const pluginContent = showCommentList && displayVisualization ? this.renderPluginContent() : null;
+      </div>
+    ) : null;
 
-    const sortOptions = Object.keys(ORDERING_CRITERIA).map((key) => {
-      const message = intl.formatMessage({ id: key });
+  const pluginContent = showCommentList && displayVisualization ? renderPluginContent() : null;
 
-      return { value: ORDERING_CRITERIA[key], label: message };
-    });
+  const sortOptions = Object.keys(ORDERING_CRITERIA).map((key) => {
+    const message = intl.formatMessage({ id: key });
 
-    const defaultSortOption = sortOptions.find((option) => option.value === get(sectionComments, 'ordering'));
+    return { value: ORDERING_CRITERIA[key], label: message };
+  });
 
-    return (
-      <div>
-        {section.commenting !== 'none' && (
-          <div className='sortable-comment-list'>
-            {closed && section.questions.length >= 1 && (
-              <div style={{ padding: '12px', marginBottom: '24px', background: '#ffffff' }}>
-                {section.questions.map((question) => (
-                  <QuestionResults key={question.id} question={question} lang={language} />
-                ))}
+  const defaultSortOption = sortOptions.find((option) => option.value === get(sectionComments, 'ordering'));
+
+  return (
+    <div>
+      {section.commenting !== 'none' && (
+        <div className='sortable-comment-list'>
+          {closed && section.questions.length >= 1 && (
+            <div style={{ padding: '12px', marginBottom: '24px', background: '#ffffff' }}>
+              {section.questions.map((question) => (
+                <QuestionResults key={question.id} question={question} lang={language} />
+              ))}
+            </div>
+          )}
+          {commentForm}
+          <div>
+            <h2>
+              <FormattedMessage id='comments' />
+              <div className='commenticon'>
+                <span aria-hidden='true'>
+                  <Icon name='comment-o' />
+                  &nbsp;
+                </span>
+                {section.n_comments}
+              </div>
+            </h2>
+            {pluginContent}
+            {listState.showLoader && (
+              <div className='sortable-comment-list__loader'>
+                <LoadSpinner />
               </div>
             )}
-            {commentForm}
-            <div>
-              <h2>
-                <FormattedMessage id='comments' />
-                <div className='commenticon'>
-                  <span aria-hidden='true'>
-                    <Icon name='comment-o' />
-                    &nbsp;
-                  </span>
-                  {section.n_comments}
-                </div>
-              </h2>
-              {pluginContent}
-              {this.state.showLoader && (
-                <div className='sortable-comment-list__loader'>
-                  <LoadSpinner />
-                </div>
-              )}
-              {showCommentList && (
-                <div className='row'>
-                  <form className='sort-selector'>
-                    <div id='sort-select'>
-                      <Select
-                        label={<FormattedMessage id='commentOrder' />}
-                        options={sortOptions}
-                        defaultValue={defaultSortOption}
-                        onChange={(selected) => this.fetchComments(section.id, selected.value)}
-                      />
-                    </div>
-                  </form>
-                </div>
-              )}
+            {showCommentList && (
+              <div className='row'>
+                <form className='sort-selector'>
+                  <div id='sort-select'>
+                    <Select
+                      label={<FormattedMessage id='commentOrder' />}
+                      options={sortOptions}
+                      defaultValue={defaultSortOption}
+                      onChange={(selected) => fetchComments(section.id, selected.value)}
+                    />
+                  </div>
+                </form>
+              </div>
+            )}
 
-              {showCommentList && (
-                <div>
-                  <WrappedCommentList
-                    canReply={canComment && published}
-                    onPostReply={this.handlePostReply}
-                    onGetSubComments={this.props.onGetSubComments}
-                    canVote={canVote}
-                    canFlag={canFlag}
-                    comments={sectionComments.results}
-                    defaultNickname={getNickname(user)}
-                    hearingId={hearingId}
-                    intl={intl}
-                    isLoading={this.state.showLoader}
-                    jumpTo={urlFragmentCommentId || (this.state.shouldAnimate && sectionComments.jumpTo)}
-                    language={language}
-                    nicknamePlaceholder={
-                      getAuthorDisplayName(user) || this.props.intl.formatMessage({ id: 'anonymous' })
-                    }
-                    onDeleteComment={this.props.onDeleteComment}
-                    onEditComment={this.props.onEditComment}
-                    onPostVote={this.handlePostVote}
-                    onPostFlag={this.handlePostFlag}
-                    section={section}
-                    totalCount={sectionComments.count}
-                    user={user}
-                  />
-                  <Waypoint onEnter={this.handleReachBottom} />
-                </div>
-              )}
-            </div>
+            {showCommentList && (
+              <div>
+                <WrappedCommentList
+                  canReply={canComment && published}
+                  onPostReply={handlePostReply}
+                  onGetSubComments={onGetSubComments}
+                  canVote={canVote}
+                  canFlag={canFlag}
+                  comments={sectionComments.results}
+                  defaultNickname={getNickname(user)}
+                  hearingId={hearingId}
+                  intl={intl}
+                  isLoading={listState.showLoader}
+                  jumpTo={urlFragmentCommentId || (listState.shouldAnimate && sectionComments.jumpTo)}
+                  language={language}
+                  nicknamePlaceholder={getAuthorDisplayName(user) || intl.formatMessage({ id: 'anonymous' })}
+                  onDeleteComment={onDeleteComment}
+                  onEditComment={onEditComment}
+                  onPostVote={handlePostVote}
+                  onPostFlag={handlePostFlag}
+                  section={section}
+                  totalCount={sectionComments.count}
+                  user={user}
+                />
+                <Waypoint onEnter={handleReachBottom} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    );
-  }
-}
+        </div>
+      )}
+    </div>
+  );
+};
 
 SortableCommentListComponent.propTypes = {
   canComment: PropTypes.bool,
