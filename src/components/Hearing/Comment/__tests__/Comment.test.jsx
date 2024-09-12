@@ -97,10 +97,12 @@ describe('<Comment />', () => {
   });
 
   it('should show edit link for user that can edit', async () => {
+    const handleSubmitFn = jest.fn();
     const props = createCommentData({
       can_edit: true,
       deleted: false,
     })
+    props.onEditComment = handleSubmitFn;
     renderComponent(props);
     
     const user = userEvent.setup();
@@ -110,6 +112,12 @@ describe('<Comment />', () => {
     user.click(editButton)
 
     await waitFor(() => expect(screen.getByTestId('editorForm')).toBeInTheDocument());
+
+    const submitButton = screen.getByText('save');
+
+    user.click(submitButton)
+
+    await waitFor(() => expect(handleSubmitFn).toHaveBeenCalledTimes(1));
 
   });
 
