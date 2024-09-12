@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { SortableCommentListComponent } from '../SortableCommentList';
+import SortableCommentListComponent from '../SortableCommentList';
 import { mockStore, getIntlAsProp } from '../../../test-utils';
 import renderWithProviders from '../../utils/renderWithProviders';
 
