@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.8](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.7...kerrokantasi-ui-v1.6.8) (2024-09-12)
+
+
+### Bug Fixes
+
+* Sentry clean sensitive data clone KER-378 ([7c07eca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7c07eca4d58b87a0c763d2585f40cdaadb94761b))
+
 ## [1.6.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.6...kerrokantasi-ui-v1.6.7) (2024-09-10)
 
 
