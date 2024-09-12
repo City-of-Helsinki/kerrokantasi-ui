@@ -18,6 +18,19 @@ import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
 import { addToast } from '../../actions/toast';
 
+/**
+ * Renders a MapQuestionnaire component.
+ *
+ * @component
+ * @param {Array} comments - The comments data.
+ * @param {Object} data - The data object.
+ * @param {Function} onPostComment - The function to post a comment.
+ * @param {Function} onPostVote - The function to post a vote.
+ * @param {string} pluginInstanceId - The plugin instance ID.
+ * @param {string} pluginPurpose - The plugin purpose.
+ * @param {string} pluginSource - The plugin source.
+ * @returns {JSX.Element} The rendered MapQuestionnaire component.
+ */
 const MapQuestionnaire = ({
   comments,
   data,
@@ -66,9 +79,25 @@ const MapQuestionnaire = ({
 
   const dispatch = useDispatch();
 
+  /**
+   * Retrieves the plugin data from the form data.
+   * @returns {Object} The plugin data from the form data.
+   */
   const getPluginData = () => formData.lastUserData;
+
+  /**
+   * Retrieves the last user comment from the form data.
+   *
+   * @returns {string} The last user comment.
+   */
   const getPluginComment = () => formData.lastUserComment;
 
+  /**
+   * Updates the form data state based on the provided errors.
+   *
+   * @param {string[]} errors - The array of errors.
+   * @returns {void}
+   */
   const handleErrorStates = (errors) =>
     setFormData((prevState) => ({
       ...prevState,
@@ -77,6 +106,11 @@ const MapQuestionnaire = ({
       imageTooBig: errors.includes('imageTooBig'),
     }));
 
+  /**
+   * Submits a comment.
+   *
+   * @returns {void}
+   */
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
@@ -165,6 +199,11 @@ const MapQuestionnaire = ({
     }));
   };
 
+  /**
+   * Handles the received message from the event.
+   *
+   * @param {Event} event - The event object.
+   */
   const onReceiveMessage = (event) => {
     if (!event) {
       return;
@@ -205,6 +244,11 @@ const MapQuestionnaire = ({
     }
   };
 
+  /**
+   * Sends a message to the plugin frame.
+   *
+   * @param {any} message - The message to be sent.
+   */
   const sendMessageToPluginFrame = (message) => frameRef.current.contentWindow.postMessage(message, '*');
 
   useEffect(() => {
@@ -255,6 +299,11 @@ const MapQuestionnaire = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments, formData.userDataChanged]);
 
+  /**
+   * Handles the change event of the text input.
+   * @param {Event} event - The change event.
+   * @returns {void}
+   */
   const handleTextChange = (event) =>
     setFormData({
       ...formData,
@@ -263,6 +312,9 @@ const MapQuestionnaire = ({
       commentOrAnswerRequiredError: false,
     });
 
+  /**
+   * Function to get data and submit comment.
+   */
   const getDataAndSubmitComment = () => {
     setFormData((prevState) => ({ ...prevState, submitting: true }));
 
@@ -272,6 +324,12 @@ const MapQuestionnaire = ({
     });
   };
 
+  /**
+   * Returns the template JSX based on the provided pluginId.
+   *
+   * @param {string} pluginId - The ID of the plugin.
+   * @returns {JSX.Element} - The template JSX.
+   */
   const getTemplate = (pluginId) => {
     switch (pluginId) {
       case 'hkr':
