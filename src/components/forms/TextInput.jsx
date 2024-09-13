@@ -1,92 +1,76 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { TextInput as HDSTextInput } from 'hds-react';
 
-/*
- * Text Input component with basic validation support.
- * You can pass a validation function as a validate prop.
- * If validate function returns a non empty string it will
- * be shown as an error message.
- */
-class TextInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      value: this.props.value,
-    };
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+const TextInput = ({
+  error,
+  hint,
+  labelId,
+  name,
+  maxLength,
+  required,
+  value: initialValue,
+  helperText,
+  placeholderId,
+  onBlur: onBlurFn,
+  validate: validateFn,
+  intl: { formatMessage },
+}) => {
+  const [inputError, setInputError] = useState(error);
+  const [inputValue, setInputValue] = useState(initialValue);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.error !== this.props.error) {
-      this.setErrorUpdate(this.props.error);
+  useEffect(() => {
+    if (error) {
+      setInputError(error);
     }
-  }
+  }, [error]);
 
-  onBlur(event) {
-    this.props.onBlur(event);
-  }
+  const onBlur = (event) => onBlurFn(event);
 
-  onChange(event) {
-    const { value } = event.target;
-    this.setState({ value });
-    this.validate(value);
-  }
-
-  setErrorUpdate(prop) {
-    this.setState({ error: prop });
-  }
-
-  getPlaceholder() {
-    const { formatMessage } = this.props.intl;
-    if (this.props.placeholderId) {
-      return formatMessage({ id: this.props.placeholderId });
-    }
-    return '';
-  }
-
-  /*
-   * Call the passed validation function and assign
-   * valid return value to error state.
-   */
-  validate(value) {
-    if (!this.props.validate) {
+  const validate = (value) => {
+    if (!validateFn) {
       return;
     }
-    const error = this.props.validate(value);
-    if (typeof error === 'string') {
-      this.setState({ error });
-    }
-  }
+    const validationError = validateFn(value);
 
-  render() {
-    return (
-      <HDSTextInput
-        style={{ marginBlock: 'var(--spacing-s)' }}
-        label={
-          <>
-            <FormattedMessage id={this.props.labelId} />
-            {this.props.hint ? <span> ({this.props.hint})</span> : null}
-          </>
-        }
-        id={this.props.name}
-        name={this.props.name}
-        maxLength={this.props.maxLength}
-        value={this.state.value}
-        required={this.props.required}
-        errorText={this.state.error}
-        placeholder={this.getPlaceholder()}
-        onBlur={this.onBlur}
-        onChange={this.onChange}
-        helperText={this.props.helperText}
-      />
-    );
-  }
-}
+    if (typeof validationError === 'string') {
+      setInputError(validationError);
+    }
+  };
+
+  const onChange = (event) => {
+    const { value } = event.target;
+
+    setInputValue(value);
+    validate(value);
+  };
+
+  const placeholder = placeholderId ? formatMessage({ id: placeholderId }) : '';
+
+  return (
+    <HDSTextInput
+      style={{ marginBlock: 'var(--spacing-s)' }}
+      label={
+        <>
+          <FormattedMessage id={labelId} />
+          {hint ? <span> ({hint})</span> : null}
+        </>
+      }
+      id={name}
+      name={name}
+      maxLength={maxLength}
+      value={inputValue}
+      required={required}
+      errorText={inputError}
+      placeholder={placeholder}
+      onBlur={onBlur}
+      onChange={onChange}
+      helperText={helperText}
+    />
+  );
+};
 
 TextInput.propTypes = {
   error: PropTypes.any,
@@ -101,6 +85,7 @@ TextInput.propTypes = {
   value: PropTypes.string,
   intl: PropTypes.object,
   helperText: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextInput);
