@@ -1,6 +1,6 @@
 # Kerrokantasi UI
 
-[![codecov](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui)
+[![codecov](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui/branch/main/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui)
 
 Kerrokantasi UI is the user interface powering kerrokantasi.hel.fi service. It
 is a full featured interface for both answering and creating questionnaires as
