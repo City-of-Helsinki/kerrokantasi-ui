@@ -54,13 +54,13 @@ class MultiLanguageTextField extends React.Component {
       languages,
       value,
       labelId,
+      hint,
       required,
       richTextEditor,
       // Remove event listeners from ...rest
       onBlur, // eslint-disable-line
       onChange, // eslint-disable-line
-      showLabel,
-      label,
+      helperText,
       ...rest
     } = this.props;
 
@@ -89,13 +89,13 @@ class MultiLanguageTextField extends React.Component {
           return (
             <TextField
               key={lang}
-              label={label}
-              showLabel={showLabel}
               value={currentValue}
               onChange={(ev) => this.onChange(ev, lang)}
               onBlur={(ev) => this.onBlur(ev, lang)}
               labelId={`inLanguage-${lang}`}
+              hint={hint}
               required={required}
+              helperText={helperText}
               {...rest}
             />
           );
@@ -110,15 +110,15 @@ MultiLanguageTextField.propTypes = {
   fieldType: PropTypes.string,
   hideControls: textEditorHideControlsShape,
   labelId: PropTypes.string,
+  hint: PropTypes.string,
   languages: PropTypes.arrayOf(PropTypes.string),
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   required: PropTypes.bool,
   richTextEditor: PropTypes.bool,
   placeholderId: PropTypes.string,
+  helperText: PropTypes.string,
   value: PropTypes.object, // TODO: create shape
-  showLabel: PropTypes.bool,
-  label: PropTypes.string,
 };
 
 MultiLanguageTextField.defaultProps = {

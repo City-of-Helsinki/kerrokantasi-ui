@@ -1,59 +1,56 @@
-import React from 'react';
+/* eslint-disable react/forbid-prop-types */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { TextArea as HDSTextArea } from 'hds-react';
 
-import InputBase from './InputBase';
+const TextArea = ({
+  hint,
+  labelId,
+  name,
+  maxLength,
+  required,
+  value: initialValue,
+  helperText,
+  placeholderId,
+  rows,
+  onBlur: onBlurFn,
+  intl: { formatMessage },
+}) => {
+  const [inputValue, setInputValue] = useState(initialValue);
 
-class TextArea extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.props.value,
-    };
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+  const onBlur = (event) => onBlurFn(event);
 
-  onBlur(event) {
-    this.props.onBlur(event);
-  }
-
-  onChange(event) {
+  const onChange = (event) => {
     const { value } = event.target;
-    this.setState({ value });
-  }
 
-  getPlaceholder() {
-    const { formatMessage } = this.props.intl;
-    if (this.props.placeholderId) {
-      return formatMessage({ id: this.props.placeholderId });
-    }
-    return '';
-  }
+    setInputValue(value);
+  };
 
-  render() {
-    return (
-      <InputBase
-        labelId={this.props.labelId}
-        maxLength={this.props.maxLength}
-        name={this.props.name}
-        value={this.state.value}
-        required={this.props.required}
-      >
-        <FormControl
-          componentClass='textarea'
-          maxLength={this.props.maxLength}
-          name={this.props.name}
-          onBlur={this.onBlur}
-          rows={this.props.rows}
-          defaultValue={this.props.value}
-          placeholder={this.getPlaceholder()}
-        />
-      </InputBase>
-    );
-  }
-}
+  const placeholder = placeholderId ? formatMessage({ id: placeholderId }) : '';
+
+  return (
+    <HDSTextArea
+      style={{ marginBlock: 'var(--spacing-s)' }}
+      id={name}
+      name={name}
+      label={
+        <>
+          <FormattedMessage id={labelId} />
+          {hint ? <span> ({hint})</span> : null}
+        </>
+      }
+      value={inputValue}
+      maxLength={maxLength}
+      required={required}
+      onBlur={onBlur}
+      rows={rows}
+      placeholder={placeholder}
+      helperText={helperText}
+      onChange={onChange}
+    />
+  );
+};
 
 TextArea.defaultProps = {
   rows: '3',
@@ -61,14 +58,16 @@ TextArea.defaultProps = {
 
 TextArea.propTypes = {
   labelId: PropTypes.string,
+  hint: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   name: PropTypes.string,
   onBlur: PropTypes.func,
   rows: PropTypes.string,
   value: PropTypes.string,
-  intl: intlShape.isRequired,
   placeholderId: PropTypes.string,
+  helperText: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextArea);
