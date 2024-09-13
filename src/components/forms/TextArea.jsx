@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
-import FormControl from 'react-bootstrap/lib/FormControl';
-
-import InputBase from './InputBase';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { TextArea as HDSTextArea } from 'hds-react';
 
 class TextArea extends React.Component {
   constructor(props) {
@@ -34,23 +32,24 @@ class TextArea extends React.Component {
 
   render() {
     return (
-      <InputBase
-        labelId={this.props.labelId}
-        maxLength={this.props.maxLength}
+      <HDSTextArea
+        style={{ marginBlock: 'var(--spacing-s)' }}
+        id={this.props.name}
         name={this.props.name}
+        label={
+          <>
+            <FormattedMessage id={this.props.labelId} />
+            {this.props.hint ? <span> ({this.props.hint})</span> : null}
+          </>
+        }
         value={this.state.value}
+        maxLength={this.props.maxLength}
         required={this.props.required}
-      >
-        <FormControl
-          componentClass='textarea'
-          maxLength={this.props.maxLength}
-          name={this.props.name}
-          onBlur={this.onBlur}
-          rows={this.props.rows}
-          defaultValue={this.props.value}
-          placeholder={this.getPlaceholder()}
-        />
-      </InputBase>
+        onBlur={this.onBlur}
+        rows={this.props.rows}
+        placeholder={this.getPlaceholder()}
+        helperText={this.props.helperText}
+      />
     );
   }
 }
@@ -61,6 +60,7 @@ TextArea.defaultProps = {
 
 TextArea.propTypes = {
   labelId: PropTypes.string,
+  hint: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   name: PropTypes.string,
@@ -69,6 +69,7 @@ TextArea.propTypes = {
   value: PropTypes.string,
   intl: intlShape.isRequired,
   placeholderId: PropTypes.string,
+  helperText: PropTypes.string,
 };
 
 export default injectIntl(TextArea);
