@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { TextArea as HDSTextArea } from 'hds-react';
 
 class TextArea extends React.Component {
@@ -67,9 +68,9 @@ TextArea.propTypes = {
   onBlur: PropTypes.func,
   rows: PropTypes.string,
   value: PropTypes.string,
-  intl: intlShape.isRequired,
   placeholderId: PropTypes.string,
   helperText: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextArea);
