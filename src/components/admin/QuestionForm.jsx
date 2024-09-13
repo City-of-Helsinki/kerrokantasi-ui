@@ -6,7 +6,6 @@ import { v1 as uuid } from 'uuid';
 import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
-
 import ProgressBar from '../ProgressBar';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import Icon from '../../utils/Icon';
@@ -46,8 +45,6 @@ export class QuestionForm extends React.Component {
             <div style={{ flex: '19' }}>
               <MultiLanguageTextField
                 labelId='option'
-                showLabel
-                label={index + 1}
                 name='content'
                 onBlur={(value) => onQuestionChange('option', sectionId, question.frontId || question.id, index, value)}
                 rows='10'
@@ -59,7 +56,7 @@ export class QuestionForm extends React.Component {
             <div style={{ flex: '1', marginTop: '48px', marginLeft: '15px' }}>
               {question.options.length > 2 && index === question.options.length - 1 && (
                 <Button
-                className={'kerrokantasi-btn danger'}
+                  className={'kerrokantasi-btn danger'}
                   onClick={() => deleteOption(sectionId, question.frontId || question.id, index)}
                 >
                   <Icon style={{ fontSize: '24px' }} className='icon' name='trash' />

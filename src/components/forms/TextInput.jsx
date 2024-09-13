@@ -1,10 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
-import FormControl from 'react-bootstrap/lib/FormControl';
-
-import InputBase from './InputBase';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { TextInput as HDSTextInput } from 'hds-react';
 
 /*
  * Text Input component with basic validation support.
@@ -66,46 +64,26 @@ class TextInput extends React.Component {
   }
 
   render() {
-    const { showLabel, label } = this.props;
     return (
-      <InputBase
-        error={this.state.error}
-        labelId={this.props.labelId}
-        maxLength={this.props.maxLength}
+      <HDSTextInput
+        style={{ marginBlock: 'var(--spacing-s)' }}
+        label={
+          <>
+            <FormattedMessage id={this.props.labelId} />
+            {this.props.hint ? <span> ({this.props.hint})</span> : null}
+          </>
+        }
+        id={this.props.name}
         name={this.props.name}
-        validate={this.props.validate}
+        maxLength={this.props.maxLength}
         value={this.state.value}
         required={this.props.required}
-      >
-        <div style={{ display: 'flex' }}>
-          {showLabel && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContet: 'center',
-                padding: '4px 15px',
-                background: '#ebedf1',
-                textDecoration: 'bold',
-                borderWidth: '2px 0 2px 2px',
-                borderStyle: 'solid',
-                borderColor: 'black',
-              }}
-            >
-              {label}
-            </div>
-          )}
-          <FormControl
-            defaultValue={this.props.value}
-            maxLength={this.props.maxLength}
-            name={this.props.name}
-            onBlur={this.onBlur}
-            onChange={this.onChange}
-            placeholder={this.getPlaceholder()}
-            type='text'
-          />
-        </div>
-      </InputBase>
+        errorText={this.state.error}
+        placeholder={this.getPlaceholder()}
+        onBlur={this.onBlur}
+        onChange={this.onChange}
+        helperText={this.props.helperText}
+      />
     );
   }
 }
@@ -113,6 +91,7 @@ class TextInput extends React.Component {
 TextInput.propTypes = {
   error: PropTypes.any,
   labelId: PropTypes.string,
+  hint: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   name: PropTypes.string,
@@ -120,9 +99,8 @@ TextInput.propTypes = {
   placeholderId: PropTypes.string,
   validate: PropTypes.func,
   value: PropTypes.string,
-  showLabel: PropTypes.bool,
-  label: PropTypes.string,
   intl: PropTypes.object,
+  helperText: PropTypes.string,
 };
 
 export default injectIntl(TextInput);
