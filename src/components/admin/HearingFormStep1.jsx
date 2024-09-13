@@ -123,6 +123,11 @@ class HearingFormStep1 extends React.Component {
           languages={hearingLanguages}
           onBlur={(value) => onHearingChange('title', value)}
           labelId='title'
+          hint={
+            <>
+              200 <FormattedMessage id='characters' />
+            </>
+          }
           maxLength={200}
           value={hearing.title}
           name='title'
