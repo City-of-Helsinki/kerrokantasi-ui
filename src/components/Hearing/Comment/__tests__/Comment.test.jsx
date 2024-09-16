@@ -1,10 +1,9 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import userEvent from '@testing-library/user-event';
 import { useDispatch } from 'react-redux';
 
-import { UnconnectedComment } from '..';
+import Comment from '..';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 
 const createCommentData = (props) => ({
@@ -36,7 +35,7 @@ const defaultProps = createCommentData();
 
 const ARIA_EXPANDED = 'aria-expanded';
 
-const renderComponent = (props) => renderWithProviders(<UnconnectedComment {...defaultProps} {...props} />);
+const renderComponent = (props) => renderWithProviders(<Comment {...defaultProps} {...props} />);
 
 describe('<Comment />', () => {
   it('should be able to render an anonymous comment without crashing', () => {
@@ -45,10 +44,34 @@ describe('<Comment />', () => {
     expect(getByText('Reiciendis')).toBeInTheDocument();
   });
 
-  it('should have a clickable voting thumb', () => {
-    const { getByRole } = renderComponent();
+  it('should vote comments', async () => {
+    const onPostVoteMock = jest.fn();
 
-    expect(getByRole('button', { name: /voteButtonLikes/i })).toBeInTheDocument();
+    renderComponent({ canVote: true, onPostVote: onPostVoteMock });
+
+    const user = userEvent.setup();
+
+    const buttons = await screen.findAllByRole('button', { name: /voteButtonLikes/i });
+    const firstButton = buttons[0];
+
+    await user.click(firstButton);
+
+    expect(onPostVoteMock).toHaveBeenCalled();
+  });
+
+  it('should flag comments', async () => {
+    const onPostFlagMock = jest.fn();
+
+    renderComponent({ canFlag: true, onPostFlag: onPostFlagMock, user: {} });
+
+    const user = userEvent.setup();
+
+    const buttons = await screen.findAllByTestId('flag-comment');
+    const firstButton = buttons[0];
+
+    await user.click(firstButton);
+
+    expect(onPostFlagMock).toHaveBeenCalled();
   });
 
   it('should toggle map visiblity', async () => {
