@@ -1,6 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-did-mount-set-state */
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
@@ -258,7 +257,7 @@ const Comment = (props) => {
         </Button>
       )}
       {canFlagComments() && !data.deleted && (
-        <Button className='hearing-comment-vote-link' onClick={onFlag}>
+        <Button data-testid='flag-comment' className='hearing-comment-vote-link' onClick={onFlag}>
           <Icon
             name={classnames({
               'flag-o': !data.flagged,
@@ -639,5 +638,5 @@ Comment.propTypes = {
 Comment.defaultProps = {
   isReply: false,
 };
-export { Comment as UnconnectedComment };
+
 export default injectIntl(Comment);
