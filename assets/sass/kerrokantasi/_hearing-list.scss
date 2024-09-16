@@ -36,8 +36,15 @@
     }
   }
 
+  &-labels {
+    display: flex;
+    flex-direction: column;
+  }
+
   &-labellist {
-    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-3-xs);
 
     a {
       text-decoration: none;
@@ -50,6 +57,7 @@
   }
 
   &-closed {
+    margin-top: var(--spacing-3-xs);
     text-align: right;
   }
 
@@ -137,6 +145,12 @@
 
 .hearing-list-map {
   margin-top: 20px !important;
+
+  &-container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 0 var(--spacing-2-xs);
+  }
 }
 
 .hearing-list {
@@ -152,7 +166,7 @@
     flex: 0 1 auto;
     font-size: $font-size-large;
     font-weight: 400;
-    margin: 0 $grid-gutter-width * 1.5 $grid-gutter-width/2 0;
+    margin: 0 $grid-gutter-width * 1.5 0 0;
     color: var(--color-black-60);
 
     span {
@@ -164,18 +178,12 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
-    margin-bottom: $grid-gutter-width/2;
 
     &-filter {
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
       margin: 0;
-    }
-
-    &-label {
-      margin: 0;
-      margin-right: $grid-gutter-width/2;
     }
 
     .select {
@@ -198,7 +206,6 @@
 .hearings-search {
   &__container {
     padding-bottom: 10px;
-    height: 80px;
 
     .Select-placeholder {
       color: var(--color-black-60);
