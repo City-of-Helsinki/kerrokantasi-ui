@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
@@ -7,9 +6,9 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { Waypoint } from 'react-waypoint';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
-import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
-import { keys, capitalize } from 'lodash';
+import { keys } from 'lodash';
 import defaultImage from '@city-images/default-image.svg';
+import { Select, Checkbox as HDSCheckbox, Tag, Tabs as HDSTabs } from 'hds-react';
 
 import HearingsSearch from './HearingsSearch';
 import Icon from '../utils/Icon';
@@ -29,28 +28,6 @@ const HEARING_LIST_TABS = {
   MAP: 'map',
 };
 
-const HearingListTabs = ({ activeTab, changeTab }) => (
-  <Row>
-    <Col md={8} mdPush={2}>
-      <Nav className='hearing-list__tabs' bsStyle='tabs' activeKey={activeTab} role='tablist'>
-        {keys(HEARING_LIST_TABS).map((key) => {
-          const value = HEARING_LIST_TABS[key];
-          return (
-            <NavItem key={key} eventKey={value} title={capitalize(value)} onClick={() => changeTab(value)} role='tab'>
-              <FormattedMessage id={value} />
-            </NavItem>
-          );
-        })}
-      </Nav>
-    </Col>
-  </Row>
-);
-
-HearingListTabs.propTypes = {
-  activeTab: PropTypes.string,
-  changeTab: PropTypes.func,
-};
-
 class HearingListFilters extends React.Component {
   constructor() {
     super();
@@ -60,9 +37,8 @@ class HearingListFilters extends React.Component {
     };
   }
 
-  sortList = (event) => {
+  sortList = (value) => {
     const { handleSort } = this.props;
-    const { value } = event.target;
     const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
     const showOnlyOpen = value.indexOf('_from_open') !== -1;
     const showOnlyClosed = value.indexOf('_from_closed') !== -1;
@@ -84,6 +60,16 @@ class HearingListFilters extends React.Component {
   render() {
     const { formatMessage } = this.props;
 
+    const sortOptions = [
+      { value: '-created_at', label: formatMessage({ id: 'newestFirst' }) },
+      { value: 'created_at', label: formatMessage({ id: 'oldestFirst' }) },
+      { value: '-close_at_from_open', label: formatMessage({ id: 'lastClosing' }) },
+      { value: 'close_at_from_open', label: formatMessage({ id: 'firstClosing' }) },
+      { value: '-close_at_from_closed', label: formatMessage({ id: 'lastClosed' }) },
+      { value: '-n_comments', label: formatMessage({ id: 'mostCommented' }) },
+      { value: 'n_comments', label: formatMessage({ id: 'leastCommented' }) },
+    ];
+
     return (
       <div className='hearing-list__filter-bar clearfix'>
         <div className='sr-only'>
@@ -94,25 +80,14 @@ class HearingListFilters extends React.Component {
               </div>
             ))}
         </div>
-        <FormGroup controlId='formControlsSelect' className='hearing-list__filter-bar-filter'>
-          <ControlLabel className='hearing-list__filter-bar-label'>
-            <FormattedMessage id='sort' />
-          </ControlLabel>
-          <FormControl
-            className='select'
-            componentClass='select'
-            placeholder='select'
-            onChange={(event) => this.sortList(event)}
-          >
-            <option value='-created_at'>{formatMessage({ id: 'newestFirst' })}</option>
-            <option value='created_at'>{formatMessage({ id: 'oldestFirst' })}</option>
-            <option value='-close_at_from_open'>{formatMessage({ id: 'lastClosing' })}</option>
-            <option value='close_at_from_open'>{formatMessage({ id: 'firstClosing' })}</option>
-            <option value='-close_at_from_closed'>{formatMessage({ id: 'lastClosed' })}</option>
-            <option value='-n_comments'>{formatMessage({ id: 'mostCommented' })}</option>
-            <option value='n_comments'>{formatMessage({ id: 'leastCommented' })}</option>
-          </FormControl>
-        </FormGroup>
+        <div id='formControlsSelect' className='hearing-list__filter-bar-filter'>
+          <Select
+            label={<FormattedMessage id='sort' />}
+            onChange={(selected) => this.sortList(selected.value)}
+            defaultValue={sortOptions[0]}
+            options={sortOptions}
+          />
+        </div>
       </div>
     );
   }
@@ -198,9 +173,9 @@ export const HearingListItem = (props) => {
           <LabelList labels={hearing.labels} className='hearing-list-item-labellist' language={language} />
           {hearing.closed ? (
             <div className='hearing-list-item-closed'>
-              <Label>
+              <Tag theme={{ '--tag-background': 'var(--color-black-30)' }}>
                 <FormattedMessage id='hearingClosed' />
-              </Label>
+              </Tag>
             </div>
           ) : null}
         </div>
@@ -255,61 +230,80 @@ export const HearingList = ({
   const { formatMessage, formatTime, formatDate } = intl;
 
   const hearingListMap = hearingsToShow ? (
-    <Row>
-      <Col xs={12}>
-        <Helmet title={formatMessage({ id: 'mapView' })} />
-        <div className='hearing-list-map map'>
-          <Checkbox inline readOnly checked={showOnlyOpen} onChange={toggleShowOnlyOpen} style={{ marginBottom: 10 }}>
-            <FormattedMessage id='showOnlyOpen' />
-          </Checkbox>
-          <OverviewMap
-            hearings={hearingsToShow}
-            style={{ width: '100%', height: isMobile ? '100%' : 600 }}
-            enablePopups
-          />
-        </div>
-      </Col>
-    </Row>
+    <div className='haring-list-map-container'>
+      <Helmet title={formatMessage({ id: 'mapView' })} />
+      <div className='hearing-list-map map'>
+        <HDSCheckbox
+          label={<FormattedMessage id='showOnlyOpen' />}
+          readOnly
+          checked={showOnlyOpen}
+          onChange={toggleShowOnlyOpen}
+          style={{ marginBottom: 'var(--spacing-s)' }}
+        />
+        <OverviewMap
+          hearings={hearingsToShow}
+          style={{ width: '100%', height: isMobile ? '100%' : 600 }}
+          enablePopups
+        />
+      </div>
+    </div>
   ) : null;
 
-  return (
-    <div>
-      <section className='page-section--hearings-search'>
-        <div className='container'>
-          <Row>
-            <Col md={10} mdPush={1}>
-              <HearingsSearch
-                handleSearch={handleSearch}
-                handleSelectLabels={handleSelectLabels}
-                labels={labels}
-                language={language}
-                searchPhrase={searchPhrase}
-                selectedLabels={selectedLabels}
-                intl={intl}
-              />
-            </Col>
-          </Row>
-        </div>
-      </section>
-      <section className='page-section--hearings-tabs'>
-        <div className='container'>
-          <HearingListTabs activeTab={activeTab} changeTab={onTabChange} />
-        </div>
-      </section>
-      <section className='page-section page-section--hearings-list' id='hearings-section'>
-        <div className='container'>
-          <Row>
-            <Col md={8} mdPush={2}>
-              <InternalLink destinationId='hearings-search-form' srOnly>
-                <FormattedMessage id='jumpToSearchForm' />
-              </InternalLink>
-              {!isLoading && !hasHearings && (
-                <h2 className='hearing-list__hearing-list-title'>
-                  <FormattedMessage id='noHearings'>{(txt) => txt}</FormattedMessage>
-                </h2>
-              )}
+  const initiallyActiveTab = Object.values(HEARING_LIST_TABS).findIndex((tab) => tab === activeTab);
 
-              {hasHearings && activeTab === 'list' && (
+  const jumpLink = (
+    <InternalLink destinationId='hearings-search-form' srOnly>
+      <FormattedMessage id='jumpToSearchForm' />
+    </InternalLink>
+  );
+  const noHearings = !isLoading && !hasHearings && (
+    <h2 className='hearing-list__hearing-list-title'>
+      <FormattedMessage id='noHearings'>{(txt) => txt}</FormattedMessage>
+    </h2>
+  );
+
+  return (
+    <section className='hearings-list'>
+      <section className='page-section--hearings-search'>
+        <HearingsSearch
+          handleSearch={handleSearch}
+          handleSelectLabels={handleSelectLabels}
+          labels={labels}
+          language={language}
+          searchPhrase={searchPhrase}
+          selectedLabels={selectedLabels}
+          intl={intl}
+        />
+      </section>
+      <section className='hearing-list-tabs'>
+        <HDSTabs
+          initiallyActiveTab={initiallyActiveTab}
+          theme={{
+            '--tab-min-width': 'auto',
+            '--tab-color': 'var(--color-black)',
+            '--tab-active-border-color': 'var(--color-white)',
+            '--tab-focus-outline-size': '0',
+            '--tab-active-border-size': '2px',
+            '--tablist-border-color': 'transparent',
+          }}
+        >
+          <HDSTabs.TabList className='page-section--hearings-tabs'>
+            {keys(HEARING_LIST_TABS).map((key) => {
+              const value = HEARING_LIST_TABS[key];
+
+              return (
+                <HDSTabs.Tab key={key} onClick={() => onTabChange(value)}>
+                  <FormattedMessage id={value} />
+                </HDSTabs.Tab>
+              );
+            })}
+          </HDSTabs.TabList>
+          <HDSTabs.TabPanel className='hearings-list-tab-panel'>
+            <section className='hearings-list-tab-panel-container'>
+              {jumpLink}
+              {noHearings}
+
+              {hasHearings && (
                 <div>
                   <div className='hearing-list__result-controls'>
                     <h2 className='hearing-list__hearing-list-title'>
@@ -349,12 +343,18 @@ export const HearingList = ({
                   </div>
                 </div>
               )}
-            </Col>
-          </Row>
-          {hasHearings && activeTab === 'map' && !isLoading ? hearingListMap : null}
-        </div>
+            </section>
+          </HDSTabs.TabPanel>
+          <HDSTabs.TabPanel className='hearings-list-tab-panel'>
+            <section className='hearings-list-tab-panel-container'>
+              {jumpLink}
+              {noHearings}
+              {hasHearings && !isLoading ? hearingListMap : null}
+            </section>
+          </HDSTabs.TabPanel>
+        </HDSTabs>
       </section>
-    </div>
+    </section>
   );
 };
 
