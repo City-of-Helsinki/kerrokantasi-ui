@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
-import { Button, TextArea, Tooltip as HDSTooltip } from 'hds-react';
+import { Button, TextArea, Tooltip as HDSTooltip, IconSpeechbubbleText } from 'hds-react';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -358,13 +358,13 @@ const Comment = (props) => {
    */
   const renderEditLinks = () => (
     <div className='hearing-comment__edit-links'>
-      <a href='' onClick={(event) => toggleEditor(event)} aria-label={<FormattedMessage id='edit' />}>
+      <Button onClick={(event) => toggleEditor(event)} variant='supplementary' size='small'>
         <FormattedMessage id='edit' />
-      </a>
+      </Button>
       {canDelete && (
-        <a href='' onClick={(event) => handleDelete(event)} aria-label={<FormattedMessage id='delete' />}>
+        <Button onClick={(event) => handleDelete(event)} variant='supplementary' size='small'>
           <FormattedMessage id='delete' />
-        </a>
+        </Button>
       )}
     </div>
   );
@@ -373,18 +373,14 @@ const Comment = (props) => {
    * If a thread can be replied to, render reply links
    */
   const renderReplyLinks = () => (
-    <>
-      <Icon name='reply' />
-      <a
-        href=''
-        style={{ marginLeft: 6, fontWeight: 'bold' }}
-        onClick={handleToggleReplyEditor}
-        aria-label={<FormattedMessage id='delete' />}
-        data-testid='replyLink'
-      >
-        <FormattedMessage id='reply' />
-      </a>
-    </>
+    <Button
+      variant='supplementary'
+      iconLeft={<IconSpeechbubbleText />}
+      data-testid='replyLink'
+      onClick={handleToggleReplyEditor}
+    >
+      <FormattedMessage id='reply' />
+    </Button>
   );
 
   /**
@@ -496,7 +492,7 @@ const Comment = (props) => {
   };
 
   useEffect(() => {
-    if (state.shouldJumpTo && commentRef && commentRef.current && !state.scrollComplete) {
+    if (state.shouldJumpTo && commentRef?.current && !state.scrollComplete) {
       // Jump to this comment
       commentRef.current.scrollIntoView({
         behaviour: 'smooth',

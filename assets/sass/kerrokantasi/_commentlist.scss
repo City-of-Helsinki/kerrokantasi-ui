@@ -213,6 +213,18 @@
     &__reply-link {
       flex: 0 0 auto;
       align-self: center;
+
+      button {
+        --background-color-hover: transparent;
+        --background-color-hover-focus: transparent;
+        --color: var(--color-black);
+        --color-hover: var(--color-coat-of-arms);
+        --color-focus: var(--color-coat-of-arms);
+        --color-hover-focus: var(--color-coat-of-arms);
+
+        display: flex;
+        align-items: center;
+      }
     }
 
     &-votes {
@@ -277,23 +289,31 @@
     }
 
     &__edit-links {
+      margin-top: var(--spacing-2-xs);
       padding-bottom: $grid-gutter-width/3;
       margin-bottom: $grid-gutter-width/3;
       font-style: italic;
       font-size: $font-size-small;
 
-      a {
-        color: var(--color-black-60);
+      button {
+        --background-color-hover: transparent;
+        --background-color-hover-focus: transparent;
+        --color: var(--color-black-60);
+        --color-hover: var(--color-coat-of-arms);
+        --color-focus: var(--color-coat-of-arms);
+        --color-hover-focus: var(--color-coat-of-arms);
+
+        text-decoration: underline;
 
         &:hover,
         &:focus {
           color: $link-hover-color;
         }
 
-        & + a {
+        & + button {
           margin-left: $grid-gutter-width/4;
           padding-left: $grid-gutter-width/4;
-          border-left: 1px solid var(--color-black-60);
+          border-left: 1px solid var(--color-black-60) !important;
         }
       }
     }
