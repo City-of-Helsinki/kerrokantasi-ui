@@ -20,7 +20,7 @@ const createCommentData = (props) => ({
     ...props,
   },
   section: {
-    questions: []
+    questions: [],
   },
 });
 jest.mock('react-redux', () => ({
@@ -28,8 +28,9 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
 
+jest.mock('../../../BaseCommentForm', () => () => <div data-testid='commentForm'>CommentForm</div>);
 
-jest.mock('../../../BaseCommentForm', () => () => <div data-testid="commentForm">CommentForm</div>)
+jest.mock('../../../BaseCommentForm', () => () => <div data-testid='commentForm'>CommentForm</div>);
 
 const defaultProps = createCommentData();
 
@@ -65,13 +66,13 @@ describe('<Comment />', () => {
   });
 
   it('should have edit links open if canReply is true', async () => {
-    renderComponent({canReply: true});
+    renderComponent({ canReply: true });
 
     await waitFor(() => expect(screen.getByTestId('replyLink')).toBeInTheDocument());
-  })
+  });
 
   it('should toggle reply editor visibility', async () => {
-    renderComponent({canReply: true});
+    renderComponent({ canReply: true });
 
     const replyButton = await screen.getByTestId('replyLink');
 
@@ -88,8 +89,8 @@ describe('<Comment />', () => {
       deleted_by_type: 'self',
       edited: true,
     });
-    renderComponent(props)
-    await waitFor(() => expect(screen.getByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument())
+    renderComponent(props);
+    await waitFor(() => expect(screen.getByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument());
   });
 
   it('should show proper delete message if comment was deleted by user', async () => {
@@ -98,8 +99,8 @@ describe('<Comment />', () => {
       deleted_by_type: 'moderator',
       edited: true,
     });
-    renderComponent(props)
-    await waitFor(() => expect(screen.getByText('sectionCommentDeletedMessage')).toBeInTheDocument())
+    renderComponent(props);
+    await waitFor(() => expect(screen.getByText('sectionCommentDeletedMessage')).toBeInTheDocument());
   });
 
   it('should show edit link for user that can edit', async () => {
@@ -107,24 +108,23 @@ describe('<Comment />', () => {
     const props = createCommentData({
       can_edit: true,
       deleted: false,
-    })
+    });
     props.onEditComment = handleSubmitFn;
     renderComponent(props);
-    
+
     const user = userEvent.setup();
-    
+
     const editButton = screen.getByText('edit');
-    
-    user.click(editButton)
+
+    user.click(editButton);
 
     await waitFor(() => expect(screen.getByTestId('editorForm')).toBeInTheDocument());
 
     const submitButton = screen.getByText('save');
 
-    user.click(submitButton)
+    user.click(submitButton);
 
     await waitFor(() => expect(handleSubmitFn).toHaveBeenCalledTimes(1));
-
   });
 
   it('should show delete link for user that can delete', async () => {
@@ -133,19 +133,18 @@ describe('<Comment />', () => {
       can_edit: true,
       can_delete: true,
       deleted: false,
-    })
+    });
 
     props.onDeleteComment = deleteCommentFn;
     renderComponent(props);
-    
+
     const user = userEvent.setup();
-    
+
     const deleteButton = screen.getByText('delete');
-    
+
     user.click(deleteButton);
 
     await waitFor(() => expect(deleteCommentFn).toHaveBeenCalledTimes(1));
-
   });
 
   it('should handle voting correctly', async () => {
