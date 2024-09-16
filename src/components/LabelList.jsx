@@ -1,8 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Label from 'react-bootstrap/lib/Label';
 import { injectIntl } from 'react-intl';
+import { Tag } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import Link from './LinkWithLang';
@@ -26,7 +26,7 @@ export const Labels = (props) => {
       }}
       key={label.id || label}
     >
-      <Label bsStyle='info'>{getAttr(label.label, language)}</Label>{' '}
+      <Tag theme={{ '--tag-background': 'var(--color-fog)' }}>{getAttr(label.label, language)}</Tag>
     </Link>
   );
 
