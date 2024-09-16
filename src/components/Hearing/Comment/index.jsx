@@ -4,8 +4,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
-import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Button, TextArea, Tooltip as HDSTooltip } from 'hds-react';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -204,8 +203,6 @@ const Comment = (props) => {
     setState({ answers: updatedAnswer });
   };
 
-  const dateTooltip = () => <Tooltip id='comment-date-tooltip'>{parseTimestamp(data.created_at)}</Tooltip>;
-
   /**
    * When a comment is pinned, a small black box is displayed on top right corner.
    * @returns {JS<Component>}
@@ -241,7 +238,7 @@ const Comment = (props) => {
           ) : null}
           {data.author_name || <FormattedMessage id='anonymous' />}
         </span>
-        <OverlayTrigger placement='top' overlay={dateTooltip()} delayShow={300}>
+        <div className='hearing-comment-date-wrapper'>
           <span className='hearing-comment-date'>
             <FormatRelativeTime
               messagePrefix=''
@@ -250,7 +247,10 @@ const Comment = (props) => {
               formatDate={intl.formatDate}
             />
           </span>
-        </OverlayTrigger>
+          <HDSTooltip className='hearing-comment-date-tooltip' placement='top'>
+            {parseTimestamp(data.created_at)}
+          </HDSTooltip>
+        </div>
       </div>
       {canFlagComments() && (
         <Button className='hearing-comment-vote-link' onClick={onCopyURL}>
@@ -324,19 +324,19 @@ const Comment = (props) => {
     <>
       {adminUser && props.data.can_edit && !props.isReply && renderPinUnpinButton()}
       <form data-testid='editorForm' className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
-        <FormGroup controlId='formControlsTextarea'>
+        <div id='formControlsTextarea'>
           {state.answers && state.answers.length > 0
             ? state.answers.map((answer) => renderQuestionsForAnswer(answer))
             : null}
-          <textarea
-            className='form-control'
+          <TextArea
             defaultValue={props.data.content}
             placeholder='textarea'
             ref={(input) => {
               commentEditor = input;
             }}
+            style={{ marginBottom: 'var(--spacing-s)' }}
           />
-        </FormGroup>
+        </div>
         <Button className='kerrokantasi-btn black' type='submit'>
           <FormattedMessage id='save' />
         </Button>
