@@ -19,7 +19,11 @@ import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 import Icon from '../../../utils/Icon';
-import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  createNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../../utils/notify';
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
@@ -89,7 +93,9 @@ const Comment = (props) => {
       props.onPostVote(data.id, data.section, props.isReply, props.parentComponentId);
     } else {
       // TODO: Add translations
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään äänestääksesi kommenttia.')));
+      dispatch(
+        addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään äänestääksesi kommenttia.')),
+      );
     }
   };
 
@@ -100,7 +106,9 @@ const Comment = (props) => {
       props.onPostFlag(data.id, data.section, props.isReply, props.parentComponentId);
     } else {
       // TODO: Add translations
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään liputtaaksesi kommentin.')));
+      dispatch(
+        addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään liputtaaksesi kommentin.')),
+      );
     }
   };
 
@@ -109,7 +117,9 @@ const Comment = (props) => {
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
     // TODO: Add translations
-    dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.info, 'Linkki kommenttiin on kopioitu leikepöydällesi.')));
+    dispatch(
+      addToast(createNotificationPayload(NOTIFICATION_TYPES.info, 'Linkki kommenttiin on kopioitu leikepöydällesi.')),
+    );
   };
 
   /**
@@ -143,10 +153,10 @@ const Comment = (props) => {
     const question = find(questions, (que) => que.id === answer.question);
     let selectedOption = {};
     return {
-      question: question ? getAttr(question.text, intl.locale) : '',
+      question: question ? getAttr(question.text, props.intl.locale) : '',
       answers: answer.answers.map((ans) => {
         if (question) selectedOption = find(question.options, (option) => option.id === ans);
-        return question ? getAttr(selectedOption.text, intl.locale) : '';
+        return question ? getAttr(selectedOption.text, props.intl.locale) : '';
       }),
     };
   };
@@ -313,7 +323,7 @@ const Comment = (props) => {
   const renderEditorForm = () => (
     <>
       {adminUser && props.data.can_edit && !props.isReply && renderPinUnpinButton()}
-      <form data-testid="editorForm" className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
+      <form data-testid='editorForm' className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
         <FormGroup controlId='formControlsTextarea'>
           {state.answers && state.answers.length > 0
             ? state.answers.map((answer) => renderQuestionsForAnswer(answer))
@@ -341,7 +351,7 @@ const Comment = (props) => {
     } else {
       setState({ editorOpen: true });
     }
-  }
+  };
 
   /**
    * If a user can edit their comment(s) render hyperlinks
@@ -483,10 +493,9 @@ const Comment = (props) => {
   };
 
   const toggleMap = () => {
-    setState((prevState) => ({displayMap: !prevState.displayMap}));
+    setState((prevState) => ({ displayMap: !prevState.displayMap }));
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (state.shouldJumpTo && commentRef && commentRef.current && !state.scrollComplete) {
       // Jump to this comment
@@ -517,6 +526,7 @@ const Comment = (props) => {
         toggleContainer.querySelector('a').focus();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentRef]);
 
   if (!data.content) {
@@ -568,11 +578,7 @@ const Comment = (props) => {
         </div>
         {data.geojson && (
           <div className='hearing-comment__map'>
-            <Button
-              onClick={toggleMap}
-              className='hearing-comment__map-toggle'
-              aria-expanded={state.displayMap}
-            >
+            <Button onClick={toggleMap} className='hearing-comment__map-toggle' aria-expanded={state.displayMap}>
               <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
             </Button>
             {state.displayMap && data.geojson && (
@@ -584,9 +590,7 @@ const Comment = (props) => {
         )}
         {canEdit && !data.deleted && renderEditLinks()}
         <div className='hearing-comment__actions-bar'>
-          <div className='hearing-comment__reply-link'>
-            {!isReplyEditorOpen && canReply && renderReplyLinks()}
-          </div>
+          <div className='hearing-comment__reply-link'>{!isReplyEditorOpen && canReply && renderReplyLinks()}</div>
           <div className='hearing-comment-votes'>
             {!data.deleted && (
               <Button className='btn-sm hearing-comment-vote-link' onClick={onVote}>
@@ -605,7 +609,7 @@ const Comment = (props) => {
       {Array.isArray(data.subComments) && data.subComments.length > 0 && renderSubComments()}
     </li>
   );
-}
+};
 
 Comment.propTypes = {
   canReply: PropTypes.bool,
