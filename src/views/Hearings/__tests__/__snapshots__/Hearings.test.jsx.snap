@@ -332,105 +332,100 @@ exports[`<Hearings /> should render correctly 1`] = `
                     </div>
                   </div>
                 </div>
-                <div
+                <ul
                   class="hearing-list"
                 >
-                  <div
-                    role="list"
+                  <li
+                    class="hearing-list-item"
                   >
                     <div
-                      class="hearing-list-item"
-                      role="listitem"
+                      alt="Mock Hearing"
+                      class="mouse-only-click-element hearing-list-item-image"
+                      style="background-image: url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg);"
+                    />
+                    <div
+                      class="hearing-list-item-content"
                     >
                       <div
-                        alt="Mock Hearing"
-                        class="mouse-only-click-element hearing-list-item-image"
-                        style="background-image: url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg);"
-                      />
-                      <div
-                        class="hearing-list-item-content"
+                        class="hearing-list-item-title-wrap"
                       >
-                        <div
-                          class="hearing-list-item-title-wrap"
+                        <h2
+                          class="h4 hearing-list-item-title"
                         >
-                          <h2
-                            class="h4 hearing-list-item-title"
+                          <a
+                            href="/mockHearing?headless=false"
                           >
-                            <a
-                              href="/mockHearing?headless=false"
-                            >
-                               
-                              Mock Hearing
-                            </a>
-                          </h2>
-                          <div
-                            class="hearing-list-item-comments"
-                          >
-                            <span
-                              aria-hidden="true"
-                              class="fa fa-comment-o"
-                            />
-                             
-                            1
-                            <span
-                              class="sr-only"
-                            >
-                              <span>
-                                hearingListComment
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                             
+                            Mock Hearing
+                          </a>
+                        </h2>
                         <div
-                          class="hearing-list-item-times"
-                        >
-                          <div>
-                            <span>
-                              timeOpenPastWithValues
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              timeCloseFutureWithValues
-                            </span>
-                          </div>
-                        </div>
-                        <div
-                          class="hearing-list-item-labels clearfix"
-                        >
-                          <div
-                            aria-label="labelListTagsTitle"
-                            class="hearing-list-item-labellist"
-                          />
-                        </div>
-                        <div
-                          class="hearing-card-notice"
+                          class="hearing-list-item-comments"
                         >
                           <span
                             aria-hidden="true"
-                            class="fa fa-exclamation-circle"
+                            class="fa fa-comment-o"
                           />
-                          <span>
-                            hearingTranslationNotAvailable
-                          </span>
-                          <div
-                            class="language-available-message"
-                            lang="fi"
+                           
+                          1
+                          <span
+                            class="sr-only"
                           >
-                            Kuuleminen saatavilla suomeksi
-                          </div>
+                            <span>
+                              hearingListComment
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="hearing-list-item-times"
+                      >
+                        <div>
+                          <span>
+                            timeOpenPastWithValues
+                          </span>
+                        </div>
+                        <div>
+                          <span>
+                            timeCloseFutureWithValues
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="hearing-list-item-labels clearfix"
+                      >
+                        <div
+                          aria-label="labelListTagsTitle"
+                          class="hearing-list-item-labellist"
+                        />
+                      </div>
+                      <div
+                        class="hearing-card-notice"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="fa fa-exclamation-circle"
+                        />
+                        <span>
+                          hearingTranslationNotAvailable
+                        </span>
+                        <div
+                          class="language-available-message"
+                          lang="fi"
+                        >
+                          Kuuleminen saatavilla suomeksi
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="loader-wrap"
-                    data-testid="load-spinner"
-                  >
-                    <span
-                      class="fa fa-hourglass-o fa-2x fa-spin"
-                    />
-                  </div>
+                  </li>
+                </ul>
+                <div
+                  class="loader-wrap"
+                  data-testid="load-spinner"
+                >
+                  <span
+                    class="fa fa-hourglass-o fa-2x fa-spin"
+                  />
                 </div>
               </div>
             </section>
