@@ -154,6 +154,10 @@
 }
 
 .hearing-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
   &__result-controls {
     margin-bottom: $grid-gutter-width;
     display: flex;

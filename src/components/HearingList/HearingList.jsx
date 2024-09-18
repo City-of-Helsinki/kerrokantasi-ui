@@ -141,21 +141,19 @@ export const HearingList = ({
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
 
-                  <div className='hearing-list'>
-                    <div role='list'>
-                      {hearings.map((hearing) => (
-                        <HearingListItem
-                          hearing={hearing}
-                          key={hearing.id}
-                          language={language}
-                          formatTime={formatTime}
-                          formatDate={formatDate}
-                        />
-                      ))}
-                    </div>
-                    {isLoading && <LoadSpinner />}
-                    {!isLoading && <Waypoint onEnter={handleReachBottom} />}
-                  </div>
+                  <ul className='hearing-list'>
+                    {hearings.map((hearing) => (
+                      <HearingListItem
+                        hearing={hearing}
+                        key={hearing.id}
+                        language={language}
+                        formatTime={formatTime}
+                        formatDate={formatDate}
+                      />
+                    ))}
+                  </ul>
+                  {isLoading && <LoadSpinner />}
+                  {!isLoading && <Waypoint onEnter={handleReachBottom} />}
                 </div>
               )}
             </section>
