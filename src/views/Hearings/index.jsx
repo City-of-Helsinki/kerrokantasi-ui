@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
-import WrappedHearingList from '../../components/HearingList';
+import WrappedHearingList from '../../components/HearingList/HearingList';
 import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
