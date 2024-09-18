@@ -10,9 +10,9 @@ import Icon from '../utils/Icon';
 import LabelList from './LabelList';
 import Link from './LinkWithLang';
 import MouseOnlyLink from './MouseOnlyLink';
-import config from '../config';
 import getAttr from '../utils/getAttr';
 import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
+import HearingTranslationNotice from './HearingList/HearingTranslationNotice/HearingTranslationNotice';
 
 const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
   const { formatTime, formatDate } = intl;
@@ -21,11 +21,6 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
     backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
   };
   const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
-  const availableInLanguageMessages = {
-    fi: 'Kuuleminen saatavilla suomeksi',
-    sv: 'Hörandet tillgängligt på svenska',
-    en: 'Questionnaire available in English',
-  };
   const mainImgCaption =
     hearing.main_image && hearing.main_image.caption ? getAttr(hearing.main_image.caption, language) : '';
 
@@ -70,19 +65,7 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
         <div className='fullwidth-hearing-labels clearfix'>
           <LabelList className='hearing-list-item-labellist' labels={hearing.labels} language={language} />
         </div>
-        {!translationAvailable && (
-          <div className='hearing-card-notice'>
-            <Icon name='exclamation-circle' aria-hidden='true' />
-            <FormattedMessage id='hearingTranslationNotAvailable' />
-            {config.languages.map((lang) =>
-              getAttr(hearing.title, lang, { exact: true }) ? (
-                <div className='language-available-message' key={lang} lang={lang}>
-                  {availableInLanguageMessages[lang]}
-                </div>
-              ) : null,
-            )}
-          </div>
-        )}
+        {!translationAvailable && <HearingTranslationNotice title={hearing.title} />}
       </div>
     </div>
   );

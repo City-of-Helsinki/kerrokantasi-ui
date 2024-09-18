@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
+import { uniqueId } from 'lodash';
 
 class HearingListFilters extends React.Component {
   constructor() {
@@ -21,7 +22,7 @@ class HearingListFilters extends React.Component {
     handleSort(sortBy, showOnlyOpen, showOnlyClosed);
 
     const newMessage = {
-      id: Math.random(),
+      id: uniqueId(),
     };
 
     this.setState({ sortChangeStatusMessages: [newMessage] });
@@ -48,12 +49,11 @@ class HearingListFilters extends React.Component {
     return (
       <div className='hearing-list__filter-bar clearfix'>
         <div className='sr-only'>
-          {this.state.sortChangeStatusMessages &&
-            this.state.sortChangeStatusMessages.map((alert) => (
-              <div key={alert.id} aria-live='assertive' role='status'>
-                <FormattedMessage id='orderHasBeenChanged' />
-              </div>
-            ))}
+          {this.state.sortChangeStatusMessages?.map((alert) => (
+            <div key={alert.id} aria-live='assertive' role='status'>
+              <FormattedMessage id='orderHasBeenChanged' />
+            </div>
+          ))}
         </div>
         <div id='formControlsSelect' className='hearing-list__filter-bar-filter'>
           <Select

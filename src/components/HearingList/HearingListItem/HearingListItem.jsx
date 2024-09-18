@@ -11,8 +11,8 @@ import Icon from '../../../utils/Icon';
 import LabelList from '../../LabelList';
 import Link from '../../LinkWithLang';
 import MouseOnlyLink from '../../MouseOnlyLink';
-import config from '../../../config';
 import { getHearingURL, isPublic } from '../../../utils/hearing';
+import HearingTranslationNotice from '../HearingTranslationNotice/HearingTranslationNotice';
 
 const HearingListItem = (props) => {
   const { hearing, language, history, formatTime, formatDate } = props;
@@ -27,11 +27,6 @@ const HearingListItem = (props) => {
   }
 
   const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
-  const availableInLanguageMessages = {
-    fi: 'Kuuleminen saatavilla suomeksi',
-    sv: 'Hörandet tillgängligt på svenska',
-    en: 'Questionnaire available in English',
-  };
 
   // Preparing the dates for translation.
   const isPast = (time) => new Date(time).getTime() < new Date().getTime();
@@ -45,7 +40,7 @@ const HearingListItem = (props) => {
   const closeMessageId = `timeClose${isPast(hearing.close_at) ? 'Past' : 'Future'}WithValues`;
 
   return (
-    <div className='hearing-list-item' role='listitem'>
+    <li className='hearing-list-item'>
       <MouseOnlyLink
         className='hearing-list-item-image'
         style={mainImageStyle}
@@ -95,21 +90,9 @@ const HearingListItem = (props) => {
             </div>
           ) : null}
         </div>
-        {!translationAvailable && (
-          <div className='hearing-card-notice'>
-            <Icon name='exclamation-circle' aria-hidden='true' />
-            <FormattedMessage id='hearingTranslationNotAvailable' />
-            {config.languages.map((lang) =>
-              getAttr(hearing.title, lang, { exact: true }) ? (
-                <div className='language-available-message' key={lang} lang={lang}>
-                  {availableInLanguageMessages[lang]}
-                </div>
-              ) : null,
-            )}
-          </div>
-        )}
+        {!translationAvailable && <HearingTranslationNotice title={hearing.title} />}
       </div>
-    </div>
+    </li>
   );
 };
 
