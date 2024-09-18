@@ -31,11 +31,13 @@
   border-bottom: 2px solid $black;
   padding-top: var(--spacing-xl);
 
-  & > div {
+  & > div:first-of-type {
+    display: flex;
+    justify-content: flex-end;
     max-width: 60rem;
     margin: 0 auto;
     padding: 0 var(--spacing-2-xs);
-    overflow-x: unset;
+    overflow: unset;
   }
 
   ul {
