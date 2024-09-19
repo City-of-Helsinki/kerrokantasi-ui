@@ -114,7 +114,7 @@ const HearingList = ({
             })}
           </HDSTabs.TabList>
           <HDSTabs.TabPanel className='hearings-list-tab-panel'>
-            <section className='hearings-list-tab-panel-container'>
+            <section id='hearings-section' className='hearings-list-tab-panel-container'>
               {jumpLink}
               {noHearings}
 
@@ -159,9 +159,10 @@ const HearingList = ({
             </section>
           </HDSTabs.TabPanel>
           <HDSTabs.TabPanel className='hearings-list-tab-panel'>
-            <section className='hearings-list-tab-panel-container'>
+            <section id='hearings-section' className='hearings-list-tab-panel-container'>
               {jumpLink}
               {noHearings}
+              {isLoading && <LoadSpinner />}
               {hasHearings && !isLoading ? hearingListMap : null}
             </section>
           </HDSTabs.TabPanel>
