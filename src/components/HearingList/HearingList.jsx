@@ -8,7 +8,7 @@ import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { keys } from 'lodash';
 import { Checkbox as HDSCheckbox, Tabs as HDSTabs } from 'hds-react';
 
-import HearingsSearch from '../HearingsSearch';
+import HearingsSearch from './HearingsSearch/HearingsSearch';
 import LoadSpinner from '../LoadSpinner';
 import OverviewMap from '../OverviewMap';
 import { labelShape } from '../../types';
