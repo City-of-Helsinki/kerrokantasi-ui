@@ -313,7 +313,6 @@ export class Hearings extends React.Component {
     const labelsInQuery = Array.isArray(parseQuery(location.search).label)
       ? parseQuery(location.search).label
       : [parseQuery(location.search).label];
-
     const selectedLabels = labels
       .filter((label) => includes(labelsInQuery, label.id.toString()))
       .map((label) => ({ ...label, label: getAttr(label.label, language) }));
