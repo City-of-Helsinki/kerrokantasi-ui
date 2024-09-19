@@ -1,9 +1,9 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 
-import HearingsSearch from '../HearingsSearch';
-import renderWithProviders from '../../utils/renderWithProviders';
-import { getIntlAsProp } from '../../../test-utils';
+import HearingsSearch from '../HearingsSearch/HearingsSearch';
+import renderWithProviders from '../../../utils/renderWithProviders';
+import { getIntlAsProp } from '../../../../test-utils';
 
 const mockHandleSearch = jest.fn();
 const mockHandleSelectLabels = jest.fn();
