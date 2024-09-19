@@ -280,6 +280,7 @@
   "save": "Save",
   "search": "Search",
   "searchLabels": "Search labels",
+  "searchLabelsRemoveSelection": "Remove {value}",
   "searchPlaceholder": "Search...",
   "searchSubjects": "Search from subjects",
   "searchTitles": "Search from titles",

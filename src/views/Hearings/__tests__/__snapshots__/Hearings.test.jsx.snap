@@ -37,7 +37,8 @@ exports[`<Hearings /> should render correctly 1`] = `
                 class="hearings-search__controls"
               >
                 <div
-                  class="hearings-search__text form-group"
+                  class="hearings-search__text"
+                  id="formControlsSearchText"
                 >
                   <div
                     class="SearchInput-module_root__sMwrY hearings-search__input"
@@ -104,57 +105,72 @@ exports[`<Hearings /> should render correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="hearings-search__label form-group"
+                  class="hearings-search__label"
+                  id="formControlsSearchSelect"
                 >
-                  <label
-                    class="control-label"
-                    for="formControlsSearchSelect"
-                  >
-                    <span>
-                      searchLabels
-                    </span>
-                  </label>
                   <div
-                    class="Select hearings-search__select is-clearable is-searchable Select--multi"
+                    class="Combobox-module_root__Hs8Hg Combobox-module_multiselect__3vNbJ hearings-search__select"
                   >
-                    <div
-                      class="Select-control"
+                    <label
+                      class="FieldLabel-module_label__1zrXK "
+                      for="formControlsSearchSelect-input"
+                      id="formControlsSearchSelect-label"
                     >
-                      <div
-                        class="Select-multi-value-wrapper"
-                        id="react-select-2--value"
-                      >
-                        <div
-                          class="Select-placeholder"
-                        >
-                          Etsi...
-                        </div>
-                        <div
-                          class="Select-input"
-                          style="display: inline-block;"
-                        >
-                          <input
-                            aria-activedescendant="react-select-2--value"
-                            aria-expanded="false"
-                            aria-haspopup="false"
-                            aria-owns=""
-                            id="formControlsSearchSelect"
-                            role="combobox"
-                            style="box-sizing: content-box; width: 5px;"
-                            value=""
-                          />
-                          <div
-                            style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
-                          />
-                        </div>
-                      </div>
-                      <span
-                        class="Select-arrow-zone"
-                      >
-                        <span
-                          class="Select-arrow"
-                        />
+                      <span>
+                        searchLabels
                       </span>
+                    </label>
+                    <div
+                      class="Combobox-module_wrapper__3kVTg"
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-controls="formControlsSearchSelect-menu"
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="formControlsSearchSelect-label formControlsSearchSelect-input"
+                        aria-owns="formControlsSearchSelect-menu"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class="Combobox-module_input__Dcmdn"
+                        id="formControlsSearchSelect-input"
+                        placeholder="Etsi..."
+                        role="combobox"
+                        type="text"
+                        value=""
+                      />
+                      <button
+                        aria-expanded="false"
+                        aria-label="[object Object]: undefined"
+                        class="Combobox-module_button__1W9PN"
+                        id="formControlsSearchSelect-toggle-button"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          aria-label="angle-down"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Combobox-module_angleIcon__10DvA"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      <ul
+                        aria-labelledby="formControlsSearchSelect-label"
+                        aria-multiselectable="true"
+                        class="Combobox-module_menu__3jA0e"
+                        id="formControlsSearchSelect-menu"
+                        role="listbox"
+                        style="max-height: 260px;"
+                      />
                     </div>
                   </div>
                 </div>

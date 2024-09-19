@@ -274,6 +274,7 @@
   "save": "Spara",
   "search": "Sök",
   "searchLabels": "Sök bland ämnena",
+  "searchLabelsRemoveSelection": "Ta bort {value}",
   "searchPlaceholder": "Söka...",
   "searchSubjects": "Sök bland ämnena",
   "searchTitles": "Sök bland rubrikerna",
