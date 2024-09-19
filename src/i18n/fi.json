@@ -347,6 +347,7 @@
   "scenarioSection": "Vaihtoehto",
   "search": "Etsi",
   "searchLabels": "Hae aiheista",
+  "searchLabelsRemoveSelection": "Poista {value}",
   "searchPlaceholder": "Etsi...",
   "searchSubjects": "Etsi aiheista",
   "searchTitles": "Etsi otsikoista",
