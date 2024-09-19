@@ -13,8 +13,8 @@ test.describe('Map Page', () => {
     await expect(page.getByRole('combobox', { name: 'Etsi otsikoista' })).toBeVisible();
   });
 
-  test('should display "Etsi..." text', async ({ page }) => {
-    await expect(page.getByText('Etsi...')).toBeVisible();
+  test('should display "Hae aiheista" combobox', async ({ page }) => {
+    await expect(page.getByRole('combobox', { name: 'Hae aiheista' })).toBeVisible();
   });
 
   test('should display "Etsi" button', async ({ page }) => {
