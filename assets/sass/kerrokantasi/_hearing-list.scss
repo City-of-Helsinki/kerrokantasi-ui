@@ -30,10 +30,6 @@
     flex: 1 auto;
     padding: $line-height-computed;
     overflow: hidden;
-
-    @media (min-width: $screen-sm-min) {
-      max-width: 73%;
-    }
   }
 
   &-labels {
