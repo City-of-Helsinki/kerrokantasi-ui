@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 
-import { HearingList } from '../HearingList';
+import HearingList from '../HearingList';
 import { mockStore, getIntlAsProp } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
