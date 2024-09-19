@@ -1,18 +1,3 @@
-.hearings-search {
-  &__container {
-    .Select-control,
-    .is-open .Select-control,
-    .Select-menu {
-      border: 2px solid $black;
-      border-radius: 0;
-    }
-
-    .Select-control {
-      background-color: transparent;
-    }
-  }
-}
-
 .page-section--all-hearings-header {
   background-color: $light-gray;
 

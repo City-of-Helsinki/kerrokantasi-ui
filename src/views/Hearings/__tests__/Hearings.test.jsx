@@ -40,8 +40,8 @@ const renderComponent = (storeOverrides) => {
   );
 };
 
-describe('Hearings', () => {
-  it('renders without crashing', () => {
+describe('<Hearings />', () => {
+  it('should render correctly', () => {
     renderComponent();
   });
 
