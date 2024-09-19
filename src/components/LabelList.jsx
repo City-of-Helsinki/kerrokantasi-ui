@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import { Tag } from 'hds-react';
-import { capitalize } from 'lodash';
 
 import getAttr from '../utils/getAttr';
 import Link from './LinkWithLang';
@@ -27,7 +26,7 @@ export const Labels = (props) => {
       }}
       key={label.id || label}
     >
-      <Tag theme={{ '--tag-background': 'var(--color-fog)' }}>{capitalize(getAttr(label.label, language))}</Tag>
+      <Tag theme={{ '--tag-background': 'var(--color-fog)' }}>{getAttr(label.label, language)}</Tag>
     </Link>
   );
 
