@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, ControlLabel } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Select from 'react-select';
 import { isEmpty } from 'lodash';
-import { SearchInput, Button } from 'hds-react';
+import { SearchInput, Button, Combobox } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import { labelShape } from '../types';
@@ -15,7 +13,6 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
 
   const labelsAsOptions = labels.map(({ label, id }) => ({
     label: getAttr(label, language),
-    value: getAttr(label, language),
     id,
   }));
 
@@ -30,7 +27,7 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
           id='hearings-search-form'
         >
           <div className='hearings-search__controls'>
-            <FormGroup className='hearings-search__text' controlId='formControlsSearchText'>
+            <div id='formControlsSearchText' className='hearings-search__text'>
               <SearchInput
                 className='hearings-search__input'
                 label={<FormattedMessage id='searchTitles' />}
@@ -40,23 +37,23 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
                 onChange={(newValue) => setSearchValue(newValue)}
                 onSubmit={(value) => handleSearch(value)}
               />
-            </FormGroup>
-            <FormGroup className='hearings-search__label' controlId='formControlsSearchSelect'>
-              <ControlLabel>
-                <FormattedMessage id='searchLabels' />
-              </ControlLabel>
+            </div>
+            <div id='formControlsSearchSelect' className='hearings-search__label'>
               {!isEmpty(labels) && (
-                <Select
-                  className="hearings-search__select"
-                  multi
+                <Combobox
+                  label={<FormattedMessage id='searchLabels' />}
+                  className='hearings-search__select'
+                  multiselect
                   value={selectedLabels}
                   options={labelsAsOptions}
-                  onChange={(value) => handleSelectLabels(value)}
+                  onChange={(selected) => handleSelectLabels(selected)}
                   placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
                   id='formControlsSearchSelect'
+                  clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
+                  selectedItemRemoveButtonAriaLabel={intl.formatMessage({ id: 'searchLabelsRemoveSelection' })}
                 />
               )}
-            </FormGroup>
+            </div>
           </div>
           <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
             <FormattedMessage id='search' />
