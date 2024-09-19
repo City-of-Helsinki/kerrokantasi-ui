@@ -9,21 +9,13 @@ exports[`<Hearings /> should render correctly 1`] = `
       class="page-section page-section--all-hearings-header"
     >
       <div
-        class="container"
+        class="all-hearings-header-container"
       >
-        <div
-          class="row"
+        <h1
+          class="page-title"
         >
-          <div
-            class="col-md-10 col-md-push-1"
-          >
-            <h1
-              class="page-title"
-            >
-              allHearings
-            </h1>
-          </div>
-        </div>
+          allHearings
+        </h1>
       </div>
     </section>
     <section
