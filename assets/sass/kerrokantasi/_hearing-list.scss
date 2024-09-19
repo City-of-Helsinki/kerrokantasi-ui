@@ -209,12 +209,68 @@
 }
 
 .page-section--hearings-search {
+  display: flex;
+  flex-direction: column;
   background-color: $gray-200;
+
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 0 var(--spacing-s);
+
+  @media (min-width: $screen-sm-min) {
+    padding: 0 var(--spacing-2-xs);
+  }
 }
 
 .page-section--hearings-tabs {
   background-color: $gray-200;
   border-bottom: 2px solid $gray-400;
+  padding-top: var(--spacing-xl);
+
+  & > div:first-of-type {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 var(--spacing-s);
+    overflow: unset;
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
+    }
+  }
+
+  ul {
+    border-bottom: none;
+
+    li {
+      margin-bottom: -2px;
+
+      &[aria-selected='true'] {
+        background-color: var(--color-white);
+        border: 2px solid $gray-400;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.hearings-list {
+  background-color: $light-gray;
+}
+
+.hearings-list-tab-panel {
+  background-color: var(--color-white);
+
+  &-container {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: var(--spacing-2-xl) var(--spacing-s) 0;
+
+    @media (min-width: $screen-sm-min) {
+      padding: var(--spacing-2-xl) var(--spacing-2-xs) 0;
+    }
+  }
 }
 
 .hearings-search {
