@@ -21,7 +21,7 @@ const HEARING_LIST_TABS = {
   MAP: 'map',
 };
 
-export const HearingList = ({
+const HearingList = ({
   handleSearch,
   handleSelectLabels,
   handleSort,
