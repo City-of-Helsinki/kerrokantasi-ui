@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
-import { Col, Row } from 'react-bootstrap';
 import { get, find, includes } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { withRouter } from 'react-router-dom';
@@ -328,27 +327,23 @@ export class Hearings extends React.Component {
     return (
       <div className='hearings'>
         <section className='page-section page-section--all-hearings-header'>
-          <div className='container'>
-            <Row>
-              <Col md={10} mdPush={1}>
-                <Helmet
-                  title={formatMessage({ id: 'allHearings' })}
-                  meta={[
-                    { name: 'description', content: formatMessage({ id: 'descriptionTag' }) },
-                    { property: 'og:description', content: formatMessage({ id: 'descriptionTag' }) },
-                  ]}
-                />
-                <FormattedMessage id='allHearings'>{(txt) => <h1 className='page-title'>{txt}</h1>}</FormattedMessage>
-                {isAdmin(user) && (
-                  <AdminFilterSelector
-                    onSelect={this.setAdminFilter}
-                    options={AdminFilters}
-                    active={this.getHearingListName()}
-                  />
-                )}
-                {isAdmin(user) && <CreateHearingButton to={{ path: '/hearing/new' }} />}
-              </Col>
-            </Row>
+          <div className='all-hearings-header-container'>
+            <Helmet
+              title={formatMessage({ id: 'allHearings' })}
+              meta={[
+                { name: 'description', content: formatMessage({ id: 'descriptionTag' }) },
+                { property: 'og:description', content: formatMessage({ id: 'descriptionTag' }) },
+              ]}
+            />
+            <FormattedMessage id='allHearings'>{(txt) => <h1 className='page-title'>{txt}</h1>}</FormattedMessage>
+            {isAdmin(user) && (
+              <AdminFilterSelector
+                onSelect={this.setAdminFilter}
+                options={AdminFilters}
+                active={this.getHearingListName()}
+              />
+            )}
+            {isAdmin(user) && <CreateHearingButton to={{ path: '/hearing/new' }} />}
           </div>
         </section>
         {!isEmpty(labels) ? (

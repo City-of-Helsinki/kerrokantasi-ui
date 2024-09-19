@@ -57,7 +57,7 @@
   }
 
   &-closed {
-    margin-top: var(--spacing-3-xs);
+    margin-top: var(--spacing-2-xs);
     text-align: right;
   }
 
@@ -89,6 +89,16 @@
 
 .page-section--all-hearings-header {
   background-color: $gray-200;
+
+  .all-hearings-header-container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 0 var(--spacing-s);
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
+    }
+  }
 }
 
 .hearing-comment__images {
@@ -170,8 +180,12 @@
     flex: 0 1 auto;
     font-size: $font-size-large;
     font-weight: 400;
-    margin: 0 $grid-gutter-width * 1.5 0 0;
+    margin: 0 0 var(--spacing-s) 0;
     color: var(--color-black-60);
+
+    @media (min-width: $screen-xs-min) {
+      margin: 0 $grid-gutter-width * 1.5 0 0;
+    }
 
     span {
       margin-left: 0.15em;
