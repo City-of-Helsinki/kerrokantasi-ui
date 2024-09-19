@@ -5,9 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { isEmpty } from 'lodash';
 import { SearchInput, Button, Combobox } from 'hds-react';
 
-import getAttr from '../utils/getAttr';
-import { labelShape } from '../types';
-import InternalLink from './InternalLink';
+import getAttr from '../../../utils/getAttr';
+import { labelShape } from '../../../types';
+import InternalLink from '../../InternalLink';
 
 const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, searchPhrase, selectedLabels, intl }) => {
   const [searchValue, setSearchValue] = useState(searchPhrase);
