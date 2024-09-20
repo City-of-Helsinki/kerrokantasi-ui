@@ -328,6 +328,7 @@ const Comment = (props) => {
             ? state.answers.map((answer) => renderQuestionsForAnswer(answer))
             : null}
           <TextArea
+            id='edit-comment'
             defaultValue={props.data.content}
             placeholder='textarea'
             ref={(input) => {
