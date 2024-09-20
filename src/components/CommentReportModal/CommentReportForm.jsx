@@ -82,6 +82,7 @@ const CommentReportForm = ({ hearing, id, language }) => {
   return (
     <form id={id} onSubmit={handleDownloadClick}>
       <Select
+        id='download-reports'
         onChange={handleFileFormatChange}
         label={<FormattedMessage id='commentReportsSelectFileType' />}
         options={options}
