@@ -10,7 +10,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
 import CommentDisclaimer from '../../CommentDisclaimer';
-import { BaseCommentForm } from '../../BaseCommentForm';
+import BaseCommentForm from '../../BaseCommentForm';
 
 class MapdonKSVPlugin extends BaseCommentForm {
   constructor(props) {

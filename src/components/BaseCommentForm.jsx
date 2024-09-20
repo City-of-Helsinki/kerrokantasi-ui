@@ -1,15 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
-
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
-import { Button, FileInput } from 'hds-react';
+import { Button, Checkbox, Fieldset, FileInput, Notification, TextArea, TextInput } from 'hds-react';
 import classnames from 'classnames';
 import { connect, useDispatch } from 'react-redux';
-import { v1 as uuid } from 'uuid';
 import { get, includes } from 'lodash';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
 import urls from '@city-assets/urls.json';
@@ -50,7 +47,8 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconAnchor: [13, 41],
 });
 const IMAGE_MAX_SIZE = 1000000;
-export const BaseCommentForm = ({
+
+const BaseCommentForm = ({
   loggedIn,
   user,
   collapseForm,
@@ -307,15 +305,6 @@ export const BaseCommentForm = ({
   };
 
   /**
-   * When user type is admin, an alert is shown, use this method to close the alert.
-   */
-  const handleCloseAlert = () =>
-    setFormData({
-      ...formData,
-      showAlert: !formData.showAlert,
-    });
-
-  /**
    * When logged in as admin, user may chose to hide their identity.
    */
   const handleToggleHideName = () =>
@@ -340,32 +329,27 @@ export const BaseCommentForm = ({
    * When admin user is posting a comment, we will show a closeable warning.
    */
   const renderWarning = () => (
-    <Alert bsStyle='warning'>
-      <div className='comment-form__comment-alert'>
-        <div className='comment-form__comment-alert__alert-icon'>
-          <Icon name='info-circle' size='lg' />
-        </div>
-        <span className='comment-form__comment-alert__alert-message'>
-          {isUserAdmin ? (
-            <FormattedMessage id='adminCommentMessage' />
-          ) : (
-            <FormattedMessage id='registeredUserCommentMessage' />
-          )}
-        </span>
-        <div className='comment-form__comment-alert__alert-close'>
-          <Icon name='close' onClick={handleCloseAlert} />
-        </div>
-      </div>
-    </Alert>
+    <Notification type='alert' style={{ marginBottom: 'var(--spacing-s)' }}>
+      {isUserAdmin ? (
+        <FormattedMessage id='adminCommentMessage' />
+      ) : (
+        <FormattedMessage id='registeredUserCommentMessage' />
+      )}
+    </Notification>
   );
 
   /**
    * Render the checkbox to hide user name and identitiy for admin user.
    */
   const renderHideNameOption = () => (
-    <Checkbox checked={formData.hideName} key={uuid()} onChange={() => handleToggleHideName()}>
-      <FormattedMessage id='hideName' />
-    </Checkbox>
+    <Checkbox
+      label={<FormattedMessage id='hideName' />}
+      checked={formData.hideName}
+      key='hide-user-name'
+      id='hide-user-name'
+      onChange={() => handleToggleHideName()}
+      style={{ marginBottom: 'var(--spacing-s)' }}
+    />
   );
 
   /**
@@ -375,24 +359,28 @@ export const BaseCommentForm = ({
     const organization = isUserAdmin && user.adminOrganizations[0];
 
     return (
-      <FormGroup>
-        <FormControl
-          type='text'
+      <>
+        <TextInput
+          label={<FormattedMessage id='nickname' />}
+          hideLabel
+          id='nickname'
           placeholder={nicknamePlaceholder}
           value={formData.nickname}
           onChange={handleNicknameChange}
           maxLength={32}
           disabled
         />
-        <FormControl
-          type='text'
+        <TextInput
+          label={<FormattedMessage id='organization' />}
+          hideLabel
+          id='organization'
           placeholder={intl.formatMessage({ id: 'organization' })}
           value={organization || ''}
           onChange={() => {}}
           maxLength={32}
           disabled
         />
-      </FormGroup>
+      </>
     );
   };
 
@@ -401,29 +389,31 @@ export const BaseCommentForm = ({
    * @returns {JSX<Component>}
    */
   const renderNameFormForUser = () => {
-    const headingId = isUserAdmin ? 'nameAndOrganization' : 'nickname';
+    const warning = loggedIn && formData.showAlert && renderWarning();
+    const hideName = loggedIn && renderHideNameOption();
+
+    if (isUserAdmin) {
+      return (
+        <Fieldset heading={<FormattedMessage id='nameAndOrganization' />}>
+          {warning}
+          {hideName}
+          <div className='comment-form__group-admin'>{renderFormForAdmin()}</div>
+        </Fieldset>
+      );
+    }
 
     return (
       <>
-        <label htmlFor='commentNickname' className='h4'>
-          <FormattedMessage id={headingId} />
-        </label>
-        {loggedIn && formData.showAlert && renderWarning()}
-        {loggedIn && renderHideNameOption()}
-        {isUserAdmin ? (
-          <div className='comment-form__group-admin'>{renderFormForAdmin()}</div>
-        ) : (
-          <FormGroup>
-            <FormControl
-              id='commentNickname'
-              type='text'
-              placeholder={nicknamePlaceholder}
-              value={formData.nickname}
-              onChange={handleNicknameChange}
-              maxLength={32}
-            />
-          </FormGroup>
-        )}
+        {warning}
+        {hideName}
+        <TextInput
+          id='nickname'
+          label={<FormattedMessage id='nickname' />}
+          placeholder={nicknamePlaceholder}
+          value={formData.nickname}
+          onChange={handleNicknameChange}
+          maxLength={32}
+        />
       </>
     );
   };
@@ -547,25 +537,20 @@ export const BaseCommentForm = ({
             ) : null;
           })}
         <div className='comment-form__heading-container'>
-          <div className='comment-form__heading-container__title'>
-            <label htmlFor='commentTextField' className='h4'>
-              <FormattedMessage id='writeComment' />
-              {commentRequired && <span aria-hidden='true'>*</span>}
-            </label>
-          </div>
           {isUserAdmin && !isReply && (
             <div className='comment-form__heading-container__pin'>{renderPinUnpinIcon()}</div>
           )}
+          <TextArea
+            id='write-comment'
+            data-testid='write-comment'
+            label={<FormattedMessage id='writeComment' />}
+            // set focus when there are no questions before to be answered
+            autoFocus={isReply || !firstUnansweredQuestion}
+            value={formData.commentText}
+            onChange={handleTextChange}
+            required={commentRequired}
+          />
         </div>
-        <FormControl
-          // set focus when there are no questions before to be answered
-          autoFocus={isReply || !firstUnansweredQuestion}
-          componentClass='textarea'
-          value={formData.commentText}
-          onChange={handleTextChange}
-          id='commentTextField'
-          required={commentRequired}
-        />
         {isSectionCommentingMapEnabled(user, section) && (
           <div className='comment-form__map-container' style={{ marginTop: 20 }}>
             <div>
@@ -588,18 +573,15 @@ export const BaseCommentForm = ({
                 language={language}
               />
             </div>
-            <FormGroup>
-              <ControlLabel htmlFor='map_text'>
-                <FormattedMessage id='commentMapAdditionalInfo' />
-              </ControlLabel>
-              <FormControl
-                id='map_text'
-                type='text'
+            <div>
+              <TextInput
+                id='comment-map-info'
+                label={<FormattedMessage id='commentMapAdditionalInfo' />}
                 value={formData.mapCommentText}
                 onChange={handleMapTextChange}
                 maxLength={128}
               />
-            </FormGroup>
+            </div>
           </div>
         )}
 
@@ -610,17 +592,14 @@ export const BaseCommentForm = ({
             </div>
           )}
         </div>
-        <FormGroup className='comment-form__file'>
-          <ControlLabel>
-            <FormattedMessage id='add_images' />
-          </ControlLabel>
+        <div className='comment-form__file'>
           <div className='comment-form__select-file'>
             <FileInput
               id='fileInput'
               defaultValue={formData.images}
               className='custom-file-input'
               multiple
-              label={<FormattedMessage id='choose_images' />}
+              label={<FormattedMessage id='add_images' />}
               onChange={(files) => handleChange(files)}
               maxSize={IMAGE_MAX_SIZE}
             />
@@ -628,7 +607,7 @@ export const BaseCommentForm = ({
           <span style={{ fontSize: 13, marginTop: 20 }}>
             <FormattedMessage id='multipleImages' />
           </span>
-        </FormGroup>
+        </div>
         {renderNameFormForUser()}
         <div className='comment-buttons clearfix'>
           <Button className='kerrokantasi-btn' onClick={toggle}>
@@ -678,6 +657,4 @@ const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
 
-const WrappedBaseCommentForm = connect(mapStateToProps, null)(injectIntl(BaseCommentForm));
-
-export default WrappedBaseCommentForm;
+export default connect(mapStateToProps, null)(injectIntl(BaseCommentForm));

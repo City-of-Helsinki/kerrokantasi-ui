@@ -454,23 +454,13 @@
   }
 
   &__heading-container {
-    display: flex;
-    flex-direction: row;
-
-    &__title {
-      flex-basis: 50%;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      display: flex;
-    }
+    position: relative;
+    padding-top: var(--spacing-m);
 
     &__pin {
-      flex-basis: 50%;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      display: flex;
+      position: absolute;
+      top: 0;
+      right: 0;
 
       &__icon {
         cursor: pointer;
@@ -517,41 +507,21 @@
   }
 
   &__group-admin {
-    & .form-group {
-      display: flex;
-      flex-direction: row;
+    & > div {
+      margin-bottom: var(--spacing-s);
+    }
 
-      & > * {
-        margin-left: 24px;
+    @media (min-width: $screen-sm-min) {
+      display: flex;
+      justify-content: space-between;
+
+      & > div {
+        flex: 0 1 48%;
+
+        &:first-of-type {
+          margin-bottom: 0;
+        }
       }
-
-      & :first-child {
-        margin-left: 0px;
-      }
-    }
-  }
-
-  &__comment-alert {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    &__alert-icon {
-      display: flex;
-      flex-basis: 5%;
-      min-width: 40px;
-    }
-
-    &__alert-message {
-      flex-basis: 90%;
-    }
-
-    &__alert-close {
-      flex-basis: 5%;
-      display: flex;
-      justify-content: flex-end;
-      min-width: 40px;
-      cursor: pointer;
     }
   }
 
