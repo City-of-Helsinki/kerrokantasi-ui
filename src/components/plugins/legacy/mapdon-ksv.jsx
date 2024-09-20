@@ -82,6 +82,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
       <div>
         <br />
         <TextArea
+          id='comment-suggestion'
           label={<FormattedMessage id='writeComment' />}
           placeholder='Kommentoi ehdotustasi tässä.'
           value={this.state.commentText}

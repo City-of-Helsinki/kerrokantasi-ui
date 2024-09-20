@@ -32,6 +32,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
           />
           <br />
           <TextArea
+            id='comment-suggestion'
             placeholder='Kommentoi ehdotustasi tässä.'
             onChange={this.handleTextChange}
             style={{ marginBottom: 'var(--spacing-s)' }}
