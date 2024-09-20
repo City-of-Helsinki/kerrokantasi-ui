@@ -9,7 +9,7 @@ import { injectIntl } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
 import CommentDisclaimer from '../../CommentDisclaimer';
-import { BaseCommentForm } from '../../BaseCommentForm';
+import BaseCommentForm from '../../BaseCommentForm';
 
 class MapdonHKRPlugin extends BaseCommentForm {
   constructor(props) {
@@ -41,7 +41,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
             />
           </FormGroup>
           <p>
-            <Button className="kerrokantasi-btn" onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+            <Button className='kerrokantasi-btn' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
               Lähetä ehdotus
             </Button>
           </p>
