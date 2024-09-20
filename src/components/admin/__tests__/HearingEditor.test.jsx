@@ -41,7 +41,7 @@ const hearingWithErrors = {
 
 const renderComponent = (propOverrides) => {
   const props = {
-    contactPersons: [],
+    contactPersons: mockStore.hearing.mockHearing.data.contact_persons,
     dispatch: jest.fn(),
     show: true,
     hearing: {

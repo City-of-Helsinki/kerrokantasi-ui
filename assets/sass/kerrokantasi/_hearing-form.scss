@@ -190,6 +190,46 @@ div:has(> .hearing-form-child-modal) {
   }
 }
 
+.hearing-form {
+  &-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-m);
+
+    > div {
+      flex: 0 1 48%;
+
+      &:first-of-type {
+        margin-right: 2%;
+      }
+    }
+  }
+
+  &-column {
+    display: flex;
+
+    & > div {
+      width: 100%;
+    }
+
+    .action-button {
+      margin-left: var(--spacing-s);
+      height: 3.5rem;
+      align-self: flex-start;
+      margin-top: 1.75rem;
+    }
+  }
+}
+
+.edit-contacts-list {
+  margin: 0;
+  padding: 0.75rem 0 0;
+
+  li {
+    list-style-type: none;
+  }
+}
+
 .toolbar-bottom {
   background: $light-gray;
   bottom: 0;
@@ -212,34 +252,6 @@ div:has(> .hearing-form-child-modal) {
     .btn {
       margin-bottom: $line-height-computed / 2;
     }
-  }
-}
-
-.label-elements {
-  display: flex;
-
-  > .Select {
-    flex-basis: 20%;
-    flex-grow: 2;
-  }
-
-  .add-label-button {
-    margin-left: 5px;
-    width: 38px;
-  }
-}
-
-.contact-elements {
-  display: flex;
-
-  > .Select {
-    flex-basis: 20%;
-    flex-grow: 2;
-  }
-
-  .add-contact-button {
-    margin-left: 5px;
-    width: 38px;
   }
 }
 
