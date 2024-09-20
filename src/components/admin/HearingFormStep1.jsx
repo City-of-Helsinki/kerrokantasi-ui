@@ -1,18 +1,9 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import map from 'lodash/map';
-import { Button } from 'hds-react';
-import Col from 'react-bootstrap/lib/Col';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import Row from 'react-bootstrap/lib/Row';
-import { HelpBlock } from 'react-bootstrap';
+import { Button, Combobox, IconPen, TextInput } from 'hds-react';
 import { connect } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
@@ -22,227 +13,215 @@ import ContactModal from './ContactModal';
 import { contactShape, hearingShape, labelShape, organizationShape } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
-import { getDocumentOrigin, getValidationState } from '../../utils/hearingEditor';
 import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
 
-class HearingFormStep1 extends React.Component {
-  constructor(props) {
-    super(props);
+const HearingFormStep1 = ({
+  contactPersons,
+  errors,
+  hearing,
+  hearingLanguages,
+  intl: { formatMessage },
+  labels: labelOptions,
+  language,
+  dispatch,
+  organizations,
+  onHearingChange,
+  onLanguagesChange,
+  onContinue,
+}) => {
+  const selectedLabelsInitialState = hearing.labels.map(({ id }) => id);
+  const selectedContactsInitialState = hearing.contact_persons.map(({ id }) => id);
 
-    this.onChange = this.onChange.bind(this);
-    this.onLabelsChange = this.onLabelsChange.bind(this);
-    this.onContactsChange = this.onContactsChange.bind(this);
-    this.onCreateLabel = this.onCreateLabel.bind(this);
-    this.onCreateContact = this.onCreateContact.bind(this);
-    this.onEditContact = this.onEditContact.bind(this);
-    this.closeLabelModal = this.closeLabelModal.bind(this);
-    this.openContactModal = this.openContactModal.bind(this);
-    this.closeContactModal = this.closeContactModal.bind(this);
+  const [showLabelModal, setShowLabelModal] = useState(false);
+  const [contactInfo, setContactInfo] = useState({});
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedLabels, setSelectedLabels] = useState(selectedLabelsInitialState);
+  const [selectedContacts, setSelectedContacts] = useState(selectedContactsInitialState);
 
-    this.state = {
-      showLabelModal: false,
-      contactInfo: {},
-      showContactModal: false,
-      selectedLabels: map(this.props.hearing.labels, ({ id }) => id),
-      selectedContacts: map(this.props.hearing.contact_persons, ({ id }) => id),
-    };
-  }
+  const onChange = (event) => {
+    // Propagate interesting changes to parent components
+    const { name: field, value } = event.target;
+    onHearingChange(field, value);
+  };
 
-  onChange(event) {
-    if (this.props.onHearingChange) {
-      // Propagate interesting changes to parent components
-      const { name: field, value } = event.target;
-      this.props.onHearingChange(field, value);
-    }
-  }
+  const onLabelsChange = (labels) => {
+    const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.value));
 
-  onLabelsChange(selectedLabels) {
-    this.setState({ selectedLabels: selectedLabels.map(({ id }) => id) });
-    this.props.onHearingChange(
+    setSelectedLabels(newLabels.map(({ id }) => id));
+    onHearingChange(
       'labels',
-      selectedLabels.map(({ id }) => id),
+      newLabels.map(({ id }) => id),
     );
-  }
+  };
 
-  onContactsChange(selectedContacts) {
-    this.setState({ selectedContacts: selectedContacts.map(({ id }) => id) });
-    this.props.onHearingChange(
+  const onContactsChange = (contacts) => {
+    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.id === contact.value));
+
+    setSelectedContacts(newContacts.map(({ id }) => id));
+    onHearingChange(
       'contact_persons',
-      selectedContacts.map(({ id }) => id),
+      newContacts.map(({ id }) => id),
     );
-  }
+  };
 
-  onCreateLabel(label) {
-    this.props.dispatch(addLabel(label, this.state.selectedLabels));
-  }
+  const onCreateLabel = (label) => {
+    dispatch(addLabel(label, selectedLabels));
+  };
 
-  onCreateContact(contact) {
-    this.props.dispatch(addContact(contact, this.state.selectedContacts));
-  }
+  const onCreateContact = (contact) => {
+    dispatch(addContact(contact, selectedContacts));
+  };
 
-  onEditContact(contact) {
-    this.props.dispatch(saveContact(contact));
-  }
+  const onEditContact = (contact) => {
+    dispatch(saveContact(contact));
+  };
 
-  openLabelModal() {
-    this.setState({ showLabelModal: true });
-  }
+  const openLabelModal = () => {
+    setShowLabelModal(true);
+  };
 
-  closeLabelModal() {
-    this.setState({ showLabelModal: false });
-  }
+  const closeLabelModal = () => {
+    setShowLabelModal(false);
+  };
 
-  openContactModal(contactInfo) {
-    this.setState({ showContactModal: true, contactInfo });
-  }
+  const openContactModal = (data) => {
+    setShowContactModal(true);
+    setContactInfo(data);
+  };
 
-  closeContactModal() {
-    this.setState({ showContactModal: false });
-  }
+  const closeContactModal = () => {
+    setShowContactModal(false);
+  };
 
-  render() {
-    const {
-      errors,
-      hearing,
-      hearingLanguages,
-      intl: { formatMessage },
-      labels: labelOptions,
-      contactPersons: contactOptions,
-      onHearingChange,
-      onLanguagesChange,
-      organizations,
-      language,
-    } = this.props;
+  return (
+    <div className='form-step'>
+      <HearingLanguages hearingLanguages={hearingLanguages} onChange={onLanguagesChange} />
 
-    return (
-      <div className='form-step'>
-        <HearingLanguages hearingLanguages={hearingLanguages} onChange={onLanguagesChange} />
-
-        <MultiLanguageTextField
-          error={errors.title}
-          languages={hearingLanguages}
-          onBlur={(value) => onHearingChange('title', value)}
-          labelId='title'
-          maxLength={200}
-          value={hearing.title}
-          name='title'
-          placeholderId='titlePlaceholder'
-          required
-        />
-
-        <Row>
-          <Col md={6}>
-            <FormGroup controlId='hearingLabels' validationState={getValidationState(errors, 'labels')}>
-              <ControlLabel>
-                <FormattedMessage id='hearingLabels'>{(txt) => `${txt}*`}</FormattedMessage>
-              </ControlLabel>
-              <div className='label-elements'>
-                <Select
-                  multi
-                  clearAllText='Poista'
-                  clearValueText='Poista'
-                  name='labels'
-                  onChange={this.onLabelsChange}
-                  options={labelOptions.map((opt) => ({
-                    ...opt,
-                    title: getAttr(opt.label, language),
-                    label: getAttr(opt.label, language),
-                  }))}
-                  placeholder={formatMessage({ id: 'hearingLabelsPlaceholder' })}
-                  simpleValue={false}
-                  value={hearing.labels.map((label) => ({
-                    ...label,
-                    title: 'Poista',
-                    label: getAttr(label.label, language),
-                  }))}
-                  valueKey='frontId'
-                  menuContainerStyle={{ zIndex: 10 }}
-                />
-                <Button size="small" className='kerrokantasi-btn pull-right add-label-button' onClick={() => this.openLabelModal()}>
-                  <Icon className='icon' name='plus' />
-                </Button>
-              </div>
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup controlId='hearingSlug' validationState={getValidationState(errors, 'slug')}>
-              <ControlLabel>
-                <FormattedMessage id='hearingSlug' />*
-              </ControlLabel>
-              <InputGroup>
-                <InputGroup.Addon>{getDocumentOrigin()}</InputGroup.Addon>
-                <FormControl
-                  type='text'
-                  name='slug'
-                  defaultValue={hearing.slug}
-                  placeholder={formatMessage({ id: 'hearingSlugPlaceholder' })}
-                  onBlur={this.onChange}
-                />
-              </InputGroup>
-            </FormGroup>
-          </Col>
-        </Row>
-
-        <FormGroup controlId='hearingContacts' validationState={getValidationState(errors, 'contact_persons')}>
-          <ControlLabel>
-            <FormattedMessage id='hearingContacts' />*
-          </ControlLabel>
-          <div className='contact-elements'>
-            <Select
-              valueRenderer={(options) => (
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onMouseDown={() => {
-                    this.openContactModal(options);
-                  }}
-                >
-                  {options.name}
-                </span>
-              )}
-              labelKey='name'
-              multi
-              name='contacts'
-              onChange={this.onContactsChange}
-              options={contactOptions}
-              placeholder={formatMessage({ id: 'hearingContactsPlaceholder' })}
-              simpleValue={false}
-              value={hearing.contact_persons.map((person) => ({ ...person }))}
-              valueKey='id'
-            />
-            <Button
-              size='small'
-              className='kerrokantasi-btn pull-right add-contact-button'
-              onClick={() => this.openContactModal({})}
-            >
-              <Icon className='icon' name='plus' />
-            </Button>
-          </div>
-          <HelpBlock>
-            <FormattedMessage id='hearingContactsHelpText' />
-          </HelpBlock>
-        </FormGroup>
-        <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
-            <FormattedMessage id='hearingFormNext' />
+      <MultiLanguageTextField
+        error={errors.title}
+        languages={hearingLanguages}
+        onBlur={(value) => onHearingChange('title', value)}
+        onChange={(value) => onHearingChange('title', value)}
+        labelId='title'
+        maxLength={200}
+        value={hearing.title}
+        name='title'
+        placeholderId='titlePlaceholder'
+        required
+      />
+      <div className='hearing-form-row'>
+        <div id='hearingLabels' className='hearing-form-column'>
+          <Combobox
+            id='labels'
+            name='labels'
+            label={<FormattedMessage id='hearingLabels' />}
+            multiselect
+            clearButtonAriaLabel='Poista'
+            selectedItemRemoveButtonAriaLabel='Poista {value}'
+            toggleButtonAriaLabel='Avaa'
+            onChange={onLabelsChange}
+            options={labelOptions.map((opt) => ({
+              value: opt.id,
+              label: getAttr(opt.label, language),
+            }))}
+            placeholder={formatMessage({ id: 'hearingLabelsPlaceholder' })}
+            value={hearing.labels.map((label) => ({
+              value: label.id,
+              label: getAttr(label.label, language),
+            }))}
+            required
+            invalid={!!errors.labels}
+            error={errors.labels}
+          />
+          <Button
+            size='small'
+            className='kerrokantasi-btn pull-right action-button'
+            onClick={() => openLabelModal()}
+            data-testid='add-new-label'
+          >
+            <Icon className='icon' name='plus' />
           </Button>
         </div>
-        <LabelModal
-          isOpen={this.state.showLabelModal}
-          onClose={this.closeLabelModal}
-          onCreateLabel={this.onCreateLabel}
-        />
-        <ContactModal
-          contactInfo={this.state.contactInfo}
-          isOpen={this.state.showContactModal}
-          onClose={this.closeContactModal}
-          onCreateContact={this.onCreateContact}
-          onEditContact={this.onEditContact}
-          organizations={organizations}
-        />
+        <div id='hearingSlug'>
+          <TextInput
+            id='slug'
+            name='slug'
+            label={<FormattedMessage id='hearingSlug' />}
+            value={hearing.slug}
+            placeholder={formatMessage({ id: 'hearingSlugPlaceholder' })}
+            onChange={onChange}
+            required
+            invalid={!!errors.slug}
+            errorText={errors.slug}
+          />
+        </div>
       </div>
-    );
-  }
-}
+      <div>
+        <div id='hearingContacts' className='hearing-form-column'>
+          <Combobox
+            id='contact_persons'
+            name='contact_persons'
+            label={<FormattedMessage id='hearingContacts' />}
+            required
+            onChange={onContactsChange}
+            options={contactPersons.map((person) => ({ label: person.name, value: person.id }))}
+            placeholder={formatMessage({ id: 'hearingContactsPlaceholder' })}
+            value={hearing.contact_persons.map((person) => ({
+              label: person.name,
+              value: person.id,
+            }))}
+            helper={<FormattedMessage id='hearingContactsHelpText' />}
+            multiselect
+            invalid={!!errors.contact_persons}
+            error={errors.contact_persons}
+          />
+          <Button
+            size='small'
+            className='kerrokantasi-btn pull-right action-button'
+            onClick={() => openContactModal({})}
+            data-testid='add-new-contact'
+          >
+            <Icon className='icon' name='plus' />
+          </Button>
+        </div>
+      </div>
+
+      <ul className='edit-contacts-list'>
+        {selectedContacts &&
+          selectedContacts.map((item) => {
+            const contact = contactPersons.find((option) => option.id === item);
+
+            return (
+              <li>
+                <Button
+                  variant='supplementary'
+                  iconRight={<IconPen />}
+                  size='small'
+                  onClick={() => openContactModal(contact)}
+                >
+                  Muokkaa yhteyshenkilöä: {contact.name}
+                </Button>
+              </li>
+            );
+          })}
+      </ul>
+      <div className='step-footer'>
+        <Button className='kerrokantasi-btn' onClick={onContinue}>
+          <FormattedMessage id='hearingFormNext' />
+        </Button>
+      </div>
+      <LabelModal isOpen={showLabelModal} onClose={closeLabelModal} onCreateLabel={onCreateLabel} />
+      <ContactModal
+        contactInfo={contactInfo}
+        isOpen={showContactModal}
+        onClose={closeContactModal}
+        onCreateContact={onCreateContact}
+        onEditContact={onEditContact}
+        organizations={organizations}
+      />
+    </div>
+  );
+};
 
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
@@ -264,9 +243,7 @@ HearingFormStep1.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language
+  language: state.language,
 });
 
-const WrappedHearingFormStep1 = injectIntl(HearingFormStep1);
-export { WrappedHearingFormStep1 as UnconnectedHearingFormStep1 };
-export default connect(mapStateToProps, null)(WrappedHearingFormStep1);
+export default connect(mapStateToProps, null)(injectIntl(HearingFormStep1));
