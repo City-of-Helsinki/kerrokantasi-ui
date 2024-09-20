@@ -100,6 +100,7 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
       <div className='col-md-4'>
         <div className='order-wrapper'>
           <Select
+            id='sort-comments'
             label={<FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>}
             options={options}
             defaultValue={options[0]}
@@ -164,6 +165,7 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
       <div className='col-md-8'>
         <div className='selection-wrappers'>
           <Select
+            id='select-hearing-comments'
             label={<FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>}
             options={options}
             onChange={(selected) => selectHearing(selected.value)}
