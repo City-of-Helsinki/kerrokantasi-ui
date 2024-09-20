@@ -343,6 +343,7 @@ const MapQuestionnaire = ({
               />
               <br />
               <TextArea
+                id='comment-suggestion'
                 placeholder='Kommentoi ehdotustasi tässä.'
                 onChange={handleTextChange}
                 style={{ marginBottom: 'var(--spacing-s)' }}
