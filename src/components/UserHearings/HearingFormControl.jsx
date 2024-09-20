@@ -24,6 +24,7 @@ const HearingFormControl = ({ formatMessage, changeSort }) => {
   return (
     <div id='formControlsSelect' className='hearing-list__filter-bar-filter'>
       <Select
+        id='sort-hearings'
         label={<FormattedMessage id='sort' />}
         options={options}
         defaultValue={options[0]}
