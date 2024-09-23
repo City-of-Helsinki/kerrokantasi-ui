@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
-import Accordion from 'react-bootstrap/lib/Accordion';
-import { Button } from 'hds-react';
+import { Accordion, Button } from 'hds-react';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-import Panel from 'react-bootstrap/lib/Panel';
 
 import Icon from '../../utils/Icon';
 import SectionForm from './SectionForm';
@@ -15,7 +13,6 @@ import { addSection, removeSection } from '../../actions/hearingEditor';
 import { getMainSection, isPublic } from '../../utils/hearing';
 import { hearingShape } from '../../types';
 import { initNewSection, SectionTypes } from '../../utils/section';
-import getAttr from '../../utils/getAttr';
 
 const HearingFormStep2 = ({
   hearing,
@@ -52,16 +49,6 @@ const HearingFormStep2 = ({
     }
   };
 
-  const handleSelect = (active) => {
-    if (active === activeSection) {
-      setActiveSection('');
-      scrollModalToTop();
-    } else {
-      setActiveSection(active);
-      scrollModalToTop();
-    }
-  };
-
   const deleteSection = (sectionID) => {
     const { sections } = hearing;
 
@@ -90,40 +77,41 @@ const HearingFormStep2 = ({
           id: `${section.type}Section`,
         });
         const sectionID = section.frontId;
+
         return (
-          <Panel eventKey={sectionID} key={sectionID} bsStyle='info'>
-            <Panel.Heading>
-              <Panel.Title toggle>{`${sectionHeader}: ${getAttr(section.title, language) || ''}`}</Panel.Title>
-            </Panel.Heading>
-            <Panel.Collapse>
-              <Panel.Body>
-                <SectionForm
-                  addOption={addOption}
-                  clearQuestions={clearQuestions}
-                  deleteOption={deleteOption}
-                  initMultipleChoiceQuestion={initMultipleChoiceQuestion}
-                  initSingleChoiceQuestion={initSingleChoiceQuestion}
-                  isFirstSubsection={index === 1}
-                  isLastSubsection={sectionID === last(hearing.sections).frontId}
-                  isPublic={isPublic(hearing)}
-                  onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-                  onEditSectionAttachmentOrder={onEditSectionAttachmentOrder}
-                  onQuestionChange={onQuestionChange}
-                  onSectionAttachment={onSectionAttachment}
-                  onSectionAttachmentDelete={onSectionAttachmentDelete}
-                  onSectionAttachmentEdit={onSectionAttachmentEdit}
-                  onSectionChange={onSectionChange}
-                  onSectionImageChange={onSectionImageChange}
-                  section={section}
-                  sectionLanguages={hearingLanguages}
-                  sectionMoveDown={sectionMoveDown}
-                  sectionMoveUp={sectionMoveUp}
-                  onDeleteExistingQuestion={onDeleteExistingQuestion}
-                />
-                <div className='section-toolbar'>{getDeleteSectionButton(section, sectionID)}</div>
-              </Panel.Body>
-            </Panel.Collapse>
-          </Panel>
+          <Accordion
+            className='section-accordion'
+            key={sectionID}
+            heading={sectionHeader}
+            language={language}
+            initiallyOpen={activeSection === sectionID}
+            border
+          >
+            <SectionForm
+              addOption={addOption}
+              clearQuestions={clearQuestions}
+              deleteOption={deleteOption}
+              initMultipleChoiceQuestion={initMultipleChoiceQuestion}
+              initSingleChoiceQuestion={initSingleChoiceQuestion}
+              isFirstSubsection={index === 1}
+              isLastSubsection={sectionID === last(hearing.sections).frontId}
+              isPublic={isPublic(hearing)}
+              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+              onEditSectionAttachmentOrder={onEditSectionAttachmentOrder}
+              onQuestionChange={onQuestionChange}
+              onSectionAttachment={onSectionAttachment}
+              onSectionAttachmentDelete={onSectionAttachmentDelete}
+              onSectionAttachmentEdit={onSectionAttachmentEdit}
+              onSectionChange={onSectionChange}
+              onSectionImageChange={onSectionImageChange}
+              section={section}
+              sectionLanguages={hearingLanguages}
+              sectionMoveDown={sectionMoveDown}
+              sectionMoveUp={sectionMoveUp}
+              onDeleteExistingQuestion={onDeleteExistingQuestion}
+            />
+            <div className='section-toolbar'>{getDeleteSectionButton(section, sectionID)}</div>
+          </Accordion>
         );
       });
 
@@ -141,9 +129,7 @@ const HearingFormStep2 = ({
 
   return (
     <div className='form-step'>
-      <Accordion activeKey={activeSection} onSelect={handleSelect}>
-        {getSections()}
-      </Accordion>
+      {getSections()}
       <div className='new-section-toolbar'>
         <ButtonToolbar>
           <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>

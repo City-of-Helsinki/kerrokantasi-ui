@@ -171,6 +171,12 @@ div:has(> .hearing-form-child-modal) {
     text-align: right;
   }
 
+  .section-accordion {
+    &:not(:last-of-type) {
+      margin-bottom: var(--spacing-m);
+    }
+  }
+
   .section-toolbar {
     padding: 6px;
     margin-bottom: $line-height-computed;
