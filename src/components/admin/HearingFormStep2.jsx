@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -18,8 +18,33 @@ import { hearingShape } from '../../types';
 import { initNewSection, SectionTypes } from '../../utils/section';
 import getAttr from '../../utils/getAttr';
 
-class HearingFormStep2 extends React.Component {
-  static scrollModalToTop = () => {
+const HearingFormStep2 = ({
+  hearing,
+  hearingLanguages,
+  sectionMoveUp,
+  sectionMoveDown,
+  dispatch,
+  addOption,
+  deleteOption,
+  onQuestionChange,
+  onDeleteTemporaryQuestion,
+  clearQuestions,
+  initMultipleChoiceQuestion,
+  initSingleChoiceQuestion,
+  onEditSectionAttachmentOrder,
+  onSectionAttachment,
+  onSectionAttachmentDelete,
+  onSectionAttachmentEdit,
+  onSectionChange,
+  onSectionImageChange,
+  language,
+  onDeleteExistingQuestion,
+  onContinue,
+  intl,
+}) => {
+  const [activeSection, setActiveSection] = useState(getMainSection(hearing).frontId);
+
+  const scrollModalToTop = () => {
     if (document && document.getElementsByClassName) {
       const modal = head(document.getElementsByClassName('modal'));
       if (modal) {
@@ -28,43 +53,41 @@ class HearingFormStep2 extends React.Component {
     }
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeSection: getMainSection(props.hearing).frontId,
-    };
-    this.addSection = this.addSection.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-
-  handleSelect(activeSection) {
-    if (activeSection === this.state.activeSection) {
-      this.setState({ activeSection: '' }, HearingFormStep2.scrollModalToTop);
+  const handleSelect = (active) => {
+    if (active === activeSection) {
+      setActiveSection('');
+      scrollModalToTop();
     } else {
-      this.setState({ activeSection }, HearingFormStep2.scrollModalToTop);
+      setActiveSection(active);
+      scrollModalToTop();
     }
-  }
+  };
 
-  /*
-   * Get element for each hearing section.
-   * @returns {Array} - Array of Panel elements.
-   */
-  getSections() {
-    const {
-      hearing,
-      hearingLanguages,
-      sectionMoveUp,
-      sectionMoveDown,
-      addOption,
-      deleteOption,
-      onQuestionChange,
-      onDeleteTemporaryQuestion,
-      language,
-    } = this.props;
-    return hearing.sections
+  const deleteSection = (sectionID) => {
+    const { sections } = hearing;
+
+    dispatch(removeSection(sectionID));
+
+    setActiveSection(sections[sections.length - 2].frontId);
+    scrollModalToTop();
+  };
+
+  const getDeleteSectionButton = (section, sectionID) => {
+    if (section.type !== 'main') {
+      return (
+        <Button className='kerrokantasi-btn danger' onClick={() => deleteSection(sectionID)}>
+          <Icon className='icon' name='trash' /> <FormattedMessage id='deleteSection' />
+        </Button>
+      );
+    }
+    return null;
+  };
+
+  const getSections = () =>
+    hearing.sections
       .filter(({ type }) => type !== SectionTypes.CLOSURE)
       .map((section, index) => {
-        const sectionHeader = this.props.intl.formatMessage({
+        const sectionHeader = intl.formatMessage({
           id: `${section.type}Section`,
         });
         const sectionID = section.frontId;
@@ -77,90 +100,66 @@ class HearingFormStep2 extends React.Component {
               <Panel.Body>
                 <SectionForm
                   addOption={addOption}
-                  clearQuestions={this.props.clearQuestions}
+                  clearQuestions={clearQuestions}
                   deleteOption={deleteOption}
-                  initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-                  initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+                  initMultipleChoiceQuestion={initMultipleChoiceQuestion}
+                  initSingleChoiceQuestion={initSingleChoiceQuestion}
                   isFirstSubsection={index === 1}
                   isLastSubsection={sectionID === last(hearing.sections).frontId}
                   isPublic={isPublic(hearing)}
                   onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-                  onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
+                  onEditSectionAttachmentOrder={onEditSectionAttachmentOrder}
                   onQuestionChange={onQuestionChange}
-                  onSectionAttachment={this.props.onSectionAttachment}
-                  onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-                  onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-                  onSectionChange={this.props.onSectionChange}
-                  onSectionImageChange={this.props.onSectionImageChange}
+                  onSectionAttachment={onSectionAttachment}
+                  onSectionAttachmentDelete={onSectionAttachmentDelete}
+                  onSectionAttachmentEdit={onSectionAttachmentEdit}
+                  onSectionChange={onSectionChange}
+                  onSectionImageChange={onSectionImageChange}
                   section={section}
                   sectionLanguages={hearingLanguages}
                   sectionMoveDown={sectionMoveDown}
                   sectionMoveUp={sectionMoveUp}
-                  onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+                  onDeleteExistingQuestion={onDeleteExistingQuestion}
                 />
-                <div className='section-toolbar'>{this.getDeleteSectionButton(section, sectionID)}</div>
+                <div className='section-toolbar'>{getDeleteSectionButton(section, sectionID)}</div>
               </Panel.Body>
             </Panel.Collapse>
           </Panel>
         );
       });
-  }
 
-  getDeleteSectionButton(section, sectionID) {
-    if (section.type !== 'main') {
-      return (
-        <Button className='kerrokantasi-btn danger' onClick={() => this.deleteSection(sectionID)}>
-          <Icon className='icon' name='trash' /> <FormattedMessage id='deleteSection' />
-        </Button>
-      );
-    }
-    return null;
-  }
-
-  /*
-   * Add new section to the hearing
-   * @param {str} type - Type of the new section to be created
-   */
-  addSection(type) {
+  const addSectionFn = (type) => {
     const newSection = initNewSection();
+
     newSection.frontId = uuid();
     newSection.type = type;
-    this.props.dispatch(addSection(newSection));
-    this.setState({ activeSection: newSection.frontId }, HearingFormStep2.scrollModalToTop);
-  }
 
-  /*
-   * Remove section with given id.
-   * @param {str} sectionID
-   */
-  deleteSection(sectionID) {
-    const { sections } = this.props.hearing;
-    this.props.dispatch(removeSection(sectionID));
-    this.setState({ activeSection: sections[sections.length - 2].frontId }, HearingFormStep2.scrollModalToTop);
-  }
+    dispatch(addSection(newSection));
 
-  render() {
-    return (
-      <div className='form-step'>
-        <Accordion activeKey={this.state.activeSection} onSelect={this.handleSelect}>
-          {this.getSections()}
-        </Accordion>
-        <div className='new-section-toolbar'>
-          <ButtonToolbar>
-            <Button size='small' className='kerrokantasi-btn' onClick={() => this.addSection('part')}>
-              <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
-            </Button>
-          </ButtonToolbar>
-        </div>
-        <div className='step-footer'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
-            <FormattedMessage id='hearingFormNext' />
+    setActiveSection(newSection.frontId);
+    scrollModalToTop();
+  };
+
+  return (
+    <div className='form-step'>
+      <Accordion activeKey={activeSection} onSelect={handleSelect}>
+        {getSections()}
+      </Accordion>
+      <div className='new-section-toolbar'>
+        <ButtonToolbar>
+          <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
+            <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
           </Button>
-        </div>
+        </ButtonToolbar>
       </div>
-    );
-  }
-}
+      <div className='step-footer'>
+        <Button className='kerrokantasi-btn' onClick={onContinue}>
+          <FormattedMessage id='hearingFormNext' />
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 HearingFormStep2.propTypes = {
   addOption: PropTypes.func,
