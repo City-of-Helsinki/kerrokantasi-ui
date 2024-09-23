@@ -5,7 +5,7 @@ import { fireEvent, screen } from '@testing-library/react';
 
 import HearingFormStep2 from '../HearingFormStep2';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { mockStore as mockData } from '../../../../test-utils';
+import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -36,7 +36,7 @@ const renderComponent = (propOverrides, storeOverride) => {
     onSectionImageChange: jest.fn(),
     onDeleteExistingQuestion: jest.fn(),
     onContinue: jest.fn(),
-    intl: { formatMessage: jest.fn(({ id }) => id) },
+    intl: getIntlAsProp(),
     ...propOverrides,
   };
 
