@@ -180,6 +180,4 @@ const mapStateToProps = (state) => ({
   language: state.language,
 });
 
-const WrappedHearingFormStep2 = injectIntl(HearingFormStep2);
-
-export default connect(mapStateToProps, null)(WrappedHearingFormStep2);
+export default connect(mapStateToProps, null)(injectIntl(HearingFormStep2));
