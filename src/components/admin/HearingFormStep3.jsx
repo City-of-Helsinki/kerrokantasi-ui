@@ -474,7 +474,4 @@ HearingFormStep3.propTypes = {
   onCreateMapMarker: PropTypes.func,
 };
 
-export { HearingFormStep3 as UnconnectedHearingFormStep3 };
-const WrappedHearingFormStep3 = connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
-
-export default WrappedHearingFormStep3;
+export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
