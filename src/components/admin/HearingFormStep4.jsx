@@ -4,18 +4,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Col from 'react-bootstrap/lib/Col';
-import { Button } from 'hds-react';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import Row from 'react-bootstrap/lib/Row';
+import { Button, DateInput } from 'hds-react';
 import { isEmpty } from 'lodash';
-import DateTime from 'react-datetime/DateTime';
 
 import getAttr from '../../utils/getAttr';
 import i18n from '../../i18n';
 import { getClosureSection } from '../../utils/hearing';
-import { getValidationState } from '../../utils/hearingEditor';
 import { initNewSection, SectionTypes } from '../../utils/section';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import { hearingShape } from '../../types';
@@ -35,6 +29,7 @@ class HearingFormStep4 extends React.Component {
   constructor(props) {
     super(props);
     this.date_format = 'llll';
+    // eslint-disable-next-line react/no-unused-class-component-methods
     this.time_format = '';
     this.onChangeStart = this.onChangeStart.bind(this);
     this.onChangeEnd = this.onChangeEnd.bind(this);
@@ -53,20 +48,24 @@ class HearingFormStep4 extends React.Component {
   }
 
   onChangeStart(datetime) {
-    if (datetime.toISOString instanceof Function) {
-      this.props.onHearingChange('open_at', datetime.toISOString());
-    } else if (moment(datetime, DATE_FORMAT, true).isValid()) {
-      const manualDate = moment(datetime, DATE_FORMAT);
+    const stringToDate = moment(datetime, 'DD.M.YYYY').toDate();
+
+    if (stringToDate.toISOString instanceof Function) {
+      this.props.onHearingChange('open_at', stringToDate.toISOString());
+    } else if (moment(stringToDate, DATE_FORMAT, true).isValid()) {
+      const manualDate = moment(stringToDate, DATE_FORMAT);
       this.props.onHearingChange('open_at', moment(manualDate, 'llll').toISOString());
     }
   }
 
   onChangeEnd(datetime) {
-    if (datetime.toISOString instanceof Function) {
-      const dt = convertStartOfToEndOfDay(datetime);
+    const stringToDate = moment(datetime, 'DD.M.YYYY').toDate();
+
+    if (stringToDate.toISOString instanceof Function) {
+      const dt = convertStartOfToEndOfDay(stringToDate);
       this.props.onHearingChange('close_at', dt.toISOString());
-    } else if (moment(datetime, DATE_FORMAT, true).isValid()) {
-      const manualDate = convertStartOfToEndOfDay(moment(datetime, DATE_FORMAT));
+    } else if (moment(stringToDate, DATE_FORMAT, true).isValid()) {
+      const manualDate = convertStartOfToEndOfDay(moment(stringToDate, DATE_FORMAT));
       this.props.onHearingChange('close_at', moment(manualDate, 'llll').toISOString());
     }
   }
@@ -88,39 +87,38 @@ class HearingFormStep4 extends React.Component {
 
     return (
       <div className='form-step'>
-        <Row>
-          <Col md={3}>
-            <FormGroup controlId='hearingOpeningTime' validationState={getValidationState(errors, 'open_at')}>
-              <ControlLabel>
-                <FormattedMessage id='hearingOpeningTime' />*
-              </ControlLabel>
-              <DateTime
-                name='open_at'
-                dateFormat={this.date_format}
-                timeFormat={this.time_format}
-                value={this.formatDateTime(hearing.open_at)}
-                onChange={this.onChangeStart}
-                inputProps={{ placeholder: formatMessage({ id: 'hearingClosingTimePlaceholder' }) }}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup controlId='hearingClosingTime' validationState={getValidationState(errors, 'close_at')}>
-              <ControlLabel>
-                <FormattedMessage id='hearingClosingTime' />*
-              </ControlLabel>
-              <DateTime
-                name='close_at'
-                dateFormat={this.date_format}
-                timeFormat={this.time_format}
-                value={this.formatDateTime(hearing.close_at)}
-                onChange={this.onChangeEnd}
-                inputProps={{ placeholder: formatMessage({ id: 'hearingClosingTimePlaceholder' }) }}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-
+        <div className='hearing-form-row'>
+          <div id='hearingOpeningTime' className='hearing-form-column'>
+            <DateInput
+              label={<FormattedMessage id='hearingOpeningTime' />}
+              name='open_at'
+              id='open_at'
+              required
+              placeholder={formatMessage({ id: 'hearingClosingTimePlaceholder' })}
+              initialMonth={new Date()}
+              language='fi'
+              onChange={this.onChangeStart}
+              value={this.formatDateTime(hearing.open_at)}
+              errorText={errors.open_at}
+              invalid={!!errors.open_at}
+            />
+          </div>
+          <div id='hearingClosingTime' className='hearing-form-column'>
+            <DateInput
+              label={<FormattedMessage id='hearingClosingTime' />}
+              name='close_at'
+              id='close_at'
+              required
+              placeholder={formatMessage({ id: 'hearingClosingTimePlaceholder' })}
+              initialMonth={new Date()}
+              language='fi'
+              onChange={this.onChangeEnd}
+              value={this.formatDateTime(hearing.close_at)}
+              errorText={errors.close_at}
+              invalid={!!errors.close_at}
+            />
+          </div>
+        </div>
         <MultiLanguageTextField
           richTextEditor
           labelId='hearingClosureInfo'
@@ -132,7 +130,7 @@ class HearingFormStep4 extends React.Component {
           languages={hearingLanguages}
         />
         <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
+          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
