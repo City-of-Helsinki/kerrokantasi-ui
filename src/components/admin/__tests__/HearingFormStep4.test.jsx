@@ -45,6 +45,20 @@ describe('<HearingFormStep4 />', () => {
     expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String));
   });
 
+  it('should handle time change', () => {
+    const onHearingChange = jest.fn();
+
+    renderComponent({ onHearingChange });
+
+    const hoursInput = screen.getAllByLabelText(/Tunti/i)[0];
+    const minutesInput = screen.getAllByLabelText(/Minuutti/i)[0];
+
+    fireEvent.change(hoursInput, { target: { value: '12' } });
+    fireEvent.change(minutesInput, { target: { value: '00' } });
+
+    expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String));
+  });
+
   it('should call onContinue when the button is clicked', () => {
     const onContinue = jest.fn();
 
