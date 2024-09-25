@@ -23,8 +23,6 @@ import {
   deleteSectionAttachment,
   deleteTemporaryQuestion,
   editQuestion,
-  editSectionAttachment,
-  editSectionAttachmentOrder,
   initMultipleChoiceQuestion,
   initSingleChoiceQuestion,
   deleteExistingQuestion,
@@ -98,20 +96,6 @@ class HearingEditor extends React.Component {
    */
   onSectionAttachment = (sectionId, attachments, attachmentProperties) => {
     this.props.dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties, this.props.hearing.isNew));
-  };
-
-  /**
-   * When we need to edit the order of attachments.
-   */
-  onEditSectionAttachmentOrder = (sectionId, attachments) => {
-    this.props.dispatch(editSectionAttachmentOrder(sectionId, attachments));
-  };
-
-  /**
-   * When section attachment is modified.
-   */
-  onSectionAttachmentEdit = (sectionId, attachments) => {
-    this.props.dispatch(editSectionAttachment(sectionId, attachments));
   };
 
   /**
@@ -201,7 +185,6 @@ class HearingEditor extends React.Component {
         onCreateMapMarker={this.onCreateMapMarker}
         onDeleteExistingQuestion={this.onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={this.onDeleteTemporaryQuestion}
-        onEditSectionAttachmentOrder={this.onEditSectionAttachmentOrder}
         onHearingChange={this.onHearingChange}
         onLanguagesChange={this.onLanguagesChange}
         onLeaveForm={() => dispatch(closeHearingForm())}
@@ -211,7 +194,6 @@ class HearingEditor extends React.Component {
         onSaveAsCopy={this.onSaveAsCopy}
         onSectionAttachment={this.onSectionAttachment}
         onSectionAttachmentDelete={this.onSectionAttachmentDelete}
-        onSectionAttachmentEdit={this.onSectionAttachmentEdit}
         onSectionChange={this.onSectionChange}
         onSectionImageChange={this.onSectionImageChange}
         sectionMoveDown={this.sectionMoveDown}
