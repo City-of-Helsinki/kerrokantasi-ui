@@ -148,6 +148,8 @@ const HearingFormStep4 = ({
           />
           <TimeInput
             label={<FormattedMessage id='hearingOpeningTime' />}
+            hoursLabel='Tunti'
+            minutesLabel='Minuutti'
             name='open_time'
             id='open_time'
             required
@@ -174,6 +176,8 @@ const HearingFormStep4 = ({
           />
           <TimeInput
             label={<FormattedMessage id='hearingClosingTime' />}
+            hoursLabel='Tunti'
+            minutesLabel='Minuutti'
             name='close_time'
             id='close_time'
             required
