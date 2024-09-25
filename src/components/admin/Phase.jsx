@@ -1,19 +1,11 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radio from 'react-bootstrap/lib/Radio';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import { Row, Col } from 'react-bootstrap';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Button } from 'hds-react';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import { Button, Checkbox, IconTrash, TextInput } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
-import { getValidationState } from '../../utils/hearingEditor';
 import { createNotificationPayload } from '../../utils/notify';
-import Icon from '../../utils/Icon';
-import FormControlOnChange from '../forms/FormControlOnChange';
 import { addToast } from '../../actions/toast';
 
 const Phase = (props) => {
@@ -21,104 +13,98 @@ const Phase = (props) => {
 
   const dispatch = useDispatch();
 
-  const handleRadioOnChange = () => {
-    onActive(phaseInfo.id || phaseInfo.frontId);
+  const handleRadioOnChange = (event) => {
+    if (event.target.checked) {
+      onActive(phaseInfo.id || phaseInfo.frontId);
+    } else {
+      onActive(null);
+    }
   };
 
   return (
-    <Row>
-      <Col md={12}>
-        {languages.map((usedLanguage, index) => (
-          <FormGroup key={usedLanguage}>
-            <Row>
-              <Col md={12}>
-                <FormGroup validationState={getValidationState(errors, 'project_phase_title')}>
-                  <ControlLabel>
+    <div>
+      {languages.map((usedLanguage, index) => (
+        <div key={usedLanguage}>
+          <div>
+            <div className='hearing-form-column' style={{ marginBottom: 'var(--spacing-s)' }}>
+              <TextInput
+                id={`phase-${indexNumber + 1}`}
+                name={`phase-${indexNumber + 1}`}
+                label={
+                  <>
                     <FormattedMessage id='phase' /> {indexNumber + 1} ({usedLanguage})
-                  </ControlLabel>
-                  <div className='label-elements'>
-                    <div>
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          <FormattedMessage id={`${indexNumber + 1}`} />*
-                        </InputGroup.Addon>
-                        <FormControlOnChange
-                          maxLength='100'
-                          defaultValue={phaseInfo.title[usedLanguage]}
-                          onBlur={(event) => {
-                            onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, event.target.value);
-                          }}
-                          type='text'
-                        />
-                      </InputGroup>
-                    </div>
-                    {index === 0 ? (
-                      <Button
-                        onClick={() => {
-                          if (phaseInfo.has_hearings) {
-                            dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
-                          } else {
-                            onDelete(phaseInfo.id || phaseInfo.frontId);
-                          }
-                        }}
-                        size="small"
-                        className='kerrokantasi-btn pull-right add-label-button'
-                        style={{ color: 'red', borderColor: 'red' }}
-                      >
-                        <Icon className='icon' name='trash' />
-                      </Button>
-                    ) : (
-                      <span className='pull-right add-label-button' />
-                    )}
-                  </div>
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <ControlLabel>
-                  <FormattedMessage id='phaseDuration' />
-                </ControlLabel>
-                <FormControlOnChange
-                  maxLength='50'
-                  defaultValue={phaseInfo.schedule[usedLanguage]}
-                  onBlur={(event) => {
-                    onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value);
+                  </>
+                }
+                value={phaseInfo.title[usedLanguage]}
+                maxLength={100}
+                onBlur={(event) =>
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, event.target.value)
+                }
+                invalid={!!errors.project_phase_title}
+                errorText={errors.project_phase_title}
+                required
+              />
+              {index === 0 ? (
+                <Button
+                  onClick={() => {
+                    if (phaseInfo.has_hearings) {
+                      dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
+                    } else {
+                      onDelete(phaseInfo.id || phaseInfo.frontId);
+                    }
                   }}
-                  type='text'
-                />
-              </Col>
-              <Col md={6}>
-                <ControlLabel>
-                  <FormattedMessage id='phaseDescription' />
-                </ControlLabel>
-                <FormControlOnChange
-                  maxLength='100'
-                  defaultValue={phaseInfo.description[usedLanguage]}
-                  onBlur={(event) => {
-                    onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value);
-                  }}
-                  type='text'
-                />
-              </Col>
-            </Row>
-            {index === 0 ? (
-              <Row>
-                <Col md={12}>
-                  <Radio
-                    className={getValidationState(errors, 'project_phase_active') ? 'has-error' : ''}
-                    onChange={handleRadioOnChange}
-                    checked={phaseInfo.is_active || false}
-                  >
-                    <FormattedMessage id='phaseActive'>{(txt) => txt}</FormattedMessage>
-                  </Radio>
-                </Col>
-              </Row>
-            ) : null}
-          </FormGroup>
-        ))}
-      </Col>
-    </Row>
+                  size='small'
+                  className='kerrokantasi-btn pull-right action-button'
+                  style={{ color: 'red', borderColor: 'red' }}
+                >
+                  <IconTrash />
+                </Button>
+              ) : (
+                <span className='pull-right action-button' />
+              )}
+            </div>
+          </div>
+          <div className='hearing-form-row'>
+            <div className='hearing-form-column'>
+              <TextInput
+                id={`phase-duration-${indexNumber + 1}`}
+                name={`phase-duration-${indexNumber + 1}`}
+                label={<FormattedMessage id='phaseDuration' />}
+                maxLength={50}
+                value={phaseInfo.schedule[usedLanguage]}
+                onBlur={(event) =>
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value)
+                }
+              />
+            </div>
+            <div className='hearing-form-column'>
+              <TextInput
+                id={`phase-description-${indexNumber + 1}`}
+                name={`phase-description-${indexNumber + 1}`}
+                label={<FormattedMessage id='phaseDescription' />}
+                maxLength={100}
+                value={phaseInfo.description[usedLanguage]}
+                onBlur={(event) =>
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value)
+                }
+              />
+            </div>
+          </div>
+          <div style={{ marginBottom: 'var(--spacing-m)' }}>
+            {index === 0 && (
+              <Checkbox
+                id={`phase-active-${indexNumber + 1}`}
+                name={`phase-active-${indexNumber + 1}`}
+                label={<FormattedMessage id='phaseActive'>{(txt) => txt}</FormattedMessage>}
+                onChange={handleRadioOnChange}
+                checked={phaseInfo.is_active}
+                errorText={errors.project_phase_active}
+              />
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
