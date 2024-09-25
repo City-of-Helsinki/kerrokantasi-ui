@@ -46,6 +46,7 @@ const Phase = (props) => {
               />
               {index === 0 ? (
                 <Button
+                  data-testid="remove-phase"
                   onClick={() => {
                     if (phaseInfo.has_hearings) {
                       dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
