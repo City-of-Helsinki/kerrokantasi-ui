@@ -187,23 +187,22 @@ const HearingFormStep1 = ({
       </div>
 
       <ul className='edit-contacts-list'>
-        {selectedContacts &&
-          selectedContacts.map((item) => {
-            const contact = contactPersons.find((option) => option.id === item);
+        {selectedContacts?.map((item) => {
+          const contact = contactPersons.find((option) => option.id === item);
 
-            return (
-              <li>
-                <Button
-                  variant='supplementary'
-                  iconRight={<IconPen />}
-                  size='small'
-                  onClick={() => openContactModal(contact)}
-                >
-                  Muokkaa yhteyshenkilöä: {contact.name}
-                </Button>
-              </li>
-            );
-          })}
+          return (
+            <li key={item}>
+              <Button
+                variant='supplementary'
+                iconRight={<IconPen />}
+                size='small'
+                onClick={() => openContactModal(contact)}
+              >
+                Muokkaa yhteyshenkilöä: {contact.name}
+              </Button>
+            </li>
+          );
+        })}
       </ul>
       <div className='step-footer'>
         <Button className='kerrokantasi-btn' onClick={onContinue}>
