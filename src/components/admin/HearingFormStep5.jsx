@@ -10,7 +10,6 @@ import classNames from 'classnames';
 
 import Icon from '../../utils/Icon';
 import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
-import { getValidationState } from '../../utils/hearingEditor';
 import * as ProjectsSelector from '../../selectors/projectLists';
 import Phase from './Phase';
 import { hearingShape } from '../../types';
@@ -18,50 +17,41 @@ import {
   changeProjectName,
   changeProject,
   activePhase,
-  deletePhase,
-  addPhase,
+  deletePhase as deletePhaseFn,
+  addPhase as addPhaseFn,
   changePhase,
 } from '../../actions/hearingEditor';
 import { addToast } from '../../actions/toast';
 
-class HearingFormStep5 extends React.Component {
-  onChangeProject = (selected) => {
-    this.props.dispatch(
+const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects, intl, dispatch }) => {
+  const onChangeProject = (selected) =>
+    dispatch(
       changeProject({
         projectId: selected.value,
-        projectLists: this.props.projects,
+        projectLists: projects,
       }),
     );
-  };
 
-  addPhase = () => {
-    const { hearingLanguages } = this.props;
+  const addPhase = () => {
     if (!isEmpty(hearingLanguages)) {
-      this.props.dispatch(addPhase());
+      return dispatch(addPhaseFn());
     }
-    this.props.dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Valitse ensin kieli.')));
+
+    return dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Valitse ensin kieli.')));
   };
 
-  deletePhase = (phaseId) => {
-    this.props.dispatch(deletePhase(phaseId));
-  };
+  const deletePhase = (phaseId) => dispatch(deletePhaseFn(phaseId));
 
-  onChangePhase = (phaseId, fieldName, language, value) => {
-    this.props.dispatch(changePhase(phaseId, fieldName, language, value));
-  };
+  const onChangePhase = (phaseId, fieldName, phaseLanguage, value) =>
+    dispatch(changePhase(phaseId, fieldName, phaseLanguage, value));
 
-  onChangeProjectName = (fieldname, value) => {
-    this.props.dispatch(changeProjectName(fieldname, value));
-  };
+  const onChangeProjectName = (fieldname, value) => dispatch(changeProjectName(fieldname, value));
 
-  onActivePhase = (phaseId) => {
-    this.props.dispatch(activePhase(phaseId));
-  };
+  const onActivePhase = (phaseId) => dispatch(activePhase(phaseId));
 
-  renderProject = (selectedProject) => {
-    const { hearing, hearingLanguages, errors } = this.props;
+  const renderProject = (selectedProject) => {
     const phasesLength = hearing.project ? hearing.project.phases.length : null;
-    const errorStyle = getValidationState(errors, 'project_phase_active') && phasesLength === 0 ? 'has-error' : null;
+    const errorStyle = !errors.project_phase_active && phasesLength === 0 ? 'has-error' : null;
 
     return (
       <div>
@@ -78,7 +68,7 @@ class HearingFormStep5 extends React.Component {
                 }
                 maxLength={100}
                 value={selectedProject.title[usedLanguage]}
-                onBlur={(event) => this.onChangeProjectName(usedLanguage, event.target.value)}
+                onBlur={(event) => onChangeProjectName(usedLanguage, event.target.value)}
                 invalid={!!errors.project_title}
                 errorText={errors.project_title}
                 style={{ marginBottom: 'var(--spacing-s)' }}
@@ -93,12 +83,12 @@ class HearingFormStep5 extends React.Component {
 
               return (
                 <Phase
-                  onChange={this.onChangePhase}
+                  onChange={onChangePhase}
                   phaseInfo={phase}
                   key={key}
                   indexNumber={index}
-                  onDelete={this.deletePhase}
-                  onActive={this.onActivePhase}
+                  onDelete={deletePhase}
+                  onActive={onActivePhase}
                   languages={hearingLanguages}
                   errors={errors}
                 />
@@ -107,7 +97,7 @@ class HearingFormStep5 extends React.Component {
         </div>
         {selectedProject && (
           <div>
-            <Button className={classNames([errorStyle, 'kerrokantasi-btn'])} onClick={this.addPhase} size='small'>
+            <Button className={classNames([errorStyle, 'kerrokantasi-btn'])} onClick={addPhase} size='small'>
               <Icon className='icon' name='plus' /> <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
             </Button>
           </div>
@@ -121,39 +111,36 @@ class HearingFormStep5 extends React.Component {
     );
   };
 
-  render() {
-    const { projects, language, hearing, intl } = this.props;
-    const selectedProject = hearing.project;
+  const selectedProject = hearing.project;
 
-    const defaultProjectOptions = [
-      { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
-      { value: '', label: intl.formatMessage({ id: 'defaultProject' }) },
-    ];
+  const defaultProjectOptions = [
+    { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
+    { value: '', label: intl.formatMessage({ id: 'defaultProject' }) },
+  ];
 
-    const projectsOptions = projects.map((project) => ({
-      value: project.id,
-      label: `${
-        project.title[language] || project.title.fi || project.title.en || project.title.sv || 'Default project'
-      }`,
-    }));
+  const projectsOptions = projects.map((project) => ({
+    value: project.id,
+    label: `${
+      project.title[language] || project.title.fi || project.title.en || project.title.sv || 'Default project'
+    }`,
+  }));
 
-    return (
-      <div>
-        <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
-          <Select
-            optionKeyField='value'
-            id='commenting'
-            name='commenting'
-            label={<FormattedMessage id='projectSelection' />}
-            options={[...defaultProjectOptions, ...projectsOptions]}
-            onChange={this.onChangeProject}
-          />
-        </div>
-        {this.renderProject(selectedProject)}
+  return (
+    <div>
+      <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
+        <Select
+          optionKeyField='value'
+          id='commenting'
+          name='commenting'
+          label={<FormattedMessage id='projectSelection' />}
+          options={[...defaultProjectOptions, ...projectsOptions]}
+          onChange={onChangeProject}
+        />
       </div>
-    );
-  }
-}
+      {renderProject(selectedProject)}
+    </div>
+  );
+};
 
 HearingFormStep5.propTypes = {
   errors: PropTypes.object,
