@@ -88,13 +88,11 @@ class HearingForm extends React.Component {
               onCreateMapMarker={this.props.onCreateMapMarker}
               onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
               onHearingChange={this.props.onHearingChange}
               onLanguagesChange={this.props.onLanguagesChange}
               onQuestionChange={onQuestionChange}
               onSectionAttachment={this.props.onSectionAttachment}
               onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-              onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
               onSectionChange={this.props.onSectionChange}
               onSectionImageChange={this.props.onSectionImageChange}
               sectionMoveDown={sectionMoveDown}
@@ -272,7 +270,6 @@ HearingForm.propTypes = {
   onCreateMapMarker: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
-  onEditSectionAttachmentOrder: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   onLeaveForm: PropTypes.func,
@@ -282,7 +279,6 @@ HearingForm.propTypes = {
   onSaveAsCopy: PropTypes.func,
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
-  onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,

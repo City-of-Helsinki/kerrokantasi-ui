@@ -98,26 +98,26 @@ export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(
 /**
  * When editing a sections attachment.
  */
-export const editSectionAttachment = (sectionId, attachment) => (dispatch) => {
-  const url = `/v1/file/${attachment.id}`;
-  return put(url, attachment)
-    .then(checkResponseStatus)
-    .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({ sectionId, attachment })));
-};
+// export const editSectionAttachment = (sectionId, attachment) => (dispatch) => {
+//   const url = `/v1/file/${attachment.id}`;
+//   return put(url, attachment)
+//     .then(checkResponseStatus)
+//     .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({ sectionId, attachment })));
+// };
 
 /**
  * For changing order, two requests have to be made.
  * One file is incremented whilst the other decrementd.
  */
-export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch) => {
-  const promises = attachments.map((attachment) => {
-    const url = `/v1/file/${attachment.id}`;
-    return put(url, attachment);
-  });
+// export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch) => {
+//   const promises = attachments.map((attachment) => {
+//     const url = `/v1/file/${attachment.id}`;
+//     return put(url, attachment);
+//   });
 
-  return Promise.all(promises)
-    .then(() => dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({ sectionId, attachments })));
-};
+//   return Promise.all(promises)
+//     .then(() => dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({ sectionId, attachments })));
+// };
 
 /**
  * Delete an attached item.
@@ -126,8 +126,10 @@ export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch)
  * @reuturns Promise.
  */
 export const deleteSectionAttachment = (sectionId, attachment) => (dispatch) => {
-  const url = `/v1/file/${attachment.id}`;
-  return apiDelete(url, attachment)
+  const { id, file } = attachment;
+
+  const url = `/v1/file/${id}`;
+  return apiDelete(url, file)
     .then(checkResponseStatus)
     .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({ sectionId, attachment })));
 };
@@ -401,6 +403,7 @@ export function addSectionAttachment(section, file, title, isNew) {
   // This method is a little different to exisitn methods as it uploads as soon as user selects file.
   return (dispatch) => {
     const url = '/v1/file';
+
     const data = { file, title };
     return post(url, data)
       .then(checkResponseStatus)
