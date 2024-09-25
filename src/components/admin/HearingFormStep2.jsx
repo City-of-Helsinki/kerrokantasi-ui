@@ -28,10 +28,8 @@ const HearingFormStep2 = ({
   clearQuestions,
   initMultipleChoiceQuestion,
   initSingleChoiceQuestion,
-  onEditSectionAttachmentOrder,
   onSectionAttachment,
   onSectionAttachmentDelete,
-  onSectionAttachmentEdit,
   onSectionChange,
   onSectionImageChange,
   language,
@@ -98,11 +96,9 @@ const HearingFormStep2 = ({
               isLastSubsection={sectionID === last(hearing.sections).frontId}
               isPublic={isPublic(hearing)}
               onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onEditSectionAttachmentOrder={onEditSectionAttachmentOrder}
               onQuestionChange={onQuestionChange}
               onSectionAttachment={onSectionAttachment}
               onSectionAttachmentDelete={onSectionAttachmentDelete}
-              onSectionAttachmentEdit={onSectionAttachmentEdit}
               onSectionChange={onSectionChange}
               onSectionImageChange={onSectionImageChange}
               section={section}
@@ -160,11 +156,9 @@ HearingFormStep2.propTypes = {
   onContinue: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
-  onEditSectionAttachmentOrder: PropTypes.func,
   onQuestionChange: PropTypes.func,
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
-  onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
   onSectionImageChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
