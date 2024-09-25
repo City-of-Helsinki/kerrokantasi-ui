@@ -10,6 +10,15 @@ import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
+jest.mock('hds-react', () => {
+  const actual = jest.requireActual('hds-react');
+
+  return {
+    ...actual,
+    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+  };
+});
+
 const storeInitialState = { language: 'fi' };
 
 const renderComponent = (propOverrides, storeOverride) => {
@@ -28,10 +37,8 @@ const renderComponent = (propOverrides, storeOverride) => {
     clearQuestions: jest.fn(),
     initMultipleChoiceQuestion: jest.fn(),
     initSingleChoiceQuestion: jest.fn(),
-    onEditSectionAttachmentOrder: jest.fn(),
     onSectionAttachment: jest.fn(),
     onSectionAttachmentDelete: jest.fn(),
-    onSectionAttachmentEdit: jest.fn(),
     onSectionChange: jest.fn(),
     onSectionImageChange: jest.fn(),
     onDeleteExistingQuestion: jest.fn(),

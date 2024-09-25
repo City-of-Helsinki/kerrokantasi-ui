@@ -9,6 +9,14 @@ import { createLocalizedNotificationPayload } from '../../../utils/notify';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
 jest.mock('../../../utils/notify');
+jest.mock('hds-react', () => {
+  const actual = jest.requireActual('hds-react');
+
+  return {
+    ...actual,
+    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+  };
+});
 
 const hearingWithErrors = {
   title: {
