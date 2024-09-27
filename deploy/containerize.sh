@@ -36,8 +36,8 @@ if [ "$TRAVIS_PULL_REQUEST" != false ]; then
     exit 0
 fi
 
-if [ "$TRAVIS_BRANCH" == "master" ] ; then
-    echo "Tagging master"
+if [ "$TRAVIS_BRANCH" == "main" ] ; then
+    echo "Tagging main"
     docker tag kerrokantasi-ui "$REPO:$COMMIT"
     docker tag "$REPO:$COMMIT" $REPO:latest
     docker tag "$REPO:$COMMIT" "$REPO:travis-$TRAVIS_BUILD_NUMBER"
@@ -47,7 +47,7 @@ if [ "$TRAVIS_BRANCH" == "master" ] ; then
     exit 0
 fi
 
-if [ "$TRAVIS_BRANCH" != "master" ] ; then
+if [ "$TRAVIS_BRANCH" != "main" ] ; then
     echo "Tagging branch " "$TRAVIS_BRANCH"
     docker tag kerrokantasi-ui "$REPO:$COMMIT"
     docker tag "$REPO:$COMMIT" "$REPO:$BRANCH"
