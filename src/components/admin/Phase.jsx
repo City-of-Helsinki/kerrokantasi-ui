@@ -8,14 +8,18 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button } from 'hds-react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import { useDispatch } from 'react-redux';
 
 import { getValidationState } from '../../utils/hearingEditor';
-import { localizedNotifyError } from '../../utils/notify';
+import { createNotificationPayload } from '../../utils/notify';
 import Icon from '../../utils/Icon';
 import FormControlOnChange from '../forms/FormControlOnChange';
+import { addToast } from '../../actions/toast';
 
 const Phase = (props) => {
   const { phaseInfo, indexNumber, onDelete, onChange, onActive, languages, errors } = props;
+
+  const dispatch = useDispatch();
 
   const handleRadioOnChange = () => {
     onActive(phaseInfo.id || phaseInfo.frontId);
@@ -52,7 +56,7 @@ const Phase = (props) => {
                       <Button
                         onClick={() => {
                           if (phaseInfo.has_hearings) {
-                            localizedNotifyError('tryingToDeletePhaseWithHearings');
+                            dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
                           } else {
                             onDelete(phaseInfo.id || phaseInfo.frontId);
                           }

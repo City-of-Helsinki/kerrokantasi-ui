@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
-import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
@@ -26,6 +25,7 @@ import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
+import Toast from './components/Toast';
 
 function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
@@ -80,10 +80,6 @@ function App({ language, isHighContrast, history, ...props }) {
     { name: 'theme-color', content: '#ffffff' },
   ];
   const headless = checkHeadlessParam(location.search);
-  const fonts = `"HelsinkiGrotesk",
-    Arial, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`;
 
   let header = null;
   if (!fullscreen && !headless) {
@@ -112,12 +108,7 @@ function App({ language, isHighContrast, history, ...props }) {
           <Routes />
         </main>
         <Footer language={locale} />
-        <ToastContainer
-          bodyClassName={{
-            padding: '7px 7px 7px 12px',
-            fontFamily: fonts,
-          }}
-        />
+        <Toast />
       </div>
     </IntlProvider>
   );

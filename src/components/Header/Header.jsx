@@ -4,33 +4,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import logoBlack from '@city-images/logo-fi-black.svg';
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { localizedNotifyError } from '../../utils/notify';
 import config from '../../config';
 import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
+import { addToast } from '../../actions/toast';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 
 const Header = ({ user }) => {
   const { authenticated, login, logout } = useAuthHook();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const intl = useIntl();
   const language = intl.locale;
-
+  
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
-      localizedNotifyError('maintenanceNotificationText');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));
       return;
     }
     if (!authenticated) {
       try {
         await login();
       } catch {
-        localizedNotifyError('loginAttemptFailed');
+        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'loginAttemptFailed')));
       }
     } else {
       logout();

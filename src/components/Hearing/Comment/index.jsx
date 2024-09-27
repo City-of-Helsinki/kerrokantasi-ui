@@ -12,19 +12,22 @@ import classnames from 'classnames';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
 
 import CommentForm from '../../BaseCommentForm';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 import Icon from '../../../utils/Icon';
-import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/notify';
+import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
 import FormatRelativeTime from '../../../utils/FormatRelativeTime';
+import { addToast } from '../../../actions/toast';
 
 const Comment = (props) => {
+  const dispatch = useDispatch();
   const commentRef = useRef();
   const { data, canReply } = props;
   const canEdit = data.can_edit;
@@ -85,12 +88,13 @@ const Comment = (props) => {
       // If user has already voted for this comment, block the user from voting again
       const votedComments = JSON.parse(localStorage.getItem('votedComments')) || [];
       if (votedComments.includes(data.id)) {
-        localizedNotifyError('alreadyVoted');
+        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'alreadyVoted')));
         return;
       }
       props.onPostVote(data.id, data.section, props.isReply, props.parentComponentId);
     } else {
-      notifyError('Kirjaudu sisään äänestääksesi kommenttia.');
+      // TODO: Add translations
+      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään äänestääksesi kommenttia.')));
     }
   };
 
@@ -100,7 +104,8 @@ const Comment = (props) => {
     if (canFlagComments()) {
       props.onPostFlag(data.id, data.section, props.isReply, props.parentComponentId);
     } else {
-      notifyError('Kirjaudu sisään liputtaaksesi kommentin.');
+      // TODO: Add translations
+      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään liputtaaksesi kommentin.')));
     }
   };
 
@@ -108,7 +113,8 @@ const Comment = (props) => {
     // Build absolute URL for comment
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
-    notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
+    // TODO: Add translations
+    dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.info, 'Linkki kommenttiin on kopioitu leikepöydällesi.')));
   };
 
   /**

@@ -7,8 +7,9 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button } from 'hds-react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { useDispatch } from 'react-redux';
 
-import { alert, localizedNotifyError } from '../../utils/notify';
+import { alert, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import {
   checkFormErrors,
   hasUserAnsweredAllQuestions,
@@ -17,6 +18,7 @@ import {
 } from '../../utils/section';
 import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
+import { addToast } from '../../actions/toast';
 
 const MapQuestionnaire = ({
   comments,
@@ -64,6 +66,8 @@ const MapQuestionnaire = ({
 
   const frameRef = useRef();
 
+  const dispatch = useDispatch();
+
   const getPluginData = () => formData.lastUserData;
   const getPluginComment = () => formData.lastUserComment;
 
@@ -78,7 +82,7 @@ const MapQuestionnaire = ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
-      localizedNotifyError('maintenanceNotificationText');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, 'maintenanceNotificationText')));
 
       return;
     }

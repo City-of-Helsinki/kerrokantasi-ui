@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { isEmpty } from 'lodash';
 
-import { notifyError } from '../../utils/notify';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import {
   addOption,
   addSectionAttachment,
@@ -46,6 +46,7 @@ import { contactShape, hearingShape, labelShape, organizationShape, userShape } 
 import * as EditorSelector from '../../selectors/hearingEditor';
 import validateFunction from '../../utils/validation';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
+import { addToast } from '../../actions/toast';
 
 class HearingEditor extends React.Component {
   constructor(props) {
@@ -313,9 +314,9 @@ class HearingEditor extends React.Component {
     this.setState({ errors: localErrors });
     const containsError = Object.entries(localErrors).some(([, v]) => Object.entries(v).length > 0);
     if (!containsError) {
-      return dispatch(callbackAction(hearing));
+      dispatch(callbackAction(hearing));
     }
-    return notifyError(formatMessage({ id: 'validationNotification' }));
+    dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'validationNotification')));
   };
 
   toggleCommentReports() {

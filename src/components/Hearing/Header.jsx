@@ -8,12 +8,12 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { Button } from 'hds-react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { FormattedPlural, FormattedMessage, useIntl } from 'react-intl';
 import { stringify } from 'qs';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { notifyError, notifySuccess } from '../../utils/notify';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from '../LabelList';
@@ -29,10 +29,12 @@ import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../se
 import getUser from '../../selectors/user';
 import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
 import InternalLink from '../InternalLink';
+import { addToast } from '../../actions/toast';
 
 function HeaderComponent(props) {
   const params = useParams();
   const location = useLocation();
+  const dispatch = useDispatch();
   const { language, hearing } = props;
   const { user, addToFavorites, removeFromFavorites } = props;
 
@@ -230,10 +232,10 @@ function HeaderComponent(props) {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        notifySuccess(<FormattedMessage id='hearingPreviewLinkSuccess'>{(text) => text}</FormattedMessage>);
+        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, 'hearingPreviewLinkSuccess')));
       })
       .catch(() => {
-        notifyError(<FormattedMessage id='hearingPreviewLinkFailed'>{(text) => text}</FormattedMessage>);
+        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'hearingPreviewLinkFailed')));
       });
   };
 

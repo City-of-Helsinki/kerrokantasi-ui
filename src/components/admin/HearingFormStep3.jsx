@@ -12,13 +12,13 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import HelpBlock from 'react-bootstrap/lib/HelpBlock';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
-import { localizedNotifyError } from '../../utils/notify';
+import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import Icon from '../../utils/Icon';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
@@ -27,6 +27,7 @@ import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
+import { addToast } from '../../actions/toast';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -192,6 +193,8 @@ const HearingFormStep3 = (props) => {
   const [isEdited, setIsEdited] = useState(false);
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     Leaflet.drawLocal = getTranslatedTooltips(language);
   }, [language]);
@@ -314,7 +317,7 @@ const HearingFormStep3 = (props) => {
 
       reader.readAsText(file);
     } catch (err) {
-      localizedNotifyError(MESSAGE_INCORRECT_FILE);
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
     }
   };
 
@@ -331,7 +334,7 @@ const HearingFormStep3 = (props) => {
           includes(keys(featureCollection.features[0].geometry), 'coordinates')
         ) {
           if (featureCollection.features[0].geometry.coordinates.length === 0) {
-            localizedNotifyError('Tiedostosta ei löytynyt koordinaatteja.');
+            dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.')));
             return;
           }
           onHearingChange('geojson', featureCollection.features[0].geometry);
@@ -339,10 +342,10 @@ const HearingFormStep3 = (props) => {
           onCreateMapMarker(parsedFile);
           setInitialGeoJSON(parsedFile);
         } else {
-          localizedNotifyError(MESSAGE_INCORRECT_FILE);
+          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
         }
       } catch (err) {
-        localizedNotifyError(MESSAGE_INCORRECT_FILE);
+        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
       }
     });
   };

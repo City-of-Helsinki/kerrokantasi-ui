@@ -11,12 +11,13 @@ import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
 
 import { QuestionForm } from './QuestionForm';
 import Icon from '../../utils/Icon';
-import { localizedNotifyError, notifyError } from '../../utils/notify';
+import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 import config from '../../config';
+import { addToast } from '../../actions/toast';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -105,20 +106,20 @@ class SectionForm extends React.Component {
   }
 
   onFileDrop(files) {
-    const { onSectionImageChange, section } = this.props;
+    const { onSectionImageChange, section, dispatch } = this.props;
     if (files[0].size > MAX_IMAGE_SIZE) {
-      localizedNotifyError('imageSizeError');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageSizeError')));
       return;
     }
     if (!onSectionImageChange) {
-      localizedNotifyError('imageGenericError');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageGenericError')));
       return;
     }
 
     const file = files[0]; // Only one file is supported for now.
     const fileReader = new FileReader();
     fileReader.addEventListener('error', () => {
-      localizedNotifyError('imageFileUploadError');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
     });
     fileReader.addEventListener(
       'load',
@@ -127,7 +128,7 @@ class SectionForm extends React.Component {
         const img = document.createElement('img');
         img.src = event.target.result;
         img.onerror = () => {
-          localizedNotifyError('imageFileUploadError');
+          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
         };
         img.onload = () => {
           // Canvas element is created with content from the new img.
@@ -157,6 +158,8 @@ class SectionForm extends React.Component {
    * @param {File} attachment - file to upload.
    */
   onAttachmentDrop = (attachment) => {
+
+    const { section, language, dispatch } = this.props;
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1000 * 1000;
     if (attachment[0].size > MAX_FILE_SIZE_BYTES) {
       const localizedErrorMessage = (
@@ -164,11 +167,10 @@ class SectionForm extends React.Component {
           {(text) => text}
         </FormattedMessage>
       );
-      notifyError(localizedErrorMessage);
+      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, localizedErrorMessage)));
       return;
     }
     // Load the file and then upload it.
-    const { section, language } = this.props;
     const file = attachment[0];
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
@@ -508,6 +510,7 @@ SectionForm.defaultProps = {
 SectionForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
+  dispatch: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
   isFirstSubsection: PropTypes.bool,
