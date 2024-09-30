@@ -84,7 +84,11 @@ const HearingFormStep2 = ({
             heading={sectionHeader}
             language={language}
             initiallyOpen={activeSection === sectionID}
-            border
+            card
+            theme={{
+              '--padding-vertical': 'var(--spacing-3-xs)',
+              '--padding-horizontal': '0',
+            }}
           >
             <SectionForm
               addOption={addOption}
