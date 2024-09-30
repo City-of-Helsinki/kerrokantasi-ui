@@ -261,15 +261,10 @@ describe('HearingEditor actions', () => {
         });
       });
       describe('saveContact', () => {
-        let store;
-      
-        beforeEach(() => {
-          store = mockStore({});
-          jest.clearAllMocks();
-        });
-      
+        const testPerson = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+        const testPersonData = { name: 'John Doe', email: 'john.doe@example.com' }
         it('dispatches success actions on successful contact save', async () => {
-          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const contact = testPerson;
           const response = { status: 200, json: () => Promise.resolve(contact) };
           api.put.mockResolvedValue(response);
       
@@ -279,11 +274,11 @@ describe('HearingEditor actions', () => {
       
           await store.dispatch(actions.saveContact(contact));
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
         });
       
         it('dispatches error actions on contact save failure (400)', async () => {
-          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const contact = testPerson
           const response = { status: 400, json: () => Promise.resolve({}) };
           api.put.mockResolvedValue(response);
       
@@ -293,11 +288,11 @@ describe('HearingEditor actions', () => {
       
           await store.dispatch(actions.saveContact(contact));
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
         });
       
         it('dispatches error actions on contact save failure (401)', async () => {
-          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const contact = testPerson;
           const response = { status: 401, json: () => Promise.resolve({}) };
           api.put.mockResolvedValue(response);
       
@@ -307,7 +302,7 @@ describe('HearingEditor actions', () => {
       
           await store.dispatch(actions.saveContact(contact));
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
         });
       });
 
