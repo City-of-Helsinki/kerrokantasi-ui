@@ -3,10 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import Accordion from 'react-bootstrap/lib/Accordion';
-import Alert from 'react-bootstrap/lib/Alert';
-import { Button, Dialog } from 'hds-react';
-import Panel from 'react-bootstrap/lib/Panel';
+import { Accordion, Button, Dialog, Notification } from 'hds-react';
 
 import Icon from '../../utils/Icon';
 import config from '../../config';
@@ -60,48 +57,52 @@ class HearingForm extends React.Component {
     const PhaseTag = this.formSteps[stepNumber - 1]; // Zero indexed list
     const isVisible = this.state.currentStep === stepNumber;
     return (
-      <Panel eventKey={step}>
-        <Panel.Heading>
-          <Panel.Title toggle>{title}</Panel.Title>
-        </Panel.Heading>
-        <Panel.Collapse>
-          <Panel.Body>
-            <PhaseTag
-              addOption={addOption}
-              clearQuestions={this.props.clearQuestions}
-              contactPersons={contactPersons}
-              organizations={organizations}
-              deleteOption={deleteOption}
-              dispatch={this.props.dispatch}
-              editorMetaData={this.props.editorMetaData}
-              errors={stepErrors}
-              formatMessage={formatMessage}
-              hearing={hearing}
-              hearingLanguages={hearingLanguages}
-              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-              labels={labels}
-              language={language}
-              onContinue={this.nextStep}
-              onAddMapMarker={this.props.onAddMapMarker}
-              onAddMapMarkersToCollection={this.props.onAddMapMarkersToCollection}
-              onCreateMapMarker={this.props.onCreateMapMarker}
-              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onHearingChange={this.props.onHearingChange}
-              onLanguagesChange={this.props.onLanguagesChange}
-              onQuestionChange={onQuestionChange}
-              onSectionAttachment={this.props.onSectionAttachment}
-              onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-              onSectionChange={this.props.onSectionChange}
-              onSectionImageChange={this.props.onSectionImageChange}
-              sectionMoveDown={sectionMoveDown}
-              sectionMoveUp={sectionMoveUp}
-              visible={isVisible}
-            />
-          </Panel.Body>
-        </Panel.Collapse>
-      </Panel>
+      <Accordion
+        className='hearing-form-accordion'
+        key={step}
+        heading={title}
+        language={this.props.language}
+        initiallyOpen={isVisible}
+        card
+        theme={{
+          '--padding-vertical': 'var(--spacing-3-xs)',
+          '--padding-horizontal': '0',
+        }}
+      >
+        <PhaseTag
+          addOption={addOption}
+          clearQuestions={this.props.clearQuestions}
+          contactPersons={contactPersons}
+          organizations={organizations}
+          deleteOption={deleteOption}
+          dispatch={this.props.dispatch}
+          editorMetaData={this.props.editorMetaData}
+          errors={stepErrors}
+          formatMessage={formatMessage}
+          hearing={hearing}
+          hearingLanguages={hearingLanguages}
+          initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
+          initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
+          labels={labels}
+          language={language}
+          onContinue={this.nextStep}
+          onAddMapMarker={this.props.onAddMapMarker}
+          onAddMapMarkersToCollection={this.props.onAddMapMarkersToCollection}
+          onCreateMapMarker={this.props.onCreateMapMarker}
+          onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
+          onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+          onHearingChange={this.props.onHearingChange}
+          onLanguagesChange={this.props.onLanguagesChange}
+          onQuestionChange={onQuestionChange}
+          onSectionAttachment={this.props.onSectionAttachment}
+          onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
+          onSectionChange={this.props.onSectionChange}
+          onSectionImageChange={this.props.onSectionImageChange}
+          sectionMoveDown={sectionMoveDown}
+          sectionMoveUp={sectionMoveUp}
+          visible={isVisible}
+        />
+      </Accordion>
     );
   }
 
@@ -164,6 +165,7 @@ class HearingForm extends React.Component {
      * <ul><li>'Fill in project title'</li></ul>
      * </li>
      */
+
     const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
       if (Object.keys(errors[currentRootValue]).length > 0) {
         const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
@@ -180,11 +182,13 @@ class HearingForm extends React.Component {
       return rootAccumulator;
     }, []);
     return (
-      <Alert bsStyle='danger'>
-        <FormattedMessage id='saveFailed'>{(txt) => <h2>{txt}</h2>}</FormattedMessage>
-        <FormattedMessage id='tryToFixFormErrors'>{(txt) => <p>{txt}:</p>}</FormattedMessage>
+      <Notification
+        type='error'
+        label={<FormattedMessage id='saveFailed' />}
+        style={{ marginBottom: 'var(--spacing-s)' }}
+      >
         <ul>{messages}</ul>
-      </Alert>
+      </Notification>
     );
   }
 
@@ -221,13 +225,11 @@ class HearingForm extends React.Component {
             </a>
             {this.getErrors()}
             <form>
-              <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
-                {this.getFormStep(1)}
-                {this.getFormStep(2)}
-                {this.getFormStep(3)}
-                {this.getFormStep(4)}
-                {this.getFormStep(5)}
-              </Accordion>
+              {this.getFormStep(1)}
+              {this.getFormStep(2)}
+              {this.getFormStep(3)}
+              {this.getFormStep(4)}
+              {this.getFormStep(5)}
             </form>
           </div>
         </Dialog.Content>
