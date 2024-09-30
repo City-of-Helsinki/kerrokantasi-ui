@@ -6,7 +6,8 @@ import { push } from 'react-router-redux';
 import * as api from "../../api";
 import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
-
+import { NOTIFICATION_TYPES, createNotificationPayload } from '../../utils/notify';
+import { addToast } from '../toast';
 
 // Mocking API module and middleware setup
 jest.mock('../../api', () => ({
@@ -259,5 +260,57 @@ describe('HearingEditor actions', () => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
       });
+      describe('saveContact', () => {
+        let store;
+      
+        beforeEach(() => {
+          store = mockStore({});
+          jest.clearAllMocks();
+        });
+      
+        it('dispatches success actions on successful contact save', async () => {
+          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const response = { status: 200, json: () => Promise.resolve(contact) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muokkaus onnistui')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+        });
+      
+        it('dispatches error actions on contact save failure (400)', async () => {
+          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const response = { status: 400, json: () => Promise.resolve({}) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Sinulla ei ole oikeutta muokata yhteyshenkilöä.')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+        });
+      
+        it('dispatches error actions on contact save failure (401)', async () => {
+          const contact = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+          const response = { status: 401, json: () => Promise.resolve({}) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Et voi luoda yhteyshenkilöä.')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, { name: 'John Doe', email: 'john.doe@example.com' });
+        });
+      });
 
 });
+
+
