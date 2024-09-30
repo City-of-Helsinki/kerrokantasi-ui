@@ -1,4 +1,3 @@
-// Testing addContact function
 import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk';
 import { push } from 'react-router-redux';
@@ -8,7 +7,6 @@ import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
 import { NOTIFICATION_TYPES, createNotificationPayload } from '../../utils/notify';
 import { addToast } from '../toast';
-import { beforeEach } from 'node:test';
 
 // Mocking API module and middleware setup
 jest.mock('../../api', () => ({
@@ -48,6 +46,8 @@ describe('HearingEditor actions', () => {
     };
     let store = mockStore(initialState);
 
+    let dateNowSpy;
+
     beforeAll(() => {
         // Lock Time
         dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000);
@@ -57,7 +57,7 @@ describe('HearingEditor actions', () => {
         // Unlock Time
         dateNowSpy.mockRestore();
     });
-    
+
     afterEach(() => {
         store.clearActions();
         store = mockStore(initialState);
