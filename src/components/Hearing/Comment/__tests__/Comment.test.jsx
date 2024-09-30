@@ -2,6 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import userEvent from '@testing-library/user-event';
+import { useDispatch } from 'react-redux';
 
 import { UnconnectedComment } from '..';
 import renderWithProviders from '../../../../utils/renderWithProviders';
@@ -22,6 +23,11 @@ const createCommentData = (props) => ({
     questions: []
   },
 });
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+}));
+
 
 jest.mock('../../../BaseCommentForm', () => () => <div data-testid="commentForm">CommentForm</div>)
 
@@ -140,5 +146,26 @@ describe('<Comment />', () => {
 
     await waitFor(() => expect(deleteCommentFn).toHaveBeenCalledTimes(1));
 
+  });
+
+  it('should handle voting correctly', async () => {
+    const onPostVote = jest.fn();
+    const props = createCommentData({
+      canVote: true,
+    });
+    props.onPostVote = onPostVote;
+
+    const dispatch = jest.fn();
+    useDispatch.mockReturnValue(dispatch);
+
+    renderComponent(props);
+
+    const voteButton = screen.getByRole('button', { name: /voteButtonLikes/i });
+
+    const user = userEvent.setup();
+
+    user.click(voteButton);
+
+    await waitFor(() => expect(dispatch).toHaveBeenCalledTimes(1));
   });
 });
