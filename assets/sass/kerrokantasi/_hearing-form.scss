@@ -172,8 +172,9 @@ div:has(> .hearing-form-child-modal) {
   }
 
   .section-accordion {
-    &:not(:last-of-type) {
-      margin-bottom: var(--spacing-m);
+    & > div:first-child div[role='heading'] {
+      background-color: var(--color-fog);
+      padding: var(--spacing-3-xs) 0;
     }
   }
 
@@ -185,6 +186,7 @@ div:has(> .hearing-form-child-modal) {
 
   .new-section-toolbar {
     padding: 6px;
+    margin-top: var(--spacing-m);
     margin-bottom: $line-height-computed;
     text-align: center;
     background: $theme-secondary-light;
