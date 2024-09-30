@@ -8,6 +8,7 @@ import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
 import { NOTIFICATION_TYPES, createNotificationPayload } from '../../utils/notify';
 import { addToast } from '../toast';
+import { beforeEach } from 'node:test';
 
 // Mocking API module and middleware setup
 jest.mock('../../api', () => ({
@@ -47,6 +48,16 @@ describe('HearingEditor actions', () => {
     };
     let store = mockStore(initialState);
 
+    beforeAll(() => {
+        // Lock Time
+        dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000);
+    });
+
+    afterAll(() => {
+        // Unlock Time
+        dateNowSpy.mockRestore();
+    });
+    
     afterEach(() => {
         store.clearActions();
         store = mockStore(initialState);
@@ -261,6 +272,7 @@ describe('HearingEditor actions', () => {
         });
       });
       describe('saveContact', () => {
+        Date.now = jest.fn(() => 1234567890);
         const testPerson = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
         const testPersonData = { name: 'John Doe', email: 'john.doe@example.com' }
         it('dispatches success actions on successful contact save', async () => {
