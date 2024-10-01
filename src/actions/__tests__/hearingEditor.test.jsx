@@ -271,7 +271,7 @@ describe('HearingEditor actions', () => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
       });
-      describe('saveContact', () => {
+    describe('saveContact', () => {
         Date.now = jest.fn(() => 1234567890);
         const testPerson = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
         const testPersonData = { name: 'John Doe', email: 'john.doe@example.com' }
@@ -316,8 +316,24 @@ describe('HearingEditor actions', () => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
           expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
         });
+    });
+    describe('handleAnswerChange', () => {
+      it('dispatches EDIT_QUESTION when handleAnswerChange is called', () => {
+        const fieldType = 'text';
+        const sectionId = 'sec123';
+        const questionId = 'ques123';
+        const optionKey = 'opt1';
+        const value = 'New Value';
+    
+        const expectedAction = {
+          type: EditorActions.EDIT_QUESTION,
+          payload: { fieldType, sectionId, questionId, value, optionKey },
+        };
+    
+        store.dispatch(actions.editQuestion(fieldType, sectionId, questionId, optionKey, value));
+        expect(store.getActions()).toContainEqual(expectedAction);
       });
-
+    });
 });
 
 
