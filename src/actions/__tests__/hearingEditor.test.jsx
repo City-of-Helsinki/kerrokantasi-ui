@@ -317,21 +317,49 @@ describe('HearingEditor actions', () => {
           expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
         });
     });
-    describe('handleAnswerChange', () => {
-      it('dispatches EDIT_QUESTION when handleAnswerChange is called', () => {
-        const fieldType = 'text';
-        const sectionId = 'sec123';
-        const questionId = 'ques123';
-        const optionKey = 'opt1';
-        const value = 'New Value';
+    describe('addLabel', () => {
+      const mockLabel = { name: 'New Label' };
+      const mockSelectedLabels = ['label1', 'label2'];
+      const responseLabel = { id: '123', name: 'New Label' };
     
-        const expectedAction = {
-          type: EditorActions.EDIT_QUESTION,
-          payload: { fieldType, sectionId, questionId, value, optionKey },
-        };
+      it('dispatches ADD_LABEL_SUCCESS on successful label addition', async () => {
+        api.post.mockResolvedValue({ status: 201, json: () => Promise.resolve(responseLabel) });
     
-        store.dispatch(actions.editQuestion(fieldType, sectionId, questionId, optionKey, value));
-        expect(store.getActions()).toContainEqual(expectedAction);
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          { type: EditorActions.ADD_LABEL_SUCCESS, payload: { label: responseLabel } },
+          { type: EditorActions.EDIT_HEARING, payload: { field: 'labels', value: [...mockSelectedLabels, responseLabel.id] } },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Luonti onnistui'))
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches ADD_LABEL_FAILED on failure (400)', async () => {
+        const errorResponse = { message: 'Invalid label data' };
+        api.post.mockResolvedValue({ status: 400, json: () => Promise.resolve(errorResponse) });
+    
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tarkista asiasanan tiedot.')),
+          { type: EditorActions.ADD_LABEL_FAILED, payload: { errors: errorResponse } }
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches error actions on unauthorized failure (401)', async () => {
+        api.post.mockResolvedValue({ status: 401, json: () => Promise.resolve({}) });
+    
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Et voi luoda asiasanaa.'))
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       });
     });
 });
