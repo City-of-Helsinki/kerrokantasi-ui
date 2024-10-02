@@ -178,37 +178,6 @@ describe('sections', () => {
       expect(store.getState().byId[sectionId].files).toEqual([attachment]);
     });
 
-    it('should dispatch ORDER_ATTACHMENTS', () => {
-      const FILES = [{ id: 123, ordering: 5 }, { id: 456, ordering: 1 }, { id: 683, ordering: 3 }];
-      let attachment;
-      FILES.forEach((file) => {
-        attachment = file;
-        store.dispatch({ type: EditorActions.ADD_ATTACHMENT, payload: { sectionId, attachment } });
-      });
-      const attachments = [];
-
-      // files should be in the order they were added
-      expect(store.getState().byId[sectionId].files).toEqual(FILES);
-      // order files in descending order according to ordering key
-      store.dispatch({ type: EditorActions.ORDER_ATTACHMENTS, payload: { sectionId, attachments } });
-      expect(store.getState().byId[sectionId].files).toEqual([FILES[1], FILES[2], FILES[0]]);
-    });
-
-    it('should dispatch EDIT_SECTION_ATTACHMENT', () => {
-      const FILES = [{ id: 123, title: 'first' }, { id: 456, title: TITLE_IS_THIS_SECOND }, { id: 683, title: 'third' }];
-      let attachment;
-      FILES.forEach((file) => {
-        attachment = file;
-        store.dispatch({ type: EditorActions.ADD_ATTACHMENT, payload: { sectionId, attachment } });
-      });
-      // second files title should be default
-      expect(store.getState().byId[sectionId].files[1].title).toEqual(TITLE_IS_THIS_SECOND);
-      attachment = { id: 456, title: 'this is correct' };
-      // update the second files title
-      store.dispatch({ type: EditorActions.EDIT_SECTION_ATTACHMENT, payload: { sectionId, attachment } });
-      expect(store.getState().byId[sectionId].files[1].title).toEqual('this is correct');
-    });
-
     it('should dispatch DELETE_ATTACHMENT', () => {
       const FILES = [{ id: 123, title: 'first' }, { id: 456, title: TITLE_IS_THIS_SECOND }];
       let attachment;

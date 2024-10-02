@@ -44,7 +44,6 @@ export const EditorActions = {
   EDIT_HEARING: 'changeHearing',
   EDIT_PHASE: 'changePhase',
   EDIT_QUESTION: 'editQuestion',
-  EDIT_SECTION_ATTACHMENT: 'editSecionAttachment',
   EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
   EDIT_SECTION: 'changeSection',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
@@ -53,7 +52,6 @@ export const EditorActions = {
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   INIT_NEW_HEARING: 'initNewHearing',
   INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
-  ORDER_ATTACHMENTS: 'orderAttachments',
   POST_HEARING_SUCCESS: 'savedNewHearing',
   POST_HEARING: 'savingNewHearing',
   PUBLISH_HEARING: 'publishingHearing',
@@ -93,31 +91,6 @@ export const closeHearingForm = () => dispatch => dispatch(createAction(EditorAc
 export const sectionMoveUp = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
 
 export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
-
-
-/**
- * When editing a sections attachment.
- */
-// export const editSectionAttachment = (sectionId, attachment) => (dispatch) => {
-//   const url = `/v1/file/${attachment.id}`;
-//   return put(url, attachment)
-//     .then(checkResponseStatus)
-//     .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({ sectionId, attachment })));
-// };
-
-/**
- * For changing order, two requests have to be made.
- * One file is incremented whilst the other decrementd.
- */
-// export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch) => {
-//   const promises = attachments.map((attachment) => {
-//     const url = `/v1/file/${attachment.id}`;
-//     return put(url, attachment);
-//   });
-
-//   return Promise.all(promises)
-//     .then(() => dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({ sectionId, attachments })));
-// };
 
 /**
  * Delete an attached item.
