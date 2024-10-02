@@ -302,16 +302,28 @@ const SectionForm = ({
     { value: 'none', label: formatMessage({ id: 'noCommenting' }) },
   ];
 
+  const commentingInitialValue = section.commenting
+    ? commentingOptions.find((option) => option.value === section.commenting)
+    : commentingOptions[0];
+
   const votingOptions = [
     { value: 'open', label: formatMessage({ id: 'openVoting' }) },
     { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
   ];
+
+  const votingInitialValue = section.voting
+    ? votingOptions.find((option) => option.value === section.voting)
+    : votingOptions[0];
 
   const commentingMapOptions = [
     { value: 'none', label: formatMessage({ id: 'hearingCommentingMapChoice1' }) },
     { value: 'marker', label: formatMessage({ id: 'hearingCommentingMapChoice2' }) },
     { value: 'all', label: formatMessage({ id: 'hearingCommentingMapChoice3' }) },
   ];
+
+  const commentingMapInitialValue = section.commenting_map_tools
+    ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools)
+    : commentingMapOptions[0];
 
   if (!section || !sectionImages || !attachments) {
     return <LoadingSpinner />;
@@ -411,7 +423,7 @@ const SectionForm = ({
           label={<FormattedMessage id='hearingCommenting' />}
           onChange={(selected) => onChange(selected, 'commenting')}
           options={commentingOptions}
-          defaultValue={commentingOptions[0]}
+          defaultValue={commentingInitialValue}
         />
       </div>
       <div id='commentVoting' style={{ marginBottom: 'var(--spacing-m)' }}>
@@ -421,7 +433,7 @@ const SectionForm = ({
           label={<FormattedMessage id='commentVoting' />}
           onChange={(selected) => onChange(selected, 'voting')}
           options={votingOptions}
-          defaultValue={votingOptions[0]}
+          defaultValue={votingInitialValue}
         />
       </div>
       <div style={{ marginBottom: 'var(--spacing-m)' }}>
@@ -437,7 +449,7 @@ const SectionForm = ({
             id='commenting_map_tools'
             name='commenting_map_tools'
             options={commentingMapOptions}
-            defaultValue={commentingMapOptions[0]}
+            defaultValue={commentingMapInitialValue}
             onChange={(selected) => onChange(selected, 'commenting_map_tools')}
           />
         </div>
