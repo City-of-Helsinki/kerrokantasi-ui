@@ -6,7 +6,6 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 
 import { EditorActions } from '../../actions/hearingEditor';
-import { getMainImage } from '../../utils/section';
 import { initSingleChoiceQuestion, initMultipleChoiceQuestion } from '../../utils/questions';
 
 const SECTIONS = 'sections';
@@ -30,39 +29,6 @@ const byId = handleActions(
     [EditorActions.ADD_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
       const updatedSection = updeep({
         files: [...state[sectionId].files, attachment]
-      }, state[sectionId]);
-      return {
-        ...state,
-        [sectionId]: updatedSection,
-      };
-    },
-    [EditorActions.ORDER_ATTACHMENTS]: (state, { payload: { sectionId, attachments } }) => {
-      const newOrder = state[sectionId].files.map((file) => {
-        const matchingAttachment = attachments.find((attachment) => attachment.id === file.id);
-        if (matchingAttachment) return matchingAttachment;
-        return file;
-      });
-      const updatedSection = updeep({
-        files: newOrder.sort((prev, curr) => {
-          if (prev.ordering > curr.ordering) return 1;
-          if (prev.ordering < curr.ordering) return -1;
-          return 0;
-        })
-      }, state[sectionId]);
-
-      return {
-        ...state,
-        [sectionId]: updatedSection,
-      };
-    },
-    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
-      const updatedFile = state[sectionId].files.map((file) => {
-        if (file.id === attachment.id) return attachment;
-        return file;
-      });
-
-      const updatedSection = updeep({
-        files: updatedFile,
       }, state[sectionId]);
       return {
         ...state,
@@ -193,19 +159,20 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.EDIT_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, field, value } }) => {
-      const section = { ...state[sectionID], images: [...state[sectionID].images] };
-      const image = { ...getMainImage(section) };
-      image[field] = value;
-      if (field === 'image') {
-        // Only one of the two fields should have valid reference to an image.
-        image.url = '';
-      }
-      section.images = [image];
-      return {
-        ...state,
-        [sectionID]: section,
-      };
+    [EditorActions.SET_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID, value } }) => {
+      const setSection = { ...state[sectionID], images: [{ image: value, url: '', caption: '' }] };
+
+      return { ...state, [sectionID]: setSection }
+    },
+    [EditorActions.DELETE_SECTION_MAIN_IMAGE]: (state, { payload: { sectionID } }) => {
+      const setSection = { ...state[sectionID], images: [] };
+
+      return { ...state, [sectionID]: setSection }
+    },
+    [EditorActions.CHANGE_SECTION_MAIN_IMAGE_CAPTION]: (state, { payload: { sectionID, value } }) => {
+      const setSection = { ...state[sectionID], images: [{ ...state[sectionID].images[0], caption: value }] };
+
+      return { ...state, [sectionID]: setSection }
     },
   },
   {},

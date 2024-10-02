@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import moment from 'moment';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button, DateInput, TimeInput } from 'hds-react';
@@ -46,7 +46,6 @@ const HearingFormStep4 = ({
   onSectionChange,
   onHearingChange,
   onContinue,
-  dispatch,
 }) => {
   moment.locale('fi-FI');
 
@@ -54,6 +53,8 @@ const HearingFormStep4 = ({
   const [openTime, setOpenTime] = useState(getTime(hearing.open_at));
   const [closeDate, setCloseDate] = useState(getDate(hearing.close_at));
   const [closeTime, setCloseTime] = useState(getTime(hearing.close_at));
+
+  const dispatch = useDispatch();
 
   const onClosureSectionChange = (value) => {
     const closureInfoSection = getClosureSection(hearing);
@@ -208,7 +209,6 @@ const HearingFormStep4 = ({
 };
 
 HearingFormStep4.propTypes = {
-  dispatch: PropTypes.func,
   errors: PropTypes.object,
   hearing: hearingShape,
   onContinue: PropTypes.func,

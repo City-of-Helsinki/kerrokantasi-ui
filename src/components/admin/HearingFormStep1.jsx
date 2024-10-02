@@ -2,9 +2,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Combobox, TextInput } from 'hds-react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
@@ -21,10 +21,8 @@ const HearingFormStep1 = ({
   errors,
   hearing,
   hearingLanguages,
-  intl: { formatMessage },
   labels: labelOptions,
   language,
-  dispatch,
   organizations,
   onHearingChange,
   onLanguagesChange,
@@ -38,6 +36,9 @@ const HearingFormStep1 = ({
   const [showContactModal, setShowContactModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState(selectedLabelsInitialState);
   const [selectedContacts, setSelectedContacts] = useState(selectedContactsInitialState);
+
+  const dispatch = useDispatch();
+  const intl = useIntl();
 
   const onChange = (event) => {
     // Propagate interesting changes to parent components
@@ -130,14 +131,14 @@ const HearingFormStep1 = ({
               title: getAttr(opt.label, language),
               label: getAttr(opt.label, language),
             }))}
-            placeholder={formatMessage({ id: 'hearingLabelsPlaceholder' })}
+            placeholder={intl.formatMessage({ id: 'hearingLabelsPlaceholder' })}
             clearButtonAriaLabel='Poista'
             selectedItemRemoveButtonAriaLabel='Poista {value}'
             toggleButtonAriaLabel='Avaa'
             required
             invalid={!!errors.labels}
             error={errors.labels}
-            label={<FormattedMessage id='hearingLabels' />}
+            label={intl.formatMessage({ id: 'hearingLabels' })}
             id='labels'
           />
           <Button
@@ -155,7 +156,7 @@ const HearingFormStep1 = ({
             name='slug'
             label={<FormattedMessage id='hearingSlug' />}
             value={hearing.slug}
-            placeholder={formatMessage({ id: 'hearingSlugPlaceholder' })}
+            placeholder={intl.formatMessage({ id: 'hearingSlugPlaceholder' })}
             onChange={onChange}
             required
             invalid={!!errors.slug}
@@ -176,8 +177,8 @@ const HearingFormStep1 = ({
               label: person.name,
             }))}
             options={contactPersons.map((person) => ({ id: person.id, title: person.name, label: person.name }))}
-            placeholder={formatMessage({ id: 'hearingContactsPlaceholder' })}
-            label={<FormattedMessage id='hearingContacts' />}
+            placeholder={intl.formatMessage({ id: 'hearingContactsPlaceholder' })}
+            label={intl.formatMessage({ id: 'hearingContacts' })}
             required
             helper={<FormattedMessage id='hearingContactsHelpText' />}
             invalid={!!errors.contact_persons}
@@ -236,7 +237,6 @@ const HearingFormStep1 = ({
 
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
-  dispatch: PropTypes.func,
   errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
@@ -246,7 +246,6 @@ HearingFormStep1.propTypes = {
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   organizations: PropTypes.arrayOf(organizationShape),
-  intl: PropTypes.object,
 };
 
 HearingFormStep1.contextTypes = {
@@ -257,4 +256,4 @@ const mapStateToProps = (state) => ({
   language: state.language,
 });
 
-export default connect(mapStateToProps, null)(injectIntl(HearingFormStep1));
+export default connect(mapStateToProps, null)(HearingFormStep1);

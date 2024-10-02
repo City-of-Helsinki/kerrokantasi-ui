@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Button, Notification, Select, TextInput } from 'hds-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -23,7 +23,9 @@ import {
 } from '../../actions/hearingEditor';
 import { addToast } from '../../actions/toast';
 
-const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects, intl, dispatch }) => {
+const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects, intl }) => {
+  const dispatch = useDispatch();
+
   const onChangeProject = (selected) =>
     dispatch(
       changeProject({
@@ -125,6 +127,10 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
     }`,
   }));
 
+  const options = [...defaultProjectOptions, ...projectsOptions];
+
+  const projectsInitialValue = selectedProject?.id ? selectedProject.id : options[0];
+
   return (
     <div>
       <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
@@ -133,8 +139,9 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
           id='commenting'
           name='commenting'
           label={<FormattedMessage id='projectSelection' />}
-          options={[...defaultProjectOptions, ...projectsOptions]}
+          options={options}
           onChange={onChangeProject}
+          defaultValue={projectsInitialValue}
         />
       </div>
       {renderProject(selectedProject)}
@@ -145,7 +152,6 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
 HearingFormStep5.propTypes = {
   errors: PropTypes.object,
   projects: PropTypes.array,
-  dispatch: PropTypes.func,
   language: PropTypes.string,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),

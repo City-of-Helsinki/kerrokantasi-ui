@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
 import { Checkbox, Fieldset } from 'hds-react';
 
 import config from '../../config';
 
 function HearingLanguages({ hearingLanguages, onChange }) {
+  const intl = useIntl();
+
   return (
     <Fieldset className='hearing-languages' heading={<FormattedMessage id='hearingLanguages' />}>
       {config.languages.map((lang) => {
@@ -20,7 +22,7 @@ function HearingLanguages({ hearingLanguages, onChange }) {
           <Checkbox
             key={`kkEditorLanguageSelector-${lang}`}
             id={`kkEditorLanguageSelector-${lang}`}
-            label={<FormattedMessage id={`inLanguage-${lang}`} />}
+            label={intl.formatMessage({ id: `inLanguage-${lang}` })}
             value={lang}
             onChange={() => onChange(onChangeValues)}
             checked={checked}

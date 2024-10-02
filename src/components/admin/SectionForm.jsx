@@ -1,56 +1,17 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable sonarjs/no-duplicate-string */
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { get, isEmpty } from 'lodash';
 import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
-import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
+import imageCompression from 'browser-image-compression';
 
 import { QuestionForm } from './QuestionForm';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
-import { addToast } from '../../actions/toast';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
-
-/**
- * MAX_IMAGE_SIZE given in bytes
- * MAX_FILE_SIZE given in MB
- */
-const MAX_IMAGE_SIZE = 999999;
-const MAX_FILE_SIZE = 70000000;
-
-/**
- * Compares given blob to initFileSize and calls changeFunc if it's smaller than the original image file.
- * @param {Blob | Object} blob Webp Blob
- * @param {number} initFileSize original image file size.
- * @param {Object} section section that the image is added to.
- * @param {Function} changeFunc dispatch function
- * @param {Blob} initImage originally uploaded image blob.
- */
-function webpConvert(blob, initFileSize, section, changeFunc, initImage) {
-  const isLegacyFF = isFirefox && Number.parseInt(browserVersion, 10) < 96;
-  let finalBlob = blob;
-  // FF versions < 96 & Safari don't support toBlob type image/webp so a temporary webp file is created and used.
-  if (isLegacyFF || isSafari) {
-    finalBlob = new File([blob], 'file', {
-      type: 'image/webp',
-      lastModified: Date.now(),
-    });
-  }
-  // if the webp file is smaller than the original file -> use webp file.
-  if (initFileSize > finalBlob.size) {
-    const canvasReader = new FileReader();
-    canvasReader.onload = () => {
-      changeFunc(section.frontId, 'image', canvasReader.result);
-    };
-    canvasReader.readAsDataURL(finalBlob);
-  } else {
-    changeFunc(section.frontId, 'image', initImage);
-  }
-}
 
 const getFileTitle = (title, language) => {
   if (title?.[language] && typeof title[language] !== 'undefined') {
@@ -71,14 +32,20 @@ const fetchFiles = async (data, fileType, language) => {
         name = getFileTitle(item.title, language);
       }
 
-      const response = await fetch(item.url, { method: 'GET', mode: 'no-cors' });
-      const blob = await response.blob();
-
-      const file = new File([blob], name || fileType, {
-        type: fileType === 'image' ? 'image/webp' : 'application/pdf',
+      const response = await fetch(item.url, {
+        method: 'GET',
+        mode: 'no-cors',
       });
 
-      return Promise.resolve({ id: item.id, name, file });
+      const blob = await response.blob();
+
+      const type = fileType === 'image' ? 'image/webp' : 'application/pdf';
+
+      const file = new File([blob], name || fileType, {
+        type,
+      });
+
+      return Promise.resolve({ id: item.id, name, type, file });
     });
 
     return Promise.all(promises);
@@ -86,6 +53,13 @@ const fetchFiles = async (data, fileType, language) => {
     return Promise.reject(new Error(error));
   }
 };
+
+/**
+ * MAX_IMAGE_SIZE given in MB
+ * MAX_FILE_SIZE given in MB
+ */
+const MAX_IMAGE_SIZE = 0.9;
+const MAX_FILE_SIZE = 70;
 
 const SectionForm = ({
   language,
@@ -95,13 +69,14 @@ const SectionForm = ({
   isFirstSubsection,
   isLastSubsection,
   isPublic,
-  intl,
   maxAbstractLength,
   onDeleteExistingQuestion,
   onDeleteTemporaryQuestion,
   onQuestionChange,
   onSectionChange,
-  onSectionImageChange,
+  onSectionImageSet,
+  onSectionImageDelete,
+  onSectionImageCaptionChange,
   sectionLanguages,
   sectionMoveDown,
   sectionMoveUp,
@@ -110,30 +85,18 @@ const SectionForm = ({
   initSingleChoiceQuestion,
   initMultipleChoiceQuestion,
 }) => {
-  const [enabledCommentMap, setEnabledCommentMap] = useState(false);
-
-  const [sectionImages, setSectionImages] = useState();
+  const [enabledCommentMap, setEnabledCommentMap] = useState(section.commenting_map_tools !== 'none');
+  const [sectionImage, setSectionImage] = useState();
   const [attachments, setAttachments] = useState();
 
-  const dispatch = useDispatch();
-
-  const acceptedFiles = {
-    'application/pdf': ['.pdf'],
-  };
-
-  const acceptedImages = {
-    'image/jpeg': ['.jpg', '.jpeg'],
-    'image/png': ['.png'],
-    'image/webp': ['.webp'],
-    'image/gif': ['.gif'],
-  };
+  const intl = useIntl();
 
   useEffect(() => {
     async function fetchImages() {
-      if (section.images) {
+      if (section.images.length && section.images[0].url) {
         const data = await fetchFiles(section.images, 'image', language);
 
-        setSectionImages(data);
+        setSectionImage(data);
       }
     }
 
@@ -143,7 +106,7 @@ const SectionForm = ({
 
   useEffect(() => {
     async function fetchAttachments() {
-      if (section.files) {
+      if (section.files.length) {
         const data = await fetchFiles(section.files, 'pdf', language);
 
         setAttachments(data);
@@ -153,13 +116,6 @@ const SectionForm = ({
     fetchAttachments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section.files]);
-
-  useEffect(() => {
-    if (section.commenting_map_tools !== 'none') {
-      setEnabledCommentMap(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /**
    * Modify section state and propagate necessary information
@@ -172,7 +128,7 @@ const SectionForm = ({
 
     switch (field) {
       case 'imageCaption':
-        onSectionImageChange(section.frontId, 'caption', value);
+        onSectionImageCaptionChange(section.frontId, value);
         break;
       case 'commenting_map_tools':
         onSectionChange(section.frontId, field, value);
@@ -182,49 +138,40 @@ const SectionForm = ({
     }
   };
 
-  const onImageChange = (files) => {
-    const file = files[0];
+  const fileToDataUri = (file) =>
+    new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
 
-    if (!file) {
-      onSectionImageChange(section.frontId, 'image', file);
+      fileReader.onload = (event) => {
+        resolve(event.target.result);
+      };
 
-      return;
-    }
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
 
-    const fileReader = new FileReader();
-
-    fileReader.addEventListener('error', () => {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+      fileReader.readAsDataURL(file);
     });
-    fileReader.addEventListener(
-      'load',
-      (event) => {
-        // New img element is created with the uploaded image.
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.onerror = () => {
-          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
-        };
-        img.onload = () => {
-          // Canvas element is created with content from the new img.
-          const canvasElement = document.createElement('canvas');
-          canvasElement.width = img.width;
-          canvasElement.height = img.height;
-          const ctx = canvasElement.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-          ctx.canvas.toBlob(
-            (blob) => {
-              // canvas webp image Blob is passed onwards.
-              webpConvert(blob, file.size, section, onSectionImageChange, fileReader.result);
-            },
-            'image/webp',
-            0.8,
-          );
-        };
-      },
-      false,
-    );
-    fileReader.readAsDataURL(file);
+
+  const compressFile = async (file, maxSizeMB, fileType) => imageCompression(file, { maxSizeMB, fileType });
+
+  const onImageChange = async (files) => {
+    try {
+      const file = files[0];
+
+      if (!file) {
+        onSectionImageDelete(section.frontId);
+
+        return;
+      }
+
+      const compressed = await compressFile(file, MAX_IMAGE_SIZE, 'image/webp');
+      const blob = await fileToDataUri(compressed);
+
+      onSectionImageSet(section.frontId, blob);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   /**
@@ -248,22 +195,17 @@ const SectionForm = ({
         ),
     );
 
-    if (filesToDelete.length) {
+    if (filesToDelete?.length) {
       filesToDelete.forEach((file) => onSectionAttachmentDelete(section.frontId, file));
     }
 
-    if (filesToAdd.length) {
+    if (filesToAdd?.length) {
       // Load the file and then upload it.
-      const fileReader = new FileReader();
 
-      filesToAdd.forEach((file) => {
-        fileReader.addEventListener('load', (event) => {
-          if (onSectionAttachment) {
-            onSectionAttachment(section.frontId, event.target.result, { [language]: file.name });
-          }
-        });
+      filesToAdd.forEach(async (file) => {
+        const blob = await fileToDataUri(file);
 
-        fileReader.readAsDataURL(file);
+        onSectionAttachment(section.frontId, blob, { [language]: file.name });
       });
     }
   };
@@ -276,7 +218,7 @@ const SectionForm = ({
     setEnabledCommentMap(!enabledCommentMap);
 
     if (enabledCommentMap) {
-      onChange({ target: { name: 'commenting_map_tools', value: 'none' } });
+      onChange({ value: 'none' }, 'commenting_map_tools');
     }
   };
 
@@ -302,10 +244,18 @@ const SectionForm = ({
     { value: 'none', label: formatMessage({ id: 'noCommenting' }) },
   ];
 
+  const commentingInitialValue = section.commenting
+    ? commentingOptions.find((option) => option.value === section.commenting)
+    : commentingOptions[0];
+
   const votingOptions = [
     { value: 'open', label: formatMessage({ id: 'openVoting' }) },
     { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
   ];
+
+  const votingInitialValue = section.voting
+    ? votingOptions.find((option) => option.value === section.voting)
+    : votingOptions[0];
 
   const commentingMapOptions = [
     { value: 'none', label: formatMessage({ id: 'hearingCommentingMapChoice1' }) },
@@ -313,7 +263,11 @@ const SectionForm = ({
     { value: 'all', label: formatMessage({ id: 'hearingCommentingMapChoice3' }) },
   ];
 
-  if (!section || !sectionImages || !attachments) {
+  const commentingMapInitialValue = section.commenting_map_tools
+    ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools)
+    : commentingMapOptions[0];
+
+  if (!section) {
     return <LoadingSpinner />;
   }
 
@@ -356,19 +310,18 @@ const SectionForm = ({
           name='sectionImage'
           dragAndDrop
           label={<FormattedMessage id='sectionImage' />}
-          accept={acceptedImages}
+          accept='.jpeg,.png,.webp,.gif'
           helperText={<FormattedMessage id='sectionImageHelpText' />}
           language={language}
           onChange={onImageChange}
-          defaultValue={sectionImages}
-          value={sectionImages}
-          maxSize={MAX_IMAGE_SIZE}
+          maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
+          defaultValue={sectionImage}
         />
       </div>
       <MultiLanguageTextField
         labelId='sectionImageCaption'
         name='imageCaption'
-        onBlur={(value) => onSectionImageChange(section.frontId, 'caption', value)}
+        onBlur={(value) => onSectionImageCaptionChange(section.frontId, value)}
         value={imageCaption}
         languages={sectionLanguages}
         placeholderId='sectionImagePlaceholder'
@@ -411,7 +364,7 @@ const SectionForm = ({
           label={<FormattedMessage id='hearingCommenting' />}
           onChange={(selected) => onChange(selected, 'commenting')}
           options={commentingOptions}
-          defaultValue={commentingOptions[0]}
+          defaultValue={commentingInitialValue}
         />
       </div>
       <div id='commentVoting' style={{ marginBottom: 'var(--spacing-m)' }}>
@@ -421,23 +374,23 @@ const SectionForm = ({
           label={<FormattedMessage id='commentVoting' />}
           onChange={(selected) => onChange(selected, 'voting')}
           options={votingOptions}
-          defaultValue={votingOptions[0]}
+          defaultValue={votingInitialValue}
         />
       </div>
       <div style={{ marginBottom: 'var(--spacing-m)' }}>
         <Checkbox
           checked={!!enabledCommentMap}
-          label={<FormattedMessage id='hearingCommentingMap'>{(txt) => txt}</FormattedMessage>}
+          label={intl.formatMessage({ id: 'hearingCommentingMap' })}
           onChange={toggleEnableCommentMap}
         />
       </div>
       {enabledCommentMap && (
-        <div id='hearingCommentingMap' style={{ marginBottom: 'var(--spacing-m)' }}>
+        <div data-testid='hearingCommentingMap' id='hearingCommentingMap' style={{ marginBottom: 'var(--spacing-m)' }}>
           <Select
             id='commenting_map_tools'
             name='commenting_map_tools'
             options={commentingMapOptions}
-            defaultValue={commentingMapOptions[0]}
+            defaultValue={commentingMapInitialValue}
             onChange={(selected) => onChange(selected, 'commenting_map_tools')}
           />
         </div>
@@ -448,11 +401,11 @@ const SectionForm = ({
           name='selectOrDropFile'
           dragAndDrop
           label={<FormattedMessage id='selectOrDropFile' />}
-          accept={acceptedFiles}
+          accept='application/pdf'
           language={language}
           onChange={onAttachmentChange}
           defaultValue={attachments}
-          maxSize={MAX_FILE_SIZE}
+          maxSize={MAX_FILE_SIZE * 1024 * 1024}
           multiple
         />
       </div>
@@ -533,12 +486,13 @@ SectionForm.propTypes = {
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
   onSectionChange: PropTypes.func,
-  onSectionImageChange: PropTypes.func,
+  onSectionImageSet: PropTypes.func,
+  onSectionImageDelete: PropTypes.func,
+  onSectionImageCaptionChange: PropTypes.func,
   section: sectionShape,
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  intl: PropTypes.object,
 };
 
 SectionForm.contextTypes = {
@@ -549,6 +503,4 @@ const mapStateToProps = (state) => ({
   language: state.language,
 });
 
-const WrappedSectionForm = injectIntl(SectionForm);
-
-export default connect(mapStateToProps, null)(WrappedSectionForm);
+export default connect(mapStateToProps, null)(SectionForm);
