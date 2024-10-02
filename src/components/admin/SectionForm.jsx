@@ -143,8 +143,7 @@ const SectionForm = ({
     if (section.commenting_map_tools !== 'none') {
       setEnabledCommentMap(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [section.commenting_map_tools]);
 
   /**
    * Modify section state and propagate necessary information
