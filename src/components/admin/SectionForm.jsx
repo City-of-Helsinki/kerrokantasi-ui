@@ -108,7 +108,7 @@ const SectionForm = ({
   initSingleChoiceQuestion,
   initMultipleChoiceQuestion,
 }) => {
-  const [enabledCommentMap, setEnabledCommentMap] = useState(false);
+  const [enabledCommentMap, setEnabledCommentMap] = useState(section.commenting_map_tools !== 'none');
 
   const [sectionImages, setSectionImages] = useState([]);
   const [attachments, setAttachments] = useState([]);
@@ -138,12 +138,6 @@ const SectionForm = ({
     fetchAttachments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section.files]);
-
-  useEffect(() => {
-    if (section.commenting_map_tools !== 'none') {
-      setEnabledCommentMap(true);
-    }
-  }, [section.commenting_map_tools]);
 
   /**
    * Modify section state and propagate necessary information

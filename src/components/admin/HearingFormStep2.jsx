@@ -13,6 +13,7 @@ import { addSection, removeSection } from '../../actions/hearingEditor';
 import { getMainSection, isPublic } from '../../utils/hearing';
 import { hearingShape } from '../../types';
 import { initNewSection, SectionTypes } from '../../utils/section';
+import getAttr from '../../utils/getAttr';
 
 const HearingFormStep2 = ({
   hearing,
@@ -75,12 +76,13 @@ const HearingFormStep2 = ({
           id: `${section.type}Section`,
         });
         const sectionID = section.frontId;
+        const heading = `${sectionHeader}: ${getAttr(section.title, language) || ''}`;
 
         return (
           <Accordion
             className='section-accordion'
             key={sectionID}
-            heading={sectionHeader}
+            heading={heading}
             language={language}
             initiallyOpen={activeSection === sectionID}
             card

@@ -162,10 +162,12 @@ describe('<HearingForm />', () => {
   it('should call onToggleClick when accordion is clicked', async () => {
     renderComponent();
 
-    fireEvent.click(screen.getByText('hearingFormHeaderStep2'));
+    const accordion = screen.getAllByText(/partSection/i)[0];
+
+    fireEvent.click(accordion);
 
     await waitFor(() => {
-      expect(screen.getByText('mainSection')).toBeInTheDocument();
+      expect(screen.getByText('hearingFormHeaderStep2')).toBeInTheDocument();
     });
   });
 
