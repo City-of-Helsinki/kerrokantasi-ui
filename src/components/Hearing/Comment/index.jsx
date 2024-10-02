@@ -25,6 +25,7 @@ import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
 import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 import { addToast } from '../../../actions/toast';
+import { updateAnswers } from '../../../utils/comments';
 
 const Comment = (props) => {
   const dispatch = useDispatch();
@@ -195,27 +196,7 @@ const Comment = (props) => {
    * @param {Number} answer - id of the answer selected by the user.
    */
   const handleAnswerChange = (question, questionType, answer) => {
-    const answerExists = state.answers.find((stateAnswer) => stateAnswer.question === question);
-    let updatedAnswer;
-    if (answerExists && typeof answerExists !== 'undefined') {
-      updatedAnswer = state.answers.map((allAnswers) => {
-        if (allAnswers.question === question) {
-          if (questionType === 'single-choice') {
-            return { ...allAnswers, answers: [answer] };
-          }
-          const isDeselecting = allAnswers.answers.includes(answer);
-          return {
-            ...allAnswers,
-            answers: isDeselecting
-              ? allAnswers.answers.filter((sortAnswers) => sortAnswers !== answer)
-              : [...allAnswers.answers, answer],
-          };
-        }
-        return allAnswers;
-      });
-    } else {
-      updatedAnswer = [...state.answers, { question, answers: [answer], type: questionType }];
-    }
+    const updatedAnswer = updateAnswers(state.answers, question, questionType, answer);
     setState({ answers: updatedAnswer });
   };
 
