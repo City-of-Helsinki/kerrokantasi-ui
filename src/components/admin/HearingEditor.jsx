@@ -15,7 +15,7 @@ import {
   changeHearing,
   changeHearingEditorLanguages,
   changeSection,
-  changeSectionMainImage,
+  setSectionMainImage,
   clearQuestions,
   closeHearing,
   closeHearingForm,
@@ -37,6 +37,8 @@ import {
   startHearingEdit,
   unPublishHearing,
   fetchHearingEditorContactPersons,
+  deleteSectionMainImage,
+  changeSectionMainImageCaption,
 } from '../../actions/hearingEditor';
 import { deleteHearingDraft } from '../../actions/index';
 import HearingForm from './HearingForm';
@@ -47,7 +49,6 @@ import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
 
 const HearingEditor = (props) => {
-
   const [errors, setErrors] = useState({});
   const [shouldSubmit, setShouldSubmit] = useState(false);
   const [commentReportsOpen, setCommentReportsOpen] = useState(false);
@@ -79,8 +80,8 @@ const HearingEditor = (props) => {
    */
   useEffect(() => {
     if (shouldSubmit && !editorIsSaving) {
-      if (isEmpty(editorErrors) && checkIfEmpty(errors)) {
-        navigate(`/${hearing.slug}?lang=${language}`)
+      if (isEmpty(editorErrors) && checkIfEmpty(errors) && hearing.slug) {
+        navigate(`/${hearing.slug}?lang=${language}`);
       } else {
         setShouldSubmit(false);
       }
@@ -88,17 +89,16 @@ const HearingEditor = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldSubmit, editorIsSaving]);
 
-
   /**
-     * Check if the hearing has all of the required properties.
-     * Returns notification and highlights faulty inputs in the form if errors are found,
-     * otherwise dispatch the callbackAction.
-     * sets should Submit to true if the hearing is valid and the callbackAction is dispatched
-     * so we can handle error cases from the backend.
-     * @param {function} callbackAction
-     * @returns {void|*}
-     */
-  const validateHearing =  (callbackAction) => {
+   * Check if the hearing has all of the required properties.
+   * Returns notification and highlights faulty inputs in the form if errors are found,
+   * otherwise dispatch the callbackAction.
+   * sets should Submit to true if the hearing is valid and the callbackAction is dispatched
+   * so we can handle error cases from the backend.
+   * @param {function} callbackAction
+   * @returns {void|*}
+   */
+  const validateHearing = (callbackAction) => {
     const localErrors = validateHearingFn(hearing, hearingLanguages);
 
     // true if one of the keys in localErrors contain entries
@@ -152,9 +152,17 @@ const HearingEditor = (props) => {
     dispatch(deleteExistingQuestion(sectionId, questionFrontId));
   };
 
-  const onSectionImageChange = (sectionID, field, value) => {
-    dispatch(changeSectionMainImage(sectionID, field, value));
-  }
+  const onSectionImageSet = (sectionID, value) => {
+    dispatch(setSectionMainImage(sectionID, value));
+  };
+
+  const onSectionImageDelete = (sectionID) => {
+    dispatch(deleteSectionMainImage(sectionID));
+  };
+
+  const onSectionImageCaptionChange = (sectionID, value) => {
+    dispatch(changeSectionMainImageCaption(sectionID, value));
+  };
 
   const onLanguagesChange = (newLanguages) => dispatch(changeHearingEditorLanguages(newLanguages));
 
@@ -168,7 +176,7 @@ const HearingEditor = (props) => {
     } else {
       validateHearing(saveAndPreviewHearingChanges);
     }
-  }
+  };
 
   const onSaveChanges = () => validateHearing(saveHearingChanges);
 
@@ -182,7 +190,7 @@ const HearingEditor = (props) => {
 
   const onDeleteHearingDraft = () => {
     dispatch(deleteHearingDraft(hearing.id, hearing.slug)).then(() => {
-      navigate('/hearings/list')
+      navigate('/hearings/list');
     });
   };
 
@@ -237,14 +245,16 @@ const HearingEditor = (props) => {
         onSectionAttachment={onSectionAttachment}
         onSectionAttachmentDelete={onSectionAttachmentDelete}
         onSectionChange={onSectionChange}
-        onSectionImageChange={onSectionImageChange}
+        onSectionImageSet={onSectionImageSet}
+        onSectionImageDelete={onSectionImageDelete}
+        onSectionImageCaptionChange={onSectionImageCaptionChange}
         sectionMoveDown={sectionMoveDownFn}
         sectionMoveUp={sectionMoveUpFn}
         sections={hearing.sections}
         show={show}
       />
     );
-  }
+  };
 
   return (
     <div className='hearing-editor'>
@@ -262,16 +272,12 @@ const HearingEditor = (props) => {
             user={user}
             onDeleteHearingDraft={onDeleteHearingDraft}
           />
-          <CommentReportModal
-            hearing={hearing}
-            isOpen={commentReportsOpen}
-            onClose={toggleCommentReports}
-          />
+          <CommentReportModal hearing={hearing} isOpen={commentReportsOpen} onClose={toggleCommentReports} />
         </>
       )}
     </div>
   );
-}
+};
 
 HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),

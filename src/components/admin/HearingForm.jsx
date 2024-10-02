@@ -29,7 +29,6 @@ const HearingForm = ({
   labels,
   language,
   hearingLanguages,
-  dispatch,
   show,
   sectionMoveUp,
   sectionMoveDown,
@@ -49,7 +48,9 @@ const HearingForm = ({
   onSectionAttachment,
   onSectionAttachmentDelete,
   onSectionChange,
-  onSectionImageChange,
+  onSectionImageSet,
+  onSectionImageDelete,
+  onSectionImageCaptionChange,
   onSaveChanges,
   onSaveAsCopy,
   onSaveAndPreview,
@@ -126,10 +127,9 @@ const HearingForm = ({
     const isVisible = currentStep === stepNumber;
 
     return (
-      <div ref={stepRefs.current[stepNumber - 1]}>
+      <div ref={stepRefs.current[stepNumber - 1]} key={step}>
         <Accordion
           className='hearing-form-accordion'
-          key={step}
           heading={title}
           language={language}
           initiallyOpen={stepIndex === 0}
@@ -145,7 +145,6 @@ const HearingForm = ({
             contactPersons={contactPersons}
             organizations={organizations}
             deleteOption={deleteOption}
-            dispatch={dispatch}
             editorMetaData={editorMetaData}
             errors={stepErrors}
             formatMessage={formatMessage}
@@ -167,7 +166,9 @@ const HearingForm = ({
             onSectionAttachment={onSectionAttachment}
             onSectionAttachmentDelete={onSectionAttachmentDelete}
             onSectionChange={onSectionChange}
-            onSectionImageChange={onSectionImageChange}
+            onSectionImageSet={onSectionImageSet}
+            onSectionImageDelete={onSectionImageDelete}
+            onSectionImageCaptionChange={onSectionImageCaptionChange}
             sectionMoveDown={sectionMoveDown}
             sectionMoveUp={sectionMoveUp}
             visible={isVisible}
@@ -275,14 +276,7 @@ const HearingForm = ({
       closeButtonLabelText={formatMessage({ id: 'close' })}
       theme={{ '--accent-line-color': 'var(--color-black)' }}
     >
-      <Dialog.Header
-        id={titleId}
-        title={
-          <h2>
-            <FormattedMessage id='editHearing' />
-          </h2>
-        }
-      />
+      <Dialog.Header id={titleId} title={<FormattedMessage id='editHearing' />} />
       <Dialog.Content>
         <div id={descriptionId}>
           <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
@@ -309,7 +303,6 @@ HearingForm.propTypes = {
   organizations: PropTypes.arrayOf(organizationShape),
   currentStep: PropTypes.number,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
   errors: PropTypes.object,
   hearing: hearingShape,
@@ -334,11 +327,13 @@ HearingForm.propTypes = {
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
   onSectionChange: PropTypes.func,
-  onSectionImageChange: PropTypes.func,
+  onSectionImageSet: PropTypes.func,
+  onSectionImageDelete: PropTypes.func,
+  onSectionImageCaptionChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
   intl: PropTypes.object,
 };
 
-export default connect(null, null, null, { pure: false })(injectIntl(HearingForm));
+export default connect(null, null, null)(injectIntl(HearingForm));

@@ -7,6 +7,15 @@ import HearingFormStep2 from '../HearingFormStep2';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 
+jest.mock('hds-react', () => {
+  const actual = jest.requireActual('hds-react');
+
+  return {
+    ...actual,
+    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+  };
+});
+
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
