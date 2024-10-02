@@ -125,6 +125,10 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
     }`,
   }));
 
+  const options = [...defaultProjectOptions, ...projectsOptions];
+
+  const projectsInitialValue = selectedProject?.id ? selectedProject.id : options[0];
+
   return (
     <div>
       <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
@@ -133,8 +137,9 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
           id='commenting'
           name='commenting'
           label={<FormattedMessage id='projectSelection' />}
-          options={[...defaultProjectOptions, ...projectsOptions]}
+          options={options}
           onChange={onChangeProject}
+          defaultValue={projectsInitialValue}
         />
       </div>
       {renderProject(selectedProject)}
