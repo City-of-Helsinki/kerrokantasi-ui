@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Checkbox, IconTrash, TextInput } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
@@ -12,6 +12,7 @@ const Phase = (props) => {
   const { phaseInfo, indexNumber, onDelete, onChange, onActive, languages, errors } = props;
 
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   const handleRadioOnChange = (event) => {
     if (event.target.checked) {
@@ -46,7 +47,7 @@ const Phase = (props) => {
               />
               {index === 0 ? (
                 <Button
-                  data-testid="remove-phase"
+                  data-testid='remove-phase'
                   onClick={() => {
                     if (phaseInfo.has_hearings) {
                       dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
@@ -96,7 +97,7 @@ const Phase = (props) => {
               <Checkbox
                 id={`phase-active-${indexNumber + 1}`}
                 name={`phase-active-${indexNumber + 1}`}
-                label={<FormattedMessage id='phaseActive'>{(txt) => txt}</FormattedMessage>}
+                label={intl.formatMessage({ id: 'phaseActive' })}
                 onChange={handleRadioOnChange}
                 checked={phaseInfo.is_active}
                 errorText={errors.project_phase_active}
@@ -119,6 +120,4 @@ Phase.propTypes = {
   errors: PropTypes.object,
 };
 
-const WrappedPhase = injectIntl(Phase);
-
-export default WrappedPhase;
+export default Phase;

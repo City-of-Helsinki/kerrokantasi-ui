@@ -1,12 +1,11 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
 import { Accordion, Button } from 'hds-react';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
 import Icon from '../../utils/Icon';
 import SectionForm from './SectionForm';
@@ -14,13 +13,13 @@ import { addSection, removeSection } from '../../actions/hearingEditor';
 import { getMainSection, isPublic } from '../../utils/hearing';
 import { hearingShape } from '../../types';
 import { initNewSection, SectionTypes } from '../../utils/section';
+import getAttr from '../../utils/getAttr';
 
 const HearingFormStep2 = ({
   hearing,
   hearingLanguages,
   sectionMoveUp,
   sectionMoveDown,
-  dispatch,
   addOption,
   deleteOption,
   onQuestionChange,
@@ -31,13 +30,17 @@ const HearingFormStep2 = ({
   onSectionAttachment,
   onSectionAttachmentDelete,
   onSectionChange,
-  onSectionImageChange,
+  onSectionImageSet,
+  onSectionImageDelete,
+  onSectionImageCaptionChange,
   language,
   onDeleteExistingQuestion,
   onContinue,
   intl,
 }) => {
   const [activeSection, setActiveSection] = useState(getMainSection(hearing).frontId);
+
+  const dispatch = useDispatch();
 
   const scrollModalToTop = () => {
     if (document && document.getElementsByClassName) {
@@ -76,12 +79,13 @@ const HearingFormStep2 = ({
           id: `${section.type}Section`,
         });
         const sectionID = section.frontId;
+        const heading = `${sectionHeader}: ${getAttr(section.title, language) || ''}`;
 
         return (
           <Accordion
             className='section-accordion'
             key={sectionID}
-            heading={sectionHeader}
+            heading={heading}
             language={language}
             initiallyOpen={activeSection === sectionID}
             card
@@ -104,7 +108,9 @@ const HearingFormStep2 = ({
               onSectionAttachment={onSectionAttachment}
               onSectionAttachmentDelete={onSectionAttachmentDelete}
               onSectionChange={onSectionChange}
-              onSectionImageChange={onSectionImageChange}
+              onSectionImageSet={onSectionImageSet}
+              onSectionImageDelete={onSectionImageDelete}
+              onSectionImageCaptionChange={onSectionImageCaptionChange}
               section={section}
               sectionLanguages={hearingLanguages}
               sectionMoveDown={sectionMoveDown}
@@ -132,11 +138,9 @@ const HearingFormStep2 = ({
     <div className='form-step'>
       {getSections()}
       <div className='new-section-toolbar'>
-        <ButtonToolbar>
-          <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
-            <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
-          </Button>
-        </ButtonToolbar>
+        <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
+          <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
+        </Button>
       </div>
       <div className='step-footer'>
         <Button className='kerrokantasi-btn' onClick={onContinue}>
@@ -151,7 +155,6 @@ HearingFormStep2.propTypes = {
   addOption: PropTypes.func,
   clearQuestions: PropTypes.func,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,
@@ -164,7 +167,9 @@ HearingFormStep2.propTypes = {
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
   onSectionChange: PropTypes.func,
-  onSectionImageChange: PropTypes.func,
+  onSectionImageSet: PropTypes.func,
+  onSectionImageDelete: PropTypes.func,
+  onSectionImageCaptionChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   intl: PropTypes.object,

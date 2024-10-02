@@ -44,8 +44,9 @@ export const EditorActions = {
   EDIT_HEARING: 'changeHearing',
   EDIT_PHASE: 'changePhase',
   EDIT_QUESTION: 'editQuestion',
-  EDIT_SECTION_ATTACHMENT: 'editSecionAttachment',
-  EDIT_SECTION_MAIN_IMAGE: 'changeSectionMainImage',
+  SET_SECTION_MAIN_IMAGE: 'setSectionMainImage',
+  DELETE_SECTION_MAIN_IMAGE: 'deleteSectionMainImage',
+  CHANGE_SECTION_MAIN_IMAGE_CAPTION: 'changeSectionMainImageCaption',
   EDIT_SECTION: 'changeSection',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
@@ -53,7 +54,6 @@ export const EditorActions = {
   INIT_MULTIPLECHOICE_QUESTION: 'initMultipleChoiceQuestion',
   INIT_NEW_HEARING: 'initNewHearing',
   INIT_SINGLECHOICE_QUESTION: 'initSingleChoiceQuestion',
-  ORDER_ATTACHMENTS: 'orderAttachments',
   POST_HEARING_SUCCESS: 'savedNewHearing',
   POST_HEARING: 'savingNewHearing',
   PUBLISH_HEARING: 'publishingHearing',
@@ -93,31 +93,6 @@ export const closeHearingForm = () => dispatch => dispatch(createAction(EditorAc
 export const sectionMoveUp = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
 
 export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
-
-
-/**
- * When editing a sections attachment.
- */
-// export const editSectionAttachment = (sectionId, attachment) => (dispatch) => {
-//   const url = `/v1/file/${attachment.id}`;
-//   return put(url, attachment)
-//     .then(checkResponseStatus)
-//     .then(() => dispatch(createAction(EditorActions.EDIT_SECTION_ATTACHMENT)({ sectionId, attachment })));
-// };
-
-/**
- * For changing order, two requests have to be made.
- * One file is incremented whilst the other decrementd.
- */
-// export const editSectionAttachmentOrder = (sectionId, attachments) => (dispatch) => {
-//   const promises = attachments.map((attachment) => {
-//     const url = `/v1/file/${attachment.id}`;
-//     return put(url, attachment);
-//   });
-
-//   return Promise.all(promises)
-//     .then(() => dispatch(createAction(EditorActions.ORDER_ATTACHMENTS)({ sectionId, attachments })));
-// };
 
 /**
  * Delete an attached item.
@@ -299,7 +274,7 @@ export function addLabel(label, selectedLabels) {
         } else if (response.status === 401) {
           // Unauthorized
           // TODO: Add translations
-          throw Error('Et voi luoda asiasanaa.'); 
+          throw Error('Et voi luoda asiasanaa.');
         } else {
           response.json().then(labelJSON => {
             selectedLabels.push(labelJSON.id);
@@ -316,7 +291,11 @@ export function addLabel(label, selectedLabels) {
 
 export const changeSection = (sectionID, field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value }));
 
-export const changeSectionMainImage = (sectionID, field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_SECTION_MAIN_IMAGE)({ sectionID, field, value }));
+export const setSectionMainImage = (sectionID, value) => dispatch => dispatch(createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, value }));
+
+export const deleteSectionMainImage = (sectionID) => dispatch => dispatch(createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID }));
+
+export const changeSectionMainImageCaption = (sectionID, value) => dispatch => dispatch(createAction(EditorActions.CHANGE_SECTION_MAIN_IMAGE_CAPTION)({ sectionID, value }));
 
 export const addSection = (section) => dispatch => dispatch(createAction(EditorActions.ADD_SECTION)({ section }));
 
@@ -377,7 +356,7 @@ export function saveHearingChanges(hearing) {
         } else if (response.status === 401) {
           // Unauthorized
           // TODO: Add translations
-          throw Error(HEARING_CANT_MODIFY);          
+          throw Error(HEARING_CANT_MODIFY);
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
@@ -385,7 +364,7 @@ export function saveHearingChanges(hearing) {
             if (hearing.slug !== hearingJSON.slug) {
               dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'slugInUse')));
             }
-            
+
           });
           // TODO: Add translations
           dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Tallennus onnistui')));
