@@ -25,7 +25,7 @@ import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
 import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 import { addToast } from '../../../actions/toast';
-import { updateAnswers } from '../../../utils/comments';
+import updateAnswers from '../../../utils/comments';
 
 const Comment = (props) => {
   const dispatch = useDispatch();
