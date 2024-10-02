@@ -10,6 +10,15 @@ import { mockStore as mockData } from '../../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
+jest.mock('hds-react', () => {
+  const actual = jest.requireActual('hds-react');
+
+  return {
+    ...actual,
+    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+  };
+});
+
 const storeInitialState = {
   projectLists: {
     isFetching: false,
@@ -98,6 +107,23 @@ const renderComponent = (propOverrides, storeOverride) => {
 };
 
 describe('<HearingForm />', () => {
+  const originalInterSectionObserver = window.IntersectionObserver;
+
+  const intersectionObserverMock = () => ({
+    observe: () => null,
+    disconnect: () => null,
+  });
+
+  beforeAll(() => {
+    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+  });
+
+  afterAll(() => {
+    window.IntersectionObserver = originalInterSectionObserver;
+
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', () => {
     renderComponent();
   });

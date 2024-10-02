@@ -112,8 +112,8 @@ const SectionForm = ({
 }) => {
   const [enabledCommentMap, setEnabledCommentMap] = useState(false);
 
-  const [sectionImages, setSectionImages] = useState();
-  const [attachments, setAttachments] = useState();
+  const [sectionImages, setSectionImages] = useState([]);
+  const [attachments, setAttachments] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -276,7 +276,7 @@ const SectionForm = ({
     setEnabledCommentMap(!enabledCommentMap);
 
     if (enabledCommentMap) {
-      onChange({ target: { name: 'commenting_map_tools', value: 'none' } });
+      onChange({ value: 'none' }, 'commenting_map_tools');
     }
   };
 
@@ -439,12 +439,12 @@ const SectionForm = ({
       <div style={{ marginBottom: 'var(--spacing-m)' }}>
         <Checkbox
           checked={!!enabledCommentMap}
-          label={<FormattedMessage id='hearingCommentingMap'>{(txt) => txt}</FormattedMessage>}
+          label={<FormattedMessage id='hearingCommentingMap' />}
           onChange={toggleEnableCommentMap}
         />
       </div>
       {enabledCommentMap && (
-        <div id='hearingCommentingMap' style={{ marginBottom: 'var(--spacing-m)' }}>
+        <div data-testid='hearingCommentingMap' id='hearingCommentingMap' style={{ marginBottom: 'var(--spacing-m)' }}>
           <Select
             id='commenting_map_tools'
             name='commenting_map_tools'
