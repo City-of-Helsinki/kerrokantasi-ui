@@ -1,34 +1,77 @@
-.hearings-search {
-  &__container {
-    .Select-control, .is-open .Select-control, .Select-menu {
-      border: 2px solid $black;
-      border-radius: 0;
-    }
+.page-section--all-hearings-header {
+  background-color: $light-gray;
 
-    .Select-control {
-      background-color: transparent;
+  .all-hearings-header-container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 0 var(--spacing-s);
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
     }
   }
 }
 
-.page-section--all-hearings-header {
-  background-color: $light-gray;
-}
-
 .page-section--hearings-search {
+  display: flex;
+  flex-direction: column;
   background-color: $light-gray;
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 0 var(--spacing-s);
+
+  @media (min-width: $screen-sm-min) {
+    padding: 0 var(--spacing-2-xs);
+  }
 }
 
 .page-section--hearings-tabs {
   background-color: $light-gray;
   border-bottom: 2px solid $black;
+  padding-top: var(--spacing-xl);
+
+  & > div:first-of-type {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 var(--spacing-s);
+    overflow: unset;
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
+    }
+  }
+
+  ul {
+    border-bottom: none;
+
+    li {
+      margin-bottom: -2px;
+
+      &[aria-selected='true'] {
+        background-color: var(--color-white);
+        border: 2px solid var(--color-black);
+        border-bottom: none;
+      }
+    }
+  }
 }
 
-.hearing-list__tabs {
-  > li.active > a,
-  > li.active > a:hover,
-  > li.active > a:focus {
-    border: 2px solid $black;
-    border-bottom-color: transparent;
+.hearings-list {
+  background-color: $light-gray;
+}
+
+.hearings-list-tab-panel {
+  background-color: var(--color-white);
+
+  &-container {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: var(--spacing-2-xl) var(--spacing-s) 0;
+
+    @media (min-width: $screen-sm-min) {
+      padding: var(--spacing-2-xl) var(--spacing-2-xs) 0;
+    }
   }
 }

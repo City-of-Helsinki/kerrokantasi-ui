@@ -30,14 +30,17 @@
     flex: 1 auto;
     padding: $line-height-computed;
     overflow: hidden;
+  }
 
-    @media (min-width: $screen-sm-min) {
-      max-width: 73%;
-    }
+  &-labels {
+    display: flex;
+    flex-direction: column;
   }
 
   &-labellist {
-    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-3-xs);
 
     a {
       text-decoration: none;
@@ -50,6 +53,7 @@
   }
 
   &-closed {
+    margin-top: var(--spacing-2-xs);
     text-align: right;
   }
 
@@ -81,6 +85,16 @@
 
 .page-section--all-hearings-header {
   background-color: $gray-200;
+
+  .all-hearings-header-container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 0 var(--spacing-s);
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
+    }
+  }
 }
 
 .hearing-comment__images {
@@ -137,9 +151,19 @@
 
 .hearing-list-map {
   margin-top: 20px !important;
+
+  &-container {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: 0 var(--spacing-2-xs);
+  }
 }
 
 .hearing-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
   &__result-controls {
     margin-bottom: $grid-gutter-width;
     display: flex;
@@ -152,8 +176,12 @@
     flex: 0 1 auto;
     font-size: $font-size-large;
     font-weight: 400;
-    margin: 0 $grid-gutter-width * 1.5 $grid-gutter-width/2 0;
+    margin: 0 0 var(--spacing-s) 0;
     color: var(--color-black-60);
+
+    @media (min-width: $screen-xs-min) {
+      margin: 0 $grid-gutter-width * 1.5 0 0;
+    }
 
     span {
       margin-left: 0.15em;
@@ -164,18 +192,12 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
-    margin-bottom: $grid-gutter-width/2;
 
     &-filter {
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
       margin: 0;
-    }
-
-    &-label {
-      margin: 0;
-      margin-right: $grid-gutter-width/2;
     }
 
     .select {
@@ -187,22 +209,73 @@
 }
 
 .page-section--hearings-search {
+  display: flex;
+  flex-direction: column;
   background-color: $gray-200;
+
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 0 var(--spacing-s);
+
+  @media (min-width: $screen-sm-min) {
+    padding: 0 var(--spacing-2-xs);
+  }
 }
 
 .page-section--hearings-tabs {
   background-color: $gray-200;
   border-bottom: 2px solid $gray-400;
+  padding-top: var(--spacing-xl);
+
+  & > div:first-of-type {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 var(--spacing-s);
+    overflow: unset;
+
+    @media (min-width: $screen-sm-min) {
+      padding: 0 var(--spacing-2-xs);
+    }
+  }
+
+  ul {
+    border-bottom: none;
+
+    li {
+      margin-bottom: -2px;
+
+      &[aria-selected='true'] {
+        background-color: var(--color-white);
+        border: 2px solid $gray-400;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.hearings-list {
+  background-color: $light-gray;
+}
+
+.hearings-list-tab-panel {
+  background-color: var(--color-white);
+
+  &-container {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: var(--spacing-2-xl) var(--spacing-s) 0;
+
+    @media (min-width: $screen-sm-min) {
+      padding: var(--spacing-2-xl) var(--spacing-2-xs) 0;
+    }
+  }
 }
 
 .hearings-search {
   &__container {
     padding-bottom: 10px;
-    height: 80px;
-
-    .Select-placeholder {
-      color: var(--color-black-60);
-    }
 
     #hearings-search-form {
       scroll-margin-top: 100px;
@@ -219,37 +292,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: var(--spacing-m);
   }
 
   &__input {
     --icon-size: var(--spacing-s);
-  }
-
-  &__select {
-    background-color: var(--color-white);
-
-    * {
-      border-radius: 0;
-    }
-
-    > div {
-      border: 2px solid var(--color-black-50) !important;
-
-      span {
-        background-color: var(--color-white);
-
-        span {
-          left: 5;
-          top: 1;
-        }
-      }
-    }
-
-    .Select-menu-outer {
-      > div {
-        border: none;
-      }
-    }
   }
 
   &__label {
