@@ -1,15 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable camelcase */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
-import { Button } from 'hds-react';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
+import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
 import { ZoomControl } from 'react-leaflet';
 import { connect } from 'react-redux';
@@ -17,7 +13,6 @@ import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
 
 import { localizedNotifyError } from '../../utils/notify';
-import Icon from '../../utils/Icon';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
@@ -323,8 +318,8 @@ class HearingFormStep3 extends React.Component {
     }
   }
 
-  onUploadGeoJSON = (event) => {
-    this.readTextFile(event.target.files[0], (json) => {
+  onUploadGeoJSON = (files) => {
+    this.readTextFile(files[0], (json) => {
       try {
         const featureCollection = JSON.parse(json);
         if (
@@ -406,16 +401,13 @@ class HearingFormStep3 extends React.Component {
 
     return (
       <div className='form-step'>
-        <FormGroup controlId='hearingArea'>
-          <ControlLabel>
-            <FormattedMessage id='hearingArea' />
-          </ControlLabel>
+        <Fieldset id='hearingArea' heading={<FormattedMessage id='hearingArea' />}>
           <Map
             ref={this.refCallBack}
-            // onResize={this.invalidateMap.bind(this)}
             zoomControl={false}
             center={localization.mapPosition}
-            zoom={11}
+            style={{ width: '100%', height: 600 }}
+            zoom={10}
             className='hearing-map'
           >
             <ZoomControl zoomInTitle='Lähennä' zoomOutTitle='Loitonna' />
@@ -447,19 +439,17 @@ class HearingFormStep3 extends React.Component {
               {getHearingArea({ geojson: initialGeoJSON })}
             </FeatureGroup>
           </Map>
-        </FormGroup>
+        </Fieldset>
         <div className='step-control'>
-          <label className='geojson_button' htmlFor='geojsonUploader'>
-            <input id='geojsonUploader' type='file' onChange={this.onUploadGeoJSON} style={{ display: 'none' }} />
-            <Icon className='icon' name='upload' style={{ marginRight: '5px' }} />
-            <FormattedMessage id='addGeojson' />
-          </label>
-          <HelpBlock>
-            <FormattedMessage id='addGeojsonInfo' />
-          </HelpBlock>
+          <FileInput
+            id='geojsonUploader'
+            label={<FormattedMessage id='addGeojson' />}
+            onChange={this.onUploadGeoJSON}
+            helperText={<FormattedMessage id='addGeojsonInfo' />}
+          />
         </div>
         <div className='step-footer'>
-          <Button className="kerrokantasi-btn" onClick={this.props.onContinue}>
+          <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>
             <FormattedMessage id='hearingFormNext' />
           </Button>
         </div>
@@ -484,7 +474,4 @@ HearingFormStep3.propTypes = {
   onCreateMapMarker: PropTypes.func,
 };
 
-export { HearingFormStep3 as UnconnectedHearingFormStep3 };
-const WrappedHearingFormStep3 = connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
-
-export default WrappedHearingFormStep3;
+export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));

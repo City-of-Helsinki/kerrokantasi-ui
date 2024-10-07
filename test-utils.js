@@ -219,6 +219,7 @@ export const mockStore = {
               }
             }
           ],
+          files: [],
           n_comments: 1,
           type_name_singular: 'pääosio',
           type_name_plural: 'pääosiot',
@@ -281,6 +282,7 @@ export const mockStore = {
               }
             }
           ],
+          files: [],
           n_comments: 59,
           type_name_singular: 'osa-alue',
           type_name_plural: 'osa-alueet',
@@ -316,6 +318,7 @@ export const mockStore = {
               }
             }
           ],
+          files: [],
           n_comments: 59,
           type_name_singular: 'osa-alue',
           type_name_plural: 'osa-alueet',
@@ -401,6 +404,7 @@ export const mockStore = {
                 }
               }
             ],
+            files: [],
             n_comments: 1,
             type_name_singular: 'pääosio',
             type_name_plural: 'pääosiot',
@@ -661,6 +665,7 @@ export const mockStore = {
           can_edit: false,
           geojson: null,
           images: [],
+          files: [],
           label: null,
           hearing: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
           plugin_data: '',
