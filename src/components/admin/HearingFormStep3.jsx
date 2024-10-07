@@ -25,7 +25,7 @@ import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-ic
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
 import getTranslatedTooltips from '../../utils/getTranslatedTooltips';
 import { hearingShape } from '../../types';
-import { getCorrectContrastMapTileUrl } from '../../utils/map';
+import { getCorrectContrastMapTileUrl, getMapElement } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 import { addToast } from '../../actions/toast';
 
@@ -36,119 +36,6 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
-
-/**
- * Returns map elements according to geojson.type
- * @param {object} geojson
- * @returns {JSX.Element|*}
- */
-function getMapElement(geojson) {
-  const { LatLng } = require('leaflet'); // Late import to be isomorphic compatible
-  const { Polygon, GeoJSON, Marker, Polyline } = require('react-leaflet'); // Late import to be isomorphic compatible
-  switch (geojson.type) {
-    case 'Polygon': {
-      // XXX: This only supports the _first_ ring of coordinates in a Polygon
-      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polygon key={Math.random()} positions={latLngs} />;
-    }
-    case 'Point': {
-      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-      return (
-        <Marker
-          key={Math.random()}
-          position={latLngs}
-          icon={
-            new Leaflet.Icon({
-              iconUrl: leafletMarkerIconUrl,
-              shadowUrl: leafletMarkerShadowUrl,
-              iconRetinaUrl: leafletMarkerRetinaIconUrl,
-              iconSize: [25, 41],
-              iconAnchor: [13, 41],
-            })
-          }
-        />
-      );
-    }
-    case 'LineString': {
-      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polyline positions={latLngs} />;
-    }
-    case 'Feature': {
-      /**
-       * Recursively get the map element
-       * @example
-       * geojson = {type: 'Feature', geometry:{type: 'Point', coordinates: [...]}}
-       */
-      return getMapElement(geojson.geometry);
-    }
-    default:
-      // TODO: Implement support for other geometries too (markers, square, circle)
-      return <GeoJSON data={geojson} key={JSON.stringify(geojson)} />;
-  }
-}
-
-/**
- * Returns map elements according to hearing.geojson.
- *
- * If geojson.type is Polygon/Point/LineString -> return that map element.
- *
- * If geojson.type is FeatureCollection -> return map elements[] for each value in geojson.features.
- * @param {object} hearing
- * @returns {JSX.Element|null|*[]}
- */
-function getHearingArea(hearing) {
-  if (typeof window === 'undefined') return null;
-  if (!hearing || !hearing.geojson) return null;
-  if (!hearing.geojson.type) return null;
-
-  const { LatLng } = require('leaflet'); // Late import to be isomorphic compatible
-  const { Polygon, GeoJSON, Marker, Polyline } = require('react-leaflet'); // Late import to be isomorphic compatible
-  const { geojson } = hearing;
-  switch (geojson.type) {
-    case 'Polygon': {
-      // XXX: This only supports the _first_ ring of coordinates in a Polygon
-      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polygon key={Math.random()} positions={latLngs} />;
-    }
-    case 'MultiPolygon': {
-      const latLngs = geojson.coordinates.map((arr) => arr[0].map(([lng, lat]) => new LatLng(lat, lng)));
-      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem} />);
-    }
-    case 'Point': {
-      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-      return (
-        <Marker
-          key={Math.random()}
-          position={latLngs}
-          icon={
-            new Leaflet.Icon({
-              iconUrl: leafletMarkerIconUrl,
-              shadowUrl: leafletMarkerShadowUrl,
-              iconRetinaUrl: leafletMarkerRetinaIconUrl,
-              iconSize: [25, 41],
-              iconAnchor: [13, 41],
-            })
-          }
-        />
-      );
-    }
-    case 'LineString': {
-      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-      return <Polyline positions={latLngs} />;
-    }
-    case 'FeatureCollection': {
-      const { features } = geojson;
-      const elementCollection = features.reduce((accumulator, currentValue) => {
-        accumulator.push(getMapElement(currentValue));
-        return accumulator;
-      }, []);
-      return [...elementCollection];
-    }
-    default:
-      // TODO: Implement support for other geometries too (markers, square, circle)
-      return <GeoJSON data={geojson} key={JSON.stringify(geojson)} />;
-  }
-}
 
 function getFirstGeometry(featureCollectionGeoJSON) {
   const firstFeature = featureCollectionGeoJSON.features[0];
@@ -419,7 +306,7 @@ const HearingFormStep3 = (props) => {
                 edit: false,
               }}
             />
-            {getHearingArea({ geojson: initialGeoJSON })}
+            { getMapElement(initialGeoJSON)}
           </FeatureGroup>
         </MapContainer>
       </FormGroup>
