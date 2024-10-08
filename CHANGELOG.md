@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.8...kerrokantasi-ui-v1.6.9) (2024-10-08)
+
+
+### Bug Fixes
+
+* Allow setting nodejs --max-old-space-size via environment variable ([6d3e771](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6d3e771892977c13f4e8516625cc973c96d2e2de))
+
 ## [1.6.8](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.7...kerrokantasi-ui-v1.6.8) (2024-09-12)
 
 
