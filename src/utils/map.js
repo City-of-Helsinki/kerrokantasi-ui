@@ -50,9 +50,10 @@ export function getCorrectContrastMapTileUrl(
  * @returns {JSX.Element|*}
  */
 export function getMapElement(geojson) {
-  if (!geojson) {
+  if (!geojson || !geojson.type) {
     return null;
   }
+  
   switch (geojson.type) {
     case 'Polygon': {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon

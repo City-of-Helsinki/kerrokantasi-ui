@@ -438,6 +438,9 @@ export function saveAndPreviewHearingChanges(hearing) {
           // Unauthorized
           // TODO: Add translations
           dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, HEARING_CANT_MODIFY)));
+          response.json().then(errors => {
+            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
+          });
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));

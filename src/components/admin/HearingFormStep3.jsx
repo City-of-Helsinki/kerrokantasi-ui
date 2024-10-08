@@ -306,7 +306,7 @@ const HearingFormStep3 = (props) => {
                 edit: false,
               }}
             />
-            { getMapElement(initialGeoJSON)}
+            { getMapElement(initialGeoJSON )}
           </FeatureGroup>
         </MapContainer>
       </FormGroup>

@@ -249,7 +249,7 @@ describe('HearingEditor actions', () => {
 
           const expectedActions = [
             { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
-            { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: { message: 'Invalid data' } } }
+            { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors } }
           ];
 
           await store.dispatch(actions.saveHearingChanges(hearing));
@@ -360,6 +360,67 @@ describe('HearingEditor actions', () => {
     
         await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
         expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    });
+    describe('saveAndPreviewHearingChanges', () => {
+      it('dispatches SAVE_HEARING and SAVE_HEARING_SUCCESS on successful save', async () => {
+        const response = { status: 200, json: () => Promise.resolve(mockHearing) };
+    
+        api.put.mockResolvedValue(response);
+        const cleanedHearing = mockProcessedHearing;
+    
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_SUCCESS, payload: { hearing: mockHearing } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches SAVE_HEARING and SAVE_HEARING_FAILED on API error', async () => {
+        const errors = { message: 'Invalid data' };
+        const response = { status: 400, json: () => Promise.resolve(errors) };
+    
+        api.put.mockResolvedValue(response);
+
+        const cleanedHearing = mockProcessedHearing;
+    
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('handles unauthorized error', async () => {
+        const response = { status: 401, json: () => Promise.resolve({}) };
+    
+        api.put.mockResolvedValue(response);
+    
+        const cleanedHearing = mockProcessedHearing;
+
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: {} } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
       });
     });
 });
