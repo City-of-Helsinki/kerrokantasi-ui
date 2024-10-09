@@ -30,7 +30,7 @@ test.describe('Hearing list page', () => {
     const searchTextInput = page.getByRole('combobox', { name: 'Etsi otsikoista' });
 
     // Check the default state of the select input
-    const input = page.locator('#formControlsSearchSelect');
+    const input = page.locator('#formControlsSearchSelect input');
     await expect.soft(input).toHaveValue('');
 
     // Perform a search and validate the input value

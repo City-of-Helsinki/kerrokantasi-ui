@@ -9,9 +9,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       class="hearing-languages"
     >
       <legend>
-        <span>
-          hearingLanguages
-        </span>
+        hearingLanguages
       </legend>
       <div
         class="hearing-languages__row"
@@ -22,9 +20,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-fi"
           >
-            <span>
-              inLanguage-fi
-            </span>
+            inLanguage-fi
             <input
               id="kkEditorLanguageSelector-fi"
               name="language"
@@ -39,9 +35,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-sv"
           >
-            <span>
-              inLanguage-sv
-            </span>
+            inLanguage-sv
             <input
               id="kkEditorLanguageSelector-sv"
               name="language"
@@ -56,9 +50,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-en"
           >
-            <span>
-              inLanguage-en
-            </span>
+            inLanguage-en
             <input
               id="kkEditorLanguageSelector-en"
               name="language"
@@ -95,45 +87,51 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="label-elements"
           >
             <div
-              class="Select is-clearable is-searchable Select--multi"
+              class="Select-module_root__Ka5uO Select-module_multiselect__fxewG"
+              style="flex: 1;"
             >
               <div
-                class="Select-control"
+                class="Select-module_wrapper__1WQXs"
               >
-                <div
-                  class="Select-multi-value-wrapper"
-                  id="react-select-2--value"
-                >
-                  <div
-                    class="Select-placeholder"
-                  >
-                    hearingLabelsPlaceholder
-                  </div>
-                  <div
-                    class="Select-input"
-                    style="display: inline-block;"
-                  >
-                    <input
-                      aria-activedescendant="react-select-2--value"
-                      aria-expanded="false"
-                      aria-haspopup="false"
-                      aria-owns=""
-                      role="combobox"
-                      style="box-sizing: content-box; width: 5px;"
-                      value=""
-                    />
-                    <div
-                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
-                    />
-                  </div>
-                </div>
-                <span
-                  class="Select-arrow-zone"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-labelledby="hds-select-1-label hds-select-1-toggle-button"
+                  aria-owns="hds-select-1-menu"
+                  class="Select-module_button__1aIsm Select-module_placeholder__21c0j"
+                  id="hds-select-1-toggle-button"
+                  type="button"
                 >
                   <span
-                    class="Select-arrow"
-                  />
-                </span>
+                    class="Select-module_buttonLabel__1fqu5"
+                  >
+                    hearingLabelsPlaceholder
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    aria-label="angle-down"
+                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Select-module_angleIcon__2-9AD"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+                <ul
+                  aria-labelledby="hds-select-1-label"
+                  aria-multiselectable="true"
+                  class="Select-module_menu__1H2aU"
+                  id="hds-select-1-menu"
+                  role="listbox"
+                  style="max-height: 260px;"
+                  tabindex="-1"
+                />
               </div>
             </div>
             <button
@@ -161,9 +159,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="control-label"
             for="hearingSlug"
           >
-            <span>
-              hearingSlug
-            </span>
+            hearingSlug
             *
           </label>
           <span
@@ -193,54 +189,58 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         class="control-label"
         for="hearingContacts"
       >
-        <span>
-          hearingContacts
-        </span>
+        hearingContacts
         *
       </label>
       <div
         class="contact-elements"
       >
         <div
-          class="Select is-clearable is-searchable Select--multi"
+          class="Select-module_root__Ka5uO Select-module_multiselect__fxewG"
+          style="flex: 1;"
         >
           <div
-            class="Select-control"
+            class="Select-module_wrapper__1WQXs"
           >
-            <div
-              class="Select-multi-value-wrapper"
-              id="react-select-3--value"
-            >
-              <div
-                class="Select-placeholder"
-              >
-                hearingContactsPlaceholder
-              </div>
-              <div
-                class="Select-input"
-                style="display: inline-block;"
-              >
-                <input
-                  aria-activedescendant="react-select-3--value"
-                  aria-expanded="false"
-                  aria-haspopup="false"
-                  aria-owns=""
-                  role="combobox"
-                  style="box-sizing: content-box; width: 5px;"
-                  value=""
-                />
-                <div
-                  style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
-                />
-              </div>
-            </div>
-            <span
-              class="Select-arrow-zone"
+            <button
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="hds-select-2-label hds-select-2-toggle-button"
+              aria-owns="hds-select-2-menu"
+              class="Select-module_button__1aIsm Select-module_placeholder__21c0j"
+              id="hds-select-2-toggle-button"
+              type="button"
             >
               <span
-                class="Select-arrow"
-              />
-            </span>
+                class="Select-module_buttonLabel__1fqu5"
+              >
+                hearingContactsPlaceholder
+              </span>
+              <svg
+                aria-hidden="true"
+                aria-label="angle-down"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Select-module_angleIcon__2-9AD"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </button>
+            <ul
+              aria-labelledby="hds-select-2-label"
+              aria-multiselectable="true"
+              class="Select-module_menu__1H2aU"
+              id="hds-select-2-menu"
+              role="listbox"
+              style="max-height: 260px;"
+              tabindex="-1"
+            />
           </div>
         </div>
         <button
@@ -259,9 +259,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       <span
         class="help-block"
       >
-        <span>
-          hearingContactsHelpText
-        </span>
+        hearingContactsHelpText
       </span>
     </div>
     <div
@@ -274,9 +272,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         <span
           class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
         >
-          <span>
-            hearingFormNext
-          </span>
+          hearingFormNext
         </span>
       </button>
     </div>

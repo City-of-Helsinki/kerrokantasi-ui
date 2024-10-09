@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import defaultImage from '@city-images/default-image.svg';
 
@@ -105,6 +104,7 @@ const HearingCard = ({
               className='favorite-icon'
               onClick={() => unFavoriteAction(hearing.slug, hearing.id)}
               title={favoriteButtonText}
+              aria-label={favoriteButtonText}
             >
               <Icon name='heart' aria-hidden='true' />
             </button>
@@ -141,4 +141,4 @@ HearingCard.propTypes = {
   userProfile: PropTypes.bool,
 };
 
-export default withRouter(HearingCard);
+export default HearingCard;

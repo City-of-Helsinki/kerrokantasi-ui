@@ -1,29 +1,12 @@
 // This module uses `require` and late imports to support isomorphic rendering.
-import { toast } from 'react-toastify';
 import alertify from 'alertifyjs';
 
 import getMessage from "./getMessage";
 
-const successOptions = {
-  autoClose: 6000,
-  type: toast.TYPE.SUCCESS,
-  hideProgressBar: true,
-  position: toast.POSITION.BOTTOM_RIGHT,
-  pauseOnHover: true,
-};
-
-const errorOptions = {
-  autoClose: false,
-  type: toast.TYPE.ERROR,
-  hideProgressBar: true,
-  position: toast.POSITION.BOTTOM_RIGHT,
-};
-
-const infoOptions = {
-  autoClose: 2000,
-  type: toast.TYPE.INFO,
-  hideProgressBar: true,
-  position: toast.POSITION.BOTTOM_RIGHT,
+export const NOTIFICATION_TYPES = {
+  error: 'error',
+  success: 'success',
+  info: 'info',
 };
 
 export function alert(message, title = "Kerrokantasi") {
@@ -38,53 +21,29 @@ export function alert(message, title = "Kerrokantasi") {
   }
 }
 
-export function notifyError(message) {
-  if (typeof window !== 'undefined') {
-    if (message) {
-      toast.error(message, errorOptions); // add type: 'success' to options
-    } else {
-      toast.error('Jokin meni pieleen.', errorOptions); // add type: 'success' to options
-    }
+export function createLocalizedAlert(localizationKey) {
+  alert(getMessage(localizationKey));
+}
+
+function getDefaultMessage(type) {
+  switch (type) {
+    case 'error':
+      return 'Jokin meni pieleen.';
+    case 'success':
+      return 'Toiminto onnistui.';
+    default:
+      return 'Ok.';
   }
 }
 
-export function notifySuccess(message) {
-  if (typeof window !== 'undefined') {
-    if (message) {
-      toast.success(message, successOptions); // add type: 'success' to options
-    } else {
-      toast.success('Toiminto onnistui.', successOptions); // add type: 'success' to options
-    }
+export function createNotificationPayload(type, message) {
+  return {
+    type,
+    message: message || getDefaultMessage(type),
+    id: Date.now(),
   }
 }
 
-export function localizedAlert(string) {
-  return alert(getMessage(string));
-}
-
-export function localizedNotifyError(string) {
-  if (string) {
-    toast.error(getMessage(string), errorOptions); // add type: 'success' to options
-  } else {
-    toast.error('Jokin meni pieleen.', errorOptions); // add type: 'success' to options
-  }
-}
-
-export function localizedNotifySuccess(string) {
-  if (string) {
-    toast.success(getMessage(string), successOptions); // add type: 'success' to options
-  } else {
-    toast.success('Toiminto onnistui.', successOptions); // add type: 'success' to options
-  }
-}
-
-
-export function notifyInfo(message) {
-  if (typeof window !== 'undefined') {
-    if (message) {
-      toast.success(message, infoOptions);
-    } else {
-      toast.success('Ok.', infoOptions);
-    }
-  }
+export function createLocalizedNotificationPayload(type, localizationKey) {
+  return createNotificationPayload(type, getMessage(localizationKey));
 }

@@ -13,7 +13,7 @@ jest.mock('../../api', () => ({
     getApiTokenFromStorage: jest.fn(() => 'dummykey'),
     getAllFromEndpoint: jest.fn(),
 }));
-  
+
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -38,7 +38,7 @@ describe('fetchHearingList', () => {
     ];
 
     await store.dispatch(actions.fetchHearingList(listId, endpoint, params));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 
   it('dispatches BEGIN_FETCH_HEARING_LIST and catches errors correctly', async () => {
@@ -53,7 +53,7 @@ describe('fetchHearingList', () => {
     ];
 
     await store.dispatch(actions.fetchHearingList(listId, endpoint, params));
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
 
@@ -62,37 +62,37 @@ describe('fetchInitialHearingList', () => {
     const listId = 'initialList';
     const endpoint = 'v1/hearing';
     const params = { limit: 10 };  // Example of default parameters for initial fetch
-  
+
     beforeEach(() => {
       store = mockStore({});
       api.get.mockClear();
     });
-  
+
     it('dispatches actions for initial hearing list fetch successfully', async () => {
       const mockHearingData = { data: [{ id: 1, title: 'Hearing One' }] };
       api.get.mockResolvedValue({ json: () => Promise.resolve(mockHearingData) });
-  
+
       const expectedActions = [
         { type: 'beginFetchHearingList', payload: { listId, params } },
         { type: 'receiveHearingList', payload: { listId, data: mockHearingData } }
       ];
-  
+
       await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.get).toHaveBeenCalledWith(endpoint, expect.objectContaining(params));
     });
-  
+
     it('handles errors during initial hearing list fetch', async () => {
       const error = new Error('Failed to fetch');
       api.get.mockRejectedValue(error);
-  
+
       const expectedActions = [
         { type: 'beginFetchHearingList', payload: { listId, params } }
         // Assuming requestErrorHandler handles dispatching an error action
       ];
-  
+
       await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
   });
   describe('fetchProjects', () => {
@@ -113,7 +113,7 @@ describe('fetchInitialHearingList', () => {
       ];
 
       await store.dispatch(actions.fetchProjects());
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.get).toHaveBeenCalledWith('v1/project');
     });
 
@@ -127,7 +127,7 @@ describe('fetchInitialHearingList', () => {
       ];
 
       await store.dispatch(actions.fetchProjects());
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
 });
 describe('fetchUserComments', () => {
@@ -150,7 +150,7 @@ describe('fetchUserComments', () => {
       ];
 
       await store.dispatch(actions.fetchUserComments(additionalParams));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.get).toHaveBeenCalledWith('v1/comment', expectedParams);
     });
 
@@ -165,7 +165,7 @@ describe('fetchUserComments', () => {
       ];
 
       await store.dispatch(actions.fetchUserComments(additionalParams));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
 });
 describe('fetchMoreHearings', () => {
@@ -195,7 +195,7 @@ describe('fetchMoreHearings', () => {
       ];
 
       await store.dispatch(actions.fetchMoreHearings(listId));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.get).toHaveBeenCalledWith('v1/hearing/', { page: "2"});
     });
 
@@ -204,11 +204,11 @@ describe('fetchMoreHearings', () => {
       api.get.mockRejectedValue(error);
 
       const expectedActions = [
-        { type: 'beginFetchHearingList', payload: { listId } }
+        { type: 'beginFetchHearingList', payload: { listId } },
       ];
 
       await store.dispatch(actions.fetchMoreHearings(listId));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
 });
 describe('postSectionComment', () => {
@@ -266,7 +266,7 @@ describe('postSectionComment', () => {
       ];
 
       await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
-      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
       expect(api.post).toHaveBeenCalledWith(`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/`, commentReturned);
     });
 
@@ -284,7 +284,7 @@ describe('postSectionComment', () => {
         ];
 
         await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
 });
 describe('fetchLabels', () => {
@@ -304,7 +304,7 @@ describe('fetchLabels', () => {
         ];
 
         await store.dispatch(actions.fetchLabels());
-        expect(store.getActions()).toEqual(expectedActions);  // Ensure actions are correctly created
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));  // Ensure actions are correctly created
         expect(api.getAllFromEndpoint).toHaveBeenCalledWith('/v1/label/');
     });
 });

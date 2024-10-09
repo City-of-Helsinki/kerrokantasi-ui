@@ -1,13 +1,13 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import settings from '@city-assets/settings.json';
 import { Footer as HDSFooter, Logo } from 'hds-react';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import logoWhite from '@city-images/logo-fi-white.svg';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
@@ -64,7 +64,11 @@ const Footer = (props) => {
           />
         }
       >
-        <HDSFooter.Link label={<FormattedMessage id='accessibilityLink' />} to={`/accessibility?lang=${language}`} as={Link} />
+        <HDSFooter.Link
+          label={<FormattedMessage id='accessibilityLink' />}
+          to={`/accessibility?lang=${language}`}
+          as={Link}
+        />
         <HDSFooter.Link
           label={<FormattedMessage id='dataProtection' />}
           href={getDataProtectionUrl(language)}
@@ -72,7 +76,11 @@ const Footer = (props) => {
           rel='noopener noreferrer'
         />
         {config.enableCookies && (
-          <HDSFooter.Link label={<FormattedMessage id='cookieManagementLink' />} to={`/cookies?lang=${language}`} as={Link} />
+          <HDSFooter.Link
+            label={<FormattedMessage id='cookieManagementLink' />}
+            to={`/cookies?lang=${language}`}
+            as={Link}
+          />
         )}
         <HDSFooter.Link label={<FormattedMessage id='infoHeaderText' />} to={`/info?lang=${language}`} as={Link} />
       </HDSFooter.Base>
@@ -81,13 +89,11 @@ const Footer = (props) => {
 };
 
 Footer.propTypes = {
-  intl: intlShape.isRequired,
   language: PropTypes.string,
   user: PropTypes.object,
+  intl: PropTypes.object,
 };
 
-export default withRouter(
-  connect((state) => ({
-    user: getUser(state),
-  }))(injectIntl(Footer)),
-);
+export default connect((state) => ({
+  user: getUser(state),
+}))(injectIntl(Footer));

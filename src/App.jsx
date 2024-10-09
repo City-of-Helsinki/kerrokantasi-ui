@@ -1,15 +1,14 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
-import { withRouter } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import messages from './i18n';
 import Header from './components/Header/Header';
@@ -22,20 +21,19 @@ import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
-import useAuthHook from './hooks/useAuth';  
+import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
+import Toast from './components/Toast';
 
-function App({
-  language,
-  isHighContrast,
-  location,
-  history,
-  match,
-  ...props
-}) {
+function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
+  const [ searchParams ] = useSearchParams();
+  const { fullscreen } = useParams();
+  const location = useLocation();
+  const [locale, setLocale] = useState(language);
+
   getCookieScripts();
   if (config.enableCookies) {
     checkCookieConsent();
@@ -43,12 +41,20 @@ function App({
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
   getStoredApiTokens();
+
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
     return () => {
       cookieOnComponentWillUnmount();
-    }
+    };
   }, [language]);
+
+  useEffect(() => {
+    const lang = searchParams.get('lang')
+    if (lang) {
+      setLocale(lang);
+    }
+  }, [searchParams, locale]);
 
   useEffect(() => {
     if (!user && authenticated) {
@@ -60,8 +66,6 @@ function App({
       }
     }
   }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
-
-  const locale = language;
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
   const favlinks = [
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
@@ -75,20 +79,15 @@ function App({
     { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
     { name: 'theme-color', content: '#ffffff' },
   ];
-  const fullscreen = match.params.fullscreen === 'true';
   const headless = checkHeadlessParam(location.search);
-  const fonts = `"HelsinkiGrotesk",
-    Arial, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`;
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={history.location.pathname !== '/'} history={history} />;
+    header = <Header slim={location.pathname !== '/'} history={history} />;
   }
   const mainContainerId = 'main-container';
   return (
-    <IntlProvider locale={locale} messages={messages[locale] || {}}>
+    <IntlProvider locale={locale} language={locale} messages={messages[locale] || {}}>
       <div className={contrastClass}>
         {config.enableCookies && !isCookiebotEnabled() && <CookieBar language={locale} />}
         <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
@@ -109,12 +108,7 @@ function App({
           <Routes />
         </main>
         <Footer language={locale} />
-        <ToastContainer
-          bodyClassName={{
-            padding: '7px 7px 7px 12px',
-            fontFamily: fonts,
-          }}
-        />
+        <Toast />
       </div>
     </IntlProvider>
   );
@@ -127,13 +121,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
-    dispatchEnrichUser: () => dispatch(enrichUserData()),
-  })
+  dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+  dispatchEnrichUser: () => dispatch(enrichUserData()),
+});
 
 App.propTypes = {
   history: PropTypes.object,
-  match: PropTypes.object,
   language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
@@ -141,4 +134,4 @@ App.propTypes = {
   dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

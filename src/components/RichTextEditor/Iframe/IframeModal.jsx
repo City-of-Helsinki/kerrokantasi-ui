@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IframeCopyPasteField from './IframeCopyPasteField';
@@ -204,7 +205,7 @@ class IframeModal extends React.Component {
 
 IframeModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };

@@ -67,6 +67,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                   class="favorite-button-wrapper"
                 >
                   <button
+                    aria-label="Poista suosikeista"
                     class="favorite-icon"
                     title="Poista suosikeista"
                     type="button"
@@ -122,6 +123,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                   class="favorite-button-wrapper"
                 >
                   <button
+                    aria-label="Poista suosikeista"
                     class="favorite-icon"
                     title="Poista suosikeista"
                     type="button"
@@ -265,9 +267,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -325,9 +325,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -385,9 +383,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -445,9 +441,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -505,9 +499,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -565,9 +557,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div
@@ -625,9 +615,7 @@ exports[`<UserProfile /> should render correctly 1`] = `
                       <span
                         class="hearing-comment-date"
                       >
-                        <span>
-                          3 vuotta sitten
-                        </span>
+                        3 vuotta sitten
                       </span>
                     </div>
                     <div

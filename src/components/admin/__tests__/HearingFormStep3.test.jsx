@@ -1,5 +1,4 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 
 import { UnconnectedHearingFormStep3 } from '../HearingFormStep3';
 import renderWithProviders from '../../../utils/renderWithProviders';
@@ -11,14 +10,13 @@ const renderComponent = (propOverrides) => {
     onAddMapMarker: () => {},
     onAddMapMarkersToCollection: () => {},
     onCreateMapMarker: () => {},
+    language: 'fi',
+    visible: true,
+    onContinue: () => {},
     ...propOverrides,
   };
 
-  return renderWithProviders(
-    <MemoryRouter>
-      <UnconnectedHearingFormStep3 {...props} />
-    </MemoryRouter>,
-  );
+  return renderWithProviders(<UnconnectedHearingFormStep3 {...props} />);
 };
 
 describe('<HearingFormStep3 />', () => {
