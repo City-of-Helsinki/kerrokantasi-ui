@@ -1,25 +1,31 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
-import { UnconnectedCommentReportForm as CommentReportForm } from '../CommentReportForm';
-import { mockStore } from '../../../../test-utils';
+import CommentReportForm from '../CommentReportForm';
+import { mockStore as mockData } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 const renderComponent = (propsOverrides) => {
   const props = {
     id: 'test',
-    apiToken: { apiInitialized: true, apiToken: '123-abc', isFetching: false, loadingToken: false },
-    hearing: mockStore.mockHearingWithSections,
-    language: 'fi',
+    hearing: mockData.mockHearingWithSections,
     ...propsOverrides,
   };
 
+  const store = mockStore({ language: 'fi' });
+
   return renderWithProviders(
-    <MemoryRouter>
+    <BrowserRouter>
       <CommentReportForm {...props} />
-    </MemoryRouter>,
+    </BrowserRouter>,
+    { store },
   );
 };
 
@@ -34,16 +40,49 @@ describe('<CommentReportForm />', () => {
     expect(await screen.findByText('commentReportsSelectFileType')).toBeInTheDocument();
   });
 
-  it('calls setState with correct params', async () => {
+  it('should export report', async () => {
     renderComponent();
 
     const user = userEvent.setup();
 
-    const controls = await screen.findByRole('combobox');
-    const option = await screen.findByRole('option', { name: 'PowerPoint' });
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ blob: () => Promise.resolve({}) }));
 
-    await user.selectOptions(controls, option);
+    window.URL.createObjectURL = jest.fn(() => 'https://test.com');
 
-    expect(option.selected).toBe(true);
+    const buttons = await screen.findAllByRole('button');
+    const toggle = buttons[0];
+    const submit = buttons[1];
+
+    await user.click(toggle);
+
+    const option = screen.queryByText('PowerPoint');
+
+    await user.click(option);
+    await user.click(submit);
+
+    await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1));
+  });
+
+  it('should handle error', async () => {
+    renderComponent();
+
+    const user = userEvent.setup();
+
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('ERROR!')));
+
+    window.URL.createObjectURL = jest.fn(() => 'https://test.com');
+
+    const buttons = await screen.findAllByRole('button');
+    const toggle = buttons[0];
+    const submit = buttons[1];
+
+    await user.click(toggle);
+
+    const option = screen.queryByText('PowerPoint');
+
+    await user.click(option);
+    await user.click(submit);
+
+    await waitFor(() => expect(window.URL.createObjectURL).not.toHaveBeenCalled());
   });
 });
