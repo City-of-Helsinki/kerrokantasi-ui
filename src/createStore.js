@@ -3,7 +3,6 @@ import identity from 'lodash/identity';
 import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { compose, createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from "@sentry/react";
 
@@ -27,7 +26,6 @@ const historySettings = {
 
 const middleware = [
   thunk,
-  routerMiddleware(history),
   languageMiddleware,
   headlessMiddleware,
   ...hearingEditorMiddleware];

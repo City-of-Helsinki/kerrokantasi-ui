@@ -11,6 +11,7 @@ import {
   AtomicBlockUtils,
   Modifier,
   SelectionState,
+  getDefaultKeyBinding,
 } from 'draft-js';
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import createImagePlugin from '@draft-js-plugins/image';

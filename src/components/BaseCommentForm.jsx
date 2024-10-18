@@ -134,7 +134,7 @@ export const BaseCommentForm = ({
     } else {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section))));
     }
-  }, [canComment, defaultNickname, formData, onOverrideCollapse, section]);
+  }, [canComment, defaultNickname, formData, onOverrideCollapse, section, dispatch]);
 
   useEffect(() => {
     if (isUserAdmin) {

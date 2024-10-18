@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
 
@@ -30,7 +30,6 @@ const HearingContainerComponent = ({
   fetchEditorMetaData,
   hearingDraft,
   hearingLanguages,
-  history,
   isLoading,
   labels,
   language,
@@ -40,6 +39,7 @@ const HearingContainerComponent = ({
   const { hearingSlug } = useParams();
   const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
   const location = useLocation();
+  const navigate = useNavigate();
 
   const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
 
@@ -73,18 +73,18 @@ const HearingContainerComponent = ({
   useEffect(() => {
     if (location.state) {
       if (!isEmpty(hearing) && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
-        history.push({
+        navigate({
           pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
         });
       }
     } else if (!isEmpty(hearing) && hearing.default_to_fullscreen) {
-      history.push({
+      navigate({
         pathname: `/${hearing.slug}/fullscreen`,
         search: `?lang=${language}`,
       });
     }
-  }, [hearing, language, history, location.state]);
+  }, [hearing, language, location.state, navigate]);
 
   const helmetMeta = [
     { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
@@ -110,6 +110,7 @@ const HearingContainerComponent = ({
                 user={user}
                 isLoading={isLoading}
                 organizations={organizations}
+                navigate={navigate}
               />
             </Suspense>
           )}
@@ -139,7 +140,6 @@ HearingContainerComponent.propTypes = {
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
   setLanguage: PropTypes.func,
-  history: PropTypes.object,
   fetchProjectsList: PropTypes.func,
 };
 

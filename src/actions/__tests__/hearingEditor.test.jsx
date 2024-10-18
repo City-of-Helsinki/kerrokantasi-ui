@@ -1,6 +1,5 @@
 import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk';
-import { push } from 'react-router-redux';
 
 import * as api from "../../api";
 import * as actions from '../hearingEditor';
@@ -16,9 +15,6 @@ jest.mock('../../api', () => ({
     apiDelete: jest.fn(),
     getApiTokenFromStorage: jest.fn(() => 'dummykey'),
     getAllFromEndpoint: jest.fn(),
-}));
-jest.mock('react-router-redux', () => ({
-  push: jest.fn().mockImplementation((path) => ({ type: 'PUSH', path }))
 }));
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares);
@@ -238,7 +234,6 @@ describe('HearingEditor actions', () => {
           await store.dispatch(actions.saveHearingChanges(hearing));
 
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-          expect(push).toHaveBeenCalledWith(`/${hearingJSON.slug}?lang=${initialState.language}`);
         });
 
         it('dispatches SAVE_HEARING_FAILED on API bad request', async () => {

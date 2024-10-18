@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import language from './language';
 import user from './user';
@@ -39,6 +38,5 @@ export default combineReducers({
   sectionComments,
   user,
   labels,
-  router: routerReducer,
   toast: toastReducer,
 });

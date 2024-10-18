@@ -255,13 +255,13 @@ const HearingFormStep3 = (props) => {
 
 
 
-  useEffect(() => () => {
+  useEffect(() => {
     if (map && visible) {
       setTimeout(() => {
         map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end
     }
-    }, [visible, map])
+  }, [visible, map])
 
   const refCallBack = (el) => {
     map = el;
@@ -306,7 +306,7 @@ const HearingFormStep3 = (props) => {
                 edit: false,
               }}
             />
-            { getMapElement(initialGeoJSON )}
+            { getMapElement(initialGeoJSON) }
           </FeatureGroup>
         </MapContainer>
       </FormGroup>

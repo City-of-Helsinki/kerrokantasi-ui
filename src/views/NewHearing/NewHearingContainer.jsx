@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import HearingEditor from '../../components/admin/HearingEditor';
 import { fetchProjects } from '../../actions';
@@ -18,6 +19,7 @@ import { addToast } from '../../actions/toast';
 function NewHearingContainerComponent(props) {
   const { login } = useAuthHook();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       await login();
@@ -60,6 +62,7 @@ function NewHearingContainerComponent(props) {
                 contactPersons={contactPersons}
                 organizations={organizations}
                 isNewHearing
+                navigate={navigate}
               />
             </div>
           )}

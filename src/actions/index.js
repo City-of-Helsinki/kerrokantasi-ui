@@ -4,7 +4,6 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from '@sentry/react';
-import { push } from 'react-router-redux';
 
 import { createLocalizedAlert, createNotificationPayload, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
 import { addToast } from './toast';
@@ -53,7 +52,7 @@ export const requestErrorHandler = (
 ) => (err) => {
   Sentry.captureException(err);
   let payload;
-  if (err.status === 403 && localizationKey) {
+  if (localizationKey) {
     payload = createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, localizationKey);
   } else {
     payload = createNotificationPayload(NOTIFICATION_TYPES.error, err.message);
@@ -420,12 +419,11 @@ export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
 }
 
 export function deleteHearingDraft(hearingId, hearingSlug) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const fetchAction = createAction("deletingHearingDraft")({ hearingId, hearingSlug });
     dispatch(fetchAction);
     const url = `/v1/hearing/${hearingSlug}`;
     return apiDelete(url).then(getResponseJSON).then(() => {
-      dispatch(push(`/hearings/list?lang=${getState().language}`));
       dispatch(createAction("deletedHearingDraft")({ hearingSlug }));
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "draftDeleted")));
     }).catch(
