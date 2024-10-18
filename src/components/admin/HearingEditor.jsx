@@ -130,25 +130,15 @@ const validateHearing = (callbackAction) => {
 };
 
 
-  const onHearingChange = (field, value) => {
-    dispatch(changeHearing(field, value));
-  };
+  const onHearingChange = (field, value) => dispatch(changeHearing(field, value));
 
-  const onSectionChange = (sectionID, field, value) => {
-    dispatch(changeSection(sectionID, field, value));
-  };
+  const onSectionChange = (sectionID, field, value) => dispatch(changeSection(sectionID, field, value));
 
-  const onCreateMapMarker = (value) => {
-    dispatch(createMapMarker(value));
-  };
+  const onCreateMapMarker = (value) => dispatch(createMapMarker(value));
 
-  const onAddMapMarker = (value) => {
-    dispatch(addMapMarker(value));
-  };
+  const onAddMapMarker = (value) => dispatch(addMapMarker(value));
 
-  const onAddMapMarkersToCollection = (value) => {
-    dispatch(addMapMarkerToCollection(value));
-  };
+  const onAddMapMarkersToCollection = (value) => dispatch(addMapMarkerToCollection(value));
 
   /**
    * Add a new attachments to a section.
@@ -198,17 +188,11 @@ const validateHearing = (callbackAction) => {
     dispatch(changeSectionMainImage(sectionID, field, value));
   }
 
-  const onLanguagesChange = (newLanguages) => {
-    dispatch(changeHearingEditorLanguages(newLanguages));
-  };
+  const onLanguagesChange = (newLanguages) => dispatch(changeHearingEditorLanguages(newLanguages));
 
-  const onPublish = () => {
-    dispatch(publishHearing(hearing));
-  };
+  const onPublish = () => dispatch(publishHearing(hearing));
 
-  const onSaveAsCopy = () => {
-    validateHearing(saveAndPreviewHearingAsCopy);
-  }
+  const onSaveAsCopy = () => validateHearing(saveAndPreviewHearingAsCopy);
 
   const onSaveAndPreview = () => {
     if (hearing.isNew) {
@@ -218,25 +202,15 @@ const validateHearing = (callbackAction) => {
     }
   }
 
-  const onSaveChanges = () => {
-    validateHearing(saveHearingChanges);
-  }
+  const onSaveChanges = () => validateHearing(saveHearingChanges);
 
-  const onUnPublish = () => {
-    dispatch(unPublishHearing(hearing));
-  }
+  const onUnPublish = () => dispatch(unPublishHearing(hearing));
 
-  const onCloseHearing = () => {
-    dispatch(closeHearing(hearing));
-  }
+  const onCloseHearing = () => dispatch(closeHearing(hearing));
 
-  const sectionMoveUpFn = (sectionId) => {
-    dispatch(sectionMoveUp(sectionId));
-  };
+  const sectionMoveUpFn = (sectionId) => dispatch(sectionMoveUp(sectionId));
 
-  const sectionMoveDownFn = (sectionId) => {
-    dispatch(sectionMoveDown(sectionId));
-  };
+  const sectionMoveDownFn = (sectionId) => dispatch(sectionMoveDown(sectionId));
 
   const onDeleteHearingDraft = () => {
     dispatch(deleteHearingDraft(hearing.id, hearing.slug)).then((value) => {
@@ -253,21 +227,13 @@ const validateHearing = (callbackAction) => {
     dispatch(initMultipleChoiceQuestion(sectionId));
   };
 
-  const clearQuestionsFn = (sectionId) => {
-    dispatch(clearQuestions(sectionId));
-  };
+  const clearQuestionsFn = (sectionId) => dispatch(clearQuestions(sectionId));
 
-  const addOptionFn = (sectionId, questionId) => {
-    dispatch(addOption(sectionId, questionId));
-  };
+  const addOptionFn = (sectionId, questionId) => dispatch(addOption(sectionId, questionId));
 
-  const deleteOption = (sectionId, questionId) => {
-    dispatch(deleteLastOption(sectionId, questionId));
-  };
+  const deleteOption = (sectionId, questionId) => dispatch(deleteLastOption(sectionId, questionId));
 
-  const toggleCommentReports = () => {
-    setCommentReportsOpen(!commentReportsOpen);
-  };
+  const toggleCommentReports = () => setCommentReportsOpen(!commentReportsOpen);
 
   const getHearingForm = () => {
     if (isEmpty(hearing)) {
