@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import userManager from '../../utils/oidcConfig';
 
 const UnconnectedLogoutCallback = () => {
-  const navigate = useNavigate
+  const navigate = useNavigate();
   const logoutSuccessful = () => {
     localStorage.removeItem('votedComments');
     navigate('/');
