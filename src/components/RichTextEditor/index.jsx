@@ -323,7 +323,7 @@ class RichTextEditor extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   myKeyBindingFn(e) {
-    if (e.keyCode === 83) {
+    if (e.keyCode === 9) {
       return 'custom-tab';
     }
     // eslint-disable-next-line no-undef
