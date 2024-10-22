@@ -282,7 +282,7 @@ function HeaderComponent(props) {
   const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE) ? (
     getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
   ) : (
-    <FormattedMessage id='defaultClosureInfo' />
+    intl.formatMessage({ id: 'defaultClosureInfo' })
   );
 
   return (
