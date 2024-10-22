@@ -16,7 +16,7 @@ const loginProviderConfig = {
 
 const renderWithProviders = (
   ui,
-  { preloadedState = {}, locale = 'fi', history, store = createStore(preloadedState), ...renderOptions } = {},
+  { preloadedState = {}, locale = 'fi', store = createStore(preloadedState), ...renderOptions } = {},
 ) => {
   const Wrapper = ({ children }) => (
     <LoginProvider {...loginProviderConfig}>
