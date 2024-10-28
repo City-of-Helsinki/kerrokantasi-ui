@@ -26,18 +26,17 @@ import getMessage from '../../../utils/getMessage';
 import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 import { addToast } from '../../../actions/toast';
 import updateAnswers from '../../../utils/comments';
+import { isAdmin } from '../../../utils/user';
 
 const Comment = (props) => {
   const dispatch = useDispatch();
   const commentRef = useRef();
-  const { data, canReply } = props;
+  const { data, canReply, user } = props;
   const canEdit = data.can_edit;
   const canDelete = data.can_delete;
   let commentEditor;
   const intl = useIntl();
-  const adminUser =
-    props.data &&
-    (typeof props.data.organization === 'string' || Array.isArray(props.data.organization));
+  const adminUser = isAdmin(user);
 
   const [state, setState] = useState({
     editorOpen: false,
@@ -53,11 +52,6 @@ const Comment = (props) => {
 
   const { editorOpen, isReplyEditorOpen } = state;
 
-  /**
-   * Determines whether the user type is admin.
-   */
-  const isAdminUser = () => typeof props.data.organization === 'string' || Array.isArray(props.data.organization);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const { section, id } = data;
@@ -69,7 +63,7 @@ const Comment = (props) => {
       }
     });
     commentData.content = commentEditor.value;
-    if (props.data.can_edit && isAdminUser()) {
+    if (props.data.can_edit && adminUser) {
       commentData.pinned = state.pinned;
     }
     commentData.answers = state.answers;
@@ -99,7 +93,7 @@ const Comment = (props) => {
     }
   };
 
-  const canFlagComments = () => props.user && props.canFlag;
+  const canFlagComments = () => user && props.canFlag;
 
   const onFlag = () => {
     if (canFlagComments()) {
@@ -304,7 +298,7 @@ const Comment = (props) => {
         lang={props.language}
         answers={answer}
         key={`$answer-for-question-${answer.question}`}
-        loggedIn={!isEmpty(props.user)}
+        loggedIn={!isEmpty(user)}
         onChange={handleAnswerChange}
         canAnswer={props.canReply}
       />
@@ -397,14 +391,14 @@ const Comment = (props) => {
       hearingId={props.hearingId}
       isReply
       language={props.language}
-      loggedIn={!isEmpty(props.user)}
+      loggedIn={!isEmpty(user)}
       nicknamePlaceholder={props.nicknamePlaceholder}
       onChangeAnswers={handleAnswerChange}
       onOverrideCollapse={handleToggleReplyEditor}
       onPostComment={handlePostReply}
       overrideCollapse
       section={props.section}
-      user={props.user}
+      user={user}
       hearingGeojson={props.data.geojson}
     />
   );

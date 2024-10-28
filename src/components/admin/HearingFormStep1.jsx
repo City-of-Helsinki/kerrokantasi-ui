@@ -231,20 +231,6 @@ class HearingFormStep1 extends React.Component {
                   <Icon className='icon' name='edit' />
                 </Button>
               </div>);
-              /*
-              return (
-                <div key={contactId} className='contact-element'>
-                  <span>{contact.name}</span>
-                  <Button
-                    size='small'
-                    className='kerrokantasi-btn pull-right'
-                    onClick={() => this.openContactModal(contact)}
-                  >
-                    <Icon className='icon' name='edit' />
-                  </Button>
-                </div>
-              );
-              */
             })}
           </div>
         </FormGroup>
