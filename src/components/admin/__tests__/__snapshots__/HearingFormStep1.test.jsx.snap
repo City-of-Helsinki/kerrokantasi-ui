@@ -87,30 +87,40 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="label-elements"
           >
             <div
-              class="Select-module_root__Ka5uO Select-module_multiselect__fxewG"
+              class="Combobox-module_root__Hs8Hg Combobox-module_multiselect__3vNbJ"
               style="flex: 1;"
             >
               <div
-                class="Select-module_wrapper__1WQXs"
+                class="Combobox-module_wrapper__3kVTg"
               >
-                <button
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="hds-combobox-1-menu"
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-labelledby="hds-select-1-label hds-select-1-toggle-button"
-                  aria-owns="hds-select-1-menu"
-                  class="Select-module_button__1aIsm Select-module_placeholder__21c0j"
-                  id="hds-select-1-toggle-button"
+                  aria-labelledby="hds-combobox-1-label hds-combobox-1-input"
+                  aria-owns="hds-combobox-1-menu"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class="Combobox-module_input__Dcmdn"
+                  id="hds-combobox-1-input"
+                  placeholder="hearingLabelsPlaceholder"
+                  role="combobox"
+                  type="text"
+                  value=""
+                />
+                <button
+                  aria-expanded="false"
+                  aria-label="undefined: undefined"
+                  class="Combobox-module_button__1W9PN"
+                  id="hds-combobox-1-toggle-button"
+                  tabindex="-1"
                   type="button"
                 >
-                  <span
-                    class="Select-module_buttonLabel__1fqu5"
-                  >
-                    hearingLabelsPlaceholder
-                  </span>
                   <svg
                     aria-hidden="true"
                     aria-label="angle-down"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Select-module_angleIcon__2-9AD"
+                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Combobox-module_angleIcon__10DvA"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -124,13 +134,12 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
                   </svg>
                 </button>
                 <ul
-                  aria-labelledby="hds-select-1-label"
+                  aria-labelledby="hds-combobox-1-label"
                   aria-multiselectable="true"
-                  class="Select-module_menu__1H2aU"
-                  id="hds-select-1-menu"
+                  class="Combobox-module_menu__3jA0e"
+                  id="hds-combobox-1-menu"
                   role="listbox"
                   style="max-height: 260px;"
-                  tabindex="-1"
                 />
               </div>
             </div>
@@ -196,30 +205,40 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         class="contact-elements"
       >
         <div
-          class="Select-module_root__Ka5uO Select-module_multiselect__fxewG"
+          class="Combobox-module_root__Hs8Hg Combobox-module_multiselect__3vNbJ"
           style="flex: 1;"
         >
           <div
-            class="Select-module_wrapper__1WQXs"
+            class="Combobox-module_wrapper__3kVTg"
           >
-            <button
+            <input
+              aria-autocomplete="list"
+              aria-controls="hds-combobox-2-menu"
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="hds-select-2-label hds-select-2-toggle-button"
-              aria-owns="hds-select-2-menu"
-              class="Select-module_button__1aIsm Select-module_placeholder__21c0j"
-              id="hds-select-2-toggle-button"
+              aria-labelledby="hds-combobox-2-label hds-combobox-2-input"
+              aria-owns="hds-combobox-2-menu"
+              autocomplete="off"
+              autocorrect="off"
+              class="Combobox-module_input__Dcmdn"
+              id="hds-combobox-2-input"
+              placeholder="hearingContactsPlaceholder"
+              role="combobox"
+              type="text"
+              value=""
+            />
+            <button
+              aria-expanded="false"
+              aria-label="undefined: undefined"
+              class="Combobox-module_button__1W9PN"
+              id="hds-combobox-2-toggle-button"
+              tabindex="-1"
               type="button"
             >
-              <span
-                class="Select-module_buttonLabel__1fqu5"
-              >
-                hearingContactsPlaceholder
-              </span>
               <svg
                 aria-hidden="true"
                 aria-label="angle-down"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Select-module_angleIcon__2-9AD"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Combobox-module_angleIcon__10DvA"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -233,13 +252,12 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
               </svg>
             </button>
             <ul
-              aria-labelledby="hds-select-2-label"
+              aria-labelledby="hds-combobox-2-label"
               aria-multiselectable="true"
-              class="Select-module_menu__1H2aU"
-              id="hds-select-2-menu"
+              class="Combobox-module_menu__3jA0e"
+              id="hds-combobox-2-menu"
               role="listbox"
               style="max-height: 260px;"
-              tabindex="-1"
             />
           </div>
         </div>

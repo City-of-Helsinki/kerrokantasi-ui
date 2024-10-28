@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
-import { Button, Select} from 'hds-react';
+import { Button, Combobox, Select} from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -137,7 +137,7 @@ class HearingFormStep1 extends React.Component {
                 <FormattedMessage id='hearingLabels'>{(txt) => `${txt}*`}</FormattedMessage>
               </ControlLabel>
               <div className='label-elements'>
-                <Select
+                <Combobox
                   style={{flex: 1}}
                   multiselect
                   name='labels'
@@ -188,7 +188,7 @@ class HearingFormStep1 extends React.Component {
             <FormattedMessage id='hearingContacts' />*
           </ControlLabel>
           <div className='contact-elements'>
-            <Select
+            <Combobox
               style={{flex: 1}}
               multiselect
               name='contacts'
