@@ -213,8 +213,7 @@ const validateHearing = (callbackAction) => {
   const sectionMoveDownFn = (sectionId) => dispatch(sectionMoveDown(sectionId));
 
   const onDeleteHearingDraft = () => {
-    dispatch(deleteHearingDraft(hearing.id, hearing.slug)).then((value) => {
-      console.debug(value);
+    dispatch(deleteHearingDraft(hearing.id, hearing.slug)).then(() => {
       navigate('/hearings/list')
     });
   };

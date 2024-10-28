@@ -340,7 +340,7 @@ const SectionContainerComponent = ({
     }
 
     return (
-      <section className='hearing-section hearing-contacts'>
+      <section className='hearing-section'>
         <h2>
           <button
             type='button'
@@ -363,11 +363,13 @@ const SectionContainerComponent = ({
         >
           <div className='accordion-content'>
             <div className='section-content-spacer'>
-              <Row>
+              <div className='hearing-contacts'>
                 {renderContactlist.map((person) => (
-                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
+                  <div className='hearing-contact'>
+                    <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
+                  </div>
                 ))}
-              </Row>
+              </div>
             </div>
           </div>
         </Collapse>

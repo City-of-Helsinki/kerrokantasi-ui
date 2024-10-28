@@ -23,28 +23,7 @@ import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { getDocumentOrigin, getValidationState } from '../../utils/hearingEditor';
 import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
-
-const ContactLabel = ({
-    person = {},
-    openContactModal = () => null,
-    selected = false
-  }) => {
-  const handleClick = () => {
-    const isMenuOpen = document.querySelectorAll('.contact-elements li').length > 0;
-    if(selected && !isMenuOpen) {
-      openContactModal(person);
-    }
-  }
-  
-  return (
-    <span onMouseDown={handleClick}>{person.name}</span>
-  )
-}
-ContactLabel.propTypes = {
-  person: PropTypes.object,
-  openContactModal: PropTypes.func,
-  selected: PropTypes.bool
-}
+import ContactCard from '../ContactCard';
 
 class HearingFormStep1 extends React.Component {
   constructor(props) {
@@ -218,20 +197,12 @@ class HearingFormStep1 extends React.Component {
               value={hearing.contact_persons.map((person) => ({
                 id: person.id,
                 title: person.name,
-                label: <ContactLabel 
-                  person={person} 
-                  selected
-                  openContactModal={this.openContactModal}
-                />
+                label: person.name,
               }))}
               options={contactOptions.map(person => ({
                 id: person.id,
                 title: person.name,
-                label: <ContactLabel
-                  person={person}
-                  selected={hearing.contact_persons.some((contact) => contact.id === person.id)}
-                  openContactModal={this.openContactModal}
-                />
+                label: person.name,
               }))}
               placeholder={formatMessage({ id: 'hearingContactsPlaceholder' })}
             />
@@ -246,6 +217,36 @@ class HearingFormStep1 extends React.Component {
           <HelpBlock>
             <FormattedMessage id='hearingContactsHelpText' />
           </HelpBlock>
+          <div className='hearing-contacts'>
+            {this.state.selectedContacts.map((contactId) => {
+              const contact = contactOptions.find(({id}) => id === contactId);
+              return (
+              <div className='hearing-contact'>
+                <ContactCard {...contact} />
+                <Button
+                  size='small'
+                  className='kerrokantasi-btn'
+                  onClick={() => this.openContactModal(contact)}
+                >
+                  <Icon className='icon' name='edit' />
+                </Button>
+              </div>);
+              /*
+              return (
+                <div key={contactId} className='contact-element'>
+                  <span>{contact.name}</span>
+                  <Button
+                    size='small'
+                    className='kerrokantasi-btn pull-right'
+                    onClick={() => this.openContactModal(contact)}
+                  >
+                    <Icon className='icon' name='edit' />
+                  </Button>
+                </div>
+              );
+              */
+            })}
+          </div>
         </FormGroup>
         <div className='step-footer'>
           <Button className='kerrokantasi-btn' onClick={this.props.onContinue}>

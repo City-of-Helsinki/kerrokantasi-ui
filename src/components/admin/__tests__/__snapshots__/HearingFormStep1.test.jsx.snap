@@ -261,6 +261,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       >
         hearingContactsHelpText
       </span>
+      <div
+        class="hearing-contacts"
+      />
     </div>
     <div
       class="step-footer"
