@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import map from 'lodash/map';
-import { Button, Combobox, Select} from 'hds-react';
+import { Button, Combobox } from 'hds-react';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
