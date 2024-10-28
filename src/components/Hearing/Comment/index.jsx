@@ -492,7 +492,7 @@ const Comment = (props) => {
     setState((prevState) => ({displayMap: !prevState.displayMap}));
   };
 
-
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (state.shouldJumpTo && commentRef && commentRef.current && !state.scrollComplete) {
       // Jump to this comment

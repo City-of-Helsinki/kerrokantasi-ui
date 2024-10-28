@@ -185,6 +185,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    */
   const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
   
+  /* eslint-disable react-hooks/exhaustive-deps */  
   useEffect(() => {
     getHearingMapContent(hearings);
     handleUpdateMapDimensions(mapContainer);
