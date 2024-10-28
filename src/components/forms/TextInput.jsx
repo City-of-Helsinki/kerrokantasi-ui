@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import InputBase from './InputBase';
@@ -112,7 +112,6 @@ class TextInput extends React.Component {
 
 TextInput.propTypes = {
   error: PropTypes.any,
-  intl: intlShape.isRequired,
   labelId: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
@@ -123,6 +122,7 @@ TextInput.propTypes = {
   value: PropTypes.string,
   showLabel: PropTypes.bool,
   label: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(TextInput);

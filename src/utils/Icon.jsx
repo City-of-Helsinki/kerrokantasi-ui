@@ -5,21 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Icon = (props) => {
-  const {
-    Component,
-    name,
-    size,
-    rotate,
-    flip,
-    spin,
-    fixedWidth,
-    stack,
-    inverse,
-    pulse,
-    className,
-    ...rest
-  } = props;
+const Icon = ({ Component = 'span', ...props }) => {
+  const { name, size, rotate, flip, spin, fixedWidth, stack, inverse, pulse, className, ...rest } = props;
 
   let classNames = `fa fa-${name}`;
   if (size) {
@@ -52,9 +39,7 @@ const Icon = (props) => {
     classNames = `${classNames} ${className}`;
   }
   return <Component {...rest} className={classNames} />;
-}
-
-
+};
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
@@ -68,10 +53,6 @@ Icon.propTypes = {
   stack: PropTypes.oneOf(['1x', '2x']),
   inverse: PropTypes.bool,
   Component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-};
-
-Icon.defaultProps = {
-  Component: 'span',
 };
 
 export default Icon;

@@ -1,37 +1,77 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
 
-import { Hearings } from '../index';
-import { mockStore, getIntlAsProp } from '../../../../test-utils';
+import Hearings from '../index';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
-const renderComponent = (propOverrides) => {
-  const { labels, ...rest } = mockStore;
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    search: '?label=1&search=Hearing',
+  }),
+}));
 
-  const props = {
-    labels: labels.data,
-    ...rest,
-    ...propOverrides,
-  };
+const mockStore = configureStore([thunk]);
+
+const renderComponent = (storeOverrides) => {
+  const store = mockStore({
+    hearingLists: {},
+    labels: {
+      data: [],
+    },
+    language: 'en',
+    user: {
+      data: {
+        isFetching: false,
+      },
+    },
+    ...storeOverrides,
+  });
 
   return renderWithProviders(
-    <MemoryRouter>
-      <Hearings intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    <BrowserRouter>
+      <Hearings />
+    </BrowserRouter>,
+    { store },
   );
 };
 
-describe('<Hearings />', () => {
-  it('should render correctly', () => {
-    const { container } = renderComponent();
-
-    expect(container).toMatchSnapshot();
+describe('Hearings', () => {
+  it('renders without crashing', () => {
+    renderComponent();
   });
 
-  it('should render HearingList when labels are present', async () => {
-    renderComponent();
+  it('displays loading spinner when user is fetching', () => {
+    renderComponent({ user: { data: { isFetching: true } } });
 
-    expect(await screen.findAllByRole('listitem')).toHaveLength(1);
+    expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
+  });
+
+  it('displays hearing list when labels are available', async () => {
+    renderComponent({
+      hearingLists: {
+        allHearings: {
+          isFetching: false,
+          data: [
+            { id: 1, title: 'Hearing One' },
+            { id: 2, title: 'Hearing Two' },
+          ],
+        },
+      },
+      labels: {
+        data: [
+          { id: 1, label: 'Label One' },
+          { id: 2, label: 'Label Two' },
+        ],
+      },
+    });
+
+    expect(await screen.findByTestId('hearing-list')).toBeInTheDocument();
+    expect(await screen.findByText('Hearing One')).toBeInTheDocument();
+    expect(await screen.findByText('Hearing Two')).toBeInTheDocument();
   });
 });

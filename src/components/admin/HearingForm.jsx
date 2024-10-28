@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Accordion from 'react-bootstrap/lib/Accordion';
 import Alert from 'react-bootstrap/lib/Alert';
 import { Button, Dialog } from 'hds-react';
@@ -218,7 +218,13 @@ class HearingForm extends React.Component {
         />
         <Dialog.Content>
           <div id={descriptionId}>
-            <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+            <a
+              style={{ lineHeight: 2 }}
+              href={config.adminHelpUrl}
+              rel='noopener noreferrer'
+              target='_blank'
+              aria-label={<FormattedMessage id='help' />}
+            >
               <FormattedMessage id='help' />
             </a>
             {this.getErrors()}
@@ -258,7 +264,6 @@ HearingForm.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
-  intl: intlShape.isRequired,
   isSaving: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
@@ -283,6 +288,7 @@ HearingForm.propTypes = {
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
+  intl: PropTypes.object,
 };
 
 const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));

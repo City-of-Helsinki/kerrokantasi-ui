@@ -7,8 +7,9 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button } from 'hds-react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { useDispatch } from 'react-redux';
 
-import { alert, localizedNotifyError } from '../../utils/notify';
+import { alert, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import {
   checkFormErrors,
   hasUserAnsweredAllQuestions,
@@ -17,6 +18,7 @@ import {
 } from '../../utils/section';
 import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
+import { addToast } from '../../actions/toast';
 
 const MapQuestionnaire = ({
   comments,
@@ -64,6 +66,8 @@ const MapQuestionnaire = ({
 
   const frameRef = useRef();
 
+  const dispatch = useDispatch();
+
   const getPluginData = () => formData.lastUserData;
   const getPluginComment = () => formData.lastUserComment;
 
@@ -78,7 +82,7 @@ const MapQuestionnaire = ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
-      localizedNotifyError('maintenanceNotificationText');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, 'maintenanceNotificationText')));
 
       return;
     }
@@ -232,7 +236,7 @@ const MapQuestionnaire = ({
         setMessageListener(null);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -250,7 +254,7 @@ const MapQuestionnaire = ({
         instanceId: formData.pluginInstanceId,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments, formData.userDataChanged]);
 
   const handleTextChange = (event) =>
@@ -290,7 +294,7 @@ const MapQuestionnaire = ({
                 />
               </FormGroup>
               <p>
-                <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={formData.submitting}>
+                <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
                   Lähetä ehdotus
                 </Button>
               </p>
@@ -317,7 +321,7 @@ const MapQuestionnaire = ({
               />
             </FormGroup>
             <p>
-              <Button className="kerrokantasi-btn" onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
+              <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
                 Lähetä ehdotus
               </Button>
             </p>
@@ -360,13 +364,6 @@ MapQuestionnaire.propTypes = {
   pluginInstanceId: PropTypes.string,
   pluginPurpose: PropTypes.string,
   pluginSource: PropTypes.string,
-};
-
-MapQuestionnaire.defaultProps = {
-  defaultNickname: '',
-  overrideCollapse: false,
-  onOverrideCollapse: () => {},
-  isReply: false,
 };
 
 export default injectIntl(MapQuestionnaire);

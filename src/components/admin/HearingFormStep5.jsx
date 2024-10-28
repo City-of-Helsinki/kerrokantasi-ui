@@ -14,7 +14,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 
 import Icon from '../../utils/Icon';
-import { notifyError } from '../../utils/notify';
+import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import { getValidationState } from '../../utils/hearingEditor';
 import FormControlOnChange from '../forms/FormControlOnChange';
 import * as ProjectsSelector from '../../selectors/projectLists';
@@ -28,6 +28,7 @@ import {
   addPhase,
   changePhase,
 } from '../../actions/hearingEditor';
+import { addToast } from '../../actions/toast';
 
 class HearingFormStep5 extends React.Component {
   onChangeProject = (event) => {
@@ -42,9 +43,9 @@ class HearingFormStep5 extends React.Component {
   addPhase = () => {
     const { hearingLanguages } = this.props;
     if (!isEmpty(hearingLanguages)) {
-      return this.props.dispatch(addPhase());
+      this.props.dispatch(addPhase());
     }
-    return notifyError('Valitse ensin kieli.');
+    this.props.dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Valitse ensin kieli.')));
   };
 
   deletePhase = (phaseId) => {

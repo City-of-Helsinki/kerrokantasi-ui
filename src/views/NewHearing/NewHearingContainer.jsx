@@ -1,7 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import HearingEditor from '../../components/admin/HearingEditor';
 import { fetchProjects } from '../../actions';
@@ -10,17 +11,20 @@ import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getUser from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
-import { localizedNotifyError } from '../../utils/notify';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import { contactShape, organizationShape } from '../../types';
 import useAuthHook from '../../hooks/useAuth';
+import { addToast } from '../../actions/toast';
 
 function NewHearingContainerComponent(props) {
   const { login } = useAuthHook();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       await login();
     } catch (error) {
-      localizedNotifyError('loginAttemptFailed');
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'loginAttemptFailed')));
     }
   };
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -58,6 +62,7 @@ function NewHearingContainerComponent(props) {
                 contactPersons={contactPersons}
                 organizations={organizations}
                 isNewHearing
+                navigate={navigate}
               />
             </div>
           )}

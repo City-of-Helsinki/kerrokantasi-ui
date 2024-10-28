@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable global-require */
@@ -7,7 +8,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Col, Row, Grid } from 'react-bootstrap';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 function getContent(language) {
   if (typeof window === 'undefined') return '';
@@ -49,7 +50,7 @@ const AccessibilityInfo = (props) => {
 
 AccessibilityInfo.propTypes = {
   language: PropTypes.string,
-  intl: intlShape,
+  intl: PropTypes.object,
 };
 
 export default injectIntl(connect((state) => ({ language: state.language }))(AccessibilityInfo));

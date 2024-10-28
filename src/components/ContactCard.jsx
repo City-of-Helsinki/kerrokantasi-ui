@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
 
 import Icon from '../utils/Icon';
 import getAttr from '../utils/getAttr';
@@ -36,7 +35,7 @@ const ContactCard = ({
   const hasTitle = title && Object.keys(title).length;
   const visibleOrganization = external_organization ? additional_info : organization;
   return (
-    <Col xs={12} md={4} className={`contact-card ${className}`} {...rest}>
+    <div className={`contact-card ${className}`} {...rest}>
       <header>
         {name && (
           <h3 className='h5' style={{ marginBottom: 5 }}>
@@ -55,7 +54,7 @@ const ContactCard = ({
         {phone && <ContactMethod icon='phone' value={phone} href={`tel:${phone}`} />}
         {email && <ContactMethod icon='envelope-o' value={email} href={`mailto:${email}`} />}
       </div>
-    </Col>
+    </div>
   );
 };
 

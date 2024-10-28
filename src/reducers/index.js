@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import language from './language';
 import user from './user';
@@ -12,6 +11,7 @@ import headless from './headless';
 import oidc from './oidc';
 import projectLists from './projectLists';
 import accessibility from "./accessibility";
+import toastReducer from "./toast";
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -38,5 +38,5 @@ export default combineReducers({
   sectionComments,
   user,
   labels,
-  router: routerReducer
+  toast: toastReducer,
 });

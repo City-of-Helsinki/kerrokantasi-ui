@@ -1,14 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
 
 function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
-  if (!timeVal || !messagePrefix) {
+  if (!timeVal) {
     return <span />;
   }
   const time = new Date(timeVal);
   // timeVal is before current date?
-  const isPast = (time.getTime() < new Date().getTime());
+  const currentTime = new Date();
+  const isPast = (time.getTime() < currentTime.getTime());
+
+  const yearsDifference = currentTime.getFullYear() - time.getFullYear();
+  const monthsDifference = currentTime.getMonth() - time.getMonth();
+  let difference = currentTime.getDate() - time.getDate();
+  const weeksDifference = Math.floor(difference / 7);
+  let unit = 'day';
+  if (yearsDifference !== 0) {
+    unit = 'year';
+    difference = yearsDifference;
+  } else if (monthsDifference !== 0) {
+    unit = 'month';
+    difference = monthsDifference;
+  } else if (weeksDifference !== 0) {
+    unit = 'week';
+    difference = weeksDifference;
+  }
 
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -41,7 +58,10 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatT
       </FormattedMessage>
     );
   }
-  return (<><FormattedMessage id={messageId} /> <FormattedRelative value={timeVal} /></>);
+  if (!messagePrefix) {
+    return (<FormattedRelativeTime value={difference * -1} unit={unit} />);
+  }
+  return (<><FormattedMessage id={messageId} /> <FormattedRelativeTime value={difference * -1} unit={unit} /></>);
 }
 
 FormatRelativeTime.propTypes = {

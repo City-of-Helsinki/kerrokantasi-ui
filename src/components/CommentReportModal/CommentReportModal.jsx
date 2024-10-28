@@ -1,7 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog, IconInfoCircle } from 'hds-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import CommentReportForm from './CommentReportForm';
 import { hearingShape } from '../../types';
@@ -38,7 +39,7 @@ const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
 
 CommentReportModal.propTypes = {
   hearing: hearingShape.isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

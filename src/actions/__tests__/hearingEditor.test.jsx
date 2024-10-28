@@ -1,12 +1,11 @@
-// Testing addContact function
 import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk';
-import { push } from 'react-router-redux';
 
 import * as api from "../../api";
 import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';
-
+import { NOTIFICATION_TYPES, createNotificationPayload } from '../../utils/notify';
+import { addToast } from '../toast';
 
 // Mocking API module and middleware setup
 jest.mock('../../api', () => ({
@@ -16,9 +15,6 @@ jest.mock('../../api', () => ({
     apiDelete: jest.fn(),
     getApiTokenFromStorage: jest.fn(() => 'dummykey'),
     getAllFromEndpoint: jest.fn(),
-}));
-jest.mock('react-router-redux', () => ({
-  push: jest.fn().mockImplementation((path) => ({ type: 'PUSH', path }))
 }));
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares);
@@ -45,6 +41,18 @@ describe('HearingEditor actions', () => {
         language: 'en'
     };
     let store = mockStore(initialState);
+
+    let dateNowSpy;
+
+    beforeAll(() => {
+        // Lock Time
+        dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1487076708000);
+    });
+
+    afterAll(() => {
+        // Unlock Time
+        dateNowSpy.mockRestore();
+    });
 
     afterEach(() => {
         store.clearActions();
@@ -226,7 +234,6 @@ describe('HearingEditor actions', () => {
           await store.dispatch(actions.saveHearingChanges(hearing));
 
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-          expect(push).toHaveBeenCalledWith(`/${hearingJSON.slug}?lang=${initialState.language}`);
         });
 
         it('dispatches SAVE_HEARING_FAILED on API bad request', async () => {
@@ -237,7 +244,7 @@ describe('HearingEditor actions', () => {
 
           const expectedActions = [
             { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing: mockProcessedHearing } },
-            { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: { message: 'Invalid data' } } }
+            { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors } }
           ];
 
           await store.dispatch(actions.saveHearingChanges(hearing));
@@ -259,5 +266,158 @@ describe('HearingEditor actions', () => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
       });
+    describe('saveContact', () => {
+        Date.now = jest.fn(() => 1234567890);
+        const testPerson = { id: '1', name: 'John Doe', email: 'john.doe@example.com' };
+        const testPersonData = { name: 'John Doe', email: 'john.doe@example.com' }
+        it('dispatches success actions on successful contact save', async () => {
+          const contact = testPerson;
+          const response = { status: 200, json: () => Promise.resolve(contact) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muokkaus onnistui')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
+        });
+      
+        it('dispatches error actions on contact save failure (400)', async () => {
+          const contact = testPerson
+          const response = { status: 400, json: () => Promise.resolve({}) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Sinulla ei ole oikeutta muokata yhteyshenkilöä.')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
+        });
+      
+        it('dispatches error actions on contact save failure (401)', async () => {
+          const contact = testPerson;
+          const response = { status: 401, json: () => Promise.resolve({}) };
+          api.put.mockResolvedValue(response);
+      
+          const expectedActions = [
+            addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Et voi luoda yhteyshenkilöä.')),
+          ];
+      
+          await store.dispatch(actions.saveContact(contact));
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+          expect(api.put).toHaveBeenCalledWith(`/v1/contact_person/${contact.id}/`, testPersonData);
+        });
+    });
+    describe('addLabel', () => {
+      const mockLabel = { name: 'New Label' };
+      const mockSelectedLabels = ['label1', 'label2'];
+      const responseLabel = { id: '123', name: 'New Label' };
+    
+      it('dispatches ADD_LABEL_SUCCESS on successful label addition', async () => {
+        api.post.mockResolvedValue({ status: 201, json: () => Promise.resolve(responseLabel) });
+    
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          { type: EditorActions.ADD_LABEL_SUCCESS, payload: { label: responseLabel } },
+          { type: EditorActions.EDIT_HEARING, payload: { field: 'labels', value: [...mockSelectedLabels, responseLabel.id] } },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Luonti onnistui'))
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches ADD_LABEL_FAILED on failure (400)', async () => {
+        const errorResponse = { message: 'Invalid label data' };
+        api.post.mockResolvedValue({ status: 400, json: () => Promise.resolve(errorResponse) });
+    
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tarkista asiasanan tiedot.')),
+          { type: EditorActions.ADD_LABEL_FAILED, payload: { errors: errorResponse } }
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches error actions on unauthorized failure (401)', async () => {
+        api.post.mockResolvedValue({ status: 401, json: () => Promise.resolve({}) });
+    
+        const expectedActions = [
+          { type: EditorActions.ADD_LABEL },
+          addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Et voi luoda asiasanaa.'))
+        ];
+    
+        await store.dispatch(actions.addLabel(mockLabel, mockSelectedLabels));
+        expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+      });
+    });
+    describe('saveAndPreviewHearingChanges', () => {
+      it('dispatches SAVE_HEARING and SAVE_HEARING_SUCCESS on successful save', async () => {
+        const response = { status: 200, json: () => Promise.resolve(mockHearing) };
+    
+        api.put.mockResolvedValue(response);
+        const cleanedHearing = mockProcessedHearing;
+    
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_SUCCESS, payload: { hearing: mockHearing } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('dispatches SAVE_HEARING and SAVE_HEARING_FAILED on API error', async () => {
+        const errors = { message: 'Invalid data' };
+        const response = { status: 400, json: () => Promise.resolve(errors) };
+    
+        api.put.mockResolvedValue(response);
 
+        const cleanedHearing = mockProcessedHearing;
+    
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
+      });
+    
+      it('handles unauthorized error', async () => {
+        const response = { status: 401, json: () => Promise.resolve({}) };
+    
+        api.put.mockResolvedValue(response);
+    
+        const cleanedHearing = mockProcessedHearing;
+
+        const expectedActions = [
+          { type: EditorActions.SAVE_HEARING, payload: { cleanedHearing } },
+          { type: EditorActions.SAVE_HEARING_FAILED, payload: { errors: {} } },
+        ];
+    
+        await store.dispatch(actions.saveAndPreviewHearingChanges(mockHearing));
+    
+        const dispatchedActions = store.getActions();
+        const filteredActions = dispatchedActions.map(({ meta, ...action }) => action);
+      
+        expect(filteredActions).toEqual(expect.arrayContaining(expectedActions));
+      });
+    });
 });
+
+

@@ -2,10 +2,10 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
-import { Polygon, Marker, Polyline, Map, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
+import { Polygon, Marker, MapContainer, Polyline, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
 import { connect } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 import urls from '@city-assets/urls.json';
@@ -17,147 +17,24 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
-class OverviewMap extends React.Component {
-  constructor(props) {
-    super(props);
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) => {
+  const { hearings, language } = props;
+  const [contents, setContents] = useState(null);
+  const mapContainer = undefined;
+  const [dimensions, setDimensions] = useState({
+    height: showOnCarousel ? null : props.style.height,
+    width: showOnCarousel ? null : props.style.width,
+  });
 
-    this.state = {
-      height: this.props.showOnCarousel ? null : this.props.style.height,
-      width: this.props.showOnCarousel ? null : this.props.style.width,
-    };
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.mapContainer &&
-      typeof nextProps.mapContainer !== 'undefined' &&
-      nextProps.mapContainer.getBoundingClientRect()
-    ) {
-      this.handleUpdateMapDimensions(nextProps.mapContainer);
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
-  }
-
-  /**
-   * The react-leaflet requires static width and height to display properly, attach listener.
-   * @param {Object} mapContainer - Container enclosing the map
-   */
-  handleUpdateMapDimensions = (mapContainer) => {
-    if (mapContainer) {
-      const { width, height } = mapContainer.getBoundingClientRect();
+  const handleUpdateMapDimensions = (container) => {
+    if (container) {
+      const { width, height } = container.getBoundingClientRect();
       if (width > 0 && height > 0) {
-        this.setState({ width: `${width}px`, height: `${height}px` });
+        setDimensions({ width: `${width}px`, height: `${height}px` });
       }
     }
   };
-
-  getHearingMapContent(hearings) {
-    const contents = [];
-    hearings.forEach((hearing) => {
-      const { geojson } = hearing;
-
-      if (geojson) {
-        const mapElement = this.getMapElement(geojson, hearing);
-        if (Array.isArray(mapElement) && mapElement.length > 0) {
-          mapElement.forEach((mapEl) => {
-            contents.push(mapEl);
-          });
-        } else if (mapElement && !Array.isArray(mapElement)) {
-          contents.push(mapElement);
-        }
-      }
-    });
-    return contents;
-  }
-
-  /**
-   * Return Map element based on geojson.type.
-   * @param {Object} geojson
-   * @param {Object} hearing
-   * @returns {JSX.Element|*}
-   */
-  getMapElement(geojson, hearing) {
-    const { mapElementLimit } = this.props;
-    const { id } = hearing;
-    if (geojson) {
-      switch (geojson.type) {
-        case 'Polygon': {
-          // XXX: This only supports the _first_ ring of coordinates in a Polygon
-          const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-          return (
-            <Polygon key={`${id}${Math.random()}`} positions={latLngs}>
-              {this.getPopupContent(hearing, geojson)}
-            </Polygon>
-          );
-        }
-        case 'Point': {
-          const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
-          return (
-            <Marker
-              position={latLngs}
-              key={`${id}${Math.random()}`}
-              icon={
-                new Leaflet.Icon({
-                  iconUrl: leafletMarkerIconUrl,
-                  shadowUrl: leafletMarkerShadowUrl,
-                  iconRetinaUrl: leafletMarkerRetinaIconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [13, 41],
-                })
-              }
-              {...this.getAdditionalParams(hearing)}
-            >
-              {this.getPopupContent(hearing, geojson)}
-            </Marker>
-          );
-        }
-        case 'LineString': {
-          const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-          return (
-            <Polyline key={`${id}${Math.random()}`} positions={latLngs}>
-              {this.getPopupContent(hearing, geojson)}
-            </Polyline>
-          );
-        }
-        case 'FeatureCollection': {
-          // if mapElementLimit is true & more than 0, display up to that amount of elements
-          const mapElementArray = [];
-          if (mapElementLimit && mapElementLimit > 0) {
-            geojson.features.slice(0, mapElementLimit).forEach((feature) => {
-              mapElementArray.push(this.getMapElement(feature.geometry, hearing));
-            });
-          } else {
-            // if mapElementLimit is false -> display all elements found in FeatureCollection
-            geojson.features.forEach((feature) => {
-              mapElementArray.push(this.getMapElement(feature.geometry, hearing));
-            });
-          }
-          return mapElementArray;
-        }
-        case 'Feature': {
-          /**
-           * Recursively get the Map element
-           */
-          return this.getMapElement(geojson.geometry, hearing);
-        }
-        default:
-          // TODO: Implement support for other geometries too (markers, square, circle)
-          return (
-            <GeoJSON data={geojson} key={`${id}${Math.random()}`}>
-              {this.getPopupContent(hearing, geojson)}
-            </GeoJSON>
-          );
-      }
-    }
-    return [];
-  }
 
   /**
    * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
@@ -165,8 +42,8 @@ class OverviewMap extends React.Component {
    * @param {Object} geojson
    * @returns {JSX.Element|null}
    */
-  getPopupContent(hearing, geojson) {
-    const { enablePopups, language } = this.props;
+  const getPopupContent = (hearing, geojson) => {
+    const { enablePopups } = props;
     // offset added in order to open the popup window from the middle of the Marker instead of the default bottom.
     const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
     if (enablePopups) {
@@ -194,16 +71,111 @@ class OverviewMap extends React.Component {
    * @param {Object} hearing
    * @returns {{alt: *}|{keyboard: boolean}}
    */
-  getAdditionalParams(hearing) {
-    const { enablePopups, language } = this.props;
+  const getAdditionalParams = (hearing) => {
+    const { enablePopups } = props;
     if (enablePopups) {
       return { alt: getAttr(hearing.title, language) };
     }
     return { keyboard: false };
-  }
+  };
 
-  updateDimensions = () => {
-    this.handleUpdateMapDimensions(this.props.mapContainer);
+  /**
+   * Return Map element based on geojson.type.
+   * @param {Object} geojson
+   * @param {Object} hearing
+   * @returns {JSX.Element|*}
+   */
+  const getMapElement = (geojson, hearing) => {
+    const { id } = hearing;
+    if (geojson) {
+      switch (geojson.type) {
+        case 'Polygon': {
+          // XXX: This only supports the _first_ ring of coordinates in a Polygon
+          const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+          return (
+            <Polygon key={`${id}${Math.random()}`} positions={latLngs}>
+              {getPopupContent(hearing, geojson)}
+            </Polygon>
+          );
+        }
+        case 'Point': {
+          const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+          return (
+            <Marker
+              position={latLngs}
+              key={`${id}${Math.random()}`}
+              icon={
+                new Leaflet.Icon({
+                  iconUrl: leafletMarkerIconUrl,
+                  shadowUrl: leafletMarkerShadowUrl,
+                  iconRetinaUrl: leafletMarkerRetinaIconUrl,
+                  iconSize: [25, 41],
+                  iconAnchor: [13, 41],
+                })
+              }
+              {...getAdditionalParams(hearing)}
+            >
+              {getPopupContent(hearing, geojson)}
+            </Marker>
+          );
+        }
+        case 'LineString': {
+          const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+          return (
+            <Polyline key={`${id}${Math.random()}`} positions={latLngs}>
+              {getPopupContent(hearing, geojson)}
+            </Polyline>
+          );
+        }
+        case 'FeatureCollection': {
+          // if mapElementLimit is true & more than 0, display up to that amount of elements
+          const mapElementArray = [];
+          if (mapElementLimit && mapElementLimit > 0) {
+            geojson.features.slice(0, mapElementLimit).forEach((feature) => {
+              mapElementArray.push(getMapElement(feature.geometry, hearing));
+            });
+          } else {
+            // if mapElementLimit is false -> display all elements found in FeatureCollection
+            geojson.features.forEach((feature) => {
+              mapElementArray.push(getMapElement(feature.geometry, hearing));
+            });
+          }
+          return mapElementArray;
+        }
+        case 'Feature': {
+          /**
+           * Recursively get the Map element
+           */
+          return getMapElement(geojson.geometry, hearing);
+        }
+        default:
+          // TODO: Implement support for other geometries too (markers, square, circle)
+          return (
+            <GeoJSON data={geojson} key={`${id}${Math.random()}`}>
+              {getPopupContent(hearing, geojson)}
+            </GeoJSON>
+          );
+      }
+    }
+    return [];
+  };
+
+  const getHearingMapContent = (tmpHearings) => {
+    const mapElements = [];
+    tmpHearings.forEach((hearing) => {
+      const { geojson } = hearing;
+      if (geojson) {
+        const mapElement = getMapElement(geojson, hearing);
+        if (Array.isArray(mapElement) && mapElement.length > 0) {
+          mapElement.forEach((mapEl) => {
+            mapElements.push(mapEl);
+          });
+        } else if (mapElement && !Array.isArray(mapElement)) {
+          mapElements.push(mapElement);
+        }
+      }
+    });
+    setContents(mapElements);
   };
 
   /**
@@ -211,59 +183,49 @@ class OverviewMap extends React.Component {
    * In case of carousel, we require static width and height.
    * @returns {Bool}
    */
-  shouldMapRender = () => (this.props.showOnCarousel ? this.state.height && this.state.width : true);
+  const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
+  
+  /* eslint-disable react-hooks/exhaustive-deps */  
+  useEffect(() => {
+    getHearingMapContent(hearings);
+    handleUpdateMapDimensions(mapContainer);
+    // Add any other functions that should run on component mount or hearings change here
+  }, [hearings]); 
 
-  render() {
-    if (typeof window === 'undefined') return null;
-    const { hearings, language } = this.props;
-    const contents = this.getHearingMapContent(hearings);
-    if (!contents.length && this.props.hideIfEmpty) {
-      return null;
-    }
-    return (
-      this.shouldMapRender() && (
-        <Map
-          center={localization.mapPosition}
-          zoom={10}
-          style={{ ...this.state }}
-          minZoom={8}
-          scrollWheelZoom={false}
-          {...this.props.mapSettings}
-        >
-          <TileLayer
-            url={getCorrectContrastMapTileUrl(
-              urls.rasterMapTiles,
-              urls.highContrastRasterMapTiles,
-              this.props.isHighContrast,
-              language,
-            )}
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <FeatureGroup
-            ref={(input) => {
-              if (!input) return;
-              const bounds = input.leafletElement.getBounds();
-              if (bounds.isValid()) {
-                input.context.map.fitBounds(bounds);
-              }
-            }}
-          >
-            <div>{contents}</div>
-          </FeatureGroup>
-        </Map>
-      )
-    );
+  if (typeof window === 'undefined') return null;
+  if (!contents && props.hideIfEmpty) {
+    return null;
   }
-}
+  
+  return (
+    shouldMapRender() && (
+      <MapContainer
+        center={localization.mapPosition}
+        zoom={10}
+        style={{ ...dimensions }}
+        minZoom={8}
+        scrollWheelZoom={false}
+        {...props.mapSettings}
+      >
+        <TileLayer
+          url={getCorrectContrastMapTileUrl(
+            urls.rasterMapTiles,
+            urls.highContrastRasterMapTiles,
+            props.isHighContrast,
+            language,
+          )}
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <FeatureGroup>{contents}</FeatureGroup>
+      </MapContainer>
+    )
+  );
+};
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
   language: state.language,
 });
-
-OverviewMap.defaultProps = {
-  mapElementLimit: 0,
-};
 
 OverviewMap.propTypes = {
   enablePopups: PropTypes.bool,
@@ -271,7 +233,6 @@ OverviewMap.propTypes = {
   hideIfEmpty: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   language: PropTypes.string,
-  mapContainer: PropTypes.object,
   mapElementLimit: PropTypes.number,
   mapSettings: PropTypes.object,
   showOnCarousel: PropTypes.bool,
@@ -280,11 +241,6 @@ OverviewMap.propTypes = {
 
 OverviewMap.contextTypes = {
   language: PropTypes.string.isRequired,
-};
-
-OverviewMap.defaultProps = {
-  showOnCarousel: false,
-  mapContainer: undefined,
 };
 
 export default connect(mapStateToProps, null)(OverviewMap);
