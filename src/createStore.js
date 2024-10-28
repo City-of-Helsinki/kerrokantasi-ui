@@ -14,16 +14,6 @@ import rootReducer from './reducers';
 export const history = createBrowserHistory();
 
 
-/*
-const historySettings = {
-  // eslint-disable-next-line no-unused-vars
-  documentTitle: (location) => document.title || "Kerrokantasi",
-  announcePageNavigation: false, // default true
-  setPageTitle: false,
-  primaryFocusTarget: "body",
-};
-*/
-
 const middleware = [
   thunk,
   languageMiddleware,

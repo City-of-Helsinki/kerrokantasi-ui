@@ -385,9 +385,6 @@ Hearings.propTypes = {
   ),
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
-  // location: PropTypes.shape({
-  //   search: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  // }),
   user: PropTypes.shape({
     data: userShape,
     isFetching: PropTypes.bool,
