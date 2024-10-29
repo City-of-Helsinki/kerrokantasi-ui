@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
 import * as mockLogin from 'hds-react';
 
 import useUpdateApiTokens from '../hooks/useUpdateApiTokens';
@@ -7,7 +7,7 @@ jest.spyOn(mockLogin, 'useApiTokensClientTracking').mockImplementation(() => [{ 
 
 describe('useUpdateApiTokens', () => {
   it('should update api tokens', async () => {
-    const { result, rerender } = renderHook(() => useUpdateApiTokens());
+    const { result, waitForNextUpdate } = renderHook(() => useUpdateApiTokens());
 
     expect(result.current.apiTokensUpdated).toBe(false);
 
@@ -19,7 +19,7 @@ describe('useUpdateApiTokens', () => {
       result.current.updateApiTokens();
     });
 
-    rerender();
+    await waitForNextUpdate();
 
     expect(result.current.apiTokensUpdated).toBe(true);
   });

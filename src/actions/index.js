@@ -4,9 +4,9 @@ import merge from 'lodash/merge';
 import parse from 'url-parse';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from '@sentry/react';
+import { push } from 'react-router-redux';
 
-import { createLocalizedAlert, createNotificationPayload, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
-import { addToast } from './toast';
+import { localizedAlert, localizedNotifySuccess, localizedNotifyError } from '../utils/notify';
 import { get as apiGet, getAllFromEndpoint, post, put, apiDelete } from '../api';
 import enrichUserData from "./user";
 
@@ -46,19 +46,36 @@ export function getResponseJSON(response) {
   return response.json();
 }
 
-export const requestErrorHandler = (
-   dispatch,
-   localizationKey = undefined
-) => (err) => {
-  Sentry.captureException(err);
-  let payload;
-  if (localizationKey) {
-    payload = createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, localizationKey);
-  } else {
-    payload = createNotificationPayload(NOTIFICATION_TYPES.error, err.message);
-  }
-  dispatch(addToast(payload));
+export function requestErrorHandler() {
+  return (err) => {
+    Sentry.captureException(err);
+    localizedNotifyError(err.message);
+    // localizedNotifyError("APICallFailed");
+  };
 }
+
+export const postCommentErrorHandler = () => (err) => {
+  Sentry.captureException(err);
+  if (err.response.status === 403) {
+    localizedNotifyError("loginToComment");
+  } else {
+    localizedNotifyError(err.message);
+  }
+};
+
+export const voteCommentErrorHandler = () => (err) => {
+  Sentry.captureException(err);
+  if (err.response.status === 403) {
+    localizedNotifyError("loginToVoteComment");
+  } else {
+    localizedNotifyError(err.message);
+  }
+};
+
+export const flagCommentErrorHandler = () => (err) => {
+  Sentry.captureException(err);
+  localizedNotifyError(err.message);
+};
 
 export function fetchInitialHearingList(listId, endpoint, params) {
   return (dispatch) => {
@@ -70,7 +87,7 @@ export function fetchInitialHearingList(listId, endpoint, params) {
 
     return apiGet(endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearingList")({ listId, data }));
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler(dispatch, fetchAction));
   };
 }
 
@@ -84,7 +101,7 @@ export function fetchHearingList(listId, endpoint, params) {
 
     return apiGet(endpoint, paramsWithLimit).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearingList")({ listId, data }));
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -94,9 +111,9 @@ export function fetchProjects() {
     dispatch(fetchAction);
     return apiGet('v1/project').then(getResponseJSON).then(data => {
       dispatch(createAction('receiveProjects')({ data }));
-    }).catch((err) => {
+    }).catch(() => {
       dispatch(createAction("receiveProjectsError")());
-      requestErrorHandler(dispatch)(err);
+      requestErrorHandler();
     });
   };
 }
@@ -116,9 +133,9 @@ export function fetchUserComments(additionalParams = {}) {
     };
     return apiGet('v1/comment', params).then(getResponseJSON).then(data => {
       dispatch(createAction('receiveUserComments')({ data }));
-    }).catch((err) => {
+    }).catch(() => {
       dispatch(createAction("receiveUserCommentsError")());
-      requestErrorHandler(dispatch)(err);
+      requestErrorHandler();
     });
   };
 }
@@ -131,7 +148,7 @@ export const fetchMoreHearings = (listId) => (dispatch, getState) => {
 
   return apiGet('v1/hearing/', url.query).then(getResponseJSON).then((data) => {
     dispatch(createAction('receiveMoreHearings')({ listId, data }));
-  }).catch(requestErrorHandler(dispatch));
+  }).catch(requestErrorHandler(dispatch, fetchAction));
 };
 
 export function fetchLabels() {
@@ -140,7 +157,7 @@ export function fetchLabels() {
 
     return getAllFromEndpoint('/v1/label/').then((data) => {
       dispatch(createAction('receiveLabels')({ data }));
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -152,9 +169,9 @@ export function fetchHearing(hearingSlug, previewKey = null) {
     const params = previewKey ? { preview: previewKey } : {};
     return apiGet(url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveHearing")({ hearingSlug, data }));
-    }).catch((err) => {
+    }).catch(() => {
       dispatch(createAction("receiveHearingError")({ hearingSlug }));
-      requestErrorHandler(dispatch)(err);
+      requestErrorHandler();
     });
     // FIXME: Somehow .catch catches errors also from components' render methods
   };
@@ -172,9 +189,9 @@ export function fetchFavoriteHearings(params) {
     const url = "v1/hearing/";
     return apiGet(url, params).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveFavoriteHearings")({ data }));
-    }).catch((err) => {
+    }).catch(() => {
       dispatch(createAction("receiveFavoriteHearingsError"));
-      requestErrorHandler(dispatch)(err);
+      requestErrorHandler();
     });
     // FIXME: Somehow .catch catches errors also from components' render methods
   };
@@ -193,13 +210,13 @@ export function addHearingToFavorites(hearingSlug, hearingId) {
     const url = `v1/hearing/${hearingSlug}/follow`;
     return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, "alreadyFavorite")));
+        localizedNotifyError("alreadyFavorite");
       } else {
         dispatch(createAction("modifyFavoriteHearingsData")({ hearingSlug, hearingId }));
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "addedFavorites")));
         dispatch(fetchHearing(hearingSlug));
+        localizedNotifySuccess("addedFavorites");
       }
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -218,14 +235,14 @@ export function removeHearingFromFavorites(hearingSlug, hearingId) {
       if (data.status === 204) {
         dispatch(createAction("receiveRemoveHearingFromFavorites")({ hearingSlug, data }));
         dispatch(createAction("modifyFavoriteHearingsData")({ hearingSlug, hearingId }));
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "removedFavorite")));
+        localizedNotifySuccess("removedFavorite");
       }
       if (data.status === 304) {
         dispatch(createAction("receiveRemoveHearingFromFavorites")({ hearingSlug, data }));
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, "removeFavoriteNotFound")));
+        localizedNotifySuccess("removeFavoriteNotFound");
         dispatch(fetchHearing(hearingSlug));
       }
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -277,7 +294,7 @@ export const getCommentSubComments = (commentId, sectionId, jumpTo) => (dispatch
   };
   return apiGet(URL_COMMENT, params).then(getResponseJSON).then((data) => {
     dispatch(createAction(MainActions.SUB_COMMENTS_FETCHED)({ sectionId, commentId, data, jumpTo }));
-  }).catch(requestErrorHandler(dispatch));
+  }).catch(requestErrorHandler());
 };
 
 export function fetchMoreSectionComments(sectionId, next, ordering = '-n_votes') {
@@ -289,7 +306,7 @@ export function fetchMoreSectionComments(sectionId, next, ordering = '-n_votes')
     const url = parse(next, true);
     return apiGet('v1/comment/', url.query).then(getResponseJSON).then((data) => {
       dispatch(createAction('receiveSectionComments')({ sectionId, data }));
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -302,7 +319,7 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
     const url = `v1/hearing/${hearingSlug}/sections/${sectionId}/comments`;
     return apiGet(url, { include: 'plugin_data', ordering }).then(getResponseJSON).then((data) => {
       dispatch(createAction("receiveSectionComments")({ sectionId, data }));
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -339,10 +356,8 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       dispatch(fetchHearing(hearingSlug, null, commentData.comment));
       // also, update user answered questions
       dispatch(enrichUserData());
-      createLocalizedAlert("commentReceived");
-    }).catch((err) => {
-      requestErrorHandler(dispatch, "loginToComment")(err);
-  });
+      localizedAlert("commentReceived");
+    }).catch(postCommentErrorHandler());
   };
 }
 
@@ -356,8 +371,8 @@ export function editSectionComment(hearingSlug, sectionId, commentId, commentDat
     return put(url, params).then(getResponseJSON).then((responseJSON) => {
       dispatch(createAction("editedComment")({ sectionId, comment: responseJSON }));
       dispatch(fetchHearing(hearingSlug));
-      createLocalizedAlert("commentEdited");
-    }).catch(requestErrorHandler(dispatch));
+      localizedAlert("commentEdited");
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -381,8 +396,8 @@ export function deleteSectionComment(hearingSlug, sectionId, commentId, refreshU
       dispatch(fetchHearing(hearingSlug));
       // update user answered questions if refreshUser is true
       if (refreshUser) { dispatch(enrichUserData()); }
-      createLocalizedAlert("commentDeleted");
-    }).catch(requestErrorHandler(dispatch));
+      localizedAlert("commentDeleted");
+    }).catch(requestErrorHandler());
   };
 }
 
@@ -393,12 +408,12 @@ export function postVote(commentId, hearingSlug, sectionId, isReply, parentId) {
     const url = `/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}/vote`;
     return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, "alreadyVoted")));
+        localizedNotifyError("alreadyVoted");
       } else {
         dispatch(createAction("postedCommentVote")({ commentId, sectionId, isReply, parentId }));
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "voteReceived")));
+        localizedNotifySuccess("voteReceived");
       }
-    }).catch(requestErrorHandler(dispatch, "loginToVoteComment"));
+    }).catch(voteCommentErrorHandler());
   };
 }
 
@@ -409,25 +424,26 @@ export function postFlag(commentId, hearingSlug, sectionId, isReply, parentId) {
     const url = `/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/${commentId}/flag`;
     return post(url).then(getResponseJSON).then((data) => {
       if (data.status_code === 304) {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, "alreadyFlagged")));
+        localizedNotifyError("alreadyFlagged");
       } else {
         dispatch(createAction("postedCommentFlag")({ commentId, sectionId, isReply, parentId }));
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "commentFlagged")));
+        localizedNotifySuccess("commentFlagged");
       }
-    }).catch(requestErrorHandler(dispatch));
+    }).catch(flagCommentErrorHandler());
   };
 }
 
 export function deleteHearingDraft(hearingId, hearingSlug) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const fetchAction = createAction("deletingHearingDraft")({ hearingId, hearingSlug });
     dispatch(fetchAction);
     const url = `/v1/hearing/${hearingSlug}`;
     return apiDelete(url).then(getResponseJSON).then(() => {
+      dispatch(push(`/hearings/list?lang=${getState().language}`));
       dispatch(createAction("deletedHearingDraft")({ hearingSlug }));
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, "draftDeleted")));
+      localizedNotifySuccess("draftDeleted");
     }).catch(
-      requestErrorHandler(dispatch)
+      requestErrorHandler()
     );
   };
 }

@@ -11,7 +11,6 @@ const renderComponent = (propOverrides) => {
   const props = {
     labels: labels.data,
     hearings: hearingLists.allHearings.data,
-    tab: 'list',
     ...propOverrides,
   };
 

@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   EditorState,
@@ -11,7 +11,6 @@ import {
   AtomicBlockUtils,
   Modifier,
   SelectionState,
-  getDefaultKeyBinding,
 } from 'draft-js';
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import createImagePlugin from '@draft-js-plugins/image';
@@ -251,10 +250,6 @@ class RichTextEditor extends React.Component {
 
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
-    if (command === 'custom-tab') {
-      this.onTab();
-      return true;
-    }
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -319,15 +314,6 @@ class RichTextEditor extends React.Component {
       return formatMessage({ id: this.props.placeholderId });
     }
     return '';
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  myKeyBindingFn(e) {
-    if (e.keyCode === 9) {
-      return 'custom-tab';
-    }
-    // eslint-disable-next-line no-undef
-    return getDefaultKeyBinding(e);
   }
 
   removeLink(event) {
@@ -601,7 +587,7 @@ class RichTextEditor extends React.Component {
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            keyBindingFn={this.myKeyBindingFn}
+            onTab={this.onTab}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
             ref={this.editorRef}
@@ -631,7 +617,7 @@ RichTextEditor.propTypes = {
   value: PropTypes.string,
   formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
-  intl: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
 export default RichTextEditor;

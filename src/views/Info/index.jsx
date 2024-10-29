@@ -1,12 +1,12 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-danger */
 /* eslint-disable global-require */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-import { injectIntl, useIntl } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import Helmet from 'react-helmet';
 
 function getContent(language) {
@@ -26,9 +26,9 @@ function getContent(language) {
   return 'Content not available in current language';
 }
 
-const Info = () => {
-  const intl = useIntl();
-  const content = getContent(intl.locale);
+const Info = (props) => {
+  const content = getContent(props.language);
+  const { intl } = props;
   return (
     <div className='container'>
       <Helmet
@@ -47,4 +47,9 @@ const Info = () => {
   );
 };
 
-export default injectIntl(connect()(Info));
+Info.propTypes = {
+  language: PropTypes.string,
+  intl: intlShape,
+};
+
+export default injectIntl(connect((state) => ({ language: state.language }))(Info));

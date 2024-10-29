@@ -1,61 +1,33 @@
 import React from 'react';
-import Router, { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 
-import Header from '../Header';
+import { HeaderComponent } from '../Header';
 import { mockStore, getIntlAsProp } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import createAppStore from '../../../createStore';
-
-const { mockHearingWithSections } = mockStore;
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: mockHearingWithSections.data.sections[0].id,
-  }),
-  useParams: () => ({
-    hearingSlug: mockHearingWithSections.data.id,
-  }),
-}));
 
 const renderComponent = (propOverrides) => {
-  const history = createMemoryHistory();
-
-  const storeMock = createAppStore({
-    hearing: {
-      [mockHearingWithSections.data.id]: {
-        data: {
-          ...mockHearingWithSections.data,
-          ...(propOverrides?.hearing ? propOverrides.hearing : {}),
-        },
-      },
-    },
-    language: propOverrides?.language ?? mockHearingWithSections.data.language,
-    user: {
-      data: {
-        ...(propOverrides?.user ?? {}),
-      },
-    },
-  });
-
+  const { mockHearingWithSections } = mockStore;
   const props = {
     hearing: mockHearingWithSections.data,
     sections: mockHearingWithSections.data.sections,
     activeLanguage: 'fi',
     dispatch: () => {},
+    location: {
+      pathname: mockHearingWithSections.data.sections[0].id,
+    },
+    match: {
+      params: {
+        sectionId: mockHearingWithSections.data.sections[0].id,
+      },
+    },
     ...propOverrides,
   };
 
   return renderWithProviders(
     <MemoryRouter>
-      <Header intl={getIntlAsProp()} {...props} />
+      <HeaderComponent intl={getIntlAsProp()} {...props} />
     </MemoryRouter>,
-    {
-      history,
-      store: storeMock,
-    },
   );
 };
 
@@ -73,8 +45,8 @@ describe('<Header />', () => {
       },
     });
 
-    expect(await screen.findByText('timeOpenPast', { exact: false })).toBeInTheDocument();
-    expect(await screen.findByText('timeClosePast', { exact: false })).toBeInTheDocument();
+    expect(await screen.findByText('timeOpenPast')).toBeInTheDocument();
+    expect(await screen.findByText('timeClosePast')).toBeInTheDocument();
   });
 
   it('should render timetable text correctly when hearing is not published', async () => {
@@ -86,15 +58,17 @@ describe('<Header />', () => {
       },
     });
 
-    expect(await screen.findByText('draftNotPublished', { exact: false })).toBeInTheDocument();
+    expect(await screen.findByText('draftNotPublished')).toBeInTheDocument();
   });
 
   it('should not return comments when hearing has no commentable sections', () => {
     renderComponent({
       hearing: {
         n_comments: 0,
-        sections: [],
       },
+      sections: [],
+      section: null,
+      user: null,
     });
 
     expect(screen.queryByTestId('comment-summary')).not.toBeInTheDocument();
@@ -108,17 +82,16 @@ describe('<Header />', () => {
           fi: 'Title in Finnish',
         },
       },
+      location: {
+        pathname: '/hearing',
+        search: '',
+      },
     });
 
     expect(screen.queryByTestId('language-select')).not.toBeInTheDocument();
   });
 
   it('should render language changer correctly when multiple languages are available', async () => {
-    jest.spyOn(Router, 'useLocation').mockImplementationOnce(() => ({
-      pathname: '/hearing',
-      search: '',
-    }));
-
     renderComponent({
       language: 'en',
       hearing: {
@@ -126,6 +99,10 @@ describe('<Header />', () => {
           fi: 'Title in Finnish',
           en: 'Title in English',
         },
+      },
+      location: {
+        pathname: '/hearing',
+        search: '',
       },
     });
 

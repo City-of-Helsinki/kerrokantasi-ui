@@ -1,8 +1,7 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 const DeleteModal = ({ isOpen, intl, close, onDeleteComment }) => {
   const titleId = 'delete-modal-title';
@@ -43,7 +42,7 @@ const DeleteModal = ({ isOpen, intl, close, onDeleteComment }) => {
 
 DeleteModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: PropTypes.object,
+  intl: intlShape.isRequired,
   close: PropTypes.func,
   onDeleteComment: PropTypes.func,
 };

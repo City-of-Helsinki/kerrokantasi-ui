@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Checkbox, FormControl, FormGroup, ControlLabel, Alert } from 'react-bootstrap';
 import { Button, FileInput } from 'hds-react';
 import classnames from 'classnames';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
 import { get, includes } from 'lodash';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
@@ -21,6 +20,7 @@ import { getImageAsBase64Promise } from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
+import { localizedNotifyError } from '../utils/notify';
 import {
   checkFormErrors,
   getFirstUnansweredQuestion,
@@ -39,8 +39,6 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import CommentFormMap from './CommentFormMap/CommentFormMap';
 import CommentFormErrors from './CommentFormErrors';
 import config from '../config';
-import { addToast } from '../actions/toast';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -49,30 +47,29 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
+
 const IMAGE_MAX_SIZE = 1000000;
+
 export const BaseCommentForm = ({
   loggedIn,
   user,
   collapseForm,
-  defaultNickname = '',
+  defaultNickname,
   answers,
   canComment,
   section,
-  isReply = false,
+  isReply,
   nicknamePlaceholder,
   hearingGeojson,
   isHighContrast,
   language,
   closed,
-  overrideCollapse = false,
+  overrideCollapse,
   intl,
-  onOverrideCollapse = () => {},
+  onOverrideCollapse,
   onPostComment,
   onChangeAnswers,
 }) => {
-
-  const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({
     collapsed: true,
     commentText: '',
@@ -132,9 +129,9 @@ export const BaseCommentForm = ({
         onOverrideCollapse();
       }
     } else {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section))));
+      localizedNotifyError(getSectionCommentingErrorMessage(section));
     }
-  }, [canComment, defaultNickname, formData, onOverrideCollapse, section, dispatch]);
+  }, [canComment, defaultNickname, formData, onOverrideCollapse, section]);
 
   useEffect(() => {
     if (isUserAdmin) {
@@ -193,7 +190,8 @@ export const BaseCommentForm = ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));
+      localizedNotifyError('maintenanceNotificationText');
+
       return;
     }
 
@@ -657,6 +655,7 @@ BaseCommentForm.propTypes = {
   canComment: PropTypes.bool,
   onPostComment: PropTypes.func,
   onOverrideCollapse: PropTypes.func,
+  intl: intlShape.isRequired,
   collapseForm: PropTypes.bool,
   defaultNickname: PropTypes.string,
   overrideCollapse: PropTypes.bool,
@@ -671,7 +670,13 @@ BaseCommentForm.propTypes = {
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   hearingGeojson: PropTypes.object,
-  intl: PropTypes.object,
+};
+
+BaseCommentForm.defaultProps = {
+  defaultNickname: '',
+  overrideCollapse: false,
+  onOverrideCollapse: () => {},
+  isReply: false,
 };
 
 const mapStateToProps = (state) => ({

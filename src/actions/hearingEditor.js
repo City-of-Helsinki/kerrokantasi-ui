@@ -1,19 +1,18 @@
 import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { omit } from 'lodash';
+import { push } from 'react-router-redux';
 
-import { createNotificationPayload, NOTIFICATION_TYPES, createLocalizedNotificationPayload } from '../utils/notify';
+import { notifySuccess, notifyError, localizedNotifyError } from '../utils/notify';
 import { patch, put, post, apiDelete, getAllFromEndpoint } from '../api';
 import { requestErrorHandler } from './index';
-import { initNewHearing as getHearingSkeleton } from '../utils/hearing';
+import { getHearingURL, initNewHearing as getHearingSkeleton } from '../utils/hearing';
 import {
   fillFrontIdsAndNormalizeHearing,
   filterFrontIdsFromAttributes,
   filterTitleAndContentByLanguage,
   prepareHearingForSave,
 } from '../utils/hearingEditor';
-import { addToast } from './toast';
-import getMessage from '../utils/getMessage';
 
 export const EditorActions = {
   ACTIVE_PHASE: 'activePhase',
@@ -186,7 +185,7 @@ export function fetchHearingEditorMetaData() {
       })
       .then(err => {
         if (err) {
-          requestErrorHandler(dispatch)(err instanceof Error ? err : JSON.stringify(err));
+          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
         }
       }
       )
@@ -215,7 +214,7 @@ export function fetchHearingEditorContactPersons() {
       })
       .then(err => {
         if (err) {
-          requestErrorHandler(dispatch)(err instanceof Error ? err : JSON.stringify(err));
+          requestErrorHandler(dispatch, fetchAction)(err instanceof Error ? err : JSON.stringify(err));
         }
       });
   };
@@ -232,26 +231,25 @@ export function addContact(contact, selectedContacts) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
+          // Bad request with error message
+          notifyError('Tarkista yhteyshenkilön tiedot.');
           response.json().then(errors => {
             dispatch(createAction(EditorActions.ADD_CONTACT_FAILED)({ errors }));
           });
-          // Bad request with error message
-          throw Error('Tarkista yhteyshenkilön tiedot.');
         } else if (response.status === 401) {
           // Unauthorized
-          throw Error('Et voi luoda yhteyshenkilöä.');
+          notifyError('Et voi luoda yhteyshenkilöä.');
         } else {
           response.json().then(contactJSON => {
             selectedContacts.push(contactJSON.id);
             dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({ contact: contactJSON }));
             dispatch(changeHearing('contact_persons', selectedContacts));
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          notifySuccess(HEARING_CREATED_MESSAGE);
         }
       })
       .then(() => dispatch(fetchHearingEditorContactPersons()))
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, postContactAction));
   };
 }
 
@@ -263,19 +261,16 @@ export function saveContact(contact) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
-          // TODO: Add translation
-          throw Error('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
+          notifyError('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
         } else if (response.status === 401) {
           // Unauthorized
-          // TODO: Add translation
-          throw Error('Et voi luoda yhteyshenkilöä.');
+          notifyError('Et voi luoda yhteyshenkilöä.');
         } else {
-          // TODO: Add translation
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muokkaus onnistui')));
+          notifySuccess('Muokkaus onnistui');
         }
       })
       .then(() => dispatch(fetchHearingEditorContactPersons()))
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler());
   };
 }
 
@@ -289,26 +284,24 @@ export function addLabel(label, selectedLabels) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
-          // TODO: Add translations
+          notifyError('Tarkista asiasanan tiedot.');
           response.json().then(errors => {
             dispatch(createAction(EditorActions.ADD_LABEL_FAILED)({ errors }));
           });
-          throw Error('Tarkista asiasanan tiedot.');
         } else if (response.status === 401) {
           // Unauthorized
-          // TODO: Add translations
-          throw Error('Et voi luoda asiasanaa.'); 
+          notifyError('Et voi luoda asiasanaa.');
         } else {
           response.json().then(labelJSON => {
             selectedLabels.push(labelJSON.id);
             dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({ label: labelJSON }));
             dispatch(changeHearing('labels', selectedLabels));
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          notifySuccess(HEARING_CREATED_MESSAGE);
         }
       })
       .then(() => dispatch(fetchHearingEditorMetaData()))
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, postLabelAction));
   };
 }
 
@@ -367,29 +360,26 @@ export function saveHearingChanges(hearing) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
-          // TODO: Add translations
+          notifyError(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
           response.json().then(errors => {
             dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
           });
-          throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
           // Unauthorized
-          // TODO: Add translations
-          throw Error(HEARING_CANT_MODIFY);          
+          notifyError(HEARING_CANT_MODIFY);
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
             dispatch(closeHearingForm());
+            dispatch(push(`/${hearingJSON.slug}?lang=${getState().language}`));
             if (hearing.slug !== hearingJSON.slug) {
-              dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'slugInUse')));
+              localizedNotifyError("slugInUse");
             }
-            
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Tallennus onnistui')));
+          notifySuccess('Tallennus onnistui');
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
 
@@ -406,12 +396,11 @@ export function addSectionAttachment(section, file, title, isNew) {
       .then(checkResponseStatus)
       .then((response) => {
         if (response.status === 400 && !isNew) {
-          throw Error(getMessage('errorSaveBeforeAttachment'));
+          localizedNotifyError('errorSaveBeforeAttachment');
         } else {
           response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: { ...attachment, isNew: true } })));
         }
-      })
-      .catch(requestErrorHandler(dispatch));
+      });
   };
 }
 
@@ -430,28 +419,23 @@ export function saveAndPreviewHearingChanges(hearing) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
+          notifyError(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
           response.json().then(errors => {
             dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
           });
-          // TODO: Add translations
-          throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, HEARING_CANT_MODIFY)));
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
-          });
           // Unauthorized
-          // TODO: Add translations
-          throw Error(HEARING_CANT_MODIFY);
+          notifyError(HEARING_CANT_MODIFY);
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
             dispatch(createAction(EditorActions.CLOSE_FORM)());
+            dispatch(push(getHearingURL(hearingJSON)));
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Tallennus onnistui')));
+          notifySuccess('Tallennus onnistui');
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
 
@@ -469,24 +453,21 @@ export function saveNewHearing(hearing) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
-          // TODO: Add translations
+          notifyError(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
           response.json().then(errors => {
             dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
           });
-          throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
           // Unauthorized
-          // TODO: Add translations
-          throw Error('Et voi luoda kuulemista.');
+          notifyError('Et voi luoda kuulemista.');
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({ hearing: hearingJSON }));
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          notifySuccess(HEARING_CREATED_MESSAGE);
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
 
@@ -502,24 +483,23 @@ export function saveAndPreviewNewHearing(hearing) {
       .then(response => {
         if (response.status === 400) {
           // Bad request with error message
-          // TODO: Add translations
+          notifyError(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
           response.json().then(errors => {
             dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
           });
-          throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
           // Unauthorized
-          // TODO: Add translations
-          throw Error('Et voi luoda kuulemista.');
+          notifyError('Et voi luoda kuulemista.');
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({ hearing: hearingJSON }));
             dispatch(createAction(EditorActions.CLOSE_FORM)());
+            dispatch(push(getHearingURL(hearingJSON)));
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          notifySuccess(HEARING_CREATED_MESSAGE);
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preSaveAction));
   };
 }
 
@@ -539,17 +519,15 @@ export function closeHearing(hearing) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {
-          // TODO: Add translations
-          throw Error('Et voi sulkea tätä kuulemista.');
+          notifyError('Et voi sulkea tätä kuulemista.');
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Kuuleminen suljettiin')));
+          notifySuccess('Kuuleminen suljettiin');
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preCloseAction));
   };
 }
 
@@ -563,17 +541,15 @@ export function publishHearing(hearing) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {
-          // TODO: Add translations
-          throw Error('Et voi julkaista tätä kuulemista.');
+          notifyError('Et voi julkaista tätä kuulemista.');
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Kuuleminen julkaistiin')));
+          notifySuccess('Kuuleminen julkaistiin');
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, prePublishAction));
   };
 }
 
@@ -586,17 +562,15 @@ export function unPublishHearing(hearing) {
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 401) {
-          // TODO: Add translations
-          throw Error(HEARING_CANT_MODIFY);
+          notifyError(HEARING_CANT_MODIFY);
         } else {
           response.json().then(hearingJSON => {
             dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
           });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muutos tallennettu')));
+          notifySuccess('Muutos tallennettu');
         }
       })
-      .catch(requestErrorHandler(dispatch));
+      .catch(requestErrorHandler(dispatch, preUnPublishAction));
   };
 }
 

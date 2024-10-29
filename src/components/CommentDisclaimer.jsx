@@ -8,20 +8,12 @@ const CommentDisclaimer = () => (
       id='commentConditions'
       values={{
         linkToDefinition: (
-          <a
-            href='https://www.hri.fi/fi/mita-on-avoin-data/'
-            target='_blank'
-            aria-label={<FormattedMessage id='asOpenData' />}
-          >
+          <a href='http://www.hri.fi/fi/mita-on-avoin-data/' target='_blank'>
             <FormattedMessage id='asOpenData' />
           </a>
         ),
         linkToLicense: (
-          <a
-            href='https://creativecommons.org/licenses/by/4.0/deed.fi'
-            target='_blank'
-            aria-label={<FormattedMessage id='withOpenLicense' />}
-          >
+          <a href='http://creativecommons.org/licenses/by/4.0/deed.fi' target='_blank'>
             <FormattedMessage id='withOpenLicense' />
           </a>
         ),

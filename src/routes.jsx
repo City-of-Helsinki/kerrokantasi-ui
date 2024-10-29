@@ -1,6 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Suspense, lazy } from 'react';
-import { Route, Routes, Navigate, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import LoadSpinner from './components/LoadSpinner';
 import config from "./config";
@@ -36,37 +37,40 @@ const UserProfile = lazy(() => import(
 /* Vanilla Redirect component can't handle dynamic rerouting,
  * so we need Redirector to access params for the hearingSlug
  */
-const Redirector = () => {
-  const { hearingSlug } = useParams();
-  return (
+const Redirector = ({ match }) => (
   <div>
-    <Navigate to={`/${hearingSlug}`} />
+    <Redirect to={{ path: `/${match.params.hearingSlug}` }} />
   </div>
-)};
+);
 
-const AppRoutes = () => (
+Redirector.propTypes = {
+  match: PropTypes.object
+};
+
+const Routes = () => (
   <Suspense fallback={<LoadSpinner />}>
-    <Routes>
-      <Route exact path="/" Component={props => <HomeContainer {...props} />} />
-      <Route path="/silent-renew" Component={props => <SilentRenew {...props} />} />
-      <Route path="/info" Component={props => <Info {...props} />} />
+    <Switch>
+      <Route exact path="/" component={props => <HomeContainer {...props} />} />
+      <Route path="/silent-renew" component={props => <SilentRenew {...props} />} />
+      <Route path="/info" component={props => <Info {...props} />} />
       {config.enableCookies && (
-        <Route path="/cookies" Component={props => <CookieManagement {...props} />} />
+        <Route path="/cookies" component={props => <CookieManagement {...props} />} />
       )}
-      <Route path="/callback" Component={props => <LoginCallback {...props} />} />
-      <Route path="/callback/logout" Component={props => <LogoutCallback {...props} />} />
-      <Route path="/user-hearings" Component={props => <UserHearings {...props} />} />
-      <Route path="/user-profile" Component={props => <UserProfile {...props} />} />
+      <Route path="/callback" component={props => <LoginCallback {...props} />} />
+      <Route path="/callback/logout" component={props => <LogoutCallback {...props} />} />
+      <Route path="/user-hearings" component={props => <UserHearings {...props} />} />
+      <Route path="/user-profile" component={props => <UserProfile {...props} />} />
       {config.showAccessibilityInfo && (
-        <Route path="/accessibility" Component={props => <AccessibilityInfo {...props} />} />
+        <Route path="/accessibility" component={props => <AccessibilityInfo {...props} />} />
       )}
-      <Route path="/hearings/:tab" Component={props => <HearingsContainer {...props} />} />
-      <Route path="/hearing/new" Component={props => <NewHearingContainer {...props} />} />
-      <Route path="/hearing/:hearingSlug" Component={props => <Redirector {...props} />} />
-      <Route path="/:hearingSlug/fullscreen" Component={props => <FullscreenHearingContainer {...props} />} />
-      <Route path="/:hearingSlug/*" Component={props => <HearingContainer {...props} />} />
-    </Routes>
+      <Route path="/hearings/:tab" component={props => <HearingsContainer {...props} />} />
+      <Route path="/hearing/new" component={props => <NewHearingContainer {...props} />} />
+      <Route path="/hearing/:hearingSlug" component={props => <Redirector {...props} />} />
+      <Route path="/:hearingSlug/fullscreen" component={props => <FullscreenHearingContainer {...props} />} />
+      <Route path="/:hearingSlug/:sectionId" component={props => <HearingContainer {...props} />} />
+      <Route path="/:hearingSlug" component={props => <HearingContainer {...props} />} />
+    </Switch>
   </Suspense>
 );
 
-export default AppRoutes;
+export default Routes;

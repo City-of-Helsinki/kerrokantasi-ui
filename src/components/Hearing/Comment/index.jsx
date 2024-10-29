@@ -1,9 +1,9 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-did-mount-set-state */
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
+import { injectIntl, FormattedMessage, FormattedRelative } from 'react-intl';
 import { FormGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import nl2br from 'react-nl2br';
@@ -12,48 +12,71 @@ import classnames from 'classnames';
 import forEach from 'lodash/forEach';
 import find from 'lodash/find';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
 
 import CommentForm from '../../BaseCommentForm';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';
 import Icon from '../../../utils/Icon';
-import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import { localizedNotifyError, notifyError, notifyInfo } from '../../../utils/notify';
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
-import FormatRelativeTime from '../../../utils/FormatRelativeTime';
-import { addToast } from '../../../actions/toast';
-import updateAnswers from '../../../utils/comments';
-import { isAdmin } from '../../../utils/user';
 
-const Comment = (props) => {
-  const dispatch = useDispatch();
-  const commentRef = useRef();
-  const { data, canReply, user } = props;
-  const canEdit = data.can_edit;
-  const canDelete = data.can_delete;
-  let commentEditor;
-  const intl = useIntl();
-  const adminUser = isAdmin(user);
+class Comment extends React.Component {
+  constructor(props) {
+    super(props);
+    this.commentRef = React.createRef();
 
-  const [state, setState] = useState({
-    editorOpen: false,
-    isReplyEditorOpen: false,
-    shouldJumpTo: props.jumpTo === props.data.id,
-    scrollComplete: false,
-    shouldAnimate: false,
-    pinned: props.data.pinned,
-    answers: props.data.answers || [],
-    displayMap: false,
-    showReplies: props.showReplies,
-  });
+    this.state = {
+      editorOpen: false,
+      isReplyEditorOpen: false,
+      shouldJumpTo: this.props.jumpTo === this.props.data.id,
+      scrollComplete: false,
+      shouldAnimate: false,
+      pinned: this.props.data.pinned,
+      answers: this.props.data.answers || [],
+      mapContainer: null,
+      displayMap: false,
+      showReplies: this.props.showReplies,
+    };
+  }
 
-  const { editorOpen, isReplyEditorOpen } = state;
+  componentDidMount() {
+    if (this.state.shouldJumpTo && this.commentRef && this.commentRef.current && !this.state.scrollComplete) {
+      // Jump to this comment
+      this.commentRef.current.scrollIntoView({
+        behaviour: 'smooth',
+        block: 'nearest',
+      });
+      this.setState({
+        scrollComplete: true,
+        shouldAnimate: true,
+      });
+    } else if (
+      // Jump to child sub-comment
+      this.props.jumpTo &&
+      this.props.data.comments?.includes(this.props.jumpTo) &&
+      !this.props.data.loadingSubComments &&
+      ((Array.isArray(this.props.data.subComments) && this.props.data.subComments.length === 0) ||
+        this.props.data.subComments === undefined)
+    ) {
+      this.getReplies();
+    } else if (this.state.showReplies && !this.props.jumpTo) {
+      // focus is set to the toggle element when mounting with existing/fetched replies.
+      const toggleContainer = document
+        .getElementById(`comment-${this.props.data.id}`)
+        .querySelector('span.hearing-comment__show-more__wrapper');
+      if (toggleContainer) {
+        // finds the first anchor element and sets focus on it.
+        toggleContainer.querySelector('a').focus();
+      }
+    }
+  }
 
-  const handleSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
+    const { data } = this.props;
     const { section, id } = data;
     const commentData = {};
 
@@ -62,64 +85,62 @@ const Comment = (props) => {
         commentData[key] = value;
       }
     });
-    commentData.content = commentEditor.value;
-    if (props.data.can_edit && adminUser) {
-      commentData.pinned = state.pinned;
+    commentData.content = this.commentEditor.value;
+    if (this.props.data.can_edit && this.isAdminUser()) {
+      commentData.pinned = this.state.pinned;
     }
-    commentData.answers = state.answers;
-    props.onEditComment(section, id, commentData);
-    setState({ editorOpen: false });
+    commentData.answers = this.state.answers;
+    this.props.onEditComment(section, id, commentData);
+    this.setState({ editorOpen: false });
   };
 
-  const handleDelete = (event) => {
+  handleDelete = (event) => {
     event.preventDefault();
+    const { data } = this.props;
     const { section, id, answers } = data;
     // userdata is updated if the comment contained answers
-    props.onDeleteComment(section, id, answers.length > 0);
+    this.props.onDeleteComment(section, id, answers.length > 0);
   };
 
-  const onVote = () => {
-    if (props.canVote) {
+  onVote = () => {
+    if (this.props.canVote) {
+      const { data } = this.props;
       // If user has already voted for this comment, block the user from voting again
       const votedComments = JSON.parse(localStorage.getItem('votedComments')) || [];
       if (votedComments.includes(data.id)) {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'alreadyVoted')));
+        localizedNotifyError('alreadyVoted');
         return;
       }
-      props.onPostVote(data.id, data.section, props.isReply, props.parentComponentId);
+      this.props.onPostVote(data.id, data.section, this.props.isReply, this.props.parentComponentId);
     } else {
-      // TODO: Add translations
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään äänestääksesi kommenttia.')));
+      notifyError('Kirjaudu sisään äänestääksesi kommenttia.');
     }
   };
 
-  const canFlagComments = () => user && props.canFlag;
-
-  const onFlag = () => {
-    if (canFlagComments()) {
-      props.onPostFlag(data.id, data.section, props.isReply, props.parentComponentId);
+  onFlag = () => {
+    if (this.canFlagComments()) {
+      const { data } = this.props;
+      this.props.onPostFlag(data.id, data.section, this.props.isReply, this.props.parentComponentId);
     } else {
-      // TODO: Add translations
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään liputtaaksesi kommentin.')));
+      notifyError('Kirjaudu sisään liputtaaksesi kommentin.');
     }
   };
 
-  const onCopyURL = () => {
+  onCopyURL = () => {
     // Build absolute URL for comment
-    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${props.data.id}`;
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${this.props.data.id}`;
     navigator.clipboard.writeText(commentUrl);
-    // TODO: Add translations
-    dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.info, 'Linkki kommenttiin on kopioitu leikepöydällesi.')));
+    notifyInfo(`Linkki kommenttiin on kopioitu leikepöydällesi.`);
   };
 
   /**
    * Open reply editor
    */
-  const handleToggleReplyEditor = (event) => {
+  handleToggleReplyEditor = (event) => {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
-    setState((prevState) => ({
+    this.setState((prevState) => ({
       isReplyEditorOpen: !prevState.isReplyEditorOpen,
     }));
   };
@@ -127,19 +148,25 @@ const Comment = (props) => {
   /**
    * Call the parent component to retrieve list of sub comments for current comment.
    */
-  const getReplies = () => {
-    const { section } = props;
-    props.onGetSubComments(data.id, section.id);
+  getReplies = () => {
+    const { data, section } = this.props;
+    this.props.onGetSubComments(data.id, section.id);
   };
 
   /**
    * Toggle whether to display replies or not.
    */
-  const toggleReplies = () => {
-    setState((prevState) => ({ showReplies: !prevState.showReplies }));
+  toggleReplies = () => {
+    this.setState((prevState) => ({ showReplies: !prevState.showReplies }));
   };
-  const getStrigifiedAnswer = (answer) => {
-    const { questions } = props;
+
+  /**
+   * Determines whether the user type is admin.
+   */
+  isAdminUser = () => typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization);
+
+  getStrigifiedAnswer = (answer) => {
+    const { questions, intl } = this.props;
     const question = find(questions, (que) => que.id === answer.question);
     let selectedOption = {};
     return {
@@ -156,29 +183,29 @@ const Comment = (props) => {
    * @returns {String}
    */
   // eslint-disable-next-line class-methods-use-this
-  const parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY HH:mm');
+  parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY hh:mm');
 
   /**
    * Handle posting of a reply
    */
-  const handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
-    const { section } = props;
+  handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
+    const { section } = this.props;
     let commentData = { text, authorName, pluginData, geojson, label, images };
-    if (props.onPostReply && props.onPostReply instanceof Function) {
-      if (props.isReply && props.parentComponentId) {
-        commentData = { ...commentData, comment: props.parentComponentId };
+    if (this.props.onPostReply && this.props.onPostReply instanceof Function) {
+      if (this.props.isReply && this.props.parentComponentId) {
+        commentData = { ...commentData, comment: this.props.parentComponentId };
       } else {
-        commentData = { ...commentData, comment: props.data.id };
+        commentData = { ...commentData, comment: this.props.data.id };
       }
-      props.onPostReply(section.id, { ...commentData });
+      this.props.onPostReply(section.id, { ...commentData });
     }
   };
 
   /**
    * Toggle the pinning of comment
    */
-  const handleTogglePin = () => {
-    setState((prevState) => ({
+  handleTogglePin = () => {
+    this.setState((prevState) => ({
       pinned: !prevState.pinned,
     }));
   };
@@ -189,66 +216,72 @@ const Comment = (props) => {
    * @param {String} questionType - example "single-question" "multiple-choice"
    * @param {Number} answer - id of the answer selected by the user.
    */
-  const handleAnswerChange = (question, questionType, answer) => {
-    const updatedAnswer = updateAnswers(state.answers, question, questionType, answer);
-    setState({ answers: updatedAnswer });
+  handleAnswerChange = (question, questionType, answer) => {
+    const answerExists = this.state.answers.find((stateAnswer) => stateAnswer.question === question);
+    let updatedAnswer;
+    if (answerExists && typeof answerExists !== 'undefined') {
+      updatedAnswer = this.state.answers.map((allAnswers) => {
+        if (allAnswers.question === question) {
+          if (questionType === 'single-choice') {
+            return { ...allAnswers, answers: [answer] };
+          }
+          const isDeselecting = allAnswers.answers.includes(answer);
+          return {
+            ...allAnswers,
+            answers: isDeselecting
+              ? allAnswers.answers.filter((sortAnswers) => sortAnswers !== answer)
+              : [...allAnswers.answers, answer],
+          };
+        }
+        return allAnswers;
+      });
+    } else {
+      updatedAnswer = [...this.state.answers, { question, answers: [answer], type: questionType }];
+    }
+    this.setState({ answers: updatedAnswer });
   };
 
-  const dateTooltip = () => <Tooltip id='comment-date-tooltip'>{parseTimestamp(data.created_at)}</Tooltip>;
+  dateTooltip = (data) => <Tooltip id='comment-date-tooltip'>{this.parseTimestamp(data.created_at)}</Tooltip>;
 
-  /**
-   * When a comment is pinned, a small black box is displayed on top right corner.
-   * @returns {JS<Component>}
-   */
-  // eslint-disable-next-line class-methods-use-this
-  const renderPinnedHeader = () => (
-    <div className='hearing-comment-pinned-container'>
-      <FormattedMessage id='pinnedComment' />
-    </div>
-  );
+  canFlagComments = () => this.props.user && this.props.canFlag;
 
   /**
    * Renders the header area for the comment
    * @returns {Component}
    */
-  const renderCommentHeader = () => (
+  renderCommentHeader = (isAdminUser, { data } = this.props) => (
     <div className='hearing-comment-header clearfix'>
-      {props.data.pinned && renderPinnedHeader()}
+      {this.props.data.pinned && this.renderPinnedHeader()}
       <div className='hearing-comment-publisher'>
         <span className='hearing-comment-user'>
           {data.is_registered ? (
             <span
               className={classnames({
-                'hearing-comment-user-registered': !adminUser,
-                'hearing-comment-user-organization': adminUser,
+                'hearing-comment-user-registered': !isAdminUser,
+                'hearing-comment-user-organization': isAdminUser,
               })}
             >
               <Icon name='user' aria-hidden='true' />
               &nbsp;
-              {adminUser ? data.organization : <FormattedMessage id='registered' />}
+              {isAdminUser ? data.organization : <FormattedMessage id='registered' />}
               :&nbsp;
             </span>
           ) : null}
           {data.author_name || <FormattedMessage id='anonymous' />}
         </span>
-        <OverlayTrigger placement='top' overlay={dateTooltip()} delayShow={300}>
+        <OverlayTrigger placement='top' overlay={this.dateTooltip(data)} delayShow={300}>
           <span className='hearing-comment-date'>
-            <FormatRelativeTime
-              messagePrefix=''
-              timeVal={data.created_at}
-              formatTime={intl.formatTime}
-              formatDate={intl.formatDate}
-            />
+            <FormattedRelative value={data.created_at} />
           </span>
         </OverlayTrigger>
       </div>
-      {canFlagComments() && (
-        <Button className='hearing-comment-vote-link' onClick={onCopyURL}>
+      {this.canFlagComments() && (
+        <Button className='hearing-comment-vote-link' onClick={this.onCopyURL}>
           <Icon name='link' aria-hidden='true' />
         </Button>
       )}
-      {canFlagComments() && !data.deleted && (
-        <Button className='hearing-comment-vote-link' onClick={onFlag}>
+      {this.canFlagComments() && !data.deleted && (
+        <Button className='hearing-comment-vote-link' onClick={this.onFlag}>
           <Icon
             name={classnames({
               'flag-o': !data.flagged,
@@ -265,24 +298,24 @@ const Comment = (props) => {
    * Renders answers for a comment.
    * @returns {JSX<Component>}
    */
-  const renderCommentAnswers = () =>
-    props.data.answers.map((answer) => <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />);
+  renderCommentAnswers = () =>
+    this.props.data.answers.map((answer) => <Answer key={answer.question} answer={this.getStrigifiedAnswer(answer)} />);
 
   /**
    * When an admin user is logged in and editing their comment.
    * Allow the user to pin and unpin a comment.
    */
-  const renderPinUnpinButton = () => (
+  renderPinUnpinButton = () => (
     <div className='hearing-comment__pin'>
       <Button
         className={classnames([
           'hearing-comment__pin__icon',
           {
-            'hearing-comment__pin__pin-comment': !state.pinned,
-            'hearing-comment__pin__unpin-comment': state.pinned,
+            'hearing-comment__pin__pin-comment': !this.state.pinned,
+            'hearing-comment__pin__unpin-comment': this.state.pinned,
           },
         ])}
-        onClick={handleTogglePin}
+        onClick={this.handleTogglePin}
       />
     </div>
   );
@@ -290,17 +323,17 @@ const Comment = (props) => {
   /**
    * For each answer answered, a user may edit the answer.
    */
-  const renderQuestionsForAnswer = (answer) => {
-    const correspondingQuestion = props.section.questions.find((question) => question.id === answer.question);
+  renderQuestionsForAnswer = (answer) => {
+    const correspondingQuestion = this.props.section.questions.find((question) => question.id === answer.question);
     return (
       <QuestionForm
         question={correspondingQuestion}
-        lang={props.language}
+        lang={this.props.language}
         answers={answer}
         key={`$answer-for-question-${answer.question}`}
-        loggedIn={!isEmpty(user)}
-        onChange={handleAnswerChange}
-        canAnswer={props.canReply}
+        loggedIn={!isEmpty(this.props.user)}
+        onChange={this.handleAnswerChange}
+        canAnswer={this.props.canReply}
       />
     );
   };
@@ -310,20 +343,20 @@ const Comment = (props) => {
    * When editing, answers may be edited as well.
    * @returns {Component}
    */
-  const renderEditorForm = () => (
+  renderEditorForm = () => (
     <>
-      {adminUser && props.data.can_edit && !props.isReply && renderPinUnpinButton()}
-      <form data-testid="editorForm" className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
+      {this.isAdminUser() && this.props.data.can_edit && !this.props.isReply && this.renderPinUnpinButton()}
+      <form className='hearing-comment__edit-form' onSubmit={(event) => this.handleSubmit(event)}>
         <FormGroup controlId='formControlsTextarea'>
-          {state.answers && state.answers.length > 0
-            ? state.answers.map((answer) => renderQuestionsForAnswer(answer))
+          {this.state.answers && this.state.answers.length > 0
+            ? this.state.answers.map((answer) => this.renderQuestionsForAnswer(answer))
             : null}
           <textarea
             className='form-control'
-            defaultValue={props.data.content}
+            defaultValue={this.props.data.content}
             placeholder='textarea'
             ref={(input) => {
-              commentEditor = input;
+              this.commentEditor = input;
             }}
           />
         </FormGroup>
@@ -334,26 +367,17 @@ const Comment = (props) => {
     </>
   );
 
-  const toggleEditor = (event) => {
-    event.preventDefault();
-    if (state.editorOpen) {
-      setState({ editorOpen: false });
-    } else {
-      setState({ editorOpen: true });
-    }
-  }
-
   /**
    * If a user can edit their comment(s) render hyperlinks
    * @returns {Component|null}
    */
-  const renderEditLinks = () => (
+  renderEditLinks = (canDelete) => (
     <div className='hearing-comment__edit-links'>
-      <a href='' onClick={(event) => toggleEditor(event)} aria-label={<FormattedMessage id='edit' />}>
+      <a href='' onClick={(event) => this.toggleEditor(event)}>
         <FormattedMessage id='edit' />
       </a>
       {canDelete && (
-        <a href='' onClick={(event) => handleDelete(event)} aria-label={<FormattedMessage id='delete' />}>
+        <a href='' onClick={(event) => this.handleDelete(event)}>
           <FormattedMessage id='delete' />
         </a>
       )}
@@ -363,16 +387,10 @@ const Comment = (props) => {
   /**
    * If a thread can be replied to, render reply links
    */
-  const renderReplyLinks = () => (
+  renderReplyLinks = () => (
     <>
       <Icon name='reply' />
-      <a
-        href=''
-        style={{ marginLeft: 6, fontWeight: 'bold' }}
-        onClick={handleToggleReplyEditor}
-        aria-label={<FormattedMessage id='delete' />}
-        data-testid='replyLink'
-      >
+      <a href='' style={{ marginLeft: 6, fontWeight: 'bold' }} onClick={this.handleToggleReplyEditor}>
         <FormattedMessage id='reply' />
       </a>
     </>
@@ -382,24 +400,24 @@ const Comment = (props) => {
    * When a comment is being replied to.
    * @returns {Component<Form>}
    */
-  const renderReplyForm = () => (
+  renderReplyForm = () => (
     <CommentForm
-      answers={state.answers}
-      canComment={props.canReply}
+      answers={this.state.answers}
+      canComment={this.props.canReply}
       closed={false}
-      defaultNickname={props.defaultNickname}
-      hearingId={props.hearingId}
+      defaultNickname={this.props.defaultNickname}
+      hearingId={this.props.hearingId}
       isReply
-      language={props.language}
-      loggedIn={!isEmpty(user)}
-      nicknamePlaceholder={props.nicknamePlaceholder}
-      onChangeAnswers={handleAnswerChange}
-      onOverrideCollapse={handleToggleReplyEditor}
-      onPostComment={handlePostReply}
+      language={this.props.language}
+      loggedIn={!isEmpty(this.props.user)}
+      nicknamePlaceholder={this.props.nicknamePlaceholder}
+      onChangeAnswers={this.onChangeAnswers}
+      onOverrideCollapse={this.handleToggleReplyEditor}
+      onPostComment={this.handlePostReply}
       overrideCollapse
-      section={props.section}
-      user={user}
-      hearingGeojson={props.data.geojson}
+      section={this.props.section}
+      user={this.props.user}
+      hearingGeojson={this.props.data.geojson}
     />
   );
 
@@ -409,15 +427,16 @@ const Comment = (props) => {
    * If replies exist -> toggles visibility of the replies, otherwise calls getReplies to start fetching them.
    * @returns {JSX.Element|null}
    */
-  const renderViewReplies = () => {
+  renderViewReplies = () => {
+    const { data } = this.props;
     const subCommentsLoaded = Array.isArray(data.comments) && data.comments.length && data.subComments;
     if (Array.isArray(data.comments) && data.comments.length) {
       return (
         <ShowMore
           numberOfComments={data.comments.length}
-          onClickShowMore={subCommentsLoaded ? toggleReplies : getReplies}
+          onClickShowMore={subCommentsLoaded ? this.toggleReplies : this.getReplies}
           isLoadingSubComment={data.loadingSubComments}
-          open={state.showReplies}
+          open={this.state.showReplies}
         />
       );
     }
@@ -429,13 +448,14 @@ const Comment = (props) => {
    * Returns a Comment component for each value in data.subComments.
    * @returns {JSX.Element}
    */
-  const renderSubComments = () => {
-    const { showReplies } = state;
+  renderSubComments = () => {
+    const { showReplies } = this.state;
+    const { data } = this.props;
     return (
       <ul className={classnames('sub-comments', { 'list-hidden': !showReplies })}>
         {data.subComments.map((subComment) => (
           <Comment
-            {...props}
+            {...this.props}
             parentComponentId={data.id}
             data={subComment}
             key={`${subComment.id}${Math.random()}`}
@@ -446,8 +466,19 @@ const Comment = (props) => {
     );
   };
 
+  /**
+   * When a comment is pinned, a small black box is displayed on top right corner.
+   * @returns {JS<Component>}
+   */
   // eslint-disable-next-line class-methods-use-this
-  const renderCommentText = () => {
+  renderPinnedHeader = () => (
+    <div className='hearing-comment-pinned-container'>
+      <FormattedMessage id='pinnedComment' />
+    </div>
+  );
+
+  // eslint-disable-next-line class-methods-use-this
+  renderCommentText = (data) => {
     if (!data.deleted && !data.edited) {
       return <p>{nl2br(data.content)}</p>;
     }
@@ -482,129 +513,130 @@ const Comment = (props) => {
     return <FormattedMessage id='sectionCommentGenericDeletedMessage' />;
   };
 
-  const toggleMap = () => {
-    setState((prevState) => ({displayMap: !prevState.displayMap}));
+  handleSetMapContainer = (mapContainer) => {
+    this.setState({ mapContainer });
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    if (state.shouldJumpTo && commentRef && commentRef.current && !state.scrollComplete) {
-      // Jump to this comment
-      commentRef.current.scrollIntoView({
-        behaviour: 'smooth',
-        block: 'nearest',
-      });
-      setState({
-        scrollComplete: true,
-        shouldAnimate: true,
-      });
-    } else if (
-      // Jump to child sub-comment
-      props.jumpTo &&
-      props.data.comments?.includes(props.jumpTo) &&
-      !props.data.loadingSubComments &&
-      ((Array.isArray(props.data.subComments) && props.data.subComments.length === 0) ||
-        props.data.subComments === undefined)
-    ) {
-      getReplies();
-    } else if (state.showReplies && !props.jumpTo) {
-      // focus is set to the toggle element when mounting with existing/fetched replies.
-      const toggleContainer = document
-        .getElementById(`comment-${props.data.id}`)
-        .querySelector('span.hearing-comment__show-more__wrapper');
-      if (toggleContainer) {
-        // finds the first anchor element and sets focus on it.
-        toggleContainer.querySelector('a').focus();
-      }
-    }
-  }, [commentRef]);
+  toggleMap = () => {
+    this.setState((prevState) => ({ displayMap: !prevState.displayMap }));
+  };
 
-  if (!data.content) {
-    return null;
+  toggleEditor(event) {
+    event.preventDefault();
+
+    if (this.state.editorOpen) {
+      this.setState({ editorOpen: false });
+    } else {
+      this.setState({ editorOpen: true });
+    }
   }
 
-  return (
-    <li
-      className={classnames([
-        'hearing-comment',
-        {
-          'comment-reply': props.isReply,
-          'hearing-comment__has-replys':
-            data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
-          'comment-animate': state.shouldAnimate,
-          'hearing-comment__admin': adminUser,
-          'hearing-comment__flagged': canFlagComments() && data.flagged,
-          'hearing-comment__is-pinned': props.data.pinned,
-        },
-      ])}
-      ref={commentRef}
-      id={`comment-${data.id}`}
-    >
-      <div className='hearing-comment__comment-wrapper'>
-        {renderCommentHeader()}
-        {!props.isReply && renderCommentAnswers()}
-        <div className={classnames('hearing-comment-body', { 'hearing-comment-body-disabled': data.deleted })}>
-          {renderCommentText()}
-        </div>
-        <div className='hearing-comment__images'>
-          {data.images
-            ? data.images.map((image) => (
-                <a
-                  className='hearing-comment-images-image'
-                  key={image.url}
-                  rel='noopener noreferrer'
-                  target='_blank'
-                  href={image.url}
-                >
-                  <img
-                    alt={getMessage('commentImageAlt')}
-                    src={image.url}
-                    width={image.width < 100 ? image.width : 100}
-                    height={image.height < 100 ? image.height : 100}
-                  />
-                </a>
-              ))
-            : null}
-        </div>
-        {data.geojson && (
-          <div className='hearing-comment__map'>
-            <Button
-              onClick={toggleMap}
-              className='hearing-comment__map-toggle'
-              aria-expanded={state.displayMap}
-            >
-              <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
-            </Button>
-            {state.displayMap && data.geojson && (
-              <div data-testid='hearing-comment-map-container' className='hearing-comment__map-container'>
-                {data.geojson && <HearingMap hearing={{ geojson: data.geojson }} mapSettings={{ dragging: false }} />}
-              </div>
-            )}
+  render() {
+    const { data, canReply } = this.props;
+    const canEdit = data.can_edit;
+    const canDelete = data.can_delete;
+    const { editorOpen, isReplyEditorOpen } = this.state;
+    const isAdminUser =
+      this.props.data &&
+      (typeof this.props.data.organization === 'string' || Array.isArray(this.props.data.organization));
+
+    if (!data.content) {
+      return null;
+    }
+
+    return (
+      <li
+        className={classnames([
+          'hearing-comment',
+          {
+            'comment-reply': this.props.isReply,
+            'hearing-comment__has-replys':
+              data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
+            'comment-animate': this.state.shouldAnimate,
+            'hearing-comment__admin': isAdminUser,
+            'hearing-comment__flagged': this.canFlagComments() && data.flagged,
+            'hearing-comment__is-pinned': this.props.data.pinned,
+          },
+        ])}
+        ref={this.commentRef}
+        id={`comment-${data.id}`}
+      >
+        <div className='hearing-comment__comment-wrapper'>
+          {this.renderCommentHeader(isAdminUser)}
+          {!this.props.isReply && this.renderCommentAnswers()}
+          <div className={classnames('hearing-comment-body', { 'hearing-comment-body-disabled': data.deleted })}>
+            {this.renderCommentText(data)}
           </div>
-        )}
-        {canEdit && !data.deleted && renderEditLinks()}
-        <div className='hearing-comment__actions-bar'>
-          <div className='hearing-comment__reply-link'>
-            {!isReplyEditorOpen && canReply && renderReplyLinks()}
+          <div className='hearing-comment__images'>
+            {data.images
+              ? data.images.map((image) => (
+                  <a
+                    className='hearing-comment-images-image'
+                    key={image.url}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                    href={image.url}
+                  >
+                    <img
+                      alt={getMessage('commentImageAlt')}
+                      src={image.url}
+                      width={image.width < 100 ? image.width : 100}
+                      height={image.height < 100 ? image.height : 100}
+                    />
+                  </a>
+                ))
+              : null}
           </div>
-          <div className='hearing-comment-votes'>
-            {!data.deleted && (
-              <Button className='btn-sm hearing-comment-vote-link' onClick={onVote}>
-                <Icon name='thumbs-o-up' aria-hidden='true' /> {data.n_votes}
-                <span className='sr-only'>
-                  <FormattedMessage id='voteButtonLikes' />. <FormattedMessage id='voteButtonText' />
-                </span>
+          {data.geojson && (
+            <div className='hearing-comment__map'>
+              <Button
+                onClick={this.toggleMap}
+                className='hearing-comment__map-toggle'
+                aria-expanded={this.state.displayMap}
+              >
+                <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
               </Button>
-            )}
+              {this.state.displayMap && data.geojson && (
+                <div
+                  data-testid='hearing-comment-map-container'
+                  className='hearing-comment__map-container'
+                  ref={this.handleSetMapContainer}
+                >
+                  {data.geojson && (
+                    <HearingMap
+                      hearing={{ geojson: data.geojson }}
+                      mapContainer={this.state.mapContainer}
+                      mapSettings={{ dragging: false }}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+          {canEdit && !data.deleted && this.renderEditLinks(canDelete)}
+          <div className='hearing-comment__actions-bar'>
+            <div className='hearing-comment__reply-link'>
+              {!isReplyEditorOpen && canReply && this.renderReplyLinks()}
+            </div>
+            <div className='hearing-comment-votes'>
+              {!data.deleted && (
+                <Button className='btn-sm hearing-comment-vote-link' onClick={this.onVote}>
+                  <Icon name='thumbs-o-up' aria-hidden='true' /> {data.n_votes}
+                  <span className='sr-only'>
+                    <FormattedMessage id='voteButtonLikes' />. <FormattedMessage id='voteButtonText' />
+                  </span>
+                </Button>
+              )}
+            </div>
           </div>
+          {editorOpen && this.renderEditorForm()}
+          {isReplyEditorOpen && this.renderReplyForm()}
+          {this.renderViewReplies()}
         </div>
-        {editorOpen && renderEditorForm()}
-        {isReplyEditorOpen && renderReplyForm()}
-        {renderViewReplies()}
-      </div>
-      {Array.isArray(data.subComments) && data.subComments.length > 0 && renderSubComments()}
-    </li>
-  );
+        {Array.isArray(data.subComments) && data.subComments.length > 0 && this.renderSubComments()}
+      </li>
+    );
+  }
 }
 
 Comment.propTypes = {

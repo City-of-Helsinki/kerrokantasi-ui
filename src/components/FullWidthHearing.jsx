@@ -2,6 +2,7 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import defaultImage from '@city-images/default-image.svg';
 
@@ -96,4 +97,4 @@ FullWidthHearing.propTypes = {
   intl: PropTypes.object,
 };
 
-export default FullWidthHearing;
+export default withRouter(FullWidthHearing);

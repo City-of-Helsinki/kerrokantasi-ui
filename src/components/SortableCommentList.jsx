@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { get, isEmpty, keys, throttle, find } from 'lodash';
@@ -404,6 +404,7 @@ SortableCommentListComponent.propTypes = {
   hearingGeojson: PropTypes.object,
   hearingId: PropTypes.string,
   hearingSlug: PropTypes.string,
+  intl: intlShape.isRequired,
   language: PropTypes.string,
   onDeleteComment: PropTypes.func,
   onEditComment: PropTypes.func,
@@ -415,7 +416,6 @@ SortableCommentListComponent.propTypes = {
   section: PropTypes.object,
   sectionComments: PropTypes.object,
   user: PropTypes.object,
-  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state, { section: { id: sectionId } }) => ({

@@ -9,7 +9,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       class="hearing-languages"
     >
       <legend>
-        hearingLanguages
+        <span>
+          hearingLanguages
+        </span>
       </legend>
       <div
         class="hearing-languages__row"
@@ -20,7 +22,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-fi"
           >
-            inLanguage-fi
+            <span>
+              inLanguage-fi
+            </span>
             <input
               id="kkEditorLanguageSelector-fi"
               name="language"
@@ -35,7 +39,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-sv"
           >
-            inLanguage-sv
+            <span>
+              inLanguage-sv
+            </span>
             <input
               id="kkEditorLanguageSelector-sv"
               name="language"
@@ -50,7 +56,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
           <label
             for="kkEditorLanguageSelector-en"
           >
-            inLanguage-en
+            <span>
+              inLanguage-en
+            </span>
             <input
               id="kkEditorLanguageSelector-en"
               name="language"
@@ -87,60 +95,45 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="label-elements"
           >
             <div
-              class="Combobox-module_root__Hs8Hg Combobox-module_multiselect__3vNbJ"
-              style="flex: 1;"
+              class="Select is-clearable is-searchable Select--multi"
             >
               <div
-                class="Combobox-module_wrapper__3kVTg"
+                class="Select-control"
               >
-                <input
-                  aria-autocomplete="list"
-                  aria-controls="hds-combobox-1-menu"
-                  aria-expanded="false"
-                  aria-haspopup="listbox"
-                  aria-labelledby="hds-combobox-1-label hds-combobox-1-input"
-                  aria-owns="hds-combobox-1-menu"
-                  autocomplete="off"
-                  autocorrect="off"
-                  class="Combobox-module_input__Dcmdn"
-                  id="hds-combobox-1-input"
-                  placeholder="hearingLabelsPlaceholder"
-                  role="combobox"
-                  type="text"
-                  value=""
-                />
-                <button
-                  aria-expanded="false"
-                  aria-label="undefined: undefined"
-                  class="Combobox-module_button__1W9PN"
-                  id="hds-combobox-1-toggle-button"
-                  tabindex="-1"
-                  type="button"
+                <div
+                  class="Select-multi-value-wrapper"
+                  id="react-select-2--value"
                 >
-                  <svg
-                    aria-hidden="true"
-                    aria-label="angle-down"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Combobox-module_angleIcon__10DvA"
-                    role="img"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <div
+                    class="Select-placeholder"
                   >
-                    <path
-                      clip-rule="evenodd"
-                      d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
+                    hearingLabelsPlaceholder
+                  </div>
+                  <div
+                    class="Select-input"
+                    style="display: inline-block;"
+                  >
+                    <input
+                      aria-activedescendant="react-select-2--value"
+                      aria-expanded="false"
+                      aria-haspopup="false"
+                      aria-owns=""
+                      role="combobox"
+                      style="box-sizing: content-box; width: 5px;"
+                      value=""
                     />
-                  </svg>
-                </button>
-                <ul
-                  aria-labelledby="hds-combobox-1-label"
-                  aria-multiselectable="true"
-                  class="Combobox-module_menu__3jA0e"
-                  id="hds-combobox-1-menu"
-                  role="listbox"
-                  style="max-height: 260px;"
-                />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
+                    />
+                  </div>
+                </div>
+                <span
+                  class="Select-arrow-zone"
+                >
+                  <span
+                    class="Select-arrow"
+                  />
+                </span>
               </div>
             </div>
             <button
@@ -168,7 +161,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             class="control-label"
             for="hearingSlug"
           >
-            hearingSlug
+            <span>
+              hearingSlug
+            </span>
             *
           </label>
           <span
@@ -198,67 +193,54 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         class="control-label"
         for="hearingContacts"
       >
-        hearingContacts
+        <span>
+          hearingContacts
+        </span>
         *
       </label>
       <div
         class="contact-elements"
       >
         <div
-          class="Combobox-module_root__Hs8Hg Combobox-module_multiselect__3vNbJ"
-          style="flex: 1;"
+          class="Select is-clearable is-searchable Select--multi"
         >
           <div
-            class="Combobox-module_wrapper__3kVTg"
+            class="Select-control"
           >
-            <input
-              aria-autocomplete="list"
-              aria-controls="hds-combobox-2-menu"
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby="hds-combobox-2-label hds-combobox-2-input"
-              aria-owns="hds-combobox-2-menu"
-              autocomplete="off"
-              autocorrect="off"
-              class="Combobox-module_input__Dcmdn"
-              id="hds-combobox-2-input"
-              placeholder="hearingContactsPlaceholder"
-              role="combobox"
-              type="text"
-              value=""
-            />
-            <button
-              aria-expanded="false"
-              aria-label="undefined: undefined"
-              class="Combobox-module_button__1W9PN"
-              id="hds-combobox-2-toggle-button"
-              tabindex="-1"
-              type="button"
+            <div
+              class="Select-multi-value-wrapper"
+              id="react-select-3--value"
             >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-down"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Combobox-module_angleIcon__10DvA"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                class="Select-placeholder"
               >
-                <path
-                  clip-rule="evenodd"
-                  d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
+                hearingContactsPlaceholder
+              </div>
+              <div
+                class="Select-input"
+                style="display: inline-block;"
+              >
+                <input
+                  aria-activedescendant="react-select-3--value"
+                  aria-expanded="false"
+                  aria-haspopup="false"
+                  aria-owns=""
+                  role="combobox"
+                  style="box-sizing: content-box; width: 5px;"
+                  value=""
                 />
-              </svg>
-            </button>
-            <ul
-              aria-labelledby="hds-combobox-2-label"
-              aria-multiselectable="true"
-              class="Combobox-module_menu__3jA0e"
-              id="hds-combobox-2-menu"
-              role="listbox"
-              style="max-height: 260px;"
-            />
+                <div
+                  style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
+                />
+              </div>
+            </div>
+            <span
+              class="Select-arrow-zone"
+            >
+              <span
+                class="Select-arrow"
+              />
+            </span>
           </div>
         </div>
         <button
@@ -277,11 +259,10 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
       <span
         class="help-block"
       >
-        hearingContactsHelpText
+        <span>
+          hearingContactsHelpText
+        </span>
       </span>
-      <div
-        class="hearing-contacts"
-      />
     </div>
     <div
       class="step-footer"
@@ -293,7 +274,9 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
         <span
           class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
         >
-          hearingFormNext
+          <span>
+            hearingFormNext
+          </span>
         </span>
       </button>
     </div>

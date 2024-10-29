@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { Button } from 'hds-react';
+import { withRouter } from 'react-router-dom';
 import defaultImage from '@city-images/default-image.svg';
-import { useParams } from 'react-router-dom';
 
 import getAttr from '../../../utils/getAttr';
 import Icon from '../../../utils/Icon';
@@ -14,8 +14,7 @@ import Link from '../../LinkWithLang';
 import MouseOnlyLink from '../../MouseOnlyLink';
 import { getSectionURL, hasAnyQuestions } from '../../../utils/section';
 
-const SubsectionList = ({ hearing, language, history }) => {
-  const { hearingSlug } = useParams();
+const SubsectionList = ({ hearing, language, history, match }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
@@ -39,7 +38,7 @@ const SubsectionList = ({ hearing, language, history }) => {
                   className='section-card-image'
                   style={{ backgroundImage: bgImage(section) }}
                   history={history}
-                  url={getSectionURL(hearingSlug, section)}
+                  url={getSectionURL(match.params.hearingSlug, section)}
                   altText={
                     section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)
                   }
@@ -49,7 +48,10 @@ const SubsectionList = ({ hearing, language, history }) => {
                     <div className='section-card-title-prefix'>
                       <FormattedMessage id='sectionCardSubsectionTitle' /> {index + 1}/{subSections.length}
                     </div>
-                    <Link to={{ path: getSectionURL(hearingSlug, section) }} className='section-card-title'>
+                    <Link
+                      to={{ path: getSectionURL(match.params.hearingSlug, section) }}
+                      className='section-card-title'
+                    >
                       <h3 id={`subsection-title-${section.id}`}>
                         {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
                       </h3>
@@ -68,7 +70,7 @@ const SubsectionList = ({ hearing, language, history }) => {
                     </div>
                   )}
                   <div className='section-card-buttons'>
-                    <Link to={{ path: getSectionURL(hearingSlug, section) }}>
+                    <Link to={{ path: getSectionURL(match.params.hearingSlug, section) }}>
                       <Button size='small' className='kerrokantasi-btn black'>
                         <FormattedMessage id='showSubsectionBtn' />
                       </Button>
@@ -97,6 +99,7 @@ SubsectionList.propTypes = {
   hearing: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
+  match: PropTypes.object,
 };
 
-export default SubsectionList;
+export default withRouter(SubsectionList);

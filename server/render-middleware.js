@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import fetch from 'node-fetch';
 
 import Html from './Html';
 

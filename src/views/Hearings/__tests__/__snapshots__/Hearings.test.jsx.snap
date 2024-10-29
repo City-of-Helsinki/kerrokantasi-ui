@@ -1,0 +1,455 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Hearings /> should render correctly 1`] = `
+<div>
+  <div
+    class="hearings"
+  >
+    <section
+      class="page-section page-section--all-hearings-header"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-md-10 col-md-push-1"
+          >
+            <h1
+              class="page-title"
+            >
+              allHearings
+            </h1>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div>
+      <section
+        class="page-section--hearings-search"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="row"
+          >
+            <div
+              class="col-md-10 col-md-push-1"
+            >
+              <div
+                class="hearings-search__container"
+              >
+                <div
+                  class="hearings-search__content"
+                >
+                  <form
+                    id="hearings-search-form"
+                  >
+                    <div
+                      class="hearings-search__controls"
+                    >
+                      <div
+                        class="hearings-search__text form-group"
+                      >
+                        <div
+                          class="SearchInput-module_root__sMwrY hearings-search__input"
+                        >
+                          <label
+                            class="FieldLabel-module_label__1zrXK "
+                            for="downshift-0-input"
+                            id="downshift-1-label"
+                          >
+                            <span>
+                              searchTitles
+                            </span>
+                          </label>
+                          <div
+                            class="SearchInput-module_wrapper__114JK"
+                          >
+                            <input
+                              aria-autocomplete="list"
+                              aria-controls="downshift-1-menu"
+                              aria-expanded="false"
+                              aria-haspopup="listbox"
+                              aria-labelledby="downshift-1-label"
+                              aria-owns="downshift-1-menu"
+                              autocomplete="off"
+                              class="SearchInput-module_input__Addns"
+                              enterkeyhint="search"
+                              id="downshift-0-input"
+                              role="combobox"
+                              value=""
+                            />
+                            <div
+                              class="SearchInput-module_buttons__2O_2t search-input_hds-search-input__buttons__3PawT"
+                            >
+                              <button
+                                aria-label="Etsi otsikoista"
+                                class="SearchInput-module_button__z7NIp search-input_hds-search-input__button__1-cj-"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  aria-label="search"
+                                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik SearchInput-module_searchIcon__l1_S4"
+                                  role="img"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M15 1C19.4183 1 23 4.58172 23 9C23 13.4183 19.4183 17 15 17C13.2001 17 11.539 16.4056 10.2023 15.4023L3.80101 21.8021L2.21002 20.2111L8.60822 13.8117C7.59861 12.4726 7.00002 10.8062 7.00002 9C7.00002 4.58172 10.5817 1 15 1ZM15 3C11.6863 3 9.00002 5.68629 9.00002 9C9.00002 12.3137 11.6863 15 15 15C18.3137 15 21 12.3137 21 9C21 5.68629 18.3137 3 15 3Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                            <ul
+                              aria-labelledby="downshift-1-label"
+                              class="SearchInput-module_menu__2P8CO"
+                              id="downshift-1-menu"
+                              role="listbox"
+                              style="max-height: 416px;"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="hearings-search__label form-group"
+                      >
+                        <label
+                          class="control-label"
+                          for="formControlsSearchSelect"
+                        >
+                          <span>
+                            searchLabels
+                          </span>
+                        </label>
+                        <div
+                          class="Select hearings-search__select is-clearable is-searchable Select--multi"
+                        >
+                          <div
+                            class="Select-control"
+                          >
+                            <div
+                              class="Select-multi-value-wrapper"
+                              id="react-select-2--value"
+                            >
+                              <div
+                                class="Select-placeholder"
+                              >
+                                Etsi...
+                              </div>
+                              <div
+                                class="Select-input"
+                                style="display: inline-block;"
+                              >
+                                <input
+                                  aria-activedescendant="react-select-2--value"
+                                  aria-expanded="false"
+                                  aria-haspopup="false"
+                                  aria-owns=""
+                                  id="formControlsSearchSelect"
+                                  role="combobox"
+                                  style="box-sizing: content-box; width: 5px;"
+                                  value=""
+                                />
+                                <div
+                                  style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 100%; font-family: inherit; letter-spacing: normal; text-transform: none;"
+                                />
+                              </div>
+                            </div>
+                            <span
+                              class="Select-arrow-zone"
+                            >
+                              <span
+                                class="Select-arrow"
+                              />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO hearings-search__button kerrokantasi-btn"
+                      type="submit"
+                    >
+                      <span
+                        class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+                      >
+                        <span>
+                          search
+                        </span>
+                      </span>
+                    </button>
+                    <a
+                      class="internal-link hidden-link"
+                      href="#hearings-section"
+                    >
+                      <span>
+                        jumpToSearchResults
+                      </span>
+                    </a>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="page-section--hearings-tabs"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="row"
+          >
+            <div
+              class="col-md-8 col-md-push-2"
+            >
+              <ul
+                class="hearing-list__tabs nav nav-tabs"
+                role="tablist"
+              >
+                <li
+                  class="active"
+                  role="presentation"
+                >
+                  <a
+                    aria-selected="true"
+                    href="#"
+                    role="tab"
+                    title="List"
+                  >
+                    <span>
+                      list
+                    </span>
+                  </a>
+                </li>
+                <li
+                  class=""
+                  role="presentation"
+                >
+                  <a
+                    aria-selected="false"
+                    href="#"
+                    role="tab"
+                    tabindex="-1"
+                    title="Map"
+                  >
+                    <span>
+                      map
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        class="page-section page-section--hearings-list"
+        id="hearings-section"
+      >
+        <div
+          class="container"
+        >
+          <div
+            class="row"
+          >
+            <div
+              class="col-md-8 col-md-push-2"
+            >
+              <a
+                class="internal-link hidden-link"
+                href="#hearings-search-form"
+              >
+                <span>
+                  jumpToSearchForm
+                </span>
+              </a>
+              <div>
+                <div
+                  class="hearing-list__result-controls"
+                >
+                  <h2
+                    class="hearing-list__hearing-list-title"
+                  >
+                    totalNumHearings
+                  </h2>
+                  <div
+                    class="hearing-list__filter-bar clearfix"
+                  >
+                    <div
+                      class="sr-only"
+                    />
+                    <div
+                      class="hearing-list__filter-bar-filter form-group"
+                    >
+                      <label
+                        class="hearing-list__filter-bar-label control-label"
+                        for="formControlsSelect"
+                      >
+                        <span>
+                          sort
+                        </span>
+                      </label>
+                      <select
+                        class="select form-control"
+                        id="formControlsSelect"
+                        placeholder="select"
+                      >
+                        <option
+                          value="-created_at"
+                        >
+                          Uusimmat ensin
+                        </option>
+                        <option
+                          value="created_at"
+                        >
+                          Vanhimmat ensin
+                        </option>
+                        <option
+                          value="-close_at_from_open"
+                        >
+                          Viimeisenä sulkeutuvat
+                        </option>
+                        <option
+                          value="close_at_from_open"
+                        >
+                          Ensimmäisenä sulkeutuvat
+                        </option>
+                        <option
+                          value="-close_at_from_closed"
+                        >
+                          Viimeisenä sulkeutuneet
+                        </option>
+                        <option
+                          value="-n_comments"
+                        >
+                          Eniten kommentoidut
+                        </option>
+                        <option
+                          value="n_comments"
+                        >
+                          Vähiten kommentoidut
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="hearing-list"
+                >
+                  <div
+                    role="list"
+                  >
+                    <div
+                      class="hearing-list-item"
+                      role="listitem"
+                    >
+                      <div
+                        alt="Mock Hearing"
+                        class="mouse-only-click-element hearing-list-item-image"
+                        style="background-image: url(https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg);"
+                      />
+                      <div
+                        class="hearing-list-item-content"
+                      >
+                        <div
+                          class="hearing-list-item-title-wrap"
+                        >
+                          <h2
+                            class="h4 hearing-list-item-title"
+                          >
+                            <a
+                              href="/mockHearing?headless=false"
+                            >
+                               
+                              Mock Hearing
+                            </a>
+                          </h2>
+                          <div
+                            class="hearing-list-item-comments"
+                          >
+                            <span
+                              aria-hidden="true"
+                              class="fa fa-comment-o"
+                            />
+                             
+                            1
+                            <span
+                              class="sr-only"
+                            >
+                              <span>
+                                hearingListComment
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="hearing-list-item-times"
+                        >
+                          <div>
+                            <span>
+                              timeOpenPastWithValues
+                            </span>
+                          </div>
+                          <div>
+                            <span>
+                              timeCloseFutureWithValues
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="hearing-list-item-labels clearfix"
+                        >
+                          <div
+                            aria-label="labelListTagsTitle"
+                            class="hearing-list-item-labellist"
+                          />
+                        </div>
+                        <div
+                          class="hearing-card-notice"
+                        >
+                          <span
+                            aria-hidden="true"
+                            class="fa fa-exclamation-circle"
+                          />
+                          <span>
+                            hearingTranslationNotAvailable
+                          </span>
+                          <div
+                            class="language-available-message"
+                            lang="fi"
+                          >
+                            Kuuleminen saatavilla suomeksi
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="loader-wrap"
+                    data-testid="load-spinner"
+                  >
+                    <span
+                      class="fa fa-hourglass-o fa-2x fa-spin"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+`;

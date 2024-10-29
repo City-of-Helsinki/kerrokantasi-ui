@@ -1,106 +1,144 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
 import { Button } from 'hds-react';
 import logoWhite from '@city-images/logo-fi-white.svg';
 import logoSwedishWhite from '@city-images/logo-sv-white.svg';
-import { useParams, useLocation } from 'react-router-dom';
 
 import PluginContent from '../../components/PluginContent';
 import { getHearingWithSlug, getMainSection, getMainSectionComments } from '../../selectors/hearing';
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
 import { parseQuery } from '../../utils/urlQuery';
-import { fetchHearing as fetchHearingAction, postSectionComment, postVote, fetchAllSectionComments } from '../../actions';
+import {
+  fetchHearing as fetchHearingAction,
+  postSectionComment,
+  postVote,
+  postFlag,
+  fetchAllSectionComments,
+  fetchSectionComments,
+  fetchMoreSectionComments,
+} from '../../actions';
 import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
 import getUser from '../../selectors/user';
 
-const FullscreenHearingContainerComponent = (ownProps) => {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const location = useLocation();
-  const hearing = useSelector((state) => getHearingWithSlug(state, params.hearingSlug));
-  const mainSection = useSelector((state) => getMainSection(state, params.hearingSlug));
-  const mainSectionComments = useSelector((state) => getMainSectionComments(state, params.hearingSlug));
-  const user = useSelector((state) => getUser(state));
-  const language = useSelector((state) => state.language);
-  const fetchAllComments = (hearingSlug, sectionId, ordering) => {
-    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering))
+export class FullscreenHearingContainerComponent extends React.Component {
+  UNSAFE_componentWillMount() {
+    const {
+      hearing,
+      fetchHearing,
+      match: { params },
+    } = this.props;
+    if (isEmpty(hearing)) {
+      fetchHearing(params.hearingSlug);
+    }
   }
 
-  useEffect(() => {
-    if (isEmpty(hearing)) {
-      dispatch(fetchHearingAction(params.hearingSlug));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onPostComment = (text, authorName, pluginData, geojson, label, images) => {
+  onPostComment = (text, authorName, pluginData, geojson, label, images) => {
+    // Done
     const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
-    // eslint-disable-next-line no-shadow
-    const { mainSection } = ownProps;
-    const { hearingSlug } = params;
+    const { match, location, mainSection } = this.props;
+    const { hearingSlug } = match.params;
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
-    return dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
+    return this.props.postSectionComment(hearingSlug, mainSection.id, commentData);
   };
 
-  const onVoteComment = (commentId) => {
-    // eslint-disable-next-line no-shadow
-    const { mainSection } = ownProps;
-    const { hearingSlug } = params;
+  onVoteComment = (commentId) => {
+    const { match, mainSection } = this.props;
+    const { hearingSlug } = match.params;
     const sectionId = mainSection.id;
-    dispatch(postVote(commentId, hearingSlug, sectionId));
+    this.props.postVote(commentId, hearingSlug, sectionId);
   };
 
-  const detailURL = `/${hearing.slug}`;
+  render() {
+    const { hearing, mainSection, mainSectionComments, user, match, fetchAllComments, language } = this.props;
+    const detailURL = `/${hearing.slug}`;
 
-  return (
-    <div id='hearing'>
-      {isEmpty(hearing) ? (
-        <LoadSpinner />
-      ) : (
-        <div className='fullscreen-hearing'>
-          <div className='fullscreen-navigation'>
-            <div className='logo'>
-              <Link to={{ path: '/' }}>
-                <FormattedMessage id='fullscreenHeaderLogoAlt'>
-                  {(altText) => (
-                    <img alt={altText} src={language === 'sv' ? logoSwedishWhite : logoWhite} className='logo' />
-                  )}
-                </FormattedMessage>
-              </Link>
+    return (
+      <div id='hearing'>
+        {isEmpty(hearing) ? (
+          <LoadSpinner />
+        ) : (
+          <div className='fullscreen-hearing'>
+            <div className='fullscreen-navigation'>
+              <div className='logo'>
+                <Link to={{ path: '/' }}>
+                  <FormattedMessage id='fullscreenHeaderLogoAlt'>
+                    {(altText) => (
+                      <img alt={altText} src={language === 'sv' ? logoSwedishWhite : logoWhite} className='logo' />
+                    )}
+                  </FormattedMessage>
+                </Link>
+              </div>
+              <div className='header-title'>
+                <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
+                  {getAttr(hearing.title, language)}
+                </Link>
+              </div>
+              <div className='minimize'>
+                <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
+                  <Button>
+                    <Icon name='compress' />
+                  </Button>
+                </Link>
+              </div>
             </div>
-            <div className='header-title'>
-              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>{getAttr(hearing.title, language)}</Link>
-            </div>
-            <div className='minimize'>
-              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
-                <Button>
-                  <Icon name='compress' />
-                </Button>
-              </Link>
+            <div className='plugin-content'>
+              <PluginContent
+                hearingSlug={match.params.hearingSlug}
+                fetchAllComments={fetchAllComments}
+                section={mainSection}
+                comments={mainSectionComments}
+                onPostComment={this.onPostComment}
+                onPostVote={this.onVoteComment}
+                user={user}
+              />
             </div>
           </div>
-          <div className='plugin-content'>
-            <PluginContent
-              hearingSlug={params.hearingSlug}
-              // eslint-disable-next-line no-undef
-              fetchAllComments={fetchAllComments}
-              section={mainSection}
-              comments={mainSectionComments}
-              onPostComment={onPostComment}
-              onPostVote={onVoteComment}
-              user={user}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
+  }
+}
+
+FullscreenHearingContainerComponent.propTypes = {
+  hearing: PropTypes.object,
+  match: PropTypes.object,
+  location: PropTypes.object,
+  mainSection: PropTypes.object,
+  user: PropTypes.object,
+  mainSectionComments: PropTypes.object,
+  fetchHearing: PropTypes.func,
+  postSectionComment: PropTypes.func,
+  postVote: PropTypes.func,
+  fetchAllComments: PropTypes.func,
+  language: PropTypes.string,
 };
 
-export default FullscreenHearingContainerComponent;
+const mapStateToProps = (state, ownProps) => ({
+  language: state.language,
+  hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
+  mainSection: getMainSection(state, ownProps.match.params.hearingSlug),
+  user: getUser(state),
+  mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
+  fetchAllComments: (hearingSlug, sectionId) => dispatch(fetchAllSectionComments(hearingSlug, sectionId)),
+  postSectionComment: (hearingSlug, sectionId, commentData) =>
+    dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
+  postVote: (commentId, hearingSlug, sectionId) => dispatch(postVote(commentId, hearingSlug, sectionId)),
+  postFlag: (commentId, hearingSlug, sectionId) => dispatch(postFlag(commentId, hearingSlug, sectionId)),
+  fetchCommentsForSortableList: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchMoreComments: (sectionId, ordering, nextUrl) => dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
+});
+
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(FullscreenHearingContainerComponent));

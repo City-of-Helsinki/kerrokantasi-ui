@@ -10,7 +10,7 @@ import Icon from '../../../utils/Icon';
  * Functional component to display "Show more reply's button"
  * Keep component simple and effective and contained within comment component hierarchy.
  */
-const ShowMore = ({ isLoadingSubComment = false, open = false, ...props }) => {
+const ShowMore = (props) => {
   /**
    * Event handler for when hyperlink is clicked.
    * Override and prevent default action, so it doesn't act like a hyperlink.
@@ -25,17 +25,17 @@ const ShowMore = ({ isLoadingSubComment = false, open = false, ...props }) => {
    * @type {{msg: (string), icon: (string)}}
    */
   const toggle = {
-    icon: open ? 'chevron-up' : 'chevron-down',
-    msg: open ? 'hideReplies' : 'showMoreReplies',
+    icon: props.open ? 'chevron-up' : 'chevron-down',
+    msg: props.open ? 'hideReplies' : 'showMoreReplies',
   };
 
   return (
     <div className='hearing-comment__show-more'>
-      {isLoadingSubComment ? (
+      {props.isLoadingSubComment ? (
         <LoadSpinner style={{ padding: '12px' }} />
       ) : (
         <span className='hearing-comment__show-more__wrapper'>
-          <a href='' onClick={handleShowMore} role='button' aria-expanded={open}>
+          <a href='' onClick={handleShowMore} role='button' aria-expanded={props.open}>
             <Icon name={toggle.icon} aria-hidden='true' />
             <FormattedMessage id={toggle.msg} />
             <span className='hearing-comment__show-more__count'>{`(${props.numberOfComments})`}</span>
@@ -51,6 +51,11 @@ ShowMore.propTypes = {
   onClickShowMore: PropTypes.func.isRequired,
   isLoadingSubComment: PropTypes.bool,
   open: PropTypes.bool,
+};
+
+ShowMore.defaultProps = {
+  isLoadingSubComment: false,
+  open: false,
 };
 
 export default injectIntl(ShowMore);

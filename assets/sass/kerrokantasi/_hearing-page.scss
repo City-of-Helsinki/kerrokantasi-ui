@@ -370,17 +370,20 @@
 }
 
 .hearing-contacts {
-  display: flex;
-  flex-wrap: wrap;
-  .hearing-contact {
-    flex: 1;
-    max-width: 33.3%;
-    min-width: 25%;
-    margin-bottom: $line-height-computed;
-  }
   .contact-card {
     margin-bottom: $line-height-computed;
-    width: 100%;
+
+    @media (max-width: $screen-sm-max) {
+      &:nth-child(2n + 1) {
+        clear: both;
+      }
+    }
+
+    @media (min-width: $screen-md-min) {
+      &:nth-child(3n + 1) {
+        clear: both;
+      }
+    }
   }
 }
 

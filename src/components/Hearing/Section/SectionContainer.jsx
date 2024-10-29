@@ -7,9 +7,8 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-import { useParams, useLocation } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -26,6 +25,12 @@ import getAttr from '../../../utils/getAttr';
 import SubSectionsList from './SubSectionsList';
 import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';
 import { parseQuery } from '../../../utils/urlQuery';
+import {
+  getSections,
+  getHearingContacts,
+  getHearingWithSlug,
+  getMainSectionComments,
+} from '../../../selectors/hearing';
 import { SectionTypes, isSectionVotable, isSectionCommentable, isMainSection } from '../../../utils/section';
 import {
   postSectionComment,
@@ -38,24 +43,29 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-import { getHearingWithSlug, getMainSectionComments, getSections, getHearingContacts } from '../../../selectors/hearing';
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 
 const SectionContainerComponent = ({
+  contacts,
   editCommentFn,
   deleteSectionCommentFn,
   fetchAllCommentsFn,
   fetchMoreCommentsFn,
   fetchCommentsForSortableListFn,
   getCommentSubCommentsFn,
+  hearing,
+  mainSectionComments,
+  match: { params },
   language,
+  location,
   onPostReply,
   postSectionCommentFn,
   postFlagFn,
   postVoteFn,
+  sections,
   user,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
@@ -66,15 +76,8 @@ const SectionContainerComponent = ({
   const [mainHearingContactsOpen, setMainHearingContactsOpen] = useState(false);
   const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
 
-  const { hearingSlug, sectionId } = useParams();
-  const { search }  = useLocation();
+  const { hearingSlug, sectionId } = params;
 
-  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
-  const sections = useSelector((state) => getSections(state, hearingSlug));
-  const mainSectionComments = useSelector((state) => getMainSectionComments(state, hearingSlug));
-  const contacts = useSelector((state) => getHearingContacts(state, hearingSlug));
-  const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
-  const section = sections.find((sec) => sec.id === sectionId) || mainSection;
   const [data, setData] = useState({
     showDeleteModal: false,
     commentToDelete: {},
@@ -83,12 +86,10 @@ const SectionContainerComponent = ({
     mapContainerMobile: null,
   });
 
-  const { showDeleteModal } = data;
-
   const getSectionNav = () => {
-    const filterNotClosedSections = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE);
-    const filteredSections = filterNotClosedSections.filter((sec) => sec.type !== SectionTypes.MAIN);
-    const currentSectionIndex = sectionId ? filteredSections.findIndex((sec) => sec.id === sectionId) : 0;
+    const filterNotClosedSections = sections.filter((section) => section.type !== SectionTypes.CLOSURE);
+    const filteredSections = filterNotClosedSections.filter((section) => section.type !== SectionTypes.MAIN);
+    const currentSectionIndex = sectionId ? filteredSections.findIndex((section) => section.id === sectionId) : 0;
     const prevPath =
       currentSectionIndex - 1 >= 0 ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}` : undefined;
     const nextPath =
@@ -147,7 +148,7 @@ const SectionContainerComponent = ({
 
   const onPostComment = (commentSectionId, sectionCommentData) => {
     // Done
-    const { authCode } = parseQuery(search);
+    const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
 
     return postSectionCommentFn(hearingSlug, commentSectionId, commentData);
@@ -162,7 +163,7 @@ const SectionContainerComponent = ({
   };
 
   const onEditComment = (commentSectionId, commentId, commentData) => {
-    const { authCode } = parseQuery(search);
+    const { authCode } = parseQuery(location.search);
 
     const updatedCommentData = { ...commentData, authCode };
 
@@ -177,12 +178,14 @@ const SectionContainerComponent = ({
 
   const onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
     const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
-    const { authCode } = parseQuery(search);
+    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
+    const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...sectionCommentData };
     postSectionCommentFn(hearingSlug, mainSection.id, commentData);
   };
 
   const onVotePluginComment = (commentId) => {
+    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
     const commentSectionId = mainSection.id;
     postVoteFn(commentId, hearingSlug, commentSectionId);
   };
@@ -217,7 +220,7 @@ const SectionContainerComponent = ({
    * If files are attached to the section, render the files section
    * @returns {JSX<Component>} component if files exist.
    */
-  const renderFileSection = (renderLanguage, published) => {
+  const renderFileSection = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -340,7 +343,7 @@ const SectionContainerComponent = ({
     }
 
     return (
-      <section className='hearing-section'>
+      <section className='hearing-section hearing-contacts'>
         <h2>
           <button
             type='button'
@@ -363,13 +366,11 @@ const SectionContainerComponent = ({
         >
           <div className='accordion-content'>
             <div className='section-content-spacer'>
-              <div className='hearing-contacts'>
+              <Row>
                 {renderContactlist.map((person) => (
-                  <div className='hearing-contact'>
-                    <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
-                  </div>
+                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
                 ))}
-              </div>
+              </Row>
             </div>
           </div>
         </Collapse>
@@ -405,6 +406,10 @@ const SectionContainerComponent = ({
   const renderCommentsSection = () => {
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
+
+    const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
+    const section = sections.find((sec) => sec.id === sectionId) || mainSection;
+
     return (
       <section className='hearing-section comments-section' id='comments-section' tabIndex={-1}>
         {reportUrl && renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
@@ -434,7 +439,7 @@ const SectionContainerComponent = ({
     );
   };
 
-  const renderSectionImage = (renderLanguage) => {
+  const renderSectionImage = (section, renderLanguage) => {
     const sectionImage = section.images[0];
     const { showLightbox } = data;
 
@@ -455,14 +460,14 @@ const SectionContainerComponent = ({
     );
   };
 
-  const renderSectionContent = (renderLanguage) => {
+  const renderSectionContent = (section, renderLanguage) => {
     if (isEmpty(section.content)) {
       return null;
     }
     return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, renderLanguage) }} />;
   };
 
-  const renderSectionAbstract = (renderLanguage) => {
+  const renderSectionAbstract = (section, renderLanguage) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
@@ -470,10 +475,10 @@ const SectionContainerComponent = ({
     return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, renderLanguage) }} />;
   };
 
-  const renderMainDetails = (renderHearing, renderSection, renderLanguage) => {
-    const sectionImage = renderSection.images[0];
+  const renderMainDetails = (renderHearing, section, renderLanguage) => {
+    const sectionImage = section.images[0];
 
-    if (!isEmpty(renderSection.content) || sectionImage) {
+    if (!isEmpty(section.content) || sectionImage) {
       return (
         <section className='hearing-section main-content'>
           <h2>
@@ -498,13 +503,13 @@ const SectionContainerComponent = ({
           >
             <div className='accordion-content'>
               <div className='section-content-spacer'>
-                {renderSectionImage(renderLanguage)}
+                {renderSectionImage(section, renderLanguage)}
                 {/* Render main section title if it exists and it's not the same as the hearing title */}
-                {!isEmpty(renderSection.title) &&
-                  getAttr(renderHearing.title, renderLanguage) !== getAttr(renderSection.title, renderLanguage) && (
-                    <h3>{getAttr(renderSection.title, renderLanguage)}</h3>
+                {!isEmpty(section.title) &&
+                  getAttr(renderHearing.title, renderLanguage) !== getAttr(section.title, renderLanguage) && (
+                    <h3>{getAttr(section.title, renderLanguage)}</h3>
                   )}
-                {renderSectionContent(renderLanguage)}
+                {renderSectionContent(section, renderLanguage)}
               </div>
             </div>
           </Collapse>
@@ -514,7 +519,7 @@ const SectionContainerComponent = ({
     return null;
   };
 
-  const renderMainHearing = () => {
+  const renderMainHearing = (section, mainSection) => {
     const published = 'published' in hearing ? hearing.published : true;
 
     return (
@@ -529,11 +534,11 @@ const SectionContainerComponent = ({
         <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
           {renderMainDetails(hearing, section, language)}
 
-          {renderProjectPhaseSection(language)}
+          {renderProjectPhaseSection(hearing, language)}
 
           {renderContacts(contacts, language)}
 
-          {renderFileSection(language, published)}
+          {renderFileSection(section, language, published)}
           {mainSection.plugin_identifier && (
             <section className='hearing-section plugin-content'>
               <PluginContent
@@ -568,12 +573,11 @@ const SectionContainerComponent = ({
             </div>
           </Col>
         )}
-
       </>
     );
   };
 
-  const renderSubSectionAttachments = (renderLanguage, published) => {
+  const renderSubSectionAttachments = (section, renderLanguage, published) => {
     const { files } = section;
 
     if (!(files && files.length > 0)) {
@@ -598,7 +602,7 @@ const SectionContainerComponent = ({
     );
   };
 
-  const renderSubHearing = () => {
+  const renderSubHearing = (section) => {
     const showSectionBrowser = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
     const published = 'published' in hearing ? hearing.published : true;
 
@@ -632,10 +636,10 @@ const SectionContainerComponent = ({
           </div>
         )}
 
-        {renderSectionImage(language)}
-        {renderSectionAbstract(language)}
-        {renderSectionContent(language)}
-        {renderSubSectionAttachments(language, published)}
+        {renderSectionImage(section, language)}
+        {renderSectionAbstract(section, language)}
+        {renderSectionContent(section, language)}
+        {renderSubSectionAttachments(section, language, published)}
 
         {showSectionBrowser && <SectionBrowser sectionNav={getSectionNav()} />}
 
@@ -643,6 +647,11 @@ const SectionContainerComponent = ({
       </Col>
     );
   };
+
+  const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
+  const section = sections.find((sec) => sec.id === sectionId) || mainSection;
+
+  const { showDeleteModal } = data;
 
   return isEmpty(section) ? (
     <LoadSpinner />
@@ -652,16 +661,20 @@ const SectionContainerComponent = ({
         data-testid='hearing-content-section'
         className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}
       >
-        <Row>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</Row>
+        <Row>{isMainSection(section) ? renderMainHearing(section, mainSection) : renderSubHearing(section)}</Row>
       </div>
       <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />
     </Grid>
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
+  hearing: getHearingWithSlug(state, ownProps.match.params.hearingSlug),
+  sections: getSections(state, ownProps.match.params.hearingSlug),
   sectionComments: state.sectionComments,
+  mainSectionComments: getMainSectionComments(state, ownProps.match.params.hearingSlug),
   language: state.language,
+  contacts: getHearingContacts(state, ownProps.match.params.hearingSlug),
   user: getUser(state),
 });
 
@@ -695,6 +708,7 @@ SectionContainerComponent.propTypes = {
   hearing: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
+  location: PropTypes.object,
   mainSectionComments: PropTypes.object,
   match: PropTypes.object,
   postSectionCommentFn: PropTypes.func,

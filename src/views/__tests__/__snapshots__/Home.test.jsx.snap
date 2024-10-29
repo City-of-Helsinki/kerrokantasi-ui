@@ -17,12 +17,16 @@ exports[`<Home /> should render correctly 1`] = `
             class="welcome-content col-md-8 col-xs-10"
           >
             <h1>
-              welcome
+              <span>
+                welcome
+              </span>
             </h1>
             <p
               class="lead"
             >
-              welcomeMessage
+              <span>
+                welcomeMessage
+              </span>
             </p>
           </div>
         </div>
@@ -40,7 +44,9 @@ exports[`<Home /> should render correctly 1`] = `
         <h2
           class="page-title"
         >
-          openHearings
+          <span>
+            openHearings
+          </span>
         </h2>
         <div
           class="fullwidth-hearing "
@@ -78,16 +84,22 @@ exports[`<Home /> should render correctly 1`] = `
               <span
                 class="sr-only"
               >
-                hearingCardFullWidthComment
+                <span>
+                  hearingCardFullWidthComment
+                </span>
               </span>
             </div>
             <div
               class="fullwidth-hearing-times"
             >
               <span>
-                timeOpenPast
+                <span>
+                  timeOpenPast
+                </span>
                  
-                7 vuotta sitten
+                <span>
+                  7 vuotta sitten
+                </span>
                 .
               </span>
                
@@ -111,7 +123,9 @@ exports[`<Home /> should render correctly 1`] = `
                 aria-hidden="true"
                 class="fa fa-exclamation-circle"
               />
-              hearingTranslationNotAvailable
+              <span>
+                hearingTranslationNotAvailable
+              </span>
               <div
                 class="language-available-message"
                 lang="fi"
@@ -141,7 +155,9 @@ exports[`<Home /> should render correctly 1`] = `
                 <span
                   class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
                 >
-                  allHearings
+                  <span>
+                    allHearings
+                  </span>
                 </span>
               </button>
             </a>
@@ -162,17 +178,129 @@ exports[`<Home /> should render correctly 1`] = `
           class="map"
         >
           <h2>
-            open-hearings-on-map
+            <span>
+              open-hearings-on-map
+            </span>
           </h2>
           <div
-            data-testid="MapContainer"
+            class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+            style="height: 600px; width: 100%; position: relative;"
+            tabindex="0"
           >
             <div
-              data-testid="TileLayer"
-            />
+              class="leaflet-pane leaflet-map-pane"
+              style="left: 0px; top: 0px;"
+            >
+              <div
+                class="leaflet-pane leaflet-tile-pane"
+              >
+                <div
+                  class="leaflet-layer "
+                  style="z-index: 1;"
+                >
+                  <div
+                    class="leaflet-tile-container leaflet-zoom-animated"
+                    style="z-index: 18; left: 0px; top: 0px;"
+                  >
+                    <img
+                      alt=""
+                      class="leaflet-tile"
+                      src="http://tiles.hel.ninja/styles/hel-osm-bright/10/582/296@2x.png"
+                      style="width: 256px; height: 256px; left: -245px; top: -70px;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="leaflet-pane leaflet-overlay-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-shadow-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-marker-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-tooltip-pane"
+              />
+              <div
+                class="leaflet-pane leaflet-popup-pane"
+              />
+            </div>
             <div
-              data-testid="FeatureGroup"
-            />
+              class="leaflet-control-container"
+            >
+              <div
+                class="leaflet-top leaflet-left"
+              >
+                <div
+                  class="leaflet-control-zoom leaflet-bar leaflet-control"
+                >
+                  <a
+                    aria-disabled="false"
+                    aria-label="Zoom in"
+                    class="leaflet-control-zoom-in"
+                    href="#"
+                    role="button"
+                    title="Zoom in"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </a>
+                  <a
+                    aria-disabled="false"
+                    aria-label="Zoom out"
+                    class="leaflet-control-zoom-out"
+                    href="#"
+                    role="button"
+                    title="Zoom out"
+                  >
+                    <span
+                      aria-hidden="true"
+                    >
+                      −
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="leaflet-top leaflet-right"
+              />
+              <div
+                class="leaflet-bottom leaflet-left"
+              />
+              <div
+                class="leaflet-bottom leaflet-right"
+              >
+                <div
+                  class="leaflet-control-attribution leaflet-control"
+                >
+                  <a
+                    href="https://leafletjs.com"
+                    title="A JavaScript library for interactive maps"
+                  >
+                    Leaflet
+                  </a>
+                   
+                  <span
+                    aria-hidden="true"
+                  >
+                    |
+                  </span>
+                   © 
+                  <a
+                    href="http://osm.org/copyright"
+                  >
+                    OpenStreetMap
+                  </a>
+                   contributors
+                </div>
+              </div>
+            </div>
+            <div />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 import config from "../config";
 
 const port = window.location?.port || '';
-const baseUrl = `${window.location.protocol}//${window.location.hostname}${port ? `:${port}` : ''}`;
+const baseUrl = `${window.location.protocol}//${window.location.hostname}${port ? `:${  port}` : ''}`;
 
 const commonOidcConfig = {
   silent_redirect_uri: `${baseUrl}/silent-renew/`,
@@ -24,7 +24,12 @@ const apiTokenClientConfigProfiili = {
   audiences: [config.openIdAudience],
 }
 
-const resolveApiTokenClientConfig = () => apiTokenClientConfigProfiili
+const resolveApiTokenClientConfig = () => {
+  if (config.openIdScope === 'openid profile email') {
+    return apiTokenClientConfigProfiili;
+  }
+  return apiTokenClientConfigCommon;
+}
 
 const exportedApiTokenClientConfig = resolveApiTokenClientConfig();
 

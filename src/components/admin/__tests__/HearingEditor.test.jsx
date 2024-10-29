@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { UnconnectedHearingEditor } from '../HearingEditor';
 import { getIntlAsProp, mockStore, mockUser } from '../../../../test-utils';
-import { createLocalizedNotificationPayload } from '../../../utils/notify';
+import { notifyError } from '../../../utils/notify';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
 jest.mock('../../../utils/notify');
@@ -94,6 +94,6 @@ describe('<HearingEditor />', () => {
 
     user.click(button);
 
-    await waitFor(() => expect(createLocalizedNotificationPayload).toHaveBeenCalled());
+    await waitFor(() => expect(notifyError).toHaveBeenCalled());
   });
 });

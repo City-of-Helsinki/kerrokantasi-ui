@@ -1,7 +1,6 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';
@@ -175,7 +174,7 @@ class SkipLinkModal extends React.Component {
 
 SkipLinkModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: PropTypes.object,
+  intl: intlShape.isRequired,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };

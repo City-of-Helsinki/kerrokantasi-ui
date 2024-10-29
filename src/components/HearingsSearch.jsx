@@ -1,8 +1,7 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Select from 'react-select';
 import { isEmpty } from 'lodash';
 import { SearchInput, Button } from 'hds-react';
@@ -48,13 +47,11 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               </ControlLabel>
               {!isEmpty(labels) && (
                 <Select
-                  className='hearings-search__select'
-                  isMulti
+                  className="hearings-search__select"
+                  multi
                   value={selectedLabels}
                   options={labelsAsOptions}
-                  onChange={(values) => { 
-                    handleSelectLabels(values);
-                  }}
+                  onChange={(value) => handleSelectLabels(value)}
                   placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
                   id='formControlsSearchSelect'
                 />
@@ -80,7 +77,7 @@ HearingsSearch.propTypes = {
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
   selectedLabels: PropTypes.arrayOf(PropTypes.string),
-  intl: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
 export default HearingsSearch;

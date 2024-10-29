@@ -1,10 +1,9 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import { ControlLabel } from 'react-bootstrap';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import { Button, Dialog } from 'hds-react';
@@ -158,10 +157,10 @@ class LabelModal extends React.Component {
 }
 
 LabelModal.propTypes = {
+  intl: intlShape.isRequired,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onCreateLabel: PropTypes.func,
-  intl: PropTypes.object,
 };
 
 export default injectIntl(LabelModal);

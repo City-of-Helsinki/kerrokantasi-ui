@@ -1,8 +1,7 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { get, isEmpty } from 'lodash';
 import { ControlLabel, FormControl, FormGroup, HelpBlock, Image, ButtonGroup, Checkbox } from 'react-bootstrap';
 import { Button } from 'hds-react';
@@ -11,13 +10,12 @@ import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
 
 import { QuestionForm } from './QuestionForm';
 import Icon from '../../utils/Icon';
-import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import { localizedNotifyError, notifyError } from '../../utils/notify';
 import SectionAttachmentEditor from './SectionAttachmentEditor';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 import config from '../../config';
-import { addToast } from '../../actions/toast';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -66,15 +64,6 @@ class SectionForm extends React.Component {
     this.state = {
       enabledCommentMap: false,
     };
-    this.acceptedFiles = {
-      'application/pdf': ['.pdf'],
-    };
-    this.acceptedImages = {
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-      'image/webp': ['.webp'],
-      'image/gif': ['.gif'],
-    };
   }
 
   componentDidMount() {
@@ -106,20 +95,20 @@ class SectionForm extends React.Component {
   }
 
   onFileDrop(files) {
-    const { onSectionImageChange, section, dispatch } = this.props;
+    const { onSectionImageChange, section } = this.props;
     if (files[0].size > MAX_IMAGE_SIZE) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageSizeError')));
+      localizedNotifyError('imageSizeError');
       return;
     }
     if (!onSectionImageChange) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageGenericError')));
+      localizedNotifyError('imageGenericError');
       return;
     }
 
     const file = files[0]; // Only one file is supported for now.
     const fileReader = new FileReader();
     fileReader.addEventListener('error', () => {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+      localizedNotifyError('imageFileUploadError');
     });
     fileReader.addEventListener(
       'load',
@@ -128,7 +117,7 @@ class SectionForm extends React.Component {
         const img = document.createElement('img');
         img.src = event.target.result;
         img.onerror = () => {
-          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+          localizedNotifyError('imageFileUploadError');
         };
         img.onload = () => {
           // Canvas element is created with content from the new img.
@@ -158,8 +147,6 @@ class SectionForm extends React.Component {
    * @param {File} attachment - file to upload.
    */
   onAttachmentDrop = (attachment) => {
-
-    const { section, language, dispatch } = this.props;
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1000 * 1000;
     if (attachment[0].size > MAX_FILE_SIZE_BYTES) {
       const localizedErrorMessage = (
@@ -167,10 +154,11 @@ class SectionForm extends React.Component {
           {(text) => text}
         </FormattedMessage>
       );
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, localizedErrorMessage)));
+      notifyError(localizedErrorMessage);
       return;
     }
     // Load the file and then upload it.
+    const { section, language } = this.props;
     const file = attachment[0];
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
@@ -283,7 +271,10 @@ class SectionForm extends React.Component {
               >
                 &uarr; <FormattedMessage id='moveUp' />
               </Button>
-              <Button onClick={() => sectionMoveDown(section.frontId)} disabled={isLastSubsection}>
+              <Button
+                onClick={() => sectionMoveDown(section.frontId)}
+                disabled={isLastSubsection}
+              >
                 <FormattedMessage id='moveDown' /> &darr;
               </Button>
             </ButtonGroup>
@@ -304,21 +295,14 @@ class SectionForm extends React.Component {
           <ControlLabel>
             <FormattedMessage id='sectionImage' />
           </ControlLabel>
-          <Dropzone accept={this.acceptedImages} multiple={false} onDrop={this.onFileDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <>
-                {this.getImagePreview()}
-                <div className={dropZoneClass}>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <span className='text'>
-                      <FormattedMessage id='selectOrDropImage' />
-                      <Icon className='icon' name='upload' />
-                    </span>
-                  </div>
-                </div>
-              </>
-            )}
+          <Dropzone accept='image/*' className={dropZoneClass} multiple={false} onDrop={this.onFileDrop}>
+            {this.getImagePreview()}
+            <div className='overlay'>
+              <span className='text'>
+                <FormattedMessage id='selectOrDropImage' />
+                <Icon className='icon' name='upload' />
+              </span>
+            </div>
           </Dropzone>
           <HelpBlock>
             <FormattedMessage id='sectionImageHelpText' />
@@ -427,18 +411,11 @@ class SectionForm extends React.Component {
           <ControlLabel>
             <FormattedMessage id='hearingFileUpload' />
           </ControlLabel>
-          <Dropzone accept={this.acceptedFiles} multiple={false} onDrop={this.onAttachmentDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <div className={dropZoneClass}>
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <span className='text'>
-                    <FormattedMessage id='selectOrDropFile' />
-                    <Icon className='icon' name='upload' />
-                  </span>
-                </div>
-              </div>
-            )}
+          <Dropzone accept='application/pdf' className={dropZoneClass} multiple={false} onDrop={this.onAttachmentDrop}>
+            <span className='text'>
+              <FormattedMessage id='selectOrDropFile' />
+              <Icon className='icon' name='upload' />
+            </span>
           </Dropzone>
           {this.renderAttachments(section)}
         </FormGroup>
@@ -510,9 +487,9 @@ SectionForm.defaultProps = {
 SectionForm.propTypes = {
   addOption: PropTypes.func,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   initMultipleChoiceQuestion: PropTypes.func,
   initSingleChoiceQuestion: PropTypes.func,
+  intl: intlShape.isRequired,
   isFirstSubsection: PropTypes.bool,
   isLastSubsection: PropTypes.bool,
   isPublic: PropTypes.bool,
@@ -531,7 +508,6 @@ SectionForm.propTypes = {
   sectionLanguages: PropTypes.arrayOf(PropTypes.string),
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  intl: PropTypes.object,
 };
 
 SectionForm.contextTypes = {
@@ -539,7 +515,7 @@ SectionForm.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  language: state.language,
+  language: state.language
 });
 
 const WrappedSectionForm = injectIntl(SectionForm);

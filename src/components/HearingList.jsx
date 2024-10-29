@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { Waypoint } from 'react-waypoint';
-import { FormattedMessage, FormattedPlural } from 'react-intl';
+import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
 import { Nav, NavItem, FormGroup, FormControl, ControlLabel, Checkbox, Row, Col, Label } from 'react-bootstrap';
 import { keys, capitalize } from 'lodash';
 import defaultImage from '@city-images/default-image.svg';
@@ -235,7 +235,7 @@ export const HearingList = ({
   handleSelectLabels,
   handleSort,
   hearings,
-  hearingCount = 0,
+  hearingCount,
   isLoading,
   isMobile,
   labels,
@@ -251,7 +251,6 @@ export const HearingList = ({
 }) => {
   const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
-
   const { formatMessage, formatTime, formatDate } = intl;
 
   const hearingListMap = hearingsToShow ? (
@@ -332,7 +331,7 @@ export const HearingList = ({
                     <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
                   </div>
 
-                  <div className='hearing-list' data-testid='hearing-list'>
+                  <div className='hearing-list'>
                     <div role='list'>
                       {hearings.map((hearing) => (
                         <HearingListItem
@@ -364,6 +363,7 @@ HearingList.propTypes = {
   handleSort: PropTypes.func,
   hearings: PropTypes.array,
   hearingCount: PropTypes.number,
+  intl: intlShape.isRequired,
   isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
@@ -375,7 +375,11 @@ HearingList.propTypes = {
   tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,
   handleReachBottom: PropTypes.func,
-  intl: PropTypes.object,
+};
+
+HearingList.defaultProps = {
+  tab: HEARING_LIST_TABS.LIST,
+  hearingCount: 0,
 };
 
 export default HearingList;

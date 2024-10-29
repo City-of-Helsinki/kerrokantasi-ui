@@ -2,42 +2,20 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { uniqueId } from 'lodash';
-import { createMemoryHistory } from 'history';
 
 import SectionContainerComponent from '../SectionContainer';
 import { mockStore as mockData } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
-import * as mockApi from '../../../../api';
-
-const mockedData = {
-  results: [],
-};
-
-jest.spyOn(mockApi, 'get').mockImplementation(() => ( 
-  Promise.resolve(
-    {
-      json: () => Promise.resolve(mockedData),
-      blob: () => Promise.resolve({}),
-    }
-  )));
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: `/${mockData.mockHearingWithSections.data.id}`,
-    search: '',
-  }),
-  useParams: () => ({
-    hearingSlug: mockData.mockHearingWithSections.data.id,
-  }),
-}));
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
+const mockedData = {
+  results: [],
+};
 jest.mock('../../../../api', () => {
   const actual = jest.requireActual('../../../../api');
 
@@ -55,8 +33,8 @@ const renderComponent = (storeOverrides) => {
 
   const store = mockStore({
     hearing: {
-      [mockHearingWithSections.data.id]: {
-        ...mockHearingWithSections
+      [mockHearingWithSections.data.slug]: {
+        data: mockHearingWithSections.data,
       },
     },
     accessibility: {
@@ -71,33 +49,32 @@ const renderComponent = (storeOverrides) => {
 
   const props = {
     hearing: {
-      [mockHearingWithSections.data.id]: {
+      [mockHearingWithSections.data.slug]: {
         data: mockHearingWithSections.data,
       },
+    },
+    match: {
+      params: {
+        hearingSlug: mockHearingWithSections.data.slug,
+      },
+    },
+    location: {
+      pathname: `/${mockHearingWithSections.data.slug}`,
     },
     fetchCommentsForSortableList: jest.fn(),
   };
 
-  const history = createMemoryHistory();
-
   return renderWithProviders(
-    <MemoryRouter>
+    <BrowserRouter>
       <SectionContainerComponent {...props} />
-    </MemoryRouter>,
-    { store, history },
+    </BrowserRouter>,
+    { store },
   );
 };
 
 describe('<SectionContainer />', () => {
-  const { mockHearingWithSections } = mockData;
   it('should render correctly', () => {
     renderComponent();
-    expect(screen.getByTestId('hearing-content-section')).toBeInTheDocument();
-  });
-
-  it('should display the correct image caption from first section', () => {
-    renderComponent();
-    expect(screen.getByText(mockHearingWithSections.data.sections[0].images[0].caption.fi)).toBeInTheDocument();
   });
 
   it('should render correctly when user is admin', () => {
@@ -112,7 +89,7 @@ describe('<SectionContainer />', () => {
     renderComponent({
       user: { data: mockUser },
       hearing: {
-        [mockData.mockHearingWithSections.data.id]: {
+        [mockData.mockHearingWithSections.data.slug]: {
           data: {
             ...mockData.mockHearingWithSections.data,
             sections: mockData.mockHearingWithSections.data.sections.map((section) => ({
@@ -151,7 +128,7 @@ describe('<SectionContainer />', () => {
   it('should render with empty sections', async () => {
     renderComponent({
       hearing: {
-        [mockData.mockHearingWithSections.data.id]: {
+        [mockData.mockHearingWithSections.data.slug]: {
           data: {
             ...mockData.mockHearingWithSections.data,
             sections: [
@@ -167,7 +144,7 @@ describe('<SectionContainer />', () => {
   it('should render with empty contacts', async () => {
     renderComponent({
       hearing: {
-        [mockData.mockHearingWithSections.data.id]: {
+        [mockData.mockHearingWithSections.data.slug]: {
           data: {
             ...mockData.mockHearingWithSections.data,
             contact_persons: [],

@@ -100,6 +100,6 @@ describe('FormatRelativeTime', () => {
       formatDate: mockFormatDate,
     });
 
-    expect(getByText('timeClosePast', { exact: false })).toBeInTheDocument();
+    expect(getByText('timeClosePast')).toBeInTheDocument();
   });
 });

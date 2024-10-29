@@ -2,7 +2,9 @@
 import identity from 'lodash/identity';
 import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
+import { wrapHistory } from "oaf-react-router";
 import { compose, createStore, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from "@sentry/react";
 
@@ -13,9 +15,19 @@ import rootReducer from './reducers';
 
 export const history = createBrowserHistory();
 
+const historySettings = {
+  // eslint-disable-next-line no-unused-vars
+  documentTitle: (location) => document.title || "Kerrokantasi",
+  announcePageNavigation: false, // default true
+  setPageTitle: false,
+  primaryFocusTarget: "body",
+};
+
+wrapHistory(history, historySettings);
 
 const middleware = [
   thunk,
+  routerMiddleware(history),
   languageMiddleware,
   headlessMiddleware,
   ...hearingEditorMiddleware];

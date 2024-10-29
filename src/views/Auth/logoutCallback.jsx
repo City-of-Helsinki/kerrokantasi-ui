@@ -1,31 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SignoutCallbackComponent } from 'redux-oidc';
-import { useNavigate } from 'react-router-dom';
+import { push } from 'react-router-redux';
 
 import userManager from '../../utils/oidcConfig';
 
-const UnconnectedLogoutCallback = () => {
-  const navigate = useNavigate();
-  const logoutSuccessful = () => {
+class UnconnectedLogoutCallback extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.logoutSuccessful = this.logoutSuccessful.bind(this);
+    this.logoutUnsuccessful = this.logoutUnsuccessful.bind(this);
+  }
+
+  logoutSuccessful() {
     localStorage.removeItem('votedComments');
-    navigate('/');
+    this.props.dispatch(push('/'));
   }
 
-  const logoutUnsuccessful = () => {
-    navigate('/');
+  logoutUnsuccessful() {
+    this.props.dispatch(push('/'));
   }
 
-  return (
-    <SignoutCallbackComponent
-      errorCallback={() => logoutUnsuccessful()}
-      successCallback={() => logoutSuccessful()}
-      userManager={userManager}
-    >
-      <div />
-    </SignoutCallbackComponent>
-  );
+  render() {
+    return (
+      <SignoutCallbackComponent
+        errorCallback={(error) => this.logoutUnsuccessful(error)}
+        successCallback={(user) => this.logoutSuccessful(user)}
+        userManager={userManager}
+      >
+        <div />
+      </SignoutCallbackComponent>
+    );
+  }
 }
+
+UnconnectedLogoutCallback.propTypes = {
+  dispatch: PropTypes.func,
+};
 
 export { UnconnectedLogoutCallback };
 export default connect()(UnconnectedLogoutCallback);
