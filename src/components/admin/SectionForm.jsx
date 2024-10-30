@@ -117,17 +117,6 @@ const SectionForm = ({
 
   const dispatch = useDispatch();
 
-  const acceptedFiles = {
-    'application/pdf': ['.pdf'],
-  };
-
-  const acceptedImages = {
-    'image/jpeg': ['.jpg', '.jpeg'],
-    'image/png': ['.png'],
-    'image/webp': ['.webp'],
-    'image/gif': ['.gif'],
-  };
-
   useEffect(() => {
     async function fetchImages() {
       if (section.images) {
@@ -361,7 +350,7 @@ const SectionForm = ({
           name='sectionImage'
           dragAndDrop
           label={<FormattedMessage id='sectionImage' />}
-          accept={acceptedImages}
+          accept='.jpeg,.png,.webp,.gif'
           helperText={<FormattedMessage id='sectionImageHelpText' />}
           language={language}
           onChange={onImageChange}
@@ -453,7 +442,7 @@ const SectionForm = ({
           name='selectOrDropFile'
           dragAndDrop
           label={<FormattedMessage id='selectOrDropFile' />}
-          accept={acceptedFiles}
+          accept='application/pdf'
           language={language}
           onChange={onAttachmentChange}
           defaultValue={attachments}

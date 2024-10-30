@@ -94,7 +94,7 @@ describe('<SectionForm />', () => {
       section: { ...mockHearingWithSections.data.sections[1], frontId: mockHearingWithSections.data.sections[1].id },
     });
 
-    const button = screen.getByText('moveUp');
+    const button = screen.getByText('moveUp', { exact: false });
 
     fireEvent.click(button);
 
@@ -110,7 +110,7 @@ describe('<SectionForm />', () => {
       section: { ...mockHearingWithSections.data.sections[1], frontId: mockHearingWithSections.data.sections[1].id },
     });
 
-    const button = screen.getByText('moveDown');
+    const button = screen.getByText('moveDown', { exact: false });
 
     fireEvent.click(button);
 
