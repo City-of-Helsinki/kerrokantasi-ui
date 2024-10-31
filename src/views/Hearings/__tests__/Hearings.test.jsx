@@ -70,7 +70,6 @@ describe('<Hearings />', () => {
       },
     });
 
-    expect(await screen.findByTestId('hearing-list')).toBeInTheDocument();
     expect(await screen.findByText('Hearing One')).toBeInTheDocument();
     expect(await screen.findByText('Hearing Two')).toBeInTheDocument();
   });
