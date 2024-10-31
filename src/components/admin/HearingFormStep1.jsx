@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button, Combobox, TextInput } from 'hds-react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
@@ -24,7 +24,6 @@ const HearingFormStep1 = ({
   intl: { formatMessage },
   labels: labelOptions,
   language,
-  dispatch,
   organizations,
   onHearingChange,
   onLanguagesChange,
@@ -38,6 +37,8 @@ const HearingFormStep1 = ({
   const [showContactModal, setShowContactModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState(selectedLabelsInitialState);
   const [selectedContacts, setSelectedContacts] = useState(selectedContactsInitialState);
+
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     // Propagate interesting changes to parent components
@@ -236,7 +237,6 @@ const HearingFormStep1 = ({
 
 HearingFormStep1.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
-  dispatch: PropTypes.func,
   errors: PropTypes.object,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),

@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
@@ -21,7 +21,6 @@ const HearingFormStep2 = ({
   hearingLanguages,
   sectionMoveUp,
   sectionMoveDown,
-  dispatch,
   addOption,
   deleteOption,
   onQuestionChange,
@@ -39,6 +38,8 @@ const HearingFormStep2 = ({
   intl,
 }) => {
   const [activeSection, setActiveSection] = useState(getMainSection(hearing).frontId);
+
+  const dispatch = useDispatch();
 
   const scrollModalToTop = () => {
     if (document && document.getElementsByClassName) {
@@ -153,7 +154,6 @@ HearingFormStep2.propTypes = {
   addOption: PropTypes.func,
   clearQuestions: PropTypes.func,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   initMultipleChoiceQuestion: PropTypes.func,

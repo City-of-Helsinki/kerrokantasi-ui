@@ -29,7 +29,6 @@ const HearingForm = ({
   labels,
   language,
   hearingLanguages,
-  dispatch,
   show,
   sectionMoveUp,
   sectionMoveDown,
@@ -145,7 +144,6 @@ const HearingForm = ({
             contactPersons={contactPersons}
             organizations={organizations}
             deleteOption={deleteOption}
-            dispatch={dispatch}
             editorMetaData={editorMetaData}
             errors={stepErrors}
             formatMessage={formatMessage}
@@ -309,7 +307,6 @@ HearingForm.propTypes = {
   organizations: PropTypes.arrayOf(organizationShape),
   currentStep: PropTypes.number,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
   errors: PropTypes.object,
   hearing: hearingShape,
