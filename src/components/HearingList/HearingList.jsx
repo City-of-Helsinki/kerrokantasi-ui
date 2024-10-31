@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { Waypoint } from 'react-waypoint';
-import { FormattedMessage, FormattedPlural, intlShape } from 'react-intl';
+import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { keys } from 'lodash';
 import { Checkbox as HDSCheckbox, Tabs as HDSTabs } from 'hds-react';
 
@@ -178,7 +178,7 @@ HearingList.propTypes = {
   handleSort: PropTypes.func,
   hearings: PropTypes.array,
   hearingCount: PropTypes.number,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object,
   isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
   labels: PropTypes.arrayOf(labelShape),
