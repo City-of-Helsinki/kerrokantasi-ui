@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.9...kerrokantasi-ui-v1.7.0) (2024-10-31)
+
+
+### Features
+
+* Upgrade to React 18 ([46d94cf](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/46d94cf0d634919308135601d4aa83557f3cab50))
+* Upgrade to React Router v6 ([46d94cf](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/46d94cf0d634919308135601d4aa83557f3cab50))
+
+
+### Bug Fixes
+
+* Fixed contacts not stacking on mobile sizes ([#1089](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1089)) ([630514a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/630514a488083ba6381e96e76beda885e7aefccd))
+* Other dependencies upgraded ([46d94cf](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/46d94cf0d634919308135601d4aa83557f3cab50))
+* Refactored many components to match new Router v6 ([46d94cf](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/46d94cf0d634919308135601d4aa83557f3cab50))
+
 ## [1.6.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.8...kerrokantasi-ui-v1.6.9) (2024-10-08)
 
 
