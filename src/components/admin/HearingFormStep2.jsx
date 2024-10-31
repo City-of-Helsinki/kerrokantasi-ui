@@ -6,7 +6,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
 import { Accordion, Button } from 'hds-react';
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
 import Icon from '../../utils/Icon';
 import SectionForm from './SectionForm';
@@ -135,11 +134,9 @@ const HearingFormStep2 = ({
     <div className='form-step'>
       {getSections()}
       <div className='new-section-toolbar'>
-        <ButtonToolbar>
-          <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
-            <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
-          </Button>
-        </ButtonToolbar>
+        <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
+          <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
+        </Button>
       </div>
       <div className='step-footer'>
         <Button className='kerrokantasi-btn' onClick={onContinue}>
