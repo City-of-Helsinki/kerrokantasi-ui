@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Select } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { FILE_FORMATS } from './constants';
 import { getApiTokenFromStorage, getApiURL } from '../../api';
-import { localizedNotifyError } from '../../utils/notify';
+import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import { addToast } from '../../actions/toast';
 
 /**
  * Renders a form for reporting comments.
@@ -22,6 +23,8 @@ import { localizedNotifyError } from '../../utils/notify';
  */
 const CommentReportForm = ({ hearing, id, language }) => {
   const [fileFormat, setFileFormat] = useState(FILE_FORMATS.EXCEL.id);
+
+  const dispatch = useDispatch();
 
   /**
    * Handles the change event of the file format input.
@@ -73,7 +76,7 @@ const CommentReportForm = ({ hearing, id, language }) => {
 
       link.parentNode.removeChild(link);
     } catch (error) {
-      localizedNotifyError(error.message);
+      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, error.message)));
     }
   };
 
