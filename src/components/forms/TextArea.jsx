@@ -68,7 +68,6 @@ TextArea.propTypes = {
   placeholderId: PropTypes.string,
   intl: PropTypes.object,
   helperText: PropTypes.string,
-  intl: PropTypes.object,
 };
 
 export default injectIntl(TextArea);

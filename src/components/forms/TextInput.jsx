@@ -85,7 +85,6 @@ TextInput.propTypes = {
   value: PropTypes.string,
   intl: PropTypes.object,
   helperText: PropTypes.string,
-  intl: PropTypes.object,
 };
 
 export default injectIntl(TextInput);
