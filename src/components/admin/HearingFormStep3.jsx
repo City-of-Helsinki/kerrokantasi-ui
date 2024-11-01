@@ -1,16 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable camelcase */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
-import { Button } from 'hds-react';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import HelpBlock from 'react-bootstrap/lib/HelpBlock';
+import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
 import { connect, useDispatch } from 'react-redux';
 import localization from '@city-i18n/localization.json';
@@ -19,7 +15,6 @@ import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
-import Icon from '../../utils/Icon';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
@@ -70,13 +65,7 @@ const HearingFormStep3 = (props) => {
   let map;
   let featureGroup;
   const { hearing, language, isHighContrast, visible } = props; // const props
-  const {
-    onHearingChange,
-    onCreateMapMarker,
-    onAddMapMarker,
-    onAddMapMarkersToCollection,
-    onContinue,
-  } = props; // function props
+  const { onHearingChange, onCreateMapMarker, onAddMapMarker, onAddMapMarkersToCollection, onContinue } = props; // function props
   const [isEdited, setIsEdited] = useState(false);
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
@@ -90,7 +79,7 @@ const HearingFormStep3 = (props) => {
     // TODO: Implement proper onDrawEdited functionality
     setIsEdited(true);
     onHearingChange('geojson', getFirstGeometry(event.layers.toGeoJSON()));
-  }
+  };
 
   const onDrawCreated = (event) => {
     // TODO: Implement proper onDrawCreated functionality
@@ -127,7 +116,7 @@ const HearingFormStep3 = (props) => {
        */
       onAddMapMarkersToCollection(event.layer.toGeoJSON());
     }
-  }
+  };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const onDrawDeleted = (event) => {
@@ -194,7 +183,7 @@ const HearingFormStep3 = (props) => {
       setIsEdited(false);
       setInitialGeoJSON({});
     }
-  }
+  };
 
   const readTextFile = (file, callback) => {
     try {
@@ -208,8 +197,8 @@ const HearingFormStep3 = (props) => {
     }
   };
 
-  const onUploadGeoJSON = (event) => {
-    readTextFile(event.target.files[0], (json) => {
+  const onUploadGeoJSON = (files) => {
+    readTextFile(files[0], (json) => {
       try {
         const featureCollection = JSON.parse(json);
         if (
@@ -221,7 +210,9 @@ const HearingFormStep3 = (props) => {
           includes(keys(featureCollection.features[0].geometry), 'coordinates')
         ) {
           if (featureCollection.features[0].geometry.coordinates.length === 0) {
-            dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.')));
+            dispatch(
+              addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.')),
+            );
             return;
           }
           onHearingChange('geojson', featureCollection.features[0].geometry);
@@ -238,22 +229,20 @@ const HearingFormStep3 = (props) => {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  const getDrawOptions  = () => ({
-      circle: false,
-      circlemarker: false,
-      polyline: false,
-      marker: {
-        icon: new Leaflet.Icon({
-          iconUrl: leafletMarkerIconUrl,
-          shadowUrl: leafletMarkerShadowUrl,
-          iconRetinaUrl: leafletMarkerRetinaIconUrl,
-          iconSize: [25, 41],
-          iconAnchor: [13, 41],
-        }),
-      },
-    })
-
-
+  const getDrawOptions = () => ({
+    circle: false,
+    circlemarker: false,
+    polyline: false,
+    marker: {
+      icon: new Leaflet.Icon({
+        iconUrl: leafletMarkerIconUrl,
+        shadowUrl: leafletMarkerShadowUrl,
+        iconRetinaUrl: leafletMarkerRetinaIconUrl,
+        iconSize: [25, 41],
+        iconAnchor: [13, 41],
+      }),
+    },
+  });
 
   useEffect(() => {
     if (map && visible) {
@@ -261,20 +250,17 @@ const HearingFormStep3 = (props) => {
         map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end
     }
-  }, [visible, map])
+  }, [visible, map]);
 
   const refCallBack = (el) => {
     map = el;
   };
-  
-  if (typeof window === "undefined") return null;
+
+  if (typeof window === 'undefined') return null;
 
   return (
     <div className='form-step'>
-      <FormGroup controlId='hearingArea'>
-        <ControlLabel>
-          <FormattedMessage id='hearingArea' />
-        </ControlLabel>
+      <Fieldset id='hearingArea' heading={<FormattedMessage id='hearingArea' />}>
         <MapContainer
           ref={refCallBack}
           center={localization.mapPosition}
@@ -306,20 +292,18 @@ const HearingFormStep3 = (props) => {
                 edit: false,
               }}
             />
-            { getMapElement(initialGeoJSON) }
+            {getMapElement(initialGeoJSON)}
           </FeatureGroup>
         </MapContainer>
-      </FormGroup>
+      </Fieldset>
 
       <div className='step-control'>
-        <label className='geojson_button' htmlFor='geojsonUploader'>
-          <input id='geojsonUploader' type='file' onChange={onUploadGeoJSON} style={{ display: 'none' }} />
-          <Icon className='icon' name='upload' style={{ marginRight: '5px' }} />
-          <FormattedMessage id='addGeojson' />
-        </label>
-        <HelpBlock>
-          <FormattedMessage id='addGeojsonInfo' />
-        </HelpBlock>
+        <FileInput
+          id='geojsonUploader'
+          label={<FormattedMessage id='addGeojson' />}
+          onChange={onUploadGeoJSON}
+          helperText={<FormattedMessage id='addGeojsonInfo' />}
+        />
       </div>
       <div className='step-footer'>
         <Button className='kerrokantasi-btn' onClick={onContinue}>
@@ -328,7 +312,7 @@ const HearingFormStep3 = (props) => {
       </div>
     </div>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
@@ -346,6 +330,4 @@ HearingFormStep3.propTypes = {
   onCreateMapMarker: PropTypes.func,
 };
 
-const WrappedHearingFormStep3 = injectIntl(HearingFormStep3);
-export { WrappedHearingFormStep3 as UnconnectedHearingFormStep3 };
-export default connect(mapStateToProps, null)(WrappedHearingFormStep3);
+export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));

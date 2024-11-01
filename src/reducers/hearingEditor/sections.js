@@ -36,39 +36,6 @@ const byId = handleActions(
         [sectionId]: updatedSection,
       };
     },
-    [EditorActions.ORDER_ATTACHMENTS]: (state, { payload: { sectionId, attachments } }) => {
-      const newOrder = state[sectionId].files.map((file) => {
-        const matchingAttachment = attachments.find((attachment) => attachment.id === file.id);
-        if (matchingAttachment) return matchingAttachment;
-        return file;
-      });
-      const updatedSection = updeep({
-        files: newOrder.sort((prev, curr) => {
-          if (prev.ordering > curr.ordering) return 1;
-          if (prev.ordering < curr.ordering) return -1;
-          return 0;
-        })
-      }, state[sectionId]);
-
-      return {
-        ...state,
-        [sectionId]: updatedSection,
-      };
-    },
-    [EditorActions.EDIT_SECTION_ATTACHMENT]: (state, { payload: { sectionId, attachment } }) => {
-      const updatedFile = state[sectionId].files.map((file) => {
-        if (file.id === attachment.id) return attachment;
-        return file;
-      });
-
-      const updatedSection = updeep({
-        files: updatedFile,
-      }, state[sectionId]);
-      return {
-        ...state,
-        [sectionId]: updatedSection,
-      };
-    },
     [EditorActions.EDIT_QUESTION]: (state, { payload: { fieldType, sectionId, questionId, optionKey, value } }) => {
       // only search for question with frontId which means the newly generated one.
       // editing is not possible for old questions

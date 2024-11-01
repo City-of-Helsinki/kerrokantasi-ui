@@ -24,8 +24,6 @@ import {
   deleteSectionAttachment,
   deleteTemporaryQuestion,
   editQuestion,
-  editSectionAttachment,
-  editSectionAttachmentOrder,
   initMultipleChoiceQuestion,
   initSingleChoiceQuestion,
   deleteExistingQuestion,
@@ -149,20 +147,6 @@ const validateHearing = (callbackAction) => {
   };
 
   /**
-   * When we need to edit the order of attachments.
-   */
-  const onEditSectionAttachmentOrder = (sectionId, attachments) => {
-    dispatch(editSectionAttachmentOrder(sectionId, attachments));
-  };
-
-  /**
-   * When section attachment is modified.
-   */
-  const onSectionAttachmentEdit = (sectionId, attachments) => {
-    dispatch(editSectionAttachment(sectionId, attachments));
-  };
-
-  /**
    * When section attachment is deleted.
    */
   const onSectionAttachmentDelete = (sectionId, attachments) => {
@@ -259,7 +243,6 @@ const validateHearing = (callbackAction) => {
         onCreateMapMarker={onCreateMapMarker}
         onDeleteExistingQuestion={onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-        onEditSectionAttachmentOrder={onEditSectionAttachmentOrder}
         onHearingChange={onHearingChange}
         onLanguagesChange={onLanguagesChange}
         onLeaveForm={() => dispatch(closeHearingForm())}
@@ -269,7 +252,6 @@ const validateHearing = (callbackAction) => {
         onSaveAsCopy={onSaveAsCopy}
         onSectionAttachment={onSectionAttachment}
         onSectionAttachmentDelete={onSectionAttachmentDelete}
-        onSectionAttachmentEdit={onSectionAttachmentEdit}
         onSectionChange={onSectionChange}
         onSectionImageChange={onSectionImageChange}
         sectionMoveDown={sectionMoveDownFn}
