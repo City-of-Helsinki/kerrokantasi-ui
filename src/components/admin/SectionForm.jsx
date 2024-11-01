@@ -1,12 +1,12 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable sonarjs/no-duplicate-string */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { get, isEmpty } from 'lodash';
 import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
-import { isFirefox, isSafari, browserVersion } from 'react-device-detect';
+import imageCompression from 'browser-image-compression';
 
 import { QuestionForm } from './QuestionForm';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
@@ -16,76 +16,11 @@ import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 
 /**
- * MAX_IMAGE_SIZE given in bytes
+ * MAX_IMAGE_SIZE given in MB
  * MAX_FILE_SIZE given in MB
  */
-const MAX_IMAGE_SIZE = 999999;
-const MAX_FILE_SIZE = 70000000;
-
-/**
- * Compares given blob to initFileSize and calls changeFunc if it's smaller than the original image file.
- * @param {Blob | Object} blob Webp Blob
- * @param {number} initFileSize original image file size.
- * @param {Object} section section that the image is added to.
- * @param {Function} changeFunc dispatch function
- * @param {Blob} initImage originally uploaded image blob.
- */
-function webpConvert(blob, initFileSize, section, changeFunc, initImage) {
-  const isLegacyFF = isFirefox && Number.parseInt(browserVersion, 10) < 96;
-  let finalBlob = blob;
-  // FF versions < 96 & Safari don't support toBlob type image/webp so a temporary webp file is created and used.
-  if (isLegacyFF || isSafari) {
-    finalBlob = new File([blob], 'file', {
-      type: 'image/webp',
-      lastModified: Date.now(),
-    });
-  }
-  // if the webp file is smaller than the original file -> use webp file.
-  if (initFileSize > finalBlob.size) {
-    const canvasReader = new FileReader();
-    canvasReader.onload = () => {
-      changeFunc(section.frontId, 'image', canvasReader.result);
-    };
-    canvasReader.readAsDataURL(finalBlob);
-  } else {
-    changeFunc(section.frontId, 'image', initImage);
-  }
-}
-
-const getFileTitle = (title, language) => {
-  if (title?.[language] && typeof title[language] !== 'undefined') {
-    return title[language];
-  }
-  return title[Object.keys(title).length - 1];
-};
-
-const fetchFiles = async (data, fileType, language) => {
-  try {
-    const promises = data.map(async (item) => {
-      let name;
-
-      if (fileType === 'image') {
-        const imageSplit = item.url.split('/');
-        name = imageSplit[imageSplit.length - 1];
-      } else {
-        name = getFileTitle(item.title, language);
-      }
-
-      const response = await fetch(item.url, { method: 'GET', mode: 'no-cors' });
-      const blob = await response.blob();
-
-      const file = new File([blob], name || fileType, {
-        type: fileType === 'image' ? 'image/webp' : 'application/pdf',
-      });
-
-      return Promise.resolve({ id: item.id, name, file });
-    });
-
-    return Promise.all(promises);
-  } catch (error) {
-    return Promise.reject(new Error(error));
-  }
-};
+const MAX_IMAGE_SIZE = 0.9;
+const MAX_FILE_SIZE = 70;
 
 const SectionForm = ({
   language,
@@ -112,36 +47,10 @@ const SectionForm = ({
 }) => {
   const [enabledCommentMap, setEnabledCommentMap] = useState(section.commenting_map_tools !== 'none');
 
-  const [sectionImages, setSectionImages] = useState([]);
-  const [attachments, setAttachments] = useState([]);
+  const [sectionImage, setSectionImage] = useState([]);
+  const [attachments] = useState([]);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    async function fetchImages() {
-      if (section.images) {
-        const data = await fetchFiles(section.images, 'image', language);
-
-        setSectionImages(data);
-      }
-    }
-
-    fetchImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [section.images]);
-
-  useEffect(() => {
-    async function fetchAttachments() {
-      if (section.files) {
-        const data = await fetchFiles(section.files, 'pdf', language);
-
-        setAttachments(data);
-      }
-    }
-
-    fetchAttachments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [section.files]);
 
   /**
    * Modify section state and propagate necessary information
@@ -164,49 +73,45 @@ const SectionForm = ({
     }
   };
 
-  const onImageChange = (files) => {
-    const file = files[0];
+  const fileToDataUri = (file) =>
+    new Promise((resolve) => {
+      const fileReader = new FileReader();
 
-    if (!file) {
-      onSectionImageChange(section.frontId, 'image', file);
+      fileReader.onload = (event) => {
+        resolve(event.target.result);
+      };
 
-      return;
-    }
-
-    const fileReader = new FileReader();
-
-    fileReader.addEventListener('error', () => {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+      fileReader.readAsDataURL(file);
     });
-    fileReader.addEventListener(
-      'load',
-      (event) => {
-        // New img element is created with the uploaded image.
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.onerror = () => {
-          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
-        };
-        img.onload = () => {
-          // Canvas element is created with content from the new img.
-          const canvasElement = document.createElement('canvas');
-          canvasElement.width = img.width;
-          canvasElement.height = img.height;
-          const ctx = canvasElement.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
-          ctx.canvas.toBlob(
-            (blob) => {
-              // canvas webp image Blob is passed onwards.
-              webpConvert(blob, file.size, section, onSectionImageChange, fileReader.result);
-            },
-            'image/webp',
-            0.8,
-          );
-        };
-      },
-      false,
-    );
-    fileReader.readAsDataURL(file);
+
+  const compressFile = async (file, maxSizeMB, fileType) => {
+    try {
+      return await imageCompression(file, { maxSizeMB, fileType });
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const onImageChange = async (files) => {
+    try {
+      const file = files[0];
+
+      if (!file) {
+        setSectionImage([]);
+        onSectionImageChange(section.frontId, 'image', {});
+
+        return;
+      }
+
+      setSectionImage(file);
+
+      const compressed = await compressFile(file, MAX_IMAGE_SIZE, 'image/webp');
+      const blob = await fileToDataUri(compressed);
+
+      onSectionImageChange(section.frontId, 'image', blob);
+    } catch (error) {
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+    }
   };
 
   /**
@@ -236,16 +141,11 @@ const SectionForm = ({
 
     if (filesToAdd.length) {
       // Load the file and then upload it.
-      const fileReader = new FileReader();
 
-      filesToAdd.forEach((file) => {
-        fileReader.addEventListener('load', (event) => {
-          if (onSectionAttachment) {
-            onSectionAttachment(section.frontId, event.target.result, { [language]: file.name });
-          }
-        });
+      filesToAdd.forEach(async (file) => {
+        const blob = await fileToDataUri(file);
 
-        fileReader.readAsDataURL(file);
+        onSectionAttachment(section.frontId, blob, { [language]: file.name });
       });
     }
   };
@@ -307,7 +207,7 @@ const SectionForm = ({
     ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools)
     : commentingMapOptions[0];
 
-  if (!section || !sectionImages || !attachments) {
+  if (!section) {
     return <LoadingSpinner />;
   }
 
@@ -354,9 +254,9 @@ const SectionForm = ({
           helperText={<FormattedMessage id='sectionImageHelpText' />}
           language={language}
           onChange={onImageChange}
-          defaultValue={sectionImages}
-          value={sectionImages}
-          maxSize={MAX_IMAGE_SIZE}
+          defaultValue={sectionImage}
+          // value={sectionImage}
+          maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
         />
       </div>
       <MultiLanguageTextField
@@ -446,7 +346,7 @@ const SectionForm = ({
           language={language}
           onChange={onAttachmentChange}
           defaultValue={attachments}
-          maxSize={MAX_FILE_SIZE}
+          maxSize={MAX_FILE_SIZE * 1024 * 1024}
           multiple
         />
       </div>
