@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
 
-import React, { useCallback, useEffect, Suspense, lazy, useMemo } from 'react';
+import React, { useCallback, useEffect, Suspense, lazy, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
+import { useIntl } from 'react-intl';
 
 import { organizationShape } from '../../types';
 import { getHearingWithSlug } from '../../selectors/hearing';
@@ -40,21 +41,26 @@ const HearingContainerComponent = ({
   const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
   const location = useLocation();
   const navigate = useNavigate();
+  const intl = useIntl();
+  const [shouldFetch, setShouldFetch] = useState(() => hearingSlug && isEmpty(hearing));
 
   const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
 
   const fetchHearingData = useCallback(() => {
-    if (hearingSlug !== null) {
+    if (hearingSlug !== null && shouldFetch) {
       if (location.search.includes('?preview')) {
         // regex match to get the ?preview=key and substring to retrieve the key part
-        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
+        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9)).then(() => {
+          setShouldFetch(false);
+        })
       } else {
-        fetchHearing(hearingSlug);
+        fetchHearing(hearingSlug).then(() => {
+          setShouldFetch(false);
+        });
       }
-
       fetchProjectsList();
     }
-  }, [fetchHearing, fetchProjectsList, location.search, hearingSlug]);
+  }, [fetchHearing, fetchProjectsList, location.search, hearingSlug, shouldFetch]);
 
   useEffect(() => {
     if (isEmpty(hearing) && !isLoading) {
@@ -123,7 +129,11 @@ const HearingContainerComponent = ({
           </div>
         </>
       ) : (
-        <LoadSpinner />
+        shouldFetch && (
+          <LoadSpinner />
+        ) || (
+          <h1 style={{textAlign: 'center'}}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>
+        )
       )}
     </div>
   );
