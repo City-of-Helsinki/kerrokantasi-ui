@@ -5,7 +5,7 @@ import { CommentList } from '..';
 import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 
-Math.random = jest.fn(() => 0.19859782441);
+Math.random = vi.fn(() => 0.19859782441);
 
 const renderComponent = (propOverrides) => {
   const { sectionComments, dispatch, hearing } = mockStore;

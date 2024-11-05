@@ -7,7 +7,7 @@ import renderWithProviders from '../../../../utils/renderWithProviders';
 describe('<ShowMore />', () => {
   const defaultProps = {
     numberOfComments: 5,
-    onClickShowMore: jest.fn(),
+    onClickShowMore: vi.fn(),
     isLoadingSubComment: false,
     open: false,
   };
