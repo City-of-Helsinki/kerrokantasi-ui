@@ -10,8 +10,8 @@ const renderComponent = (propOverrides) => {
   const props = {
     name: 'test-name',
     label: 'test-label',
-    handleInputChange: jest.fn(),
-    handleInputBlur: jest.fn(),
+    handleInputChange: vi.fn(),
+    handleInputBlur: vi.fn(),
     value: 'test-value',
     formName: 'test-form',
     isRequired: true,
@@ -33,8 +33,8 @@ describe('<RichTextModalTextField />', () => {
   });
 
   it('should handleInputChange', async () => {
-    const handleInputChangeMock = jest.fn();
-    const handleInputBlurMock = jest.fn();
+    const handleInputChangeMock = vi.fn();
+    const handleInputBlurMock = vi.fn();
 
     renderComponent({ handleInputChange: handleInputChangeMock, handleInputBlur: handleInputBlurMock });
 

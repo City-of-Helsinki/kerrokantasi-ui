@@ -69,7 +69,7 @@ const HearingForm = ({
     if (nextAccordion.current) {
       nextAccordion.current.querySelector(ACCORDION_TOGGLE).click();
 
-      setTimeout(() => nextAccordion.current.scrollIntoView({ behaviour: 'smooth' }), 250);
+      setTimeout(() => nextAccordion.current?.scrollIntoView({ behaviour: 'smooth' }), 250);
     }
 
     setCurrentStep(next);

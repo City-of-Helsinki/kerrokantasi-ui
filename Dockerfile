@@ -1,6 +1,6 @@
-# ==========================================
-FROM registry.access.redhat.com/ubi8/nodejs-18 AS deployable
-# ==========================================
+# ===============================================
+FROM registry.access.redhat.com/ubi9/nodejs-18 as appbase
+# ===============================================
 
 WORKDIR /app
 
@@ -15,25 +15,80 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
 # Yarn
-ENV YARN_VERSION 1.19.1
+ENV YARN_VERSION 1.22.19
 RUN yarn policies set-version $YARN_VERSION
 
 # Most files from source tree are needed at runtime
-COPY . /app/
+# COPY . /app/
 RUN chown -R default:root /app
 
 # Install npm dependencies and build the bundle
 USER default
 
-RUN yarn cache clean --force
-RUN yarn
+COPY --chown=default:root package.json yarn.lock /app/
+COPY --chown=default:root ./scripts /app/scripts
+COPY --chown=default:root ./public /app/public
+COPY --chown=default:root ./cities /app/cities
+COPY --chown=default:root ./assets /app/assets
+
+RUN yarn config set network-timeout 300000
+RUN yarn && yarn cache clean --force
+
+COPY --chown=default:root index.html vite.config.mjs .eslintrc.json .eslintignore .prettierrc .env* /app/
+COPY --chown=default:root ./src /app/src
+
+# =============================
+FROM appbase as development
+# =============================
+
+WORKDIR /app
+
+# Set NODE_ENV to development in the development container
+ARG NODE_ENV=development
+ENV NODE_ENV $NODE_ENV
+
+# Bake package.json start command into the image
+CMD yarn start
+
+# ===================================
+FROM appbase as staticbuilder
+# ===================================
+
+WORKDIR /app
+
 RUN yarn build
 
-# Run the frontend server using arbitrary user to simulate
-# Openshift when running using fe. Docker. Under actual
-# Openshift, the user will be random
-USER 158435:0
-CMD [ "yarn", "start" ]
+# =============================
+FROM registry.access.redhat.com/ubi9/nginx-122 as production
+# =============================
+
+USER root
+
+RUN chgrp -R 0 /usr/share/nginx/html && \
+    chmod -R g=u /usr/share/nginx/html
+
+# Copy static build
+COPY --from=staticbuilder /app/build /usr/share/nginx/html
+
+# Copy nginx config
+COPY .prod/nginx.conf  /etc/nginx/nginx.conf
+RUN mkdir /etc/nginx/env
+COPY .prod/nginx_env.conf  /etc/nginx/env/
+
+WORKDIR /usr/share/nginx/html
+
+# Copy default environment config and setup script
+COPY ./scripts/env.sh .
+COPY .env .
+
+# Copy package.json so env.sh can read it
+COPY package.json .
+
+RUN chmod +x env.sh
+
+USER 1001
+
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 
 # Expose port 8086
 EXPOSE 8086
