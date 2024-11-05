@@ -5,9 +5,9 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 import NewHearingContainer from '../NewHearingContainer';
 
 const mockProps = {
-  fetchEditorMetaData: jest.fn(),
-  initHearing: jest.fn(),
-  fetchProjectsList: jest.fn(),
+  fetchEditorMetaData: vi.fn(),
+  initHearing: vi.fn(),
+  fetchProjectsList: vi.fn(),
 };
 
 describe('<NewHearingContainer />', () => {
