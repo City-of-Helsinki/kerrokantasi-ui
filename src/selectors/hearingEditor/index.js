@@ -30,6 +30,9 @@ export const getHearing = (state) =>
 export const getEditorState = (state) =>
   getHearingEditor(state).editorState.state;
 
+export const getEditorErrors = (state) =>
+  getHearingEditor(state).errors;
+
 export const getPopulatedHearing = (state) => {
   const editor = getHearingEditor(state);
   const hearing = editor.hearing.data;

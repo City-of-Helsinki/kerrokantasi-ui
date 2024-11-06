@@ -42,8 +42,8 @@ const editorState = combineReducers({
 const errors = handleActions({
   [EditorActions.SAVE_HEARING_FAILED]: (state, { payload }) =>
     payload.errors,
-  [EditorActions.POST_HEARING_SUCCESS]: () => null
-}, null);
+  [EditorActions.POST_HEARING_SUCCESS]: () => {}
+}, {});
 
 const languages = handleActions({
   receiveHearing: (state, { payload: { data: { title } } }) =>
