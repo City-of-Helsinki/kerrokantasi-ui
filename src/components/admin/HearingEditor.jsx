@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 
+import { validateHearing as validateHearingFn } from '../../utils/hearingEditor';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import {
   addOption,
@@ -45,7 +45,6 @@ import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
 import { contactShape, hearingShape, labelShape, organizationShape, userShape } from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
-import validateFunction from '../../utils/validation';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
 
@@ -65,12 +64,10 @@ const HearingEditor = (props) => {
     show,
     language,
     user,
-    intl,
     editorErrors,
     editorIsSaving,
   } = props;
   const navigate = useNavigate();
-  const { formatMessage } = intl;
   const dispatch = useDispatch();
   useEffect(() => {
     fetchEditorContactPersons();
@@ -90,7 +87,7 @@ const HearingEditor = (props) => {
         setShouldSubmit(false);
       }
     }
-  }, [shouldSubmit, editorErrors, errors]);
+  }, [shouldSubmit, editorErrors, errors, editorIsSaving, hearing.slug, language, navigate]);
 
 
   /**
@@ -103,39 +100,7 @@ const HearingEditor = (props) => {
      * @returns {void|*}
      */
   const validateHearing =  (callbackAction) => {
-    // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc
-    const localErrors = { 1: {}, 4: {}, 5: {} };
-
-    if (validateFunction.title(hearing.title, hearingLanguages)) {
-      localErrors[1].title = formatMessage({ id: 'validationHearingTitle' });
-    }
-    if (validateFunction.labels(hearing.labels)) {
-      localErrors[1].labels = formatMessage({ id: 'validationHearingLabels' });
-    }
-    if (validateFunction.slug(hearing.slug)) {
-      localErrors[1].slug = formatMessage({ id: 'validationHearingSlug' });
-    }
-    if (validateFunction.contact_persons(hearing.contact_persons)) {
-      localErrors[1].contact_persons = formatMessage({ id: 'validationHearingContactPersons' });
-    }
-    if (validateFunction.open_at(hearing.open_at)) {
-      localErrors[4].open_at = formatMessage({ id: 'validationHearingOpenAt' });
-    }
-    if (validateFunction.close_at(hearing.close_at)) {
-      localErrors[4].close_at = formatMessage({ id: 'validationHearingCloseAt' });
-    }
-    // project is not mandatory, but if a project is given, it must have certain properties
-    if (validateFunction.project(hearing.project)) {
-      if (validateFunction.project_title(hearing.project.title, hearingLanguages)) {
-        localErrors[5].project_title = formatMessage({ id: 'validationHearingProjectTitle' });
-      }
-      if (validateFunction.project_phases_title(hearing.project.phases, hearingLanguages)) {
-        localErrors[5].project_phase_title = formatMessage({ id: 'validationHearingProjectPhaseTitle' });
-      }
-      if (validateFunction.project_phases_active(hearing.project.phases)) {
-        localErrors[5].project_phase_active = formatMessage({ id: 'validationHearingProjectPhaseActive' });
-      }
-    }
+    const localErrors = validateHearingFn(hearing, hearingLanguages);
 
     // true if one of the keys in localErrors contain entries
     // eslint-disable-next-line no-unused-vars
@@ -337,7 +302,6 @@ HearingEditor.propTypes = {
   user: userShape,
   language: PropTypes.string,
   isNewHearing: PropTypes.bool,
-  intl: PropTypes.object,
   fetchEditorContactPersons: PropTypes.func,
 };
 
@@ -355,6 +319,6 @@ const mapStateToProps = (state) => ({
 
 export { HearingEditor as UnconnectedHearingEditor };
 
-const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(injectIntl(HearingEditor));
+const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(HearingEditor);
 
 export default WrappedHearingEditor;

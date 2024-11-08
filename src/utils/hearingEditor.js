@@ -6,6 +6,8 @@ import { assign, flowRight } from 'lodash';
 import updeep from 'updeep';
 
 import { hearingSchema } from '../types';
+import getMessage from './getMessage';
+import validateFunction from './validation';
 
 const ATTR_WITH_FRONT_ID = ['sections', 'labels', 'contact_persons'];
 
@@ -292,3 +294,40 @@ export const prepareHearingForSave = (hearing) => {
  * @returns {'error'|null}
  */
 export const getValidationState = (errors, key) => (errors[key] ? 'error' : null);
+
+export const validateHearing = (hearing, hearingLanguages) => {
+  // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc
+  const errors = { 1: {}, 4: {}, 5: {} };
+
+  if (validateFunction.title(hearing.title, hearingLanguages)) {
+    errors[1].title = getMessage('validationHearingTitle');
+  }
+  if (validateFunction.labels(hearing.labels)) {
+    errors[1].labels = getMessage('validationHearingLabels');
+  }
+  if (validateFunction.slug(hearing.slug)) {
+    errors[1].slug = getMessage('validationHearingSlug');
+  }
+  if (validateFunction.contact_persons(hearing.contact_persons)) {
+    errors[1].contact_persons = getMessage('validationHearingContactPersons');
+  }
+  if (validateFunction.open_at(hearing.open_at)) {
+    errors[4].open_at = getMessage('validationHearingOpenAt');
+  }
+  if (validateFunction.close_at(hearing.close_at)) {
+    errors[4].close_at = getMessage('validationHearingCloseAt');
+  }
+  // project is not mandatory, but if a project is given, it must have certain properties
+  if (validateFunction.project(hearing.project)) {
+    if (validateFunction.project_title(hearing.project.title, hearingLanguages)) {
+      errors[5].project_title = getMessage('validationHearingProjectTitle');
+    }
+    if (validateFunction.project_phases_title(hearing.project.phases, hearingLanguages)) {
+      errors[5].project_phase_title = getMessage('validationHearingProjectPhaseTitle');
+    }
+    if (validateFunction.project_phases_active(hearing.project.phases)) {
+      errors[5].project_phase_active = getMessage('validationHearingProjectPhaseActive');
+    }
+  }
+  return errors;
+}
