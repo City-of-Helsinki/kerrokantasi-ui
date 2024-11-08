@@ -1,29 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { SignoutCallbackComponent } from 'redux-oidc';
 import { useNavigate } from 'react-router-dom';
 
-import userManager from '../../utils/oidcConfig';
+import LoadSpinner from '../../components/LoadSpinner';
 
 const UnconnectedLogoutCallback = () => {
   const navigate = useNavigate();
-  const logoutSuccessful = () => {
+  useEffect(() => {
     localStorage.removeItem('votedComments');
     navigate('/');
-  }
-
-  const logoutUnsuccessful = () => {
-    navigate('/');
-  }
+  });
 
   return (
-    <SignoutCallbackComponent
-      errorCallback={() => logoutUnsuccessful()}
-      successCallback={() => logoutSuccessful()}
-      userManager={userManager}
-    >
-      <div />
-    </SignoutCallbackComponent>
+    <LoadSpinner />
   );
 }
 
