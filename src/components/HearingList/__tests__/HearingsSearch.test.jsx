@@ -7,8 +7,8 @@ import { getIntlAsProp } from '../../../../test-utils';
 
 const renderComponent = (propOverrides) => {
   const props = {
-    handleSearch: jest.fn(),
-    handleSelectLabels: jest.fn(),
+    handleSearch: vi.fn(),
+    handleSelectLabels: vi.fn(),
     labels: [
       { label: { en: 'Label 1' }, id: '1' },
       { label: { en: 'Label 2' }, id: '2' },
@@ -28,7 +28,7 @@ describe('HearingsSearch', () => {
   });
 
   it('calls handleSearch on form submit', async () => {
-    const handleSearchMock = jest.fn();
+    const handleSearchMock = vi.fn();
 
     renderComponent({ handleSearch: handleSearchMock });
 
@@ -43,7 +43,7 @@ describe('HearingsSearch', () => {
   });
 
   it('calls handleSelectLabels on label selection', async () => {
-    const handleSelectLabelsMock = jest.fn();
+    const handleSelectLabelsMock = vi.fn();
 
     renderComponent({ handleSelectLabels: handleSelectLabelsMock });
 

@@ -20,8 +20,8 @@ describe('FormatRelativeTime', () => {
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 18);
   }
 
-  const mockFormatTime = jest.fn();
-  const mockFormatDate = jest.fn();
+  const mockFormatTime = vi.fn();
+  const mockFormatDate = vi.fn();
 
   let mockDate;
 

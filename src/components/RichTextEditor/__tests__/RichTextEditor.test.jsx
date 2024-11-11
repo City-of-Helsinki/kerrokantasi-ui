@@ -8,8 +8,8 @@ import { getIntlAsProp } from '../../../../test-utils';
 const renderComponent = (props = {}) => {
   const defaultProps = {
     labelId: 'someLabelId',
-    onBlur: jest.fn(),
-    onChange: jest.fn(),
+    onBlur: vi.fn(),
+    onChange: vi.fn(),
     hideControls: {
       hideBlockStyleControls: false,
       hideInlineStyleControls: false,
@@ -30,7 +30,7 @@ describe('<RichTextEditor />', () => {
   });
 
   it('calls onChange when editor state changes', () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     renderComponent({ onChange });
 
     fireEvent.input(screen.getByRole('textbox'), { target: { textContent: 'Hello' } });

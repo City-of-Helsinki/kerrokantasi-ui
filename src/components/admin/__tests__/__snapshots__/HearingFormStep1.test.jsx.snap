@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<HearingFormStep1 /> should render correctly 1`] = `
+exports[`<HearingFormStep1 /> > should render correctly 1`] = `
 <div>
   <div
     class="form-step"
@@ -177,7 +177,7 @@ exports[`<HearingFormStep1 /> should render correctly 1`] = `
             <span
               class="input-group-addon"
             >
-              http://localhost/
+              http://localhost:3000/
             </span>
             <input
               class="form-control"

@@ -10,7 +10,7 @@ const renderComponent = (propOverrides) => {
   const props = {
     name: 'test-name',
     label: 'test-label',
-    handleInputChange: jest.fn(),
+    handleInputChange: vi.fn(),
     value: 'test-value',
     options: [
       { value: 'no', text: 'text-no' },
@@ -34,7 +34,7 @@ describe('<IframeSelectField />', () => {
   });
 
   it('should handle input onChange', async () => {
-    const handleInputChangeMock = jest.fn();
+    const handleInputChangeMock = vi.fn();
 
     renderComponent({ handleInputChange: handleInputChangeMock });
 
