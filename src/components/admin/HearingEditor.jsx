@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 
+import { validateHearing as validateHearingFn } from '../../utils/hearingEditor';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import {
   addOption,
@@ -45,13 +45,13 @@ import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
 import { contactShape, hearingShape, labelShape, organizationShape, userShape } from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
-import validateFunction from '../../utils/validation';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
 
 const HearingEditor = (props) => {
 
   const [errors, setErrors] = useState({});
+  const [shouldSubmit, setShouldSubmit] = useState(false);
   const [commentReportsOpen, setCommentReportsOpen] = useState(false);
   const {
     contactPersons,
@@ -64,71 +64,54 @@ const HearingEditor = (props) => {
     show,
     language,
     user,
-    intl
+    editorErrors,
+    editorIsSaving,
   } = props;
   const navigate = useNavigate();
-  const { formatMessage } = intl;
   const dispatch = useDispatch();
   useEffect(() => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
 
+  const checkIfEmpty = (obj) => Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
-/**
-   * Check if the hearing has all of the required properties.
-   * Returns notification and highlights faulty inputs in the form if errors are found,
-   * otherwise dispatch the callbackAction.
-   * @param {function} callbackAction
-   * @returns {void|*}
+  /**
+   * Should only navigate if the hearing is valid and the editor is not saving.
+   * This is to give errors from backend time to get to state.
    */
-const validateHearing = (callbackAction) => {
-  // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc
-  const localErrors = { 1: {}, 4: {}, 5: {} };
-
-  if (validateFunction.title(hearing.title, hearingLanguages)) {
-    localErrors[1].title = formatMessage({ id: 'validationHearingTitle' });
-  }
-  if (validateFunction.labels(hearing.labels)) {
-    localErrors[1].labels = formatMessage({ id: 'validationHearingLabels' });
-  }
-  if (validateFunction.slug(hearing.slug)) {
-    localErrors[1].slug = formatMessage({ id: 'validationHearingSlug' });
-  }
-  if (validateFunction.contact_persons(hearing.contact_persons)) {
-    localErrors[1].contact_persons = formatMessage({ id: 'validationHearingContactPersons' });
-  }
-  if (validateFunction.open_at(hearing.open_at)) {
-    localErrors[4].open_at = formatMessage({ id: 'validationHearingOpenAt' });
-  }
-  if (validateFunction.close_at(hearing.close_at)) {
-    localErrors[4].close_at = formatMessage({ id: 'validationHearingCloseAt' });
-  }
-  // project is not mandatory, but if a project is given, it must have certain properties
-  if (validateFunction.project(hearing.project)) {
-    if (validateFunction.project_title(hearing.project.title, hearingLanguages)) {
-      localErrors[5].project_title = formatMessage({ id: 'validationHearingProjectTitle' });
+  useEffect(() => {
+    if (shouldSubmit && !editorIsSaving) {
+      if (isEmpty(editorErrors) && checkIfEmpty(errors)) {
+        navigate(`/${hearing.slug}?lang=${language}`)
+      } else {
+        setShouldSubmit(false);
+      }
     }
-    if (validateFunction.project_phases_title(hearing.project.phases, hearingLanguages)) {
-      localErrors[5].project_phase_title = formatMessage({ id: 'validationHearingProjectPhaseTitle' });
-    }
-    if (validateFunction.project_phases_active(hearing.project.phases)) {
-      localErrors[5].project_phase_active = formatMessage({ id: 'validationHearingProjectPhaseActive' });
-    }
-  }
+  }, [shouldSubmit, editorErrors, errors, editorIsSaving, hearing.slug, language, navigate]);
 
-  // true if one of the keys in localErrors contain entries
-  // eslint-disable-next-line no-unused-vars
-  setErrors(localErrors);
-  const containsError = Object.entries(localErrors).some(([, v]) => Object.entries(v).length > 0);
-  if (!containsError) {
-    dispatch(callbackAction(hearing)).then(() => {
-      navigate(`/${hearing.slug}?lang=${language}`)
-    });
-  } else {
-    dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'validationNotification')));
-  }
-};
 
+  /**
+     * Check if the hearing has all of the required properties.
+     * Returns notification and highlights faulty inputs in the form if errors are found,
+     * otherwise dispatch the callbackAction.
+     * sets should Submit to true if the hearing is valid and the callbackAction is dispatched
+     * so we can handle error cases from the backend.
+     * @param {function} callbackAction
+     * @returns {void|*}
+     */
+  const validateHearing =  (callbackAction) => {
+    const localErrors = validateHearingFn(hearing, hearingLanguages);
+
+    // true if one of the keys in localErrors contain entries
+    // eslint-disable-next-line no-unused-vars
+    setErrors(localErrors);
+    const containsError = checkIfEmpty(localErrors);
+    if (!containsError) {
+      dispatch(callbackAction(hearing)).then(() => setShouldSubmit(true));
+    } else {
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'validationNotification')));
+    }
+  };
 
   const onHearingChange = (field, value) => dispatch(changeHearing(field, value));
 
@@ -311,13 +294,14 @@ HearingEditor.propTypes = {
   contactPersons: PropTypes.arrayOf(contactShape),
   organizations: PropTypes.arrayOf(organizationShape),
   show: PropTypes.bool,
+  editorErrors: PropTypes.object,
+  editorIsSaving: PropTypes.bool,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   labels: PropTypes.arrayOf(labelShape),
   user: userShape,
   language: PropTypes.string,
   isNewHearing: PropTypes.bool,
-  intl: PropTypes.object,
   fetchEditorContactPersons: PropTypes.func,
 };
 
@@ -327,12 +311,14 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   show: EditorSelector.getShowForm(state),
+  editorErrors: EditorSelector.getEditorErrors(state),
+  editorIsSaving: EditorSelector.getIsSaving(state),
   language: state.language,
   contactPersons: EditorSelector.getContactPersons(state),
 });
 
 export { HearingEditor as UnconnectedHearingEditor };
 
-const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(injectIntl(HearingEditor));
+const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(HearingEditor);
 
 export default WrappedHearingEditor;

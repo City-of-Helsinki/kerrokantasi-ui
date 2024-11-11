@@ -22,7 +22,7 @@ jest.mock('../../../components/admin/HearingEditor', () => () => <div data-testi
 
 jest.mock('../../../actions', () => ({
   ...jest.requireActual('../../../actions'),
-  fetchHearing: () => jest.fn(),
+  fetchHearing: () => jest.fn().mockResolvedValue({}),
   fetchProjects: () => jest.fn(),
   fetchSectionComments: () => jest.fn(),
 }));
@@ -67,7 +67,7 @@ describe('<HearingContainer />', () => {
     await act(async () => {
       renderComponent(store);
     });
-    expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
+    expect(screen.getByText('hearingNotFound')).toBeInTheDocument();
   });
 
   test('renders correctly when hearing is not empty', async () => {
