@@ -86,7 +86,7 @@ const HearingEditor = (props) => {
         setShouldSubmit(false);
       }
     }
-  }, [shouldSubmit, editorErrors, errors, editorIsSaving, hearing, language, navigate]);
+  }, [shouldSubmit, editorErrors, errors, editorIsSaving, hearing?.slug, language, navigate]);
 
   /**
    * Check if the hearing has all of the required properties.
