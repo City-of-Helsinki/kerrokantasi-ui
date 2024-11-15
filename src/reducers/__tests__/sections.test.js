@@ -144,18 +144,36 @@ describe('sections', () => {
       expect(Object.keys(store.getState().byId)).toEqual([...Object.keys(INITIAL_STATE.byId)]);
     });
 
-    it('should dispatch EDIT_SECTION_MAIN_IMAGE', () => {
+    it('should dispatch SET_SECTION_MAIN_IMAGE', () => {
       const sectionID = INITIAL_STATE.all[0];
-      let field = 'alt';
-      let value = 'alternative text';
+      const mockImage = 'mockimage';
+
       expect(store.getState().byId[sectionID].images).toEqual(INITIAL_STATE.byId[sectionID].images);
-      store.dispatch({ type: EditorActions.EDIT_SECTION_MAIN_IMAGE, payload: { sectionID, field, value } });
-      expect(store.getState().byId[sectionID].images[0][field]).toEqual(value);
-      field = 'image';
-      value = 'url key should be empty string';
-      store.dispatch({ type: EditorActions.EDIT_SECTION_MAIN_IMAGE, payload: { sectionID, field, value } });
-      expect(store.getState().byId[sectionID].images[0][field]).toEqual(value);
-      expect(store.getState().byId[sectionID].images[0].url).toEqual('');
+
+      store.dispatch({ type: EditorActions.SET_SECTION_MAIN_IMAGE, payload: { sectionID, value: mockImage } });
+
+      expect(store.getState().byId[sectionID].images[0].image).toEqual(mockImage);
+    });
+
+    it('should dispatch DELETE_SECTION_MAIN_IMAGE', () => {
+      const sectionID = INITIAL_STATE.all[0];
+
+      expect(store.getState().byId[sectionID].images).toEqual(INITIAL_STATE.byId[sectionID].images);
+
+      store.dispatch({ type: EditorActions.DELETE_SECTION_MAIN_IMAGE, payload: { sectionID } });
+
+      expect(store.getState().byId[sectionID].images[0]).not.toBeDefined();
+    });
+
+    it('should dispatch CHANGE_SECTION_MAIN_IMAGE_CAPTION', () => {
+      const sectionID = INITIAL_STATE.all[0];
+      const mockCaption = 'caption';
+
+      expect(store.getState().byId[sectionID].images).toEqual(INITIAL_STATE.byId[sectionID].images);
+
+      store.dispatch({ type: EditorActions.CHANGE_SECTION_MAIN_IMAGE_CAPTION, payload: { sectionID, value: mockCaption } });
+
+      expect(store.getState().byId[sectionID].images[0].caption).toEqual(mockCaption);
     });
   });
 
@@ -176,37 +194,6 @@ describe('sections', () => {
       expect(store.getState().byId[sectionId].files).toEqual([]);
       store.dispatch({ type: EditorActions.ADD_ATTACHMENT, payload: { sectionId, attachment } });
       expect(store.getState().byId[sectionId].files).toEqual([attachment]);
-    });
-
-    it('should dispatch ORDER_ATTACHMENTS', () => {
-      const FILES = [{ id: 123, ordering: 5 }, { id: 456, ordering: 1 }, { id: 683, ordering: 3 }];
-      let attachment;
-      FILES.forEach((file) => {
-        attachment = file;
-        store.dispatch({ type: EditorActions.ADD_ATTACHMENT, payload: { sectionId, attachment } });
-      });
-      const attachments = [];
-
-      // files should be in the order they were added
-      expect(store.getState().byId[sectionId].files).toEqual(FILES);
-      // order files in descending order according to ordering key
-      store.dispatch({ type: EditorActions.ORDER_ATTACHMENTS, payload: { sectionId, attachments } });
-      expect(store.getState().byId[sectionId].files).toEqual([FILES[1], FILES[2], FILES[0]]);
-    });
-
-    it('should dispatch EDIT_SECTION_ATTACHMENT', () => {
-      const FILES = [{ id: 123, title: 'first' }, { id: 456, title: TITLE_IS_THIS_SECOND }, { id: 683, title: 'third' }];
-      let attachment;
-      FILES.forEach((file) => {
-        attachment = file;
-        store.dispatch({ type: EditorActions.ADD_ATTACHMENT, payload: { sectionId, attachment } });
-      });
-      // second files title should be default
-      expect(store.getState().byId[sectionId].files[1].title).toEqual(TITLE_IS_THIS_SECOND);
-      attachment = { id: 456, title: 'this is correct' };
-      // update the second files title
-      store.dispatch({ type: EditorActions.EDIT_SECTION_ATTACHMENT, payload: { sectionId, attachment } });
-      expect(store.getState().byId[sectionId].files[1].title).toEqual('this is correct');
     });
 
     it('should dispatch DELETE_ATTACHMENT', () => {

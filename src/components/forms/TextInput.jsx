@@ -75,7 +75,7 @@ const TextInput = ({
 TextInput.propTypes = {
   error: PropTypes.any,
   labelId: PropTypes.string,
-  hint: PropTypes.string,
+  hint: PropTypes.object,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   name: PropTypes.string,

@@ -1,12 +1,10 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Accordion from 'react-bootstrap/lib/Accordion';
-import Alert from 'react-bootstrap/lib/Alert';
-import { Button, Dialog } from 'hds-react';
-import Panel from 'react-bootstrap/lib/Panel';
+import { Accordion, Button, Dialog, Notification } from 'hds-react';
 
 import Icon from '../../utils/Icon';
 import config from '../../config';
@@ -18,97 +16,169 @@ import Step5 from './HearingFormStep5';
 import LoadSpinner from '../LoadSpinner';
 import { contactShape, hearingShape, hearingEditorMetaDataShape, labelShape, organizationShape } from '../../types';
 
-class HearingForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentStep: parseInt(props.currentStep, 10) || 1,
-    };
-    this.setCurrentStep = this.setCurrentStep.bind(this);
-    this.nextStep = this.nextStep.bind(this);
-    this.formSteps = [Step1, Step2, Step3, Step4, Step5];
-  }
+const ACCORDION_TOGGLE = 'div[role="button"]';
 
-  setCurrentStep(step) {
-    this.setState({ currentStep: parseInt(step, 10) });
-  }
+const HearingForm = ({
+  contactPersons,
+  currentStep: initialStep,
+  organizations,
+  intl: { formatMessage },
+  editorMetaData,
+  hearing,
+  isSaving,
+  labels,
+  language,
+  hearingLanguages,
+  show,
+  sectionMoveUp,
+  sectionMoveDown,
+  addOption,
+  deleteOption,
+  onQuestionChange,
+  onDeleteTemporaryQuestion,
+  clearQuestions,
+  initMultipleChoiceQuestion,
+  initSingleChoiceQuestion,
+  onAddMapMarker,
+  onAddMapMarkersToCollection,
+  onCreateMapMarker,
+  onDeleteExistingQuestion,
+  onHearingChange,
+  onLanguagesChange,
+  onSectionAttachment,
+  onSectionAttachmentDelete,
+  onSectionChange,
+  onSectionImageSet,
+  onSectionImageDelete,
+  onSectionImageCaptionChange,
+  onSaveChanges,
+  onSaveAsCopy,
+  onSaveAndPreview,
+  onLeaveForm,
+  errors,
+}) => {
+  const [currentStep, setCurrentStep] = useState(parseInt(initialStep, 10) || 1);
 
-  getFormStep(stepNumber) {
-    const {
-      contactPersons,
-      organizations,
-      intl: { formatMessage },
-      hearing,
-      labels,
-      hearingLanguages,
-      language,
-      sectionMoveUp,
-      sectionMoveDown,
-      addOption,
-      deleteOption,
-      onQuestionChange,
-      onDeleteTemporaryQuestion,
-      errors,
-    } = this.props;
+  const formSteps = [Step1, Step2, Step3, Step4, Step5];
+  const stepRefs = useRef(formSteps.map((step) => createRef(step)));
 
-    const step = stepNumber.toString();
-    let title = formatMessage({ id: `hearingFormHeaderStep${step}` });
+  const nextStep = () => {
+    const next = parseInt(currentStep, 10) + 1;
+    const nextAccordion = stepRefs.current[currentStep];
+
+    if (nextAccordion.current) {
+      nextAccordion.current.querySelector(ACCORDION_TOGGLE).click();
+
+      setTimeout(() => nextAccordion.current.scrollIntoView({ behaviour: 'smooth' }), 250);
+    }
+
+    setCurrentStep(next);
+  };
+
+  const onToggleClick = useCallback(
+    ($this, stepNumber) => {
+      setTimeout(() => {
+        const isOpen = $this.getAttribute('aria-expanded') === 'true';
+
+        if (currentStep === stepNumber) {
+          return;
+        }
+
+        if (isOpen) {
+          setCurrentStep(stepNumber);
+        }
+      }, 500);
+    },
+    [currentStep],
+  );
+
+  useEffect(() => {
+    if (show) {
+      const toggles = stepRefs.current.map((step, index) => ({
+        stepNumber: index + 1,
+        node: step.current.querySelector(ACCORDION_TOGGLE),
+      }));
+
+      toggles.forEach((item) => {
+        item.node.addEventListener('click', () => onToggleClick(item.node, item.stepNumber));
+      });
+
+      return () => {
+        toggles.forEach((item) => {
+          item.node.removeEventListener('click', () => onToggleClick(item.node, item.stepNumber));
+        });
+      };
+    }
+    return undefined;
+  }, [onToggleClick, show]);
+
+  const getFormStep = (StepNode, stepIndex) => {
+    const stepNumber = stepIndex + 1;
+    const step = `${stepNumber}`;
+
+    let title = formatMessage({ id: `hearingFormHeaderStep${stepNumber}` });
+
     const stepErrors = errors[stepNumber] || {};
+
     if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
       title += formatMessage({ id: 'hearingFormHeaderContainsErrors' });
     }
-    const PhaseTag = this.formSteps[stepNumber - 1]; // Zero indexed list
-    const isVisible = this.state.currentStep === stepNumber;
-    return (
-      <Panel eventKey={step}>
-        <Panel.Heading>
-          <Panel.Title toggle>{title}</Panel.Title>
-        </Panel.Heading>
-        <Panel.Collapse>
-          <Panel.Body>
-            <PhaseTag
-              addOption={addOption}
-              clearQuestions={this.props.clearQuestions}
-              contactPersons={contactPersons}
-              organizations={organizations}
-              deleteOption={deleteOption}
-              dispatch={this.props.dispatch}
-              editorMetaData={this.props.editorMetaData}
-              errors={stepErrors}
-              formatMessage={formatMessage}
-              hearing={hearing}
-              hearingLanguages={hearingLanguages}
-              initMultipleChoiceQuestion={this.props.initMultipleChoiceQuestion}
-              initSingleChoiceQuestion={this.props.initSingleChoiceQuestion}
-              labels={labels}
-              language={language}
-              onContinue={this.nextStep}
-              onAddMapMarker={this.props.onAddMapMarker}
-              onAddMapMarkersToCollection={this.props.onAddMapMarkersToCollection}
-              onCreateMapMarker={this.props.onCreateMapMarker}
-              onDeleteExistingQuestion={this.props.onDeleteExistingQuestion}
-              onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
-              onEditSectionAttachmentOrder={this.props.onEditSectionAttachmentOrder}
-              onHearingChange={this.props.onHearingChange}
-              onLanguagesChange={this.props.onLanguagesChange}
-              onQuestionChange={onQuestionChange}
-              onSectionAttachment={this.props.onSectionAttachment}
-              onSectionAttachmentDelete={this.props.onSectionAttachmentDelete}
-              onSectionAttachmentEdit={this.props.onSectionAttachmentEdit}
-              onSectionChange={this.props.onSectionChange}
-              onSectionImageChange={this.props.onSectionImageChange}
-              sectionMoveDown={sectionMoveDown}
-              sectionMoveUp={sectionMoveUp}
-              visible={isVisible}
-            />
-          </Panel.Body>
-        </Panel.Collapse>
-      </Panel>
-    );
-  }
 
-  getActions() {
-    const { hearing, isSaving, onSaveChanges, onSaveAsCopy, onSaveAndPreview } = this.props;
+    const isVisible = currentStep === stepNumber;
+
+    return (
+      <div ref={stepRefs.current[stepNumber - 1]} key={step}>
+        <Accordion
+          className='hearing-form-accordion'
+          heading={title}
+          language={language}
+          initiallyOpen={stepIndex === 0}
+          card
+          theme={{
+            '--padding-vertical': 'var(--spacing-3-xs)',
+            '--padding-horizontal': '0',
+          }}
+        >
+          <StepNode
+            addOption={addOption}
+            clearQuestions={clearQuestions}
+            contactPersons={contactPersons}
+            organizations={organizations}
+            deleteOption={deleteOption}
+            editorMetaData={editorMetaData}
+            errors={stepErrors}
+            formatMessage={formatMessage}
+            hearing={hearing}
+            hearingLanguages={hearingLanguages}
+            initMultipleChoiceQuestion={initMultipleChoiceQuestion}
+            initSingleChoiceQuestion={initSingleChoiceQuestion}
+            labels={labels}
+            language={language}
+            onContinue={nextStep}
+            onAddMapMarker={onAddMapMarker}
+            onAddMapMarkersToCollection={onAddMapMarkersToCollection}
+            onCreateMapMarker={onCreateMapMarker}
+            onDeleteExistingQuestion={onDeleteExistingQuestion}
+            onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
+            onHearingChange={onHearingChange}
+            onLanguagesChange={onLanguagesChange}
+            onQuestionChange={onQuestionChange}
+            onSectionAttachment={onSectionAttachment}
+            onSectionAttachmentDelete={onSectionAttachmentDelete}
+            onSectionChange={onSectionChange}
+            onSectionImageSet={onSectionImageSet}
+            onSectionImageDelete={onSectionImageDelete}
+            onSectionImageCaptionChange={onSectionImageCaptionChange}
+            sectionMoveDown={sectionMoveDown}
+            sectionMoveUp={sectionMoveUp}
+            visible={isVisible}
+          />
+        </Accordion>
+      </div>
+    );
+  };
+
+  const getActions = () => {
     let ActionButton;
 
     if (hearing.published) {
@@ -139,13 +209,9 @@ class HearingForm extends React.Component {
         <LoadSpinner />
       </div>
     );
-  }
+  };
 
-  getErrors() {
-    const {
-      errors,
-      intl: { formatMessage },
-    } = this.props;
+  const getErrors = () => {
     if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
       return null;
     }
@@ -166,6 +232,7 @@ class HearingForm extends React.Component {
      * <ul><li>'Fill in project title'</li></ul>
      * </li>
      */
+
     const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
       if (Object.keys(errors[currentRootValue]).length > 0) {
         const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
@@ -182,73 +249,52 @@ class HearingForm extends React.Component {
       return rootAccumulator;
     }, []);
     return (
-      <Alert bsStyle='danger'>
-        <FormattedMessage id='saveFailed'>{(txt) => <h2>{txt}</h2>}</FormattedMessage>
-        <FormattedMessage id='tryToFixFormErrors'>{(txt) => <p>{txt}:</p>}</FormattedMessage>
-        <ul>{messages}</ul>
-      </Alert>
-    );
-  }
-
-  nextStep() {
-    this.setCurrentStep(this.state.currentStep + 1);
-  }
-
-  render() {
-    const titleId = 'hearing-form-title';
-    const descriptionId = 'hearing-form-description';
-
-    return (
-      <Dialog
-        className='form-container container hearing-form-modal'
-        isOpen={this.props.show}
-        close={this.props.onLeaveForm}
-        aria-labelledby={titleId}
-        aria-describedby={descriptionId}
-        closeButtonLabelText={this.props.intl.formatMessage({ id: 'close' })}
-        theme={{ '--accent-line-color': 'var(--color-black)' }}
+      <Notification
+        type='error'
+        label={<FormattedMessage id='saveFailed' />}
+        style={{ marginBottom: 'var(--spacing-s)' }}
       >
-        <Dialog.Header
-          id={titleId}
-          title={
-            <h2>
-              <FormattedMessage id='editHearing' />
-            </h2>
-          }
-        />
-        <Dialog.Content>
-          <div id={descriptionId}>
-            <a
-              style={{ lineHeight: 2 }}
-              href={config.adminHelpUrl}
-              rel='noopener noreferrer'
-              target='_blank'
-              aria-label={<FormattedMessage id='help' />}
-            >
-              <FormattedMessage id='help' />
-            </a>
-            {this.getErrors()}
-            <form>
-              <Accordion activeKey={this.state.currentStep.toString()} onSelect={this.setCurrentStep}>
-                {this.getFormStep(1)}
-                {this.getFormStep(2)}
-                {this.getFormStep(3)}
-                {this.getFormStep(4)}
-                {this.getFormStep(5)}
-              </Accordion>
-            </form>
-          </div>
-        </Dialog.Content>
-        <Dialog.ActionButtons className='hearing-form-action-buttons'>
-          <Button className='kerrokantasi-btn' onClick={this.props.onLeaveForm}>
-            <FormattedMessage id='cancel' />
-          </Button>
-          {this.getActions()}
-        </Dialog.ActionButtons>
-      </Dialog>
+        <ul>{messages}</ul>
+      </Notification>
     );
+  };
+
+  if (!show) {
+    return null;
   }
-}
+
+  const titleId = 'hearing-form-title';
+  const descriptionId = 'hearing-form-description';
+
+  return (
+    <Dialog
+      className='form-container container hearing-form-modal'
+      isOpen={show}
+      close={onLeaveForm}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      closeButtonLabelText={formatMessage({ id: 'close' })}
+      theme={{ '--accent-line-color': 'var(--color-black)' }}
+    >
+      <Dialog.Header id={titleId} title={<FormattedMessage id='editHearing' />} />
+      <Dialog.Content>
+        <div id={descriptionId}>
+          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+            <FormattedMessage id='help' />
+          </a>
+          {getErrors()}
+          <form>{formSteps.map((step, index) => getFormStep(step, index))}</form>
+        </div>
+      </Dialog.Content>
+      <Dialog.ActionButtons className='hearing-form-action-buttons'>
+        <Button className='kerrokantasi-btn' onClick={onLeaveForm}>
+          <FormattedMessage id='cancel' />
+        </Button>
+        {getActions()}
+      </Dialog.ActionButtons>
+    </Dialog>
+  );
+};
 
 HearingForm.propTypes = {
   addOption: PropTypes.func,
@@ -257,7 +303,6 @@ HearingForm.propTypes = {
   organizations: PropTypes.arrayOf(organizationShape),
   currentStep: PropTypes.number,
   deleteOption: PropTypes.func,
-  dispatch: PropTypes.func,
   editorMetaData: hearingEditorMetaDataShape,
   errors: PropTypes.object,
   hearing: hearingShape,
@@ -272,7 +317,6 @@ HearingForm.propTypes = {
   onCreateMapMarker: PropTypes.func,
   onDeleteExistingQuestion: PropTypes.func,
   onDeleteTemporaryQuestion: PropTypes.func,
-  onEditSectionAttachmentOrder: PropTypes.func,
   onHearingChange: PropTypes.func,
   onLanguagesChange: PropTypes.func,
   onLeaveForm: PropTypes.func,
@@ -282,15 +326,14 @@ HearingForm.propTypes = {
   onSaveAsCopy: PropTypes.func,
   onSectionAttachment: PropTypes.func,
   onSectionAttachmentDelete: PropTypes.func,
-  onSectionAttachmentEdit: PropTypes.func,
   onSectionChange: PropTypes.func,
-  onSectionImageChange: PropTypes.func,
+  onSectionImageSet: PropTypes.func,
+  onSectionImageDelete: PropTypes.func,
+  onSectionImageCaptionChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
   show: PropTypes.bool,
   intl: PropTypes.object,
 };
 
-const WrappedHearingForm = connect(null, null, null, { pure: false })(injectIntl(HearingForm));
-
-export default WrappedHearingForm;
+export default connect(null, null, null)(injectIntl(HearingForm));
