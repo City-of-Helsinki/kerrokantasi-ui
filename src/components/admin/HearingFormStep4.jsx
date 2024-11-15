@@ -51,9 +51,9 @@ const HearingFormStep4 = ({
 
   const [openDate, setOpenDate] = useState(getDate(hearing.open_at));
   const [openTime, setOpenTime] = useState(getTime(hearing.open_at));
+
   const [closeDate, setCloseDate] = useState(getDate(hearing.close_at));
   const [closeTime, setCloseTime] = useState(getTime(hearing.close_at));
-
   const dispatch = useDispatch();
 
   const onClosureSectionChange = (value) => {
@@ -97,6 +97,9 @@ const HearingFormStep4 = ({
   const onTimeChange = (event, type) => {
     const newTime = event.target.value;
 
+    const hours = moment(newTime, TIME_FORMAT).get('hours');
+    const minutes = moment(newTime, TIME_FORMAT).get('minutes');
+
     const date = type === 'START' ? openDate : closeDate;
 
     const currentDate = moment(date, DATE_FORMAT).isValid()
@@ -104,9 +107,6 @@ const HearingFormStep4 = ({
       : moment(new Date(), DATE_FORMAT);
 
     const stringToDate = currentDate.toDate();
-
-    const hours = moment(newTime, TIME_FORMAT).get('hours');
-    const minutes = moment(newTime, TIME_FORMAT).get('minutes');
 
     stringToDate.setHours(hours);
     stringToDate.setMinutes(minutes);
@@ -154,7 +154,7 @@ const HearingFormStep4 = ({
             name='open_time'
             id='open_time'
             required
-            value={openTime}
+            value={openTime || '00:00'}
             onChange={(event) => onTimeChange(event, 'START')}
             errorText={errors.open_at}
             invalid={!!errors.open_at}
@@ -182,7 +182,7 @@ const HearingFormStep4 = ({
             name='close_time'
             id='close_time'
             required
-            value={closeTime}
+            value={closeTime || '23:59'}
             onChange={(event) => onTimeChange(event, 'END')}
             errorText={errors.close_at}
             invalid={!!errors.close_at}
