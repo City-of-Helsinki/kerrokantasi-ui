@@ -87,7 +87,8 @@ const HearingEditor = (props) => {
         setShouldSubmit(false);
       }
     }
-  }, [shouldSubmit, editorErrors, errors, editorIsSaving, hearing.slug, language, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldSubmit, editorErrors, errors, editorIsSaving, language, navigate]);
 
 
   /**
