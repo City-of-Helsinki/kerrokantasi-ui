@@ -39,7 +39,7 @@ test.describe('Hearing', () => {
   });
 
   test('should display comment count', async () => {
-    await expect(page.getByTestId('comment-summary')).toContainText(`Yhteensä ${hearing.n_comments} kommenttia`);
+    await expect(page.getByTestId('comment-summary')).toContainText(`Yhteensä ${hearing.n_comments} kommentti`);
   });
 
   test('should have Swedish link if available', async () => {
