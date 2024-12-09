@@ -73,7 +73,7 @@ const HearingEditor = (props) => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
 
-  const checkIfEmpty = (obj) => Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
+  const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
   /**
    * Should only navigate if the hearing is valid and the editor is not saving.
@@ -88,7 +88,7 @@ const HearingEditor = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldSubmit, editorErrors, errors, editorIsSaving, language, navigate]);
+  }, [shouldSubmit, editorIsSaving]);
 
 
   /**
@@ -107,7 +107,7 @@ const HearingEditor = (props) => {
     // eslint-disable-next-line no-unused-vars
     setErrors(localErrors);
     const containsError = checkIfEmpty(localErrors);
-    if (!containsError) {
+    if (containsError) {
       dispatch(callbackAction(hearing)).then(() => setShouldSubmit(true));
     } else {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'validationNotification')));
