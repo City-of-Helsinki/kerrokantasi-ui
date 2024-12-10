@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.8.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.7.0...kerrokantasi-ui-v1.8.0) (2024-12-10)
+
+
+### Features
+
+* BaseCommentForm remove bootstrap KER-346 ([a5789ba](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a5789ba88904e718ce0fe2e2fb157cfc4c58fefb))
+* Comment list replace order select KER-346 ([82d5625](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/82d5625e3c8e28885cadbab574b566e3a0be23b6))
+* CommentReportForm remove react-boostrap KER-346 ([bd12276](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bd12276d1c6e721a9a5b3770a9d84a2820ffe727))
+* Hearing comment remove bootstrap KER-346 ([21a5717](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/21a5717e96808227e6674ea598f4a778404906e0))
+* HearingFormControl remove bootstrap KER-346 ([605e505](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/605e5050209a5f49d44f9865e9b612fcabe3fe25))
+* HearingList label search remove bootstrap KER-346 ([73a94df](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/73a94df8ef91370c66804ad44773d5b1f798e909))
+* HearingList replace bootstrap KER-346 ([1c1012f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1c1012f7f2696b12bbbfc9d27b0a0393a646eb84))
+* Map legacy plugins remove bootstrap KER-346 ([48e4e64](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/48e4e64440132944f6143c9f54e6c1cc0119e7fd))
+* Map questionnare remove bootstrap KER-346 ([b194ae9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b194ae997154cb01d939d44f2cc0c736bb58d4ca))
+* QuestionForm remove bootstrap KER-346 ([4a2f40d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4a2f40d31642633fd85d1274fa4bdc97405301e0))
+* Textinput textarea remove bootstrap KER-346 ([9fd2742](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9fd27422f66bd6519e5b88aed0f3acd8bf656eee))
+* UserProfile remove react-boostrap KER-346 ([4c5eec2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4c5eec2ca420fe52f1826ed6078f3c92affc52a2))
+
+
+### Bug Fixes
+
+* Comment report form, broken error toast KER-346 ([42e4357](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/42e435791e041856ef4e3b74dc6d1f1606623135))
+* Fixed dependency array not having variables that require init ([#1096](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1096)) ([5aee858](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5aee8585242846d353fc0802fd1672116c9c349c))
+* Fixed login callback using old setup KER-405 ([9533dbc](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9533dbc6effd66c0ddea5b0363ca20980ee712d0))
+
 ## [1.7.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.6.9...kerrokantasi-ui-v1.7.0) (2024-10-31)
 
 
