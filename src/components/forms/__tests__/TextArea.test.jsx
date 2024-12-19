@@ -13,7 +13,7 @@ describe('<TextArea />', () => {
   });
 
   it('calls onBlur function when blurred', () => {
-    const onBlurMock = jest.fn();
+    const onBlurMock = vi.fn();
 
     const { getByRole } = renderComponent({ onBlur: onBlurMock, labelId: 'label.test' });
 

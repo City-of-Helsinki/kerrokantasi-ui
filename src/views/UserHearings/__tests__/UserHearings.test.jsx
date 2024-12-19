@@ -14,7 +14,7 @@ const defaultProps = {
   user: mockLoggedUser,
   userState: { userExists: true, userLoading: false },
   fetching: getUserHearingList(mockState, 'isFetching'),
-  fetchHearingList: jest.fn(),
+  fetchHearingList: vi.fn(),
   hearingCount: getUserHearingList(mockState, 'count'),
   hearingData: getUserHearingList(mockState, 'data'),
 };
@@ -30,11 +30,11 @@ const renderComponent = (props) =>
 
 describe('<UserHearings />', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should call fetchAllHearings if userExists && user is true', () => {
-    const fetchHearingListMock = jest.fn();
+    const fetchHearingListMock = vi.fn();
 
     renderComponent({ fetchHearingList: fetchHearingListMock });
 
@@ -42,7 +42,7 @@ describe('<UserHearings />', () => {
   });
 
   it('should not call fetchAllHearings if userExists && user is false', () => {
-    const fetchHearingListMock = jest.fn();
+    const fetchHearingListMock = vi.fn();
 
     renderComponent({ fetchHearingList: fetchHearingListMock, userState: { userExists: false, userLoading: false } });
 
@@ -50,7 +50,7 @@ describe('<UserHearings />', () => {
   });
 
   it('should call fetchAllHearings if !prevProps.user && this.props.user', () => {
-    const fetchHearingListMock = jest.fn();
+    const fetchHearingListMock = vi.fn();
 
     renderComponent({
       fetchHearingList: fetchHearingListMock,
@@ -164,7 +164,7 @@ describe('<UserHearings />', () => {
   });
 
   it('should call fetchAllHearings with correct parameters', () => {
-    const fetchHearingListMock = jest.fn();
+    const fetchHearingListMock = vi.fn();
 
     renderComponent({ fetchHearingList: fetchHearingListMock });
 

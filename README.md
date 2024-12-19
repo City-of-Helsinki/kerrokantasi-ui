@@ -1,7 +1,5 @@
 # Kerrokantasi UI
 
-[![codecov](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui/branch/main/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/kerrokantasi-ui)
-
 Kerrokantasi UI is the user interface powering kerrokantasi.hel.fi service. It
 is a full featured interface for both answering and creating questionnaires as
 supported by Kerrokantasi API.
@@ -16,47 +14,61 @@ supported by Kerrokantasi API.
 
 ### Configuration
 
-`config_dev.toml` is used for configuration when NODE_ENV != "production". It
-is in TOML-format, which for our purposes is `Key=Value` format.
-
-When NODE_ENV=="production", only environment variables are used for
-configuration. This is done because we've had several painful accidents
-with leftover configuration files. The environment variables are named
-identically to the ones used in config_dev.toml. Do note that the variables
-are case insensitive, ie. `KeRRokanTasi_aPi_bASe` is a valid name. Go wild!
-
-In the repository root there is `config_dev.toml.example` which contains
-every setting and comments explaining their use. If you only want to give
-kerrokantasi-ui a test, all configuration you need to do is:
-`cp config_dev.toml.example config_dev.toml`. That will give you a partially
-working configuration for browsing test questionnaires in our test API.
+`.env` is the preliminary configuration file. To use local configuration, create `.env.local` which will override other configuration (see `.env.local.example`).
 
 ### Running development server
 
 ```
-yarn build
 yarn start
 ```
 
-No separate build step is required to start the development server.
-It is somewhat unstable, but provides hot reloading:
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-```
-yarn run dev
-```
+You will also see any lint errors in the console.
 
-The server will output the URL for accessing kerrokantasi-ui.
+https://vitejs.dev/guide/cli.html#vite
 
-### Running in production
-
-You can use your favorite process manager to run `yarn build` and `yarn start`.
-Node-specific managers can also directly run `compile(/index.js)` & `server(/index.js)`.
+Scripts generates first environment variables to `public/env-config.js` with `scripts/update-runtime-env.js`, which contains the
+actual used variables when running the app. App is not using default `process.env` way to refer of variables but
+`window._env_` object.
 
 ### Other commands
+```yarn build```
 
-- `yarn run fetch-plugins`: fetch optional plugins (see below)
-- `yarn run test`: run tests
-- `yarn test -- -u` update tests
+Builds the app for production to the `build` folder.<br />
+It correctly bundles app in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
+
+See the section about [build](https://vitejs.dev/guide/cli.html#build) for more information.
+
+Note that running built application locally you need to generate also `public/env-config.js` file. It can be done with
+`yarn update-runtime-env`. By default it's generated for development environment if no `NODE_ENV` is set.
+
+```yarn run test```
+
+See the section about [running tests](https://vitest.dev/guide/) for more information.
+
+Scripts generates first environment variables to `public/test-env-config.js` with `scripts/update-runtime-env.js`, which contains the
+actual used variables when running the app. App is not using default `process.env` way to refer of variables but
+`window._env_` object.
+
+```yarn test:e2e```
+
+Runs end-to-end tests using [Playwright](https://playwright.dev).
+
+It is recommended to run these tests to ensure the overall functionality and user experience of the application.
+
+```yarn update-runtime-env```
+
+Generates variable object used when app is running. Generated object is stored at `public/env-config.js` and available
+as `window._env_` object.
+
+Generation uses values from either
+[environment variables or files](https://vitejs.dev/guide/env-and-mode.html).
+
+At the production deployment same generation is done with [`env.sh`](scripts/env.sh).
 
 ### Running service in Docker
 
@@ -124,7 +136,7 @@ and execute the following four commands inside your docker container:
 
 #### Configure Tunnistamo to frontend
 
-Change the following configuration in `config_dev.toml`
+Change the following configuration in `.env.local`
 
 ```
 kerrokantasi_api_base="http://localhost:8080"
@@ -138,7 +150,7 @@ openid_scope="openid profile https://api.hel.fi/auth/kerrokantasi"
 
 #### Configure Helsinki Profiili to frontend
 
-Change the following configuration in `config_dev.toml`
+Change the following configuration in `.env.local`
 
 ```
 kerrokantasi_api_base="http://localhost:8080"
@@ -188,7 +200,7 @@ The styles are based on Bootstrap version 3 (Sass).
 
 ## Using the whitelabel theme assets
 
-To have a non city specific theme, change the `city_config` config value to `whitelabel`
+To have a non city specific theme, change the `REACT_APP_CITY_CONFIG` config value to `whitelabel`
 
 ## Installing city specific assets
 
@@ -209,14 +221,14 @@ a solution to this, please fix.
      ```
 2. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
 3. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
-4. Set the `city_config` config to `<theme-assets-folder>`
+4. Set the `REACT_APP_CITY_CONFIG` config to `<theme-assets-folder>`
 
 **Production installation:**
 
 1. Add the project to the local `kerrokantasi-ui` project either by installing it
    the same way as in the dev environment, or from GitHub or if the package is published
    to npm, then install it from there.
-2. Set the `city_config` config to `<theme-assets-folder>`
+2. Set the `REACT_APP_CITY_CONFIG` config to `<theme-assets-folder>`
 
 ## Creating city specific assets
 

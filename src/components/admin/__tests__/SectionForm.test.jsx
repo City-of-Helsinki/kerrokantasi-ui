@@ -10,12 +10,12 @@ import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
 
   return {
     ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
@@ -26,7 +26,7 @@ const renderComponent = (propOverrides, storeOverride) => {
   const props = {
     section: { ...mockHearingWithSections.data.sections[0], frontId: mockHearingWithSections.data.sections[0].id },
     sectionLanguages: ['fi'],
-    onSectionChange: jest.fn(),
+    onSectionChange: vi.fn(),
     intl: getIntlAsProp(),
     ...propOverrides,
   };
@@ -45,13 +45,13 @@ describe('<SectionForm />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
     window.IntersectionObserver = originalInterSectionObserver;
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render correctly', () => {
@@ -59,7 +59,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should call onSectionChange when title is changed', () => {
-    const onSectionChange = jest.fn();
+    const onSectionChange = vi.fn();
 
     renderComponent({
       onSectionChange,
@@ -74,7 +74,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should toggle commenting map tools', async () => {
-    const onSectionChange = jest.fn();
+    const onSectionChange = vi.fn();
 
     renderComponent({ onSectionChange });
 
@@ -86,7 +86,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should call sectionMoveUp when move up button is clicked', () => {
-    const sectionMoveUp = jest.fn();
+    const sectionMoveUp = vi.fn();
 
     renderComponent({
       sectionMoveUp,
@@ -102,7 +102,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should call sectionMoveDown when move down button is clicked', () => {
-    const sectionMoveDown = jest.fn();
+    const sectionMoveDown = vi.fn();
 
     renderComponent({
       sectionMoveDown,
@@ -118,7 +118,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should call initSingleChoiceQuestion when new single choice question button is clicked', () => {
-    const initSingleChoiceQuestion = jest.fn();
+    const initSingleChoiceQuestion = vi.fn();
 
     renderComponent({ initSingleChoiceQuestion });
 
@@ -130,7 +130,7 @@ describe('<SectionForm />', () => {
   });
 
   it('should call initMultipleChoiceQuestion when new multiple choice question button is clicked', () => {
-    const initMultipleChoiceQuestion = jest.fn();
+    const initMultipleChoiceQuestion = vi.fn();
 
     renderComponent({ initMultipleChoiceQuestion });
 
