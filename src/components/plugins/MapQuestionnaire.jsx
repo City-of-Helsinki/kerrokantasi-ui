@@ -42,7 +42,7 @@ const MapQuestionnaire = ({
 }) => {
   const {
     answers,
-    defaultNickname,
+    defaultNickname = '',
     comments: commentsData,
     isReply,
     loggedIn,
@@ -64,7 +64,7 @@ const MapQuestionnaire = ({
     lastUserComment: null,
     lastUserData: null,
     mapCommentText: '',
-    nickname: defaultNickname || '',
+    nickname: defaultNickname,
     onReceiveMessage: null,
     pinned: false,
     pluginInstanceId: pluginInstanceId + Math.floor(Math.random() * 10000000),
@@ -186,7 +186,7 @@ const MapQuestionnaire = ({
       ...prevState,
       collapsed: false,
       commentText: '',
-      nickname: defaultNickname || '',
+      nickname: defaultNickname,
       imageTooBig: false,
       images: [],
       pinned: false,

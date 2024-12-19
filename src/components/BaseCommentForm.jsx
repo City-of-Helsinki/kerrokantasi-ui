@@ -71,10 +71,9 @@ const BaseCommentForm = ({
 
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
-    collapsed: true,
+  const defaultState = useMemo(() => ({
     commentText: '',
-    nickname: defaultNickname || '',
+    nickname: defaultNickname,
     imageTooBig: false,
     images: [],
     pinned: false,
@@ -84,6 +83,11 @@ const BaseCommentForm = ({
     mapCommentText: '',
     commentRequiredError: false,
     commentOrAnswerRequiredError: false,
+  }), [defaultNickname]);
+
+  const [formData, setFormData] = useState({
+    ...defaultState,
+    collapsed: true,
   });
 
   /**
@@ -113,17 +117,8 @@ const BaseCommentForm = ({
     if (canComment) {
       setFormData({
         ...formData,
+        ...defaultState,
         collapsed: !formData.collapsed,
-        commentText: '',
-        nickname: defaultNickname || '',
-        imageTooBig: false,
-        images: [],
-        pinned: false,
-        showAlert: true,
-        hideName: false,
-        mapCommentText: '',
-        commentRequiredError: false,
-        commentOrAnswerRequiredError: false,
       });
 
       if (onOverrideCollapse instanceof Function) {
@@ -132,7 +127,7 @@ const BaseCommentForm = ({
     } else {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section))));
     }
-  }, [canComment, defaultNickname, formData, onOverrideCollapse, section, dispatch]);
+  }, [canComment, defaultState, formData, onOverrideCollapse, section, dispatch]);
 
   useEffect(() => {
     if (isUserAdmin) {
@@ -262,7 +257,7 @@ const BaseCommentForm = ({
       ...formData,
       collapsed: false,
       commentText: '',
-      nickname: defaultNickname || '',
+      nickname: defaultNickname,
       imageTooBig: false,
       images: [],
       pinned: false,
