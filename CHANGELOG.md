@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.8.0...kerrokantasi-ui-v1.9.0) (2024-12-20)
+
+
+### Features
+
+* HearingForm remove bootstrap KER-346 ([5659c36](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5659c3635da32f06151a476fe824e36734b68008))
+* HearingFormStep1 remove bootstrap KER-346 ([5be1912](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5be1912385f4acb83511593b72edaadbad2a448f))
+* HearingFormStep2 remove bootstrap KER-346 ([d3f6408](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d3f64089fa3a96e4fcd74292b6954046f512f6a7))
+* HearingFormStep3 replace bootstrap KER-346 ([4c45892](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4c45892eb4c2ce809cd04e61dc6498444ae92db9))
+* HearingFormStep4 remove bootstrap ([583f213](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/583f2131f49927d51aacbb60cae22c4e1e8c0ceb))
+* HearingFormStep5 remove bootstrap KER-346 ([d367ca3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d367ca3b04bb8aa305e0df61cd69caed0f30678b))
+* Section form remove bootstrap KER-346 ([0311188](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0311188ef4d3149c96a33137e05a968a92e7e47d))
+
 ## [1.8.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.7.0...kerrokantasi-ui-v1.8.0) (2024-12-10)
 
 
