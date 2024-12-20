@@ -1,21 +1,21 @@
 ///// Helsinki brand variables
-@import "~hel-bootstrap-3/src/sass/helsinki-variables";
+@import "hel-bootstrap-3/src/sass/helsinki-variables";
 ///// Application specific theme variables
 @import "hel/variables";
 ///// Helsinki Bootstrap 3 theme variables
-@import "~hel-bootstrap-3/src/sass/theme-bootstrap-variables";
+@import "hel-bootstrap-3/src/sass/theme-bootstrap-variables";
 
 @import "../../../../assets/sass/kerrokantasi/variables";
 @import "../../../../assets/sass/kerrokantasi/bootstrap";
 
 ///// hel-bootstrap-3 Bootstrap overrides
-@import "~hel-bootstrap-3/src/sass/theme-custom-styles";
+@import "hel-bootstrap-3/src/sass/theme-custom-styles";
 
 ///// Kerrokantasi Base styles
 @import "../../../../assets/sass/kerrokantasi/kerrokantasi";
 
 ///// HDS React base styles
-@import "~hds-core/lib/base.min.css";
+@import "hds-core/lib/base.min.css";
 
 
 ///// Helsinki overwrites
