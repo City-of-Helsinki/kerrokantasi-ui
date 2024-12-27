@@ -29,5 +29,10 @@ export function getDataProtectionUrl(language) {
   if (language === 'sv') {
     return urls.dataProtectionSV;
   }
+
+  if (language === 'en') {
+    return urls.dataProtectionEN;
+  }
+
   return urls.dataProtectionFI;
 }
