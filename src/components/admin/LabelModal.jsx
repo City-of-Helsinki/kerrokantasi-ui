@@ -72,8 +72,6 @@ class LabelModal extends React.Component {
       },
       labelLanguages: labelLanguages,
     });
-    console.debug('ei saatana');
-    console.debug(this.state);
     this.props.onClose();
   }
 
