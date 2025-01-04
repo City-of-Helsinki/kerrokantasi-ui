@@ -1,6 +1,6 @@
 {
   "name": "kerrokantasi-ui",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production; if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB server ; else node server ; fi",
