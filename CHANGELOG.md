@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.0...kerrokantasi-ui-v1.9.1) (2025-01-04)
+
+
+### Bug Fixes
+
+* Add data protection document for English ([325de18](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/325de1882b0e4edd589900831c9b9c47fac7eafa))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.8.0...kerrokantasi-ui-v1.9.0) (2024-12-20)
 
 
