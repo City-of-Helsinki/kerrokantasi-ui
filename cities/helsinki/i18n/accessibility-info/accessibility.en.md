@@ -53,19 +53,18 @@ If the user finds that the accessibility requirements are not met, they can repo
 If the user finds that they have not received the contents of the website in accessible format, they can request this information by e-mail kerrokantasi@hel.fi or through the feedback form www.hel.fi/feedback. The City aims to answer the enquiries within a reasonable time.
 
 ## Legal protection of accessibility, enforcement proceedings
-If the person finds that their report or enquiry has not been answered or that the answer is not satisfactory, the matter can be reported to the Regional State Administrative Agency for Southern Finland. You will find detailed information about how the matter is dealt with on the website of the Regional State Administrative Agency for Southern Finland.
 
-Regional State Administrative Agency for Southern Finland
+If the person finds that their report or enquiry has not been answered or that the answer is not satisfactory, the matter can be reported to the Finnish Transport and Communication Agency Traficom. You will find detailed information about how the matter is dealt with on the website of the Finnish Transport and Communication Agency Traficom.
 
-Accessibility supervision unit
+Finnish Transport and Communication Agency Traficom
+
+Digital Accessibility Supervision Unit
 
 www.saavutettavuusvaatimukset.fi
 
 saavutettavuus@avi.fi
 
-Telephone exchange: 0295 016 000
-
-Opening hours: Mon–Fri, 8:00 am–04:00 pm.
+Telephone switchboard: 029 534 5000
 
 ## The City of Helsinki and accessibility
 
