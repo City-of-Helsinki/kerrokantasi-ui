@@ -67,19 +67,17 @@ Om användaren upplever att hen inte får webbplatsens innehåll i tillgängligt
 
 ## Tillgänglighetens rättsskydd, verkställighetsförfarande
 
-Om personen upplever att staden inte svarar på en anmälan eller förfrågan eller att svaret inte är tillfredsställande, kan hen göra en anmälan till Regionförvaltningsverket i Södra Finland. På Regionförvaltningsverket i Södra Finlands webbplats står i detalj hur ärendet handläggs.
+Om personen upplever att staden inte svarar på en anmälan eller förfrågan eller att svaret inte är tillfredsställande, kan hen göra en anmälan till Transport- och kommunikationsverket Traficom. På Transport- och kommunikationsverket Traficom webbplats står i detalj hur ärendet handläggs.
 
-Regionförvaltningsverket i Södra Finland
+Transport- och kommunikationsverket Traficom
 
-Enheten för tillgänglighetstillsyn
+Enheten för tillsyn över digital tillgänglighet
 
 www.tillgänglighetskrav.fi
 
-saavutettavuus@avi.fi
+tillganglighet@traficom.fi
 
-Telefonväxel: 0295 016 000
-
-Öppet: mån.–fre. kl. 8.00–16.15
+Telefonnummer (växeln): 029 534 5000
 
 ## Helsingfors stad och tillgänglighet
 

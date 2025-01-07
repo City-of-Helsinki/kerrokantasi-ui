@@ -72,19 +72,17 @@ Mikäli käyttäjä kokee, etteivät saavutettavuuden vaatimukset kuitenkaan tä
 
 ## Saavutettavuuden oikeussuoja, Täytäntöönpanomenettely
 
-Mikäli henkilö kokee, ettei hänen ilmoitukseensa tai tiedusteluunsa ole vastattu tai vastaus ei ole tyydyttävä, voi asiasta tehdä ilmoituksen Etelä-Suomen aluehallintovirastoon. Etelä-Suomen aluehallintoviraston sivulla kerrotaan tarkasti, miten asia käsitellään.
+Mikäli henkilö kokee, ettei hänen ilmoitukseensa tai tiedusteluunsa ole vastattu tai vastaus ei ole tyydyttävä, voi asiasta tehdä ilmoituksen Liikenne- ja viestintävirasto Traficomiin. Liikenne- ja viestintävirasto Traficomin sivulla kerrotaan tarkasti, miten asia käsitellään.
 
-Etelä-Suomen aluehallintovirasto
+Liikenne- ja viestintävirasto Traficom
 
-Saavutettavuuden valvonnan yksikkö
+Digitaalisen esteettömyyden ja saavutettavuuden valvontayksikkö
 
 www.saavutettavuusvaatimukset.fi
 
-saavutettavuus@avi.fi
+saavutettavuus@traficom.fi
 
-Puhelinvaihde: 0295 016 000
-
-Avoinna: ma-pe klo 8.00 – 16.15
+Puhelinnumero (vaihde): 029 534 5000
 
 ## Helsingin kaupunki ja saavutettavuus
 
