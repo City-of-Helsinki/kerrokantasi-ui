@@ -10,6 +10,7 @@ const renderComponent = (propOverrides) => {
     labels: [],
     contactPersons: [],
     hearingLanguages: [],
+    organizations: [],
     errors: {title: ''},
     ...propOverrides,
   };

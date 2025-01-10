@@ -69,7 +69,7 @@ describe('HearingEditor actions', () => {
             { type: EditorActions.ADD_CONTACT_SUCCESS, payload: { contact: response } }
             ];
 
-            await store.dispatch(actions.addContact(contact, []));
+            await store.dispatch(actions.addContact(contact, [])).catch(() => jest.fn());
             expect(store.getActions()).toContainEqual(expectedActions[0]);
             expect(store.getActions()).toContainEqual(expectedActions[1]);
         });
@@ -83,7 +83,7 @@ describe('HearingEditor actions', () => {
             { type: EditorActions.ADD_CONTACT_FAILED, payload: { errors: { message: 'Invalid email' } } }
             ];
 
-            await store.dispatch(actions.addContact(contact, []));
+            await store.dispatch(actions.addContact(contact, [])).catch(() => jest.fn());
 
             expect(store.getActions()).toContainEqual(expectedActions[0]);
             expect(store.getActions()).toContainEqual(expectedActions[1]);

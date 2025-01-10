@@ -76,12 +76,16 @@ class HearingFormStep1 extends React.Component {
     this.props.dispatch(addLabel(label, this.state.selectedLabels));
   }
 
-  onCreateContact(contact) {
-    this.props.dispatch(addContact(contact, this.state.selectedContacts));
+  async onCreateContact(contact) {
+    return this.props.dispatch(addContact(contact, this.state.selectedContacts))
+      .then(() => true)
+      .catch(() => false);
   }
 
-  onEditContact(contact) {
-    this.props.dispatch(saveContact(contact));
+  async onEditContact(contact) {
+    return this.props.dispatch(saveContact(contact))
+      .then(() => true)
+      .catch(() => false);
   }
 
   openLabelModal() {
@@ -199,11 +203,13 @@ class HearingFormStep1 extends React.Component {
               name='contacts'
               onChange={this.onContactsChange}
               optionKeyField='id'
-              value={hearing.contact_persons.map((person) => ({
-                id: person.id,
-                title: person.name,
-                label: person.name,
-              }))}
+              value={hearing.contact_persons.filter(Boolean).map((person) => (
+                {
+                  id: person.id,
+                  title: person.name,
+                  label: person.name,
+                }
+              ))}
               options={contactOptions.map(person => ({
                 id: person.id,
                 title: person.name,

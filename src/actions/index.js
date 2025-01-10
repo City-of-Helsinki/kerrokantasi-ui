@@ -58,7 +58,6 @@ export const requestErrorHandler = (
     payload = createNotificationPayload(NOTIFICATION_TYPES.error, err.message);
   }
   dispatch(addToast(payload));
-  return false;
 }
 
 export function fetchInitialHearingList(listId, endpoint, params) {

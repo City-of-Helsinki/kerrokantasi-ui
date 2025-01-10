@@ -223,37 +223,38 @@ export function fetchHearingEditorContactPersons() {
 
 export const changeHearing = (field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
 
-export function addContact(contact, selectedContacts) {
-  return (dispatch) => {
-    const postContactAction = createAction(EditorActions.ADD_CONTACT)();
-    dispatch(postContactAction);
-    const url = '/v1/contact_person/';
-    return post(url, contact)
-      .then(checkResponseStatus)
-      .then(response => {
-        if (response.status === 400) {
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.ADD_CONTACT_FAILED)({ errors }));
-          });
-          // Bad request with error message
-          throw Error('Tarkista yhteyshenkilön tiedot.');
-        } else if (response.status === 401) {
-          // Unauthorized
-          throw Error('Et voi luoda yhteyshenkilöä.');
-        } else {
-          response.json().then(contactJSON => {
-            selectedContacts.push(contactJSON.id);
-            dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({ contact: contactJSON }));
-            dispatch(changeHearing('contact_persons', selectedContacts));
-          });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
-        }
-      })
-      .then(() => dispatch(fetchHearingEditorContactPersons()))
-      .catch(requestErrorHandler(dispatch));
-  };
-}
+export const addContact = (contact, selectedContacts) => async dispatch => {
+  const postContactAction = createAction(EditorActions.ADD_CONTACT)();
+  dispatch(postContactAction);
+  const url = '/v1/contact_person/';
+  return post(url, contact)
+    .then(checkResponseStatus)
+    .then(response => {
+      if (response.status === 400) {
+        response.json().then(errors => {
+          dispatch(createAction(EditorActions.ADD_CONTACT_FAILED)({ errors }));
+        });
+        // Bad request with error message
+        throw Error('Tarkista yhteyshenkilön tiedot.');
+      } else if (response.status === 401) {
+        // Unauthorized
+        throw Error('Et voi luoda yhteyshenkilöä.');
+      } else {
+        response.json().then(contactJSON => {
+          selectedContacts.push(contactJSON.id);
+          dispatch(createAction(EditorActions.ADD_CONTACT_SUCCESS)({ contact: contactJSON }));
+          dispatch(changeHearing('contact_persons', selectedContacts));
+        });
+        // TODO: Add translations
+        dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+      }
+    })
+    .then(() => dispatch(fetchHearingEditorContactPersons()))
+    .catch((err) => {
+      requestErrorHandler(dispatch)(err);
+      return Promise.reject(err);
+    });
+};
 
 export function saveContact(contact) {
   return (dispatch) => {

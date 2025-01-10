@@ -15,7 +15,7 @@ class LabelModal extends React.Component {
   static initializeLanguages() {
     const labelLanguages = {};
     forEach(config.languages, (language) => {
-      labelLanguages[language] = language === 'fi' ? true : false;
+      labelLanguages[language] = language === 'fi';
     });
     return labelLanguages;
   }
@@ -65,12 +65,12 @@ class LabelModal extends React.Component {
   }
 
   closeFn() {
-    let labelLanguages = this.constructor.initializeLanguages();
+    const labelLanguages = this.constructor.initializeLanguages();
     this.setState({
       label: {
           label: {},
       },
-      labelLanguages: labelLanguages,
+      labelLanguages,
     });
     this.props.onClose();
   }
@@ -116,7 +116,7 @@ class LabelModal extends React.Component {
   }
 
   render() {
-    const { isOpen, intl, onClose } = this.props;
+    const { isOpen, intl } = this.props;
     const checkBoxes = this.generateCheckBoxes();
     const labelInputs = this.generateLabelInputs();
 

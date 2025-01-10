@@ -48,6 +48,7 @@ const renderComponent = (propOverrides) => {
       ...mockStore.hearing.mockHearing.data,
       ...hearingWithErrors,
     },
+    organizations: [],
     hearingLanguages: ['fi'],
     labels: [{ id: 1, label: 'text' }],
     user: mockUser,
