@@ -121,8 +121,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchSetOidcUser: (user) => dispatch(setOidcUser(user).catch(() => false)),
-  dispatchEnrichUser: () => dispatch(enrichUserData().catch(() => false)),
+  dispatchSetOidcUser: (user) => dispatch(setOidcUser(user)),
+  dispatchEnrichUser: () => dispatch(enrichUserData()),
 });
 
 App.propTypes = {
