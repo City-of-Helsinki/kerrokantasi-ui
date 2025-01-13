@@ -181,6 +181,7 @@
   "hearingContactsPlaceholder": "Valitse kuulemisen yhteyshenkilöt",
   "hearingFileUpload": "Osion liitteet",
   "hearingFormHeaderContainsErrors": " - sisältää virheitä",
+  "hearingFormHeaderStep0": "Virheet",
   "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
   "hearingFormHeaderStep2": "2. Sisältö",
   "hearingFormHeaderStep3": "3. Kartta",

@@ -47,6 +47,7 @@ import { contactShape, hearingShape, labelShape, organizationShape, userShape } 
 import * as EditorSelector from '../../selectors/hearingEditor';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
+import { use } from 'react';
 
 const HearingEditor = (props) => {
 
@@ -74,6 +75,14 @@ const HearingEditor = (props) => {
   }, [fetchEditorContactPersons]);
 
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
+
+  useEffect(() => {
+    if (!isEmpty(editorErrors)) {
+      setErrors({
+        0: editorErrors
+      });
+    }
+  }, [editorErrors]);
 
   /**
    * Should only navigate if the hearing is valid and the editor is not saving.
