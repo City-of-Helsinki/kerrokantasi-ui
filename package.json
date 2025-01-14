@@ -1,6 +1,6 @@
 {
   "name": "kerrokantasi-ui",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production; if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB server ; else node server ; fi",
@@ -57,6 +57,7 @@
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.19.0",
     "bootstrap-sass": "3.4.3",
+    "browser-image-compression": "^2.0.2",
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "cookie-parser": "^1.4.5",

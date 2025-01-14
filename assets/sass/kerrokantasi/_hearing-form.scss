@@ -15,6 +15,19 @@ div:has(> .hearing-form-child-modal) {
     }
   }
 
+  .hearing-form-accordion {
+    & > div:first-child div[role='heading'] {
+      background-color: var(--color-engel);
+      padding: var(--spacing-3-xs) 0;
+    }
+
+    & > div:nth-child(2) {
+      padding-top: var(--spacing-s);
+      padding-left: var(--spacing-s);
+      padding-right: var(--spacing-s);
+    }
+  }
+
   .panel {
     border: 0;
   }
@@ -40,6 +53,7 @@ div:has(> .hearing-form-child-modal) {
   .step-footer {
     text-align: right;
     margin-top: $line-height-computed * 2;
+    margin-bottom: var(--spacing-s);
   }
 
   .step-control {
@@ -171,6 +185,13 @@ div:has(> .hearing-form-child-modal) {
     text-align: right;
   }
 
+  .section-accordion {
+    & > div:first-child div[role='heading'] {
+      background-color: var(--color-fog);
+      padding: var(--spacing-3-xs) 0;
+    }
+  }
+
   .section-toolbar {
     padding: 6px;
     margin-bottom: $line-height-computed;
@@ -179,6 +200,7 @@ div:has(> .hearing-form-child-modal) {
 
   .new-section-toolbar {
     padding: 6px;
+    margin-top: var(--spacing-m);
     margin-bottom: $line-height-computed;
     text-align: center;
     background: $theme-secondary-light;
@@ -187,6 +209,46 @@ div:has(> .hearing-form-child-modal) {
   .question-control {
     margin-right: 10px;
     margin-bottom: 5px;
+  }
+}
+
+.hearing-form {
+  &-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-m);
+
+    > div {
+      flex: 0 1 48%;
+
+      &:first-of-type {
+        margin-right: 2%;
+      }
+    }
+  }
+
+  &-column {
+    display: flex;
+
+    & > div {
+      width: 100%;
+    }
+
+    .action-button {
+      margin-left: var(--spacing-s);
+      height: 3.5rem;
+      align-self: flex-start;
+      margin-top: 1.75rem;
+    }
+  }
+}
+
+.edit-contacts-list {
+  margin: 0;
+  padding: 0.75rem 0 0;
+
+  li {
+    list-style-type: none;
   }
 }
 
@@ -212,34 +274,6 @@ div:has(> .hearing-form-child-modal) {
     .btn {
       margin-bottom: $line-height-computed / 2;
     }
-  }
-}
-
-.label-elements {
-  display: flex;
-
-  > .Select {
-    flex-basis: 20%;
-    flex-grow: 2;
-  }
-
-  .add-label-button {
-    margin-left: 5px;
-    width: 38px;
-  }
-}
-
-.contact-elements {
-  display: flex;
-
-  > .Select {
-    flex-basis: 20%;
-    flex-grow: 2;
-  }
-
-  .add-contact-button {
-    margin-left: 5px;
-    width: 38px;
   }
 }
 

@@ -169,7 +169,7 @@ describe('HearingEditor actions', () => {
     describe('Deletion Actions', () => {
         it('deletes a section attachment and dispatches DELETE_ATTACHMENT', async () => {
             const sectionId = 'sec123';
-            const attachment = { id: 'att123' };
+            const attachment = { id: 'att123', file: {} };
             api.apiDelete.mockResolvedValue({ status: 200 });
 
             const expectedActions = [

@@ -110,7 +110,7 @@ MultiLanguageTextField.propTypes = {
   fieldType: PropTypes.string,
   hideControls: textEditorHideControlsShape,
   labelId: PropTypes.string,
-  hint: PropTypes.string,
+  hint: PropTypes.object,
   languages: PropTypes.arrayOf(PropTypes.string),
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
