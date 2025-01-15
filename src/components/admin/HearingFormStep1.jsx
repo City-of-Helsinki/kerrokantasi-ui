@@ -58,8 +58,7 @@ const HearingFormStep1 = ({
 
   const onContactsChange = (contacts) => {
     const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.id === contact.id));
-
-    setSelectedContacts(newContacts.map(({ id }) => id));
+    setSelectedContacts(newContacts.filter(Boolean).map(({ id }) => id));
     onHearingChange(
       'contact_persons',
       newContacts.map(({ id }) => id),
