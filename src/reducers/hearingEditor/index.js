@@ -9,7 +9,6 @@ import organizations from './organizations';
 import sections from './sections';
 
 const showEditor = handleActions({
-  [EditorActions.BEGIN_EDIT_HEARING]: () => true,
   [EditorActions.INIT_NEW_HEARING]: () => true,
   [EditorActions.SHOW_FORM]: () => true,
   [EditorActions.CLOSE_FORM]: () => false,

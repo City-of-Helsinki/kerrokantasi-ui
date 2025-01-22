@@ -19,7 +19,6 @@ const sectionMoveDown = (sections, sectionId) => {
 const data = handleActions(
   {
     [EditorActions.RECEIVE_HEARING]: (state, { payload: { result, entities } }) => entities.hearing[result],
-    [EditorActions.BEGIN_EDIT_HEARING]: (state, { payload }) => payload.hearing,
     // Weird way of getting the normalized hearing when the hearing actually was normalized without any identifier
     [EditorActions.INIT_NEW_HEARING]: (state, { payload: { entities } }) =>
       entities.hearing[head(Object.keys(entities.hearing))],

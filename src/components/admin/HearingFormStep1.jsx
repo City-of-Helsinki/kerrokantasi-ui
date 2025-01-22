@@ -13,7 +13,7 @@ import ContactModal from './ContactModal';
 import { contactShape, hearingShape, labelShape, organizationShape } from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
-import { addLabel, addContact, saveContact } from '../../actions/hearingEditor';
+import { addLabel, addContact, saveContact, fetchHearingEditorContactPersons } from '../../actions/hearingEditor';
 import ContactCard from '../ContactCard';
 
 const HearingFormStep1 = ({
@@ -28,23 +28,18 @@ const HearingFormStep1 = ({
   onLanguagesChange,
   onContinue,
 }) => {
-  const selectedLabelsInitialState = hearing.labels.map(({ id }) => id);
-  const selectedContactsInitialState = hearing.contact_persons.map(({ id }) => id);
+  const selectedLabelsInitialState = hearing?.labels?.map(({ id }) => id);
 
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState(selectedLabelsInitialState);
-  const [selectedContacts, setSelectedContacts] = useState(selectedContactsInitialState);
+  const [selectedContacts, setSelectedContacts] = useState(
+    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || []
+  );
 
   const dispatch = useDispatch();
   const intl = useIntl();
-
-  const onChange = (event) => {
-    // Propagate interesting changes to parent components
-    const { name: field, value } = event.target;
-    onHearingChange(field, value);
-  };
 
   const onLabelsChange = (labels) => {
     const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.id));
@@ -69,15 +64,24 @@ const HearingFormStep1 = ({
     dispatch(addLabel(label, selectedLabels));
   };
 
-  const onCreateContact = async (contact) => 
-    dispatch(addContact(contact, selectedContacts))
-      .then(() => true)
-      .catch(() => false);
+  const onCreateContact = async (contact) => {
+    try {
+      await dispatch(addContact(contact, selectedContacts));
+      await dispatch(fetchHearingEditorContactPersons());
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
-  const onEditContact = async (contact) =>
-    dispatch(saveContact(contact))
-      .then(() => true)
-      .catch(() => false);
+  const onEditContact = async (contact) => {
+    try { 
+      await dispatch(saveContact(contact));
+      return true;
+    } catch (error) {
+      return false
+    }
+  };
 
   const openLabelModal = () => {
     setShowLabelModal(true);
@@ -158,7 +162,7 @@ const HearingFormStep1 = ({
             label={<FormattedMessage id='hearingSlug' />}
             value={hearing.slug}
             placeholder={intl.formatMessage({ id: 'hearingSlugPlaceholder' })}
-            onChange={onChange}
+            onChange={(value) => onHearingChange('slug', value)}
             required
             invalid={!!errors.slug}
             errorText={errors.slug}
@@ -172,7 +176,7 @@ const HearingFormStep1 = ({
             name='contact_persons'
             onChange={onContactsChange}
             optionKeyField='id'
-            value={hearing.contact_persons.map((person) => ({
+            value={hearing.contact_persons.filter(Boolean).map((person) => ({
               id: person.id,
               title: person.name,
               label: person.name,
@@ -201,7 +205,7 @@ const HearingFormStep1 = ({
         {selectedContacts &&
           selectedContacts.map((item) => {
             const contact = contactPersons.find((option) => option.id === item);
-
+            if (!contact) return null;
             return (
               <li className='hearing-contact'>
                 <ContactCard {...contact} />

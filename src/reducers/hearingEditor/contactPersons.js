@@ -29,15 +29,7 @@ const all = handleActions(
   [],
 );
 
-const contactPersons = handleActions({
-  [EditorActions.ADD_CONTACT]: () => true,
-  [EditorActions.ADD_CONTACT_FAILED]: (state, { payload }) => payload.errors,
-  [EditorActions.ADD_CONTACT_SUCCESS]: () => null
-}, {});
-
-
 export default combineReducers({
   byId,
-  all,
-  contactPersons
+  all
 });
