@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.9.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.0...kerrokantasi-ui-v1.9.1) (2025-01-24)
+
+
+### Bug Fixes
+
+* Add data protection document for English ([325de18](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/325de1882b0e4edd589900831c9b9c47fac7eafa))
+* Ticket KER-422 Review fixes ([#1104](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1104)) ([10cb20f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/10cb20f7d3b76f828ba81fb6322917df37c0b71e))
+* fixed the use of defaultNickname and unified it
+* fixed label form not clearing on cancel / submit
+* fixing KER-422 remarks
+* fixed logout loop
+* created place to show server side errors
+* fixed undefined error on contact creation
+* fixed whitepage on new contact creation
+
+
 ## [1.9.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.8.0...kerrokantasi-ui-v1.9.0) (2024-12-20)
 
 
