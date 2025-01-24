@@ -42,12 +42,6 @@ export const getPopulatedHearing = (state) => {
   const labelsById = !isEmpty(labels.byId) ? hearing.labels?.map(frontId => labels.byId[frontId]) : hearing.labels;
   const sectionsById = !isEmpty(sections.byId) ? hearing.sections?.map(frontId => sections.byId[frontId]) : hearing.sections;
 
-
-  console.debug('OG: ', hearing);
-  console.debug('After c: ', contactPersonsById);
-  console.debug('After l: ', labelsById);
-  console.debug('After s: ', sectionsById);
-
   return ({
     ...hearing,
     contact_persons: contactPersonsById,

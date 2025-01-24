@@ -97,16 +97,16 @@ describe('hearingEditor selectors', () => {
       const expected = {
         ...state.hearingEditor.hearing.data,
         contact_persons: [
-          state.hearingEditor.contactPersons.byId['id1'],
-          state.hearingEditor.contactPersons.byId['id2'],
+          state.hearingEditor.contactPersons.byId.id1,
+          state.hearingEditor.contactPersons.byId.id2,
         ],
         labels: [
-          state.hearingEditor.labels.byId['id1'],
-          state.hearingEditor.labels.byId['id2'],
+          state.hearingEditor.labels.byId.id1,
+          state.hearingEditor.labels.byId.id2,
         ],
         sections: [
-          state.hearingEditor.sections.byId['id1'],
-          state.hearingEditor.sections.byId['id2'],
+          state.hearingEditor.sections.byId.id1,
+          state.hearingEditor.sections.byId.id2,
         ],
       };
       expect(selectors.getPopulatedHearing(state)).toEqual(expected);
@@ -136,15 +136,15 @@ describe('hearingEditor selectors', () => {
   describe('getLabels', () => {
     it('should return all labels from the labels state in the hearing editor state', () => {
       expect(selectors.getLabels(state)).toEqual([
-        state.hearingEditor.labels.byId['id1'],
-        state.hearingEditor.labels.byId['id2'],
+        state.hearingEditor.labels.byId.id1,
+        state.hearingEditor.labels.byId.id2,
       ]);
     });
   });
 
   describe('getLabelById', () => {
     it('should return the label with the specified id from the labels state in the hearing editor state', () => {
-      expect(selectors.getLabelById(state, 'id1')).toEqual(state.hearingEditor.labels.byId['id1']);
+      expect(selectors.getLabelById(state, 'id1')).toEqual(state.hearingEditor.labels.byId.id1);
     });
   });
 
@@ -157,15 +157,15 @@ describe('hearingEditor selectors', () => {
   describe('getSections', () => {
     it('should return all sections from the sections state in the hearing editor state', () => {
       expect(selectors.getSections(state)).toEqual([
-        state.hearingEditor.sections.byId['id1'],
-        state.hearingEditor.sections.byId['id2'],
+        state.hearingEditor.sections.byId.id1,
+        state.hearingEditor.sections.byId.id2,
       ]);
     });
   });
 
   describe('getSectionById', () => {
     it('should return the section with the specified id from the sections state in the hearing editor state', () => {
-      expect(selectors.getSectionById(state, 'id1')).toEqual(state.hearingEditor.sections.byId['id1']);
+      expect(selectors.getSectionById(state, 'id1')).toEqual(state.hearingEditor.sections.byId.id1);
     });
   });
 
@@ -178,15 +178,15 @@ describe('hearingEditor selectors', () => {
   describe('getContactPersons', () => {
     it('should return all contact persons from the contactPersons state in the hearing editor state', () => {
       expect(selectors.getContactPersons(state)).toEqual([
-        state.hearingEditor.contactPersons.byId['id1'],
-        state.hearingEditor.contactPersons.byId['id2'],
+        state.hearingEditor.contactPersons.byId.id1,
+        state.hearingEditor.contactPersons.byId.id2,
       ]);
     });
   });
 
   describe('getContactPersonById', () => {
     it('should return the contact person with the specified id from the contactPersons state in the hearing editor state', () => {
-      expect(selectors.getContactPersonById(state, 'id1')).toEqual(state.hearingEditor.contactPersons.byId['id1']);
+      expect(selectors.getContactPersonById(state, 'id1')).toEqual(state.hearingEditor.contactPersons.byId.id1);
     });
   });
 });

@@ -28,19 +28,20 @@ const HearingFormStep1 = ({
   onLanguagesChange,
   onContinue,
 }) => {
-  const selectedLabelsInitialState = hearing?.labels?.map(({ id }) => id);
+
+  const intl = useIntl();
+  const dispatch = useDispatch();
 
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedLabels, setSelectedLabels] = useState(selectedLabelsInitialState);
+  const [selectedLabels, setSelectedLabels] = useState(
+    hearing?.labels?.map(({ id }) => id) || []
+  );
   const [selectedContacts, setSelectedContacts] = useState(
     hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || []
   );
-
-  const dispatch = useDispatch();
-  const intl = useIntl();
-
+  
   const onLabelsChange = (labels) => {
     const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.id));
 

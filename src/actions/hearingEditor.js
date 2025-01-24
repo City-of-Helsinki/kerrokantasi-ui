@@ -199,7 +199,7 @@ export const changeHearing = (field, value) => dispatch => dispatch(createAction
 
 export const addContact = (contact, selectedContacts) => async dispatch => {
   const url = '/v1/contact_person/';
-  await post(url, contact)
+  return post(url, contact)
     .then(checkResponseStatus)
     .then(async response => {
       if (response.status === 400) {
@@ -209,15 +209,15 @@ export const addContact = (contact, selectedContacts) => async dispatch => {
         // Unauthorized
         throw Error('Et voi luoda yhteyshenkilöä.');
       } else {
-        await response.json().then(async contactJSON => {
+        response.json().then(async contactJSON => {
           selectedContacts.push(contactJSON.id);
           await dispatch(changeHearing('contact_persons', selectedContacts));
+          await dispatch(fetchHearingEditorContactPersons());
         });
         // TODO: Add translations
         dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
       }
     })
-    .then(async () => await dispatch(fetchHearingEditorContactPersons()))
     .catch((err) => {
       requestErrorHandler(dispatch)(err);
       return Promise.reject(err);
