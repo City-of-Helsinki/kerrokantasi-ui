@@ -43,6 +43,7 @@ import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
+import { getNickname } from '../../../utils/user';
 
 const SectionContainerComponent = ({
   editCommentFn,
@@ -418,7 +419,7 @@ const SectionContainerComponent = ({
           canFlag={isHearingAdmin()}
           onPostVote={onVoteComment}
           onPostFlag={onFlagComment}
-          defaultNickname={user && user.displayName}
+          defaultNickname={getNickname(user)}
           isSectionComments={section}
           onDeleteComment={handleDeleteClick}
           onEditComment={onEditComment}

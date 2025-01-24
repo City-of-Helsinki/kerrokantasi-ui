@@ -14,7 +14,7 @@ import Icon from '../utils/Icon';
 import MapQuestionnaire from './plugins/MapQuestionnaire';
 import QuestionResults from './QuestionResults';
 import CommentForm from './BaseCommentForm';
-import { getNickname, getAuthorDisplayName } from '../utils/user';
+import { getAuthorDisplayName } from '../utils/user';
 import { getSectionCommentingMessage } from '../utils/section';
 import getUser from '../selectors/user';
 
@@ -65,6 +65,7 @@ const SortableCommentListComponent = ({
   hearingGeojson,
   hearingSlug,
   displayVisualization,
+  defaultNickname,
   intl,
   language,
   published,
@@ -359,7 +360,7 @@ const SortableCommentListComponent = ({
             canComment={canComment}
             hearingId={hearingId}
             onPostComment={onPostComment}
-            defaultNickname={getNickname(user)}
+            defaultNickname={defaultNickname}
             nicknamePlaceholder={getAuthorDisplayName(user) || intl.formatMessage({ id: 'anonymous' })}
             collapseForm={listState.collapseForm}
             section={section}
@@ -439,7 +440,7 @@ const SortableCommentListComponent = ({
                   canVote={canVote}
                   canFlag={canFlag}
                   comments={sectionComments.results}
-                  defaultNickname={getNickname(user)}
+                  defaultNickname={defaultNickname}
                   hearingId={hearingId}
                   intl={intl}
                   isLoading={listState.showLoader}
@@ -470,6 +471,7 @@ SortableCommentListComponent.propTypes = {
   canFlag: PropTypes.bool,
   closed: PropTypes.bool,
   displayVisualization: PropTypes.bool,
+  defaultNickname: PropTypes.string,
   fetchAllComments: PropTypes.func,
   fetchComments: PropTypes.func,
   fetchMoreComments: PropTypes.func,

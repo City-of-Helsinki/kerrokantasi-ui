@@ -13,9 +13,6 @@ export const getProjects = (state) =>
 export const getIsFetchingHearing = (state) =>
   getHearingEditor(state).hearing.isFetching;
 
-export const getIsFetchingMetaData = (state) =>
-  getHearingEditor(state).labels.isFetching || getHearingEditor(state).contactPersons.isFetching;
-
 export const getIsLoading = (state) => getHearingEditor(state).editorState.pending > 0;
 
 export const getShowForm = (state) =>
@@ -41,11 +38,15 @@ export const getPopulatedHearing = (state) => {
   }
   const { contactPersons, labels, sections } = editor;
 
+  const contactPersonsById = !isEmpty(contactPersons.byId) ? hearing.contact_persons?.map(frontId => contactPersons.byId[frontId]) : hearing.contact_persons;
+  const labelsById = !isEmpty(labels.byId) ? hearing.labels?.map(frontId => labels.byId[frontId]) : hearing.labels;
+  const sectionsById = !isEmpty(sections.byId) ? hearing.sections?.map(frontId => sections.byId[frontId]) : hearing.sections;
+
   return ({
     ...hearing,
-    contact_persons: !isEmpty(contactPersons.byId) ? hearing.contact_persons?.map(frontId => contactPersons.byId[frontId]) : hearing.contact_persons,
-    labels: !isEmpty(labels.byId) ? hearing.labels?.map(frontId => labels.byId[frontId]) : hearing.labels,
-    sections: !isEmpty(sections.byId) ? hearing.sections?.map(frontId => sections.byId[frontId]) : hearing.sections,
+    contact_persons: contactPersonsById,
+    labels: labelsById,
+    sections: sectionsById,
   });
 };
 

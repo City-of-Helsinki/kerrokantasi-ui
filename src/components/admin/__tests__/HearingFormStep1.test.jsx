@@ -22,6 +22,7 @@ const renderComponent = (propOverrides) => {
     onHearingChange: jest.fn(),
     onContinue: jest.fn(),
     errors: {},
+    organizations: [],
     ...propOverrides,
   };
 

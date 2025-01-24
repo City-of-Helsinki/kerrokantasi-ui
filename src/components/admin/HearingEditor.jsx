@@ -74,6 +74,14 @@ const HearingEditor = (props) => {
 
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
+  useEffect(() => {
+    if (!isEmpty(editorErrors)) {
+      setErrors({
+        0: editorErrors
+      });
+    }
+  }, [editorErrors]);
+
   /**
    * Should only navigate if the hearing is valid and the editor is not saving.
    * This is to give errors from backend time to get to state.

@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { getIntlAsProp } from '../../../../test-utils';
@@ -44,32 +44,36 @@ describe('<ContactModal />', () => {
   });
 
   it('should call onCreateContact when creating a new contact', async () => {
-    const onCreateContactMock = jest.fn();
+    const onCreateContactMock = jest.fn(() => true);  
     const onCloseMock = jest.fn();
 
     renderComponent({ onCreateContact: onCreateContactMock, onClose: onCloseMock, contactInfo: {} });
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText('create'));
+    await act(async () => {
+      await user.click(screen.getByText('create'));
+    })
 
-    expect(onCreateContactMock).toHaveBeenCalledTimes(1);
-    expect(onCloseMock).toHaveBeenCalledTimes(1);
+    await expect(onCreateContactMock).toHaveBeenCalledTimes(1);
+    await expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
   it('should call onEditContact when editing an existing contact', async () => {
-    const onEditContactMock = jest.fn();
+    const onEditContactMock = jest.fn(() => true);
     const onCloseMock = jest.fn();
 
     renderComponent({ onEditContact: onEditContactMock, onClose: onCloseMock });
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText('save'));
+    await act(async () => {
+     await user.click(screen.getByText('save'));
+    })
 
     expect(onEditContactMock).toHaveBeenCalledTimes(1);
     expect(onEditContactMock).toHaveBeenCalledWith({
-      id: '',
+      id: 'contact1',
       name: 'John Doe',
       phone: '123456789',
       email: 'john.doe@example.com',
@@ -89,7 +93,7 @@ describe('<ContactModal />', () => {
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText('save'));
+    await user.click(screen.getByText('cancel'));
 
     expect(onCloseMock).toHaveBeenCalledTimes(1);
   });

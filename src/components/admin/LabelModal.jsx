@@ -15,7 +15,7 @@ class LabelModal extends React.Component {
   static initializeLanguages() {
     const labelLanguages = {};
     forEach(config.languages, (language) => {
-      labelLanguages[language] = false;
+      labelLanguages[language] = language === 'fi';
     });
     return labelLanguages;
   }
@@ -23,16 +23,13 @@ class LabelModal extends React.Component {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
+    this.closeFn = this.closeFn.bind(this);
     this.state = {
       label: {
         label: {},
       },
       labelLanguages: this.constructor.initializeLanguages(),
     };
-  }
-
-  UNSAFE_componentWillMount() {
-    this.setState((prevState) => update(prevState, { labelLanguages: { fi: { $set: true } } }));
   }
 
   onLabelChange(language, value) {
@@ -64,6 +61,17 @@ class LabelModal extends React.Component {
   submitForm(event) {
     event.preventDefault();
     this.props.onCreateLabel(this.state.label);
+    this.closeFn();
+  }
+
+  closeFn() {
+    const labelLanguages = this.constructor.initializeLanguages();
+    this.setState({
+      label: {
+          label: {},
+      },
+      labelLanguages,
+    });
     this.props.onClose();
   }
 
@@ -108,7 +116,7 @@ class LabelModal extends React.Component {
   }
 
   render() {
-    const { isOpen, intl, onClose } = this.props;
+    const { isOpen, intl } = this.props;
     const checkBoxes = this.generateCheckBoxes();
     const labelInputs = this.generateLabelInputs();
 
@@ -119,7 +127,7 @@ class LabelModal extends React.Component {
       <Dialog
         className='hearing-form-child-modal'
         isOpen={isOpen}
-        close={onClose}
+        close={this.closeFn}
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
@@ -148,7 +156,7 @@ class LabelModal extends React.Component {
           >
             <FormattedMessage id='create' />
           </Button>
-          <Button className='kerrokantasi-btn' onClick={onClose}>
+          <Button className='kerrokantasi-btn' onClick={this.closeFn}>
             <FormattedMessage id='cancel' />
           </Button>
         </Dialog.ActionButtons>

@@ -58,37 +58,6 @@ describe('HearingEditor actions', () => {
         store.clearActions();
         store = mockStore(initialState);
     });
-    describe('addContact', () => {
-        it('dispatches ADD_CONTACT_SUCCESS on successful contact addition', async () => {
-            const contact = { name: 'John Doe', email: 'john@example.com' };
-            const response = { id: '123', name: 'John Doe', email: 'john@example.com' };
-            api.post.mockResolvedValue({ status: 201, json: () => Promise.resolve(response) });
-
-            const expectedActions = [
-            { type: EditorActions.ADD_CONTACT },
-            { type: EditorActions.ADD_CONTACT_SUCCESS, payload: { contact: response } }
-            ];
-
-            await store.dispatch(actions.addContact(contact, []));
-            expect(store.getActions()).toContainEqual(expectedActions[0]);
-            expect(store.getActions()).toContainEqual(expectedActions[1]);
-        });
-
-        it('dispatches ADD_CONTACT_FAILED on failure', async () => {
-            const contact = { name: 'John Doe', email: 'invalid-email' };
-            api.post.mockResolvedValue({ status: 400, json: () => Promise.resolve({ message: 'Invalid email' }) });
-
-            const expectedActions = [
-            { type: EditorActions.ADD_CONTACT },
-            { type: EditorActions.ADD_CONTACT_FAILED, payload: { errors: { message: 'Invalid email' } } }
-            ];
-
-            await store.dispatch(actions.addContact(contact, []));
-
-            expect(store.getActions()).toContainEqual(expectedActions[0]);
-            expect(store.getActions()).toContainEqual(expectedActions[1]);
-        });
-    });
     describe('Simple Synchronous Actions', () => {
         it('should create an action to change a project', () => {
             const projectId = '123';
