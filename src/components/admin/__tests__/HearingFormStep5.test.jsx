@@ -97,7 +97,7 @@ const renderComponent = (propOverrides, storeOverride) => {
       },
     ],
     intl: getIntlAsProp(),
-    dispatch: jest.fn(),
+    dispatch: vi.fn(),
     ...propOverrides,
   };
 

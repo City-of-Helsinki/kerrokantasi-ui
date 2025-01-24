@@ -7,8 +7,8 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
   const props = {
-    handleSort: jest.fn(),
-    formatMessage: jest.fn((msg) => msg.id),
+    handleSort: vi.fn(),
+    formatMessage: vi.fn((msg) => msg.id),
     ...propOverrides,
   };
 
@@ -21,7 +21,7 @@ describe('<HearingListFilters />', () => {
   });
 
   it('calls handleSort with correct parameters when an option is selected', async () => {
-    const handleSortMock = jest.fn();
+    const handleSortMock = vi.fn();
 
     renderComponent({ handleSort: handleSortMock });
 

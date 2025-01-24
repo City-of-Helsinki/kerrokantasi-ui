@@ -23,9 +23,9 @@ const renderComponent = (propOverrides, storeOverride) => {
       has_hearings: false,
     },
     indexNumber: 0,
-    onDelete: jest.fn(),
-    onChange: jest.fn(),
-    onActive: jest.fn(),
+    onDelete: vi.fn(),
+    onChange: vi.fn(),
+    onActive: vi.fn(),
     languages: ['en', 'fi'],
     errors: {},
     ...propOverrides,
@@ -42,7 +42,7 @@ describe('<Phase />', () => {
   });
 
   it('should call onChange when title is changed', () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     renderComponent({ onChange });
 
@@ -52,7 +52,7 @@ describe('<Phase />', () => {
   });
 
   it('should call onDelete when delete button is clicked', () => {
-    const onDelete = jest.fn();
+    const onDelete = vi.fn();
 
     renderComponent({ onDelete });
 
@@ -62,7 +62,7 @@ describe('<Phase />', () => {
   });
 
   it('should call onActive when checkbox is changed', () => {
-    const onActive = jest.fn();
+    const onActive = vi.fn();
 
     renderComponent({ onActive });
 

@@ -18,11 +18,11 @@ const renderComponent = (propOverrides, storeOverride) => {
   const props = {
     hearing: mockHearingWithSections,
     language: 'fi',
-    onHearingChange: jest.fn(),
-    onCreateMapMarker: jest.fn(),
-    onAddMapMarker: jest.fn(),
-    onAddMapMarkersToCollection: jest.fn(),
-    onContinue: jest.fn(),
+    onHearingChange: vi.fn(),
+    onCreateMapMarker: vi.fn(),
+    onAddMapMarker: vi.fn(),
+    onAddMapMarkersToCollection: vi.fn(),
+    onContinue: vi.fn(),
     ...propOverrides,
   };
 
@@ -37,7 +37,7 @@ describe('<HearingFormStep3 />', () => {
   });
 
   it('should call onContinue when the continue button is clicked', () => {
-    const onContinueMock = jest.fn();
+    const onContinueMock = vi.fn();
 
     renderComponent({ onContinue: onContinueMock });
 
