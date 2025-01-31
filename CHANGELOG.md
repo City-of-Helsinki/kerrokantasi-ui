@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.1...kerrokantasi-ui-v1.9.2) (2025-01-31)
+
+
+### Bug Fixes
+
+* Hearing slug onChange KER-422 ([f064ee8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f064ee85e10aac13c2567eaaef83474db33b4733))
+
 ## [1.9.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.0...kerrokantasi-ui-v1.9.1) (2025-01-24)
 
 
