@@ -28,20 +28,17 @@ const HearingFormStep1 = ({
   onLanguagesChange,
   onContinue,
 }) => {
-
   const intl = useIntl();
   const dispatch = useDispatch();
 
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedLabels, setSelectedLabels] = useState(
-    hearing?.labels?.map(({ id }) => id) || []
-  );
+  const [selectedLabels, setSelectedLabels] = useState(hearing?.labels?.map(({ id }) => id) || []);
   const [selectedContacts, setSelectedContacts] = useState(
-    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || []
+    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || [],
   );
-  
+
   const onLabelsChange = (labels) => {
     const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.id));
 
@@ -76,11 +73,11 @@ const HearingFormStep1 = ({
   };
 
   const onEditContact = async (contact) => {
-    try { 
+    try {
       await dispatch(saveContact(contact));
       return true;
     } catch (error) {
-      return false
+      return false;
     }
   };
 
@@ -163,7 +160,11 @@ const HearingFormStep1 = ({
             label={<FormattedMessage id='hearingSlug' />}
             value={hearing.slug}
             placeholder={intl.formatMessage({ id: 'hearingSlugPlaceholder' })}
-            onChange={(value) => onHearingChange('slug', value)}
+            onChange={(event) => {
+              const { value } = event.target;
+
+              onHearingChange('slug', value);
+            }}
             required
             invalid={!!errors.slug}
             errorText={errors.slug}
