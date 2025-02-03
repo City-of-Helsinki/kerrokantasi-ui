@@ -4,11 +4,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { ControlLabel } from 'react-bootstrap';
 import { Button, Card, Dialog, FileInput, TextInput } from 'hds-react';
+import { useDispatch } from 'react-redux';
 
 import getMessage from '../../../utils/getMessage';
 import { isFormValid } from '../../../utils/iframeUtils';
 import compressFile from '../../../utils/images/compressFile';
 import fileToDataUri from '../../../utils/images/fileToDataUri';
+import { addToast } from '../../../actions/toast';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -16,6 +19,7 @@ import fileToDataUri from '../../../utils/images/fileToDataUri';
 const MAX_IMAGE_SIZE = 1;
 
 const ImageModal = ({ isOpen, onClose, onSubmit }) => {
+  const dispatch = useDispatch();
   const intl = useIntl();
 
   const [showFormErrorMsg, setShowFormErrorMsg] = useState(false);
@@ -39,6 +43,8 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
+
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
     }
   };
 
