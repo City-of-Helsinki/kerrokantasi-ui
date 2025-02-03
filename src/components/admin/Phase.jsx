@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Checkbox, IconTrash, TextInput } from 'hds-react';
@@ -8,11 +8,24 @@ import { useDispatch } from 'react-redux';
 import { createNotificationPayload } from '../../utils/notify';
 import { addToast } from '../../actions/toast';
 
-const Phase = (props) => {
-  const { phaseInfo, indexNumber, onDelete, onChange, onActive, languages, errors } = props;
-
+const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages, errors }) => {
   const dispatch = useDispatch();
   const intl = useIntl();
+
+  const durationsInitial = languages.reduce((acc, current) => {
+    acc[current] = phaseInfo.schedule[current];
+
+    return acc;
+  }, {});
+
+  const descriptionsInitial = languages.reduce((acc, current) => {
+    acc[current] = phaseInfo.description[current];
+
+    return acc;
+  }, {});
+
+  const [phaseDurations, setPhaseDurations] = useState(durationsInitial);
+  const [phaseDescriptions, setPhaseDescriptions] = useState(descriptionsInitial);
 
   const handleRadioOnChange = (event) => {
     if (event.target.checked) {
@@ -73,7 +86,12 @@ const Phase = (props) => {
                 name={`phase-duration-${indexNumber + 1}`}
                 label={<FormattedMessage id='phaseDuration' />}
                 maxLength={50}
-                value={phaseInfo.schedule[usedLanguage]}
+                value={phaseDurations[usedLanguage]}
+                onChange={(event) => {
+                  const { value } = event.target;
+
+                  setPhaseDurations({ ...phaseDurations, [usedLanguage]: value });
+                }}
                 onBlur={(event) =>
                   onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value)
                 }
@@ -85,7 +103,12 @@ const Phase = (props) => {
                 name={`phase-description-${indexNumber + 1}`}
                 label={<FormattedMessage id='phaseDescription' />}
                 maxLength={100}
-                value={phaseInfo.description[usedLanguage]}
+                value={phaseDescriptions[usedLanguage]}
+                onChange={(event) => {
+                  const { value } = event.target;
+
+                  setPhaseDescriptions({ ...phaseDescriptions, [usedLanguage]: value });
+                }}
                 onBlur={(event) =>
                   onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value)
                 }
