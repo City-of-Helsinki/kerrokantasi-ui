@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get, isEmpty } from 'lodash';
 import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
-import imageCompression from 'browser-image-compression';
 
 import { QuestionForm } from './QuestionForm';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
+import compressFile from '../../utils/images/compressFile';
+import fileToDataUri from '../../utils/images/fileToDataUri';
 
 const getFileTitle = (title, language) => {
   if (title?.[language] && typeof title[language] !== 'undefined') {
@@ -137,23 +138,6 @@ const SectionForm = ({
         onSectionChange(section.frontId, field, value);
     }
   };
-
-  const fileToDataUri = (file) =>
-    new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-
-      fileReader.onload = (event) => {
-        resolve(event.target.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-
-      fileReader.readAsDataURL(file);
-    });
-
-  const compressFile = async (file, maxSizeMB, fileType) => imageCompression(file, { maxSizeMB, fileType });
 
   const onImageChange = async (files) => {
     try {
