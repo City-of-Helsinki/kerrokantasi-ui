@@ -311,7 +311,7 @@ const SectionForm = ({
           name='sectionImage'
           dragAndDrop
           label={<FormattedMessage id='sectionImage' />}
-          accept='.jpeg,.png,.webp,.gif'
+          accept='.jpeg,.jpg,.png,.webp,.gif'
           helperText={<FormattedMessage id='sectionImageHelpText' />}
           language={language}
           onChange={onImageChange}
