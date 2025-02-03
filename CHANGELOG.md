@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.10.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.2...kerrokantasi-ui-v1.10.0) (2025-02-03)
+
+
+### Features
+
+* ImageModal replace dropzone KER-422 ([1cdd20d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1cdd20d3eae2d82018389204f06d2b9bd4062cf1))
+
+
+### Bug Fixes
+
+* HearingFormStep2 main image allow 1MB KER-422 ([7021fa0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7021fa0944d7a1545cc1c8b705a2f85d2bfbef60))
+* HearingFormStep2 main image allow jpg KER-422 ([31506bd](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/31506bd670315e52bc8e9760f0f7f90a03f39c45))
+* Phase component fix text input onChange KER-422 ([847692f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/847692fe3c2e57116a0de48ba751cbd3b2a70700))
+
 ## [1.9.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.1...kerrokantasi-ui-v1.9.2) (2025-01-31)
 
 
