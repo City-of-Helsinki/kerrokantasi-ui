@@ -58,7 +58,7 @@ const fetchFiles = async (data, fileType, language) => {
  * MAX_IMAGE_SIZE given in MB
  * MAX_FILE_SIZE given in MB
  */
-const MAX_IMAGE_SIZE = 0.9;
+const MAX_IMAGE_SIZE = 1;
 const MAX_FILE_SIZE = 70;
 
 const SectionForm = ({
