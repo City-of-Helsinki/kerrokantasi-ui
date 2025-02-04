@@ -76,6 +76,7 @@ const Comment = (props) => {
   const handleDelete = (event) => {
     event.preventDefault();
     const { section, id, answers } = data;
+
     // userdata is updated if the comment contained answers
     props.onDeleteComment(section, id, answers.length > 0);
   };

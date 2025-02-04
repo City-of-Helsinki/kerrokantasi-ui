@@ -81,15 +81,20 @@ const SectionContainerComponent = ({
   const contacts = useSelector((state) => getHearingContacts(state, hearingSlug));
   const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections.find((sec) => sec.id === sectionId) || mainSection;
+
   const [data, setData] = useState({
-    showDeleteModal: false,
     commentToDelete: {},
     showLightbox: false,
     mapContainer: null,
     mapContainerMobile: null,
   });
 
-  const { showDeleteModal } = data;
+  const [deleteModal, setDeleteModal] = useState({
+    showDeleteModal: false,
+    commentSectionId: undefined,
+    commentId: undefined,
+    refreshUser: false,
+  });
 
   const getSectionNav = () => {
     const filterNotClosedSections = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE);
@@ -175,12 +180,6 @@ const SectionContainerComponent = ({
     editCommentFn(hearingSlug, commentSectionId, commentId, updatedCommentData);
   };
 
-  const onDeleteComment = () => {
-    const { commentToDelete } = data;
-    const { sectionId: commentSectionId, commentId, refreshUser } = commentToDelete;
-    deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
-  };
-
   const onPostPluginComment = (comment) => {
     const { authCode } = parseQuery(search);
     const commentData = { authCode, ...comment };
@@ -192,17 +191,16 @@ const SectionContainerComponent = ({
     postVoteFn(commentId, hearingSlug, commentSectionId);
   };
 
-  const openDeleteModal = () => {
-    setData({ ...data, showDeleteModal: true });
+  const onDeleteComment = (commentSectionId, commentId, refreshUser) => {
+    deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
   };
 
-  const handleDeleteClick = (commentSectionId, commentId, refreshUser) => {
-    setData({ ...data, commentToDelete: { sectionId: commentSectionId, commentId, refreshUser } });
-    openDeleteModal();
+  const openDeleteModal = (commentSectionId, commentId, refreshUser) => {
+    setDeleteModal({ showDeleteModal: true, commentSectionId, commentId, refreshUser });
   };
 
   const closeDeleteModal = () => {
-    setData({ ...data, showDeleteModal: false, commentToDelete: {} });
+    setDeleteModal({ showDeleteModal: false, commentSectionId: null, commentId: null, refreshUser: false });
   };
 
   const openLightbox = () => {
@@ -425,7 +423,7 @@ const SectionContainerComponent = ({
           onPostFlag={onFlagComment}
           defaultNickname={getNickname(user)}
           isSectionComments={section}
-          onDeleteComment={handleDeleteClick}
+          onDeleteComment={openDeleteModal}
           onEditComment={onEditComment}
           fetchAllComments={fetchAllCommentsFn}
           fetchComments={fetchCommentsForSortableListFn}
@@ -658,7 +656,14 @@ const SectionContainerComponent = ({
       >
         <Row>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</Row>
       </div>
-      <DeleteModal isOpen={showDeleteModal} close={closeDeleteModal} onDeleteComment={onDeleteComment} />
+      <DeleteModal
+        isOpen={deleteModal.showDeleteModal}
+        close={closeDeleteModal}
+        onDeleteComment={onDeleteComment}
+        commentSectionId={deleteModal.commentSectionId}
+        commentId={deleteModal.commentId}
+        refreshUser={deleteModal.refreshUser}
+      />
     </Grid>
   );
 };
