@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-case-declarations */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Button, TextArea } from 'hds-react';
@@ -39,6 +39,7 @@ const MapQuestionnaire = ({
   pluginInstanceId,
   pluginPurpose,
   pluginSource,
+// eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const {
     answers,
@@ -50,6 +51,15 @@ const MapQuestionnaire = ({
     section,
     user,
   } = data;
+
+  /**
+   * Determines whether the logged in user is admin or not.
+   * The array in users with key adminOrganizations should be of length > 0
+   */
+  const isUserAdmin = useMemo(
+    () => loggedIn && user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0,
+    [loggedIn, user],
+  );
 
   const [formData, setFormData] = useState({
     collapsed: true,
@@ -71,6 +81,7 @@ const MapQuestionnaire = ({
     submitting: false,
     showAlert: true,
     userDataChanged: false,
+    organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
   });
 
   const [messageListener, setMessageListener] = useState(null);
@@ -122,7 +133,7 @@ const MapQuestionnaire = ({
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 
-    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig } = formData;
+    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig, organization } = formData;
 
     const submitData = {
       nickname: nickname === '' ? nicknamePlaceholder : nickname,
@@ -132,6 +143,7 @@ const MapQuestionnaire = ({
       pinned,
       mapCommentText,
       label: null,
+      organization,
     };
 
     // plugin comment will override comment fields, if provided
@@ -171,16 +183,17 @@ const MapQuestionnaire = ({
       submitData.setCommentText = config.emptyCommentString;
     }
 
-    onPostComment(
-      submitData.commentText,
-      submitData.nickname,
+    onPostComment({
+      text: submitData.commentText,
+      authorName: submitData.nickname,
       pluginData,
-      submitData.geojson,
-      submitData.label,
-      submitData.images,
-      submitData.pinned,
-      submitData.mapCommentText,
-    );
+      geojson: submitData.geojson,
+      label: submitData.label,
+      images: submitData.images,
+      pinned: submitData.pinned,
+      mapCommentText: submitData.mapCommentText,
+      organization: submitData.organization ?? undefined,
+    });
 
     setFormData((prevState) => ({
       ...prevState,

@@ -38,7 +38,12 @@ import {
   fetchMoreSectionComments,
   getCommentSubComments,
 } from '../../../actions';
-import { getHearingWithSlug, getMainSectionComments, getSections, getHearingContacts } from '../../../selectors/hearing';
+import {
+  getHearingWithSlug,
+  getMainSectionComments,
+  getSections,
+  getHearingContacts,
+} from '../../../selectors/hearing';
 import getUser from '../../../selectors/user';
 import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
@@ -68,7 +73,7 @@ const SectionContainerComponent = ({
   const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
 
   const { hearingSlug, sectionId } = useParams();
-  const { search }  = useLocation();
+  const { search } = useLocation();
 
   const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
   const sections = useSelector((state) => getSections(state, hearingSlug));
@@ -176,10 +181,9 @@ const SectionContainerComponent = ({
     deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
   };
 
-  const onPostPluginComment = (text, authorName, pluginData, geojson, label, images) => {
-    const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
+  const onPostPluginComment = (comment) => {
     const { authCode } = parseQuery(search);
-    const commentData = { authCode, ...sectionCommentData };
+    const commentData = { authCode, ...comment };
     postSectionCommentFn(hearingSlug, mainSection.id, commentData);
   };
 
@@ -569,7 +573,6 @@ const SectionContainerComponent = ({
             </div>
           </Col>
         )}
-
       </>
     );
   };

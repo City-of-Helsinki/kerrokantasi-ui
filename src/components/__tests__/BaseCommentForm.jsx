@@ -79,7 +79,17 @@ describe('<BaseCommentForm />', () => {
 
     fireEvent.click(submitButton);
 
-    expect(onPostComment).toHaveBeenCalledWith('Test comment', 'Test Nickname', undefined, {}, null, [], false, '');
+    expect(onPostComment).toHaveBeenCalledWith({
+      authorName: 'Test Nickname',
+      geojson: {},
+      images: [],
+      label: null,
+      mapCommentText: '',
+      organization: undefined,
+      pinned: false,
+      pluginData: undefined,
+      text: 'Test comment',
+    });
   });
 
   it('handles nickname change', () => {

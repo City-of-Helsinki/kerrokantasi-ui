@@ -41,7 +41,7 @@ export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestion
  * @returns {boolean} true when at least one question is answered and false if not
  */
 export function hasAnyAnswers(answers) {
-  return answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
+  return answers && answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
 }
 
 /**

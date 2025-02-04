@@ -170,7 +170,6 @@ class MapdonKSVPlugin extends BaseCommentForm {
 }
 
 MapdonKSVPlugin.propTypes = {
-  onPostComment: PropTypes.func,
   data: PropTypes.string,
   pluginPurpose: PropTypes.string,
   comments: PropTypes.array,

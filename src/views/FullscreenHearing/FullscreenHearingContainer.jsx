@@ -13,7 +13,12 @@ import { getHearingWithSlug, getMainSection, getMainSectionComments } from '../.
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
 import { parseQuery } from '../../utils/urlQuery';
-import { fetchHearing as fetchHearingAction, postSectionComment, postVote, fetchAllSectionComments } from '../../actions';
+import {
+  fetchHearing as fetchHearingAction,
+  postSectionComment,
+  postVote,
+  fetchAllSectionComments,
+} from '../../actions';
 import Link from '../../components/LinkWithLang';
 import Icon from '../../utils/Icon';
 import getUser from '../../selectors/user';
@@ -28,8 +33,8 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   const user = useSelector((state) => getUser(state));
   const language = useSelector((state) => state.language);
   const fetchAllComments = (hearingSlug, sectionId, ordering) => {
-    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering))
-  }
+    dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering));
+  };
 
   useEffect(() => {
     if (isEmpty(hearing)) {
@@ -38,13 +43,12 @@ const FullscreenHearingContainerComponent = (ownProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onPostComment = (text, authorName, pluginData, geojson, label, images) => {
-    const sectionCommentData = { text, authorName, pluginData, geojson, label, images };
+  const onPostComment = (comment) => {
     // eslint-disable-next-line no-shadow
     const { mainSection } = ownProps;
     const { hearingSlug } = params;
     const { authCode } = parseQuery(location.search);
-    const commentData = { authCode, ...sectionCommentData };
+    const commentData = { authCode, ...comment };
     return dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
   };
 

@@ -174,29 +174,16 @@ const SortableCommentListComponent = ({
     }
   };
 
-  /**
-   * Callback function for posting a comment.
-   *
-   * @param {string} text - The comment text.
-   * @param {string} authorName - The name of the comment author.
-   * @param {object} pluginData - Additional data related to the comment.
-   * @param {object} geojson - The geojson data associated with the comment.
-   * @param {string} label - The label of the comment.
-   * @param {array} images - An array of images attached to the comment.
-   * @param {boolean} pinned - Indicates whether the comment is pinned.
-   * @param {string} mapCommentText - The comment text for the map.
-   * @returns {Promise<void>} - A promise that resolves when the comment is posted.
-   */
-  const onPostComment = async (text, authorName, pluginData, geojson, label, images, pinned, mapCommentText) => {
+  const onPostComment = async (comment) => {
     const { answers } = listState;
 
     if (user) {
       setListState({ ...listState, shouldAnimate: true });
     }
 
-    const commentData = { text, authorName, pluginData, geojson, label, images, answers, pinned, mapCommentText };
+    const commentData = { ...comment, answers };
 
-    if (onPostComment) {
+    if (onPostCommentFn) {
       await onPostCommentFn(section.id, commentData);
 
       setListState({ ...listState, answers: answersInitialState });
@@ -209,7 +196,7 @@ const SortableCommentListComponent = ({
    * @param {string} sectionId - The ID of the section.
    * @param {object} data - The data of the comment.
    */
-  const handlePostReply = (sectionId, data) => onPostComment(sectionId, data);
+  const handlePostReply = (sectionId, data) => onPostCommentFn(sectionId, data);
 
   /**
    * Handles the change of answers for a specific question.
