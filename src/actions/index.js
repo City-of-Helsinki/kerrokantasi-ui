@@ -47,8 +47,8 @@ export function getResponseJSON(response) {
 }
 
 export const requestErrorHandler = (
-   dispatch,
-   localizationKey = undefined
+  dispatch,
+  localizationKey = undefined
 ) => (err) => {
   Sentry.captureException(err);
   let payload;
@@ -307,10 +307,14 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
 }
 
 export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   return (dispatch) => {
     const fetchAction = createAction("postingComment")({ hearingSlug, sectionId });
+
     dispatch(fetchAction);
+
     const url = (`/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/`);
+
     let params = {
       content: commentData.text ? commentData.text : "",
       plugin_data: commentData.pluginData ? commentData.pluginData : null,
@@ -321,10 +325,13 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       answers: commentData.answers ? commentData.answers : [],
       pinned: commentData.pinned ? commentData.pinned : false,
       map_comment_text: commentData.mapCommentText ? commentData.mapCommentText : "",
+      organization: commentData.organization ?? undefined
     };
+
     if (commentData.authorName) {
       params = Object.assign(params, { author_name: commentData.authorName });
     }
+
     if (commentData.comment) {
       params = { ...params, comment: commentData.comment };
     }
@@ -342,7 +349,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
       createLocalizedAlert("commentReceived");
     }).catch((err) => {
       requestErrorHandler(dispatch, "loginToComment")(err);
-  });
+    });
   };
 }
 

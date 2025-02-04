@@ -125,7 +125,6 @@ class MapdonHKRPlugin extends BaseCommentForm {
 }
 
 MapdonHKRPlugin.propTypes = {
-  onPostComment: PropTypes.func,
   data: PropTypes.string,
 };
 

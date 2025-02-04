@@ -6,7 +6,7 @@ import createStore from './src/createStore';
 import messages from './src/i18n';
 
 
-export const mockUser = { id: "fff", displayName: "Mock von User" };
+export const mockUser = { id: "fff", displayName: "Mock von User", adminOrganizations: [] };
 
 export function createTestStore(state) {
   commonInit();

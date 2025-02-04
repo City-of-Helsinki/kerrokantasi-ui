@@ -8,7 +8,7 @@ import { uniqueId } from 'lodash';
 import { createMemoryHistory } from 'history';
 
 import SectionContainerComponent from '../SectionContainer';
-import { mockStore as mockData } from '../../../../../test-utils';
+import { mockStore as mockData, mockUser } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 import * as mockApi from '../../../../api';
 
@@ -16,13 +16,12 @@ const mockedData = {
   results: [],
 };
 
-jest.spyOn(mockApi, 'get').mockImplementation(() => ( 
-  Promise.resolve(
-    {
-      json: () => Promise.resolve(mockedData),
-      blob: () => Promise.resolve({}),
-    }
-  )));
+jest.spyOn(mockApi, 'get').mockImplementation(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockedData),
+    blob: () => Promise.resolve({}),
+  }),
+);
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -51,12 +50,12 @@ jest.mock('../../../../api', () => {
 });
 
 const renderComponent = (storeOverrides) => {
-  const { mockHearingWithSections, mockUser, sectionComments } = mockData;
+  const { mockHearingWithSections, sectionComments } = mockData;
 
   const store = mockStore({
     hearing: {
       [mockHearingWithSections.data.id]: {
-        ...mockHearingWithSections
+        ...mockHearingWithSections,
       },
     },
     accessibility: {
@@ -101,16 +100,16 @@ describe('<SectionContainer />', () => {
   });
 
   it('should render correctly when user is admin', () => {
-    const mockUser = { ...mockData.mockUser, adminOrganizations: [mockData.mockHearingWithSections.data.organization] };
+    const mockAdminUser = {
+      ...mockData.mockUser,
+      adminOrganizations: [mockData.mockHearingWithSections.data.organization],
+    };
 
-    renderComponent({ user: { data: mockUser } });
+    renderComponent({ user: { data: mockAdminUser } });
   });
 
   it('should toggle accordions', async () => {
-    const mockUser = { ...mockData.mockUser, adminOrganizations: [mockData.mockHearingWithSections.data.organization] };
-
     renderComponent({
-      user: { data: mockUser },
       hearing: {
         [mockData.mockHearingWithSections.data.id]: {
           data: {
@@ -136,9 +135,12 @@ describe('<SectionContainer />', () => {
   });
 
   it('should handle report download', async () => {
-    const mockUser = { ...mockData.mockUser, adminOrganizations: [mockData.mockHearingWithSections.data.organization] };
+    const mockAdminUser = {
+      ...mockData.mockUser,
+      adminOrganizations: [mockData.mockHearingWithSections.data.organization],
+    };
 
-    renderComponent({ user: { data: mockUser } });
+    renderComponent({ user: { data: mockAdminUser } });
 
     const downloadButton = await screen.findByText(/downloadReport/i);
     fireEvent.click(downloadButton);

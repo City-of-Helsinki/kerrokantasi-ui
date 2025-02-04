@@ -89,7 +89,9 @@ describe('<HearingContainer />', () => {
           isSaving: false,
         },
       },
-      user,
+      user: {
+        data: user,
+      },
       sectionComments: [],
       accessibility: {
         isHighContrast: false,

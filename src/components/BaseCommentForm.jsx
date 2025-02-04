@@ -68,27 +68,7 @@ const BaseCommentForm = ({
   onPostComment,
   onChangeAnswers,
 }) => {
-
   const dispatch = useDispatch();
-
-  const defaultState = useMemo(() => ({
-    commentText: '',
-    nickname: defaultNickname,
-    imageTooBig: false,
-    images: [],
-    pinned: false,
-    showAlert: true,
-    hideName: false,
-    geojson: {},
-    mapCommentText: '',
-    commentRequiredError: false,
-    commentOrAnswerRequiredError: false,
-  }), [defaultNickname]);
-
-  const [formData, setFormData] = useState({
-    ...defaultState,
-    collapsed: true,
-  });
 
   /**
    * Determines whether the logged in user is admin or not.
@@ -98,6 +78,29 @@ const BaseCommentForm = ({
     () => loggedIn && user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0,
     [loggedIn, user],
   );
+
+  const defaultState = useMemo(
+    () => ({
+      commentText: '',
+      nickname: defaultNickname,
+      imageTooBig: false,
+      images: [],
+      pinned: false,
+      showAlert: true,
+      hideName: false,
+      geojson: {},
+      mapCommentText: '',
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+      organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
+    }),
+    [defaultNickname, isUserAdmin, user.adminOrganizations],
+  );
+
+  const [formData, setFormData] = useState({
+    ...defaultState,
+    collapsed: true,
+  });
 
   const hasQuestions = useMemo(() => hasAnyQuestions(section), [section]);
 
@@ -125,7 +128,11 @@ const BaseCommentForm = ({
         onOverrideCollapse();
       }
     } else {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section))));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section)),
+        ),
+      );
     }
   }, [canComment, defaultState, formData, onOverrideCollapse, section, dispatch]);
 
@@ -193,7 +200,7 @@ const BaseCommentForm = ({
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 
-    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig } = formData;
+    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig, organization } = formData;
 
     const data = {
       nickname: nickname === '' ? nicknamePlaceholder : nickname,
@@ -203,6 +210,7 @@ const BaseCommentForm = ({
       pinned,
       mapCommentText,
       label: null,
+      organization,
     };
 
     // plugin comment will override comment fields, if provided
@@ -239,19 +247,20 @@ const BaseCommentForm = ({
 
     // make sure empty comments are not added when not intended
     if (isEmptyCommentAllowed(section, hasAnyAnswers(answers)) && !data.commentText.trim()) {
-      data.setCommentText = config.emptyCommentString;
+      data.commentText = config.emptyCommentString;
     }
 
-    onPostComment(
-      data.commentText,
-      data.nickname,
+    onPostComment({
+      text: data.commentText,
+      authorName: data.nickname,
       pluginData,
-      data.geojson,
-      data.label,
-      data.images,
-      data.pinned,
-      data.mapCommentText,
-    );
+      geojson: data.geojson,
+      label: data.label,
+      images: data.images,
+      pinned: data.pinned,
+      mapCommentText: data.mapCommentText,
+      organization: data.organization ?? undefined,
+    });
 
     setFormData({
       ...formData,
@@ -350,34 +359,30 @@ const BaseCommentForm = ({
   /**
    * For admins, there is slightly different form.
    */
-  const renderFormForAdmin = () => {
-    const organization = isUserAdmin && user.adminOrganizations[0];
-
-    return (
-      <>
-        <TextInput
-          label={<FormattedMessage id='nickname' />}
-          hideLabel
-          id='nickname'
-          placeholder={nicknamePlaceholder}
-          value={formData.nickname}
-          onChange={handleNicknameChange}
-          maxLength={32}
-          disabled
-        />
-        <TextInput
-          label={<FormattedMessage id='organization' />}
-          hideLabel
-          id='organization'
-          placeholder={intl.formatMessage({ id: 'organization' })}
-          value={organization || ''}
-          onChange={() => {}}
-          maxLength={32}
-          disabled
-        />
-      </>
-    );
-  };
+  const renderFormForAdmin = () => (
+    <>
+      <TextInput
+        label={<FormattedMessage id='nickname' />}
+        hideLabel
+        id='nickname'
+        placeholder={nicknamePlaceholder}
+        value={formData.nickname}
+        onChange={handleNicknameChange}
+        maxLength={32}
+        disabled
+      />
+      <TextInput
+        label={<FormattedMessage id='organization' />}
+        hideLabel
+        id='organization'
+        placeholder={intl.formatMessage({ id: 'organization' })}
+        value={formData.organization}
+        onChange={() => {}}
+        maxLength={32}
+        disabled
+      />
+    </>
+  );
 
   /**
    * If an admin type of user is posting comment, the form is slightly different.

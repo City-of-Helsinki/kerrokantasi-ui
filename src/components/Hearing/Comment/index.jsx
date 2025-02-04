@@ -169,15 +169,18 @@ const Comment = (props) => {
   /**
    * Handle posting of a reply
    */
-  const handlePostReply = (text, authorName, pluginData, geojson, label, images) => {
+  const handlePostReply = (comment) => {
     const { section } = props;
-    let commentData = { text, authorName, pluginData, geojson, label, images };
+
+    let commentData = { ...comment };
+
     if (props.onPostReply && props.onPostReply instanceof Function) {
       if (props.isReply && props.parentComponentId) {
         commentData = { ...commentData, comment: props.parentComponentId };
       } else {
         commentData = { ...commentData, comment: props.data.id };
       }
+
       props.onPostReply(section.id, { ...commentData });
     }
   };
