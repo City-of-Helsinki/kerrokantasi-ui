@@ -245,7 +245,7 @@ const SortableCommentListComponent = ({
         ],
       });
     } else if (questionType === 'multiple-choice' && oldAnswer) {
-      listState({
+      setListState({
         answers: [
           ...listState.answers.filter((answer) => answer.question !== questionId),
           {
