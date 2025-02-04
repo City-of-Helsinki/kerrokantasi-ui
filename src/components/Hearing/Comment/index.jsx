@@ -317,6 +317,12 @@ const Comment = (props) => {
     );
   };
 
+  const toggleEditor = (event) => {
+    event.preventDefault();
+
+    setState({ editorOpen: !state.editorOpen });
+  };
+
   /**
    * When state is set to true for editor open. Return the form.
    * When editing, answers may be edited as well.
@@ -343,18 +349,12 @@ const Comment = (props) => {
         <Button className='kerrokantasi-btn black' type='submit'>
           <FormattedMessage id='save' />
         </Button>
+        <Button className='kerrokantasi-btn' onClick={toggleEditor}>
+          <FormattedMessage id='cancel' />
+        </Button>
       </form>
     </>
   );
-
-  const toggleEditor = (event) => {
-    event.preventDefault();
-    if (state.editorOpen) {
-      setState({ editorOpen: false });
-    } else {
-      setState({ editorOpen: true });
-    }
-  };
 
   /**
    * If a user can edit their comment(s) render hyperlinks
