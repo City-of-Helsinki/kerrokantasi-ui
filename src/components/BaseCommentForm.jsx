@@ -94,7 +94,7 @@ const BaseCommentForm = ({
       commentOrAnswerRequiredError: false,
       organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
     }),
-    [defaultNickname, isUserAdmin, user.adminOrganizations],
+    [defaultNickname, isUserAdmin, user?.adminOrganizations],
   );
 
   const [formData, setFormData] = useState({
