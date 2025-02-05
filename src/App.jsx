@@ -1,6 +1,4 @@
-/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,7 +6,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import messages from './i18n';
 import Header from './components/Header/Header';
@@ -29,7 +27,6 @@ import Toast from './components/Toast';
 
 function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
-  const [ searchParams ] = useSearchParams();
   const { fullscreen } = useParams();
   const location = useLocation();
   const [locale, setLocale] = useState(language);
@@ -48,13 +45,6 @@ function App({ language, isHighContrast, history, ...props }) {
       cookieOnComponentWillUnmount();
     };
   }, [language]);
-
-  useEffect(() => {
-    const lang = searchParams.get('lang')
-    if (lang) {
-      setLocale(lang);
-    }
-  }, [searchParams, locale]);
 
   useEffect(() => {
     if (!user && authenticated) {
@@ -83,7 +73,7 @@ function App({ language, isHighContrast, history, ...props }) {
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={location.pathname !== '/'} history={history} />;
+    header = <Header slim={location.pathname !== '/'} history={history} locale={locale} setLocale={setLocale} />;
   }
   const mainContainerId = 'main-container';
   return (

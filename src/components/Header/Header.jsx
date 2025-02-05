@@ -1,13 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { connect, useDispatch } from 'react-redux';
 import logoBlack from '@city-images/logo-fi-black.svg';
 import logoSwedishBlack from '@city-images/logo-sv-black.svg';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 
 import config from '../../config';
 import getUser from '../../selectors/user';
@@ -15,14 +15,15 @@ import useAuthHook from '../../hooks/useAuth';
 import { addToast } from '../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 
-const Header = ({ user }) => {
+const Header = ({ user, locale, setLocale }) => {
   const { authenticated, login, logout } = useAuthHook();
-  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const intl = useIntl();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const language = intl.locale;
-  
+
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));
@@ -40,13 +41,23 @@ const Header = ({ user }) => {
   };
 
   const onLanguageChange = (newLanguage) => {
+    setLocale(newLanguage);
+
     const urlSearchParams = new URLSearchParams(window.location.search);
+
     urlSearchParams.set('lang', newLanguage);
 
-    navigate(
-      `${window.location.pathname  }?${  urlSearchParams.toString()}`
-    );
+    setSearchParams(urlSearchParams);
   };
+
+  useEffect(() => {
+    const langParam = searchParams.get('lang');
+
+    if (langParam && langParam !== locale) {
+      setLocale(langParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const getNavItem = (id, url, addSuffix = true) => {
     const active = location.pathname === url;
@@ -63,12 +74,9 @@ const Header = ({ user }) => {
 
     return (
       <FormattedMessage id={messageId} key={messageId}>
-      {url
-        ?
-            (text) => (<HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active}  />)
-        :
-          (text) => ( <p>{ text }</p>)
-      }
+        {url
+          ? (text) => <HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active} />
+          : (text) => <p>{text}</p>}
       </FormattedMessage>
     );
   };
@@ -111,19 +119,20 @@ const Header = ({ user }) => {
           icon={user ? <IconUser /> : <IconSignin />}
           closeIcon={user ? <IconUser /> : <IconSignin />}
           closeLabel={user?.displayName}
-          onClick={user ?  () => {  } : doLogin }
-          id="action-bar-login"
-          className={user ? "logout-button" : "login-button"}
-        >{user &&
-          <HDSHeader.ActionBarItem
-            label={<FormattedMessage key="logout" id="logout" />}
-            closeLabel=''
-            closeIcon={<LoadingSpinner small />}
-            onClick={doLogin}
-            id="action-bar-login"
-            className="logout-button"
-          />
-        }
+          onClick={user ? () => {} : doLogin}
+          id='action-bar-login'
+          className={user ? 'logout-button' : 'login-button'}
+        >
+          {user && (
+            <HDSHeader.ActionBarItem
+              label={<FormattedMessage key='logout' id='logout' />}
+              closeLabel=''
+              closeIcon={<LoadingSpinner small />}
+              onClick={doLogin}
+              id='action-bar-login'
+              className='logout-button'
+            />
+          )}
         </HDSHeader.ActionBarItem>
       </HDSHeader.ActionBar>
       <HDSHeader.NavigationMenu>{navigationItems}</HDSHeader.NavigationMenu>
@@ -133,6 +142,8 @@ const Header = ({ user }) => {
 
 Header.propTypes = {
   user: PropTypes.object,
+  locale: PropTypes.string,
+  setLocale: PropTypes.func,
 };
 
 export { Header as UnconnectedHeader };
