@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.10.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.0...kerrokantasi-ui-v1.10.1) (2025-02-05)
+
+
+### Bug Fixes
+
+* Change language duplicate comments KER-422 ([af9ab38](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/af9ab3895448f2ae587ed58c2e079d69edf5ed30))
+* Close comment editor from cancel button KER-422 ([63fab20](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/63fab2081607aa3de27f72b48e554c6cbf2ae169))
+* Delete comment KER-422 ([b6d9209](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b6d920968c9725d2733514ddbc98aaa43d045383))
+* Organization included in comments KER-422 ([872a6c7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/872a6c724d57333c6511a0fd13ba606c5b3df124))
+* SortableCommentList vote checkbox KER-422 ([d5b6a5b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d5b6a5b07bcad618e67b171182399b0339478831))
+
 ## [1.10.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.9.2...kerrokantasi-ui-v1.10.0) (2025-02-03)
 
 
