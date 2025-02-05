@@ -146,9 +146,7 @@ Header.propTypes = {
   setLocale: PropTypes.func,
 };
 
-export { Header as UnconnectedHeader };
 export default connect((state) => ({
   user: getUser(state),
   language: state.language,
-  router: state.router,
 }))(Header);
