@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Checkbox, Fieldset, FileInput, Notification, TextArea, TextInput } from 'hds-react';
 import classnames from 'classnames';
 import { connect, useDispatch } from 'react-redux';
@@ -63,12 +63,12 @@ const BaseCommentForm = ({
   language,
   closed,
   overrideCollapse = false,
-  intl,
   onOverrideCollapse = () => {},
   onPostComment,
   onChangeAnswers,
 }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   /**
    * Determines whether the logged in user is admin or not.
@@ -79,28 +79,44 @@ const BaseCommentForm = ({
     [loggedIn, user],
   );
 
-  const defaultState = useMemo(
-    () => ({
-      commentText: '',
-      nickname: defaultNickname,
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
+  const formInitialSettings = {
+    nickname: isUserAdmin ? user.displayName : defaultNickname,
+    pinned: false,
+    showAlert: true,
+    hideName: false,
+    organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
+    collapsed: collapseForm || true,
+  };
+
+  const [comment, setComment] = useState('');
+  const [commentImages, setCommentImages] = useState([]);
+  const [commentGeoJson, setCommentGeoJson] = useState({
+    geojson: {},
+    mapCommentText: '',
+  });
+
+  const [formSettings, setFormSettings] = useState(formInitialSettings);
+
+  const [formErrors, setFormErrors] = useState({
+    imageTooBig: false,
+    commentRequiredError: false,
+    commentOrAnswerRequiredError: false,
+  });
+
+  const resetForm = () => {
+    setComment('');
+    setCommentImages([]);
+    setCommentGeoJson({
       geojson: {},
       mapCommentText: '',
+    });
+    setFormSettings(formInitialSettings);
+    setFormErrors({
+      imageTooBig: false,
       commentRequiredError: false,
       commentOrAnswerRequiredError: false,
-      organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
-    }),
-    [defaultNickname, isUserAdmin, user?.adminOrganizations],
-  );
-
-  const [formData, setFormData] = useState({
-    ...defaultState,
-    collapsed: true,
-  });
+    });
+  };
 
   const hasQuestions = useMemo(() => hasAnyQuestions(section), [section]);
 
@@ -118,11 +134,7 @@ const BaseCommentForm = ({
 
   const toggle = useCallback(() => {
     if (canComment) {
-      setFormData({
-        ...formData,
-        ...defaultState,
-        collapsed: !formData.collapsed,
-      });
+      setFormSettings((prevState) => ({ ...prevState, collapsed: !formSettings.collapsed }));
 
       if (onOverrideCollapse instanceof Function) {
         onOverrideCollapse();
@@ -134,47 +146,19 @@ const BaseCommentForm = ({
         ),
       );
     }
-  }, [canComment, defaultState, formData, onOverrideCollapse, section, dispatch]);
+  }, [canComment, dispatch, formSettings, onOverrideCollapse, section]);
 
-  useEffect(() => {
-    if (isUserAdmin) {
-      setFormData({ ...formData, nickname: user.displayName });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUserAdmin, user]);
+  const handleTextChange = (event) => {
+    setComment(event.target.value);
+    setFormErrors((prevState) => ({ ...prevState, commentRequiredError: false, commentOrAnswerRequiredError: false }));
+  };
 
-  useEffect(() => {
-    if (collapseForm) {
-      setFormData({ ...formData, commentText: '' });
-      toggle();
-    }
-
-    if (defaultNickname !== '' && !isUserAdmin) {
-      setFormData({ ...formData, nickname: defaultNickname });
-    }
-
-    if (isUserAdmin && user && user.displayName) {
-      setFormData({ ...formData, nickname: user.displayName });
-    }
-
-    if (answers) {
-      setFormData({ ...formData, commentOrAnswerRequiredError: false });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collapseForm, defaultNickname, isUserAdmin, user, answers]);
-
-  const handleTextChange = (event) =>
-    setFormData({
-      ...formData,
-      commentText: event.target.value,
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    });
-
-  const handleNicknameChange = (event) => setFormData({ ...formData, nickname: event.target.value });
+  const handleNicknameChange = (event) => {
+    setFormSettings((prevState) => ({ ...prevState, nickname: event.target.value }));
+  };
 
   const hasFormErrors = () => {
-    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } = formData;
+    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } = formErrors;
 
     return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
   };
@@ -182,13 +166,13 @@ const BaseCommentForm = ({
   const getPluginData = () => undefined;
   const getPluginComment = () => undefined;
 
-  const handleErrorStates = (errors) =>
-    setFormData({
-      ...formData,
+  const handleErrorStates = (errors) => {
+    setFormErrors({
       commentRequiredError: errors.includes('commentRequiredError'),
       commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
       imageTooBig: errors.includes('imageTooBig'),
     });
+  };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
@@ -200,7 +184,12 @@ const BaseCommentForm = ({
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 
-    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig, organization } = formData;
+    const { nickname, pinned, organization } = formSettings;
+    const { geojson, mapCommentText } = commentGeoJson;
+    const { imageTooBig } = formErrors;
+
+    const commentText = comment;
+    const images = commentImages;
 
     const data = {
       nickname: nickname === '' ? nicknamePlaceholder : nickname,
@@ -262,21 +251,7 @@ const BaseCommentForm = ({
       organization: data.organization ?? undefined,
     });
 
-    setFormData({
-      ...formData,
-      collapsed: false,
-      commentText: '',
-      nickname: defaultNickname,
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-      geojson: {},
-      mapCommentText: '',
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    });
+    resetForm();
   };
 
   const isImageTooBig = (images) => {
@@ -287,7 +262,7 @@ const BaseCommentForm = ({
       }
     });
 
-    setFormData({ ...formData, imageTooBig });
+    setFormErrors((prevState) => ({ ...prevState, imageTooBig }));
   };
 
   const handleChange = (files) => {
@@ -304,30 +279,32 @@ const BaseCommentForm = ({
         return imageObject;
       });
 
-      setFormData({ ...formData, images });
+      setCommentImages(images);
     });
   };
 
   /**
    * When logged in as admin, user may chose to hide their identity.
    */
-  const handleToggleHideName = () =>
-    setFormData({
-      ...formData,
-      nickname: !formData.hideName
+  const handleToggleHideName = () => {
+    setFormSettings((prevState) => ({
+      ...prevState,
+      nickname: !prevState.hideName
         ? intl.formatMessage({ id: isUserAdmin ? 'employee' : 'anonymous' })
         : user.displayName,
-      hideName: !formData.hideName,
-    });
+      hideName: !prevState.hideName,
+    }));
+  };
 
   /**
    * Toggle the pinning of comment
    */
-  const handleTogglePin = () =>
-    setFormData({
-      ...formData,
-      pinned: !formData.pinned,
-    });
+  const handleTogglePin = () => {
+    setFormSettings((prevState) => ({
+      ...prevState,
+      pinned: !prevState.pinned,
+    }));
+  };
 
   /**
    * When admin user is posting a comment, we will show a closeable warning.
@@ -348,7 +325,7 @@ const BaseCommentForm = ({
   const renderHideNameOption = () => (
     <Checkbox
       label={<FormattedMessage id='hideName' />}
-      checked={formData.hideName}
+      checked={formSettings.hideName}
       key='hide-user-name'
       id='hide-user-name'
       onChange={() => handleToggleHideName()}
@@ -366,7 +343,7 @@ const BaseCommentForm = ({
         hideLabel
         id='nickname'
         placeholder={nicknamePlaceholder}
-        value={formData.nickname}
+        value={formSettings.nickname}
         onChange={handleNicknameChange}
         maxLength={32}
         disabled
@@ -376,7 +353,7 @@ const BaseCommentForm = ({
         hideLabel
         id='organization'
         placeholder={intl.formatMessage({ id: 'organization' })}
-        value={formData.organization}
+        value={formSettings.organization}
         onChange={() => {}}
         maxLength={32}
         disabled
@@ -389,7 +366,7 @@ const BaseCommentForm = ({
    * @returns {JSX<Component>}
    */
   const renderNameFormForUser = () => {
-    const warning = loggedIn && formData.showAlert && renderWarning();
+    const warning = loggedIn && formSettings.showAlert && renderWarning();
     const hideName = loggedIn && renderHideNameOption();
 
     if (isUserAdmin) {
@@ -410,7 +387,7 @@ const BaseCommentForm = ({
           id='nickname'
           label={<FormattedMessage id='nickname' />}
           placeholder={nicknamePlaceholder}
-          value={formData.nickname}
+          value={formSettings.nickname}
           onChange={handleNicknameChange}
           maxLength={32}
         />
@@ -427,19 +404,25 @@ const BaseCommentForm = ({
       className={classnames([
         'comment-form__heading-container__pin__icon',
         {
-          'comment-form__heading-container__pin__pin-comment': !formData.pinned,
-          'comment-form__heading-container__pin__unpin-comment': formData.pinned,
+          'comment-form__heading-container__pin__pin-comment': !formSettings.pinned,
+          'comment-form__heading-container__pin__unpin-comment': formSettings.pinned,
         },
       ])}
       onClick={handleTogglePin}
     />
   );
 
-  const onDrawCreate = (event) => setFormData({ ...formData, geojson: event.layer.toGeoJSON().geometry });
+  const onDrawCreate = (event) => {
+    setCommentGeoJson((prevState) => ({ ...prevState, geojson: event.layer.toGeoJSON().geometry }));
+  };
 
-  const onDrawDelete = () => setFormData({ ...formData, geojson: null });
+  const onDrawDelete = () => {
+    setCommentGeoJson((prevState) => ({ ...prevState, geojson: null }));
+  };
 
-  const handleMapTextChange = (event) => setFormData({ ...formData, mapCommentText: event.target.value });
+  const handleMapTextChange = (event) => {
+    setCommentGeoJson((prevState) => ({ ...prevState, mapCommentText: event.target.value }));
+  };
 
   const getMapElement = (geojson) => {
     switch (geojson.type) {
@@ -493,7 +476,7 @@ const BaseCommentForm = ({
   const getMapContrastTiles = () =>
     getCorrectContrastMapTileUrl(urls.rasterMapTiles, urls.highContrastRasterMapTiles, isHighContrast, language);
 
-  if (!overrideCollapse && formData.collapsed) {
+  if (!overrideCollapse && formSettings.collapsed) {
     return (
       <Button onClick={toggle} className='kerrokantasi-btn black' size='large' fullWidth>
         <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
@@ -546,7 +529,7 @@ const BaseCommentForm = ({
             label={<FormattedMessage id='writeComment' />}
             // set focus when there are no questions before to be answered
             autoFocus={isReply || !firstUnansweredQuestion}
-            value={formData.commentText}
+            value={comment}
             onChange={handleTextChange}
             required={commentRequired}
           />
@@ -577,7 +560,7 @@ const BaseCommentForm = ({
               <TextInput
                 id='comment-map-info'
                 label={<FormattedMessage id='commentMapAdditionalInfo' />}
-                value={formData.mapCommentText}
+                value={commentGeoJson.mapCommentText}
                 onChange={handleMapTextChange}
                 maxLength={128}
               />
@@ -586,7 +569,7 @@ const BaseCommentForm = ({
         )}
 
         <div className='comment-form__selected-images'>
-          {formData.imageTooBig && (
+          {formErrors.imageTooBig && (
             <div className='comment-form__image-too-big'>
               <FormattedMessage id='imageSizeError' />
             </div>
@@ -596,7 +579,7 @@ const BaseCommentForm = ({
           <div className='comment-form__select-file'>
             <FileInput
               id='fileInput'
-              defaultValue={formData.images}
+              defaultValue={commentImages}
               className='custom-file-input'
               multiple
               label={<FormattedMessage id='add_images' />}
@@ -622,9 +605,9 @@ const BaseCommentForm = ({
           </Button>
         </div>
         <CommentFormErrors
-          commentRequiredError={formData.commentRequiredError}
-          commentOrAnswerRequiredError={formData.commentOrAnswerRequiredError}
-          imageTooBig={formData.imageTooBig}
+          commentRequiredError={formErrors.commentRequiredError}
+          commentOrAnswerRequiredError={formErrors.commentOrAnswerRequiredError}
+          imageTooBig={formErrors.imageTooBig}
         />
         <CommentDisclaimer />
       </form>
@@ -650,11 +633,10 @@ BaseCommentForm.propTypes = {
   isReply: PropTypes.bool,
   isHighContrast: PropTypes.bool,
   hearingGeojson: PropTypes.object,
-  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   isHighContrast: state.accessibility.isHighContrast,
 });
 
-export default connect(mapStateToProps, null)(injectIntl(BaseCommentForm));
+export default connect(mapStateToProps, null)(BaseCommentForm);

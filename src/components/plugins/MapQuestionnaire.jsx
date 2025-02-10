@@ -1,9 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/iframe-has-title */
-/* eslint-disable no-case-declarations */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Button, TextArea } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
@@ -39,7 +38,7 @@ const MapQuestionnaire = ({
   pluginInstanceId,
   pluginPurpose,
   pluginSource,
-// eslint-disable-next-line sonarjs/cognitive-complexity
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const {
     answers,
@@ -61,28 +60,51 @@ const MapQuestionnaire = ({
     [loggedIn, user],
   );
 
-  const [formData, setFormData] = useState({
-    collapsed: true,
-    commentOrAnswerRequiredError: false,
-    commentRequiredError: false,
-    comments: comments || commentsData || [],
-    commentText: '',
-    geojson: {},
+  const formInitialSettings = {
+    nickname: defaultNickname,
+    pinned: false,
+    showAlert: true,
     hideName: false,
-    images: [],
-    imageTooBig: false,
+    organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
+    collapsed: true,
+    comments: comments || commentsData || [],
     lastUserComment: null,
     lastUserData: null,
-    mapCommentText: '',
-    nickname: defaultNickname,
     onReceiveMessage: null,
-    pinned: false,
     pluginInstanceId: pluginInstanceId + Math.floor(Math.random() * 10000000),
     submitting: false,
-    showAlert: true,
     userDataChanged: false,
-    organization: isUserAdmin ? user.adminOrganizations[0] : undefined,
+  };
+
+  const [comment, setComment] = useState('');
+  const [commentImages, setCommentImages] = useState([]);
+  const [commentGeoJson, setCommentGeoJson] = useState({
+    geojson: {},
+    mapCommentText: '',
   });
+
+  const [formSettings, setFormSettings] = useState(formInitialSettings);
+
+  const [formErrors, setFormErrors] = useState({
+    imageTooBig: false,
+    commentOrAnswerRequiredError: false,
+    commentRequiredError: false,
+  });
+
+  const resetForm = () => {
+    setComment('');
+    setCommentImages([]);
+    setCommentGeoJson({
+      geojson: {},
+      mapCommentText: '',
+    });
+    setFormSettings(formInitialSettings);
+    setFormErrors({
+      imageTooBig: false,
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    });
+  };
 
   const [messageListener, setMessageListener] = useState(null);
 
@@ -94,14 +116,14 @@ const MapQuestionnaire = ({
    * Retrieves the plugin data from the form data.
    * @returns {Object} The plugin data from the form data.
    */
-  const getPluginData = () => formData.lastUserData;
+  const getPluginData = () => formSettings.lastUserData;
 
   /**
    * Retrieves the last user comment from the form data.
    *
    * @returns {string} The last user comment.
    */
-  const getPluginComment = () => formData.lastUserComment;
+  const getPluginComment = () => formSettings.lastUserComment;
 
   /**
    * Updates the form data state based on the provided errors.
@@ -109,13 +131,13 @@ const MapQuestionnaire = ({
    * @param {string[]} errors - The array of errors.
    * @returns {void}
    */
-  const handleErrorStates = (errors) =>
-    setFormData((prevState) => ({
-      ...prevState,
+  const handleErrorStates = (errors) => {
+    setFormErrors({
       commentRequiredError: errors.includes('commentRequiredError'),
       commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
       imageTooBig: errors.includes('imageTooBig'),
-    }));
+    });
+  };
 
   /**
    * Submits a comment.
@@ -133,7 +155,12 @@ const MapQuestionnaire = ({
     const pluginComment = getPluginComment();
     let pluginData = getPluginData();
 
-    const { nickname, commentText, geojson, images, pinned, mapCommentText, imageTooBig, organization } = formData;
+    const { nickname, pinned, organization } = formSettings;
+    const { geojson, mapCommentText } = commentGeoJson;
+    const { imageTooBig } = formErrors;
+
+    const commentText = comment;
+    const images = commentImages;
 
     const submitData = {
       nickname: nickname === '' ? nicknamePlaceholder : nickname,
@@ -195,21 +222,7 @@ const MapQuestionnaire = ({
       organization: submitData.organization ?? undefined,
     });
 
-    setFormData((prevState) => ({
-      ...prevState,
-      collapsed: false,
-      commentText: '',
-      nickname: defaultNickname,
-      imageTooBig: false,
-      images: [],
-      pinned: false,
-      showAlert: true,
-      hideName: false,
-      geojson: {},
-      mapCommentText: '',
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    }));
+    resetForm();
   };
 
   /**
@@ -228,7 +241,7 @@ const MapQuestionnaire = ({
       return;
     }
 
-    if (payload.instanceId !== formData.pluginInstanceId) {
+    if (payload.instanceId !== formSettings.pluginInstanceId) {
       return;
     }
 
@@ -239,9 +252,9 @@ const MapQuestionnaire = ({
 
     if (payload.message === 'userData') {
       // whenever user data is sent by the plugin, post it no questions asked
-      setFormData((prevState) => ({ ...prevState, lastUserComment: payload.comment, submitting: false }));
+      setFormSettings((prevState) => ({ ...prevState, lastUserComment: payload.comment, submitting: false }));
 
-      if (formData.lastUserComment) {
+      if (formSettings.lastUserComment) {
         submitComment();
       } else {
         alert('Et muuttanut mitään kartassa.');
@@ -249,7 +262,7 @@ const MapQuestionnaire = ({
     }
 
     if (payload.message === 'userDataChanged') {
-      setFormData((prevState) => ({ ...prevState, userDataChanged: true }));
+      setFormSettings((prevState) => ({ ...prevState, userDataChanged: true }));
     }
 
     if (onPostVote && payload.message === 'userVote') {
@@ -278,8 +291,8 @@ const MapQuestionnaire = ({
           message: 'mapData',
           data,
           pluginPurpose,
-          comments: formData.comments,
-          instanceId: formData.pluginInstanceId,
+          comments: formSettings.comments,
+          instanceId: formSettings.pluginInstanceId,
         });
       },
       false,
@@ -296,44 +309,41 @@ const MapQuestionnaire = ({
 
   useEffect(() => {
     if (comments) {
-      setFormData((prevState) => ({ ...prevState, comments }));
+      setFormSettings((prevState) => ({ ...prevState, comments }));
     }
 
     // do not redraw plugin contents if user has interacted with the plugin!
-    if (!formData.userDataChanged) {
+    if (!formSettings.userDataChanged) {
       sendMessageToPluginFrame({
         message: 'mapData',
         data,
         pluginPurpose,
-        comments: formData.comments,
-        instanceId: formData.pluginInstanceId,
+        comments: formSettings.comments,
+        instanceId: formSettings.pluginInstanceId,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comments, formData.userDataChanged]);
+  }, [comments, formSettings.userDataChanged]);
 
   /**
    * Handles the change event of the text input.
    * @param {Event} event - The change event.
    * @returns {void}
    */
-  const handleTextChange = (event) =>
-    setFormData({
-      ...formData,
-      commentText: event.target.value,
-      commentRequiredError: false,
-      commentOrAnswerRequiredError: false,
-    });
+  const handleTextChange = (event) => {
+    setComment(event.target.value);
+    setFormErrors((prevState) => ({ ...prevState, commentRequiredError: false, commentOrAnswerRequiredError: false }));
+  };
 
   /**
    * Function to get data and submit comment.
    */
   const getDataAndSubmitComment = () => {
-    setFormData((prevState) => ({ ...prevState, submitting: true }));
+    setFormSettings((prevState) => ({ ...prevState, submitting: true }));
 
     sendMessageToPluginFrame({
       message: 'getUserData',
-      instanceId: formData.pluginInstanceId,
+      instanceId: formSettings.pluginInstanceId,
     });
   };
 
@@ -362,7 +372,11 @@ const MapQuestionnaire = ({
                 style={{ marginBottom: 'var(--spacing-s)' }}
               />
               <p>
-                <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={formData.submitting}>
+                <Button
+                  className='kerrokantasi-btn'
+                  onClick={getDataAndSubmitComment}
+                  disabled={formSettings.submitting}
+                >
                   Lähetä ehdotus
                 </Button>
               </p>
@@ -372,27 +386,6 @@ const MapQuestionnaire = ({
         );
 
       case 'ksv':
-        const buttonDisabled = formData.submitting || (!formData.commentText && !formData.userDataChanged);
-
-        const commentBox = (
-          <div>
-            <br />
-            <TextArea
-              label={<FormattedMessage id='writeComment' />}
-              placeholder='Kommentoi ehdotustasi tässä.'
-              value={formData.commentText}
-              onChange={handleTextChange}
-              style={{ marginBottom: 'var(--spacing-s)' }}
-            />
-            <p>
-              <Button className='kerrokantasi-btn' onClick={getDataAndSubmitComment} disabled={buttonDisabled}>
-                Lähetä ehdotus
-              </Button>
-            </p>
-            <CommentDisclaimer />
-          </div>
-        );
-
         return (
           <div className='plugin-comment-form mapdon-ksv-plugin-comment-form'>
             <form>
@@ -401,7 +394,28 @@ const MapQuestionnaire = ({
                 className='plugin-frame mapdon-ksv-plugin-frame'
                 ref={frameRef}
               />
-              {pluginPurpose === 'postComments' ? commentBox : null}
+              {pluginPurpose === 'postComments' ? (
+                <div>
+                  <br />
+                  <TextArea
+                    label={<FormattedMessage id='writeComment' />}
+                    placeholder='Kommentoi ehdotustasi tässä.'
+                    value={comment}
+                    onChange={handleTextChange}
+                    style={{ marginBottom: 'var(--spacing-s)' }}
+                  />
+                  <p>
+                    <Button
+                      className='kerrokantasi-btn'
+                      onClick={getDataAndSubmitComment}
+                      disabled={formSettings.submitting || (!comment && !formSettings.userDataChanged)}
+                    >
+                      Lähetä ehdotus
+                    </Button>
+                  </p>
+                  <CommentDisclaimer />
+                </div>
+              ) : null}
             </form>
           </div>
         );
@@ -422,7 +436,7 @@ const MapQuestionnaire = ({
 
 MapQuestionnaire.propTypes = {
   comments: PropTypes.array,
-  data: PropTypes.string,
+  data: PropTypes.object,
   onPostComment: PropTypes.func,
   onPostVote: PropTypes.func,
   pluginInstanceId: PropTypes.string,
@@ -430,4 +444,4 @@ MapQuestionnaire.propTypes = {
   pluginSource: PropTypes.string,
 };
 
-export default injectIntl(MapQuestionnaire);
+export default MapQuestionnaire;
