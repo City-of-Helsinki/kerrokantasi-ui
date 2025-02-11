@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Leaflet from 'leaflet';
+import Leaflet, { featureGroup } from 'leaflet';
 import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
 import { connect, useDispatch } from 'react-redux';
@@ -23,6 +23,7 @@ import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl, getMapElement } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 import { addToast } from '../../actions/toast';
+import { is } from 'immutable';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -31,14 +32,6 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
-
-function getFirstGeometry(featureCollectionGeoJSON) {
-  const firstFeature = featureCollectionGeoJSON.features[0];
-  if (firstFeature) {
-    return firstFeature.geometry;
-  }
-  return {};
-}
 
 /**
  * Returns an array of the remaining features
@@ -70,20 +63,16 @@ const HearingFormStep3 = (props) => {
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
   const dispatch = useDispatch();
+  console.debug('isEdited', isEdited);
 
   useEffect(() => {
     Leaflet.drawLocal = getTranslatedTooltips(language);
   }, [language]);
 
-  const onDrawEdited = (event) => {
-    // TODO: Implement proper onDrawEdited functionality
-    setIsEdited(true);
-    onHearingChange('geojson', getFirstGeometry(event.layers.toGeoJSON()));
-  };
-
   const onDrawCreated = (event) => {
+    console.debug('onDrawCreated', event);
     // TODO: Implement proper onDrawCreated functionality
-    if (isEdited) {
+    if (!isEdited) {
       /**
        * first time an element is created and the map hasn't been edited/elements removed
        */
@@ -105,11 +94,6 @@ const HearingFormStep3 = (props) => {
          */
         onAddMapMarkersToCollection(event.layer.toGeoJSON());
       }
-    } else if (hearing.geojson.coordinates) {
-      /**
-       * if geojson has coordinates -> transform hearing.geojson to FeatureCollection and add element
-       */
-      onAddMapMarker(event.layer.toGeoJSON());
     } else {
       /**
        * hearing.geojson is a FeatureCollection -> add element to geojson.features
@@ -120,6 +104,7 @@ const HearingFormStep3 = (props) => {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const onDrawDeleted = (event) => {
+    console.debug('why is this being called');
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
       /**
@@ -165,6 +150,7 @@ const HearingFormStep3 = (props) => {
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
         onHearingChange('geojson', {});
+        console.debug('is edited = false')
         setIsEdited(false);
         setInitialGeoJSON({});
       } else {
@@ -180,6 +166,7 @@ const HearingFormStep3 = (props) => {
     } else {
       // hearing.geojson is a single element that has been removed
       onHearingChange('geojson', {});
+      console.debug('is edited = false 2')
       setIsEdited(false);
       setInitialGeoJSON({});
     }
@@ -252,9 +239,11 @@ const HearingFormStep3 = (props) => {
     }
   }, [visible, map]);
 
-  const refCallBack = (el) => {
-    map = el;
-  };
+  function refCallback(instance) {
+    if (instance) {
+      map = instance;
+    }
+  }
 
   if (typeof window === 'undefined') return null;
 
@@ -262,7 +251,7 @@ const HearingFormStep3 = (props) => {
     <div className='form-step'>
       <Fieldset id='hearingArea' heading={<FormattedMessage id='hearingArea' />}>
         <MapContainer
-          ref={refCallBack}
+          ref={refCallback}
           center={localization.mapPosition}
           style={{ width: '100%', height: 600 }}
           zoom={10}
@@ -277,13 +266,10 @@ const HearingFormStep3 = (props) => {
             )}
           />
           <FeatureGroup
-            ref={(group) => {
-              featureGroup = group;
-            }}
+            ref={featureGroup}
           >
             <EditControl
               position='topleft'
-              onEdited={onDrawEdited}
               onCreated={onDrawCreated}
               onDeleted={onDrawDeleted}
               draw={getDrawOptions()}

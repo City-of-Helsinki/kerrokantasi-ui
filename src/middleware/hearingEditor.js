@@ -58,7 +58,6 @@ export const normalizeReceiveEditorContactPersons =
 export const normalizeSavedHearing =
   ({ dispatch }) => (next) => (action) => {
     const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
-
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.hearing');
       dispatch(updateHearingAfterSave(fillFrontIdsAndNormalizeHearing(hearing)));
