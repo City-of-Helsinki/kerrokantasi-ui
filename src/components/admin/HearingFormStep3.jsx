@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet, { featureGroup } from 'leaflet';
@@ -63,21 +63,24 @@ const HearingFormStep3 = (props) => {
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
   const dispatch = useDispatch();
-  console.debug('isEdited', isEdited);
 
   useEffect(() => {
     Leaflet.drawLocal = getTranslatedTooltips(language);
   }, [language]);
 
-  const onDrawCreated = (event) => {
+  const onDrawCreated = useCallback((event) => {
     console.debug('onDrawCreated', event);
     // TODO: Implement proper onDrawCreated functionality
+    console.log('isEdited', isEdited)
     if (!isEdited) {
+      console.debug('hearing', hearing);
       /**
        * first time an element is created and the map hasn't been edited/elements removed
        */
       setIsEdited(true);
       if (!hearing.geojson || !hearing.geojson.type) {
+        console.log(hearing.geojson);
+        console.log('tätä pitäs kutsua vaan kerran....')
         /**
          * if hearing.geojson is null or doesnt have type -> add a single element
          */
@@ -98,9 +101,10 @@ const HearingFormStep3 = (props) => {
       /**
        * hearing.geojson is a FeatureCollection -> add element to geojson.features
        */
+      console.log('miksi tätä ei kutsuta?')
       onAddMapMarkersToCollection(event.layer.toGeoJSON());
     }
-  };
+  }, [isEdited, hearing.geojson, onCreateMapMarker, onAddMapMarker, onAddMapMarkersToCollection]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const onDrawDeleted = (event) => {
