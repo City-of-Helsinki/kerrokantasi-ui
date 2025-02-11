@@ -128,8 +128,6 @@ const HearingEditor = (props) => {
 
   const onSectionChange = (sectionID, field, value) => dispatch(changeSection(sectionID, field, value));
 
-  const onCreateMapMarker = (value) => dispatch(createMapMarker(value));
-
   const onAddMapMarker = (value) => {
     console.log('geoJSONRef', geoJSONRef.current);
     if (isEmpty(geoJSONRef.current)) {
@@ -140,8 +138,6 @@ const HearingEditor = (props) => {
       dispatch(addMapMarkerToCollection(value));
     }
   }
-
-  const onAddMapMarkersToCollection = (value) => dispatch(addMapMarkerToCollection(value));
 
   /**
    * Add a new attachments to a section.
@@ -252,8 +248,6 @@ const HearingEditor = (props) => {
         labels={labels}
         language={language}
         onAddMapMarker={onAddMapMarker}
-        onAddMapMarkersToCollection={onAddMapMarkersToCollection}
-        onCreateMapMarker={onCreateMapMarker}
         onDeleteExistingQuestion={onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
         onHearingChange={onHearingChange}
