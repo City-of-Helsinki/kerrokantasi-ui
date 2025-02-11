@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet, { featureGroup } from 'leaflet';
@@ -23,7 +23,6 @@ import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl, getMapElement } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 import { addToast } from '../../actions/toast';
-import { is } from 'immutable';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -58,8 +57,7 @@ const HearingFormStep3 = (props) => {
   let map;
   let featureGroup;
   const { hearing, language, isHighContrast, visible } = props; // const props
-  const { onHearingChange, onCreateMapMarker, onAddMapMarker, onAddMapMarkersToCollection, onContinue } = props; // function props
-  const [isEdited, setIsEdited] = useState(false);
+  const { onHearingChange, onAddMapMarker, onContinue } = props; // function props
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
   const dispatch = useDispatch();
@@ -69,46 +67,11 @@ const HearingFormStep3 = (props) => {
   }, [language]);
 
   const onDrawCreated = useCallback((event) => {
-    console.debug('onDrawCreated', event);
-    // TODO: Implement proper onDrawCreated functionality
-    console.log('isEdited', isEdited)
-    if (!isEdited) {
-      console.debug('hearing', hearing);
-      /**
-       * first time an element is created and the map hasn't been edited/elements removed
-       */
-      setIsEdited(true);
-      if (!hearing.geojson || !hearing.geojson.type) {
-        console.log(hearing.geojson);
-        console.log('tätä pitäs kutsua vaan kerran....')
-        /**
-         * if hearing.geojson is null or doesnt have type -> add a single element
-         */
-        onCreateMapMarker(event.layer.toGeoJSON().geometry);
-      } else if (hearing.geojson.type !== 'FeatureCollection') {
-        /**
-         * if hearing.geojson has a type that isn't FeatureCollection
-         * -> add element and transform hearing.geojson to FeatureCollection
-         */
-        onAddMapMarker(event.layer.toGeoJSON());
-      } else if (hearing.geojson.type === 'FeatureCollection') {
-        /**
-         * if hearing.geojson type is FeatureCollection - add element to geojson.features
-         */
-        onAddMapMarkersToCollection(event.layer.toGeoJSON());
-      }
-    } else {
-      /**
-       * hearing.geojson is a FeatureCollection -> add element to geojson.features
-       */
-      console.log('miksi tätä ei kutsuta?')
-      onAddMapMarkersToCollection(event.layer.toGeoJSON());
-    }
-  }, [isEdited, hearing.geojson, onCreateMapMarker, onAddMapMarker, onAddMapMarkersToCollection]);
+    onAddMapMarker(event.layer.toGeoJSON().geometry);
+  }, [onAddMapMarker]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const onDrawDeleted = (event) => {
-    console.debug('why is this being called');
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
       /**
@@ -154,24 +117,18 @@ const HearingFormStep3 = (props) => {
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
         onHearingChange('geojson', {});
-        console.debug('is edited = false')
-        setIsEdited(false);
         setInitialGeoJSON({});
       } else {
         // hearing is a FeatureCollection that still has elements after removal
         onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
         if (currentStateFeatures) {
-          setIsEdited(true);
           setInitialGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
-        } else {
-          setIsEdited(true);
         }
       }
     } else {
       // hearing.geojson is a single element that has been removed
       onHearingChange('geojson', {});
       console.debug('is edited = false 2')
-      setIsEdited(false);
       setInitialGeoJSON({});
     }
   };
@@ -208,7 +165,7 @@ const HearingFormStep3 = (props) => {
           }
           onHearingChange('geojson', featureCollection.features[0].geometry);
           const parsedFile = parseCollection(featureCollection);
-          onCreateMapMarker(parsedFile);
+          onAddMapMarker(parsedFile);
           setInitialGeoJSON(parsedFile);
         } else {
           dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));

@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -47,6 +47,7 @@ import { contactShape, hearingShape, labelShape, organizationShape, userShape } 
 import * as EditorSelector from '../../selectors/hearingEditor';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
+import { geoJSON } from 'leaflet';
 
 const HearingEditor = (props) => {
   const [errors, setErrors] = useState({});
@@ -71,6 +72,9 @@ const HearingEditor = (props) => {
   useEffect(() => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
+
+  const geoJSONRef = useRef();
+  geoJSONRef.current = hearing?.geojson;
 
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
@@ -126,7 +130,16 @@ const HearingEditor = (props) => {
 
   const onCreateMapMarker = (value) => dispatch(createMapMarker(value));
 
-  const onAddMapMarker = (value) => dispatch(addMapMarker(value));
+  const onAddMapMarker = (value) => {
+    console.log('geoJSONRef', geoJSONRef.current);
+    if (isEmpty(geoJSONRef.current)) {
+      dispatch(createMapMarker(value));
+    } else if (geoJSONRef.current.type !== 'FeatureCollection') {
+      dispatch(addMapMarker(value));
+    } else {
+      dispatch(addMapMarkerToCollection(value));
+    }
+  }
 
   const onAddMapMarkersToCollection = (value) => dispatch(addMapMarkerToCollection(value));
 
