@@ -67,7 +67,7 @@ const HearingFormStep3 = (props) => {
   }, [language]);
 
   const onDrawCreated = useCallback((event) => {
-    onAddMapMarker(event.layer.toGeoJSON().geometry);
+    onAddMapMarker(event.layer.toGeoJSON());
   }, [onAddMapMarker]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
