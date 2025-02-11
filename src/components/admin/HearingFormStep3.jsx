@@ -128,7 +128,6 @@ const HearingFormStep3 = (props) => {
     } else {
       // hearing.geojson is a single element that has been removed
       onHearingChange('geojson', {});
-      console.debug('is edited = false 2')
       setInitialGeoJSON({});
     }
   };
