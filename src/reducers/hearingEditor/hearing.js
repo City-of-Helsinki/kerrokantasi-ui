@@ -25,7 +25,7 @@ const data = handleActions(
     [EditorActions.EDIT_HEARING]: (state, { payload: { field, value } }) => ({ ...state, [field]: value }),
     [EditorActions.CREATE_MAP_MARKER]: (state, { payload: { value } }) => ({
       ...state,
-      geojson: value,
+      geojson: value.geojson,
     }),
     [EditorActions.ADD_MAP_MARKER]: (state, { payload: { value } }) => {
       const foo = state.geojson;
