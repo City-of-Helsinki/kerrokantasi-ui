@@ -128,7 +128,6 @@ const HearingEditor = (props) => {
   const onSectionChange = (sectionID, field, value) => dispatch(changeSection(sectionID, field, value));
 
   const onAddMapMarker = (value) => {
-    console.log('geoJSONRef', geoJSONRef.current);
     if (isEmpty(geoJSONRef.current) || !geoJSONRef.current) {
       dispatch(createMapMarker(value));
     } else if (geoJSONRef.current.type !== 'FeatureCollection') {

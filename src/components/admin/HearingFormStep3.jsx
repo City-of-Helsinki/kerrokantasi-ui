@@ -2,10 +2,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Leaflet, { featureGroup } from 'leaflet';
+import Leaflet from 'leaflet';
 import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
 import { connect, useDispatch } from 'react-redux';
@@ -272,8 +272,6 @@ HearingFormStep3.propTypes = {
   language: PropTypes.string,
   isHighContrast: PropTypes.bool,
   onAddMapMarker: PropTypes.func,
-  onAddMapMarkersToCollection: PropTypes.func,
-  onCreateMapMarker: PropTypes.func,
 };
 
 export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
