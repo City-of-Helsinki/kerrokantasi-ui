@@ -106,7 +106,7 @@ export const deleteSectionAttachment = (sectionId, attachment) => (dispatch) => 
     .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({ sectionId, attachment })));
 };
 
-export const changeProject = (projectId, projectLists) => createAction(EditorActions.CHANGE_PROJECT)(projectId, projectLists);
+export const changeProject = (hearingSlug, projectId, projectLists) => createAction(EditorActions.CHANGE_PROJECT)(hearingSlug, projectId, projectLists);
 
 export const updateProjectLanguage = (languages) => createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({ languages });
 

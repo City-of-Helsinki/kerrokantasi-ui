@@ -1,9 +1,10 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Checkbox, IconTrash, TextInput } from 'hds-react';
 import { useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 
 import { createNotificationPayload } from '../../utils/notify';
 import { addToast } from '../../actions/toast';
@@ -12,28 +13,48 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
   const dispatch = useDispatch();
   const intl = useIntl();
 
-  const durationsInitial = languages.reduce((acc, current) => {
-    acc[current] = phaseInfo.schedule[current];
+  const getValuePerLanguage = (selector) =>
+    languages.reduce((acc, current) => {
+      acc[current] = selector[current];
 
-    return acc;
-  }, {});
+      return acc;
+    }, {});
 
-  const descriptionsInitial = languages.reduce((acc, current) => {
-    acc[current] = phaseInfo.description[current];
+  const titlesInitial = getValuePerLanguage(phaseInfo.title);
+  const durationsInitial = getValuePerLanguage(phaseInfo.schedule);
+  const descriptionsInitial = getValuePerLanguage(phaseInfo.description);
 
-    return acc;
-  }, {});
-
+  const [phaseTitles, setPhaseTitles] = useState(titlesInitial);
   const [phaseDurations, setPhaseDurations] = useState(durationsInitial);
   const [phaseDescriptions, setPhaseDescriptions] = useState(descriptionsInitial);
+  const [phaseIsActive, setPhaseIsActive] = useState(phaseInfo.is_active);
+
+  useEffect(() => {
+    setPhaseTitles(!isEmpty(getValuePerLanguage(phaseInfo.title)) ? getValuePerLanguage(phaseInfo.title) : undefined);
+    setPhaseDurations(
+      !isEmpty(getValuePerLanguage(phaseInfo.schedule)) ? getValuePerLanguage(phaseInfo.schedule) : undefined,
+    );
+    setPhaseDescriptions(
+      !isEmpty(getValuePerLanguage(phaseInfo.description)) ? getValuePerLanguage(phaseInfo.description) : undefined,
+    );
+
+    setPhaseIsActive(phaseInfo.is_active ? phaseInfo.is_active : undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phaseInfo]);
 
   const handleRadioOnChange = (event) => {
+    setPhaseIsActive(event.target.checked);
+
     if (event.target.checked) {
       onActive(phaseInfo.id || phaseInfo.frontId);
     } else {
       onActive(null);
     }
   };
+
+  if (!phaseInfo) {
+    return null;
+  }
 
   return (
     <div>
@@ -49,8 +70,13 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                     <FormattedMessage id='phase' /> {indexNumber + 1} ({usedLanguage})
                   </>
                 }
-                value={phaseInfo.title[usedLanguage]}
+                value={phaseTitles ? phaseTitles[usedLanguage] : ''}
                 maxLength={100}
+                onChange={(event) => {
+                  const { value } = event.target;
+
+                  setPhaseTitles((prevState) => ({ ...prevState, [usedLanguage]: value }));
+                }}
                 onBlur={(event) =>
                   onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, event.target.value)
                 }
@@ -90,7 +116,7 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setPhaseDurations({ ...phaseDurations, [usedLanguage]: value });
+                  setPhaseDurations((prevState) => ({ ...prevState, [usedLanguage]: value }));
                 }}
                 onBlur={(event) =>
                   onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value)
@@ -107,7 +133,7 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setPhaseDescriptions({ ...phaseDescriptions, [usedLanguage]: value });
+                  setPhaseDescriptions((prevState) => ({ ...prevState, [usedLanguage]: value }));
                 }}
                 onBlur={(event) =>
                   onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value)
@@ -122,7 +148,7 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 name={`phase-active-${indexNumber + 1}`}
                 label={intl.formatMessage({ id: 'phaseActive' })}
                 onChange={handleRadioOnChange}
-                checked={phaseInfo.is_active}
+                checked={phaseIsActive}
                 errorText={errors.project_phase_active}
               />
             )}
