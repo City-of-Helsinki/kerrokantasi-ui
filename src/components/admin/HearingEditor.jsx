@@ -47,7 +47,6 @@ import { contactShape, hearingShape, labelShape, organizationShape, userShape } 
 import * as EditorSelector from '../../selectors/hearingEditor';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
-import { geoJSON } from 'leaflet';
 
 const HearingEditor = (props) => {
   const [errors, setErrors] = useState({});
@@ -130,7 +129,7 @@ const HearingEditor = (props) => {
 
   const onAddMapMarker = (value) => {
     console.log('geoJSONRef', geoJSONRef.current);
-    if (isEmpty(geoJSONRef.current)) {
+    if (isEmpty(geoJSONRef.current) || !geoJSONRef.current) {
       dispatch(createMapMarker(value));
     } else if (geoJSONRef.current.type !== 'FeatureCollection') {
       dispatch(addMapMarker(value));

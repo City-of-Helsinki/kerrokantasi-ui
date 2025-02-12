@@ -4,9 +4,9 @@ import { Polygon, GeoJSON, Marker, Polyline } from 'react-leaflet';
 
 import 'proj4'; // import required for side effect
 import 'proj4leaflet'; // import required for side effect
-import * as leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
-import * as leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
-import * as leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
+import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
+import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
+import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 
 export function EPSG3067() {
   const crsName = 'EPSG:3067';
