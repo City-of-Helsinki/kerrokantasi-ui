@@ -71,7 +71,7 @@ const HearingFormStep3 = (props) => {
   }, [onAddMapMarker]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const onDrawDeleted = (event) => {
+  const onDrawDeleted = useCallback((event) => {
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
       /**
@@ -130,7 +130,7 @@ const HearingFormStep3 = (props) => {
       onHearingChange('geojson', {});
       setInitialGeoJSON({});
     }
-  };
+  }, [hearing.geojson, initialGeoJSON, onHearingChange]);
 
   const readTextFile = (file, callback) => {
     try {
