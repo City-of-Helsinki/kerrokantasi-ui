@@ -100,11 +100,21 @@ const data = handleActions(
           })
         }
       }, state),
-    [EditorActions.CHANGE_PROJECT]: (state, { payload: { projectId, projectLists } }) => {
+    [EditorActions.CHANGE_PROJECT]: (state, { payload: { hearingSlug, projectId, projectLists } }) => {
       let updatedProject;
-      if (projectId === '') updatedProject = initNewProject();
-      else updatedProject = projectLists.find(project => project.id === projectId) || null;
-      return { ...state, project: updatedProject };
+      if (projectId === '') {
+        updatedProject = initNewProject()
+      } else {
+        updatedProject = projectLists.find(project => project.id === projectId) || null
+      }
+
+      const mutatePhases = updatedProject?.phases.map((phase) => ({ ...phase, is_active: phase.hearings.includes(hearingSlug) }))
+
+      if (mutatePhases) {
+        return { ...state, project: { ...updatedProject, phases: mutatePhases } };
+      }
+
+      return { ...state, project: updatedProject }
     },
     [EditorActions.CHANGE_PROJECT_NAME]: (state, { payload: { fieldname, value } }) =>
       updeep({

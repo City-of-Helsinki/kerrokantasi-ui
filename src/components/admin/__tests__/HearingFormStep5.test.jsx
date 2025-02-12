@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
@@ -6,7 +7,6 @@ import userEvent from '@testing-library/user-event';
 
 import HearingFormStep5 from '../HearingFormStep5';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { getIntlAsProp } from '../../../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -18,9 +18,9 @@ const storeInitialState = {
       {
         id: '123',
         title: {
-          en: 'en',
-          fi: 'fi',
-          sv: 'sv',
+          en: 'test',
+          fi: 'test',
+          sv: 'test',
         },
         phases: [
           {
@@ -28,9 +28,39 @@ const storeInitialState = {
             has_hearings: true,
             hearings: ['test'],
             title: {
-              en: 'en',
-              fi: 'fi',
-              sv: 'sv',
+              en: 'In English',
+              fi: 'Suomeksi',
+              sv: 'På Svenska',
+            },
+            description: {
+              en: 'test',
+              fi: 'test',
+              sv: 'test',
+            },
+            schedule: {
+              en: '2024',
+              fi: '2024',
+              sv: '2024',
+            },
+          },
+        ],
+      },
+      {
+        id: '456',
+        title: {
+          en: 'test2',
+          fi: 'test2',
+          sv: 'test2',
+        },
+        phases: [
+          {
+            id: '3456',
+            has_hearings: true,
+            hearings: ['test'],
+            title: {
+              en: 'In English',
+              fi: 'Suomeksi',
+              sv: 'På Svenska',
             },
             description: {
               en: 'test',
@@ -52,13 +82,32 @@ const storeInitialState = {
 const renderComponent = (propOverrides, storeOverride) => {
   const props = {
     errors: {},
-    hearing: {
-      project: {
+    projects: [
+      {
         id: '123',
         title: {
-          en: 'en',
-          fi: 'fi',
-          sv: 'sv',
+          en: 'test',
+          fi: 'test',
+          sv: 'test',
+        },
+      },
+      {
+        id: '456',
+        title: {
+          en: 'test2',
+          fi: 'test2',
+          sv: 'test2',
+        },
+      },
+    ],
+    language: 'en',
+    hearing: {
+      project: {
+        id: 'project123',
+        title: {
+          en: 'Project In English',
+          fi: 'Project Suomeksi',
+          sv: 'Project På Svenska',
         },
         phases: [
           {
@@ -66,9 +115,9 @@ const renderComponent = (propOverrides, storeOverride) => {
             has_hearings: true,
             hearings: ['test'],
             title: {
-              en: 'en',
-              fi: 'fi',
-              sv: 'sv',
+              en: 'Phase In English',
+              fi: 'Phase Suomeksi',
+              sv: 'Phase På Svenska',
             },
             description: {
               en: 'test',
@@ -85,19 +134,6 @@ const renderComponent = (propOverrides, storeOverride) => {
       },
     },
     hearingLanguages: ['en', 'fi', 'sv'],
-    language: 'en',
-    projects: [
-      {
-        id: '123',
-        title: {
-          en: 'test',
-          fi: 'test',
-          sv: 'test',
-        },
-      },
-    ],
-    intl: getIntlAsProp(),
-    dispatch: jest.fn(),
     ...propOverrides,
   };
 
@@ -121,7 +157,7 @@ describe('<HearingFormStep5 />', () => {
 
     await user.click(input);
 
-    const option = await screen.findByText('en');
+    const option = await screen.findByText('test2');
 
     await user.click(option);
 
@@ -129,7 +165,7 @@ describe('<HearingFormStep5 />', () => {
     const expected = [
       {
         type: 'changeProject',
-        payload: { projectId: '123', projectLists: expect.anything() },
+        payload: { projectId: '456', projectLists: expect.anything() },
       },
     ];
 

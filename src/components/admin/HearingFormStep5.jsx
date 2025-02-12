@@ -1,17 +1,14 @@
 /* eslint-disable react/forbid-prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v1 as uuid } from 'uuid';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { Button, Notification, Select, TextInput } from 'hds-react';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import classNames from 'classnames';
+import { Select } from 'hds-react';
+import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
 
-import Icon from '../../utils/Icon';
 import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import * as ProjectsSelector from '../../selectors/projectLists';
-import Phase from './Phase';
 import { hearingShape } from '../../types';
 import {
   changeProjectName,
@@ -22,17 +19,41 @@ import {
   changePhase,
 } from '../../actions/hearingEditor';
 import { addToast } from '../../actions/toast';
+import Project from './Project';
 
-const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects, intl }) => {
+const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
 
-  const onChangeProject = (selected) =>
+  const defaultProjectOptions = [
+    { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
+    { value: '', label: intl.formatMessage({ id: 'defaultProject' }) },
+  ];
+
+  const projectsOptions = projects.map((project) => ({
+    value: project.id,
+    label: `${
+      project.title[language] || project.title.fi || project.title.en || project.title.sv || 'Default project'
+    }`,
+  }));
+
+  const options = [...defaultProjectOptions, ...projectsOptions];
+
+  const [selectedProject, setSelectedProject] = useState(hearing.project);
+
+  useEffect(() => {
+    setSelectedProject(hearing.project);
+  }, [hearing.project]);
+
+  const onChangeProject = (selected) => {
     dispatch(
       changeProject({
+        hearingSlug: hearing.slug,
         projectId: selected.value,
         projectLists: projects,
       }),
     );
+  };
 
   const addPhase = () => {
     if (!isEmpty(hearingLanguages)) {
@@ -51,100 +72,31 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
 
   const onActivePhase = (phaseId) => dispatch(activePhase(phaseId));
 
-  const renderProject = (selectedProject) => {
-    const phasesLength = hearing.project ? hearing.project.phases.length : null;
-    const errorStyle = !errors.project_phase_active && phasesLength === 0 ? 'has-error' : null;
-
-    return (
-      <div>
-        {selectedProject &&
-          hearingLanguages.map((usedLanguage) => (
-            <div id='projectName' key={usedLanguage}>
-              <TextInput
-                id='projectName'
-                name='projectName'
-                label={
-                  <>
-                    <FormattedMessage id='projectName' /> ({usedLanguage})
-                  </>
-                }
-                maxLength={100}
-                value={selectedProject.title[usedLanguage]}
-                onBlur={(event) => onChangeProjectName(usedLanguage, event.target.value)}
-                invalid={!!errors.project_title}
-                errorText={errors.project_title}
-                style={{ marginBottom: 'var(--spacing-s)' }}
-                required
-              />
-            </div>
-          ))}
-        <div className='phases-container'>
-          {selectedProject &&
-            selectedProject.phases.map((phase, index) => {
-              const key = index;
-
-              return (
-                <Phase
-                  onChange={onChangePhase}
-                  phaseInfo={phase}
-                  key={key}
-                  indexNumber={index}
-                  onDelete={deletePhase}
-                  onActive={onActivePhase}
-                  languages={hearingLanguages}
-                  errors={errors}
-                />
-              );
-            })}
-        </div>
-        {selectedProject && (
-          <div>
-            <Button className={classNames([errorStyle, 'kerrokantasi-btn'])} onClick={addPhase} size='small'>
-              <Icon className='icon' name='plus' /> <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
-            </Button>
-          </div>
-        )}
-        {!!errors.project_phase_active && phasesLength === 0 && (
-          <Notification type='error' size='small'>
-            {errors.project_phase_active}
-          </Notification>
-        )}
-      </div>
-    );
-  };
-
-  const selectedProject = hearing.project;
-
-  const defaultProjectOptions = [
-    { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
-    { value: '', label: intl.formatMessage({ id: 'defaultProject' }) },
-  ];
-
-  const projectsOptions = projects.map((project) => ({
-    value: project.id,
-    label: `${
-      project.title[language] || project.title.fi || project.title.en || project.title.sv || 'Default project'
-    }`,
-  }));
-
-  const options = [...defaultProjectOptions, ...projectsOptions];
-
-  const projectsInitialValue = selectedProject?.id ? selectedProject.id : options[0];
+  const projectValue = options.find((option) => option.value === hearing.project?.id);
 
   return (
     <div>
       <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
         <Select
           optionKeyField='value'
-          id='commenting'
-          name='commenting'
+          id='project'
+          name='project'
           label={<FormattedMessage id='projectSelection' />}
           options={options}
           onChange={onChangeProject}
-          defaultValue={projectsInitialValue}
+          value={projectValue}
         />
       </div>
-      {renderProject(selectedProject)}
+      <Project
+        project={selectedProject}
+        errors={errors}
+        hearingLanguages={hearingLanguages}
+        onChangeProjectName={onChangeProjectName}
+        onChangePhase={onChangePhase}
+        deletePhase={deletePhase}
+        onActivePhase={onActivePhase}
+        addPhase={addPhase}
+      />
     </div>
   );
 };
@@ -155,13 +107,10 @@ HearingFormStep5.propTypes = {
   language: PropTypes.string,
   hearing: hearingShape,
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
-  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   projects: ProjectsSelector.getProjects(state),
 });
 
-const WrappedHearingFormStep5 = connect(mapStateToProps)(injectIntl(HearingFormStep5));
-
-export default WrappedHearingFormStep5;
+export default connect(mapStateToProps)(injectIntl(HearingFormStep5));
