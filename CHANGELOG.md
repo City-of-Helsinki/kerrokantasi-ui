@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.10.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.1...kerrokantasi-ui-v1.10.2) (2025-02-13)
+
+
+### Bug Fixes
+
+* 422-hearing map fixes ([#1114](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1114)) ([48a1a1a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/48a1a1a40a3bca3e05fc8d11b42fb0fa327ada9b))
+* CommentMap add marker clear comment KER-422 ([6de6276](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6de6276f83ef880d60e1e758a6d79dfee4bef89b))
+* Hearing project fields KER-422 ([651cd00](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/651cd004a9e9faa81ecba9aef7492b13d6d3efce))
+
 ## [1.10.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.0...kerrokantasi-ui-v1.10.1) (2025-02-05)
 
 
