@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
@@ -32,14 +32,6 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconAnchor: [13, 41],
 });
 
-function getFirstGeometry(featureCollectionGeoJSON) {
-  const firstFeature = featureCollectionGeoJSON.features[0];
-  if (firstFeature) {
-    return firstFeature.geometry;
-  }
-  return {};
-}
-
 /**
  * Returns an array of the remaining features
  * @param {Object[]} currentFeatures
@@ -65,8 +57,7 @@ const HearingFormStep3 = (props) => {
   let map;
   let featureGroup;
   const { hearing, language, isHighContrast, visible } = props; // const props
-  const { onHearingChange, onCreateMapMarker, onAddMapMarker, onAddMapMarkersToCollection, onContinue } = props; // function props
-  const [isEdited, setIsEdited] = useState(false);
+  const { onHearingChange, onAddMapMarker, onContinue } = props; // function props
   const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
 
   const dispatch = useDispatch();
@@ -75,51 +66,12 @@ const HearingFormStep3 = (props) => {
     Leaflet.drawLocal = getTranslatedTooltips(language);
   }, [language]);
 
-  const onDrawEdited = (event) => {
-    // TODO: Implement proper onDrawEdited functionality
-    setIsEdited(true);
-    onHearingChange('geojson', getFirstGeometry(event.layers.toGeoJSON()));
-  };
-
-  const onDrawCreated = (event) => {
-    // TODO: Implement proper onDrawCreated functionality
-    if (isEdited) {
-      /**
-       * first time an element is created and the map hasn't been edited/elements removed
-       */
-      setIsEdited(true);
-      if (!hearing.geojson || !hearing.geojson.type) {
-        /**
-         * if hearing.geojson is null or doesnt have type -> add a single element
-         */
-        onCreateMapMarker(event.layer.toGeoJSON().geometry);
-      } else if (hearing.geojson.type !== 'FeatureCollection') {
-        /**
-         * if hearing.geojson has a type that isn't FeatureCollection
-         * -> add element and transform hearing.geojson to FeatureCollection
-         */
-        onAddMapMarker(event.layer.toGeoJSON());
-      } else if (hearing.geojson.type === 'FeatureCollection') {
-        /**
-         * if hearing.geojson type is FeatureCollection - add element to geojson.features
-         */
-        onAddMapMarkersToCollection(event.layer.toGeoJSON());
-      }
-    } else if (hearing.geojson.coordinates) {
-      /**
-       * if geojson has coordinates -> transform hearing.geojson to FeatureCollection and add element
-       */
-      onAddMapMarker(event.layer.toGeoJSON());
-    } else {
-      /**
-       * hearing.geojson is a FeatureCollection -> add element to geojson.features
-       */
-      onAddMapMarkersToCollection(event.layer.toGeoJSON());
-    }
-  };
+  const onDrawCreated = useCallback((event) => {
+    onAddMapMarker(event.layer.toGeoJSON());
+  }, [onAddMapMarker]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const onDrawDeleted = (event) => {
+  const onDrawDeleted = useCallback((event) => {
     // TODO: Implement proper onDrawDeleted functionality
     if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
       /**
@@ -165,25 +117,20 @@ const HearingFormStep3 = (props) => {
       if (remainingFeatures.length === 0) {
         // hearing is a FeatureCollection and all elements have been removed
         onHearingChange('geojson', {});
-        setIsEdited(false);
         setInitialGeoJSON({});
       } else {
         // hearing is a FeatureCollection that still has elements after removal
         onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
         if (currentStateFeatures) {
-          setIsEdited(true);
           setInitialGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
-        } else {
-          setIsEdited(true);
         }
       }
     } else {
       // hearing.geojson is a single element that has been removed
       onHearingChange('geojson', {});
-      setIsEdited(false);
       setInitialGeoJSON({});
     }
-  };
+  }, [hearing.geojson, initialGeoJSON, onHearingChange]);
 
   const readTextFile = (file, callback) => {
     try {
@@ -217,7 +164,7 @@ const HearingFormStep3 = (props) => {
           }
           onHearingChange('geojson', featureCollection.features[0].geometry);
           const parsedFile = parseCollection(featureCollection);
-          onCreateMapMarker(parsedFile);
+          onAddMapMarker(parsedFile);
           setInitialGeoJSON(parsedFile);
         } else {
           dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
@@ -252,9 +199,11 @@ const HearingFormStep3 = (props) => {
     }
   }, [visible, map]);
 
-  const refCallBack = (el) => {
-    map = el;
-  };
+  function refCallback(instance) {
+    if (instance) {
+      map = instance;
+    }
+  }
 
   if (typeof window === 'undefined') return null;
 
@@ -262,7 +211,7 @@ const HearingFormStep3 = (props) => {
     <div className='form-step'>
       <Fieldset id='hearingArea' heading={<FormattedMessage id='hearingArea' />}>
         <MapContainer
-          ref={refCallBack}
+          ref={refCallback}
           center={localization.mapPosition}
           style={{ width: '100%', height: 600 }}
           zoom={10}
@@ -277,13 +226,10 @@ const HearingFormStep3 = (props) => {
             )}
           />
           <FeatureGroup
-            ref={(group) => {
-              featureGroup = group;
-            }}
+            ref={featureGroup}
           >
             <EditControl
               position='topleft'
-              onEdited={onDrawEdited}
               onCreated={onDrawCreated}
               onDeleted={onDrawDeleted}
               draw={getDrawOptions()}
@@ -326,8 +272,6 @@ HearingFormStep3.propTypes = {
   language: PropTypes.string,
   isHighContrast: PropTypes.bool,
   onAddMapMarker: PropTypes.func,
-  onAddMapMarkersToCollection: PropTypes.func,
-  onCreateMapMarker: PropTypes.func,
 };
 
 export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));

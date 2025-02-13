@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -72,8 +72,16 @@ const HearingEditor = (props) => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
 
+  const geoJSONRef = useRef();
+
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
+  useEffect(() => {
+    if(hearing) {
+      geoJSONRef.current = hearing.geojson;
+    }
+  }, [hearing]);
+  
   useEffect(() => {
     if (!isEmpty(editorErrors)) {
       setErrors({
@@ -124,11 +132,15 @@ const HearingEditor = (props) => {
 
   const onSectionChange = (sectionID, field, value) => dispatch(changeSection(sectionID, field, value));
 
-  const onCreateMapMarker = (value) => dispatch(createMapMarker(value));
-
-  const onAddMapMarker = (value) => dispatch(addMapMarker(value));
-
-  const onAddMapMarkersToCollection = (value) => dispatch(addMapMarkerToCollection(value));
+  const onAddMapMarker = (value) => {
+    if (isEmpty(geoJSONRef.current) || !geoJSONRef.current) {
+      dispatch(createMapMarker(value));
+    } else if (geoJSONRef.current.type !== 'FeatureCollection') {
+      dispatch(addMapMarker(value));
+    } else {
+      dispatch(addMapMarkerToCollection(value));
+    }
+  }
 
   /**
    * Add a new attachments to a section.
@@ -239,8 +251,6 @@ const HearingEditor = (props) => {
         labels={labels}
         language={language}
         onAddMapMarker={onAddMapMarker}
-        onAddMapMarkersToCollection={onAddMapMarkersToCollection}
-        onCreateMapMarker={onCreateMapMarker}
         onDeleteExistingQuestion={onDeleteExistingQuestion}
         onDeleteTemporaryQuestion={onDeleteTemporaryQuestion}
         onHearingChange={onHearingChange}
