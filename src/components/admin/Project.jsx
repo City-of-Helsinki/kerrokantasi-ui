@@ -61,8 +61,8 @@ const Project = ({
               const { value } = event.target;
 
               setSelectedTitles((prevState) => ({ ...prevState, [usedLanguage]: value }));
+              onChangeProjectName(usedLanguage, value);
             }}
-            onBlur={(event) => onChangeProjectName(usedLanguage, event.target.value)}
             invalid={!!errors.project_title}
             errorText={errors.project_title}
             style={{ marginBottom: 'var(--spacing-s)' }}
