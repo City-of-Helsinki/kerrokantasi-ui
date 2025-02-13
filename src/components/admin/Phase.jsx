@@ -76,10 +76,8 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                   const { value } = event.target;
 
                   setPhaseTitles((prevState) => ({ ...prevState, [usedLanguage]: value }));
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, value);
                 }}
-                onBlur={(event) =>
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, event.target.value)
-                }
                 invalid={!!errors.project_phase_title}
                 errorText={errors.project_phase_title}
                 required
@@ -117,10 +115,8 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                   const { value } = event.target;
 
                   setPhaseDurations((prevState) => ({ ...prevState, [usedLanguage]: value }));
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, value);
                 }}
-                onBlur={(event) =>
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, event.target.value)
-                }
               />
             </div>
             <div className='hearing-form-column'>
@@ -134,10 +130,8 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                   const { value } = event.target;
 
                   setPhaseDescriptions((prevState) => ({ ...prevState, [usedLanguage]: value }));
+                  onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, value);
                 }}
-                onBlur={(event) =>
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, event.target.value)
-                }
               />
             </div>
           </div>

@@ -46,7 +46,7 @@ describe('<Phase />', () => {
 
     renderComponent({ onChange });
 
-    fireEvent.blur(screen.getAllByLabelText(/phase 1 /i)[0], { target: { value: 'New Title' } });
+    fireEvent.change(screen.getAllByLabelText(/phase 1 /i)[0], { target: { value: 'New Title' } });
 
     expect(onChange).toHaveBeenCalledWith('1', 'title', 'en', 'New Title');
   });
