@@ -73,10 +73,15 @@ const HearingEditor = (props) => {
   }, [fetchEditorContactPersons]);
 
   const geoJSONRef = useRef();
-  geoJSONRef.current = hearing?.geojson;
 
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
+  useEffect(() => {
+    if(hearing) {
+      geoJSONRef.current = hearing.geojson;
+    }
+  }, [hearing]);
+  
   useEffect(() => {
     if (!isEmpty(editorErrors)) {
       setErrors({
