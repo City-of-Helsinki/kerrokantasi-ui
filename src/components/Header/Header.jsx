@@ -14,8 +14,9 @@ import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
 import { addToast } from '../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import { setLanguage } from '../../actions';
 
-const Header = ({ user, locale, setLocale }) => {
+const Header = ({ user }) => {
   const { authenticated, login, logout } = useAuthHook();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -23,6 +24,10 @@ const Header = ({ user, locale, setLocale }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const language = intl.locale;
+
+  const setLocale = (newLocale) => {
+    dispatch(setLanguage(newLocale));
+  };
 
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
@@ -53,7 +58,7 @@ const Header = ({ user, locale, setLocale }) => {
   useEffect(() => {
     const langParam = searchParams.get('lang');
 
-    if (langParam && langParam !== locale) {
+    if (langParam && langParam !== language) {
       setLocale(langParam);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,11 +147,8 @@ const Header = ({ user, locale, setLocale }) => {
 
 Header.propTypes = {
   user: PropTypes.object,
-  locale: PropTypes.string,
-  setLocale: PropTypes.func,
 };
 
 export default connect((state) => ({
   user: getUser(state),
-  language: state.language,
 }))(Header);

@@ -29,7 +29,6 @@ function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
   const { fullscreen } = useParams();
   const location = useLocation();
-  const [locale, setLocale] = useState(language);
 
   getCookieScripts();
   if (config.enableCookies) {
@@ -73,18 +72,18 @@ function App({ language, isHighContrast, history, ...props }) {
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={location.pathname !== '/'} history={history} locale={locale} setLocale={setLocale} />;
+    header = <Header slim={location.pathname !== '/'} history={history} />;
   }
   const mainContainerId = 'main-container';
   return (
-    <IntlProvider locale={locale} language={locale} messages={messages[locale] || {}}>
+    <IntlProvider locale={language} messages={messages[language] || {}}>
       <div className={contrastClass}>
-        {config.enableCookies && !isCookiebotEnabled() && <CookieBar language={locale} />}
+        {config.enableCookies && !isCookiebotEnabled() && <CookieBar />}
         <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
           <FormattedMessage id='skipToMainContent' />
         </InternalLink>
         <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
-          <html lang={locale} />
+          <html lang={language} />
           {isCookiebotEnabled() && getCookieBotConsentScripts()}
         </Helmet>
         {header}
@@ -97,7 +96,7 @@ function App({ language, isHighContrast, history, ...props }) {
         >
           <Routes />
         </main>
-        <Footer language={locale} />
+        <Footer />
         <Toast />
       </div>
     </IntlProvider>
