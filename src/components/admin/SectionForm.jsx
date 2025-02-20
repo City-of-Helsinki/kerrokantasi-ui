@@ -13,6 +13,7 @@ import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 import compressFile from '../../utils/images/compressFile';
 import fileToDataUri from '../../utils/images/fileToDataUri';
+import config from '../../config';
 
 const getFileTitle = (title, language) => {
   if (title?.[language] && typeof title[language] !== 'undefined') {
@@ -225,9 +226,9 @@ const SectionForm = ({
   const commentingOptions = [
     { value: 'open', label: formatMessage({ id: 'openCommenting' }) },
     { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
-    { value: 'strong', label: formatMessage({ id: 'registeredStrongOnly' }) },
+    ...config.enableStrongAuth ? [{ value: 'strong', label: formatMessage({ id: 'registeredStrongOnly' }) }] : [],
     { value: 'none', label: formatMessage({ id: 'noCommenting' }) },
-  ];
+  ];  
 
   const commentingInitialValue = section.commenting
     ? commentingOptions.find((option) => option.value === section.commenting)

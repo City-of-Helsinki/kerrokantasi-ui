@@ -38,11 +38,8 @@ const UserProfile = lazy(() => import(
  */
 const Redirector = () => {
   const { hearingSlug } = useParams();
-  return (
-  <div>
-    <Navigate to={`/${hearingSlug}`} />
-  </div>
-)};
+  return (<Navigate to={`/${hearingSlug}`} />);
+};
 
 const AppRoutes = () => (
   <Suspense fallback={<LoadSpinner />}>
