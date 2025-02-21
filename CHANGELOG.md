@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.10.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.2...kerrokantasi-ui-v1.10.3) (2025-02-21)
+
+
+### Bug Fixes
+
+* Fixed login to use current language ([#1118](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1118)) ([56161ba](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/56161ba7c908df00ef1b2c86062e8a6d99b14db4))
+* Fixes to commenting colors and options ([#1117](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1117)) ([00cbc3a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/00cbc3a2feaf04ab9e3b0d0d913ab6eef833246b))
+* Labels dropdown key field KER-422 ([f86ec92](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f86ec929a8f515cb4124201124a236a0d26cf593))
+
 ## [1.10.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.1...kerrokantasi-ui-v1.10.2) (2025-02-13)
 
 
