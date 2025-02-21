@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import settings from '@city-assets/settings.json';
 import { Footer as HDSFooter, Logo } from 'hds-react';
@@ -17,8 +17,9 @@ import getUser from '../selectors/user';
 import { isAdmin } from '../utils/user';
 
 const Footer = (props) => {
-  const { language, user, intl } = props;
-
+  const { user } = props;
+  const intl = useIntl();
+  const language = intl.locale;
   const userIsAdmin = isAdmin(user);
 
   const scrollToFn = () => window.scrollTo(0, 0);
@@ -93,11 +94,9 @@ const Footer = (props) => {
 };
 
 Footer.propTypes = {
-  language: PropTypes.string,
   user: PropTypes.object,
-  intl: PropTypes.object,
 };
 
 export default connect((state) => ({
   user: getUser(state),
-}))(injectIntl(Footer));
+}))(Footer);

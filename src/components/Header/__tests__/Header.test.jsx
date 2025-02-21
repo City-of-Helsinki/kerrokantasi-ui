@@ -9,6 +9,7 @@ import Header from '../Header';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { mockUser } from '../../../../test-utils';
 import * as useAuthMock from '../../../hooks/useAuth';
+import * as actionsMock from '../../../actions';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -20,8 +21,14 @@ const defaultState = {
   language: defaultLocale,
   user: { data: { ...mockUser } },
 };
+const stateWithoutUser = {
+  language: 'fi',
+  user: { data: null },
+};
 
 const renderComponent = (storeOverride, authMock = {}) => {
+  jest.spyOn(actionsMock, 'setLanguage').mockImplementation(() => (jest.fn()));
+
   jest.spyOn(useAuthMock, 'default').mockImplementation(() => ({
     authenticated: authMock.authenticated ?? false,
     login: authMock.login ?? jest.fn(),
@@ -44,10 +51,6 @@ describe('<Header />', () => {
   });
 
   it('displays login button when user is not logged in', async () => {
-    const stateWithoutUser = {
-      language: 'fi',
-      user: { data: null },
-    };
 
     const store = mockStore(stateWithoutUser);
 
@@ -58,11 +61,6 @@ describe('<Header />', () => {
 
   it('calls login function when login button is clicked', async () => {
     const user = userEvent.setup();
-
-    const stateWithoutUser = {
-      language: 'fi',
-      user: { data: null },
-    };
 
     const mockLogin = jest.fn();
 
@@ -90,10 +88,11 @@ describe('<Header />', () => {
   it('changes language when language selector is used', async () => {
     const user = userEvent.setup();
 
-    renderComponent();
+    const store = mockStore(stateWithoutUser)
+    renderComponent(store);
 
     await user.click(await screen.findByRole('button', { name: 'English' }));
 
-    expect(mockSetLocale).toHaveBeenCalled();
+    expect(actionsMock.setLanguage).toHaveBeenCalled();
   });
 });
