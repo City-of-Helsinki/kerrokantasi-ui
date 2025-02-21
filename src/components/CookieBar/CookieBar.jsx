@@ -1,8 +1,8 @@
 import React from 'react';
 import { CookieModal } from 'hds-react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getHDSCookieConfig } from '../../utils/cookieUtils';
-import { useDispatch, useSelector } from 'react-redux';
 import { setLanguage as setLanguageDispatch } from '../../actions';
 
 function CookieBar() {

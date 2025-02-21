@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { FormattedMessage, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import settings from '@city-assets/settings.json';
 import { Footer as HDSFooter, Logo } from 'hds-react';
