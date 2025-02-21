@@ -111,6 +111,8 @@ const Comment = (props) => {
     }
   };
 
+  const isCommentByAdmin = () => data.organization;
+
   const onCopyURL = () => {
     // Build absolute URL for comment
     const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${props.data.id}`;
@@ -542,7 +544,7 @@ const Comment = (props) => {
           'hearing-comment__has-replys':
             data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
           'comment-animate': state.shouldAnimate,
-          'hearing-comment__admin': adminUser,
+          'hearing-comment__admin': isCommentByAdmin(),
           'hearing-comment__flagged': canFlagComments() && data.flagged,
           'hearing-comment__is-pinned': props.data.pinned,
         },
