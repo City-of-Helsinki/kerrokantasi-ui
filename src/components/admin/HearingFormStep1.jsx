@@ -123,6 +123,7 @@ const HearingFormStep1 = ({
           <Combobox
             multiselect
             name='labels'
+            optionKeyField='id'
             defaultValue={hearing.labels.map((opt) => ({
               id: opt.id,
               title: getAttr(opt.label, language),
