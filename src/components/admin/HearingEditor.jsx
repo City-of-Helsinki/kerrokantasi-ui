@@ -40,7 +40,7 @@ import {
   deleteSectionMainImage,
   changeSectionMainImageCaption,
 } from '../../actions/hearingEditor';
-import { deleteHearingDraft } from '../../actions/index';
+import { deleteHearingDraft, fetchProjects } from '../../actions/index';
 import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
 import { contactShape, hearingShape, labelShape, organizationShape, userShape } from '../../types';
@@ -71,6 +71,10 @@ const HearingEditor = (props) => {
   useEffect(() => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
+
+  useEffect(() => {
+    dispatch(fetchProjects());
+  }, [fetchProjects]);
 
   const geoJSONRef = useRef();
 

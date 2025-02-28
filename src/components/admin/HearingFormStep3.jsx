@@ -24,6 +24,8 @@ import { getCorrectContrastMapTileUrl, getMapElement } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 import { addToast } from '../../actions/toast';
 
+import { ACCEPTED_GEOJSON_TYPES } from '../../utils/constants';
+
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
   shadowUrl: leafletMarkerShadowUrl,
@@ -249,6 +251,7 @@ const HearingFormStep3 = (props) => {
           label={<FormattedMessage id='addGeojson' />}
           onChange={onUploadGeoJSON}
           helperText={<FormattedMessage id='addGeojsonInfo' />}
+          accept={ACCEPTED_GEOJSON_TYPES}
         />
       </div>
       <div className='step-footer'>
