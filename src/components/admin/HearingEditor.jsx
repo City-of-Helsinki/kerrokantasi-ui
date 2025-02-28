@@ -74,7 +74,7 @@ const HearingEditor = (props) => {
 
   useEffect(() => {
     dispatch(fetchProjects());
-  }, [fetchProjects]);
+  }, [dispatch]);
 
   const geoJSONRef = useRef();
 
