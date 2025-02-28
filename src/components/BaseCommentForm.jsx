@@ -38,6 +38,7 @@ import CommentFormErrors from './CommentFormErrors';
 import config from '../config';
 import { addToast } from '../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
+import { ACCEPTED_IMAGE_TYPES } from '../utils/constants';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -582,6 +583,7 @@ const BaseCommentForm = ({
               defaultValue={commentImages}
               className='custom-file-input'
               multiple
+              accept={ACCEPTED_IMAGE_TYPES}
               label={<FormattedMessage id='add_images' />}
               onChange={(files) => handleChange(files)}
               maxSize={IMAGE_MAX_SIZE}

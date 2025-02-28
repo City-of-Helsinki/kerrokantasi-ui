@@ -12,6 +12,7 @@ import compressFile from '../../../utils/images/compressFile';
 import fileToDataUri from '../../../utils/images/fileToDataUri';
 import { addToast } from '../../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import { ACCEPTED_IMAGE_TYPES } from '../../../utils/constants';
 
 /**
  * MAX_IMAGE_SIZE given in bytes
@@ -104,7 +105,7 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
             <FileInput
               id='image-modal-add-image'
               name='image-modal-add-image'
-              accept='.jpeg,.jpg,.png,.webp,.gif'
+              accept={ACCEPTED_IMAGE_TYPES}
               dragAndDrop
               label={<FormattedMessage id='selectOrDropImage' />}
               helperText={<FormattedMessage id='sectionImageHelpText' />}

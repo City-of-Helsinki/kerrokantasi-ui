@@ -14,6 +14,7 @@ import { isSpecialSectionType } from '../../utils/section';
 import compressFile from '../../utils/images/compressFile';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
+import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../utils/constants';
 
 const getFileTitle = (title, language) => {
   if (title?.[language] && typeof title[language] !== 'undefined') {
@@ -296,7 +297,7 @@ const SectionForm = ({
           name='sectionImage'
           dragAndDrop
           label={<FormattedMessage id='sectionImage' />}
-          accept='.jpeg,.jpg,.png,.webp,.gif'
+          accept={ACCEPTED_IMAGE_TYPES}
           helperText={<FormattedMessage id='sectionImageHelpText' />}
           language={language}
           onChange={onImageChange}
@@ -387,7 +388,7 @@ const SectionForm = ({
           name='selectOrDropFile'
           dragAndDrop
           label={<FormattedMessage id='selectOrDropFile' />}
-          accept='application/pdf'
+          accept={ACCEPTED_FILE_TYPES}
           language={language}
           onChange={onAttachmentChange}
           defaultValue={attachments}
