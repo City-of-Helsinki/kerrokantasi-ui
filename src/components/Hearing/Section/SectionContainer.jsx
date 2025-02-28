@@ -532,7 +532,7 @@ const SectionContainerComponent = ({
         <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
           {renderMainDetails(hearing, section, language)}
 
-          {renderProjectPhaseSection(language)}
+          {renderProjectPhaseSection(hearing, language)}
 
           {renderContacts(contacts, language)}
 
