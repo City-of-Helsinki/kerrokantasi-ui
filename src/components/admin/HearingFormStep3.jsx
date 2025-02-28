@@ -59,7 +59,7 @@ const HearingFormStep3 = (props) => {
   let featureGroup;
   const { hearing, language, isHighContrast, visible } = props; // const props
   const { onHearingChange, onAddMapMarker, onContinue } = props; // function props
-  const [initialGeoJSON, setInitialGeoJSON] = useState(props.hearing.geojson);
+  const [geoJSON, setGeoJSON] = useState(props.hearing.geojson);
 
   const dispatch = useDispatch();
 
@@ -67,71 +67,77 @@ const HearingFormStep3 = (props) => {
     Leaflet.drawLocal = getTranslatedTooltips(language);
   }, [language]);
 
-  const onDrawCreated = useCallback((event) => {
-    onAddMapMarker(event.layer.toGeoJSON());
-  }, [onAddMapMarker]);
+  const onDrawCreated = useCallback(
+    (event) => {
+      onAddMapMarker(event.layer.toGeoJSON());
+    },
+    [onAddMapMarker],
+  );
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  const onDrawDeleted = useCallback((event) => {
-    // TODO: Implement proper onDrawDeleted functionality
-    if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
-      /**
-       * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
-       * initialGeoJSON contains the hearings original map data and it is ONLY modified
-       * when one or more of the original map elements are removed.
-       * initialGeoJSON does NOT update when props.hearing.geojson changes when adding new elements.
-       *
-       * props.hearing.geojson contains the original map data + any elements added to the map.
-       *
-       * The elements in initialGeoJSON are displayed as static elements on the map and any new added elements exist
-       * as separate variables inside Leaflet. So if the removed element was one of the original(static) elements then
-       * it is removed from props.hearing.geojson AND initialGeoJSON,
-       * if it was one of the newly added(not saved) elements then it is removed from props.hearing.geojson.
-       */
-      // if the hearing.geojson is a FeatureCollection that has features
-      const currentFeatures = hearing.geojson.features;
-      let currentStateFeatures;
-      if (initialGeoJSON) {
-        // initialGeoJSON is truthy if editing existing hearing or a geojson file has been uploaded
-        currentStateFeatures = initialGeoJSON.type === 'FeatureCollection' ? initialGeoJSON.features : null;
-      }
-      // event.layers._layers object has unique keys for each deleted map element
-      const layerKeys = Object.keys(event.layers._layers);
-
-      // Loop through event.layers._layers -> transform each to geojson and push geometry value to array
-      const removedMapElements = layerKeys.reduce((accumulator, currentValue) => {
-        if (event.layers._layers[currentValue]) {
-          accumulator.push(event.layers._layers[currentValue].toGeoJSON().geometry);
+  const onDrawDeleted = useCallback(
+    // eslint-disable-next-line sonarjs/cognitive-complexity
+    (event) => {
+      // TODO: Implement proper onDrawDeleted functionality
+      if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
+        /**
+         * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
+         * initialGeoJSON contains the hearings original map data and it is ONLY modified
+         * when one or more of the original map elements are removed.
+         * initialGeoJSON does NOT update when props.hearing.geojson changes when adding new elements.
+         *
+         * props.hearing.geojson contains the original map data + any elements added to the map.
+         *
+         * The elements in initialGeoJSON are displayed as static elements on the map and any new added elements exist
+         * as separate variables inside Leaflet. So if the removed element was one of the original(static) elements then
+         * it is removed from props.hearing.geojson AND initialGeoJSON,
+         * if it was one of the newly added(not saved) elements then it is removed from props.hearing.geojson.
+         */
+        // if the hearing.geojson is a FeatureCollection that has features
+        const currentFeatures = hearing.geojson.features;
+        let currentStateFeatures;
+        if (geoJSON) {
+          // initialGeoJSON is truthy if editing existing hearing or a geojson file has been uploaded
+          currentStateFeatures = geoJSON.type === 'FeatureCollection' ? geoJSON.features : null;
         }
-        return accumulator;
-      }, []);
+        // event.layers._layers object has unique keys for each deleted map element
+        const layerKeys = Object.keys(event.layers._layers);
 
-      // Remaining map features(props) after removing the deleted features.
-      const remainingFeatures = featureReducer(currentFeatures, removedMapElements);
+        // Loop through event.layers._layers -> transform each to geojson and push geometry value to array
+        const removedMapElements = layerKeys.reduce((accumulator, currentValue) => {
+          if (event.layers._layers[currentValue]) {
+            accumulator.push(event.layers._layers[currentValue].toGeoJSON().geometry);
+          }
+          return accumulator;
+        }, []);
 
-      let remainingStateFeatures;
-      if (currentStateFeatures) {
-        // Remaining map features(state) after removing the deleted feature
-        remainingStateFeatures = featureReducer(currentStateFeatures, removedMapElements);
-      }
+        // Remaining map features(props) after removing the deleted features.
+        const remainingFeatures = featureReducer(currentFeatures, removedMapElements);
 
-      if (remainingFeatures.length === 0) {
-        // hearing is a FeatureCollection and all elements have been removed
-        onHearingChange('geojson', {});
-        setInitialGeoJSON({});
-      } else {
-        // hearing is a FeatureCollection that still has elements after removal
-        onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
+        let remainingStateFeatures;
         if (currentStateFeatures) {
-          setInitialGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
+          // Remaining map features(state) after removing the deleted feature
+          remainingStateFeatures = featureReducer(currentStateFeatures, removedMapElements);
         }
+
+        if (remainingFeatures.length === 0) {
+          // hearing is a FeatureCollection and all elements have been removed
+          onHearingChange('geojson', {});
+          setGeoJSON({});
+        } else {
+          // hearing is a FeatureCollection that still has elements after removal
+          onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
+          if (currentStateFeatures) {
+            setGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
+          }
+        }
+      } else {
+        // hearing.geojson is a single element that has been removed
+        onHearingChange('geojson', {});
+        setGeoJSON({});
       }
-    } else {
-      // hearing.geojson is a single element that has been removed
-      onHearingChange('geojson', {});
-      setInitialGeoJSON({});
-    }
-  }, [hearing.geojson, initialGeoJSON, onHearingChange]);
+    },
+    [hearing.geojson, geoJSON, onHearingChange],
+  );
 
   const readTextFile = (file, callback) => {
     try {
@@ -145,31 +151,62 @@ const HearingFormStep3 = (props) => {
     }
   };
 
+  const validateCollection = (collection) => {
+    if (collection.type === 'FeatureCollection') {
+      const { features: collectionFeatures } = collection;
+
+      if (!isEmpty(collectionFeatures) && Array.isArray(collectionFeatures)) {
+        const filteredFeatured = collectionFeatures
+          .filter((feature) => {
+            const hasRequiredProperties =
+              includes(keys(feature), 'geometry') &&
+              includes(keys(feature.geometry), 'type') &&
+              includes(keys(feature.geometry), 'coordinates');
+
+            if (hasRequiredProperties) {
+              if (!feature.geometry.coordinates.length) {
+                dispatch(
+                  addToast(
+                    createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.'),
+                  ),
+                );
+
+                return false;
+              }
+
+              return feature;
+            }
+
+            return false;
+          })
+          .filter(Boolean);
+
+        return { ...collection, features: filteredFeatured };
+      }
+
+      throw new Error('No features found');
+    } else {
+      throw new Error('Invalid geojson');
+    }
+  };
+
   const onUploadGeoJSON = (files) => {
+    if (!files.length) {
+      onHearingChange('geojson', {});
+      setGeoJSON({});
+
+      return;
+    }
+
     readTextFile(files[0], (json) => {
       try {
         const featureCollection = JSON.parse(json);
-        if (
-          featureCollection.type === 'FeatureCollection' &&
-          !isEmpty(featureCollection.features) &&
-          Array.isArray(featureCollection.features) &&
-          includes(keys(featureCollection.features[0]), 'geometry') &&
-          includes(keys(featureCollection.features[0].geometry), 'type') &&
-          includes(keys(featureCollection.features[0].geometry), 'coordinates')
-        ) {
-          if (featureCollection.features[0].geometry.coordinates.length === 0) {
-            dispatch(
-              addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.')),
-            );
-            return;
-          }
-          onHearingChange('geojson', featureCollection.features[0].geometry);
-          const parsedFile = parseCollection(featureCollection);
-          onAddMapMarker(parsedFile);
-          setInitialGeoJSON(parsedFile);
-        } else {
-          dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
-        }
+        const validCollection = validateCollection(featureCollection);
+
+        const parsedFile = parseCollection(validCollection);
+
+        onHearingChange('geojson', parsedFile);
+        setGeoJSON(parsedFile);
       } catch (err) {
         dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
       }
@@ -226,9 +263,7 @@ const HearingFormStep3 = (props) => {
               language,
             )}
           />
-          <FeatureGroup
-            ref={featureGroup}
-          >
+          <FeatureGroup ref={featureGroup}>
             <EditControl
               position='topleft'
               onCreated={onDrawCreated}
@@ -239,7 +274,7 @@ const HearingFormStep3 = (props) => {
                 edit: false,
               }}
             />
-            {getMapElement(initialGeoJSON)}
+            {getMapElement(geoJSON)}
           </FeatureGroup>
         </MapContainer>
       </Fieldset>
