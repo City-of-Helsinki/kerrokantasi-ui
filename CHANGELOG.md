@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.3...kerrokantasi-ui-v1.10.4) (2025-03-01)
+
+
+### Bug Fixes
+
+* Multiple fixes for KER-449 ([#1122](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1122)) ([07c2843](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/07c284315ea657c380b2e501a3e7a9f60e32e82e))
+
 ## [1.10.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.2...kerrokantasi-ui-v1.10.3) (2025-02-21)
 
 
