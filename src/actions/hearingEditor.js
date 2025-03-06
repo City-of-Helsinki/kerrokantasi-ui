@@ -391,8 +391,9 @@ export function addSectionAttachment(section, file, title, isNew) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
+    const preparedHearing = prepareHearingForSave(hearing);
     const cleanedHearing = filterTitleAndContentByLanguage(
-      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+      filterFrontIdsFromAttributes(preparedHearing), getState().hearingEditor.languages
     );
     const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
       cleanedHearing,
@@ -429,49 +430,15 @@ export function saveAndPreviewHearingChanges(hearing) {
   };
 }
 
-export function saveNewHearing(hearing) {
-  return (dispatch, getState) => {
-    // Clean up section IDs assigned by UI before POSTing the hearing
-    const cleanedHearing = filterTitleAndContentByLanguage(
-      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
-    );
-    const preSaveAction = createAction(EditorActions.POST_HEARING)({ hearing: cleanedHearing });
-    dispatch(preSaveAction);
-    const url = '/v1/hearing/';
-    return post(url, cleanedHearing)
-      .then(checkResponseStatus)
-      .then(response => {
-        if (response.status === 400) {
-          // Bad request with error message
-          // TODO: Add translations
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
-          });
-          throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
-        } else if (response.status === 401) {
-          // Unauthorized
-          // TODO: Add translations
-          throw Error('Et voi luoda kuulemista.');
-        } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({ hearing: hearingJSON }));
-          });
-          // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
-        }
-      })
-      .catch(requestErrorHandler(dispatch));
-  };
-}
-
 export function saveAndPreviewNewHearing(hearing) {
   return (dispatch) => {
+    const preparedHearing = prepareHearingForSave(hearing);
     const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
       hearing,
     });
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
-    return post(url, hearing)
+    return post(url, preparedHearing)
       .then(checkResponseStatus)
       .then(response => {
         if (response.status === 400) {
@@ -498,8 +465,7 @@ export function saveAndPreviewNewHearing(hearing) {
 }
 
 export function saveAndPreviewHearingAsCopy(hearing) {
-  const preparedHearing = prepareHearingForSave(hearing);
-  return saveAndPreviewNewHearing(preparedHearing);
+  return saveAndPreviewNewHearing(hearing);
 }
 
 export function closeHearing(hearing) {

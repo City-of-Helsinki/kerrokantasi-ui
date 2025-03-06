@@ -81,15 +81,15 @@ const HearingEditor = (props) => {
   const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
   useEffect(() => {
-    if(hearing) {
+    if (hearing) {
       geoJSONRef.current = hearing.geojson;
     }
   }, [hearing]);
-  
+
   useEffect(() => {
     if (!isEmpty(editorErrors)) {
       setErrors({
-        0: editorErrors
+        0: editorErrors,
       });
     }
   }, [editorErrors]);
@@ -144,7 +144,7 @@ const HearingEditor = (props) => {
     } else {
       dispatch(addMapMarkerToCollection(value));
     }
-  }
+  };
 
   /**
    * Add a new attachments to a section.
