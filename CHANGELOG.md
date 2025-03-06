@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.4...kerrokantasi-ui-v1.10.5) (2025-03-06)
+
+
+### Bug Fixes
+
+* HearingEditor attachments KER-449 ([1239362](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/123936219216ad27640d755967a54035bf915673))
+
 ## [1.10.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.3...kerrokantasi-ui-v1.10.4) (2025-03-03)
 
 
