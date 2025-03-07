@@ -55,7 +55,7 @@
     "babel-plugin-syntax-hermes-parser": "^0.15.1",
     "babel-plugin-transform-imports": "^2.0.0",
     "babel-polyfill": "^6.26.0",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.3",
     "bootstrap-sass": "3.4.3",
     "browser-image-compression": "^2.0.2",
     "buffer": "^6.0.3",
