@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.5...kerrokantasi-ui-v1.10.6) (2025-03-07)
+
+
+### Bug Fixes
+
+* Increased valid filetypes for geojson ([#1127](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1127)) ([2049cff](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2049cff3d4b2e6d168750696f63eaf33930cfd13))
+
 ## [1.10.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.4...kerrokantasi-ui-v1.10.5) (2025-03-06)
 
 
