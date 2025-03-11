@@ -60,7 +60,8 @@ export const normalizeSavedHearing =
     const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.hearing');
-      dispatch(updateHearingAfterSave(fillFrontIdsAndNormalizeHearing(hearing)));
+
+      dispatch(updateHearingAfterSave(fillFrontIdsAndNormalizeHearing({ ...hearing, isNew: false })));
     }
     next(action);
   };
