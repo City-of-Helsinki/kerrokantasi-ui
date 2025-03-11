@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.6...kerrokantasi-ui-v1.10.7) (2025-03-11)
+
+
+### Bug Fixes
+
+* NormalizeSavedHearing isNew KER-449 ([a5b5e2d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a5b5e2d9cf7be883090f470ae0edaaf184ba0117))
+
 ## [1.10.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.5...kerrokantasi-ui-v1.10.6) (2025-03-07)
 
 
