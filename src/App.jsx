@@ -76,30 +76,28 @@ function App({ language, isHighContrast, history, ...props }) {
   }
   const mainContainerId = 'main-container';
   return (
-    <IntlProvider locale={language} messages={messages[language] || {}}>
-      <div className={contrastClass}>
-        {config.enableCookies && !isCookiebotEnabled() && <CookieBar />}
-        <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
-          <FormattedMessage id='skipToMainContent' />
-        </InternalLink>
-        <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
-          <html lang={language} />
-          {isCookiebotEnabled() && getCookieBotConsentScripts()}
-        </Helmet>
-        {header}
-        {config.maintenanceShowNotification && <MaintenanceNotification />}
-        <main
-          className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
-          id={mainContainerId}
-          role='main'
-          tabIndex='-1'
-        >
-          <Routes />
-        </main>
-        <Footer />
-        <Toast />
-      </div>
-    </IntlProvider>
+    <div className={contrastClass}>
+      {config.enableCookies && !isCookiebotEnabled() && <CookieBar />}
+      <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
+        <FormattedMessage id='skipToMainContent' />
+      </InternalLink>
+      <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
+        <html lang={language} />
+        {isCookiebotEnabled() && getCookieBotConsentScripts()}
+      </Helmet>
+      {header}
+      {config.maintenanceShowNotification && <MaintenanceNotification />}
+      <main
+        className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
+        id={mainContainerId}
+        role='main'
+        tabIndex='-1'
+      >
+        <Routes />
+      </main>
+      <Footer />
+      <Toast />
+    </div>
   );
 }
 
