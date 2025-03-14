@@ -8,13 +8,13 @@ import { getIntlAsProp, mockStore, mockUser } from '../../../../test-utils';
 import { createLocalizedNotificationPayload } from '../../../utils/notify';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
-jest.mock('../../../utils/notify');
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('../../../utils/notify');
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
 
   return {
     ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
@@ -50,7 +50,7 @@ const hearingWithErrors = {
 const renderComponent = (propOverrides) => {
   const props = {
     contactPersons: mockStore.hearing.mockHearing.data.contact_persons,
-    dispatch: jest.fn(),
+    dispatch: vi.fn(),
     show: true,
     hearing: {
       ...mockStore.hearing.mockHearing.data,
@@ -62,7 +62,7 @@ const renderComponent = (propOverrides) => {
     user: mockUser,
     language: 'fi',
     isNewHearing: true,
-    fetchEditorContactPersons: jest.fn().mockResolvedValue(mockStore.hearing.mockHearing.data.contact_persons),
+    fetchEditorContactPersons: vi.fn().mockResolvedValue(mockStore.hearing.mockHearing.data.contact_persons),
     ...propOverrides,
   };
 
@@ -82,13 +82,13 @@ describe('<HearingEditor />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
     window.IntersectionObserver = originalInterSectionObserver;
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render correctly', () => {

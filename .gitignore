@@ -45,3 +45,12 @@ report/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+.env.local
+/build
+
+public/env-config.js
+public/test-env-config.js
+
+cities/**/env-config.js
+cities/**/test-env-config.js

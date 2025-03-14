@@ -12,12 +12,12 @@ import renderWithProviders from '../../utils/renderWithProviders';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('hds-react', async () => {
+  const mod = await vi.importActual('hds-react');
 
   return {
-    ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    ...mod,
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
@@ -53,7 +53,7 @@ const renderComponent = (propOverrides, storeOverriders) => {
       questions: [],
     },
     published: true,
-    fetchComments: jest.fn(),
+    fetchComments: vi.fn(),
     ...propOverrides,
   };
 
@@ -73,7 +73,7 @@ describe('<SortableCommentList />', () => {
   });
 
   it('should handle comment posting', async () => {
-    const onPostCommentMock = jest.fn();
+    const onPostCommentMock = vi.fn();
 
     renderComponent({ onPostComment: onPostCommentMock });
 
@@ -96,7 +96,7 @@ describe('<SortableCommentList />', () => {
   });
 
   it('should handle comment voting', async () => {
-    const onPostVoteMock = jest.fn();
+    const onPostVoteMock = vi.fn();
 
     const store = mockStore({
       ...storeDefaultState,
@@ -119,7 +119,7 @@ describe('<SortableCommentList />', () => {
   });
 
   it('should handle comment favorite', async () => {
-    const onPostFlagMock = jest.fn();
+    const onPostFlagMock = vi.fn();
 
     const store = mockStore({
       ...storeDefaultState,
@@ -143,7 +143,7 @@ describe('<SortableCommentList />', () => {
   });
 
   it('should sort comments', async () => {
-    const fetchCommentsMock = jest.fn();
+    const fetchCommentsMock = vi.fn();
 
     const store = mockStore({
       ...storeDefaultState,

@@ -1,5 +1,6 @@
 import React from 'react';
-import Router, { MemoryRouter } from 'react-router-dom';
+import * as RouterMock from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
@@ -10,15 +11,19 @@ import createAppStore from '../../../createStore';
 
 const { mockHearingWithSections } = mockStore;
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: mockHearingWithSections.data.sections[0].id,
-  }),
-  useParams: () => ({
-    hearingSlug: mockHearingWithSections.data.id,
-  }),
-}));
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
+    useLocation: vi.fn().mockImplementation(() => ({
+      pathname: mockHearingWithSections.data.sections[0].id,
+    })),
+    useParams: vi.fn().mockImplementation(() => ({
+      hearingSlug: mockHearingWithSections.data.id,
+    })),
+  };
+});
 
 const renderComponent = (propOverrides) => {
   const history = createMemoryHistory();
@@ -114,7 +119,7 @@ describe('<Header />', () => {
   });
 
   it('should render language changer correctly when multiple languages are available', async () => {
-    jest.spyOn(Router, 'useLocation').mockImplementationOnce(() => ({
+    vi.spyOn(RouterMock, 'useLocation').mockImplementationOnce(() => ({
       pathname: '/hearing',
       search: '',
     }));
@@ -136,8 +141,8 @@ describe('<Header />', () => {
     renderComponent({
       user: null,
       hearing: {},
-      addToFavorites: jest.fn(),
-      removeFromFavorites: jest.fn(),
+      addToFavorites: vi.fn(),
+      removeFromFavorites: vi.fn(),
     });
 
     expect(screen.queryByText('addFavorites')).not.toBeInTheDocument();
@@ -152,8 +157,8 @@ describe('<Header />', () => {
         id: 'hearing1',
         slug: 'hearing-slug',
       },
-      addToFavorites: jest.fn(),
-      removeFromFavorites: jest.fn(),
+      addToFavorites: vi.fn(),
+      removeFromFavorites: vi.fn(),
     });
 
     expect(await screen.findByText('addFavorites')).toBeInTheDocument();

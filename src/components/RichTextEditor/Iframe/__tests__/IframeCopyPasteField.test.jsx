@@ -8,7 +8,7 @@ import IframeCopyPasteField from '../IframeCopyPasteField';
 
 const renderComponent = (propOverrides) => {
   const props = {
-    updateAttributes: jest.fn(),
+    updateAttributes: vi.fn(),
     ...propOverrides,
   };
 

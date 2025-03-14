@@ -12,8 +12,8 @@ const TEST_URL = 'https://google.fi';
 const renderComponent = (propOverrides) => {
   const props = {
     isOpen: true,
-    onClose: jest.fn(),
-    onSubmit: jest.fn(),
+    onClose: vi.fn(),
+    onSubmit: vi.fn(),
     ...propOverrides,
   };
 
@@ -30,7 +30,7 @@ describe('<IframeModal />', () => {
   });
 
   it('should handle form submission', async () => {
-    const onSubmitMock = jest.fn();
+    const onSubmitMock = vi.fn();
 
     renderComponent({ onSubmit: onSubmitMock });
 

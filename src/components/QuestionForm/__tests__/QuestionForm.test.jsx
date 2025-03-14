@@ -27,7 +27,7 @@ const renderComponent = (propOverrides) => {
       type: TYPE_SINGLE_CHOICE,
     },
     lang: 'fi',
-    onChange: jest.fn(),
+    onChange: vi.fn(),
     answers: {
       answers: [],
       question: 10,
@@ -58,7 +58,7 @@ describe('<QuestionForm />', () => {
   });
 
   it('should call onChange when a single choice option is selected', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     renderComponent({ onChange });
 
     userEvent.click(screen.getByLabelText('fi test one'));
@@ -89,7 +89,7 @@ describe('<QuestionForm />', () => {
   });
 
   it('should call onChange when a multiple choice option is selected', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const question = {
       id: 10,
       is_independent_poll: false,

@@ -10,12 +10,12 @@ import { getIntlAsProp } from '../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('hds-react', async () => {
+  const mod = await vi.importActual('hds-react');
 
   return {
-    ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    ...mod,
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
@@ -36,9 +36,9 @@ const renderComponent = (propOverrides) => {
     closed: false,
     overrideCollapse: false,
     intl: getIntlAsProp(),
-    onOverrideCollapse: jest.fn(),
-    onPostComment: jest.fn(),
-    onChangeAnswers: jest.fn(),
+    onOverrideCollapse: vi.fn(),
+    onPostComment: vi.fn(),
+    onChangeAnswers: vi.fn(),
     ...propOverrides,
   };
 
@@ -63,7 +63,7 @@ describe('<BaseCommentForm />', () => {
   });
 
   it('submits a comment', async () => {
-    const onPostComment = jest.fn();
+    const onPostComment = vi.fn();
 
     renderComponent({ onPostComment });
 

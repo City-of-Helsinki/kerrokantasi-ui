@@ -7,26 +7,17 @@ import HearingFormStep2 from '../HearingFormStep2';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
 
   return {
     ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
-
-  return {
-    ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
-  };
-});
 
 const storeInitialState = { language: 'fi' };
 
@@ -36,22 +27,22 @@ const renderComponent = (propOverrides, storeOverride) => {
   const props = {
     hearing: mockHearingWithSections.data,
     hearingLanguages: ['fi', 'sv'],
-    sectionMoveUp: jest.fn(),
-    sectionMoveDown: jest.fn(),
-    dispatch: jest.fn(),
-    addOption: jest.fn(),
-    deleteOption: jest.fn(),
-    onQuestionChange: jest.fn(),
-    onDeleteTemporaryQuestion: jest.fn(),
-    clearQuestions: jest.fn(),
-    initMultipleChoiceQuestion: jest.fn(),
-    initSingleChoiceQuestion: jest.fn(),
-    onSectionAttachment: jest.fn(),
-    onSectionAttachmentDelete: jest.fn(),
-    onSectionChange: jest.fn(),
-    onSectionImageChange: jest.fn(),
-    onDeleteExistingQuestion: jest.fn(),
-    onContinue: jest.fn(),
+    sectionMoveUp: vi.fn(),
+    sectionMoveDown: vi.fn(),
+    dispatch: vi.fn(),
+    addOption: vi.fn(),
+    deleteOption: vi.fn(),
+    onQuestionChange: vi.fn(),
+    onDeleteTemporaryQuestion: vi.fn(),
+    clearQuestions: vi.fn(),
+    initMultipleChoiceQuestion: vi.fn(),
+    initSingleChoiceQuestion: vi.fn(),
+    onSectionAttachment: vi.fn(),
+    onSectionAttachmentDelete: vi.fn(),
+    onSectionChange: vi.fn(),
+    onSectionImageChange: vi.fn(),
+    onDeleteExistingQuestion: vi.fn(),
+    onContinue: vi.fn(),
     intl: getIntlAsProp(),
     ...propOverrides,
   };
@@ -70,13 +61,13 @@ describe('<HearingFormStep2 />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
     window.IntersectionObserver = originalInterSectionObserver;
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render correctly', () => {
@@ -110,7 +101,7 @@ describe('<HearingFormStep2 />', () => {
   });
 
   it('should call onContinue when continue button is clicked', () => {
-    const onContinue = jest.fn();
+    const onContinue = vi.fn();
     renderComponent({ onContinue });
 
     fireEvent.click(screen.getByText('hearingFormNext'));

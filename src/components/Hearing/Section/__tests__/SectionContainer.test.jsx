@@ -16,34 +16,38 @@ const mockedData = {
   results: [],
 };
 
-jest.spyOn(mockApi, 'get').mockImplementation(() =>
+vi.spyOn(mockApi, 'get').mockImplementation(() =>
   Promise.resolve({
     json: () => Promise.resolve(mockedData),
     blob: () => Promise.resolve({}),
   }),
 );
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: `/${mockData.mockHearingWithSections.data.id}`,
-    search: '',
-  }),
-  useParams: () => ({
-    hearingSlug: mockData.mockHearingWithSections.data.id,
-  }),
-}));
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
+    useLocation: () => ({
+      pathname: `/${mockData.mockHearingWithSections.data.id}`,
+      search: '',
+    }),
+    useParams: () => ({
+      hearingSlug: mockData.mockHearingWithSections.data.id,
+    }),
+  };
+});
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('../../../../api', () => {
-  const actual = jest.requireActual('../../../../api');
+vi.mock('../../../../api', async () => {
+  const mod = await vi.importActual('../../../../api');
 
   return {
-    getApiURL: actual.getApiURL,
-    getApiTokenFromStorage: jest.fn().mockReturnValue('dummyToken'),
-    get: jest
+    getApiURL: mod.getApiURL,
+    getApiTokenFromStorage: vi.fn().mockReturnValue('dummyToken'),
+    get: vi
       .fn()
       .mockResolvedValue({ ok: true, json: () => Promise.resolve(mockedData), blob: () => Promise.resolve() }),
   };
@@ -74,7 +78,7 @@ const renderComponent = (storeOverrides) => {
         data: mockHearingWithSections.data,
       },
     },
-    fetchCommentsForSortableList: jest.fn(),
+    fetchCommentsForSortableList: vi.fn(),
   };
 
   const history = createMemoryHistory();
@@ -145,7 +149,7 @@ describe('<SectionContainer />', () => {
     const downloadButton = await screen.findByText(/downloadReport/i);
     fireEvent.click(downloadButton);
 
-    window.URL.createObjectURL = jest.fn(() => 'https://test.com');
+    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
 
     await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1));
   });
