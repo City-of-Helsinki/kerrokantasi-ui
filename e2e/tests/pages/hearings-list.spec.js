@@ -1,32 +1,30 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from 'playwright-test-coverage';
 
 test.describe('Hearing list page', () => {
-  let page;
 
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage();
+  test.beforeEach(async ({ page }) => {
     await page.goto('/hearings/list?lang=fi');
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async ({ page }) => {
     await page.close();
   });
 
-  test('should have correct title', async () => {
+  test('should have correct title', async ({ page }) => {
     await expect(page).toHaveTitle(/.*kuulemiset/);
   });
 
-  test('should display all headings', async () => {
+  test('should display all headings', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Kaikki kuulemiset' })).toBeVisible();
   });
 
-  test('should have search controls visibility', async () => {
+  test('should have search controls visibility', async ({ page }) => {
     await expect.soft(page.getByText('Etsi otsikoista')).toBeVisible();
     await expect.soft(page.getByText('Hae aiheista')).toBeVisible();
     await expect.soft(page.getByRole('button', { name: 'Etsi', exact: true })).toBeEnabled();
   });
 
-  test('should perform a search', async () => {
+  test('should perform a search', async ({ page }) => {
     const searchTextInput = page.getByRole('combobox', { name: 'Etsi otsikoista' });
 
     // Check the default state of the select input
@@ -39,7 +37,7 @@ test.describe('Hearing list page', () => {
     await expect(searchTextInput).toHaveValue(SEARCH_TEXT);
   });
 
-  test('swedish translations', async () => {
+  test('swedish translations', async ({ page }) => {
     await page.goto('/hearings/list?lang=sv');
 
     await expect(page).toHaveTitle(/.*Alla höranden/);
@@ -49,7 +47,7 @@ test.describe('Hearing list page', () => {
     await expect.soft(page.getByText('Sök bland ämnena')).toBeVisible();
   });
 
-  test('english translations', async () => {
+  test('english translations', async ({ page }) => {
     await page.goto('/hearings/list?lang=en');
 
     await expect(page).toHaveTitle(/.*All hearings/);
