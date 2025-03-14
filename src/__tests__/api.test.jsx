@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
   getApiTokenFromStorage,
@@ -15,9 +16,11 @@ import {
   getAllFromEndpoint,
 } from '../api';
 
-jest.mock('../config', () => ({
-  apiBaseUrl: 'http://example.com/api',
-  openIdAudience: 'test-audience',
+vi.mock('../config', async () => ({
+  default: {
+    apiBaseUrl: 'http://example.com/api',
+    openIdAudience: 'test-audience',
+  },
 }));
 
 describe('api.js', () => {
@@ -89,7 +92,7 @@ describe('api.js', () => {
 
   describe('apiCall', () => {
     it('should make a GET request with default options', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await apiCall('test-endpoint');
 
       expect(fetch).toHaveBeenCalledWith(
@@ -101,7 +104,7 @@ describe('api.js', () => {
     it('should include Authorization header if token exists', async () => {
       const token = 'test-token';
       sessionStorage.setItem(storageKey, JSON.stringify({ 'test-audience': token }));
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await apiCall('test-endpoint');
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/',
@@ -112,7 +115,7 @@ describe('api.js', () => {
 
   describe('jsonRequest', () => {
     it('should make a JSON request with the given method', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await jsonRequest('POST', 'test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -123,7 +126,7 @@ describe('api.js', () => {
 
   describe('HTTP Methods', () => {
     it('should make a POST request', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await post('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -132,7 +135,7 @@ describe('api.js', () => {
     });
 
     it('should make a PUT request', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await put('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -141,7 +144,7 @@ describe('api.js', () => {
     });
 
     it('should make a PATCH request', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await patch('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -150,7 +153,7 @@ describe('api.js', () => {
     });
 
     it('should make a DELETE request', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await apiDelete('test-endpoint');
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -159,7 +162,7 @@ describe('api.js', () => {
     });
 
     it('should make a GET request', async () => {
-      fetch.mockResolvedValue({ status: 200, json: jest.fn().mockResolvedValue({}) });
+      fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await get('test-endpoint');
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/?',
@@ -172,8 +175,8 @@ describe('api.js', () => {
     it('should fetch all paginated results', async () => {
       const firstPage = { results: [{ id: 1 }], next: 'http://example.com/api/test-endpoint/?page=2' };
       const secondPage = { results: [{ id: 2 }], next: null };
-      fetch.mockResolvedValueOnce({ status: 200, json: jest.fn().mockResolvedValue(firstPage) });
-      fetch.mockResolvedValueOnce({ status: 200, json: jest.fn().mockResolvedValue(secondPage) });
+      fetch.mockResolvedValueOnce({ status: 200, json: vi.fn().mockResolvedValue(firstPage) });
+      fetch.mockResolvedValueOnce({ status: 200, json: vi.fn().mockResolvedValue(secondPage) });
 
       const results = await getAllFromEndpoint('test-endpoint');
       expect(results).toEqual([{ id: 1 }, { id: 2 }]);

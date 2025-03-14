@@ -15,7 +15,7 @@ describe('fileToDataUri', () => {
     const mockFile = new Blob(['file content'], { type: 'text/plain' });
     const mockError = new Error('File reading failed');
 
-    jest.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(function () {
+    vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(function () {
       this.onerror(mockError);
     });
 

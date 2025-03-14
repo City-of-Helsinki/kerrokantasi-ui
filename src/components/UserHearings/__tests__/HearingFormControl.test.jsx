@@ -23,7 +23,7 @@ const renderComponent = (changeSort) =>
 
 describe('HearingFormControl', () => {
   it('should render correctly with default option', () => {
-    const changeSort = jest.fn();
+    const changeSort = vi.fn();
     renderComponent(changeSort);
 
     expect(screen.getByText('sort')).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe('HearingFormControl', () => {
   });
 
   it('calls changeSort with correct id when option is selected', async () => {
-    const changeSort = jest.fn();
+    const changeSort = vi.fn();
     renderComponent(changeSort);
 
     const user = userEvent.setup();
@@ -48,7 +48,7 @@ describe('HearingFormControl', () => {
   });
 
   it('renders all options correctly', async () => {
-    const changeSort = jest.fn();
+    const changeSort = vi.fn();
     renderComponent(changeSort);
 
     const user = userEvent.setup();

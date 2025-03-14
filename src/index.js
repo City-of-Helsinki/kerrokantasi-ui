@@ -13,8 +13,6 @@ import '@city-assets/sass/app.scss';
 import '@formatjs/intl-relativetimeformat/polyfill'
 import { beforeSend, beforeSendTransaction } from './utils/sentry';
 
-require('es6-promise').polyfill();
-
 commonInit(function initReady() {
   if (config.uiConfig && config.uiConfig.sentryDsn && config.uiConfig.sentryEnvironment) {
     Sentry.init({

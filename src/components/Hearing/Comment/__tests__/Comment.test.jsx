@@ -22,14 +22,19 @@ const createCommentData = (props) => ({
     questions: [],
   },
 });
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: jest.fn(),
-}));
 
-jest.mock('../../../BaseCommentForm', () => () => <div data-testid='commentForm'>CommentForm</div>);
+vi.mock('react-redux', async () => {
+  const mod = await vi.importActual('react-redux');
 
-jest.mock('../../../BaseCommentForm', () => () => <div data-testid='commentForm'>CommentForm</div>);
+  return {
+    ...mod,
+    useDispatch: vi.fn(),
+  };
+});
+
+vi.mock('../../../BaseCommentForm', () => ({ default: () => <div data-testid='commentForm'>CommentForm</div> }));
+
+vi.mock('../../../BaseCommentForm', () => ({ default: () => <div data-testid='commentForm'>CommentForm</div> }));
 
 const defaultProps = createCommentData();
 
@@ -45,7 +50,7 @@ describe('<Comment />', () => {
   });
 
   it('should vote comments', async () => {
-    const onPostVoteMock = jest.fn();
+    const onPostVoteMock = vi.fn();
 
     renderComponent({ canVote: true, onPostVote: onPostVoteMock });
 
@@ -60,7 +65,7 @@ describe('<Comment />', () => {
   });
 
   it('should flag comments', async () => {
-    const onPostFlagMock = jest.fn();
+    const onPostFlagMock = vi.fn();
 
     renderComponent({ canFlag: true, onPostFlag: onPostFlagMock, user: {} });
 
@@ -127,7 +132,7 @@ describe('<Comment />', () => {
   });
 
   it('should show edit link for user that can edit', async () => {
-    const handleSubmitFn = jest.fn();
+    const handleSubmitFn = vi.fn();
     const props = createCommentData({
       can_edit: true,
       deleted: false,
@@ -151,7 +156,7 @@ describe('<Comment />', () => {
   });
 
   it('should show delete link for user that can delete', async () => {
-    const deleteCommentFn = jest.fn();
+    const deleteCommentFn = vi.fn();
     const props = createCommentData({
       can_edit: true,
       can_delete: true,
@@ -171,13 +176,13 @@ describe('<Comment />', () => {
   });
 
   it('should handle voting correctly', async () => {
-    const onPostVote = jest.fn();
+    const onPostVote = vi.fn();
     const props = createCommentData({
       canVote: true,
     });
     props.onPostVote = onPostVote;
 
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
     useDispatch.mockReturnValue(dispatch);
 
     renderComponent(props);

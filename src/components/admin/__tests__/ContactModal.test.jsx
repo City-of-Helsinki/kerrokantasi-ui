@@ -9,9 +9,9 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
   const props = {
-    onClose: jest.fn(),
-    onCreateContact: jest.fn(),
-    onEditContact: jest.fn(),
+    onClose: vi.fn(),
+    onCreateContact: vi.fn(),
+    onEditContact: vi.fn(),
     organizations: [
       { id: 'org1', name: 'Organization 1' },
       { id: 'org2', name: 'Organization 2' },
@@ -36,7 +36,7 @@ const renderComponent = (propOverrides) => {
 
 describe('<ContactModal />', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render the contact modal', () => {
@@ -44,8 +44,8 @@ describe('<ContactModal />', () => {
   });
 
   it('should call onCreateContact when creating a new contact', async () => {
-    const onCreateContactMock = jest.fn(() => true);  
-    const onCloseMock = jest.fn();
+    const onCreateContactMock = vi.fn(() => true);
+    const onCloseMock = vi.fn();
 
     renderComponent({ onCreateContact: onCreateContactMock, onClose: onCloseMock, contactInfo: {} });
 
@@ -53,23 +53,23 @@ describe('<ContactModal />', () => {
 
     await act(async () => {
       await user.click(screen.getByText('create'));
-    })
+    });
 
     await expect(onCreateContactMock).toHaveBeenCalledTimes(1);
     await expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
   it('should call onEditContact when editing an existing contact', async () => {
-    const onEditContactMock = jest.fn(() => true);
-    const onCloseMock = jest.fn();
+    const onEditContactMock = vi.fn(() => true);
+    const onCloseMock = vi.fn();
 
     renderComponent({ onEditContact: onEditContactMock, onClose: onCloseMock });
 
     const user = userEvent.setup();
 
     await act(async () => {
-     await user.click(screen.getByText('save'));
-    })
+      await user.click(screen.getByText('save'));
+    });
 
     expect(onEditContactMock).toHaveBeenCalledTimes(1);
     expect(onEditContactMock).toHaveBeenCalledWith({
@@ -87,7 +87,7 @@ describe('<ContactModal />', () => {
   });
 
   it('should call onClose when cancel button is clicked', async () => {
-    const onCloseMock = jest.fn();
+    const onCloseMock = vi.fn();
 
     renderComponent({ onClose: onCloseMock });
 

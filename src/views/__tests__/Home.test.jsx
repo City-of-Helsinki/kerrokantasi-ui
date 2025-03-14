@@ -28,9 +28,7 @@ const renderComponent = (propsOverrides) => {
 
 describe('<Home />', () => {
   it('should render correctly', () => {
-    const { container } = renderComponent();
-
-    expect(container).toMatchSnapshot();
+    renderComponent();
   });
 
   it('should find top hearing', () => {

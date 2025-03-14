@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { thunk }  from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 
@@ -17,12 +17,16 @@ const store = mockStore({
   user: {},
 });
 
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
     useParams: () => ({
-            hearingSlug: 'mockHearing'
-        }),
-}));
+      hearingSlug: 'mockHearing',
+    }),
+  };
+});
 
 describe('FullscreenHearingContainerComponent', () => {
   it('renders LoadSpinner when hearing is empty', () => {
@@ -31,7 +35,7 @@ describe('FullscreenHearingContainerComponent', () => {
         <BrowserRouter>
           <FullscreenHearingContainerComponent />
         </BrowserRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
@@ -42,20 +46,23 @@ describe('FullscreenHearingContainerComponent', () => {
       hearing: testData.hearing,
       language: 'en',
       user: {},
-      sectionComments: [], 
+      sectionComments: [],
     });
 
     render(
-    <IntlProvider>
-      <Provider store={populatedStore}>
-        <BrowserRouter>
-          <FullscreenHearingContainerComponent />
-        </BrowserRouter>
-      </Provider>
-      </IntlProvider>
+      <IntlProvider>
+        <Provider store={populatedStore}>
+          <BrowserRouter>
+            <FullscreenHearingContainerComponent />
+          </BrowserRouter>
+        </Provider>
+      </IntlProvider>,
     );
-    await waitFor(() => {
+    await waitFor(
+      () => {
         expect(screen.getByText(testData.hearing.mockHearing.data.title.fi)).toBeInTheDocument();
-    }, {timeout: 2000})
+      },
+      { timeout: 2000 },
+    );
   });
 });

@@ -11,31 +11,49 @@ import { mockStore as mockData, mockUser } from '../../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
-  useParams: () => ({
-    hearingSlug: 'isosaari',
-  }),
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
+    useParams: () => ({
+      hearingSlug: 'isosaari',
+    }),
+  };
+});
+
+vi.mock('../../../components/admin/HearingEditor', () => ({
+  default: () => <div data-testid='hearingEditor'>HearingEditor</div>,
 }));
 
-jest.mock('../../../components/admin/HearingEditor', () => () => <div data-testid='hearingEditor'>HearingEditor</div>);
+vi.mock('../../../actions', async () => {
+  const mod = await vi.importActual('../../../actions');
 
-jest.mock('../../../actions', () => ({
-  ...jest.requireActual('../../../actions'),
-  fetchHearing: () => jest.fn().mockResolvedValue({}),
-  fetchProjects: () => jest.fn(),
-  fetchSectionComments: () => jest.fn(),
-}));
+  return {
+    ...mod,
+    fetchHearing: () => vi.fn().mockResolvedValue({}),
+    fetchProjects: () => vi.fn(),
+    fetchSectionComments: () => vi.fn(),
+  };
+});
 
-jest.mock('../../../actions/hearingEditor', () => ({
-  ...jest.requireActual('../../../actions/hearingEditor'),
-  fetchHearingEditorMetaData: () => jest.fn(),
-}));
+vi.mock('../../../actions/hearingEditor', async () => {
+  const mod = await vi.importActual('../../../actions/hearingEditor');
 
-jest.mock('../../../utils/hearing', () => ({
-  ...jest.requireActual('../../../utils/hearing'),
-  canEdit: () => jest.fn(() => true),
-}));
+  return {
+    ...mod,
+    fetchHearingEditorMetaData: () => vi.fn(),
+  };
+});
+
+vi.mock('../../../utils/hearing', async () => {
+  const mod = await vi.importActual('../../../utils/hearing');
+
+  return {
+    ...mod,
+    canEdit: () => vi.fn(() => true),
+  };
+});
 
 const renderComponent = (store) =>
   renderWithProviders(

@@ -14,12 +14,12 @@ const renderComponent = (propOverrides) => {
   const props = {
     hearing: {},
     hearingLanguages: ['fi', 'sv', 'en'],
-    formatMessage: jest.fn((msg) => msg.id),
+    formatMessage: vi.fn((msg) => msg.id),
     errors: {},
-    onSectionChange: jest.fn(),
-    onHearingChange: jest.fn(),
-    onContinue: jest.fn(),
-    dispatch: jest.fn(),
+    onSectionChange: vi.fn(),
+    onHearingChange: vi.fn(),
+    onContinue: vi.fn(),
+    dispatch: vi.fn(),
     ...propOverrides,
   };
 
@@ -34,7 +34,7 @@ describe('<HearingFormStep4 />', () => {
   });
 
   it('should handle date change', () => {
-    const onHearingChange = jest.fn();
+    const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
@@ -46,7 +46,7 @@ describe('<HearingFormStep4 />', () => {
   });
 
   it('should handle time change', () => {
-    const onHearingChange = jest.fn();
+    const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
@@ -60,7 +60,7 @@ describe('<HearingFormStep4 />', () => {
   });
 
   it('should call onContinue when the button is clicked', () => {
-    const onContinue = jest.fn();
+    const onContinue = vi.fn();
 
     renderComponent({ onContinue });
 

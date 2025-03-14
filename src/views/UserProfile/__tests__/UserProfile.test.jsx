@@ -13,9 +13,9 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('../../../api', () => ({
-  get: jest.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
-  post: jest.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
+vi.mock('../../../api', () => ({
+  get: vi.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
+  post: vi.fn().mockResolvedValue({ ok: true, json: () => ({}) }),
 }));
 
 const createUniqueHearing = (id, slug, title, count, closed, ...props) => ({
@@ -122,9 +122,9 @@ const defaultState = {
 const renderComponent = (storeOverride = false) => {
   const props = {
     intl: getIntlAsProp(),
-    fetchComments: jest.fn(),
-    fetchFavorites: jest.fn(),
-    removeFromFavorites: jest.fn(),
+    fetchComments: vi.fn(),
+    fetchFavorites: vi.fn(),
+    removeFromFavorites: vi.fn(),
   };
 
   const store = storeOverride || mockStore(defaultState);

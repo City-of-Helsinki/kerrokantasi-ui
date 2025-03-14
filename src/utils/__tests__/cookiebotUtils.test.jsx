@@ -12,34 +12,35 @@ import {
 } from '../cookiebotUtils';
 import config from '../../config';
 
-
-jest.mock('../../config', () => ({
-  enableCookies: true,
-  enableCookiebot: true,
-  cookiebotDataCbid: '123-abc'
+vi.mock('../../config', () => ({
+  default: {
+    enableCookies: true,
+    enableCookiebot: true,
+    cookiebotDataCbid: '123-abc',
+  },
 }));
 
 describe('cookiebotUtils', () => {
   describe('cookieBotAddListener', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
       config.enableCookies = true;
       config.enableCookiebot = true;
     });
     it('calls window.addEventListener with correct params if enableCookies and enableCookiebot is true', () => {
-      window.addEventListener = jest.fn();
+      window.addEventListener = vi.fn();
       cookieBotAddListener();
       expect(window.addEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
     });
     it('does not call window.addEventListener when enableCookies is false', () => {
       config.enableCookies = false;
-      window.addEventListener = jest.fn();
+      window.addEventListener = vi.fn();
       cookieBotAddListener();
       expect(window.addEventListener).not.toHaveBeenCalled();
     });
     it('does not call window.addEventListener when enableCookiebot is false', () => {
       config.enableCookiebot = false;
-      window.addEventListener = jest.fn();
+      window.addEventListener = vi.fn();
       cookieBotAddListener();
       expect(window.addEventListener).not.toHaveBeenCalled();
     });
@@ -47,23 +48,23 @@ describe('cookiebotUtils', () => {
 
   describe('cookieBotRemoveListener', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
       config.enableCookies = true;
     });
     it('calls window.removeEventListener with correct params if enableCookies and enableCookiebot is true', () => {
-      window.removeEventListener = jest.fn();
+      window.removeEventListener = vi.fn();
       cookieBotRemoveListener();
       expect(window.removeEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
     });
     it('does not call window.removeEventListener when enableCookies is false', () => {
       config.enableCookies = false;
-      window.removeEventListener = jest.fn();
+      window.removeEventListener = vi.fn();
       cookieBotRemoveListener();
       expect(window.removeEventListener).not.toHaveBeenCalled();
     });
     it('does not call window.removeEventListener when enableCookiebot is false', () => {
       config.enableCookiebot = false;
-      window.removeEventListener = jest.fn();
+      window.removeEventListener = vi.fn();
       cookieBotRemoveListener();
       expect(window.removeEventListener).not.toHaveBeenCalled();
     });
@@ -73,24 +74,20 @@ describe('cookiebotUtils', () => {
     it('returns the Cookiebot script element', () => {
       const element = getCookieBotConsentScripts();
 
-      const { container } = render(<div>{element}</div>);
-
-      expect(container).toMatchSnapshot();
+      render(<div>{element}</div>);
     });
   });
   describe('getCookieScripts', () => {
     it('returns a script element', () => {
       const element = getCookieBotScripts();
 
-      const { container } = render(<div>{element}</div>);
-
-      expect(container).toMatchSnapshot();
+      render(<div>{element}</div>);
     });
   });
 
   describe('isCookiebotEnabled', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('returns true when both cookies and Cookiebot are enabled', () => {

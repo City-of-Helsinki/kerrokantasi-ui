@@ -1,4 +1,5 @@
 import React from 'react';
+import { screen, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 
 import Info from '..';
@@ -6,31 +7,49 @@ import renderWithProviders from '../../../utils/renderWithProviders';
 
 const mockStore = configureStore([]);
 
-jest.mock('@city-i18n/service-info/content.fi.md', () => '<p>Finnish Content</p>', { virtual: true });
-jest.mock('@city-i18n/service-info/content.sv.md', () => '<p>Swedish Content</p>', { virtual: true });
-jest.mock('@city-i18n/service-info/content.en.md', () => '<p>English Content</p>', { virtual: true });
-
 describe('<Info />', () => {
   let store;
 
   beforeEach(() => {
     store = mockStore({});
+    fetch.resetMocks();
   });
 
   const renderComponent = (locale) => renderWithProviders(<Info />, { store, locale });
 
-  it('renders correctly with English content', () => {
-    const { getByText } = renderComponent('en');
-    expect(getByText('English Content')).toBeInTheDocument();
+  it('should render the component with Finnish content', async () => {
+    fetch.mockResolvedValueOnce({
+      text: vi.fn().mockResolvedValue('Finnish content'),
+    });
+
+    renderComponent('fi');
+
+    await waitFor(() => {
+      expect(screen.getByText('Finnish content')).toBeInTheDocument();
+    });
   });
 
-  it('renders correctly with Finnish content', () => {
-    const { getByText } = renderComponent('fi');
-    expect(getByText('Finnish Content')).toBeInTheDocument();
+  it('should render the component with Swedish content', async () => {
+    fetch.mockResolvedValueOnce({
+      text: vi.fn().mockResolvedValue('Swedish content'),
+    });
+
+    renderComponent('sv');
+
+    await waitFor(() => {
+      expect(screen.getByText('Swedish content')).toBeInTheDocument();
+    });
   });
 
-  it('renders correctly with Swedish content', () => {
-    const { getByText } = renderComponent('sv');
-    expect(getByText('Swedish Content')).toBeInTheDocument();
+  it('should render the component with English content', async () => {
+    fetch.mockResolvedValueOnce({
+      text: vi.fn().mockResolvedValue('English content'),
+    });
+
+    renderComponent('en');
+
+    await waitFor(() => {
+      expect(screen.getByText('English content')).toBeInTheDocument();
+    });
   });
 });

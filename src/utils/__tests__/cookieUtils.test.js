@@ -1,22 +1,25 @@
 import { getCookieScripts } from '../cookieUtils';
 import { getCookieBotScripts } from '../cookiebotUtils';
+// eslint-disable-next-line no-unused-vars
 import config from '../../config';
 
-const mockIsCookiebotEnabled = jest.fn();
+const mockIsCookiebotEnabled = vi.fn();
 
-jest.mock('../cookiebotUtils', () => {
-  const originalModule = jest.requireActual('../cookiebotUtils');
+vi.mock('../cookiebotUtils', async () => {
+  const mod = await vi.importActual('../cookiebotUtils');
 
   return {
+    ...mod,
     __esModule: true,
-    ...originalModule,
     isCookiebotEnabled: () => mockIsCookiebotEnabled(),
   };
 });
 
 
-jest.mock('../../config', () => ({
-  enableCookies: true
+vi.mock('../../config', () => ({
+  default: () => ({
+    enableCookies: true
+  })
 }));
 
 describe('cookieUtils', () => {
@@ -25,7 +28,7 @@ describe('cookieUtils', () => {
       mockIsCookiebotEnabled.mockReturnValueOnce(true);
 
       afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
       });
 
       it('returns cookiebotUtils getCookieScripts', () => {
@@ -36,7 +39,7 @@ describe('cookieUtils', () => {
     describe('when isCookiebotEnabled', () => {
       mockIsCookiebotEnabled.mockReturnValue(false);
       afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
       });
 
       it('returns false when cookies are enabled, calls addCookieScripts', () => {

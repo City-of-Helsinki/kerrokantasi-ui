@@ -8,12 +8,16 @@ import { thunk } from 'redux-thunk';
 import Hearings from '../index';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    search: '?label=1&search=Hearing',
-  }),
-}));
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
+    useLocation: () => ({
+      search: '?label=1&search=Hearing',
+    }),
+  };
+});
 
 const mockStore = configureStore([thunk]);
 
