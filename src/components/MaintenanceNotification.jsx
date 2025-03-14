@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { NotificationService } from 'react-helsinki-notification-manager';
 // eslint-disable-next-line import/no-unresolved

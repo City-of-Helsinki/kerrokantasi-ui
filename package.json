@@ -118,6 +118,8 @@
     "react-leaflet-draw": "^0.20.4",
     "react-markdown": "^9.0.1",
     "react-nl2br": "^1.0.4",
+    "react-notification-service": "https://github.com/City-of-Helsinki/react-notification-service/",
+    "react-overlays": "^0.9.2",
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.23.1",
     "react-router-hash-link": "^2.4.3",
