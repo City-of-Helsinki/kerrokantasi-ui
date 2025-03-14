@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig, coverageConfigDefaults, configDefaults } from 'vitest/config'
 import dotenv from 'dotenv';
+import istanbul from 'vite-plugin-istanbul'
 
 import { getCityAssets, getCityConfig, getCityPublic } from './scripts/utils';
 
@@ -40,11 +41,17 @@ export default defineConfig(() => {
     plugins: [
       react(),
       eslint(),
+      istanbul({
+        requireEnv: false,
+        forceBuildInstrument: true,
+        nycrcPath: './nyc.config.js'
+      })
     ],
     assetsInclude: ['**/*.md'],
     build: {
       outDir: './build',
       emptyOutDir: true,
+      sourcemap: 'hidden'
     },
     publicDir: cityPublic,
     server: {

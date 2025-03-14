@@ -13,10 +13,10 @@
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src",
     "test": "cross-env NODE_ENV=test yarn update-runtime-env && vitest",
     "test:cov": "yarn test run --coverage --watch=false",
-    "test:e2e:install": "yarn playwright install",
-    "test:e2e:ci": "npx playwright test",
-    "test:e2e:start": "npx playwright test",
-    "test:e2e:record": "npx playwright codegen https://kerrokantasi.dev.hel.ninja/",
+    "test:e2e:ci": "playwright test",
+    "test:e2e:start": "playwright test",
+    "test:e2e:cov": "nyc playwright test",
+    "test:e2e:record": "playwright codegen https://kerrokantasi.dev.hel.ninja/",
     "snyk-protect": "snyk protect",
     "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi && yarn update-runtime-env",
     "update-runtime-env": "esrun scripts/update-runtime-env.js",
@@ -148,7 +148,10 @@
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
     "jsdom": "^20.0.3",
-    "redux-mock-store": "^1.5.4"
+    "nyc": "^17.1.0",
+    "playwright-test-coverage": "^1.2.12",
+    "redux-mock-store": "^1.5.4",
+    "vite-plugin-istanbul": "^7.0.0"
   },
   "resolutions": {
     "rollup": "^4.24.4"

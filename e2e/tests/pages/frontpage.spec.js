@@ -1,22 +1,19 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from 'playwright-test-coverage';
 
 test.describe('Frontpage', () => {
-  let page;
-
-  test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage();
+  test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async ({ page }) => {
     await page.close();
   });
 
-  test('page title', async () => {
+  test('page title', async ({ page }) => {
     await expect(page).toHaveTitle(/.*Kerrokantasi/);
   });
 
-  test('map section', async () => {
+  test('map section', async ({ page }) => {
     await expect(page.locator('.map')).toBeVisible();
     await expect.soft(page.getByRole('heading', { name: 'Käynnissä olevat kuulemiset kartalla' })).toBeVisible();
 
@@ -25,7 +22,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByLabel('Zoom out')).toBeEnabled();
   });
 
-  test('footer section', async () => {
+  test('footer section', async ({ page }) => {
     await expect.soft(page.getByRole('link', { name: 'Kerro kantasi -kehitysideat' })).toBeVisible();
     await expect.soft(page.getByRole('link', { name: 'Anna palautetta' })).toBeVisible();
 
@@ -35,7 +32,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByRole('link', { name: 'Takaisin ylös' })).toBeVisible();
   });
 
-  test('header section', async () => {
+  test('header section', async ({ page }) => {
     // Action bar
     await expect.soft(page.getByRole('button', { name: 'Suomi', exact: true })).toBeEnabled();
     await expect.soft(page.getByRole('button', { name: 'Svenska' })).toBeEnabled();
@@ -48,7 +45,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByRole('list').getByRole('link', { name: 'Tietoa palvelusta' })).toBeVisible();
   });
 
-  test('swedish translations', async () => {
+  test('swedish translations', async ({ page }) => {
     await page.goto('/?lang=sv');
 
     // Navbar
@@ -69,7 +66,7 @@ test.describe('Frontpage', () => {
     await expect.soft(page.getByRole('link', { name: 'Tillbaka till toppen' })).toBeVisible();
   });
 
-  test('english translations', async () => {
+  test('english translations', async ({ page }) => {
     await page.goto('/?lang=en');
 
     // Navbar
