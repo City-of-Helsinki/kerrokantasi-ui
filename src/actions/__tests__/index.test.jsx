@@ -5,13 +5,13 @@ import { createAction } from 'redux-actions';
 import * as api from "../../api";
 import * as actions from '../index';
 
-jest.mock('../../api', () => ({
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    apiDelete: jest.fn(),
-    getApiTokenFromStorage: jest.fn(() => 'dummykey'),
-    getAllFromEndpoint: jest.fn(),
+vi.mock('../../api', () => ({
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    apiDelete: vi.fn(),
+    getApiTokenFromStorage: vi.fn(() => 'dummykey'),
+    getAllFromEndpoint: vi.fn(),
 }));
 
 
@@ -22,7 +22,7 @@ describe('fetchHearingList', () => {
   let store;
   beforeEach(() => {
     store = mockStore({});
-    jest.resetAllMocks();  // Clear all mocks before each test
+    vi.resetAllMocks();  // Clear all mocks before each test
   });
 
   it('dispatches BEGIN_FETCH_HEARING_LIST and RECEIVE_HEARING_LIST on successful fetch', async () => {

@@ -45,9 +45,9 @@ describe('<CommentReportForm />', () => {
 
     const user = userEvent.setup();
 
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ blob: () => Promise.resolve({}) }));
+    vi.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ blob: () => Promise.resolve({}) }));
 
-    window.URL.createObjectURL = jest.fn(() => 'https://test.com');
+    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
 
     const buttons = await screen.findAllByRole('button');
     const toggle = buttons[0];
@@ -68,9 +68,9 @@ describe('<CommentReportForm />', () => {
 
     const user = userEvent.setup();
 
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('ERROR!')));
+    vi.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('ERROR!')));
 
-    window.URL.createObjectURL = jest.fn(() => 'https://test.com');
+    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
 
     const buttons = await screen.findAllByRole('button');
     const toggle = buttons[0];

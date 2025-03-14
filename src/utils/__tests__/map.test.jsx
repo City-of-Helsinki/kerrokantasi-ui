@@ -3,40 +3,47 @@ import { render } from '@testing-library/react';
 
 import { getCorrectContrastMapTileUrl, getMapElement } from '../map';
 // Mocking leaflet and react-leaflet
-jest.mock('leaflet', () => ({
-  LatLng: jest.fn((lat, lng) => ({ lat, lng })),
-  Icon: jest.fn(() => ({})),
+vi.mock('leaflet', async () => {
+  const mod = await vi.importActual('leaflet');
+
+  return {
+    ...mod,
+    LatLng: vi.fn((lat, lng) => ({ lat, lng })),
+    Icon: vi.fn(() => ({})),
+  };
+});
+
+vi.mock('proj4', () => ({}));
+vi.mock('proj4leaflet', () => ({}));
+
+vi.mock('react-leaflet', () => ({
+  Polygon: vi.fn(({ positions }) => <div data-testid='Polygon'>{JSON.stringify(positions)}</div>),
+  GeoJSON: vi.fn(({ data }) => <div data-testid='GeoJSON'>{JSON.stringify(data)}</div>),
+  Marker: vi.fn(({ position }) => <div data-testid='Marker'>{JSON.stringify(position)}</div>),
+  Polyline: vi.fn(({ positions }) => <div data-testid='Polyline'>{JSON.stringify(positions)}</div>),
 }));
 
-jest.mock('proj4', () => ({}));
-jest.mock('proj4leaflet', () => ({}));
-
-jest.mock('react-leaflet', () => ({
-    Polygon: jest.fn(({ positions }) => <div data-testid="Polygon">{JSON.stringify(positions)}</div>),
-    GeoJSON: jest.fn(({ data }) => <div data-testid="GeoJSON">{JSON.stringify(data)}</div>),
-    Marker: jest.fn(({ position }) => <div data-testid="Marker">{JSON.stringify(position)}</div>),
-    Polyline: jest.fn(({ positions }) => <div data-testid="Polyline">{JSON.stringify(positions)}</div>),
-  }));
-
-const NORMAL_URL_PNG = "normal url.png";
+const NORMAL_URL_PNG = 'normal url.png';
 
 describe('getCorrectContrastMapTileUrl', () => {
   describe('should return normal map tiles', () => {
     it.skip('when high contrast mode is not enabled', () => {
       const isHighContrastModeEnabled = false;
       const normalMapTileUrl = NORMAL_URL_PNG;
-      const highContrastMapTileUrl = "high contrast url.png";
-      const language = "fi";
-      expect(getCorrectContrastMapTileUrl(
-        normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language)).toBe("normal url@fi.png");
+      const highContrastMapTileUrl = 'high contrast url.png';
+      const language = 'fi';
+      expect(
+        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+      ).toBe('normal url@fi.png');
     });
     it.skip('when high contrast map tile url doesnt exist', () => {
       const isHighContrastModeEnabled = true;
       const normalMapTileUrl = NORMAL_URL_PNG;
       const highContrastMapTileUrl = undefined;
-      const language = "fi";
-      expect(getCorrectContrastMapTileUrl(
-        normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language)).toBe("normal url@fi.png");
+      const language = 'fi';
+      expect(
+        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+      ).toBe('normal url@fi.png');
     });
   });
 
@@ -44,12 +51,12 @@ describe('getCorrectContrastMapTileUrl', () => {
     it.skip('when high contrast mode is enabled and high contrast map tile url exists', () => {
       const isHighContrastModeEnabled = true;
       const normalMapTileUrl = NORMAL_URL_PNG;
-      const highContrastMapTileUrl = "high contrast url.png";
-      const language = "fi";
+      const highContrastMapTileUrl = 'high contrast url.png';
+      const language = 'fi';
 
       expect(
-        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language))
-        .toBe("high contrast url@fi.png");
+        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+      ).toBe('high contrast url@fi.png');
     });
   });
 });
@@ -63,11 +70,21 @@ describe('getMapElement', () => {
   it('renders Polygon for Polygon geojson', () => {
     const geojson = {
       type: 'Polygon',
-      coordinates: [[[0, 0], [1, 1], [2, 2]]],
+      coordinates: [
+        [
+          [0, 0],
+          [1, 1],
+          [2, 2],
+        ],
+      ],
     };
     const { getByTestId } = render(getMapElement(geojson));
     expect(getByTestId('Polygon')).toHaveTextContent(
-      JSON.stringify([{ lat: 0, lng: 0 }, { lat: 1, lng: 1 }, { lat: 2, lng: 2 }])
+      JSON.stringify([
+        { lat: 0, lng: 0 },
+        { lat: 1, lng: 1 },
+        { lat: 2, lng: 2 },
+      ]),
     );
   });
 
@@ -75,17 +92,37 @@ describe('getMapElement', () => {
     const geojson = {
       type: 'MultiPolygon',
       coordinates: [
-        [[[0, 0], [1, 1], [2, 2]]],
-        [[[3, 3], [4, 4], [5, 5]]],
+        [
+          [
+            [0, 0],
+            [1, 1],
+            [2, 2],
+          ],
+        ],
+        [
+          [
+            [3, 3],
+            [4, 4],
+            [5, 5],
+          ],
+        ],
       ],
     };
     const { getAllByTestId } = render(<div>{getMapElement(geojson)}</div>);
     const polygons = getAllByTestId('Polygon');
     expect(polygons[0]).toHaveTextContent(
-      JSON.stringify([{ lat: 0, lng: 0 }, { lat: 1, lng: 1 }, { lat: 2, lng: 2 }])
+      JSON.stringify([
+        { lat: 0, lng: 0 },
+        { lat: 1, lng: 1 },
+        { lat: 2, lng: 2 },
+      ]),
     );
     expect(polygons[1]).toHaveTextContent(
-      JSON.stringify([{ lat: 3, lng: 3 }, { lat: 4, lng: 4 }, { lat: 5, lng: 5 }])
+      JSON.stringify([
+        { lat: 3, lng: 3 },
+        { lat: 4, lng: 4 },
+        { lat: 5, lng: 5 },
+      ]),
     );
   });
 
@@ -101,11 +138,19 @@ describe('getMapElement', () => {
   it('renders Polyline for LineString geojson', () => {
     const geojson = {
       type: 'LineString',
-      coordinates: [[0, 0], [1, 1], [2, 2]],
+      coordinates: [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+      ],
     };
     const { getByTestId } = render(getMapElement(geojson));
     expect(getByTestId('Polyline')).toHaveTextContent(
-      JSON.stringify([{ lat: 0, lng: 0 }, { lat: 1, lng: 1 }, { lat: 2, lng: 2 }])
+      JSON.stringify([
+        { lat: 0, lng: 0 },
+        { lat: 1, lng: 1 },
+        { lat: 2, lng: 2 },
+      ]),
     );
   });
 
@@ -136,7 +181,11 @@ describe('getMapElement', () => {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: [[0, 0], [1, 1], [2, 2]],
+            coordinates: [
+              [0, 0],
+              [1, 1],
+              [2, 2],
+            ],
           },
         },
       ],
@@ -144,7 +193,11 @@ describe('getMapElement', () => {
     const { getByTestId, getAllByTestId } = render(<div>{getMapElement(geojson)}</div>);
     expect(getByTestId('Marker')).toHaveTextContent(JSON.stringify({ lat: 0, lng: 0 }));
     expect(getAllByTestId('Polyline')[0]).toHaveTextContent(
-      JSON.stringify([{ lat: 0, lng: 0 }, { lat: 1, lng: 1 }, { lat: 2, lng: 2 }])
+      JSON.stringify([
+        { lat: 0, lng: 0 },
+        { lat: 1, lng: 1 },
+        { lat: 2, lng: 2 },
+      ]),
     );
   });
 

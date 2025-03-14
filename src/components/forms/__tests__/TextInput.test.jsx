@@ -15,9 +15,9 @@ const renderComponent = (propOverrides) => {
     value: '',
     helperText: 'Helper text',
     placeholderId: 'placeholder.id',
-    onBlur: jest.fn(),
-    validate: jest.fn(),
-    intl: { formatMessage: jest.fn(({ id }) => id) },
+    onBlur: vi.fn(),
+    validate: vi.fn(),
+    intl: { formatMessage: vi.fn(({ id }) => id) },
     ...propOverrides,
   };
 
@@ -43,7 +43,7 @@ describe('<TextInput />', () => {
   });
 
   it('calls onBlur function when input loses focus', () => {
-    const onBlurMock = jest.fn();
+    const onBlurMock = vi.fn();
 
     const { getByLabelText } = renderComponent({ onBlur: onBlurMock });
     const input = getByLabelText(/label.id/i);
@@ -54,7 +54,7 @@ describe('<TextInput />', () => {
   });
 
   it('validates input value on change', () => {
-    const validateMock = jest.fn();
+    const validateMock = vi.fn();
 
     const { getByLabelText } = renderComponent({ validate: validateMock });
 
@@ -66,7 +66,7 @@ describe('<TextInput />', () => {
   });
 
   it('displays error message when validation fails', () => {
-    const validateMock = jest.fn().mockReturnValue('Validation error');
+    const validateMock = vi.fn().mockReturnValue('Validation error');
 
     const { getByLabelText, getByText } = renderComponent({ validate: validateMock });
 

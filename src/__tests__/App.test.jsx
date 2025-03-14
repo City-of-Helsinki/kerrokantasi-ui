@@ -11,10 +11,14 @@ import { mockStore as mockData, mockUser } from '../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useSearchParams: jest.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
-}));
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+
+  return {
+    ...mod,
+    useSearchParams: vi.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
+  };
+});
 
 const { hearingLists } = mockData;
 
@@ -39,6 +43,14 @@ const renderComponent = (storeOverride) => {
 };
 
 describe('<App />', () => {
+  beforeEach(() => {
+    global.ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }));
+  });
+
   it('renders correctly', () => {
     renderComponent();
   });
