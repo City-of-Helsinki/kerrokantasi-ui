@@ -11,8 +11,8 @@ const renderComponent = (propOverrides) => {
   const props = {
     isOpen: true,
     intl: getIntlAsProp(),
-    onClose: jest.fn(),
-    onSubmit: jest.fn(),
+    onClose: vi.fn(),
+    onSubmit: vi.fn(),
     ...propOverrides,
   };
 
@@ -29,7 +29,7 @@ describe('<SkipLinkModal />', () => {
   });
 
   it('should call onClose when cancel button is clicked', async () => {
-    const onCloseMock = jest.fn();
+    const onCloseMock = vi.fn();
 
     renderComponent({ onClose: onCloseMock });
 

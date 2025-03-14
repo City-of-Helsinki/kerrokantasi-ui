@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "vitest-globals/env": true
   },
   "extends": [
     "react-app",
@@ -10,6 +11,7 @@
     "plugin:import/warnings",
     "airbnb",
     "prettier",
+    "plugin:vitest-globals/recommended",
     "plugin:sonarjs/recommended"
   ],
   "parser": "@babel/eslint-parser",
