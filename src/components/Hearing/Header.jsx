@@ -32,15 +32,13 @@ import InternalLink from '../InternalLink';
 import { addToast } from '../../actions/toast';
 
 function HeaderComponent(props) {
-  const params = useParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const { language, hearing } = props;
   const { user, addToFavorites, removeFromFavorites } = props;
 
-  const { hearingSlug } = useParams();
+  const { hearingSlug, sectionId } = useParams();
   const intl = useIntl();
-
   const sections = useSelector((state) => getSections(state, hearingSlug));
 
   const isHearingClosed = useSelector((state) => getIsHearingClosed(state, hearingSlug));
@@ -278,7 +276,7 @@ function HeaderComponent(props) {
   };
 
   const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
-  const section = sections?.find((sec) => sec.id === params.sectionId) || mainSection;
+  const section = sections?.find((sec) => sec.id === sectionId) || mainSection;
   const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE) ? (
     getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
   ) : (
@@ -335,7 +333,7 @@ function HeaderComponent(props) {
                 )}
               </>
             ) : (
-              <Link to={{ path: getHearingURL({ slug: params.hearingSlug }) }}>
+              <Link to={{ path: getHearingURL({ slug: hearingSlug }) }}>
                 <Icon name='arrow-left' /> <FormattedMessage id='backToHearingMain' />
               </Link>
             )}
@@ -361,6 +359,7 @@ HeaderComponent.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   sections: PropTypes.array,
+  sectionId: PropTypes.string,
   showClosureInfo: PropTypes.bool,
   user: PropTypes.object,
   addToFavorites: PropTypes.func,
