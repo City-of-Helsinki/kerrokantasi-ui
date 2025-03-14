@@ -2,13 +2,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import messages from './i18n';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import InternalLink from './components/InternalLink';
