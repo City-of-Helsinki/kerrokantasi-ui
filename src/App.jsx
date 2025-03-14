@@ -39,6 +39,7 @@ function App({ language, isHighContrast, history, ...props }) {
 
   useEffect(() => {
     config.activeLanguage = language; // for non react-intl localizations
+    
     return () => {
       cookieOnComponentWillUnmount();
     };
@@ -89,7 +90,7 @@ function App({ language, isHighContrast, history, ...props }) {
           {isCookiebotEnabled() && getCookieBotConsentScripts()}
         </Helmet>
         {header}
-        {config.maintenanceShowNotification && <MaintenanceNotification />}
+        {config.maintenanceShowNotification && <MaintenanceNotification language={language} />}
         <main
           className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
           id={mainContainerId}
