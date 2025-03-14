@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from 'playwright-test-coverage';
 
 test.describe('Info page - Fi', () => {
   test.beforeEach(async ({ page }) => {

@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig, coverageConfigDefaults, configDefaults } from 'vitest/config'
 import dotenv from 'dotenv';
+import istanbul from 'vite-plugin-istanbul'
 
 import { getCityAssets, getCityConfig, getCityPublic } from './scripts/utils';
 
@@ -34,17 +35,26 @@ export default defineConfig(() => {
   const ui = path.resolve(__dirname, './');
   const modules = path.resolve(__dirname, 'node_modules/');
 
+  const ENABLE_E2E_COVERAGE = import.meta.env.ENABLE_E2E_COVERAGE === 'true';
+  const GENERATE_SOURCEMAPS = import.meta.env.GENERATE_SOURCEMAPS === 'true';
+
   return {
     base: '/',
     envPrefix: 'REACT_APP_',
     plugins: [
       react(),
       eslint(),
+      ENABLE_E2E_COVERAGE ? istanbul({
+        requireEnv: false,
+        nycrcPath: './nyc.config.js',
+      }) : undefined
     ],
     assetsInclude: ['**/*.md'],
     build: {
       outDir: './build',
       emptyOutDir: true,
+      // Temporarily blocking sourcemaps by default. This can be removed once Sentry plugin gets implemented, which will automatically handle clearing sourcemaps on build.
+      sourcemap: GENERATE_SOURCEMAPS ? 'hidden' : false,
     },
     publicDir: cityPublic,
     server: {

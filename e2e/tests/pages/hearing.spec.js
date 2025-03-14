@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from 'playwright-test-coverage';
 
 const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 
@@ -12,48 +12,43 @@ const fetchHearing = async () => {
 const hearingContainsQuestions = (hearing) => Boolean(hearing.sections.some((s) => s.questions.length));
 
 test.describe('Hearing', () => {
-  let page;
   let hearing;
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeEach(async ({ page }) => {
     hearing = await fetchHearing();
-    page = await browser.newPage();
+
     await page.goto(hearing.slug);
     await page.getByTestId('cookie-consent-approve-required-button').click();
   });
 
-  test.beforeEach(async () => {
-    await page.goto(hearing.slug);
-  });
-
-  test('should display Finnish title', async () => {
+  test('should display Finnish title', async ({ page }) => {
     await expect(page.locator('.hearing-header-title')).toContainText(hearing.title.fi);
   });
 
-  test('should have comment link', async () => {
+  test('should have comment link', async ({ page }) => {
     const link = page.locator('.internal-link:has-text("Kirjoita kommentti")');
     await expect(link).toBeVisible();
   });
 
-  test('should display comment count', async () => {
+  test('should display comment count', async ({ page }) => {
     await expect(page.getByTestId('comment-summary')).toContainText(`Yhteensä ${hearing.n_comments} kommentti`);
   });
 
-  test('should have Swedish link if available', async () => {
+  test('should have Swedish link if available', async ({ page }) => {
     const noSwedishTitle = !hearing.title.sv;
     test.skip(noSwedishTitle, 'No Swedish title available');
 
     await expect(page.getByTestId('language-select')).toContainText('Hörandet tillgängligt på svenska');
   });
 
-  test('should have English link if available', async () => {
+  test('should have English link if available', async ({ page }) => {
     const noEnglishTitle = !hearing.title.en;
     test.skip(noEnglishTitle, 'No English title available');
 
     await expect(page.getByTestId('language-select')).toContainText('Hearing available in English');
   });
 
-  test('should display label', async () => {
+  test('should display label', async ({ page }) => {
     const firstFinnishLabel = hearing.labels[0].label.fi;
 
     if (firstFinnishLabel) {
@@ -61,12 +56,12 @@ test.describe('Hearing', () => {
     }
   });
 
-  test('should display contact person name', async () => {
+  test('should display contact person name', async ({ page }) => {
     const contactPerson = hearing.contact_persons[0];
     await expect(page.locator('.hearing-contacts')).toContainText(contactPerson.name);
   });
 
-  test('should have image with caption', async () => {
+  test('should have image with caption', async ({ page }) => {
     const img = page.locator('.section-image img');
     const noImage = !!hearing.main_image === false;
 
@@ -75,17 +70,17 @@ test.describe('Hearing', () => {
     await expect(img).toHaveAttribute('alt', hearing.main_image.caption.fi);
   });
 
-  test('should have Excel link for comment summary', async () => {
+  test('should have Excel link for comment summary', async ({ page }) => {
     const link = page.locator('a:has-text("Lataa yhteenveto kommenteista Excel-muodossa")');
     await expect(link).toBeVisible();
   });
 
-  test('should have comment button', async () => {
+  test('should have comment button', async ({ page }) => {
     const button = page.locator('.comment-form-container button');
     await expect(button).toBeVisible();
   });
 
-  test('verify visibility of questions and their options', async () => {
+  test('verify visibility of questions and their options', async ({ page }) => {
     test.skip(!hearingContainsQuestions(hearing), 'No questions found');
 
     await page.getByRole('button', { name: 'Äänestä ja kommentoi' }).last().click();
@@ -103,7 +98,7 @@ test.describe('Hearing', () => {
     }
   });
 
-  test('user can successfully submit a comment', async () => {
+  test('user can successfully submit a comment', async ({ page }) => {
     await page.locator('.comment-form-container button').click();
     await page.locator('.comment-form textarea').fill('Tämä on selaintestin kirjoittama viesti');
     await page.getByPlaceholder('Anonyymi').fill('Testi Testinen');
@@ -111,7 +106,7 @@ test.describe('Hearing', () => {
     await expect(page.getByText('Kommenttisi on vastaanotettu')).toBeVisible();
   });
 
-  test('check Finnish title in first subsection if subsections exist', async () => {
+  test('check Finnish title in first subsection if subsections exist', async ({ page }) => {
     const hasSectionCard = hearing.sections.filter((s) => s.type === 'part').length > 0;
     test.skip(!hasSectionCard, 'Hearing does not contain subsections');
 
