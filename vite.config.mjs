@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig, coverageConfigDefaults, configDefaults } from 'vitest/config'
 import dotenv from 'dotenv';
+import istanbul from 'vite-plugin-istanbul'
 
 import { getCityAssets, getCityConfig, getCityPublic } from './scripts/utils';
 
@@ -34,17 +35,24 @@ export default defineConfig(() => {
   const ui = path.resolve(__dirname, './');
   const modules = path.resolve(__dirname, 'node_modules/');
 
+  const GENERATE_SOURCE_MAPS = import.meta.env.REACT_APP_GENERATE_SOURCE_MAPS === 'true';
+
   return {
     base: '/',
     envPrefix: 'REACT_APP_',
     plugins: [
       react(),
       eslint(),
+      GENERATE_SOURCE_MAPS ? istanbul({
+        requireEnv: false,
+        nycrcPath: './nyc.config.js',
+      }) : undefined
     ],
     assetsInclude: ['**/*.md'],
     build: {
       outDir: './build',
       emptyOutDir: true,
+      sourcemap: GENERATE_SOURCE_MAPS ? 'hidden' : false,
     },
     publicDir: cityPublic,
     server: {
