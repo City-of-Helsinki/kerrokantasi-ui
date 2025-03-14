@@ -18,9 +18,9 @@ const renderComponent = (propOverrides) => {
     labels: labels.data,
     contactPersons: mockHearingWithSections.data.contact_persons,
     hearingLanguages: ['fi'],
-    onLanguagesChange: jest.fn(),
-    onHearingChange: jest.fn(),
-    onContinue: jest.fn(),
+    onLanguagesChange: vi.fn(),
+    onHearingChange: vi.fn(),
+    onContinue: vi.fn(),
     errors: {},
     organizations: [],
     ...propOverrides,
@@ -53,7 +53,7 @@ describe('<HearingFormStep1 />', () => {
   });
 
   it('should call onHearingChange when title is changed', async () => {
-    const onHearingChange = jest.fn();
+    const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
@@ -66,7 +66,7 @@ describe('<HearingFormStep1 />', () => {
   });
 
   it('should call onLabelsChange when labels are changed', async () => {
-    const onHearingChange = jest.fn();
+    const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
@@ -83,7 +83,7 @@ describe('<HearingFormStep1 />', () => {
   });
 
   it('should call onContactsChange when contacts are changed', async () => {
-    const onHearingChange = jest.fn();
+    const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
@@ -100,7 +100,7 @@ describe('<HearingFormStep1 />', () => {
   });
 
   it('should call onContinue when continue button is clicked', () => {
-    const onContinue = jest.fn();
+    const onContinue = vi.fn();
 
     renderComponent({ onContinue });
 
