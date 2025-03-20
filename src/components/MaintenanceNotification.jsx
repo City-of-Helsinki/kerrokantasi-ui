@@ -7,10 +7,9 @@ import { getNotifications } from '../utils/notificationService';
 
 const MaintenanceNotification = (props) => {
   const [notifications, setNotifications] = useState([]);
-  const { language } = props
+  const { language } = props;
 
   useEffect(() => {
-    console.debug(language);
     const loadNotifications = async () => {
       setNotifications(await getNotifications(language));
     }
