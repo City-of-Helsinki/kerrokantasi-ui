@@ -1,12 +1,9 @@
 import api from "../api";
 
 export async function getNotifications(lang) {
-
-    console.debug('kieli mäppäyksessä', lang);
     return api.get("/v1/notifications").then(async response => {
         const data = await response.json();
         const notifications = mapNotifications(data, lang);
-        console.debug('getNotifications', notifications);
         return notifications;
     });
 }
