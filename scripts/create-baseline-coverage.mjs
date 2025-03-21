@@ -9,7 +9,7 @@ import { glob } from 'glob';
 function createBaselineCoverage() {
 
   // Clean up existing nyc_output directory in a platform-independent way
-  const nycOutput = path.join(process.cwd(), '.nyc_output');
+  const nycOutput = path.join(process.cwd(), 'coverage-temp');
   if (fs.existsSync(nycOutput)) {
     try {
       // Remove all files in the directory
@@ -24,14 +24,14 @@ function createBaselineCoverage() {
           fs.unlinkSync(filePath);
         }
       }
-      console.log('Cleaned up .nyc_output directory');
+      console.log('Cleaned up coverage-temp directory');
     } catch (err) {
-      console.error('Error cleaning .nyc_output directory:', err);
+      console.error('Error cleaning coverage-temp directory:', err);
     }
   } else {
     // Create directory if it doesn't exist
     fs.mkdirSync(nycOutput, { recursive: true });
-    console.log('Created .nyc_output directory');
+    console.log('Created coverage-temp directory');
   }
 
   // Get all source files
