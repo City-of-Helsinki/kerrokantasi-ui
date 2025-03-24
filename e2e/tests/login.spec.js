@@ -13,5 +13,5 @@ test('Login', async ({ page }) => {
 
   await login(page, TEST_USER_EMAIL, TEST_USER_PASSWORD);
 
-  expect(page.getByRole('link', { name: 'Kerrokantasi' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Kerrokantasi' })).toBeVisible();
 });
