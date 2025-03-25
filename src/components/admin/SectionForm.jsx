@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get, isEmpty } from 'lodash';
-import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
+import { Button, Card, Checkbox, FileInput, formatBytes, LoadingSpinner, Select } from 'hds-react';
 
 import { QuestionForm } from './QuestionForm';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
@@ -37,10 +37,14 @@ const fetchFiles = async (data, fileType, language) => {
 
       const response = await fetch(item.url, {
         method: 'GET',
-        mode: 'no-cors',
       });
-
       const blob = await response.blob();
+
+       // Check if blob size is suspiciously small
+       if (blob.size < 100) {
+        console.debug(`Warning: File ${name} from ${item.url} has suspiciously small size: ${blob.size} bytes`);
+        // You might decide to throw an error here instead of continuing
+      }
 
       const type = fileType === 'image' ? 'image/webp' : 'application/pdf';
 
@@ -92,6 +96,8 @@ const SectionForm = ({
   const [sectionImage, setSectionImage] = useState();
   const [attachments, setAttachments] = useState();
 
+  console.debug(attachments);
+
   const intl = useIntl();
 
   useEffect(() => {
@@ -111,7 +117,7 @@ const SectionForm = ({
     async function fetchAttachments() {
       if (section.files.length) {
         const data = await fetchFiles(section.files, 'pdf', language);
-
+        console.debug('section files', data);
         setAttachments(data);
       }
     }
@@ -167,18 +173,18 @@ const SectionForm = ({
    */
   const onAttachmentChange = (files) => {
     const filesToDelete = attachments?.filter(
-      (item, oldIndex) =>
+      (item) =>
         !files.some(
-          (newFile, newIndex) =>
-            item.file.name === newFile.name && item.file.size === newFile.size && oldIndex === newIndex,
+          (newFile) =>
+            item.file.name === newFile.name && item.file.size === newFile.size
         ),
     );
 
     const filesToAdd = files.filter(
-      (newFile, newIndex) =>
+      (newFile) =>
         !attachments?.some(
-          (item, oldIndex) =>
-            newFile.name === item.file.name && newFile.size === item.file.size && newIndex === oldIndex,
+          (item) =>
+            newFile.name === item.file.name && newFile.size === item.file.size
         ),
     );
 
@@ -191,7 +197,6 @@ const SectionForm = ({
 
       filesToAdd.forEach(async (file) => {
         const blob = await fileToDataUri(file);
-
         onSectionAttachment(section.frontId, blob, { [language]: file.name });
       });
     }
@@ -391,7 +396,7 @@ const SectionForm = ({
           accept={ACCEPTED_FILE_TYPES}
           language={language}
           onChange={onAttachmentChange}
-          defaultValue={attachments}
+          defaultValue={attachments?.map(item => item.file) || []}
           maxSize={MAX_FILE_SIZE * 1024 * 1024}
           multiple
         />
