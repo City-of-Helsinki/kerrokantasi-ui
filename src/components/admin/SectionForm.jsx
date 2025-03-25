@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get, isEmpty } from 'lodash';
-import { Button, Card, Checkbox, FileInput, formatBytes, LoadingSpinner, Select } from 'hds-react';
+import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
 
 import { QuestionForm } from './QuestionForm';
 import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
@@ -39,12 +39,6 @@ const fetchFiles = async (data, fileType, language) => {
         method: 'GET',
       });
       const blob = await response.blob();
-
-       // Check if blob size is suspiciously small
-       if (blob.size < 100) {
-        console.debug(`Warning: File ${name} from ${item.url} has suspiciously small size: ${blob.size} bytes`);
-        // You might decide to throw an error here instead of continuing
-      }
 
       const type = fileType === 'image' ? 'image/webp' : 'application/pdf';
 
@@ -96,8 +90,6 @@ const SectionForm = ({
   const [sectionImage, setSectionImage] = useState();
   const [attachments, setAttachments] = useState();
 
-  console.debug(attachments);
-
   const intl = useIntl();
 
   useEffect(() => {
@@ -117,7 +109,6 @@ const SectionForm = ({
     async function fetchAttachments() {
       if (section.files.length) {
         const data = await fetchFiles(section.files, 'pdf', language);
-        console.debug('section files', data);
         setAttachments(data);
       }
     }
