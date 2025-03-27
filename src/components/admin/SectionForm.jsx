@@ -37,9 +37,7 @@ const fetchFiles = async (data, fileType, language) => {
 
       const response = await fetch(item.url, {
         method: 'GET',
-        mode: 'no-cors',
       });
-
       const blob = await response.blob();
 
       const type = fileType === 'image' ? 'image/webp' : 'application/pdf';
@@ -111,7 +109,6 @@ const SectionForm = ({
     async function fetchAttachments() {
       if (section.files.length) {
         const data = await fetchFiles(section.files, 'pdf', language);
-
         setAttachments(data);
       }
     }
@@ -167,18 +164,18 @@ const SectionForm = ({
    */
   const onAttachmentChange = (files) => {
     const filesToDelete = attachments?.filter(
-      (item, oldIndex) =>
+      (item) =>
         !files.some(
-          (newFile, newIndex) =>
-            item.file.name === newFile.name && item.file.size === newFile.size && oldIndex === newIndex,
+          (newFile) =>
+            item.file.name === newFile.name && item.file.size === newFile.size
         ),
     );
 
     const filesToAdd = files.filter(
-      (newFile, newIndex) =>
+      (newFile) =>
         !attachments?.some(
-          (item, oldIndex) =>
-            newFile.name === item.file.name && newFile.size === item.file.size && newIndex === oldIndex,
+          (item) =>
+            newFile.name === item.file.name && newFile.size === item.file.size
         ),
     );
 
@@ -191,7 +188,6 @@ const SectionForm = ({
 
       filesToAdd.forEach(async (file) => {
         const blob = await fileToDataUri(file);
-
         onSectionAttachment(section.frontId, blob, { [language]: file.name });
       });
     }
@@ -391,7 +387,7 @@ const SectionForm = ({
           accept={ACCEPTED_FILE_TYPES}
           language={language}
           onChange={onAttachmentChange}
-          defaultValue={attachments}
+          defaultValue={attachments?.map(item => item.file) || []}
           maxSize={MAX_FILE_SIZE * 1024 * 1024}
           multiple
         />
