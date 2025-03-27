@@ -61,6 +61,7 @@ const AppRoutes = () => (
       <Route path="/hearing/new" Component={props => <NewHearingContainer {...props} />} />
       <Route path="/hearing/:hearingSlug" Component={props => <Redirector {...props} />} />
       <Route path="/:hearingSlug/fullscreen" Component={props => <FullscreenHearingContainer {...props} />} />
+      <Route path="/:hearingSlug/:sectionId" Component={props => <HearingContainer {...props} />} />
       <Route path="/:hearingSlug/*" Component={props => <HearingContainer {...props} />} />
     </Routes>
   </Suspense>

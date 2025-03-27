@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { useApiTokens } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import messages from './i18n';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import InternalLink from './components/InternalLink';
@@ -24,6 +23,7 @@ import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 import Toast from './components/Toast';
+import messages from './i18n';
 
 function App({ language, isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
@@ -76,7 +76,7 @@ function App({ language, isHighContrast, history, ...props }) {
   }
   const mainContainerId = 'main-container';
   return (
-    <IntlProvider locale={language} messages={messages[language] || {}}>
+    <IntlProvider locale={language} messages={messages[language]}>
       <div className={contrastClass}>
         {config.enableCookies && !isCookiebotEnabled() && <CookieBar />}
         <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
