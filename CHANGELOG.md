@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.8](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.7...kerrokantasi-ui-v1.10.8) (2025-03-27)
+
+
+### Bug Fixes
+
+* Fixed fileupload not working as intended ([#1135](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1135)) ([6261e3b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6261e3baaa2175471f53cab3560a17248cbe1002))
+* Fixes the subhearing link back to main hearing ([#1132](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1132)) ([ab0a10f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ab0a10fb4a21539b96a5e6f000698f63f47c34be))
+
 ## [1.10.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.6...kerrokantasi-ui-v1.10.7) (2025-03-11)
 
 
