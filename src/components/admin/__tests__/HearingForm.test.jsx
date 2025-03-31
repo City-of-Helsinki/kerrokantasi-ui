@@ -10,12 +10,12 @@ import { mockStore as mockData } from '../../../../test-utils';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('hds-react', () => {
-  const actual = jest.requireActual('hds-react');
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
 
   return {
     ...actual,
-    FileInput: jest.fn().mockImplementation(() => <div>FileInput</div>),
+    FileInput: vi.fn().mockImplementation(() => <div>FileInput</div>),
   };
 });
 
@@ -65,38 +65,38 @@ const renderComponent = (propOverrides, storeOverride) => {
     contactPersons: mockHearingWithSections.data.contact_persons,
     currentStep: 1,
     organizations: [],
-    intl: { formatMessage: jest.fn((msg) => msg.id) },
+    intl: { formatMessage: vi.fn((msg) => msg.id) },
     editorMetaData: {},
     hearing: { ...mockHearingWithSections.data, published: false },
     isSaving: false,
     labels: [],
     language: 'en',
     hearingLanguages: [],
-    dispatch: jest.fn(),
+    dispatch: vi.fn(),
     show: true,
-    sectionMoveUp: jest.fn(),
-    sectionMoveDown: jest.fn(),
-    addOption: jest.fn(),
-    deleteOption: jest.fn(),
-    onQuestionChange: jest.fn(),
-    onDeleteTemporaryQuestion: jest.fn(),
-    clearQuestions: jest.fn(),
-    initMultipleChoiceQuestion: jest.fn(),
-    initSingleChoiceQuestion: jest.fn(),
-    onAddMapMarker: jest.fn(),
-    onAddMapMarkersToCollection: jest.fn(),
-    onCreateMapMarker: jest.fn(),
-    onDeleteExistingQuestion: jest.fn(),
-    onHearingChange: jest.fn(),
-    onLanguagesChange: jest.fn(),
-    onSectionAttachment: jest.fn(),
-    onSectionAttachmentDelete: jest.fn(),
-    onSectionChange: jest.fn(),
-    onSectionImageChange: jest.fn(),
-    onSaveChanges: jest.fn(),
-    onSaveAsCopy: jest.fn(),
-    onSaveAndPreview: jest.fn(),
-    onLeaveForm: jest.fn(),
+    sectionMoveUp: vi.fn(),
+    sectionMoveDown: vi.fn(),
+    addOption: vi.fn(),
+    deleteOption: vi.fn(),
+    onQuestionChange: vi.fn(),
+    onDeleteTemporaryQuestion: vi.fn(),
+    clearQuestions: vi.fn(),
+    initMultipleChoiceQuestion: vi.fn(),
+    initSingleChoiceQuestion: vi.fn(),
+    onAddMapMarker: vi.fn(),
+    onAddMapMarkersToCollection: vi.fn(),
+    onCreateMapMarker: vi.fn(),
+    onDeleteExistingQuestion: vi.fn(),
+    onHearingChange: vi.fn(),
+    onLanguagesChange: vi.fn(),
+    onSectionAttachment: vi.fn(),
+    onSectionAttachmentDelete: vi.fn(),
+    onSectionChange: vi.fn(),
+    onSectionImageChange: vi.fn(),
+    onSaveChanges: vi.fn(),
+    onSaveAsCopy: vi.fn(),
+    onSaveAndPreview: vi.fn(),
+    onLeaveForm: vi.fn(),
     errors: {},
     ...propOverrides,
   };
@@ -115,13 +115,13 @@ describe('<HearingForm />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
     window.IntersectionObserver = originalInterSectionObserver;
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render correctly', () => {
@@ -129,7 +129,7 @@ describe('<HearingForm />', () => {
   });
 
   it('should call onLeaveForm when cancel button is clicked', () => {
-    const onLeaveForm = jest.fn();
+    const onLeaveForm = vi.fn();
 
     renderComponent({ onLeaveForm });
 
@@ -139,7 +139,7 @@ describe('<HearingForm />', () => {
   });
 
   it('should call onSaveAndPreview when save and preview button is clicked', () => {
-    const onSaveAndPreview = jest.fn();
+    const onSaveAndPreview = vi.fn();
 
     renderComponent({ onSaveAndPreview });
 

@@ -15,7 +15,7 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 const defaultLocale = 'fi';
-const mockSetLocale = jest.fn();
+const mockSetLocale = vi.fn();
 
 const defaultState = {
   language: defaultLocale,
@@ -27,12 +27,12 @@ const stateWithoutUser = {
 };
 
 const renderComponent = (storeOverride, authMock = {}) => {
-  jest.spyOn(actionsMock, 'setLanguage').mockImplementation(() => (jest.fn()));
+  vi.spyOn(actionsMock, 'setLanguage').mockImplementation(() => vi.fn());
 
-  jest.spyOn(useAuthMock, 'default').mockImplementation(() => ({
+  vi.spyOn(useAuthMock, 'default').mockImplementation(() => ({
     authenticated: authMock.authenticated ?? false,
-    login: authMock.login ?? jest.fn(),
-    logout: authMock.logout ?? jest.fn(),
+    login: authMock.login ?? vi.fn(),
+    logout: authMock.logout ?? vi.fn(),
   }));
 
   const store = storeOverride || mockStore(defaultState);
@@ -51,7 +51,6 @@ describe('<Header />', () => {
   });
 
   it('displays login button when user is not logged in', async () => {
-
     const store = mockStore(stateWithoutUser);
 
     renderComponent(store);
@@ -62,7 +61,7 @@ describe('<Header />', () => {
   it('calls login function when login button is clicked', async () => {
     const user = userEvent.setup();
 
-    const mockLogin = jest.fn();
+    const mockLogin = vi.fn();
 
     const store = mockStore(stateWithoutUser);
 
@@ -75,7 +74,7 @@ describe('<Header />', () => {
 
   it('calls logout function when logout button is clicked', async () => {
     const user = userEvent.setup();
-    const mockLogout = jest.fn();
+    const mockLogout = vi.fn();
 
     renderComponent(undefined, { authenticated: true, logout: mockLogout });
 
@@ -88,7 +87,7 @@ describe('<Header />', () => {
   it('changes language when language selector is used', async () => {
     const user = userEvent.setup();
 
-    const store = mockStore(stateWithoutUser)
+    const store = mockStore(stateWithoutUser);
     renderComponent(store);
 
     await user.click(await screen.findByRole('button', { name: 'English' }));
