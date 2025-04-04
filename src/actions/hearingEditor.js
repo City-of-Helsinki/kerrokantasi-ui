@@ -391,9 +391,11 @@ export function addSectionAttachment(section, file, title, isNew) {
 
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
-    const preparedHearing = prepareHearingForSave(hearing);
+    if (hearing.isNew) {
+      hearing = prepareHearingForSave(hearing);
+    }
     const cleanedHearing = filterTitleAndContentByLanguage(
-      filterFrontIdsFromAttributes(preparedHearing), getState().hearingEditor.languages
+      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
     );
     const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
       cleanedHearing,
