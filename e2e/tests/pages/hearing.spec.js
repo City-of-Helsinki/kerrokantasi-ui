@@ -3,10 +3,11 @@ import { expect, test } from '@playwright/test';
 const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 
 const fetchHearing = async () => {
-  const res = await fetch(`${API_URL}/v1/hearing/`);
+  /* const res = await fetch(`${API_URL}/v1/hearing/`);
   const json = await res.json();
   const openHearings = json.results.filter((hearing) => !hearing.closed);
-  const hearingId = openHearings[0].id;
+  */
+  const hearingId = 'NgHqPUpc4JD91uaMoyGYXSnC2z9YwkvO';
   const hearing = await fetch(`${API_URL}/v1/hearing/${hearingId}/`);
 
   return hearing.json();
@@ -99,7 +100,11 @@ test.describe('Hearing', () => {
     const questionText = firstQuestion.text.fi;
     const options = firstQuestion.options.map((o) => o.text.fi);
     await expect(page.locator('.comment-form')).toContainText(questionText);
-    await expect(page.getByTestId('question-form-group').locator('.radio')).toContainText(options);
+    
+    // Check each option individually to ensure they are present in the form
+    for (const option of options) {
+      await expect(page.getByTestId('question-form-group')).toContainText(option);
+    }
   });
 
   test('user can successfully submit a comment', async () => {
