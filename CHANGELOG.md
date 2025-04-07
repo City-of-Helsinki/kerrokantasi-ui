@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.8...kerrokantasi-ui-v1.10.9) (2025-04-07)
+
+
+### Bug Fixes
+
+* Hearing saveAndPreview fix for existing hearings ([#1138](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1138)) ([b2b2e96](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b2b2e96d78809d04543ab19a54d9bdc91c8c2336))
+
 ## [1.10.8](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.7...kerrokantasi-ui-v1.10.8) (2025-03-27)
 
 
