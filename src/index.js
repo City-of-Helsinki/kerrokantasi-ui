@@ -14,10 +14,10 @@ import '@formatjs/intl-relativetimeformat/polyfill'
 import { beforeSend, beforeSendTransaction } from './utils/sentry';
 
 commonInit(function initReady() {
-  if (config.uiConfig && config.uiConfig.sentryDsn && config.uiConfig.sentryEnvironment) {
+  if (config.sentryDsn && config.sentryEnvironment) {
     Sentry.init({
-      dsn: config.uiConfig.sentryDsn,
-      environment: config.uiConfig.sentryEnvironment,
+      dsn: config.sentryDsn,
+      environment: config.sentryEnvironment,
       integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 1.0,
       ignoreErrors: [

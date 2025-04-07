@@ -42,7 +42,7 @@ const HearingCard = ({
 }) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
+    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : `url("${defaultImage}")`,
   };
 
   // FIXME: Should there be direct linking to hearing using certain language?

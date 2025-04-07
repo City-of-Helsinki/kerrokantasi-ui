@@ -18,7 +18,7 @@ const HearingListItem = (props) => {
   const { hearing, language, history, formatTime, formatDate } = props;
   const mainImage = hearing.main_image;
   let mainImageStyle = {
-    backgroundImage: `url(${defaultImage})`,
+    backgroundImage: `url("${defaultImage}")`,
   };
   if (hearing.main_image) {
     mainImageStyle = {

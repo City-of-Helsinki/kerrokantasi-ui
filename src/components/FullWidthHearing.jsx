@@ -17,8 +17,9 @@ import HearingTranslationNotice from './HearingList/HearingTranslationNotice/Hea
 const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
   const { formatTime, formatDate } = intl;
   const backgroundImage = getHearingMainImageURL(hearing);
+
   const styles = {
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : `url(${defaultImage})`,
+    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : `url("${defaultImage}")`,
   };
   const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
   const mainImgCaption =
