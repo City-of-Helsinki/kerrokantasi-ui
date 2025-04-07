@@ -3,12 +3,8 @@ import { expect, test } from '@playwright/test';
 const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 
 const fetchHearing = async () => {
-  /* const res = await fetch(`${API_URL}/v1/hearing/`);
-  const json = await res.json();
-  const openHearings = json.results.filter((hearing) => !hearing.closed);
-  */
-  const hearingId = 'NgHqPUpc4JD91uaMoyGYXSnC2z9YwkvO';
-  const hearing = await fetch(`${API_URL}/v1/hearing/${hearingId}/`);
+  const hearingSlug = 'kuuleminen-e2e-testausta-varten';
+  const hearing = await fetch(`${API_URL}/v1/hearing/${hearingSlug}/`);
 
   return hearing.json();
 };
