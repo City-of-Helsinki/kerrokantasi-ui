@@ -19,7 +19,7 @@ const SubsectionList = ({ hearing, language, history }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
-  const bgImage = (section) => (!isEmpty(section.images) ? `url("${section.images[0].url}")` : `url(${defaultImage})`);
+  const bgImage = (section) => (!isEmpty(section.images) ? `url("${section.images[0].url}")` : `url("${defaultImage}")`);
 
   if (!subSections.length) {
     return null;

@@ -197,17 +197,17 @@ a.list-group-item {
 .kerrokantasi-btn[type='button'],
 .kerrokantasi-btn[type='submit'] {
   margin: 0px 2px;
-  border-color: $black;
+  border-color: $black !important;
   color: $black;
   background: transparent;
   &:hover {
-    border-color: $black;
+    border-color: $black !important;;
     color: $black;
     background: $light-gray;
   }
   &.black {
     background: $black;
-    border-color: $black;
+    border-color: $black !important;;
     color: $white;
     &:hover {
       color: $white;
@@ -216,37 +216,37 @@ a.list-group-item {
     }
   }
   &.secondary {
-    border-color: transparent;
+    border-color: transparent !important;;
   }
   &.danger {
     background: $theme-danger;
-    border-color: $theme-danger;
+    border-color: $theme-danger !important;;
     color: $white;
     &:hover {
       color: $white;
-      border-color:  darken($theme-danger, 15%);
+      border-color:  darken($theme-danger, 15%) !important;;
       background: darken($theme-danger, 15%);
     }
   }
   &.success {
-    border-color: $theme-success;
+    border-color: $theme-success !important;;
     color: $theme-success;
     &:hover {
-      border-color: $theme-success;
+      border-color: $theme-success !important;;
       background: lighten($theme-success-light, 50%);
     }
   }
   &.gear {
     color: --color-black-20;
-    border: none;
+    border: none !important;;
     background: transparent;
     height: 56px;
   }
   &.supplementary {
-    border: none;
+    border: none !important;;
     background: none;
     &:hover {
-      border: none;
+      border: none !important;;
       background: $light-gray;
     }
   }

@@ -1,7 +1,6 @@
 # Tietoa Kerrokantasi.hel.fi –palvelusta
 
-<p class="lead">Kerrokantasi on Helsingin kaupungin ylläpitämä verkkopalvelu, jossa kuntalaiset voivat kertoa mielipiteensä ja tulla kuulluksi erityyppisistä valmisteluun tulevista tai valmistelussa jo olevista asioista. Mielipiteet ovat muiden nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön. Mielipiteistä voi ladata yhteenvedon excel-muodossa omalle tietokoneelle.
-</p>
+Kerrokantasi on Helsingin kaupungin ylläpitämä verkkopalvelu, jossa kuntalaiset voivat kertoa mielipiteensä ja tulla kuulluksi erityyppisistä valmisteluun tulevista tai valmistelussa jo olevista asioista. Mielipiteet ovat muiden nähtävinä ja kommentoitavina, ja niistä tuotetaan raportit ja yhteenvedot valmistelijoiden ja päättäjien käyttöön. Mielipiteistä voi ladata yhteenvedon excel-muodossa omalle tietokoneelle.
 
 Kerrokantasi-palvelu toteuttaa osaltaan [kaupungin osallisuus- ja vuorovaikutusmallia](https://osallistu.hel.fi). Kuntalain 22 §:n mukaan kunnan on huolehdittava kuntalaisten edellytyksistä osallistua ja vaikuttaa kunnan toimintaan erityisesti selvittämällä asukkaiden mielipiteitä ennen päätöksentekoa.
 
@@ -13,7 +12,7 @@ Kerrokantasi -palvelussa käyttäjä voi kirjoittaa mielipiteensä kyseessä ole
 
 ### Kirjautuminen
 
-Kirjautumista palveluun voidaan edellyttää joissakin kuulemisissa, mikäli haluat kommentoida, kannattaa (=peukuttaa) annettua mielipidettä tai äänestää vaihtoehdoista. 
+Kirjautumista palveluun voidaan edellyttää joissakin kuulemisissa, mikäli haluat kommentoida, kannattaa (=peukuttaa) annettua mielipidettä tai äänestää vaihtoehdoista.
 
 Voit kirjautua palveluun tunnistautumalla Helsinki profiilin Helsinki-tunnuksella, joka koostuu sähköpostista ja salasanasta. Ensimmäisellä kirjautumiskerralla käyttäjän pitää luoda Helsinki-tunnus, jos sellaista ei vielä ole. Kaupungin työntekijät kirjautuvat AD-tunnistautuen.
 
@@ -28,17 +27,17 @@ Käyttäjä vastaa kirjoituksistaan ja niiden sisällöstä.
 
 Käyttäjänä sitoudut tuottamissasi ja lisäämissäsi sisällöissä, kuten teksteissä, kuvissa ja muissa liitteissä (myöhemmin ’Materiaali’), noudattamaan hyviä tapoja ja voimassa olevaa lainsäädäntöä.
 
-Lataamalla tai muuten lisäämällä Materiaalia palveluun annat suostumuksesi sille, että tekijänoikeuden alainen Materiaali lisensoidaan Creative Commons –lisenssillä [”Nimeä-EiKaupallinen-JaaSamoin 4.0 Kansainvälinen” (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi). 
+Lataamalla tai muuten lisäämällä Materiaalia palveluun annat suostumuksesi sille, että tekijänoikeuden alainen Materiaali lisensoidaan Creative Commons –lisenssillä [”Nimeä-EiKaupallinen-JaaSamoin 4.0 Kansainvälinen” (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fi).
 
 Käyttäjänä takaat ja vastaat siitä, että sinulla on oikeus lisätä Materiaali palveluun, ja ettei Materiaali tai sen lisääminen palveluun loukkaa muiden immateriaali- tai muita oikeuksia.
 
-Toisen henkilön nimen luvaton käyttäminen on kiellettyä. Jokainen vastaa itse niistä mahdollisista seurauksista, joita aiheutuu toisen henkilön nimen väärinkäyttämisestä.  
+Toisen henkilön nimen luvaton käyttäminen on kiellettyä. Jokainen vastaa itse niistä mahdollisista seurauksista, joita aiheutuu toisen henkilön nimen väärinkäyttämisestä.
 
 ### Keskustelujen valvonta
 
 Palvelua seurataan lähinnä virka-aikana arkisin. Viestejä ei tarkisteta ennakkoon. Voit myös ilmoittaa asiattomista viesteistä [palautelomakkeella](https://palautteet.hel.fi) tai sähköpostilla (kerrokantasi at hel.fi).
 
-Käyttäjän mielipiteitä ja kommentteja voidaan ylläpidon toimesta poistaa ja muokata, mikäli ne katsotaan lainvastaisiksi tai asiattomiksi. Kirjautuneena käyttäjänä voit itse muokata tai poistaa mielipiteesi ja kommenttisi palvelusta. 
+Käyttäjän mielipiteitä ja kommentteja voidaan ylläpidon toimesta poistaa ja muokata, mikäli ne katsotaan lainvastaisiksi tai asiattomiksi. Kirjautuneena käyttäjänä voit itse muokata tai poistaa mielipiteesi ja kommenttisi palvelusta.
 
 Helsingin kaupunki pidättää itselleen oikeuden käyttää palvelussa julkaistuja viestejä muissa yhteyksissä. Helsingin kaupunki ei vastaa kirjoitusten sisällöstä.
 
@@ -71,8 +70,8 @@ Kerrokantasi.hel.fi-palvelua ylläpitää Helsingin kaupunki. Kaupunki on sitout
 
 Kun olet asiakkaana kaupungin palveluissa tai muutoin asioit kaupungin kanssa, Helsingin kaupunki kerää henkilötietoja eri käyttötarkoitusten mukaan. Henkilötietojen käsittelystä on laadittu tietosuojaselosteet, jotka pääset näkemään osoitteesta www.hel.fi/tietosuoja. Sivulla on Kerrokantasi -verkkosivustoa koskeva tietosuojaseloste [Henkilötietojen käsittely Helsingin kaupungin palautekanavassa ja digitaalisissa osallistumispalveluissa](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden%20ja%20palautteiden%20rekisteri.pdf) sekä [sähköisten asiointipalvelujen rekisteri](https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf).
 
-Kerrokantasi -palvelussa kerättyjä henkilötietoja 
-* sähköpostiosoite 
+Kerrokantasi -palvelussa kerättyjä henkilötietoja
+* sähköpostiosoite
 * annettu nimi tai nimimerkki
 * palveluun ensimmäisen kerran kirjautumisajankohta
 * kirjautuneena kirjoitetut kommentit
@@ -116,7 +115,7 @@ Käyttäjäseurannan osalta evästeet sisältävät nimettömän, yksilöllisen 
 
 Lisäksi tässä verkkosivustossa käytetään ulkopuolisten verkkopalvelujen sisältöjä. Ulkopuoliset verkkopalvelut voivat asentaa selaimiin niiden omia evästeitä.
 
-Käyttäjällä on mahdollisuus vaikuttaa evästeiden käyttöön evästekyselyn kautta. 
+Käyttäjällä on mahdollisuus vaikuttaa evästeiden käyttöön evästekyselyn kautta.
 
 Palvelun kävijätilastointia varten Matomo-ratkaisun keräämät tiedot anonymisoidaan, joten niitä ei voida liittää yksittäiseen henkilöön. Tällaisia tietoja ovat:
 
