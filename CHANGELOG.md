@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.9...kerrokantasi-ui-v1.11.0) (2025-04-11)
+
+
+### Features
+
+* Add login e2e test KEH-98 ([16839a0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/16839a021b5e55faf80662650ba9a95fd5801a66))
+* Generate e2e coverage report KEH-91 ([18a3b8d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/18a3b8def50cca9110d8e356c523cca260e59299))
+* Replace Webpack with Vite KER-404 ([bb6c6ca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bb6c6cad04127406505443a5a163e34b4d9aa295))
+
+
+### Dependencies
+
+* Bump @vitest/coverage-istanbul to 2.1.9 ([6f97af5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6f97af5339b118a11c6b9b40fd1fa45a6e8781b4))
+* Bump vite from 5.4.10 to 5.4.17 ([#1142](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1142)) ([a446f57](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a446f57f84c18ed63bf51cbe34f5dcedd860854d))
+* Bump vitest from 2.1.4 to 2.1.9 ([7d1238b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7d1238b567996a7041f77cae2e1ccd9ee4007fe6))
+
 ## [1.10.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.8...kerrokantasi-ui-v1.10.9) (2025-04-07)
 
 
