@@ -5,7 +5,7 @@ import { login } from '../utils';
 
 test('Login', async ({ page }) => {
   test.skip(
-    !TEST_USER_EMAIL || !TEST_USER_PASSWORD,
+    !TEST_USER_EMAIL && !TEST_USER_PASSWORD,
     'No test user credentials provided'
   );
 
