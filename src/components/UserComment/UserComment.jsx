@@ -16,7 +16,7 @@ import FormatRelativeTime from '../../utils/FormatRelativeTime';
 
 
 const UserComment = (props) => {
- 
+
   const [displayMap, setDisplayMap] = useState(false);
   const { comment, locale } = props;
   const { hearing_data: data } = comment;

@@ -580,7 +580,7 @@ const Comment = (props) => {
         </div>
         {data.geojson && (
           <div className='hearing-comment__map'>
-            <Button onClick={toggleMap} className='hearing-comment__map-toggle' aria-expanded={state.displayMap}>
+            <Button onClick={toggleMap} className='hearing-comment__map-toggle' variant='supplementary' aria-expanded={state.displayMap}>
               <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
             </Button>
             {state.displayMap && data.geojson && (
