@@ -64,8 +64,7 @@ class CommentFormMap extends React.Component {
           url={this.props.mapTileUrl}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <FeatureGroup
-        >
+        <FeatureGroup>
           {this.props.contents !== null && <div>{this.props.contents}</div>}
           <EditControl
             position='topleft'
@@ -76,7 +75,7 @@ class CommentFormMap extends React.Component {
               circlemarker: false,
               polyline: false,
               polygon: allToolsEnabled,
-              rectangle: allToolsEnabled,
+              rectangle: { showArea: false },
               marker: {
                 icon: new Leaflet.Icon({
                   iconUrl: leafletMarkerIconUrl,
