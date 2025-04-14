@@ -184,19 +184,19 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    * @returns {Bool}
    */
   const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
-  
-  /* eslint-disable react-hooks/exhaustive-deps */  
+
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     getHearingMapContent(hearings);
     handleUpdateMapDimensions(mapContainer);
     // Add any other functions that should run on component mount or hearings change here
-  }, [hearings]); 
+  }, [hearings]);
 
   if (typeof window === 'undefined') return null;
   if (!contents && props.hideIfEmpty) {
     return null;
   }
-  
+
   return (
     shouldMapRender() && (
       <MapContainer

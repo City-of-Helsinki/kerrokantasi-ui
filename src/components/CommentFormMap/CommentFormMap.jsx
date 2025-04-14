@@ -75,7 +75,7 @@ class CommentFormMap extends React.Component {
               circlemarker: false,
               polyline: false,
               polygon: allToolsEnabled,
-              rectangle: { showArea: false },
+              rectangle: allToolsEnabled ? { showArea: false } : false,
               marker: {
                 icon: new Leaflet.Icon({
                   iconUrl: leafletMarkerIconUrl,
