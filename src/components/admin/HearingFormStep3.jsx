@@ -218,6 +218,7 @@ const HearingFormStep3 = (props) => {
     circle: false,
     circlemarker: false,
     polyline: false,
+    rectangle: { showArea: false },
     marker: {
       icon: new Leaflet.Icon({
         iconUrl: leafletMarkerIconUrl,
