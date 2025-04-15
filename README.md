@@ -8,7 +8,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-- Node v18 LTS (`nvm use`)
+- Node v22 LTS (`nvm use`)
 - Yarn
 - Docker
 
