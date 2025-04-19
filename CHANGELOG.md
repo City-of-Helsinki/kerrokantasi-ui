@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.9...kerrokantasi-ui-v1.11.0) (2025-04-19)
+
+
+### Features
+
+* Add login e2e test KEH-98 ([16839a0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/16839a021b5e55faf80662650ba9a95fd5801a66))
+* Generate e2e coverage report KEH-91 ([18a3b8d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/18a3b8def50cca9110d8e356c523cca260e59299))
+* Replace Webpack with Vite KER-404 ([bb6c6ca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bb6c6cad04127406505443a5a163e34b4d9aa295))
+* Upgrade to node v22 ([#1145](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1145)) ([4627e1f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4627e1f6f386f17b9d7f81479a2f8409f91f2243))
+
+
+### Bug Fixes
+
+* Leaflet-draw rectangle bug ([a55dcf2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a55dcf202b87b9cae5bc5e560dc26126eb1b5fa8))
+* Login test requires both env variables KEH-98 ([d1ff238](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d1ff238bf862d7419c45381d43e53f4c8c3deb3c))
+
+
+### Dependencies
+
+* Bump @vitest/coverage-istanbul to 2.1.9 ([6f97af5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6f97af5339b118a11c6b9b40fd1fa45a6e8781b4))
+* Bump vite from 5.4.10 to 5.4.17 ([#1142](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1142)) ([a446f57](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a446f57f84c18ed63bf51cbe34f5dcedd860854d))
+* Bump vite from 5.4.17 to 5.4.18 ([#1146](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1146)) ([d87bb01](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d87bb01652cc956092378028a4d748f2f651c85b))
+* Bump vitest from 2.1.4 to 2.1.9 ([7d1238b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7d1238b567996a7041f77cae2e1ccd9ee4007fe6))
+
 ## [1.10.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.8...kerrokantasi-ui-v1.10.9) (2025-04-07)
 
 
