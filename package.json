@@ -156,7 +156,7 @@
     "@vitest/coverage-istanbul": "^2.1.9",
     "husky": "^8.0.3",
     "istanbul-merge": "^2.0.0",
-    "jsdom": "^20.0.3",
+    "jsdom": "^26.1.0",
     "nyc": "^17.1.0",
     "playwright-test-coverage": "^1.2.12",
     "redux-mock-store": "^1.5.4"
