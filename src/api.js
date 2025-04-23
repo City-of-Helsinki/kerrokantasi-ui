@@ -62,7 +62,7 @@ export function apiCall(endpoint, params, options = {}) {
   const token = getApiTokenFromStorage();
   options = merge({ method: "GET", credentials: "include" }, options);
   const defaultHeaders = {
-    "Accept": "application/json"  // eslint-disable-line quote-props
+    "Accept": "application/json"
   };
   if (token) {
     defaultHeaders.Authorization = `Bearer ${token}`;
@@ -96,7 +96,6 @@ export function patch(endpoint, data, params = {}, options = {}) {
   return jsonRequest("PATCH", endpoint, data, params, options);
 }
 
-// eslint-disable-next-line default-param-last
 export function apiDelete(endpoint, params = {}, options = { method: "DELETE" }) {
   return apiCall(endpoint, params, options);
 }

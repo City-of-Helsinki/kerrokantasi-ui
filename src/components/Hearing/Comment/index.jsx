@@ -1,5 +1,6 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable sonarjs/pseudo-random */
+/* eslint-disable sonarjs/no-uniq-key */
+/* eslint-disable sonarjs/todo-tag */
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
@@ -166,7 +167,6 @@ const Comment = (props) => {
    * User moment to convert current timestamp to desired format.
    * @returns {String}
    */
-  // eslint-disable-next-line class-methods-use-this
   const parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY HH:mm');
 
   /**
@@ -212,7 +212,6 @@ const Comment = (props) => {
    * When a comment is pinned, a small black box is displayed on top right corner.
    * @returns {JS<Component>}
    */
-  // eslint-disable-next-line class-methods-use-this
   const renderPinnedHeader = () => (
     <div className='hearing-comment-pinned-container'>
       <FormattedMessage id='pinnedComment' />
@@ -458,7 +457,6 @@ const Comment = (props) => {
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
   const renderCommentText = () => {
     if (!data.deleted && !data.edited) {
       return <p>{nl2br(data.content)}</p>;
@@ -580,7 +578,12 @@ const Comment = (props) => {
         </div>
         {data.geojson && (
           <div className='hearing-comment__map'>
-            <Button onClick={toggleMap} className='hearing-comment__map-toggle' variant='supplementary' aria-expanded={state.displayMap}>
+            <Button
+              onClick={toggleMap}
+              className='hearing-comment__map-toggle'
+              variant='supplementary'
+              aria-expanded={state.displayMap}
+            >
               <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
             </Button>
             {state.displayMap && data.geojson && (

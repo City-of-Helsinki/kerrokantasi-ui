@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable sonarjs/no-duplicate-string */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -164,19 +162,11 @@ const SectionForm = ({
    */
   const onAttachmentChange = (files) => {
     const filesToDelete = attachments?.filter(
-      (item) =>
-        !files.some(
-          (newFile) =>
-            item.file.name === newFile.name && item.file.size === newFile.size
-        ),
+      (item) => !files.some((newFile) => item.file.name === newFile.name && item.file.size === newFile.size),
     );
 
     const filesToAdd = files.filter(
-      (newFile) =>
-        !attachments?.some(
-          (item) =>
-            newFile.name === item.file.name && newFile.size === item.file.size
-        ),
+      (newFile) => !attachments?.some((item) => newFile.name === item.file.name && newFile.size === item.file.size),
     );
 
     if (filesToDelete?.length) {
@@ -223,9 +213,9 @@ const SectionForm = ({
   const commentingOptions = [
     { value: 'open', label: formatMessage({ id: 'openCommenting' }) },
     { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
-    ...config.enableStrongAuth ? [{ value: 'strong', label: formatMessage({ id: 'registeredStrongOnly' }) }] : [],
+    ...(config.enableStrongAuth ? [{ value: 'strong', label: formatMessage({ id: 'registeredStrongOnly' }) }] : []),
     { value: 'none', label: formatMessage({ id: 'noCommenting' }) },
-  ];  
+  ];
 
   const commentingInitialValue = section.commenting
     ? commentingOptions.find((option) => option.value === section.commenting)
@@ -387,7 +377,7 @@ const SectionForm = ({
           accept={ACCEPTED_FILE_TYPES}
           language={language}
           onChange={onAttachmentChange}
-          defaultValue={attachments?.map(item => item.file) || []}
+          defaultValue={attachments?.map((item) => item.file) || []}
           maxSize={MAX_FILE_SIZE * 1024 * 1024}
           multiple
         />
@@ -405,7 +395,7 @@ const SectionForm = ({
       </div>
       {!isEmpty(section.questions) &&
         section.questions.map((question, index) => (
-          <div>
+          <div key={`${section.frontId}-${question.id}-${question.type}`}>
             <h5>{`${formatMessage({ id: 'question' })} ${index + 1}`}</h5>
             {question.frontId && (
               <Button

@@ -7,7 +7,6 @@ import renderWithProviders from '../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
   const {
-    labels,
     hearingLists: { allHearings },
     ...rest
   } = mockStore;

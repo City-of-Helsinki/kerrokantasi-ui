@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -19,7 +18,8 @@ const SubsectionList = ({ hearing, language, history }) => {
   const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
   const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
 
-  const bgImage = (section) => (!isEmpty(section.images) ? `url("${section.images[0].url}")` : `url("${defaultImage}")`);
+  const bgImage = (section) =>
+    !isEmpty(section.images) ? `url("${section.images[0].url}")` : `url("${defaultImage}")`;
 
   if (!subSections.length) {
     return null;

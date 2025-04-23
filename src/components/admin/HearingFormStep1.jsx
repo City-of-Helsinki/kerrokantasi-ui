@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -68,6 +66,9 @@ const HearingFormStep1 = ({
       await dispatch(fetchHearingEditorContactPersons());
       return true;
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+
       return false;
     }
   };
@@ -77,6 +78,9 @@ const HearingFormStep1 = ({
       await dispatch(saveContact(contact));
       return true;
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+
       return false;
     }
   };
@@ -210,7 +214,7 @@ const HearingFormStep1 = ({
             const contact = contactPersons.find((option) => option.id === item);
             if (!contact) return null;
             return (
-              <li className='hearing-contact'>
+              <li key={contact.id} className='hearing-contact'>
                 <ContactCard {...contact} />
                 <Button
                   className='kerrokantasi-btn'

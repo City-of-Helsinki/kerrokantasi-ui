@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import moment from 'moment';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';

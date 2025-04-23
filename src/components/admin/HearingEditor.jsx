@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
@@ -122,7 +121,7 @@ const HearingEditor = (props) => {
     const localErrors = validateHearingFn(hearing, hearingLanguages);
 
     // true if one of the keys in localErrors contain entries
-    // eslint-disable-next-line no-unused-vars
+
     setErrors(localErrors);
     const containsError = checkIfEmpty(localErrors);
     if (containsError) {

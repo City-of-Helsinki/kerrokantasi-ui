@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { createIntl } from 'react-intl';
 
 import commonInit from './src/commonInit';

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
 import '@testing-library/jest-dom/vitest';
 import { TextEncoder, TextDecoder } from 'util';
@@ -29,13 +28,11 @@ const cityConfig = getCityConfig(import.meta.env);
 const cityPublic = getCityPublic(import.meta.env, cityConfig);
 
 // Load generated runtime configuration to be available in tests
-// eslint-disable-next-line import/no-unresolved, import/no-dynamic-require
 require(`${cityPublic}/test-env-config`);
 
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
 // Needed for tests to work with react-slick, check https://github.com/akiran/react-slick#test-setup
-// eslint-disable-next-line func-names
 window.matchMedia = window.matchMedia || function () {
   return {
     matches: false,

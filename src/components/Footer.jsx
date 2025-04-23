@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -36,10 +35,34 @@ const Footer = (props) => {
       }}
     >
       <HDSFooter.Navigation>
-        <HDSFooter.Link label={<FormattedMessage id='hearingsHeaderText' />} to='/hearings/list' as={Link} onClick={scrollToFn} />
-        <HDSFooter.Link label={<FormattedMessage id='hearingMapHeaderText' />} to='/hearings/map' as={Link} onClick={scrollToFn} />
-        {userIsAdmin && <HDSFooter.Link label={<FormattedMessage id='ownHearings' />} to='/user-hearings' as={Link} onClick={scrollToFn} />}
-        {user && <HDSFooter.Link label={<FormattedMessage id='userInfo' />} to='/user-profile' as={Link} onClick={scrollToFn} />}
+        <HDSFooter.Link
+          label={<FormattedMessage id='hearingsHeaderText' />}
+          to='/hearings/list'
+          as={Link}
+          onClick={scrollToFn}
+        />
+        <HDSFooter.Link
+          label={<FormattedMessage id='hearingMapHeaderText' />}
+          to='/hearings/map'
+          as={Link}
+          onClick={scrollToFn}
+        />
+        {userIsAdmin && (
+          <HDSFooter.Link
+            label={<FormattedMessage id='ownHearings' />}
+            to='/user-hearings'
+            as={Link}
+            onClick={scrollToFn}
+          />
+        )}
+        {user && (
+          <HDSFooter.Link
+            label={<FormattedMessage id='userInfo' />}
+            to='/user-profile'
+            as={Link}
+            onClick={scrollToFn}
+          />
+        )}
       </HDSFooter.Navigation>
       <HDSFooter.Utilities>
         <HDSFooter.Link
@@ -87,7 +110,12 @@ const Footer = (props) => {
             onClick={scrollToFn}
           />
         )}
-        <HDSFooter.Link label={<FormattedMessage id='infoHeaderText' />} to={`/info?lang=${language}`} as={Link} onClick={scrollToFn} />
+        <HDSFooter.Link
+          label={<FormattedMessage id='infoHeaderText' />}
+          to={`/info?lang=${language}`}
+          as={Link}
+          onClick={scrollToFn}
+        />
       </HDSFooter.Base>
     </HDSFooter>
   );

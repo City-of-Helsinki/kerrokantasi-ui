@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/no-nested-functions */
 import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

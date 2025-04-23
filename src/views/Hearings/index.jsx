@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-// TODO: remove this disable once https://github.com/yannickcr/eslint-plugin-react/pull/1628 lands
-/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';

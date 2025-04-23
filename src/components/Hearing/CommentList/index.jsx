@@ -1,4 +1,5 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/pseudo-random */
+/* eslint-disable sonarjs/no-uniq-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';

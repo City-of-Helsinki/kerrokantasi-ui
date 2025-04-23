@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { Button, TextArea } from 'hds-react';

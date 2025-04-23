@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable sonarjs/no-duplicate-string */
 import {
   getApiTokenFromStorage,
   isApiTokenExpired,

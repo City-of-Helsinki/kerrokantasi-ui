@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/no-unused-class-component-methods */
 import React from 'react';
 import { Button, Dialog } from 'hds-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -97,6 +95,7 @@ class IframeModal extends React.Component {
 
   render() {
     const { isOpen, intl, onClose } = this.props;
+    // eslint-disable-next-line no-unused-vars
     const { inputErrors, ...fields } = this.state;
     const formName = 'iframe';
 

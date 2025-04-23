@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -125,7 +124,6 @@ const SortableCommentListComponent = ({
 
   useEffect(() => {
     if (sectionComments) {
-      // eslint-disable-next-line no-unused-vars
       const { isFetching, results } = sectionComments;
 
       setListState({

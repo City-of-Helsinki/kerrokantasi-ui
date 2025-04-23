@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
@@ -20,13 +19,18 @@ function NewHearingContainerComponent(props) {
   const { login } = useAuthHook();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogin = async () => {
     try {
       await login();
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'loginAttemptFailed')));
     }
   };
+
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = props;

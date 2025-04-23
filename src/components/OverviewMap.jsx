@@ -1,6 +1,7 @@
+/* eslint-disable sonarjs/todo-tag */
+/* eslint-disable sonarjs/pseudo-random */
+/* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable react/no-danger */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -17,7 +18,6 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) => {
   const { hearings, language } = props;
   const [contents, setContents] = useState(null);
@@ -60,7 +60,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
       );
     }
     return null;
-  }
+  };
 
   /**
    * Returns additional parameters for Markers.

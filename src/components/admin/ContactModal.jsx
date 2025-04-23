@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
 import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
 import { ControlLabel, HelpBlock } from 'react-bootstrap';
@@ -39,7 +37,7 @@ class ContactModal extends React.Component {
 
   componentDidMount() {
     const { contactInfo } = this.props;
-    const {titleLanguages} = this.state
+    const { titleLanguages } = this.state;
     this.setState({
       titleLanguages: { ...titleLanguages, fi: true },
       contact: {

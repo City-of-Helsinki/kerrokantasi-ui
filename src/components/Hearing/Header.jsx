@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/no-inverted-boolean-check */
 /* eslint-disable react/no-danger */
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
@@ -86,7 +85,6 @@ function HeaderComponent(props) {
     );
   };
 
-  // eslint-disable-next-line class-methods-use-this
   const getComments = (hearingItem, sectionsItem, section, userItem) => {
     const renderWriteCommentLink = () => {
       if (isSectionCommentable(hearingItem, section, userItem)) {
@@ -211,8 +209,6 @@ function HeaderComponent(props) {
     if (props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
       const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
-      // eslint-disable-next-line no-unused-vars
-      const differenceText = duration.asHours() < 24 ? 'eyeTooltipOpensHours' : 'eyeTooltipOpensDays';
 
       text = (
         <span>
@@ -225,7 +221,6 @@ function HeaderComponent(props) {
     return <Tooltip id='eye-tooltip'>{text}</Tooltip>;
   };
 
-  // eslint-disable-next-line class-methods-use-this
   const writeToClipboard = (url) => {
     navigator.clipboard
       .writeText(url)
@@ -277,11 +272,9 @@ function HeaderComponent(props) {
 
   const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections?.find((sec) => sec.id === sectionId) || mainSection;
-  const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE) ? (
-    getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
-  ) : (
-    intl.formatMessage({ id: 'defaultClosureInfo' })
-  );
+  const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE)
+    ? getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
+    : intl.formatMessage({ id: 'defaultClosureInfo' });
 
   return (
     <>
@@ -306,8 +299,7 @@ function HeaderComponent(props) {
                 <Col md={3}>
                   <SocialBar />
                 </Col>
-
-                )}
+              )}
             </Row>
             {isMainSection(section) ? (
               <>

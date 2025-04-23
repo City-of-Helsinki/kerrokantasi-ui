@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { createStore } from 'redux';
 
 import sections from '../hearingEditor/sections';

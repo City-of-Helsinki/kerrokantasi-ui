@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable sonarjs/todo-tag */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable global-require */
 /* eslint-disable import/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -147,6 +146,9 @@ const HearingFormStep3 = (props) => {
 
       reader.readAsText(file);
     } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
     }
   };
@@ -208,12 +210,14 @@ const HearingFormStep3 = (props) => {
         onHearingChange('geojson', parsedFile);
         setGeoJSON(parsedFile);
       } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+
         dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
       }
     });
   };
 
-  // eslint-disable-next-line class-methods-use-this
   const getDrawOptions = () => ({
     circle: false,
     circlemarker: false,

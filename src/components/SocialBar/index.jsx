@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/todo-tag */
 import React from 'react';
 
 import Twitter from './Twitter';

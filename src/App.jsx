@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -51,6 +50,9 @@ function App({ language, isHighContrast, history, ...props }) {
         dispatchSetOidcUser(oidcUser);
         dispatchEnrichUser();
       } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+
         logout();
       }
     }

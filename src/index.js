@@ -1,14 +1,11 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from '@sentry/react';
 /* eslint-disable import/no-unresolved */
-/* eslint-disable prefer-arrow-callback */
 import { createRoot } from 'react-dom/client'
 
 import getRoot from './getRoot';
 import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
-// eslint-disable-next-line import/no-unresolved
 import '@city-assets/sass/app.scss';
 import '@formatjs/intl-relativetimeformat/polyfill'
 import { beforeSend, beforeSendTransaction } from './utils/sentry';

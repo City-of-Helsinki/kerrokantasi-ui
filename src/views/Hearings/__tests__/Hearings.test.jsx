@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';

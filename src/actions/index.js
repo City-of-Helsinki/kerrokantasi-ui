@@ -1,8 +1,8 @@
+/* eslint-disable sonarjs/fixme-tag */
 /* eslint-disable sonarjs/no-extra-arguments */
 import { createAction } from 'redux-actions';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from '@sentry/react';
 
 import { createLocalizedAlert, createNotificationPayload, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
@@ -307,7 +307,6 @@ export function fetchAllSectionComments(hearingSlug, sectionId, ordering = '-n_v
 }
 
 export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   return (dispatch) => {
     const fetchAction = createAction("postingComment")({ hearingSlug, sectionId });
 

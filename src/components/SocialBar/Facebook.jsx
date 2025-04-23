@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable sonarjs/pseudo-random */
 import React, { createRef } from 'react';
 
 import loadScriptThenCall from './utils';

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/todo-tag */
 import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { omit } from 'lodash';

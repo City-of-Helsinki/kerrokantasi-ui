@@ -7,7 +7,7 @@ import SectionAttachment, { getFileTitle } from '../SectionAttachment';
 const props = {
   language: 'fi',
   file: {
-    url: 'http://mock.url',
+    url: 'https://mock.url',
     title: {
       fi: 'Title in finnish',
       en: 'Title in english',

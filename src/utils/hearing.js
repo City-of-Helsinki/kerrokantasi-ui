@@ -1,7 +1,6 @@
 import { get, find, merge, includes } from 'lodash';
 import moment from 'moment';
 
-// eslint-disable-next-line import/no-cycle
 import { initNewSection, SectionTypes, userCanComment } from './section';
 import initAttr from './initAttr';
 import getAttr from './getAttr';
@@ -144,7 +143,7 @@ export function getImageAsBase64Promise(image) {
 }
 
 export function getOpenGraphMetaData(hearing, language) {
-  let hostname = "http://kerrokantasi.hel.fi";
+  let hostname = "https://kerrokantasi.hel.fi";
   if (typeof HOSTNAME === 'string') {
     // eslint-disable-next-line no-undef
     hostname = HOSTNAME;

@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/todo-tag */
 // @flow
 import PropTypes from 'prop-types';
 import { schema } from 'normalizr';
