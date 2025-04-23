@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 

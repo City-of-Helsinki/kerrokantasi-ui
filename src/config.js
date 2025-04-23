@@ -14,7 +14,7 @@ const config = {
   openIdApiTokenUrl: window._env_.REACT_APP_OPENID_APITOKEN_URL,
   openIdScope: window._env_.REACT_APP_OPENID_SCOPE,
   heroImageURL: (window._env_.REACT_APP_HERO_IMAGE_URL)
-    || 'http://materialbank.myhelsinki.fi/detail/1192/download/7',
+    || 'https://materialbank.myhelsinki.fi/detail/1192/download/7',
   showAccessibilityInfo: window._env_.REACT_APP_SHOW_ACCESSIBILITY_INFO === 'true',
   showSocialMediaSharing: window._env_.REACT_APP_SHOW_SOCIAL_MEDIA_SHARING === 'true',
   enableCookies: window._env_.REACT_APP_ENABLE_COOKIES === 'true',

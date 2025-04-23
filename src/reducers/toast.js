@@ -2,7 +2,6 @@ import { ADD_TOAST, REMOVE_TOAST } from '../actions/toast';
 
 const INITIAL_STATE = [];
 
-/* eslint-disable-next-line default-param-last */
 const toastReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_TOAST:

@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -38,7 +38,6 @@ const MapQuestionnaire = ({
   pluginInstanceId,
   pluginPurpose,
   pluginSource,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const {
     answers,
@@ -144,7 +143,6 @@ const MapQuestionnaire = ({
    *
    * @returns {void}
    */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, 'maintenanceNotificationText')));

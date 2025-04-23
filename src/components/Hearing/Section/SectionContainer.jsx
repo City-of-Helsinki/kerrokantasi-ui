@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable sonarjs/no-inverted-boolean-check */
 /* eslint-disable react/no-danger */
 import React, { useState } from 'react';
 import get from 'lodash/get';
@@ -63,7 +63,6 @@ const SectionContainerComponent = ({
   postFlagFn,
   postVoteFn,
   user,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(
     typeof window !== 'undefined' && window.innerWidth >= 768,
@@ -368,7 +367,7 @@ const SectionContainerComponent = ({
             <div className='section-content-spacer'>
               <div className='hearing-contacts'>
                 {renderContactlist.map((person) => (
-                  <div className='hearing-contact'>
+                  <div className='hearing-contact' key={person.id}>
                     <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
                   </div>
                 ))}

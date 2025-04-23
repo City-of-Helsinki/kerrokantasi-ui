@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
 import React from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
@@ -68,7 +66,7 @@ class LabelModal extends React.Component {
     const labelLanguages = this.constructor.initializeLanguages();
     this.setState({
       label: {
-          label: {},
+        label: {},
       },
       labelLanguages,
     });

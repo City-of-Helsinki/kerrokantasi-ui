@@ -3,7 +3,6 @@ import identity from 'lodash/identity';
 import { thunk } from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { compose, createStore, applyMiddleware } from 'redux';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Sentry from "@sentry/react";
 
 import headlessMiddleware from './middleware/headless';

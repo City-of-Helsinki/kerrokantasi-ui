@@ -11,9 +11,8 @@ import HearingFormControl from './HearingFormControl';
 const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHearingCreator, changeSort }) => (
   <>
     <div className='col-md-12 tool-buttons'>
-
       <Link to={{ path: '/hearing/new' }}>
-        <Button className="kerrokantasi-btn success">
+        <Button className='kerrokantasi-btn success'>
           <Icon name='plus' aria-hidden />
           &nbsp;&nbsp;
           <FormattedMessage id='createHearing' />
@@ -24,7 +23,7 @@ const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHear
         aria-expanded={openTools}
         aria-haspopup='true'
         onClick={() => toggleDropdown()}
-        className="kerrokantasi-btn gear"
+        className='kerrokantasi-btn gear'
       >
         <Icon className={classNames({ active: openTools })} name='gear' size='2x' aria-hidden />
       </Button>
@@ -33,7 +32,6 @@ const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHear
       <div className='tool-content'>
         <HearingFormControl changeSort={changeSort} formatMessage={formatMessage} />
         <div className='hearing-radio'>
-          {/* eslint-disable-next-line jsx-a11y/label-has-for */}
           <label id='show'>{formatMessage({ id: 'show' })}</label>
           <form>
             <div>

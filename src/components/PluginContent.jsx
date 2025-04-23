@@ -1,5 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable camelcase */
+/* eslint-disable sonarjs/no-inverted-boolean-check */
 /**
  * Created by riku on 11.5.2017.
  */

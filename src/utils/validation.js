@@ -1,7 +1,14 @@
 import { isEmpty } from "lodash";
 
 export function isUrl(string) {
-  try { return Boolean(new URL(string)); } catch (error) { return false; }
+  try {
+    return Boolean(new URL(string));
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+
+    return false;
+  }
 }
 
 const validateFunction = {

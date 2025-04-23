@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { screen, within } from '@testing-library/react';

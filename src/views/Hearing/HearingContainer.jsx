@@ -1,6 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/forbid-prop-types */
-
 import React, { useCallback, useEffect, Suspense, lazy, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
@@ -21,7 +18,6 @@ import { canEdit } from '../../utils/hearing';
 import LoadSpinner from '../../components/LoadSpinner';
 import Header from '../../components/Hearing/Header';
 import Section from '../../components/Hearing/Section/SectionContainer';
-
 
 const HearingEditor = lazy(() => import('../../components/admin/HearingEditor'));
 
@@ -52,7 +48,7 @@ const HearingContainerComponent = ({
         // regex match to get the ?preview=key and substring to retrieve the key part
         fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9)).then(() => {
           setShouldFetch(false);
-        })
+        });
       } else {
         fetchHearing(hearingSlug).then(() => {
           setShouldFetch(false);
@@ -96,7 +92,7 @@ const HearingContainerComponent = ({
     { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
     { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
   ];
-  
+
   if (hearing?.main_image?.url) {
     helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
   }
@@ -109,7 +105,7 @@ const HearingContainerComponent = ({
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
               <HearingEditor
-                data-testid="hearingEditor"
+                data-testid='hearingEditor'
                 hearing={hearingDraft}
                 hearingLanguages={hearingLanguages}
                 labels={labels}
@@ -129,10 +125,8 @@ const HearingContainerComponent = ({
           </div>
         </>
       ) : (
-        shouldFetch && (
-          <LoadSpinner />
-        ) || (
-          <h1 style={{textAlign: 'center'}}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>
+        (shouldFetch && <LoadSpinner />) || (
+          <h1 style={{ textAlign: 'center' }}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>
         )
       )}
     </div>

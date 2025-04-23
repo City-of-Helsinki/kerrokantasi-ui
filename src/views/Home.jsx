@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
@@ -119,8 +118,8 @@ export class Home extends React.Component {
                 />
                 <p className='text-center'>
                   <Link to={{ path: '/hearings/list' }}>
-                    <Button className="kerrokantasi-btn">
-                        <FormattedMessage id='allHearings' />
+                    <Button className='kerrokantasi-btn'>
+                      <FormattedMessage id='allHearings' />
                     </Button>
                   </Link>
                 </p>

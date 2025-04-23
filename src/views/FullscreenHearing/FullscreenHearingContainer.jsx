@@ -44,7 +44,6 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   }, []);
 
   const onPostComment = (comment) => {
-    // eslint-disable-next-line no-shadow
     const { mainSection } = ownProps;
     const { hearingSlug } = params;
     const { authCode } = parseQuery(location.search);
@@ -53,7 +52,6 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   };
 
   const onVoteComment = (commentId) => {
-    // eslint-disable-next-line no-shadow
     const { mainSection } = ownProps;
     const { hearingSlug } = params;
     const sectionId = mainSection.id;
@@ -92,7 +90,6 @@ const FullscreenHearingContainerComponent = (ownProps) => {
           <div className='plugin-content'>
             <PluginContent
               hearingSlug={params.hearingSlug}
-              // eslint-disable-next-line no-undef
               fetchAllComments={fetchAllComments}
               section={mainSection}
               comments={mainSectionComments}

@@ -1,6 +1,9 @@
+/* eslint-disable sonarjs/todo-tag */
+/* eslint-disable sonarjs/pseudo-random */
+/* eslint-disable sonarjs/no-uniq-key */
 import React from 'react';
 import L, { LatLng } from 'leaflet';
-import { Polygon, GeoJSON, Marker, Polyline } from 'react-leaflet'; 
+import { Polygon, GeoJSON, Marker, Polyline } from 'react-leaflet';
 
 import 'proj4'; // import required for side effect
 import 'proj4leaflet'; // import required for side effect
@@ -53,7 +56,7 @@ export function getMapElement(geojson) {
   if (!geojson || !geojson.type) {
     return null;
   }
-  
+
   switch (geojson.type) {
     case 'Polygon': {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon

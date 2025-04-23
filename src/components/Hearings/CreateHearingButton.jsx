@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -12,7 +11,7 @@ const CreateHearingButton = ({ to }) => (
   <div className='toolbar-bottom create-hearing-button-container'>
     <ButtonToolbar className='actions pull-right'>
       <Link to={to}>
-        <Button className="kerrokantasi-btn success">
+        <Button className='kerrokantasi-btn success'>
           <Icon name='plus' />
           &nbsp;&nbsp;
           <FormattedMessage id='createHearing' />

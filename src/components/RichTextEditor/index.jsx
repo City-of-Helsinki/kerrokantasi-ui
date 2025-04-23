@@ -1,5 +1,6 @@
+/* eslint-disable sonarjs/single-char-in-character-classes */
+/* eslint-disable sonarjs/concise-regex */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/forbid-prop-types */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -156,7 +157,6 @@ class RichTextEditor extends React.Component {
     this.editorRef = createRef();
     this.urlRef = createRef();
 
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     const createEditorState = () => {
       if (this.props.value) {
         const contentState = convertFromHTML({
@@ -180,12 +180,8 @@ class RichTextEditor extends React.Component {
               const hrefAttribute = node.attributes.getNamedItem('href');
               const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
               const target =
-                href &&
-                (href[0] === '#' ||
-                  // eslint-disable-next-line no-script-url
-                  href.includes('javascript:document.getElementById'))
-                  ? '_self'
-                  : '_blank';
+                // eslint-disable-next-line sonarjs/code-eval
+                href && (href[0] === '#' || href.includes('javascript:document.getElementById')) ? '_self' : '_blank';
               return createEntity('LINK', 'MUTABLE', {
                 url: href,
                 target,
@@ -321,12 +317,11 @@ class RichTextEditor extends React.Component {
     return '';
   }
 
-  // eslint-disable-next-line class-methods-use-this
   myKeyBindingFn(e) {
     if (e.keyCode === 9) {
       return 'custom-tab';
     }
-    // eslint-disable-next-line no-undef
+
     return getDefaultKeyBinding(e);
   }
 

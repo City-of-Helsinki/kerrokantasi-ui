@@ -1,8 +1,5 @@
 /* eslint-disable react/no-children-prop */
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
-/* eslint-disable react/no-danger */
-/* eslint-disable global-require */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Col from 'react-bootstrap/lib/Col';

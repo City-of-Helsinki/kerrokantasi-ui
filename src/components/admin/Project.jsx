@@ -106,7 +106,6 @@ const Project = ({
 
 Project.propTypes = {
   project: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
     phases: PropTypes.arrayOf(PropTypes.object),
     title: PropTypes.shape({
       en: PropTypes.string,

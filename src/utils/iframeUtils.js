@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import { camelCase } from 'lodash';
 
 import getMessage from './getMessage';

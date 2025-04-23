@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -41,10 +40,10 @@ const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer 
           };
 
           if (question.type === 'single-choice') {
-            return <RadioButton {...props} />;
+            return <RadioButton key={`${question.id}-${question.type}`} {...props} />;
           }
 
-          return <Checkbox {...props} />;
+          return <Checkbox key={`${question.id}-${question.type}`} {...props} />;
         })}
       {!canAnswer && <FormattedMessage id='logInToAnswer' />}
     </Fieldset>

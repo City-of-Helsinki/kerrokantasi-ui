@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow-callback */
 // Init to be run both on server and client
 import noop from 'lodash/noop';
 

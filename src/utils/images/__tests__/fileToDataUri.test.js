@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 import fileToDataUri from '../fileToDataUri';
 
 describe('fileToDataUri', () => {

@@ -1,6 +1,5 @@
 import { getCookieScripts } from '../cookieUtils';
 import { getCookieBotScripts } from '../cookiebotUtils';
-// eslint-disable-next-line no-unused-vars
 import config from '../../config';
 
 const mockIsCookiebotEnabled = vi.fn();

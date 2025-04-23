@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap';
@@ -14,9 +13,7 @@ import getMessage from '../../utils/getMessage';
 import getAttr from '../../utils/getAttr';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 
-
 const UserComment = (props) => {
-
   const [displayMap, setDisplayMap] = useState(false);
   const { comment, locale } = props;
   const { hearing_data: data } = comment;
@@ -31,7 +28,6 @@ const UserComment = (props) => {
    * @example "2021-06-12T22:37:00Z" returned as "12.06.2021 22:37"
    * @returns {string}
    */
-  // eslint-disable-next-line class-methods-use-this
   const parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY HH:mm');
 
   /**
@@ -41,7 +37,6 @@ const UserComment = (props) => {
    */
   const dateTooltip = (date) => <Tooltip id='comment-date-tooltip'>{parseTimestamp(date)}</Tooltip>;
 
-  // eslint-disable-next-line class-methods-use-this
   const renderCommentText = () => {
     if (!comment.deleted) {
       return <p>{nl2br(comment.content)}</p>;
@@ -128,11 +123,7 @@ const UserComment = (props) => {
         </div>
         {comment.geojson && (
           <div className='hearing-comment__map'>
-            <Button
-              onClick={toggleMap}
-              className='hearing-comment__map-toggle'
-              aria-expanded={displayMap}
-            >
+            <Button onClick={toggleMap} className='hearing-comment__map-toggle' aria-expanded={displayMap}>
               <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
             </Button>
             {displayMap && comment.geojson && (
@@ -147,7 +138,7 @@ const UserComment = (props) => {
       </div>
     </div>
   );
-}
+};
 
 UserComment.propTypes = {
   comment: PropTypes.object,

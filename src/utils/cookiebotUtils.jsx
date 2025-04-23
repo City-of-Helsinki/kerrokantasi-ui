@@ -1,11 +1,9 @@
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable import/no-unresolved */
 
 import React from 'react';
 import urls from '@city-assets/urls.json';
 
 import config from '../config';
-
 
 /**
  * Returns whether Cookiebot is enabled and should be used or not.
@@ -22,7 +20,6 @@ export function isCookiebotEnabled() {
 export function cookieBotImageOverride() {
   document.getElementById('CybotCookiebotDialogPoweredbyImage').src = '';
 }
-
 
 /**
  * Add event listener that overrides the image served by cookiebot.
@@ -49,13 +46,12 @@ export function cookieBotRemoveListener() {
 export function getCookieBotConsentScripts() {
   return (
     <script
-      data-blockingmode="auto"
+      data-blockingmode='auto'
       data-cbid={config.cookiebotDataCbid}
-      id="Cookiebot"
-      src="https://consent.cookiebot.com/uc.js"
-      type="text/javascript"
-    >
-    </script>
+      id='Cookiebot'
+      src='https://consent.cookiebot.com/uc.js'
+      type='text/javascript'
+    ></script>
   );
 }
 
@@ -64,16 +60,8 @@ export function getCookieBotConsentScripts() {
  * @returns {JSX.Element} script element
  */
 export function getCookieBotScripts() {
-  return (
-    <script
-      data-cookieconsent="statistics"
-      src={urls.analytics}
-      type="text/plain"
-    >
-    </script>
-  );
+  return <script data-cookieconsent='statistics' src={urls.analytics} type='text/plain'></script>;
 }
-
 
 export default {
   cookieBotAddListener,

@@ -1,5 +1,5 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable sonarjs/pseudo-random */
+/* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -175,7 +175,6 @@ const BaseCommentForm = ({
     });
   };
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
       dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));

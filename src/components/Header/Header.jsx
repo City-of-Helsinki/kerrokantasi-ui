@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
