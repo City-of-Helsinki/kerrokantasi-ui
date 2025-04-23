@@ -34,7 +34,7 @@ COPY --chown=default:root ./assets /app/assets
 RUN yarn config set network-timeout 300000
 RUN yarn && yarn cache clean --force
 
-COPY --chown=default:root index.html vite.config.mjs .eslintrc.json .eslintignore .prettierrc .env* /app/
+COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* /app/
 COPY --chown=default:root ./src /app/src
 
 # =============================
