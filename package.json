@@ -162,6 +162,7 @@
     "redux-mock-store": "^1.5.4"
   },
   "resolutions": {
+    "cross-spawn": "^7.0.6",
     "rollup": "^4.24.4"
   },
   "snyk": true
