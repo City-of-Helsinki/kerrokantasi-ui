@@ -37,7 +37,7 @@
     "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
   },
   "dependencies": {
-    "@babel/core": "^7.22.1",
+    "@babel/core": "^7.26.10",
     "@babel/eslint-parser": "^7.27.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
@@ -162,6 +162,7 @@
     "redux-mock-store": "^1.5.4"
   },
   "resolutions": {
+    "@babel/helpers": "^7.27.0",
     "cross-spawn": "^7.0.6",
     "rollup": "^4.24.4"
   },
