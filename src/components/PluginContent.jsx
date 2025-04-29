@@ -40,6 +40,7 @@ export default class PluginContent extends React.Component {
     if (typeof window === 'undefined' || !section.plugin_identifier) {
       return null;
     }
+
     switch (section.plugin_identifier) {
       // reserved word for legacy plugin
       case 'mapdon-hkr':

@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import pluginMap from './shared_config.json';
+import sharedConfig from './shared_config.json';
 
 const config = {
-  pluginMap,
+  pluginMap: sharedConfig.pluginMap,
   languages: ['fi', 'sv', 'en'],
   activeLanguage: 'fi',
   apiBaseUrl: window._env_.REACT_APP_KERROKANTASI_API_BASE,
