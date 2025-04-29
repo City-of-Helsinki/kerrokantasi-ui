@@ -9,7 +9,7 @@ import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import { connect, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
 import DeleteModal from '../../DeleteModal';
@@ -73,6 +73,7 @@ const SectionContainerComponent = ({
 
   const { hearingSlug, sectionId } = useParams();
   const { search } = useLocation();
+  const navigate = useNavigate();
 
   const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
   const sections = useSelector((state) => getSections(state, hearingSlug));
@@ -548,12 +549,13 @@ const SectionContainerComponent = ({
                 user={user}
               />
               {hasFullscreenMapPlugin(hearing) && (
-                <Button>
-                  <Link to={{ path: getHearingURL(hearing, { fullscreen: true }) }}>
-                    <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
-                    &nbsp;
-                    <FormattedMessage id='openFullscreenMap' />
-                  </Link>
+                <Button
+                  className='kerrokantasi-btn'
+                  onClick={() => navigate({ pathname: getHearingURL(hearing, { fullscreen: true }) })}
+                >
+                  <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
+                  &nbsp;
+                  <FormattedMessage id='openFullscreenMap' />
                 </Button>
               )}
             </section>
