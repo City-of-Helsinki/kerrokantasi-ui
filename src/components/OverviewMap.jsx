@@ -9,8 +9,8 @@ import Leaflet, { LatLng } from 'leaflet';
 import { Polygon, Marker, MapContainer, Polyline, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
 import { connect } from 'react-redux';
 import localization from '@city-i18n/localization.json';
-import urls from '@city-assets/urls.json';
 
+import config from '../config';
 import { getHearingURL } from '../utils/hearing';
 import getAttr from '../utils/getAttr';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
@@ -209,8 +209,8 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
       >
         <TileLayer
           url={getCorrectContrastMapTileUrl(
-            urls.rasterMapTiles,
-            urls.highContrastRasterMapTiles,
+            config.rasterMapTiles,
+            config.highContrastRasterMapTiles,
             props.isHighContrast,
             language,
           )}

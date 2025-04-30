@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import { connect, useDispatch } from 'react-redux';
 import { get, includes } from 'lodash';
 import { Polygon, GeoJSON, Polyline, Circle } from 'react-leaflet';
-import urls from '@city-assets/urls.json';
 import localization from '@city-i18n/localization.json';
 import Leaflet, { LatLng } from 'leaflet';
 
@@ -474,7 +473,7 @@ const BaseCommentForm = ({
   };
 
   const getMapContrastTiles = () =>
-    getCorrectContrastMapTileUrl(urls.rasterMapTiles, urls.highContrastRasterMapTiles, isHighContrast, language);
+    getCorrectContrastMapTileUrl(config.rasterMapTiles, config.highContrastRasterMapTiles, isHighContrast, language);
 
   if (!overrideCollapse && formSettings.collapsed) {
     return (
