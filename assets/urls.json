@@ -8,7 +8,6 @@
   "feedbackEN": "https://www.example.fi/en",
   "feedbackFI": "https://www.example.fi/fi",
   "feedbackSV": "https://www.example.fi/sv",
-  "rasterMapTiles": "http://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
   "city": "http://www.google.fi",
   "analytics": false
 }

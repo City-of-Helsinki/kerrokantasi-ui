@@ -9,10 +9,10 @@ import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
 import { connect, useDispatch } from 'react-redux';
 import localization from '@city-i18n/localization.json';
-import urls from '@city-assets/urls.json';
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
+import config from '../../config';
 import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
@@ -262,8 +262,8 @@ const HearingFormStep3 = (props) => {
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url={getCorrectContrastMapTileUrl(
-              urls.rasterMapTiles,
-              urls.highContrastRasterMapTiles,
+              config.rasterMapTiles,
+              config.highContrastRasterMapTiles,
               isHighContrast,
               language,
             )}
