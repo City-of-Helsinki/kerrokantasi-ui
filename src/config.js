@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import pluginMap from './shared_config.json';
+import sharedConfig from './shared_config.json';
 
 const config = {
-  pluginMap,
+  pluginMap: sharedConfig.pluginMap,
   languages: ['fi', 'sv', 'en'],
   activeLanguage: 'fi',
   apiBaseUrl: window._env_.REACT_APP_KERROKANTASI_API_BASE,
@@ -31,6 +31,8 @@ const config = {
   maintenanceShowNotification: window._env_.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true',
   maintenanceDisableLogin: window._env_.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true',
   maintenanceDisableComments: window._env_.REACT_APP_MAINTENANCE_DISABLE_COMMENTS === 'true',
+  rasterMapTiles: window._env_.REACT_APP_RASTER_MAP_TILES,
+  highContrastRasterMapTiles: window._env_.REACT_APP_HIGH_CONTRAST_RASTER_MAP_TILES,
 };
 
 export default config;

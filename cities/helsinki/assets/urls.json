@@ -9,8 +9,6 @@
   "feedbackEN": "https://palautteet.hel.fi/en",
   "feedbackFI": "https://palautteet.hel.fi/fi",
   "feedbackSV": "https://palautteet.hel.fi/sv",
-  "rasterMapTiles": "https://tiles.hel.ninja/styles/hel-osm-bright/{z}/{x}/{y}@2x.png",
-  "highContrastRasterMapTiles": "https://tiles.hel.ninja/styles/turku-osm-high-contrast-pattern/{z}/{x}/{y}@2x.png",
   "city": "http://www.hel.fi",
   "analytics": "/assets/js/piwik.js"
 }
