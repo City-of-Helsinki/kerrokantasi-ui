@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.11.0...kerrokantasi-ui-v1.11.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* Login test skip if missing credentials ([fc2709c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fc2709c5f737ada10eb5627be5b44520e4b24abd))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.9...kerrokantasi-ui-v1.11.0) (2025-05-12)
 
 
