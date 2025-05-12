@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.9...kerrokantasi-ui-v1.11.0) (2025-05-12)
+
+
+### Features
+
+* Add configurable tile server urls ([c8e9644](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c8e9644ad648fd3ac1e9a2844ac60bf672deacef))
+* Add login e2e test KEH-98 ([16839a0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/16839a021b5e55faf80662650ba9a95fd5801a66))
+* Generate e2e coverage report KEH-91 ([18a3b8d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/18a3b8def50cca9110d8e356c523cca260e59299))
+* Replace Webpack with Vite KER-404 ([bb6c6ca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bb6c6cad04127406505443a5a163e34b4d9aa295))
+* Upgrade to node v22 ([#1145](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1145)) ([4627e1f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4627e1f6f386f17b9d7f81479a2f8409f91f2243))
+
+
+### Bug Fixes
+
+* Leaflet-draw rectangle bug ([a55dcf2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a55dcf202b87b9cae5bc5e560dc26126eb1b5fa8))
+* Login test requires both env variables KEH-98 ([d1ff238](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d1ff238bf862d7419c45381d43e53f4c8c3deb3c))
+* Map plugin content KER-404 ([c4b60ed](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c4b60ed9b4df7eafe67c59f803bf0bfd6fe99667))
+
+
+### Dependencies
+
+* @babel/helpers to 7.27.0 KER-404 ([#1148](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1148)) ([427c497](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/427c497b48e3ecd4e3bbe8bd3e019a5e89c58d70))
+* Bump @vitest/coverage-istanbul to 2.1.9 ([6f97af5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6f97af5339b118a11c6b9b40fd1fa45a6e8781b4))
+* Bump micromatch to 4.0.8 KER-404 ([#1149](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1149)) ([b9b166b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b9b166b9c36f24c21ae6dc919c82380e699a0c97))
+* Bump vite from 5.4.10 to 5.4.17 ([#1142](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1142)) ([a446f57](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a446f57f84c18ed63bf51cbe34f5dcedd860854d))
+* Bump vite from 5.4.17 to 5.4.18 ([#1146](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1146)) ([d87bb01](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d87bb01652cc956092378028a4d748f2f651c85b))
+* Bump vitest from 2.1.4 to 2.1.9 ([7d1238b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7d1238b567996a7041f77cae2e1ccd9ee4007fe6))
+* Remove cross-env KER-404 ([1f33dda](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1f33ddae3c5a83cb51ee87f7154644a6189c16ad))
+* Set cross-spawn resolution 7.0.6 KER-404 ([0d9566a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0d9566aede29173b2b3c6121e925ac36fbd99f43))
+* Upgrade commitlint to 19.8.0 KER-404 ([1d79b75](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1d79b75a7660c47c7d3e4ef0cdabe123a0f384d9))
+* Upgrade eslint to 9.25.1 KER-404 ([e027219](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e0272195c85d45ba0ba77489b82444b19c56e5e4))
+* Upgrade jsdom to 26.1.0 ([eaf2848](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/eaf284899b1a215d2e8a8c736b3f8a5df8a16427))
+
 ## [1.10.9](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.10.8...kerrokantasi-ui-v1.10.9) (2025-04-07)
 
 
