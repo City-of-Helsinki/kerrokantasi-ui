@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from 'playwright-test-coverage';
 
 import { TEST_USER_EMAIL, TEST_USER_PASSWORD } from '../constants';
 import { login } from '../utils';
 
 test('Login', async ({ page }) => {
   test.skip(
-    !TEST_USER_EMAIL && !TEST_USER_PASSWORD,
+    TEST_USER_EMAIL !== '' && TEST_USER_PASSWORD !== '',
     'No test user credentials provided'
   );
 
