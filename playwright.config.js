@@ -6,6 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e/tests',
+  testIgnore: '**\/pages/**',
 
   // Timeout for each test in milliseconds
   timeout: 60 * 1000,
@@ -18,6 +19,8 @@ export default defineConfig({
 
   // The maximum number of retry attempts given to failed tests
   retries: process.env.CI ? 1 : 0,
+
+  workers: 2,
 
   // Reporter to use. See https://playwright.dev/docs/test-reporters
   reporter: [
@@ -43,8 +46,7 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     // https://playwright.dev/docs/videos
-    video: 'on-first-retry',
-    contextOptions: { recordVideo: { dir: './report/videos/' } },
+    video: 'retain-on-failure',
   },
   projects: [
     {

@@ -1,0 +1,172 @@
+{
+  "title": {
+    "fi": "FluxHaven — Kausittain siirtyvä kaupunki",
+    "sv": "FluxHaven — Den säsongsmässigt skiftande staden",
+    "en": "FluxHaven — The Seasonally-Shifting City"
+  },
+  "slug": "fluxhaven-seasonal-city",
+  "labels": [1, 2, 3],
+  "contact_persons": [1],
+  "organization": "FluxHaven Development Authority",
+  "sections": [
+    {
+      "type": "main",
+      "title": {
+        "fi": "FluxHaven konsepti",
+        "sv": "FluxHaven koncept",
+        "en": "FluxHaven Concept"
+      },
+      "abstract": {
+        "fi": "FluxHaven on rannikkokaupunki, jonka kaupunginosat siirtyvät fyysisesti vuodenaikojen mukana amfibisten, magneettisesti linkitettyjen proomujen ketjussa.",
+        "sv": "FluxHaven är en kustmetropol vars stadsdelar fysiskt migrerar med årstiderna på en kedja av amfibiska, magnetiskt länkade pråmar.",
+        "en": "FluxHaven is a coastal metropolis whose neighbourhoods physically migrate with the seasons on a chain of amphibious, magnetically-linked barges."
+      },
+      "content": {
+        "fi": "FluxHaven on rannikkokaupunki, jonka kaupunginosat siirtyvät fyysisesti vuodenaikojen mukana amfibisten, magneettisesti linkitettyjen proomujen ketjussa. Kesällä useimmat alueet ajelehtivat 20 km rantaviivasta viilentävään merituuleen; talvella ne \"palaavat\" ja kiinnittyvät suojaiseen jokisuistoon. Asukkaat asuvat kirjaimellisesti samoissa kodeissa ympäri vuoden, mutta heidän maantieteellinen kontekstinsa - näkymät, mikroilmasto, jopa naapurialueet - muuttuu ennakoitavalla vuosittaisella kierrolla.\n\nAvainteknologiat:\n- Magneettilevi-kiinnitysjärjestelmä\n- Holografiset vyöhykkeet\n- Vuorovesi-aurinkoenergia hybridisähköverkko\n- Pölyttäjien ilmareitit\n- Kiertävät vesisilmukat\n\nSosiaaliset ja kulttuuriset vaikutukset:\n- Kalenteriin sidottu naapurusto-identiteetti\n- Kaksi kunnallista päämajaa\n- Festivaalipohjainen logistiikka\n\nMerkitys:\n- Ilmastokestävyys\n- Maankäytön tasa-arvo\n- Uusi kaupunkimielikuvitus",
+        "sv": "FluxHaven är en kustmetropol vars stadsdelar fysiskt migrerar med årstiderna på en kedja av amfibiska, magnetiskt länkade pråmar. På sommaren driver de flesta distrikt 20 km utanför kusten i den svalkande havsvinden; på vintern \"återvänder\" de och lägger till längs det skyddade floddeltat. Invånarna bor bokstavligen i samma hem året runt, men deras geografiska kontext – vyer, mikroklimat, till och med angränsande distrikt – förändras i en förutsägbar årlig cykel.\n\nNyckelteknologier:\n- Magnetiska förtöjningar\n- Holografisk zonindelning\n- Tidvatten-sol hybridnät\n- Pollinatörskorridorer\n- Cirkulära vattensystem\n\nSociala och kulturella effekter:\n- Kalendarisk grannskapsidentitet\n- Dubbla kommunala stadshus\n- Festivalbaserad logistik\n\nVarför det är viktigt:\n- Klimatmotståndskraft\n- Markrättvisa\n- Urban fantasi",
+        "en": "FluxHaven is a coastal metropolis whose neighbourhoods physically migrate with the seasons on a chain of amphibious, magnetically-linked barges. In summer, most districts drift 20 km offshore into the cooling sea breeze; in winter, they \"return\" and berth along the sheltered river delta. Residents literally live in the same homes year-round, but their geographic context—views, micro-climate, even neighbouring districts—changes on a predictable annual cycle.\n\nKey technologies:\n- Mag-Rail Moorings\n- Holographic Zoning\n- Tidal–Solar Hybrid Grid\n- Pollinator Skyways\n- Circular Water Loops\n\nSocial & cultural effects:\n- Calendrical neighbourhood identity\n- Twin municipal charters\n- Festival-based logistics\n\nWhy it matters:\n- Climate resilience\n- Land equity reset\n- Urban imagination"
+      },
+      "voting": "registered",
+      "commenting": "open",
+      "commenting_map_tools": "none",
+      "images": [],
+      "files": [],
+      "questions": [
+        {
+          "type": "multiple-choice",
+          "text": {
+            "fi": "Mikä FluxHavenin ominaisuus on mielestäsi kiinnostavin?",
+            "sv": "Vilken egenskap hos FluxHaven tycker du är mest intressant?",
+            "en": "Which feature of FluxHaven do you find most interesting?"
+          },
+          "options": [
+            {
+              "text": {
+                "fi": "Liikkuvat kaupunginosat",
+                "sv": "Rörliga stadsdelar",
+                "en": "Moving neighborhoods"
+              }
+            },
+            {
+              "text": {
+                "fi": "Ympäristöystävälliset ratkaisut",
+                "sv": "Miljövänliga lösningar",
+                "en": "Environmental solutions"
+              }
+            },
+            {
+              "text": {
+                "fi": "Yhteisöllisyys ja sosiaaliset innovaatiot",
+                "sv": "Gemenskap och sociala innovationer",
+                "en": "Community and social innovations"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "part",
+      "title": {
+        "fi": "Teknologiset järjestelmät",
+        "sv": "Teknologiska system",
+        "en": "Technological Systems"
+      },
+      "abstract": {
+        "fi": "FluxHavenin innovatiiviset teknologiset järjestelmät mahdollistavat kaupungin liikkumisen ja kestävän toiminnan.",
+        "sv": "FluxHavens innovativa teknologiska system möjliggör stadens rörlighet och hållbara drift.",
+        "en": "FluxHaven's innovative technological systems enable the city's movement and sustainable operation."
+      },
+      "content": {
+        "fi": "**Magneettilevi-kiinnitysjärjestelmä**: Proomut kiinnittyvät vedenalaiseen magneettileijuntarataan, liukuen 10 km/h nopeudella kahden päiväntasauspäivän \"muuttofestivaalin\" aikana. Kokonaiset kaupunkikorttelit siirtyvät lähes nollaenergialla, luoden maailman ensimmäisen ilmastoon sopeutuvan kaupunkirakenteen.\n\n**Holografiset vyöhykkeet**: Kiinteiden maankäyttökoodien sijaan jokaisella tontilla on ohjelmoitava \"valotoimitus\". Lisätyn todellisuuden opasteet ja mikroverot päivittyvät öisin, jolloin tilat voivat muuttua kaupallisista asumiskäyttöön ilman rakentamista.\n\n**Vuorovesi-aurinkoenergia hybridisähköverkko**: Ulkona ollessaan proomut keräävät aaltoenergiaa; jokeen telakoituina ne hyödyntävät pystysuoraa aurinkorotkoa. Sähkösopimukset vaihtuvat reaaliajassa naapurustojen osuuskuntien välillä.",
+        "sv": "**Magnetiska förtöjningar**: Pråmar låser fast vid ett undervattens maglev-spår, glidande i 10 km/h under de två dagjämnings \"migrationsfestivalerna.\" Hela kvarter flyttas med nästan noll energi, vilket skapar världens första klimatanpassade urbana fotavtryck.\n\n**Holografisk zonindelning**: Istället för fasta markanvändningskoder bär varje tomt en programmerbar \"ljusfastighet.\" Skyltar med förstärkt verklighet och mikroskattesatser uppdateras varje natt, vilket gör att utrymmen kan växla från handel till bostad efter mörkrets inbrott utan byggarbeten.\n\n**Tidvatten-sol hybridnät**: Medan de är ute till havs skördar pråmarna vågenergi; när de dockar uppströms utnyttjar de en vertikal solkanjon. Kraftkontrakt byts i realtid mellan grannskapskooperativ.",
+        "en": "**Mag-Rail Moorings**: Barges lock onto an underwater mag-lev track, gliding at 10 km h⁻¹ during the two equinox \"migration festivals.\" Whole city blocks relocate with near-zero energy, creating the world's first climate-adaptive urban footprint.\n\n**Holographic Zoning**: Instead of fixed land-use codes, each parcel carries a programmable \"light deed.\" Augmented-reality signage and micro-tax rates update nightly, letting spaces flip from retail to residential after dark without construction.\n\n**Tidal–Solar Hybrid Grid**: While offshore, barges harvest wave energy; when docked upriver, they tap a vertical solar canyon. Power contracts swap in real time between neighbourhood cooperatives."
+      },
+      "voting": "registered",
+      "commenting": "open",
+      "commenting_map_tools": "none",
+      "images": [],
+      "files": [],
+      "questions": []
+    },
+    {
+      "type": "part",
+      "title": {
+        "fi": "Ekologiset ratkaisut",
+        "sv": "Ekologiska lösningar",
+        "en": "Ecological Solutions"
+      },
+      "abstract": {
+        "fi": "FluxHaven integroi luonnolliset ekosysteemit kaupunkirakenteeseen innovatiivisilla tavoilla.",
+        "sv": "FluxHaven integrerar naturliga ekosystem i stadsstrukturen på innovativa sätt.",
+        "en": "FluxHaven integrates natural ecosystems into the urban structure in innovative ways."
+      },
+      "content": {
+        "fi": "**Pölyttäjien ilmareitit**: Mektarrikkailla kasveilla täytetyt jänniteverkkoputket kaartuvat proomuketjun yläpuolella. Dronet ohjaavat mehiläisiä reittiä pitkin kaupungin liikkuessa, kylväen rannikon ekosysteemejä uudelleen jälkeensä.\n\n**Kiertävät vesisilmukat**: Jokainen proomu kantaa kalvoreaktoreja, jotka muuttavat harmaan veden ravinneliemeksi rakennusten julkisivuihin upotetuille spirulinafarmeille. Asukkaat \"syövät suihkunsa\", sulkien ruoka-vesi-silmukan yhden kaupunkikorttelin sisällä.",
+        "sv": "**Pollinatörskorridorer**: Spänningsmaskrör fulla av nektarväxter välver sig över pråmkedjan. Drönare leder bin längs rutten när staden rör sig och återsår kustekosystem i dess spår.\n\n**Cirkulära vattensystem**: Varje pråm bär membranbioreaktorer som förvandlar gråvatten till näringslösning för spirulinaodlingar inbäddade i byggnadsfasader. Invånarna \"äter sina duschar\", och sluter mat-vatten-kretsloppet inom ett enda stadskvarter.",
+        "en": "**Pollinator Skyways**: Tensile-mesh tubes full of nectar-plants arc above the barge chain. Drones shepherd bees along the route as the city moves, reseeding coastal ecosystems in its wake.\n\n**Circular Water Loops**: Each barge carries membrane bioreactors that turn greywater into nutrient broth for spirulina farms embedded in building façades. Residents \"eat their showers,\" closing the food–water loop within a single urban block."
+      },
+      "voting": "registered",
+      "commenting": "open",
+      "commenting_map_tools": "none",
+      "images": [],
+      "files": [],
+      "questions": []
+    }
+  ],
+  "geojson": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Summer Location"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [24.9384, 60.1699]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "Winter Location"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [24.9684, 60.1899]
+        }
+      }
+    ]
+  },
+  "open_at": "2023-06-01T00:00:00Z",
+  "close_at": "2023-12-31T23:59:59Z",
+  "published": true,
+  "project": {
+    "id": 1,
+    "title": {
+      "fi": "Tulevaisuuden kaupungit",
+      "sv": "Framtidens städer",
+      "en": "Cities of the Future"
+    },
+    "phases": [
+      {
+        "title": {
+          "fi": "Konseptivaihe",
+          "sv": "Konceptfas",
+          "en": "Concept Phase"
+        },
+        "is_active": true
+      },
+      {
+        "title": {
+          "fi": "Suunnitteluvaihe",
+          "sv": "Planeringsfas",
+          "en": "Planning Phase"
+        },
+        "is_active": false
+      }
+    ]
+  },
+  "default_to_fullscreen": true
+} 

@@ -1,0 +1,558 @@
+{
+  "hearings": [
+    {
+      "abstract": {
+        "fi": "Biomimeettinen energianjakelun verkosto, joka on upotettu kaupungin infrastruktuuriin, keräten aurinkoenergiaa kaupungin pintojen läpi kulkevien aurinkosähköisten suonien avulla.",
+        "sv": "Ett biomimetiskt energidistributionsnätverk inbäddat i stadens infrastruktur, som skördar solenergi genom ådror av fotovoltaiska material som löper genom stadsytor.",
+        "en": "A biomimetic energy distribution network embedded in city infrastructure, harvesting solar power through veins of photovoltaic materials running through urban surfaces."
+      },
+      "title": {
+        "fi": "Aurinkosuoniverkosto",
+        "sv": "Solådernätverk",
+        "en": "Solar Vein Grid"
+      },
+      "slug": "solar-vein-grid",
+      "labels": [
+        {
+          "id": 1,
+          "label": {
+            "fi": "Energia",
+            "sv": "Energi",
+            "en": "Energy"
+          },
+          "frontId": 101
+        },
+        {
+          "id": 2,
+          "label": {
+            "fi": "Kaupunkisuunnittelu",
+            "sv": "Stadsplanering",
+            "en": "Urban Planning"
+          },
+          "frontId": 102
+        },
+        {
+          "id": 3,
+          "label": {
+            "fi": "Kestävä kehitys",
+            "sv": "Hållbar utveckling",
+            "en": "Sustainability"
+          },
+          "frontId": 103
+        }
+      ],
+      "published": true,
+      "open_at": "2023-06-01T08:00:00Z",
+      "close_at": "2023-08-31T16:00:00Z",
+      "sections": [
+        {
+          "id": "main-section",
+          "type": "main",
+          "voting": "registered",
+          "commenting": "open",
+          "commenting_map_tools": "all",
+          "title": {
+            "fi": "Perusajatus",
+            "sv": "Kärnkoncept",
+            "en": "Core Concept"
+          },
+          "abstract": {
+            "fi": "Aurinkosuoniverkosto kuvittelee energiainfrastruktuurin uudelleen orgaanisena verkostona, joka jäljittelee kasvien verisuonistoa.",
+            "sv": "Solådernätverket föreställer energiinfrastruktur som ett organiskt nätverk som efterliknar växternas kärlsystem.",
+            "en": "The Solar Vein Grid reimagines energy infrastructure as an organic network mimicking plant vasculature."
+          },
+          "content": {
+            "fi": "Erillisten aurinkopaneelien sijaan langanohut aurinkosähköinen materiaali punoutuu rakennusten julkisivujen, teiden ja julkisten tilojen läpi. Nämä energiaa keräävät 'suonet' yhdistyvät naapurustojen mikroverkkoihin muodostaen redundantin, itseään korjaavan energiaverkon, joka mukautuu kulutuskuvioihin ja ympäristöolosuhteisiin elävän organismin tavoin.",
+            "sv": "Istället för isolerade solpaneler vävs trådliknande fotovoltaiska material genom byggnadsfasader, vägar och offentliga platser. Dessa energisamlande 'ådror' kopplas till grannskapets mikronät och bildar ett redundant, självläkande energinätverk som anpassar sig till konsumtionsmönster och miljöförhållanden som en levande organism.",
+            "en": "Instead of isolated solar panels, thread-like photovoltaic materials weave through building facades, roadways, and public spaces. These energy-collecting 'veins' connect to neighborhood microgrids, forming a redundant, self-healing energy network that adapts to consumption patterns and environmental conditions like a living organism."
+          },
+          "created_at": "2023-05-15T10:30:00Z",
+          "created_by": "admin",
+          "images": [
+            {
+              "id": 1,
+              "url": "https://example.com/images/solar-vein-main.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Aurinkosuoniverkoston visualisointi",
+                "sv": "Visualisering av solådernätverk",
+                "en": "Solar Vein Grid Visualization"
+              },
+              "caption": {
+                "fi": "Taiteellinen näkemys kaupunkiin integroidusta aurinkosuoniverkostosta",
+                "sv": "Konstnärlig tolkning av solådernätverk integrerat i staden",
+                "en": "Artistic rendering of Solar Vein Grid integrated into cityscape"
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 42,
+          "plugin_identifier": "",
+          "plugin_data": "",
+          "plugin_iframe_url": "",
+          "plugin_fullscreen": false,
+          "type_name_singular": "section",
+          "type_name_plural": "sections",
+          "hearing": "solar-vein-grid",
+          "questions": [
+            {
+              "frontId": "q1",
+              "type": "multiple-choice",
+              "independent_poll": true,
+              "text": {
+                "fi": "Mitkä ominaisuudet Aurinkosuoniverkostossa kiinnostavat sinua eniten?",
+                "sv": "Vilka funktioner i Solådernätverket intresserar dig mest?",
+                "en": "Which features of the Solar Vein Grid interest you the most?"
+              },
+              "options": [
+                {
+                  "text": {
+                    "fi": "Energiantuotannon integrointi arkkitehtuuriin",
+                    "sv": "Integration av energiproduktion i arkitektur",
+                    "en": "Integration of energy production into architecture"
+                  },
+                  "id": "opt1"
+                },
+                {
+                  "text": {
+                    "fi": "Fraktaalijakelujärjestelmä",
+                    "sv": "Fraktalt distributionssystem",
+                    "en": "Fractal distribution system"
+                  },
+                  "id": "opt2"
+                },
+                {
+                  "text": {
+                    "fi": "Yhteisön energianhallinta",
+                    "sv": "Gemenskapens energihantering",
+                    "en": "Community energy management"
+                  },
+                  "id": "opt3"
+                }
+              ],
+              "id": "q1-id"
+            }
+          ],
+          "frontId": "main-section-front"
+        },
+        {
+          "id": "urban-integration",
+          "type": "part",
+          "voting": "open",
+          "commenting": "registered",
+          "commenting_map_tools": "markers",
+          "title": {
+            "fi": "Energia osana kaupungin rakennetta",
+            "sv": "Vävning av energi in i stadens tyg",
+            "en": "Weaving Energy Into The City Fabric"
+          },
+          "abstract": {
+            "fi": "Aurinkosuoniverkosto poistaa perinteisen eron energiainfrastruktuurin ja arkkitehtonisten elementtien välillä.",
+            "sv": "Solådernätverket eliminerar den traditionella skillnaden mellan energiinfrastruktur och arkitektoniska element.",
+            "en": "The Solar Vein Grid eliminates the traditional distinction between energy infrastructure and architectural elements."
+          },
+          "content": {
+            "fi": "Asennus vaatii minimaalisen häiriön olemassa oleville rakenteille. Ohuet aurinkosähköiset filamentit kudotaan uusiin rakennusmateriaaleihin tai jälkiasennetaan olemassa oleville pinnoille käyttäen nanoliimatekniikoita. Suonten joustavuus mahdollistaa niiden mukautumisen orgaanisiin kuvioihin, jotka pikemminkin parantavat kuin heikentävät arkkitehtonista estetiikkaa. Yöllä verkoston hienovarainen bioloistava ominaisuus valaisee hellästi kulkuväyliä ja korostaa arkkitehtonisia piirteitä, vähentäen erillisen valaistuksen tarvetta.",
+            "sv": "Installation kräver minimal störning av befintliga strukturer. Tunna fotovoltaiska filament vävs in i nya byggmaterial eller eftermonteras på befintliga ytor med hjälp av nanovidhäftningstekniker. Ådrornas flexibilitet gör att de kan följa organiska mönster som förbättrar snarare än förminskar arkitektonisk estetik. På natten låter nätverkets subtila bioluminescerande egenskaper det försiktigt lysa upp gångvägar och markera arkitektoniska detaljer, vilket minskar behovet av separat belysning.",
+            "en": "Installation requires minimal disruption to existing structures. Thin photovoltaic filaments are woven into new construction materials or retrofitted onto existing surfaces using nanoadhesive techniques. The veins' flexibility allows them to follow organic patterns that enhance rather than detract from architectural aesthetics. At night, subtle bioluminescent properties allow the network to gently illuminate pathways and highlight architectural features, reducing separate lighting needs."
+          },
+          "created_at": "2023-05-15T11:30:00Z",
+          "created_by": "admin",
+          "images": [
+            {
+              "id": 2,
+              "url": "https://example.com/images/urban-integration.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Rakennukseen integroitu aurinkoteknologia",
+                "sv": "Byggnadsintegrerad solteknik",
+                "en": "Building Integrated Solar Technology"
+              },
+              "caption": {
+                "fi": "Lähikuva aurinkosuonista julkisivumateriaalissa",
+                "sv": "Närbild på solådror i fasadmaterial",
+                "en": "Close-up of solar veins in facade material"
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 28,
+          "plugin_identifier": "",
+          "plugin_data": "",
+          "plugin_iframe_url": "",
+          "plugin_fullscreen": false,
+          "type_name_singular": "section",
+          "type_name_plural": "sections",
+          "hearing": "solar-vein-grid",
+          "questions": [],
+          "frontId": "urban-integration-front"
+        },
+        {
+          "id": "energy-democracy",
+          "type": "part",
+          "voting": "registered",
+          "commenting": "strong",
+          "commenting_map_tools": "none",
+          "title": {
+            "fi": "Yhteisön energiaorkestrointi",
+            "sv": "Gemenskapens energiorkestrering",
+            "en": "Community Energy Orchestration"
+          },
+          "abstract": {
+            "fi": "Aurinkosuoniverkosto muuttaa sähkön hyödykkeestä yhteisön resurssiksi, jota hallitaan lohkoketjupohjaisten energianjakamisalustojen kautta.",
+            "sv": "Solådernätverk förvandlar elektricitet från en vara till en gemenskapsresurs som hanteras genom blockkedjebaserade energidelningsplattformar.",
+            "en": "Solar Vein Grids transform electricity from a commodity to a community resource managed through blockchain-based energy sharing platforms."
+          },
+          "content": {
+            "fi": "Jokainen naapurusto hallinnoi omaa verkosto-osuuttaan hajautettujen yhteisön energianeuvostojen kautta. Asukkaat voivat visualisoida oman panoksensa ja kulutuksensa verkostossa lisätyn todellisuuden käyttöliittymien avulla. Ylijäämäenergian hyvitykset ohjataan automaattisesti julkisiin palveluihin tai jaetaan uudelleen energiahaavoittuvaisiin kotitalouksiin. Järjestelmä luo luonnollisia kannustimia energian säästämiseen ja varmistaa perustason saatavuuden kaikille kansalaisille taloudellisesta asemasta riippumatta. Erityinen prioriteettireititys varmistaa, että kriittinen infrastruktuuri saa keskeytymättömän energiansaannin huippukysynnän tai alentuneen tuotannon aikana.",
+            "sv": "Varje grannskap hanterar sitt segment av nätet genom decentraliserade gemenskapsenergineråd. Invånare kan visualisera sitt bidrag till och konsumtion från nätverket genom augmented reality-gränssnitt. Överskottsenergikredit tilldelas automatiskt till offentliga tjänster eller omfördelas till energisårbara hushåll. Systemet skapar naturliga incitament för energibesparing samtidigt som det säkerställer grundläggande tillgång för alla medborgare, oavsett ekonomisk status. Särskild prioritetsdirigering säkerställer att kritisk infrastruktur får oavbruten försörjning under toppenefterfråge- eller reducerade produktionsperioder.",
+            "en": "Each neighborhood manages its segment of the grid through decentralized community energy councils. Residents can visualize their contribution to and consumption from the network through augmented reality interfaces. Surplus energy credits are automatically allocated to public services or redistributed to energy-vulnerable households. The system creates natural incentives for energy conservation while ensuring baseline access for all citizens, regardless of economic status. Special priority routing ensures critical infrastructure receives uninterrupted supply during peak demand or reduced production periods."
+          },
+          "created_at": "2023-05-15T12:30:00Z",
+          "created_by": "admin",
+          "images": [
+            {
+              "id": 3,
+              "url": "https://example.com/images/energy-democracy.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Yhteisön energianhallinta",
+                "sv": "Gemenskapens energihantering",
+                "en": "Community Energy Management"
+              },
+              "caption": {
+                "fi": "Asukkaat tarkastelevat energiankulutustietoja yhteisön keskuksessa",
+                "sv": "Invånare som granskar energiförbrukningsdata i gemenskapscenter",
+                "en": "Residents reviewing energy consumption data at community center"
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 35,
+          "plugin_identifier": "",
+          "plugin_data": "",
+          "plugin_iframe_url": "",
+          "plugin_fullscreen": false,
+          "type_name_singular": "section",
+          "type_name_plural": "sections",
+          "hearing": "solar-vein-grid",
+          "questions": [
+            {
+              "frontId": "q2",
+              "type": "single-choice",
+              "independent_poll": false,
+              "text": {
+                "fi": "Mikä olisi mielestäsi paras tapa organisoida yhteisön energianeuvostot?",
+                "sv": "Vilket sätt anser du skulle vara bäst för att organisera gemenskapsenergineråd?",
+                "en": "What do you think would be the best way to organize community energy councils?"
+              },
+              "options": [
+                {
+                  "text": {
+                    "fi": "Vaaleilla valitut edustajat",
+                    "sv": "Folkvalda representanter",
+                    "en": "Elected representatives"
+                  },
+                  "id": "opt4"
+                },
+                {
+                  "text": {
+                    "fi": "Rotaatiojärjestelmä kaikkien asukkaiden kesken",
+                    "sv": "Rotationssystem bland alla invånare",
+                    "en": "Rotation system among all residents"
+                  },
+                  "id": "opt5"
+                },
+                {
+                  "text": {
+                    "fi": "Tekoälyn avustamat päätökset perustuen yhteisön preferensseihin",
+                    "sv": "AI-assisterade beslut baserade på gemenskapspreferenser",
+                    "en": "AI-assisted decisions based on community preferences"
+                  },
+                  "id": "opt6"
+                }
+              ],
+              "id": "q2-id"
+            }
+          ],
+          "frontId": "energy-democracy-front"
+        },
+        {
+          "id": "closure-info",
+          "type": "closure-info",
+          "voting": "none",
+          "commenting": "none",
+          "commenting_map_tools": "none",
+          "title": {
+            "fi": "Yhteenveto ja seuraavat vaiheet",
+            "sv": "Sammanfattning och nästa steg",
+            "en": "Summary and Next Steps"
+          },
+          "abstract": {
+            "fi": "Yhteenveto Aurinkosuoniverkosto-kuulemisesta ja tuleva aikataulu",
+            "sv": "Sammanfattning av Solådernätverk-höring och kommande tidslinje",
+            "en": "Summary of Solar Vein Grid hearing and upcoming timeline"
+          },
+          "content": {
+            "fi": "Kiitämme kaikkia osallistumisesta Aurinkosuoniverkoston kuulemiseen. Kaikki saadut kommentit ja äänestystulokset analysoidaan huolellisesti ja sisällytetään lopulliseen raporttiin, joka julkaistaan lokakuussa 2023. Projektin pilottivaihe on suunniteltu alkavaksi keväällä 2024 valituilla kaupunkialueilla. Tarkempi aikataulu ja pilottialueiden valintakriteerit julkaistaan marraskuussa 2023.",
+            "sv": "Vi tackar alla för deltagande i höringen om Solådernätverket. Alla mottagna kommentarer och omröstningsresultat kommer att analyseras noggrant och inkluderas i den slutliga rapporten som kommer att publiceras i oktober 2023. Projektets pilotfas är planerad att börja våren 2024 i utvalda stadsområden. En mer detaljerad tidslinje och urvalskriterier för pilotområden kommer att publiceras i november 2023.",
+            "en": "We thank everyone for participating in the Solar Vein Grid hearing. All received comments and voting results will be carefully analyzed and included in the final report to be published in October 2023. The project pilot phase is planned to begin in Spring 2024 in selected urban areas. A more detailed timeline and selection criteria for pilot areas will be published in November 2023."
+          },
+          "created_at": "2023-05-15T13:30:00Z",
+          "created_by": "admin",
+          "images": [],
+          "files": [],
+          "n_comments": 0,
+          "plugin_identifier": "",
+          "plugin_data": "",
+          "plugin_iframe_url": "",
+          "plugin_fullscreen": false,
+          "type_name_singular": "section",
+          "type_name_plural": "sections",
+          "hearing": "solar-vein-grid",
+          "questions": [],
+          "frontId": "closure-info-front"
+        }
+      ],
+      "main_image": {
+        "url": "https://example.com/images/solar-vein-main-banner.jpg",
+        "width": 2000,
+        "height": 1000,
+        "title": {
+          "fi": "Aurinkosuoniverkosto",
+          "sv": "Solådernätverk",
+          "en": "Solar Vein Grid"
+        },
+        "caption": {
+          "fi": "Visio tulevaisuuden energiaverkostosta",
+          "sv": "Vision för framtidens energinätverk",
+          "en": "Vision for future energy network"
+        }
+      },
+      "contact_persons": [
+        {
+          "id": "cp1",
+          "name": "Maria Solberg",
+          "phone": "+358 50 123 4567",
+          "email": "maria.solberg@helsinki.fi",
+          "organization": "Helsinki Energy Innovation",
+          "external_organization": false,
+          "additional_info": "Available Mon-Fri 9-16",
+          "title": {
+            "fi": "Projektijohtaja",
+            "sv": "Projektledare",
+            "en": "Project Manager"
+          },
+          "frontId": "cp1-front"
+        },
+        {
+          "id": "cp2",
+          "name": "Antti Korhonen",
+          "phone": "+358 40 987 6543",
+          "email": "antti.korhonen@aurinkoteknologia.fi",
+          "organization": "Solar Technology Finland",
+          "external_organization": true,
+          "additional_info": "Technical questions",
+          "title": {
+            "fi": "Aurinkoteknologian asiantuntija",
+            "sv": "Solteknologiexpert",
+            "en": "Solar Technology Specialist"
+          },
+          "frontId": "cp2-front"
+        }
+      ],
+      "n_comments": 105,
+      "isNew": false,
+      "geojson": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.9, 60.16],
+            [24.95, 60.16],
+            [24.95, 60.18],
+            [24.9, 60.18],
+            [24.9, 60.16]
+          ]
+        ]
+      }
+    },
+    {
+      "abstract": {
+        "fi": "Pilottihanke aurinkosuoniverkoston testaamiseen Kalasataman alueella.",
+        "sv": "Pilotprojekt för att testa solådernätverk i Fiskehamnenområdet.",
+        "en": "Pilot project to test Solar Vein Grid in Kalasatama district."
+      },
+      "title": {
+        "fi": "Kalasataman Aurinkosuoniverkosto - Pilottihanke",
+        "sv": "Solådernätverk i Fiskehamnen - Pilotprojekt",
+        "en": "Kalasatama Solar Vein Grid - Pilot Project"
+      },
+      "slug": "kalasatama-solar-vein-pilot",
+      "labels": [
+        {
+          "id": 1,
+          "label": {
+            "fi": "Energia",
+            "sv": "Energi",
+            "en": "Energy"
+          },
+          "frontId": 101
+        },
+        {
+          "id": 4,
+          "label": {
+            "fi": "Pilottihanke",
+            "sv": "Pilotprojekt",
+            "en": "Pilot Project"
+          },
+          "frontId": 104
+        }
+      ],
+      "published": false,
+      "open_at": "2023-11-01T08:00:00Z",
+      "close_at": "2023-12-15T16:00:00Z",
+      "sections": [
+        {
+          "id": "main-section-pilot",
+          "type": "main",
+          "voting": "open",
+          "commenting": "registered",
+          "commenting_map_tools": "markers",
+          "title": {
+            "fi": "Kalasataman pilottihanke",
+            "sv": "Fiskehamnens pilotprojekt",
+            "en": "Kalasatama Pilot Project"
+          },
+          "abstract": {
+            "fi": "Ensimmäinen käytännön toteutus aurinkosuoniverkostosta Kalasataman uudella asuinalueella.",
+            "sv": "Första praktiska implementering av solådernätverk i Fiskehamnens nya bostadsområde.",
+            "en": "First practical implementation of Solar Vein Grid in Kalasatama's new residential area."
+          },
+          "content": {
+            "fi": "Pilottihankkeen tarkoituksena on testata Aurinkosuoniverkoston teknistä toteutettavuutta, energiantuotantokapasiteettia ja integroitavuutta olemassa oleviin energiajärjestelmiin. Pilotti toteutetaan yhteistyössä alueen asukkaiden, rakennusyhtiöiden ja energiayhtiöiden kanssa. Tavoitteena on kerätä käytännön kokemusta ja tietoa järjestelmän skaalattavuudesta laajempaa käyttöönottoa varten.",
+            "sv": "Syftet med pilotprojektet är att testa teknisk genomförbarhet, energiproduktionskapacitet och integrering med befintliga energisystem för Solådernätverket. Piloten kommer att genomföras i samarbete med lokala invånare, byggföretag och energibolag. Målet är att samla praktisk erfarenhet och kunskap om systemets skalbarhet för bredare implementering.",
+            "en": "The purpose of the pilot project is to test the technical feasibility, energy production capacity, and integration with existing energy systems of the Solar Vein Grid. The pilot will be implemented in collaboration with local residents, construction companies, and energy providers. The goal is to gather practical experience and knowledge about the system's scalability for broader implementation."
+          },
+          "created_at": "2023-10-01T10:00:00Z",
+          "created_by": "admin",
+          "images": [
+            {
+              "id": 4,
+              "url": "https://example.com/images/kalasatama-aerial.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Kalasataman alue",
+                "sv": "Fiskehamnenområdet",
+                "en": "Kalasatama District"
+              },
+              "caption": {
+                "fi": "Ilmakuva Kalasataman alueesta, jossa pilottihanke toteutetaan",
+                "sv": "Flygfoto över Fiskehamnenområdet där pilotprojektet ska genomföras",
+                "en": "Aerial view of Kalasatama district where the pilot project will be implemented"
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 12,
+          "plugin_identifier": "",
+          "plugin_data": "",
+          "plugin_iframe_url": "",
+          "plugin_fullscreen": false,
+          "type_name_singular": "section",
+          "type_name_plural": "sections",
+          "hearing": "kalasatama-solar-vein-pilot",
+          "questions": [
+            {
+              "frontId": "q3",
+              "type": "multiple-choice",
+              "independent_poll": true,
+              "text": {
+                "fi": "Mitä ominaisuuksia haluaisit nähdä testattavan pilottihankkeessa?",
+                "sv": "Vilka funktioner skulle du vilja se testade i pilotprojektet?",
+                "en": "Which features would you like to see tested in the pilot project?"
+              },
+              "options": [
+                {
+                  "text": {
+                    "fi": "Energiavarastointijärjestelmät",
+                    "sv": "Energilagringssystem",
+                    "en": "Energy storage systems"
+                  },
+                  "id": "opt7"
+                },
+                {
+                  "text": {
+                    "fi": "Lohkoketjupohjainen energianjakelun hallinta",
+                    "sv": "Blockkedjebaserad hantering av energidistribution",
+                    "en": "Blockchain-based energy distribution management"
+                  },
+                  "id": "opt8"
+                },
+                {
+                  "text": {
+                    "fi": "Bioluminenssi-ominaisuudet",
+                    "sv": "Bioluminescerande egenskaper",
+                    "en": "Bioluminescent properties"
+                  },
+                  "id": "opt9"
+                },
+                {
+                  "text": {
+                    "fi": "Energiavirtausten visualisointi lisätyn todellisuuden avulla",
+                    "sv": "Visualisering av energiflöden med augmented reality",
+                    "en": "Augmented reality visualization of energy flows"
+                  },
+                  "id": "opt10"
+                }
+              ],
+              "id": "q3-id"
+            }
+          ],
+          "frontId": "main-section-pilot-front"
+        }
+      ],
+      "main_image": {
+        "url": "https://example.com/images/kalasatama-solar-banner.jpg",
+        "width": 2000,
+        "height": 1000,
+        "title": {
+          "fi": "Kalasataman Aurinkosuonipilotti",
+          "sv": "Fiskehamnens Solåderpilot",
+          "en": "Kalasatama Solar Vein Pilot"
+        },
+        "caption": {
+          "fi": "Havainnekuva aurinkosuoniverkostosta Kalasatamassa",
+          "sv": "Konceptbild av solådernätverket i Fiskehamnen",
+          "en": "Concept image of Solar Vein Grid in Kalasatama"
+        }
+      },
+      "contact_persons": [
+        {
+          "id": "cp3",
+          "name": "Liisa Mäkinen",
+          "phone": "+358 45 765 4321",
+          "email": "liisa.makinen@helsinki.fi",
+          "organization": "Helsinki Innovation Lab",
+          "external_organization": false,
+          "additional_info": "",
+          "title": {
+            "fi": "Pilottihankkeen koordinaattori",
+            "sv": "Pilotprojektkoordinator",
+            "en": "Pilot Project Coordinator"
+          },
+          "frontId": "cp3-front"
+        }
+      ],
+      "n_comments": 12,
+      "isNew": true,
+      "geojson": {
+        "type": "Point",
+        "coordinates": [24.9842, 60.1881]
+      }
+    }
+  ]
+} 

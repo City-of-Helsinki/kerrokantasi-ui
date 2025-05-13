@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Context**
+1. `openapi-spec.json` – OpenAPI 3.0-compatible specification of the target API.  
+2. `*-idea.md` – domain-specific “data ideas” containing example domain entities.
+
+**Goal**
+Create a **complete, balanced test-data set** for every endpoint, request / response schema and parameter defined in the OpenAPI spec, in **three human languages**: <LANGUAGE-1>, <LANGUAGE-2>, <LANGUAGE-3>.  
+Use the idea file as a creative seed but never invent fields that are not present in the spec.
+
+**Hard rules**
+1. **Spec fidelity** –  
+   • All field names, data types, enum values, numeric limits, required / optional flags and format regexes must come directly from `openapi-spec.json`.  
+2. **Language behaviour** –  
+   • For every test case provide translations of user-visible strings (titles, descriptions, example text) in all three languages.  
+   • Keep structural JSON keys identical across languages; only values change.
+3. **Coverage minimums** –  
+   • For complex objects include at least one case exercising each one-of / any-of / all-of branch.
+4. **Output**
+   • Save the data to a json file with the same base name but the suffix `-data.json`, placing the file in `e2e/plan/data/ideas`.  
+   *Example: `solar-vein-grid-idea.md` → `e2e/plan/data/ideas/solar-vein-grid-data.json`*  
+
+**Output**
+Single JSON-file containing test data.

@@ -1,0 +1,63 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+You are an urban-futures LLM tasked with generating **fictional, surprising city-planning ideas** as Markdown files.  
+Follow EVERY rule below, no exceptions. If unsure, ask for clarification.
+
+##############################
+# GLOBAL PARAMETERS (editable)
+##############################
+surprise-level: 75            # 0 = mundane, 100 = mind-blowing.
+functional-areas:             # Each idea focuses on exactly ONE of these; pick randomly unless fixed.
+  - transport
+  - housing
+  - energy
+  - public-space
+  - governance
+  - misc
+n-sections-per-area: 2       # Random range for @Sections sub-areas.
+
+
+##############################
+# HARSH RULES (do not break!)
+##############################
+1. **Output only Markdown files** in the virtual path `e2e/plan/data/ideas`.  
+2. Use **kebab-case** filenames ending with `-idea.md`.  
+3. One file per idea / functional area.  
+
+```markdown
+# <Idea Name>
+## Table of Contents
+- [Overview](mdc:#overview)
+- [Core-Concept](mdc:#core-concept)
+- [Sections](mdc:#sections)
+  - [<Area 1>](mdc:#<area-1>)
+  - [<Area 2>](mdc:#<area-2>)
+  <!-- Add more automatically if n-sections-per-area > 2 -->
+
+## Overview
+Concise elevator pitch (30–50 words).
+
+## Core Concept
+- **Description**: What this idea does (100-150 words).
+- **Key Aspects**:  
+  1. Aspect 1  (max. 100 words)
+  2. Aspect 2  (max. 100 words)
+  3. …
+
+## Sections
+### <Area 1>
+**Title**
+**Paragraph**
+**Content**
+
+### <Area 2>
+**Title**
+**Paragraph**
+**Content**
+
+
+## Inspiration Spark
+One-sentence hint at what pop-culture, sci-fi, or real city partly inspired this.

@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Goal**  
+Generate stable, unique Playwright locators for every auto-generated page-test and write them to companion “page-locators” markdown files.
+
+**Context**  
+• Tests live at `e2e/plan/tests/*-page-tests.md`.  
+• Pages are served locally at http://localhost:8086.  
+
+**What to do**  
+1. For each `*-page-tests.md` file, open the page(s) referenced in the test through http://localhost:8086.  
+2. Enumerate **all** elements the test interacts with and craft Playwright locators that meet the rules below.  
+3. Save the locators to a markdown file with the same base name but the suffix `-page-locators.md`, placing the file in `e2e/plan/locators/`.  
+   *Example: `accessibility-page-tests.md` → `e2e/plan/locators/accessibility-page-locators.md`*  
+
+**Locator rules**  
+- **Prefer `page.getByRole()`** chained with section `page.getByRole('banner')`, `page.getByRole('main')` or  `page.getByRole('contentinfo')`
+- Locator must resolve to **exactly one element** when a single element is expected.  
+-  **If a single‐step ARIA locator is not unique, chain ARIA locators before falling back to getByTestId/text.**  
+-  **If a single step requires multiple actions, list all required locators**
+
+**Output format (one file per page)**  
+
+### <Human-readable section heading, e.g. “Navigation”>
+- **Test Title**: Verify navigation from accessibility page  
+- **Test Steps**:
+  1. Navigate to the accessibility page
+     ```javascript
+     page.goto('/accessibility')
+     ```
+  2. Click on the Hearings link in navigation menu
+     ```javascript
+     page.getByRole('navigation').getByRole('link', { name: 'Kuulemiset' })
+     ```
+  3. Verify redirection to the Hearings page
+    ```javascript
+     page.getByRole('main').getByRole('heading', { name: 'Kaikki kuulemiset' })
+     ```
+  4. Navigate back to the accessibility page
+     ```javascript
+     page.getByRole('contentinfo').getByRole('link', { name: 'Saavutettavuusseloste' })
+     ```
+  5. Click on the Home link
+     ```javascript
+     page.getByRole('banner').getByRole('link', { name: 'Siirry etusivulle' })
+     ```
+  6. Verify redirection to the home page
+     ```javascript
+     page.getByRole("main").getByRole('heading', { name: 'Kerro mielipiteesi' })
+     ```
+- **Expected Result**: Navigation links correctly redirect to their respective pages

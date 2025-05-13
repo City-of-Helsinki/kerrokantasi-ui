@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Goal**
+- Diagnose why the test is failing and deliver a corrected version that passes locally and in CI—without touching the application’s source code.
+
+**Tools**
+- The Playwright CLI to run tests and inspect stack traces.
+  Example: 'npx playwright test e2e/tests/page-spec/hearing-detail.spec.js --grep "As a user I want to verify hearing metadata visibility"'
+- Playwright MCP and application running at http://localhost:8086 for live debugging.
+
+**Hard rules**
+- Run only tools that does not require any interactive actions
+- Do NOT modify application code
+- Do not run tests with `--debug` flag
+
+**Deliverables**
+- Brief analysis of the failure (summarise the CLI error and root cause).
+- Patch: corrected test files and selectors update to the code.

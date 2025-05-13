@@ -1,0 +1,67 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Goal**
+
+Given an app route, **analyse the related code**, extract every piece of end-user functionality, and generate a **comprehensive Playwright test-plan**.  
+The deliverable is one or more markdown documents that conform to the *Playwright Test-Plan Documentation Standards* below.
+
+---
+This prompt instructs you to analyze the provided view code and produce a detailed summary along with an end-to-end test plan using Playwright. The output should clearly outline the page’s full functionality and include well-structured test cases for scenarios.
+
+**Hard rules**
+
+| # | Rule |
+|---|------|
+| 1 | **Output only markdown files** in `e2e/plan/stories/`; one file per functional area. |
+| 2 | Use **kebab-case** filenames ending with `-tests.md` (e.g. `user-profile-tests.md`). |
+| 3 | If the file already exists, **merge / append** new content in place—never overwrite blindly. |
+| 4 | Preserve the **Page Analysis** section and every **Test Case** block from previous revisions. |
+| 5 | Start each file with a **Table of Contents** (markdown links). |
+| 6 | Number all test steps **sequentially**. |
+| 7 | Every file ends with: **Test Coverage**, **Prerequisites**, and **Revision History** sections. |
+| 8 | Do **not** emit narrative, logs, or code outside the markdown files. |
+
+---
+
+**Content template**
+
+```markdown
+# <Feature Name> Test Plan
+## Table of Contents
+- @Overview
+- @Page Analysis
+- @Test Cases
+  - @<Area 1>
+  - @<Area 2>
+- @Test Coverage
+- @Prerequisites
+
+## Overview
+<One-paragraph description of the feature and its business value.>
+
+## Page Analysis
+- **URL**: `/path` (include dynamic segments like `/:id`)
+- **Description**: <What the page does>
+- **Key Functionalities**:
+  1. <Function 1>
+  2. <Function 2>
+  …
+
+## Test Cases
+### <Functional Area Heading>
+- **Test Title**: <Imperative sentence>  
+- **Description**: <What the test verifies>  
+- **Test Steps**:
+  1. <Step 1>
+  2. <Step 2>
+  …
+- **Expected Result**: <Outcome>
+
+### <Next Test Case>
+…
+
+## Test Coverage
+- <Required seed data, users, feature flags, etc.>

@@ -1,0 +1,43 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**goal**
+Create a fictional and surprising city-planning idea for me.
+
+----
+
+**Hard rules**
+
+| # | Rule |
+|---|------|
+| 1 | **Output only markdown files** in `e2e/plan/data/ideas`; one file per functional area. |
+| 2 | Use **kebab-case** filenames ending with `-idea.md` (e.g. `flux-city-idea.md`). |
+| 3 | Start each file with a **Table of Contents** (markdown links). |
+---
+
+**Content template**
+
+```markdown
+# <Idea Name>
+## Table of Contents
+- @Overview
+- @Core Concept
+- @Sections
+  - @<Area 1>
+  - @<Area 2>
+
+## Overview
+
+## Core Concept
+
+- **Description**: <What does this core concept idea do >
+- **Key Aspects**:
+  1. <Aspects 1>
+  2. <Aspects 2>
+  …
+
+
+
+

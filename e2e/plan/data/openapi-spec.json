@@ -1,0 +1,379 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Kerrokantasi API",
+    "description": "API for the Kerrokantasi participatory democracy service",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/hearing/{slug}": {
+      "get": {
+        "summary": "Get hearing by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique slug identifier for the hearing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hearing"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hearing not found"
+          }
+        }
+      }
+    },
+    "/v1/hearing": {
+      "get": {
+        "summary": "List hearings",
+        "parameters": [
+          {
+            "name": "published",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by publication status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Hearing"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new hearing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hearing"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hearing created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hearing"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Hearing": {
+        "type": "object",
+        "required": ["title", "slug", "sections"],
+        "properties": {
+          "abstract": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Label"
+            }
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "open_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "close_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            }
+          },
+          "main_image": {
+            "type": "object"
+          },
+          "contact_persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactPerson"
+            }
+          },
+          "n_comments": {
+            "type": "integer"
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "geojson": {
+            "$ref": "#/components/schemas/GeoJSON"
+          }
+        }
+      },
+      "LocalizedText": {
+        "type": "object",
+        "properties": {
+          "fi": {
+            "type": "string"
+          },
+          "sv": {
+            "type": "string"
+          },
+          "en": {
+            "type": "string"
+          }
+        }
+      },
+      "Label": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "label": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "frontId": {
+            "type": "integer"
+          }
+        }
+      },
+      "Section": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["main", "closure-info", "part"]
+          },
+          "voting": {
+            "type": "string",
+            "enum": ["registered", "open", "none"]
+          },
+          "commenting": {
+            "type": "string",
+            "enum": ["open", "registered", "none", "strong"]
+          },
+          "commenting_map_tools": {
+            "type": "string",
+            "enum": ["none", "markers", "all"]
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "abstract": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "content": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "type": ["string", "null"]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SectionImage"
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "n_comments": {
+            "type": "integer"
+          },
+          "plugin_identifier": {
+            "type": "string"
+          },
+          "plugin_data": {
+            "type": "string"
+          },
+          "plugin_iframe_url": {
+            "type": "string"
+          },
+          "plugin_fullscreen": {
+            "type": "boolean"
+          },
+          "type_name_singular": {
+            "type": "string"
+          },
+          "type_name_plural": {
+            "type": "string"
+          },
+          "hearing": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            }
+          },
+          "frontId": {
+            "type": "string"
+          }
+        }
+      },
+      "SectionImage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "caption": {
+            "$ref": "#/components/schemas/LocalizedText"
+          }
+        }
+      },
+      "Question": {
+        "type": "object",
+        "properties": {
+          "frontId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["multiple-choice", "single-choice"]
+          },
+          "independent_poll": {
+            "type": "boolean"
+          },
+          "text": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionOption"
+            }
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "QuestionOption": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactPerson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "external_organization": {
+            "type": "boolean"
+          },
+          "additional_info": {
+            "type": "string"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedText"
+          },
+          "frontId": {
+            "type": "string"
+          }
+        }
+      },
+      "GeoJSON": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon"]
+          },
+          "coordinates": {
+            "type": "array"
+          }
+        }
+      }
+    }
+  }
+} 

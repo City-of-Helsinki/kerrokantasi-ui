@@ -1,0 +1,172 @@
+{
+    "abstract": {
+        "fi": "",
+        "sv": "",
+        "en": ""
+    },
+    "title": {
+        "fi": "testi",
+        "sv": "testi",
+        "en": "testi"
+    },
+    "slug": "testitestitesti",
+    "labels": [
+        {
+            "id": 8,
+            "label": {
+                "fi": "testi"
+            },
+            "frontId": 8
+        }
+    ],
+    "published": false,
+    "open_at": "2025-05-02T07:21:00.000Z",
+    "close_at": "2025-05-02T07:21:00.000Z",
+    "sections": [
+        {
+            "id": "",
+            "type": "main",
+            "voting": "registered",
+            "commenting": "open",
+            "commenting_map_tools": "none",
+            "title": {
+                "fi": "",
+                "sv": "",
+                "en": ""
+            },
+            "abstract": {
+                "fi": "<p>testi</p>",
+                "sv": "<p>testi</p>",
+                "en": "<p>testi</p>"
+            },
+            "content": {
+                "fi": "<p>testi</p>",
+                "sv": "<p>testi</p>",
+                "en": "<p>testi</p>"
+            },
+            "created_at": "",
+            "created_by": null,
+            "images": [],
+            "files": [],
+            "n_comments": 0,
+            "plugin_identifier": "",
+            "plugin_data": "",
+            "type_name_singular": "",
+            "type_name_plural": "",
+            "hearing": "",
+            "questions": [
+                {
+                    "frontId": "07f2f990-2726-11f0-8769-e7bde6c8d9d3",
+                    "type": "multiple-choice",
+                    "independent_poll": false,
+                    "text": {
+                        "fi": "testi",
+                        "sv": "testi",
+                        "en": "testi"
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "fi": "testi",
+                                "sv": "testi",
+                                "en": "testi"
+                            },
+                            "id": ""
+                        },
+                        {
+                            "text": {
+                                "fi": "testi",
+                                "sv": "testi",
+                                "en": "testi"
+                            },
+                            "id": ""
+                        }
+                    ],
+                    "id": ""
+                }
+            ],
+            "frontId": "da63eb60-2725-11f0-8769-e7bde6c8d9d3"
+        },
+        {
+            "id": "",
+            "type": "closure-info",
+            "voting": "registered",
+            "commenting": "open",
+            "commenting_map_tools": "none",
+            "title": {
+                "fi": "",
+                "sv": "",
+                "en": ""
+            },
+            "abstract": {
+                "fi": "",
+                "sv": "",
+                "en": ""
+            },
+            "content": {
+                "fi": "Tämä kuuleminen on sulkeutunut. Mielipiteiden antaminen ja kannattaminen ei enää ole mahdollista.",
+                "sv": "Det här hörandet har stängts. Det är inte längre möjligt att uttrycka åsikter eller understöda åsikter.",
+                "en": "This hearing is closed. You may no longer give comments or vote for them"
+            },
+            "created_at": "",
+            "created_by": null,
+            "images": [],
+            "files": [],
+            "n_comments": 0,
+            "plugin_identifier": "",
+            "plugin_data": "",
+            "type_name_singular": "",
+            "type_name_plural": "",
+            "hearing": "",
+            "questions": [],
+            "frontId": "da63eb61-2725-11f0-8769-e7bde6c8d9d3"
+        }
+    ],
+    "main_image": {},
+    "contact_persons": [
+        {
+            "id": "aklVqq1AE7hVuQUt40erKB06wR2HufxL",
+            "name": "Aku Ankka",
+            "phone": "+358509876543",
+            "email": "kerrokantasi@hel.fi",
+            "organization": "vastuutaho",
+            "external_organization": false,
+            "additional_info": "1",
+            "title": {
+                "en": "Testing person",
+                "fi": "Testaaja",
+                "sv": "Testare"
+            },
+            "frontId": "aklVqq1AE7hVuQUt40erKB06wR2HufxL"
+        }
+    ],
+    "n_comments": 0,
+    "isNew": true,
+    "geojson": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    24.699216,
+                    60.101312
+                ],
+                [
+                    24.699216,
+                    60.242026
+                ],
+                [
+                    25.201945,
+                    60.242026
+                ],
+                [
+                    25.201945,
+                    60.101312
+                ],
+                [
+                    24.699216,
+                    60.101312
+                ]
+            ]
+        ]
+    }
+}

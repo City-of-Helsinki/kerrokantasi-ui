@@ -1,0 +1,176 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Goal**  
+Transform each Markdown test-plan file (`*-tests.md`) and its companion locator file (`*-locators.md`) into:
+
+1. A **Page-Object Model (POM)** JavaScript file → `e2e/tests/page-objects/<base>.page.js`  
+2. A Playwright **spec** file → `e2e/tests/page-spec/<base>.spec.js`
+
+Both files must compile and run with **@playwright/test**.
+
+---
+
+**Inputs & expected format**
+
+Each test plan follows this template:
+
+### <Feature / screen name>
+
+- **Test Title**: <Short imperative sentence>  
+- **Description**: <One-sentence purpose>  
+- **Test Steps**:
+  1. <Step 1>
+  2. <Step 2>
+  ...
+
+The locator file (`*-locators.md`) contains exported Playwright locators inside `js` code blocks.
+
+---
+
+**How to parse & map the plan**
+
+| Plan element                    | Generated code                                                            |
+|---------------------------------|---------------------------------------------------------------------------|
+| `### <Feature>`                 | One **`test.describe()`** block titled as a user story:<br>`As a user I want to <lower-case feature>` |
+| `**Test Title**: XYZ`           | One **`test()`** inside the surrounding describe.<br>Title must also be a user story: `As a user I want to ${lowerCase(XYZ)}` |
+| Ordered **Test Steps**          | Sequential Playwright actions/assertions wrapped in `await test.step('<original text>', async () => { … })` |
+| Placeholder values (e.g. `hearingSlug`) | Parameterise via fixtures or constants at the top of the spec. |
+
+---
+
+**Page-Object Model rules**
+
+* One exported class **`<BaseName>Page`** per locator file.  
+* Constructor: `constructor(private readonly page: Page) {}`
+* Locators: **All available locators** are defined in `*-locators.md`
+* For each locator export a **getter**:  
+  ```js
+  get heading() { 
+    return this.page..getByRole('main').getByRole('heading', { name: 'Hearing title' }); 
+  }
+  ```  
+* Add **action methods** (e.g. `open(hearingSlug: string)`) but **no assertions**.  
+* Do **not** redefine locators in the spec.
+
+---
+
+**Spec file conventions**
+
+```js
+import { test, expect } from '@playwright/test';
+import { HearingDisplayPage } from '../page-objects/hearing-display.page';
+
+const validSlug = 'example-slug';
+
+test.describe('As a user I want to see hearing display', () => {
+  test('As a user I want to verify basic hearing information', {tag: ['@hearing', '@smoke']}, async ({ page }) => {
+    const hd = new HearingDisplayPage(page);
+
+    await test.step('Navigate to a hearing page using a valid hearingSlug', async () => {
+      await hd.open(validSlug);
+    });
+
+    await test.step('Verify that the hearing title is displayed', async () => {
+      await expect(hd.heading).toBeVisible();
+    });
+
+    // …remaining steps
+  });
+});
+```
+**Tagging rules**
+
+- Every test() must include a tag array.
+- Add at least one feature-specific tag derived from the feature name in kebab-case (e.g. ### Hearing Display → @hearing-display).
+- Optional extra generic tags such as @smoke-tests are allowed, when story does not require specific data.
+- All tags start with @.
+
+**General coding guidelines**
+
+* **Language**: Default language for all pages is Finnish (Suomi).
+* **Assertions**: use robust matchers (`toBeVisible`, `toHaveText`, `toHaveCount`, etc.).  
+* **No hard-coded waits**—rely on Playwright auto-waiting.  
+* Group logical work with `test.step()` for clear trace output.
+
+---
+
+**Coding standards**
+
+* Language: **JavaScript**.  
+* Always `async/await`.  
+* Keep imports relative (`'../page-objects/...'`).  
+
+---
+
+**Output requirements**
+
+1. **Exactly two files per test plan**, nothing else:  
+   ```
+   e2e/
+     tests/
+       page-objects/<base>.page.js
+       page-spec/<base>.spec.js
+   ```  
+2. Emit only the code—no extra narrative or log output.  
+3. Ensure the spec imports the page-object with a correct relative path.
+
+
+## Accept cookies whenever calling 'page.goto' and cookies are not accepted for current session
+```js
+const { acceptCookieConcent } = require('../../utils');
+
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/');
+        await acceptCookieConcent(page);
+    });
+```
+
+## When checking meta tags, use toBeDefined() instead of toBeVisible()
+```js
+await expect(ogTitle).toBeDefined();
+```
+
+## Use Page Object Model
+See if there is page object model that you could use or create a new one
+```js
+e2e/tests/page-objects/UserProfilePage.js
+```
+```js
+    test('As a user I want to see all my favorited hearings', async ({ page }) => {
+      const userProfilePage = new UserProfilePage(page);
+```
+
+## If test needs login
+```js
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/');
+        await acceptCookieConcent(page);
+        await login(page);
+        await expect(page.getByRole('link', { name: 'Kerrokantasi' })).toBeVisible();
+        // Wait for any OIDC-related network requests to complete
+        await page.waitForLoadState('networkidle');
+    });
+    test('As a user I want to see the accessibility page load correctly', async ({ page }) => {
+        test.skip(!hasLoginCredentials, 'No test user credentials provided');
+
+```
+## Use Javascript and Playwright best practices e.g. getByRole.
+
+## Waiting for elements
+Prefer playwrights expect pattern to wait for elements
+```js
+await expect(page.locator('.hearing-comment')).not.toHaveCount(0);
+```
+
+## Include Axe for accessibility tests
+```js
+const { axeCheckHandler } = require('../../utils');
+
+ test('As a user I want to see the accessibility page load correctly', async ({ page }, testInfo) => {
+    await test.step('Run automated accessibility tests', async () => {
+      await axeCheckHandler(page, testInfo);
+    });
+```

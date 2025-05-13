@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Goal**  
+Generate a clean, human-readable catalog of every **user-facing** route in this React application.
+
+- Output the completed catalog to Markdown file in the e2e/plan/routes directory.
+
+---
+
+## 1 · Scope  
+
+* **Include**:  
+  • Pages reachable from the public navigation flow (menu links, buttons, redirects).  
+  • Dynamic routes expressed with placeholders (e.g. `/hearing/:hearingSlug`).  
+  • Feature-flagged or lazy-loaded pages that a real user can reach.  
+
+* **Exclude**:  
+  • API endpoints, asset files, internal dev tools, test pages, 404s, or admin-only routes.  
+
+---
+
+## 2 · How to discover the routes  
+
+1. **Launch the app** at `http://localhost:8086`.  
+2. Parse the SPA router configuration (e.g. React Router) **or** crawl the UI by simulating clicks on every in-app link up to a reasonable depth.  
+3. Capture distinct pathname patterns; normalise dynamic segments to `:paramName`.  
+4. De-dupe paths that map to the same screen.  
+5. For each path, record a **concise end-user description** (max one line).  
+6. Sort the list logically (root → primary → detail → wildcard).  
+---
+
+## 3 · Output format  
+
+```markdown
+# Application Routes
+
+1. `/` – Home page showing featured hearings and overview  
+2. `/info` – About / information page  
+3. `/hearing/:hearingSlug` – Hearing detail view  
+4. `/hearing/:hearingSlug/section/:sectionId` – Specific section inside a hearing  
+5. `/search` – Full-text hearing search results  
+…  

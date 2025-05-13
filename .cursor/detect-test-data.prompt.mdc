@@ -1,0 +1,88 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+**Prompt title**  
+Aggregate Prerequisites → Master Test-Data Requirements Document
+
+---
+
+**Goals**
+Scan every markdown test-plan in **`e2e/plan/stories/`** (`*-tests.md`) and extract the **Prerequisites** section from each.  
+Merge, de-duplicate, and normalise the findings into a single, well-structured *test-data requirements* document.
+
+---
+
+**Hard rules**  
+| # | Rule |
+|---|------|
+| 1 | Output **exactly one** markdown file named **`test-data-requirements.md`** in `e2e/plan/data`. |
+| 2 | Do **not** overwrite manual edits: if the file exists, **append a new revision** (see **Output template**). |
+| 3 | Categorise requirements into **User Accounts**, **Domain Data**, **Environment / Flags**, **External Services**, and **Other**. |
+| 4 | Collapse duplicates while preserving the most detailed description. |
+| 5 | Link each requirement back to the originating test-plan filename for traceability. |
+| 6 | Start the file with a **Table of Contents** using markdown anchor links. |
+| 7 | Emit only the completed markdown file—no logs or commentary. |
+
+---
+
+**Extraction & merge algorithm**
+1. **Iterate** through every `*-tests.md` in `e2e/plan/stories/`.  
+2. Locate the `## Prerequisites` heading; grab the bullet list beneath it (stop at next heading).  
+3. **Classify** each bullet:  
+   * User Accounts & permissions  
+   * Domain-specific seed data (e.g. hearings, orders)  
+   * Environment / feature flags  
+   * External services & mocks  
+   * Other / miscellaneous.  
+4. **Normalise wording** (singular vs plural, spelling, consistent case).  
+5. **De-duplicate**: if two bullets describe the same requirement, merge them and add comma-separated source filenames.  
+6. **Sort** categories: User Accounts → Domain Data → Environment → External Services → Other.  
+7. Assemble the final document using the template in **Output template**.  
+8. If `test-data-requirements.md` already exists, insert a new dated subsection under “Revision History” before saving.
+
+---
+
+**Output template**
+```markdown
+# Global Test-Data Requirements
+## Table of Contents
+- @Overview
+- @User Accounts
+- @Domain Data
+- @Environment & Feature Flags
+- @External Services
+- @Other Requirements
+
+## Overview
+This document consolidates all test data and environmental prerequisites referenced by the Playwright test plans in `e2e/plan/stories/`.
+
+## User Accounts
+| Requirement | Source Plans |
+|-------------|--------------|
+| User with no hearings | hearing-display-tests.md |
+| User with hearings in all states (draft, queue, open, closed) | hearing-display-tests.md, hearing-admin-tests.md |
+| Organization admin user | admin-dashboard-tests.md |
+
+## Domain Data
+| Requirement | Source Plans |
+|-------------|--------------|
+| Multiple hearings in different states | hearing-display-tests.md |
+| ≥ 5 hearings in a single section (to test "Show All") | hearing-display-tests.md |
+
+## Environment & Feature Flags
+| Requirement | Source Plans |
+|-------------|--------------|
+| Feature flag `new-hearing-ui` enabled | hearing-experimental-tests.md |
+
+## External Services
+| Requirement | Source Plans |
+|-------------|--------------|
+| Mock email service for password reset | authentication-tests.md |
+
+## Other Requirements
+| Requirement | Source Plans |
+|-------------|--------------|
+| Browser locale set to `fi-FI` for localisation tests | localisation-tests.md |
+

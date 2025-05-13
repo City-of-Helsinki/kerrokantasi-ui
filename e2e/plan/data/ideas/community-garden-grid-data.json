@@ -1,0 +1,473 @@
+{
+  "hearings": [
+    {
+      "title": {
+        "fi": "Yhteisöpuutarhaverkosto",
+        "sv": "Nätverk av gemenskapsträdgårdar",
+        "en": "Community Garden Grid"
+      },
+      "abstract": {
+        "fi": "Verkosto yhdistettyjä yhteisöpuutarhoja sijoitettuna säännöllisin välein kaupunginosiin, tarjoten viheralueen 5 minuutin kävelymatkan päässä mistä tahansa asunnosta.",
+        "sv": "Ett nätverk av sammankopplade gemenskapsträdgårdar placerade med jämna mellanrum över stadsdelar, vilket skapar konsekvent tillgång till grönområden inom 5 minuters promenad från alla bostäder.",
+        "en": "A network of connected community gardens placed at regular intervals throughout urban neighborhoods, creating consistent access to green space within a 5-minute walk of any residence."
+      },
+      "slug": "community-garden-grid",
+      "labels": [
+        {
+          "id": 1,
+          "label": {
+            "fi": "Viheralueet",
+            "sv": "Grönområden",
+            "en": "Green Spaces"
+          },
+          "frontId": 101
+        },
+        {
+          "id": 2,
+          "label": {
+            "fi": "Kestävä kehitys",
+            "sv": "Hållbar utveckling",
+            "en": "Sustainable Development"
+          },
+          "frontId": 102
+        }
+      ],
+      "published": true,
+      "open_at": "2023-05-01T08:00:00Z",
+      "close_at": "2023-06-30T23:59:59Z",
+      "sections": [
+        {
+          "id": "main-section",
+          "type": "main",
+          "voting": "none",
+          "commenting": "open",
+          "commenting_map_tools": "markers",
+          "title": {
+            "fi": "Yhteisöpuutarhaverkoston ydinajatus",
+            "sv": "Kärnkoncept för nätverk av gemenskapsträdgårdar",
+            "en": "Core Concept of Community Garden Grid"
+          },
+          "abstract": {
+            "fi": "Yhteisöpuutarhaverkosto luo järjestelmällisen lähestymistavan kaupunkien viheralueisiin.",
+            "sv": "Gemenskapsträdgårdsnätverket etablerar ett systematiskt tillvägagångssätt för urbana grönområden.",
+            "en": "The Community Garden Grid establishes a systematic approach to urban green space."
+          },
+          "content": {
+            "fi": "Yhteisöpuutarhaverkosto luo järjestelmällisen lähestymistavan kaupunkien viheralueisiin määräämällä pieniä ja keskikokoisia yhteisöpuutarhoja (0,1-0,2 hehtaaria) säännöllisin välein asuinalueille. Jokainen puutarha noudattaa samankaltaista organisatorista mallia, mutta paikalliset asukkaat mukauttavat niitä. Puutarhat yhdistyvät omistettujen kävely- ja pyöräteiden kautta, luoden toissijaisen liikenneverkon, joka kulkee rinnakkain mutta erillään ajoneuvoliikenteestä. Tämä lähestymistapa varmistaa, että jokaisella kaupunkilaisella on pääsy puutarhanhoitotilaan ja vihreään virkistysalueeseen 5 minuutin kävelymatkan päässä.",
+            "sv": "Nätverket av gemenskapsträdgårdar etablerar ett systematiskt tillvägagångssätt för urbana grönområden genom att kräva små till medelstora gemenskapsträdgårdar (0,1-0,2 hektar) med jämna mellanrum i bostadsområden. Varje trädgård följer en liknande organisatorisk mall men anpassas av lokala invånare. Trädgårdarna är sammankopplade med dedikerade gång- och cykelvägar, vilket skapar ett sekundärt transportnätverk som löper parallellt med men separat från fordonstrafiken. Detta tillvägagångssätt säkerställer att varje stadsbo har tillgång till odlingsutrymme och grön rekreation inom 5 minuters promenad.",
+            "en": "The Community Garden Grid establishes a systematic approach to urban green space by mandating small to medium-sized community gardens (0.25-0.5 acres) at regular intervals throughout residential areas. Each garden follows a similar organizational template but is customized by local residents. The gardens are connected by dedicated pedestrian and bicycle pathways, creating a secondary transportation network that runs parallel to but separate from vehicle traffic. This approach ensures that every urban resident has access to gardening space and green recreation within a 5-minute walk."
+          },
+          "created_at": "2023-04-01T12:00:00Z",
+          "created_by": "urban-planning-department",
+          "images": [
+            {
+              "id": 1001,
+              "url": "https://example.com/images/garden-grid-overview.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Yhteisöpuutarhaverkoston ilmakuva",
+                "sv": "Flygvy över gemenskapsträdgårdsnätverk",
+                "en": "Aerial view of Community Garden Grid"
+              },
+              "caption": {
+                "fi": "Havainnekuva yhteisöpuutarhojen verkostosta kaupunkiympäristössä.",
+                "sv": "Konceptbild av nätverket av gemenskapsträdgårdar i stadsmiljö.",
+                "en": "Conceptual illustration of the community garden network in an urban environment."
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 28,
+          "hearing": "community-garden-grid"
+        },
+        {
+          "id": "neighborhood-connectivity",
+          "type": "part",
+          "voting": "open",
+          "commenting": "registered",
+          "commenting_map_tools": "all",
+          "title": {
+            "fi": "Naapurustojen yhdistäminen vihreiden kulkureittien avulla",
+            "sv": "Skapa socialt tyg genom gröna vägar",
+            "en": "Creating Social Fabric Through Green Pathways"
+          },
+          "abstract": {
+            "fi": "Yhteisöpuutarhaverkosto luo kävelyteitä, jotka yhdistävät aiemmin vilkkaiden katujen tai keinotekoisten rajojen erottamat naapurustot, edistäen yhteisöjen välisiä suhteita.",
+            "sv": "Gemenskapsträdgårdsnätverket skapar gångkorridorer som förbinder grannskap som tidigare separerades av livliga gator eller godtyckliga gränser, vilket främjar relationer mellan olika samhällen.",
+            "en": "The Community Garden Grid creates pedestrian corridors that link neighborhoods previously separated by busy streets or arbitrary boundaries, fostering cross-community relationships."
+          },
+          "content": {
+            "fi": "Puutarhojen kävelytiet on suunniteltu inhimillisessä mittakaavassa ja niissä on loivia kaarteita, jotka hidastavat liikettä ja rohkaisevat satunnaisia kohtaamisia. Puutarhojen strateginen sijoittelu ylittää usein sosioekonomisia tai kulttuurisia jakoja, tuoden yhteen asukkaita, jotka eivät muuten välttämättä kohtaisi. Puutarhojen sisäänkäynneissä on naapuruston karttoja, jotka korostavat koko verkkojärjestelmää, auttaen asukkaita ymmärtämään sijaintinsa laajemmassa kaupunkiverkostossa. Jokaisessa puutarhassa on monikielisiä opasteita ja yleissuunnitteluelementtejä, jotta ne olisivat saavutettavia kaikille yhteisön jäsenille. Naapurustojen rajoilla sijaitsevat puutarhat saavat lisäresursseja yhteisönrakennustapahtumiin, toimien neutraaleina kokoontumispaikkoina paikallisten huolenaiheiden käsittelyyn.",
+            "sv": "Trädgårdsstigar är designade i mänsklig skala med mjuka kurvor som saktar ner rörelsen och uppmuntrar till informella interaktioner. Strategisk placering av trädgårdar överbryggar ofta socioekonomiska eller kulturella klyftor och sammanför invånare som annars aldrig skulle interagera. Trädgårdsingångar har kartor över grannskapet som framhäver hela rutnätssystemet och hjälper invånarna att förstå sin position inom det större stadsnätverket. Varje trädgård inkluderar flerspråkig skyltning och universella designelement för att säkerställa tillgänglighet för alla samhällsmedlemmar. Trädgårdar belägna vid gränser mellan grannskap får ytterligare resurser för gemenskapsbyggande evenemang och fungerar som neutrala mötesplatser för att hantera lokala problem.",
+            "en": "Garden pathways are designed at a human scale with gentle curves that slow movement and encourage casual interactions. Strategic placement of gardens often bridges socioeconomic or cultural divides, bringing together residents who might otherwise never interact. Garden entrance points feature neighborhood maps highlighting the entire grid system, helping residents understand their position within the larger city network. Each garden includes multilingual signage and universal design elements to ensure accessibility for all community members. Gardens situated at neighborhood boundaries receive additional resources for community-building events, serving as neutral meeting grounds for addressing local concerns."
+          },
+          "created_at": "2023-04-02T09:30:00Z",
+          "created_by": "urban-planning-department",
+          "images": [
+            {
+              "id": 1002,
+              "url": "https://example.com/images/garden-pathways.jpg",
+              "width": 1600,
+              "height": 900,
+              "title": {
+                "fi": "Puutarhapolut naapurustojen välillä",
+                "sv": "Trädgårdsstigar mellan grannskap",
+                "en": "Garden pathways between neighborhoods"
+              },
+              "caption": {
+                "fi": "Kävelytie, joka yhdistää kaksi aiemmin erillistä naapurustoa yhteisöpuutarhan kautta.",
+                "sv": "En gångväg som förbinder två tidigare separata grannskap genom en gemenskapsträdgård.",
+                "en": "A pedestrian pathway connecting two previously separate neighborhoods through a community garden."
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 45,
+          "questions": [
+            {
+              "frontId": "q1",
+              "id": "pathway-preference",
+              "type": "single-choice",
+              "independent_poll": true,
+              "text": {
+                "fi": "Mikä puutarhapolkujen ominaisuus on sinulle tärkein?",
+                "sv": "Vilken egenskap hos trädgårdsstigar är viktigast för dig?",
+                "en": "Which feature of garden pathways is most important to you?"
+              },
+              "options": [
+                {
+                  "id": "opt1",
+                  "text": {
+                    "fi": "Esteettömyys liikuntarajoitteisille",
+                    "sv": "Tillgänglighet för personer med funktionsnedsättning",
+                    "en": "Accessibility for mobility-impaired individuals"
+                  }
+                },
+                {
+                  "id": "opt2",
+                  "text": {
+                    "fi": "Valaistus iltakäyttöä varten",
+                    "sv": "Belysning för kvällsanvändning",
+                    "en": "Lighting for evening use"
+                  }
+                },
+                {
+                  "id": "opt3",
+                  "text": {
+                    "fi": "Luonnollinen maisemointi",
+                    "sv": "Naturlig landskapsarkitektur",
+                    "en": "Natural landscaping"
+                  }
+                },
+                {
+                  "id": "opt4",
+                  "text": {
+                    "fi": "Levähdyspaikat ja penkit",
+                    "sv": "Vilplatser och bänkar",
+                    "en": "Rest areas and benches"
+                  }
+                }
+              ]
+            }
+          ],
+          "hearing": "community-garden-grid"
+        },
+        {
+          "id": "seasonal-programming",
+          "type": "part",
+          "voting": "registered",
+          "commenting": "strong",
+          "commenting_map_tools": "none",
+          "title": {
+            "fi": "Ympärivuotinen sitoutuminen vaihtuvien aktiviteettien kautta",
+            "sv": "Engagemang året runt genom varierande aktiviteter",
+            "en": "Year-Round Engagement Through Changing Activities"
+          },
+          "abstract": {
+            "fi": "Yhteisöpuutarhat kokevat tyypillisesti aktiviteettihuippuja kasvukausien aikana ja laiminlyöntiä talvikuukausina. Puutarhaverkosto toteuttaa ympärivuotista ohjelmaa ylläpitääkseen yhteisön sitoutumista.",
+            "sv": "Gemenskapsträdgårdar upplever vanligtvis aktivitetstoppar under växtsäsonger och försummelse under vintermånaderna. Trädgårdsnätverket implementerar året-runt-program för att upprätthålla konsekvent samhällsengagemang.",
+            "en": "Community gardens typically see activity peaks during growing seasons and neglect during winter months. The Garden Grid implements year-round programming to maintain consistent community engagement."
+          },
+          "content": {
+            "fi": "Kevään toiminta keskittyy istutustyöpajoihin, siemenvaihtoon ja puutarhan suunnittelukokouksiin. Kesä tuo mukanaan sadonkorjuujuhlia, ulkoruokailutapahtumia ja ilmakonsertteja. Syksyn ohjelma keskittyy säilöntätekniikoihin, kompostointityöpajoihin ja puutarhapenkkien valmisteluun talvea varten. Talviaktiviteetteihin kuuluu siementen istutus pienissä kasvihuonerakenteissa, suunnittelukokoukset tulevaa vuotta varten ja kylmän kauden juhlat nuotiopaikkoineen ja lämmitysasemineen. Koulutusohjelma kiertää verkostossa, jossa erikoistuneet työpajat liikkuvat puutarhasta puutarhaan läpi vuoden, kannustaen asukkaita tutkimaan koko verkostoa ja tapaamaan muiden puutarhayhteisöjen jäseniä. Kunnallinen tuki sisältää koordinaattorin, joka auttaa aktiviteettien aikatauluttamisessa ja ratkaisee puutarhan käyttöön tai hallintatapoihin liittyviä konflikteja.",
+            "sv": "Vårens aktiviteter fokuserar på planteringsworkshops, fröutbyten och trädgårdsplaneringsmöten. Sommaren medför skördefestivaler, utomhusmatsarrangemang och kvällskonserter. Höstens program fokuserar på bevaringstekniker, komposteringsworkshops och förberedning av trädgårdsbäddar för vintern. Vinteraktiviteter inkluderar inomhus fröstart i små växthusstrukturer, planeringsmöten för det kommande året och kallsäsongens firande med eldgropar och värmestationer. Utbildningsprogram roterar genom rutnätet, med specialiserade workshops som flyttar från trädgård till trädgård under hela året, vilket uppmuntrar invånare att utforska hela nätverket och träffa medlemmar från andra trädgårdsgemenskaper. Kommunalt stöd inkluderar en samordnare som hjälper till att schemalägga aktiviteter och lösa konflikter om trädgårdsanvändning eller förvaltningsmetoder.",
+            "en": "Spring activities focus on planting workshops, seed exchanges, and garden planning meetings. Summer brings harvest festivals, outdoor dining events, and evening concerts. Fall programming centers around preservation techniques, composting workshops, and preparing garden beds for winter. Winter activities include indoor seed starting in small greenhouse structures, planning meetings for the coming year, and cold-season celebrations with fire pits and warming stations. Educational programming rotates through the grid, with specialized workshops moving from garden to garden throughout the year, encouraging residents to explore the full network and meet members of other garden communities. Municipal support includes a coordinator who helps schedule activities and resolves conflicts over garden usage or management approaches."
+          },
+          "created_at": "2023-04-03T14:45:00Z",
+          "created_by": "urban-planning-department",
+          "images": [
+            {
+              "id": 1003,
+              "url": "https://example.com/images/seasonal-activities.jpg",
+              "width": 1200,
+              "height": 800,
+              "title": {
+                "fi": "Puutarhaverkoston kausiaktiviteetit",
+                "sv": "Säsongsaktiviteter i trädgårdsnätverket",
+                "en": "Seasonal activities in the Garden Grid"
+              },
+              "caption": {
+                "fi": "Kollaaši eri vuodenaikojen aktiviteeteista yhteisöpuutarhaverkostossa.",
+                "sv": "Kollage av aktiviteter under olika årstider i gemenskapsträdgårdsnätverket.",
+                "en": "Collage of activities during different seasons in the Community Garden Grid."
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 36,
+          "questions": [
+            {
+              "frontId": "q2",
+              "id": "seasonal-preference",
+              "type": "multiple-choice",
+              "independent_poll": false,
+              "text": {
+                "fi": "Mitkä kausiluonteiset aktiviteetit kiinnostavat sinua eniten? (valitse kaikki sopivat)",
+                "sv": "Vilka säsongsbundna aktiviteter intresserar dig mest? (välj alla som passar)",
+                "en": "Which seasonal activities interest you most? (select all that apply)"
+              },
+              "options": [
+                {
+                  "id": "opt1",
+                  "text": {
+                    "fi": "Kevään istutustyöpajat",
+                    "sv": "Vårens planteringsworkshops",
+                    "en": "Spring planting workshops"
+                  }
+                },
+                {
+                  "id": "opt2",
+                  "text": {
+                    "fi": "Kesän sadonkorjuujuhlat",
+                    "sv": "Sommarens skördefestivaler",
+                    "en": "Summer harvest festivals"
+                  }
+                },
+                {
+                  "id": "opt3",
+                  "text": {
+                    "fi": "Syksyn säilöntäkurssit",
+                    "sv": "Höstens bevaringskurser",
+                    "en": "Fall preservation courses"
+                  }
+                },
+                {
+                  "id": "opt4",
+                  "text": {
+                    "fi": "Talven suunnittelukokoukset",
+                    "sv": "Vinterns planeringsmöten",
+                    "en": "Winter planning meetings"
+                  }
+                }
+              ]
+            }
+          ],
+          "hearing": "community-garden-grid"
+        },
+        {
+          "id": "closure-info-section",
+          "type": "closure-info",
+          "voting": "none",
+          "commenting": "none",
+          "commenting_map_tools": "none",
+          "title": {
+            "fi": "Kiitos osallistumisestasi",
+            "sv": "Tack för ditt deltagande",
+            "en": "Thank you for your participation"
+          },
+          "abstract": {
+            "fi": "Yhteisöpuutarhaverkostoa koskeva kuuleminen on nyt päättynyt.",
+            "sv": "Samrådet om gemenskapsträdgårdsnätverket är nu avslutat.",
+            "en": "The hearing regarding the Community Garden Grid has now concluded."
+          },
+          "content": {
+            "fi": "Kiitämme kaikkia osallistujia arvokkaista näkemyksistä ja kommenteista. Kaikki saadut palautteet analysoidaan huolellisesti ja otetaan huomioon lopullisessa suunnitelmassa. Lopulliset päätökset julkaistaan kaupungin verkkosivuilla elokuussa 2023.",
+            "sv": "Vi tackar alla deltagare för värdefulla insikter och kommentarer. All mottagen feedback kommer att analyseras noggrant och beaktas i den slutliga planen. De slutgiltiga besluten kommer att publiceras på stadens webbplats i augusti 2023.",
+            "en": "We thank all participants for valuable insights and comments. All feedback received will be carefully analyzed and taken into consideration in the final plan. The final decisions will be published on the city's website in August 2023."
+          },
+          "created_at": "2023-06-30T10:00:00Z",
+          "created_by": "urban-planning-department",
+          "images": [],
+          "files": [],
+          "n_comments": 0,
+          "hearing": "community-garden-grid"
+        }
+      ],
+      "main_image": {
+        "url": "https://example.com/images/garden-grid-main.jpg",
+        "title": {
+          "fi": "Yhteisöpuutarhaverkosto - päänäkymä",
+          "sv": "Gemenskapsträdgårdsnätverket - huvudvy",
+          "en": "Community Garden Grid - main view"
+        }
+      },
+      "contact_persons": [
+        {
+          "id": "cp-1",
+          "frontId": "contact-1",
+          "name": "Marja Puutarhuri",
+          "phone": "+358 50 1234567",
+          "email": "marja.puutarhuri@city.fi",
+          "organization": "Urban Planning Department",
+          "external_organization": false,
+          "additional_info": "",
+          "title": {
+            "fi": "Kaupunkisuunnittelun johtaja",
+            "sv": "Chef för stadsplanering",
+            "en": "Director of Urban Planning"
+          }
+        },
+        {
+          "id": "cp-2",
+          "frontId": "contact-2",
+          "name": "Niilo Naapurusto",
+          "phone": "+358 40 7654321",
+          "email": "niilo.naapurusto@greencity.org",
+          "organization": "Green City Initiative",
+          "external_organization": true,
+          "additional_info": "Projektikonsultti",
+          "title": {
+            "fi": "Yhteisöpuutarha-asiantuntija",
+            "sv": "Expert på gemenskapsträdgårdar",
+            "en": "Community Garden Specialist"
+          }
+        }
+      ],
+      "n_comments": 109,
+      "isNew": false,
+      "geojson": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [24.9384, 60.1699],
+            [24.9394, 60.1699],
+            [24.9394, 60.1709],
+            [24.9384, 60.1709],
+            [24.9384, 60.1699]
+          ]
+        ]
+      }
+    },
+    {
+      "title": {
+        "fi": "Pilottialueen yhteisöpuutarha",
+        "sv": "Gemenskapsträdgård i pilotområdet",
+        "en": "Pilot Area Community Garden"
+      },
+      "abstract": {
+        "fi": "Pilottihanke yhteisöpuutarhaverkoston ensimmäisen puutarhan toteuttamiseksi Keskuspuiston alueella.",
+        "sv": "Pilotprojekt för att implementera den första trädgården i gemenskapsträdgårdsnätverket i Centralparksområdet.",
+        "en": "Pilot project to implement the first garden of the Community Garden Grid in the Central Park area."
+      },
+      "slug": "pilot-community-garden",
+      "labels": [
+        {
+          "id": 1,
+          "label": {
+            "fi": "Viheralueet",
+            "sv": "Grönområden",
+            "en": "Green Spaces"
+          },
+          "frontId": 101
+        },
+        {
+          "id": 3,
+          "label": {
+            "fi": "Pilottihanke",
+            "sv": "Pilotprojekt",
+            "en": "Pilot Project"
+          },
+          "frontId": 103
+        }
+      ],
+      "published": false,
+      "open_at": "2023-07-15T08:00:00Z",
+      "close_at": "2023-08-15T23:59:59Z",
+      "sections": [
+        {
+          "id": "main-section-pilot",
+          "type": "main",
+          "voting": "registered",
+          "commenting": "registered",
+          "commenting_map_tools": "all",
+          "title": {
+            "fi": "Pilottiyhteisöpuutarhan suunnittelu",
+            "sv": "Design av pilotgemenskapsträdgården",
+            "en": "Pilot Community Garden Design"
+          },
+          "abstract": {
+            "fi": "Osallistu ensimmäisen yhteisöpuutarhan suunnitteluun Keskuspuiston alueella.",
+            "sv": "Delta i utformningen av den första gemenskapsträdgården i Centralparksområdet.",
+            "en": "Participate in designing the first community garden in the Central Park area."
+          },
+          "content": {
+            "fi": "Tämä kuuleminen keskittyy yhteisöpuutarhaverkoston ensimmäisen toteutettavan puutarhan suunnitteluun. Pilottipuutarha sijoitetaan Keskuspuiston itäreunalle, missä se palvelee kolmea naapurustoa. Puutarha toimii prototyyppinä laajemmalle verkostolle ja testialustana keskeisille konsepteille. Kutsumme alueen asukkaat ja muut kiinnostuneet osallistumaan suunnitteluprosessiin. Puutarha sisältää noin 30 viljelylaatikkoa, yhteisöalueen, sadeveden keräysjärjestelmän ja työkaluvaraston. Toivomme erityisesti näkemyksiä koskien viljelylaatikoiden jakamisperiaatteita, yhteisöalueen käyttöä ja talvikauden aktiviteetteja.",
+            "sv": "Detta samråd fokuserar på designen av den första trädgården som ska implementeras i gemenskapsträdgårdsnätverket. Pilotträdgården kommer att placeras på östra kanten av Centralparken, där den betjänar tre grannskap. Trädgården fungerar som en prototyp för det bredare nätverket och som en testplattform för nyckelkoncept. Vi bjuder in områdets invånare och andra intresserade att delta i designprocessen. Trädgården kommer att innehålla cirka 30 odlingslådor, ett gemenskapsområde, ett regnvatteninsamlingssystem och ett verktygsförråd. Vi välkomnar särskilt synpunkter på principerna för fördelning av odlingslådor, användning av gemenskapsområdet och vinteraktiviteter.",
+            "en": "This hearing focuses on designing the first garden to be implemented in the Community Garden Grid. The pilot garden will be located on the eastern edge of Central Park, where it will serve three neighborhoods. The garden will function as a prototype for the broader network and as a testing ground for key concepts. We invite area residents and other interested parties to participate in the design process. The garden will include approximately 30 planting boxes, a community area, a rainwater collection system, and a tool storage shed. We particularly welcome input regarding planting box allocation principles, community area usage, and winter season activities."
+          },
+          "created_at": "2023-06-15T11:30:00Z",
+          "created_by": "urban-planning-department",
+          "images": [
+            {
+              "id": 1004,
+              "url": "https://example.com/images/pilot-garden-location.jpg",
+              "width": 1800,
+              "height": 1200,
+              "title": {
+                "fi": "Pilottipuutarhan sijainti",
+                "sv": "Pilotträdgårdens placering",
+                "en": "Pilot Garden Location"
+              },
+              "caption": {
+                "fi": "Ilmakuva ehdotetusta pilottipuutarhan sijainnista Keskuspuiston itäreunalla.",
+                "sv": "Flygfoto av den föreslagna platsen för pilotträdgården på östra kanten av Centralparken.",
+                "en": "Aerial view of the proposed pilot garden location on the eastern edge of Central Park."
+              }
+            }
+          ],
+          "files": [],
+          "n_comments": 0,
+          "plugin_identifier": "map",
+          "plugin_data": "{}",
+          "plugin_iframe_url": "https://example.com/map-plugin",
+          "plugin_fullscreen": true,
+          "type_name_singular": "garden",
+          "type_name_plural": "gardens",
+          "hearing": "pilot-community-garden"
+        }
+      ],
+      "main_image": {
+        "url": "https://example.com/images/pilot-garden-concept.jpg",
+        "title": {
+          "fi": "Pilottipuutarhan konseptikuva",
+          "sv": "Konceptbild av pilotträdgården",
+          "en": "Pilot Garden Concept Image"
+        }
+      },
+      "contact_persons": [
+        {
+          "id": "cp-3",
+          "frontId": "contact-3",
+          "name": "Petri Pilotti",
+          "phone": "+358 50 9876543",
+          "email": "petri.pilotti@city.fi",
+          "organization": "Parks Department",
+          "external_organization": false,
+          "additional_info": "",
+          "title": {
+            "fi": "Projektikoordinaattori",
+            "sv": "Projektkoordinator",
+            "en": "Project Coordinator"
+          }
+        }
+      ],
+      "n_comments": 0,
+      "isNew": true,
+      "geojson": {
+        "type": "Point",
+        "coordinates": [24.9325, 60.1756]
+      }
+    }
+  ]
+} 
