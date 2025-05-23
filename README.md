@@ -302,3 +302,5 @@ The following favicons are recommended, but not mandatory to include.
 - `/assets/favicon/browserconfig.xml`
 
 If no favicon is provided the UI will use the default kerrokantasi favicon.
+
+Test change for pipeline reasons.
