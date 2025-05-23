@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 
 import SkipLinkModal from '../SkipLinkModal';
 import renderWithProviders from '../../../../utils/renderWithProviders';
@@ -42,20 +42,20 @@ describe('<SkipLinkModal />', () => {
     });
   });
 
-  it('should handle input changes', () => {
+  it('should handle input changes', async () => {
     renderComponent();
 
     const user = userEvent.setup();
 
     const inputs = ['skip-link-linkText', 'skip-link-linkOwnId', 'skip-link-linkTargetId'];
 
-    inputs.forEach(async (input) => {
-      const formInput = await screen.findByTestId(input);
-
-      await user.type(formInput, 'test text');
-
-      await waitFor(() => expect(input.getAttribute('value')).toBe('test text'));
-    });
+    await act(async () => {
+      for (const input of inputs) {
+        const formInput = await screen.findByTestId(input);
+        await user.type(formInput, 'test text');
+        await waitFor(() => expect(formInput.getAttribute('value')).toBe('test text'));
+      }
+    })
   });
 
   it('should validate form', async () => {
