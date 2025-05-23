@@ -32,6 +32,10 @@ require(`${cityPublic}/test-env-config`);
 
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
+fetchMock.enableMocks();
+
+// Configure fetch mock to return valid JSON responses
+fetchMock.mockResponse(JSON.stringify({}));
 // Needed for tests to work with react-slick, check https://github.com/akiran/react-slick#test-setup
 window.matchMedia = window.matchMedia || function () {
   return {

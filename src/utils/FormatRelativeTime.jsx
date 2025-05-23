@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime, useIntl } from 'react-intl';
 
-function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
+function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
   if (!timeVal) {
     return <span />;
   }
+  const { formatDate, formatTime } = useIntl();
   const time = new Date(timeVal);
   // timeVal is before current date?
   const currentTime = new Date();
@@ -68,8 +69,6 @@ FormatRelativeTime.propTypes = {
   messagePrefix: PropTypes.string.isRequired,
   timeVal: PropTypes.string,
   frontpage: PropTypes.bool,
-  formatTime: PropTypes.func,
-  formatDate: PropTypes.func,
 };
 
 export default FormatRelativeTime;
