@@ -20,6 +20,6 @@ jobs:
           node-version: 22
           cache: 'yarn'
       - run: yarn cache clean
-      - run: yarn install --frozen-lockfile
+      - run: yarn HUSKY=0 install --frozen-lockfile
       - run: yarn lint
       - run: yarn build
