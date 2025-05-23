@@ -90,7 +90,7 @@ function App({ language, isHighContrast, history, ...props }) {
           {isCookiebotEnabled() && getCookieBotConsentScripts()}
         </Helmet>
         {header}
-        {config.maintenanceShowNotification && <MaintenanceNotification language={language} />}
+        <MaintenanceNotification language={language} />
         <main
           className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
           id={mainContainerId}
