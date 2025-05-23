@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Header from '../Header';
@@ -82,11 +82,18 @@ describe('<Header />', () => {
     const mockLogout = vi.fn();
 
     renderComponent(undefined, { authenticated: true, logout: mockLogout });
+    await act(async () => {
+      const userButton = await screen.findByText('Mock von User');
+      const userButtonElement = userButton.closest('button');
+      await user.click(userButtonElement);
+    });
+    await act(async () => {
+      const logoutButton = await screen.findByText('logout');
+      const logoutButtonElement = logoutButton.closest('button');
+      await user.click(logoutButtonElement);
+    });
 
-    await user.click(await screen.findByRole('button', { name: 'Mock von User' }));
-   // await user.click(await screen.findByRole('button', { name: 'logout' }));
-
-    // expect(mockLogout).toHaveBeenCalled();
+    expect(mockLogout).toHaveBeenCalled();
   });
 
   it('changes language when language selector is used', async () => {
