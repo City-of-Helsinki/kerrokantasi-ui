@@ -303,3 +303,4 @@ The following favicons are recommended, but not mandatory to include.
 
 If no favicon is provided the UI will use the default kerrokantasi favicon.
 
+Uusi
