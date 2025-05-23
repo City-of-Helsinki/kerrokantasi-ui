@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const NotificationService = jest.fn(({ notifications }) => {
+export const NotificationService = vi.fn(({ notifications }) => {
   return <div data-testid="mock-notification-service">{notifications.length} notifications</div>;
 });
 
