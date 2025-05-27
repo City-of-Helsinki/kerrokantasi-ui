@@ -163,8 +163,7 @@
     "cross-spawn": "^7.0.6",
     "micromatch": "^4.0.8",
     "rollup": "^4.24.4",
-    "rxjs": "7.8.0",
-    "immutable": "4.3.6"
+    "rxjs": "7.8.0"
   },
   "snyk": true
 }
