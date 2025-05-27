@@ -110,7 +110,7 @@
     "react-dom": "^18.0.0",
     "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
-    "react-helsinki-notification-manager": "https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git",
+    "react-helsinki-notification-manager": "git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git",
     "react-hot-loader": "^4.13.1",
     "react-i18next": "^15.5.2",
     "react-image-lightbox": "^5.1.1",

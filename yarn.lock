@@ -7833,9 +7833,9 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-"react-helsinki-notification-manager@https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git":
+"react-helsinki-notification-manager@git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git":
   version "0.0.1"
-  resolved "https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git#481525ebef3a521c8f9d82de710729ac36e8ea32"
+  resolved "git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git#a00d203c6850c29a9ec6192499ff6713f6bfd30b"
   dependencies:
     sass "^1.89.0"
 
