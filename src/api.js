@@ -1,7 +1,4 @@
 /* eslint-disable no-param-reassign */
-import urlUtil from 'url';
-
-import qs from 'querystring-es3';
 import merge from 'lodash/merge';
 
 import config from './config';
@@ -49,11 +46,25 @@ export function getApiURL(endpoint, params = null) {
   const baseUrl = getBaseApiURL(config.apiBaseUrl);
   let url = (`${baseUrl}/${endpoint.replace(/^\//g, '')}`);
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
+
   if (params) {
     if (url.indexOf("?") > -1) {
       throw new Error("Double query string");
     }
-    url += `?${qs.stringify(params)}`;
+
+    const searchParams = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(item => searchParams.append(key, item));
+      } else if (value !== null && typeof value === 'object') {
+        searchParams.append(key, JSON.stringify(value));
+      } else if (value !== undefined) {
+        searchParams.append(key, value);
+      }
+    });
+
+    url += `?${searchParams.toString()}`;
   }
   return url;
 }
@@ -121,7 +132,13 @@ export const getAllFromEndpoint = (endpoint, params = {}, options = {}) => {
     }).then((data) => {
       const updatedResults = [...results, ...data.results];
       if (data.next) {
-        const nextParams = urlUtil.parse(data.next, true).query;
+        const nextUrl = new URL(data.next);
+        const nextParams = {};
+
+        nextUrl.searchParams.forEach((value, key) => {
+          nextParams[key] = value;
+        });
+
         return getPaginated(updatedResults, { ...paramsForPage, ...nextParams });
       }
 
