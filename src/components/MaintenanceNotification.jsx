@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { NotificationService } from 'react-helsinki-notification-manager';
+// eslint-disable-next-line import/no-unresolved
+import 'react-helsinki-notification-manager/style.css';
 
 import { getNotifications } from '../utils/notificationService';
 
