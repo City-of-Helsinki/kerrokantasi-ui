@@ -370,7 +370,9 @@ const SortableCommentListComponent = ({
     return { value: ORDERING_CRITERIA[key], label: message };
   });
 
-  const defaultSortOption = sortOptions.find((option) => option.value === get(sectionComments, 'ordering'));
+  const [selectedSortOption, setSelectedSortOption] = useState(
+    () => sectionComments?.ordering || DEFAULT_ORDERING
+  );
 
   return (
     <div>
@@ -406,10 +408,15 @@ const SortableCommentListComponent = ({
                 <form className='sort-selector'>
                   <div id='sort-select'>
                     <Select
-                      label={<FormattedMessage id='commentOrder' />}
+                      texts={{
+                        label: intl.formatMessage({ id: 'commentOrder'})
+                      }}
                       options={sortOptions}
-                      defaultValue={defaultSortOption}
-                      onChange={(selected) => fetchComments(section.id, selected.value)}
+                      onChange={(selected) => {
+                        setSelectedSortOption(selected[0].value);
+                        fetchComments(section.id, selected[0].value)
+                      }}
+                      value={selectedSortOption}
                     />
                   </div>
                 </form>

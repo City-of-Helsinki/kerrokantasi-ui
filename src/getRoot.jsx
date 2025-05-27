@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
+import { CookieConsentContextProvider, LoginProvider } from 'hds-react';
 import { Provider } from 'react-redux';
 import { isIE } from 'react-device-detect';
-import { LoginProvider } from 'hds-react';
 import { BrowserRouter } from 'react-router-dom';
+import siteSettings from '@city-assets/cookieConfig.json';
 
 import { history } from './createStore';
 import App from './App';
@@ -22,11 +24,13 @@ export default function getRoot(store) {
   ) : (
     <LoginProvider {...loginProviderProps}>
       <Provider store={store}>
-        <BrowserRouter history={history}>
-          <ScrollToTop>
-            <App history={history} />
-          </ScrollToTop>
-        </BrowserRouter>
+        <CookieConsentContextProvider siteSettings={siteSettings}>
+          <BrowserRouter history={history}>
+            <ScrollToTop>
+              <App history={history} />
+            </ScrollToTop>
+          </BrowserRouter>
+        </CookieConsentContextProvider>
       </Provider>
     </LoginProvider>
   );

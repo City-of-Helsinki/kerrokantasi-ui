@@ -4,7 +4,7 @@ import { v1 as uuid } from 'uuid';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Select } from 'hds-react';
-import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
+import { injectIntl, useIntl } from 'react-intl';
 
 import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import * as ProjectsSelector from '../../selectors/projectLists';
@@ -48,7 +48,7 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
     dispatch(
       changeProject({
         hearingSlug: hearing.slug,
-        projectId: selected.value,
+        projectId: selected[0].value,
         projectLists: projects,
       }),
     );
@@ -71,19 +71,18 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
 
   const onActivePhase = (phaseId) => dispatch(activePhase(phaseId));
 
-  const projectValue = options.find((option) => option.value === hearing.project?.id);
-
   return (
     <div>
       <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
         <Select
-          optionKeyField='value'
           id='project'
           name='project'
-          label={<FormattedMessage id='projectSelection' />}
+          texts={{
+            label: intl.formatMessage({ id: 'projectSelection' }),
+          }}
           options={options}
           onChange={onChangeProject}
-          value={projectValue}
+          value={selectedProject ? selectedProject.id : [defaultProjectOptions[0]]}
         />
       </div>
       <Project

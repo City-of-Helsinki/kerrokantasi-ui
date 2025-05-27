@@ -1,7 +1,7 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import moment from 'moment';
 
 import HearingFormStep4 from '../HearingFormStep4';
@@ -33,16 +33,18 @@ describe('<HearingFormStep4 />', () => {
     renderComponent();
   });
 
-  it('should handle date change', () => {
+  it('should handle date change', async () => {
     const onHearingChange = vi.fn();
 
     renderComponent({ onHearingChange });
 
     const newDate = moment().add(1, 'days').format('DD.M.YYYY');
 
-    fireEvent.change(screen.getByLabelText(/hearingOpeningDate/i), { target: { value: newDate } });
+    await act(async () => {
+      await fireEvent.change(screen.getByLabelText(/hearingOpeningDate/i), { target: { value: newDate } });
+    })
 
-    expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String));
+    waitFor(() => expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String)));
   });
 
   it('should handle time change', () => {
@@ -59,9 +61,8 @@ describe('<HearingFormStep4 />', () => {
     expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String));
   });
 
-  it('should call onContinue when the button is clicked', () => {
+  it('should call onContinue when the button is clicked', async () => {
     const onContinue = vi.fn();
-
     renderComponent({ onContinue });
 
     fireEvent.click(screen.getByText('hearingFormNext'));

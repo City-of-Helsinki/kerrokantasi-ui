@@ -208,7 +208,17 @@ function Hearings({
   const handleSelectLabels = (selectLabels) => {
     const selectArray = Array.isArray(selectLabels) ? selectLabels : [selectLabels];
     const searchParams = parseQuery(location.search);
-    searchParams.label = selectArray.map(({ id }) => id);
+    
+    // Map selected labels to their corresponding IDs from the labels array
+    searchParams.label = selectArray.map((selectedItem) => {
+      // Find the label that matches the selected value in the current language
+      const matchingLabel = labels.find(label => 
+        getAttr(label.label, language) === selectedItem.label || 
+        getAttr(label.label, language) === selectedItem.value
+      );
+      return matchingLabel ? matchingLabel.id : null;
+    }).filter(id => id !== null); // Remove any null values
+    
     navigate({
       path: location.pathname,
       search: stringifyQuery(searchParams),
@@ -260,6 +270,7 @@ function Hearings({
     ? parseQuery(location.search).label
     : [parseQuery(location.search).label];
 
+  // Updated selectedLabels to work with HDS 4
   const selectedLabels = labels
     .filter((label) => includes(labelsInQuery, label.id.toString()))
     .map((label) => {
@@ -334,7 +345,7 @@ function Hearings({
         <WrappedHearingList
           hearings={hearings}
           hearingCount={hearingCount}
-          selectedLabels={selectedLabels ? [].concat(selectedLabels) : []}
+          selectedLabels={selectedLabels ? selectedLabels : []}
           searchPhrase={searchTitle}
           isLoading={getIsLoading()}
           labels={labels}

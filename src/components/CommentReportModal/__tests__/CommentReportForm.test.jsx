@@ -47,8 +47,6 @@ describe('<CommentReportForm />', () => {
 
     vi.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ blob: () => Promise.resolve({}) }));
 
-    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
-
     const buttons = await screen.findAllByRole('button');
     const toggle = buttons[0];
     const submit = buttons[1];
@@ -58,6 +56,9 @@ describe('<CommentReportForm />', () => {
     const option = screen.queryByText('PowerPoint');
 
     await user.click(option);
+    
+    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
+    
     await user.click(submit);
 
     await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1));

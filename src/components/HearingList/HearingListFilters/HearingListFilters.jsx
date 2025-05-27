@@ -48,7 +48,7 @@ const HearingListFilters = ({ handleSort, formatMessage }) => {
       <div id='formControlsSelect' className='hearing-list__filter-bar-filter'>
         <Select
           label={<FormattedMessage id='sort' />}
-          onChange={(selected) => sortList(selected.value)}
+          onChange={(selected) => sortList(selected[0].value)}
           defaultValue={sortOptions[0]}
           options={sortOptions}
         />

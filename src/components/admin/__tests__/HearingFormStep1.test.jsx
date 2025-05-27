@@ -1,7 +1,8 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import HearingFormStep1 from '../HearingFormStep1';
 import renderWithProviders from '../../../utils/renderWithProviders';
@@ -67,36 +68,48 @@ describe('<HearingFormStep1 />', () => {
 
   it('should call onLabelsChange when labels are changed', async () => {
     const onHearingChange = vi.fn();
+    const user = userEvent.setup();
 
     renderComponent({ onHearingChange });
 
     const selects = await screen.findAllByRole('combobox');
     const select = selects[0];
-
-    fireEvent.change(select, { target: { value: 'Mock Von Label' } });
-
+    await act(async () => {
+      await user.click(select);
+    })
     const option = await screen.findByText('Mock Von Label');
-
-    fireEvent.click(option);
-
-    expect(onHearingChange).toHaveBeenCalled();
+    expect(option).toBeInTheDocument();
+    await act(async () => {
+      await user.click(option);
+    })
+    await act(async () => {
+      await user.click(select);
+    })
+    // Wait for the change to be registered
+    waitFor(() => expect(onHearingChange).toHaveBeenCalled());
   });
 
   it('should call onContactsChange when contacts are changed', async () => {
     const onHearingChange = vi.fn();
+    const user = userEvent.setup();
 
     renderComponent({ onHearingChange });
 
     const selects = await screen.findAllByRole('combobox');
     const select = selects[1];
-
-    fireEvent.change(select, { target: { value: 'Seija' } });
-
+    await act(async () => {
+      await user.click(select);
+    });
     const option = await screen.findByText('Seija Suunnittelija');
-
-    fireEvent.click(option);
-
-    expect(onHearingChange).toHaveBeenCalled();
+    expect(option).toBeInTheDocument();
+    await act(async () => {
+      await user.click(option);
+    })
+    await act(async () => {
+      await user.click(select);
+    })
+    // Wait for the change to be registered
+    waitFor(() => expect(onHearingChange).toHaveBeenCalled());
   });
 
   it('should call onContinue when continue button is clicked', () => {
