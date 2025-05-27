@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { screen, within } from '@testing-library/react';
+import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
@@ -179,14 +179,14 @@ describe('<UserProfile />', () => {
     const user = userEvent.setup();
 
     const controls = await screen.findByTestId('hearing-selects');
-    const buttons = await within(controls).findAllByRole('button');
+    const buttons = await within(controls).findAllByRole('combobox');
     const toggle = buttons[0];
+    await act(async () => {
+      await user.click(toggle);
+    });
+    const options = await within(controls).findAllByRole('option');
 
-    const select = toggle.nextSibling;
-
-    await user.click(toggle);
-
-    expect(select.children).toHaveLength(8);
+    expect(options).toHaveLength(8);
   });
 
   it('should select hearing', async () => {
@@ -195,13 +195,17 @@ describe('<UserProfile />', () => {
     const user = userEvent.setup();
 
     const controls = await screen.findByTestId('hearing-selects');
-    const buttons = await within(controls).findAllByRole('button');
+    const buttons = await within(controls).getAllByRole('combobox');
     const toggle = buttons[0];
-    const select = toggle.nextSibling;
 
-    await user.click(toggle);
+    await act(async () => {
+      await user.click(toggle);
+    });
+    const options = await within(controls).findAllByRole('option');
 
-    await user.click(select.children[2]);
+    await act(async () => {
+      await user.click(options[2]);
+    });
 
     const commentList = await screen.findByTestId('commentlist');
 
@@ -214,16 +218,22 @@ describe('<UserProfile />', () => {
     const user = userEvent.setup();
 
     const controls = await screen.findByTestId('hearing-selects');
-    const buttons = await within(controls).findAllByRole('button');
+    const buttons = await within(controls).findAllByRole('combobox');
     const toggle = buttons[1];
-    const select = toggle.nextSibling;
 
     const commentList = await screen.findByTestId('commentlist');
 
     expect(commentList.children).toHaveLength(7);
 
-    await user.click(toggle);
-    await user.click(select.children[1]);
+    await act(async () => {
+      await user.click(toggle);
+    });
+
+    const options = await within(controls).findAllByRole('option');
+
+    await act(async () => {
+      await user.click(options[1]);
+    });
 
     expect(commentList.children).toHaveLength(7);
   });
@@ -261,7 +271,9 @@ describe('<UserProfile />', () => {
 
     const removeFromFavorites = await within(hearingCards.children[0]).findByRole('button');
 
-    await user.click(removeFromFavorites);
+    await act(async () => {
+      await user.click(removeFromFavorites);
+    });
 
     const expected = [
       { type: 'beginFetchUserComments' },

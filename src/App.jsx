@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
-import { useApiTokens } from 'hds-react';
+import { useApiTokens, CookieBanner } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -13,7 +13,6 @@ import InternalLink from './components/InternalLink';
 import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
-import CookieBar from './components/CookieBar/CookieBar';
 import MaintenanceNotification from './components/MaintenanceNotification';
 import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
@@ -81,7 +80,7 @@ function App({ language, isHighContrast, history, ...props }) {
   return (
     <IntlProvider locale={language} messages={messages[language]}>
       <div className={contrastClass}>
-        {config.enableCookies && !isCookiebotEnabled() && <CookieBar />}
+        {config.enableCookies && !isCookiebotEnabled() && <CookieBanner />}
         <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
           <FormattedMessage id='skipToMainContent' />
         </InternalLink>

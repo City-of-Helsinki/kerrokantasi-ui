@@ -184,7 +184,7 @@ HearingList.propTypes = {
   language: PropTypes.string,
   onTabChange: PropTypes.func,
   searchPhrase: PropTypes.string,
-  selectedLabels: PropTypes.arrayOf(PropTypes.string),
+  selectedLabels: PropTypes.arrayOf(PropTypes.object),
   showOnlyOpen: PropTypes.bool,
   tab: PropTypes.string,
   toggleShowOnlyOpen: PropTypes.func,

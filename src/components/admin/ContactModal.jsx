@@ -263,13 +263,13 @@ class ContactModal extends React.Component {
               <Select
                 label='Organisaatio'
                 placeholder='Organisaatio'
-                onChange={(selected) => this.onContactChange('organization', selected.value)}
+                onChange={(selected) => this.onContactChange('organization', selected)}
                 options={organizations.map((org) => ({
                   label: `${org.name} ${org.external_organization ? '*' : ''}`,
                   value: org.name,
                 }))}
-                value={{ label: contact.organization, value: contact.organization }}
-                isDisabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
+                value={contact.organization}
+                disabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
               />
               <HelpBlock>
                 <FormattedMessage id='contactPersonOrganizationHelpText' />
