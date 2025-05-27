@@ -19,15 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: 'yarn'
-<<<<<<< HEAD
-<<<<<<< HEAD
+      - run: yarn cache clean --all
       - run: HUSKY=0 yarn install --network-concurrency 1
-=======
-      - run: yarn cache clean
-      - run: HUSKY=0 yarn install --frozen-lockfile
->>>>>>> 4bfa4148 (chore: i had placed the env var to wrong spot in command)
-=======
-      - run: yarn install --frozen-lockfile
->>>>>>> a9bbbcac (chore: resetting back to og ci pipeline)
       - run: yarn lint
       - run: yarn build
