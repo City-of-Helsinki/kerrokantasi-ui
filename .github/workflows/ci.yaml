@@ -1,15 +1,24 @@
-name: CI
+name: kerrokantasi-ui-ci
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
   workflow_dispatch:
 
 jobs:
-  common:
-    uses: City-of-Helsinki/.github/.github/workflows/ci-node.yml@main
-    secrets: inherit
-    with:
-      node-version: 22
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'yarn'
+      - run: HUSKY=0 yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn build
