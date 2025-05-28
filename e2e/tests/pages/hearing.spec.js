@@ -18,7 +18,7 @@ test.describe('Hearing', () => {
     hearing = await fetchHearing();
 
     await page.goto(hearing.slug);
-    await page.getByTestId('cookie-consent-approve-required-button').click();
+    await page.locator('button[data-approved="all"]').click();
   });
 
   test('should display Finnish title', async ({ page }) => {
