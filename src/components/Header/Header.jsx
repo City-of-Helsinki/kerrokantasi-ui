@@ -119,7 +119,8 @@ const Header = ({ user }) => {
         <HDSHeader.LanguageSelector />
         <HDSHeader.ActionBarItem
           fixedRightPosition
-          label={user ? user.displayName : <FormattedMessage key='login' id='login' />}
+          label={user ? user.displayName : <FormattedMessage id='login' />}
+          aria-label={user ? user.displayName : intl.formatMessage({ id: 'login' })}
           icon={user ? <IconUser /> : <IconSignin />}
           closeIcon={user ? <IconUser /> : <IconSignin />}
           closeLabel={user?.displayName}
@@ -129,7 +130,7 @@ const Header = ({ user }) => {
         >
           {user && (
             <HDSHeader.ActionBarItem
-              label={<FormattedMessage key='logout' id='logout' />}
+              label={<FormattedMessage id='logout' />}
               closeLabel=''
               closeIcon={<LoadingSpinner small />}
               onClick={doLogin}
