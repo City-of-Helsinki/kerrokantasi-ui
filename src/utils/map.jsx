@@ -30,20 +30,22 @@ export function EPSG3067() {
  * @param {string} normalMapTilesUrl
  * @param {string} highContrastMapTilesUrl
  * @param {boolean} isHighContrastEnabled
+ * @param {('fi'|'sv')} language
  */
 export function getCorrectContrastMapTileUrl(
   normalMapTilesUrl,
   highContrastMapTilesUrl,
   isHighContrastEnabled,
-  // language, uncomment when language specific map tiles are implemented
+  language,
 ) {
+
+  // en -> fi
+  const styleLanguage = ['fi', 'sv'].includes(language) ? language : 'fi';
+
   if (isHighContrastEnabled && highContrastMapTilesUrl) {
-    // Start using commented return once language specific map tiles are implemented
-    // return `${highContrastMapTilesUrl.split('.').slice(0, -1).join('.')}@${language}.png`;
-    return `${highContrastMapTilesUrl.split('.').slice(0, -1).join('.')}.png`;
+    return highContrastMapTilesUrl.replace(/{language}/, styleLanguage);
   }
-  // Start using commented return once language specific map tiles are implemented
-  return `${normalMapTilesUrl.split('.').slice(0, -1).join('.')}.png`;
+  return normalMapTilesUrl.replace(/{language}/, styleLanguage);
 }
 
 /**
