@@ -118,7 +118,6 @@
     "react-leaflet-draw": "^0.20.4",
     "react-markdown": "^9.0.1",
     "react-nl2br": "^1.0.4",
-    "react-overlays": "^0.9.2",
     "react-redux": "^8.0.0",
     "react-router-dom": "^6.23.1",
     "react-router-hash-link": "^2.4.3",
@@ -162,8 +161,7 @@
     "@babel/helpers": "^7.27.0",
     "cross-spawn": "^7.0.6",
     "micromatch": "^4.0.8",
-    "rollup": "^4.24.4",
-    "rxjs": "7.8.0"
+    "rollup": "^4.24.4"
   },
   "snyk": true
 }
