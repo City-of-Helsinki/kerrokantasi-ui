@@ -7835,7 +7835,7 @@ react-helmet@^6.1.0:
 
 "react-helsinki-notification-manager@git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git":
   version "0.0.1"
-  resolved "git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git#a00d203c6850c29a9ec6192499ff6713f6bfd30b"
+  resolved "git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git#9594b32b401443c72b916eb9f0fd81fb084de8df"
   dependencies:
     sass "^1.89.0"
 
