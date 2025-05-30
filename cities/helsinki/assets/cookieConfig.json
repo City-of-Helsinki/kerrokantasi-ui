@@ -61,11 +61,26 @@
           }
         },
         {
-          "name": "closedNotifications",
+          "name": "persistentClosedNotifications",
           "host": "kerrokantasi.fi",
           "storageType": 2,
           "description": {
             "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä poikkeusilmoituksia on suljettu.",
+            "sv": "Används av för att lagra information om stängda meddelanden.",
+            "en": "Used by to store information about closed announcements."
+          },
+          "expiration": {
+            "fi": "-",
+            "sv": "-",
+            "en": "-"
+          }
+        },
+        {
+          "name": "sessionClosedNotifications",
+          "host": "kerrokantasi.fi",
+          "storageType": 3,
+          "description": {
+            "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä virheilmoituksia on suljettu.",
             "sv": "Används av för att lagra information om stängda meddelanden.",
             "en": "Used by to store information about closed announcements."
           },
