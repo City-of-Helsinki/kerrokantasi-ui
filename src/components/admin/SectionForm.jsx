@@ -56,9 +56,11 @@ const fetchFiles = async (data, fileType, language) => {
 /**
  * MAX_IMAGE_SIZE given in MB
  * MAX_FILE_SIZE given in MB
+ * MAX_WIDTH_OR_HEIGHT given in pixels
  */
 const MAX_IMAGE_SIZE = 1;
 const MAX_FILE_SIZE = 70;
+const MAX_WIDTH_OR_HEIGHT = 960;
 
 const SectionForm = ({
   language,
@@ -146,7 +148,7 @@ const SectionForm = ({
         return;
       }
 
-      const compressed = await compressFile(file, MAX_IMAGE_SIZE, 'image/webp');
+      const compressed = await compressFile(file, MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT, 'image/webp');
       const blob = await fileToDataUri(compressed);
 
       onSectionImageSet(section.frontId, blob);
