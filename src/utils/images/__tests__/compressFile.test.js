@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import imageCompression from 'browser-image-compression';
 
 import compressFile from '../compressFile';
+import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../constants';
 
 vi.mock('browser-image-compression', () => {
   return {
@@ -18,8 +19,8 @@ vi.mock('browser-image-compression', () => {
 describe('compressFile', () => {
   it('should call imageCompression with the correct parameters', async () => {
     const mockFile = new File(['mock content'], 'test-image.jpg', { type: 'image/jpeg' });
-    const maxSizeMB = 1;
-    const maxWidthOrHeight = 960;
+    const maxSizeMB = MAX_IMAGE_SIZE;
+    const maxWidthOrHeight = MAX_WIDTH_OR_HEIGHT;
     const fileType = 'image/webp';
 
     const result = await compressFile(mockFile, maxSizeMB, maxWidthOrHeight, fileType);
