@@ -10,6 +10,7 @@ import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTe
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 import compressFile from '../../utils/images/compressFile';
+import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../utils/images/constants';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
 import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../utils/constants';
@@ -54,10 +55,8 @@ const fetchFiles = async (data, fileType, language) => {
 };
 
 /**
- * MAX_IMAGE_SIZE given in MB
  * MAX_FILE_SIZE given in MB
  */
-const MAX_IMAGE_SIZE = 1;
 const MAX_FILE_SIZE = 70;
 
 const SectionForm = ({
@@ -146,7 +145,7 @@ const SectionForm = ({
         return;
       }
 
-      const compressed = await compressFile(file, MAX_IMAGE_SIZE, 'image/webp');
+      const compressed = await compressFile(file, MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT, 'image/webp');
       const blob = await fileToDataUri(compressed);
 
       onSectionImageSet(section.frontId, blob);
