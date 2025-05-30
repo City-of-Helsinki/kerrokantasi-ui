@@ -8,17 +8,11 @@ import { useDispatch } from 'react-redux';
 import getMessage from '../../../utils/getMessage';
 import { isFormValid } from '../../../utils/iframeUtils';
 import compressFile from '../../../utils/images/compressFile';
+import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../../utils/images/constants';
 import fileToDataUri from '../../../utils/images/fileToDataUri';
 import { addToast } from '../../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
 import { ACCEPTED_IMAGE_TYPES } from '../../../utils/constants';
-
-/**
- * MAX_IMAGE_SIZE given in megabytes
- * MAX_WIDTH_OR_HEIGHT given in pixels
- */
-const MAX_IMAGE_SIZE = 1;
-const MAX_WIDTH_OR_HEIGHT = 960;
 
 const ImageModal = ({ isOpen, onClose, onSubmit }) => {
   const dispatch = useDispatch();
