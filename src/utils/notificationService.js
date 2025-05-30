@@ -16,6 +16,10 @@ export async function getNotifications(lang) {
     return get("/v1/notifications").then(async response => {
         const data = await response.json();
         return mapNotifications(data, lang);
+    }).catch((e) => {
+        /* eslint-disable-next-line no-console */
+        console.warning("Failed to fetch notifications:", e);
+        return [];
     });
 }
 
