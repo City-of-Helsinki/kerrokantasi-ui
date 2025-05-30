@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.11.2...kerrokantasi-ui-v1.12.0) (2025-05-30)
+
+
+### Features
+
+* Add support to new map styles ([d1c9f27](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d1c9f2703ad30e6562f0e758e064451d28d04019))
+
 ## [1.11.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.11.1...kerrokantasi-ui-v1.11.2) (2025-05-13)
 
 
