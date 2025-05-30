@@ -23,6 +23,7 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
   const { locale } = intl;
 
   const [selectedHearing, setSelectedHearing] = useState('');
+  const [commentOrder, setCommentOrder] = useState('-created_at'); // Default ordering for comments
   const [commentCount, setCommentCount] = useState(profile.comments.count || 0);
 
   useEffect(() => {
@@ -49,10 +50,10 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
    * @param {string} id - The selected hearing id
    * @returns {void}
    */
-  const selectHearing = (id) => {
+  const selectHearing = (selection) => {
     const { count } = comments;
     let newCount = count;
-
+    const id = selection[0].value === 'Kaikki' ? '' : selection[0].value;
     if (id) {
       newCount = comments.uniqueHearings.find((hearing) => hearing.id === id).commentCount;
     }
@@ -102,8 +103,11 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
             id='sort-comments'
             label={<FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>}
             options={options}
-            defaultValue={options[0]}
-            onChange={(selected) => fetchComments({ ordering: selected.value })}
+            value={commentOrder} // Default to the first option
+            onChange={(selected) => {
+              setCommentOrder(selected[0].value)
+              fetchComments({ ordering: selected[0].value });
+            }}
           />
         </div>
       </div>
@@ -167,7 +171,8 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
             id='select-hearing-comments'
             label={<FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>}
             options={options}
-            onChange={(selected) => selectHearing(selected.value)}
+            onChange={(selected) => selectHearing(selected)}
+            value={selectedHearing}
           />
         </div>
       </div>

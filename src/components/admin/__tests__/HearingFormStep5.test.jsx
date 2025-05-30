@@ -152,7 +152,7 @@ describe('<HearingFormStep5 />', () => {
     renderComponent({}, store);
 
     const user = userEvent.setup();
-    const input = screen.getByRole('button', { name: /projectSelection/i });
+    const input = screen.getByRole('combobox', { name: /projectSelection/i });
 
     await user.click(input);
 

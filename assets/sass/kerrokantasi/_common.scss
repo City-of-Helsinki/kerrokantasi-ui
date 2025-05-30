@@ -100,6 +100,10 @@ textarea {
   max-width: 100%;
 }
 
+.form-step {
+  width: 100%;
+}
+
 // Adds icon to show user that the link is opening to new tab/window
 a[target='_blank']::after {
   content: '\f08e';
