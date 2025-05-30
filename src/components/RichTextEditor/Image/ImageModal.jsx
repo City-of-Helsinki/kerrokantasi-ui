@@ -14,9 +14,11 @@ import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../..
 import { ACCEPTED_IMAGE_TYPES } from '../../../utils/constants';
 
 /**
- * MAX_IMAGE_SIZE given in bytes
+ * MAX_IMAGE_SIZE given in megabytes
+ * MAX_WIDTH_OR_HEIGHT given in pixels
  */
 const MAX_IMAGE_SIZE = 1;
+const MAX_WIDTH_OR_HEIGHT = 960;
 
 const ImageModal = ({ isOpen, onClose, onSubmit }) => {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
     try {
       const file = files[0];
 
-      const compressed = await compressFile(file, MAX_IMAGE_SIZE, 'image/webp');
+      const compressed = await compressFile(file, MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT, 'image/webp');
       const blob = await fileToDataUri(compressed);
 
       setFileReaderResult(blob);
