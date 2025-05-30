@@ -35,19 +35,8 @@
       },
       "cookies": [
         {
-          "name": "helfi-settings",
-          "host": "www.hel.fi",
-          "storageType": 2,
-          "description": {
-            "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä poikkeusilmoituksia on suljettu ja mikä on avattavien sisältöalueiden tila.",
-            "sv": "Används av hel.fi Drupal för att lagra information om stängda meddelanden och accordions' tillstånd.",
-            "en": "Used by hel.fi Drupal to store information about closed announcements and accordions' state."
-          },
-          "expiration": "-"
-        },
-        {
           "name": "kerrokantasi-cookie-consents",
-          "host": "kerrokantasi.fi",
+          "host": "kerrokantasi.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä poikkeusilmoituksia on suljettu ja mikä on avattavien sisältöalueiden tila.",
@@ -62,7 +51,7 @@
         },
         {
           "name": "persistentClosedNotifications",
-          "host": "kerrokantasi.fi",
+          "host": "kerrokantasi.hel.fi",
           "storageType": 2,
           "description": {
             "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä poikkeusilmoituksia on suljettu.",
@@ -77,7 +66,7 @@
         },
         {
           "name": "sessionClosedNotifications",
-          "host": "kerrokantasi.fi",
+          "host": "kerrokantasi.hel.fi",
           "storageType": 3,
           "description": {
             "fi": "Sivusto käyttää tätä tietuetta tietojen tallentamiseen siitä, mitä virheilmoituksia on suljettu.",
@@ -109,7 +98,7 @@
       "cookies": [
         {
           "name": "_pk_id.*",
-          "host": "palvelukartta.hel.fi",
+          "host": "kerrokantasi.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Matomo-tilastointijärjestelmän eväste.",
@@ -124,7 +113,7 @@
         },
         {
           "name": "_pk_ses.*",
-          "host": "palvelukartta.hel.fi",
+          "host": "kerrokantasi.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Matomo-tilastointijärjestelmän eväste.",
