@@ -106,6 +106,7 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
               helperText={<FormattedMessage id='sectionImageHelpText' />}
               language={intl.locale}
               onChange={onFileChange}
+              maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
             />
           </div>
           <TextInput
