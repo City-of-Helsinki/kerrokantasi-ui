@@ -289,7 +289,7 @@
   "sectionContent": "Text content",
   "sectionImage": "Image",
   "sectionImageCaption": "Caption",
-  "sectionImageHelpText": "Recommended image size is 960 × 720. (Max. 1MB)",
+  "sectionImageHelpText": "Recommended image size is 960 × 720 (Max. 1MB). Larger images are scaled down to recommended size.",
   "sectionInformationTitle": "Information",
   "sectionTitle": "Section title",
   "sectionTotalComment": "{n} comment",
