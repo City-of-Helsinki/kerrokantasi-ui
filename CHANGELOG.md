@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.12.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.0...kerrokantasi-ui-v1.12.1) (2025-06-03)
+
+
+### Bug Fixes
+
+* Add image scaling assistive text KER-502 ([b9ef277](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b9ef27707a74d15af782d4a29dce9912884745b1))
+* Enforce maxImageWidthOrHeight for image compression KER-502 ([b840b3e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b840b3e2c54e59edfbc8a73f0f66ce0d14f31fea))
+* ImageModal add fileinput maxSize KER-502 ([6e485ba](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6e485ba17f0b1e546edb828cf98af4d2b58a7b2d))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.11.2...kerrokantasi-ui-v1.12.0) (2025-05-30)
 
 
