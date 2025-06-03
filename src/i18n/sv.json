@@ -421,7 +421,7 @@
   "sectionContentPlaceholder": "Varsinainen tekstisisältö, johon voit lisätä muotoiluja, linkkejä ja kuvia",
   "sectionImage": "Kuva",
   "sectionImageCaption": "Kuvateksti",
-  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720. (Max. 1MB)",
+  "sectionImageHelpText": "Kuvan suosituskoko on 960 × 720 (Max. 1MB). Suuremmat kuvat skaalataan suosituskokoon.",
   "sectionImagePlaceholder": "Selitä tai täydennä kuvaa kuvatekstillä. Mainitse kuvaajan nimi, jos tarpeellista.",
   "sectionTitle": "Osa-alueen otsikko",
   "sectionTitlePlaceholder": "Lisää osa-alueelle kuvaava otsikko.",
