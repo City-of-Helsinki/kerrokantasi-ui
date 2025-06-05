@@ -30,7 +30,6 @@ const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer 
         question.options.map((option, index) => {
           const props = {
             id: option.id,
-            key: option.id,
             autoFocus: autoFocus && index === 0,
             checked: answers?.answers.includes(option.id),
             name: `question_${question.id}`,

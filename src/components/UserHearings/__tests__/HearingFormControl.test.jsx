@@ -25,7 +25,7 @@ describe('HearingFormControl', () => {
     const changeSort = vi.fn();
     renderComponent(changeSort);
 
-    expect(screen.getByText('sort')).toBeInTheDocument();
+    expect(screen.getByText('Sort')).toBeInTheDocument();
     expect(screen.getByText('Newest First')).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe('HearingFormControl', () => {
 
     const user = userEvent.setup();
 
-    const toggle = await screen.findByRole('button');
+    const toggle = await screen.findByRole('combobox');
 
     await user.click(toggle);
 
@@ -52,7 +52,7 @@ describe('HearingFormControl', () => {
 
     const user = userEvent.setup();
 
-    const toggle = await screen.findByRole('button');
+    const toggle = await screen.findByRole('combobox');
 
     await user.click(toggle);
 

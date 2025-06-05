@@ -50,7 +50,7 @@ describe('HearingsSearch', () => {
     const comboboxes = await screen.findAllByRole('combobox');
     const combobox = comboboxes[1];
 
-    fireEvent.change(combobox, { target: { value: 'Label 1' } });
+    fireEvent.click(combobox);
 
     const option = await screen.findByText('Label 1');
 

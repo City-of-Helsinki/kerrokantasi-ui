@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, FormattedRelativeTime } from 'react-intl';
+import { FormattedMessage, FormattedRelativeTime, useIntl } from 'react-intl';
 
-function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false, formatTime, formatDate }) {
+function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
+  const { formatDate, formatTime } = useIntl();
   if (!timeVal) {
     return <span />;
   }
@@ -68,8 +69,6 @@ FormatRelativeTime.propTypes = {
   messagePrefix: PropTypes.string.isRequired,
   timeVal: PropTypes.string,
   frontpage: PropTypes.bool,
-  formatTime: PropTypes.func,
-  formatDate: PropTypes.func,
 };
 
 export default FormatRelativeTime;

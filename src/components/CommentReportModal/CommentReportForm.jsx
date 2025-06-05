@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Select } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { connect, useDispatch } from 'react-redux';
 
 import getAttr from '../../utils/getAttr';
@@ -23,6 +23,7 @@ import { addToast } from '../../actions/toast';
 const CommentReportForm = ({ hearing, id, language }) => {
   const [fileFormat, setFileFormat] = useState(FILE_FORMATS.EXCEL.id);
 
+  const intl = useIntl();
   const dispatch = useDispatch();
 
   /**
@@ -31,7 +32,7 @@ const CommentReportForm = ({ hearing, id, language }) => {
    * @param {OptionType} selected - The change event.
    * @returns {void}
    */
-  const handleFileFormatChange = (selected) => setFileFormat(selected.value);
+  const handleFileFormatChange = (selected) => setFileFormat(selected[0].value);
 
   /**
    * Handles the click event for downloading a report.
@@ -46,7 +47,6 @@ const CommentReportForm = ({ hearing, id, language }) => {
     const targetFileFormat = Object.values(FILE_FORMATS).find((format) => format.id === fileFormat);
     const reportUrl = new URL(getApiURL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`));
     reportUrl.search = new URLSearchParams({ lang: language });
-
     try {
       const response = await fetch(reportUrl, {
         method: 'GET',
@@ -59,7 +59,6 @@ const CommentReportForm = ({ hearing, id, language }) => {
 
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
-
       link.href = url;
 
       // remove filename special characters to avoid potential naming issues
@@ -86,7 +85,9 @@ const CommentReportForm = ({ hearing, id, language }) => {
       <Select
         id='download-reports'
         onChange={handleFileFormatChange}
-        label={<FormattedMessage id='commentReportsSelectFileType' />}
+        texts={{
+          label: intl.formatMessage({id: 'commentReportsSelectFileType'})
+        }}
         options={options}
         style={{ marginBottom: 'var(--spacing-l)' }}
       />

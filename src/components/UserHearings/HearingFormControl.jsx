@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Select } from 'hds-react';
 
 /**
@@ -20,15 +19,22 @@ const HearingFormControl = ({ formatMessage, changeSort }) => {
     { value: '-n_comments', label: formatMessage({ id: 'mostCommented' }) },
     { value: 'n_comments', label: formatMessage({ id: 'leastCommented' }) },
   ];
+  
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   return (
     <div id='formControlsSelect' className='hearing-list__filter-bar-filter'>
       <Select
         id='sort-hearings'
-        label={<FormattedMessage id='sort' />}
+        texts={{
+          label: formatMessage({ id: 'sort' }),
+        }}
         options={options}
-        defaultValue={options[0]}
-        onChange={(selected) => changeSort(selected.value)}
+        value={selectedOption}
+        onChange={(selected) => {
+          changeSort(selected[0].value)
+          setSelectedOption(selected[0].value);
+        }}
         style={{ marginBottom: 'var(--spacing-s)' }}
       />
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Button, Combobox, TextInput } from 'hds-react';
+import { Button, Select, TextInput } from 'hds-react';
 import { connect, useDispatch } from 'react-redux';
 
 import HearingLanguages from './HearingLanguages';
@@ -38,8 +38,7 @@ const HearingFormStep1 = ({
   );
 
   const onLabelsChange = (labels) => {
-    const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.id));
-
+    const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.value));
     setSelectedLabels(newLabels.map(({ id }) => id));
     onHearingChange(
       'labels',
@@ -48,7 +47,7 @@ const HearingFormStep1 = ({
   };
 
   const onContactsChange = (contacts) => {
-    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.id === contact.id));
+    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.name.toLowerCase() === contact.label.toLowerCase()));
     setSelectedContacts(newContacts.filter(Boolean).map(({ id }) => id));
     onHearingChange(
       'contact_persons',
@@ -68,7 +67,6 @@ const HearingFormStep1 = ({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-
       return false;
     }
   };
@@ -80,7 +78,6 @@ const HearingFormStep1 = ({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-
       return false;
     }
   };
@@ -124,29 +121,26 @@ const HearingFormStep1 = ({
       />
       <div className='hearing-form-row'>
         <div id='hearingLabels' className='hearing-form-column'>
-          <Combobox
-            multiselect
+          <Select
+            multiSelect
             name='labels'
-            optionKeyField='id'
-            defaultValue={hearing.labels.map((opt) => ({
-              id: opt.id,
+            value={hearing.labels.map((opt) => ({
+              value: opt.id,
               title: getAttr(opt.label, language),
               label: getAttr(opt.label, language),
             }))}
-            onChange={onLabelsChange}
+            onClose={onLabelsChange}
             options={labelOptions.map((opt) => ({
-              id: opt.id,
+              value: opt.id,
               title: getAttr(opt.label, language),
               label: getAttr(opt.label, language),
             }))}
-            placeholder={intl.formatMessage({ id: 'hearingLabelsPlaceholder' })}
-            clearButtonAriaLabel='Poista'
-            selectedItemRemoveButtonAriaLabel='Poista {value}'
-            toggleButtonAriaLabel='Avaa'
+            texts={{
+              placeholder: intl.formatMessage({ id: 'hearingLabelsPlaceholder' }),
+              label: intl.formatMessage({ id: 'hearingLabels' }),
+            }}
             required
             invalid={!!errors.labels}
-            error={errors.labels}
-            label={intl.formatMessage({ id: 'hearingLabels' })}
             id='labels'
           />
           <Button
@@ -178,23 +172,23 @@ const HearingFormStep1 = ({
       </div>
       <div>
         <div id='hearingContacts' className='hearing-form-column'>
-          <Combobox
-            multiselect
+          <Select
+            multiSelect
             name='contact_persons'
-            onChange={onContactsChange}
-            optionKeyField='id'
+            onClose={onContactsChange}
             value={hearing.contact_persons.filter(Boolean).map((person) => ({
               id: person.id,
               title: person.name,
               label: person.name,
             }))}
             options={contactPersons.map((person) => ({ id: person.id, title: person.name, label: person.name }))}
-            placeholder={intl.formatMessage({ id: 'hearingContactsPlaceholder' })}
-            label={intl.formatMessage({ id: 'hearingContacts' })}
+            texts={{
+              placeholder: intl.formatMessage({ id: 'hearingContactsPlaceholder' }),
+              label: intl.formatMessage({ id: 'hearingContacts' })
+            }}
             required
             helper={<FormattedMessage id='hearingContactsHelpText' />}
             invalid={!!errors.contact_persons}
-            error={errors.contact_persons}
             id='contact_persons'
           />
           <Button

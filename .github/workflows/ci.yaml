@@ -19,6 +19,6 @@ jobs:
         with:
           node-version: 22
           cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - run: HUSKY=0 yarn install --network-concurrency 1
       - run: yarn lint
       - run: yarn build
