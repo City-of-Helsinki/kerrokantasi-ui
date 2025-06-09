@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.12.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.1...kerrokantasi-ui-v1.12.2) (2025-06-09)
+
+
+### Dependencies
+
+* Remove unnecessary dependencies KER-404 ([401f3d2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/401f3d2c2db41552780a43a7fd0209774e3d87a6))
+* Upgrade @sentry/react to 9.22.0 KER-404 ([6432ba7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6432ba78e2fb3b51c701f62b1d0a5ec79fc366c2))
+* Upgrade vite and vitest KER-404 ([cadd51f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/cadd51f67496c0918f463572d5ac17cdcd60635d))
+
 ## [1.12.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.0...kerrokantasi-ui-v1.12.1) (2025-06-03)
 
 
