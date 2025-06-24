@@ -9,9 +9,21 @@ import renderWithProviders from '../utils/renderWithProviders';
 import App from '../App';
 import { mockStore as mockData, mockUser } from '../../test-utils';
 
-// Mock getNotifications to return an empty array
-vi.mock('../utils/notificationService', () => ({
-  getNotifications: vi.fn().mockResolvedValue([])
+// Mock the useNotifications hook to return empty notifications
+vi.mock('../hooks/useNotifications', () => ({
+  default: vi.fn().mockReturnValue({
+    notifications: [],
+    visibleTypes: ['error', 'warning', 'info'],
+    isLoading: false,
+    error: null
+  })
+}));
+
+// Mock the API get function
+vi.mock('../api', () => ({
+  get: vi.fn().mockResolvedValue({
+    json: async () => []
+  })
 }));
 
 const middlewares = [thunk];
