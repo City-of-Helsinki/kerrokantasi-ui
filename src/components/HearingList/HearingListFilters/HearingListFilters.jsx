@@ -6,8 +6,10 @@ import { uniqueId } from 'lodash';
 
 const HearingListFilters = ({ handleSort, formatMessage }) => {
   const [sortChangeStatusMessages, setSortChangeStatusMessages] = useState([]);
+  const [selectedSort, setSelectedSort] = useState('-created_at');
 
   const sortList = (value) => {
+    setSelectedSort(value);
     const sortBy = value.replace('_from_open', '').replace('_from_closed', '');
     const showOnlyOpen = value.indexOf('_from_open') !== -1;
     const showOnlyClosed = value.indexOf('_from_closed') !== -1;
@@ -49,7 +51,7 @@ const HearingListFilters = ({ handleSort, formatMessage }) => {
         <Select
           label={<FormattedMessage id='sort' />}
           onChange={(selected) => sortList(selected[0].value)}
-          defaultValue={sortOptions[0]}
+          value={selectedSort}
           options={sortOptions}
         />
       </div>
