@@ -91,6 +91,9 @@
         background-image: url('/assets/images/pin-image.svg') !important;
         height: 22px;
         width: 22px;
+        min-height: 22px;
+        min-width: 22px;
+        padding: 0;
         background-repeat: no-repeat;
         background-size: contain;
       }
@@ -99,6 +102,9 @@
         background-image: url('/assets/images/unpin-image.svg') !important;
         height: 22px;
         width: 22px;
+        min-height: 22px;
+        min-width: 22px;
+        padding: 0;
         background-repeat: no-repeat;
         background-size: contain;
       }
