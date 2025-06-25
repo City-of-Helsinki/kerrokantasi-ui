@@ -72,7 +72,7 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
   const onActivePhase = (phaseId) => dispatch(activePhase(phaseId));
 
   return (
-    <div>
+    <div className='project-container'>
       <div id='projectLists' style={{ marginBottom: 'var(--spacing-s)' }}>
         <Select
           id='project'
