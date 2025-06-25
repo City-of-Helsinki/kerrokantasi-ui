@@ -19,6 +19,12 @@ div:has(> .hearing-form-child-modal) {
     & > div:first-child div[role='heading'] {
       background-color: var(--color-engel);
       padding: var(--spacing-3-xs) 0;
+      button {
+        justify-content: center;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
     }
 
     & > div:nth-child(2) {
