@@ -1,24 +1,15 @@
-name: kerrokantasi-ui-ci
+name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22
-          cache: 'yarn'
-      - run: HUSKY=0 yarn install --network-concurrency 1
-      - run: yarn lint
-      - run: yarn build
+  common:
+    uses: City-of-Helsinki/.github/.github/workflows/ci-node.yml@main
+    secrets: inherit
+    with:
+      node-version: 22.x
