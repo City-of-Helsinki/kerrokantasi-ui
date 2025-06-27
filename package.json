@@ -16,6 +16,7 @@
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src",
     "test": "NODE_ENV=test yarn update-runtime-env && vitest",
     "test:cov": "yarn test run --coverage --watch=false",
+    "test:coverage": "yarn test run --coverage --watch=false",
     "test:e2e:install": "playwright install",
     "test:e2e:ci": "playwright test",
     "test:e2e:start": "playwright test",
