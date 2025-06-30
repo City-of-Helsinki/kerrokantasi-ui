@@ -32,7 +32,7 @@ COPY --chown=default:root ./cities /app/cities
 COPY --chown=default:root ./assets /app/assets
 
 RUN yarn config set network-timeout 300000
-RUN yarn && yarn cache clean --force
+RUN yarn --frozen-lockfile --network-concurrency 1 && yarn cache clean --force
 
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .babelrc .prettierrc .env* /app/
 COPY --chown=default:root ./src /app/src

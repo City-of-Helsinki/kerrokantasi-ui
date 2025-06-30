@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isEmpty } from 'lodash';
-import { SearchInput, Button, Combobox } from 'hds-react';
+import { SearchInput, Button, Select } from 'hds-react';
 
 import getAttr from '../../../utils/getAttr';
 import { labelShape } from '../../../types';
@@ -40,17 +40,17 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
             </div>
             <div id='formControlsSearchSelect' className='hearings-search__label'>
               {!isEmpty(labels) && (
-                <Combobox
-                  label={<FormattedMessage id='searchLabels' />}
-                  className='hearings-search__select'
-                  multiselect
+                <Select
+                  texts={{
+                    label: intl.formatMessage({ id: 'searchLabels' }),
+                    placeholder: intl.formatMessage({ id: 'searchPlaceholder' }),
+                  }}
+                  multiSelect
                   value={selectedLabels}
                   options={labelsAsOptions}
+                  noTags
                   onChange={(selected) => handleSelectLabels(selected)}
-                  placeholder={intl.formatMessage({ id: 'searchPlaceholder' })}
                   id='formControlsSearchSelect'
-                  clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
-                  selectedItemRemoveButtonAriaLabel={intl.formatMessage({ id: 'searchLabelsRemoveSelection' })}
                 />
               )}
             </div>
@@ -73,7 +73,7 @@ HearingsSearch.propTypes = {
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
   searchPhrase: PropTypes.string,
-  selectedLabels: PropTypes.arrayOf(PropTypes.string),
+  selectedLabels: PropTypes.arrayOf(PropTypes.object),
   intl: PropTypes.object,
 };
 

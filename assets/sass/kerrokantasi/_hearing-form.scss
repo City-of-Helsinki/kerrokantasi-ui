@@ -19,6 +19,12 @@ div:has(> .hearing-form-child-modal) {
     & > div:first-child div[role='heading'] {
       background-color: var(--color-engel);
       padding: var(--spacing-3-xs) 0;
+      button {
+        justify-content: center;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
     }
 
     & > div:nth-child(2) {
@@ -189,6 +195,12 @@ div:has(> .hearing-form-child-modal) {
     & > div:first-child div[role='heading'] {
       background-color: var(--color-fog);
       padding: var(--spacing-3-xs) 0;
+      button {
+        justify-content: center;
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
     }
   }
 
@@ -217,6 +229,7 @@ div:has(> .hearing-form-child-modal) {
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--spacing-m);
+    flex-wrap: wrap;
 
     > div {
       flex: 0 1 48%;
@@ -323,4 +336,8 @@ div:has(> .hearing-form-child-modal) {
 .flex-end {
   display: flex;
   justify-content: flex-end;
+}
+
+.project-container {
+  width: 100%;
 }

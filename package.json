@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "index.js",
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=22.13.1"
   },
   "scripts": {
     "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn clear-babel-cache && yarn update-runtime-env && vite ; else yarn clear-babel-cache && yarn update-runtime-env && vite ; fi",
@@ -82,12 +82,12 @@
     "font-awesome": "^4.7.0",
     "glob": "^10.4.5",
     "globals": "^16.0.0",
-    "hds-core": "^3.8.0",
-    "hds-react": "^3.8.0",
+    "hds-core": "^4.4.0",
+    "hds-react": "^4.4.0",
     "hel-bootstrap-3": "1.0.0-beta.4",
     "history": "^5.3.0",
+    "i18next": "^25.2.0",
     "immutability-helper": "^3.1.1",
-    "immutable": "^4.3.2",
     "intl": "^1.2.5",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
@@ -110,6 +110,8 @@
     "react-dom": "^18.0.0",
     "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
+    "react-helsinki-notification-manager": "git+https://github.com/City-of-Helsinki/react-helsinki-notification-manager.git",
+    "react-i18next": "^15.5.2",
     "react-image-lightbox": "^5.1.1",
     "react-intl": "^5.0.0",
     "react-leaflet": "^4.2.1",
@@ -128,7 +130,8 @@
     "redux-oidc": "^3.1.7",
     "redux-thunk": "^3.1.0",
     "remark-gfm": "^4.0.0",
-    "sass": "^1.62.1",
+    "sass": "^1.89.0",
+    "scrolltop": "0.0.1",
     "simple-git": "^3.3.0",
     "updeep": "^1.2.0",
     "url": "^0.11.1",

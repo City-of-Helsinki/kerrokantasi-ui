@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { get, isEmpty } from 'lodash';
+import { get, isArray, isEmpty } from 'lodash';
 import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
 
 import { QuestionForm } from './QuestionForm';
@@ -121,13 +121,14 @@ const SectionForm = ({
    */
   const onChange = (selected, field) => {
     // Propagate interesting changes to parent components
-    const { value } = selected;
+    const { value } = isArray(selected) ? selected[0] : selected;
 
     switch (field) {
       case 'imageCaption':
         onSectionImageCaptionChange(section.frontId, value);
         break;
       case 'commenting_map_tools':
+        setCommentingMapSelection(value);
         onSectionChange(section.frontId, field, value);
         break;
       default:
@@ -236,8 +237,10 @@ const SectionForm = ({
   ];
 
   const commentingMapInitialValue = section.commenting_map_tools
-    ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools)
-    : commentingMapOptions[0];
+    ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools).value
+    : commentingMapOptions[0].value;
+
+  const [commentingMapSelection, setCommentingMapSelection] = useState(commentingMapInitialValue)
 
   if (!section) {
     return <LoadingSpinner />;
@@ -308,7 +311,6 @@ const SectionForm = ({
         languages={sectionLanguages}
         fieldType={TextFieldTypes.TEXTAREA}
         placeholderId='sectionAbstractPlaceholder'
-        richTextEditor
         hideControls={{
           hideBlockStyleControls: true,
           hideInlineStyleControls: true,
@@ -333,20 +335,24 @@ const SectionForm = ({
         <Select
           id='commenting'
           name='commenting'
-          label={<FormattedMessage id='hearingCommenting' />}
+          texts={{
+            label: intl.formatMessage({ id: 'hearingCommenting' }),
+          }}
           onChange={(selected) => onChange(selected, 'commenting')}
           options={commentingOptions}
-          defaultValue={commentingInitialValue}
+          value={commentingInitialValue.value}
         />
       </div>
       <div id='commentVoting' style={{ marginBottom: 'var(--spacing-m)' }}>
         <Select
           id='voting'
           name='voting'
-          label={<FormattedMessage id='commentVoting' />}
+          texts={{
+            label: intl.formatMessage({ id: 'commentVoting' }),
+          }}
           onChange={(selected) => onChange(selected, 'voting')}
           options={votingOptions}
-          defaultValue={votingInitialValue}
+          value={votingInitialValue.value}
         />
       </div>
       <div style={{ marginBottom: 'var(--spacing-m)' }}>
@@ -362,7 +368,7 @@ const SectionForm = ({
             id='commenting_map_tools'
             name='commenting_map_tools'
             options={commentingMapOptions}
-            defaultValue={commentingMapInitialValue}
+            value={commentingMapSelection}
             onChange={(selected) => onChange(selected, 'commenting_map_tools')}
           />
         </div>

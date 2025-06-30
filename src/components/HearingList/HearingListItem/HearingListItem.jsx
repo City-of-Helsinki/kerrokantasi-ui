@@ -83,7 +83,7 @@ const HearingListItem = (props) => {
           <LabelList labels={hearing.labels} className='hearing-list-item-labellist' language={language} />
           {hearing.closed ? (
             <div className='hearing-list-item-closed'>
-              <Tag theme={{ '--tag-background': 'var(--color-black-30)' }}>
+              <Tag theme={{ '--background-color': 'var(--color-black-30)' }}>
                 <FormattedMessage id='hearingClosed' />
               </Tag>
             </div>

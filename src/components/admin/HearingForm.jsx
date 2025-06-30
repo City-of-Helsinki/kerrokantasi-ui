@@ -15,7 +15,7 @@ import Step5 from './HearingFormStep5';
 import LoadSpinner from '../LoadSpinner';
 import { contactShape, hearingShape, hearingEditorMetaDataShape, labelShape, organizationShape } from '../../types';
 
-const ACCORDION_TOGGLE = 'div[role="button"]';
+const ACCORDION_TOGGLE = 'div button';
 
 const HearingForm = ({
   contactPersons,
@@ -99,16 +99,21 @@ const HearingForm = ({
       }));
 
       toggles.forEach((item) => {
+        if (!item.node) {
+          return;
+        }
         item.node.addEventListener('click', () => onToggleClick(item.node, item.stepNumber));
       });
 
       return () => {
         toggles.forEach((item) => {
+          if (!item.node) {
+          return;
+        }
           item.node.removeEventListener('click', () => onToggleClick(item.node, item.stepNumber));
         });
       };
     }
-    return undefined;
   }, [onToggleClick, show]);
 
   const getFormStep = (StepNode, stepIndex) => {

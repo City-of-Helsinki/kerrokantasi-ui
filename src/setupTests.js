@@ -43,6 +43,18 @@ window.matchMedia = window.matchMedia || function () {
 
 window.scrollTo = vi.fn();
 
+// Mock ResizeObserver which is not available in JSDOM
+class ResizeObserver {
+  constructor() {
+    this.observe = vi.fn();
+    this.unobserve = vi.fn();
+    this.disconnect = vi.fn();
+  }
+}
+
+// Add ResizeObserver to the global object
+global.ResizeObserver = ResizeObserver;
+
 Object.assign(global, { TextDecoder, TextEncoder });
 
 const originalError = console.error.bind(console.error);

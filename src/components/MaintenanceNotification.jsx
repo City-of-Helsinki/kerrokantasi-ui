@@ -1,25 +1,27 @@
-import { Notification } from 'hds-react';
-import { FormattedMessage } from 'react-intl';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { NotificationService } from 'react-helsinki-notification-manager';
+// eslint-disable-next-line import/no-unresolved
+import 'react-helsinki-notification-manager/style.css';
 
-const MaintenanceNotification = () => (
-  <div className='container maintenance-notification-container'>
-    <Notification
-      dataTestId='maintenance-notification'
-      className='maintenance-notification'
-      label={<FormattedMessage id='maintenanceNotificationLabel' />}
-    >
-      <p>
-        <FormattedMessage id='maintenanceNotificationText' />
-      </p>
-      <p>
-        <FormattedMessage id='maintenanceNotificationText2' />
-      </p>
-      <p>
-        <FormattedMessage id='maintenanceNotificationText3' />
-      </p>
-    </Notification>
-  </div>
-);
+import useNotifications from '../hooks/useNotifications';
+
+const MaintenanceNotification = ({ language }) => {
+  const { notifications, visibleTypes } = useNotifications(language);
+
+  return (
+    <div className='container maintenance-notification-container'>
+      <NotificationService 
+        notifications={notifications} 
+        visibleTypes={visibleTypes}
+        language={language}
+      />
+    </div>
+  );
+};
+
+MaintenanceNotification.propTypes = {
+  language: PropTypes.string,
+};
 
 export default MaintenanceNotification;

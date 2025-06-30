@@ -27,7 +27,7 @@ describe('<HearingListFilters />', () => {
 
     const user = userEvent.setup();
 
-    const toggle = await screen.findByRole('button');
+    const toggle = await screen.findByRole('combobox');
 
     await user.click(toggle);
 

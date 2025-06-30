@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Header from '../Header';
@@ -55,7 +55,8 @@ describe('<Header />', () => {
 
     renderComponent(store);
 
-    expect(await screen.findByRole('button', { name: 'login' })).toBeInTheDocument();
+    // Find the button by its text content inside the span
+    expect(await screen.findByText('login')).toBeInTheDocument();
   });
 
   it('calls login function when login button is clicked', async () => {
@@ -67,7 +68,11 @@ describe('<Header />', () => {
 
     renderComponent(store, { login: mockLogin });
 
-    await user.click(await screen.findByRole('button', { name: 'login' }));
+    // Find and click the button containing the login text
+    const loginButton = await screen.findByText('login');
+    // Get the closest button element (parent or ancestor)
+    const button = loginButton.closest('button');
+    await user.click(button);
 
     expect(mockLogin).toHaveBeenCalled();
   });
@@ -77,9 +82,16 @@ describe('<Header />', () => {
     const mockLogout = vi.fn();
 
     renderComponent(undefined, { authenticated: true, logout: mockLogout });
-
-    await user.click(await screen.findByRole('button', { name: 'Mock von User' }));
-    await user.click(await screen.findByRole('button', { name: 'logout' }));
+    await act(async () => {
+      const userButton = await screen.findByText('Mock von User');
+      const userButtonElement = userButton.closest('button');
+      await user.click(userButtonElement);
+    });
+    await act(async () => {
+      const logoutButton = await screen.findByText('logout');
+      const logoutButtonElement = logoutButton.closest('button');
+      await user.click(logoutButtonElement);
+    });
 
     expect(mockLogout).toHaveBeenCalled();
   });
