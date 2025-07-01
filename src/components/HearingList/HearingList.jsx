@@ -52,6 +52,7 @@ const HearingList = ({
           readOnly
           checked={showOnlyOpen}
           onChange={toggleShowOnlyOpen}
+          name="showOnlyOpen"
           style={{ marginBottom: 'var(--spacing-s)' }}
         />
         <OverviewMap

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { useApiTokens, CookieBanner } from 'hds-react';
@@ -21,12 +21,12 @@ import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 import Toast from './components/Toast';
-import messages from './i18n';
 
-function App({ language, isHighContrast, history, ...props }) {
-  const { user, dispatchSetOidcUser, dispatchEnrichUser } = props;
+function App({ isHighContrast, history, ...props }) {
+  const { user, dispatchSetOidcUser, dispatchEnrichUser, onChangeLanguage } = props;
   const { fullscreen } = useParams();
   const location = useLocation();
+  const { locale } = useIntl();
 
   getCookieScripts();
   if (config.enableCookies) {
@@ -37,12 +37,12 @@ function App({ language, isHighContrast, history, ...props }) {
   getStoredApiTokens();
 
   useEffect(() => {
-    config.activeLanguage = language; // for non react-intl localizations
+    config.activeLanguage = locale; // for non react-intl localizations
     
     return () => {
       cookieOnComponentWillUnmount();
     };
-  }, [language]);
+  }, [locale]);
 
   useEffect(() => {
     if (!user && authenticated) {
@@ -74,39 +74,36 @@ function App({ language, isHighContrast, history, ...props }) {
 
   let header = null;
   if (!fullscreen && !headless) {
-    header = <Header slim={location.pathname !== '/'} history={history} />;
+    header = <Header slim={location.pathname !== '/'} onChangeLanguage={onChangeLanguage} history={history}  />;
   }
   const mainContainerId = 'main-container';
   return (
-    <IntlProvider locale={language} messages={messages[language]}>
-      <div className={contrastClass}>
-        {config.enableCookies && !isCookiebotEnabled() && <CookieBanner />}
-        <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
-          <FormattedMessage id='skipToMainContent' />
-        </InternalLink>
-        <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
-          <html lang={language} />
-          {isCookiebotEnabled() && getCookieBotConsentScripts()}
-        </Helmet>
-        {header}
-        <MaintenanceNotification language={language} />
-        <main
-          className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
-          id={mainContainerId}
-          role='main'
-          tabIndex='-1'
-        >
-          <Routes />
-        </main>
-        <Footer />
-        <Toast />
-      </div>
-    </IntlProvider>
+    <div className={contrastClass}>
+      {config.enableCookies && !isCookiebotEnabled() && <CookieBanner />}
+      <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
+        <FormattedMessage id='skipToMainContent' />
+      </InternalLink>
+      <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
+        <html lang={locale} />
+        {isCookiebotEnabled() && getCookieBotConsentScripts()}
+      </Helmet>
+      {header}
+      <MaintenanceNotification language={locale} />
+      <main
+        className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
+        id={mainContainerId}
+        role='main'
+        tabIndex='-1'
+      >
+        <Routes />
+      </main>
+      <Footer />
+      <Toast />
+    </div>
   );
 }
 
 const mapStateToProps = (state) => ({
-  language: state.language,
   isHighContrast: state.accessibility.isHighContrast,
   user: getUser(state),
 });
@@ -118,11 +115,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 App.propTypes = {
   history: PropTypes.object,
-  language: PropTypes.string,
   location: PropTypes.object,
   isHighContrast: PropTypes.bool,
   user: PropTypes.object,
   dispatchEnrichUser: PropTypes.func,
   dispatchSetOidcUser: PropTypes.func,
+  onChangeLanguage: PropTypes.func,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

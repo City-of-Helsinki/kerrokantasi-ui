@@ -15,7 +15,7 @@ import { addToast } from '../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
 import { setLanguage } from '../../actions';
 
-const Header = ({ user }) => {
+const Header = ({ user, onChangeLanguage }) => {
   const { authenticated, login, logout } = useAuthHook();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -23,9 +23,12 @@ const Header = ({ user }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const language = intl.locale;
-
-  const setLocale = (newLocale) => {
-    dispatch(setLanguage(newLocale));
+  
+  const setLocale = (newLanguage) => {
+    if (newLanguage !== language) {
+      onChangeLanguage(newLanguage);
+      dispatch(setLanguage(newLanguage));
+    }
   };
 
   const doLogin = async () => {
@@ -46,7 +49,6 @@ const Header = ({ user }) => {
 
   const onLanguageChange = (newLanguage) => {
     setLocale(newLanguage);
-
     const urlSearchParams = new URLSearchParams(window.location.search);
 
     urlSearchParams.set('lang', newLanguage);
@@ -147,6 +149,7 @@ const Header = ({ user }) => {
 
 Header.propTypes = {
   user: PropTypes.object,
+  onChangeLanguage: PropTypes.func,
 };
 
 export default connect((state) => ({
