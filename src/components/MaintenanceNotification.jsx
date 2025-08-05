@@ -8,8 +8,6 @@ import useNotifications from '../hooks/useNotifications';
 import LoadSpinner from './LoadSpinner';
 
 const MaintenanceNotification = ({ language }) => {
-
-  console.debug('MaintenanceNotification component rendered with language:', language);
   const { notifications, visibleTypes } = useNotifications(language);
 
   return (

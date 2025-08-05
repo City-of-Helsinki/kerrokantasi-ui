@@ -28,7 +28,6 @@ const Root = ({ store }) => {
   
   // This function will now update state and trigger re-renders
   const changeLanguage = (language) => {
-    console.debug(`Changing language to ${language}`);
     setLocale(language);
   };
   
