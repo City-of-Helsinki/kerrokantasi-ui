@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import React from 'react';
->>>>>>> 579ca9ee (fix: refactored the logic into a custom hook)
 import PropTypes from 'prop-types';
 import { NotificationService } from 'react-helsinki-notification-manager';
 // eslint-disable-next-line import/no-unresolved
