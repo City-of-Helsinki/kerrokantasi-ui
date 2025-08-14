@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: 'yarn'
+      - run: yarn cache clean --all
       - run: HUSKY=0 yarn install --network-concurrency 1
       - run: yarn lint
       - run: yarn build
