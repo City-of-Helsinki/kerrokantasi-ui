@@ -13,15 +13,15 @@ import * as actionsMock from '../../../actions';
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-const defaultLocale = 'fi';
 const mockSetLocale = vi.fn();
 
+const defaultLocale = 'fi';
 const defaultState = {
-  language: defaultLocale,
+  defaultLocale: defaultLocale,
   user: { data: { ...mockUser } },
 };
 const stateWithoutUser = {
-  language: 'fi',
+  defaultLocale: defaultLocale,
   user: { data: null },
 };
 
@@ -38,7 +38,7 @@ const renderComponent = (storeOverride, authMock = {}) => {
 
   renderWithProviders(
     <MemoryRouter>
-      <Header locale={defaultLocale} setLocale={mockSetLocale} />
+      <Header locale={defaultLocale} onChangeLanguage={mockSetLocale} setLocale={mockSetLocale} />
     </MemoryRouter>,
     { store },
   );
@@ -101,8 +101,10 @@ describe('<Header />', () => {
     const store = mockStore(stateWithoutUser);
     renderComponent(store);
 
-    await user.click(await screen.findByRole('button', { name: 'English' }));
+    await act(async () => {
+      await user.click(await screen.findByRole('button', { name: 'English' }));
+    })
 
-    expect(actionsMock.setLanguage).toHaveBeenCalled();
+    expect(mockSetLocale).toHaveBeenCalled();
   });
 });
