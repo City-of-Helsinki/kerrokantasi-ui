@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.2...kerrokantasi-ui-v1.12.3) (2025-08-16)
+
+
+### Bug Fixes
+
+* Refactored intl provider to be at the root ([#1167](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1167)) ([264b5d9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/264b5d9a7a96ee97610100dd476b945184386816))
+
 ## [1.12.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.1...kerrokantasi-ui-v1.12.2) (2025-06-09)
 
 
