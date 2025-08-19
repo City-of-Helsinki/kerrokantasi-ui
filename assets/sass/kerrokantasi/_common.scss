@@ -193,8 +193,16 @@ a.list-group-item {
 
 .maintenance-notification {
   &-container {
-    padding-top: var(--spacing-s);
-    padding-bottom: var(--spacing-s);
+    .notification-container {
+      margin-top: calc(var(--spacing-s) / 2);
+      margin-bottom: calc(var(--spacing-s) / 2);
+      &:first-of-type {
+        margin-top: var(--spacing-s);
+      }
+      &:last-of-type {
+        margin-bottom: var(--spacing-s);
+      }
+    }
   }
 }
 
