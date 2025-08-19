@@ -13,7 +13,7 @@ import { mockStore as mockData, mockUser } from '../../test-utils';
 vi.mock('../hooks/useNotifications', () => ({
   default: vi.fn().mockReturnValue({
     notifications: [],
-    visibleTypes: ['error', 'warning', 'info'],
+    visibleTypes: ['error', 'alert', 'info'],
     isLoading: false,
     error: null
   })
