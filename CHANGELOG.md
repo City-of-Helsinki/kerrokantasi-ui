@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.13.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.2...kerrokantasi-ui-v1.13.0) (2025-08-19)
+
+
+### Features
+
+* Add notification component ([b1d441f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b1d441fa065aa5032306456e138dbe35d7e77942))
+* Upgrade to HDS v4 ([b1d441f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b1d441fa065aa5032306456e138dbe35d7e77942))
+
+
+### Bug Fixes
+
+* Fixed CC banner being unclosable if logged in as admin ([#1172](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1172)) ([db4d50d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/db4d50de0bb558b1d4d3065d592a37412dcbdd76))
+* Refactored intl provider to be at the root ([#1167](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1167)) ([264b5d9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/264b5d9a7a96ee97610100dd476b945184386816))
+
 ## [1.12.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.1...kerrokantasi-ui-v1.12.2) (2025-06-09)
 
 
