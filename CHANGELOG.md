@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.0...kerrokantasi-ui-v1.13.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* Corrected notification type names ([#1175](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1175)) ([fbee1ad](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fbee1ad32dab0be02684bda5979347ea78ad804f))
+* Fixed empty margins when no notifications are shown ([#1173](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1173)) ([89ce923](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/89ce9237d2670ad11a1548dc686dc4b59ab3dfd1))
+
 ## [1.13.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.12.2...kerrokantasi-ui-v1.13.0) (2025-08-19)
 
 
