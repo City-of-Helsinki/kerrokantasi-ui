@@ -42,7 +42,7 @@ export const useNotifications = (language) => {
   // Convert visibleTypeRules to an array of notification types
   const visibleTypes = useMemo(() => {
     if (visibleTypeRules === 'all') {
-      return ['error', 'warning', 'info'];
+      return ['error', 'alert', 'info'];
     }
     return [visibleTypeRules];
   }, [visibleTypeRules]);

@@ -77,7 +77,7 @@ describe('useNotifications', () => {
     ]);
 
     // Check if visibleTypes is correct for home page
-    expect(result.current.visibleTypes).toEqual(['error', 'warning', 'info']);
+    expect(result.current.visibleTypes).toEqual(['error', 'alert', 'info']);
   });
 
   it('should show only error notifications on non-home pages', async () => {
