@@ -18,7 +18,7 @@ function mapNotifications(notifications, language) {
     level: notification.type_name.toLowerCase(),
     modified_at: notification.modified_at,
     external_url: notification.external_url[language],
-    external_url_title: notification.external_url_title[language],
+    external_url_text: notification.external_url_title[language],
   }));
 }
 
