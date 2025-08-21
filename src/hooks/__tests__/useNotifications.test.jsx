@@ -72,7 +72,7 @@ describe('useNotifications', () => {
         level: 'info',
         modified_at: '2023-01-01',
         external_url: 'https://example.com',
-        external_url_title: 'Link',
+        external_url_text: 'Link',
       },
     ]);
 
