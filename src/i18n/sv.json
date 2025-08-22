@@ -103,6 +103,7 @@
   "descriptionTag": "Säg din åsikt. Var med och utveckla staden och delta i öppna höranden.",
   "disabledLink": "Inaktiverad länk",
   "downloadReport": "Ladda ner en sammanfattning av åsikterna i Excel-format",
+  "downloadFileError": "Nedladdningen av filen misslyckades",
   "drafts": "Utkast",
   "draftCount": "Utkast ({n})",
   "edit": "Redigera",
