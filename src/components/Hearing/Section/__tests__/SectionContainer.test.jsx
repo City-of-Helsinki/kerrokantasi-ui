@@ -140,17 +140,43 @@ describe('<SectionContainer />', () => {
   it('should handle report download', async () => {
     const mockAdminUser = {
       ...mockData.mockUser,
-      adminOrganizations: [mockData.mockHearingWithSections.data.organization],
+      adminOrganizations: ['Kaupunkisuunnitteluvirasto'],
     };
 
     renderComponent({ user: { data: mockAdminUser } });
 
-    const downloadButton = await screen.findByText(/downloadReport/i);
+    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
+    window.URL.revokeObjectURL = vi.fn();
+
+    //
+
+    const mockBlob = new Blob(['test data'], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    vi.spyOn(mockApi, 'get').mockImplementationOnce((url) => {
+      if (url.includes('/report')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          blob: () => Promise.resolve(mockBlob),
+        });
+      }
+
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockedData),
+        blob: () => Promise.resolve({}),
+      });
+    });
+
+    const downloadButton = await screen.findByRole('button', { name: /downloadReport/i });
+
     fireEvent.click(downloadButton);
 
-    window.URL.createObjectURL = vi.fn(() => 'https://test.com');
-
-    await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should render with empty sections', async () => {
