@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.13.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.1...kerrokantasi-ui-v1.13.2) (2025-08-22)
+
+
+### Bug Fixes
+
+* Fixed invalid mapping for external url title ([#1176](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1176)) ([9d17358](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9d173588cc79bc71280f1e4cde2e2a99c24c47a4))
+
+
+### Dependencies
+
+* Bump @eslint/plugin-kit from 0.3.1 to 0.3.4 ([#1169](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1169)) ([212df79](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/212df79e64162c9075d45dd2ea628bbe7e413d03))
+
 ## [1.13.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.0...kerrokantasi-ui-v1.13.1) (2025-08-20)
 
 
