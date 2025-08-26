@@ -140,7 +140,7 @@ describe('<SectionContainer />', () => {
   it('should handle report download', async () => {
     const mockAdminUser = {
       ...mockData.mockUser,
-      adminOrganizations: ['Kaupunkisuunnitteluvirasto'],
+      adminOrganizations: [mockData.mockHearingWithSections.data.organization],
     };
 
     renderComponent({ user: { data: mockAdminUser } });
