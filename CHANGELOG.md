@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.2...kerrokantasi-ui-v1.13.3) (2025-08-26)
+
+
+### Bug Fixes
+
+* Download hearing comment summary KER-494 ([#1178](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1178)) ([547a24c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/547a24c26e9a238bbbef57fe16064381481ad0ae))
+
 ## [1.13.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.1...kerrokantasi-ui-v1.13.2) (2025-08-22)
 
 
