@@ -118,6 +118,7 @@
   "descriptionTag": "Kerro mielipiteesi. Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "disabledLink": "Epäaktiivinen linkki",
   "downloadReport": "Lataa yhteenveto kommenteista Excel-muodossa",
+  "downloadFileError": "Tiedoston lataaminen epäonnistui",
   "draft": "Luonnos",
   "draftDeleted": "Luonnos poistettiin onnistuneesti",
   "draftNotPublished": "Luonnos, ei julkaistu",

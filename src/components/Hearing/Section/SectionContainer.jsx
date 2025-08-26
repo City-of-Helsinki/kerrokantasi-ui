@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { Button } from 'hds-react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
@@ -49,6 +49,8 @@ import 'react-image-lightbox/style.css';
 import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 import { getNickname } from '../../../utils/user';
+import { addToast } from '../../../actions/toast';
+import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
 
 const SectionContainerComponent = ({
   editCommentFn,
@@ -74,6 +76,7 @@ const SectionContainerComponent = ({
   const { hearingSlug, sectionId } = useParams();
   const { search } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
   const sections = useSelector((state) => getSections(state, hearingSlug));
@@ -120,32 +123,41 @@ const SectionContainerComponent = ({
   };
 
   // downloads report excel with user's credentials
-  const handleReportDownload = (reportHearing, reportLanguage) => {
+  const handleReportDownload = async (reportHearing, reportLanguage) => {
     const accessToken = getApiTokenFromStorage();
-    const reportUrl = getApiURL(`/v1/hearing/${reportHearing.slug}/report`);
+    const reportUrl = `/v1/hearing/${reportHearing.slug}/report`;
 
-    apiGet(reportUrl, null, {
-      headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
-        link.href = url;
-        // remove filename special characters to avoid potential naming issues
-        const filename = reportHearing.title
-          ? `${getAttr(reportHearing.title, reportLanguage).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
-          : 'kuuluminen.xlsx';
-
-        link.setAttribute('download', filename);
-
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode.removeChild(link);
+    try {
+      const response = await apiGet(reportUrl, null, {
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
+
+      if (!response.ok) {
+        throw new Error('Report download failed');
+      }
+
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      // remove filename special characters to avoid potential naming issues
+      const filename = reportHearing.title
+        ? `${getAttr(reportHearing.title, reportLanguage).replace(/[^a-zA-Z0-9 ]/g, '')}.xlsx`
+        : 'kuuluminen.xlsx';
+
+      link.setAttribute('download', filename);
+
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      // eslint-disable-next-line no-unused-vars, sonarjs/no-ignored-exceptions
+    } catch (error) {
+      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'downloadFileError')));
+    }
   };
 
   /**
