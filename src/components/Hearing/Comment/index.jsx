@@ -559,13 +559,7 @@ const Comment = (props) => {
         <div className='hearing-comment__images'>
           {data.images
             ? data.images.map((image) => (
-                <a
-                  className='hearing-comment-images-image'
-                  key={image.url}
-                  rel='noopener noreferrer'
-                  target='_blank'
-                  href={image.url}
-                >
+                <a className='hearing-comment-images-image' key={image.url} href={image.url}>
                   <img
                     alt={getMessage('commentImageAlt')}
                     src={image.url}
