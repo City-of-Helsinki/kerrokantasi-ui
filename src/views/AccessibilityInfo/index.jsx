@@ -1,15 +1,13 @@
-/* eslint-disable react/no-children-prop */
 /* eslint-disable import/no-unresolved */
-import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { Col, Row, Grid } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import AccessibilityFi from '@city-i18n/accessibility-info/accessibility.fi.md';
 import AccessibilitySv from '@city-i18n/accessibility-info/accessibility.sv.md';
 import AccessibilityEn from '@city-i18n/accessibility-info/accessibility.en.md';
+
+import MarkdownPage from '../../components/MarkdownPage/MarkdownPage';
 
 function getContent(language) {
   if (typeof window === 'undefined') return '';
@@ -49,18 +47,7 @@ const AccessibilityInfo = () => {
   }, [pageContent]);
   return (
     <Grid className='accessibility-page'>
-      <Helmet
-        title={intl.formatMessage({ id: 'accessibilityPage' })}
-        meta={[
-          { name: 'description', content: intl.formatMessage({ id: 'descriptionTag' }) },
-          { property: 'og:description', content: intl.formatMessage({ id: 'descriptionTag' }) },
-        ]}
-      />
-      <Row>
-        <Col md={8}>
-          <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />
-        </Col>
-      </Row>
+      <MarkdownPage title={intl.formatMessage({ id: 'accessibilityPage' })} markdown={markdown} />
     </Grid>
   );
 };

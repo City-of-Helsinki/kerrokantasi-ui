@@ -1,16 +1,12 @@
-/* eslint-disable react/no-children-prop */
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
 import { injectIntl, useIntl } from 'react-intl';
-import Helmet from 'react-helmet';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import ServiceInfoFi from '@city-i18n/service-info/content.fi.md';
 import ServiceInfoSv from '@city-i18n/service-info/content.sv.md';
 import ServiceInfoEn from '@city-i18n/service-info/content.en.md';
+
+import MarkdownPage from '../../components/MarkdownPage/MarkdownPage';
 
 function getContent(language) {
   if (typeof window === 'undefined') return '';
@@ -49,18 +45,7 @@ const Info = () => {
 
   return (
     <div className='container'>
-      <Helmet
-        title={intl.formatMessage({ id: 'infoPage' })}
-        meta={[
-          { name: 'description', content: intl.formatMessage({ id: 'descriptionTag' }) },
-          { property: 'og:description', content: intl.formatMessage({ id: 'descriptionTag' }) },
-        ]}
-      />
-      <Row>
-        <Col md={8}>
-          <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />
-        </Col>
-      </Row>
+      <MarkdownPage title={intl.formatMessage({ id: 'infoPage' })} markdown={markdown} />
     </div>
   );
 };

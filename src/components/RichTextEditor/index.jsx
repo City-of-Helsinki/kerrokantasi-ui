@@ -179,9 +179,7 @@ class RichTextEditor extends React.Component {
             if (nodeName === 'a') {
               const hrefAttribute = node.attributes.getNamedItem('href');
               const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
-              const target =
-                // eslint-disable-next-line sonarjs/code-eval
-                href && (href[0] === '#' || href.includes('javascript:document.getElementById')) ? '_self' : '_blank';
+              const target = '_self';
               return createEntity('LINK', 'MUTABLE', {
                 url: href,
                 target,
@@ -445,7 +443,7 @@ class RichTextEditor extends React.Component {
     event.preventDefault();
     const { editorState, urlValue } = this.state;
     const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', { url: urlValue, target: '_blank' });
+    const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', { url: urlValue, target: '_self' });
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
     this.setState(
