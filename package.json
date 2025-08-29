@@ -27,8 +27,7 @@
     "snyk-protect": "snyk protect",
     "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi && yarn update-runtime-env",
     "update-runtime-env": "esrun scripts/update-runtime-env.js",
-    "clear-babel-cache": "rm -rf ./node_modules/.cache/@babel",
-    "test:browser": "vitest --config=vitest.browser.config.js"
+    "clear-babel-cache": "rm -rf ./node_modules/.cache/@babel"
   },
   "repository": {
     "type": "git",
@@ -155,7 +154,9 @@
     "nyc": "^17.1.0",
     "playwright": "^1.55.0",
     "playwright-test-coverage": "^1.2.12",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "vitest": "^3.2.4",
+    "vitest-fetch-mock": "^0.4.5"
   },
   "resolutions": {
     "@babel/helpers": "^7.27.0",
