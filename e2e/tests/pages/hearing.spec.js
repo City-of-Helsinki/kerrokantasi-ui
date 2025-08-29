@@ -1,4 +1,4 @@
-import { expect, test } from 'playwright-test-coverage';
+import { expect, test } from '@playwright/test';
 
 const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 

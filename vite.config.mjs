@@ -91,7 +91,8 @@ export default defineConfig(() => {
       setupFiles: './src/setupTests.js',
       css: true,
       reporters: ['verbose'],
-      exclude: [...configDefaults.exclude, 'e2e'],
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],  // Only Vitest files
+      exclude: [...configDefaults.exclude, 'e2e', 'e2e/**', '**/e2e/**', '**/*.spec.js'],  // Exclude Playwright files
       coverage: {
         reporter: ['clover', 'json', 'lcov', 'text'],
         include: ['src/**/*'],
