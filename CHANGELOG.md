@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.3...kerrokantasi-ui-v1.14.0) (2025-08-27)
+
+
+### Features
+
+* Prevent links opening in new tab Ref: KER-529 ([064add7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/064add72de3cfa755dde9a03e6b676dc29c6db4d))
+
 ## [1.13.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.2...kerrokantasi-ui-v1.13.3) (2025-08-26)
 
 

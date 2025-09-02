@@ -108,8 +108,8 @@ const HearingForm = ({
       return () => {
         toggles.forEach((item) => {
           if (!item.node) {
-          return;
-        }
+            return;
+          }
           item.node.removeEventListener('click', () => onToggleClick(item.node, item.stepNumber));
         });
       };
@@ -283,7 +283,7 @@ const HearingForm = ({
       <Dialog.Header id={titleId} title={<FormattedMessage id='editHearing' />} />
       <Dialog.Content>
         <div id={descriptionId}>
-          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl} rel='noopener noreferrer' target='_blank'>
+          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl}>
             <FormattedMessage id='help' />
           </a>
           {getErrors()}
