@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl, injectIntl } from 'react-intl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   EditorState,
@@ -23,6 +23,7 @@ import '@draft-js-plugins/focus/lib/plugin.css';
 import { convertFromHTML } from 'draft-convert';
 import { stateToHTML } from 'draft-js-export-html';
 import { Map } from 'immutable';
+import { IconLinkExternal, IconSize } from 'hds-react';
 
 import {
   BlockStyleControls,
@@ -38,6 +39,7 @@ import SkipLinkModal from './SkipLink/SkipLinkModal';
 import ImageModal from './Image/ImageModal';
 import ImageEntity from './Image/ImageEntity';
 import { textEditorHideControlsShape } from '../../types';
+import isExternalLink from '../../utils/isExternalLink';
 
 const CLASS_NAME_IMAGE_CAPTION = 'image-caption';
 
@@ -64,28 +66,6 @@ const kerrokantasiBlockRenderMap = Map({
   },
 });
 
-const htmlOptions = {
-  blockStyleFn: (block) => {
-    if (block.getType() === 'LEAD') {
-      return { attributes: { className: 'lead' } };
-    }
-    if (block.getType() === 'ImageCaption') {
-      return { attributes: { className: CLASS_NAME_IMAGE_CAPTION } };
-    }
-    return null;
-  },
-  entityStyleFn: (entity) => {
-    if (entity.getType() === 'IFRAME') {
-      const data = entity.getData();
-      return {
-        element: 'iframe',
-        attributes: data,
-      };
-    }
-    return null;
-  },
-};
-
 const blockRenderMap = DefaultDraftBlockRenderMap.merge(kerrokantasiBlockRenderMap);
 
 const findLinkEntities = (contentBlock, callback, contentState) => {
@@ -98,9 +78,24 @@ const findLinkEntities = (contentBlock, callback, contentState) => {
 const Link = (props) => {
   const { url, id, className, target, title } = props.contentState.getEntity(props.entityKey).getData();
   // use title/rel for id storing because djaft-js doesnt support id field
+
+  const intl = useIntl();
+
   return (
-    <a href={url} id={id} title={title} rel={id} className={className} target={target}>
-      {props.children}
+    <a
+      href={url}
+      id={id}
+      title={title}
+      rel={id}
+      className={className}
+      target={target}
+      {...(isExternalLink(url) && {
+        'aria-label': `${props.decoratedText} ${intl.formatMessage({
+          id: 'linkLeadsToExternal',
+        })}`,
+      })}
+    >
+      {props.children} {isExternalLink(url) && <IconLinkExternal size={IconSize.ExtraSmall} />}
     </a>
   );
 };
@@ -108,6 +103,7 @@ const Link = (props) => {
 Link.propTypes = {
   children: PropTypes.array,
   contentState: PropTypes.object,
+  decoratedText: PropTypes.string,
   entityKey: PropTypes.string,
 };
 
@@ -159,6 +155,12 @@ class RichTextEditor extends React.Component {
 
     const createEditorState = () => {
       if (this.props.value) {
+        // Remove external link icons from HTML before parsing to avoid duplication
+        const cleanHtml = this.props.value.replace(
+          /<span class="[^"]*hds-icon[^"]*hds-icon--link-external[^"]*"[^>]*><\/span>/gi,
+          '',
+        );
+
         const contentState = convertFromHTML({
           htmlToBlock: (nodeName, node) => {
             if (node.className === 'lead') {
@@ -180,12 +182,22 @@ class RichTextEditor extends React.Component {
               const hrefAttribute = node.attributes.getNamedItem('href');
               const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
               const target = '_self';
+
+              // Extract link text by removing any icon spans from the text content
+              let linkText = node.textContent || '';
+              // Remove external link icon text if present
+              const iconSpans = node.querySelectorAll('span[aria-hidden="true"]');
+              iconSpans.forEach((span) => {
+                linkText = linkText.replace(span.textContent || '', '').trim();
+              });
+
               return createEntity('LINK', 'MUTABLE', {
                 url: href,
                 target,
                 id: node.id,
                 className: node.className,
                 title: node.id,
+                linkText: linkText,
               });
             }
             if (nodeName === 'iframe') {
@@ -206,7 +218,7 @@ class RichTextEditor extends React.Component {
             }
             return null;
           },
-        })(stripIframeWrapperDivs(this.props.value));
+        })(stripIframeWrapperDivs(cleanHtml));
         return EditorState.createWithContent(contentState);
       }
       return EditorState.createEmpty();
@@ -243,6 +255,52 @@ class RichTextEditor extends React.Component {
     };
   }
 
+  getHtmlOptions() {
+    const { formatMessage } = this.props.intl;
+    const externalLinkMessage = formatMessage({ id: 'linkLeadsToExternal' });
+
+    return {
+      blockStyleFn: (block) => {
+        if (block.getType() === 'LEAD') {
+          return { attributes: { className: 'lead' } };
+        }
+        if (block.getType() === 'ImageCaption') {
+          return { attributes: { className: CLASS_NAME_IMAGE_CAPTION } };
+        }
+        return null;
+      },
+      entityStyleFn: (entity) => {
+        if (entity.getType() === 'IFRAME') {
+          const data = entity.getData();
+          return {
+            element: 'iframe',
+            attributes: data,
+          };
+        }
+        if (entity.getType() === 'LINK') {
+          const data = entity.getData();
+          const url = data.url || data.href;
+
+          if (isExternalLink(url)) {
+            // Extract link text from entity data or use URL as fallback
+            const linkText = data.linkText || url || '';
+            return {
+              element: 'a',
+              attributes: {
+                class: 'hds-link',
+                href: url,
+                target: '_self',
+                'aria-label': `${linkText} ${externalLinkMessage}`,
+                'data-external': 'true',
+              },
+            };
+          }
+        }
+        return null;
+      },
+    };
+  }
+
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
     if (command === 'custom-tab') {
@@ -266,15 +324,23 @@ class RichTextEditor extends React.Component {
   onChange(editorState) {
     this.setState({ editorState });
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState, htmlOptions);
+    const html = stateToHTML(contentState, this.getHtmlOptions());
 
     // link title is used as temp storing place for id attribute
     // convert link titles back into id attributes
     const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
     const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+
+    // Add external link icons for external links
+    const externalLinkRegex = /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
+    const htmlWithExternalIcons = htmlWithLinkIds.replace(
+      externalLinkRegex,
+      '$1$2 <span class="hds-icon icon hds-icon--link-external hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3',
+    );
+
     // strip wrapping figure tags from iframe tags for better accessibility
     // and add iframe wrappers which help with iframe screen overflow
-    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithLinkIds);
+    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithExternalIcons);
     this.props.onChange(addIframeWrapperDivs(iframeWithoutFigureWrap));
   }
 
@@ -285,15 +351,23 @@ class RichTextEditor extends React.Component {
   onBlur() {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState, htmlOptions);
+    const html = stateToHTML(contentState, this.getHtmlOptions());
 
     // link title is used as temp storing place for id attribute
     // convert link titles back into id attributes
     const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
     const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+
+    // Add external link icons for external links
+    const externalLinkRegex = /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
+    const htmlWithExternalIcons = htmlWithLinkIds.replace(
+      externalLinkRegex,
+      '$1$2 <span class="hds-icon icon hds-icon--link-external hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3',
+    );
+
     // strip wrapping figure tags from iframe tags for better accessibility
     // and add iframe wrappers which help with iframe screen overflow
-    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithLinkIds);
+    const iframeWithoutFigureWrap = stripWrappingFigureTags(htmlWithExternalIcons);
     this.props.onBlur(addIframeWrapperDivs(iframeWithoutFigureWrap));
   }
 
@@ -327,10 +401,50 @@ class RichTextEditor extends React.Component {
     event.preventDefault();
     const { editorState } = this.state;
     const selection = editorState.getSelection();
+    const contentState = editorState.getCurrentContent();
+
+    // If we have a text selection, use it
     if (!selection.isCollapsed()) {
       this.setState({
         editorState: RichUtils.toggleLink(editorState, selection, null),
       });
+      return;
+    }
+
+    // If cursor is just positioned within a link (no selection), find and remove the entire link
+    const startKey = selection.getStartKey();
+    const startOffset = selection.getStartOffset();
+    const blockWithLinkAtBeginning = contentState.getBlockForKey(startKey);
+    const linkEntityKey = blockWithLinkAtBeginning.getEntityAt(startOffset);
+
+    if (linkEntityKey) {
+      const linkEntity = contentState.getEntity(linkEntityKey);
+      if (linkEntity.getType() === 'LINK') {
+        // Find the full range of this link entity
+        let entityStart = startOffset;
+        let entityEnd = startOffset;
+
+        // Find start of entity
+        while (entityStart > 0 && blockWithLinkAtBeginning.getEntityAt(entityStart - 1) === linkEntityKey) {
+          entityStart--;
+        }
+
+        // Find end of entity
+        const blockLength = blockWithLinkAtBeginning.getLength();
+        while (entityEnd < blockLength && blockWithLinkAtBeginning.getEntityAt(entityEnd) === linkEntityKey) {
+          entityEnd++;
+        }
+
+        // Create selection for the entire link
+        const linkSelection = selection.merge({
+          anchorOffset: entityStart,
+          focusOffset: entityEnd,
+        });
+
+        this.setState({
+          editorState: RichUtils.toggleLink(editorState, linkSelection, null),
+        });
+      }
     }
   }
 
@@ -443,7 +557,29 @@ class RichTextEditor extends React.Component {
     event.preventDefault();
     const { editorState, urlValue } = this.state;
     const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', { url: urlValue, target: '_self' });
+    const selection = editorState.getSelection();
+
+    // Get the selected text to use as linkText for aria-label
+    const blockWithLinkAtBeginning = contentState.getBlockForKey(selection.getStartKey());
+    const linkText = blockWithLinkAtBeginning.getText().slice(selection.getStartOffset(), selection.getEndOffset());
+
+    // Check if we're editing an existing link to preserve its properties
+    const startKey = selection.getStartKey();
+    const startOffset = selection.getStartOffset();
+    const blockWithLink = contentState.getBlockForKey(startKey);
+    const existingEntityKey = blockWithLink.getEntityAt(startOffset);
+    let existingData = {};
+
+    if (existingEntityKey) {
+      const existingEntity = contentState.getEntity(existingEntityKey);
+      existingData = existingEntity.getData();
+    }
+
+    const contentStateWithEntity = contentState.createEntity('LINK', 'MUTABLE', {
+      ...existingData, // Preserve existing properties like id, className, title
+      url: urlValue,
+      linkText: linkText,
+    });
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
     this.setState(
@@ -471,7 +607,6 @@ class RichTextEditor extends React.Component {
     const className = linkIsHidden ? 'hidden-link' : '';
     const newContentWithEntity = newContent.createEntity('LINK', 'MUTABLE', {
       url: hrefValue,
-      target: '_self',
       id: linkOwnId,
       className,
       title: linkOwnId,
@@ -627,4 +762,4 @@ RichTextEditor.propTypes = {
   intl: PropTypes.object,
 };
 
-export default RichTextEditor;
+export default injectIntl(RichTextEditor);

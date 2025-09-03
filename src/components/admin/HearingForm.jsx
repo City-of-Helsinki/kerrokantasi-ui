@@ -2,8 +2,8 @@
 import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
-import { Accordion, Button, Dialog, Notification } from 'hds-react';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { Accordion, Button, Dialog, IconLinkExternal, IconSize, Notification } from 'hds-react';
 
 import Icon from '../../utils/Icon';
 import config from '../../config';
@@ -21,7 +21,6 @@ const HearingForm = ({
   contactPersons,
   currentStep: initialStep,
   organizations,
-  intl: { formatMessage },
   editorMetaData,
   hearing,
   isSaving,
@@ -60,6 +59,8 @@ const HearingForm = ({
 
   const formSteps = [Step1, Step2, Step3, Step4, Step5];
   const stepRefs = useRef(formSteps.map((step) => createRef(step)));
+
+  const intl = useIntl();
 
   const nextStep = () => {
     const next = parseInt(currentStep, 10) + 1;
@@ -120,12 +121,12 @@ const HearingForm = ({
     const stepNumber = stepIndex + 1;
     const step = `${stepNumber}`;
 
-    let title = formatMessage({ id: `hearingFormHeaderStep${stepNumber}` });
+    let title = intl.formatMessage({ id: `hearingFormHeaderStep${stepNumber}` });
 
     const stepErrors = errors[stepNumber] || {};
 
     if (errors[stepNumber] && Object.keys(errors[stepNumber]).length > 0) {
-      title += formatMessage({ id: 'hearingFormHeaderContainsErrors' });
+      title += intl.formatMessage({ id: 'hearingFormHeaderContainsErrors' });
     }
 
     const isVisible = currentStep === stepNumber;
@@ -151,7 +152,7 @@ const HearingForm = ({
             deleteOption={deleteOption}
             editorMetaData={editorMetaData}
             errors={stepErrors}
-            formatMessage={formatMessage}
+            formatMessage={intl.formatMessage}
             hearing={hearing}
             hearingLanguages={hearingLanguages}
             initMultipleChoiceQuestion={initMultipleChoiceQuestion}
@@ -245,7 +246,7 @@ const HearingForm = ({
         }, []);
         rootAccumulator.push(
           <li key={currentRootValue}>
-            {formatMessage({ id: `hearingFormHeaderStep${currentRootValue}` })}
+            {intl.formatMessage({ id: `hearingFormHeaderStep${currentRootValue}` })}
             <ul>{subErrors}</ul>
           </li>,
         );
@@ -277,14 +278,20 @@ const HearingForm = ({
       close={onLeaveForm}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      closeButtonLabelText={formatMessage({ id: 'close' })}
+      closeButtonLabelText={intl.formatMessage({ id: 'close' })}
       theme={{ '--accent-line-color': 'var(--color-black)' }}
     >
       <Dialog.Header id={titleId} title={<FormattedMessage id='editHearing' />} />
       <Dialog.Content>
         <div id={descriptionId}>
-          <a style={{ lineHeight: 2 }} href={config.adminHelpUrl}>
-            <FormattedMessage id='help' />
+          <a
+            style={{ lineHeight: 2 }}
+            href={config.adminHelpUrl}
+            aria-label={`${intl.formatMessage({ id: 'help' })} ${intl.formatMessage({
+              id: 'linkLeadsToExternal',
+            })}`}
+          >
+            <FormattedMessage id='help' /> <IconLinkExternal size={IconSize.ExtraSmall} />
           </a>
           {getErrors()}
           <form>{formSteps.map((step, index) => getFormStep(step, index))}</form>
@@ -340,4 +347,4 @@ HearingForm.propTypes = {
   intl: PropTypes.object,
 };
 
-export default connect(null, null, null)(injectIntl(HearingForm));
+export default connect(null, null, null)(HearingForm);

@@ -1,14 +1,23 @@
 ///// Kerrokantasi custom variables and bootstrap default variable overrides
-@import "kerrokantasi/variables";
+@import 'kerrokantasi/variables';
 
 ///// Bootstrap
-@import "kerrokantasi/bootstrap";
+@import 'kerrokantasi/bootstrap';
 
 ///// Kerrokantasi "white label" styles
-@import "kerrokantasi/white-label-styles";
+@import 'kerrokantasi/white-label-styles';
 
 ///// Kerrokantasi styles
-@import "kerrokantasi/kerrokantasi";
+@import 'kerrokantasi/kerrokantasi';
 
 ///// HDS React base styles
-@import "hds-core/lib/base.min.css";
+@import 'hds-core/lib/base.min.css';
+
+///// HDS React component styles
+@import 'hds-core/lib/components/all.min.css';
+
+///// HDS React icon styles
+@import 'hds-core/lib/icons/icons.min.css';
+
+///// HDS design tokens as CSS variables
+@import 'hds-design-tokens/lib/all.min.css';
