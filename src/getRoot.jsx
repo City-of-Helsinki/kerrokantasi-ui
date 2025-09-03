@@ -25,16 +25,14 @@ const loginProviderProps = {
 const Root = ({ store }) => {
   // Use state to manage locale information
   const [locale, setLocale] = useState('fi');
-  
+
   // This function will now update state and trigger re-renders
   const changeLanguage = (language) => {
     setLocale(language);
   };
-  
   if (isIE) {
     return <BrowserWarning />;
   }
-  
   return (
     <LoginProvider {...loginProviderProps}>
       <IntlProvider locale={locale} messages={messages[locale]}>

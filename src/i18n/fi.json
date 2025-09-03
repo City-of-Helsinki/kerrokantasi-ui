@@ -256,6 +256,7 @@
   "lastClosing": "Viimeisenä sulkeutuvat",
   "lastClosed": "Viimeisenä sulkeutuneet",
   "leastCommented": "Vähiten kommentoidut",
+  "linkLeadsToExternal": "(Linkki johtaa ulkoiseen palveluun)",
   "list": "Lista",
   "login": "Kirjaudu",
   "loginAttemptFailed": "Kirjautuminen epäonnistui. Yritä hetken päästä uudelleen.",

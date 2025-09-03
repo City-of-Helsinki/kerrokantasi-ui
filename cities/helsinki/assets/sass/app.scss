@@ -1,28 +1,36 @@
 ///// Helsinki brand variables
-@import "hel-bootstrap-3/src/sass/helsinki-variables";
+@import 'hel-bootstrap-3/src/sass/helsinki-variables';
 ///// Application specific theme variables
-@import "hel/variables";
+@import 'hel/variables';
 ///// Helsinki Bootstrap 3 theme variables
-@import "hel-bootstrap-3/src/sass/theme-bootstrap-variables";
+@import 'hel-bootstrap-3/src/sass/theme-bootstrap-variables';
 
-@import "../../../../assets/sass/kerrokantasi/variables";
-@import "../../../../assets/sass/kerrokantasi/bootstrap";
+@import '../../../../assets/sass/kerrokantasi/variables';
+@import '../../../../assets/sass/kerrokantasi/bootstrap';
 
 ///// hel-bootstrap-3 Bootstrap overrides
-@import "hel-bootstrap-3/src/sass/theme-custom-styles";
+@import 'hel-bootstrap-3/src/sass/theme-custom-styles';
 
 ///// Kerrokantasi Base styles
-@import "../../../../assets/sass/kerrokantasi/kerrokantasi";
+@import '../../../../assets/sass/kerrokantasi/kerrokantasi';
 
 ///// HDS React base styles
-@import "hds-core/lib/base.min.css";
+@import 'hds-core/lib/base.min.css';
 
+///// HDS React component styles
+@import 'hds-core/lib/components/all.min.css';
+
+///// HDS React icon styles
+@import 'hds-core/lib/icons/icons.min.css';
+
+///// HDS design tokens as CSS variables
+@import 'hds-design-tokens/lib/all.min.css';
 
 ///// Helsinki overwrites
-@import "hel/footer";
-@import "hel/cookiebar";
-@import "hel/hearing-form";
-@import "hel/hearing-list";
-@import "hel/hearing-page";
-@import "hel/home";
-@import "hel/high-contrast";
+@import 'hel/footer';
+@import 'hel/cookiebar';
+@import 'hel/hearing-form';
+@import 'hel/hearing-list';
+@import 'hel/hearing-page';
+@import 'hel/home';
+@import 'hel/high-contrast';

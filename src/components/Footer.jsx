@@ -66,7 +66,14 @@ const Footer = (props) => {
       </HDSFooter.Navigation>
       <HDSFooter.Utilities>
         <HDSFooter.Link label={<FormattedMessage id='feedbackPrompt' />} href={getFeedbackEmailUrl(language)} />
-        <HDSFooter.Link label={<FormattedMessage id='feedbackLinkText' />} href={getFeedbackUrl(language)} />
+        <HDSFooter.Link
+          label={<FormattedMessage id='feedbackLinkText' />}
+          href={getFeedbackUrl(language)}
+          external
+          aria-label={`${intl.formatMessage({ id: 'feedbackLinkText' })} ${intl.formatMessage({
+            id: 'linkLeadsToExternal',
+          })}`}
+        />
       </HDSFooter.Utilities>
       <HDSFooter.Base
         copyrightHolder={<FormattedMessage id='copyrightHolder' />}
@@ -86,7 +93,14 @@ const Footer = (props) => {
           as={Link}
           onClick={scrollToFn}
         />
-        <HDSFooter.Link label={<FormattedMessage id='dataProtection' />} href={getDataProtectionUrl(language)} />
+        <HDSFooter.Link
+          label={<FormattedMessage id='dataProtection' />}
+          href={getDataProtectionUrl(language)}
+          external
+          aria-label={`${intl.formatMessage({ id: 'dataProtection' })} ${intl.formatMessage({
+            id: 'linkLeadsToExternal',
+          })}`}
+        />
         {config.enableCookies && (
           <HDSFooter.Link
             label={<FormattedMessage id='cookieManagementLink' />}
