@@ -19,6 +19,7 @@ import {
 } from '../../actions/hearingEditor';
 import { addToast } from '../../actions/toast';
 import Project from './Project';
+import { INIT_NEW_PROJECT_ID } from '../../reducers/hearingEditor/hearing';
 
 const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects }) => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
 
   const defaultProjectOptions = [
     { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
-    { value: '', label: intl.formatMessage({ id: 'defaultProject' }) },
+    { value: INIT_NEW_PROJECT_ID, label: intl.formatMessage({ id: 'defaultProject' }) },
   ];
 
   const projectsOptions = projects.map((project) => ({

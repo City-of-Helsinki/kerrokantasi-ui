@@ -117,9 +117,6 @@ describe('<HearingFormStep1 />', () => {
     await act(async () => {
       await user.click(option);
     })
-    await act(async () => {
-      await user.click(dropdownButton);
-    })
     expect(dropdownButton.getAttribute('aria-label')).toContain('1 valittu vaihtoehto');
   });
 
