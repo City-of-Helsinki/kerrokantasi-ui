@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.0...kerrokantasi-ui-v1.14.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* External links aria-labels and icons Ref: KER-529 ([2da9371](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2da9371fb504ecdd4a28417eba17b3ece1dd7afd))
+* Fixing dropdowns in hearing form ([#1182](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1182)) ([05915dd](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/05915dd03867f42efcfcd6c66cb2ead73a4886c4))
+
 ## [1.14.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.13.3...kerrokantasi-ui-v1.14.0) (2025-08-27)
 
 
