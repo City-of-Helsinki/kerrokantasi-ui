@@ -47,7 +47,7 @@ const HearingFormStep1 = ({
   };
 
   const onContactsChange = (contacts) => {
-    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.name.toLowerCase() === contact.label.toLowerCase()));
+    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.id === contact.value));
     setSelectedContacts(newContacts.filter(Boolean).map(({ id }) => id));
     onHearingChange(
       'contact_persons',
@@ -124,6 +124,10 @@ const HearingFormStep1 = ({
           <Select
             multiSelect
             name='labels'
+            filter={(option, inputValue) => {
+              const label = typeof option.label === 'string' ? option.label.toLowerCase() : option.label.toString();
+              return label.includes(inputValue.toLowerCase())
+            }}
             value={hearing.labels.map((opt) => ({
               value: opt.id,
               title: getAttr(opt.label, language),
@@ -176,18 +180,22 @@ const HearingFormStep1 = ({
             multiSelect
             name='contact_persons'
             onClose={onContactsChange}
-            value={hearing.contact_persons.filter(Boolean).map((person) => ({
-              id: person.id,
-              title: person.name,
-              label: person.name,
-            }))}
-            options={contactPersons.map((person) => ({ id: person.id, title: person.name, label: person.name }))}
+            filter={(option, inputValue) => {
+              const label = typeof option.label === 'string' ? option.label.toLowerCase() : option.label.toString();
+              return label.includes(inputValue.toLowerCase())
+            }}
+            value={hearing.contact_persons.filter(Boolean).map((person) => {
+              return {
+                value: person.id,
+                label: person.name,
+              }
+            })}
+            options={contactPersons.map((person) =>  { return { value: person.id, label: person.name } })}
             texts={{
               placeholder: intl.formatMessage({ id: 'hearingContactsPlaceholder' }),
               label: intl.formatMessage({ id: 'hearingContacts' })
             }}
             required
-            helper={<FormattedMessage id='hearingContactsHelpText' />}
             invalid={!!errors.contact_persons}
             id='contact_persons'
           />

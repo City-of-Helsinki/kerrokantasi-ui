@@ -1,4 +1,4 @@
-import { test, expect } from 'playwright-test-coverage';
+import { test, expect } from '@playwright/test';
 
 test.describe('Map Page', () => {
   test.beforeEach(async ({ page }) => {

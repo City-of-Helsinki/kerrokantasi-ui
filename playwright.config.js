@@ -6,6 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e/tests',
+  testMatch: '**/*.spec.js',  // Only match .spec.js files for Playwright
 
   // Timeout for each test in milliseconds
   timeout: 60 * 1000,

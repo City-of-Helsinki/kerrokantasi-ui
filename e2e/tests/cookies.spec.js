@@ -1,4 +1,4 @@
-import { test, expect } from 'playwright-test-coverage';
+import { test, expect } from '@playwright/test';
 
 test('Cookie banner', async ({ page }) => {
   await page.goto('/');

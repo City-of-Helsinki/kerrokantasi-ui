@@ -6,6 +6,8 @@ import { head, findIndex } from 'lodash';
 import { moveSubsectionInArray, initNewPhase, initNewProject } from '../../utils/hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
+export const INIT_NEW_PROJECT_ID = 'pleaseinitnewprojectforme';
+
 const sectionMoveUp = (sections, sectionId) => {
   const sectionIndex = findIndex(sections, (el) => el === sectionId);
   return moveSubsectionInArray(sections, sectionIndex, -1);
@@ -102,7 +104,7 @@ const data = handleActions(
       }, state),
     [EditorActions.CHANGE_PROJECT]: (state, { payload: { hearingSlug, projectId, projectLists } }) => {
       let updatedProject;
-      if (projectId === '') {
+      if (projectId === INIT_NEW_PROJECT_ID) {
         updatedProject = initNewProject()
       } else {
         updatedProject = projectLists.find(project => project.id === projectId) || null
