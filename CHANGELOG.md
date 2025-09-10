@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.1...kerrokantasi-ui-v1.14.2) (2025-09-10)
+
+
+### Dependencies
+
+* Bump vite from 6.3.5 to 6.3.6 ([4f6a176](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4f6a1765241efe4a1ef30a6998cbf532f389c0a2))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.0...kerrokantasi-ui-v1.14.1) (2025-09-05)
 
 
