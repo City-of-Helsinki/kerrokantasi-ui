@@ -110,12 +110,11 @@
 
 .hearing-map-container {
   position: relative;
-  margin-bottom: $grid-gutter-width * 1.5;
 
   &::before {
     content: '';
     display: block;
-    padding-top: 50%;
+    padding-top: 18rem;
 
     @media (min-width: $screen-md-min) {
       padding-top: 100%;
