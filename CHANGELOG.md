@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.2...kerrokantasi-ui-v1.14.3) (2025-09-20)
+
+
+### Bug Fixes
+
+* Fixed info being blocked by map ([#1187](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1187)) ([d2d15f4](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d2d15f4642fcfa02197d101e60650db77da2dcbd))
+
 ## [1.14.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.1...kerrokantasi-ui-v1.14.2) (2025-09-10)
 
 
