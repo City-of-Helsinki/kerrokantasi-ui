@@ -263,7 +263,7 @@ class ContactModal extends React.Component {
               <Select
                 label='Organisaatio'
                 placeholder='Organisaatio'
-                onChange={(selected) => this.onContactChange('organization', selected)}
+                onChange={(selected) => this.onContactChange('organization', selected[0].value)}
                 options={organizations.map((org) => ({
                   label: `${org.name} ${org.external_organization ? '*' : ''}`,
                   value: org.name,
