@@ -1,7 +1,6 @@
-/* eslint-disable sonarjs/no-commented-code */
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
-import { act, fireEvent, prettyDOM, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import HearingFormStep1 from '../HearingFormStep1';
@@ -72,8 +71,6 @@ describe('<HearingFormStep1 />', () => {
     const user = userEvent.setup();
     const { container }  = renderComponent({ onHearingChange });
     
-    // Find the actual dropdown button (not the label)
-    console.debug(prettyDOM(container, 1000000));
     const dropdownButton = container.querySelector('#labels-main-button');
     expect(dropdownButton).toBeInTheDocument();
     

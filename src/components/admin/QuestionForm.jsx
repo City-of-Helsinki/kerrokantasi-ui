@@ -39,11 +39,11 @@ export class QuestionForm extends React.Component {
           placeholderId='questionTextPlaceholder'
         />
         {question.options.map((option, index) => (
-          <div style={{ display: 'flex' }} key={uuid()}>
+          <div style={{ display: 'flex' }} key={`option-${index}`}>
             <div style={{ flex: '19' }}>
               <MultiLanguageTextField
                 labelId='option'
-                name='content'
+                name={`content-${index}`}
                 onBlur={(value) => onQuestionChange('option', sectionId, question.frontId || question.id, index, value)}
                 rows='10'
                 value={option.text || {}}
