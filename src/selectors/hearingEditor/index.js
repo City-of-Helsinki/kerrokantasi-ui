@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import { createSelector } from 'reselect';
 
 import * as LabelsSelector from './labels';
 import * as SectionsSelector from './sections';
@@ -30,25 +31,39 @@ export const getEditorState = (state) =>
 export const getEditorErrors = (state) =>
   getHearingEditor(state).errors;
 
-export const getPopulatedHearing = (state) => {
-  const editor = getHearingEditor(state);
-  const hearing = editor.hearing.data;
-  if (!hearing) {
-    return hearing;
+// Base selectors for memoization
+const getHearingData = (state) => getHearingEditor(state).hearing.data;
+const getContactPersonsData = (state) => getHearingEditor(state).contactPersons;
+const getLabelsData = (state) => getHearingEditor(state).labels;
+const getSectionsData = (state) => getHearingEditor(state).sections;
+
+export const getPopulatedHearing = createSelector(
+  [getHearingData, getContactPersonsData, getLabelsData, getSectionsData],
+  (hearing, contactPersons, labels, sections) => {
+    if (!hearing) {
+      return hearing;
+    }
+
+    const contactPersonsById = !isEmpty(contactPersons.byId) 
+      ? hearing.contact_persons?.map(frontId => contactPersons.byId[frontId]) 
+      : hearing.contact_persons;
+      
+    const labelsById = !isEmpty(labels.byId) 
+      ? hearing.labels?.map(frontId => labels.byId[frontId]) 
+      : hearing.labels;
+      
+    const sectionsById = !isEmpty(sections.byId) 
+      ? hearing.sections?.map(frontId => sections.byId[frontId]) 
+      : hearing.sections;
+
+    return {
+      ...hearing,
+      contact_persons: contactPersonsById,
+      labels: labelsById,
+      sections: sectionsById,
+    };
   }
-  const { contactPersons, labels, sections } = editor;
-
-  const contactPersonsById = !isEmpty(contactPersons.byId) ? hearing.contact_persons?.map(frontId => contactPersons.byId[frontId]) : hearing.contact_persons;
-  const labelsById = !isEmpty(labels.byId) ? hearing.labels?.map(frontId => labels.byId[frontId]) : hearing.labels;
-  const sectionsById = !isEmpty(sections.byId) ? hearing.sections?.map(frontId => sections.byId[frontId]) : hearing.sections;
-
-  return ({
-    ...hearing,
-    contact_persons: contactPersonsById,
-    labels: labelsById,
-    sections: sectionsById,
-  });
-};
+);
 
 /**
  * Label selectors
