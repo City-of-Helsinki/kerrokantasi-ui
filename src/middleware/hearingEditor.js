@@ -12,11 +12,16 @@ import { labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSche
 
 
 export const normalizeReceivedHearing =
-  ({ dispatch }) => (next) => (action) => {
+  ({ dispatch, getState }) => (next) => (action) => {
     const NORMALIZE_ACTIONS = ['receiveHearing'];
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.data');
-      dispatch(receiveHearing(fillFrontIdsAndNormalizeHearing(hearing)));
+      const currentEditorHearing = getState().hearingEditor.hearing.data;
+      
+      // Only update editor if it's empty or has a different hearing
+      if (!currentEditorHearing || currentEditorHearing.slug !== hearing.slug) {
+        dispatch(receiveHearing(fillFrontIdsAndNormalizeHearing(hearing)));
+      }
     }
     next(action);
   };

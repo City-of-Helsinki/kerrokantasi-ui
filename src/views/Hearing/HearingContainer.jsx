@@ -5,6 +5,7 @@ import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
 import { useIntl } from 'react-intl';
+import { createAction } from 'redux-actions';
 
 import { organizationShape } from '../../types';
 import { getHearingWithSlug } from '../../selectors/hearing';
@@ -25,6 +26,7 @@ const HearingContainerComponent = ({
   fetchProjectsList,
   fetchHearing,
   fetchEditorMetaData,
+  syncHearingToEditor,
   hearingDraft,
   hearingLanguages,
   isLoading,
@@ -67,10 +69,14 @@ const HearingContainerComponent = ({
 
   useEffect(() => {
     if (!isEmpty(hearing) && !isEmpty(user) && userCanEditHearing) {
+      // Sync hearing to editor if they don't match
+      if (!hearingDraft || hearingDraft.slug !== hearing.slug) {
+        syncHearingToEditor(hearing);
+      }
       fetchEditorMetaData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCanEditHearing]);
+  }, [userCanEditHearing, hearing.slug]);
 
   useEffect(() => {
     if (location.state) {
@@ -101,6 +107,7 @@ const HearingContainerComponent = ({
     <div className='hearing-page'>
       {!isEmpty(hearing) ? (
         <>
+          {hearing?.slug}
           <Helmet title={getAttr(hearing.title, language)} meta={helmetMeta} />
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
@@ -143,6 +150,7 @@ HearingContainerComponent.propTypes = {
   organizations: PropTypes.arrayOf(organizationShape),
   fetchHearing: PropTypes.func,
   fetchEditorMetaData: PropTypes.func,
+  syncHearingToEditor: PropTypes.func,
   setLanguage: PropTypes.func,
   fetchProjectsList: PropTypes.func,
 };
@@ -160,6 +168,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
+  syncHearingToEditor: (hearing) => dispatch(createAction('receiveHearing')({ data: hearing })),
   setLanguage: (lang) => dispatch(setLanguageAction(lang)),
   fetchProjectsList: () => dispatch(fetchProjects()),
 });
