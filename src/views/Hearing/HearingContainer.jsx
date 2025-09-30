@@ -107,7 +107,6 @@ const HearingContainerComponent = ({
     <div className='hearing-page'>
       {!isEmpty(hearing) ? (
         <>
-          {hearing?.slug}
           <Helmet title={getAttr(hearing.title, language)} meta={helmetMeta} />
           {!isEmpty(user) && canEdit(user, hearing) && (
             <Suspense fallback={<LoadSpinner />}>
