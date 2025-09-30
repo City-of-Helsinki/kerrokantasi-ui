@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.3...kerrokantasi-ui-v1.14.4) (2025-09-30)
+
+
+### Bug Fixes
+
+* Fix for inputs and middleware bug ([#1192](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1192)) ([f1d48da](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f1d48da769bec1944fa904e13c5e807919e5ab62))
+* Stricter yarn configurations ([#1188](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1188)) ([a5fba12](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a5fba12ef5ec0ff4ae214cf43daae97244d92c9c))
+
 ## [1.14.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.2...kerrokantasi-ui-v1.14.3) (2025-09-24)
 
 
