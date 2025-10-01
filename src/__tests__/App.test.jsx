@@ -36,7 +36,7 @@ vi.mock('react-router-dom', async () => {
     useSearchParams: vi.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
   };
 });
-vi.mock('react-helsinki-notification-manager', () => ({
+vi.mock('@city-of-helsinki/react-helsinki-notification-manager', () => ({
   NotificationService: () => <div data-testid="notification-service">NotificationService</div>,
 }))
 
