@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.4...kerrokantasi-ui-v1.14.5) (2025-10-02)
+
+
+### Bug Fixes
+
+* Changed to npm based package ([#1195](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1195)) ([552e36d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/552e36dbe469dea2fd2e5e298cb568da818069ee))
+
 ## [1.14.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.3...kerrokantasi-ui-v1.14.4) (2025-09-30)
 
 
