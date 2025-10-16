@@ -9,6 +9,7 @@
   "addGeojson": "Lägg till geojson som en fil",
   "addGeojsonInfo": "Observera att GeoJSON-formatet använder wgs84-koordinatsystemet. Spara endast en områdesgräns i filen.",
   "additionalInfo": "Ytterligare information",
+  "adminFilterSelectorLabel": "Filtrera hörander",
   "addProcess": "Lägg till ett steg",
   "all": "Alla",
   "allHearings": "Alla höranden",

@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import { connect } from 'react-redux';
-import { Grid } from 'react-bootstrap';
 import { useIntl } from 'react-intl';
 import React, { useEffect, useState } from 'react';
 import AccessibilityFi from '@city-i18n/accessibility-info/accessibility.fi.md';
@@ -46,9 +45,9 @@ const AccessibilityInfo = () => {
     fetchData();
   }, [pageContent]);
   return (
-    <Grid className='accessibility-page'>
+    <div className='container accessibility-page'>
       <MarkdownPage title={intl.formatMessage({ id: 'accessibilityPage' })} markdown={markdown} />
-    </Grid>
+    </div>
   );
 };
 

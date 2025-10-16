@@ -1,6 +1,5 @@
 import React from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
-import { ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Button, Dialog, Select } from 'hds-react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
@@ -166,10 +165,11 @@ class ContactModal extends React.Component {
       if (language) {
         titleInputs.push(
           <div key={key} className='title-input-container'>
-            <ControlLabel>
+            <label className='form-label' htmlFor={`contact-title-${key}`}>
               <FormattedMessage id={`inLanguage-${key}`} />
-            </ControlLabel>
+            </label>
             <input
+              id={`contact-title-${key}`}
               className='form-control'
               onChange={(event) => this.onContactTitleChange(key, event.target.value)}
               value={contact.title[key] || ''}
@@ -271,9 +271,9 @@ class ContactModal extends React.Component {
                 value={contact.organization}
                 disabled={!isEmpty(this.props.contactInfo)} // Enabled only when creating a contact
               />
-              <HelpBlock>
+              <small className='form-text text-muted'>
                 <FormattedMessage id='contactPersonOrganizationHelpText' />
-              </HelpBlock>
+              </small>
             </div>
             <div className='input-container'>
               <h4>
@@ -286,9 +286,9 @@ class ContactModal extends React.Component {
                 placeholder='Lisätiedot yhteyshenkilöstä'
                 maxLength='50'
               />
-              <HelpBlock>
+              <small className='form-text text-muted'>
                 <FormattedMessage id='contactPersonAdditionalInfoHelpText' />
-              </HelpBlock>
+              </small>
             </div>
             <input type='submit' style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
           </form>

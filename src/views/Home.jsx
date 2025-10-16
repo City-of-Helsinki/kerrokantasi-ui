@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Col, Grid, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import orderBy from 'lodash/orderBy';
 
@@ -78,9 +77,9 @@ export class Home extends React.Component {
     return (
       <div>
         <section className='page-section page-section--welcome' style={heroStyle}>
-          <Grid>
-            <Row>
-              <Col xs={10} md={8} className='welcome-content'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-xs-10 col-md-8 welcome-content'>
                 <Helmet
                   title={formatMessage({ id: 'welcome' })}
                   meta={[
@@ -94,9 +93,9 @@ export class Home extends React.Component {
                 <p className='lead'>
                   <FormattedMessage id='welcomeMessage' />
                 </p>
-              </Col>
-            </Row>
-          </Grid>
+              </div>
+            </div>
+          </div>
           <div className='welcome-koro__bottom' />
         </section>
         <section className='page-section page-section--hearing-card'>
