@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Button, Tooltip, Tag } from 'hds-react';
 import nl2br from 'react-nl2br';
 import moment from 'moment';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -35,7 +34,7 @@ const UserComment = (props) => {
    * @param {string} date
    * @returns {JSX.Element}
    */
-  const dateTooltip = (date) => <Tooltip id='comment-date-tooltip'>{parseTimestamp(date)}</Tooltip>;
+  const dateTooltip = (date) => parseTimestamp(date);
 
   const renderCommentText = () => {
     if (!comment.deleted) {
@@ -77,25 +76,33 @@ const UserComment = (props) => {
               <Icon name='user' aria-hidden='true' />
               {comment.author_name}
             </span>
-            <OverlayTrigger placement='top' overlay={dateTooltip(comment.created_at)} delayShow={300}>
-              <span className='hearing-comment-date'>
-                <FormatRelativeTime
-                  messagePrefix=''
-                  timeVal={comment.created_at}
-                  formatTime={intl.formatTime}
-                  formatDate={intl.formatDate}
-                />
-              </span>
-            </OverlayTrigger>
+            <span className='hearing-comment-date'>
+              <FormatRelativeTime
+                messagePrefix=''
+                timeVal={comment.created_at}
+                formatTime={intl.formatTime}
+                formatDate={intl.formatDate}
+              />
+            </span>
+            <Tooltip placement='top' style={{ marginLeft: 'var(--spacing-2-xs)' }}>
+              <span>{dateTooltip(comment.created_at)}</span>
+            </Tooltip>
           </div>
           <div className='hearing-comment-status'>
             <div>
-              <Label bsStyle={hearingStatus.style}>
+              <Tag
+                theme={{
+                  '--background-color':
+                    hearingStatus.style === 'success' ? 'var(--color-success)' : 'var(--color-black-20)',
+                  '--color': hearingStatus.style === 'success' ? 'var(--color-white)' : 'var(--color-black-90)',
+                }}
+                style={{ float: 'right' }}
+              >
                 <FormattedMessage id='commentHearingStatus'>
                   {(txt) => <span className='sr-only'>{txt}</span>}
                 </FormattedMessage>
                 <FormattedMessage id={hearingStatus.id}>{(txt) => txt}</FormattedMessage>
-              </Label>
+              </Tag>
             </div>
             <Link to={{ path: `/${data.slug}` }}>{getAttr(data.title, locale)}</Link>
           </div>

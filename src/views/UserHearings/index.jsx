@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Col, Row } from 'react-bootstrap';
 import { Button } from 'hds-react';
 import Helmet from 'react-helmet';
 
@@ -117,9 +116,9 @@ class UserHearings extends React.Component {
     } = this.props;
     return hearings.reduce((accumulator, currentValue) => {
       accumulator.push(
-        <Col className='user-hearing' sm={4} md={3} key={currentValue.slug}>
+        <div className='user-hearing col-sm-4 col-md-3' key={currentValue.slug}>
           <HearingCard hearing={currentValue} language={locale} intl={intl} />
-        </Col>,
+        </div>,
       );
       return accumulator;
     }, []);
@@ -187,10 +186,10 @@ class UserHearings extends React.Component {
     const hearingListings = Object.keys(GET_HEARINGS).reduce((accumulator, currentValue) => {
       const small = currentValue.toLowerCase();
       accumulator.push(
-        <Row key={currentValue}>
+        <div className='row' key={currentValue}>
           <div className='col-md-12'>{this.getHearingHeader(small)}</div>
           <div className='col-md-12 user-hearing-list'>{this.getHearingListing(small)}</div>
-        </Row>,
+        </div>,
       );
       return accumulator;
     }, []);
@@ -198,7 +197,7 @@ class UserHearings extends React.Component {
       <div className='user-hearings'>
         {helmetTitle}
         <div className='container'>
-          <Row>
+          <div className='row'>
             <div className='col-md-12 head'>
               <div className='row'>
                 <div className='col-md-7'>
@@ -216,7 +215,7 @@ class UserHearings extends React.Component {
                 </div>
               </div>
             </div>
-          </Row>
+          </div>
           {hearingListings}
         </div>
       </div>

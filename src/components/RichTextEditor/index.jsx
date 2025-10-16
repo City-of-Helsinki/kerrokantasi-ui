@@ -4,7 +4,6 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl, injectIntl } from 'react-intl';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import {
   EditorState,
   RichUtils,
@@ -681,9 +680,9 @@ class RichTextEditor extends React.Component {
     } = this.props.hideControls;
     return (
       <div className='rich-text-editor'>
-        <ControlLabel>
+        <label className='form-label' htmlFor='rich-text-editor-input'>
           <FormattedMessage id={this.props.labelId} />
-        </ControlLabel>
+        </label>
         {!hideBlockStyleControls && <BlockStyleControls editorState={editorState} onToggle={this.toggleBlockType} />}
         {!hideInlineStyleControls && (
           <InlineStyleControls editorState={editorState} onToggle={this.toggleInlineStyle} />
@@ -722,6 +721,7 @@ class RichTextEditor extends React.Component {
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div onClick={this.onFocus}>
           <Editor
+            id='rich-text-editor-input'
             plugins={plugins}
             blockStyleFn={getBlockStyle}
             blockRenderMap={blockRenderMap}
