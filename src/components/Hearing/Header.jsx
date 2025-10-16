@@ -233,14 +233,9 @@ function HeaderComponent(props) {
 
   const getPreviewLinkButton = () => (
     <div className='hearing-meta__element'>
-      <Tooltip
-        tooltipText={<FormattedMessage id='hearingPreviewLinkTooltip'>{(text) => text}</FormattedMessage>}
-        placement='bottom'
-      >
-        <Button className='kerrokantasi-btn info' onClick={() => writeToClipboard(hearing.preview_url)}>
-          <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
-        </Button>
-      </Tooltip>
+      <Button className='kerrokantasi-btn info' onClick={() => writeToClipboard(hearing.preview_url)}>
+        <FormattedMessage id='hearingPreviewLinkTooltip'>{(text) => text}</FormattedMessage>
+      </Button>
     </div>
   );
 
