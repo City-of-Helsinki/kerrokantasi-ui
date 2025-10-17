@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import Helmet from 'react-helmet';
-import { Col, Row } from 'react-bootstrap';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 
@@ -20,13 +19,13 @@ const MarkdownPage = ({ title, markdown }) => {
           { property: 'og:description', content: intl.formatMessage({ id: 'descriptionTag' }) },
         ]}
       />
-      <Row>
-        <Col md={8}>
+      <div className='row'>
+        <div className='col-md-8'>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: MarkdownLinkRenderer }}>
             {markdown}
           </ReactMarkdown>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </>
   );
 };

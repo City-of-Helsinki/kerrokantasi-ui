@@ -12,6 +12,7 @@
   "addProcess": "Lisää uusi vaihe",
   "addSection": "Lisää osa-alue",
   "additionalInfo": "Lisätiedot",
+  "adminFilterSelectorLabel": "Suodata kuulemisia",
   "adminCommentMessage": "Olet kirjautuneena pääkäyttäjänä. Nimesi ja organisaatiosi näytetään kommenttisi yhteydessä",
   "all": "Kaikki",
   "allHearings": "Kaikki kuulemiset",

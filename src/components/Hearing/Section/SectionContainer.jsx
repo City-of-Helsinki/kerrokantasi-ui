@@ -5,8 +5,7 @@ import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Collapse } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Accordion, Button } from 'hds-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
@@ -52,6 +51,11 @@ import { getNickname } from '../../../utils/user';
 import { addToast } from '../../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
 
+const ACCORDION_THEME = {
+  '--header-font-size': 'var(--fontsize-heading-l)',
+  '--header-font-weight': '600',
+};
+
 const SectionContainerComponent = ({
   editCommentFn,
   deleteSectionCommentFn,
@@ -66,13 +70,6 @@ const SectionContainerComponent = ({
   postVoteFn,
   user,
 }) => {
-  const [mainHearingDetailsOpen, setMainHearingDetailsOpen] = useState(
-    typeof window !== 'undefined' && window.innerWidth >= 768,
-  );
-  const [mainHearingProjectOpen, setMainHearingProjectOpen] = useState(false);
-  const [mainHearingContactsOpen, setMainHearingContactsOpen] = useState(false);
-  const [mainHearingAttachmentsOpen, setMainHearingAttachmentsOpen] = useState(false);
-
   const { hearingSlug, sectionId } = useParams();
   const { search } = useLocation();
   const navigate = useNavigate();
@@ -98,6 +95,8 @@ const SectionContainerComponent = ({
     commentId: undefined,
     refreshUser: false,
   });
+
+  const [mainHearingDetailsOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 768);
 
   const getSectionNav = () => {
     const filterNotClosedSections = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE);
@@ -240,40 +239,19 @@ const SectionContainerComponent = ({
     }
 
     return (
-      <section className='hearing-section hearing-attachments'>
-        <h2>
-          <button
-            type='button'
-            className='hearing-section-toggle-button'
-            onClick={() => setMainHearingAttachmentsOpen(!mainHearingAttachmentsOpen)}
-            aria-controls='hearing-section-attachments-accordion'
-            id='hearing-section-attachments-accordion-button'
-            aria-expanded={mainHearingAttachmentsOpen ? 'true' : 'false'}
-            aria-label={<FormattedMessage id='attachments' />}
-          >
-            <Icon name='angle-right' className={mainHearingAttachmentsOpen ? 'open' : ''} aria-hidden='true' />
-            <FormattedMessage id='attachments' />
-          </button>
-        </h2>
-        <Collapse
-          in={mainHearingAttachmentsOpen}
-          id='hearing-section-attachments-accordion'
-          aria-hidden={mainHearingAttachmentsOpen ? 'false' : 'true'}
-          role='region'
-        >
+      <section className='hearing-attachments'>
+        <Accordion heading={<FormattedMessage id='attachments' />} headingLevel={2} theme={ACCORDION_THEME}>
           <div className='accordion-content'>
-            <div className='section-content-spacer'>
-              {!published && (
-                <p>
-                  <FormattedMessage id='unpublishedAttachments' />
-                </p>
-              )}
-              {files.map((file) => (
-                <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
-              ))}
-            </div>
+            {!published && (
+              <p>
+                <FormattedMessage id='unpublishedAttachments' />
+              </p>
+            )}
+            {files.map((file) => (
+              <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
+            ))}
           </div>
-        </Collapse>
+        </Accordion>
       </section>
     );
   };
@@ -289,33 +267,19 @@ const SectionContainerComponent = ({
     }
 
     return (
-      <section className='hearing-section hearing-project'>
-        <h2>
-          <button
-            type='button'
-            className='hearing-section-toggle-button'
-            onClick={() => setMainHearingProjectOpen(!mainHearingProjectOpen)}
-            aria-controls='hearing-section-project-accordion'
-            id='hearing-section-project-accordion-button'
-            aria-expanded={mainHearingProjectOpen ? 'true' : 'false'}
-          >
+      <section className='hearing-project'>
+        <Accordion
+          heading={
             <span>
-              <Icon name='angle-right' className={mainHearingProjectOpen ? 'open' : ''} aria-hidden='true' />
-              <FormattedMessage id='phase' /> {activePhaseIndex + 1}/{numberOfItems}
+              <FormattedMessage id='phase' /> {activePhaseIndex + 1}/{numberOfItems} - <FormattedMessage id='project' />{' '}
+              {getAttr(project.title, renderLanguage)}
             </span>
-            <span className='hearing-section-toggle-button-subtitle'>
-              <FormattedMessage id='project' /> {getAttr(project.title, renderLanguage)}
-            </span>
-          </button>
-        </h2>
-        <Collapse
-          in={mainHearingProjectOpen}
-          id='hearing-section-project-accordion'
-          aria-hidden={mainHearingProjectOpen ? 'false' : 'true'}
-          role='region'
+          }
+          headingLevel={2}
+          theme={ACCORDION_THEME}
         >
           <div className='accordion-content'>
-            <div className='project-phases-list section-content-spacer'>
+            <div className='project-phases-list'>
               {phases.map((phase, index) => (
                 <div className='phases-list-item' key={phase.id}>
                   <div className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}>
@@ -344,7 +308,7 @@ const SectionContainerComponent = ({
               ))}
             </div>
           </div>
-        </Collapse>
+        </Accordion>
       </section>
     );
   };
@@ -355,39 +319,18 @@ const SectionContainerComponent = ({
     }
 
     return (
-      <section className='hearing-section'>
-        <h2>
-          <button
-            type='button'
-            className='hearing-section-toggle-button'
-            onClick={() => setMainHearingContactsOpen(!mainHearingContactsOpen)}
-            aria-controls='hearing-section-contacts-accordion'
-            id='hearing-section-contacts-accordion-button'
-            aria-expanded={mainHearingContactsOpen ? 'true' : 'false'}
-            aria-label={<FormattedMessage id='contactPersons' />}
-          >
-            <Icon name='angle-right' className={mainHearingContactsOpen ? 'open' : ''} aria-hidden='true' />
-            <FormattedMessage id='contactPersons' />
-          </button>
-        </h2>
-        <Collapse
-          in={mainHearingContactsOpen}
-          id='hearing-section-contacts-accordion'
-          aria-hidden={mainHearingContactsOpen ? 'false' : 'true'}
-          role='region'
-        >
+      <section>
+        <Accordion heading={<FormattedMessage id='contactPersons' />} headingLevel={2} theme={ACCORDION_THEME}>
           <div className='accordion-content'>
-            <div className='section-content-spacer'>
-              <div className='hearing-contacts'>
-                {renderContactlist.map((person) => (
-                  <div className='hearing-contact' key={person.id}>
-                    <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
-                  </div>
-                ))}
-              </div>
+            <div className='hearing-contacts'>
+              {renderContactlist.map((person) => (
+                <div className='hearing-contact' key={person.id}>
+                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
+                </div>
+              ))}
             </div>
           </div>
-        </Collapse>
+        </Accordion>
       </section>
     );
   };
@@ -396,7 +339,7 @@ const SectionContainerComponent = ({
     // render either admin download button or normal download link for others
     if (userIsAdmin) {
       return (
-        <Row className='row-no-gutters text-right'>
+        <div className='row no-gutters text-right'>
           <Button
             size='small'
             className='pull-right report-download-button kerrokantasi-btn supplementary'
@@ -404,7 +347,7 @@ const SectionContainerComponent = ({
           >
             <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
           </Button>
-        </Row>
+        </div>
       );
     }
 
@@ -490,39 +433,23 @@ const SectionContainerComponent = ({
 
     if (!isEmpty(renderSection.content) || sectionImage) {
       return (
-        <section className='hearing-section main-content'>
-          <h2>
-            <button
-              type='button'
-              className='hearing-section-toggle-button'
-              onClick={() => setMainHearingDetailsOpen(!mainHearingDetailsOpen)}
-              aria-controls='hearing-section-details-accordion'
-              id='hearing-section-details-accordion-button'
-              aria-expanded={mainHearingDetailsOpen ? 'true' : 'false'}
-              aria-label={<FormattedMessage id='sectionInformationTitle' />}
-            >
-              <Icon name='angle-right' className={mainHearingDetailsOpen ? 'open' : ''} aria-hidden='true' />
-              <FormattedMessage id='sectionInformationTitle' />
-            </button>
-          </h2>
-          <Collapse
-            in={mainHearingDetailsOpen}
-            id='hearing-section-details-accordion'
-            aria-hidden={mainHearingDetailsOpen ? 'false' : 'true'}
-            role='region'
+        <section className='main-content'>
+          <Accordion
+            heading={<FormattedMessage id='sectionInformationTitle' />}
+            headingLevel={2}
+            theme={ACCORDION_THEME}
+            initiallyOpen={mainHearingDetailsOpen}
           >
             <div className='accordion-content'>
-              <div className='section-content-spacer'>
-                {renderSectionImage(renderLanguage)}
-                {/* Render main section title if it exists and it's not the same as the hearing title */}
-                {!isEmpty(renderSection.title) &&
-                  getAttr(renderHearing.title, renderLanguage) !== getAttr(renderSection.title, renderLanguage) && (
-                    <h3>{getAttr(renderSection.title, renderLanguage)}</h3>
-                  )}
-                {renderSectionContent(renderLanguage)}
-              </div>
+              {renderSectionImage(renderLanguage)}
+              {/* Render main section title if it exists and it's not the same as the hearing title */}
+              {!isEmpty(renderSection.title) &&
+                getAttr(renderHearing.title, renderLanguage) !== getAttr(renderSection.title, renderLanguage) && (
+                  <h3>{getAttr(renderSection.title, renderLanguage)}</h3>
+                )}
+              {renderSectionContent(renderLanguage)}
             </div>
-          </Collapse>
+          </Accordion>
         </section>
       );
     }
@@ -535,13 +462,13 @@ const SectionContainerComponent = ({
     return (
       <>
         {hearing.geojson && (
-          <Col xs={12} className='hidden-md hidden-lg'>
+          <div className='col-xs-12 hidden-md hidden-lg'>
             <div className='hearing-map-container'>
               <HearingMap hearing={hearing} />
             </div>
-          </Col>
+          </div>
         )}
-        <Col md={8} mdPush={!hearing.geojson ? 2 : 0}>
+        <div className={`col-md-8 ${!hearing.geojson ? 'col-md-offset-2' : ''}`}>
           {renderMainDetails(hearing, section, language)}
 
           {renderProjectPhaseSection(hearing, language)}
@@ -576,13 +503,13 @@ const SectionContainerComponent = ({
           <SubSectionsList hearing={hearing} language={language} />
 
           {renderCommentsSection()}
-        </Col>
+        </div>
         {hearing.geojson && (
-          <Col md={4} lg={3} lgPush={1} className='hidden-xs visible-sm visible-md visible-lg'>
+          <div className='col-md-4 col-lg-3 col-lg-offset-1 hidden-xs visible-sm visible-md visible-lg'>
             <div className='hearing-map-container'>
               <HearingMap hearing={hearing} />
             </div>
-          </Col>
+          </div>
         )}
       </>
     );
@@ -618,7 +545,7 @@ const SectionContainerComponent = ({
     const published = 'published' in hearing ? hearing.published : true;
 
     return (
-      <Col md={8} mdPush={2}>
+      <div className='col-md-8 col-md-offset-2'>
         <h2 className='hearing-subsection-title'>
           <span className='hearing-subsection-title-counter'>
             <FormattedMessage id='subsectionTitle' />
@@ -655,19 +582,19 @@ const SectionContainerComponent = ({
         {showSectionBrowser && <SectionBrowser sectionNav={getSectionNav()} />}
 
         {renderCommentsSection()}
-      </Col>
+      </div>
     );
   };
 
   return isEmpty(section) ? (
     <LoadSpinner />
   ) : (
-    <Grid>
+    <div className='container'>
       <div
         data-testid='hearing-content-section'
         className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}
       >
-        <Row>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</Row>
+        <div className='row'>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</div>
       </div>
       <DeleteModal
         isOpen={deleteModal.showDeleteModal}
@@ -677,7 +604,7 @@ const SectionContainerComponent = ({
         commentId={deleteModal.commentId}
         refreshUser={deleteModal.refreshUser}
       />
-    </Grid>
+    </div>
   );
 };
 

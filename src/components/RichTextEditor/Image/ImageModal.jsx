@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { ControlLabel } from 'react-bootstrap';
 import { Button, Card, Dialog, FileInput, TextInput } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
@@ -81,9 +80,9 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
       <Dialog.Header id={titleId} title={<FormattedMessage id='imageModalTitle' />} />
       <Dialog.Content>
         <div id={descriptionId} className='form-container image-modal form-group'>
-          <ControlLabel>
+          <label className='form-label' htmlFor='image-modal-add-image'>
             <FormattedMessage id='sectionImage' />
-          </ControlLabel>
+          </label>
           <div style={{ marginBottom: 'var(--spacing-s)' }}>
             {fileReaderResult && (
               <Card

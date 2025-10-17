@@ -5,8 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Col, Grid, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import { Button } from 'hds-react';
+import { Button, Tooltip } from 'hds-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { FormattedPlural, FormattedMessage, useIntl } from 'react-intl';
 import { stringify } from 'qs';
@@ -218,7 +217,7 @@ function HeaderComponent(props) {
         </span>
       );
     }
-    return <Tooltip id='eye-tooltip'>{text}</Tooltip>;
+    return text;
   };
 
   const writeToClipboard = (url) => {
@@ -234,18 +233,9 @@ function HeaderComponent(props) {
 
   const getPreviewLinkButton = () => (
     <div className='hearing-meta__element'>
-      <OverlayTrigger
-        placement='bottom'
-        overlay={
-          <Tooltip id='hearingPreviewLink'>
-            <FormattedMessage id='hearingPreviewLinkTooltip'>{(text) => text}</FormattedMessage>
-          </Tooltip>
-        }
-      >
-        <Button className='kerrokantasi-btn info' onClick={() => writeToClipboard(hearing.preview_url)}>
-          <FormattedMessage id='hearingPreviewLink'>{(text) => text}</FormattedMessage>
-        </Button>
-      </OverlayTrigger>
+      <Button className='kerrokantasi-btn info' onClick={() => writeToClipboard(hearing.preview_url)}>
+        <FormattedMessage id='hearingPreviewLinkTooltip'>{(text) => text}</FormattedMessage>
+      </Button>
     </div>
   );
 
@@ -279,39 +269,36 @@ function HeaderComponent(props) {
   return (
     <>
       <div className='header-section'>
-        <Grid>
+        <div className='container'>
           <div className='hearing-header'>
-            <Row>
-              <Col md={9}>
+            <div className='row'>
+              <div className='col-md-9'>
                 <h1 className='hearing-header-title'>
                   {!isPublic(hearing) && (
-                    <OverlayTrigger placement='bottom' overlay={getEyeTooltip()}>
-                      <span>
-                        <Icon name='eye-slash' />
-                        &nbsp;
-                      </span>
-                    </OverlayTrigger>
+                    <Tooltip placement='bottom' style={{ marginRight: 'var(--spacing-2-xs)' }}>
+                      {getEyeTooltip()}
+                    </Tooltip>
                   )}
                   {getAttr(hearing.title, language)}
                 </h1>
-              </Col>
+              </div>
               {isMainSection(section) && config.showSocialMediaSharing && (
-                <Col md={3}>
+                <div className='col-md-3'>
                   <SocialBar />
-                </Col>
+                </div>
               )}
-            </Row>
+            </div>
             {isMainSection(section) ? (
               <>
                 {!isEmpty(section.abstract) && (
-                  <Row>
-                    <Col md={9}>
+                  <div className='row'>
+                    <div className='col-md-9'>
                       <div
                         className='header-abstract lead'
                         dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }}
                       />
-                    </Col>
-                  </Row>
+                    </div>
+                  </div>
                 )}
                 <div className='hearing-meta'>
                   {getTimetableText(hearing)}
@@ -330,7 +317,7 @@ function HeaderComponent(props) {
               </Link>
             )}
           </div>
-        </Grid>
+        </div>
       </div>
       {showClosureInfo && <SectionClosureInfo content={closureInfoContent} />}
     </>

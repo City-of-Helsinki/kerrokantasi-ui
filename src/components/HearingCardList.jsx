@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'react-bootstrap';
 
 import HearingCard from './HearingCard';
 import { hearingShape } from '../types';
@@ -28,13 +27,13 @@ const HearingCardList = ({
   userProfile = false,
   unFavoriteAction,
 }) => (
-  <Row data-testid='hearing-card-list' className='hearing-card-list'>
+  <div data-testid='hearing-card-list' className='row hearing-card-list'>
     {hearings &&
       hearings.map((hearing) => {
         // Hearings with long titles have larger HearingCards on the profile page.
         const mdSize = userProfile && getAttr(hearing.title, intl.locale, false).length > 140 ? 6 : 3;
         return (
-          <Col xs={12} md={mdSize} key={hearing.id}>
+          <div className={`col-xs-12 col-md-${mdSize}`} key={hearing.id}>
             <HearingCard
               className={className}
               hearing={hearing}
@@ -44,10 +43,10 @@ const HearingCardList = ({
               unFavoriteAction={unFavoriteAction}
               userProfile={userProfile}
             />
-          </Col>
+          </div>
         );
       })}
-  </Row>
+  </div>
 );
 
 HearingCardList.propTypes = {

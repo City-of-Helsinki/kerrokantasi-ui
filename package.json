@@ -107,7 +107,6 @@
     "qs": "^6.11.2",
     "react": "^18.0.0",
     "react-anchor-link-smooth-scroll": "^1.0.12",
-    "react-bootstrap": "0.33.1",
     "react-datetime": "^2.2.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.0.0",
