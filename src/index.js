@@ -13,11 +13,18 @@ import { beforeSend, beforeSendTransaction } from './utils/sentry';
 commonInit(function initReady() {
   if (config.sentryDsn && config.sentryEnvironment) {
     Sentry.init({
-      dsn: config.sentryDsn,
-      environment: config.sentryEnvironment,
-      integrations: [Sentry.browserTracingIntegration()],
-      tracesSampleRate: 1.0,
-      ignoreErrors: [
+    dsn: config.sentryDsn,
+    environment: config.sentryEnvironment,
+    release: config.sentryRelease,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration(),
+    ],
+    tracesSampleRate: config.sentryTracesSampleRate,
+    tracePropagationTargets: config.sentryTracePropagationTargets,
+    replaysSessionSampleRate: config.sentryReplaysSessionSampleRate,
+    replaysOnErrorSampleRate: config.sentryReplaysOnErrorSampleRate,
+    ignoreErrors: [
         'ResizeObserver loop completed with undelivered notifications',
         'ResizeObserver loop limit exceeded',
       ],
