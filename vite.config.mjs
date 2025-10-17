@@ -36,7 +36,6 @@ export default defineConfig(() => {
   const modules = path.resolve(__dirname, 'node_modules/');
 
   const ENABLE_E2E_COVERAGE = import.meta.env.ENABLE_E2E_COVERAGE === 'true';
-  const GENERATE_SOURCEMAPS = import.meta.env.GENERATE_SOURCEMAPS === 'true';
 
   return {
     base: '/',
@@ -54,7 +53,7 @@ export default defineConfig(() => {
       outDir: './build',
       emptyOutDir: true,
       // Temporarily blocking sourcemaps by default. This can be removed once Sentry plugin gets implemented, which will automatically handle clearing sourcemaps on build.
-      sourcemap: GENERATE_SOURCEMAPS ? 'hidden' : false,
+      sourcemap: true,
     },
     publicDir: cityPublic,
     server: {
