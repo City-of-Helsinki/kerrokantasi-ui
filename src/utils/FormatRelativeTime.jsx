@@ -2,67 +2,92 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelativeTime, useIntl } from 'react-intl';
 
+// Helper function to calculate time difference and unit
+function calculateTimeDifference(timeDifferenceMs, isPast) {
+  const timeDifferenceAbs = Math.abs(timeDifferenceMs);
+  const millisecondsInDay = 1000 * 60 * 60 * 24;
+  const millisecondsInWeek = millisecondsInDay * 7;
+  const millisecondsInMonth = millisecondsInDay * 30; // Approximate
+  const millisecondsInYear = millisecondsInDay * 365; // Approximate
+
+  let difference = 0;
+  let unit = 'day';
+
+  if (timeDifferenceAbs >= millisecondsInYear) {
+    difference = Math.floor(timeDifferenceAbs / millisecondsInYear);
+    unit = 'year';
+  } else if (timeDifferenceAbs >= millisecondsInMonth) {
+    difference = Math.floor(timeDifferenceAbs / millisecondsInMonth);
+    unit = 'month';
+  } else if (timeDifferenceAbs >= millisecondsInWeek) {
+    difference = Math.floor(timeDifferenceAbs / millisecondsInWeek);
+    unit = 'week';
+  } else {
+    difference = Math.floor(timeDifferenceAbs / millisecondsInDay);
+  }
+
+  // For very recent past times (0 days), show as 1 day ago to avoid "in 0 days" issue
+  if (difference === 0 && isPast) {
+    difference = 1;
+  }
+
+  return {
+    difference: isPast ? -difference : difference,
+    unit,
+  };
+}
+
 function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
   const { formatDate, formatTime } = useIntl();
+
   if (!timeVal) {
     return <span />;
   }
+
   const time = new Date(timeVal);
-  // timeVal is before current date?
   const currentTime = new Date();
-  const isPast = (time.getTime() < currentTime.getTime());
+  const isPast = time.getTime() < currentTime.getTime();
+  const timeDifferenceMs = currentTime.getTime() - time.getTime();
+  const { difference, unit } = calculateTimeDifference(timeDifferenceMs, isPast);
 
-  const yearsDifference = currentTime.getFullYear() - time.getFullYear();
-  const monthsDifference = currentTime.getMonth() - time.getMonth();
-  let difference = currentTime.getDate() - time.getDate();
-  const weeksDifference = Math.floor(difference / 7);
-  let unit = 'day';
-  if (yearsDifference !== 0) {
-    unit = 'year';
-    difference = yearsDifference;
-  } else if (monthsDifference !== 0) {
-    unit = 'month';
-    difference = monthsDifference;
-  } else if (weeksDifference !== 0) {
-    unit = 'week';
-    difference = weeksDifference;
-  }
-
+  // Check if this is older than one month
   const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  // timeVal is before exactly one month ago from current date.
-  const pastMoreThanMonth = (time.getTime() < oneMonthAgo.getTime());
+  oneMonthAgo.setMonth(currentTime.getMonth() - 1);
+  const isOlderThanOneMonth = time.getTime() < oneMonthAgo.getTime();
 
-  let messageId = messagePrefix + (isPast ? "Past" : "Future");
-  // messagePrefix includes 'close' -> we're dealing a hearings closing time
-  const closeTimeMessage = messagePrefix.toLowerCase().includes('close');
+  const isCloseTimeMessage = messagePrefix.toLowerCase().includes('close');
+  let messageId = messagePrefix + (isPast ? 'Past' : 'Future');
 
-  // if closing message AND timeVal is not before current date OR is before current date but not older than one month
-  if (closeTimeMessage && (!isPast || (isPast && !pastMoreThanMonth))) {
-    // use translation string that takes time/date values, ie. 'Closes {date} {time}'
-    // timeClosePastWithValues instead of the generic timeClosePast
+  // For closing messages within the last month, use date/time format
+  if (isCloseTimeMessage && (!isPast || !isOlderThanOneMonth)) {
     messageId += 'WithValues';
+
+    if (!isOlderThanOneMonth) {
+      const closeTime = formatTime(timeVal, { hour: '2-digit', minute: '2-digit' });
+      const closeDate = formatDate(timeVal, { day: '2-digit', month: '2-digit' });
+      return (
+        <FormattedMessage id={messageId} values={{ time: closeTime, date: closeDate }}>
+          {(txt) => (
+            <div>
+              {txt}
+              {frontpage && '.'}
+            </div>
+          )}
+        </FormattedMessage>
+      );
+    }
   }
 
-  // a closing message and date that is not older than 1 month ago
-  if (closeTimeMessage && !pastMoreThanMonth) {
-    const closeTime = formatTime(timeVal, { hour: '2-digit', minute: '2-digit' });
-    const closeDate = formatDate(timeVal, { day: '2-digit', month: '2-digit' });
-    return (
-      <FormattedMessage id={messageId} values={{ time: closeTime, date: closeDate }}>
-        {txt =>
-          <div>
-            {txt}
-            {frontpage && '.'}
-          </div>
-        }
-      </FormattedMessage>
-    );
-  }
+  // For comments (no messagePrefix) or other cases, use relative time
   if (!messagePrefix) {
-    return (<FormattedRelativeTime value={difference * -1} unit={unit} />);
+    return <FormattedRelativeTime value={difference} unit={unit} />;
   }
-  return (<><FormattedMessage id={messageId} /> <FormattedRelativeTime value={difference * -1} unit={unit} /></>);
+
+  return (
+    <>
+      <FormattedMessage id={messageId} /> <FormattedRelativeTime value={difference} unit={unit} />
+    </>
+  );
 }
 
 FormatRelativeTime.propTypes = {
