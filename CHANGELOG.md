@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.15.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.5...kerrokantasi-ui-v1.15.0) (2025-10-29)
+
+
+### Features
+
+* Enable cloud sentry ([#1197](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1197)) ([3efb078](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/3efb078a9b136171ff4569cd66d5a40f2b5f1d16))
+
+
+### Bug Fixes
+
+* FormatRelativeTime calculate 0 days ago Ref: KER-524 ([85efefb](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/85efefb9c972599f72cf0b189315e2b63659344a))
+
+
+### Dependencies
+
+* Bump vite from 6.3.6 to 6.4.1 ([e6da289](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e6da289ce4a0048ef2631350e6cdc473bf666d00))
+* Remove react-bootstrap Ref: KER-270 ([e3524b8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e3524b8f77ae060a056ac1ca22c7e5260c7f1c14))
+
 ## [1.14.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.4...kerrokantasi-ui-v1.14.5) (2025-10-02)
 
 
