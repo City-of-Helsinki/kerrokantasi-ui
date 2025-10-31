@@ -49,7 +49,7 @@ const HearingList = ({
       <div className='hearing-list-map map'>
         <HDSCheckbox
           label={<FormattedMessage id='showOnlyOpen' />}
-          readOnly
+          id="showOnlyOpenCheckbox"
           checked={showOnlyOpen}
           onChange={toggleShowOnlyOpen}
           name="showOnlyOpen"

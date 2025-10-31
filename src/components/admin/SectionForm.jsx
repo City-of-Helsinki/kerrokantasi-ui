@@ -360,6 +360,7 @@ const SectionForm = ({
           checked={!!enabledCommentMap}
           label={intl.formatMessage({ id: 'hearingCommentingMap' })}
           onChange={toggleEnableCommentMap}
+          id='hearingCommentingMapCheckbox'
         />
       </div>
       {enabledCommentMap && (
