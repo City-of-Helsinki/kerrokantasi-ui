@@ -10,23 +10,11 @@ Digital tjänsten uppfyller till största del de tillgänglighetskriterier som l
 Digital tjänsten är inte till alla delar tillgänglig. Innehållet eller funktionerna som nämns nedan uppfyller inte alla tillgänglighetskriterier som fastställs i lagen. Vi åtgärdar fortlöpande de brister i tillgängligheten som vi upptäcker. Vi uppdaterar förteckningen över bristerna i tillgängligheten i det här utlåtandet vartefter vi åtgärdar bristerna.  
 
 ### Tillgänglighet till innehåll  
-- WCAG2.1: 1.1.1 Icke-textuellt innehåll, WCAG2.1: 1.3.1 Information och relationer, WCAG2.1: 2.4.4 Länkens syfte (i kontext), 3.2.4 Konsekvent identifiering  
+- WCAG 2.1: 1.1.1 Icke-textuellt innehåll, WCAG 2.1: 1.3.1 Information och relationer, WCAG 2.1: 2.4.4 Länkens syfte (i kontext), 3.2.4 Konsekvent identifiering  
     - Säg Din Åsikt -tjänsten lanserades ursprungligen 2014. Innehållet i  alla höringar (länkar, bilder, videoklipp) uppfyller inte moderna tillgänglighetskrav.  
     - I digital tjänsten finns länkar som är bristfälligt beskrivna. Det anges inte att vissa länkar öppnas i ett nytt fönster.  
 
-### Språkdefinitionerna är bristfälligt  
-- WCAG2.1: 3.1.2 Språk för del av sida, WCAG2.1: 3.1.1 Sidans språk
-    - Tjänstens språkmeny beskrivs bristfälligt för skärmläsningsprogram. Digital tjänsten har innehåll som inte har översatts och språkvalet för sidorna på engelska och svenska är bristfälligt.
-  
-### Förändringen i funktionalitet förs inte vidare till användaren  
-- WCAG2.1: 4.1.2 Namn, roll, värde  
-    - Mobilmenyns status förmedlas inte till skärmläsningsprogrammet och inloggningsknappen är   
-namnlös i mobilvyn.  
-    - På Karta sidan visas inte statusen för alternativet Endast öppen visas.  
-### Etikett i namn  
-- WCAG 2.1: 2.5.3 Etikett i namn  
-    - Det finns en brist på språknamn för cookies 
-    
+   
 ## Innehåll som inte omfattas av lagstiftningen  
 Tillgänglighetskraven gäller inte följande material:  
 - material som användarna eller andra utomstående parter publicerar i digital servicen och som inte har framställts eller finansierats eller som inte övervakas av serviceproducenten  

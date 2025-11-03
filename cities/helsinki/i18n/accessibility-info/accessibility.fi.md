@@ -18,26 +18,12 @@ Tämä digitaalinen palvelu ei ole kaikilta osin saavutettava. Alla mainitut sis
   - Kerrokantasi-palvelu on alkujaan julkaistu vuonna 2014. Kaikkien kuulemisten sisällöt (linkit, kuvat, videoupotukset) eivät noudata nykyaikaisia saavutettavuusvaateita.   
 
 
-### Kielimääritykset ovat puutteelliset  
-- WCAG 2.1: 3.1.2 Osien kieli, WCAG 2.1: 3.1.1 Sivun kieli  
-    - Palvelun kielivalikko on kuvattu ruudunlukuohjelmalle puutteellisesti. Digitaalisessa palvelussa on kääntämätöntä sisältöä  ja englanninkielisten ja ruotsinkielisten sivujen kielimääritykset ovat puutteelliset.
-
-### Toiminnallisuuden muutos ei välity käyttäjälle  
-- WCAG 2.1: 4.1.2 Nimi, rooli, arvo  
-    - Mobiilivalikon tila ei välity ruudunlukuohjelmalle ja sisäänkirjautumispainike on nimeämätön mobiilinäkymässä.  
-    - Kartta-sivulla Näytetään vain avoimet -valinnan tilaa ei kuvata.  
-
-### Osioiden nimeäminen  
-- WCAG 2.1: 2.5.3 Nimilappu  
-    - Evästeiden kielivalinnan nimiöinti on puutteellinen.  
-
 ## Sisällöt, jotka eivät kuulu lainsäädännön piiriin  
 Saavutettavuusvaatimukset eivät koske seuraavia sisältöjä:  
 - käyttäjien tai muiden ulkopuolisten tahojen palvelussa julkaisemia sisältöjä, jotka eivät ole palveluntarjoajan itsensä tuottamia, rahoittamia tai valvomia  
 - karttoja, joita ei ole tarkoitettu navigointikäyttöön (esim. sää- tai maastokarttoja)  
 - toimisto-ohjelmien tiedostoja (esim. doc, pdf, odt), jotka on julkaistu ennen 23.9.2018  
 - video- tai äänitallenteita, jotka on julkaistu ennen 23.9.2020  
-
 
 
 ## Saavutettavuuden arviointi  
