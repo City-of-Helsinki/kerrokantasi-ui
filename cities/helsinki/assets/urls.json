@@ -1,8 +1,8 @@
 {
   "hostname": "https://kerrokantasi.hel.fi",
-  "dataProtectionFI": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden%20ja%20palautteiden%20rekisteri.pdf",
-  "dataProtectionSV": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Behandlingen%20av%20personuppgifter%20i%20Helsingfors%20stads%20responskanal%20och%20digitala%20delaktighetstjanster.pdf",
-  "dataProtectionEN": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Feedback%20services%20and%20digital%20participation%20services.pdf",
+  "dataProtectionFI": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden-ja-palautteiden-rekisteri.pdf",
+  "dataProtectionSV": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Responstjanst-och-digitala-tjanst-for-deltagande.pdf",
+  "dataProtectionEN": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Osallisuuden-ja-palautteiden-rekisteri.pdf",
   "feedbackEmailEN": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
   "feedbackEmailFI": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
   "feedbackEmailSV": "mailto:kerrokantasi@hel.fi?subject=Kerrokantasi-palaute",
