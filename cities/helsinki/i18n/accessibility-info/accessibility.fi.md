@@ -1,97 +1,58 @@
-# Saavutettavuusseloste – Kerrokantasi.hel.fi
+# Kerrokantasi-saavutettavuusseloste
 
-Tämä saavutettavuusseloste koskee Helsingin kaupungin Kerro kantasi -verkkosivustoa. Sivuston osoite on https://kerrokantasi.hel.fi/.
+Tämä saavutettavuusseloste koskee Helsingin kaupungin Kerro kantasi - palvelua (https://kerrokantasi.hel.fi). Digitaalisesta palvelusta vastaa Helsingin kaupunki. Tässä selosteessa kerrotaan, kuinka saavutettava digitaalinen palvelu on ja miten voit antaa meille palautetta saavutettavuudesta.
 
-## Sivustoa koskevat lain säädökset
+## Kuinka saavutettava tämä digitaalinen palvelu on?  
 
-Tämä sivusto on julkaistu 23.9.2018 jälkeen. Sivuston tulee täyttää lain edellyttämät saavutettavuuden vaatimukset.
+Digitaalisten palveluiden tarjoamista koskevan lain mukaan julkisten digitaalisten palvelujen on oltava saavutettavia, eli kaikilla tulee olla tasavertaiset mahdollisuudet käyttää niitä.
 
-## Kaupungin tavoite
+Tämä digitaalinen palvelu täyttää suurilta osin lain vaatimat saavutettavuuskriteerit (WCAG-kriteeristö 2.1, A- ja AA-taso). Palvelussa on joitakin saavutettavuuspuutteita, jotka on kuvattu tarkemmin alempana.
 
-Digitaalisten palveluiden saavutettavuudessa Helsingin tavoitteena on pyrkiä vähintään WCAG ohjeiston mukaiseen AA- tai sitä parempaan tasoon, mikäli se on kohtuudella mahdollista.
+## Sisällöt, jotka eivät ole saavutettavia
 
-## Vaatimustenmukaisuustilanne
+Tämä digitaalinen palvelu ei ole kaikilta osin saavutettava. Alla mainitut sisällöt tai toiminnot eivät täytä kaikkia lain asettamia saavutettavuusvaatimuksia. Korjaamme havaittuja saavutettavuuspuutteita jatkuvasti. Päivitämme tämän selosteen havaittujen puutteiden listausta, kun saamme puutteita korjattua.
 
-Tämä verkkosivusto täyttää lain asettamat kriittiset saavutettavuusvaatimukset WCAG v2.1 -tason AA mukaisesti seuraavin havaituin puuttein.
+### Toiminnallisuuden muutos ei välity käyttäjälle
+- WCAG 2.1: 4.1.2 Nimi, rooli, arvo
+  - Mobiilivalikon tila ei välity ruudunlukuohjelmalle ja sisäänkirjautumispainike on nimeämätön mobiilinäkymässä.
+  - Kartta-sivulla Näytetään vain avoimet -valinnan tilaa ei kuvata.
 
-## Ei-saavutettava sisältö
 
-Jäljempänä mainittu sisältö ei vielä täytä kaikkia lain asettamia saavutettavuusvaatimuksia.
+## Sisällöt, jotka eivät kuulu lainsäädännön piiriin
+Saavutettavuusvaatimukset eivät koske seuraavia sisältöjä:  
+- käyttäjien tai muiden ulkopuolisten tahojen palvelussa julkaisemia sisältöjä, jotka eivät ole palveluntarjoajan itsensä tuottamia, rahoittamia tai valvomia  
+- karttoja, joita ei ole tarkoitettu navigointikäyttöön (esim. sää- tai maastokarttoja)  
+- toimisto-ohjelmien tiedostoja (esim. doc, pdf, odt), jotka on julkaistu ennen 23.9.2018  
+- video- tai äänitallenteita, jotka on julkaistu ennen 23.9.2020  
 
-### Havaitut puutteet
 
-Tässä saavutettavuusselosteessa on raportoitu vain ne ongelmat, jotka liittyvät palvelun sisältöön.
+## Saavutettavuuden arviointi  
+Saavutettavuuden arvioinnissa on noudatettu Helsingin kaupungin työohjetta ja menetelmiä, jotka pyrkivät varmistamaan palvelun saavutettavuuden kaikissa työvaiheissa.   
 
-1. Sivuston kielivalikko on kuvattu ruudunlukuohjelmalle puutteellisesti. Sivustolla on kääntämätöntä sisältöä ja englanninkielisten ja ruotsinkielisten sivujen kielimääritykset ovat puutteelliset.
+Vuonna 2025 saavutettavuus on tarkistettu itsearviona. Saavutettavuus on tarkistettu käyttäen ohjelmallista saavutettavuustarkistusta Salvia-työkalulla sekä digitaalisen palvelun ja sisällön manuaalista tarkistusta.   
 
-(WCAG2.1: 3.1.2 Osien kieli, WCAG2.1: 3.1.1 Sivun kieli)
 
-2. Hyppylinkin ja selainkohdistuksen toiminnassa on puutteita.
 
-(WCAG2.1: 2.4.1 Ohita lohkot, WCAG2.1: 2.4.3 Kohdistusjärjestys)
+## Huomasitko puutteita saavutettavuudessa?  
+Pyrimme jatkuvasti parantamaan digitaalisen palvelun saavutettavuutta. Ota meihin yhteyttä, jos löydät saavutettavuuspuutteita, joita ei ole kuvattu tällä sivulla, tai tarvitsemasi aineisto ei ole saavutettavaa. [Anna palautetta palautelomakkeella.](https://palautteet.hel.fi/fi)
 
-3. Sivustolla on puutteellisesti kuvattuja linkkejä. Joidenkin linkkien aukeamisesta uuteen ikkunaan ei ilmoiteta.
+## Saavutettavuuden valvonta  
+Liikenne- ja viestintävirasto Traficom valvoo saavutettavuusvaatimusten toteutumista. Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana, voit tehdä ilmoituksen Liikenne- ja viestintävirasto Traficomin. Liikenne- ja viestintävirasto Traficomin sivulla kerrotaan tarkasti, miten asia käsitellään. 
 
-(WCAG2.1: 1.1.1 Ei-tekstuaalinen sisältö, WCAG2.1: 1.3.1 Informaatio ja suhteet, WCAG2.1: 2.4.4 Linkin tarkoitus (kontekstissa), 3.2.4 Johdonmukainen merkitseminen)
-
-4. Mobiilivalikon tila ei välity ruudunlukuohjelmalle ja sisäänkirjautumispainike on nimeämätön mobiilinäkymässä. (WCAG2.1: 4.1.2 Nimi, rooli, arvo)
-
-### Puutteiden korjaus
-
-Havaitut puutteet pyritään korjaamaan siten, että sivuston käyttö näppäimistöä käyttäen sekä avustavilla tekniikoilla, on mahdollista. Korjaukset pyritään suorittamaan mahdollisimman pian järjestelmäpäivitysten yhteydessä. Kolmansien osapuolien toimittajiin PDF-tiedostoihin pyydetään korjausta saavutettavuuden osalta.
-
-## Tiedon saanti saavutettavassa muodossa
-
-Mikäli käyttäjä ei koe saavansa sivuston sisältöä saavutettavassa muodossa, voi käyttäjä pyytää näitä tietoja sähköpostilla kerrokantasi@hel.fi tai palautelomakkeella www.hel.fi/palaute. Tiedusteluun pyritään vastaamaan kohtuullisessa ajassa.
-
-## Saavutettavuusselosteen laatiminen
-
-Tämä seloste on laadittu 15.6.2020 ja sitä on viimeksi päivitetty 11.9.2020.
-
-## Saavutettavuuden arviointi
-
-Saavutettavuuden arvioinnissa on noudatettu Helsingin kaupungin työohjetta ja menetelmiä, jotka pyrkivät varmistamaan sivuston saavutettavuuden kaikissa työvaiheissa.
-
-Saavutettavuus on tarkistettu ulkopuolisen asiantuntijan suorittamana auditointina sekä itsearviona.
-
-Saavutettavuus on tarkistettu käyttäen ohjelmallista saavutettavuustarkistusta sekä sivuston ja sisällön manuaalista tarkistusta. Ohjelmallinen tarkistus on suoritettu käyttäen Siteimproven saavutettavuuden automaattista testaustyökalua ja selainlaajennusta.
-
-Ulkopuolisen asiantuntija-auditoinnin on suorittanut Helsingin kaupungin palvelukeskus -liikelaitos.
-
-## Saavutettavuusselosteen päivittäminen
-
-Sivuston saavutettavuudesta huolehditaan jatkuvalla valvonnalla tekniikan tai sisällön muuttuessa, sekä määräajoin suoritettavalla tarkistuksella. Tätä selostetta päivitetään sivuston muutosten ja saavutettavuuden tarkistusten yhteydessä.
-
-## Palaute ja yhteystiedot
-
-Sivuston saavutettavuudesta vastaa Helsingin kaupunginkanslia/ viestintäosasto/ Heli Rantanen, heli.k.rantanen at hel.fi.
-
-## Ilmoittaminen ei-saavutettavasta sisällöstä
-
-Mikäli käyttäjä kokee, etteivät saavutettavuuden vaatimukset kuitenkaan täyty, voi tästä tehdä ilmoituksen sähköpostilla kerrokantasi@hel.fi tai palautelomakkeella www.hel.fi/palaute.
-
-## Saavutettavuuden oikeussuoja, Täytäntöönpanomenettely
-
-Mikäli henkilö kokee, ettei hänen ilmoitukseensa tai tiedusteluunsa ole vastattu tai vastaus ei ole tyydyttävä, voi asiasta tehdä ilmoituksen Liikenne- ja viestintävirasto Traficomiin. Liikenne- ja viestintävirasto Traficomin sivulla kerrotaan tarkasti, miten asia käsitellään.
-
-Liikenne- ja viestintävirasto Traficom
-
-Digitaalisen esteettömyyden ja saavutettavuuden valvontayksikkö
-
-www.saavutettavuusvaatimukset.fi
-
+Liikenne- ja viestintävirasto Traficom  
+Digitaalisen esteettömyyden ja saavutettavuuden valvontayksikkö  
+www.saavutettavuusvaatimukset.fi  
 saavutettavuus@traficom.fi
 
-Puhelinnumero (vaihde): 029 534 5000
+Puhelinnumero (vaihde): 029 534 5000  
 
-## Helsingin kaupunki ja saavutettavuus
 
-Helsingin kaupungin tavoitteena on olla kaikille esteetön ja saavutettava kaupunki. Kaupungin tavoitteena on, että Helsingissä on kaikkien kaupunkilaisten mahdollisimman helppo liikkua ja toimia ja että kaikki sisältö ja palvelut olisivat kaikkien saavutettavissa.
+## Saavutettavuusselosteen tiedot  
+Kerrokantasi-palvelu on julkaistu 25.11.2014.
 
-Kaupunki edistää digitaalisten palveluiden saavutettavuutta yhdenmukaistamalla julkaisutyötä ja järjestämällä saavutettavuuteen keskittyvää koulutusta henkilökunnalleen.
+Seloste on laadittu 15.06.2020.
 
-Sivustojen saavutettavuuden tasoa seurataan jatkuvasti sivustoja ylläpidettäessä. Havaittuihin puutteisiin reagoidaan välittömästi. Tarvittavat muutokset pyritään suorittamaan mahdollisimman nopeasti.
+Seloste on viimeksi päivitetty 11.11.2025.
 
-## Vammaiset ja avustavien teknologioiden käyttäjät
+[Laki digitaalisten palvelujen tarjoamisesta (306/2019)](https://www.finlex.fi/fi/laki/alkup/2019/20190306)
 
-Kaupunki tarjoaa neuvontaa ja tukea vammaisille ja avustavien teknologioiden käyttäjille. Tukea on saatavilla kaupungin sivuilla ilmoitetuista neuvontasivuilta sekä puhelinneuvonnasta. https://www.hel.fi/kanslia/neuvonta-fi
