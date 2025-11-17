@@ -10,9 +10,11 @@ The digital service is for the most part complaint with all of the statutorily m
 ## Non-accessible content  
 The digital service is not fully accessible. The content or functions listed below are not fully complaint with the statutory mandated accessibility requirements. We strive to continuously correct any detected shortcomings. This accessibility statement’s list of shortcomings is updated every time we rectify a shortcoming.
 
-### Accessibility of content  
-- WCAG 2.1: 1.1.1 Non-text Content, WCAG 2.1: 1.3.1 Info and Relationships, WCAG 2.1: 2.4.4 Link Purpose (In Context), 3.2.4 Consistent Identification  
-    - Voice Your Opinion service was originally launched in 2014. The content of all hearings (links, images, video clips) does not comply with modern accessibility requirements.  
+
+### The change in functionality is not communicated to the user  
+- WCAG2.1: 4.1.2 Name, Role, Value  
+   - The status of the mobile menu is not relayed to text-to-speech software and the login button is unnamed in the mobile view.
+   - On the Map page, the status of the Show only open option's status is not described.   
 
 ## Content outside the scope of the applicable legislation  
 The accessibility requirements do not apply to the following content:  
@@ -42,8 +44,8 @@ telephone switchboard 029 534 5000
 ## Accessibility statement information  
 Voice Your Opinion service was published on 25.11.2014.
 
-This accessibility statement was prepared on 25.06.2025.
+This accessibility statement was prepared on 15.06.2020.
 
-This accessibility statement was last reviewed on 14.08.2025.
+This accessibility statement was last reviewed on 11.11.2025.
 
 [Act on the Provision of Digital Services (306/2019)](https://www.finlex.fi/fi/laki/alkup/2019/20190306)

@@ -9,10 +9,10 @@ Digital tjänsten uppfyller till största del de tillgänglighetskriterier som l
 ## Innehåll som inte är tillgängligt  
 Digital tjänsten är inte till alla delar tillgänglig. Innehållet eller funktionerna som nämns nedan uppfyller inte alla tillgänglighetskriterier som fastställs i lagen. Vi åtgärdar fortlöpande de brister i tillgängligheten som vi upptäcker. Vi uppdaterar förteckningen över bristerna i tillgängligheten i det här utlåtandet vartefter vi åtgärdar bristerna.  
 
-### Tillgänglighet till innehåll  
-- WCAG 2.1: 1.1.1 Icke-textuellt innehåll, WCAG 2.1: 1.3.1 Information och relationer, WCAG 2.1: 2.4.4 Länkens syfte (i kontext), 3.2.4 Konsekvent identifiering  
-    - Säg Din Åsikt -tjänsten lanserades ursprungligen 2014. Innehållet i  alla höringar (länkar, bilder, videoklipp) uppfyller inte moderna tillgänglighetskrav.  
-    - I digital tjänsten finns länkar som är bristfälligt beskrivna. Det anges inte att vissa länkar öppnas i ett nytt fönster.  
+### Förändringen i funktionalitet förs inte vidare till användaren
+- WCAG2.1: 4.1.2 Namn, roll, värde  
+    - Mobilmenyns status förmedlas inte till skärmläsningsprogrammet och inloggningsknappen är namnlös i mobilvyn.   
+    - På Karta sidan visas inte statusen för alternativet Endast öppen visas.   
 
    
 ## Innehåll som inte omfattas av lagstiftningen  
@@ -43,9 +43,9 @@ Telefonnummer (växeln): 029 534 5000
 ## Uppgifter om tillgänglighetsutlåtandet  
 Säg Din Åsikt -tjänsten har publicerats 25.11.2014.  
 
-Utlåtandet har upprättats 25.06.2025.  
+Utlåtandet har upprättats 15.06.2020.  
 
-Utlåtandet har uppdaterats senast 14.08.2025.  
+Utlåtandet har uppdaterats senast 11.11.2025.  
 
 [Lagen om tillhandahållande av digitala tjänster (306/2019)](https://www.finlex.fi/sv/laki/alkup/2019/20190306)
 

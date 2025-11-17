@@ -12,13 +12,13 @@ Tämä digitaalinen palvelu täyttää suurilta osin lain vaatimat saavutettavuu
 
 Tämä digitaalinen palvelu ei ole kaikilta osin saavutettava. Alla mainitut sisällöt tai toiminnot eivät täytä kaikkia lain asettamia saavutettavuusvaatimuksia. Korjaamme havaittuja saavutettavuuspuutteita jatkuvasti. Päivitämme tämän selosteen havaittujen puutteiden listausta, kun saamme puutteita korjattua.
 
-### Sisältöjen saavutettavuus
+### Toiminnallisuuden muutos ei välity käyttäjälle
+- WCAG 2.1: 4.1.2 Nimi, rooli, arvo
+  - Mobiilivalikon tila ei välity ruudunlukuohjelmalle ja sisäänkirjautumispainike on nimeämätön mobiilinäkymässä.
+  - Kartta-sivulla Näytetään vain avoimet -valinnan tilaa ei kuvata.
 
-- WCAG 2.1: 1.1.1 Ei-tekstuaalinen sisältö, WCAG 2.1: 1.3.1 Informaatio ja suhteet, WCAG 2.1: 2.4.4 Linkin tarkoitus (kontekstissa), 3.2.4 Johdonmukainen merkitseminen  
-  - Kerrokantasi-palvelu on alkujaan julkaistu vuonna 2014. Kaikkien kuulemisten sisällöt (linkit, kuvat, videoupotukset) eivät noudata nykyaikaisia saavutettavuusvaateita.   
 
-
-## Sisällöt, jotka eivät kuulu lainsäädännön piiriin  
+## Sisällöt, jotka eivät kuulu lainsäädännön piiriin
 Saavutettavuusvaatimukset eivät koske seuraavia sisältöjä:  
 - käyttäjien tai muiden ulkopuolisten tahojen palvelussa julkaisemia sisältöjä, jotka eivät ole palveluntarjoajan itsensä tuottamia, rahoittamia tai valvomia  
 - karttoja, joita ei ole tarkoitettu navigointikäyttöön (esim. sää- tai maastokarttoja)  
@@ -50,9 +50,9 @@ Puhelinnumero (vaihde): 029 534 5000
 ## Saavutettavuusselosteen tiedot  
 Kerrokantasi-palvelu on julkaistu 25.11.2014.
 
-Seloste on laadittu 25.06.2025.
+Seloste on laadittu 15.06.2020.
 
-Seloste on viimeksi päivitetty 14.08.2025.
+Seloste on viimeksi päivitetty 11.11.2025.
 
 [Laki digitaalisten palvelujen tarjoamisesta (306/2019)](https://www.finlex.fi/fi/laki/alkup/2019/20190306)
 
