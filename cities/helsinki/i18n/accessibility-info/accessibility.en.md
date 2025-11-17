@@ -1,79 +1,51 @@
-# Accessibility statement – Voice Your Opinion
-This accessibility statement concerns the City of Helsinki’s Voice Your Opinion website. The address of the website is https://kerrokantasi.hel.fi/?locale=en.
+# Voice Your Opinion - accessibility statement  
+This accessibility statement applies to the Voice Your Opinion digital service (https://kerrokantasi.hel.fi/?locale=en) run by the City of Helsinki. This statement explains the digital service’s accessibility and how to submit accessibility-related feedback.  
 
-## Legal provisions applied to the website
-This website has been published earlier than 23 September 2018. The website must meet the accessibility requirements as required by the law after the end of the transition period, which ends on September 23 2020.
 
-## The City’s objective
-Helsinki's objective for the accessibility of the digital services is to strive for at least the AA level, or better, of the WCAG guidelines (Web Content Accessibility Guidelines), if it is reasonably possible.
+## How accessible is this digital service?  
+Finland’s Act on the Provision of Digital Services states that public digital services must be accessible. In other words, everyone should have an equal opportunity to use digital services.   
 
-## Compliance status
-This website meets the critical accessibility requirements as required by the law in accordance with the AA level of the WCAG 2.1 guidelines, with the following non-compliance:
+The digital service is for the most part complaint with all of the statutorily mandated accessibility requirements (WCAG criteria 2.1, A and AA standards). The digital service has some accessibility shortcomings which are described in more detail below.
 
-## Non-accessible content
-The content described below does not yet meet all the accessibility requirements as required by the law.
+## Non-accessible content  
+The digital service is not fully accessible. The content or functions listed below are not fully complaint with the statutory mandated accessibility requirements. We strive to continuously correct any detected shortcomings. This accessibility statement’s list of shortcomings is updated every time we rectify a shortcoming.
 
-## Non-compliance with accessibility criteria
-This accessibility statement only reports on problems related to the content of the service.
 
-1. The website’s language menu is inadequately described for text-to-speech software. The website contains untranslated content and the language definitions of the English and Swedish pages are inadequate.
-(WCAG2.1: 3.1.2 Language of Parts, WCAG2.1: 3.1.1 Language of Page)
+### The change in functionality is not communicated to the user  
+- WCAG2.1: 4.1.2 Name, Role, Value  
+   - The status of the mobile menu is not relayed to text-to-speech software and the login button is unnamed in the mobile view.
+   - On the Map page, the status of the Show only open option's status is not described.   
 
-2. There are deficiencies related to the functioning of jump links and browser focusing.
-(WCAG2.1: 2.4.1 Bypass Blocks, WCAG2.1: 2.4.3 Focus Order)
+## Content outside the scope of the applicable legislation  
+The accessibility requirements do not apply to the following content:  
+- material put out by users or other external parties that is not produced, funded or monitored by the service provider  
+- maps not intended for navigational use (for example, weather or terrain maps)  
+- MS Office files (for example, .doc, PDF and ODT) that were published before 23 September 2018  
+- video or audio recordings released before 23 September 2018
 
-3. The website contains inadequately described links. The user is not notified of some links opening in a new window.
-(WCAG2.1: 1.1.1 Non-text Content, WCAG2.1: 1.3.1 Info and Relationships, WCAG2.1: 2.4.4 Link Purpose (In Context), 3.2.4 Consistent Identification)
+## Accessibility assessment  
+The accessibility assessment follows the City of Helsinki’s operational guidelines and methods that aim to secure the service’s accessibility throughout every work stage.
 
-4. The status of the mobile menu is not relayed to text-to-speech software and the login button is unnamed in the mobile view. (WCAG2.1: 4.1.2 Name, Role, Value)
+During the year 2025 the accessibility of the digital service has been assessed by a self-assessment. The assessment included programmatic accessibility testing (Salvia) and a manual examination of the digital service and its content.   
 
-## Correcting the non-compliance
-The City strives to correct the perceived non-compliance in order to make it possible to use the website with a keyboard and with assistive technology. The corrective measures require a change of the operational principle of the publishing system and affects all the websites that use the same system. The City strives to carry out the corrections as quickly as possible in connection with system updates.
+## Did you notice shortcomings in accessibility?  
+We aim to continuously improve the accessibility of our digital service. If you encounter non-compliant content on the digital service that is not described on this page, please report it to us. [Send your feedback by filling out the City of Helsinki’s feedback form.](https://palautteet.hel.fi/en/)
 
-## Preparing an accessibility statement
-This statement has been prepared on 18 September 2020.
+## Accessibility monitoring  
+If the person finds that their report or enquiry has not been answered or that the answer is not satisfactory, the matter can be reported to the Finnish Transport and Communication Agency Traficom. You will find detailed information about how the matter is dealt with on the website of the Finnish Transport and Communication Agency Traficom.  
 
-## Evaluation of the accessibility
-The accessibility evaluation has been carried out in accordance with the City of Helsinki’s working instruction and methods, the aim of which is to ensure the accessibility of the website in all working phases.
+Finnish Transport and Communications Agency Traficom  
+Digital Accessibility Supervision Unit  
+www.webaccessibility.fi  
+saavutettavuus@traficom.fi 
 
-The accessibility has been checked using programmatic accessibility checking and manual checking of the website and the contents. The programmatic checking has been carried out by means of Siteimprove’s automatic accessibility checking tool and browser extension.
+telephone switchboard 029 534 5000  
 
-External expert auditing has been carried out by the Helsinki Service Center.
+## Accessibility statement information  
+Voice Your Opinion service was published on 25.11.2014.
 
-## Updating the accessibility statement
-The accessibility of the website is managed with continuous supervision as the technology or content changes, and through periodic checks. This statement is updated in connection with changes to the website and the accessibility checks.
+This accessibility statement was prepared on 15.06.2020.
 
-## Feedback and contact information
-The party in charge of the accessibility of the website is Helsinki City Executive Office/Communications/ Heli Rantanen, heli.k.rantanen@hel.fi.
+This accessibility statement was last reviewed on 11.11.2025.
 
-## Reporting inaccessible content
-If the user finds that the accessibility requirements are not met, they can report it by e-mail kerrokantasi@hel.fi  or through the feedback form www.hel.fi/feedback.
-
-## Requesting information in accessible format
-If the user finds that they have not received the contents of the website in accessible format, they can request this information by e-mail kerrokantasi@hel.fi or through the feedback form www.hel.fi/feedback. The City aims to answer the enquiries within a reasonable time.
-
-## Legal protection of accessibility, enforcement proceedings
-
-If the person finds that their report or enquiry has not been answered or that the answer is not satisfactory, the matter can be reported to the Finnish Transport and Communication Agency Traficom. You will find detailed information about how the matter is dealt with on the website of the Finnish Transport and Communication Agency Traficom.
-
-Finnish Transport and Communication Agency Traficom
-
-Digital Accessibility Supervision Unit
-
-www.saavutettavuusvaatimukset.fi
-
-saavutettavuus@avi.fi
-
-Telephone switchboard: 029 534 5000
-
-## The City of Helsinki and accessibility
-
-The City of Helsinki wants to be an accessible city for all. The objective of the City is that all residents find it easy to move and act in Helsinki and that all contents and services are accessible to everyone.
-
-The City advances the accessibility of the digital services by standardising the publishing work and by arranging accessibility trainings for its personnel.
-The level of accessibility of the websites is continuously monitored in connection with the maintenance of them. The City reacts immediately to perceived non-compliance. The necessary changes are carried out as quickly as possible.
-
-## The disabled and users of assistive technology
-The City offers guidance and support to the disabled and users of assistive technology. Support is available through the assistance pages on the City website and the telephone service.
-
-https://www.hel.fi/kanslia/neuvonta-en 
+[Act on the Provision of Digital Services (306/2019)](https://www.finlex.fi/fi/laki/alkup/2019/20190306)
