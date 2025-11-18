@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.16.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.15.0...kerrokantasi-ui-v1.16.0) (2025-11-18)
+
+
+### Features
+
+* Update translations KER-520 ([#1207](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1207)) ([8f68eba](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8f68eba3a48b51650ac590d2145416b211f3e87b))
+
+
+### Bug Fixes
+
+* Add id to checkbox KER-518 ([#1204](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1204)) ([374a7ac](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/374a7ac9058c1c2f641434643d528b8ede4d661a))
+* Update data protection info links ([2b1fdbf](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2b1fdbf42117a32bb9ffa43444f5e4d828d87ad5))
+
+
+### Dependencies
+
+* Bump playwright from 1.55.0 to 1.55.1 ([2e08b20](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2e08b20fa1cc2f2831ae42d57edd444cc2fd0196))
+* Remove extra dependency playwright ([5dd78c5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5dd78c5fcf34f505673045b871b86e23ab180f25))
+
 ## [1.15.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.14.5...kerrokantasi-ui-v1.15.0) (2025-10-29)
 
 
