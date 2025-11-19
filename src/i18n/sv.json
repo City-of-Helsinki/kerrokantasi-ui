@@ -150,6 +150,8 @@
   "hearingFormHeaderContainsErrors": " - innehåller fel",
   "hearingFormHeaderStep1": "1. Hörandets grundläggande information",
   "hearingFormHeaderStep2": "2. Innehåll",
+  "hearingFormHeaderStep3": "3. Karta",
+  "hearingFormHeaderStep4": "4. Publiceringsinformation",
   "hearingFormHeaderStep5": "5. Projektfaser",
   "hearingFormNext": "Fortsätt",
   "hearingLabels": "Nyckelord",

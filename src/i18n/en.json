@@ -150,6 +150,8 @@
   "hearingFormHeaderContainsErrors": " - contains errors",
   "hearingFormHeaderStep1": "1. Basic information of the hearing",
   "hearingFormHeaderStep2": "2. Content",
+  "hearingFormHeaderStep3": "3. Map",
+  "hearingFormHeaderStep4": "4. Publishing information",
   "hearingFormHeaderStep5": "5. Project phases",
   "hearingFormNext": "Continue",
   "hearingLabels": "Keywords",
