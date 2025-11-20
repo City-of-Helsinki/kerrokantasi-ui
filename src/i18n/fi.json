@@ -150,6 +150,8 @@
   "hearingFormHeaderContainsErrors": " - sisältää virheitä",
   "hearingFormHeaderStep1": "1. Kuulemisen perustiedot",
   "hearingFormHeaderStep2": "2. Sisältö",
+  "hearingFormHeaderStep3": "3. Kartta",
+  "hearingFormHeaderStep4": "4. Julkaisutiedot",
   "hearingFormHeaderStep5": "5. Hankkeen vaiheet",
   "hearingFormNext": "Jatka",
   "hearingLabels": "Asiasanat",
