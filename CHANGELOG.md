@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.0...kerrokantasi-ui-v1.16.1) (2025-11-20)
+
+
+### Bug Fixes
+
+* Missing translations ([f0946af](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f0946aff114edc686d56cd2e8653203aa0677cc3))
+* Update link to content creation guide ([#1211](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1211)) ([fb873ba](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fb873ba096d1ca362d6855ebab01c3cee3b7e54b))
+
 ## [1.16.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.15.0...kerrokantasi-ui-v1.16.0) (2025-11-18)
 
 
