@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.1...kerrokantasi-ui-v1.16.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* Upgrade to HDS v4.8.1 ([#1213](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1213)) ([367f375](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/367f375ef77b1710c847ef94f371ee0077a69e5c))
+
 ## [1.16.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.0...kerrokantasi-ui-v1.16.1) (2025-11-20)
 
 
