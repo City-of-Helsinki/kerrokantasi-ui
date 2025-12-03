@@ -468,7 +468,7 @@ const SectionContainerComponent = ({
             </div>
           </div>
         )}
-        <div className={`col-md-8 ${!hearing.geojson ? 'col-md-offset-2' : ''}`}>
+        <div className={`col-xs-12 col-md-8 ${!hearing.geojson ? 'col-md-offset-2' : ''}`}>
           {renderMainDetails(hearing, section, language)}
 
           {renderProjectPhaseSection(hearing, language)}
