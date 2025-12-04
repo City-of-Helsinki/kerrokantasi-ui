@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.2...kerrokantasi-ui-v1.16.3) (2025-12-04)
+
+
+### Bug Fixes
+
+* HearingMap and content broken layout on narrow screens ([#1216](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1216)) ([66b38d3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/66b38d315fa6212f30f602075ec333f8ff0cc28b))
+
 ## [1.16.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.1...kerrokantasi-ui-v1.16.2) (2025-11-25)
 
 
