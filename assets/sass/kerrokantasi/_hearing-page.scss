@@ -372,6 +372,11 @@
 .hearing-contacts {
   display: flex;
   flex-wrap: wrap;
+
+  @media (max-width: $screen-xs-max) {
+    flex-direction: column;
+  }
+
   .hearing-contact {
     flex: 1;
     max-width: 100%;
