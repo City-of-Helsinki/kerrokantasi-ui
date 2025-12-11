@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.16.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.3...kerrokantasi-ui-v1.16.4) (2025-12-11)
+
+
+### Bug Fixes
+
+* Adjust hearing-contacts layout for mobile responsiveness ([e215105](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e215105604db03b03d7373bd2a2c1003bea70c70))
+* Pipeline refactor ([#1219](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1219)) ([1f50576](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1f5057611e24091413f9130144f05fd2a910e327))
+* Re-add previously mistakently removed translations ([#1218](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1218)) ([b5521a6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b5521a69134477684c19d931136460d4198f6db3))
+
+
+### Dependencies
+
+* Bump glob from 10.4.5 to 10.5.0 ([5e232f2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5e232f2b570ff79c8bdaf5a19e9fba620c5ba445))
+* Bump mdast-util-to-hast from 13.2.0 to 13.2.1 ([b2d222a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b2d222a17ba2514fc2a053559ee9a4d6fd64efd6))
+* Upgrade react-markdown to 10.1.0 ([5217e5f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5217e5f2e64ceb4df3fd71d12477c867dcf753ea))
+
 ## [1.16.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.2...kerrokantasi-ui-v1.16.3) (2025-12-04)
 
 
