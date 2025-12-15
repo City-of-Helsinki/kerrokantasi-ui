@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.4...kerrokantasi-ui-v1.16.5) (2025-12-15)
+
+
+### Bug Fixes
+
+* Sentry avoid infinite recursion Ref: KER-570 ([a9a515c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a9a515ca2979d72802331561a73a38ddeaa8b5da))
+
 ## [1.16.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.3...kerrokantasi-ui-v1.16.4) (2025-12-11)
 
 
