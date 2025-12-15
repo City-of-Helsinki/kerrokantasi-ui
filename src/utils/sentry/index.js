@@ -1,4 +1,4 @@
-import { clone, isObject, snakeCase } from 'lodash';
+import { snakeCase } from 'lodash';
 
 // https://github.com/getsentry/sentry-python/blob/8094c9e4462c7af4d73bfe3b6382791f9949e7f0/sentry_sdk/scrubber.py#L14
 const DEFAULT_DENYLIST = [
@@ -45,39 +45,55 @@ const DEFAULT_DENYLIST = [
 ];
 
 const SENTRY_DENYLIST = [...DEFAULT_DENYLIST, 'additional_info', 'admin_organizations', 'adminOrganizations', 'answered_questions', 'author_name', 'contact_persons', 'contactPersons', 'contacts', 'displayName', 'email', 'external_organization', 'favorite_hearings', 'first_name', 'firstname', 'followed_hearings', 'has_strong_auth', 'hasStrongAuth', 'last_name', 'lastname', 'name', 'nickname', 'oidc', 'oidcUser', 'organization', 'organizations', 'phone', 'profile', 'provider', 'title', 'user', 'username'];
+const MAX_CLEAN_DEPTH = 32;
 
-export const cleanSensitiveData = (data) => {
-  const dataCopy = clone(data);
+export const cleanSensitiveData = (
+  data,
+  visited = new WeakMap(),
+  depth = 0,
+  maxDepth = MAX_CLEAN_DEPTH
+) => {
+  if (depth > maxDepth) {
+    return '[MaxDepthExceeded]';
+  }
 
-  Object.entries(dataCopy).forEach(([key, value]) => {
+  if (typeof data !== 'object' || data === null) {
+    return data;
+  }
+
+  // To avoid infinite recursion for circular references
+  if (visited.has(data)) {
+    return visited.get(data);
+  }
+
+  if (Array.isArray(data)) {
+    const result = [];
+    visited.set(data, result);
+    for (const item of data) {
+      result.push(cleanSensitiveData(item, visited, depth + 1, maxDepth));
+    }
+    return result;
+  }
+
+  const result = {};
+  visited.set(data, result);
+
+  for (const [key, value] of Object.entries(data)) {
     if (
       SENTRY_DENYLIST.includes(key) ||
       SENTRY_DENYLIST.includes(snakeCase(key))
     ) {
-      delete dataCopy[key];
-    } else if (Array.isArray(value)) {
-      dataCopy[key] = value.map(item =>
-        isObject(item)
-          ? cleanSensitiveData(item)
-          : item
-      );
-    } else if (isObject(value)) {
-      dataCopy[key] = cleanSensitiveData(value);
+      continue; // omit sensitive key
     }
-  });
+    result[key] = cleanSensitiveData(value, visited, depth + 1, maxDepth);
+  }
 
-  return dataCopy;
+  return result;
 };
 
 export const beforeSend = (event) =>
-  cleanSensitiveData(
-    (event)
-  );
+  cleanSensitiveData(event);
 
 export const beforeSendTransaction = (
   event
-  // eslint-disable-next-line sonarjs/no-identical-functions
-) =>
-  cleanSensitiveData(
-    (event)
-  );
+) => cleanSensitiveData(event);
