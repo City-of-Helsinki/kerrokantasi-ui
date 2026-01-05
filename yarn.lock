@@ -5664,20 +5664,20 @@ hast-util-whitespace@^3.0.0:
   dependencies:
     "@types/hast" "^3.0.0"
 
-hds-core@4.8.1, hds-core@^4.4.0:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-4.8.1.tgz#58b977c1dcd36171ab309604fefbe76679aa8931"
-  integrity sha512-7szkf/T6oWaaT4FIdl5KMrln+gScUjsccCQJaRxAHyZlxK7y1UUKSX9g9/vyj/euvrRTNb/Y8Dn7zJPmoCxaug==
+hds-core@4.9.0, hds-core@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-4.9.0.tgz#a156eaf8b6edec914ae77dc8879c885b0757ef49"
+  integrity sha512-8c1iWo7isF2mQ5/M/VZyrULcdKDYbS+2IOLI49HM00eFPOj6SoonTSVVis8Ti3RfNZHMBB9Q8n1qmwOXrGVJ1Q==
 
-hds-design-tokens@^4.4.0:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-4.8.1.tgz#f0179bb52d68d50d6cbf5c81bc11735d5e31fbce"
-  integrity sha512-d1aAAH7vHuxHtJxmIL5zE/FPIh/sKo7TizeaKdL5FIWeHM3RfHp4QYFotyWA2Ogsc/KxY3wV8BwEGoCH1TC+ig==
+hds-design-tokens@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-4.9.0.tgz#7ff75c1fa8fcd54499edeb6c8060fe3674a3ca8a"
+  integrity sha512-mSK+2eVNAJ6vZt5xNuLr5lyhgGUCmpX6eVMG2Ws8lQlC4YXrVehb8XxWT6kcvDsPCxGPpbBnZlYhKTwRcwYtYw==
 
-hds-react@^4.4.0:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-4.8.1.tgz#c71694c8ce3fd64a5076d519b896cf53f4affc8f"
-  integrity sha512-Er7ZLMsdsmY/GEPPMvz5k5c1dxXfoydcQaoUHZdiSX2cpocTr6j59WLs/4KpGweFwkTUI/G2AVyym6ye3OsLdQ==
+hds-react@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-4.9.0.tgz#57156f22d58491acb4d895994a2d4eb8cd08a031"
+  integrity sha512-YSJzMRfYrEbcPIJJN2Lq/jY8vXUu5skm3Hn9tCuMemFdxW1iUbAxsLQiR2IrXwiHTaXbFfxPUd5oxB+Dp8TPrg==
   dependencies:
     "@apollo/client" "^3.10.1"
     "@babel/runtime" "^7.26.10"
@@ -5695,7 +5695,7 @@ hds-react@^4.4.0:
     date-fns "2.16.1"
     downshift "6.0.6"
     graphql "^16.8.1"
-    hds-core "4.8.1"
+    hds-core "4.9.0"
     jwt-decode "^3.1.2"
     kashe "1.0.4"
     lodash "^4.17.21"
