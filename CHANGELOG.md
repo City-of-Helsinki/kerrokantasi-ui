@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.5...kerrokantasi-ui-v1.17.0) (2026-01-13)
+
+
+### Features
+
+* Hardening yarn install RATY-280 ([d4780d7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d4780d7b382a5a95d5cf559d0324827edf0af77b))
+
+
+### Dependencies
+
+* Bump qs from 6.12.1 to 6.14.1 ([8fbc934](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8fbc9341ff7fd97a7b902f7e9aa4610fb99f156a))
+
 ## [1.16.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.4...kerrokantasi-ui-v1.16.5) (2025-12-15)
 
 
