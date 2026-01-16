@@ -27,10 +27,11 @@ function checkResponseStatus(response) {
     const err = new Error("Bad response from server");
     err.response = response;
     response.json().then((jsonResponse) => {
-      Sentry.captureException(jsonResponse, {
+      Sentry.captureException(err, {
         extra: {
           url: response.url,
           status: response.status,
+          responseBody: jsonResponse,
         }
       });
     });
