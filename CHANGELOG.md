@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.0...kerrokantasi-ui-v1.17.1) (2026-01-20)
+
+
+### Bug Fixes
+
+* Enhance Sentry error reporting with full response body ([8d75192](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8d75192f9f229e5de25aec8a5785fdb3eb7d4e7a))
+
 ## [1.17.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.16.5...kerrokantasi-ui-v1.17.0) (2026-01-13)
 
 
