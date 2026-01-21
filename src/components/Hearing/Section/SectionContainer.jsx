@@ -490,7 +490,7 @@ const SectionContainerComponent = ({
               {hasFullscreenMapPlugin(hearing) && (
                 <Button
                   className='kerrokantasi-btn'
-                  onClick={() => navigate({ pathname: getHearingURL(hearing, { fullscreen: true }) })}
+                  onClick={() => navigate({ pathname: getHearingURL({ slug: hearingSlug }, { fullscreen: true }) })}
                 >
                   <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
                   &nbsp;

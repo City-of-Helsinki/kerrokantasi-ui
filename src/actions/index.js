@@ -24,7 +24,10 @@ export const MainActions = {
 
 function checkResponseStatus(response) {
   if (response.status >= 400) {
-    const err = new Error("Bad response from server");
+    const errorMessage = response.status === 404
+      ? `Resource not found (${response.status}): ${response.url}`
+      : `Server responded with error (${response.status}): ${response.url}`;
+    const err = new Error(errorMessage);
     err.response = response;
     response.json().then((jsonResponse) => {
       Sentry.captureException(err, {
@@ -32,6 +35,15 @@ function checkResponseStatus(response) {
           url: response.url,
           status: response.status,
           responseBody: jsonResponse,
+        }
+      });
+    }).catch(() => {
+      // If response body is not JSON, capture exception without response body
+      Sentry.captureException(err, {
+        extra: {
+          url: response.url,
+          status: response.status,
+          responseBody: 'Unable to parse response body as JSON',
         }
       });
     });
@@ -147,6 +159,14 @@ export function fetchLabels() {
 
 export function fetchHearing(hearingSlug, previewKey = null) {
   return (dispatch) => {
+    // Validate hearingSlug to prevent API calls with undefined/invalid slugs
+    if (!hearingSlug || hearingSlug === 'undefined' || typeof hearingSlug !== 'string') {
+      const error = new Error(`Invalid hearing slug: ${hearingSlug}`);
+      dispatch(createAction("receiveHearingError")({ hearingSlug: hearingSlug || 'unknown' }));
+      requestErrorHandler(dispatch)(error);
+      return Promise.reject(error);
+    }
+
     const fetchAction = createAction("beginFetchHearing")({ hearingSlug });
     dispatch(fetchAction);
     const url = `v1/hearing/${hearingSlug}/`;

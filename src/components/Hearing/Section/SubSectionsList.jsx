@@ -74,7 +74,7 @@ const SubsectionList = ({ hearing, language, history }) => {
                       </Button>
                     </Link>
                     {!hearing.closed && (
-                      <Link to={{ path: getSectionURL(hearing.slug, section), hash: '#comments-section' }}>
+                      <Link to={{ path: getSectionURL(hearingSlug, section), hash: '#comments-section' }}>
                         <Button size='small' className='kerrokantasi-btn'>
                           <FormattedMessage
                             id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}

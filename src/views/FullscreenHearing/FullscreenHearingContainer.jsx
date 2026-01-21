@@ -58,7 +58,8 @@ const FullscreenHearingContainerComponent = (ownProps) => {
     dispatch(postVote(commentId, hearingSlug, sectionId));
   };
 
-  const detailURL = `/${hearing.slug}`;
+  // Use params.hearingSlug directly since we're already on this page via that slug
+  const detailURL = `/${params.hearingSlug}`;
 
   return (
     <div id='hearing'>

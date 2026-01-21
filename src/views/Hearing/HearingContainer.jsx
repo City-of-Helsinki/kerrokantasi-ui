@@ -80,13 +80,13 @@ const HearingContainerComponent = ({
 
   useEffect(() => {
     if (location.state) {
-      if (!isEmpty(hearing) && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
+      if (!isEmpty(hearing) && hearing.slug && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
         navigate({
           pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
         });
       }
-    } else if (!isEmpty(hearing) && hearing.default_to_fullscreen) {
+    } else if (!isEmpty(hearing) && hearing.slug && hearing.default_to_fullscreen) {
       navigate({
         pathname: `/${hearing.slug}/fullscreen`,
         search: `?lang=${language}`,
