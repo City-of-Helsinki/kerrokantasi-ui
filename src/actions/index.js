@@ -33,6 +33,16 @@ function checkResponseStatus(response) {
           status: response.status,
         }
       });
+    }).catch((jsonError) => {
+      // Handle JSON parsing errors (especially on iOS Safari)
+      // Log the error but don't let it propagate as unhandled rejection
+      Sentry.captureException(jsonError, {
+        extra: {
+          url: response.url,
+          status: response.status,
+          message: 'Failed to parse error response JSON',
+        }
+      });
     });
     throw err;
   }
