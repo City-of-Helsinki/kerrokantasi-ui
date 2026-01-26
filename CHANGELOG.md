@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.1...kerrokantasi-ui-v1.17.2) (2026-01-26)
+
+
+### Bug Fixes
+
+* Hearing undefined slug Ref: KER-578 ([1f2c3cb](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1f2c3cba0d272d97e9fba5b5ff32821bf58128df))
+
 ## [1.17.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.0...kerrokantasi-ui-v1.17.1) (2026-01-20)
 
 
