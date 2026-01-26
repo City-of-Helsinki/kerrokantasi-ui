@@ -49,10 +49,10 @@ const HearingList = ({
       <div className='hearing-list-map map'>
         <HDSCheckbox
           label={<FormattedMessage id='showOnlyOpen' />}
-          id="showOnlyOpenCheckbox"
+          id='showOnlyOpenCheckbox'
           checked={showOnlyOpen}
           onChange={toggleShowOnlyOpen}
-          name="showOnlyOpen"
+          name='showOnlyOpen'
           style={{ marginBottom: 'var(--spacing-s)' }}
         />
         <OverviewMap
@@ -64,7 +64,8 @@ const HearingList = ({
     </div>
   ) : null;
 
-  const initiallyActiveTab = Object.values(HEARING_LIST_TABS).findIndex((tab) => tab === activeTab);
+  // Use Math.max to default to the first tab (index 0) if activeTab is not found (-1) in HEARING_LIST_TABS
+  const initiallyActiveTab = Math.max(0, Object.values(HEARING_LIST_TABS).indexOf(activeTab));
 
   const jumpLink = (
     <InternalLink destinationId='hearings-search-form' srOnly>
