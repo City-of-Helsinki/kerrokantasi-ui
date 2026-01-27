@@ -216,6 +216,27 @@ const HearingForm = ({
     );
   };
 
+  // Helper function to serialize complex error values for React rendering
+  const serializeErrorValue = (value) => {
+    if (typeof value === 'string') {
+      return value;
+    }
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      return String(value);
+    }
+    if (Array.isArray(value)) {
+      return value.map((item) => serializeErrorValue(item)).join(', ');
+    }
+    if (typeof value === 'object' && value !== null) {
+      try {
+        return JSON.stringify(value);
+      } catch {
+        return '[Object]';
+      }
+    }
+    return '[Invalid Error Value]';
+  };
+
   const getErrors = () => {
     if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
       return null;
@@ -241,7 +262,8 @@ const HearingForm = ({
     const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
       if (Object.keys(errors[currentRootValue]).length > 0) {
         const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
-          accumulator.push(<li key={currentValue}>{errors[currentRootValue][currentValue]}</li>);
+          const errorValue = serializeErrorValue(errors[currentRootValue][currentValue]);
+          accumulator.push(<li key={currentValue}>{errorValue}</li>);
           return accumulator;
         }, []);
         rootAccumulator.push(

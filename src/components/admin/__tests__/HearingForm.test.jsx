@@ -159,6 +159,28 @@ describe('<HearingForm />', () => {
     expect(screen.getByText('saveFailed')).toBeInTheDocument();
   });
 
+  it('should handle complex error structures (arrays and objects)', () => {
+    const errors = {
+      1: {
+        title: 'Simple string error',
+        sections: [
+          { field: 'title', message: 'Section title error' },
+          { field: 'content', message: 'Section content error' },
+        ],
+      },
+      2: {
+        empty_object: {},
+        complex_object: { nested: { field: 'Complex error' } },
+      },
+    };
+
+    renderComponent({ errors });
+
+    expect(screen.getByText('saveFailed')).toBeInTheDocument();
+    // The error display should serialize the complex structures without crashing
+    expect(screen.getByText('Simple string error')).toBeInTheDocument();
+  });
+
   it('should call onToggleClick when accordion is clicked', async () => {
     renderComponent();
 
