@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.17.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.2...kerrokantasi-ui-v1.17.3) (2026-01-27)
+
+
+### Bug Fixes
+
+* HearingForm serialize errors Ref: KER-580 ([75bbefc](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/75bbefc23d6f2e62a73127027168e344b2bd6d63))
+* HearingList always have initialTab Ref: KER-579 ([34fc54c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/34fc54cd5e73d23e276b8fd05ef3082a4757f38a))
+
+
+### Dependencies
+
+* Bump lodash from 4.17.21 to 4.17.23 ([cde4a14](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/cde4a1431ab2b85810fb82f730e37a48de92ff50))
+* Bump lodash-es from 4.17.21 to 4.17.23 ([38e4739](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/38e4739ed8fd1cb0f70d476c17d9d595106effc6))
+
 ## [1.17.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.1...kerrokantasi-ui-v1.17.2) (2026-01-26)
 
 
