@@ -29,24 +29,28 @@ function checkResponseStatus(response) {
       : `Server responded with error (${response.status}): ${response.url}`;
     const err = new Error(errorMessage);
     err.response = response;
-    response.json().then((jsonResponse) => {
-      Sentry.captureException(err, {
-        extra: {
-          url: response.url,
-          status: response.status,
-          responseBody: jsonResponse,
-        }
+
+    // Don't log 404 errors to Sentry as they're often expected (non-existent resources)
+    if (response.status !== 404) {
+      response.json().then((jsonResponse) => {
+        Sentry.captureException(err, {
+          extra: {
+            url: response.url,
+            status: response.status,
+            responseBody: jsonResponse,
+          }
+        });
+      }).catch(() => {
+        // If response body is not JSON, capture exception without response body
+        Sentry.captureException(err, {
+          extra: {
+            url: response.url,
+            status: response.status,
+            responseBody: 'Unable to parse response body as JSON',
+          }
+        });
       });
-    }).catch(() => {
-      // If response body is not JSON, capture exception without response body
-      Sentry.captureException(err, {
-        extra: {
-          url: response.url,
-          status: response.status,
-          responseBody: 'Unable to parse response body as JSON',
-        }
-      });
-    });
+    }
     throw err;
   }
 }
