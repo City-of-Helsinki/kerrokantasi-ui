@@ -46,15 +46,13 @@ const HearingContainerComponent = ({
 
   const fetchHearingData = useCallback(() => {
     if (hearingSlug !== null && shouldFetch) {
+      setShouldFetch(false); // Set immediately to prevent race condition
+
       if (location.search.includes('?preview')) {
         // regex match to get the ?preview=key and substring to retrieve the key part
-        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9)).then(() => {
-          setShouldFetch(false);
-        });
+        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
       } else {
-        fetchHearing(hearingSlug).then(() => {
-          setShouldFetch(false);
-        });
+        fetchHearing(hearingSlug);
       }
       fetchProjectsList();
     }
@@ -64,8 +62,7 @@ const HearingContainerComponent = ({
     if (isEmpty(hearing) && !isLoading) {
       fetchHearingData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, [hearing, isLoading, fetchHearingData]);
 
   useEffect(() => {
     if (!isEmpty(hearing) && !isEmpty(user) && userCanEditHearing) {
@@ -76,7 +73,7 @@ const HearingContainerComponent = ({
       fetchEditorMetaData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userCanEditHearing, hearing.slug]);
+  }, [hearing.slug, user, userCanEditHearing, hearingDraft?.slug]);
 
   useEffect(() => {
     if (location.state) {
