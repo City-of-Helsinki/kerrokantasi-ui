@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.3...kerrokantasi-ui-v1.17.4) (2026-01-29)
+
+
+### Bug Fixes
+
+* HearingContainer optimize fetchHearingData Ref: KER-582 ([7baf1ac](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7baf1ac1410ec10ae266883d6e039f6d86d8215d))
+* Sentry don't capture 404 errors Ref: KER-581 ([52b0e0f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/52b0e0fbc56278b8bd99d416c010c647d8920a30))
+
 ## [1.17.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.2...kerrokantasi-ui-v1.17.3) (2026-01-27)
 
 
