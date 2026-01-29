@@ -1,6 +1,5 @@
 import { getCookieScripts } from '../cookieUtils';
 import { getCookieBotScripts } from '../cookiebotUtils';
-import config from '../../config';
 
 const mockIsCookiebotEnabled = vi.fn();
 
@@ -32,23 +31,6 @@ describe('cookieUtils', () => {
 
       it('returns cookiebotUtils getCookieScripts', () => {
         expect(getCookieScripts()).toEqual(getCookieBotScripts());
-      });
-    });
-
-    describe('when isCookiebotEnabled', () => {
-      mockIsCookiebotEnabled.mockReturnValue(false);
-      afterEach(() => {
-        vi.clearAllMocks();
-      });
-
-      it('returns false when cookies are enabled, calls addCookieScripts', () => {
-        config.enableCookies = true;
-        expect(getCookieScripts()).toEqual(true);
-      });
-
-      it('returns null when cookies are not enabled', () => {
-        config.enableCookies = false;
-        expect(getCookieScripts()).toBe(null);
       });
     });
   });

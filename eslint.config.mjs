@@ -6,9 +6,9 @@ import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import sonarjs from 'eslint-plugin-sonarjs';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import vitestGlobals from "eslint-config-vitest-globals/flat";
+import vitestGlobals from 'eslint-config-vitest-globals/flat';
 import globals from 'globals';
-import babelParser from "@babel/eslint-parser";
+import babelParser from '@babel/eslint-parser';
 
 export default defineConfig([
   {
@@ -23,38 +23,35 @@ export default defineConfig([
       eslintConfigPrettier,
       reactHooks.configs['recommended-latest'],
       sonarjs.configs.recommended,
-      vitestGlobals()
+      vitestGlobals(),
     ],
     languageOptions: {
-      ecmaVersion: 2018,
+      ecmaVersion: 2020,
       sourceType: 'module',
       parser: babelParser,
       parserOptions: {
         babelOptions: {
-          configFile: './.babelrc'
+          configFile: './.babelrc',
         },
         ecmaFeatures: {
-          jsx: true
-        }
+          jsx: true,
+        },
       },
       globals: {
         ...globals.browser,
         ...globals.node,
-        JSX: true
-      }
+        JSX: true,
+      },
     },
     settings: {
       react: {
-        version: 'detect'
+        version: 'detect',
       },
-      "import/resolver": {
+      'import/resolver': {
         node: {
-          extensions: [
-            ".js",
-            ".jsx"
-          ]
-        }
-      }
+          extensions: ['.js', '.jsx'],
+        },
+      },
     },
     rules: {
       'react/jsx-uses-react': 1,
@@ -70,15 +67,13 @@ export default defineConfig([
       'react/no-danger': 1,
       'react/display-name': 0,
       'import/extensions': 0,
-      'import/order': ['error', {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          ['parent', 'sibling', 'index']
-        ],
-        'newlines-between': 'always'
-      }],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
+          'newlines-between': 'always',
+        },
+      ],
       'import/no-named-as-default': 0,
       'import/no-named-as-default-member': 0,
       'jsx-a11y/label-has-associated-control': [
@@ -86,16 +81,16 @@ export default defineConfig([
         {
           components: ['Label'],
           required: {
-            some: ['nesting', 'id']
+            some: ['nesting', 'id'],
           },
-          allowChildren: false
-        }
+          allowChildren: false,
+        },
       ],
       'jsx-a11y/no-autofocus': 0,
-      'camelcase': 0,
+      camelcase: 0,
       'no-underscore-dangle': 1,
       'no-console': 1,
       'no-param-reassign': 1,
-    }
+    },
   },
 ]);

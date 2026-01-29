@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
-import { useApiTokens, CookieBanner } from 'hds-react';
+import { useApiTokens, CookieBanner, useGroupConsent } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -14,13 +14,16 @@ import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
 import MaintenanceNotification from './components/MaintenanceNotification';
-import { getCookieScripts, checkCookieConsent, cookieOnComponentWillUnmount } from './utils/cookieUtils';
+import { getCookieScripts, cookieOnComponentWillUnmount } from './utils/cookieUtils';
 import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
 import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 import Toast from './components/Toast';
+import { MAIN_CONTAINER_ID } from './constants';
+import { COOKIE_CONSENT_GROUP } from './hooks/useCookieConsentSettings';
+import useMatomo from './components/Matomo/hooks/useMatomo';
 
 function App({ isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser, onChangeLanguage } = props;
@@ -28,21 +31,26 @@ function App({ isHighContrast, history, ...props }) {
   const location = useLocation();
   const { locale } = useIntl();
 
-  getCookieScripts();
-  if (config.enableCookies) {
-    checkCookieConsent();
-  }
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();
+
   getStoredApiTokens();
+
+  const statisticsConsent = useGroupConsent(COOKIE_CONSENT_GROUP.Statistics);
+  const { trackPageView } = useMatomo();
 
   useEffect(() => {
     config.activeLanguage = locale; // for non react-intl localizations
-    
+
     return () => {
       cookieOnComponentWillUnmount();
     };
   }, [locale]);
+
+  // Initialize cookie scripts only once on mount
+  useEffect(() => {
+    getCookieScripts();
+  }, []);
 
   useEffect(() => {
     if (!user && authenticated) {
@@ -57,6 +65,16 @@ function App({ isHighContrast, history, ...props }) {
       }
     }
   }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
+
+  useEffect(() => {
+    if (statisticsConsent) {
+      trackPageView({
+        href: window.location.href,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statisticsConsent, location.pathname, location.search]);
+
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
   const favlinks = [
     { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
@@ -73,14 +91,14 @@ function App({ isHighContrast, history, ...props }) {
   const headless = checkHeadlessParam(location.search);
 
   let header = null;
+
   if (!fullscreen && !headless) {
-    header = <Header slim={location.pathname !== '/'} onChangeLanguage={onChangeLanguage} history={history}  />;
+    header = <Header slim={location.pathname !== '/'} onChangeLanguage={onChangeLanguage} history={history} />;
   }
-  const mainContainerId = 'main-container';
   return (
     <div className={contrastClass}>
       {config.enableCookies && !isCookiebotEnabled() && <CookieBanner />}
-      <InternalLink className='skip-to-main-content' destinationId={mainContainerId}>
+      <InternalLink className='skip-to-main-content' destinationId={MAIN_CONTAINER_ID}>
         <FormattedMessage id='skipToMainContent' />
       </InternalLink>
       <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
@@ -91,7 +109,7 @@ function App({ isHighContrast, history, ...props }) {
       <MaintenanceNotification language={locale} />
       <main
         className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
-        id={mainContainerId}
+        id={MAIN_CONTAINER_ID}
         role='main'
         tabIndex='-1'
       >

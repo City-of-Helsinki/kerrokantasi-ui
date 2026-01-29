@@ -22,7 +22,7 @@ import { hearingShape } from '../../types';
 import { getCorrectContrastMapTileUrl, getMapElement } from '../../utils/map';
 import { parseCollection } from '../../utils/hearingEditor';
 import { addToast } from '../../actions/toast';
-import { ACCEPTED_GEOJSON_TYPES } from '../../utils/constants';
+import { ACCEPTED_GEOJSON_TYPES } from '../../constants';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,

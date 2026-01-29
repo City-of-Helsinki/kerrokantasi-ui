@@ -11,7 +11,7 @@ import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../../utils/images/const
 import fileToDataUri from '../../../utils/images/fileToDataUri';
 import { addToast } from '../../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
-import { ACCEPTED_IMAGE_TYPES } from '../../../utils/constants';
+import { ACCEPTED_IMAGE_TYPES } from '../../../constants';
 
 const ImageModal = ({ isOpen, onClose, onSubmit }) => {
   const dispatch = useDispatch();

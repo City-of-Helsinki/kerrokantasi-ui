@@ -13,7 +13,7 @@ import compressFile from '../../utils/images/compressFile';
 import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../utils/images/constants';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
-import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../utils/constants';
+import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../constants';
 
 const getFileTitle = (title, language) => {
   if (title?.[language] && typeof title[language] !== 'undefined') {
@@ -240,7 +240,7 @@ const SectionForm = ({
     ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools).value
     : commentingMapOptions[0].value;
 
-  const [commentingMapSelection, setCommentingMapSelection] = useState(commentingMapInitialValue)
+  const [commentingMapSelection, setCommentingMapSelection] = useState(commentingMapInitialValue);
 
   if (!section) {
     return <LoadingSpinner />;
