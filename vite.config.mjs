@@ -52,7 +52,6 @@ export default defineConfig(() => {
     build: {
       outDir: './build',
       emptyOutDir: true,
-      // Temporarily blocking sourcemaps by default. This can be removed once Sentry plugin gets implemented, which will automatically handle clearing sourcemaps on build.
       sourcemap: true,
     },
     publicDir: cityPublic,
