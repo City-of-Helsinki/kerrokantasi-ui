@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.4...kerrokantasi-ui-v1.17.5) (2026-01-30)
+
+
+### Bug Fixes
+
+* Replace matomo script with MatomoTracker Ref: KER-583 ([b0c2ae5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b0c2ae52dfe8b9efa72873feb42a159c573f7102))
+* Standardize matomo variables Ref: KER-583 ([b0c2ae5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b0c2ae52dfe8b9efa72873feb42a159c573f7102))
+
 ## [1.17.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.3...kerrokantasi-ui-v1.17.4) (2026-01-29)
 
 
