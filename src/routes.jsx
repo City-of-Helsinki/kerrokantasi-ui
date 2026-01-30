@@ -29,23 +29,21 @@ const Redirector = () => {
 const AppRoutes = () => (
   <Suspense fallback={<LoadSpinner />}>
     <Routes>
-      <Route exact path='/' Component={(props) => <HomeContainer {...props} />} />
-      <Route path='/silent-renew' Component={(props) => <SilentRenew {...props} />} />
-      <Route path='/info' Component={(props) => <Info {...props} />} />
-      {config.enableCookies && <Route path='/cookies' Component={(props) => <CookieManagement {...props} />} />}
-      <Route path='/callback' Component={(props) => <LoginCallback {...props} />} />
-      <Route path='/callback/logout' Component={(props) => <LogoutCallback {...props} />} />
-      <Route path='/user-hearings' Component={(props) => <UserHearings {...props} />} />
-      <Route path='/user-profile' Component={(props) => <UserProfile {...props} />} />
-      {config.showAccessibilityInfo && (
-        <Route path='/accessibility' Component={(props) => <AccessibilityInfo {...props} />} />
-      )}
-      <Route path='/hearings/:tab' Component={(props) => <HearingsContainer {...props} />} />
-      <Route path='/hearing/new' Component={(props) => <NewHearingContainer {...props} />} />
-      <Route path='/hearing/:hearingSlug' Component={(props) => <Redirector {...props} />} />
-      <Route path='/:hearingSlug/fullscreen' Component={(props) => <FullscreenHearingContainer {...props} />} />
-      <Route path='/:hearingSlug/:sectionId' Component={(props) => <HearingContainer {...props} />} />
-      <Route path='/:hearingSlug/*' Component={(props) => <HearingContainer {...props} />} />
+      <Route path='/' element={<HomeContainer />} />
+      <Route path='/silent-renew' element={<SilentRenew />} />
+      <Route path='/info' element={<Info />} />
+      {config.enableCookies && <Route path='/cookies' element={<CookieManagement />} />}
+      <Route path='/callback' element={<LoginCallback />} />
+      <Route path='/callback/logout' element={<LogoutCallback />} />
+      <Route path='/user-hearings' element={<UserHearings />} />
+      <Route path='/user-profile' element={<UserProfile />} />
+      {config.showAccessibilityInfo && <Route path='/accessibility' element={<AccessibilityInfo />} />}
+      <Route path='/hearings/:tab' element={<HearingsContainer />} />
+      <Route path='/hearing/new' element={<NewHearingContainer />} />
+      <Route path='/hearing/:hearingSlug' element={<Redirector />} />
+      <Route path='/:hearingSlug/fullscreen' element={<FullscreenHearingContainer />} />
+      <Route path='/:hearingSlug/:sectionId' element={<HearingContainer />} />
+      <Route path='/:hearingSlug/*' element={<HearingContainer />} />
     </Routes>
   </Suspense>
 );
