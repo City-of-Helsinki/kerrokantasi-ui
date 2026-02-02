@@ -15,7 +15,9 @@ import messages from './i18n';
 import MatomoTracker from './components/Matomo/MatomoTracker';
 import MatomoContext from './components/Matomo/matomo-context';
 import config from './config';
-import useCookieConsentSettings from './hooks/useCookieConsentSettings';
+import { getCookieConsentSettings } from './utils/cookieUtils';
+import { isCookiebotEnabled } from './utils/cookiebotUtils';
+import { ConditionalWrap } from './components/ConditionalWrap/ConditionalWrap';
 
 const loginProviderProps = {
   userManagerSettings: userOidcConfig,
@@ -33,9 +35,10 @@ const Root = ({ store }) => {
     setLocale(language);
   };
 
-  const matomoTracker = useMemo(
-    () =>
-      new MatomoTracker({
+  const matomoTracker = useMemo(() => {
+    // Only create tracker if Matomo is enabled and siteId is provided
+    if (config.matomoEnabled && config.matomoSiteId) {
+      return new MatomoTracker({
         urlBase: config.matomoUrlBase,
         siteId: config.matomoSiteId,
         srcUrl: config.matomoSrcUrl,
@@ -45,11 +48,10 @@ const Root = ({ store }) => {
           ...(config.matomoDomains && { setDomains: config.matomoDomains.split(',') }),
           setDoNotTrack: true,
         },
-      }),
-    [],
-  );
-
-  const cookieConsentProps = useCookieConsentSettings(locale);
+      });
+    }
+    return null;
+  }, []);
 
   if (isIE) {
     return <BrowserWarning />;
@@ -59,7 +61,14 @@ const Root = ({ store }) => {
     <LoginProvider {...loginProviderProps}>
       <IntlProvider locale={locale} messages={messages[locale]}>
         <Provider store={store}>
-          <CookieConsentContextProvider {...cookieConsentProps}>
+          <ConditionalWrap
+            condition={config.enableCookies && !isCookiebotEnabled()}
+            wrap={(children) => (
+              <CookieConsentContextProvider {...getCookieConsentSettings(locale)}>
+                {children}
+              </CookieConsentContextProvider>
+            )}
+          >
             <MatomoContext.Provider value={matomoTracker}>
               <BrowserRouter history={history}>
                 <ScrollToTop>
@@ -67,7 +76,7 @@ const Root = ({ store }) => {
                 </ScrollToTop>
               </BrowserRouter>
             </MatomoContext.Provider>
-          </CookieConsentContextProvider>
+          </ConditionalWrap>
         </Provider>
       </IntlProvider>
     </LoginProvider>

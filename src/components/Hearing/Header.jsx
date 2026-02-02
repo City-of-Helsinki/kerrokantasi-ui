@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-inverted-boolean-check */
-/* eslint-disable react/no-danger */
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
@@ -16,6 +15,7 @@ import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from '../LabelList';
 import SectionClosureInfo from './Section/SectionClosureInfo';
+import SanitizedHtml from '../embed/SanitizedHtml';
 import SocialBar from '../SocialBar';
 import getAttr from '../../utils/getAttr';
 import Link from '../LinkWithLang';
@@ -290,13 +290,12 @@ function HeaderComponent(props) {
             </div>
             {isMainSection(section) ? (
               <>
-                {!isEmpty(section.abstract) && (
+                {mainSection && !isEmpty(mainSection.abstract) && (
                   <div className='row'>
                     <div className='col-md-9'>
-                      <div
-                        className='header-abstract lead'
-                        dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, language) }}
-                      />
+                      <div className='header-abstract lead'>
+                        <SanitizedHtml html={getAttr(mainSection.abstract, language)} />
+                      </div>
                     </div>
                   </div>
                 )}

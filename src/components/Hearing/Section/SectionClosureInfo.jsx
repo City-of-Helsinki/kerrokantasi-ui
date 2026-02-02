@@ -1,11 +1,14 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import SanitizedHtml from '../../embed/SanitizedHtml';
 
 export const SectionClosureInfoComponent = ({ content }) => (
   <div className='closure-info'>
     <div className='container'>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <div>
+        <SanitizedHtml html={content} />
+      </div>
     </div>
   </div>
 );
