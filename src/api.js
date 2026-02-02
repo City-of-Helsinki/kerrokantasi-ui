@@ -71,7 +71,7 @@ export function getApiURL(endpoint, params = null) {
 
 export function apiCall(endpoint, params, options = {}) {
   const token = getApiTokenFromStorage();
-  options = merge({ method: "GET", credentials: "include" }, options);
+  options = merge({ method: "GET" }, options);
   const defaultHeaders = {
     "Accept": "application/json"
   };
