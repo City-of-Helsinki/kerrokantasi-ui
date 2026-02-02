@@ -116,7 +116,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await jsonRequest('POST', 'test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'POST', body: JSON.stringify({ key: 'value' }) }),
       );
     });
@@ -127,7 +127,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await post('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'POST', body: JSON.stringify({ key: 'value' }) }),
       );
     });
@@ -136,7 +136,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await put('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'PUT', body: JSON.stringify({ key: 'value' }) }),
       );
     });
@@ -145,7 +145,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await patch('test-endpoint', { key: 'value' });
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'PATCH', body: JSON.stringify({ key: 'value' }) }),
       );
     });
@@ -154,7 +154,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await apiDelete('test-endpoint');
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'DELETE' }),
       );
     });
@@ -163,7 +163,7 @@ describe('api.js', () => {
       fetch.mockResolvedValue({ status: 200, json: vi.fn().mockResolvedValue({}) });
       await get('test-endpoint');
       expect(fetch).toHaveBeenCalledWith(
-        'http://example.com/api/test-endpoint/?',
+        'http://example.com/api/test-endpoint/',
         expect.objectContaining({ method: 'GET' }),
       );
     });

@@ -47,7 +47,7 @@ export function getApiURL(endpoint, params = null) {
   let url = (`${baseUrl}/${endpoint.replace(/^\//g, '')}`);
   if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
 
-  if (params) {
+  if (params && Object.keys(params).length > 0) {
     if (url.indexOf("?") > -1) {
       throw new Error("Double query string");
     }
