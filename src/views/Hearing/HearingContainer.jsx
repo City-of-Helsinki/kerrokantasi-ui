@@ -100,40 +100,42 @@ const HearingContainerComponent = ({
     helmetMeta.push({ property: 'og:image', content: hearing.main_image.url });
   }
 
-  return (
-    <div className='hearing-page'>
-      {!isEmpty(hearing) ? (
-        <>
-          <Helmet title={getAttr(hearing.title, language)} meta={helmetMeta} />
-          {!isEmpty(user) && canEdit(user, hearing) && (
-            <Suspense fallback={<LoadSpinner />}>
-              <HearingEditor
-                data-testid='hearingEditor'
-                hearing={hearingDraft}
-                hearingLanguages={hearingLanguages}
-                labels={labels}
-                user={user}
-                isLoading={isLoading}
-                organizations={organizations}
-                navigate={navigate}
-              />
-            </Suspense>
-          )}
-          <div className='hearing-wrapper' id='hearing-wrapper'>
-            <Header hearing={hearing} language={language} />
-            <Routes>
-              <Route path='/:sectionId' element={<Section />} />
-              <Route path='/' element={<Section />} />
-            </Routes>
-          </div>
-        </>
-      ) : (
-        (shouldFetch && <LoadSpinner />) || (
-          <h1 style={{ textAlign: 'center' }}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>
-        )
-      )}
-    </div>
-  );
+  let hearingContent;
+
+  if (!isEmpty(hearing)) {
+    hearingContent = (
+      <>
+        <Helmet title={getAttr(hearing.title, language)} meta={helmetMeta} />
+        {!isEmpty(user) && canEdit(user, hearing) && (
+          <Suspense fallback={<LoadSpinner />}>
+            <HearingEditor
+              data-testid='hearingEditor'
+              hearing={hearingDraft}
+              hearingLanguages={hearingLanguages}
+              labels={labels}
+              user={user}
+              isLoading={isLoading}
+              organizations={organizations}
+              navigate={navigate}
+            />
+          </Suspense>
+        )}
+        <div className='hearing-wrapper' id='hearing-wrapper'>
+          <Header hearing={hearing} language={language} />
+          <Routes>
+            <Route path='/:sectionId' element={<Section />} />
+            <Route path='/' element={<Section />} />
+          </Routes>
+        </div>
+      </>
+    );
+  } else if (shouldFetch || isLoading) {
+    hearingContent = <LoadSpinner />;
+  } else {
+    hearingContent = <h1 style={{ textAlign: 'center' }}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>;
+  }
+
+  return <div className='hearing-page'>{hearingContent}</div>;
 };
 
 HearingContainerComponent.propTypes = {
