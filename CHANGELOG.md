@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.17.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.5...kerrokantasi-ui-v1.17.6) (2026-02-02)
+
+
+### Bug Fixes
+
+* Adjust nginx.conf static caching Ref: KER-584 ([73d4758](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/73d47583e4372d3b70a6b3fb2f455265f311178e))
+* Nginx don't store html fixes Ref: KER-584 ([05dcf8b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/05dcf8bee2923c4e6c60c79e4f73fd512d6df596))
+* Nginx.conf bug fixes Ref: KER-584 ([45bc723](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/45bc7233faacf687e148a9fbfda69834e61d007a))
+* Routes maintainability issues ([5502a79](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5502a79e9d9c8f330b4ee4fbb15bf91ac8483eba))
+
 ## [1.17.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.4...kerrokantasi-ui-v1.17.5) (2026-01-30)
 
 
