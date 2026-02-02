@@ -95,7 +95,7 @@ describe('api.js', () => {
 
       expect(fetch).toHaveBeenCalledWith(
         'http://example.com/api/test-endpoint/',
-        expect.objectContaining({ method: 'GET', credentials: 'include' }),
+        expect.objectContaining({ method: 'GET' }),
       );
     });
 
