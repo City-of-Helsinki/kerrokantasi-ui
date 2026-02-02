@@ -127,6 +127,168 @@
           }
         }
       ]
+    },
+    {
+      "groupId": "marketing",
+      "title": {
+        "fi": "Markkinointi ja kolmannen osapuolen sisältö",
+        "sv": "Marknadsföring och tredjepartsinnehåll",
+        "en": "Marketing and third-party content"
+      },
+      "description": {
+        "fi": "Sallimalla markkinointievästeet voit katsoa sivustolla upotettuja videoita ja muuta sisältöä kolmansien osapuolten palveluista, kuten YouTubesta, Helsinki-kanavasta, palvelukartasta, PowerBI:stä ja Maptionairesta. Nämä palvelut voivat kerätä tietoja käyttäytymisestäsi ja käyttää omia evästeitään.",
+        "sv": "Genom att tillåta marknadsföringscookies kan du titta på inbäddade videor och annat innehåll från tredjepartstjänster som YouTube, Helsingforskanalen, servicekarta, PowerBI och Maptionaire på webbplatsen. Dessa tjänster kan samla in data om ditt beteende och använda sina egna cookies.",
+        "en": "By allowing marketing cookies, you can watch embedded videos and other content from third-party services like YouTube, Helsinki Channel, Service Map, PowerBI, and Maptionaire on the website. These services may collect data about your behavior and use their own cookies."
+      },
+      "cookies": [
+        {
+          "commonName": {
+            "fi": "YouTube-evästeet",
+            "sv": "YouTube-cookies",
+            "en": "YouTube cookies"
+          },
+          "name": "VISITOR_INFO1_LIVE, VISITOR_PRIVACY_METADATA, yt-remote-*, yt-player-*, test_cookie",
+          "host": "www.youtube.com, .youtube.com, .doubleclick.net",
+          "hostName": "www.youtube.com, .youtube.com, .doubleclick.net",
+          "storageType": 1,
+          "description": {
+            "fi": "YouTuben evästeet mahdollistavat videoiden toiston, tallentavat yksityisyysasetuksia, laiteiden etäyhteyden tilan ja optimoivat videoiden laatua. Test_cookie selvittää, tukeeko selain evästeitä.",
+            "sv": "YouTubes cookies möjliggör videouppspelning, sparar sekretessinställningar, enheternas fjärranslutningsstatus och optimerar videokvaliteten. Test_cookie kontrollerar om webbläsaren stöder cookies.",
+            "en": "YouTube cookies enable video playback, store privacy settings, device remote connection status, and optimize video quality. Test_cookie checks if the browser supports cookies."
+          },
+          "expiration": {
+            "fi": "15 minuuttia - 180 päivää",
+            "sv": "15 minuter - 180 dagar",
+            "en": "15 minutes - 180 days"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "Google-evästeet",
+            "sv": "Google-cookies",
+            "en": "Google cookies"
+          },
+          "name": "__Secure-ENID, SOCS, AEC",
+          "host": "www.google.com",
+          "hostName": "www.google.com",
+          "storageType": 1,
+          "description": {
+            "fi": "Googlen evästeet tallentavat käyttäjän evästeasetukset, analytiikkatietoja ja auttavat roskapostin, petosten ja väärinkäytösten havaitsemisessa upotetuissa YouTube-videoissa.",
+            "sv": "Googles cookies sparar användarens cookie-inställningar, analysdata och hjälper till att upptäcka skräppost, bedrägerier och missbruk i inbäddade YouTube-videor.",
+            "en": "Google cookies store user's cookie settings, analytics data, and help detect spam, fraud, and abuse in embedded YouTube videos."
+          },
+          "expiration": {
+            "fi": "180 - 396 päivää",
+            "sv": "180 - 396 dagar",
+            "en": "180 - 396 days"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "PowerBI-evästeet",
+            "sv": "PowerBI-cookies",
+            "en": "PowerBI cookies"
+          },
+          "name": "ARRAffinitySameSite, WFESessionId, AI_buffer, AI_sentBuffer",
+          "host": "app.powerbi.com",
+          "hostName": "app.powerbi.com",
+          "storageType": 1,
+          "description": {
+            "fi": "PowerBI:n evästeet hallitsevat istuntoja, kuormantasausta, välimuistia ja käyttäjän toiminnan seurantaa raporttien ja visualisointien näyttämisessä.",
+            "sv": "PowerBI:s cookies hanterar sessioner, lastbalansering, cache och användaraktivitetsspårning för att visa rapporter och visualiseringar.",
+            "en": "PowerBI cookies manage sessions, load balancing, caching, and user activity tracking for displaying reports and visualizations."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "HSL Reittiopas -evästeet",
+            "sv": "HRT Reseplanerare-cookies",
+            "en": "HSL Journey Planner cookies"
+          },
+          "name": "saved-searches, lang, _cfuvid, __cf_bm",
+          "host": "reittiopas.hsl.fi, .hsl.fi",
+          "hostName": "reittiopas.hsl.fi, .hsl.fi",
+          "storageType": 1,
+          "description": {
+            "fi": "HSL:n reittiopaspalvelun evästeet tallentavat käyttäjän tallennetut haut, kielivalinnan ja tukevat palvelun teknistä toimintaa Cloudflaren kautta.",
+            "sv": "HRT:s reseplanerartjänsts cookies sparar användarens sparade sökningar, språkval och stöder tjänstens tekniska funktionalitet via Cloudflare.",
+            "en": "HSL's journey planner service cookies store user's saved searches, language selection, and support the service's technical functionality through Cloudflare."
+          },
+          "expiration": {
+            "fi": "Istunto - 30 minuuttia",
+            "sv": "Session - 30 minuter",
+            "en": "Session - 30 minutes"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "Palvelukartta-evästeet",
+            "sv": "Servicekarta-cookies",
+            "en": "Service map cookies"
+          },
+          "name": "httpskartta.hel.fi.SWCulture, cb-enabled, louhi-cookie-bar-enabled, LOUHI-ASP-XSRF-TOKEN",
+          "host": "kartta.hel.fi",
+          "hostName": "kartta.hel.fi",
+          "storageType": 1,
+          "description": {
+            "fi": "Helsingin kaupungin karttapalvelun evästeet tallentavat kieliasetukset, evästeiden hyväksymistiedot ja turvaavat palvelun toimintaa.",
+            "sv": "Helsingfors stads karttjänsts cookies sparar språkinställningar, cookie-godkännandeinformation och säkrar tjänstens funktionalitet.",
+            "en": "City of Helsinki's map service cookies store language settings, cookie consent information, and secure the service's functionality."
+          },
+          "expiration": {
+            "fi": "Istunto - 1826 päivää",
+            "sv": "Session - 1826 dagar",
+            "en": "Session - 1826 days"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "Helsinki-kanava -evästeet",
+            "sv": "Helsingforskanalen-cookies",
+            "en": "Helsinki-kanava cookies"
+          },
+          "name": "COOKIE_SUPPORT, JSESSIONID, GUEST_LANGUAGE_ID, rmpVolume",
+          "host": "suite.icareus.com",
+          "hostName": "suite.icareus.com",
+          "storageType": 1,
+          "description": {
+            "fi": "Helsinki-kanavan videopalvelimen evästeet mahdollistavat evästeiden hallinnan, istunnon ylläpidon, kieliasetukset ja tallentavat videoiden äänenvoimakkuusasetukset.",
+            "sv": "Helsingforskanalens videoservers cookies möjliggör cookie-hantering, sessionsunderhåll, språkinställningar och sparar videovolymsinställningar.",
+            "en": "Helsinki-kanava's video server cookies enable cookie management, session maintenance, language settings, and save video volume settings."
+          },
+          "expiration": {
+            "fi": "Istunto - 365 päivää",
+            "sv": "Session - 365 dagar",
+            "en": "Session - 365 days"
+          }
+        },
+        {
+          "commonName": {
+            "fi": "Maptionaire-evästeet",
+            "sv": "Maptionaire-cookies",
+            "en": "Maptionaire cookies"
+          },
+          "name": "_ga, _gid, _gat, maptionnaire_session",
+          "host": "maptionnaire.com, .maptionnaire.com",
+          "hostName": "maptionnaire.com, .maptionnaire.com",
+          "storageType": 1,
+          "description": {
+            "fi": "Maptionnaire-karttakyselyn evästeet mahdollistavat Google Analytics -seurannan ja istunnon hallinnan interaktiivisen karttakyselyn aikana.",
+            "sv": "Maptionnaire-kartundersökningens cookies möjliggör Google Analytics-spårning och sessionshantering under den interaktiva kartundersökningen.",
+            "en": "Maptionnaire map survey cookies enable Google Analytics tracking and session management during the interactive map survey."
+          },
+          "expiration": {
+            "fi": "Istunto - 730 päivää",
+            "sv": "Session - 730 dagar",
+            "en": "Session - 730 days"
+          }
+        }
+      ]
     }
   ],
   "translations": {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
-import { useApiTokens, CookieBanner, useGroupConsent } from 'hds-react';
+import { useApiTokens, CookieBanner } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -14,16 +14,21 @@ import config from './config';
 import Routes from './routes';
 import { checkHeadlessParam } from './utils/urlQuery';
 import MaintenanceNotification from './components/MaintenanceNotification';
-import { getCookieScripts, cookieOnComponentWillUnmount } from './utils/cookieUtils';
-import { isCookiebotEnabled, getCookieBotConsentScripts } from './utils/cookiebotUtils';
+import {
+  isCookiebotEnabled,
+  getCookieBotScripts,
+  cookieBotAddListeners,
+  cookieBotRemoveListeners,
+} from './utils/cookiebotUtils';
 import useAuthHook from './hooks/useAuth';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 import Toast from './components/Toast';
 import { MAIN_CONTAINER_ID } from './constants';
-import { COOKIE_CONSENT_GROUP } from './hooks/useCookieConsentSettings';
 import useMatomo from './components/Matomo/hooks/useMatomo';
+import { COOKIE_CONSENT_GROUP, getLegacyAnalyticsScript } from './utils/cookieUtils';
+import { useHasConsentGroup } from './hooks/useCookieConsent';
 
 function App({ isHighContrast, history, ...props }) {
   const { user, dispatchSetOidcUser, dispatchEnrichUser, onChangeLanguage } = props;
@@ -36,20 +41,21 @@ function App({ isHighContrast, history, ...props }) {
 
   getStoredApiTokens();
 
-  const statisticsConsent = useGroupConsent(COOKIE_CONSENT_GROUP.Statistics);
+  const hasStatisticsConsent = useHasConsentGroup(COOKIE_CONSENT_GROUP.Statistics);
   const { trackPageView } = useMatomo();
 
   useEffect(() => {
     config.activeLanguage = locale; // for non react-intl localizations
-
-    return () => {
-      cookieOnComponentWillUnmount();
-    };
   }, [locale]);
 
-  // Initialize cookie scripts only once on mount
+  // Initialize Cookiebot listeners on mount
   useEffect(() => {
-    getCookieScripts();
+    if (isCookiebotEnabled()) {
+      cookieBotAddListeners();
+      return () => {
+        cookieBotRemoveListeners();
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -67,13 +73,13 @@ function App({ isHighContrast, history, ...props }) {
   }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
 
   useEffect(() => {
-    if (statisticsConsent) {
+    if (hasStatisticsConsent) {
       trackPageView({
         href: window.location.href,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statisticsConsent, location.pathname, location.search]);
+  }, [hasStatisticsConsent, location.pathname, location.search]);
 
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
   const favlinks = [
@@ -103,7 +109,8 @@ function App({ isHighContrast, history, ...props }) {
       </InternalLink>
       <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
         <html lang={locale} />
-        {isCookiebotEnabled() && getCookieBotConsentScripts()}
+        {isCookiebotEnabled() && getCookieBotScripts()}
+        {config.enableCookies && !config.matomoEnabled && getLegacyAnalyticsScript()}
       </Helmet>
       {header}
       <MaintenanceNotification language={locale} />

@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-inverted-boolean-check */
-/* eslint-disable react/no-danger */
 import React, { useState } from 'react';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
@@ -50,6 +49,7 @@ import LoadSpinner from '../../LoadSpinner';
 import { getNickname } from '../../../utils/user';
 import { addToast } from '../../../actions/toast';
 import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import { HtmlWithConsentCheck } from '../../embed';
 
 const ACCORDION_THEME = {
   '--header-font-size': 'var(--fontsize-heading-l)',
@@ -417,15 +417,16 @@ const SectionContainerComponent = ({
     if (isEmpty(section.content)) {
       return null;
     }
-    return <div dangerouslySetInnerHTML={{ __html: getAttr(section.content, renderLanguage) }} />;
+    const content = getAttr(section.content, renderLanguage);
+    return <HtmlWithConsentCheck htmlString={content} />;
   };
 
   const renderSectionAbstract = (renderLanguage) => {
     if (isEmpty(section.abstract)) {
       return null;
     }
-
-    return <div className='lead' dangerouslySetInnerHTML={{ __html: getAttr(section.abstract, renderLanguage) }} />;
+    const abstract = getAttr(section.abstract, renderLanguage);
+    return <div className='lead'><HtmlWithConsentCheck htmlString={abstract} /></div>;
   };
 
   const renderMainDetails = (renderHearing, renderSection, renderLanguage) => {

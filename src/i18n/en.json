@@ -376,5 +376,11 @@
   "welcome": "Voice your opinion",
   "welcomeMessage": "Join us in developing the city and participate in open hearings.",
   "withOpenLicense": "with an open license",
-  "writeComment": "Comment"
+  "writeComment": "Comment",
+  "externalContentBlocked": "Content cannot be displayed",
+  "externalContentBlockedDescription": "This content is fetched from {url}. To display it, you must accept the site's cookies. You can view the content either by going to the external site or by allowing personalization and statistics cookies in the cookie settings.",
+  "openExternalSite": "Go to external site",
+  "editCookieSettings": "Edit cookie settings",
+  "openExternalSiteAriaLabel": "Open {domain} in new window",
+  "editCookieSettingsAriaLabel": "Open cookie settings to allow external content"
 }

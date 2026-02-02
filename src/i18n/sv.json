@@ -376,5 +376,11 @@
   "welcome": "Säg din åsikt",
   "welcomeMessage": "Var med och utveckla staden och delta i öppna höranden.",
   "withOpenLicense": "med öppen licens",
-  "writeComment": "Kommentar"
+  "writeComment": "Kommentar",
+  "externalContentBlocked": "Innehållet kan inte visas",
+  "externalContentBlockedDescription": "Detta innehåll hämtas från adressen {url}. För att visa det måste du acceptera webbplatsens cookies. Du kan se innehållet antingen genom att gå till den externa webbplatsen eller genom att tillåta personaliserings- och statistikcookies i cookieinställningarna.",
+  "openExternalSite": "Gå till extern webbplats",
+  "editCookieSettings": "Redigera cookieinställningar",
+  "openExternalSiteAriaLabel": "Öppna {domain} i nytt fönster",
+  "editCookieSettingsAriaLabel": "Öppna cookieinställningar för att tillåta externt innehåll"
 }

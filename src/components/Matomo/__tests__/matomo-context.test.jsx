@@ -5,7 +5,7 @@ import { MatomoProvider } from '../matomo-context';
 
 describe('matomo-context', () => {
   it('renders children with provided value', () => {
-    const value = 'test value';
+    const value = { trackPageView: vi.fn() };
 
     const { getByText } = render(
       <MatomoProvider value={value}>
