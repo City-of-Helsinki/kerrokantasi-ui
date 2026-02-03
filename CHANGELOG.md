@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.17.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.6...kerrokantasi-ui-v1.17.7) (2026-02-03)
+
+
+### Bug Fixes
+
+* Api.js apiCall drop credentials Ref: KER-586 ([0ba2bec](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0ba2bec74f62d762e9458cb283600f8ad3b81510))
+* HearingContainer show loader when fetching Ref: KER-582 ([9c44bc5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9c44bc5399f341f343c3ca162f0845329ea3916d))
+* Prevent empty query string empty params Ref: KER-585 ([4cf0ce6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4cf0ce665acde6a59992f3645846c98337f9ba74))
+
 ## [1.17.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.5...kerrokantasi-ui-v1.17.6) (2026-02-02)
 
 
