@@ -10,5 +10,5 @@
   "feedbackFI": "https://palautteet.hel.fi/fi",
   "feedbackSV": "https://palautteet.hel.fi/sv",
   "city": "http://www.hel.fi",
-  "analytics": "/assets/js/piwik.js"
+  "analytics": false
 }

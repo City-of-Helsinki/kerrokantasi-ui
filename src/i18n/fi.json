@@ -376,5 +376,11 @@
   "welcome": "Kerro mielipiteesi",
   "welcomeMessage": "Tule mukaan kehittämään kaupunkia ja osallistu avoimiin kuulemisiin.",
   "withOpenLicense": "avoimella lisenssillä",
-  "writeComment": "Kommentti"
+  "writeComment": "Kommentti",
+  "externalContentBlocked": "Sisältöä ei voida näyttää",
+  "externalContentBlockedDescription": "Tämä sisältö haetaan osoitteesta {url}. Sen näyttämiseen vaaditaan, että hyväksyt sivuston evästeet. Pääset näkemään sisällön joko siirtymällä ulkoiselle sivustolle tai sallimalla evästeasetuksista personointi- ja tilastointievästeet.",
+  "openExternalSite": "Siirry ulkoiselle sivustolle",
+  "editCookieSettings": "Muokkaa evästeasetuksia",
+  "openExternalSiteAriaLabel": "Avaa {domain} uuteen ikkunaan",
+  "editCookieSettingsAriaLabel": "Avaa evästeasetukset salliaksesi ulkoisen sisällön"
 }

@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/todo-tag */
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
-/* eslint-disable react/no-danger */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -13,6 +12,7 @@ import localization from '@city-i18n/localization.json';
 import config from '../config';
 import { getHearingURL } from '../utils/hearing';
 import getAttr from '../utils/getAttr';
+import { sanitizeHtml } from '../utils/externalContent';
 import leafletMarkerIconUrl from '../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
@@ -36,6 +36,18 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
     }
   };
 
+  // Memoize sanitized abstracts for all hearings
+  const sanitizedAbstracts = React.useMemo(() => {
+    const map = new Map();
+    hearings.forEach((hearing) => {
+      const abstract = getAttr(hearing.abstract, language);
+      if (abstract) {
+        map.set(hearing.id, sanitizeHtml(abstract));
+      }
+    });
+    return map;
+  }, [hearings, language]);
+
   /**
    * Return Popup with content based on hearing. If geojson.type is 'Point', apply offset to Popup
    * @param {Object} hearing
@@ -48,13 +60,14 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
     const options = geojson.type === 'Point' ? { offset: [0, -20] } : {};
     if (enablePopups) {
       const hearingURL = getHearingURL(hearing) + document.location.search;
+      const sanitizedAbstract = sanitizedAbstracts.get(hearing.id);
       return (
         <Popup {...options}>
           <div>
             <h4>
               <a href={hearingURL}>{getAttr(hearing.title, language)}</a>
             </h4>
-            <div dangerouslySetInnerHTML={{ __html: getAttr(hearing.abstract, language) }} />
+            <div>{sanitizedAbstract}</div>
           </div>
         </Popup>
       );
