@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.7...kerrokantasi-ui-v1.18.0) (2026-02-09)
+
+
+### Features
+
+* Add marketing cookie consent support for external content ([31d38e3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/31d38e331eba13950adedf3b22d6647e50977b99))
+
 ## [1.17.7](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.6...kerrokantasi-ui-v1.17.7) (2026-02-03)
 
 
