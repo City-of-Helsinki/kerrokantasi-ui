@@ -121,7 +121,7 @@
     "react-markdown": "^10.1.0",
     "react-nl2br": "^1.0.4",
     "react-redux": "^8.0.0",
-    "react-router-dom": "^6.23.1",
+    "react-router-dom": "^6.30.3",
     "react-router-hash-link": "^2.4.3",
     "react-select": "^5.8.0",
     "react-toastify": "^9.0.0",
