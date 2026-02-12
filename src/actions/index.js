@@ -67,7 +67,9 @@ export const requestErrorHandler = (
   dispatch,
   localizationKey = undefined
 ) => (err) => {
-  Sentry.captureException(err);
+  if (!err.response || err.response.status !== 404) {
+    Sentry.captureException(err);
+  }
   let payload;
   if (localizationKey) {
     payload = createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, localizationKey);
