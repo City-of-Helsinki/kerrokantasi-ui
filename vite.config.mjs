@@ -53,6 +53,16 @@ export default defineConfig(() => {
       outDir: './build',
       emptyOutDir: true,
       sourcemap: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            ui: ['hds-react'],
+            editor: ['draft-js', '@draft-js-plugins/editor'],
+            maps: ['leaflet', 'react-leaflet']
+          }
+        }
+      }
     },
     publicDir: cityPublic,
     server: {
