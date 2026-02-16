@@ -10,20 +10,38 @@ import {
 import { fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing } from '../utils/hearingEditor';
 import { labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSchema } from '../types';
 
+const NORMALIZE_ACTIONS = new Set(["receiveHearing"]);
 
 export const normalizeReceivedHearing =
   ({ dispatch, getState }) => (next) => (action) => {
-    const NORMALIZE_ACTIONS = ['receiveHearing'];
-    if (NORMALIZE_ACTIONS.includes(action.type)) {
+    if (NORMALIZE_ACTIONS.has(action.type)) {
+      // Skip normalization if the action is already normalized to prevent infinite recursion
+      if (action.payload?.isNormalized) {
+        next(action);
+        return;
+      }
+
       const hearing = get(action, 'payload.data');
       const currentEditorHearing = getState().hearingEditor.hearing.data;
-      
+
       // Only update editor if it's empty or has a different hearing
       if (!currentEditorHearing || currentEditorHearing.slug !== hearing.slug) {
-        dispatch(receiveHearing(fillFrontIdsAndNormalizeHearing(hearing)));
+        dispatch(receiveHearing({ ...fillFrontIdsAndNormalizeHearing(hearing), isNormalized: true }));
       }
     }
-    next(action);
+
+    // Mark action as normalized to prevent reprocessing
+    if (NORMALIZE_ACTIONS.has(action.type) && !(action.payload?.isNormalized)) {
+      next({
+        ...action,
+        payload: {
+          ...action.payload,
+          isNormalized: true
+        }
+      });
+    } else {
+      next(action);
+    }
   };
 
 export const normalizeReceiveEditorMetaData =
