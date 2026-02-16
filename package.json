@@ -7,6 +7,7 @@
     "node": ">=22.13.1"
   },
   "scripts": {
+    "app:version": "echo \"$npm_package_version\"",
     "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn clear-babel-cache && yarn update-runtime-env && vite ; else yarn clear-babel-cache && yarn update-runtime-env && vite ; fi",
     "build": "vite build",
     "serve": "vite preview",

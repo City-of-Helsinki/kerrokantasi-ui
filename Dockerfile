@@ -59,6 +59,11 @@ WORKDIR /app
 
 RUN yarn build
 
+# Process nginx configuration with APP_VERSION substitution
+COPY .prod/nginx.conf /app/nginx.conf.template
+RUN export APP_VERSION=$(yarn --silent app:version | tr -d '\n') && \
+    envsubst '${APP_VERSION}' < /app/nginx.conf.template > /app/nginx.conf
+
 # =============================
 FROM registry.access.redhat.com/ubi9/nginx-122 as production
 # =============================
@@ -71,8 +76,8 @@ RUN chgrp -R 0 /usr/share/nginx/html && \
 # Copy static build
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
-# Copy nginx config
-COPY .prod/nginx.conf  /etc/nginx/nginx.conf
+# Copy processed nginx config from build stage
+COPY --from=staticbuilder /app/nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /etc/nginx/env
 COPY .prod/nginx_env.conf  /etc/nginx/env/
 
