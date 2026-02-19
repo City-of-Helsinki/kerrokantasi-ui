@@ -59,9 +59,14 @@ WORKDIR /app
 
 ARG REACT_APP_SENTRY_ENVIRONMENT
 
+# Debug: echo REACT_APP_RELEASE value
+RUN echo "REACT_APP_SENTRY_ENVIRONMENT at build: $REACT_APP_SENTRY_ENVIRONMENT"
+
 ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_ENVIRONMENT:-""}
 
 RUN yarn build
+# Debug: echo REACT_APP_RELEASE value
+RUN echo "REACT_APP_RELEASE at build: $REACT_APP_RELEASE"
 
 # Process nginx configuration with APP_VERSION substitution
 COPY .prod/nginx.conf /app/nginx.conf.template
