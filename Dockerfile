@@ -57,12 +57,16 @@ FROM appbase as staticbuilder
 
 WORKDIR /app
 
+ARG REACT_APP_SENTRY_RELEASE
+
+ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
+
 RUN yarn build
 
 # Process nginx configuration with APP_VERSION substitution
 COPY .prod/nginx.conf /app/nginx.conf.template
 RUN export APP_VERSION=$(yarn --silent app:version | tr -d '\n') && \
-    envsubst '${APP_VERSION}' < /app/nginx.conf.template > /app/nginx.conf
+    envsubst '${APP_VERSION},${REACT_APP_RELEASE}' < /app/nginx.conf.template > /app/nginx.conf
 
 # =============================
 FROM registry.access.redhat.com/ubi9/nginx-122 as production
