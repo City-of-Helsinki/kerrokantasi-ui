@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.18.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.18.0...kerrokantasi-ui-v1.18.1) (2026-02-21)
+
+
+### Dependencies
+
+* Bump qs from 6.14.1 to 6.14.2 ([0785f55](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0785f55ed60001cf6f997779ba70286c2814d935))
+* Upgrade react-router-dom to 6.30.3 Refs: RATY-299 ([55d7515](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/55d7515b0b9676651a50c964e9dac091ca9c6516))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.7...kerrokantasi-ui-v1.18.0) (2026-02-09)
 
 
