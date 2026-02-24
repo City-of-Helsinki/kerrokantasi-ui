@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.19.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.18.0...kerrokantasi-ui-v1.19.0) (2026-02-24)
+
+
+### Features
+
+* Readiness endpoint KEH-228 ([425e2d6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/425e2d6bf334e1a1bbdd895094e3ef5f919799db))
+
+
+### Bug Fixes
+
+* Hearing editor middleware infinite recursion Refs: KER-590 ([8eab6a3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8eab6a382eb2b4597a70924d44205d2304c9f00b))
+* Nginx gzip, code chunk optimization Refs: KER-588 ([129e039](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/129e039c4b790677eda2e07952df6dc64f7f2e51))
+* RequestErrorHandler don't capture 404 Refs: KER-589 ([bd6f125](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bd6f1258290834cbeafded5c857f3511916dd1e2))
+
+
+### Dependencies
+
+* Bump qs from 6.14.1 to 6.14.2 ([0785f55](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0785f55ed60001cf6f997779ba70286c2814d935))
+* Upgrade react-router-dom to 6.30.3 Refs: RATY-299 ([55d7515](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/55d7515b0b9676651a50c964e9dac091ca9c6516))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.17.7...kerrokantasi-ui-v1.18.0) (2026-02-09)
 
 
