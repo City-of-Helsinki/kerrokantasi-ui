@@ -135,7 +135,7 @@
     "remark-gfm": "^4.0.0",
     "sass": "^1.89.0",
     "scrolltop": "0.0.1",
-    "simple-git": "^3.3.0",
+    "simple-git": "^3.32.3",
     "updeep": "^1.2.0",
     "url": "^0.11.1",
     "url-parse": "^1.5.9",
