@@ -78,6 +78,81 @@
             "sv": "-",
             "en": "-"
           }
+        },
+        {
+          "name": "AUTH_SESSION_ID",
+          "host": "tunnistus.hel.fi",
+          "description": {
+            "fi": "Tunnistautumisistunnon säilymiseksi vaadittu eväste.",
+            "sv": "Cookie som krävs för att bevara autentiseringssession.",
+            "en": "Required to persist the authentication session."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          },
+          "storageType": 1
+        },
+        {
+          "name": "KC_*",
+          "host": "tunnistus.hel.fi",
+          "description": {
+            "fi": "Tunnistautumisistunnon säilymiseksi vaadittu eväste.",
+            "sv": "Cookie som krävs för att bevara autentiseringssession.",
+            "en": "Required to persist the authentication session."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          },
+          "storageType": 1
+        },
+        {
+          "name": "oidc.user:*",
+          "host": "kerrokantasi.hel.fi",
+          "description": {
+            "fi": "Käyttäjän kirjautumistiedot tallennetaan selaimen muistiin (session storage).",
+            "sv": "Användarens inloggningsuppgifter lagras i webbläsarens minne (session storage).",
+            "en": "Authentication information of the user is saved to browser's memory (session storage)."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          },
+          "storageType": 3
+        },
+        {
+          "name": "hds_login_api_token_storage_key",
+          "host": "kerrokantasi.hel.fi",
+          "description": {
+            "fi": "Kirjautuneen käyttäjän rajanpinta-avaimet (api tokens) tallennetaan selaimen muistiin (session storage).",
+            "sv": "Api-token för en autentiserad användare sparas i webbläsarens minne (session storage).",
+            "en": "Api tokens of an authenticated user is saved to browser's memory (session storage)."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          },
+          "storageType": 3
+        },
+        {
+          "name": "hds_login_api_token_user_reference",
+          "host": "kerrokantasi.hel.fi",
+          "description": {
+            "fi": "Kirjautuneen käyttäjän pääsyoikeudet tallennetaan selaimen muistiin, jotta tunnistetaan kenen rajapinta-avaimet on tallessa.",
+            "sv": "Den inloggade användarens åtkomsträttigheter lagras i webbläsarens minne för att identifiera vems token som lagras.",
+            "en": "Access token of an authenticated user is saved to browser's memory (session storage) to identify whose api tokens are stored."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          },
+          "storageType": 3
         }
       ]
     }
