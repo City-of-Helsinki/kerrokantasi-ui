@@ -274,6 +274,9 @@ const MapQuestionnaire = ({
    * @param {any} message - The message to be sent.
    */
   const sendMessageToPluginFrame = (message) => {
+    if (!frameRef.current.src) {
+      return;
+    }
     const frameOrigin = new URL(frameRef.current.src, globalThis.location.href).origin;
     frameRef.current.contentWindow.postMessage(message, frameOrigin);
   };
