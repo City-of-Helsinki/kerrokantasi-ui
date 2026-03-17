@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
+import { sendMessageToPluginFrame } from './pluginUtils';
 import CommentDisclaimer from '../../CommentDisclaimer';
 import BaseCommentForm from '../../BaseCommentForm';
 
@@ -22,7 +23,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   componentDidMount() {
-    const iframe = this.refs.frame;
+    const iframe = this.iframeRef.current;
     const { data, pluginPurpose } = this.props;
     let { comments } = this.props;
     if (!comments) {
@@ -36,7 +37,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     iframe.addEventListener(
       'load',
       () => {
-        this.sendMessageToPluginFrame({
+        sendMessageToPluginFrame(iframe, {
           message: 'mapData',
           data,
           pluginPurpose,
@@ -63,7 +64,7 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
     // do not redraw plugin contents if user has interacted with the plugin!
     if (!nextState.userDataChanged) {
-      this.sendMessageToPluginFrame({
+      sendMessageToPluginFrame(this.iframeRef.current, {
         message: 'mapData',
         data,
         pluginPurpose,
@@ -109,12 +110,8 @@ class MapdonKSVPlugin extends BaseCommentForm {
     );
   }
 
-  sendMessageToPluginFrame(message) {
-    this.refs.frame.contentWindow.postMessage(message, '*');
-  }
-
   requestData() {
-    this.sendMessageToPluginFrame({
+    sendMessageToPluginFrame(this.iframeRef.current, {
       message: 'getUserData',
       instanceId: this.pluginInstanceId,
     });

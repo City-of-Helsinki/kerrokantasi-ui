@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
+import { sendMessageToPluginFrame } from './pluginUtils';
 import CommentDisclaimer from '../../CommentDisclaimer';
 import BaseCommentForm from '../../BaseCommentForm';
 
@@ -49,12 +50,8 @@ class MapdonHKRPlugin extends BaseCommentForm {
     );
   }
 
-  sendMessageToPluginFrame(message) {
-    this.refs.frame.contentWindow.postMessage(message, '*');
-  }
-
   requestData() {
-    this.sendMessageToPluginFrame({
+    sendMessageToPluginFrame(this.iframeRef.current, {
       message: 'getUserData',
       instanceId: this.pluginInstanceId,
     });
@@ -96,7 +93,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
   }
 
   componentDidMount() {
-    const iframe = this.refs.frame;
+    const iframe = this.iframeRef.current;
     const { data } = this.props;
     const self = this;
     if (!self._messageListener) {
@@ -107,7 +104,7 @@ class MapdonHKRPlugin extends BaseCommentForm {
     iframe.addEventListener(
       'load',
       () => {
-        self.sendMessageToPluginFrame({
+        sendMessageToPluginFrame(iframe, {
           message: 'mapData',
           data,
           instanceId: self.pluginInstanceId,
