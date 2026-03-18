@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.19.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.0...kerrokantasi-ui-v1.19.1) (2026-03-18)
+
+
+### Bug Fixes
+
+* Enhance cookie consent settings with auth cookies ([0fe74e1](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0fe74e132202779f7e06578afd63b8b86e337362))
+* MapQuestionnares send message target origin Refs: KEH-190 ([98bb37d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/98bb37d6baa21f0aca0339aa4ea6c7175193ada5))
+
+
+### Dependencies
+
+* Bump dompurify from 3.3.1 to 3.3.2 ([4357af3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4357af30c3baf8b342d4fbd306e683030484d884))
+* Bump flatted from 3.3.1 to 3.4.1 ([aef688b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/aef688b952fc9132f3e268479129b725a2b82f8e))
+* Bump simple-git from 3.25.0 to 3.32.3 ([446d608](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/446d608d109262532969d855219439887ed29431))
+
 ## [1.19.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.18.0...kerrokantasi-ui-v1.19.0) (2026-02-24)
 
 
