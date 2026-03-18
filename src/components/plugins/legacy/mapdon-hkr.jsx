@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
-import { sendMessageToPluginFrame } from './pluginUtils';
+import { sendMessageToPluginFrame } from '../pluginUtils';
 import CommentDisclaimer from '../../CommentDisclaimer';
 import BaseCommentForm from '../../BaseCommentForm';
 

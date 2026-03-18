@@ -16,6 +16,7 @@ import {
 import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
 import { addToast } from '../../actions/toast';
+import { sendMessageToPluginFrame } from './pluginUtils';
 
 /**
  * Renders a MapQuestionnaire component.
@@ -268,19 +269,6 @@ const MapQuestionnaire = ({
     }
   };
 
-  /**
-   * Sends a message to the plugin frame.
-   *
-   * @param {any} message - The message to be sent.
-   */
-  const sendMessageToPluginFrame = (message) => {
-    if (!frameRef.current.src) {
-      return;
-    }
-    const frameOrigin = new URL(frameRef.current.src, globalThis.location.href).origin;
-    frameRef.current.contentWindow.postMessage(message, frameOrigin);
-  };
-
   useEffect(() => {
     if (!messageListener) {
       setMessageListener(onReceiveMessage);
@@ -291,7 +279,7 @@ const MapQuestionnaire = ({
     frameRef.current.addEventListener(
       'load',
       () => {
-        sendMessageToPluginFrame({
+        sendMessageToPluginFrame(frameRef.current, {
           message: 'mapData',
           data,
           pluginPurpose,
@@ -318,7 +306,7 @@ const MapQuestionnaire = ({
 
     // do not redraw plugin contents if user has interacted with the plugin!
     if (!formSettings.userDataChanged) {
-      sendMessageToPluginFrame({
+      sendMessageToPluginFrame(frameRef.current, {
         message: 'mapData',
         data,
         pluginPurpose,
@@ -345,7 +333,7 @@ const MapQuestionnaire = ({
   const getDataAndSubmitComment = () => {
     setFormSettings((prevState) => ({ ...prevState, submitting: true }));
 
-    sendMessageToPluginFrame({
+    sendMessageToPluginFrame(frameRef.current, {
       message: 'getUserData',
       instanceId: formSettings.pluginInstanceId,
     });
