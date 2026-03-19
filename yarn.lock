@@ -8567,11 +8567,6 @@ scheduler@^0.23.2:
   dependencies:
     loose-envify "^1.1.0"
 
-scrolltop@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/scrolltop/-/scrolltop-0.0.1.tgz#afd2251618d76446ab1727ec2ed7b9b5bf534973"
-  integrity sha512-ZMsLfUHXq9kazYWWYuwy+wHS9Rx7YUlONR5yKQh052q2lABHuJwiEk/Qv6ZfuXIX62/euXsbzHWIfOhsGev8uQ==
-
 scslre@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/scslre/-/scslre-0.3.0.tgz#c3211e9bfc5547fc86b1eabaa34ed1a657060155"
