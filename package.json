@@ -56,7 +56,6 @@
     "@formatjs/intl-relativetimeformat": "^11.2.14",
     "@sentry/react": "^9.22.0",
     "@testing-library/react": "^15.0.7",
-    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "alertifyjs": "^1.13.1",
