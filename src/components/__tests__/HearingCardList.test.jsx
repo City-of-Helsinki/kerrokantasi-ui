@@ -19,7 +19,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <HearingCardList intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

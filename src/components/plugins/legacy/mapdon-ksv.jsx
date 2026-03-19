@@ -31,7 +31,8 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
     if (!this._messageListener) {
       this._messageListener = this.onReceiveMessage;
-      if (typeof window !== 'undefined') window.addEventListener('message', this._messageListener, false);
+      if (typeof window !== 'undefined')
+        window.addEventListener('message', this._messageListener, false);
     }
 
     iframe.addEventListener(
@@ -45,13 +46,14 @@ class MapdonKSVPlugin extends BaseCommentForm {
           instanceId: this.pluginInstanceId,
         });
       },
-      false,
+      false
     );
   }
 
   componentWillUnmount() {
     if (this._messageListener) {
-      if (typeof window !== 'undefined') window.removeEventListener('message', this._messageListener, false);
+      if (typeof window !== 'undefined')
+        window.removeEventListener('message', this._messageListener, false);
       this._messageListener = null;
     }
   }
@@ -75,7 +77,9 @@ class MapdonKSVPlugin extends BaseCommentForm {
   }
 
   render() {
-    const buttonDisabled = this.submitting || (!this.state.commentText && !this.state.userDataChanged);
+    const buttonDisabled =
+      this.submitting ||
+      (!this.state.commentText && !this.state.userDataChanged);
     const { pluginPurpose } = this.props;
     const commentBox = (
       <div>
@@ -89,7 +93,11 @@ class MapdonKSVPlugin extends BaseCommentForm {
           style={{ marginBottom: 'var(--spacing-s)' }}
         />
         <p>
-          <Button className='kerrokantasi-btn' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+          <Button
+            className='kerrokantasi-btn'
+            onClick={this.getDataAndSubmitComment}
+            disabled={buttonDisabled}
+          >
             Lähetä ehdotus
           </Button>
         </p>

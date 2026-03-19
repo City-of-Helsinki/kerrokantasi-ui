@@ -60,7 +60,7 @@ const renderComponent = (store) =>
     <MemoryRouter>
       <HearingContainerComponent />
     </MemoryRouter>,
-    { store },
+    { store }
   );
 
 describe('<HearingContainer />', () => {
@@ -98,7 +98,15 @@ describe('<HearingContainer />', () => {
       },
       hearingEditor: {
         languages: ['en', 'fi'],
-        organizations: { all: [{ name: 'Kaupunkisuunnitteluvirasto', external_organization: false, frontId: '123' }] },
+        organizations: {
+          all: [
+            {
+              name: 'Kaupunkisuunnitteluvirasto',
+              external_organization: false,
+              frontId: '123',
+            },
+          ],
+        },
         hearing: mockHearingWithSections.data,
         labels: { all: ['1', '2'], byId: labels.data },
         editorState: {
@@ -119,7 +127,9 @@ describe('<HearingContainer />', () => {
     await act(async () => {
       renderComponent(store);
     });
-    await expect(screen.getByText(mockHearingWithSections.data.title.fi)).toBeInTheDocument();
+    await expect(
+      screen.getByText(mockHearingWithSections.data.title.fi)
+    ).toBeInTheDocument();
   });
 
   test('renders HearingEditor when user can edit hearing', async () => {
@@ -132,7 +142,15 @@ describe('<HearingContainer />', () => {
       },
       hearingEditor: {
         languages: ['en', 'fi'],
-        organizations: { all: [{ name: 'Kaupunkisuunnitteluvirasto', external_organization: false, frontId: '123' }] },
+        organizations: {
+          all: [
+            {
+              name: 'Kaupunkisuunnitteluvirasto',
+              external_organization: false,
+              frontId: '123',
+            },
+          ],
+        },
         hearing: mockHearingWithSections.data,
         labels: { all: ['1', '2'], byId: labels.data },
         editorState: {

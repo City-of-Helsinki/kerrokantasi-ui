@@ -46,7 +46,10 @@ const AccessibilityInfo = () => {
   }, [pageContent]);
   return (
     <div className='container accessibility-page'>
-      <MarkdownPage title={intl.formatMessage({ id: 'accessibilityPage' })} markdown={markdown} />
+      <MarkdownPage
+        title={intl.formatMessage({ id: 'accessibilityPage' })}
+        markdown={markdown}
+      />
     </div>
   );
 };

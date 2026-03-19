@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -6,7 +5,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e/tests',
-  testMatch: '**/*.spec.js',  // Only match .spec.js files for Playwright
+  testMatch: '**/*.spec.js', // Only match .spec.js files for Playwright
 
   // Timeout for each test in milliseconds
   timeout: 60 * 1000,
@@ -60,6 +59,6 @@ export default defineConfig({
   webServer: {
     command: 'yarn start',
     url: process.env.E2E_TESTS_ENV_URL ?? 'http://localhost:8086',
-    reuseExistingServer: true
-  }
+    reuseExistingServer: true,
+  },
 });

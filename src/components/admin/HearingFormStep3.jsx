@@ -13,7 +13,11 @@ import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 import config from '../../config';
-import { createLocalizedNotificationPayload, createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  createNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import leafletMarkerIconUrl from '../../../assets/images/leaflet/marker-icon.png';
 import leafletMarkerRetinaIconUrl from '../../../assets/images/leaflet/marker-icon-2x.png';
 import leafletMarkerShadowUrl from '../../../assets/images/leaflet/marker-shadow.png';
@@ -41,10 +45,16 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
 function featureReducer(currentFeatures, removedFeatures) {
   return currentFeatures.reduce((features, feature) => {
     if (feature.geometry) {
-      if (!removedFeatures.some((mapElement) => isMatch(mapElement, feature.geometry))) {
+      if (
+        !removedFeatures.some((mapElement) =>
+          isMatch(mapElement, feature.geometry)
+        )
+      ) {
         features.push(feature);
       }
-    } else if (!removedFeatures.some((mapElement) => isMatch(mapElement, feature))) {
+    } else if (
+      !removedFeatures.some((mapElement) => isMatch(mapElement, feature))
+    ) {
       features.push(feature);
     }
     return features;
@@ -70,14 +80,18 @@ const HearingFormStep3 = (props) => {
     (event) => {
       onAddMapMarker(event.layer.toGeoJSON());
     },
-    [onAddMapMarker],
+    [onAddMapMarker]
   );
 
   const onDrawDeleted = useCallback(
     // eslint-disable-next-line sonarjs/cognitive-complexity
     (event) => {
       // TODO: Implement proper onDrawDeleted functionality
-      if (event.layers && !isEmpty(event.layers._layers) && hearing.geojson.features) {
+      if (
+        event.layers &&
+        !isEmpty(event.layers._layers) &&
+        hearing.geojson.features
+      ) {
         /**
          * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
          * initialGeoJSON contains the hearings original map data and it is ONLY modified
@@ -96,26 +110,38 @@ const HearingFormStep3 = (props) => {
         let currentStateFeatures;
         if (geoJSON) {
           // initialGeoJSON is truthy if editing existing hearing or a geojson file has been uploaded
-          currentStateFeatures = geoJSON.type === 'FeatureCollection' ? geoJSON.features : null;
+          currentStateFeatures =
+            geoJSON.type === 'FeatureCollection' ? geoJSON.features : null;
         }
         // event.layers._layers object has unique keys for each deleted map element
         const layerKeys = Object.keys(event.layers._layers);
 
         // Loop through event.layers._layers -> transform each to geojson and push geometry value to array
-        const removedMapElements = layerKeys.reduce((accumulator, currentValue) => {
-          if (event.layers._layers[currentValue]) {
-            accumulator.push(event.layers._layers[currentValue].toGeoJSON().geometry);
-          }
-          return accumulator;
-        }, []);
+        const removedMapElements = layerKeys.reduce(
+          (accumulator, currentValue) => {
+            if (event.layers._layers[currentValue]) {
+              accumulator.push(
+                event.layers._layers[currentValue].toGeoJSON().geometry
+              );
+            }
+            return accumulator;
+          },
+          []
+        );
 
         // Remaining map features(props) after removing the deleted features.
-        const remainingFeatures = featureReducer(currentFeatures, removedMapElements);
+        const remainingFeatures = featureReducer(
+          currentFeatures,
+          removedMapElements
+        );
 
         let remainingStateFeatures;
         if (currentStateFeatures) {
           // Remaining map features(state) after removing the deleted feature
-          remainingStateFeatures = featureReducer(currentStateFeatures, removedMapElements);
+          remainingStateFeatures = featureReducer(
+            currentStateFeatures,
+            removedMapElements
+          );
         }
 
         if (remainingFeatures.length === 0) {
@@ -124,9 +150,15 @@ const HearingFormStep3 = (props) => {
           setGeoJSON({});
         } else {
           // hearing is a FeatureCollection that still has elements after removal
-          onHearingChange('geojson', { type: hearing.geojson.type, features: remainingFeatures });
+          onHearingChange('geojson', {
+            type: hearing.geojson.type,
+            features: remainingFeatures,
+          });
           if (currentStateFeatures) {
-            setGeoJSON({ type: hearing.geojson.type, features: remainingStateFeatures });
+            setGeoJSON({
+              type: hearing.geojson.type,
+              features: remainingStateFeatures,
+            });
           }
         }
       } else {
@@ -135,7 +167,7 @@ const HearingFormStep3 = (props) => {
         setGeoJSON({});
       }
     },
-    [hearing.geojson, geoJSON, onHearingChange],
+    [hearing.geojson, geoJSON, onHearingChange]
   );
 
   const readTextFile = (file, callback) => {
@@ -149,7 +181,14 @@ const HearingFormStep3 = (props) => {
       // eslint-disable-next-line no-console
       console.error(err);
 
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            MESSAGE_INCORRECT_FILE
+          )
+        )
+      );
     }
   };
 
@@ -169,8 +208,11 @@ const HearingFormStep3 = (props) => {
               if (!feature.geometry.coordinates.length) {
                 dispatch(
                   addToast(
-                    createNotificationPayload(NOTIFICATION_TYPES.error, 'Tiedostosta ei löytynyt koordinaatteja.'),
-                  ),
+                    createNotificationPayload(
+                      NOTIFICATION_TYPES.error,
+                      'Tiedostosta ei löytynyt koordinaatteja.'
+                    )
+                  )
                 );
 
                 return false;
@@ -213,7 +255,14 @@ const HearingFormStep3 = (props) => {
         // eslint-disable-next-line no-console
         console.error(err);
 
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, MESSAGE_INCORRECT_FILE)));
+        dispatch(
+          addToast(
+            createLocalizedNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              MESSAGE_INCORRECT_FILE
+            )
+          )
+        );
       }
     });
   };
@@ -252,7 +301,10 @@ const HearingFormStep3 = (props) => {
 
   return (
     <div className='form-step'>
-      <Fieldset id='hearingArea' heading={<FormattedMessage id='hearingArea' />}>
+      <Fieldset
+        id='hearingArea'
+        heading={<FormattedMessage id='hearingArea' />}
+      >
         <MapContainer
           ref={refCallback}
           center={localization.mapPosition}
@@ -265,7 +317,7 @@ const HearingFormStep3 = (props) => {
               config.rasterMapTiles,
               config.highContrastRasterMapTiles,
               isHighContrast,
-              language,
+              language
             )}
           />
           <FeatureGroup ref={featureGroup}>

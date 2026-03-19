@@ -35,7 +35,12 @@ const ShowMore = ({ isLoadingSubComment = false, open = false, ...props }) => {
         <LoadSpinner style={{ padding: '12px' }} />
       ) : (
         <span className='hearing-comment__show-more__wrapper'>
-          <a href='' onClick={handleShowMore} role='button' aria-expanded={open}>
+          <a
+            href=''
+            onClick={handleShowMore}
+            role='button'
+            aria-expanded={open}
+          >
             <Icon name={toggle.icon} aria-hidden='true' />
             <FormattedMessage id={toggle.msg} />
             <span className='hearing-comment__show-more__count'>{`(${props.numberOfComments})`}</span>

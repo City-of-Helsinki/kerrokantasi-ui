@@ -6,7 +6,11 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import SortableCommentListComponent from '../SortableCommentList';
-import { mockStore as mockData, mockUser, getIntlAsProp } from '../../../test-utils';
+import {
+  mockStore as mockData,
+  mockUser,
+  getIntlAsProp,
+} from '../../../test-utils';
 import renderWithProviders from '../../utils/renderWithProviders';
 
 const middlewares = [thunk];
@@ -63,7 +67,7 @@ const renderComponent = (propOverrides, storeOverriders) => {
     <MemoryRouter>
       <SortableCommentListComponent intl={getIntlAsProp()} {...props} />
     </MemoryRouter>,
-    { store },
+    { store }
   );
 };
 
@@ -79,7 +83,9 @@ describe('<SortableCommentList />', () => {
 
     const user = userEvent.setup();
 
-    const openFormButton = await screen.findByRole('button', { name: 'addComment' });
+    const openFormButton = await screen.findByRole('button', {
+      name: 'addComment',
+    });
 
     await user.click(openFormButton);
 
@@ -111,7 +117,9 @@ describe('<SortableCommentList />', () => {
 
     const user = userEvent.setup();
 
-    const voteForComment = await screen.findByRole('button', { name: /voteButtonLikes/i });
+    const voteForComment = await screen.findByRole('button', {
+      name: /voteButtonLikes/i,
+    });
 
     await user.click(voteForComment);
 

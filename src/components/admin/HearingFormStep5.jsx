@@ -6,7 +6,10 @@ import { isEmpty } from 'lodash';
 import { Select } from 'hds-react';
 import { injectIntl, useIntl } from 'react-intl';
 
-import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import * as ProjectsSelector from '../../selectors/projectLists';
 import { hearingShape } from '../../types';
 import {
@@ -21,19 +24,32 @@ import { addToast } from '../../actions/toast';
 import Project from './Project';
 import { INIT_NEW_PROJECT_ID } from '../../reducers/hearingEditor/hearing';
 
-const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, projects }) => {
+const HearingFormStep5 = ({
+  errors,
+  hearing,
+  hearingLanguages,
+  language,
+  projects,
+}) => {
   const dispatch = useDispatch();
   const intl = useIntl();
 
   const defaultProjectOptions = [
     { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
-    { value: INIT_NEW_PROJECT_ID, label: intl.formatMessage({ id: 'defaultProject' }) },
+    {
+      value: INIT_NEW_PROJECT_ID,
+      label: intl.formatMessage({ id: 'defaultProject' }),
+    },
   ];
 
   const projectsOptions = projects.map((project) => ({
     value: project.id,
     label: `${
-      project.title[language] || project.title.fi || project.title.en || project.title.sv || 'Default project'
+      project.title[language] ||
+      project.title.fi ||
+      project.title.en ||
+      project.title.sv ||
+      'Default project'
     }`,
   }));
 
@@ -51,7 +67,7 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
         hearingSlug: hearing.slug,
         projectId: selected[0].value,
         projectLists: projects,
-      }),
+      })
     );
   };
 
@@ -60,7 +76,14 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
       return dispatch(addPhaseFn());
     }
 
-    return dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Valitse ensin kieli.')));
+    return dispatch(
+      addToast(
+        createNotificationPayload(
+          NOTIFICATION_TYPES.error,
+          'Valitse ensin kieli.'
+        )
+      )
+    );
   };
 
   const deletePhase = (phaseId) => dispatch(deletePhaseFn(phaseId));
@@ -68,7 +91,8 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
   const onChangePhase = (phaseId, fieldName, phaseLanguage, value) =>
     dispatch(changePhase(phaseId, fieldName, phaseLanguage, value));
 
-  const onChangeProjectName = (fieldname, value) => dispatch(changeProjectName(fieldname, value));
+  const onChangeProjectName = (fieldname, value) =>
+    dispatch(changeProjectName(fieldname, value));
 
   const onActivePhase = (phaseId) => dispatch(activePhase(phaseId));
 
@@ -83,7 +107,9 @@ const HearingFormStep5 = ({ errors, hearing, hearingLanguages, language, project
           }}
           options={options}
           onChange={onChangeProject}
-          value={selectedProject ? selectedProject.id : [defaultProjectOptions[0]]}
+          value={
+            selectedProject ? selectedProject.id : [defaultProjectOptions[0]]
+          }
         />
       </div>
       <Project

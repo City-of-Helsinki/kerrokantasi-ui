@@ -2,7 +2,7 @@ import { has, isObject, isArray, keys } from 'lodash';
 
 const DefaultOptions = {
   exact: false,
-  dev: false
+  dev: false,
 };
 
 /**
@@ -35,7 +35,11 @@ const getAttr = (attr, lang, options = DefaultOptions) => {
   if (dev) {
     return `${translated}-${lang}`;
   }
-  if (isObject(translated) && keys(translated).length === 0 && !isArray(translated)) {
+  if (
+    isObject(translated) &&
+    keys(translated).length === 0 &&
+    !isArray(translated)
+  ) {
     return undefined;
   }
 

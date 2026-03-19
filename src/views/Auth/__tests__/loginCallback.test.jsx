@@ -16,7 +16,7 @@ function renderComponent(props) {
   renderWithProviders(
     <BrowserRouter history={history}>
       <UnconnectedLoginCallback {...defaultProps} {...props} />
-    </BrowserRouter>,
+    </BrowserRouter>
   );
 }
 

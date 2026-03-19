@@ -39,9 +39,13 @@ const renderComponent = (storeOverride, authMock = {}) => {
 
   renderWithProviders(
     <MemoryRouter>
-      <Header locale={defaultLocale} onChangeLanguage={mockSetLocale} setLocale={mockSetLocale} />
+      <Header
+        locale={defaultLocale}
+        onChangeLanguage={mockSetLocale}
+        setLocale={mockSetLocale}
+      />
     </MemoryRouter>,
-    { store },
+    { store }
   );
 };
 
@@ -104,7 +108,7 @@ describe('<Header />', () => {
 
     await act(async () => {
       await user.click(await screen.findByRole('button', { name: 'English' }));
-    })
+    });
 
     expect(mockSetLocale).toHaveBeenCalled();
   });

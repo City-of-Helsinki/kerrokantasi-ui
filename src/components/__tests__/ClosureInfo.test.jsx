@@ -5,12 +5,15 @@ import { render } from '@testing-library/react';
 import { ClosureInfo } from '../ClosureInfo';
 
 const renderComponent = (propOverrides) => {
-  const props = { closureInfo: '<p>A very awesome closure info here.</p>', ...propOverrides };
+  const props = {
+    closureInfo: '<p>A very awesome closure info here.</p>',
+    ...propOverrides,
+  };
 
   return render(
     <MemoryRouter>
       <ClosureInfo {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

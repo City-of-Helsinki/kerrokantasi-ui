@@ -8,7 +8,13 @@ import Icon from '../../../utils/Icon';
  * Class declaration for answer component.
  */
 const Answer = ({ answer }) => (
-  <div style={{ borderBottom: '1px solid #ebedf1', padding: '8px 0', fontSize: '15px' }}>
+  <div
+    style={{
+      borderBottom: '1px solid #ebedf1',
+      padding: '8px 0',
+      fontSize: '15px',
+    }}
+  >
     <p>
       <strong>{answer.question}</strong>
     </p>

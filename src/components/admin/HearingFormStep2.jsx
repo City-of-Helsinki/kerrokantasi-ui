@@ -37,7 +37,9 @@ const HearingFormStep2 = ({
   onContinue,
   intl,
 }) => {
-  const [activeSection, setActiveSection] = useState(getMainSection(hearing).frontId);
+  const [activeSection, setActiveSection] = useState(
+    getMainSection(hearing).frontId
+  );
 
   const dispatch = useDispatch();
 
@@ -62,8 +64,12 @@ const HearingFormStep2 = ({
   const getDeleteSectionButton = (section, sectionID) => {
     if (section.type !== 'main') {
       return (
-        <Button className='kerrokantasi-btn danger' onClick={() => deleteSection(sectionID)}>
-          <Icon className='icon' name='trash' /> <FormattedMessage id='deleteSection' />
+        <Button
+          className='kerrokantasi-btn danger'
+          onClick={() => deleteSection(sectionID)}
+        >
+          <Icon className='icon' name='trash' />{' '}
+          <FormattedMessage id='deleteSection' />
         </Button>
       );
     }
@@ -116,7 +122,9 @@ const HearingFormStep2 = ({
               sectionMoveUp={sectionMoveUp}
               onDeleteExistingQuestion={onDeleteExistingQuestion}
             />
-            <div className='section-toolbar'>{getDeleteSectionButton(section, sectionID)}</div>
+            <div className='section-toolbar'>
+              {getDeleteSectionButton(section, sectionID)}
+            </div>
           </Accordion>
         );
       });
@@ -137,8 +145,13 @@ const HearingFormStep2 = ({
     <div className='form-step'>
       {getSections()}
       <div className='new-section-toolbar'>
-        <Button size='small' className='kerrokantasi-btn' onClick={() => addSectionFn('part')}>
-          <Icon className='icon' name='plus' /> <FormattedMessage id='addSection' />
+        <Button
+          size='small'
+          className='kerrokantasi-btn'
+          onClick={() => addSectionFn('part')}
+        >
+          <Icon className='icon' name='plus' />{' '}
+          <FormattedMessage id='addSection' />
         </Button>
       </div>
       <div className='step-footer'>

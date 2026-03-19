@@ -28,35 +28,35 @@ export const isApiTokenExpired = () => {
   }
 
   return true;
-}
+};
 
 // FOR TESTING PURPOSES
 export const storeApiTokenToStorage = (token) => {
   apiAccessTokenStorage.setItem(
     storageKey,
     JSON.stringify({ [config.openIdAudience]: token })
-  )
-}
+  );
+};
 
 export function getBaseApiURL(baseUrl) {
-  return (`${baseUrl.replace(/\/$/g, '')}`);
+  return `${baseUrl.replace(/\/$/g, '')}`;
 }
 
 export function getApiURL(endpoint, params = null) {
   const baseUrl = getBaseApiURL(config.apiBaseUrl);
-  let url = (`${baseUrl}/${endpoint.replace(/^\//g, '')}`);
-  if (!/\/$/.test(url)) url += "/";  // All API endpoints end with a slash
+  let url = `${baseUrl}/${endpoint.replace(/^\//g, '')}`;
+  if (!/\/$/.test(url)) url += '/'; // All API endpoints end with a slash
 
   if (params && Object.keys(params).length > 0) {
-    if (url.indexOf("?") > -1) {
-      throw new Error("Double query string");
+    if (url.indexOf('?') > -1) {
+      throw new Error('Double query string');
     }
 
     const searchParams = new URLSearchParams();
 
     Object.entries(params).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        value.forEach(item => searchParams.append(key, item));
+        value.forEach((item) => searchParams.append(key, item));
       } else if (value !== null && typeof value === 'object') {
         searchParams.append(key, JSON.stringify(value));
       } else if (value !== undefined) {
@@ -71,9 +71,9 @@ export function getApiURL(endpoint, params = null) {
 
 export function apiCall(endpoint, params, options = {}) {
   const token = getApiTokenFromStorage();
-  options = merge({ method: "GET" }, options);
+  options = merge({ method: 'GET' }, options);
   const defaultHeaders = {
-    "Accept": "application/json"
+    Accept: 'application/json',
   };
   if (token) {
     defaultHeaders.Authorization = `Bearer ${token}`;
@@ -85,10 +85,10 @@ export function apiCall(endpoint, params, options = {}) {
 }
 
 export function jsonRequest(method, endpoint, data, params = {}, options = {}) {
-  if (typeof data !== "string") {
+  if (typeof data !== 'string') {
     data = JSON.stringify(data);
     options.headers = merge(
-      { "Content-Type": "application/json" },
+      { 'Content-Type': 'application/json' },
       options.headers
     );
   }
@@ -96,18 +96,22 @@ export function jsonRequest(method, endpoint, data, params = {}, options = {}) {
 }
 
 export function post(endpoint, data, params = {}, options = {}) {
-  return jsonRequest("POST", endpoint, data, params, options);
+  return jsonRequest('POST', endpoint, data, params, options);
 }
 
 export function put(endpoint, data, params = {}, options = {}) {
-  return jsonRequest("PUT", endpoint, data, params, options);
+  return jsonRequest('PUT', endpoint, data, params, options);
 }
 
 export function patch(endpoint, data, params = {}, options = {}) {
-  return jsonRequest("PATCH", endpoint, data, params, options);
+  return jsonRequest('PATCH', endpoint, data, params, options);
 }
 
-export function apiDelete(endpoint, params = {}, options = { method: "DELETE" }) {
+export function apiDelete(
+  endpoint,
+  params = {},
+  options = { method: 'DELETE' }
+) {
   return apiCall(endpoint, params, options);
 }
 
@@ -117,33 +121,38 @@ export function get(endpoint, params = {}, options = {}) {
 
 export const getAllFromEndpoint = (endpoint, params = {}, options = {}) => {
   const getPaginated = (results, paramsForPage = params) =>
-    get(endpoint, paramsForPage, options).then((response) => {
-      const responseOk = response.status >= 200 && response.status < 300;
-      const data = response.json();
-      if (!responseOk) {
-        return data.then(err => {
-          throw new Error({
-            ...err,
-            status: response.status,
+    get(endpoint, paramsForPage, options)
+      .then((response) => {
+        const responseOk = response.status >= 200 && response.status < 300;
+        const data = response.json();
+        if (!responseOk) {
+          return data.then((err) => {
+            throw new Error({
+              ...err,
+              status: response.status,
+            });
           });
-        });
-      }
-      return data;
-    }).then((data) => {
-      const updatedResults = [...results, ...data.results];
-      if (data.next) {
-        const nextUrl = new URL(data.next);
-        const nextParams = {};
+        }
+        return data;
+      })
+      .then((data) => {
+        const updatedResults = [...results, ...data.results];
+        if (data.next) {
+          const nextUrl = new URL(data.next);
+          const nextParams = {};
 
-        nextUrl.searchParams.forEach((value, key) => {
-          nextParams[key] = value;
-        });
+          nextUrl.searchParams.forEach((value, key) => {
+            nextParams[key] = value;
+          });
 
-        return getPaginated(updatedResults, { ...paramsForPage, ...nextParams });
-      }
+          return getPaginated(updatedResults, {
+            ...paramsForPage,
+            ...nextParams,
+          });
+        }
 
-      return updatedResults;
-    });
+        return updatedResults;
+      });
 
   return getPaginated([], params);
 };

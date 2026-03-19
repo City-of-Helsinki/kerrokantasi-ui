@@ -20,9 +20,7 @@ describe('prepareSection', () => {
         { id: 'imageId1', url: 'image1.jpg' },
         { id: 'imageId2', url: 'image2.jpg' },
       ],
-      files: [
-        { id: 'fileId1', name: 'file1.pdf' },
-      ],
+      files: [{ id: 'fileId1', name: 'file1.pdf' }],
     };
 
     const preparedSection = prepareSection(section);
@@ -52,16 +50,16 @@ describe('validateHearing', () => {
     hearing.slug = 'slug';
     hearing.contact_persons = [{ id: '1' }];
     hearing.labels = [{ id: '1' }];
-    hearing.title = {fi: 'title'};
+    hearing.title = { fi: 'title' };
     hearing.close_at = '2021-01-01T00:00:00Z';
     hearing.open_at = '2021-01-01T00:00:00Z';
 
     const errors = validateHearing(hearing, ['fi']);
 
     expect(errors).toEqual({
-      "1": {},
-      "4": {},
-      "5": {},
+      1: {},
+      4: {},
+      5: {},
     });
   });
 
@@ -70,19 +68,18 @@ describe('validateHearing', () => {
 
     const errors = validateHearing(hearing, ['fi']);
 
-    expect(errors).toEqual(
-      {
-        "1": {
-          "contact_persons": "Aseta ainakin yksi yhteyshenkilö.",
-          "labels": "Aseta ainakin yksi asiasana.",
-          "slug": "Aseta osoite ennen tallentamista.",
-          "title": "Aseta otsikko ennen tallentamista."
-        },
-        "4": {
-          "close_at": "Aseta sulkeutumisaika ennen tallentamista.", 
-          "open_at": "Aseta avautumisaika ennen tallentamista."
-        },
-        "5": {
-        }});
+    expect(errors).toEqual({
+      1: {
+        contact_persons: 'Aseta ainakin yksi yhteyshenkilö.',
+        labels: 'Aseta ainakin yksi asiasana.',
+        slug: 'Aseta osoite ennen tallentamista.',
+        title: 'Aseta otsikko ennen tallentamista.',
+      },
+      4: {
+        close_at: 'Aseta sulkeutumisaika ennen tallentamista.',
+        open_at: 'Aseta avautumisaika ennen tallentamista.',
+      },
+      5: {},
+    });
   });
 });

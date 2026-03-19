@@ -27,7 +27,8 @@ const UserComment = (props) => {
    * @example "2021-06-12T22:37:00Z" returned as "12.06.2021 22:37"
    * @returns {string}
    */
-  const parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY HH:mm');
+  const parseTimestamp = (timestamp) =>
+    moment(timestamp).format('DD.MM.YYYY HH:mm');
 
   /**
    * Returns a Tooltip component with timestamp from date.
@@ -51,7 +52,11 @@ const UserComment = (props) => {
           <FormattedMessage
             id='sectionCommentDeletedMessage'
             values={{
-              date: comment.deleted_at ? moment(new Date(comment.deleted_at)).format(' DD.MM.YYYY HH:mm') : '',
+              date: comment.deleted_at
+                ? moment(new Date(comment.deleted_at)).format(
+                    ' DD.MM.YYYY HH:mm'
+                  )
+                : '',
             }}
           />
         </p>
@@ -84,7 +89,10 @@ const UserComment = (props) => {
                 formatDate={intl.formatDate}
               />
             </span>
-            <Tooltip placement='top' style={{ marginLeft: 'var(--spacing-2-xs)' }}>
+            <Tooltip
+              placement='top'
+              style={{ marginLeft: 'var(--spacing-2-xs)' }}
+            >
               <span>{dateTooltip(comment.created_at)}</span>
             </Tooltip>
           </div>
@@ -93,25 +101,38 @@ const UserComment = (props) => {
               <Tag
                 theme={{
                   '--background-color':
-                    hearingStatus.style === 'success' ? 'var(--color-success)' : 'var(--color-black-20)',
-                  '--color': hearingStatus.style === 'success' ? 'var(--color-white)' : 'var(--color-black-90)',
+                    hearingStatus.style === 'success'
+                      ? 'var(--color-success)'
+                      : 'var(--color-black-20)',
+                  '--color':
+                    hearingStatus.style === 'success'
+                      ? 'var(--color-white)'
+                      : 'var(--color-black-90)',
                 }}
                 style={{ float: 'right' }}
               >
                 <FormattedMessage id='commentHearingStatus'>
                   {(txt) => <span className='sr-only'>{txt}</span>}
                 </FormattedMessage>
-                <FormattedMessage id={hearingStatus.id}>{(txt) => txt}</FormattedMessage>
+                <FormattedMessage id={hearingStatus.id}>
+                  {(txt) => txt}
+                </FormattedMessage>
               </Tag>
             </div>
-            <Link to={{ path: `/${data.slug}` }}>{getAttr(data.title, locale)}</Link>
+            <Link to={{ path: `/${data.slug}` }}>
+              {getAttr(data.title, locale)}
+            </Link>
           </div>
         </div>
         <div className='hearing-comment-body'>{renderCommentText()}</div>
         <div className='hearing-comment__images'>
           {comment.images
             ? comment.images.map((image) => (
-                <a className='hearing-comment-images-image' key={image.url} href={image.url}>
+                <a
+                  className='hearing-comment-images-image'
+                  key={image.url}
+                  href={image.url}
+                >
                   <img
                     alt={getMessage('commentImageAlt')}
                     src={image.url}
@@ -124,13 +145,22 @@ const UserComment = (props) => {
         </div>
         {comment.geojson && (
           <div className='hearing-comment__map'>
-            <Button onClick={toggleMap} className='hearing-comment__map-toggle' aria-expanded={displayMap}>
-              <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
+            <Button
+              onClick={toggleMap}
+              className='hearing-comment__map-toggle'
+              aria-expanded={displayMap}
+            >
+              <FormattedMessage id='commentShowMap'>
+                {(text) => text}
+              </FormattedMessage>
             </Button>
             {displayMap && comment.geojson && (
               <div className='hearing-comment__map-container'>
                 {comment.geojson && (
-                  <HearingMap hearing={{ geojson: comment.geojson }} mapSettings={{ dragging: false }} />
+                  <HearingMap
+                    hearing={{ geojson: comment.geojson }}
+                    mapSettings={{ dragging: false }}
+                  />
                 )}
               </div>
             )}

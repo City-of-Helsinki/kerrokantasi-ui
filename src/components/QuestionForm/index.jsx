@@ -17,13 +17,26 @@ import getAttr from '../../utils/getAttr';
  * @param {boolean} canAnswer - Determines if the user can answer the question.
  * @returns {JSX.Element} The rendered QuestionForm component.
  */
-const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer }) => (
+const QuestionForm = ({
+  autoFocus,
+  question,
+  lang,
+  onChange,
+  answers,
+  canAnswer,
+}) => (
   <div data-testid='question-form-group' className='question-form-group'>
     <Fieldset
       heading={getAttr(question.text, lang)}
       className='question-form-fieldset'
       helperText={
-        <FormattedMessage id={question.type === 'multiple-choice' ? 'questionHelpMulti' : 'questionHelpSingle'} />
+        <FormattedMessage
+          id={
+            question.type === 'multiple-choice'
+              ? 'questionHelpMulti'
+              : 'questionHelpSingle'
+          }
+        />
       }
     >
       {canAnswer &&
@@ -34,15 +47,24 @@ const QuestionForm = ({ autoFocus, question, lang, onChange, answers, canAnswer 
             checked: answers?.answers.includes(option.id),
             name: `question_${question.id}`,
             value: option.id,
-            onChange: (e) => onChange(question.id, question.type, parseInt(e.target.value, 10)),
+            onChange: (e) =>
+              onChange(
+                question.id,
+                question.type,
+                parseInt(e.target.value, 10)
+              ),
             label: getAttr(option.text, lang),
           };
 
           if (question.type === 'single-choice') {
-            return <RadioButton key={`${question.id}-${question.type}`} {...props} />;
+            return (
+              <RadioButton key={`${question.id}-${question.type}`} {...props} />
+            );
           }
 
-          return <Checkbox key={`${question.id}-${question.type}`} {...props} />;
+          return (
+            <Checkbox key={`${question.id}-${question.type}`} {...props} />
+          );
         })}
       {!canAnswer && <FormattedMessage id='logInToAnswer' />}
     </Fieldset>

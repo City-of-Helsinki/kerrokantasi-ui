@@ -10,7 +10,10 @@ import { FormattedPlural, FormattedMessage, useIntl } from 'react-intl';
 import { stringify } from 'qs';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import FormatRelativeTime from '../../utils/FormatRelativeTime';
 import Icon from '../../utils/Icon';
 import LabelList from '../LabelList';
@@ -20,12 +23,27 @@ import SocialBar from '../SocialBar';
 import getAttr from '../../utils/getAttr';
 import Link from '../LinkWithLang';
 import config from '../../config';
-import { isPublic, getHearingURL, hasCommentableSections } from '../../utils/hearing';
-import { SectionTypes, isMainSection, isSectionCommentable } from '../../utils/section';
+import {
+  isPublic,
+  getHearingURL,
+  hasCommentableSections,
+} from '../../utils/hearing';
+import {
+  SectionTypes,
+  isMainSection,
+  isSectionCommentable,
+} from '../../utils/section';
 import { stringifyQuery } from '../../utils/urlQuery';
-import { getSections, getIsHearingPublished, getIsHearingClosed } from '../../selectors/hearing';
+import {
+  getSections,
+  getIsHearingPublished,
+  getIsHearingClosed,
+} from '../../selectors/hearing';
 import getUser from '../../selectors/user';
-import { addHearingToFavorites, removeHearingFromFavorites } from '../../actions';
+import {
+  addHearingToFavorites,
+  removeHearingFromFavorites,
+} from '../../actions';
 import InternalLink from '../InternalLink';
 import { addToast } from '../../actions/toast';
 
@@ -39,8 +57,12 @@ function HeaderComponent(props) {
   const intl = useIntl();
   const sections = useSelector((state) => getSections(state, hearingSlug));
 
-  const isHearingClosed = useSelector((state) => getIsHearingClosed(state, hearingSlug));
-  const isHearingPublished = useSelector((state) => getIsHearingPublished(state, hearingSlug));
+  const isHearingClosed = useSelector((state) =>
+    getIsHearingClosed(state, hearingSlug)
+  );
+  const isHearingPublished = useSelector((state) =>
+    getIsHearingPublished(state, hearingSlug)
+  );
   const showClosureInfo = isHearingClosed && isHearingPublished;
 
   const getTimetableText = (hearingItem) => {
@@ -102,14 +124,27 @@ function HeaderComponent(props) {
     };
 
     const renderCommentsElem = () => (
-      <div data-testid='comment-summary' className='hearing-meta__element comment-summary'>
+      <div
+        data-testid='comment-summary'
+        className='hearing-meta__element comment-summary'
+      >
         <Icon name='comment-o' />
         <span className='comment-summary-texts'>
           <div className='commentNumber'>
             <FormattedPlural
               value={hearing.n_comments}
-              one={<FormattedMessage id='totalSubmittedComment' values={{ n: hearing.n_comments }} />}
-              other={<FormattedMessage id='totalSubmittedComments' values={{ n: hearing.n_comments }} />}
+              one={
+                <FormattedMessage
+                  id='totalSubmittedComment'
+                  values={{ n: hearing.n_comments }}
+                />
+              }
+              other={
+                <FormattedMessage
+                  id='totalSubmittedComments'
+                  values={{ n: hearing.n_comments }}
+                />
+              }
             />
           </div>
           {renderWriteCommentLink()}
@@ -126,7 +161,9 @@ function HeaderComponent(props) {
   const getLanguageChanger = () => {
     const languageOptions = keys(hearing.title);
 
-    const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
+    const translationAvailable = !!getAttr(hearing.title, language, {
+      exact: true,
+    });
     const noTranslationMessage = (
       <div className='translation-not-available'>
         <FormattedMessage id='hearingTranslationNotAvailable' />
@@ -145,10 +182,15 @@ function HeaderComponent(props) {
               <FormattedMessage id='hearingOnlyAvailableIn' />
               &nbsp;
               <Link
-                to={{ path: location.pathname, search: stringifyQuery({ lang: languageOptions[0] }) }}
+                to={{
+                  path: location.pathname,
+                  search: stringifyQuery({ lang: languageOptions[0] }),
+                }}
                 className='language-select__language'
               >
-                <FormattedMessage id={`hearingOnlyAvailableInLang-${languageOptions[0]}`} />
+                <FormattedMessage
+                  id={`hearingOnlyAvailableInLang-${languageOptions[0]}`}
+                />
               </Link>
             </span>
           </div>
@@ -170,7 +212,10 @@ function HeaderComponent(props) {
         search: location.search,
       };
       if (location.search.includes('lang=')) {
-        urlObject.search = location.search.replace(/lang=\w{2}/, stringify({ lang: code }));
+        urlObject.search = location.search.replace(
+          /lang=\w{2}/,
+          stringify({ lang: code })
+        );
       } else if (location.search) {
         urlObject.search += `&${stringify({ lang: code })}`;
       } else {
@@ -182,7 +227,10 @@ function HeaderComponent(props) {
 
     // If multiple languages available for the hearing
     return (
-      <div data-testid='language-select' className='hearing-meta__element language-select'>
+      <div
+        data-testid='language-select'
+        className='hearing-meta__element language-select'
+      >
         <Icon name='globe' className='user-nav-icon' />
         {!translationAvailable && noTranslationMessage}
         {languageOptions.map((code) => (
@@ -191,7 +239,10 @@ function HeaderComponent(props) {
               <div lang={code}>
                 <FormattedMessage id={`hearingAvailable-${code}`} />
                 &nbsp;
-                <Link to={langSpecificURL(code)} className='language-select__language'>
+                <Link
+                  to={langSpecificURL(code)}
+                  className='language-select__language'
+                >
                   <FormattedMessage id={`hearingAvailableInLang-${code}`} />
                 </Link>
               </div>
@@ -207,7 +258,8 @@ function HeaderComponent(props) {
     let text = <FormattedMessage id='eyeTooltip' />;
     if (props.hearing.published && openingTime > moment()) {
       const duration = moment.duration(openingTime.diff(moment()));
-      const durationAs = duration.asHours() < 24 ? duration.asHours() : duration.asDays();
+      const durationAs =
+        duration.asHours() < 24 ? duration.asHours() : duration.asDays();
 
       text = (
         <span>
@@ -224,17 +276,36 @@ function HeaderComponent(props) {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.success, 'hearingPreviewLinkSuccess')));
+        dispatch(
+          addToast(
+            createLocalizedNotificationPayload(
+              NOTIFICATION_TYPES.success,
+              'hearingPreviewLinkSuccess'
+            )
+          )
+        );
       })
       .catch(() => {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'hearingPreviewLinkFailed')));
+        dispatch(
+          addToast(
+            createLocalizedNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              'hearingPreviewLinkFailed'
+            )
+          )
+        );
       });
   };
 
   const getPreviewLinkButton = () => (
     <div className='hearing-meta__element'>
-      <Button className='kerrokantasi-btn info' onClick={() => writeToClipboard(hearing.preview_url)}>
-        <FormattedMessage id='hearingPreviewLinkTooltip'>{(text) => text}</FormattedMessage>
+      <Button
+        className='kerrokantasi-btn info'
+        onClick={() => writeToClipboard(hearing.preview_url)}
+      >
+        <FormattedMessage id='hearingPreviewLinkTooltip'>
+          {(text) => text}
+        </FormattedMessage>
       </Button>
     </div>
   );
@@ -253,7 +324,10 @@ function HeaderComponent(props) {
     return (
       <div className='hearing-meta__element hearing-favorite'>
         <Icon className='icon-adjustment' name={favConfig.icon} />
-        <Button className='kerrokantasi-btn secondary' onClick={() => favConfig.click(hearing.slug, hearing.id)}>
+        <Button
+          className='kerrokantasi-btn secondary'
+          onClick={() => favConfig.click(hearing.slug, hearing.id)}
+        >
           <FormattedMessage id={favConfig.id}>{(txt) => txt}</FormattedMessage>
         </Button>
       </div>
@@ -262,8 +336,13 @@ function HeaderComponent(props) {
 
   const mainSection = sections?.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections?.find((sec) => sec.id === sectionId) || mainSection;
-  const closureInfoContent = sections?.find((sec) => sec.type === SectionTypes.CLOSURE)
-    ? getAttr(sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content, language)
+  const closureInfoContent = sections?.find(
+    (sec) => sec.type === SectionTypes.CLOSURE
+  )
+    ? getAttr(
+        sections?.find((sec) => sec.type === SectionTypes.CLOSURE).content,
+        language
+      )
     : intl.formatMessage({ id: 'defaultClosureInfo' });
 
   return (
@@ -275,7 +354,10 @@ function HeaderComponent(props) {
               <div className='col-md-9'>
                 <h1 className='hearing-header-title'>
                   {!isPublic(hearing) && (
-                    <Tooltip placement='bottom' style={{ marginRight: 'var(--spacing-2-xs)' }}>
+                    <Tooltip
+                      placement='bottom'
+                      style={{ marginRight: 'var(--spacing-2-xs)' }}
+                    >
                       {getEyeTooltip()}
                     </Tooltip>
                   )}
@@ -294,7 +376,9 @@ function HeaderComponent(props) {
                   <div className='row'>
                     <div className='col-md-9'>
                       <div className='header-abstract lead'>
-                        <SanitizedHtml html={getAttr(mainSection.abstract, language)} />
+                        <SanitizedHtml
+                          html={getAttr(mainSection.abstract, language)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -303,16 +387,24 @@ function HeaderComponent(props) {
                   {getTimetableText(hearing)}
                   {getComments(hearing, sections, section, user)}
                   {getLanguageChanger()}
-                  {!isEmpty(user) && hearing.closed && moment(hearing.close_at) >= moment() && getPreviewLinkButton()}
+                  {!isEmpty(user) &&
+                    hearing.closed &&
+                    moment(hearing.close_at) >= moment() &&
+                    getPreviewLinkButton()}
                   {getFavorite()}
                 </div>
                 {!isEmpty(hearing.labels) && (
-                  <LabelList className='main-labels' labels={hearing.labels} language={language} />
+                  <LabelList
+                    className='main-labels'
+                    labels={hearing.labels}
+                    language={language}
+                  />
                 )}
               </>
             ) : (
               <Link to={{ path: getHearingURL({ slug: hearingSlug }) }}>
-                <Icon name='arrow-left' /> <FormattedMessage id='backToHearingMain' />
+                <Icon name='arrow-left' />{' '}
+                <FormattedMessage id='backToHearingMain' />
               </Link>
             )}
           </div>
@@ -329,7 +421,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addToFavorites: (slug, id) => dispatch(addHearingToFavorites(slug, id)),
-  removeFromFavorites: (slug, id) => dispatch(removeHearingFromFavorites(slug, id)),
+  removeFromFavorites: (slug, id) =>
+    dispatch(removeHearingFromFavorites(slug, id)),
 });
 
 HeaderComponent.propTypes = {

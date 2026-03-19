@@ -3,7 +3,11 @@ import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { omit } from 'lodash';
 
-import { createNotificationPayload, NOTIFICATION_TYPES, createLocalizedNotificationPayload } from '../utils/notify';
+import {
+  createNotificationPayload,
+  NOTIFICATION_TYPES,
+  createLocalizedNotificationPayload,
+} from '../utils/notify';
 import { patch, put, post, apiDelete, getAllFromEndpoint } from '../api';
 import { requestErrorHandler } from './index';
 import { initNewHearing as getHearingSkeleton } from '../utils/hearing';
@@ -84,13 +88,17 @@ const HEARING_CREATED_MESSAGE = 'Luonti onnistui';
 const HEARING_CHECK_HEARING_INFORMATION_MESSAGE = 'Tarkista kuulemisen tiedot.';
 const HEARING_CANT_MODIFY = 'Et voi muokata tätä kuulemista.';
 
-export const startHearingEdit = () => dispatch => dispatch(createAction(EditorActions.SHOW_FORM)());
+export const startHearingEdit = () => (dispatch) =>
+  dispatch(createAction(EditorActions.SHOW_FORM)());
 
-export const closeHearingForm = () => dispatch => dispatch(createAction(EditorActions.CLOSE_FORM)());
+export const closeHearingForm = () => (dispatch) =>
+  dispatch(createAction(EditorActions.CLOSE_FORM)());
 
-export const sectionMoveUp = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
+export const sectionMoveUp = (sectionId) => (dispatch) =>
+  dispatch(createAction(EditorActions.SECTION_MOVE_UP)(sectionId));
 
-export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
+export const sectionMoveDown = (sectionId) => (dispatch) =>
+  dispatch(createAction(EditorActions.SECTION_MOVE_DOWN)(sectionId));
 
 /**
  * Delete an attached item.
@@ -98,39 +106,60 @@ export const sectionMoveDown = (sectionId) => dispatch => dispatch(createAction(
  * @param {Object} attachment - attachment in a section or independant of.
  * @reuturns Promise.
  */
-export const deleteSectionAttachment = (sectionId, attachment) => (dispatch) => {
-  const { id, file } = attachment;
+export const deleteSectionAttachment =
+  (sectionId, attachment) => (dispatch) => {
+    const { id, file } = attachment;
 
-  const url = `/v1/file/${id}`;
-  return apiDelete(url, file)
-    .then(checkResponseStatus)
-    .then(() => dispatch(createAction(EditorActions.DELETE_ATTACHMENT)({ sectionId, attachment })));
-};
+    const url = `/v1/file/${id}`;
+    return apiDelete(url, file)
+      .then(checkResponseStatus)
+      .then(() =>
+        dispatch(
+          createAction(EditorActions.DELETE_ATTACHMENT)({
+            sectionId,
+            attachment,
+          })
+        )
+      );
+  };
 
-export const changeProject = (hearingSlug, projectId, projectLists) => createAction(EditorActions.CHANGE_PROJECT)(hearingSlug, projectId, projectLists);
+export const changeProject = (hearingSlug, projectId, projectLists) =>
+  createAction(EditorActions.CHANGE_PROJECT)(
+    hearingSlug,
+    projectId,
+    projectLists
+  );
 
-export const updateProjectLanguage = (languages) => createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({ languages });
+export const updateProjectLanguage = (languages) =>
+  createAction(EditorActions.UPDATE_PROJECT_LANGUAGE)({ languages });
 
-export const changeProjectName = (fieldname, value) => createAction(EditorActions.CHANGE_PROJECT_NAME)({ fieldname, value });
+export const changeProjectName = (fieldname, value) =>
+  createAction(EditorActions.CHANGE_PROJECT_NAME)({ fieldname, value });
 
-export const deletePhase = (phaseId) => createAction(EditorActions.DELETE_PHASE)({ phaseId });
+export const deletePhase = (phaseId) =>
+  createAction(EditorActions.DELETE_PHASE)({ phaseId });
 
-export const activePhase = (phaseId) => createAction(EditorActions.ACTIVE_PHASE)({ phaseId });
+export const activePhase = (phaseId) =>
+  createAction(EditorActions.ACTIVE_PHASE)({ phaseId });
 
 export function changePhase(phaseId, fieldName, language, value) {
   return createAction(EditorActions.EDIT_PHASE)({
     phaseId,
     fieldName,
     language,
-    value
+    value,
   });
 }
 
 export const addPhase = () => createAction(EditorActions.ADD_PHASE)();
 
-export const receiveHearing = (normalizedHearing) => createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
+export const receiveHearing = (normalizedHearing) =>
+  createAction(EditorActions.RECEIVE_HEARING)(normalizedHearing);
 
-export const initNewHearing = () => createAction(EditorActions.INIT_NEW_HEARING)(fillFrontIdsAndNormalizeHearing(getHearingSkeleton()));
+export const initNewHearing = () =>
+  createAction(EditorActions.INIT_NEW_HEARING)(
+    fillFrontIdsAndNormalizeHearing(getHearingSkeleton())
+  );
 
 /**
  * Fetch meta data required by hearing editor. Such meta data can be for example
@@ -151,20 +180,21 @@ export function fetchHearingEditorMetaData() {
             // Unwrap the DRF responses:
             labels,
             organizations,
-          }),
+          })
         );
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
 
         return err;
       })
-      .then(err => {
+      .then((err) => {
         if (err) {
-          requestErrorHandler(dispatch)(err instanceof Error ? err : JSON.stringify(err));
+          requestErrorHandler(dispatch)(
+            err instanceof Error ? err : JSON.stringify(err)
+          );
         }
-      }
-      )
+      });
   };
 }
 
@@ -173,36 +203,39 @@ export function fetchHearingEditorContactPersons() {
     const fetchAction = createAction(EditorActions.FETCH_CONTACT_PERSONS)();
     dispatch(fetchAction);
     return Promise.all([
-    /* contacts */ getAllFromEndpoint('/v1/contact_person/'),
+      /* contacts */ getAllFromEndpoint('/v1/contact_person/'),
     ])
       .then(([contacts]) => {
         dispatch(
           createAction(EditorActions.RECEIVE_CONTACT_PERSONS)({
             // Unwrap the DRF responses:
             contactPersons: contacts,
-          }),
+          })
         );
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(createAction(EditorActions.ERROR_META_DATA)({ err }));
 
         return err;
       })
-      .then(err => {
+      .then((err) => {
         if (err) {
-          requestErrorHandler(dispatch)(err instanceof Error ? err : JSON.stringify(err));
+          requestErrorHandler(dispatch)(
+            err instanceof Error ? err : JSON.stringify(err)
+          );
         }
       });
   };
 }
 
-export const changeHearing = (field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
+export const changeHearing = (field, value) => (dispatch) =>
+  dispatch(createAction(EditorActions.EDIT_HEARING)({ field, value }));
 
-export const addContact = (contact, selectedContacts) => async dispatch => {
+export const addContact = (contact, selectedContacts) => async (dispatch) => {
   const url = '/v1/contact_person/';
   return post(url, contact)
     .then(checkResponseStatus)
-    .then(async response => {
+    .then(async (response) => {
       if (response.status === 400) {
         // Bad request with error message
         throw Error('Tarkista yhteyshenkilön tiedot.');
@@ -210,19 +243,27 @@ export const addContact = (contact, selectedContacts) => async dispatch => {
         // Unauthorized
         throw Error('Et voi luoda yhteyshenkilöä.');
       } else {
-        response.json().then(async contactJSON => {
+        response.json().then(async (contactJSON) => {
           selectedContacts.push(contactJSON.id);
           await dispatch(changeHearing('contact_persons', selectedContacts));
           await dispatch(fetchHearingEditorContactPersons());
         });
         // TODO: Add translations
-        dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+        dispatch(
+          addToast(
+            createNotificationPayload(
+              NOTIFICATION_TYPES.success,
+              HEARING_CREATED_MESSAGE
+            )
+          )
+        );
       }
     })
     .catch((err) => {
       requestErrorHandler(dispatch)(err);
       return Promise.reject(err);
-    }).finally(() => true)
+    })
+    .finally(() => true);
 };
 
 export function saveContact(contact) {
@@ -231,7 +272,7 @@ export function saveContact(contact) {
     const contactInfo = omit(contact, ['id']);
     return put(url, contactInfo)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 400) {
           // TODO: Add translation
           throw Error('Sinulla ei ole oikeutta muokata yhteyshenkilöä.');
@@ -241,7 +282,14 @@ export function saveContact(contact) {
           throw Error('Et voi luoda yhteyshenkilöä.');
         } else {
           // TODO: Add translation
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muokkaus onnistui')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Muokkaus onnistui'
+              )
+            )
+          );
         }
       })
       .then(() => dispatch(fetchHearingEditorContactPersons()))
@@ -256,11 +304,11 @@ export function addLabel(label, selectedLabels) {
     const url = '/v1/label/';
     return post(url, label)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 400) {
           // Bad request with error message
           // TODO: Add translations
-          response.json().then(errors => {
+          response.json().then((errors) => {
             dispatch(createAction(EditorActions.ADD_LABEL_FAILED)({ errors }));
           });
           throw Error('Tarkista asiasanan tiedot.');
@@ -269,12 +317,23 @@ export function addLabel(label, selectedLabels) {
           // TODO: Add translations
           throw Error('Et voi luoda asiasanaa.');
         } else {
-          response.json().then(labelJSON => {
+          response.json().then((labelJSON) => {
             selectedLabels.push(labelJSON.id);
-            dispatch(createAction(EditorActions.ADD_LABEL_SUCCESS)({ label: labelJSON }));
+            dispatch(
+              createAction(EditorActions.ADD_LABEL_SUCCESS)({
+                label: labelJSON,
+              })
+            );
             dispatch(changeHearing('labels', selectedLabels));
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                HEARING_CREATED_MESSAGE
+              )
+            )
+          );
         }
       })
       .then(() => dispatch(fetchHearingEditorMetaData()))
@@ -282,68 +341,130 @@ export function addLabel(label, selectedLabels) {
   };
 }
 
-export const changeSection = (sectionID, field, value) => dispatch => dispatch(createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value }));
+export const changeSection = (sectionID, field, value) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value })
+  );
 
-export const setSectionMainImage = (sectionID, value) => dispatch => dispatch(createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, value }));
+export const setSectionMainImage = (sectionID, value) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, value })
+  );
 
-export const deleteSectionMainImage = (sectionID) => dispatch => dispatch(createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID }));
+export const deleteSectionMainImage = (sectionID) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
+  );
 
-export const changeSectionMainImageCaption = (sectionID, value) => dispatch => dispatch(createAction(EditorActions.CHANGE_SECTION_MAIN_IMAGE_CAPTION)({ sectionID, value }));
+export const changeSectionMainImageCaption = (sectionID, value) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.CHANGE_SECTION_MAIN_IMAGE_CAPTION)({
+      sectionID,
+      value,
+    })
+  );
 
-export const addSection = (section) => dispatch => dispatch(createAction(EditorActions.ADD_SECTION)({ section }));
+export const addSection = (section) => (dispatch) =>
+  dispatch(createAction(EditorActions.ADD_SECTION)({ section }));
 
-export const createMapMarker = (value) => dispatch => dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({ value }));
+export const createMapMarker = (value) => (dispatch) =>
+  dispatch(createAction(EditorActions.CREATE_MAP_MARKER)({ value }));
 
-export const addMapMarker = (value) => dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER)({ value }));
+export const addMapMarker = (value) => (dispatch) =>
+  dispatch(createAction(EditorActions.ADD_MAP_MARKER)({ value }));
 
-export const addMapMarkerToCollection = (value) => dispatch => dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({ value }));
+export const addMapMarkerToCollection = (value) => (dispatch) =>
+  dispatch(createAction(EditorActions.ADD_MAP_MARKER_TO_COLLECTION)({ value }));
 
-export const initSingleChoiceQuestion = (sectionId) => dispatch => dispatch(createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({ sectionId }));
+export const initSingleChoiceQuestion = (sectionId) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.INIT_SINGLECHOICE_QUESTION)({ sectionId })
+  );
 
-export const initMultipleChoiceQuestion = (sectionId) => dispatch => dispatch(createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({ sectionId }));
+export const initMultipleChoiceQuestion = (sectionId) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.INIT_MULTIPLECHOICE_QUESTION)({ sectionId })
+  );
 
-export const clearQuestions = (sectionId) => dispatch => dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({ sectionId }));
+export const clearQuestions = (sectionId) => (dispatch) =>
+  dispatch(createAction(EditorActions.CLEAR_QUESTIONS)({ sectionId }));
 
-export const addOption = (sectionId, questionId) => dispatch => dispatch(createAction(EditorActions.ADD_OPTION)({ sectionId, questionId }));
+export const addOption = (sectionId, questionId) => (dispatch) =>
+  dispatch(createAction(EditorActions.ADD_OPTION)({ sectionId, questionId }));
 
-export const editQuestion = (fieldType, sectionId, questionId, optionKey, value) => dispatch => dispatch(createAction(EditorActions.EDIT_QUESTION)({ fieldType, sectionId, questionId, value, optionKey }));
+export const editQuestion =
+  (fieldType, sectionId, questionId, optionKey, value) => (dispatch) =>
+    dispatch(
+      createAction(EditorActions.EDIT_QUESTION)({
+        fieldType,
+        sectionId,
+        questionId,
+        value,
+        optionKey,
+      })
+    );
 
-export const deleteTemporaryQuestion = (sectionId, questionFrontId) => createAction(EditorActions.DELETE_TEMP_QUESTION)({ sectionId, questionFrontId });
+export const deleteTemporaryQuestion = (sectionId, questionFrontId) =>
+  createAction(EditorActions.DELETE_TEMP_QUESTION)({
+    sectionId,
+    questionFrontId,
+  });
 
-export const deleteLastOption = (sectionId, questionId, optionKey) => dispatch => dispatch(createAction(EditorActions.DELETE_LAST_OPTION)({ sectionId, questionId, optionKey }));
+export const deleteLastOption =
+  (sectionId, questionId, optionKey) => (dispatch) =>
+    dispatch(
+      createAction(EditorActions.DELETE_LAST_OPTION)({
+        sectionId,
+        questionId,
+        optionKey,
+      })
+    );
 
-export const deleteExistingQuestion = (sectionId, questionId) => dispatch => dispatch(createAction(EditorActions.DELETE_EXISTING_QUESTION)({ sectionId, questionId }));
+export const deleteExistingQuestion = (sectionId, questionId) => (dispatch) =>
+  dispatch(
+    createAction(EditorActions.DELETE_EXISTING_QUESTION)({
+      sectionId,
+      questionId,
+    })
+  );
 
 /*
-* Removes section from hearing
-* @param {str} sectionID - Is compared to section.id and section.frontId in that order
+ * Removes section from hearing
+ * @param {str} sectionID - Is compared to section.id and section.frontId in that order
  */
-export const removeSection = (sectionID) => dispatch => dispatch(createAction(EditorActions.REMOVE_SECTION)({ sectionID }));
+export const removeSection = (sectionID) => (dispatch) =>
+  dispatch(createAction(EditorActions.REMOVE_SECTION)({ sectionID }));
 
-export const changeHearingEditorLanguages = (languages) => dispatch => dispatch(createAction(EditorActions.SET_LANGUAGES)({ languages }));
+export const changeHearingEditorLanguages = (languages) => (dispatch) =>
+  dispatch(createAction(EditorActions.SET_LANGUAGES)({ languages }));
 
 /*
-* Save changes made to an existing hearing.
-* Passed hearing should represent the new state of the hearing.
-* Hearing ID is used to determine which hearing gets updated.
+ * Save changes made to an existing hearing.
+ * Passed hearing should represent the new state of the hearing.
+ * Hearing ID is used to determine which hearing gets updated.
  */
 export function saveHearingChanges(hearing) {
   return (dispatch, getState) => {
     const cleanedHearing = filterTitleAndContentByLanguage(
-      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+      filterFrontIdsFromAttributes(hearing),
+      getState().hearingEditor.languages
     );
 
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({ cleanedHearing });
+    const preSaveAction = createAction(EditorActions.SAVE_HEARING)({
+      cleanedHearing,
+    });
     dispatch(preSaveAction);
     const url = `/v1/hearing/${cleanedHearing.id}`;
     return put(url, cleanedHearing)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 400) {
           // Bad request with error message
           // TODO: Add translations
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
+          response.json().then((errors) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_FAILED)({ errors })
+            );
           });
           throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
@@ -351,16 +472,33 @@ export function saveHearingChanges(hearing) {
           // TODO: Add translations
           throw Error(HEARING_CANT_MODIFY);
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
             dispatch(closeHearingForm());
             if (hearing.slug !== hearingJSON.slug) {
-              dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'slugInUse')));
+              dispatch(
+                addToast(
+                  createLocalizedNotificationPayload(
+                    NOTIFICATION_TYPES.error,
+                    'slugInUse'
+                  )
+                )
+              );
             }
-
           });
           // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Tallennus onnistui')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Tallennus onnistui'
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -383,7 +521,14 @@ export function addSectionAttachment(section, file, title, isNew) {
         if (response.status === 400 && !isNew) {
           throw Error(getMessage('errorSaveBeforeAttachment'));
         } else {
-          response.json().then((attachment) => dispatch(createAction(EditorActions.ADD_ATTACHMENT)({ sectionId: section, attachment: { ...attachment, isNew: true } })));
+          response.json().then((attachment) =>
+            dispatch(
+              createAction(EditorActions.ADD_ATTACHMENT)({
+                sectionId: section,
+                attachment: { ...attachment, isNew: true },
+              })
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -393,37 +538,64 @@ export function addSectionAttachment(section, file, title, isNew) {
 export function saveAndPreviewHearingChanges(hearing) {
   return (dispatch, getState) => {
     const cleanedHearing = filterTitleAndContentByLanguage(
-      filterFrontIdsFromAttributes(hearing), getState().hearingEditor.languages
+      filterFrontIdsFromAttributes(hearing),
+      getState().hearingEditor.languages
     );
-    const preSaveAction = createAction(EditorActions.SAVE_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
+    const preSaveAction = createAction(
+      EditorActions.SAVE_HEARING,
+      null,
+      () => ({ fyi: 'saveAndPreview' })
+    )({
       cleanedHearing,
     });
     dispatch(preSaveAction);
     const url = `/v1/hearing/${cleanedHearing.id}`;
     return put(url, cleanedHearing)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 400) {
           // Bad request with error message
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
+          response.json().then((errors) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_FAILED)({ errors })
+            );
           });
           // TODO: Add translations
           throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, HEARING_CANT_MODIFY)));
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.error,
+                HEARING_CANT_MODIFY
+              )
+            )
+          );
+          response.json().then((errors) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_FAILED)({ errors })
+            );
           });
           // Unauthorized
           // TODO: Add translations
           throw Error(HEARING_CANT_MODIFY);
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
             dispatch(createAction(EditorActions.CLOSE_FORM)());
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Tallennus onnistui')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Tallennus onnistui'
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -433,19 +605,25 @@ export function saveAndPreviewHearingChanges(hearing) {
 export function saveAndPreviewNewHearing(hearing) {
   return (dispatch) => {
     const preparedHearing = prepareHearingForSave(hearing);
-    const preSaveAction = createAction(EditorActions.POST_HEARING, null, () => ({ fyi: 'saveAndPreview' }))({
+    const preSaveAction = createAction(
+      EditorActions.POST_HEARING,
+      null,
+      () => ({ fyi: 'saveAndPreview' })
+    )({
       hearing,
     });
     dispatch(preSaveAction);
     const url = '/v1/hearing/';
     return post(url, preparedHearing)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 400) {
           // Bad request with error message
           // TODO: Add translations
-          response.json().then(errors => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_FAILED)({ errors }));
+          response.json().then((errors) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_FAILED)({ errors })
+            );
           });
           throw Error(HEARING_CHECK_HEARING_INFORMATION_MESSAGE);
         } else if (response.status === 401) {
@@ -453,11 +631,22 @@ export function saveAndPreviewNewHearing(hearing) {
           // TODO: Add translations
           throw Error('Et voi luoda kuulemista.');
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.POST_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.POST_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
             dispatch(createAction(EditorActions.CLOSE_FORM)());
           });
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, HEARING_CREATED_MESSAGE)));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                HEARING_CREATED_MESSAGE
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -470,23 +659,36 @@ export function saveAndPreviewHearingAsCopy(hearing) {
 
 export function closeHearing(hearing) {
   return (dispatch) => {
-    const preCloseAction = createAction(EditorActions.CLOSE_HEARING)({ hearing });
+    const preCloseAction = createAction(EditorActions.CLOSE_HEARING)({
+      hearing,
+    });
     dispatch(preCloseAction);
     const url = `/v1/hearing/${hearing.id}`;
     const now = moment().toISOString();
     const changes = { close_at: now };
     return patch(url, changes)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 401) {
           // TODO: Add translations
           throw Error('Et voi sulkea tätä kuulemista.');
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
           });
           // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Kuuleminen suljettiin')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Kuuleminen suljettiin'
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -495,22 +697,35 @@ export function closeHearing(hearing) {
 
 export function publishHearing(hearing) {
   return (dispatch) => {
-    const prePublishAction = createAction(EditorActions.PUBLISH_HEARING)({ hearing });
+    const prePublishAction = createAction(EditorActions.PUBLISH_HEARING)({
+      hearing,
+    });
     dispatch(prePublishAction);
     const url = `/v1/hearing/${hearing.id}`;
     const changes = { published: true };
     return patch(url, changes)
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 401) {
           // TODO: Add translations
           throw Error('Et voi julkaista tätä kuulemista.');
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
           });
           // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Kuuleminen julkaistiin')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Kuuleminen julkaistiin'
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
@@ -519,25 +734,39 @@ export function publishHearing(hearing) {
 
 export function unPublishHearing(hearing) {
   return (dispatch) => {
-    const preUnPublishAction = createAction(EditorActions.UNPUBLISH_HEARING)({ hearing });
+    const preUnPublishAction = createAction(EditorActions.UNPUBLISH_HEARING)({
+      hearing,
+    });
     dispatch(preUnPublishAction);
     const url = `/v1/hearing/${hearing.id}`;
     return patch(url, { published: false })
       .then(checkResponseStatus)
-      .then(response => {
+      .then((response) => {
         if (response.status === 401) {
           // TODO: Add translations
           throw Error(HEARING_CANT_MODIFY);
         } else {
-          response.json().then(hearingJSON => {
-            dispatch(createAction(EditorActions.SAVE_HEARING_SUCCESS)({ hearing: hearingJSON }));
+          response.json().then((hearingJSON) => {
+            dispatch(
+              createAction(EditorActions.SAVE_HEARING_SUCCESS)({
+                hearing: hearingJSON,
+              })
+            );
           });
           // TODO: Add translations
-          dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.success, 'Muutos tallennettu')));
+          dispatch(
+            addToast(
+              createNotificationPayload(
+                NOTIFICATION_TYPES.success,
+                'Muutos tallennettu'
+              )
+            )
+          );
         }
       })
       .catch(requestErrorHandler(dispatch));
   };
 }
 
-export const updateHearingAfterSave = (normalizedHearing) => createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);
+export const updateHearingAfterSave = (normalizedHearing) =>
+  createAction(EditorActions.UPDATE_HEARING_AFTER_SAVE)(normalizedHearing);

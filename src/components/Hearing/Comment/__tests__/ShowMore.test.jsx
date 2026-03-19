@@ -12,7 +12,8 @@ describe('<ShowMore />', () => {
     open: false,
   };
 
-  const renderComponent = (props = {}) => renderWithProviders(<ShowMore {...defaultProps} {...props} />);
+  const renderComponent = (props = {}) =>
+    renderWithProviders(<ShowMore {...defaultProps} {...props} />);
 
   test('renders correctly', () => {
     renderComponent();

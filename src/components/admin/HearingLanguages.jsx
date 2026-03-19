@@ -9,12 +9,18 @@ function HearingLanguages({ hearingLanguages, onChange }) {
   const intl = useIntl();
 
   return (
-    <Fieldset className='hearing-languages' heading={<FormattedMessage id='hearingLanguages' />}>
+    <Fieldset
+      className='hearing-languages'
+      heading={<FormattedMessage id='hearingLanguages' />}
+    >
       {config.languages.map((lang) => {
         const langIndex = hearingLanguages.indexOf(lang);
         const checked = langIndex !== -1;
         const onChangeValues = checked
-          ? [...hearingLanguages.slice(0, langIndex), ...hearingLanguages.slice(langIndex + 1)]
+          ? [
+              ...hearingLanguages.slice(0, langIndex),
+              ...hearingLanguages.slice(langIndex + 1),
+            ]
           : [...hearingLanguages, lang];
 
         return (

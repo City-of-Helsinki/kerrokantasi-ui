@@ -7,24 +7,29 @@ const INITIAL_STATE = {
 };
 
 const fetchOidcUserData = (state) => ({
-    ...state,
-    isFetching: true
-  });
-  
-  const receiveOidcUserData = (state, { payload }) => {
-    if (payload) {
-      return updeep({
+  ...state,
+  isFetching: true,
+});
+
+const receiveOidcUserData = (state, { payload }) => {
+  if (payload) {
+    return updeep(
+      {
         isFetching: false,
         user: payload.oidcUser,
-      }, state);
-    }
-    return INITIAL_STATE;
-  };
-  const clearOidcUserData = (/* state, action */) => INITIAL_STATE;
+      },
+      state
+    );
+  }
+  return INITIAL_STATE;
+};
+const clearOidcUserData = (/* state, action */) => INITIAL_STATE;
 
-  export default handleActions({
+export default handleActions(
+  {
     fetchOidcUserData,
     receiveOidcUserData,
     clearOidcUserData,
-  }, INITIAL_STATE);
-
+  },
+  INITIAL_STATE
+);

@@ -33,13 +33,15 @@ require(`${cityPublic}/test-env-config`);
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
 // Needed for tests to work with react-slick, check https://github.com/akiran/react-slick#test-setup
-window.matchMedia = window.matchMedia || function () {
-  return {
-    matches: false,
-    addListener: () => { },
-    removeListener: () => { }
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      addListener: () => {},
+      removeListener: () => {},
+    };
   };
-};
 
 window.scrollTo = vi.fn();
 
@@ -63,7 +65,9 @@ console.error = (msg, ...optionalParams) => {
   const msgStr = msg.toString();
 
   return (
-    !msgStr.includes('Could not parse CSS stylesheet') && !msgStr.match(/Cannot format message:/i) && !msgStr.match(/Missing message:/i) &&
+    !msgStr.includes('Could not parse CSS stylesheet') &&
+    !msgStr.match(/Cannot format message:/i) &&
+    !msgStr.match(/Missing message:/i) &&
     originalError(msg, ...optionalParams)
   );
 };

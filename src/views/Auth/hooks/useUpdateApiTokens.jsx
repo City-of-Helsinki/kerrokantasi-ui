@@ -37,7 +37,7 @@ const useUpdateApiTokens = () => {
       }, 1000);
     });
 
-  return { apiTokensUpdated, updateApiTokens }
-}
+  return { apiTokensUpdated, updateApiTokens };
+};
 
 export default useUpdateApiTokens;

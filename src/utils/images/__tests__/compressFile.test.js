@@ -10,25 +10,32 @@ vi.mock('browser-image-compression', () => {
       return Promise.resolve({
         ...file,
         size: file.size * 0.5, // Simulate compression by halving the file size
-        compressedWith: options
+        compressedWith: options,
       });
-    })
+    }),
   };
 });
 
 describe('compressFile', () => {
   it('should call imageCompression with the correct parameters', async () => {
-    const mockFile = new File(['mock content'], 'test-image.jpg', { type: 'image/jpeg' });
+    const mockFile = new File(['mock content'], 'test-image.jpg', {
+      type: 'image/jpeg',
+    });
     const maxSizeMB = MAX_IMAGE_SIZE;
     const maxWidthOrHeight = MAX_WIDTH_OR_HEIGHT;
     const fileType = 'image/webp';
 
-    const result = await compressFile(mockFile, maxSizeMB, maxWidthOrHeight, fileType);
+    const result = await compressFile(
+      mockFile,
+      maxSizeMB,
+      maxWidthOrHeight,
+      fileType
+    );
 
     expect(imageCompression).toHaveBeenCalledWith(mockFile, {
       maxSizeMB,
       fileType,
-      maxWidthOrHeight
+      maxWidthOrHeight,
     });
 
     expect(result).toBeDefined();
@@ -36,16 +43,22 @@ describe('compressFile', () => {
     expect(result.compressedWith).toEqual({
       maxSizeMB,
       fileType,
-      maxWidthOrHeight
+      maxWidthOrHeight,
     });
   });
 
   it('should handle errors from the compression library', async () => {
-    const mockFile = new File(['mock content'], 'test-image.jpg', { type: 'image/jpeg' });
+    const mockFile = new File(['mock content'], 'test-image.jpg', {
+      type: 'image/jpeg',
+    });
     const compressionError = new Error('Compression failed');
 
-    imageCompression.mockImplementationOnce(() => Promise.reject(compressionError));
+    imageCompression.mockImplementationOnce(() =>
+      Promise.reject(compressionError)
+    );
 
-    await expect(compressFile(mockFile, 1, 960, 'image/webp')).rejects.toThrow('Compression failed');
+    await expect(compressFile(mockFile, 1, 960, 'image/webp')).rejects.toThrow(
+      'Compression failed'
+    );
   });
 });

@@ -13,14 +13,16 @@ import {
   isFormValid,
 } from '../iframeUtils';
 
-const TEST_URL = "https://google.fi";
-const BORDER_NONE = "border: none";
+const TEST_URL = 'https://google.fi';
+const BORDER_NONE = 'border: none';
 
 describe('iframeUtils', () => {
   describe('stripWrappingFigureTags', () => {
     it('removes figure tags surrounding iframe tags and returns the result', () => {
-      const htmlString = '<div><figure><iframe></iframe></figure><figure><p>text</p></figure></div>';
-      const expectedResult = '<div><iframe></iframe><figure><p>text</p></figure></div>';
+      const htmlString =
+        '<div><figure><iframe></iframe></figure><figure><p>text</p></figure></div>';
+      const expectedResult =
+        '<div><iframe></iframe><figure><p>text</p></figure></div>';
       expect(stripWrappingFigureTags(htmlString)).toBe(expectedResult);
     });
   });
@@ -47,8 +49,9 @@ describe('iframeUtils', () => {
 
   describe('parseIframeHtml', () => {
     it('returns an object with iframe attributes when iframe with attributes is found in input', () => {
-      const htmlString = '<div><iframe src="https://google.fi" title="test"></iframe></div>';
-      const expectedObj = { src: TEST_URL, title: "test" };
+      const htmlString =
+        '<div><iframe src="https://google.fi" title="test"></iframe></div>';
+      const expectedObj = { src: TEST_URL, title: 'test' };
       expect(parseIframeHtml(htmlString)).toEqual(expectedObj);
     });
     it('returns an empty object if iframe doesnt have any attributes', () => {
@@ -63,71 +66,81 @@ describe('iframeUtils', () => {
 
   describe('convertStyleDimensionSettings', () => {
     it('returns attribute object where style dimensions are added as their own object properties', () => {
-      const attributesA = { title: "test", style: "width: 12px;" };
-      const expectedAttributesA = { title: "test", width: "12", style: "" };
+      const attributesA = { title: 'test', style: 'width: 12px;' };
+      const expectedAttributesA = { title: 'test', width: '12', style: '' };
       const attributesB = {
         src: TEST_URL,
-        title: "test",
-        style: "border: none; width: 400px; height: 188px;",
+        title: 'test',
+        style: 'border: none; width: 400px; height: 188px;',
       };
       const expectedAttributesB = {
         src: TEST_URL,
-        title: "test",
-        width: "400",
-        height: "188",
+        title: 'test',
+        width: '400',
+        height: '188',
         style: BORDER_NONE,
       };
-      expect(convertStyleDimensionSettings(attributesA)).toEqual(expectedAttributesA);
-      expect(convertStyleDimensionSettings(attributesB)).toEqual(expectedAttributesB);
+      expect(convertStyleDimensionSettings(attributesA)).toEqual(
+        expectedAttributesA
+      );
+      expect(convertStyleDimensionSettings(attributesB)).toEqual(
+        expectedAttributesB
+      );
     });
     it('replaces current attribute dimension properties with style dimensions', () => {
       const attributes = {
         src: TEST_URL,
-        title: "test",
-        width: "200",
-        height: "150",
-        style: "border: none; width: 400px; height: 188px;",
+        title: 'test',
+        width: '200',
+        height: '150',
+        style: 'border: none; width: 400px; height: 188px;',
       };
       const expectedAttributes = {
         src: TEST_URL,
-        title: "test",
-        width: "400",
-        height: "188",
+        title: 'test',
+        width: '400',
+        height: '188',
         style: BORDER_NONE,
       };
-      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+      expect(convertStyleDimensionSettings(attributes)).toEqual(
+        expectedAttributes
+      );
     });
     it('converts correctly with only one given style dimension setting', () => {
       const attributes = {
         src: TEST_URL,
-        title: "test",
-        width: "200",
-        height: "150",
-        style: "border: none; width: 400px !important;",
+        title: 'test',
+        width: '200',
+        height: '150',
+        style: 'border: none; width: 400px !important;',
       };
       const expectedAttributes = {
         src: TEST_URL,
-        title: "test",
-        width: "400",
-        height: "150",
+        title: 'test',
+        width: '400',
+        height: '150',
         style: BORDER_NONE,
       };
-      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+      expect(convertStyleDimensionSettings(attributes)).toEqual(
+        expectedAttributes
+      );
     });
     it('returns copy of original attributes if there are no style dimension settings', () => {
       const attributes = {
         src: TEST_URL,
-        title: "test",
-        width: "200",
+        title: 'test',
+        width: '200',
         style: BORDER_NONE,
       };
       const expectedAttributes = {
         src: TEST_URL,
-        title: "test",
-        width: "200",
+        title: 'test',
+        width: '200',
         style: BORDER_NONE,
       };
-      expect(convertStyleDimensionSettings(attributes)).toEqual(expectedAttributes);
+      expect(convertStyleDimensionSettings(attributes)).toEqual(
+        expectedAttributes
+      );
     });
   });
 
@@ -172,7 +185,9 @@ describe('iframeUtils', () => {
     it('returns an error message string if error is found', () => {
       const inputName = 'src';
       const value = '';
-      expect(validateInput(inputName, value)).toBe(IFRAME_VALIDATION.NOT_EMPTY.errorMsg);
+      expect(validateInput(inputName, value)).toBe(
+        IFRAME_VALIDATION.NOT_EMPTY.errorMsg
+      );
     });
     it('returns an empty message string if no errors are found', () => {
       const inputName = 'src';
@@ -188,7 +203,7 @@ describe('iframeUtils', () => {
         src: IFRAME_VALIDATION.NOT_EMPTY.errorMsg,
         title: IFRAME_VALIDATION.NOT_EMPTY.errorMsg,
         width: '',
-        height: IFRAME_VALIDATION.ONLY_NUMBERS.errorMsg
+        height: IFRAME_VALIDATION.ONLY_NUMBERS.errorMsg,
       };
       expect(validateForm(fields)).toEqual(expectedResult);
     });
@@ -215,4 +230,3 @@ describe('iframeUtils', () => {
     });
   });
 });
-

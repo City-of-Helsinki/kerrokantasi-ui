@@ -14,9 +14,9 @@ describe('labels', () => {
       all: ['1', '2'],
       byId: {
         1: { id: 1, name: 'Label 1' },
-        2: { id: 2, name: 'Label 2' }
+        2: { id: 2, name: 'Label 2' },
       },
-      labels: {}
+      labels: {},
     };
     const labels = {
       entities: {
@@ -25,7 +25,7 @@ describe('labels', () => {
           2: { id: 2, name: 'Label 2' },
         },
       },
-      result: ['1', '2']
+      result: ['1', '2'],
     };
     const action = {
       type: EditorActions.RECEIVE_META_DATA,
@@ -40,9 +40,9 @@ describe('labels', () => {
     const expected = {
       all: ['2'],
       byId: {
-        2: { id: 2, name: 'Label 2' }
+        2: { id: 2, name: 'Label 2' },
       },
-      labels: {}
+      labels: {},
     };
 
     const state = {
@@ -66,9 +66,9 @@ describe('labels', () => {
     const expected = {
       all: ['2'],
       byId: {
-        2: { id: 2, name: 'Label 2', frontId: 2 }
+        2: { id: 2, name: 'Label 2', frontId: 2 },
       },
-      labels: null
+      labels: null,
     };
     const state = {
       1: { id: 1, name: 'Label 1' },

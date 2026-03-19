@@ -19,7 +19,7 @@ const HearingFormControl = ({ formatMessage, changeSort }) => {
     { value: '-n_comments', label: formatMessage({ id: 'mostCommented' }) },
     { value: 'n_comments', label: formatMessage({ id: 'leastCommented' }) },
   ];
-  
+
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
   return (
@@ -32,7 +32,7 @@ const HearingFormControl = ({ formatMessage, changeSort }) => {
         options={options}
         value={selectedOption}
         onChange={(selected) => {
-          changeSort(selected[0].value)
+          changeSort(selected[0].value);
           setSelectedOption(selected[0].value);
         }}
         style={{ marginBottom: 'var(--spacing-s)' }}

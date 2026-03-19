@@ -1,4 +1,4 @@
-import { createStore } from "redux";
+import { createStore } from 'redux';
 
 import oidc from '../oidc';
 
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 };
 
 const dummyUser = 'testUser';
-const payload = { oidcUser: dummyUser }
+const payload = { oidcUser: dummyUser };
 
 describe('oidc', () => {
   let store;
@@ -35,4 +35,4 @@ describe('oidc', () => {
     store.dispatch({ type: 'clearOidcUserData' });
     expect(store.getState()).toEqual(INITIAL_STATE);
   });
-})
+});

@@ -62,14 +62,22 @@ export function cookieBotOnAccept() {
 
   // If we have previous state, check if relevant consents changed
   if (previousConsentState !== null) {
-    const preferencesChanged = previousConsentState.preferences !== currentPreferences;
-    const marketingChanged = previousConsentState.marketing !== currentMarketing;
+    const preferencesChanged =
+      previousConsentState.preferences !== currentPreferences;
+    const marketingChanged =
+      previousConsentState.marketing !== currentMarketing;
 
     // Reload only if preferences or marketing consent changed and user just responded
-    if (window.Cookiebot.hasResponse && (preferencesChanged || marketingChanged)) {
+    if (
+      window.Cookiebot.hasResponse &&
+      (preferencesChanged || marketingChanged)
+    ) {
       shouldReload = true;
     }
-  } else if (window.Cookiebot.hasResponse && (currentPreferences || currentMarketing)) {
+  } else if (
+    window.Cookiebot.hasResponse &&
+    (currentPreferences || currentMarketing)
+  ) {
     // First time accepting - reload if user enabled preferences or marketing
     shouldReload = true;
   }
@@ -113,7 +121,10 @@ export function cookieBotAddListeners() {
  */
 export function cookieBotRemoveListeners() {
   if (isCookiebotEnabled()) {
-    window.removeEventListener('CookiebotOnDialogDisplay', cookieBotImageOverride);
+    window.removeEventListener(
+      'CookiebotOnDialogDisplay',
+      cookieBotImageOverride
+    );
     window.removeEventListener('CookiebotOnAccept', cookieBotOnAccept);
     window.removeEventListener('CookiebotOnDecline', cookieBotOnDecline);
   }

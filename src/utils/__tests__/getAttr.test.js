@@ -5,11 +5,11 @@ describe('getAttr', () => {
   const SV = 'sv';
   const EN = 'en';
   const str = 'foobar';
-  const onlySV = { 'sv': 'foobar' };
+  const onlySV = { sv: 'foobar' };
   const all = {
     [FI]: str,
     [SV]: SV,
-    [EN]: EN
+    [EN]: EN,
   };
 
   it('should return non-objects unmutatted without `exact` mode', () => {
@@ -31,12 +31,10 @@ describe('getAttr', () => {
   });
 
   it('should translate to correct lng', () =>
-    expect(getAttr(all, FI)).toBe(str)
-  );
+    expect(getAttr(all, FI)).toBe(str));
 
   it('should translate to correct lng with `exact`', () =>
-    expect(getAttr(all, FI, { exact: true })).toBe(str)
-  );
+    expect(getAttr(all, FI, { exact: true })).toBe(str));
 
   it('should return some translation when exact translation is not available', () => {
     expect(getAttr(onlySV, FI)).toBe('foobar');

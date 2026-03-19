@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 import IframeCopyPasteField from './IframeCopyPasteField';
 import RichTextModalTextField from '../RichTextModalTextField';
 import IframeSelectField from './IframeSelectField';
-import { validateInput, validateForm, isFormValid } from '../../../utils/iframeUtils';
+import {
+  validateInput,
+  validateForm,
+  isFormValid,
+} from '../../../utils/iframeUtils';
 import getMessage from '../../../utils/getMessage';
 
 const initialState = {
@@ -112,7 +116,10 @@ class IframeModal extends React.Component {
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
         theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
-        <Dialog.Header id={titleId} title={<FormattedMessage id='iframeModalTitle' />} />
+        <Dialog.Header
+          id={titleId}
+          title={<FormattedMessage id='iframeModalTitle' />}
+        />
         <Dialog.Content>
           <form
             id={descriptionId}
@@ -180,7 +187,10 @@ class IframeModal extends React.Component {
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button className='kerrokantasi-btn black' onClick={(event) => this.handleFormSubmit(event, fields)}>
+          <Button
+            className='kerrokantasi-btn black'
+            onClick={(event) => this.handleFormSubmit(event, fields)}
+          >
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           <Button className='kerrokantasi-btn' onClick={() => onClose()}>

@@ -17,10 +17,13 @@ describe('<AccessibilityInfo />', () => {
   });
 
   const renderComponent = (props) =>
-    renderWithProviders(<AccessibilityInfo intl={getIntlAsProp()} language={props.language} />, {
-      store,
-      locale: props.language,
-    });
+    renderWithProviders(
+      <AccessibilityInfo intl={getIntlAsProp()} language={props.language} />,
+      {
+        store,
+        locale: props.language,
+      }
+    );
 
   it('should fetch and display Finnish content', async () => {
     fetch.mockResolvedValueOnce({

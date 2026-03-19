@@ -14,12 +14,15 @@ const MarkdownLinkRenderer = ({ href, children }) => {
       target='_self'
       rel={undefined}
       {...(isExternalLink(href) && {
-        'aria-label': `${intl.formatMessage({ id: 'dataProtection' })} ${intl.formatMessage({
-          id: 'linkLeadsToExternal',
-        })}`,
+        'aria-label': `${intl.formatMessage({ id: 'dataProtection' })} ${intl.formatMessage(
+          {
+            id: 'linkLeadsToExternal',
+          }
+        )}`,
       })}
     >
-      {children} {isExternalLink(href) && <IconLinkExternal size={IconSize.ExtraSmall} />}
+      {children}{' '}
+      {isExternalLink(href) && <IconLinkExternal size={IconSize.ExtraSmall} />}
     </a>
   );
 };

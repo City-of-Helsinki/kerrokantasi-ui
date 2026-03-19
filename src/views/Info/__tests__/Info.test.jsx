@@ -15,7 +15,8 @@ describe('<Info />', () => {
     fetch.resetMocks();
   });
 
-  const renderComponent = (locale) => renderWithProviders(<Info />, { store, locale });
+  const renderComponent = (locale) =>
+    renderWithProviders(<Info />, { store, locale });
 
   it('should render the component with Finnish content', async () => {
     fetch.mockResolvedValueOnce({

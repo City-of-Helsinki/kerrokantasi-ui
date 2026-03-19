@@ -6,7 +6,11 @@ import { FormattedMessage } from 'react-intl';
 import { Button, TextArea } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
-import { alert, createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  alert,
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import {
   checkFormErrors,
   hasUserAnsweredAllQuestions,
@@ -56,8 +60,12 @@ const MapQuestionnaire = ({
    * The array in users with key adminOrganizations should be of length > 0
    */
   const isUserAdmin = useMemo(
-    () => loggedIn && user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0,
-    [loggedIn, user],
+    () =>
+      loggedIn &&
+      user &&
+      Array.isArray(user.adminOrganizations) &&
+      user.adminOrganizations.length > 0,
+    [loggedIn, user]
   );
 
   const formInitialSettings = {
@@ -134,7 +142,9 @@ const MapQuestionnaire = ({
   const handleErrorStates = (errors) => {
     setFormErrors({
       commentRequiredError: errors.includes('commentRequiredError'),
-      commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
+      commentOrAnswerRequiredError: errors.includes(
+        'commentOrAnswerRequiredError'
+      ),
       imageTooBig: errors.includes('imageTooBig'),
     });
   };
@@ -146,7 +156,14 @@ const MapQuestionnaire = ({
    */
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.info, 'maintenanceNotificationText')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.info,
+            'maintenanceNotificationText'
+          )
+        )
+      );
 
       return;
     }
@@ -178,17 +195,21 @@ const MapQuestionnaire = ({
       submitData.nickname = pluginComment.author_name || submitData.nickname;
       pluginData = pluginComment.plugin_data || pluginData;
       submitData.label = pluginComment.label || submitData.label;
-      submitData.images = pluginComment.image ? [pluginComment.image] : submitData.images;
+      submitData.images = pluginComment.image
+        ? [pluginComment.image]
+        : submitData.images;
       submitData.geojson = pluginComment.geojson || submitData.geojson;
       submitData.pinned = pluginComment.pinned || null;
-      submitData.mapCommentText = pluginComment.mapCommentText || submitData.commentText;
+      submitData.mapCommentText =
+        pluginComment.mapCommentText || submitData.commentText;
     } else if (pluginData && typeof pluginData !== 'string') {
       // this is for old-fashioned plugins with only data
       pluginData = JSON.stringify(pluginData);
     }
 
     // validate form errors here before posting the comment
-    const userHasAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
+    const userHasAnsweredAllQuestions =
+      loggedIn && hasUserAnsweredAllQuestions(user, section);
 
     const errors = checkFormErrors(
       imageTooBig,
@@ -196,7 +217,7 @@ const MapQuestionnaire = ({
       section,
       answers,
       isReply,
-      userHasAnsweredAllQuestions,
+      userHasAnsweredAllQuestions
     );
 
     if (errors.length > 0) {
@@ -205,7 +226,10 @@ const MapQuestionnaire = ({
     }
 
     // make sure empty comments are not added when not intended
-    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers)) && !submitData.commentText.trim()) {
+    if (
+      isEmptyCommentAllowed(section, hasAnyAnswers(answers)) &&
+      !submitData.commentText.trim()
+    ) {
       submitData.setCommentText = config.emptyCommentString;
     }
 
@@ -251,7 +275,11 @@ const MapQuestionnaire = ({
 
     if (payload.message === 'userData') {
       // whenever user data is sent by the plugin, post it no questions asked
-      setFormSettings((prevState) => ({ ...prevState, lastUserComment: payload.comment, submitting: false }));
+      setFormSettings((prevState) => ({
+        ...prevState,
+        lastUserComment: payload.comment,
+        submitting: false,
+      }));
 
       if (formSettings.lastUserComment) {
         submitComment();
@@ -273,7 +301,8 @@ const MapQuestionnaire = ({
     if (!messageListener) {
       setMessageListener(onReceiveMessage);
 
-      if (typeof window !== 'undefined') window.addEventListener('message', messageListener, false);
+      if (typeof window !== 'undefined')
+        window.addEventListener('message', messageListener, false);
     }
 
     frameRef.current.addEventListener(
@@ -287,12 +316,13 @@ const MapQuestionnaire = ({
           instanceId: formSettings.pluginInstanceId,
         });
       },
-      false,
+      false
     );
 
     return () => {
       if (messageListener) {
-        if (typeof window !== 'undefined') window.removeEventListener('message', messageListener, false);
+        if (typeof window !== 'undefined')
+          window.removeEventListener('message', messageListener, false);
         setMessageListener(null);
       }
     };
@@ -324,7 +354,11 @@ const MapQuestionnaire = ({
    */
   const handleTextChange = (event) => {
     setComment(event.target.value);
-    setFormErrors((prevState) => ({ ...prevState, commentRequiredError: false, commentOrAnswerRequiredError: false }));
+    setFormErrors((prevState) => ({
+      ...prevState,
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    }));
   };
 
   /**
@@ -400,7 +434,10 @@ const MapQuestionnaire = ({
                     <Button
                       className='kerrokantasi-btn'
                       onClick={getDataAndSubmitComment}
-                      disabled={formSettings.submitting || (!comment && !formSettings.userDataChanged)}
+                      disabled={
+                        formSettings.submitting ||
+                        (!comment && !formSettings.userDataChanged)
+                      }
                     >
                       Lähetä ehdotus
                     </Button>
@@ -416,7 +453,11 @@ const MapQuestionnaire = ({
         return (
           <div className='plugin-comment-form map-plugin-comment-form'>
             <form>
-              <iframe src={pluginSource} className='plugin-frame map-plugin-frame' ref={frameRef} />
+              <iframe
+                src={pluginSource}
+                className='plugin-frame map-plugin-frame'
+                ref={frameRef}
+              />
             </form>
           </div>
         );

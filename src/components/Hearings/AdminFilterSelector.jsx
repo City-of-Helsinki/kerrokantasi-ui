@@ -28,7 +28,11 @@ const AdminFilterSelector = ({ active, onSelect, options }) => {
             value={list}
             checked={active === list}
             onChange={() => onSelect(list)}
-            label={<FormattedMessage id={formattedMessage}>{(txt) => txt}</FormattedMessage>}
+            label={
+              <FormattedMessage id={formattedMessage}>
+                {(txt) => txt}
+              </FormattedMessage>
+            }
           />
         );
       })}
@@ -45,7 +49,7 @@ AdminFilterSelector.propTypes = {
       PropTypes.shape({
         list: PropTypes.string,
         formattedMessage: PropTypes.string,
-      }),
+      })
     ),
   ]),
 };

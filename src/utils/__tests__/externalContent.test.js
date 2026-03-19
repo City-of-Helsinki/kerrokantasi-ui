@@ -84,7 +84,8 @@ describe('externalContent utilities', () => {
     });
 
     it('sanitizes HTML correctly', () => {
-      const html = '<iframe src="https://www.youtube.com/embed/test" allowfullscreen></iframe>';
+      const html =
+        '<iframe src="https://www.youtube.com/embed/test" allowfullscreen></iframe>';
       const sanitizeSpy = vi.spyOn(DOMPurify, 'sanitize');
 
       sanitizeHtml(html);

@@ -22,9 +22,18 @@ import SectionImage from './SectionImage';
 import SortableCommentList from '../../SortableCommentList';
 import getAttr from '../../../utils/getAttr';
 import SubSectionsList from './SubSectionsList';
-import { hasFullscreenMapPlugin, canEdit, getHearingURL } from '../../../utils/hearing';
+import {
+  hasFullscreenMapPlugin,
+  canEdit,
+  getHearingURL,
+} from '../../../utils/hearing';
 import { parseQuery } from '../../../utils/urlQuery';
-import { SectionTypes, isSectionVotable, isSectionCommentable, isMainSection } from '../../../utils/section';
+import {
+  SectionTypes,
+  isSectionVotable,
+  isSectionCommentable,
+  isMainSection,
+} from '../../../utils/section';
 import {
   postSectionComment,
   postVote,
@@ -48,7 +57,10 @@ import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 import { getNickname } from '../../../utils/user';
 import { addToast } from '../../../actions/toast';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../../utils/notify';
 import { HtmlWithConsentCheck } from '../../embed';
 
 const ACCORDION_THEME = {
@@ -75,10 +87,16 @@ const SectionContainerComponent = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
+  const hearing = useSelector((state) =>
+    getHearingWithSlug(state, hearingSlug)
+  );
   const sections = useSelector((state) => getSections(state, hearingSlug));
-  const mainSectionComments = useSelector((state) => getMainSectionComments(state, hearingSlug));
-  const contacts = useSelector((state) => getHearingContacts(state, hearingSlug));
+  const mainSectionComments = useSelector((state) =>
+    getMainSectionComments(state, hearingSlug)
+  );
+  const contacts = useSelector((state) =>
+    getHearingContacts(state, hearingSlug)
+  );
   const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections.find((sec) => sec.id === sectionId) || mainSection;
 
@@ -96,14 +114,24 @@ const SectionContainerComponent = ({
     refreshUser: false,
   });
 
-  const [mainHearingDetailsOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 768);
+  const [mainHearingDetailsOpen] = useState(
+    typeof window !== 'undefined' && window.innerWidth >= 768
+  );
 
   const getSectionNav = () => {
-    const filterNotClosedSections = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE);
-    const filteredSections = filterNotClosedSections.filter((sec) => sec.type !== SectionTypes.MAIN);
-    const currentSectionIndex = sectionId ? filteredSections.findIndex((sec) => sec.id === sectionId) : 0;
+    const filterNotClosedSections = sections.filter(
+      (sec) => sec.type !== SectionTypes.CLOSURE
+    );
+    const filteredSections = filterNotClosedSections.filter(
+      (sec) => sec.type !== SectionTypes.MAIN
+    );
+    const currentSectionIndex = sectionId
+      ? filteredSections.findIndex((sec) => sec.id === sectionId)
+      : 0;
     const prevPath =
-      currentSectionIndex - 1 >= 0 ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}` : undefined;
+      currentSectionIndex - 1 >= 0
+        ? `/${hearingSlug}/${filteredSections[currentSectionIndex - 1].id}`
+        : undefined;
     const nextPath =
       currentSectionIndex + 1 < filteredSections.length
         ? `/${hearingSlug}/${filteredSections[currentSectionIndex + 1].id}`
@@ -129,7 +157,8 @@ const SectionContainerComponent = ({
     try {
       const response = await apiGet(reportUrl, null, {
         headers: {
-          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'Content-Type':
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           Authorization: `Bearer ${accessToken}`,
         },
       });
@@ -155,7 +184,14 @@ const SectionContainerComponent = ({
       link.parentNode.removeChild(link);
       // eslint-disable-next-line no-unused-vars, sonarjs/no-ignored-exceptions
     } catch (error) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'downloadFileError')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'downloadFileError'
+          )
+        )
+      );
     }
   };
 
@@ -203,15 +239,30 @@ const SectionContainerComponent = ({
   };
 
   const onDeleteComment = (commentSectionId, commentId, refreshUser) => {
-    deleteSectionCommentFn(hearingSlug, commentSectionId, commentId, refreshUser);
+    deleteSectionCommentFn(
+      hearingSlug,
+      commentSectionId,
+      commentId,
+      refreshUser
+    );
   };
 
   const openDeleteModal = (commentSectionId, commentId, refreshUser) => {
-    setDeleteModal({ showDeleteModal: true, commentSectionId, commentId, refreshUser });
+    setDeleteModal({
+      showDeleteModal: true,
+      commentSectionId,
+      commentId,
+      refreshUser,
+    });
   };
 
   const closeDeleteModal = () => {
-    setDeleteModal({ showDeleteModal: false, commentSectionId: null, commentId: null, refreshUser: false });
+    setDeleteModal({
+      showDeleteModal: false,
+      commentSectionId: null,
+      commentId: null,
+      refreshUser: false,
+    });
   };
 
   const openLightbox = () => {
@@ -225,7 +276,9 @@ const SectionContainerComponent = ({
   };
 
   const isHearingAdmin = () =>
-    user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.includes(hearing.organization);
+    user &&
+    Array.isArray(user.adminOrganizations) &&
+    user.adminOrganizations.includes(hearing.organization);
 
   /**
    * If files are attached to the section, render the files section
@@ -240,7 +293,11 @@ const SectionContainerComponent = ({
 
     return (
       <section className='hearing-attachments'>
-        <Accordion heading={<FormattedMessage id='attachments' />} headingLevel={2} theme={ACCORDION_THEME}>
+        <Accordion
+          heading={<FormattedMessage id='attachments' />}
+          headingLevel={2}
+          theme={ACCORDION_THEME}
+        >
           <div className='accordion-content'>
             {!published && (
               <p>
@@ -248,7 +305,11 @@ const SectionContainerComponent = ({
               </p>
             )}
             {files.map((file) => (
-              <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
+              <SectionAttachment
+                file={file}
+                key={`file-${file.url}`}
+                language={renderLanguage}
+              />
             ))}
           </div>
         </Accordion>
@@ -271,7 +332,9 @@ const SectionContainerComponent = ({
         <Accordion
           heading={
             <span>
-              <FormattedMessage id='phase' /> {activePhaseIndex + 1}/{numberOfItems} - <FormattedMessage id='project' />{' '}
+              {}
+              <FormattedMessage id='phase' /> {activePhaseIndex + 1}/
+              {numberOfItems} - <FormattedMessage id='project' />{' '}
               {getAttr(project.title, renderLanguage)}
             </span>
           }
@@ -282,7 +345,9 @@ const SectionContainerComponent = ({
             <div className='project-phases-list'>
               {phases.map((phase, index) => (
                 <div className='phases-list-item' key={phase.id}>
-                  <div className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}>
+                  <div
+                    className={`phase-order ${phase.is_active ? 'active-phase' : ''}`}
+                  >
                     <span className='sr-only'>
                       <FormattedMessage id='phase' />
                     </span>
@@ -296,13 +361,19 @@ const SectionContainerComponent = ({
                   <div className='phase-texts'>
                     <span className='phase-title'>
                       {!isEmpty(phase.hearings) ? (
-                        <Link to={{ path: phase.hearings[0] }}>{getAttr(phase.title, renderLanguage)}</Link>
+                        <Link to={{ path: phase.hearings[0] }}>
+                          {getAttr(phase.title, renderLanguage)}
+                        </Link>
                       ) : (
                         <span>{getAttr(phase.title, renderLanguage)}</span>
                       )}
                     </span>
-                    <span className='phase-description'>{getAttr(phase.description, renderLanguage)}</span>
-                    <span className='phase-schedule'>{getAttr(phase.schedule, renderLanguage)}</span>
+                    <span className='phase-description'>
+                      {getAttr(phase.description, renderLanguage)}
+                    </span>
+                    <span className='phase-schedule'>
+                      {getAttr(phase.schedule, renderLanguage)}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -320,12 +391,20 @@ const SectionContainerComponent = ({
 
     return (
       <section>
-        <Accordion heading={<FormattedMessage id='contactPersons' />} headingLevel={2} theme={ACCORDION_THEME}>
+        <Accordion
+          heading={<FormattedMessage id='contactPersons' />}
+          headingLevel={2}
+          theme={ACCORDION_THEME}
+        >
           <div className='accordion-content'>
             <div className='hearing-contacts'>
               {renderContactlist.map((person) => (
                 <div className='hearing-contact' key={person.id}>
-                  <ContactCard activeLanguage={renderLanguage} key={person.id} {...person} />
+                  <ContactCard
+                    activeLanguage={renderLanguage}
+                    key={person.id}
+                    {...person}
+                  />
                 </div>
               ))}
             </div>
@@ -335,7 +414,12 @@ const SectionContainerComponent = ({
     );
   };
 
-  const renderReportDownload = (reportUrl, userIsAdmin, renderHearing, renderLanguage) => {
+  const renderReportDownload = (
+    reportUrl,
+    userIsAdmin,
+    renderHearing,
+    renderLanguage
+  ) => {
     // render either admin download button or normal download link for others
     if (userIsAdmin) {
       return (
@@ -345,7 +429,8 @@ const SectionContainerComponent = ({
             className='pull-right report-download-button kerrokantasi-btn supplementary'
             onClick={() => handleReportDownload(renderHearing, renderLanguage)}
           >
-            <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+            <Icon name='download' aria-hidden='true' />{' '}
+            <FormattedMessage id='downloadReport' />
           </Button>
         </div>
       );
@@ -353,8 +438,12 @@ const SectionContainerComponent = ({
 
     return (
       <p className='report-download text-right small'>
-        <a href={reportUrl} aria-label={<FormattedMessage id='downloadReport' />}>
-          <Icon name='download' aria-hidden='true' /> <FormattedMessage id='downloadReport' />
+        <a
+          href={reportUrl}
+          aria-label={<FormattedMessage id='downloadReport' />}
+        >
+          <Icon name='download' aria-hidden='true' />{' '}
+          <FormattedMessage id='downloadReport' />
         </a>
       </p>
     );
@@ -364,8 +453,13 @@ const SectionContainerComponent = ({
     const userIsAdmin = !isEmpty(user) && canEdit(user, hearing);
     const reportUrl = getApiURL(`/v1/hearing/${hearing.slug}/report`);
     return (
-      <section className='hearing-section comments-section' id='comments-section' tabIndex={-1}>
-        {reportUrl && renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
+      <section
+        className='hearing-section comments-section'
+        id='comments-section'
+        tabIndex={-1}
+      >
+        {reportUrl &&
+          renderReportDownload(reportUrl, userIsAdmin, hearing, language)}
         <SortableCommentList
           section={section}
           canComment={isSectionCommentable(hearing, section, user)}
@@ -426,7 +520,11 @@ const SectionContainerComponent = ({
       return null;
     }
     const abstract = getAttr(section.abstract, renderLanguage);
-    return <div className='lead'><HtmlWithConsentCheck htmlString={abstract} /></div>;
+    return (
+      <div className='lead'>
+        <HtmlWithConsentCheck htmlString={abstract} />
+      </div>
+    );
   };
 
   const renderMainDetails = (renderHearing, renderSection, renderLanguage) => {
@@ -445,7 +543,8 @@ const SectionContainerComponent = ({
               {renderSectionImage(renderLanguage)}
               {/* Render main section title if it exists and it's not the same as the hearing title */}
               {!isEmpty(renderSection.title) &&
-                getAttr(renderHearing.title, renderLanguage) !== getAttr(renderSection.title, renderLanguage) && (
+                getAttr(renderHearing.title, renderLanguage) !==
+                  getAttr(renderSection.title, renderLanguage) && (
                   <h3>{getAttr(renderSection.title, renderLanguage)}</h3>
                 )}
               {renderSectionContent(renderLanguage)}
@@ -469,7 +568,9 @@ const SectionContainerComponent = ({
             </div>
           </div>
         )}
-        <div className={`col-xs-12 col-md-8 ${!hearing.geojson ? 'col-md-offset-2' : ''}`}>
+        <div
+          className={`col-xs-12 col-md-8 ${!hearing.geojson ? 'col-md-offset-2' : ''}`}
+        >
           {renderMainDetails(hearing, section, language)}
 
           {renderProjectPhaseSection(hearing, language)}
@@ -491,7 +592,14 @@ const SectionContainerComponent = ({
               {hasFullscreenMapPlugin(hearing) && (
                 <Button
                   className='kerrokantasi-btn'
-                  onClick={() => navigate({ pathname: getHearingURL({ slug: hearingSlug }, { fullscreen: true }) })}
+                  onClick={() =>
+                    navigate({
+                      pathname: getHearingURL(
+                        { slug: hearingSlug },
+                        { fullscreen: true }
+                      ),
+                    })
+                  }
                 >
                   <Icon name='arrows-alt' fixedWidth aria-hidden='true' />
                   &nbsp;
@@ -534,7 +642,11 @@ const SectionContainerComponent = ({
             </p>
           )}
           {files.map((file) => (
-            <SectionAttachment file={file} key={`file-${file.url}`} language={renderLanguage} />
+            <SectionAttachment
+              file={file}
+              key={`file-${file.url}`}
+              language={renderLanguage}
+            />
           ))}
         </div>
       </div>
@@ -542,7 +654,8 @@ const SectionContainerComponent = ({
   };
 
   const renderSubHearing = () => {
-    const showSectionBrowser = sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
+    const showSectionBrowser =
+      sections.filter((sec) => sec.type !== SectionTypes.CLOSURE).length > 1;
     const published = 'published' in hearing ? hearing.published : true;
 
     return (
@@ -563,12 +676,25 @@ const SectionContainerComponent = ({
               &nbsp;
               <FormattedPlural
                 value={section.n_comments}
-                one={<FormattedMessage id='sectionTotalComment' values={{ n: section.n_comments }} />}
-                other={<FormattedMessage id='sectionTotalComments' values={{ n: section.n_comments }} />}
+                one={
+                  <FormattedMessage
+                    id='sectionTotalComment'
+                    values={{ n: section.n_comments }}
+                  />
+                }
+                other={
+                  <FormattedMessage
+                    id='sectionTotalComments'
+                    values={{ n: section.n_comments }}
+                  />
+                }
               />
             </div>
             {isSectionCommentable(hearing, section, user) && (
-              <InternalLink destinationId='comments-section' className='hearing-subsection-write-comment-link'>
+              <InternalLink
+                destinationId='comments-section'
+                className='hearing-subsection-write-comment-link'
+              >
                 <FormattedMessage id='headerWriteCommentLink' />
               </InternalLink>
             )}
@@ -595,7 +721,9 @@ const SectionContainerComponent = ({
         data-testid='hearing-content-section'
         className={`hearing-content-section ${isMainSection(section) ? 'main' : 'subsection'}`}
       >
-        <div className='row'>{isMainSection(section) ? renderMainHearing() : renderSubHearing()}</div>
+        <div className='row'>
+          {isMainSection(section) ? renderMainHearing() : renderSubHearing()}
+        </div>
       </div>
       <DeleteModal
         isOpen={deleteModal.showDeleteModal}
@@ -618,18 +746,24 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   postSectionCommentFn: (hearingSlug, sectionId, commentData) =>
     dispatch(postSectionComment(hearingSlug, sectionId, commentData)),
-  getCommentSubCommentsFn: (commentId, sectionId) => dispatch(getCommentSubComments(commentId, sectionId)),
+  getCommentSubCommentsFn: (commentId, sectionId) =>
+    dispatch(getCommentSubComments(commentId, sectionId)),
   postVoteFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postVote(commentId, hearingSlug, sectionId, isReply, parentId)),
   postFlagFn: (commentId, hearingSlug, sectionId, isReply, parentId) =>
     dispatch(postFlag(commentId, hearingSlug, sectionId, isReply, parentId)),
   editCommentFn: (hearingSlug, sectionId, commentId, commentData) =>
-    dispatch(editSectionComment(hearingSlug, sectionId, commentId, commentData)),
+    dispatch(
+      editSectionComment(hearingSlug, sectionId, commentId, commentData)
+    ),
   deleteSectionCommentFn: (hearingSlug, sectionId, commentId, refreshUser) =>
-    dispatch(deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser)),
+    dispatch(
+      deleteSectionComment(hearingSlug, sectionId, commentId, refreshUser)
+    ),
   fetchAllCommentsFn: (hearingSlug, sectionId, ordering) =>
     dispatch(fetchAllSectionComments(hearingSlug, sectionId, ordering)),
-  fetchCommentsForSortableListFn: (sectionId, ordering) => dispatch(fetchSectionComments(sectionId, ordering)),
+  fetchCommentsForSortableListFn: (sectionId, ordering) =>
+    dispatch(fetchSectionComments(sectionId, ordering)),
   fetchMoreCommentsFn: (sectionId, ordering, nextUrl) =>
     dispatch(fetchMoreSectionComments(sectionId, nextUrl, ordering)),
 });
@@ -655,4 +789,6 @@ SectionContainerComponent.propTypes = {
   onPostReply: PropTypes.func,
 };
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent));
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)
+);

@@ -7,10 +7,16 @@ import { useDispatch } from 'react-redux';
 import getMessage from '../../../utils/getMessage';
 import { isFormValid } from '../../../utils/iframeUtils';
 import compressFile from '../../../utils/images/compressFile';
-import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../../utils/images/constants';
+import {
+  MAX_IMAGE_SIZE,
+  MAX_WIDTH_OR_HEIGHT,
+} from '../../../utils/images/constants';
 import fileToDataUri from '../../../utils/images/fileToDataUri';
 import { addToast } from '../../../actions/toast';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../../utils/notify';
 import { ACCEPTED_IMAGE_TYPES } from '../../../constants';
 
 const ImageModal = ({ isOpen, onClose, onSubmit }) => {
@@ -31,7 +37,12 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
     try {
       const file = files[0];
 
-      const compressed = await compressFile(file, MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT, 'image/webp');
+      const compressed = await compressFile(
+        file,
+        MAX_IMAGE_SIZE,
+        MAX_WIDTH_OR_HEIGHT,
+        'image/webp'
+      );
       const blob = await fileToDataUri(compressed);
 
       setFileReaderResult(blob);
@@ -39,7 +50,14 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
       // eslint-disable-next-line no-console
       console.error(error);
 
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'imageFileUploadError')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'imageFileUploadError'
+          )
+        )
+      );
     }
   };
 
@@ -49,7 +67,9 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
 
   const validateForm = () => {
     const inputErrors = {
-      fileReaderResult: fileReaderResult ? '' : getMessage('validationCantBeEmpty'),
+      fileReaderResult: fileReaderResult
+        ? ''
+        : getMessage('validationCantBeEmpty'),
     };
 
     return isFormValid(inputErrors);
@@ -77,9 +97,15 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
       closeButtonLabelText={intl.formatMessage({ id: 'close' })}
       theme={{ '--accent-line-color': 'var(--color-black)' }}
     >
-      <Dialog.Header id={titleId} title={<FormattedMessage id='imageModalTitle' />} />
+      <Dialog.Header
+        id={titleId}
+        title={<FormattedMessage id='imageModalTitle' />}
+      />
       <Dialog.Content>
-        <div id={descriptionId} className='form-container image-modal form-group'>
+        <div
+          id={descriptionId}
+          className='form-container image-modal form-group'
+        >
           <label className='form-label' htmlFor='image-modal-add-image'>
             <FormattedMessage id='sectionImage' />
           </label>
@@ -93,7 +119,11 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
                   marginBottom: 'var(--spacing-s)',
                 }}
               >
-                <img style={{ maxWidth: '100%', height: 'auto' }} src={fileReaderResult} alt='' />
+                <img
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                  src={fileReaderResult}
+                  alt=''
+                />
               </Card>
             )}
             <FileInput
@@ -126,7 +156,11 @@ const ImageModal = ({ isOpen, onClose, onSubmit }) => {
           <FormattedMessage id='cancel' />
         </Button>
         {showFormErrorMsg && (
-          <p id='skip-link-form-submit-error' role='alert' className='rich-text-editor-form-input-error'>
+          <p
+            id='skip-link-form-submit-error'
+            role='alert'
+            className='rich-text-editor-form-input-error'
+          >
             {getMessage('formCheckErrors')}
           </p>
         )}

@@ -24,8 +24,12 @@ const TEST_ID_HEARING_CARDS = 'hearing-cards';
 const renderComponent = (props) =>
   renderWithProviders(
     <MemoryRouter>
-      <UnconnectedUserHearings intl={getIntlAsProp()} {...defaultProps} {...props} />
-    </MemoryRouter>,
+      <UnconnectedUserHearings
+        intl={getIntlAsProp()}
+        {...defaultProps}
+        {...props}
+      />
+    </MemoryRouter>
   );
 
 describe('<UserHearings />', () => {
@@ -44,7 +48,10 @@ describe('<UserHearings />', () => {
   it('should not call fetchAllHearings if userExists && user is false', () => {
     const fetchHearingListMock = vi.fn();
 
-    renderComponent({ fetchHearingList: fetchHearingListMock, userState: { userExists: false, userLoading: false } });
+    renderComponent({
+      fetchHearingList: fetchHearingListMock,
+      userState: { userExists: false, userLoading: false },
+    });
 
     expect(fetchHearingListMock).not.toHaveBeenCalled();
   });

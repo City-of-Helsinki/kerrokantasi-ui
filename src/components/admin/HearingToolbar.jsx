@@ -21,15 +21,31 @@ class HearingToolbar extends React.Component {
     let statusLabel = '';
     const openingTime = moment(hearing.open_at);
     const actions = [
-      <Button className='kerrokantasi-btn' onClick={this.props.onReportsClick} key='reports' size='small'>
-        <Icon aria-hidden='true' name='list-alt' /> <FormattedMessage id='commentReportsButtonLabel' />
+      <Button
+        className='kerrokantasi-btn'
+        onClick={this.props.onReportsClick}
+        key='reports'
+        size='small'
+      >
+        <Icon aria-hidden='true' name='list-alt' />{' '}
+        <FormattedMessage id='commentReportsButtonLabel' />
       </Button>,
-      <Button className='kerrokantasi-btn' onClick={this.props.onEdit} key='edit' size='small'>
+      <Button
+        className='kerrokantasi-btn'
+        onClick={this.props.onEdit}
+        key='edit'
+        size='small'
+      >
         <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
       </Button>,
     ];
     if (!hearing.closed && hearing.published) {
-      statusLabel = <Notification type='success' label={<FormattedMessage id='published' />} />;
+      statusLabel = (
+        <Notification
+          type='success'
+          label={<FormattedMessage id='published' />}
+        />
+      );
       actions.push(
         <Button
           className='kerrokantasi-btn danger'
@@ -38,22 +54,37 @@ class HearingToolbar extends React.Component {
           size='small'
         >
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
-        </Button>,
+        </Button>
       );
       actions.push(
-        <Button className='kerrokantasi-btn danger' onClick={this.props.onCloseHearing} key='close' size='small'>
+        <Button
+          className='kerrokantasi-btn danger'
+          onClick={this.props.onCloseHearing}
+          key='close'
+          size='small'
+        >
           <Icon name='ban' /> <FormattedMessage id='closeHearing' />
-        </Button>,
+        </Button>
       );
-    } else if (hearing.closed && hearing.published && moment(hearing.close_at) <= moment()) {
-      statusLabel = <Notification type='error' label={<FormattedMessage id='closedHearing' />} />;
+    } else if (
+      hearing.closed &&
+      hearing.published &&
+      moment(hearing.close_at) <= moment()
+    ) {
+      statusLabel = (
+        <Notification
+          type='error'
+          label={<FormattedMessage id='closedHearing' />}
+        />
+      );
     } else if (hearing.closed && hearing.published) {
       statusLabel = (
         <Notification
           type='alert'
           label={
             <>
-              <FormattedMessage id='toBePublishedHearing' /> {openingTime.format(DATE_FORMAT)}
+              <FormattedMessage id='toBePublishedHearing' />{' '}
+              {openingTime.format(DATE_FORMAT)}
             </>
           }
         />
@@ -66,18 +97,25 @@ class HearingToolbar extends React.Component {
           size='small'
         >
           <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
-        </Button>,
+        </Button>
       );
     } else {
-      statusLabel = <Notification type='info' label={<FormattedMessage id='draft' />} />;
+      statusLabel = (
+        <Notification type='info' label={<FormattedMessage id='draft' />} />
+      );
       let publishText = <FormattedMessage id='publishHearing' />;
       if (moment(hearing.open_at).diff(moment()) < 0) {
         publishText = <FormattedMessage id='publishHearingNow' />;
       }
       actions.push(
-        <Button className='kerrokantasi-btn black' onClick={this.props.onPublish} key='publish' size='small'>
+        <Button
+          className='kerrokantasi-btn black'
+          onClick={this.props.onPublish}
+          key='publish'
+          size='small'
+        >
           <Icon name='eye' /> {publishText}
-        </Button>,
+        </Button>
       );
       actions.push(
         <Button
@@ -87,7 +125,7 @@ class HearingToolbar extends React.Component {
           size='small'
         >
           <Icon name='eye-slash' /> <FormattedMessage id='deleteDraft' />
-        </Button>,
+        </Button>
       );
     }
 

@@ -12,8 +12,14 @@ const defaultProps = {
 const renderComponent = (props) =>
   renderWithProviders(
     <MemoryRouter>
-      <Labels className='labels' store={{}} intl={getIntlAsProp()} {...defaultProps} {...props} />
-    </MemoryRouter>,
+      <Labels
+        className='labels'
+        store={{}}
+        intl={getIntlAsProp()}
+        {...defaultProps}
+        {...props}
+      />
+    </MemoryRouter>
   );
 
 describe('<LabelList />', () => {

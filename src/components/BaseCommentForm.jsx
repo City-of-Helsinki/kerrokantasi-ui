@@ -4,7 +4,15 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Button, Checkbox, Fieldset, FileInput, Notification, TextArea, TextInput } from 'hds-react';
+import {
+  Button,
+  Checkbox,
+  Fieldset,
+  FileInput,
+  Notification,
+  TextArea,
+  TextInput,
+} from 'hds-react';
 import classnames from 'classnames';
 import { connect, useDispatch } from 'react-redux';
 import { get, includes } from 'lodash';
@@ -36,7 +44,10 @@ import CommentFormMap from './CommentFormMap/CommentFormMap';
 import CommentFormErrors from './CommentFormErrors';
 import config from '../config';
 import { addToast } from '../actions/toast';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../utils/notify';
 import { ACCEPTED_IMAGE_TYPES } from '../constants';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
@@ -75,8 +86,12 @@ const BaseCommentForm = ({
    * The array in users with key adminOrganizations should be of length > 0
    */
   const isUserAdmin = useMemo(
-    () => loggedIn && user && Array.isArray(user.adminOrganizations) && user.adminOrganizations.length > 0,
-    [loggedIn, user],
+    () =>
+      loggedIn &&
+      user &&
+      Array.isArray(user.adminOrganizations) &&
+      user.adminOrganizations.length > 0,
+    [loggedIn, user]
   );
 
   const formInitialSettings = {
@@ -122,19 +137,25 @@ const BaseCommentForm = ({
 
   const userAnsweredAllQuestions = useMemo(
     () => loggedIn && hasUserAnsweredAllQuestions(user, section),
-    [loggedIn, user, section],
+    [loggedIn, user, section]
   );
 
   const commentRequired = useMemo(
     () => isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions),
-    [hasQuestions, isReply, userAnsweredAllQuestions],
+    [hasQuestions, isReply, userAnsweredAllQuestions]
   );
 
-  const firstUnansweredQuestion = useMemo(() => getFirstUnansweredQuestion(user, section), [user, section]);
+  const firstUnansweredQuestion = useMemo(
+    () => getFirstUnansweredQuestion(user, section),
+    [user, section]
+  );
 
   const toggle = useCallback(() => {
     if (canComment) {
-      setFormSettings((prevState) => ({ ...prevState, collapsed: !formSettings.collapsed }));
+      setFormSettings((prevState) => ({
+        ...prevState,
+        collapsed: !formSettings.collapsed,
+      }));
 
       if (onOverrideCollapse instanceof Function) {
         onOverrideCollapse();
@@ -142,23 +163,34 @@ const BaseCommentForm = ({
     } else {
       dispatch(
         addToast(
-          createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, getSectionCommentingErrorMessage(section)),
-        ),
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            getSectionCommentingErrorMessage(section)
+          )
+        )
       );
     }
   }, [canComment, dispatch, formSettings, onOverrideCollapse, section]);
 
   const handleTextChange = (event) => {
     setComment(event.target.value);
-    setFormErrors((prevState) => ({ ...prevState, commentRequiredError: false, commentOrAnswerRequiredError: false }));
+    setFormErrors((prevState) => ({
+      ...prevState,
+      commentRequiredError: false,
+      commentOrAnswerRequiredError: false,
+    }));
   };
 
   const handleNicknameChange = (event) => {
-    setFormSettings((prevState) => ({ ...prevState, nickname: event.target.value }));
+    setFormSettings((prevState) => ({
+      ...prevState,
+      nickname: event.target.value,
+    }));
   };
 
   const hasFormErrors = () => {
-    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } = formErrors;
+    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } =
+      formErrors;
 
     return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
   };
@@ -169,14 +201,23 @@ const BaseCommentForm = ({
   const handleErrorStates = (errors) => {
     setFormErrors({
       commentRequiredError: errors.includes('commentRequiredError'),
-      commentOrAnswerRequiredError: errors.includes('commentOrAnswerRequiredError'),
+      commentOrAnswerRequiredError: errors.includes(
+        'commentOrAnswerRequiredError'
+      ),
       imageTooBig: errors.includes('imageTooBig'),
     });
   };
 
   const submitComment = () => {
     if (config.maintenanceDisableComments) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'maintenanceNotificationText'
+          )
+        )
+      );
       return;
     }
 
@@ -217,7 +258,8 @@ const BaseCommentForm = ({
     }
 
     // validate form errors here before posting the comment
-    const userHasAnsweredAllQuestions = loggedIn && hasUserAnsweredAllQuestions(user, section);
+    const userHasAnsweredAllQuestions =
+      loggedIn && hasUserAnsweredAllQuestions(user, section);
 
     const errors = checkFormErrors(
       imageTooBig,
@@ -225,7 +267,7 @@ const BaseCommentForm = ({
       section,
       answers,
       isReply,
-      userHasAnsweredAllQuestions,
+      userHasAnsweredAllQuestions
     );
 
     if (errors.length > 0) {
@@ -234,7 +276,10 @@ const BaseCommentForm = ({
     }
 
     // make sure empty comments are not added when not intended
-    if (isEmptyCommentAllowed(section, hasAnyAnswers(answers)) && !data.commentText.trim()) {
+    if (
+      isEmptyCommentAllowed(section, hasAnyAnswers(answers)) &&
+      !data.commentText.trim()
+    ) {
       data.commentText = config.emptyCommentString;
     }
 
@@ -267,7 +312,9 @@ const BaseCommentForm = ({
   const handleChange = (files) => {
     isImageTooBig(files);
 
-    const imagePromisesArray = files.map((image) => getImageAsBase64Promise(image));
+    const imagePromisesArray = files.map((image) =>
+      getImageAsBase64Promise(image)
+    );
 
     Promise.all(imagePromisesArray).then((arrayOfResults) => {
       const images = arrayOfResults.map((result) => {
@@ -373,7 +420,9 @@ const BaseCommentForm = ({
         <Fieldset heading={<FormattedMessage id='nameAndOrganization' />}>
           {warning}
           {hideName}
-          <div className='comment-form__group-admin'>{renderFormForAdmin()}</div>
+          <div className='comment-form__group-admin'>
+            {renderFormForAdmin()}
+          </div>
         </Fieldset>
       );
     }
@@ -403,8 +452,10 @@ const BaseCommentForm = ({
       className={classnames([
         'comment-form__heading-container__pin__icon',
         {
-          'comment-form__heading-container__pin__pin-comment': !formSettings.pinned,
-          'comment-form__heading-container__pin__unpin-comment': formSettings.pinned,
+          'comment-form__heading-container__pin__pin-comment':
+            !formSettings.pinned,
+          'comment-form__heading-container__pin__unpin-comment':
+            formSettings.pinned,
         },
       ])}
       onClick={handleTogglePin}
@@ -412,7 +463,10 @@ const BaseCommentForm = ({
   );
 
   const onDrawCreate = (event) => {
-    setCommentGeoJson((prevState) => ({ ...prevState, geojson: event.layer.toGeoJSON().geometry }));
+    setCommentGeoJson((prevState) => ({
+      ...prevState,
+      geojson: event.layer.toGeoJSON().geometry,
+    }));
   };
 
   const onDrawDelete = () => {
@@ -420,30 +474,58 @@ const BaseCommentForm = ({
   };
 
   const handleMapTextChange = (event) => {
-    setCommentGeoJson((prevState) => ({ ...prevState, mapCommentText: event.target.value }));
+    setCommentGeoJson((prevState) => ({
+      ...prevState,
+      mapCommentText: event.target.value,
+    }));
   };
 
   const getMapElement = (geojson) => {
     switch (geojson.type) {
       case 'Polygon': {
         // XXX: This only supports the _first_ ring of coordinates in a Polygon
-        const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
-        return <Polygon key={Math.random()} positions={latLngs} color='transparent' />;
+        const latLngs = geojson.coordinates[0].map(
+          ([lng, lat]) => new LatLng(lat, lng)
+        );
+        return (
+          <Polygon
+            key={Math.random()}
+            positions={latLngs}
+            color='transparent'
+          />
+        );
       }
       case 'Point': {
-        const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+        const latLngs = new LatLng(
+          geojson.coordinates[1],
+          geojson.coordinates[0]
+        );
         return <Circle center={latLngs} radius={10} color='transparent' />;
       }
       case 'LineString': {
-        const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
-        return <Polyline key={Math.random()} positions={latLngs} color='transparent' />;
+        const latLngs = geojson.coordinates.map(
+          ([lng, lat]) => new LatLng(lat, lng)
+        );
+        return (
+          <Polyline
+            key={Math.random()}
+            positions={latLngs}
+            color='transparent'
+          />
+        );
       }
       case 'Feature': {
         return getMapElement(geojson.geometry);
       }
       default:
         // This should never happen
-        return <GeoJSON data={geojson} key={JSON.stringify(geojson)} color='transparent' />;
+        return (
+          <GeoJSON
+            data={geojson}
+            key={JSON.stringify(geojson)}
+            color='transparent'
+          />
+        );
     }
   };
 
@@ -465,20 +547,39 @@ const BaseCommentForm = ({
   const getMapCenter = () => {
     let center;
     if (hearingGeojson && hearingGeojson.type === 'Point') {
-      center = new LatLng(hearingGeojson.coordinates[1], hearingGeojson.coordinates[0]);
+      center = new LatLng(
+        hearingGeojson.coordinates[1],
+        hearingGeojson.coordinates[0]
+      );
     } else {
-      center = new LatLng(localization.mapPosition[0], localization.mapPosition[1]);
+      center = new LatLng(
+        localization.mapPosition[0],
+        localization.mapPosition[1]
+      );
     }
     return center;
   };
 
   const getMapContrastTiles = () =>
-    getCorrectContrastMapTileUrl(config.rasterMapTiles, config.highContrastRasterMapTiles, isHighContrast, language);
+    getCorrectContrastMapTileUrl(
+      config.rasterMapTiles,
+      config.highContrastRasterMapTiles,
+      isHighContrast,
+      language
+    );
 
   if (!overrideCollapse && formSettings.collapsed) {
     return (
-      <Button onClick={toggle} className='kerrokantasi-btn black' size='large' fullWidth>
-        <Icon name='comment' /> <FormattedMessage id={hasQuestions ? 'addCommentAndVote' : 'addComment'} />
+      <Button
+        onClick={toggle}
+        className='kerrokantasi-btn black'
+        size='large'
+        fullWidth
+      >
+        <Icon name='comment' />{' '}
+        <FormattedMessage
+          id={hasQuestions ? 'addCommentAndVote' : 'addComment'}
+        />
       </Button>
     );
   }
@@ -490,28 +591,47 @@ const BaseCommentForm = ({
           <FormattedMessage id='writeComment' />
         </h2>
         <p>
-          <FormattedMessage id={commentRequired ? 'commentHelpStarRequired' : 'commentHelpAnswerOrCommentRequired'} />
+          <FormattedMessage
+            id={
+              commentRequired
+                ? 'commentHelpStarRequired'
+                : 'commentHelpAnswerOrCommentRequired'
+            }
+          />
         </p>
         {!isReply &&
           section.questions.map((question) => {
             const canShowQuestionResult =
-              closed || (loggedIn && includes(get(user, 'answered_questions'), question.id));
+              closed ||
+              (loggedIn &&
+                includes(get(user, 'answered_questions'), question.id));
 
             return canShowQuestionResult ? (
-              <QuestionResults key={question.id} question={question} lang={language} />
+              <QuestionResults
+                key={question.id}
+                question={question}
+                lang={language}
+              />
             ) : null;
           })}
         {!isReply &&
           section.questions.map((question) => {
-            const canShowQuestionForm = !closed && !includes(get(user, 'answered_questions'), question.id);
+            const canShowQuestionForm =
+              !closed &&
+              !includes(get(user, 'answered_questions'), question.id);
 
             return canShowQuestionForm ? (
               <QuestionForm
                 // give focus when there are unanswered questions
-                autoFocus={!!firstUnansweredQuestion && firstUnansweredQuestion.id === question.id}
+                autoFocus={
+                  !!firstUnansweredQuestion &&
+                  firstUnansweredQuestion.id === question.id
+                }
                 key={question.id}
                 canAnswer={canComment}
-                answers={answers.find((answer) => answer.question === question.id)}
+                answers={answers.find(
+                  (answer) => answer.question === question.id
+                )}
                 onChange={onChangeAnswers}
                 question={question}
                 lang={language}
@@ -520,7 +640,9 @@ const BaseCommentForm = ({
           })}
         <div className='comment-form__heading-container'>
           {isUserAdmin && !isReply && (
-            <div className='comment-form__heading-container__pin'>{renderPinUnpinIcon()}</div>
+            <div className='comment-form__heading-container__pin'>
+              {renderPinUnpinIcon()}
+            </div>
           )}
           <TextArea
             id='write-comment'
@@ -534,7 +656,10 @@ const BaseCommentForm = ({
           />
         </div>
         {isSectionCommentingMapEnabled(user, section) && (
-          <div className='comment-form__map-container' style={{ marginTop: 20 }}>
+          <div
+            className='comment-form__map-container'
+            style={{ marginTop: 20 }}
+          >
             <div>
               <label htmlFor='commentMapAddress'>
                 <FormattedMessage id='commentMapTitle' />
@@ -598,7 +723,10 @@ const BaseCommentForm = ({
           </Button>
           <Button
             aria-disabled={hasFormErrors()}
-            className={classnames({ disabled: hasFormErrors() }, 'kerrokantasi-btn black')}
+            className={classnames(
+              { disabled: hasFormErrors() },
+              'kerrokantasi-btn black'
+            )}
             onClick={submitComment}
           >
             <FormattedMessage id='submit' />

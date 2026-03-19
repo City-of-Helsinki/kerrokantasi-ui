@@ -31,9 +31,18 @@ const HearingListFilters = ({ handleSort, formatMessage }) => {
   const sortOptions = [
     { value: '-created_at', label: formatMessage({ id: 'newestFirst' }) },
     { value: 'created_at', label: formatMessage({ id: 'oldestFirst' }) },
-    { value: '-close_at_from_open', label: formatMessage({ id: 'lastClosing' }) },
-    { value: 'close_at_from_open', label: formatMessage({ id: 'firstClosing' }) },
-    { value: '-close_at_from_closed', label: formatMessage({ id: 'lastClosed' }) },
+    {
+      value: '-close_at_from_open',
+      label: formatMessage({ id: 'lastClosing' }),
+    },
+    {
+      value: 'close_at_from_open',
+      label: formatMessage({ id: 'firstClosing' }),
+    },
+    {
+      value: '-close_at_from_closed',
+      label: formatMessage({ id: 'lastClosed' }),
+    },
     { value: '-n_comments', label: formatMessage({ id: 'mostCommented' }) },
     { value: 'n_comments', label: formatMessage({ id: 'leastCommented' }) },
   ];

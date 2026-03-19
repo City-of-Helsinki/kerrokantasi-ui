@@ -32,15 +32,20 @@ vi.mock('react-redux', async () => {
   };
 });
 
-vi.mock('../../../BaseCommentForm', () => ({ default: () => <div data-testid='commentForm'>CommentForm</div> }));
+vi.mock('../../../BaseCommentForm', () => ({
+  default: () => <div data-testid='commentForm'>CommentForm</div>,
+}));
 
-vi.mock('../../../BaseCommentForm', () => ({ default: () => <div data-testid='commentForm'>CommentForm</div> }));
+vi.mock('../../../BaseCommentForm', () => ({
+  default: () => <div data-testid='commentForm'>CommentForm</div>,
+}));
 
 const defaultProps = createCommentData();
 
 const ARIA_EXPANDED = 'aria-expanded';
 
-const renderComponent = (props) => renderWithProviders(<Comment {...defaultProps} {...props} />);
+const renderComponent = (props) =>
+  renderWithProviders(<Comment {...defaultProps} {...props} />);
 
 describe('<Comment />', () => {
   it('should be able to render an anonymous comment without crashing', () => {
@@ -56,7 +61,9 @@ describe('<Comment />', () => {
 
     const user = userEvent.setup();
 
-    const buttons = await screen.findAllByRole('button', { name: /voteButtonLikes/i });
+    const buttons = await screen.findAllByRole('button', {
+      name: /voteButtonLikes/i,
+    });
     const firstButton = buttons[0];
 
     await user.click(firstButton);
@@ -82,7 +89,9 @@ describe('<Comment />', () => {
   it('should toggle map visiblity', async () => {
     renderComponent();
 
-    const toggleButton = await screen.findByRole('button', { name: 'commentShowMap' });
+    const toggleButton = await screen.findByRole('button', {
+      name: 'commentShowMap',
+    });
 
     expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('false');
 
@@ -90,13 +99,17 @@ describe('<Comment />', () => {
 
     user.click(toggleButton);
 
-    await waitFor(() => expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true'));
+    await waitFor(() =>
+      expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true')
+    );
   });
 
   it('should have edit links open if canReply is true', async () => {
     renderComponent({ canReply: true });
 
-    await waitFor(() => expect(screen.getByTestId('replyLink')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByTestId('replyLink')).toBeInTheDocument()
+    );
   });
 
   it('should toggle reply editor visibility', async () => {
@@ -108,7 +121,9 @@ describe('<Comment />', () => {
 
     user.click(replyButton);
 
-    await waitFor(() => expect(screen.getByTestId('commentForm')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByTestId('commentForm')).toBeInTheDocument()
+    );
   });
 
   it('should show proper delete message if comment was deleted by user', async () => {
@@ -118,7 +133,11 @@ describe('<Comment />', () => {
       edited: true,
     });
     renderComponent(props);
-    await waitFor(() => expect(screen.getByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByText('sectionCommentSelfDeletedMessage')
+      ).toBeInTheDocument()
+    );
   });
 
   it('should show proper delete message if comment was deleted by user', async () => {
@@ -128,7 +147,11 @@ describe('<Comment />', () => {
       edited: true,
     });
     renderComponent(props);
-    await waitFor(() => expect(screen.getByText('sectionCommentDeletedMessage')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(
+        screen.getByText('sectionCommentDeletedMessage')
+      ).toBeInTheDocument()
+    );
   });
 
   it('should show edit link for user that can edit', async () => {
@@ -146,7 +169,9 @@ describe('<Comment />', () => {
 
     user.click(editButton);
 
-    await waitFor(() => expect(screen.getByTestId('editorForm')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByTestId('editorForm')).toBeInTheDocument()
+    );
 
     const submitButton = screen.getByText('save');
 

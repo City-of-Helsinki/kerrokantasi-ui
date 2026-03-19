@@ -61,7 +61,9 @@ describe('<HearingFormStep2 />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi
+      .fn()
+      .mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
@@ -82,7 +84,9 @@ describe('<HearingFormStep2 />', () => {
     fireEvent.click(screen.getByRole('button', { name: 'addSection' }));
 
     const actions = store.getActions();
-    const expected = [{ type: 'addSection', payload: { section: expect.anything() } }];
+    const expected = [
+      { type: 'addSection', payload: { section: expect.anything() } },
+    ];
 
     expect(actions).toEqual(expected);
   });
@@ -95,7 +99,9 @@ describe('<HearingFormStep2 />', () => {
     fireEvent.click(screen.getAllByText('deleteSection')[0]);
 
     const actions = store.getActions();
-    const expected = [{ type: 'removeSection', payload: { sectionID: undefined } }];
+    const expected = [
+      { type: 'removeSection', payload: { sectionID: undefined } },
+    ];
 
     expect(actions).toEqual(expected);
   });

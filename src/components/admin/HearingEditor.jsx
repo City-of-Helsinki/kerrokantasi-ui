@@ -5,7 +5,10 @@ import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 
 import { validateHearing as validateHearingFn } from '../../utils/hearingEditor';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import {
   addOption,
   addSectionAttachment,
@@ -42,7 +45,13 @@ import {
 import { deleteHearingDraft, fetchProjects } from '../../actions/index';
 import HearingForm from './HearingForm';
 import HearingToolbar from './HearingToolbar';
-import { contactShape, hearingShape, labelShape, organizationShape, userShape } from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  labelShape,
+  organizationShape,
+  userShape,
+} from '../../types';
 import * as EditorSelector from '../../selectors/hearingEditor';
 import CommentReportModal from '../CommentReportModal/CommentReportModal';
 import { addToast } from '../../actions/toast';
@@ -77,7 +86,8 @@ const HearingEditor = (props) => {
 
   const geoJSONRef = useRef();
 
-  const checkIfEmpty = (obj) => !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
+  const checkIfEmpty = (obj) =>
+    !Object.entries(obj).some(([, v]) => Object.entries(v).length > 0);
 
   useEffect(() => {
     if (hearing) {
@@ -127,13 +137,22 @@ const HearingEditor = (props) => {
     if (containsError) {
       dispatch(callbackAction(hearing)).then(() => setShouldSubmit(true));
     } else {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'validationNotification')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'validationNotification'
+          )
+        )
+      );
     }
   };
 
-  const onHearingChange = (field, value) => dispatch(changeHearing(field, value));
+  const onHearingChange = (field, value) =>
+    dispatch(changeHearing(field, value));
 
-  const onSectionChange = (sectionID, field, value) => dispatch(changeSection(sectionID, field, value));
+  const onSectionChange = (sectionID, field, value) =>
+    dispatch(changeSection(sectionID, field, value));
 
   const onAddMapMarker = (value) => {
     if (isEmpty(geoJSONRef.current) || !geoJSONRef.current) {
@@ -149,8 +168,19 @@ const HearingEditor = (props) => {
    * Add a new attachments to a section.
    * The upload happens as soon as user selects a file to upload.
    */
-  const onSectionAttachment = (sectionId, attachments, attachmentProperties) => {
-    dispatch(addSectionAttachment(sectionId, attachments, attachmentProperties, hearing.isNew));
+  const onSectionAttachment = (
+    sectionId,
+    attachments,
+    attachmentProperties
+  ) => {
+    dispatch(
+      addSectionAttachment(
+        sectionId,
+        attachments,
+        attachmentProperties,
+        hearing.isNew
+      )
+    );
   };
 
   /**
@@ -160,7 +190,13 @@ const HearingEditor = (props) => {
     dispatch(deleteSectionAttachment(sectionId, attachments));
   };
 
-  const onQuestionChange = (fieldType, sectionId, questionId, optionKey, value) => {
+  const onQuestionChange = (
+    fieldType,
+    sectionId,
+    questionId,
+    optionKey,
+    value
+  ) => {
     dispatch(editQuestion(fieldType, sectionId, questionId, optionKey, value));
   };
 
@@ -187,7 +223,8 @@ const HearingEditor = (props) => {
     dispatch(changeSectionMainImageCaption(sectionID, value));
   };
 
-  const onLanguagesChange = (newLanguages) => dispatch(changeHearingEditorLanguages(newLanguages));
+  const onLanguagesChange = (newLanguages) =>
+    dispatch(changeHearingEditorLanguages(newLanguages));
 
   const onPublish = () => dispatch(publishHearing(hearing));
 
@@ -227,9 +264,11 @@ const HearingEditor = (props) => {
 
   const clearQuestionsFn = (sectionId) => dispatch(clearQuestions(sectionId));
 
-  const addOptionFn = (sectionId, questionId) => dispatch(addOption(sectionId, questionId));
+  const addOptionFn = (sectionId, questionId) =>
+    dispatch(addOption(sectionId, questionId));
 
-  const deleteOption = (sectionId, questionId) => dispatch(deleteLastOption(sectionId, questionId));
+  const deleteOption = (sectionId, questionId) =>
+    dispatch(deleteLastOption(sectionId, questionId));
 
   const toggleCommentReports = () => setCommentReportsOpen(!commentReportsOpen);
 
@@ -281,21 +320,28 @@ const HearingEditor = (props) => {
     <div className='hearing-editor'>
       {getHearingForm()}
 
-      {!isNewHearing && contactPersons.length && labels.length && organizations.length && (
-        <>
-          <HearingToolbar
-            hearing={hearing}
-            onCloseHearing={onCloseHearing}
-            onEdit={() => dispatch(startHearingEdit())}
-            onPublish={onPublish}
-            onReportsClick={toggleCommentReports}
-            onRevertPublishing={onUnPublish}
-            user={user}
-            onDeleteHearingDraft={onDeleteHearingDraft}
-          />
-          <CommentReportModal hearing={hearing} isOpen={commentReportsOpen} onClose={toggleCommentReports} />
-        </>
-      )}
+      {!isNewHearing &&
+        contactPersons.length &&
+        labels.length &&
+        organizations.length && (
+          <>
+            <HearingToolbar
+              hearing={hearing}
+              onCloseHearing={onCloseHearing}
+              onEdit={() => dispatch(startHearingEdit())}
+              onPublish={onPublish}
+              onReportsClick={toggleCommentReports}
+              onRevertPublishing={onUnPublish}
+              user={user}
+              onDeleteHearingDraft={onDeleteHearingDraft}
+            />
+            <CommentReportModal
+              hearing={hearing}
+              isOpen={commentReportsOpen}
+              onClose={toggleCommentReports}
+            />
+          </>
+        )}
     </div>
   );
 };
@@ -329,6 +375,9 @@ const mapStateToProps = (state) => ({
 
 export { HearingEditor as UnconnectedHearingEditor };
 
-const WrappedHearingEditor = connect(mapStateToProps, mapDispatchToProps)(HearingEditor);
+const WrappedHearingEditor = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HearingEditor);
 
 export default WrappedHearingEditor;

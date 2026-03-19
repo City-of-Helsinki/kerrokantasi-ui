@@ -21,7 +21,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <CommentList {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

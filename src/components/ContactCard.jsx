@@ -31,7 +31,9 @@ const ContactCard = ({
   ...rest
 }) => {
   const hasTitle = title && Object.keys(title).length;
-  const visibleOrganization = external_organization ? additional_info : organization;
+  const visibleOrganization = external_organization
+    ? additional_info
+    : organization;
   return (
     <div className={`contact-card ${className}`} {...rest}>
       <header>
@@ -49,8 +51,16 @@ const ContactCard = ({
         ) : null}
       </header>
       <div className='contact-card__information'>
-        {phone && <ContactMethod icon='phone' value={phone} href={`tel:${phone}`} />}
-        {email && <ContactMethod icon='envelope-o' value={email} href={`mailto:${email}`} />}
+        {phone && (
+          <ContactMethod icon='phone' value={phone} href={`tel:${phone}`} />
+        )}
+        {email && (
+          <ContactMethod
+            icon='envelope-o'
+            value={email}
+            href={`mailto:${email}`}
+          />
+        )}
       </div>
     </div>
   );

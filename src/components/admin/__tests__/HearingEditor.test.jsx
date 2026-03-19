@@ -62,14 +62,16 @@ const renderComponent = (propOverrides) => {
     user: mockUser,
     language: 'fi',
     isNewHearing: true,
-    fetchEditorContactPersons: vi.fn().mockResolvedValue(mockStore.hearing.mockHearing.data.contact_persons),
+    fetchEditorContactPersons: vi
+      .fn()
+      .mockResolvedValue(mockStore.hearing.mockHearing.data.contact_persons),
     ...propOverrides,
   };
 
   return renderWithProviders(
     <MemoryRouter>
       <UnconnectedHearingEditor intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -82,7 +84,9 @@ describe('<HearingEditor />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi
+      .fn()
+      .mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
@@ -98,11 +102,15 @@ describe('<HearingEditor />', () => {
   it('should validate hearing', async () => {
     renderComponent({ hearingLanguages: ['fi', 'sv'] });
 
-    const button = await screen.findByRole('button', { name: 'saveHearingChanges' });
+    const button = await screen.findByRole('button', {
+      name: 'saveHearingChanges',
+    });
     const user = userEvent.setup();
 
     user.click(button);
 
-    await waitFor(() => expect(createLocalizedNotificationPayload).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(createLocalizedNotificationPayload).toHaveBeenCalled()
+    );
   });
 });

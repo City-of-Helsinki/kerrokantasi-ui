@@ -10,7 +10,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { getDataProtectionUrl, getFeedbackEmailUrl, getFeedbackUrl } from '../utils/languageUtils';
+import {
+  getDataProtectionUrl,
+  getFeedbackEmailUrl,
+  getFeedbackUrl,
+} from '../utils/languageUtils';
 import config from '../config';
 import getUser from '../selectors/user';
 import { isAdmin } from '../utils/user';
@@ -65,14 +69,19 @@ const Footer = (props) => {
         )}
       </HDSFooter.Navigation>
       <HDSFooter.Utilities>
-        <HDSFooter.Link label={<FormattedMessage id='feedbackPrompt' />} href={getFeedbackEmailUrl(language)} />
+        <HDSFooter.Link
+          label={<FormattedMessage id='feedbackPrompt' />}
+          href={getFeedbackEmailUrl(language)}
+        />
         <HDSFooter.Link
           label={<FormattedMessage id='feedbackLinkText' />}
           href={getFeedbackUrl(language)}
           external
-          aria-label={`${intl.formatMessage({ id: 'feedbackLinkText' })} ${intl.formatMessage({
-            id: 'linkLeadsToExternal',
-          })}`}
+          aria-label={`${intl.formatMessage({ id: 'feedbackLinkText' })} ${intl.formatMessage(
+            {
+              id: 'linkLeadsToExternal',
+            }
+          )}`}
         />
       </HDSFooter.Utilities>
       <HDSFooter.Base
@@ -97,9 +106,11 @@ const Footer = (props) => {
           label={<FormattedMessage id='dataProtection' />}
           href={getDataProtectionUrl(language)}
           external
-          aria-label={`${intl.formatMessage({ id: 'dataProtection' })} ${intl.formatMessage({
-            id: 'linkLeadsToExternal',
-          })}`}
+          aria-label={`${intl.formatMessage({ id: 'dataProtection' })} ${intl.formatMessage(
+            {
+              id: 'linkLeadsToExternal',
+            }
+          )}`}
         />
         {config.enableCookies && (
           <HDSFooter.Link

@@ -6,7 +6,11 @@ import Helmet from 'react-helmet';
 import { Select } from 'hds-react';
 
 import getUser from '../../selectors/user';
-import { fetchFavoriteHearings, fetchUserComments, removeHearingFromFavorites } from '../../actions/index';
+import {
+  fetchFavoriteHearings,
+  fetchUserComments,
+  removeHearingFromFavorites,
+} from '../../actions/index';
 import HearingCardList from '../../components/HearingCardList';
 import UserComment from '../../components/UserComment/UserComment';
 import getAttr from '../../utils/getAttr';
@@ -17,7 +21,15 @@ import LoadSpinner from '../../components/LoadSpinner';
 // Default params when fetching favorite/followed hearings.
 const PARAMS = { following: true };
 
-const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, removeFromFavorites, intl }) => {
+const UserProfile = ({
+  profile,
+  userState,
+  user,
+  fetchComments,
+  fetchFavorites,
+  removeFromFavorites,
+  intl,
+}) => {
   const { comments, favoriteHearings } = profile;
   const { userExists, userLoading } = userState;
   const { locale } = intl;
@@ -55,7 +67,9 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
     let newCount = count;
     const id = selection[0].value === 'Kaikki' ? '' : selection[0].value;
     if (id) {
-      newCount = comments.uniqueHearings.find((hearing) => hearing.id === id).commentCount;
+      newCount = comments.uniqueHearings.find(
+        (hearing) => hearing.id === id
+      ).commentCount;
     }
 
     setSelectedHearing(id);
@@ -101,11 +115,13 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
         <div className='order-wrapper'>
           <Select
             id='sort-comments'
-            label={<FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>}
+            label={
+              <FormattedMessage id='sort'>{(txt) => txt}</FormattedMessage>
+            }
             options={options}
             value={commentOrder} // Default to the first option
             onChange={(selected) => {
-              setCommentOrder(selected[0].value)
+              setCommentOrder(selected[0].value);
               fetchComments({ ordering: selected[0].value });
             }}
           />
@@ -123,7 +139,9 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
   const getContentNotFound = (messageID) => (
     <div className='content-not-found'>
       <Icon name='search' size='2x' aria-hidden />
-      <FormattedMessage id={messageID}>{(txt) => <p>{txt}</p>}</FormattedMessage>
+      <FormattedMessage id={messageID}>
+        {(txt) => <p>{txt}</p>}
+      </FormattedMessage>
     </div>
   );
 
@@ -143,12 +161,15 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
         // Check if text contains any dates like 20.11.2021
         const containsDateAt = textValue.search(/(\d.*)/g);
         // Check if text contains full stops/points in the last 15 chars before the 100th character
-        const pointsBetweenRange = [...textValue.matchAll(/[.]/g)].reduce((points, point) => {
-          if (point.index > 85 && point.index < 100) {
-            points.push(point.index);
-          }
-          return points;
-        }, []);
+        const pointsBetweenRange = [...textValue.matchAll(/[.]/g)].reduce(
+          (points, point) => {
+            if (point.index > 85 && point.index < 100) {
+              points.push(point.index);
+            }
+            return points;
+          },
+          []
+        );
         // If the text contains a point near the limit and doesnt contain any dates -> slice at point.
         if (pointsBetweenRange.length > 0 && containsDateAt === -1) {
           textValue = textValue.slice(0, pointsBetweenRange[0] + 1);
@@ -169,7 +190,11 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
         <div className='selection-wrappers'>
           <Select
             id='select-hearing-comments'
-            label={<FormattedMessage id='selectHearingComments'>{(txt) => txt}</FormattedMessage>}
+            label={
+              <FormattedMessage id='selectHearingComments'>
+                {(txt) => txt}
+              </FormattedMessage>
+            }
             options={options}
             onChange={(selected) => selectHearing(selected)}
             value={selectedHearing}
@@ -180,19 +205,30 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
   };
 
   // True when favorites have been fetched and results array has content.
-  const hearingsLoaded = Object.keys(favoriteHearings).length > 0 && favoriteHearings.results.length !== 0;
+  const hearingsLoaded =
+    Object.keys(favoriteHearings).length > 0 &&
+    favoriteHearings.results.length !== 0;
   // True when comments have been fetched and results array has content.
-  const commentsLoaded = Object.keys(comments).includes('results') && comments.results.length !== 0;
+  const commentsLoaded =
+    Object.keys(comments).includes('results') && comments.results.length !== 0;
 
   return (
     <div className='container user-profile'>
       <Helmet title={intl.formatMessage({ id: 'userInfo' })} />
       <div className='row'>
-        <FormattedMessage id='userInfo'>{(txt) => <h1>{txt}</h1>}</FormattedMessage>
-        <FormattedMessage id='favoriteHearings'>{(txt) => <h2>{txt}</h2>}</FormattedMessage>
+        <FormattedMessage id='userInfo'>
+          {(txt) => <h1>{txt}</h1>}
+        </FormattedMessage>
+        <FormattedMessage id='favoriteHearings'>
+          {(txt) => <h2>{txt}</h2>}
+        </FormattedMessage>
       </div>
       <div className='row'>
-        <div className='col-md-12'>{hearingsLoaded ? getHearingCards() : getContentNotFound('noFavoriteHearings')}</div>
+        <div className='col-md-12'>
+          {hearingsLoaded
+            ? getHearingCards()
+            : getContentNotFound('noFavoriteHearings')}
+        </div>
       </div>
       <div className='row'>
         <FormattedMessage id='userAddedComments' values={{ n: commentCount }}>
@@ -208,8 +244,17 @@ const UserProfile = ({ profile, userState, user, fetchComments, fetchFavorites, 
               <div className='row'>
                 <div className='commentlist' data-testid='commentlist'>
                   {comments.results.reduce((visibleComments, comment) => {
-                    if (!selectedHearing || selectedHearing === comment.hearing) {
-                      visibleComments.push(<UserComment comment={comment} key={comment.id} locale={locale} />);
+                    if (
+                      !selectedHearing ||
+                      selectedHearing === comment.hearing
+                    ) {
+                      visibleComments.push(
+                        <UserComment
+                          comment={comment}
+                          key={comment.id}
+                          locale={locale}
+                        />
+                      );
                     }
                     return visibleComments;
                   }, [])}
@@ -259,7 +304,9 @@ const uniqueHearingsCommented = (state) => {
 
     // return array with objects for each unique hearing
     return uniqueIDs.reduce((uniqueHearings, uniqueID) => {
-      const specificHearing = comments.find((element) => element.hearing === uniqueID);
+      const specificHearing = comments.find(
+        (element) => element.hearing === uniqueID
+      );
       const hearingCommentCount = comments.reduce((totalCount, current) => {
         if (current.hearing === uniqueID) {
           return totalCount + 1;
@@ -307,7 +354,8 @@ UserProfile.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   fetchComments: (params) => dispatch(fetchUserComments(params)),
   fetchFavorites: (params) => dispatch(fetchFavoriteHearings(params)),
-  removeFromFavorites: (slug, hearingId) => dispatch(removeHearingFromFavorites(slug, hearingId)),
+  removeFromFavorites: (slug, hearingId) =>
+    dispatch(removeHearingFromFavorites(slug, hearingId)),
 });
 
 const existsSelector = (state) => ({
@@ -321,4 +369,7 @@ const mapStateToProps = (state) => ({
   profile: profileCombiner(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UserProfile));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(UserProfile));

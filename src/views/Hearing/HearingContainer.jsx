@@ -1,7 +1,20 @@
-import React, { useCallback, useEffect, Suspense, lazy, useState, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  Suspense,
+  lazy,
+  useState,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import Helmet from 'react-helmet';
 import { useIntl } from 'react-intl';
@@ -11,7 +24,11 @@ import { organizationShape } from '../../types';
 import { getHearingWithSlug } from '../../selectors/hearing';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getUser from '../../selectors/user';
-import { fetchHearing as fetchHearingAction, setLanguage as setLanguageAction, fetchProjects } from '../../actions';
+import {
+  fetchHearing as fetchHearingAction,
+  setLanguage as setLanguageAction,
+  fetchProjects,
+} from '../../actions';
 import { fetchHearingEditorMetaData } from '../../actions/hearingEditor';
 import getAttr from '../../utils/getAttr';
 import { html2text } from '../../utils/commonUtils';
@@ -20,7 +37,9 @@ import LoadSpinner from '../../components/LoadSpinner';
 import Header from '../../components/Hearing/Header';
 import Section from '../../components/Hearing/Section/SectionContainer';
 
-const HearingEditor = lazy(() => import('../../components/admin/HearingEditor'));
+const HearingEditor = lazy(
+  () => import('../../components/admin/HearingEditor')
+);
 
 const HearingContainerComponent = ({
   fetchProjectsList,
@@ -36,13 +55,20 @@ const HearingContainerComponent = ({
   user,
 }) => {
   const { hearingSlug } = useParams();
-  const hearing = useSelector((state) => getHearingWithSlug(state, hearingSlug));
+  const hearing = useSelector((state) =>
+    getHearingWithSlug(state, hearingSlug)
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const intl = useIntl();
-  const [shouldFetch, setShouldFetch] = useState(() => hearingSlug && isEmpty(hearing));
+  const [shouldFetch, setShouldFetch] = useState(
+    () => hearingSlug && isEmpty(hearing)
+  );
 
-  const userCanEditHearing = useMemo(() => canEdit(user, hearing), [hearing, user]);
+  const userCanEditHearing = useMemo(
+    () => canEdit(user, hearing),
+    [hearing, user]
+  );
 
   const fetchHearingData = useCallback(() => {
     if (hearingSlug !== null && shouldFetch) {
@@ -50,13 +76,22 @@ const HearingContainerComponent = ({
 
       if (location.search.includes('?preview')) {
         // regex match to get the ?preview=key and substring to retrieve the key part
-        fetchHearing(hearingSlug, location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9));
+        fetchHearing(
+          hearingSlug,
+          location.search.match(/\?preview=([\w+-]+)/g)[0].substring(9)
+        );
       } else {
         fetchHearing(hearingSlug);
       }
       fetchProjectsList();
     }
-  }, [fetchHearing, fetchProjectsList, location.search, hearingSlug, shouldFetch]);
+  }, [
+    fetchHearing,
+    fetchProjectsList,
+    location.search,
+    hearingSlug,
+    shouldFetch,
+  ]);
 
   useEffect(() => {
     if (isEmpty(hearing) && !isLoading) {
@@ -77,13 +112,22 @@ const HearingContainerComponent = ({
 
   useEffect(() => {
     if (location.state) {
-      if (!isEmpty(hearing) && hearing.slug && hearing.default_to_fullscreen && !location.state.fromFullscreen) {
+      if (
+        !isEmpty(hearing) &&
+        hearing.slug &&
+        hearing.default_to_fullscreen &&
+        !location.state.fromFullscreen
+      ) {
         navigate({
           pathname: `/${hearing.slug}/fullscreen`,
           search: `?lang=${language}`,
         });
       }
-    } else if (!isEmpty(hearing) && hearing.slug && hearing.default_to_fullscreen) {
+    } else if (
+      !isEmpty(hearing) &&
+      hearing.slug &&
+      hearing.default_to_fullscreen
+    ) {
       navigate({
         pathname: `/${hearing.slug}/fullscreen`,
         search: `?lang=${language}`,
@@ -92,8 +136,14 @@ const HearingContainerComponent = ({
   }, [hearing, language, location.state, navigate]);
 
   const helmetMeta = [
-    { name: 'description', content: html2text(getAttr(hearing.abstract, language)) },
-    { property: 'og:description', content: html2text(getAttr(hearing.abstract, language)) },
+    {
+      name: 'description',
+      content: html2text(getAttr(hearing.abstract, language)),
+    },
+    {
+      property: 'og:description',
+      content: html2text(getAttr(hearing.abstract, language)),
+    },
   ];
 
   if (hearing?.main_image?.url) {
@@ -132,7 +182,11 @@ const HearingContainerComponent = ({
   } else if (shouldFetch || isLoading) {
     hearingContent = <LoadSpinner />;
   } else {
-    hearingContent = <h1 style={{ textAlign: 'center' }}>{intl.formatMessage({ id: 'hearingNotFound' })}</h1>;
+    hearingContent = (
+      <h1 style={{ textAlign: 'center' }}>
+        {intl.formatMessage({ id: 'hearingNotFound' })}
+      </h1>
+    );
   }
 
   return <div className='hearing-page'>{hearingContent}</div>;
@@ -164,11 +218,16 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchHearing: (hearingSlug, preview = false) => dispatch(fetchHearingAction(hearingSlug, preview)),
+  fetchHearing: (hearingSlug, preview = false) =>
+    dispatch(fetchHearingAction(hearingSlug, preview)),
   fetchEditorMetaData: () => dispatch(fetchHearingEditorMetaData()),
-  syncHearingToEditor: (hearing) => dispatch(createAction('receiveHearing')({ data: hearing })),
+  syncHearingToEditor: (hearing) =>
+    dispatch(createAction('receiveHearing')({ data: hearing })),
   setLanguage: (lang) => dispatch(setLanguageAction(lang)),
   fetchProjectsList: () => dispatch(fetchProjects()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HearingContainerComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HearingContainerComponent);

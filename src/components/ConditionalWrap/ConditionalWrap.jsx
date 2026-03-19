@@ -12,9 +12,8 @@ import PropTypes from 'prop-types';
  * @param {React.ReactNode} props.children - The content to optionally wrap.
  * @returns {React.ReactNode} The wrapped or unwrapped children.
  */
-export const ConditionalWrap = ({ condition, wrap, children }) => (
-  condition ? wrap(children) : children
-);
+export const ConditionalWrap = ({ condition, wrap, children }) =>
+  condition ? wrap(children) : children;
 ConditionalWrap.propTypes = {
   condition: PropTypes.bool.isRequired,
   wrap: PropTypes.func.isRequired,

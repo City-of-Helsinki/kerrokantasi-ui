@@ -1,9 +1,22 @@
 /* eslint-disable sonarjs/no-nested-functions */
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { Accordion, Button, Dialog, IconLinkExternal, IconSize, Notification } from 'hds-react';
+import {
+  Accordion,
+  Button,
+  Dialog,
+  IconLinkExternal,
+  IconSize,
+  Notification,
+} from 'hds-react';
 
 import Icon from '../../utils/Icon';
 import config from '../../config';
@@ -13,7 +26,13 @@ import Step3 from './HearingFormStep3';
 import Step4 from './HearingFormStep4';
 import Step5 from './HearingFormStep5';
 import LoadSpinner from '../LoadSpinner';
-import { contactShape, hearingShape, hearingEditorMetaDataShape, labelShape, organizationShape } from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  hearingEditorMetaDataShape,
+  labelShape,
+  organizationShape,
+} from '../../types';
 
 const ACCORDION_TOGGLE = 'div button';
 
@@ -55,7 +74,9 @@ const HearingForm = ({
   onLeaveForm,
   errors,
 }) => {
-  const [currentStep, setCurrentStep] = useState(parseInt(initialStep, 10) || 1);
+  const [currentStep, setCurrentStep] = useState(
+    parseInt(initialStep, 10) || 1
+  );
 
   const formSteps = [Step1, Step2, Step3, Step4, Step5];
   const stepRefs = useRef(formSteps.map((step) => createRef(step)));
@@ -69,7 +90,10 @@ const HearingForm = ({
     if (nextAccordion.current) {
       nextAccordion.current.querySelector(ACCORDION_TOGGLE).click();
 
-      setTimeout(() => nextAccordion.current?.scrollIntoView({ behaviour: 'smooth' }), 250);
+      setTimeout(
+        () => nextAccordion.current?.scrollIntoView({ behaviour: 'smooth' }),
+        250
+      );
     }
 
     setCurrentStep(next);
@@ -89,7 +113,7 @@ const HearingForm = ({
         }
       }, 500);
     },
-    [currentStep],
+    [currentStep]
   );
 
   useEffect(() => {
@@ -103,7 +127,9 @@ const HearingForm = ({
         if (!item.node) {
           return;
         }
-        item.node.addEventListener('click', () => onToggleClick(item.node, item.stepNumber));
+        item.node.addEventListener('click', () =>
+          onToggleClick(item.node, item.stepNumber)
+        );
       });
 
       return () => {
@@ -111,7 +137,9 @@ const HearingForm = ({
           if (!item.node) {
             return;
           }
-          item.node.removeEventListener('click', () => onToggleClick(item.node, item.stepNumber));
+          item.node.removeEventListener('click', () =>
+            onToggleClick(item.node, item.stepNumber)
+          );
         });
       };
     }
@@ -121,7 +149,9 @@ const HearingForm = ({
     const stepNumber = stepIndex + 1;
     const step = `${stepNumber}`;
 
-    let title = intl.formatMessage({ id: `hearingFormHeaderStep${stepNumber}` });
+    let title = intl.formatMessage({
+      id: `hearingFormHeaderStep${stepNumber}`,
+    });
 
     const stepErrors = errors[stepNumber] || {};
 
@@ -193,14 +223,16 @@ const HearingForm = ({
             <Icon name='copy' /> <FormattedMessage id='copyHearing' />
           </Button>
           <Button className='kerrokantasi-btn black' onClick={onSaveChanges}>
-            <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveHearingChanges' />
+            <Icon className='icon' name='check-circle-o' />{' '}
+            <FormattedMessage id='saveHearingChanges' />
           </Button>
         </div>
       );
     } else {
       ActionButton = () => (
         <Button className='kerrokantasi-btn black' onClick={onSaveAndPreview}>
-          <Icon className='icon' name='check-circle-o' /> <FormattedMessage id='saveAndPreviewHearing' />
+          <Icon className='icon' name='check-circle-o' />{' '}
+          <FormattedMessage id='saveAndPreviewHearing' />
         </Button>
       );
     }
@@ -238,7 +270,10 @@ const HearingForm = ({
   };
 
   const getErrors = () => {
-    if (!errors || !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)) {
+    if (
+      !errors ||
+      !Object.keys(errors).some((key) => Object.keys(errors[key]).length > 0)
+    ) {
       return null;
     }
     /**
@@ -259,22 +294,32 @@ const HearingForm = ({
      * </li>
      */
 
-    const messages = Object.keys(errors).reduce((rootAccumulator, currentRootValue) => {
-      if (Object.keys(errors[currentRootValue]).length > 0) {
-        const subErrors = Object.keys(errors[currentRootValue]).reduce((accumulator, currentValue) => {
-          const errorValue = serializeErrorValue(errors[currentRootValue][currentValue]);
-          accumulator.push(<li key={currentValue}>{errorValue}</li>);
-          return accumulator;
-        }, []);
-        rootAccumulator.push(
-          <li key={currentRootValue}>
-            {intl.formatMessage({ id: `hearingFormHeaderStep${currentRootValue}` })}
-            <ul>{subErrors}</ul>
-          </li>,
-        );
-      }
-      return rootAccumulator;
-    }, []);
+    const messages = Object.keys(errors).reduce(
+      (rootAccumulator, currentRootValue) => {
+        if (Object.keys(errors[currentRootValue]).length > 0) {
+          const subErrors = Object.keys(errors[currentRootValue]).reduce(
+            (accumulator, currentValue) => {
+              const errorValue = serializeErrorValue(
+                errors[currentRootValue][currentValue]
+              );
+              accumulator.push(<li key={currentValue}>{errorValue}</li>);
+              return accumulator;
+            },
+            []
+          );
+          rootAccumulator.push(
+            <li key={currentRootValue}>
+              {intl.formatMessage({
+                id: `hearingFormHeaderStep${currentRootValue}`,
+              })}
+              <ul>{subErrors}</ul>
+            </li>
+          );
+        }
+        return rootAccumulator;
+      },
+      []
+    );
     return (
       <Notification
         type='error'
@@ -303,20 +348,28 @@ const HearingForm = ({
       closeButtonLabelText={intl.formatMessage({ id: 'close' })}
       theme={{ '--accent-line-color': 'var(--color-black)' }}
     >
-      <Dialog.Header id={titleId} title={<FormattedMessage id='editHearing' />} />
+      <Dialog.Header
+        id={titleId}
+        title={<FormattedMessage id='editHearing' />}
+      />
       <Dialog.Content>
         <div id={descriptionId}>
           <a
             style={{ lineHeight: 2 }}
             href={config.adminHelpUrl}
-            aria-label={`${intl.formatMessage({ id: 'help' })} ${intl.formatMessage({
-              id: 'linkLeadsToExternal',
-            })}`}
+            aria-label={`${intl.formatMessage({ id: 'help' })} ${intl.formatMessage(
+              {
+                id: 'linkLeadsToExternal',
+              }
+            )}`}
           >
-            <FormattedMessage id='help' /> <IconLinkExternal size={IconSize.ExtraSmall} />
+            <FormattedMessage id='help' />{' '}
+            <IconLinkExternal size={IconSize.ExtraSmall} />
           </a>
           {getErrors()}
-          <form>{formSteps.map((step, index) => getFormStep(step, index))}</form>
+          <form>
+            {formSteps.map((step, index) => getFormStep(step, index))}
+          </form>
         </div>
       </Dialog.Content>
       <Dialog.ActionButtons className='hearing-form-action-buttons'>

@@ -60,7 +60,7 @@ const renderComponent = (propOverrides) => {
     {
       history,
       store: storeMock,
-    },
+    }
   );
 };
 
@@ -78,8 +78,12 @@ describe('<Header />', () => {
       },
     });
 
-    expect(await screen.findByText('timeOpenPast', { exact: false })).toBeInTheDocument();
-    expect(await screen.findByText('timeClosePast', { exact: false })).toBeInTheDocument();
+    expect(
+      await screen.findByText('timeOpenPast', { exact: false })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText('timeClosePast', { exact: false })
+    ).toBeInTheDocument();
   });
 
   it('should render timetable text correctly when hearing is not published', async () => {
@@ -91,7 +95,9 @@ describe('<Header />', () => {
       },
     });
 
-    expect(await screen.findByText('draftNotPublished', { exact: false })).toBeInTheDocument();
+    expect(
+      await screen.findByText('draftNotPublished', { exact: false })
+    ).toBeInTheDocument();
   });
 
   it('should not return comments when hearing has no commentable sections', () => {

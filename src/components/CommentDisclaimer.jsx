@@ -13,21 +13,27 @@ const CommentDisclaimer = () => {
           linkToDefinition: (
             <a
               href='https://www.hri.fi/fi/mita-on-avoin-data/'
-              aria-label={`${intl.formatMessage({ id: 'asOpenData' })} ${intl.formatMessage({
-                id: 'linkLeadsToExternal',
-              })}`}
+              aria-label={`${intl.formatMessage({ id: 'asOpenData' })} ${intl.formatMessage(
+                {
+                  id: 'linkLeadsToExternal',
+                }
+              )}`}
             >
-              <FormattedMessage id='asOpenData' /> <IconLinkExternal size={IconSize.Small} />
+              <FormattedMessage id='asOpenData' />{' '}
+              <IconLinkExternal size={IconSize.Small} />
             </a>
           ),
           linkToLicense: (
             <a
               href='https://creativecommons.org/licenses/by/4.0/deed.fi'
-              aria-label={`${intl.formatMessage({ id: 'withOpenLicense' })} ${intl.formatMessage({
-                id: 'linkLeadsToExternal',
-              })}`}
+              aria-label={`${intl.formatMessage({ id: 'withOpenLicense' })} ${intl.formatMessage(
+                {
+                  id: 'linkLeadsToExternal',
+                }
+              )}`}
             >
-              <FormattedMessage id='withOpenLicense' /> <IconLinkExternal size={IconSize.Small} />
+              <FormattedMessage id='withOpenLicense' />{' '}
+              <IconLinkExternal size={IconSize.Small} />
             </a>
           ),
         }}

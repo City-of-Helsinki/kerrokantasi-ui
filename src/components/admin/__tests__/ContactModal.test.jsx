@@ -30,7 +30,9 @@ const renderComponent = (propOverrides) => {
     ...propOverrides,
   };
 
-  return renderWithProviders(<ContactModal intl={getIntlAsProp()} isOpen {...props} />);
+  return renderWithProviders(
+    <ContactModal intl={getIntlAsProp()} isOpen {...props} />
+  );
 };
 
 describe('<ContactModal />', () => {
@@ -46,7 +48,11 @@ describe('<ContactModal />', () => {
     const onCreateContactMock = vi.fn(() => true);
     const onCloseMock = vi.fn();
 
-    renderComponent({ onCreateContact: onCreateContactMock, onClose: onCloseMock, contactInfo: {} });
+    renderComponent({
+      onCreateContact: onCreateContactMock,
+      onClose: onCloseMock,
+      contactInfo: {},
+    });
 
     const user = userEvent.setup();
 

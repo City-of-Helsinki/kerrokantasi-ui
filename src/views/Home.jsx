@@ -27,29 +27,46 @@ export class Home extends React.Component {
    */
   static fetchData(dispatch) {
     return Promise.all([
-      dispatch(fetchHearingList('topHearing', '/v1/hearing', { ordering: '-n_comments', open: true, limit: 1 })),
-      dispatch(fetchHearingList('openHearings', '/v1/hearing', { open: true, include: 'geojson' })),
+      dispatch(
+        fetchHearingList('topHearing', '/v1/hearing', {
+          ordering: '-n_comments',
+          open: true,
+          limit: 1,
+        })
+      ),
+      dispatch(
+        fetchHearingList('openHearings', '/v1/hearing', {
+          open: true,
+          include: 'geojson',
+        })
+      ),
     ]);
   }
 
   constructor(props) {
     super(props);
 
-    this.state = { isMobile: typeof window !== 'undefined' && window.innerWidth < 768 };
+    this.state = {
+      isMobile: typeof window !== 'undefined' && window.innerWidth < 768,
+    };
     this.handleResize = this.handleResize.bind(this);
   }
 
   componentDidMount() {
     Home.fetchData(this.props.dispatch);
-    if (typeof window !== 'undefined') window.addEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined')
+      window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
-    if (typeof window !== 'undefined') window.removeEventListener('resize', this.handleResize);
+    if (typeof window !== 'undefined')
+      window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize() {
-    this.setState({ isMobile: typeof window !== 'undefined' && window.innerWidth < 768 });
+    this.setState({
+      isMobile: typeof window !== 'undefined' && window.innerWidth < 768,
+    });
   }
 
   render() {
@@ -76,15 +93,24 @@ export class Home extends React.Component {
 
     return (
       <div>
-        <section className='page-section page-section--welcome' style={heroStyle}>
+        <section
+          className='page-section page-section--welcome'
+          style={heroStyle}
+        >
           <div className='container'>
             <div className='row'>
               <div className='col-xs-10 col-md-8 welcome-content'>
                 <Helmet
                   title={formatMessage({ id: 'welcome' })}
                   meta={[
-                    { name: 'description', content: formatMessage({ id: 'descriptionTag' }) },
-                    { property: 'og:description', content: formatMessage({ id: 'descriptionTag' }) },
+                    {
+                      name: 'description',
+                      content: formatMessage({ id: 'descriptionTag' }),
+                    },
+                    {
+                      property: 'og:description',
+                      content: formatMessage({ id: 'descriptionTag' }),
+                    },
                   ]}
                 />
                 <h1>
@@ -103,27 +129,38 @@ export class Home extends React.Component {
             <h2 className='page-title'>
               <FormattedMessage id='openHearings' />
             </h2>
-            {topHearing && <FullWidthHearing hearing={topHearing} language={language} intl={intl} />}
-            {openHearings && openHearings.data && topHearing && !openHearings.isFetching && (
-              <div className='list'>
-                <HearingCardList
-                  hearings={orderBy(
-                    openHearings.data.filter((hearing) => hearing.id !== topHearing.id),
-                    ['close_at'],
-                    ['desc'],
-                  )}
-                  language={language}
-                  intl={intl}
-                />
-                <p className='text-center'>
-                  <Link to={{ path: '/hearings/list' }}>
-                    <Button className='kerrokantasi-btn'>
-                      <FormattedMessage id='allHearings' />
-                    </Button>
-                  </Link>
-                </p>
-              </div>
+            {topHearing && (
+              <FullWidthHearing
+                hearing={topHearing}
+                language={language}
+                intl={intl}
+              />
             )}
+            {openHearings &&
+              openHearings.data &&
+              topHearing &&
+              !openHearings.isFetching && (
+                <div className='list'>
+                  <HearingCardList
+                    hearings={orderBy(
+                      openHearings.data.filter(
+                        (hearing) => hearing.id !== topHearing.id
+                      ),
+                      ['close_at'],
+                      ['desc']
+                    )}
+                    language={language}
+                    intl={intl}
+                  />
+                  <p className='text-center'>
+                    <Link to={{ path: '/hearings/list' }}>
+                      <Button className='kerrokantasi-btn'>
+                        <FormattedMessage id='allHearings' />
+                      </Button>
+                    </Link>
+                  </p>
+                </div>
+              )}
           </div>
           <div className='hearings-koro__bottom' />
         </section>

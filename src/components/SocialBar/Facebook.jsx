@@ -16,12 +16,23 @@ export default class Facebook extends React.Component {
 
   componentDidMount() {
     const setup = this.setupFacebookWidget.bind(this);
-    loadScriptThenCall('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js', 'FB', setup);
+    loadScriptThenCall(
+      'facebook-jssdk',
+      '//connect.facebook.net/en_US/sdk.js',
+      'FB',
+      setup
+    );
   }
 
+  // eslint-disable-next-line sonarjs/no-identical-functions
   componentDidUpdate() {
     const setup = this.setupFacebookWidget.bind(this);
-    loadScriptThenCall('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js', 'FB', setup);
+    loadScriptThenCall(
+      'facebook-jssdk',
+      '//connect.facebook.net/en_US/sdk.js',
+      'FB',
+      setup
+    );
   }
 
   setupFacebookWidget(FB) {
@@ -36,7 +47,11 @@ export default class Facebook extends React.Component {
     }
     return (
       <span ref={this.containerRef} id={`facebook-${this.state.id}`}>
-        <div className='fb-share-button' data-href={window.location.href} data-layout='button_count' />
+        <div
+          className='fb-share-button'
+          data-href={window.location.href}
+          data-layout='button_count'
+        />
       </span>
     );
   }

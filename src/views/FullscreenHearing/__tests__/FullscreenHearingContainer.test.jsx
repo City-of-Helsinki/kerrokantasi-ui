@@ -35,7 +35,7 @@ describe('FullscreenHearingContainerComponent', () => {
         <BrowserRouter>
           <FullscreenHearingContainerComponent />
         </BrowserRouter>
-      </Provider>,
+      </Provider>
     );
 
     expect(screen.getByTestId('load-spinner')).toBeInTheDocument();
@@ -56,13 +56,15 @@ describe('FullscreenHearingContainerComponent', () => {
             <FullscreenHearingContainerComponent />
           </BrowserRouter>
         </Provider>
-      </IntlProvider>,
+      </IntlProvider>
     );
     await waitFor(
       () => {
-        expect(screen.getByText(testData.hearing.mockHearing.data.title.fi)).toBeInTheDocument();
+        expect(
+          screen.getByText(testData.hearing.mockHearing.data.title.fi)
+        ).toBeInTheDocument();
       },
-      { timeout: 2000 },
+      { timeout: 2000 }
     );
   });
 });

@@ -15,7 +15,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <IframeCopyPasteField {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

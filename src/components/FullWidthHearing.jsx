@@ -13,16 +13,28 @@ import getAttr from '../utils/getAttr';
 import { getHearingURL, getHearingMainImageURL } from '../utils/hearing';
 import HearingTranslationNotice from './HearingList/HearingTranslationNotice/HearingTranslationNotice';
 
-const FullWidthHearing = ({ hearing, className = '', language, history, intl }) => {
+const FullWidthHearing = ({
+  hearing,
+  className = '',
+  language,
+  history,
+  intl,
+}) => {
   const { formatTime, formatDate } = intl;
   const backgroundImage = getHearingMainImageURL(hearing);
 
   const styles = {
-    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : `url("${defaultImage}")`,
+    backgroundImage: backgroundImage
+      ? `url("${backgroundImage}")`
+      : `url("${defaultImage}")`,
   };
-  const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
+  const translationAvailable = !!getAttr(hearing.title, language, {
+    exact: true,
+  });
   const mainImgCaption =
-    hearing.main_image && hearing.main_image.caption ? getAttr(hearing.main_image.caption, language) : '';
+    hearing.main_image && hearing.main_image.caption
+      ? getAttr(hearing.main_image.caption, language)
+      : '';
 
   return (
     <div className={`fullwidth-hearing ${className}`}>
@@ -36,7 +48,9 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
       <div className='fullwidth-hearing-header'>
         <div className='fullwidth-hearing-title-wrap'>
           <h3 className='h2 fullwidth-hearing-title'>
-            <Link to={{ path: getHearingURL(hearing) }}>{getAttr(hearing.title, language)}</Link>
+            <Link to={{ path: getHearingURL(hearing) }}>
+              {getAttr(hearing.title, language)}
+            </Link>
           </h3>
         </div>
         <div className='fullwidth-hearing-comments'>
@@ -52,7 +66,11 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
         </div>
         <div className='fullwidth-hearing-times'>
           <span>
-            <FormatRelativeTime messagePrefix='timeOpen' timeVal={hearing.open_at} />.
+            <FormatRelativeTime
+              messagePrefix='timeOpen'
+              timeVal={hearing.open_at}
+            />
+            .
           </span>{' '}
           <FormatRelativeTime
             messagePrefix='timeClose'
@@ -63,9 +81,15 @@ const FullWidthHearing = ({ hearing, className = '', language, history, intl }) 
           />
         </div>
         <div className='fullwidth-hearing-labels clearfix'>
-          <LabelList className='hearing-list-item-labellist' labels={hearing.labels} language={language} />
+          <LabelList
+            className='hearing-list-item-labellist'
+            labels={hearing.labels}
+            language={language}
+          />
         </div>
-        {!translationAvailable && <HearingTranslationNotice title={hearing.title} />}
+        {!translationAvailable && (
+          <HearingTranslationNotice title={hearing.title} />
+        )}
       </div>
     </div>
   );

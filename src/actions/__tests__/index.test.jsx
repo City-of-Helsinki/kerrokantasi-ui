@@ -47,7 +47,9 @@ describe('fetchHearingList', () => {
     const error = new Error('An error occurred');
     api.get.mockRejectedValue(error); // Mocking a failed API call
 
-    const expectedActions = [createAction('beginFetchHearingList')({ listId, params })];
+    const expectedActions = [
+      createAction('beginFetchHearingList')({ listId, params }),
+    ];
 
     await store.dispatch(actions.fetchHearingList(listId, endpoint, params));
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
@@ -71,12 +73,20 @@ describe('fetchInitialHearingList', () => {
 
     const expectedActions = [
       { type: 'beginFetchHearingList', payload: { listId, params } },
-      { type: 'receiveHearingList', payload: { listId, data: mockHearingData } },
+      {
+        type: 'receiveHearingList',
+        payload: { listId, data: mockHearingData },
+      },
     ];
 
-    await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
+    await store.dispatch(
+      actions.fetchInitialHearingList(listId, endpoint, params)
+    );
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-    expect(api.get).toHaveBeenCalledWith(endpoint, expect.objectContaining(params));
+    expect(api.get).toHaveBeenCalledWith(
+      endpoint,
+      expect.objectContaining(params)
+    );
   });
 
   it('handles errors during initial hearing list fetch', async () => {
@@ -88,7 +98,9 @@ describe('fetchInitialHearingList', () => {
       // Assuming requestErrorHandler handles dispatching an error action
     ];
 
-    await store.dispatch(actions.fetchInitialHearingList(listId, endpoint, params));
+    await store.dispatch(
+      actions.fetchInitialHearingList(listId, endpoint, params)
+    );
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
@@ -107,7 +119,9 @@ describe('fetchProjects', () => {
         { id: '2', name: 'Project Two' },
       ],
     };
-    api.get.mockResolvedValue({ json: () => Promise.resolve(mockProjectsData) }); // Mocking the API call
+    api.get.mockResolvedValue({
+      json: () => Promise.resolve(mockProjectsData),
+    }); // Mocking the API call
 
     const expectedActions = [
       { type: 'fetchProjects' },
@@ -123,7 +137,10 @@ describe('fetchProjects', () => {
     const error = new Error('Network error');
     api.get.mockRejectedValue(error); // Mocking a failed API call
 
-    const expectedActions = [{ type: 'fetchProjects' }, { type: 'receiveProjectsError' }];
+    const expectedActions = [
+      { type: 'fetchProjects' },
+      { type: 'receiveProjectsError' },
+    ];
 
     await store.dispatch(actions.fetchProjects());
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
@@ -146,7 +163,9 @@ describe('fetchUserComments', () => {
       ],
     };
     const expectedParams = { created_by: 'me', ...additionalParams };
-    api.get.mockResolvedValue({ json: () => Promise.resolve(mockCommentsData) }); // Mocking the API call
+    api.get.mockResolvedValue({
+      json: () => Promise.resolve(mockCommentsData),
+    }); // Mocking the API call
 
     const expectedActions = [
       { type: 'beginFetchUserComments' },
@@ -163,7 +182,10 @@ describe('fetchUserComments', () => {
     const error = new Error('Network error');
     api.get.mockRejectedValue(error); // Mocking a failed API call
 
-    const expectedActions = [{ type: 'beginFetchUserComments' }, { type: 'receiveUserCommentsError' }];
+    const expectedActions = [
+      { type: 'beginFetchUserComments' },
+      { type: 'receiveUserCommentsError' },
+    ];
 
     await store.dispatch(actions.fetchUserComments(additionalParams));
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
@@ -193,11 +215,16 @@ describe('fetchMoreHearings', () => {
         { id: 4, title: 'Hearing Four' },
       ],
     };
-    api.get.mockResolvedValue({ json: () => Promise.resolve(mockHearingsData) });
+    api.get.mockResolvedValue({
+      json: () => Promise.resolve(mockHearingsData),
+    });
 
     const expectedActions = [
       { type: 'beginFetchHearingList', payload: { listId } },
-      { type: 'receiveMoreHearings', payload: { listId, data: mockHearingsData } },
+      {
+        type: 'receiveMoreHearings',
+        payload: { listId, data: mockHearingsData },
+      },
     ];
 
     await store.dispatch(actions.fetchMoreHearings(listId));
@@ -208,7 +235,9 @@ describe('fetchMoreHearings', () => {
   it('handles errors during fetching more hearings', async () => {
     api.get.mockRejectedValueOnce(new Error('API request failed'));
 
-    const expectedActions = [{ type: 'beginFetchHearingList', payload: { listId } }];
+    const expectedActions = [
+      { type: 'beginFetchHearingList', payload: { listId } },
+    ];
 
     await store.dispatch(actions.fetchMoreHearings(listId));
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
@@ -268,11 +297,13 @@ describe('postSectionComment', () => {
       createAction('fetchUserData')(),
     ];
 
-    await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
+    await store.dispatch(
+      actions.postSectionComment(hearingSlug, sectionId, commentData)
+    );
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     expect(api.post).toHaveBeenCalledWith(
       `/v1/hearing/${hearingSlug}/sections/${sectionId}/comments/`,
-      commentReturned,
+      commentReturned
     );
   });
 
@@ -285,9 +316,13 @@ describe('postSectionComment', () => {
     };
     api.post.mockRejectedValue(error);
 
-    const expectedActions = [createAction('postingComment')({ hearingSlug, sectionId })];
+    const expectedActions = [
+      createAction('postingComment')({ hearingSlug, sectionId }),
+    ];
 
-    await store.dispatch(actions.postSectionComment(hearingSlug, sectionId, commentData));
+    await store.dispatch(
+      actions.postSectionComment(hearingSlug, sectionId, commentData)
+    );
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });

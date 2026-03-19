@@ -3,9 +3,13 @@ import path from 'path';
 
 import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
-import { defineConfig, coverageConfigDefaults, configDefaults } from 'vitest/config'
+import {
+  defineConfig,
+  coverageConfigDefaults,
+  configDefaults,
+} from 'vitest/config';
 import dotenv from 'dotenv';
-import istanbul from 'vite-plugin-istanbul'
+import istanbul from 'vite-plugin-istanbul';
 
 import { getCityAssets, getCityConfig, getCityPublic } from './scripts/utils';
 
@@ -43,10 +47,12 @@ export default defineConfig(() => {
     plugins: [
       react(),
       eslint(),
-      ENABLE_E2E_COVERAGE ? istanbul({
-        requireEnv: false,
-        nycrcPath: './nyc.config.js',
-      }) : undefined
+      ENABLE_E2E_COVERAGE
+        ? istanbul({
+            requireEnv: false,
+            nycrcPath: './nyc.config.js',
+          })
+        : undefined,
     ],
     assetsInclude: ['**/*.md'],
     build: {
@@ -59,18 +65,18 @@ export default defineConfig(() => {
             vendor: ['react', 'react-dom'],
             ui: ['hds-react'],
             editor: ['draft-js', '@draft-js-plugins/editor'],
-            maps: ['leaflet', 'react-leaflet']
-          }
-        }
-      }
+            maps: ['leaflet', 'react-leaflet'],
+          },
+        },
+      },
     },
     publicDir: cityPublic,
     server: {
       host: true,
-      port: 8086
+      port: 8086,
     },
     preview: {
-      port: 8086
+      port: 8086,
     },
     resolve: {
       alias: {
@@ -80,18 +86,18 @@ export default defineConfig(() => {
         '@city-images': cityImages,
         'kerrokantasi-ui': ui,
         'kerrokantasi-ui-modules': modules,
-      }
+      },
     },
     define: {
-      global: 'globalThis'
+      global: 'globalThis',
     },
     css: {
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
-          quietDeps: true
+          quietDeps: true,
         },
-      }
+      },
     },
     test: {
       globals: true,
@@ -99,28 +105,44 @@ export default defineConfig(() => {
       setupFiles: './src/setupTests.js',
       css: true,
       reporters: ['verbose'],
-      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],  // Only Vitest files
-      exclude: [...configDefaults.exclude, 'e2e', 'e2e/**', '**/e2e/**', '**/*.spec.js'],  // Exclude Playwright files
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'], // Only Vitest files
+      exclude: [
+        ...configDefaults.exclude,
+        'e2e',
+        'e2e/**',
+        '**/e2e/**',
+        '**/*.spec.js',
+      ], // Exclude Playwright files
       coverage: {
         reporter: ['clover', 'json', 'lcov', 'text'],
         include: ['src/**/*'],
         exclude: [
           ...coverageConfigDefaults.exclude,
           '**/__snapshots__/**',
-          '**/constants.js'
+          '**/constants.js',
         ],
-        provider: 'istanbul'
+        provider: 'istanbul',
       },
       testTimeout: 100000,
       alias: {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": path.resolve(__dirname, "./src/__mocks__/fileMock.js"),
-        "\\.(css|less)$": path.resolve(__dirname, "./src/__mocks__/styleMock.js"),
-        "^@city-i18n(.*)$": path.resolve(__dirname, "./src/i18n$1"),
-        "^@city-assets(.*)$": path.resolve(__dirname, "./assets$1"),
-        "^@city-images(.*)$": path.resolve(__dirname, "./assets/images$1"),
-        "react-leaflet-draw": path.resolve(__dirname, './src/__mocks__/reactLeafletDrawMock.jsx'),
-        "react-leaflet": path.resolve(__dirname, './src/__mocks__/reactLeafletMock.jsx')
-      }
-    }
-  }
-})
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+          path.resolve(__dirname, './src/__mocks__/fileMock.js'),
+        '\\.(css|less)$': path.resolve(
+          __dirname,
+          './src/__mocks__/styleMock.js'
+        ),
+        '^@city-i18n(.*)$': path.resolve(__dirname, './src/i18n$1'),
+        '^@city-assets(.*)$': path.resolve(__dirname, './assets$1'),
+        '^@city-images(.*)$': path.resolve(__dirname, './assets/images$1'),
+        'react-leaflet-draw': path.resolve(
+          __dirname,
+          './src/__mocks__/reactLeafletDrawMock.jsx'
+        ),
+        'react-leaflet': path.resolve(
+          __dirname,
+          './src/__mocks__/reactLeafletMock.jsx'
+        ),
+      },
+    },
+  };
+});

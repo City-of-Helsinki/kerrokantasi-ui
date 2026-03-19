@@ -31,7 +31,13 @@ const LinkWithLangComponent = (props) => {
   };
 
   return (
-    <Link className={className} to={newTo} rel={rel} target={target} style={style}>
+    <Link
+      className={className}
+      to={newTo}
+      rel={rel}
+      target={target}
+      style={style}
+    >
       {children}
     </Link>
   );

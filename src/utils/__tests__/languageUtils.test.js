@@ -1,7 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import urls from '@city-assets/urls.json';
 
-import { getDataProtectionUrl, getFeedbackEmailUrl, getFeedbackUrl } from '../languageUtils';
+import {
+  getDataProtectionUrl,
+  getFeedbackEmailUrl,
+  getFeedbackUrl,
+} from '../languageUtils';
 
 describe('languageUtils', () => {
   describe('getFeedbackUrl', () => {
@@ -51,10 +55,10 @@ describe('languageUtils', () => {
   describe('getDataProtectionUrl', () => {
     it('returns correct url when language param is sv', () => {
       expect(getDataProtectionUrl('sv')).toBe(urls.dataProtectionSV);
-    })
+    });
     it('returns correct url when language param is fi', () => {
       expect(getDataProtectionUrl('fi')).toBe(urls.dataProtectionFI);
-    })
+    });
     it('returns the finnish url in random cases', () => {
       expect(getDataProtectionUrl('')).toBe(urls.dataProtectionFI);
       expect(getDataProtectionUrl()).toBe(urls.dataProtectionFI);
@@ -62,6 +66,6 @@ describe('languageUtils', () => {
       expect(getDataProtectionUrl('lisko')).toBe(urls.dataProtectionFI);
       expect(getDataProtectionUrl('olut')).toBe(urls.dataProtectionFI);
       expect(getDataProtectionUrl(-3)).toBe(urls.dataProtectionFI);
-    })
-  })
+    });
+  });
 });

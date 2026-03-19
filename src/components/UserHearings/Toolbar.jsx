@@ -8,7 +8,14 @@ import Icon from '../../utils/Icon';
 import Link from '../LinkWithLang';
 import HearingFormControl from './HearingFormControl';
 
-const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHearingCreator, changeSort }) => (
+const Toolbar = ({
+  loadOwn,
+  openTools,
+  formatMessage,
+  toggleDropdown,
+  toggleHearingCreator,
+  changeSort,
+}) => (
   <>
     <div className='col-md-12 tool-buttons'>
       <Link to={{ path: '/hearing/new' }}>
@@ -25,12 +32,20 @@ const Toolbar = ({ loadOwn, openTools, formatMessage, toggleDropdown, toggleHear
         onClick={() => toggleDropdown()}
         className='kerrokantasi-btn gear'
       >
-        <Icon className={classNames({ active: openTools })} name='gear' size='2x' aria-hidden />
+        <Icon
+          className={classNames({ active: openTools })}
+          name='gear'
+          size='2x'
+          aria-hidden
+        />
       </Button>
     </div>
     <div className={classNames('tool-dropdown', { open: openTools })}>
       <div className='tool-content'>
-        <HearingFormControl changeSort={changeSort} formatMessage={formatMessage} />
+        <HearingFormControl
+          changeSort={changeSort}
+          formatMessage={formatMessage}
+        />
         <div className='hearing-radio'>
           <label id='show'>{formatMessage({ id: 'show' })}</label>
           <form>

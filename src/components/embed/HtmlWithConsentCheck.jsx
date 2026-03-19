@@ -15,7 +15,9 @@ import { COOKIE_CONSENT_GROUP } from '../../utils/cookieUtils';
  * Re-renders automatically when cookie consent changes (HDS or Cookiebot).
  */
 const HtmlWithConsentCheck = ({ htmlString }) => {
-  const hasMarketingConsent = useHasConsentGroup(COOKIE_CONSENT_GROUP.Marketing);
+  const hasMarketingConsent = useHasConsentGroup(
+    COOKIE_CONSENT_GROUP.Marketing
+  );
 
   const content = React.useMemo(() => {
     if (!htmlString) return null;
@@ -23,9 +25,17 @@ const HtmlWithConsentCheck = ({ htmlString }) => {
     const iframes = extractIframes(htmlString);
     const shouldRenderContentAsIs = iframes.length === 0 || hasMarketingConsent;
 
-    return shouldRenderContentAsIs
-      ? <SanitizedHtml html={htmlString} allowIframes={hasMarketingConsent} />
-      : <>{replaceIframesWithPlaceholders(htmlString, iframes, ExternalContentPlaceholder)}</>;
+    return shouldRenderContentAsIs ? (
+      <SanitizedHtml html={htmlString} allowIframes={hasMarketingConsent} />
+    ) : (
+      <>
+        {replaceIframesWithPlaceholders(
+          htmlString,
+          iframes,
+          ExternalContentPlaceholder
+        )}
+      </>
+    );
   }, [htmlString, hasMarketingConsent]);
 
   return content;

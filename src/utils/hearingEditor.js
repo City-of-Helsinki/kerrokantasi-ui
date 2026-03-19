@@ -27,7 +27,8 @@ export const fillFrontId = (obj, idGenerator) => ({
  * @param {Function} idGenerator
  * @returns
  */
-export const fillFrontIds = (thingz, idGenerator) => thingz.map((thing) => fillFrontId(thing, idGenerator));
+export const fillFrontIds = (thingz, idGenerator) =>
+  thingz.map((thing) => fillFrontId(thing, idGenerator));
 
 /**
  *
@@ -42,7 +43,7 @@ export const normalizeEntitiesByFrontId = (data, entityKey, idGenerator) =>
       ...data,
       [entityKey]: fillFrontIds(data[entityKey], idGenerator),
     },
-    hearingSchema,
+    hearingSchema
   ).entities[entityKey] || {};
 
 /**
@@ -58,14 +59,17 @@ export const normalizeHearing = (hearing) => normalize(hearing, hearingSchema);
  * @param {Array<string>} attrKeys
  * @returns
  */
-export const fillFrontIdsForAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => ({
+export const fillFrontIdsForAttributes = (
+  data,
+  attrKeys = ATTR_WITH_FRONT_ID
+) => ({
   ...data,
   ...attrKeys.reduce(
     (filled, key) => ({
       ...filled,
       [key]: fillFrontIds(data[key]),
     }),
-    {},
+    {}
   ),
 });
 
@@ -102,7 +106,7 @@ export const filterFrontIdFromPhases = (data) => {
         phases: cleanedPhases,
       },
     },
-    data,
+    data
   );
 };
 
@@ -112,7 +116,10 @@ export const filterFrontIdFromPhases = (data) => {
  * @param {Array<string>} attrKeys
  * @returns
  */
-export const filterFrontIdsFromAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => {
+export const filterFrontIdsFromAttributes = (
+  data,
+  attrKeys = ATTR_WITH_FRONT_ID
+) => {
   let filteredPhasesData = data;
   if (data.project && data.project.phases) {
     filteredPhasesData = filterFrontIdFromPhases(data);
@@ -124,34 +131,43 @@ export const filterFrontIdsFromAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID
         ...filtered,
         [key]: filterFrontIds(filteredPhasesData[key]),
       }),
-      {},
+      {}
     ),
   };
 };
 
-const filterObjectByLanguages = (object, languages) => pickBy(object, (value, key) => includes(languages, key));
+const filterObjectByLanguages = (object, languages) =>
+  pickBy(object, (value, key) => includes(languages, key));
 
 const filterSectionsContentByLanguages = (sections, languages) =>
   sections.map((section) =>
     assign(section, {
       abstract: filterObjectByLanguages(section.abstract, languages),
       content: filterObjectByLanguages(section.content, languages),
-      images: section.images.map((image) => assign(image, filterObjectByLanguages(image.abstract))),
+      images: section.images.map((image) =>
+        assign(image, filterObjectByLanguages(image.abstract))
+      ),
       title: filterObjectByLanguages(section.title, languages),
-    }),
+    })
   );
 
 export const filterTitleAndContentByLanguage = (data, languages) =>
   assign(data, {
     abstract: filterObjectByLanguages(data.title, languages),
     main_image: data.main_image
-      ? assign(data.main_image, filterObjectByLanguages(data.main_image.caption, languages))
+      ? assign(
+          data.main_image,
+          filterObjectByLanguages(data.main_image.caption, languages)
+        )
       : null,
     title: filterObjectByLanguages(data.title, languages),
     sections: filterSectionsContentByLanguages(data.sections, languages),
   });
 
-export const fillFrontIdsAndNormalizeHearing = flowRight([normalizeHearing, fillFrontIdsForAttributes]);
+export const fillFrontIdsAndNormalizeHearing = flowRight([
+  normalizeHearing,
+  fillFrontIdsForAttributes,
+]);
 
 export const getDocumentOrigin = () =>
   // eslint-disable-next-line sonarjs/no-nested-template-literals
@@ -195,52 +211,70 @@ export const initNewProject = () => ({
  * @returns {{type: string, features: Object[]}}
  */
 export const parseCollection = (featureCollection) => {
-  const normalizedFeatures = featureCollection.features.reduce((features, feature) => {
-    let normalizedCoordinates;
-    if (feature.geometry.coordinates.length === 1) {
-      /**
-       * geometry.coordinates is a multidimensional array - a Polygon
-       * e.g. coordinates =
-       * [
-       *  [
-       *  [22.264..., 60.437...],
-       *  [22.265..., 60.438...],
-       *  [22.266..., 60.439...],
-       *  [22.267..., 60.440...]
-       *  ...
-       *  ]
-       * ]
-       */
-      // coordsToLatLngs - create multidimensional array of LatLngs from GeoJSON coordinates array
-      normalizedCoordinates = window.L.GeoJSON.coordsToLatLngs(feature.geometry.coordinates, 1);
-      // latLngsToCoords - reverse of the above, precision of the coordinates is 6 decimals
-      normalizedCoordinates = window.L.GeoJSON.latLngsToCoords(normalizedCoordinates, 1);
-    } else {
-      /**
-       * geometry.coordinates is an array with multiple values - a Point
-       * e.g. coordinates = [22.264...,60.432...]
-       */
-      // coordsToLatLng - create a LatLng object from array of 2 numbers
-      normalizedCoordinates = window.L.GeoJSON.coordsToLatLng(feature.geometry.coordinates);
-      // latLngToCoords - reverse of the above, precision of the coordinates is set to 6 decimals
-      normalizedCoordinates = window.L.GeoJSON.latLngToCoords(normalizedCoordinates, 6);
-    }
-    features.push({
-      type: feature.type,
-      geometry: {
-        coordinates: normalizedCoordinates,
-        type: feature.geometry.type,
-      },
-    });
-    return features;
-  }, []);
+  const normalizedFeatures = featureCollection.features.reduce(
+    (features, feature) => {
+      let normalizedCoordinates;
+      if (feature.geometry.coordinates.length === 1) {
+        /**
+         * geometry.coordinates is a multidimensional array - a Polygon
+         * e.g. coordinates =
+         * [
+         *  [
+         *  [22.264..., 60.437...],
+         *  [22.265..., 60.438...],
+         *  [22.266..., 60.439...],
+         *  [22.267..., 60.440...]
+         *  ...
+         *  ]
+         * ]
+         */
+        // coordsToLatLngs - create multidimensional array of LatLngs from GeoJSON coordinates array
+        normalizedCoordinates = window.L.GeoJSON.coordsToLatLngs(
+          feature.geometry.coordinates,
+          1
+        );
+        // latLngsToCoords - reverse of the above, precision of the coordinates is 6 decimals
+        normalizedCoordinates = window.L.GeoJSON.latLngsToCoords(
+          normalizedCoordinates,
+          1
+        );
+      } else {
+        /**
+         * geometry.coordinates is an array with multiple values - a Point
+         * e.g. coordinates = [22.264...,60.432...]
+         */
+        // coordsToLatLng - create a LatLng object from array of 2 numbers
+        normalizedCoordinates = window.L.GeoJSON.coordsToLatLng(
+          feature.geometry.coordinates
+        );
+        // latLngToCoords - reverse of the above, precision of the coordinates is set to 6 decimals
+        normalizedCoordinates = window.L.GeoJSON.latLngToCoords(
+          normalizedCoordinates,
+          6
+        );
+      }
+      features.push({
+        type: feature.type,
+        geometry: {
+          coordinates: normalizedCoordinates,
+          type: feature.geometry.type,
+        },
+      });
+      return features;
+    },
+    []
+  );
   return { type: featureCollection.type, features: normalizedFeatures };
 };
 
 export const prepareSection = (section) => ({
   ...section,
   id: '',
-  images: section.images.map((image) => ({ ...image, id: '', reference_id: image.id })),
+  images: section.images.map((image) => ({
+    ...image,
+    id: '',
+    reference_id: image.id,
+  })),
   files: section.files.map((file) => ({
     ...file,
     id: file.isNew ? file.id : '',
@@ -257,11 +291,17 @@ export const prepareHearingForSave = (hearing) => {
   // Scrub ids from sections and their children
   let preparedHearing = {
     ...hearing,
-    sections: hearing.sections.map((section) => ({ ...prepareSection(section) })),
+    sections: hearing.sections.map((section) => ({
+      ...prepareSection(section),
+    })),
   };
 
   // Add geojson to cleanedHearing
-  if (hearing.geojson && hearing.geojson.type === 'FeatureCollection' && hearing.geojson.features.length === 1) {
+  if (
+    hearing.geojson &&
+    hearing.geojson.type === 'FeatureCollection' &&
+    hearing.geojson.features.length === 1
+  ) {
     /**
      * If the features array only has 1 feature then we just send that features geometry
      * @example
@@ -293,7 +333,8 @@ export const prepareHearingForSave = (hearing) => {
  * @param {string} key
  * @returns {'error'|null}
  */
-export const getValidationState = (errors, key) => (errors[key] ? 'error' : null);
+export const getValidationState = (errors, key) =>
+  errors[key] ? 'error' : null;
 
 export const validateHearing = (hearing, hearingLanguages) => {
   // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc
@@ -319,15 +360,26 @@ export const validateHearing = (hearing, hearingLanguages) => {
   }
   // project is not mandatory, but if a project is given, it must have certain properties
   if (validateFunction.project(hearing.project)) {
-    if (validateFunction.project_title(hearing.project.title, hearingLanguages)) {
+    if (
+      validateFunction.project_title(hearing.project.title, hearingLanguages)
+    ) {
       errors[5].project_title = getMessage('validationHearingProjectTitle');
     }
-    if (validateFunction.project_phases_title(hearing.project.phases, hearingLanguages)) {
-      errors[5].project_phase_title = getMessage('validationHearingProjectPhaseTitle');
+    if (
+      validateFunction.project_phases_title(
+        hearing.project.phases,
+        hearingLanguages
+      )
+    ) {
+      errors[5].project_phase_title = getMessage(
+        'validationHearingProjectPhaseTitle'
+      );
     }
     if (validateFunction.project_phases_active(hearing.project.phases)) {
-      errors[5].project_phase_active = getMessage('validationHearingProjectPhaseActive');
+      errors[5].project_phase_active = getMessage(
+        'validationHearingProjectPhaseActive'
+      );
     }
   }
   return errors;
-}
+};

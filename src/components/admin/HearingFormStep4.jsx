@@ -10,7 +10,9 @@ import getAttr from '../../utils/getAttr';
 import i18n from '../../i18n';
 import { getClosureSection } from '../../utils/hearing';
 import { initNewSection, SectionTypes } from '../../utils/section';
-import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
+import MultiLanguageTextField, {
+  TextFieldTypes,
+} from '../forms/MultiLanguageTextField';
 import { hearingShape } from '../../types';
 import { addSection } from '../../actions/hearingEditor';
 
@@ -61,7 +63,11 @@ const HearingFormStep4 = ({
     if (closureInfoSection) {
       onSectionChange(closureInfoSection.frontId, 'content', value);
     } else {
-      dispatch(addSection(initNewSection({ type: SectionTypes.CLOSURE, content: value })));
+      dispatch(
+        addSection(
+          initNewSection({ type: SectionTypes.CLOSURE, content: value })
+        )
+      );
     }
   };
 
@@ -124,14 +130,23 @@ const HearingFormStep4 = ({
   };
 
   const closureInfoContent =
-    getClosureSection(hearing) && !isEmpty(getAttr(getClosureSection(hearing).content))
+    getClosureSection(hearing) &&
+    !isEmpty(getAttr(getClosureSection(hearing).content))
       ? getClosureSection(hearing).content
-      : { fi: i18n.fi.defaultClosureInfo, sv: i18n.sv.defaultClosureInfo, en: i18n.en.defaultClosureInfo };
+      : {
+          fi: i18n.fi.defaultClosureInfo,
+          sv: i18n.sv.defaultClosureInfo,
+          en: i18n.en.defaultClosureInfo,
+        };
 
   return (
     <div className='form-step'>
       <div className='hearing-form-row'>
-        <div id='hearingOpeningTime' className='hearing-form-column' style={{ display: 'block' }}>
+        <div
+          id='hearingOpeningTime'
+          className='hearing-form-column'
+          style={{ display: 'block' }}
+        >
           <DateInput
             label={<FormattedMessage id='hearingOpeningDate' />}
             name='open_date'
@@ -159,7 +174,11 @@ const HearingFormStep4 = ({
             invalid={!!errors.open_at}
           />
         </div>
-        <div id='hearingClosingTime' className='hearing-form-column' style={{ display: 'block' }}>
+        <div
+          id='hearingClosingTime'
+          className='hearing-form-column'
+          style={{ display: 'block' }}
+        >
           <DateInput
             label={<FormattedMessage id='hearingClosingDate' />}
             name='close_date'

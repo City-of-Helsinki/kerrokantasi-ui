@@ -27,7 +27,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <IframeEntity {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

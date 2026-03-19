@@ -27,11 +27,15 @@ import enrichUserData from './actions/user';
 import Toast from './components/Toast';
 import { MAIN_CONTAINER_ID } from './constants';
 import useMatomo from './components/Matomo/hooks/useMatomo';
-import { COOKIE_CONSENT_GROUP, getLegacyAnalyticsScript } from './utils/cookieUtils';
+import {
+  COOKIE_CONSENT_GROUP,
+  getLegacyAnalyticsScript,
+} from './utils/cookieUtils';
 import { useHasConsentGroup } from './hooks/useCookieConsent';
 
 function App({ isHighContrast, history, ...props }) {
-  const { user, dispatchSetOidcUser, dispatchEnrichUser, onChangeLanguage } = props;
+  const { user, dispatchSetOidcUser, dispatchEnrichUser, onChangeLanguage } =
+    props;
   const { fullscreen } = useParams();
   const location = useLocation();
   const { locale } = useIntl();
@@ -41,7 +45,9 @@ function App({ isHighContrast, history, ...props }) {
 
   getStoredApiTokens();
 
-  const hasStatisticsConsent = useHasConsentGroup(COOKIE_CONSENT_GROUP.Statistics);
+  const hasStatisticsConsent = useHasConsentGroup(
+    COOKIE_CONSENT_GROUP.Statistics
+  );
   const { trackPageView } = useMatomo();
 
   useEffect(() => {
@@ -70,7 +76,14 @@ function App({ isHighContrast, history, ...props }) {
         logout();
       }
     }
-  }, [user, authenticated, dispatchSetOidcUser, oidcUser, logout, dispatchEnrichUser]);
+  }, [
+    user,
+    authenticated,
+    dispatchSetOidcUser,
+    oidcUser,
+    logout,
+    dispatchEnrichUser,
+  ]);
 
   useEffect(() => {
     if (hasStatisticsConsent) {
@@ -83,12 +96,34 @@ function App({ isHighContrast, history, ...props }) {
 
   const contrastClass = classNames({ 'high-contrast': isHighContrast });
   const favlinks = [
-    { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
-    { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
+    {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: '/favicon/apple-touch-icon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      href: '/favicon/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      href: '/favicon/favicon-16x16.png',
+    },
     { rel: 'manifest', href: '/favicon/manifest.json' },
-    { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#0072c6' },
-    { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon/favicon.ico' },
+    {
+      rel: 'mask-icon',
+      href: '/favicon/safari-pinned-tab.svg',
+      color: '#0072c6',
+    },
+    {
+      rel: 'shortcut icon',
+      type: 'image/x-icon',
+      href: '/favicon/favicon.ico',
+    },
   ];
   const favmeta = [
     { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
@@ -99,23 +134,36 @@ function App({ isHighContrast, history, ...props }) {
   let header = null;
 
   if (!fullscreen && !headless) {
-    header = <Header slim={location.pathname !== '/'} onChangeLanguage={onChangeLanguage} history={history} />;
+    header = (
+      <Header
+        slim={location.pathname !== '/'}
+        onChangeLanguage={onChangeLanguage}
+        history={history}
+      />
+    );
   }
   return (
     <div className={contrastClass}>
       {config.enableCookies && !isCookiebotEnabled() && <CookieBanner />}
-      <InternalLink className='skip-to-main-content' destinationId={MAIN_CONTAINER_ID}>
+      <InternalLink
+        className='skip-to-main-content'
+        destinationId={MAIN_CONTAINER_ID}
+      >
         <FormattedMessage id='skipToMainContent' />
       </InternalLink>
       <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
         <html lang={locale} />
         {isCookiebotEnabled() && getCookieBotScripts()}
-        {config.enableCookies && !config.matomoEnabled && getLegacyAnalyticsScript()}
+        {config.enableCookies &&
+          !config.matomoEnabled &&
+          getLegacyAnalyticsScript()}
       </Helmet>
       {header}
       <MaintenanceNotification language={locale} />
       <main
-        className={fullscreen ? 'fullscreen' : classNames('main-content', { headless })}
+        className={
+          fullscreen ? 'fullscreen' : classNames('main-content', { headless })
+        }
         id={MAIN_CONTAINER_ID}
         role='main'
         tabIndex='-1'

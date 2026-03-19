@@ -1,6 +1,6 @@
 /**
  * Tests for hearingEditor middleware functions
- * 
+ *
  * These middleware functions handle:
  * - Preventing infinite recursion when syncing hearings to the editor
  * - Normalizing API response data for Redux state
@@ -12,7 +12,7 @@ import {
   normalizeReceiveEditorMetaData,
   normalizeReceiveEditorContactPersons,
   normalizeSavedHearing,
-  sectionFrontIds
+  sectionFrontIds,
 } from '../hearingEditor';
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -24,9 +24,9 @@ vi.mock('normalizr', () => ({
       section: {},
       label: {},
       contactPerson: {},
-      organization: {}
+      organization: {},
     },
-    result: 'mock-id'
+    result: 'mock-id',
   })),
   schema: {
     Entity: class MockEntity {
@@ -41,13 +41,13 @@ vi.mock('normalizr', () => ({
         this.definition = definition;
         this.options = options;
       }
-    }
-  }
+    },
+  },
 }));
 
 // Mock UUID for consistent frontId generation
 vi.mock('uuid', () => ({
-  v1: () => 'mock-uuid-123'
+  v1: () => 'mock-uuid-123',
 }));
 
 describe('hearingEditor middleware', () => {
@@ -66,15 +66,18 @@ describe('hearingEditor middleware', () => {
     it('should skip processing when action is already normalized', () => {
       // This prevents infinite recursion by marking processed actions
       const action = {
-        type: "receiveHearing",
+        type: 'receiveHearing',
         payload: {
           hearingSlug: 'test-hearing',
           data: { slug: 'test-hearing' },
-          isNormalized: true // Flag indicates action was already processed
-        }
+          isNormalized: true, // Flag indicates action was already processed
+        },
       };
 
-      normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState })(mockNext)(action);
+      normalizeReceivedHearing({
+        dispatch: mockDispatch,
+        getState: mockGetState,
+      })(mockNext)(action);
 
       expect(mockNext).toHaveBeenCalledWith(action);
       expect(mockDispatch).not.toHaveBeenCalled();
@@ -87,12 +90,14 @@ describe('hearingEditor middleware', () => {
       const testCases = [
         {
           state: { hearingEditor: { hearing: { data: null } } },
-          description: 'editor has no hearing'
+          description: 'editor has no hearing',
         },
         {
-          state: { hearingEditor: { hearing: { data: { slug: 'different-hearing' } } } },
-          description: 'hearing slug differs'
-        }
+          state: {
+            hearingEditor: { hearing: { data: { slug: 'different-hearing' } } },
+          },
+          description: 'hearing slug differs',
+        },
       ];
 
       testCases.forEach(({ state }) => {
@@ -100,20 +105,24 @@ describe('hearingEditor middleware', () => {
         mockGetState.mockReturnValue(state);
 
         const action = {
-          type: "receiveHearing",
+          type: 'receiveHearing',
           payload: {
             hearingSlug: 'test-hearing',
-            data: { // Raw hearing data from API
+            data: {
+              // Raw hearing data from API
               slug: 'test-hearing',
               title: { fi: 'Test Hearing' },
               sections: [],
               contact_persons: [],
-              labels: []
-            }
-          }
+              labels: [],
+            },
+          },
         };
 
-        normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState })(mockNext)(action);
+        normalizeReceivedHearing({
+          dispatch: mockDispatch,
+          getState: mockGetState,
+        })(mockNext)(action);
 
         // Should dispatch normalized hearing to editor
         expect(mockDispatch).toHaveBeenCalledWith({
@@ -121,14 +130,14 @@ describe('hearingEditor middleware', () => {
           payload: expect.objectContaining({
             entities: expect.any(Object),
             result: expect.any(String),
-            isNormalized: true // Flag prevents re-processing
-          })
+            isNormalized: true, // Flag prevents re-processing
+          }),
         });
 
         // Should mark original action as normalized before passing through
         expect(mockNext).toHaveBeenCalledWith({
           ...action,
-          payload: { ...action.payload, isNormalized: true }
+          payload: { ...action.payload, isNormalized: true },
         });
       });
     });
@@ -136,23 +145,26 @@ describe('hearingEditor middleware', () => {
     it('should skip editor dispatch when hearing already matches', () => {
       // Performance optimization: don't re-sync if hearing is already in editor
       mockGetState.mockReturnValue({
-        hearingEditor: { hearing: { data: { slug: 'same-hearing' } } }
+        hearingEditor: { hearing: { data: { slug: 'same-hearing' } } },
       });
 
       const action = {
-        type: "receiveHearing",
+        type: 'receiveHearing',
         payload: {
           hearingSlug: 'same-hearing',
-          data: { slug: 'same-hearing' }
-        }
+          data: { slug: 'same-hearing' },
+        },
       };
 
-      normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState })(mockNext)(action);
+      normalizeReceivedHearing({
+        dispatch: mockDispatch,
+        getState: mockGetState,
+      })(mockNext)(action);
 
       expect(mockDispatch).not.toHaveBeenCalled();
       expect(mockNext).toHaveBeenCalledWith({
         ...action,
-        payload: { ...action.payload, isNormalized: true }
+        payload: { ...action.payload, isNormalized: true },
       });
     });
 
@@ -163,11 +175,14 @@ describe('hearingEditor middleware', () => {
         payload: {
           entities: { hearing: { 'test-id': { slug: 'test-hearing' } } },
           result: 'test-id',
-          isNormalized: true
-        }
+          isNormalized: true,
+        },
       };
 
-      normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState })(mockNext)(editorAction);
+      normalizeReceivedHearing({
+        dispatch: mockDispatch,
+        getState: mockGetState,
+      })(mockNext)(editorAction);
 
       // Should pass through without processing
       expect(mockDispatch).not.toHaveBeenCalled();
@@ -182,9 +197,12 @@ describe('hearingEditor middleware', () => {
       const action = {
         type: EditorActions.RECEIVE_META_DATA,
         payload: {
-          labels: [{ id: 1, name: 'Environment' }, { id: 2, name: 'Transport' }],
-          organizations: [{ id: 1, name: 'City Planning Department' }]
-        }
+          labels: [
+            { id: 1, name: 'Environment' },
+            { id: 2, name: 'Transport' },
+          ],
+          organizations: [{ id: 1, name: 'City Planning Department' }],
+        },
       };
 
       middleware(mockNext)(action);
@@ -195,13 +213,13 @@ describe('hearingEditor middleware', () => {
         payload: {
           labels: expect.objectContaining({
             entities: expect.any(Object),
-            result: expect.any(String)
+            result: expect.any(String),
           }),
           organizations: expect.objectContaining({
             entities: expect.any(Object),
-            result: expect.any(String)
-          })
-        }
+            result: expect.any(String),
+          }),
+        },
       });
     });
   });
@@ -212,8 +230,10 @@ describe('hearingEditor middleware', () => {
       const action = {
         type: EditorActions.RECEIVE_CONTACT_PERSONS,
         payload: {
-          contactPersons: [{ id: 1, name: 'John Doe', email: 'john@example.com' }]
-        }
+          contactPersons: [
+            { id: 1, name: 'John Doe', email: 'john@example.com' },
+          ],
+        },
       };
 
       middleware(mockNext)(action);
@@ -224,9 +244,9 @@ describe('hearingEditor middleware', () => {
         payload: {
           contactPersons: expect.objectContaining({
             entities: expect.any(Object),
-            result: expect.any(String)
-          })
-        }
+            result: expect.any(String),
+          }),
+        },
       });
     });
   });
@@ -240,13 +260,19 @@ describe('hearingEditor middleware', () => {
         title: { fi: 'Test kuuleminen' },
         sections: [],
         contact_persons: [],
-        labels: []
+        labels: [],
       };
 
       // Test both creation and update success actions (same behavior)
       const actions = [
-        { type: EditorActions.POST_HEARING_SUCCESS, payload: { hearing: hearingFromAPI } },
-        { type: EditorActions.SAVE_HEARING_SUCCESS, payload: { hearing: hearingFromAPI } }
+        {
+          type: EditorActions.POST_HEARING_SUCCESS,
+          payload: { hearing: hearingFromAPI },
+        },
+        {
+          type: EditorActions.SAVE_HEARING_SUCCESS,
+          payload: { hearing: hearingFromAPI },
+        },
       ];
 
       actions.forEach((action) => {
@@ -258,8 +284,8 @@ describe('hearingEditor middleware', () => {
           type: EditorActions.UPDATE_HEARING_AFTER_SAVE,
           payload: expect.objectContaining({
             entities: expect.any(Object),
-            result: expect.any(String)
-          })
+            result: expect.any(String),
+          }),
         });
         expect(mockNext).toHaveBeenCalledWith(action);
       });
@@ -273,8 +299,8 @@ describe('hearingEditor middleware', () => {
         type: EditorActions.ADD_SECTION,
         payload: {
           section: { id: '', type: 'main', title: { fi: 'Uusi osio' } },
-          hearingId: 'parent-hearing-id'
-        }
+          hearingId: 'parent-hearing-id',
+        },
       };
 
       middleware(mockNext)(action);
@@ -284,10 +310,10 @@ describe('hearingEditor middleware', () => {
         type: action.type,
         payload: {
           section: expect.objectContaining({
-            frontId: 'mock-uuid-123' // Client-side ID for tracking before save
+            frontId: 'mock-uuid-123', // Client-side ID for tracking before save
           }),
-          hearingId: 'parent-hearing-id'
-        }
+          hearingId: 'parent-hearing-id',
+        },
       });
     });
   });
@@ -296,16 +322,19 @@ describe('hearingEditor middleware', () => {
     it('should ignore unrelated actions without side effects', () => {
       // Ensure all middleware functions properly ignore actions they don't handle
       const middlewares = [
-        normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState }),
+        normalizeReceivedHearing({
+          dispatch: mockDispatch,
+          getState: mockGetState,
+        }),
         normalizeReceiveEditorMetaData(),
         normalizeReceiveEditorContactPersons(),
         normalizeSavedHearing({ dispatch: mockDispatch }),
-        sectionFrontIds()
+        sectionFrontIds(),
       ];
 
       const action = { type: 'OTHER_ACTION', payload: { data: 'test' } };
 
-      middlewares.forEach(middleware => {
+      middlewares.forEach((middleware) => {
         vi.clearAllMocks();
         middleware(mockNext)(action);
         expect(mockNext).toHaveBeenCalledWith(action);
@@ -317,10 +346,13 @@ describe('hearingEditor middleware', () => {
       // Verify middleware ignores editor-specific actions
       const editorAction = {
         type: EditorActions.RECEIVE_HEARING,
-        payload: { entities: {}, result: 'test' }
+        payload: { entities: {}, result: 'test' },
       };
 
-      normalizeReceivedHearing({ dispatch: mockDispatch, getState: mockGetState })(mockNext)(editorAction);
+      normalizeReceivedHearing({
+        dispatch: mockDispatch,
+        getState: mockGetState,
+      })(mockNext)(editorAction);
 
       expect(mockNext).toHaveBeenCalledWith(editorAction);
       expect(mockDispatch).not.toHaveBeenCalled();

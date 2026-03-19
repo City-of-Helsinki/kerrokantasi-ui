@@ -11,8 +11,12 @@ const CookieManagement = lazy(() => import('./views/CookieManagement'));
 const AccessibilityInfo = lazy(() => import('./views/AccessibilityInfo'));
 const HearingsContainer = lazy(() => import('./views/Hearings'));
 const HearingContainer = lazy(() => import('./views/Hearing/HearingContainer'));
-const NewHearingContainer = lazy(() => import('./views/NewHearing/NewHearingContainer'));
-const FullscreenHearingContainer = lazy(() => import('./views/FullscreenHearing/FullscreenHearingContainer'));
+const NewHearingContainer = lazy(
+  () => import('./views/NewHearing/NewHearingContainer')
+);
+const FullscreenHearingContainer = lazy(
+  () => import('./views/FullscreenHearing/FullscreenHearingContainer')
+);
 const LoginCallback = lazy(() => import('./views/Auth/loginCallback'));
 const LogoutCallback = lazy(() => import('./views/Auth/logoutCallback'));
 const UserHearings = lazy(() => import('./views/UserHearings'));
@@ -32,16 +36,23 @@ const AppRoutes = () => (
       <Route path='/' element={<HomeContainer />} />
       <Route path='/silent-renew' element={<SilentRenew />} />
       <Route path='/info' element={<Info />} />
-      {config.enableCookies && <Route path='/cookies' element={<CookieManagement />} />}
+      {config.enableCookies && (
+        <Route path='/cookies' element={<CookieManagement />} />
+      )}
       <Route path='/callback' element={<LoginCallback />} />
       <Route path='/callback/logout' element={<LogoutCallback />} />
       <Route path='/user-hearings' element={<UserHearings />} />
       <Route path='/user-profile' element={<UserProfile />} />
-      {config.showAccessibilityInfo && <Route path='/accessibility' element={<AccessibilityInfo />} />}
+      {config.showAccessibilityInfo && (
+        <Route path='/accessibility' element={<AccessibilityInfo />} />
+      )}
       <Route path='/hearings/:tab' element={<HearingsContainer />} />
       <Route path='/hearing/new' element={<NewHearingContainer />} />
       <Route path='/hearing/:hearingSlug' element={<Redirector />} />
-      <Route path='/:hearingSlug/fullscreen' element={<FullscreenHearingContainer />} />
+      <Route
+        path='/:hearingSlug/fullscreen'
+        element={<FullscreenHearingContainer />}
+      />
       <Route path='/:hearingSlug/:sectionId' element={<HearingContainer />} />
       <Route path='/:hearingSlug/*' element={<HearingContainer />} />
     </Routes>

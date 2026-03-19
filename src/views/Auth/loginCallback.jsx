@@ -24,7 +24,7 @@ const UnconnectedLoginCallback = () => {
       <div>Redirecting...</div>
     </LoginCallbackHandler>
   );
-}
+};
 
 export { UnconnectedLoginCallback };
 export default connect(null, null)(UnconnectedLoginCallback);

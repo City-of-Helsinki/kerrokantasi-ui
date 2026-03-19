@@ -33,7 +33,10 @@ describe('ExternalContentPlaceholder', () => {
 
   describe('rendering', () => {
     it('renders placeholder with domain from URL', () => {
-      renderWithProviders(<ExternalContentPlaceholder url='https://www.youtube.com/embed/test123' />, { locale: 'en' });
+      renderWithProviders(
+        <ExternalContentPlaceholder url='https://www.youtube.com/embed/test123' />,
+        { locale: 'en' }
+      );
 
       expect(screen.getByText('externalContentBlocked')).toBeInTheDocument();
       expect(screen.getByText('openExternalSite')).toBeInTheDocument();
@@ -43,9 +46,14 @@ describe('ExternalContentPlaceholder', () => {
 
   describe('open externally', () => {
     it('open external video in new window', () => {
-      const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+      const windowOpenSpy = vi
+        .spyOn(window, 'open')
+        .mockImplementation(() => null);
 
-      renderWithProviders(<ExternalContentPlaceholder url='https://suite.icareus.com/video/123' />, { locale: 'en' });
+      renderWithProviders(
+        <ExternalContentPlaceholder url='https://suite.icareus.com/video/123' />,
+        { locale: 'en' }
+      );
 
       const openButton = screen.getByText('openExternalSite');
       fireEvent.click(openButton);
@@ -53,7 +61,7 @@ describe('ExternalContentPlaceholder', () => {
       expect(windowOpenSpy).toHaveBeenCalledWith(
         'https://suite.icareus.com/video/123',
         '_blank',
-        'noopener,noreferrer',
+        'noopener,noreferrer'
       );
 
       windowOpenSpy.mockRestore();
@@ -64,7 +72,10 @@ describe('ExternalContentPlaceholder', () => {
     it('opens HDS cookie banner when available', () => {
       mockIsCookiebotEnabled.mockReturnValue(false);
 
-      renderWithProviders(<ExternalContentPlaceholder url='https://www.youtube.com/embed/test' />, { locale: 'en' });
+      renderWithProviders(
+        <ExternalContentPlaceholder url='https://www.youtube.com/embed/test' />,
+        { locale: 'en' }
+      );
 
       const settingsButton = screen.getByText('editCookieSettings');
       fireEvent.click(settingsButton);
@@ -77,7 +88,10 @@ describe('ExternalContentPlaceholder', () => {
       const mockRenew = vi.fn();
       window.Cookiebot = { renew: mockRenew };
 
-      renderWithProviders(<ExternalContentPlaceholder url='https://www.youtube.com/embed/test' />, { locale: 'en' });
+      renderWithProviders(
+        <ExternalContentPlaceholder url='https://www.youtube.com/embed/test' />,
+        { locale: 'en' }
+      );
 
       const settingsButton = screen.getByText('editCookieSettings');
       fireEvent.click(settingsButton);
@@ -89,20 +103,29 @@ describe('ExternalContentPlaceholder', () => {
 
   describe('edge cases', () => {
     it('handles null and undefined URL gracefully', () => {
-      const { container: containerNull } = renderWithProviders(<ExternalContentPlaceholder url={null} />, {
-        locale: 'en',
-      });
+      const { container: containerNull } = renderWithProviders(
+        <ExternalContentPlaceholder url={null} />,
+        {
+          locale: 'en',
+        }
+      );
       expect(containerNull.firstChild).toBeNull();
-      const { container: containerUndefined } = renderWithProviders(<ExternalContentPlaceholder url={undefined} />, {
-        locale: 'en',
-      });
+      const { container: containerUndefined } = renderWithProviders(
+        <ExternalContentPlaceholder url={undefined} />,
+        {
+          locale: 'en',
+        }
+      );
       expect(containerUndefined.firstChild).toBeNull();
     });
 
     it('handles invalid URL format', () => {
       // Invalid URL should not crash the component
       expect(() => {
-        renderWithProviders(<ExternalContentPlaceholder url='not-a-valid-url' />, { locale: 'en' });
+        renderWithProviders(
+          <ExternalContentPlaceholder url='not-a-valid-url' />,
+          { locale: 'en' }
+        );
       }).not.toThrow();
     });
   });

@@ -32,7 +32,11 @@ const Project = ({
   const [selectedTitles, setSelectedTitles] = useState(projectTitlesInitial);
 
   useEffect(() => {
-    setSelectedTitles(!isEmpty(getProjectTitles(project)) ? getProjectTitles(project) : undefined);
+    setSelectedTitles(
+      !isEmpty(getProjectTitles(project))
+        ? getProjectTitles(project)
+        : undefined
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project]);
 
@@ -41,7 +45,8 @@ const Project = ({
   }
 
   const phasesLength = project.phases ? project.phases.length : null;
-  const errorStyle = !errors.project_phase_active && phasesLength === 0 ? 'has-error' : null;
+  const errorStyle =
+    !errors.project_phase_active && phasesLength === 0 ? 'has-error' : null;
 
   return (
     <div>
@@ -60,7 +65,10 @@ const Project = ({
             onChange={(event) => {
               const { value } = event.target;
 
-              setSelectedTitles((prevState) => ({ ...prevState, [usedLanguage]: value }));
+              setSelectedTitles((prevState) => ({
+                ...prevState,
+                [usedLanguage]: value,
+              }));
               onChangeProjectName(usedLanguage, value);
             }}
             invalid={!!errors.project_title}
@@ -90,8 +98,13 @@ const Project = ({
       </div>
 
       <div>
-        <Button className={classNames([errorStyle, 'kerrokantasi-btn'])} onClick={addPhase} size='small'>
-          <Icon className='icon' name='plus' /> <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
+        <Button
+          className={classNames([errorStyle, 'kerrokantasi-btn'])}
+          onClick={addPhase}
+          size='small'
+        >
+          <Icon className='icon' name='plus' />{' '}
+          <FormattedMessage id='addProcess'>{(txt) => txt}</FormattedMessage>
         </Button>
       </div>
 

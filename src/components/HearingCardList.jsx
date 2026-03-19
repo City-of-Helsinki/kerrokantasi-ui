@@ -31,7 +31,10 @@ const HearingCardList = ({
     {hearings &&
       hearings.map((hearing) => {
         // Hearings with long titles have larger HearingCards on the profile page.
-        const mdSize = userProfile && getAttr(hearing.title, intl.locale, false).length > 140 ? 6 : 3;
+        const mdSize =
+          userProfile && getAttr(hearing.title, intl.locale, false).length > 140
+            ? 6
+            : 3;
         return (
           <div className={`col-xs-12 col-md-${mdSize}`} key={hearing.id}>
             <HearingCard

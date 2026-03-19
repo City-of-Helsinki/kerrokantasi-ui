@@ -15,8 +15,12 @@ const defaultProps = {
 const renderComponent = (propsOverrides) =>
   renderWithProviders(
     <MemoryRouter>
-      <CommentFormErrors intl={getIntlAsProp()} {...defaultProps} {...propsOverrides} />
-    </MemoryRouter>,
+      <CommentFormErrors
+        intl={getIntlAsProp()}
+        {...defaultProps}
+        {...propsOverrides}
+      />
+    </MemoryRouter>
   );
 
 describe('<CommentFormErrors />', () => {
@@ -41,7 +45,9 @@ describe('<CommentFormErrors />', () => {
   it('should render comment or answer required error', () => {
     renderComponent({ commentOrAnswerRequiredError: true });
 
-    expect(screen.getByText('commentOrAnswerRequiredError')).toBeInTheDocument();
+    expect(
+      screen.getByText('commentOrAnswerRequiredError')
+    ).toBeInTheDocument();
   });
 
   it('should render image size error', () => {

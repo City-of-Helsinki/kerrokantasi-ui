@@ -14,7 +14,10 @@ describe('<TextArea />', () => {
   it('calls onBlur function when blurred', () => {
     const onBlurMock = vi.fn();
 
-    const { getByRole } = renderComponent({ onBlur: onBlurMock, labelId: 'label.test' });
+    const { getByRole } = renderComponent({
+      onBlur: onBlurMock,
+      labelId: 'label.test',
+    });
 
     const textArea = getByRole('textbox');
 
@@ -34,25 +37,37 @@ describe('<TextArea />', () => {
   });
 
   it('renders with placeholder', () => {
-    const { getByPlaceholderText } = renderComponent({ placeholderId: 'placeholder.test', labelId: 'label.test' });
+    const { getByPlaceholderText } = renderComponent({
+      placeholderId: 'placeholder.test',
+      labelId: 'label.test',
+    });
 
     expect(getByPlaceholderText('placeholder.test')).toBeInTheDocument();
   });
 
   it('renders with helper text', () => {
-    const { getByText } = renderComponent({ helperText: 'Helper Text', labelId: 'label.test' });
+    const { getByText } = renderComponent({
+      helperText: 'Helper Text',
+      labelId: 'label.test',
+    });
 
     expect(getByText('Helper Text')).toBeInTheDocument();
   });
 
   it('renders with hint', () => {
-    const { getByText } = renderComponent({ hint: 'Hint Text', labelId: 'label.test' });
+    const { getByText } = renderComponent({
+      hint: 'Hint Text',
+      labelId: 'label.test',
+    });
 
     expect(getByText('(Hint Text)')).toBeInTheDocument();
   });
 
   it('renders with required attribute', () => {
-    const { getByRole } = renderComponent({ required: true, labelId: 'label.test' });
+    const { getByRole } = renderComponent({
+      required: true,
+      labelId: 'label.test',
+    });
 
     const textArea = getByRole('textbox');
 
@@ -60,7 +75,10 @@ describe('<TextArea />', () => {
   });
 
   it('renders with maxLength attribute', () => {
-    const { getByRole } = renderComponent({ maxLength: 10, labelId: 'label.test' });
+    const { getByRole } = renderComponent({
+      maxLength: 10,
+      labelId: 'label.test',
+    });
 
     const textArea = getByRole('textbox');
 

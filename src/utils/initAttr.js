@@ -6,7 +6,6 @@ const INIT_ATTR = config.languages.reduce((attr, lang) => {
   return temp;
 }, {});
 
-const initAttr = () =>
-  ({ ...INIT_ATTR });
+const initAttr = () => ({ ...INIT_ATTR });
 
 export default initAttr;

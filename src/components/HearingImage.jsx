@@ -12,8 +12,16 @@ const HearingImage = (props) => {
   const title = getAttr(data.title, language);
   return (
     <figure>
-      <img className='img-responsive center' style={{ margin: '0 auto' }} title={title} alt={title} src={data.url} />
-      <figcaption className='image-caption'>{getAttr(data.caption, language)}</figcaption>
+      <img
+        className='img-responsive center'
+        style={{ margin: '0 auto' }}
+        title={title}
+        alt={title}
+        src={data.url}
+      />
+      <figcaption className='image-caption'>
+        {getAttr(data.caption, language)}
+      </figcaption>
     </figure>
   );
 };

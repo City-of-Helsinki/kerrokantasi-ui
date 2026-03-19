@@ -18,7 +18,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <HearingList intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

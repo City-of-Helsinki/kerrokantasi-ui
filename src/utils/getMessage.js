@@ -8,7 +8,8 @@ import config from '../config';
  */
 
 const getMessage = (string, lang = config.activeLanguage) => {
-  if (languages[lang] && languages[lang][string]) return languages[lang][string];
+  if (languages[lang] && languages[lang][string])
+    return languages[lang][string];
   // if translation wasn't found, return any other translation
   for (let index = 0; index < config.languages.length; index += 1) {
     const map = languages[config.languages[index]];

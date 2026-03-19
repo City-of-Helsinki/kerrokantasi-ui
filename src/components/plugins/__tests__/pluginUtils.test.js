@@ -35,14 +35,17 @@ describe('pluginUtils', () => {
           sendMessageToPluginFrame(mockFrame, { message: 'test' });
 
           expect(mockContentWindow.postMessage).not.toHaveBeenCalled();
-        },
+        }
       );
     });
 
     describe('when frame.src is provided', () => {
       it.each([
         ['https://example.com/plugin.html', 'https://example.com'],
-        ['https://example.com/plugin.html?param=value#hash', 'https://example.com'],
+        [
+          'https://example.com/plugin.html?param=value#hash',
+          'https://example.com',
+        ],
         ['/assets/plugin.html', expect.any(String)],
       ])(
         'should extract origin from %p and send message',
@@ -54,15 +57,18 @@ describe('pluginUtils', () => {
 
           expect(mockContentWindow.postMessage).toHaveBeenCalledWith(
             message,
-            expectedOrigin,
+            expectedOrigin
           );
-        },
+        }
       );
 
       it.each([
         { type: 'userData' },
         'string',
-        { geojson: { type: 'FeatureCollection', features: [] }, comments: null },
+        {
+          geojson: { type: 'FeatureCollection', features: [] },
+          comments: null,
+        },
         null,
         42,
       ])('should send message %p to the iframe', (message) => {
@@ -72,7 +78,7 @@ describe('pluginUtils', () => {
 
         expect(mockContentWindow.postMessage).toHaveBeenCalledWith(
           message,
-          'https://example.com',
+          'https://example.com'
         );
       });
     });

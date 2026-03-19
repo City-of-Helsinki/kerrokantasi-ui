@@ -40,7 +40,11 @@ class MapdonHKRPlugin extends BaseCommentForm {
             style={{ marginBottom: 'var(--spacing-s)' }}
           />
           <p>
-            <Button className='kerrokantasi-btn' onClick={this.getDataAndSubmitComment} disabled={buttonDisabled}>
+            <Button
+              className='kerrokantasi-btn'
+              onClick={this.getDataAndSubmitComment}
+              disabled={buttonDisabled}
+            >
               Lähetä ehdotus
             </Button>
           </p>
@@ -98,7 +102,8 @@ class MapdonHKRPlugin extends BaseCommentForm {
     const self = this;
     if (!self._messageListener) {
       self._messageListener = this.onReceiveMessage.bind(self);
-      if (typeof window !== 'undefined') window.addEventListener('message', self._messageListener, false);
+      if (typeof window !== 'undefined')
+        window.addEventListener('message', self._messageListener, false);
     }
 
     iframe.addEventListener(
@@ -110,13 +115,14 @@ class MapdonHKRPlugin extends BaseCommentForm {
           instanceId: self.pluginInstanceId,
         });
       },
-      false,
+      false
     );
   }
 
   componentWillUnmount() {
     if (this._messageListener) {
-      if (typeof window !== 'undefined') window.removeEventListener('message', this._messageListener, false);
+      if (typeof window !== 'undefined')
+        window.removeEventListener('message', this._messageListener, false);
       this._messageListener = null;
     }
   }

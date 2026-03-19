@@ -15,15 +15,15 @@ vi.mock('../hooks/useNotifications', () => ({
     notifications: [],
     visibleTypes: ['error', 'alert', 'info'],
     isLoading: false,
-    error: null
-  })
+    error: null,
+  }),
 }));
 
 // Mock the API get function
 vi.mock('../api', () => ({
   get: vi.fn().mockResolvedValue({
-    json: async () => []
-  })
+    json: async () => [],
+  }),
 }));
 
 const middlewares = [thunk];
@@ -33,12 +33,16 @@ vi.mock('react-router-dom', async () => {
   const actual = await import('react-router-dom');
   return {
     ...actual,
-    useSearchParams: vi.fn().mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
+    useSearchParams: vi
+      .fn()
+      .mockImplementation(() => [new URLSearchParams({ lang: 'fi' })]),
   };
 });
 vi.mock('@city-of-helsinki/react-helsinki-notification-manager', () => ({
-  NotificationService: () => <div data-testid="notification-service">NotificationService</div>,
-}))
+  NotificationService: () => (
+    <div data-testid='notification-service'>NotificationService</div>
+  ),
+}));
 
 const { hearingLists } = mockData;
 
@@ -58,7 +62,7 @@ const renderComponent = (storeOverride) => {
     <BrowserRouter history={history}>
       <App />
     </BrowserRouter>,
-    { store },
+    { store }
   );
 };
 
@@ -76,7 +80,7 @@ describe('<App />', () => {
   it('renders correctly', async () => {
     await act(() => {
       renderComponent();
-    })
-    expect(screen.getByText("NotificationService")).toBeInTheDocument();
+    });
+    expect(screen.getByText('NotificationService')).toBeInTheDocument();
   });
 });

@@ -39,7 +39,7 @@ class LabelModal extends React.Component {
             },
           },
         },
-      }),
+      })
     );
   }
 
@@ -51,7 +51,7 @@ class LabelModal extends React.Component {
             $set: !prevState.labelLanguages[language],
           },
         },
-      }),
+      })
     );
   }
 
@@ -106,7 +106,7 @@ class LabelModal extends React.Component {
               placeholder={intl.formatMessage({ id: 'labelPlaceholder' })}
               maxLength='200'
             />
-          </div>,
+          </div>
         );
       }
     });
@@ -131,7 +131,10 @@ class LabelModal extends React.Component {
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
         theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
-        <Dialog.Header id={titleId} title={<FormattedMessage id='createLabel' />} />
+        <Dialog.Header
+          id={titleId}
+          title={<FormattedMessage id='createLabel' />}
+        />
         <Dialog.Content>
           <form
             id={descriptionId}
@@ -144,13 +147,16 @@ class LabelModal extends React.Component {
               {checkBoxes}
               {labelInputs}
             </div>
-            <input type='submit' style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
+            <input type='submit' style={{ display: 'none' }} />{' '}
+            {/* Used to trigger submit remotely. */}
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
           <Button
             className='kerrokantasi-btn black'
-            onClick={() => this.labelForm.querySelector('input[type="submit"]').click()}
+            onClick={() =>
+              this.labelForm.querySelector('input[type="submit"]').click()
+            }
           >
             <FormattedMessage id='create' />
           </Button>

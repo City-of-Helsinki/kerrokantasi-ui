@@ -9,18 +9,31 @@ const config = {
   sentryDsn: window._env_.REACT_APP_SENTRY_DSN,
   sentryEnvironment: window._env_.REACT_APP_SENTRY_ENVIRONMENT,
   sentryRelease: window._env_.REACT_APP_SENTRY_RELEASE,
-  sentryTracesSampleRate: Number.parseFloat(window._env_.REACT_APP_SENTRY_TRACES_SAMPLE_RATE) || 0,
-  sentryTracePropagationTargets: (window._env_.REACT_APP_SENTRY_TRACE_PROPAGATION_TARGETS || '').split(','),
-  sentryReplaysSessionSampleRate: Number.parseFloat(window._env_.REACT_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE) || 0,
-  sentryReplaysOnErrorSampleRate: Number.parseFloat(window._env_.REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE) || 0,
+  sentryTracesSampleRate:
+    Number.parseFloat(window._env_.REACT_APP_SENTRY_TRACES_SAMPLE_RATE) || 0,
+  sentryTracePropagationTargets: (
+    window._env_.REACT_APP_SENTRY_TRACE_PROPAGATION_TARGETS || ''
+  ).split(','),
+  sentryReplaysSessionSampleRate:
+    Number.parseFloat(
+      window._env_.REACT_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE
+    ) || 0,
+  sentryReplaysOnErrorSampleRate:
+    Number.parseFloat(
+      window._env_.REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
+    ) || 0,
   openIdClientId: window._env_.REACT_APP_OPENID_CLIENT_ID,
   openIdAudience: window._env_.REACT_APP_OPENID_AUDIENCE,
   openIdAuthority: window._env_.REACT_APP_OPENID_AUTHORITY,
   openIdApiTokenUrl: window._env_.REACT_APP_OPENID_APITOKEN_URL,
   openIdScope: window._env_.REACT_APP_OPENID_SCOPE,
-  heroImageURL: window._env_.REACT_APP_HERO_IMAGE_URL || 'https://materialbank.myhelsinki.fi/detail/1192/download/7',
-  showAccessibilityInfo: window._env_.REACT_APP_SHOW_ACCESSIBILITY_INFO === 'true',
-  showSocialMediaSharing: window._env_.REACT_APP_SHOW_SOCIAL_MEDIA_SHARING === 'true',
+  heroImageURL:
+    window._env_.REACT_APP_HERO_IMAGE_URL ||
+    'https://materialbank.myhelsinki.fi/detail/1192/download/7',
+  showAccessibilityInfo:
+    window._env_.REACT_APP_SHOW_ACCESSIBILITY_INFO === 'true',
+  showSocialMediaSharing:
+    window._env_.REACT_APP_SHOW_SOCIAL_MEDIA_SHARING === 'true',
   enableCookies: window._env_.REACT_APP_ENABLE_COOKIES === 'true',
   matomoEnabled: window._env_.REACT_APP_MATOMO_ENABLED === 'true',
   matomoCookieDomain: window._env_.REACT_APP_MATOMO_COOKIE_DOMAIN,
@@ -33,11 +46,15 @@ const config = {
   enableStrongAuth: window._env_.REACT_APP_ENABLE_STRONG_AUTH === 'true',
   adminHelpUrl: window._env_.REACT_APP_ADMIN_HELP_URL,
   emptyCommentString: window._env_.REACT_APP_EMPTY_COMMENT_STRING,
-  maintenanceShowNotification: window._env_.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true',
-  maintenanceDisableLogin: window._env_.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true',
-  maintenanceDisableComments: window._env_.REACT_APP_MAINTENANCE_DISABLE_COMMENTS === 'true',
+  maintenanceShowNotification:
+    window._env_.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true',
+  maintenanceDisableLogin:
+    window._env_.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true',
+  maintenanceDisableComments:
+    window._env_.REACT_APP_MAINTENANCE_DISABLE_COMMENTS === 'true',
   rasterMapTiles: window._env_.REACT_APP_RASTER_MAP_TILES,
-  highContrastRasterMapTiles: window._env_.REACT_APP_HIGH_CONTRAST_RASTER_MAP_TILES,
+  highContrastRasterMapTiles:
+    window._env_.REACT_APP_HIGH_CONTRAST_RASTER_MAP_TILES,
 };
 
 export default config;

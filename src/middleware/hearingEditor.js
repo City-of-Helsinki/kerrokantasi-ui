@@ -1,19 +1,28 @@
-
 import { get } from 'lodash';
 import { normalize } from 'normalizr';
 
 import {
   EditorActions,
   receiveHearing,
-  updateHearingAfterSave
+  updateHearingAfterSave,
 } from '../actions/hearingEditor';
-import { fillFrontId, fillFrontIds, fillFrontIdsAndNormalizeHearing } from '../utils/hearingEditor';
-import { labelResultsSchema, contactPersonResultsSchema, OrganizationResultsSchema } from '../types';
+import {
+  fillFrontId,
+  fillFrontIds,
+  fillFrontIdsAndNormalizeHearing,
+} from '../utils/hearingEditor';
+import {
+  labelResultsSchema,
+  contactPersonResultsSchema,
+  OrganizationResultsSchema,
+} from '../types';
 
-const NORMALIZE_ACTIONS = new Set(["receiveHearing"]);
+const NORMALIZE_ACTIONS = new Set(['receiveHearing']);
 
 export const normalizeReceivedHearing =
-  ({ dispatch, getState }) => (next) => (action) => {
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
     if (NORMALIZE_ACTIONS.has(action.type)) {
       // Skip normalization if the action is already normalized to prevent infinite recursion
       if (action.payload?.isNormalized) {
@@ -26,48 +35,58 @@ export const normalizeReceivedHearing =
 
       // Only update editor if it's empty or has a different hearing
       if (!currentEditorHearing || currentEditorHearing.slug !== hearing.slug) {
-        dispatch(receiveHearing({ ...fillFrontIdsAndNormalizeHearing(hearing), isNormalized: true }));
+        dispatch(
+          receiveHearing({
+            ...fillFrontIdsAndNormalizeHearing(hearing),
+            isNormalized: true,
+          })
+        );
       }
     }
 
     // Mark action as normalized to prevent reprocessing
-    if (NORMALIZE_ACTIONS.has(action.type) && !(action.payload?.isNormalized)) {
+    if (NORMALIZE_ACTIONS.has(action.type) && !action.payload?.isNormalized) {
       next({
         ...action,
         payload: {
           ...action.payload,
-          isNormalized: true
-        }
+          isNormalized: true,
+        },
       });
     } else {
       next(action);
     }
   };
 
-export const normalizeReceiveEditorMetaData =
-  () => (next) => (action) => {
-    if (action.type === EditorActions.RECEIVE_META_DATA) {
-      const labels = get(action, 'payload.labels');
-      const organizations = get(action, 'payload.organizations');
-      const normalizedMetaData = {
-        labels: normalize(fillFrontIds(labels), labelResultsSchema),
-        organizations: normalize(fillFrontIds(organizations), OrganizationResultsSchema),
-      };
-      next({
-        type: action.type,
-        payload: normalizedMetaData,
-      });
-    } else {
-      next(action);
-    }
-  };
+export const normalizeReceiveEditorMetaData = () => (next) => (action) => {
+  if (action.type === EditorActions.RECEIVE_META_DATA) {
+    const labels = get(action, 'payload.labels');
+    const organizations = get(action, 'payload.organizations');
+    const normalizedMetaData = {
+      labels: normalize(fillFrontIds(labels), labelResultsSchema),
+      organizations: normalize(
+        fillFrontIds(organizations),
+        OrganizationResultsSchema
+      ),
+    };
+    next({
+      type: action.type,
+      payload: normalizedMetaData,
+    });
+  } else {
+    next(action);
+  }
+};
 
 export const normalizeReceiveEditorContactPersons =
   () => (next) => (action) => {
     if (action.type === EditorActions.RECEIVE_CONTACT_PERSONS) {
       const contacts = get(action, 'payload.contactPersons');
       const normalizedMetaData = {
-        contactPersons: normalize(fillFrontIds(contacts), contactPersonResultsSchema),
+        contactPersons: normalize(
+          fillFrontIds(contacts),
+          contactPersonResultsSchema
+        ),
       };
       next({
         type: action.type,
@@ -79,28 +98,35 @@ export const normalizeReceiveEditorContactPersons =
   };
 
 export const normalizeSavedHearing =
-  ({ dispatch }) => (next) => (action) => {
-    const NORMALIZE_ACTIONS = [EditorActions.POST_HEARING_SUCCESS, EditorActions.SAVE_HEARING_SUCCESS];
+  ({ dispatch }) =>
+  (next) =>
+  (action) => {
+    const NORMALIZE_ACTIONS = [
+      EditorActions.POST_HEARING_SUCCESS,
+      EditorActions.SAVE_HEARING_SUCCESS,
+    ];
     if (NORMALIZE_ACTIONS.includes(action.type)) {
       const hearing = get(action, 'payload.hearing');
 
-      dispatch(updateHearingAfterSave(fillFrontIdsAndNormalizeHearing({ ...hearing, isNew: false })));
+      dispatch(
+        updateHearingAfterSave(
+          fillFrontIdsAndNormalizeHearing({ ...hearing, isNew: false })
+        )
+      );
     }
     next(action);
   };
 
 export const sectionFrontIds = () => (next) => (action) => {
-  const SECTION_ACTIONS = [
-    EditorActions.ADD_SECTION,
-  ];
+  const SECTION_ACTIONS = [EditorActions.ADD_SECTION];
 
   if (SECTION_ACTIONS.includes(action.type)) {
     next({
       type: action.type,
       payload: {
         ...action.payload,
-        section: fillFrontId(get(action, 'payload.section'))
-      }
+        section: fillFrontId(get(action, 'payload.section')),
+      },
     });
   } else {
     next(action);
@@ -112,5 +138,5 @@ export default [
   normalizeReceiveEditorMetaData,
   normalizeReceiveEditorContactPersons,
   normalizeReceivedHearing,
-  normalizeSavedHearing
+  normalizeSavedHearing,
 ];

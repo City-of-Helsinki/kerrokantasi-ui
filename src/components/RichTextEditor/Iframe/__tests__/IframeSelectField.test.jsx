@@ -22,7 +22,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <IframeSelectField {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

@@ -17,7 +17,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <SectionImage {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

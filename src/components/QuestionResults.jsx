@@ -7,17 +7,22 @@ import ProgressBar from './ProgressBar';
 import getAttr from '../utils/getAttr';
 
 export const QuestionResultsComponent = ({ question, lang }) => {
-  const totalAnswers = question.options.map((option) => option.n_answers).reduce((total, answers) => total + answers);
+  const totalAnswers = question.options
+    .map((option) => option.n_answers)
+    .reduce((total, answers) => total + answers);
 
   return (
     <div>
       <h4>{getAttr(question.text, lang)}</h4>
       {question.options.map((option) => {
-        const answerPercentage = Math.round((option.n_answers / totalAnswers) * 100) || 0;
+        const answerPercentage =
+          Math.round((option.n_answers / totalAnswers) * 100) || 0;
         return (
           <div key={uuid()}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ color: 'blue', margin: '10px' }}>{answerPercentage}%</div>
+              <div style={{ color: 'blue', margin: '10px' }}>
+                {answerPercentage}%
+              </div>
               <div>{getAttr(option.text, lang)}</div>
             </div>
             <ProgressBar now={answerPercentage} />
@@ -25,7 +30,10 @@ export const QuestionResultsComponent = ({ question, lang }) => {
         );
       })}
       <p>
-        <FormattedMessage id='totalQuestionVotes' values={{ n: question.n_answers }} />
+        <FormattedMessage
+          id='totalQuestionVotes'
+          values={{ n: question.n_answers }}
+        />
       </p>
     </div>
   );

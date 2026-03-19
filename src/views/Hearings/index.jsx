@@ -67,7 +67,12 @@ const HearingLists = {
   },
 };
 
-const AdminFilters = [HearingLists.PUBLISHED, HearingLists.QUEUE, HearingLists.DRAFTS, HearingLists.OWN];
+const AdminFilters = [
+  HearingLists.PUBLISHED,
+  HearingLists.QUEUE,
+  HearingLists.DRAFTS,
+  HearingLists.OWN,
+];
 
 const getHearingListParams = (listName) => {
   const defaultParams = { include: 'geojson' };
@@ -122,7 +127,7 @@ function Hearings({
 
   const getHearingListName = useCallback(
     () => (isAdmin(user) ? adminFilter : HearingLists.ALL.list),
-    [adminFilter, user],
+    [adminFilter, user]
   );
 
   const getLabelsFromQuery = (labelsInQuery = []) => {
@@ -133,16 +138,22 @@ function Hearings({
 
   const getSearchParams = useCallback(() => {
     const searchParams = {};
-    if (parseQuery(location.search).search) Object.assign(searchParams, { title: parseQuery(location.search).search });
+    if (parseQuery(location.search).search)
+      Object.assign(searchParams, {
+        title: parseQuery(location.search).search,
+      });
     if (parseQuery(location.search).label) {
-      Object.assign(searchParams, { label: getLabelsFromQuery(parseQuery(location.search).label.toString()) });
+      Object.assign(searchParams, {
+        label: getLabelsFromQuery(parseQuery(location.search).label.toString()),
+      });
     }
     return searchParams;
   }, [location.search]);
 
   const fetchHearingList = useCallback(() => {
     const list = getHearingListName();
-    const filterByOpen = (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
+    const filterByOpen =
+      (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
     const fetchParams = {
       ...getHearingListParams(list),
       ordering: sortBy,
@@ -187,7 +198,11 @@ function Hearings({
     // current search params are the same as the inputted search
     // OR
     // both search params and currently inputted search are empty
-    if (!force && (searchParams.search === searchTitle || (searchParamsEmpty && searchPhraseEmpty))) {
+    if (
+      !force &&
+      (searchParams.search === searchTitle ||
+        (searchParamsEmpty && searchPhraseEmpty))
+    ) {
       return;
     }
 
@@ -206,19 +221,24 @@ function Hearings({
   };
 
   const handleSelectLabels = (selectLabels) => {
-    const selectArray = Array.isArray(selectLabels) ? selectLabels : [selectLabels];
+    const selectArray = Array.isArray(selectLabels)
+      ? selectLabels
+      : [selectLabels];
     const searchParams = parseQuery(location.search);
-    
+
     // Map selected labels to their corresponding IDs from the labels array
-    searchParams.label = selectArray.map((selectedItem) => {
-      // Find the label that matches the selected value in the current language
-      const matchingLabel = labels.find(label => 
-        getAttr(label.label, language) === selectedItem.label || 
-        getAttr(label.label, language) === selectedItem.value
-      );
-      return matchingLabel ? matchingLabel.id : null;
-    }).filter(id => id !== null); // Remove any null values
-    
+    searchParams.label = selectArray
+      .map((selectedItem) => {
+        // Find the label that matches the selected value in the current language
+        const matchingLabel = labels.find(
+          (label) =>
+            getAttr(label.label, language) === selectedItem.label ||
+            getAttr(label.label, language) === selectedItem.value
+        );
+        return matchingLabel ? matchingLabel.id : null;
+      })
+      .filter((id) => id !== null); // Remove any null values
+
     navigate({
       path: location.pathname,
       search: stringifyQuery(searchParams),
@@ -303,7 +323,10 @@ function Hearings({
   useEffect(() => {
     const shouldSetAdminFilter = isAdmin(user) && (!user || !adminFilter);
     const shouldNullAdminFilter = !user || !isAdmin(user);
-    const shouldFetchHearings = labels && (!user || (user && adminFilter)) && !isEmpty(getHearingListName());
+    const shouldFetchHearings =
+      labels &&
+      (!user || (user && adminFilter)) &&
+      !isEmpty(getHearingListName());
 
     if (shouldSetAdminFilter) {
       handleAdminFilter(AdminFilters[0].list);
@@ -330,15 +353,29 @@ function Hearings({
           <Helmet
             title={formatMessage({ id: 'allHearings' })}
             meta={[
-              { name: 'description', content: formatMessage({ id: 'descriptionTag' }) },
-              { property: 'og:description', content: formatMessage({ id: 'descriptionTag' }) },
+              {
+                name: 'description',
+                content: formatMessage({ id: 'descriptionTag' }),
+              },
+              {
+                property: 'og:description',
+                content: formatMessage({ id: 'descriptionTag' }),
+              },
             ]}
           />
-          <FormattedMessage id='allHearings'>{(txt) => <h1 className='page-title'>{txt}</h1>}</FormattedMessage>
+          <FormattedMessage id='allHearings'>
+            {(txt) => <h1 className='page-title'>{txt}</h1>}
+          </FormattedMessage>
           {isAdmin(user) && (
-            <AdminFilterSelector onSelect={setAdminFilter} options={AdminFilters} active={getHearingListName()} />
+            <AdminFilterSelector
+              onSelect={setAdminFilter}
+              options={AdminFilters}
+              active={getHearingListName()}
+            />
           )}
-          {isAdmin(user) && <CreateHearingButton to={{ path: '/hearing/new' }} />}
+          {isAdmin(user) && (
+            <CreateHearingButton to={{ path: '/hearing/new' }} />
+          )}
         </div>
       </section>
       {!isEmpty(labels) ? (
@@ -381,7 +418,7 @@ Hearings.propTypes = {
     PropTypes.shape({
       isFetching: PropTypes.bool,
       data: PropTypes.arrayOf(hearingShape),
-    }),
+    })
   ),
   labels: PropTypes.arrayOf(labelShape),
   language: PropTypes.string,
@@ -401,11 +438,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchInitialHearingList: (listName, params) =>
     dispatch(Actions.fetchInitialHearingList(listName, '/v1/hearing/', params)),
-  fetchAllHearings: (list, params) => dispatch(Actions.fetchHearingList(list, '/v1/hearing', params)),
-  fetchMoreHearings: (listName) => dispatch(Actions.fetchMoreHearings(listName)),
+  fetchAllHearings: (list, params) =>
+    dispatch(Actions.fetchHearingList(list, '/v1/hearing', params)),
+  fetchMoreHearings: (listName) =>
+    dispatch(Actions.fetchMoreHearings(listName)),
   fetchLabels: () => dispatch(Actions.fetchLabels()),
 });
 
 export const UnconnectedHearings = Hearings;
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Hearings));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(Hearings));

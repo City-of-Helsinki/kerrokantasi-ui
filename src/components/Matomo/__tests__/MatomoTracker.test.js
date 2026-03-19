@@ -44,7 +44,7 @@ describe('MatomoTracker', () => {
       () =>
         new MatomoTracker({
           urlBase: 'http://www.test.fi',
-        }),
+        })
     ).toThrowError();
   });
 

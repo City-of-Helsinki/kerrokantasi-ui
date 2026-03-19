@@ -6,7 +6,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Icon = ({ Component = 'span', ...props }) => {
-  const { name, size, rotate, flip, spin, fixedWidth, stack, inverse, pulse, className, ...rest } = props;
+  const {
+    name,
+    size,
+    rotate,
+    flip,
+    spin,
+    fixedWidth,
+    stack,
+    inverse,
+    pulse,
+    className,
+    ...rest
+  } = props;
 
   let classNames = `fa fa-${name}`;
   if (size) {

@@ -5,12 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 import HearingEditor from '../../components/admin/HearingEditor';
 import { fetchProjects } from '../../actions';
-import { initNewHearing, fetchHearingEditorMetaData } from '../../actions/hearingEditor';
+import {
+  initNewHearing,
+  fetchHearingEditorMetaData,
+} from '../../actions/hearingEditor';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
 import getUser from '../../selectors/user';
 import LoadSpinner from '../../components/LoadSpinner';
 import PleaseLogin from '../../components/admin/PleaseLogin';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import { contactShape, organizationShape } from '../../types';
 import useAuthHook from '../../hooks/useAuth';
 import { addToast } from '../../actions/toast';
@@ -27,13 +33,28 @@ function NewHearingContainerComponent(props) {
       // eslint-disable-next-line no-console
       console.error(error);
 
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'loginAttemptFailed')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'loginAttemptFailed'
+          )
+        )
+      );
     }
   };
 
   const [hasLoaded, setHasLoaded] = useState(false);
 
-  const { hearingDraft, hearingLanguages, labels, user, isLoading, contactPersons, organizations } = props;
+  const {
+    hearingDraft,
+    hearingLanguages,
+    labels,
+    user,
+    isLoading,
+    contactPersons,
+    organizations,
+  } = props;
   const { fetchEditorMetaData, initHearing, fetchProjectsList } = props;
 
   useEffect(() => {
@@ -106,4 +127,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProjectsList: () => dispatch(fetchProjects()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewHearingContainerComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewHearingContainerComponent);

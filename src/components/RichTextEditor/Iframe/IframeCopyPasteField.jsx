@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import getMessage from '../../../utils/getMessage';
-import { parseIframeHtml, convertStyleDimensionSettings } from '../../../utils/iframeUtils';
+import {
+  parseIframeHtml,
+  convertStyleDimensionSettings,
+} from '../../../utils/iframeUtils';
 
 class IframeCopyPasteField extends React.Component {
   constructor(props) {
@@ -27,7 +30,9 @@ class IframeCopyPasteField extends React.Component {
   render() {
     return (
       <div className='input-container html-copy-paste-input'>
-        <label htmlFor='iframe-html-copy-paste'>{getMessage('iframeHtmlCopyPaste')}</label>
+        <label htmlFor='iframe-html-copy-paste'>
+          {getMessage('iframeHtmlCopyPaste')}
+        </label>
         <textarea
           id='iframe-html-copy-paste'
           name='htmlCopyPaste'

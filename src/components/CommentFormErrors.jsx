@@ -2,7 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-function CommentFormErrors({ commentRequiredError, commentOrAnswerRequiredError, imageTooBig }) {
+function CommentFormErrors({
+  commentRequiredError,
+  commentOrAnswerRequiredError,
+  imageTooBig,
+}) {
   if (!commentRequiredError && !commentOrAnswerRequiredError && !imageTooBig) {
     return null;
   }

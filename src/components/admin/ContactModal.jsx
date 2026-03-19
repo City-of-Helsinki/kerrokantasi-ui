@@ -52,7 +52,10 @@ class ContactModal extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.contactInfo !== this.props.contactInfo || prevProps.organizations !== this.props.organizations) {
+    if (
+      prevProps.contactInfo !== this.props.contactInfo ||
+      prevProps.organizations !== this.props.organizations
+    ) {
       const { contactInfo } = this.props;
       const newTitleLanguages = {};
       forEach(contactInfo.title, (title, language) => {
@@ -81,7 +84,7 @@ class ContactModal extends React.Component {
             $set: value,
           },
         },
-      }),
+      })
     );
   }
 
@@ -95,7 +98,7 @@ class ContactModal extends React.Component {
             },
           },
         },
-      }),
+      })
     );
   }
 
@@ -107,7 +110,7 @@ class ContactModal extends React.Component {
             $set: !prevState.titleLanguages[language],
           },
         },
-      }),
+      })
     );
   }
 
@@ -115,7 +118,9 @@ class ContactModal extends React.Component {
     event.preventDefault();
     let success = false;
     if (isEmpty(this.props.contactInfo)) {
-      success = await this.props.onCreateContact(omit(this.state.contact, ['id']));
+      success = await this.props.onCreateContact(
+        omit(this.state.contact, ['id'])
+      );
     } else {
       const omittedLanguages = [];
       forEach(this.state.titleLanguages, (value, key) => {
@@ -171,12 +176,16 @@ class ContactModal extends React.Component {
             <input
               id={`contact-title-${key}`}
               className='form-control'
-              onChange={(event) => this.onContactTitleChange(key, event.target.value)}
+              onChange={(event) =>
+                this.onContactTitleChange(key, event.target.value)
+              }
               value={contact.title[key] || ''}
-              placeholder={intl.formatMessage({ id: 'contactTitlePlaceholder' })}
+              placeholder={intl.formatMessage({
+                id: 'contactTitlePlaceholder',
+              })}
               maxLength='250'
             />
-          </div>,
+          </div>
         );
       }
     });
@@ -205,7 +214,13 @@ class ContactModal extends React.Component {
       >
         <Dialog.Header
           id={titleId}
-          title={isCreate ? <FormattedMessage id='createContact' /> : <FormattedMessage id='editContact' />}
+          title={
+            isCreate ? (
+              <FormattedMessage id='createContact' />
+            ) : (
+              <FormattedMessage id='editContact' />
+            )
+          }
         />
         <Dialog.Content>
           <form id={descriptionId} onSubmit={this.submitForm}>
@@ -215,7 +230,9 @@ class ContactModal extends React.Component {
               </h4>
               <input
                 className='form-control'
-                onChange={(event) => this.onContactChange('name', event.target.value)}
+                onChange={(event) =>
+                  this.onContactChange('name', event.target.value)
+                }
                 value={contact.name}
                 placeholder='Nimi'
                 maxLength='50'
@@ -228,7 +245,9 @@ class ContactModal extends React.Component {
               </h4>
               <input
                 className='form-control'
-                onChange={(event) => this.onContactChange('phone', event.target.value)}
+                onChange={(event) =>
+                  this.onContactChange('phone', event.target.value)
+                }
                 value={contact.phone}
                 placeholder='Puhelinnumero'
                 maxLength='50'
@@ -242,7 +261,9 @@ class ContactModal extends React.Component {
               <input
                 type='email'
                 className='form-control'
-                onChange={(event) => this.onContactChange('email', event.target.value)}
+                onChange={(event) =>
+                  this.onContactChange('email', event.target.value)
+                }
                 value={contact.email}
                 placeholder='Sähköposti'
                 maxLength='50'
@@ -263,7 +284,9 @@ class ContactModal extends React.Component {
               <Select
                 label='Organisaatio'
                 placeholder='Organisaatio'
-                onChange={(selected) => this.onContactChange('organization', selected[0].value)}
+                onChange={(selected) =>
+                  this.onContactChange('organization', selected[0].value)
+                }
                 options={organizations.map((org) => ({
                   label: `${org.name} ${org.external_organization ? '*' : ''}`,
                   value: org.name,
@@ -281,7 +304,9 @@ class ContactModal extends React.Component {
               </h4>
               <input
                 className='form-control'
-                onChange={(event) => this.onContactChange('additional_info', event.target.value)}
+                onChange={(event) =>
+                  this.onContactChange('additional_info', event.target.value)
+                }
                 value={contact.additional_info}
                 placeholder='Lisätiedot yhteyshenkilöstä'
                 maxLength='50'
@@ -290,12 +315,17 @@ class ContactModal extends React.Component {
                 <FormattedMessage id='contactPersonAdditionalInfoHelpText' />
               </small>
             </div>
-            <input type='submit' style={{ display: 'none' }} /> {/* Used to trigger submit remotely. */}
+            <input type='submit' style={{ display: 'none' }} />{' '}
+            {/* Used to trigger submit remotely. */}
           </form>
         </Dialog.Content>
         <Dialog.ActionButtons>
           <Button className='kerrokantasi-btn black' onClick={this.submitForm}>
-            {isCreate ? <FormattedMessage id='create' /> : <FormattedMessage id='save' />}
+            {isCreate ? (
+              <FormattedMessage id='create' />
+            ) : (
+              <FormattedMessage id='save' />
+            )}
           </Button>
           <Button className='kerrokantasi-btn' onClick={onClose}>
             <FormattedMessage id='cancel' />

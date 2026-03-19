@@ -15,7 +15,8 @@ export function stripWrappingFigureTags(htmlInput) {
 // finds <iframe> tags wrapped with <div class="iframe-wrapper>"> in given input,
 // removes the wrapping <div> tags and returns the result
 export function stripIframeWrapperDivs(htmlInput) {
-  const wrapperRegex = /(<div class="iframe-wrapper"><iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
+  const wrapperRegex =
+    /(<div class="iframe-wrapper"><iframe)([\s\S]*?)(?=<\/iframe>)(<\/iframe><\/div>)/gi;
 
   return htmlInput.replace(wrapperRegex, '<iframe$2</iframe>');
 }
@@ -25,7 +26,10 @@ export function addIframeWrapperDivs(htmlInput) {
   const startRegex = /<iframe/gi;
   const endRegex = /<\/iframe>/gi;
   const responsiveDiv = '<div class="iframe-wrapper">';
-  const firstAddition = htmlInput.replace(startRegex, `${responsiveDiv}<iframe`);
+  const firstAddition = htmlInput.replace(
+    startRegex,
+    `${responsiveDiv}<iframe`
+  );
 
   return firstAddition.replace(endRegex, '</iframe></div>');
 }
@@ -33,17 +37,22 @@ export function addIframeWrapperDivs(htmlInput) {
 // returns an object with iframe attributes
 // or empty object if no iframes with attributes are found
 export function parseIframeHtml(htmlInput) {
-  const temp = document.createElement("div");
+  const temp = document.createElement('div');
   temp.innerHTML = htmlInput;
   const iframeElements = temp.getElementsByTagName('iframe');
 
-  if (!iframeElements || iframeElements.length <= 0 || iframeElements[0].attributes.length <= 0) {
+  if (
+    !iframeElements ||
+    iframeElements.length <= 0 ||
+    iframeElements[0].attributes.length <= 0
+  ) {
     return {};
   }
 
   const iframeAttributes = iframeElements[0].attributes;
 
-  return Object.assign({},
+  return Object.assign(
+    {},
     ...Array.from(iframeAttributes, ({ name, value }) => ({ [name]: value }))
   );
 }
@@ -58,7 +67,7 @@ export function removeCssImportant(cssString) {
 // and returns the resulting attribute object.
 export function convertStyleDimensionSettings(attributes) {
   const newAttributes = { ...attributes };
-  if ("style" in newAttributes) {
+  if ('style' in newAttributes) {
     const styleString = newAttributes.style;
     const styleObj = {};
 
@@ -86,15 +95,15 @@ export function convertStyleDimensionSettings(attributes) {
     delete styleObj.width;
     delete styleObj.height;
 
-    const newStyleString = Object.entries(styleObj).map(([key, value]) => `${key}: ${value}`).join(';');
+    const newStyleString = Object.entries(styleObj)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(';');
 
     newAttributes.style = newStyleString;
   }
 
   return newAttributes;
 }
-
-
 
 export function validateIsNotEmpty(value) {
   return !(!value || value === '');
@@ -115,7 +124,7 @@ export const IFRAME_VALIDATION = {
     fields: ['width', 'height'],
     errorMsg: getMessage('validationOnlyNumbers'),
     isValidFn: validateIsNumber,
-  }
+  },
 };
 
 // returns an error message string if error is found or
@@ -153,14 +162,13 @@ export function isFormValid(inputErrors) {
   const errorFields = Object.keys(inputErrors);
   let isValid = true;
 
-
   errorFields.forEach((key) => {
     const error = inputErrors[key];
 
     if (error && error.length > 0) {
       isValid = false;
     }
-  })
+  });
 
   return isValid;
 }

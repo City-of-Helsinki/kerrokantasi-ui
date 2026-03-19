@@ -25,7 +25,7 @@ const renderComponent = (propsOverrides) => {
     <BrowserRouter>
       <CommentReportForm {...props} />
     </BrowserRouter>,
-    { store },
+    { store }
   );
 };
 
@@ -37,7 +37,9 @@ describe('<CommentReportForm />', () => {
   it('should render label', async () => {
     renderComponent();
 
-    expect(await screen.findByText('commentReportsSelectFileType')).toBeInTheDocument();
+    expect(
+      await screen.findByText('commentReportsSelectFileType')
+    ).toBeInTheDocument();
   });
 
   it('should export report', async () => {
@@ -45,7 +47,9 @@ describe('<CommentReportForm />', () => {
 
     const user = userEvent.setup();
 
-    vi.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ blob: () => Promise.resolve({}) }));
+    vi.spyOn(global, 'fetch').mockImplementation(() =>
+      Promise.resolve({ blob: () => Promise.resolve({}) })
+    );
 
     const buttons = await screen.findAllByRole('button');
     const toggle = buttons[0];
@@ -56,12 +60,14 @@ describe('<CommentReportForm />', () => {
     const option = screen.queryByText('PowerPoint');
 
     await user.click(option);
-    
+
     window.URL.createObjectURL = vi.fn(() => 'https://test.com');
-    
+
     await user.click(submit);
 
-    await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1)
+    );
   });
 
   it('should handle error', async () => {
@@ -69,7 +75,9 @@ describe('<CommentReportForm />', () => {
 
     const user = userEvent.setup();
 
-    vi.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('ERROR!')));
+    vi.spyOn(global, 'fetch').mockImplementation(() =>
+      Promise.reject(new Error('ERROR!'))
+    );
 
     window.URL.createObjectURL = vi.fn(() => 'https://test.com');
 
@@ -84,6 +92,8 @@ describe('<CommentReportForm />', () => {
     await user.click(option);
     await user.click(submit);
 
-    await waitFor(() => expect(window.URL.createObjectURL).not.toHaveBeenCalled());
+    await waitFor(() =>
+      expect(window.URL.createObjectURL).not.toHaveBeenCalled()
+    );
   });
 });

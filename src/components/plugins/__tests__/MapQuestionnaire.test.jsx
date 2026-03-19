@@ -57,7 +57,9 @@ describe('<MapQuestionnaire />', () => {
 
     renderComponent();
 
-    const textArea = screen.getByPlaceholderText('Kommentoi ehdotustasi tässä.');
+    const textArea = screen.getByPlaceholderText(
+      'Kommentoi ehdotustasi tässä.'
+    );
 
     await user.type(textArea, 'Test comment');
 

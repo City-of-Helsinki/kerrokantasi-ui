@@ -1,7 +1,13 @@
 /* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { IconUser, IconSignin, Header as HDSHeader, Logo, LoadingSpinner } from 'hds-react';
+import {
+  IconUser,
+  IconSignin,
+  Header as HDSHeader,
+  Logo,
+  LoadingSpinner,
+} from 'hds-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { connect, useDispatch } from 'react-redux';
 import logoBlack from '@city-images/logo-fi-black.svg';
@@ -12,7 +18,10 @@ import config from '../../config';
 import getUser from '../../selectors/user';
 import useAuthHook from '../../hooks/useAuth';
 import { addToast } from '../../actions/toast';
-import { createLocalizedNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createLocalizedNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import { setLanguage } from '../../actions';
 
 const Header = ({ user, onChangeLanguage }) => {
@@ -23,7 +32,7 @@ const Header = ({ user, onChangeLanguage }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const language = intl.locale;
-  
+
   const setLocale = (newLanguage) => {
     if (newLanguage !== language) {
       onChangeLanguage(newLanguage);
@@ -33,14 +42,28 @@ const Header = ({ user, onChangeLanguage }) => {
 
   const doLogin = async () => {
     if (config.maintenanceDisableLogin) {
-      dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'maintenanceNotificationText')));
+      dispatch(
+        addToast(
+          createLocalizedNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'maintenanceNotificationText'
+          )
+        )
+      );
       return;
     }
     if (!authenticated) {
       try {
         await login();
       } catch {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'loginAttemptFailed')));
+        dispatch(
+          addToast(
+            createLocalizedNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              'loginAttemptFailed'
+            )
+          )
+        );
       }
     } else {
       logout();
@@ -68,7 +91,10 @@ const Header = ({ user, onChangeLanguage }) => {
   const getNavItem = (id, url, addSuffix = true) => {
     const active = location.pathname === url;
     let messageId = id;
-    if (id === 'ownHearings' && (!user || user.adminOrganizations.length === 0)) {
+    if (
+      id === 'ownHearings' &&
+      (!user || user.adminOrganizations.length === 0)
+    ) {
       return null;
     }
     if (id === 'userInfo' && !user) {
@@ -81,7 +107,14 @@ const Header = ({ user, onChangeLanguage }) => {
     return (
       <FormattedMessage id={messageId} key={messageId}>
         {url
-          ? (text) => <HDSHeader.Link as={<NavLink />} to={`${url}?lang=${language}`} label={text} active={active} />
+          ? (text) => (
+              <HDSHeader.Link
+                as={<NavLink />}
+                to={`${url}?lang=${language}`}
+                label={text}
+                active={active}
+              />
+            )
           : (text) => <p>{text}</p>}
       </FormattedMessage>
     );
@@ -95,7 +128,12 @@ const Header = ({ user, onChangeLanguage }) => {
 
   const logo = (
     <FormattedMessage id='headerLogoAlt'>
-      {(altText) => <Logo src={language === 'sv' ? logoSwedishBlack : logoBlack} alt={altText} />}
+      {(altText) => (
+        <Logo
+          src={language === 'sv' ? logoSwedishBlack : logoBlack}
+          alt={altText}
+        />
+      )}
     </FormattedMessage>
   );
 
@@ -108,21 +146,30 @@ const Header = ({ user, onChangeLanguage }) => {
   ];
 
   return (
-    <HDSHeader onDidChangeLanguage={onLanguageChange} languages={languages} defaultLanguage={language} key={language}>
+    <HDSHeader
+      onDidChangeLanguage={onLanguageChange}
+      languages={languages}
+      defaultLanguage={language}
+      key={language}
+    >
       <HDSHeader.ActionBar
         title='Kerrokantasi'
         titleAriaLabel='Kerrokantasi'
         frontPageLabel='Kerrokantasi'
         titleHref='/'
         logoHref='/'
-        openFrontPageLinksAriaLabel={<FormattedMessage id='headerOpenFrontPageLinks' />}
+        openFrontPageLinksAriaLabel={
+          <FormattedMessage id='headerOpenFrontPageLinks' />
+        }
         logo={logo}
       >
         <HDSHeader.LanguageSelector />
         <HDSHeader.ActionBarItem
           fixedRightPosition
           label={user ? user.displayName : <FormattedMessage id='login' />}
-          aria-label={user ? user.displayName : intl.formatMessage({ id: 'login' })}
+          aria-label={
+            user ? user.displayName : intl.formatMessage({ id: 'login' })
+          }
           icon={user ? <IconUser /> : <IconSignin />}
           closeIcon={user ? <IconUser /> : <IconSignin />}
           closeLabel={user?.displayName}

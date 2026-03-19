@@ -15,7 +15,7 @@ describe('<NewHearingContainer />', () => {
     renderWithProviders(
       <MemoryRouter>
         <NewHearingContainer props={mockProps} />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
   });
 });

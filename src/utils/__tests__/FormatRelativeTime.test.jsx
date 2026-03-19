@@ -13,11 +13,17 @@ const defaultProps = {
 
 const currentDate = new Date();
 
-const renderComponent = (props) => renderWithProviders(<FormatRelativeTime {...defaultProps} {...props} />);
+const renderComponent = (props) =>
+  renderWithProviders(<FormatRelativeTime {...defaultProps} {...props} />);
 
 describe('FormatRelativeTime', () => {
   function getCurrentDate() {
-    return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 18);
+    return new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      18
+    );
   }
 
   const mockFormatTime = vi.fn();

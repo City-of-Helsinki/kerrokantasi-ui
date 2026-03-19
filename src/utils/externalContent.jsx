@@ -14,7 +14,7 @@ export const extractIframes = (htmlString) => {
   const doc = parser.parseFromString(htmlString, 'text/html');
   const iframes = Array.from(doc.querySelectorAll('iframe'));
   // Only return iframes that have a src attribute
-  return iframes.filter(iframe => iframe.getAttribute('src')?.trim());
+  return iframes.filter((iframe) => iframe.getAttribute('src')?.trim());
 };
 
 /**
@@ -25,7 +25,10 @@ export const extractIframes = (htmlString) => {
  */
 export const sanitizeHtml = (html, allowIframes = false) => {
   const config = allowIframes
-    ? { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] }
+    ? {
+        ADD_TAGS: ['iframe'],
+        ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'],
+      }
     : {};
   const cleanHtml = DOMPurify.sanitize(html, config);
   return parse(cleanHtml);
@@ -40,41 +43,55 @@ export const sanitizeHtml = (html, allowIframes = false) => {
  * @param {React.Component} PlaceholderComponent - Component to use for placeholders
  * @returns {React.ReactNode[]} Array of React elements
  */
-export const replaceIframesWithPlaceholders = (htmlString, iframes, PlaceholderComponent) => {
+export const replaceIframesWithPlaceholders = (
+  htmlString,
+  iframes,
+  PlaceholderComponent
+) => {
   if (!htmlString) return [];
-  
+
   const elements = [];
   let remainingHtml = htmlString;
 
   iframes.forEach((iframe, index) => {
     const iframeString = iframe.outerHTML;
-    
+
     // Check if iframe is wrapped in iframe-wrapper div
     const wrapperPattern = `<div class="iframe-wrapper">${iframeString}</div>`;
     const hasWrapper = remainingHtml.includes(wrapperPattern);
-    
+
     // Use the wrapper pattern if it exists, otherwise just the iframe
     const searchString = hasWrapper ? wrapperPattern : iframeString;
     const searchIndex = remainingHtml.indexOf(searchString);
-    
+
     if (searchIndex === -1) return;
 
     // Add content before iframe/wrapper (without extra div wrapper)
     const beforeHtml = remainingHtml.substring(0, searchIndex);
     if (beforeHtml.trim()) {
-      elements.push(<React.Fragment key={`before-${index}`}>{sanitizeHtml(beforeHtml)}</React.Fragment>);
+      elements.push(
+        <React.Fragment key={`before-${index}`}>
+          {sanitizeHtml(beforeHtml)}
+        </React.Fragment>
+      );
     }
 
     // Add placeholder (iframe always has src at this point due to extractIframes filtering)
     const src = iframe.getAttribute('src');
-    elements.push(<PlaceholderComponent key={`placeholder-${index}`} url={src} />);
+    elements.push(
+      <PlaceholderComponent key={`placeholder-${index}`} url={src} />
+    );
 
     remainingHtml = remainingHtml.substring(searchIndex + searchString.length);
   });
 
   // Add remaining content (without extra div wrapper)
   if (remainingHtml.trim()) {
-    elements.push(<React.Fragment key='after-last'>{sanitizeHtml(remainingHtml)}</React.Fragment>);
+    elements.push(
+      <React.Fragment key='after-last'>
+        {sanitizeHtml(remainingHtml)}
+      </React.Fragment>
+    );
   }
 
   return elements;
@@ -92,7 +109,8 @@ export const convertEmbedToViewUrl = (url) => {
 
     // YouTube embed: /embed/VIDEO_ID -> /watch?v=VIDEO_ID
     // Only match exact youtube.com or its subdomains (*.youtube.com)
-    const isYouTubeHost = hostname === 'youtube.com' || hostname.endsWith('.youtube.com');
+    const isYouTubeHost =
+      hostname === 'youtube.com' || hostname.endsWith('.youtube.com');
     if (isYouTubeHost && urlObj.pathname.startsWith('/embed/')) {
       const videoId = urlObj.pathname.split('/embed/')[1].split('?')[0];
       return `https://www.youtube.com/watch?v=${videoId}`;

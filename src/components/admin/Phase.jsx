@@ -8,7 +8,15 @@ import { isEmpty } from 'lodash';
 import { createNotificationPayload } from '../../utils/notify';
 import { addToast } from '../../actions/toast';
 
-const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages, errors }) => {
+const Phase = ({
+  phaseInfo,
+  indexNumber,
+  onDelete,
+  onChange,
+  onActive,
+  languages,
+  errors,
+}) => {
   const dispatch = useDispatch();
   const intl = useIntl();
 
@@ -25,16 +33,25 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
 
   const [phaseTitles, setPhaseTitles] = useState(titlesInitial);
   const [phaseDurations, setPhaseDurations] = useState(durationsInitial);
-  const [phaseDescriptions, setPhaseDescriptions] = useState(descriptionsInitial);
+  const [phaseDescriptions, setPhaseDescriptions] =
+    useState(descriptionsInitial);
   const [phaseIsActive, setPhaseIsActive] = useState(phaseInfo.is_active);
 
   useEffect(() => {
-    setPhaseTitles(!isEmpty(getValuePerLanguage(phaseInfo.title)) ? getValuePerLanguage(phaseInfo.title) : undefined);
+    setPhaseTitles(
+      !isEmpty(getValuePerLanguage(phaseInfo.title))
+        ? getValuePerLanguage(phaseInfo.title)
+        : undefined
+    );
     setPhaseDurations(
-      !isEmpty(getValuePerLanguage(phaseInfo.schedule)) ? getValuePerLanguage(phaseInfo.schedule) : undefined,
+      !isEmpty(getValuePerLanguage(phaseInfo.schedule))
+        ? getValuePerLanguage(phaseInfo.schedule)
+        : undefined
     );
     setPhaseDescriptions(
-      !isEmpty(getValuePerLanguage(phaseInfo.description)) ? getValuePerLanguage(phaseInfo.description) : undefined,
+      !isEmpty(getValuePerLanguage(phaseInfo.description))
+        ? getValuePerLanguage(phaseInfo.description)
+        : undefined
     );
 
     setPhaseIsActive(phaseInfo.is_active ? phaseInfo.is_active : undefined);
@@ -60,13 +77,17 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
       {languages.map((usedLanguage, index) => (
         <div key={usedLanguage}>
           <div>
-            <div className='hearing-form-column' style={{ marginBottom: 'var(--spacing-s)' }}>
+            <div
+              className='hearing-form-column'
+              style={{ marginBottom: 'var(--spacing-s)' }}
+            >
               <TextInput
                 id={`phase-${indexNumber + 1}`}
                 name={`phase-${indexNumber + 1}`}
                 label={
                   <>
-                    <FormattedMessage id='phase' /> {indexNumber + 1} ({usedLanguage})
+                    <FormattedMessage id='phase' /> {indexNumber + 1} (
+                    {usedLanguage})
                   </>
                 }
                 value={phaseTitles ? phaseTitles[usedLanguage] : ''}
@@ -74,8 +95,16 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setPhaseTitles((prevState) => ({ ...prevState, [usedLanguage]: value }));
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'title', usedLanguage, value);
+                  setPhaseTitles((prevState) => ({
+                    ...prevState,
+                    [usedLanguage]: value,
+                  }));
+                  onChange(
+                    phaseInfo.id || phaseInfo.frontId,
+                    'title',
+                    usedLanguage,
+                    value
+                  );
                 }}
                 invalid={!!errors.project_phase_title}
                 errorText={errors.project_phase_title}
@@ -86,7 +115,14 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                   data-testid='remove-phase'
                   onClick={() => {
                     if (phaseInfo.has_hearings) {
-                      dispatch(addToast(createNotificationPayload('error', 'tryingToDeletePhaseWithHearings')));
+                      dispatch(
+                        addToast(
+                          createNotificationPayload(
+                            'error',
+                            'tryingToDeletePhaseWithHearings'
+                          )
+                        )
+                      );
                     } else {
                       onDelete(phaseInfo.id || phaseInfo.frontId);
                     }
@@ -113,8 +149,16 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setPhaseDurations((prevState) => ({ ...prevState, [usedLanguage]: value }));
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'schedule', usedLanguage, value);
+                  setPhaseDurations((prevState) => ({
+                    ...prevState,
+                    [usedLanguage]: value,
+                  }));
+                  onChange(
+                    phaseInfo.id || phaseInfo.frontId,
+                    'schedule',
+                    usedLanguage,
+                    value
+                  );
                 }}
               />
             </div>
@@ -128,8 +172,16 @@ const Phase = ({ phaseInfo, indexNumber, onDelete, onChange, onActive, languages
                 onChange={(event) => {
                   const { value } = event.target;
 
-                  setPhaseDescriptions((prevState) => ({ ...prevState, [usedLanguage]: value }));
-                  onChange(phaseInfo.id || phaseInfo.frontId, 'description', usedLanguage, value);
+                  setPhaseDescriptions((prevState) => ({
+                    ...prevState,
+                    [usedLanguage]: value,
+                  }));
+                  onChange(
+                    phaseInfo.id || phaseInfo.frontId,
+                    'description',
+                    usedLanguage,
+                    value
+                  );
                 }}
               />
             </div>

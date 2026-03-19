@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { expect } from '@playwright/test';
 
 export const login = async (page, email, password) => {
@@ -10,4 +9,4 @@ export const login = async (page, email, password) => {
   await page.getByRole('textbox', { name: 'Salasana' }).fill(password);
 
   await page.getByRole('button', { name: 'Kirjaudu sisään' }).click();
-}
+};
