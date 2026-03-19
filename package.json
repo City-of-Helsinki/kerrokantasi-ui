@@ -136,7 +136,6 @@
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@playwright/test": "^1.56.1",
-    "@testing-library/dom": "7.21.4",
     "@testing-library/jest-dom": "^6.3.0",
     "@types/node": "^22.14.0",
     "@vitest/coverage-istanbul": "^3.2.4",
