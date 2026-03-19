@@ -6734,22 +6734,10 @@ make-dir@^4.0.0:
   dependencies:
     semver "^7.5.3"
 
-markdown-loader@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-loader/-/markdown-loader-8.0.0.tgz#c1773c6bcdd366af37aedd662b9679ec18348c95"
-  integrity sha512-dxrR3WhK/hERbStPFb/yeNdEeWCKa2qUDdXiq3VTruBUWufOtERX04X0K44K4dnlN2i9pjSEzYIQJ3LjH0xkEw==
-  dependencies:
-    marked "^4.0.12"
-
 markdown-table@^3.0.0:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-3.0.4.tgz#fe44d6d410ff9d6f2ea1797a3f60aa4d2b631c2a"
   integrity sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==
-
-marked@^4.0.12:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-4.3.0.tgz#796362821b019f734054582038b116481b456cf3"
-  integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"
