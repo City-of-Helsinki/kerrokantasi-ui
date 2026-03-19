@@ -5,34 +5,33 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import sonarjs from 'eslint-plugin-sonarjs';
-import eslintConfigPrettier from 'eslint-config-prettier';
+import prettier from 'eslint-plugin-prettier';
 import vitestGlobals from 'eslint-config-vitest-globals/flat';
 import globals from 'globals';
-import babelParser from '@babel/eslint-parser';
+import typescriptParser from '@typescript-eslint/parser';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
 
 export default defineConfig([
+  js.configs.recommended,
+  react.configs.flat.recommended,
+  react.configs.flat['jsx-runtime'],
+  importPlugin.flatConfigs.recommended,
+  jsxA11y.flatConfigs.recommended,
+  sonarjs.configs.recommended,
+  vitestGlobals(),
   {
     files: ['**/*.{js,jsx,mjs}'],
     ignores: ['**/*.scss', '**/*.css', '**/*.module.css', 'coverage/**', 'node_modules/**'],
-    extends: [
-      js.configs.recommended,
-      react.configs.flat.recommended,
-      react.configs.flat['jsx-runtime'],
-      importPlugin.flatConfigs.recommended,
-      jsxA11y.flatConfigs.recommended,
-      eslintConfigPrettier,
-      reactHooks.configs['recommended-latest'],
-      sonarjs.configs.recommended,
-      vitestGlobals(),
-    ],
+    plugins: {
+      'react-hooks': reactHooks,
+      prettier,
+      '@typescript-eslint': typescriptEslint,
+    },
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       sourceType: 'module',
-      parser: babelParser,
+      parser: typescriptParser,
       parserOptions: {
-        babelOptions: {
-          configFile: './.babelrc',
-        },
         ecmaFeatures: {
           jsx: true,
         },
@@ -54,6 +53,8 @@ export default defineConfig([
       },
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
+      'prettier/prettier': 'error',
       'react/jsx-uses-react': 1,
       'react/forbid-prop-types': 0,
       'react/function-component-definition': 0,
@@ -91,6 +92,7 @@ export default defineConfig([
       'no-underscore-dangle': 1,
       'no-console': 1,
       'no-param-reassign': 1,
+      'max-len': ['warn', { code: 120 }],
     },
   },
 ]);
