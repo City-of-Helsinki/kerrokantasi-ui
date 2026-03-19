@@ -17,7 +17,7 @@ const renderComponent = (propsOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <CommentReportModal {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -29,8 +29,14 @@ describe('<CommentReportModal />', () => {
   it('should render content', async () => {
     renderComponent({ isOpen: true });
 
-    expect(await screen.findByRole('heading', { name: 'commentReportsTitle' })).toBeInTheDocument();
-    expect(await screen.findByText('commentReportsSelectFileType')).toBeInTheDocument();
-    expect(await screen.findByRole('button', { name: 'commentReportsClose' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'commentReportsTitle' })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText('commentReportsSelectFileType')
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: 'commentReportsClose' })
+    ).toBeInTheDocument();
   });
 });

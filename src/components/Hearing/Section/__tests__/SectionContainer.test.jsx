@@ -19,7 +19,7 @@ vi.spyOn(mockApi, 'get').mockImplementation(() =>
   Promise.resolve({
     json: () => Promise.resolve(mockedData),
     blob: () => Promise.resolve({}),
-  }),
+  })
 );
 
 vi.mock('react-router-dom', async () => {
@@ -46,9 +46,11 @@ vi.mock('../../../../api', async () => {
   return {
     getApiURL: mod.getApiURL,
     getApiTokenFromStorage: vi.fn().mockReturnValue('dummyToken'),
-    get: vi
-      .fn()
-      .mockResolvedValue({ ok: true, json: () => Promise.resolve(mockedData), blob: () => Promise.resolve() }),
+    get: vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockedData),
+      blob: () => Promise.resolve(),
+    }),
   };
 });
 
@@ -86,7 +88,7 @@ const renderComponent = (storeOverrides) => {
     <MemoryRouter>
       <SectionContainerComponent {...props} />
     </MemoryRouter>,
-    { store, history },
+    { store, history }
   );
 };
 
@@ -99,7 +101,11 @@ describe('<SectionContainer />', () => {
 
   it('should display the correct image caption from first section', () => {
     renderComponent();
-    expect(screen.getByText(mockHearingWithSections.data.sections[0].images[0].caption.fi)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        mockHearingWithSections.data.sections[0].images[0].caption.fi
+      )
+    ).toBeInTheDocument();
   });
 
   it('should render correctly when user is admin', () => {
@@ -117,23 +123,38 @@ describe('<SectionContainer />', () => {
         [mockData.mockHearingWithSections.data.id]: {
           data: {
             ...mockData.mockHearingWithSections.data,
-            sections: mockData.mockHearingWithSections.data.sections.map((section) => ({
-              ...section,
-              files: [{ id: uniqueId(), url: 'https://test.fi', title: { fi: 'testi.pdf' }, caption: {} }],
-            })),
+            sections: mockData.mockHearingWithSections.data.sections.map(
+              (section) => ({
+                ...section,
+                files: [
+                  {
+                    id: uniqueId(),
+                    url: 'https://test.fi',
+                    title: { fi: 'testi.pdf' },
+                    caption: {},
+                  },
+                ],
+              })
+            ),
           },
         },
       },
     });
 
     const toggleButtons = await screen.findAllByRole('button');
-    const filteredButtons = toggleButtons.filter((button) => button.hasAttribute('aria-expanded'));
-    const currentExpanded = toggleButtons.map((button) => button.getAttribute('aria-expanded'));
+    const filteredButtons = toggleButtons.filter((button) =>
+      button.hasAttribute('aria-expanded')
+    );
+    const currentExpanded = toggleButtons.map((button) =>
+      button.getAttribute('aria-expanded')
+    );
 
     filteredButtons.forEach(async (button) => fireEvent.click(button));
 
     filteredButtons.forEach((button, index) =>
-      expect(button.getAttribute('aria-expanded')).not.toEqual(currentExpanded[index]),
+      expect(button.getAttribute('aria-expanded')).not.toEqual(
+        currentExpanded[index]
+      )
     );
   });
 
@@ -170,7 +191,9 @@ describe('<SectionContainer />', () => {
       });
     });
 
-    const downloadButton = await screen.findByRole('button', { name: /downloadReport/i });
+    const downloadButton = await screen.findByRole('button', {
+      name: /downloadReport/i,
+    });
 
     fireEvent.click(downloadButton);
 
@@ -186,8 +209,18 @@ describe('<SectionContainer />', () => {
           data: {
             ...mockData.mockHearingWithSections.data,
             sections: [
-              { ...mockData.mockHearingWithSections.data.sections[0], abstract: {}, content: {}, images: [] },
-              { ...mockData.mockHearingWithSections.data.sections[1], abstract: {}, content: {}, images: [] },
+              {
+                ...mockData.mockHearingWithSections.data.sections[0],
+                abstract: {},
+                content: {},
+                images: [],
+              },
+              {
+                ...mockData.mockHearingWithSections.data.sections[1],
+                abstract: {},
+                content: {},
+                images: [],
+              },
             ],
           },
         },

@@ -11,10 +11,16 @@ const MaintenanceNotification = ({ language }) => {
   const { notifications, visibleTypes } = useNotifications(language);
 
   return (
-    <Suspense fallback={<div className='container maintenance-notification-container'><LoadSpinner /></div>}>
+    <Suspense
+      fallback={
+        <div className='container maintenance-notification-container'>
+          <LoadSpinner />
+        </div>
+      }
+    >
       <div className='container maintenance-notification-container'>
-        <NotificationService 
-          notifications={notifications} 
+        <NotificationService
+          notifications={notifications}
           visibleTypes={visibleTypes}
           language={language}
         />

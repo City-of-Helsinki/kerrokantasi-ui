@@ -10,6 +10,6 @@ import en from './en.json';
 const languageModules = {
   fi: { ...fi, ...fiCity },
   sv: { ...sv, ...svCity },
-  en: { ...en, ...enCity }
+  en: { ...en, ...enCity },
 };
 export default { ...languageModules };

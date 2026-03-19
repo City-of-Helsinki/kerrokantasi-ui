@@ -16,7 +16,9 @@ export const getCookieConsentSettings = (locale = 'fi') => {
     onChange: (changeEvent) => {
       const { acceptedGroups } = changeEvent;
 
-      const hasStatisticsConsent = acceptedGroups.includes(COOKIE_CONSENT_GROUP.Statistics);
+      const hasStatisticsConsent = acceptedGroups.includes(
+        COOKIE_CONSENT_GROUP.Statistics
+      );
 
       if (hasStatisticsConsent) {
         //  start tracking
@@ -46,7 +48,13 @@ export const getCookieConsentSettings = (locale = 'fi') => {
  */
 export function getLegacyAnalyticsScript() {
   if (urls.analytics && urls.analytics !== false) {
-    return <script data-cookieconsent='statistics' src={urls.analytics} type='text/plain'></script>;
+    return (
+      <script
+        data-cookieconsent='statistics'
+        src={urls.analytics}
+        type='text/plain'
+      ></script>
+    );
   }
   return null;
 }
@@ -55,4 +63,3 @@ export default {
   getCookieConsentSettings,
   getLegacyAnalyticsScript,
 };
-

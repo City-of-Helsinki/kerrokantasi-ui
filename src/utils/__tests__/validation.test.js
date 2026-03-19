@@ -1,7 +1,9 @@
 import validationFunction from '../validation';
 import { mockStore } from '../../../test-utils';
 
-const { hearing: { mockHearing } } = mockStore;
+const {
+  hearing: { mockHearing },
+} = mockStore;
 
 describe('validateFunction', () => {
   const languages = ['fi', 'sv', 'en'];
@@ -49,7 +51,9 @@ describe('validateFunction', () => {
     });
 
     it('return false if contactPersons array is not empty', () => {
-      expect(validationFunction.contact_persons(mockHearing.data.contact_persons)).toBe(false);
+      expect(
+        validationFunction.contact_persons(mockHearing.data.contact_persons)
+      ).toBe(false);
     });
   });
 
@@ -69,7 +73,9 @@ describe('validateFunction', () => {
     });
 
     it('return false if prop is not false', () => {
-      expect(validationFunction.close_at(mockHearing.data.close_at)).toBe(false);
+      expect(validationFunction.close_at(mockHearing.data.close_at)).toBe(
+        false
+      );
     });
   });
 
@@ -87,14 +93,20 @@ describe('validateFunction', () => {
     describe('project title validation', () => {
       it('return true if one or more language specific title is empty', () => {
         const titlesMissing = { fi: 'otsikko', sv: 'rubrik', en: '' };
-        expect(validationFunction.project_title(titlesMissing, languages)).toBe(true);
+        expect(validationFunction.project_title(titlesMissing, languages)).toBe(
+          true
+        );
         titlesMissing.sv = '';
-        expect(validationFunction.project_title(titlesMissing, languages)).toBe(true);
+        expect(validationFunction.project_title(titlesMissing, languages)).toBe(
+          true
+        );
       });
 
       it('return true if a language is missing from titles', () => {
         const titlesMissingFI = { sv: 'rubrik', en: 'header' };
-        expect(validationFunction.project_title(titlesMissingFI, languages)).toBe(true);
+        expect(
+          validationFunction.project_title(titlesMissingFI, languages)
+        ).toBe(true);
       });
 
       it('return false if none of the language specific titles are empty or missing', () => {
@@ -116,13 +128,19 @@ describe('validateFunction', () => {
 
       it('return true if one or more of the phases contain a language specific title that is empty', () => {
         phases[2].title.en = '';
-        expect(validationFunction.project_phases_title(phases, languages)).toBe(true);
+        expect(validationFunction.project_phases_title(phases, languages)).toBe(
+          true
+        );
         phases[0].title.fi = '';
-        expect(validationFunction.project_phases_title(phases, languages)).toBe(true);
+        expect(validationFunction.project_phases_title(phases, languages)).toBe(
+          true
+        );
       });
 
       it('return false if none of the phases contain a language specific title that is empty', () => {
-        expect(validationFunction.project_phases_title(phases, languages)).toBe(false);
+        expect(validationFunction.project_phases_title(phases, languages)).toBe(
+          false
+        );
       });
     });
 

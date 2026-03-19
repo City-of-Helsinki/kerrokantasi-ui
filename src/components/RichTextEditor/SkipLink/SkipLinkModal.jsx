@@ -50,7 +50,10 @@ class SkipLinkModal extends React.Component {
     const { target } = event;
     if (target.required && !target.value) {
       this.setState((state) => {
-        const inputErrors = { ...state.inputErrors, ...{ [target.name]: getMessage('validationCantBeEmpty') } };
+        const inputErrors = {
+          ...state.inputErrors,
+          ...{ [target.name]: getMessage('validationCantBeEmpty') },
+        };
         return {
           inputErrors,
         };
@@ -103,7 +106,10 @@ class SkipLinkModal extends React.Component {
         closeButtonLabelText={intl.formatMessage({ id: 'close' })}
         theme={{ '--accent-line-color': 'var(--color-black)' }}
       >
-        <Dialog.Header id={titleId} title={<FormattedMessage id='skipLinkModalTitle' />} />
+        <Dialog.Header
+          id={titleId}
+          title={<FormattedMessage id='skipLinkModalTitle' />}
+        />
         <Dialog.Content>
           <div id={descriptionId}>
             <RichTextModalTextField
@@ -136,7 +142,10 @@ class SkipLinkModal extends React.Component {
               errorMsg={this.state.inputErrors.linkTargetId}
               formName={formName}
             />
-            <label htmlFor='skip-link-is-hidden' className='rich-text-editor-form-checkbox-label'>
+            <label
+              htmlFor='skip-link-is-hidden'
+              className='rich-text-editor-form-checkbox-label'
+            >
               {getMessage('skipLinkFormFieldHide')}
             </label>
             <input
@@ -150,7 +159,10 @@ class SkipLinkModal extends React.Component {
           </div>
         </Dialog.Content>
         <Dialog.ActionButtons>
-          <Button className='kerrokantasi-btn black' onClick={this.confirmSkipLink}>
+          <Button
+            className='kerrokantasi-btn black'
+            onClick={this.confirmSkipLink}
+          >
             <FormattedMessage id='formButtonAcceptAndAdd' />
           </Button>
           <Button className='kerrokantasi-btn' onClick={onClose} type='button'>

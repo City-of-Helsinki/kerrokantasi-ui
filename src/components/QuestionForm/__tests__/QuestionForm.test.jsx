@@ -39,7 +39,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <BrowserRouter>
       <QuestionForm intl={getIntlAsProp()} {...props} />
-    </BrowserRouter>,
+    </BrowserRouter>
   );
 };
 

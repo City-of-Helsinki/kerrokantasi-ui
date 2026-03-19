@@ -14,29 +14,36 @@ export class CommentList extends React.Component {
        * Determines whether a Comment's replies should be toggled open. Length based on amount of comments.
        * @type {boolean[]}
        */
-      commentShowReplies: [...Array(this.props.comments.length)].map(() => false),
+      commentShowReplies: [...Array(this.props.comments.length)].map(
+        () => false
+      ),
     };
   }
 
   componentDidUpdate(prevProps) {
     const { comments: newComments, section } = this.props;
-    if (prevProps.section.id === section.id && prevProps.comments !== newComments) {
+    if (
+      prevProps.section.id === section.id &&
+      prevProps.comments !== newComments
+    ) {
       const updatedLoadingState = newComments.reduce((acc, curr, index) => {
         /**
          * loadingSubComments is undefined by default, boolean true is added once we start fetching
          * replies made to that comment, boolean false added when replies have been successfully fetched.
          * @type {undefined | boolean}
          */
-        const previousLoadingState = prevProps.comments[index]?.loadingSubComments;
+        const previousLoadingState =
+          prevProps.comments[index]?.loadingSubComments;
         const currentLoadingState = curr?.loadingSubComments;
         // if previously loading and now not loading -> true so the replies are visible once mounted, otherwise false.
-        const nextLoadingState = (previousLoadingState && !currentLoadingState) || false;
+        const nextLoadingState =
+          (previousLoadingState && !currentLoadingState) || false;
         acc.push(nextLoadingState);
         return acc;
       }, []);
       // commentShowReplies has changed from the previous render and should be updated.
       const notSameAsPrevious = !this.state.commentShowReplies.every(
-        (comment, index) => comment === updatedLoadingState[index],
+        (comment, index) => comment === updatedLoadingState[index]
       );
       if (notSameAsPrevious) {
         this.updateShowReplies(updatedLoadingState);

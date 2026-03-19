@@ -11,10 +11,8 @@ const UnconnectedLogoutCallback = () => {
     navigate('/');
   });
 
-  return (
-    <LoadSpinner />
-  );
-}
+  return <LoadSpinner />;
+};
 
 export { UnconnectedLogoutCallback };
 export default connect()(UnconnectedLogoutCallback);

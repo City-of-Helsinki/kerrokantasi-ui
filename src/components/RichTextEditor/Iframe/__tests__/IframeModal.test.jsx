@@ -20,7 +20,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <IframeModal {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -39,7 +39,9 @@ describe('<IframeModal />', () => {
     await user.type(await screen.findByTestId('iframe-title'), SOME_TITLE);
     await user.type(await screen.findByTestId('iframe-src'), TEST_URL);
 
-    await user.click(await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' })
+    );
 
     expect(onSubmitMock).toHaveBeenCalledWith({
       title: SOME_TITLE,
@@ -57,8 +59,12 @@ describe('<IframeModal />', () => {
 
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' })
+    );
 
-    expect(await screen.findByTestId('iframe-form-submit-error')).toHaveTextContent('Korjaa lomakkeen virheet ensin');
+    expect(
+      await screen.findByTestId('iframe-form-submit-error')
+    ).toHaveTextContent('Korjaa lomakkeen virheet ensin');
   });
 });

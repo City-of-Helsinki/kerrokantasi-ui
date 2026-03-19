@@ -5,7 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import Link from './LinkWithLang';
 
 export const SectionBrowserComponent = ({ sectionNav }) => (
-  <div className='section-browser' role='navigation' aria-labelledby='section-browser-title'>
+  <div
+    className='section-browser'
+    role='navigation'
+    aria-labelledby='section-browser-title'
+  >
     <ul className='pager'>
       <li className={`previous ${sectionNav.prev.path ? '' : 'disabled'}`}>
         <LinkWrapper disabled={!sectionNav.prev.path} to={sectionNav.prev}>
@@ -13,8 +17,14 @@ export const SectionBrowserComponent = ({ sectionNav }) => (
           <FormattedMessage id='previous' />
         </LinkWrapper>
       </li>
-      <li role='presentation' className='section-browser-title' id='section-browser-title' aria-hidden='true'>
-        <FormattedMessage id='subsectionTitle' /> {sectionNav.currentNum}/{sectionNav.totalNum}
+      <li
+        role='presentation'
+        className='section-browser-title'
+        id='section-browser-title'
+        aria-hidden='true'
+      >
+        <FormattedMessage id='subsectionTitle' /> {sectionNav.currentNum}/
+        {sectionNav.totalNum}
       </li>
       <li className={`next ${sectionNav.next.path ? '' : 'disabled'}`}>
         <LinkWrapper disabled={!sectionNav.next.path} to={sectionNav.next}>

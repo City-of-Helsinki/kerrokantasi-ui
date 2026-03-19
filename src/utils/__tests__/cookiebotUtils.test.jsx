@@ -43,7 +43,10 @@ describe('cookiebotUtils', () => {
     it('calls window.addEventListener with correct params if enableCookies and enableCookiebot is true', () => {
       window.addEventListener = vi.fn();
       cookieBotAddListeners();
-      expect(window.addEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
+      expect(window.addEventListener).toHaveBeenCalledWith(
+        'CookiebotOnDialogDisplay',
+        cookieBotImageOverride
+      );
     });
     it('does not call window.addEventListener when enableCookies is false', () => {
       config.enableCookies = false;
@@ -67,7 +70,10 @@ describe('cookiebotUtils', () => {
     it('calls window.removeEventListener with correct params if enableCookies and enableCookiebot is true', () => {
       window.removeEventListener = vi.fn();
       cookieBotRemoveListeners();
-      expect(window.removeEventListener).toHaveBeenCalledWith('CookiebotOnDialogDisplay', cookieBotImageOverride);
+      expect(window.removeEventListener).toHaveBeenCalledWith(
+        'CookiebotOnDialogDisplay',
+        cookieBotImageOverride
+      );
     });
     it('does not call window.removeEventListener when enableCookies is false', () => {
       config.enableCookies = false;
@@ -167,7 +173,9 @@ describe('cookiebotUtils', () => {
       cookieBotImageOverride();
 
       expect(mockElement.src).toBe('');
-      expect(document.getElementById).toHaveBeenCalledWith('CybotCookiebotDialogPoweredbyImage');
+      expect(document.getElementById).toHaveBeenCalledWith(
+        'CybotCookiebotDialogPoweredbyImage'
+      );
     });
   });
 

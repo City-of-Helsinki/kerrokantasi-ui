@@ -49,7 +49,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <UserComment intl={getIntlAsProp()} {...defaultProps} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -73,7 +73,9 @@ describe('<UserComment />', () => {
   it('should render comment body', async () => {
     renderComponent();
 
-    expect(await screen.findByText(defaultCommentData.content)).toBeInTheDocument();
+    expect(
+      await screen.findByText(defaultCommentData.content)
+    ).toBeInTheDocument();
   });
 
   it('should render message when comment deleted by self', async () => {
@@ -81,22 +83,34 @@ describe('<UserComment />', () => {
 
     const deletedByTypes = { moderator: 'moderator', self: 'self' };
 
-    const comment = mockComment({ deleted, deletedAt, deletedByType: deletedByTypes.self });
+    const comment = mockComment({
+      deleted,
+      deletedAt,
+      deletedByType: deletedByTypes.self,
+    });
 
     renderComponent({ comment });
 
-    expect(await screen.findByText('sectionCommentSelfDeletedMessage')).toBeInTheDocument();
+    expect(
+      await screen.findByText('sectionCommentSelfDeletedMessage')
+    ).toBeInTheDocument();
   });
 
   it('should render message when comment deleted by moderator', async () => {
     const deleted = true;
     const deletedByTypes = { moderator: 'moderator', self: 'self' };
 
-    const comment = mockComment({ deleted, deletedAt, deletedByType: deletedByTypes.moderator });
+    const comment = mockComment({
+      deleted,
+      deletedAt,
+      deletedByType: deletedByTypes.moderator,
+    });
 
     renderComponent({ comment });
 
-    expect(await screen.findByText('sectionCommentDeletedMessage')).toBeInTheDocument();
+    expect(
+      await screen.findByText('sectionCommentDeletedMessage')
+    ).toBeInTheDocument();
   });
 
   it('should render message when comment deleted by unknown', async () => {
@@ -106,24 +120,34 @@ describe('<UserComment />', () => {
 
     renderComponent({ comment });
 
-    expect(await screen.findByText('sectionCommentGenericDeletedMessage')).toBeInTheDocument();
+    expect(
+      await screen.findByText('sectionCommentGenericDeletedMessage')
+    ).toBeInTheDocument();
   });
 
   it('map toggle button is rendered if comment has geojson', async () => {
-    const geojsonValues = { geojson: { type: 'Point', coordinates: [22.254456, 60.459252] } };
+    const geojsonValues = {
+      geojson: { type: 'Point', coordinates: [22.254456, 60.459252] },
+    };
 
     renderComponent({ comment: mockComment(geojsonValues) });
 
-    const toggleButton = await screen.findByRole('button', { name: 'commentShowMap' });
+    const toggleButton = await screen.findByRole('button', {
+      name: 'commentShowMap',
+    });
 
     const user = userEvent.setup();
 
     user.click(toggleButton);
 
-    await waitFor(() => expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true'));
+    await waitFor(() =>
+      expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('true')
+    );
 
     user.click(toggleButton);
 
-    await waitFor(() => expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('false'));
+    await waitFor(() =>
+      expect(toggleButton.getAttribute(ARIA_EXPANDED)).toBe('false')
+    );
   });
 });

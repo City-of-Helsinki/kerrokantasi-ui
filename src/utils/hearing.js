@@ -7,18 +7,22 @@ import getAttr from './getAttr';
 import i18n from '../i18n';
 
 export function getClosureSection(hearing) {
-  return find(hearing.sections, (section) => section.type === SectionTypes.CLOSURE);
+  return find(
+    hearing.sections,
+    (section) => section.type === SectionTypes.CLOSURE
+  );
 }
-
 
 export function getMainSection(hearing) {
-  return find(hearing.sections, (section) => section.type === SectionTypes.MAIN);
+  return find(
+    hearing.sections,
+    (section) => section.type === SectionTypes.MAIN
+  );
 }
 
-
 /*
-* Return URL to hearing view. Accepts optional fullscreen parameter
-* to force fullscreen query parameter.
+ * Return URL to hearing view. Accepts optional fullscreen parameter
+ * to force fullscreen query parameter.
  */
 export function getHearingURL(hearing, { fullscreen } = {}) {
   return `/${hearing.slug}${fullscreen || hearing.default_to_fullscreen ? '/fullscreen' : ''}`;
@@ -29,29 +33,37 @@ export function getHearingMainImageURL(hearing) {
 }
 
 /*
-* Returns true if hearing has a plugin that can be rendered fullscreen
-* else false.
+ * Returns true if hearing has a plugin that can be rendered fullscreen
+ * else false.
  */
 export function hasFullscreenMapPlugin(hearing) {
   // Legacy plugins actually do not support full screen
   const identifier = getMainSection(hearing).plugin_identifier;
-  return identifier !== null && identifier !== '' && identifier !== 'mapdon-hkr' && identifier !== 'mapdon-ksv';
+  return (
+    identifier !== null &&
+    identifier !== '' &&
+    identifier !== 'mapdon-hkr' &&
+    identifier !== 'mapdon-ksv'
+  );
 }
 
 /*
-* Returns true if comments are still accepted for the hearing
-* else false.
+ * Returns true if comments are still accepted for the hearing
+ * else false.
  */
 export function acceptsComments(hearing) {
-  return !hearing.closed && (new Date() < new Date(hearing.close_at));
+  return !hearing.closed && new Date() < new Date(hearing.close_at);
 }
 
 /*
-* Returns true if any of the sections in a hearing has commenting enabled or if the hearing has a plugin
-* else false.
+ * Returns true if any of the sections in a hearing has commenting enabled or if the hearing has a plugin
+ * else false.
  */
 export function hasCommentableSections(hearing, sections, user) {
-  return sections.some((elem) => userCanComment(user, elem)) || getMainSection(hearing).plugin_identifier;
+  return (
+    sections.some((elem) => userCanComment(user, elem)) ||
+    getMainSection(hearing).plugin_identifier
+  );
 }
 
 /*
@@ -82,7 +94,9 @@ export function getSectionByID(hearing, sectionID) {
  * @return {object} Section object
  */
 export function getOrCreateSectionByID(hearing, sectionID) {
-  return getSectionByID(hearing, sectionID) || initNewSection({ id: sectionID });
+  return (
+    getSectionByID(hearing, sectionID) || initNewSection({ id: sectionID })
+  );
 }
 
 /*
@@ -97,25 +111,27 @@ export function initNewHearing(inits) {
   closureSection.content = {
     fi: i18n.fi.defaultClosureInfo || '',
     sv: i18n.sv.defaultClosureInfo || '',
-    en: i18n.en.defaultClosureInfo || ''
+    en: i18n.en.defaultClosureInfo || '',
   };
-  return merge({
-    abstract: initAttr(),
-    title: initAttr(),
-    slug: "",
-    labels: [],
-    published: false,
-    open_at: null,
-    close_at: null,
-    sections: [mainSection, closureSection],
-    main_image: {},
-    contact_persons: [],
-    n_comments: 0,
-    isNew: true,
-    geojson: {},
-  }, inits || {});
+  return merge(
+    {
+      abstract: initAttr(),
+      title: initAttr(),
+      slug: '',
+      labels: [],
+      published: false,
+      open_at: null,
+      close_at: null,
+      sections: [mainSection, closureSection],
+      main_image: {},
+      contact_persons: [],
+      n_comments: 0,
+      isNew: true,
+      geojson: {},
+    },
+    inits || {}
+  );
 }
-
 
 /*
 Return true if use can edit given hearing.
@@ -128,22 +144,23 @@ export function canEdit(user, hearing) {
   if (!user || !hearing) {
     return false;
   }
-  return Boolean(user && includes(user.adminOrganizations || [], hearing.organization));
+  return Boolean(
+    user && includes(user.adminOrganizations || [], hearing.organization)
+  );
 }
 
 export function getImageAsBase64Promise(image) {
   const reader = new FileReader();
   reader.readAsDataURL(image);
-  return new Promise(
-    (resolve) => {
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-    });
+  return new Promise((resolve) => {
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+  });
 }
 
 export function getOpenGraphMetaData(hearing, language) {
-  let hostname = "https://kerrokantasi.hel.fi";
+  let hostname = 'https://kerrokantasi.hel.fi';
   if (typeof HOSTNAME === 'string') {
     // eslint-disable-next-line no-undef
     hostname = HOSTNAME;
@@ -152,10 +169,13 @@ export function getOpenGraphMetaData(hearing, language) {
   }
   const url = `${hostname}/${hearing.slug}`;
   return [
-    { property: "og:url", content: url },
-    { property: "og:type", content: "website" },
-    { property: "og:title", content: getAttr(hearing.title, language) },
-    { property: "og:image", content: get(hearing, 'main_image.url', '') },
-    { property: "og:description", content: getAttr(hearing.abstract, language) }
+    { property: 'og:url', content: url },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: getAttr(hearing.title, language) },
+    { property: 'og:image', content: get(hearing, 'main_image.url', '') },
+    {
+      property: 'og:description',
+      content: getAttr(hearing.abstract, language),
+    },
   ];
 }

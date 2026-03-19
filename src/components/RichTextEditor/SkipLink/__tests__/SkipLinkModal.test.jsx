@@ -19,7 +19,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <SkipLinkModal {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -47,15 +47,21 @@ describe('<SkipLinkModal />', () => {
 
     const user = userEvent.setup();
 
-    const inputs = ['skip-link-linkText', 'skip-link-linkOwnId', 'skip-link-linkTargetId'];
+    const inputs = [
+      'skip-link-linkText',
+      'skip-link-linkOwnId',
+      'skip-link-linkTargetId',
+    ];
 
     await act(async () => {
       for (const input of inputs) {
         const formInput = await screen.findByTestId(input);
         await user.type(formInput, 'test text');
-        await waitFor(() => expect(formInput.getAttribute('value')).toBe('test text'));
+        await waitFor(() =>
+          expect(formInput.getAttribute('value')).toBe('test text')
+        );
       }
-    })
+    });
   });
 
   it('should validate form', async () => {
@@ -63,20 +69,28 @@ describe('<SkipLinkModal />', () => {
 
     const user = userEvent.setup();
 
-    const button = await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' });
+    const button = await screen.findByRole('button', {
+      name: 'formButtonAcceptAndAdd',
+    });
 
     user.click(button);
 
-    expect(await screen.findAllByText(/Tämä kenttä ei voi olla tyhjä/i)).toHaveLength(3);
+    expect(
+      await screen.findAllByText(/Tämä kenttä ei voi olla tyhjä/i)
+    ).toHaveLength(3);
   });
 
   it('should show form error message when form is invalid', async () => {
     renderComponent();
 
-    const button = await screen.findByRole('button', { name: 'formButtonAcceptAndAdd' });
+    const button = await screen.findByRole('button', {
+      name: 'formButtonAcceptAndAdd',
+    });
     userEvent.click(button);
 
-    const errorMessage = await screen.findByTestId('skip-link-form-submit-error');
+    const errorMessage = await screen.findByTestId(
+      'skip-link-form-submit-error'
+    );
 
     expect(errorMessage).toBeInTheDocument();
   });

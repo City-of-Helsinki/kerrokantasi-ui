@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useCookieConsentContext, useGroupConsent } from 'hds-react';
 
-import { getCookiebotConsent, isCookiebotEnabled } from '../utils/cookiebotUtils';
+import {
+  getCookiebotConsent,
+  isCookiebotEnabled,
+} from '../utils/cookiebotUtils';
 
 /**
  * Safe wrappers for HDS cookie consent hooks.
@@ -47,7 +50,9 @@ export const useHDSGroupConsent = (group) => {
  */
 export const useHasConsentGroup = (group) => {
   const hasHdsGroupConsent = useHDSGroupConsent(group);
-  const [cookiebotConsent, setCookiebotConsent] = useState(() => getCookiebotConsent(group));
+  const [cookiebotConsent, setCookiebotConsent] = useState(() =>
+    getCookiebotConsent(group)
+  );
 
   useEffect(() => {
     if (!isCookiebotEnabled()) return;

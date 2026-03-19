@@ -3,14 +3,26 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get, isArray, isEmpty } from 'lodash';
-import { Button, Card, Checkbox, FileInput, LoadingSpinner, Select } from 'hds-react';
+import {
+  Button,
+  Card,
+  Checkbox,
+  FileInput,
+  LoadingSpinner,
+  Select,
+} from 'hds-react';
 
 import { QuestionForm } from './QuestionForm';
-import MultiLanguageTextField, { TextFieldTypes } from '../forms/MultiLanguageTextField';
+import MultiLanguageTextField, {
+  TextFieldTypes,
+} from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
 import compressFile from '../../utils/images/compressFile';
-import { MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT } from '../../utils/images/constants';
+import {
+  MAX_IMAGE_SIZE,
+  MAX_WIDTH_OR_HEIGHT,
+} from '../../utils/images/constants';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
 import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../constants';
@@ -83,7 +95,9 @@ const SectionForm = ({
   initSingleChoiceQuestion,
   initMultipleChoiceQuestion,
 }) => {
-  const [enabledCommentMap, setEnabledCommentMap] = useState(section.commenting_map_tools !== 'none');
+  const [enabledCommentMap, setEnabledCommentMap] = useState(
+    section.commenting_map_tools !== 'none'
+  );
   const [sectionImage, setSectionImage] = useState();
   const [attachments, setAttachments] = useState();
 
@@ -146,7 +160,12 @@ const SectionForm = ({
         return;
       }
 
-      const compressed = await compressFile(file, MAX_IMAGE_SIZE, MAX_WIDTH_OR_HEIGHT, 'image/webp');
+      const compressed = await compressFile(
+        file,
+        MAX_IMAGE_SIZE,
+        MAX_WIDTH_OR_HEIGHT,
+        'image/webp'
+      );
       const blob = await fileToDataUri(compressed);
 
       onSectionImageSet(section.frontId, blob);
@@ -162,15 +181,25 @@ const SectionForm = ({
    */
   const onAttachmentChange = (files) => {
     const filesToDelete = attachments?.filter(
-      (item) => !files.some((newFile) => item.file.name === newFile.name && item.file.size === newFile.size),
+      (item) =>
+        !files.some(
+          (newFile) =>
+            item.file.name === newFile.name && item.file.size === newFile.size
+        )
     );
 
     const filesToAdd = files.filter(
-      (newFile) => !attachments?.some((item) => newFile.name === item.file.name && newFile.size === item.file.size),
+      (newFile) =>
+        !attachments?.some(
+          (item) =>
+            newFile.name === item.file.name && newFile.size === item.file.size
+        )
     );
 
     if (filesToDelete?.length) {
-      filesToDelete.forEach((file) => onSectionAttachmentDelete(section.frontId, file));
+      filesToDelete.forEach((file) =>
+        onSectionAttachmentDelete(section.frontId, file)
+      );
     }
 
     if (filesToAdd?.length) {
@@ -183,9 +212,11 @@ const SectionForm = ({
     }
   };
 
-  const onSectionContentChange = (value) => onSectionChange(section.frontId, 'content', value);
+  const onSectionContentChange = (value) =>
+    onSectionChange(section.frontId, 'content', value);
 
-  const getImageCaption = (getSection) => get(getSection.images, '[0].caption', {});
+  const getImageCaption = (getSection) =>
+    get(getSection.images, '[0].caption', {});
 
   const toggleEnableCommentMap = () => {
     setEnabledCommentMap(!enabledCommentMap);
@@ -212,8 +243,18 @@ const SectionForm = ({
 
   const commentingOptions = [
     { value: 'open', label: formatMessage({ id: 'openCommenting' }) },
-    { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
-    ...(config.enableStrongAuth ? [{ value: 'strong', label: formatMessage({ id: 'registeredStrongOnly' }) }] : []),
+    {
+      value: 'registered',
+      label: formatMessage({ id: 'registeredUsersOnly' }),
+    },
+    ...(config.enableStrongAuth
+      ? [
+          {
+            value: 'strong',
+            label: formatMessage({ id: 'registeredStrongOnly' }),
+          },
+        ]
+      : []),
     { value: 'none', label: formatMessage({ id: 'noCommenting' }) },
   ];
 
@@ -223,7 +264,10 @@ const SectionForm = ({
 
   const votingOptions = [
     { value: 'open', label: formatMessage({ id: 'openVoting' }) },
-    { value: 'registered', label: formatMessage({ id: 'registeredUsersOnly' }) },
+    {
+      value: 'registered',
+      label: formatMessage({ id: 'registeredUsersOnly' }),
+    },
   ];
 
   const votingInitialValue = section.voting
@@ -231,16 +275,29 @@ const SectionForm = ({
     : votingOptions[0];
 
   const commentingMapOptions = [
-    { value: 'none', label: formatMessage({ id: 'hearingCommentingMapChoice1' }) },
-    { value: 'marker', label: formatMessage({ id: 'hearingCommentingMapChoice2' }) },
-    { value: 'all', label: formatMessage({ id: 'hearingCommentingMapChoice3' }) },
+    {
+      value: 'none',
+      label: formatMessage({ id: 'hearingCommentingMapChoice1' }),
+    },
+    {
+      value: 'marker',
+      label: formatMessage({ id: 'hearingCommentingMapChoice2' }),
+    },
+    {
+      value: 'all',
+      label: formatMessage({ id: 'hearingCommentingMapChoice3' }),
+    },
   ];
 
   const commentingMapInitialValue = section.commenting_map_tools
-    ? commentingMapOptions.find((option) => option.value === section.commenting_map_tools).value
+    ? commentingMapOptions.find(
+        (option) => option.value === section.commenting_map_tools
+      ).value
     : commentingMapOptions[0].value;
 
-  const [commentingMapSelection, setCommentingMapSelection] = useState(commentingMapInitialValue);
+  const [commentingMapSelection, setCommentingMapSelection] = useState(
+    commentingMapInitialValue
+  );
 
   if (!section) {
     return <LoadingSpinner />;
@@ -258,7 +315,10 @@ const SectionForm = ({
             >
               &uarr; <FormattedMessage id='moveUp' />
             </Button>
-            <Button onClick={() => sectionMoveDown(section.frontId)} disabled={isLastSubsection}>
+            <Button
+              onClick={() => sectionMoveDown(section.frontId)}
+              disabled={isLastSubsection}
+            >
               <FormattedMessage id='moveDown' /> &darr;
             </Button>
           </div>
@@ -276,9 +336,18 @@ const SectionForm = ({
           />
         )}
         <Card
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'var(--spacing-s)' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 'var(--spacing-s)',
+          }}
         >
-          <img style={{ maxWidth: '100%', height: 'auto' }} src={getImage()} alt='' />
+          <img
+            style={{ maxWidth: '100%', height: 'auto' }}
+            src={getImage()}
+            alt=''
+          />
         </Card>
         <FileInput
           id='sectionImage'
@@ -364,7 +433,11 @@ const SectionForm = ({
         />
       </div>
       {enabledCommentMap && (
-        <div data-testid='hearingCommentingMap' id='hearingCommentingMap' style={{ marginBottom: 'var(--spacing-m)' }}>
+        <div
+          data-testid='hearingCommentingMap'
+          id='hearingCommentingMap'
+          style={{ marginBottom: 'var(--spacing-m)' }}
+        >
           <Select
             id='commenting_map_tools'
             name='commenting_map_tools'
@@ -389,7 +462,10 @@ const SectionForm = ({
         />
       </div>
       <div>
-        <Button className='question-control kerrokantasi-btn' onClick={() => initSingleChoiceQuestion(section.frontId)}>
+        <Button
+          className='question-control kerrokantasi-btn'
+          onClick={() => initSingleChoiceQuestion(section.frontId)}
+        >
           {formatMessage({ id: 'newSingleChoiceQuestion' })}
         </Button>
         <Button
@@ -406,7 +482,9 @@ const SectionForm = ({
             {question.frontId && (
               <Button
                 className='kerrokantasi-btn danger pull-right'
-                onClick={() => onDeleteTemporaryQuestion(section.frontId, question.frontId)}
+                onClick={() =>
+                  onDeleteTemporaryQuestion(section.frontId, question.frontId)
+                }
               >
                 {formatMessage({ id: 'deleteQuestion' })}
               </Button>
@@ -414,7 +492,9 @@ const SectionForm = ({
             {question.id && !isPublic && (
               <Button
                 className='kerrokantasi-btn danger pull-right'
-                onClick={() => onDeleteExistingQuestion(section.frontId, question.id)}
+                onClick={() =>
+                  onDeleteExistingQuestion(section.frontId, question.id)
+                }
               >
                 {formatMessage({ id: 'deleteQuestion' })}
               </Button>

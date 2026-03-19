@@ -45,7 +45,10 @@ const Info = () => {
 
   return (
     <div className='container'>
-      <MarkdownPage title={intl.formatMessage({ id: 'infoPage' })} markdown={markdown} />
+      <MarkdownPage
+        title={intl.formatMessage({ id: 'infoPage' })}
+        markdown={markdown}
+      />
     </div>
   );
 };

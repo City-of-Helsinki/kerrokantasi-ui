@@ -7,7 +7,6 @@ import { glob } from 'glob';
  * Creates an empty baseline coverage file that includes all source files
  */
 function createBaselineCoverage() {
-
   // Clean up existing nyc_output directory in a platform-independent way
   const nycOutput = path.join(process.cwd(), 'coverage-temp');
   if (fs.existsSync(nycOutput)) {
@@ -42,16 +41,16 @@ function createBaselineCoverage() {
       '**/__tests__/**',
       '**/setupTests.js',
       '**/*.test.{js,jsx}',
-      '**/*.spec.{js,jsx}'
+      '**/*.spec.{js,jsx}',
     ],
-    cwd: process.cwd()
+    cwd: process.cwd(),
   });
 
   // Create empty coverage object
   const coverage = {};
 
   // Add each file with empty coverage data
-  srcFiles.forEach(file => {
+  srcFiles.forEach((file) => {
     const absPath = path.resolve(process.cwd(), file);
     coverage[absPath] = {
       path: absPath,
@@ -60,7 +59,7 @@ function createBaselineCoverage() {
       branchMap: {},
       s: {},
       f: {},
-      b: {}
+      b: {},
     };
   });
 

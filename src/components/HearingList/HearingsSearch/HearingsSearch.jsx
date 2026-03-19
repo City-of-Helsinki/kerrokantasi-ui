@@ -8,7 +8,15 @@ import getAttr from '../../../utils/getAttr';
 import { labelShape } from '../../../types';
 import InternalLink from '../../InternalLink';
 
-const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, searchPhrase, selectedLabels, intl }) => {
+const HearingsSearch = ({
+  handleSearch,
+  handleSelectLabels,
+  labels,
+  language,
+  searchPhrase,
+  selectedLabels,
+  intl,
+}) => {
   const [searchValue, setSearchValue] = useState(searchPhrase);
 
   const labelsAsOptions = labels.map(({ label, id }) => ({
@@ -31,19 +39,26 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               <SearchInput
                 className='hearings-search__input'
                 label={<FormattedMessage id='searchTitles' />}
-                searchButtonAriaLabel={intl.formatMessage({ id: 'searchTitles' })}
+                searchButtonAriaLabel={intl.formatMessage({
+                  id: 'searchTitles',
+                })}
                 clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
                 value={searchValue}
                 onChange={(newValue) => setSearchValue(newValue)}
                 onSubmit={(value) => handleSearch(value)}
               />
             </div>
-            <div id='formControlsSearchSelect' className='hearings-search__label'>
+            <div
+              id='formControlsSearchSelect'
+              className='hearings-search__label'
+            >
               {!isEmpty(labels) && (
                 <Select
                   texts={{
                     label: intl.formatMessage({ id: 'searchLabels' }),
-                    placeholder: intl.formatMessage({ id: 'searchPlaceholder' }),
+                    placeholder: intl.formatMessage({
+                      id: 'searchPlaceholder',
+                    }),
                   }}
                   multiSelect
                   value={selectedLabels}
@@ -55,7 +70,10 @@ const HearingsSearch = ({ handleSearch, handleSelectLabels, labels, language, se
               )}
             </div>
           </div>
-          <Button className='hearings-search__button kerrokantasi-btn' type='submit'>
+          <Button
+            className='hearings-search__button kerrokantasi-btn'
+            type='submit'
+          >
             <FormattedMessage id='search' />
           </Button>
           <InternalLink destinationId='hearings-section' srOnly>

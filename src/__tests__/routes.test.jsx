@@ -7,27 +7,45 @@ import config from '../config';
 
 // Mock the components to be lazy-loaded
 vi.mock('../views/Home', () => ({ default: () => <div>Home</div> }));
-vi.mock('../views/Auth/silentRenew', () => ({ default: () => <div>SilentRenew</div> }));
+vi.mock('../views/Auth/silentRenew', () => ({
+  default: () => <div>SilentRenew</div>,
+}));
 vi.mock('../views/Info', () => ({ default: () => <div>Info</div> }));
-vi.mock('../views/CookieManagement', () => ({ default: () => <div>CookieManagement</div> }));
-vi.mock('../views/AccessibilityInfo', () => ({ default: () => <div>AccessibilityInfo</div> }));
+vi.mock('../views/CookieManagement', () => ({
+  default: () => <div>CookieManagement</div>,
+}));
+vi.mock('../views/AccessibilityInfo', () => ({
+  default: () => <div>AccessibilityInfo</div>,
+}));
 vi.mock('../views/Hearings', () => ({ default: () => <div>Hearings</div> }));
-vi.mock('../views/Hearing/HearingContainer', () => ({ default: () => <div>HearingContainer</div> }));
-vi.mock('../views/NewHearing/NewHearingContainer', () => ({ default: () => <div>NewHearingContainer</div> }));
+vi.mock('../views/Hearing/HearingContainer', () => ({
+  default: () => <div>HearingContainer</div>,
+}));
+vi.mock('../views/NewHearing/NewHearingContainer', () => ({
+  default: () => <div>NewHearingContainer</div>,
+}));
 vi.mock('../views/FullscreenHearing/FullscreenHearingContainer', () => ({
   default: () => <div>FullscreenHearingContainer</div>,
 }));
-vi.mock('../views/Auth/loginCallback', () => ({ default: () => <div>LoginCallback</div> }));
-vi.mock('../views/Auth/logoutCallback', () => ({ default: () => <div>LogoutCallback</div> }));
-vi.mock('../views/UserHearings', () => ({ default: () => <div>UserHearings</div> }));
-vi.mock('../views/UserProfile', () => ({ default: () => <div>UserProfile</div> }));
+vi.mock('../views/Auth/loginCallback', () => ({
+  default: () => <div>LoginCallback</div>,
+}));
+vi.mock('../views/Auth/logoutCallback', () => ({
+  default: () => <div>LogoutCallback</div>,
+}));
+vi.mock('../views/UserHearings', () => ({
+  default: () => <div>UserHearings</div>,
+}));
+vi.mock('../views/UserProfile', () => ({
+  default: () => <div>UserProfile</div>,
+}));
 
 describe('AppRoutes', () => {
   const renderWithRouter = (route) =>
     render(
       <MemoryRouter initialEntries={[route]}>
         <AppRoutes />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
   it('should render Home component for the root route', async () => {

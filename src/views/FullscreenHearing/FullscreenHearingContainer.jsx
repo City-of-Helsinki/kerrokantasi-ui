@@ -9,7 +9,11 @@ import logoSwedishWhite from '@city-images/logo-sv-white.svg';
 import { useParams, useLocation } from 'react-router-dom';
 
 import PluginContent from '../../components/PluginContent';
-import { getHearingWithSlug, getMainSection, getMainSectionComments } from '../../selectors/hearing';
+import {
+  getHearingWithSlug,
+  getMainSection,
+  getMainSectionComments,
+} from '../../selectors/hearing';
 import LoadSpinner from '../../components/LoadSpinner';
 import getAttr from '../../utils/getAttr';
 import { parseQuery } from '../../utils/urlQuery';
@@ -27,9 +31,15 @@ const FullscreenHearingContainerComponent = (ownProps) => {
   const dispatch = useDispatch();
   const params = useParams();
   const location = useLocation();
-  const hearing = useSelector((state) => getHearingWithSlug(state, params.hearingSlug));
-  const mainSection = useSelector((state) => getMainSection(state, params.hearingSlug));
-  const mainSectionComments = useSelector((state) => getMainSectionComments(state, params.hearingSlug));
+  const hearing = useSelector((state) =>
+    getHearingWithSlug(state, params.hearingSlug)
+  );
+  const mainSection = useSelector((state) =>
+    getMainSection(state, params.hearingSlug)
+  );
+  const mainSectionComments = useSelector((state) =>
+    getMainSectionComments(state, params.hearingSlug)
+  );
   const user = useSelector((state) => getUser(state));
   const language = useSelector((state) => state.language);
   const fetchAllComments = (hearingSlug, sectionId, ordering) => {
@@ -48,7 +58,9 @@ const FullscreenHearingContainerComponent = (ownProps) => {
     const { hearingSlug } = params;
     const { authCode } = parseQuery(location.search);
     const commentData = { authCode, ...comment };
-    return dispatch(postSectionComment(hearingSlug, mainSection.id, commentData));
+    return dispatch(
+      postSectionComment(hearingSlug, mainSection.id, commentData)
+    );
   };
 
   const onVoteComment = (commentId) => {
@@ -72,13 +84,19 @@ const FullscreenHearingContainerComponent = (ownProps) => {
               <Link to={{ path: '/' }}>
                 <FormattedMessage id='fullscreenHeaderLogoAlt'>
                   {(altText) => (
-                    <img alt={altText} src={language === 'sv' ? logoSwedishWhite : logoWhite} className='logo' />
+                    <img
+                      alt={altText}
+                      src={language === 'sv' ? logoSwedishWhite : logoWhite}
+                      className='logo'
+                    />
                   )}
                 </FormattedMessage>
               </Link>
             </div>
             <div className='header-title'>
-              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>{getAttr(hearing.title, language)}</Link>
+              <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>
+                {getAttr(hearing.title, language)}
+              </Link>
             </div>
             <div className='minimize'>
               <Link to={{ path: detailURL, state: { fromFullscreen: true } }}>

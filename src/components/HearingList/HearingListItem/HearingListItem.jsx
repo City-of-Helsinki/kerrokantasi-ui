@@ -25,14 +25,30 @@ const HearingListItem = (props) => {
     };
   }
 
-  const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
+  const translationAvailable = !!getAttr(hearing.title, language, {
+    exact: true,
+  });
 
   // Preparing the dates for translation.
   const isPast = (time) => new Date(time).getTime() < new Date().getTime();
-  const openTime = formatTime(hearing.open_at, { hour: '2-digit', minute: '2-digit' });
-  const openDate = formatDate(hearing.open_at, { day: '2-digit', month: '2-digit', year: 'numeric' });
-  const closeTime = formatTime(hearing.close_at, { hour: '2-digit', minute: '2-digit' });
-  const closeDate = formatDate(hearing.close_at, { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const openTime = formatTime(hearing.open_at, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  const openDate = formatDate(hearing.open_at, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+  const closeTime = formatTime(hearing.close_at, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  const closeDate = formatDate(hearing.close_at, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 
   // Translation ID's for ITIL translation values
   const openMessageId = `timeOpen${isPast(hearing.open_at) ? 'Past' : 'Future'}WithValues`;
@@ -73,14 +89,24 @@ const HearingListItem = (props) => {
         </div>
         <div className='hearing-list-item-times'>
           <div>
-            <FormattedMessage id={openMessageId} values={{ time: openTime, date: openDate }} />
+            <FormattedMessage
+              id={openMessageId}
+              values={{ time: openTime, date: openDate }}
+            />
           </div>
           <div>
-            <FormattedMessage id={closeMessageId} values={{ time: closeTime, date: closeDate }} />
+            <FormattedMessage
+              id={closeMessageId}
+              values={{ time: closeTime, date: closeDate }}
+            />
           </div>
         </div>
         <div className='hearing-list-item-labels clearfix'>
-          <LabelList labels={hearing.labels} className='hearing-list-item-labellist' language={language} />
+          <LabelList
+            labels={hearing.labels}
+            className='hearing-list-item-labellist'
+            language={language}
+          />
           {hearing.closed ? (
             <div className='hearing-list-item-closed'>
               <Tag theme={{ '--background-color': 'var(--color-black-30)' }}>
@@ -89,7 +115,9 @@ const HearingListItem = (props) => {
             </div>
           ) : null}
         </div>
-        {!translationAvailable && <HearingTranslationNotice title={hearing.title} />}
+        {!translationAvailable && (
+          <HearingTranslationNotice title={hearing.title} />
+        )}
       </div>
     </li>
   );

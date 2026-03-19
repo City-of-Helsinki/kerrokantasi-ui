@@ -41,10 +41,17 @@ describe('<HearingFormStep4 />', () => {
     const newDate = moment().add(1, 'days').format('DD.M.YYYY');
 
     await act(async () => {
-      await fireEvent.change(screen.getByLabelText(/hearingOpeningDate/i), { target: { value: newDate } });
-    })
+      await fireEvent.change(screen.getByLabelText(/hearingOpeningDate/i), {
+        target: { value: newDate },
+      });
+    });
 
-    waitFor(() => expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String)));
+    waitFor(() =>
+      expect(onHearingChange).toHaveBeenCalledWith(
+        'open_at',
+        expect.any(String)
+      )
+    );
   });
 
   it('should handle time change', () => {

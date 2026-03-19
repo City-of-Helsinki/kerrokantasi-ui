@@ -10,7 +10,7 @@ describe('matomo-context', () => {
     const { getByText } = render(
       <MatomoProvider value={value}>
         <div>Test Component</div>
-      </MatomoProvider>,
+      </MatomoProvider>
     );
 
     expect(getByText('Test Component')).toBeInTheDocument();

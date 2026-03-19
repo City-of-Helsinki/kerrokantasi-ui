@@ -69,7 +69,9 @@ class MultiLanguageTextField extends React.Component {
     return (
       <fieldset className='multi-language-text-field'>
         <legend>
-          <FormattedMessage id={labelId}>{(txt) => txt + requiredAsterisk}</FormattedMessage>
+          <FormattedMessage id={labelId}>
+            {(txt) => txt + requiredAsterisk}
+          </FormattedMessage>
         </legend>
         {languages.map((lang) => {
           const currentValue = value[lang];
@@ -80,8 +82,12 @@ class MultiLanguageTextField extends React.Component {
                 key={lang}
                 labelId={`inLanguage-${lang}`}
                 value={currentValue}
-                onChange={(newValue) => this.proxyInputNonEvent(newValue, this.props.onChange, lang)}
-                onBlur={(newValue) => this.proxyInputNonEvent(newValue, this.props.onBlur, lang)}
+                onChange={(newValue) =>
+                  this.proxyInputNonEvent(newValue, this.props.onChange, lang)
+                }
+                onBlur={(newValue) =>
+                  this.proxyInputNonEvent(newValue, this.props.onBlur, lang)
+                }
                 {...rest}
               />
             );

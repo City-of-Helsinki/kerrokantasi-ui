@@ -15,11 +15,17 @@ import { getSectionURL, hasAnyQuestions } from '../../../utils/section';
 
 const SubsectionList = ({ hearing, language, history }) => {
   const { hearingSlug } = useParams();
-  const sectionsWithoutClosure = hearing.sections.filter((section) => section.type !== 'closure-info');
-  const subSections = sectionsWithoutClosure.filter((section) => section.type !== 'main');
+  const sectionsWithoutClosure = hearing.sections.filter(
+    (section) => section.type !== 'closure-info'
+  );
+  const subSections = sectionsWithoutClosure.filter(
+    (section) => section.type !== 'main'
+  );
 
   const bgImage = (section) =>
-    !isEmpty(section.images) ? `url("${section.images[0].url}")` : `url("${defaultImage}")`;
+    !isEmpty(section.images)
+      ? `url("${section.images[0].url}")`
+      : `url("${defaultImage}")`;
 
   if (!subSections.length) {
     return null;
@@ -41,28 +47,47 @@ const SubsectionList = ({ hearing, language, history }) => {
                   history={history}
                   url={getSectionURL(hearingSlug, section)}
                   altText={
-                    section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)
+                    section.type === 'main'
+                      ? getAttr(hearing.title, language)
+                      : getAttr(section.title, language)
                   }
                 />
                 <div className='section-card-content'>
                   <div className='section-card-title-wrapper'>
                     <div className='section-card-title-prefix'>
-                      <FormattedMessage id='sectionCardSubsectionTitle' /> {index + 1}/{subSections.length}
+                      <FormattedMessage id='sectionCardSubsectionTitle' />{' '}
+                      {index + 1}/{subSections.length}
                     </div>
-                    <Link to={{ path: getSectionURL(hearingSlug, section) }} className='section-card-title'>
+                    <Link
+                      to={{ path: getSectionURL(hearingSlug, section) }}
+                      className='section-card-title'
+                    >
                       <h3 id={`subsection-title-${section.id}`}>
-                        {section.type === 'main' ? getAttr(hearing.title, language) : getAttr(section.title, language)}
+                        {section.type === 'main'
+                          ? getAttr(hearing.title, language)
+                          : getAttr(section.title, language)}
                       </h3>
                     </Link>
                   </div>
                   {section.commenting !== 'none' && (
                     <div className='hearing-card-comment-count'>
-                      <Icon name='comment-o' aria-hidden='true' /> <span aria-hidden='true'>{section.n_comments}</span>
+                      <Icon name='comment-o' aria-hidden='true' />{' '}
+                      <span aria-hidden='true'>{section.n_comments}</span>
                       <span className='sr-only'>
                         <FormattedPlural
                           value={section.n_comments}
-                          one={<FormattedMessage id='sectionTotalComment' values={{ n: section.n_comments }} />}
-                          other={<FormattedMessage id='sectionTotalComments' values={{ n: section.n_comments }} />}
+                          one={
+                            <FormattedMessage
+                              id='sectionTotalComment'
+                              values={{ n: section.n_comments }}
+                            />
+                          }
+                          other={
+                            <FormattedMessage
+                              id='sectionTotalComments'
+                              values={{ n: section.n_comments }}
+                            />
+                          }
                         />
                       </span>
                     </div>
@@ -74,10 +99,19 @@ const SubsectionList = ({ hearing, language, history }) => {
                       </Button>
                     </Link>
                     {!hearing.closed && (
-                      <Link to={{ path: getSectionURL(hearingSlug, section), hash: '#comments-section' }}>
+                      <Link
+                        to={{
+                          path: getSectionURL(hearingSlug, section),
+                          hash: '#comments-section',
+                        }}
+                      >
                         <Button size='small' className='kerrokantasi-btn'>
                           <FormattedMessage
-                            id={hasAnyQuestions(section) ? 'commentAndVoteSubsectionBtn' : 'commentSubsectionBtn'}
+                            id={
+                              hasAnyQuestions(section)
+                                ? 'commentAndVoteSubsectionBtn'
+                                : 'commentSubsectionBtn'
+                            }
                           />
                         </Button>
                       </Link>

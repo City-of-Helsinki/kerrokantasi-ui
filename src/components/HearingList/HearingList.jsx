@@ -39,7 +39,9 @@ const HearingList = ({
   handleReachBottom,
   intl,
 }) => {
-  const hearingsToShow = !showOnlyOpen ? hearings : hearings.filter((hearing) => !hearing.closed);
+  const hearingsToShow = !showOnlyOpen
+    ? hearings
+    : hearings.filter((hearing) => !hearing.closed);
   const hasHearings = !isEmpty(hearings);
   const { formatMessage, formatTime, formatDate } = intl;
 
@@ -65,7 +67,10 @@ const HearingList = ({
   ) : null;
 
   // Use Math.max to default to the first tab (index 0) if activeTab is not found (-1) in HEARING_LIST_TABS
-  const initiallyActiveTab = Math.max(0, Object.values(HEARING_LIST_TABS).indexOf(activeTab));
+  const initiallyActiveTab = Math.max(
+    0,
+    Object.values(HEARING_LIST_TABS).indexOf(activeTab)
+  );
 
   const jumpLink = (
     <InternalLink destinationId='hearings-search-form' srOnly>
@@ -115,7 +120,10 @@ const HearingList = ({
             })}
           </HDSTabs.TabList>
           <HDSTabs.TabPanel className='hearings-list-tab-panel'>
-            <section id='hearings-section' className='hearings-list-tab-panel-container'>
+            <section
+              id='hearings-section'
+              className='hearings-list-tab-panel-container'
+            >
               {jumpLink}
               {noHearings}
 
@@ -126,12 +134,18 @@ const HearingList = ({
                       <FormattedPlural
                         value={hearingCount}
                         one={
-                          <FormattedMessage id='totalNumHearing' values={{ n: hearingCount }}>
+                          <FormattedMessage
+                            id='totalNumHearing'
+                            values={{ n: hearingCount }}
+                          >
                             {(txt) => txt}
                           </FormattedMessage>
                         }
                         other={
-                          <FormattedMessage id='totalNumHearings' values={{ n: hearingCount }}>
+                          <FormattedMessage
+                            id='totalNumHearings'
+                            values={{ n: hearingCount }}
+                          >
                             {(txt) => txt}
                           </FormattedMessage>
                         }
@@ -139,7 +153,10 @@ const HearingList = ({
                         {(txt) => txt}
                       </FormattedPlural>
                     </h2>
-                    <HearingListFilters handleSort={handleSort} formatMessage={formatMessage} />
+                    <HearingListFilters
+                      handleSort={handleSort}
+                      formatMessage={formatMessage}
+                    />
                   </div>
 
                   <ul className='hearing-list'>
@@ -160,7 +177,10 @@ const HearingList = ({
             </section>
           </HDSTabs.TabPanel>
           <HDSTabs.TabPanel className='hearings-list-tab-panel'>
-            <section id='hearings-section' className='hearings-list-tab-panel-container'>
+            <section
+              id='hearings-section'
+              className='hearings-list-tab-panel-container'
+            >
               {jumpLink}
               {noHearings}
               {isLoading && <LoadSpinner />}

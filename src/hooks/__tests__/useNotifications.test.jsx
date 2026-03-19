@@ -23,10 +23,18 @@ const mockNotifications = [
   {
     id: '1',
     title: { fi: 'Test Title', en: 'Test Title EN', sv: 'Test Title SV' },
-    content: { fi: 'Test Content', en: 'Test Content EN', sv: 'Test Content SV' },
+    content: {
+      fi: 'Test Content',
+      en: 'Test Content EN',
+      sv: 'Test Content SV',
+    },
     type_name: 'INFO',
     modified_at: '2023-01-01',
-    external_url: { fi: 'https://example.com', en: 'https://example.com/en', sv: 'https://example.com/sv' },
+    external_url: {
+      fi: 'https://example.com',
+      en: 'https://example.com/en',
+      sv: 'https://example.com/sv',
+    },
     external_url_title: { fi: 'Link', en: 'Link EN', sv: 'Link SV' },
   },
 ];
@@ -37,10 +45,10 @@ describe('useNotifications', () => {
   beforeEach(() => {
     // Clear all mocks
     vi.clearAllMocks();
-    
+
     // Reset individual mocks
     get.mockReset();
-    
+
     // Reset and set default value for useLocation
     vi.mocked(useLocation).mockReset();
     vi.mocked(useLocation).mockReturnValue({ pathname: '/' });
@@ -62,7 +70,7 @@ describe('useNotifications', () => {
 
     // Check if the API was called correctly
     expect(get).toHaveBeenCalledWith('/v1/notifications');
-    
+
     // Check if notifications are formatted correctly
     expect(result.current.notifications).toEqual([
       {
@@ -100,7 +108,7 @@ describe('useNotifications', () => {
 
     // Verify that our location mock is working
     expect(useLocation().pathname).toBe(nonHomePath);
-    
+
     // Check if visibleTypes is restricted to errors on non-home pages
     expect(result.current.visibleTypes).toEqual(['error']);
   });

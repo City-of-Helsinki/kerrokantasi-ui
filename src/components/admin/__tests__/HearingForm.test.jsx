@@ -115,7 +115,9 @@ describe('<HearingForm />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi
+      .fn()
+      .mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {

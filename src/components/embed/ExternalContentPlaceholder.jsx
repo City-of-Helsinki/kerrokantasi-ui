@@ -38,22 +38,30 @@ const ExternalContentPlaceholder = ({ url }) => {
     }
   };
 
-  return !url ? null :(
+  return !url ? null : (
     <Notification
       type='info'
       label={<FormattedMessage id='externalContentBlocked' />}
       style={{ marginTop: 0, marginBottom: 'var(--spacing-xs)' }}
     >
       <p style={{ marginBottom: 'var(--spacing-m)' }}>
-        <FormattedMessage id='externalContentBlockedDescription' values={{ url: domain }} />
+        <FormattedMessage
+          id='externalContentBlockedDescription'
+          values={{ url: domain }}
+        />
       </p>
-      <div style={{ display: 'flex', gap: 'var(--spacing-s)', flexWrap: 'wrap' }}>
+      <div
+        style={{ display: 'flex', gap: 'var(--spacing-s)', flexWrap: 'wrap' }}
+      >
         <Button
           variant='secondary'
           size='small'
           onClick={() => window.open(viewUrl, '_blank', 'noopener,noreferrer')}
           iconRight={<IconLinkExternal />}
-          aria-label={intl.formatMessage({ id: 'openExternalSiteAriaLabel' }, { domain })}
+          aria-label={intl.formatMessage(
+            { id: 'openExternalSiteAriaLabel' },
+            { domain }
+          )}
         >
           <FormattedMessage id='openExternalSite' />
         </Button>

@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import { Button, Dialog } from 'hds-react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
-const DeleteModal = ({ isOpen, commentSectionId, commentId, refreshUser, intl, close, onDeleteComment }) => {
+const DeleteModal = ({
+  isOpen,
+  commentSectionId,
+  commentId,
+  refreshUser,
+  intl,
+  close,
+  onDeleteComment,
+}) => {
   const titleId = 'delete-modal-title';
   const descriptionId = 'delete-modal-description';
 
@@ -16,7 +24,10 @@ const DeleteModal = ({ isOpen, commentSectionId, commentId, refreshUser, intl, c
       closeButtonLabelText={intl.formatMessage({ id: 'close' })}
       theme={{ '--accent-line-color': 'rgb(176, 16, 56)' }}
     >
-      <Dialog.Header id={titleId} title={<FormattedMessage id='deleteComment' />} />
+      <Dialog.Header
+        id={titleId}
+        title={<FormattedMessage id='deleteComment' />}
+      />
       <Dialog.Content>
         <span id={descriptionId}>
           <FormattedMessage id='deleteConfirmation' />

@@ -3,10 +3,11 @@ import { head, isEmpty } from 'lodash';
 import { SectionTypes } from '../utils/section';
 
 export const getTopHearing = (state) =>
-  state.hearingLists.topHearing && state.hearingLists.topHearing.data && head(state.hearingLists.topHearing.data);
+  state.hearingLists.topHearing &&
+  state.hearingLists.topHearing.data &&
+  head(state.hearingLists.topHearing.data);
 
-export const getOpenHearings = (state) =>
-  state.hearingLists.openHearings;
+export const getOpenHearings = (state) => state.hearingLists.openHearings;
 
 export const getHearingWithSlug = (state, hearingSlug) => {
   if (state.hearing[hearingSlug]) {
@@ -17,7 +18,9 @@ export const getHearingWithSlug = (state, hearingSlug) => {
 
 export const getSection = (state, hearingSlug, sectionId) => {
   if (!state.hearing[hearingSlug]) return undefined;
-  return state.hearing[hearingSlug].data.sections.find(section => section.id === sectionId);
+  return state.hearing[hearingSlug].data.sections.find(
+    (section) => section.id === sectionId
+  );
 };
 
 export const getSections = (state, hearingSlug) => {
@@ -41,8 +44,11 @@ export const getHearingContacts = (state, hearingSlug) => {
 };
 
 export const getMainSection = (state, hearingSlug) => {
-  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data)) return undefined;
-  return state.hearing[hearingSlug].data.sections.find(section => section.type === SectionTypes.MAIN);
+  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data))
+    return undefined;
+  return state.hearing[hearingSlug].data.sections.find(
+    (section) => section.type === SectionTypes.MAIN
+  );
 };
 
 export const getSectionCommentsById = (state, sectionId) => {
@@ -51,9 +57,14 @@ export const getSectionCommentsById = (state, sectionId) => {
 };
 
 export const getMainSectionComments = (state, hearingSlug) => {
-  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data)) return undefined;
-  const comments = state.sectionComments[state.hearing[hearingSlug].data.sections
-    .find(sec => sec.type === SectionTypes.MAIN).id];
+  if (!state.hearing[hearingSlug] || isEmpty(state.hearing[hearingSlug].data))
+    return undefined;
+  const comments =
+    state.sectionComments[
+      state.hearing[hearingSlug].data.sections.find(
+        (sec) => sec.type === SectionTypes.MAIN
+      ).id
+    ];
   if (!comments) return undefined;
   return comments;
 };

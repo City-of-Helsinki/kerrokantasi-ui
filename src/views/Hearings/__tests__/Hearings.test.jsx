@@ -39,7 +39,7 @@ const renderComponent = (storeOverrides) => {
     <BrowserRouter>
       <Hearings />
     </BrowserRouter>,
-    { store },
+    { store }
   );
 };
 

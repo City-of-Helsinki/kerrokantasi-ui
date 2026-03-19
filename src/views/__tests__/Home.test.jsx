@@ -22,7 +22,7 @@ const renderComponent = (propsOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <Home intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

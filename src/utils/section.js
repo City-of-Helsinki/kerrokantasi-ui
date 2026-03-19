@@ -1,8 +1,8 @@
 import { find, values, merge } from 'lodash';
 
 import initAttr from './initAttr';
-import { acceptsComments } from "./hearing";
-import { isAdmin } from "./user";
+import { acceptsComments } from './hearing';
+import { isAdmin } from './user';
 import config from '../config';
 
 export const SectionTypes = {
@@ -21,7 +21,6 @@ export function hasAnyQuestions(section) {
   return section.questions && section.questions.length > 0;
 }
 
-
 /**
  * Tells whether a non empty comment is required or not for a section.
  * @param {boolean} hasQuestions does the section have questions
@@ -29,10 +28,13 @@ export function hasAnyQuestions(section) {
  * @param {boolean} userAnsweredAllQuestions have all questions been answered already
  * @returns {boolean} true when comment is required, false when not
  */
-export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions) {
+export function isCommentRequired(
+  hasQuestions,
+  isReply,
+  userAnsweredAllQuestions
+) {
   return isReply || !hasQuestions || userAnsweredAllQuestions;
 }
-
 
 /**
  * Tells whether any of the section's questions have been answered or not.
@@ -40,7 +42,13 @@ export function isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestion
  * @returns {boolean} true when at least one question is answered and false if not
  */
 export function hasAnyAnswers(answers) {
-  return answers && answers.some(questionAnswers => questionAnswers.answers && questionAnswers.answers.length > 0);
+  return (
+    answers &&
+    answers.some(
+      (questionAnswers) =>
+        questionAnswers.answers && questionAnswers.answers.length > 0
+    )
+  );
 }
 
 /**
@@ -53,9 +61,20 @@ export function hasAnyAnswers(answers) {
  * @param {boolean} userAnsweredAllQuestions have all questions been answered already
  * @returns {string[]} an array of error strings
  */
-export function checkFormErrors(imageTooBig, commentText, section, answers, isReply, userAnsweredAllQuestions) {
+export function checkFormErrors(
+  imageTooBig,
+  commentText,
+  section,
+  answers,
+  isReply,
+  userAnsweredAllQuestions
+) {
   const hasQuestions = hasAnyQuestions(section);
-  const commentRequired = isCommentRequired(hasQuestions, isReply, userAnsweredAllQuestions);
+  const commentRequired = isCommentRequired(
+    hasQuestions,
+    isReply,
+    userAnsweredAllQuestions
+  );
   const commentOrAnswerRequired = hasQuestions;
   const hasAnswers = hasAnyAnswers(answers);
   const errors = [];
@@ -87,7 +106,9 @@ export function isEmptyCommentAllowed(section, hasAnswers) {
  * @returns {boolean} true when user has answered questions, false when not
  */
 export function hasUserAnsweredQuestions(user) {
-  return !!user && 'answered_questions' in user && user.answered_questions.length > 0;
+  return (
+    !!user && 'answered_questions' in user && user.answered_questions.length > 0
+  );
 }
 
 /**
@@ -144,13 +165,20 @@ export function isSpecialSectionType(sectionType) {
 }
 
 export function userCanComment(user, section) {
-  return section.commenting === 'open' ||
+  return (
+    section.commenting === 'open' ||
     (section.commenting === 'registered' && Boolean(user)) ||
-    (section.commenting === 'strong' && Boolean(user) && (user.hasStrongAuth || isAdmin(user)));
+    (section.commenting === 'strong' &&
+      Boolean(user) &&
+      (user.hasStrongAuth || isAdmin(user)))
+  );
 }
 
 export function userCanVote(user, section) {
-  return section.voting === 'open' || (section.voting === 'registered' && Boolean(user));
+  return (
+    section.voting === 'open' ||
+    (section.voting === 'registered' && Boolean(user))
+  );
 }
 
 export function isSectionVotable(hearing, section, user) {
@@ -160,9 +188,9 @@ export function isSectionVotable(hearing, section, user) {
 export function isSectionCommentable(hearing, section, user) {
   return (
     !config.maintenanceDisableComments &&
-    acceptsComments(hearing)
-    && userCanComment(user, section)
-    && !section.plugin_identifier // comment box not available for sections with plugins
+    acceptsComments(hearing) &&
+    userCanComment(user, section) &&
+    !section.plugin_identifier // comment box not available for sections with plugins
   );
 }
 
@@ -175,8 +203,7 @@ export function isSectionCommentable(hearing, section, user) {
  */
 export function isSectionCommentingMapEnabled(user, section) {
   return (
-    userCanComment(user, section)
-    && section.commenting_map_tools !== 'none'
+    userCanComment(user, section) && section.commenting_map_tools !== 'none'
   );
 }
 
@@ -191,7 +218,9 @@ export function getSectionCommentingErrorMessage(section) {
     return 'maintenanceNotificationText';
   }
 
-  return section.commenting === 'strong' ? 'commentStrongRegisteredUsersOnly' : 'loginToComment';
+  return section.commenting === 'strong'
+    ? 'commentStrongRegisteredUsersOnly'
+    : 'loginToComment';
 }
 
 /**
@@ -202,16 +231,16 @@ export function getSectionCommentingErrorMessage(section) {
  */
 export function getSectionCommentingMessage(section) {
   switch (section.commenting) {
-    case "open": {
+    case 'open': {
       return 'openCommenting';
     }
-    case "registered": {
+    case 'registered': {
       return 'commentRegisteredUsersOnly';
     }
-    case "strong": {
+    case 'strong': {
       return 'commentStrongRegisteredUsersOnly';
     }
-    case "none": {
+    case 'none': {
       return 'noCommenting';
     }
     default: {
@@ -257,9 +286,9 @@ export function initNewSection(inits) {
       type_name_singular: '',
       type_name_plural: '',
       hearing: '',
-      questions: []
+      questions: [],
     },
-    inits || {},
+    inits || {}
   );
 }
 
@@ -275,8 +304,11 @@ export function initNewSectionImage() {
 
 export function groupSections(sections) {
   const sectionGroups = [];
-  sections.forEach(section => {
-    const sectionGroup = find(sectionGroups, group => section.type === group.type);
+  sections.forEach((section) => {
+    const sectionGroup = find(
+      sectionGroups,
+      (group) => section.type === group.type
+    );
     if (sectionGroup) {
       sectionGroup.sections.push(section);
       sectionGroup.n_comments += section.n_comments;

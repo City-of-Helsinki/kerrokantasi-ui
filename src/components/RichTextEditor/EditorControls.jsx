@@ -48,7 +48,10 @@ StyleButton.propTypes = {
 export const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
-  const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+  const blockType = editorState
+    .getCurrentContent()
+    .getBlockForKey(selection.getStartKey())
+    .getType();
   return (
     <div className='RichEditor-controls'>
       {BLOCK_TYPES.map((type) => (
@@ -72,7 +75,10 @@ BlockStyleControls.propTypes = {
 export const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div className='RichEditor-controls' style={{ display: STYLE_INLINE_BLOCK }}>
+    <div
+      className='RichEditor-controls'
+      style={{ display: STYLE_INLINE_BLOCK }}
+    >
       {INLINE_STYLES.map((type) => (
         <StyleButton
           key={type.label}
@@ -93,7 +99,11 @@ InlineStyleControls.propTypes = {
 
 export const IframeControls = (props) => (
   <div className='RichEditor-controls' style={{ display: STYLE_INLINE_BLOCK }}>
-    <button type='button' className='RichEditor-styleButton' onClick={props.onClick}>
+    <button
+      type='button'
+      className='RichEditor-styleButton'
+      onClick={props.onClick}
+    >
       {getMessage('iframeAddButton')}
     </button>
   </div>
@@ -104,7 +114,11 @@ IframeControls.propTypes = {
 };
 
 export const SkipLinkControls = (props) => (
-  <button type='button' className='RichEditor-styleButton' onClick={props.onClick}>
+  <button
+    type='button'
+    className='RichEditor-styleButton'
+    onClick={props.onClick}
+  >
     {getMessage('skipLinkAddButton')}
   </button>
 );
@@ -115,7 +129,11 @@ SkipLinkControls.propTypes = {
 
 export const ImageControls = (props) => (
   <div className='RichEditor-controls' style={{ display: STYLE_INLINE_BLOCK }}>
-    <button type='button' className='RichEditor-styleButton' onClick={props.onClick}>
+    <button
+      type='button'
+      className='RichEditor-styleButton'
+      onClick={props.onClick}
+    >
       {getMessage('imageAddButton')}
     </button>
   </div>

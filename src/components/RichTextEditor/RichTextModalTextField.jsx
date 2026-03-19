@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function RichTextModalTextField(props) {
-  const { name, label, handleInputChange, handleInputBlur, value, isRequired, errorMsg, formName } = props;
+  const {
+    name,
+    label,
+    handleInputChange,
+    handleInputBlur,
+    value,
+    isRequired,
+    errorMsg,
+    formName,
+  } = props;
   const errorId = `${formName}-input-error-${name}`;
 
   return (
@@ -23,7 +32,11 @@ function RichTextModalTextField(props) {
         aria-describedby={errorMsg ? errorId : undefined}
       />
       {errorMsg && (
-        <p id={errorId} role='alert' className='rich-text-editor-form-input-error'>
+        <p
+          id={errorId}
+          role='alert'
+          className='rich-text-editor-form-input-error'
+        >
           {errorMsg}
         </p>
       )}

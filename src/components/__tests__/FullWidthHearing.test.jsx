@@ -14,7 +14,7 @@ const renderComponent = (propsOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <FullWidthHearing intl={getIntlAsProp()} {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

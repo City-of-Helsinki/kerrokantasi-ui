@@ -31,21 +31,33 @@ const createUniqueHearing = (id, slug, title, count, closed, ...props) => ({
   ...props,
 });
 const defaultUniqueHearings = [
-  createUniqueHearing('hearingOne', 'slugOne', 'this str contains a full stop so it will be cut.'.repeat(3), 1, true),
+  createUniqueHearing(
+    'hearingOne',
+    'slugOne',
+    'this str contains a full stop so it will be cut.'.repeat(3),
+    1,
+    true
+  ),
   createUniqueHearing(
     'hearingTwo',
     'slugTwo',
     'FILLER LOREM IPSUM FILLER. this contains a date near the end so it is sliced 12.12.2020. LOREM IPSUM FILLER.',
     2,
-    false,
+    false
   ),
-  createUniqueHearing('hearingThree', 'slugThree', 'this is 88 characters.'.repeat(4), 3, false),
+  createUniqueHearing(
+    'hearingThree',
+    'slugThree',
+    'this is 88 characters.'.repeat(4),
+    3,
+    false
+  ),
   createUniqueHearing(
     'hearingFour',
     'slugFour',
     'this is supposed to be a title that is over 100 characters.'.repeat(2),
     1,
-    false,
+    false
   ),
 ];
 
@@ -68,27 +80,47 @@ const createComment = (id, slug, title, hearing, content, ...props) => ({
 });
 
 const defaultComments = [
-  createComment('1', 'slugOne', 'this str contains a full stop so it will be cut.'.repeat(3), 'first comment'),
+  createComment(
+    '1',
+    'slugOne',
+    'this str contains a full stop so it will be cut.'.repeat(3),
+    'first comment'
+  ),
   createComment(
     '2',
     'slugTwo',
     'FILLER LOREM IPSUM FILLER. this contains a date near the end so it is sliced 12.12.2020. LOREM IPSUM FILLER.',
-    'second comment',
+    'second comment'
   ),
   createComment(
     '3',
     'slugTwo',
     'FILLER LOREM IPSUM FILLER. this contains a date near the end so it is sliced 12.12.2020. LOREM IPSUM FILLER.',
-    'third comment',
+    'third comment'
   ),
-  createComment('4', 'slugThree', 'this is 88 characters.'.repeat(4), 'fourth comment'),
-  createComment('5', 'slugThree', 'this is 88 characters.'.repeat(4), 'fifth comment'),
-  createComment('6', 'slugThree', 'this is 88 characters.'.repeat(4), 'sixth comment'),
+  createComment(
+    '4',
+    'slugThree',
+    'this is 88 characters.'.repeat(4),
+    'fourth comment'
+  ),
+  createComment(
+    '5',
+    'slugThree',
+    'this is 88 characters.'.repeat(4),
+    'fifth comment'
+  ),
+  createComment(
+    '6',
+    'slugThree',
+    'this is 88 characters.'.repeat(4),
+    'sixth comment'
+  ),
   createComment(
     '7',
     'slugFour',
     'this is supposed to be a title that is over 100 characters.'.repeat(2),
-    'seventh comment',
+    'seventh comment'
   ),
 ];
 
@@ -106,7 +138,11 @@ const defaultState = {
       favoriteHearings: {
         count: 2,
         results: [
-          { id: 'hearingOne', slug: 'slugOne', title: 'this str contains a full stop so it will be cut.'.repeat(3) },
+          {
+            id: 'hearingOne',
+            slug: 'slugOne',
+            title: 'this str contains a full stop so it will be cut.'.repeat(3),
+          },
         ],
       },
     },
@@ -132,7 +168,7 @@ const renderComponent = (storeOverride = false) => {
     <BrowserRouter>
       <UserProfile {...props} />
     </BrowserRouter>,
-    { store },
+    { store }
   );
 };
 
@@ -146,13 +182,19 @@ describe('<UserProfile />', () => {
 
     renderComponent(store);
 
-    const expected = [{ type: 'beginFetchUserComments' }, { type: 'beginFetchFavoriteHearings' }];
+    const expected = [
+      { type: 'beginFetchUserComments' },
+      { type: 'beginFetchFavoriteHearings' },
+    ];
 
     expect(store.getActions()).toEqual(expected);
   });
 
   it('should not fetchComments and fetchFavorites if userExists && user is false', () => {
-    const store = mockStore({ ...defaultState, user: { ...defaultState.user, data: null } });
+    const store = mockStore({
+      ...defaultState,
+      user: { ...defaultState.user, data: null },
+    });
 
     renderComponent(store);
 
@@ -269,7 +311,9 @@ describe('<UserProfile />', () => {
 
     expect(hearingCards.children).toHaveLength(1);
 
-    const removeFromFavorites = await within(hearingCards.children[0]).findByRole('button');
+    const removeFromFavorites = await within(
+      hearingCards.children[0]
+    ).findByRole('button');
 
     await act(async () => {
       await user.click(removeFromFavorites);
@@ -280,7 +324,10 @@ describe('<UserProfile />', () => {
       { type: 'beginFetchFavoriteHearings' },
       { type: 'receiveUserComments', payload: { data: {} } },
       { type: 'receiveFavoriteHearings', payload: { data: {} } },
-      { type: 'beginRemoveHearingFromFavorites', payload: { hearingSlug: 'slugOne' } },
+      {
+        type: 'beginRemoveHearingFromFavorites',
+        payload: { hearingSlug: 'slugOne' },
+      },
     ];
 
     expect(store.getActions()).toEqual(expected);

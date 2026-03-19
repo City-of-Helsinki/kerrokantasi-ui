@@ -48,7 +48,10 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
   const currentTime = new Date();
   const isPast = time.getTime() < currentTime.getTime();
   const timeDifferenceMs = currentTime.getTime() - time.getTime();
-  const { difference, unit } = calculateTimeDifference(timeDifferenceMs, isPast);
+  const { difference, unit } = calculateTimeDifference(
+    timeDifferenceMs,
+    isPast
+  );
 
   // Check if this is older than one month
   const oneMonthAgo = new Date();
@@ -63,10 +66,19 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
     messageId += 'WithValues';
 
     if (!isOlderThanOneMonth) {
-      const closeTime = formatTime(timeVal, { hour: '2-digit', minute: '2-digit' });
-      const closeDate = formatDate(timeVal, { day: '2-digit', month: '2-digit' });
+      const closeTime = formatTime(timeVal, {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const closeDate = formatDate(timeVal, {
+        day: '2-digit',
+        month: '2-digit',
+      });
       return (
-        <FormattedMessage id={messageId} values={{ time: closeTime, date: closeDate }}>
+        <FormattedMessage
+          id={messageId}
+          values={{ time: closeTime, date: closeDate }}
+        >
           {(txt) => (
             <div>
               {txt}
@@ -85,7 +97,8 @@ function FormatRelativeTime({ messagePrefix, timeVal, frontpage = false }) {
 
   return (
     <>
-      <FormattedMessage id={messageId} /> <FormattedRelativeTime value={difference} unit={unit} />
+      <FormattedMessage id={messageId} />{' '}
+      <FormattedRelativeTime value={difference} unit={unit} />
     </>
   );
 }

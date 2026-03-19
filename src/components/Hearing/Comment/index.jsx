@@ -4,7 +4,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
-import { Button, TextArea, Tooltip as HDSTooltip, IconSpeechbubbleText } from 'hds-react';
+import {
+  Button,
+  TextArea,
+  Tooltip as HDSTooltip,
+  IconSpeechbubbleText,
+} from 'hds-react';
 import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
@@ -85,16 +90,34 @@ const Comment = (props) => {
   const onVote = () => {
     if (props.canVote) {
       // If user has already voted for this comment, block the user from voting again
-      const votedComments = JSON.parse(localStorage.getItem('votedComments')) || [];
+      const votedComments =
+        JSON.parse(localStorage.getItem('votedComments')) || [];
       if (votedComments.includes(data.id)) {
-        dispatch(addToast(createLocalizedNotificationPayload(NOTIFICATION_TYPES.error, 'alreadyVoted')));
+        dispatch(
+          addToast(
+            createLocalizedNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              'alreadyVoted'
+            )
+          )
+        );
         return;
       }
-      props.onPostVote(data.id, data.section, props.isReply, props.parentComponentId);
+      props.onPostVote(
+        data.id,
+        data.section,
+        props.isReply,
+        props.parentComponentId
+      );
     } else {
       // TODO: Add translations
       dispatch(
-        addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään äänestääksesi kommenttia.')),
+        addToast(
+          createNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'Kirjaudu sisään äänestääksesi kommenttia.'
+          )
+        )
       );
     }
   };
@@ -103,11 +126,21 @@ const Comment = (props) => {
 
   const onFlag = () => {
     if (canFlagComments()) {
-      props.onPostFlag(data.id, data.section, props.isReply, props.parentComponentId);
+      props.onPostFlag(
+        data.id,
+        data.section,
+        props.isReply,
+        props.parentComponentId
+      );
     } else {
       // TODO: Add translations
       dispatch(
-        addToast(createNotificationPayload(NOTIFICATION_TYPES.error, 'Kirjaudu sisään liputtaaksesi kommentin.')),
+        addToast(
+          createNotificationPayload(
+            NOTIFICATION_TYPES.error,
+            'Kirjaudu sisään liputtaaksesi kommentin.'
+          )
+        )
       );
     }
   };
@@ -120,7 +153,12 @@ const Comment = (props) => {
     navigator.clipboard.writeText(commentUrl);
     // TODO: Add translations
     dispatch(
-      addToast(createNotificationPayload(NOTIFICATION_TYPES.info, 'Linkki kommenttiin on kopioitu leikepöydällesi.')),
+      addToast(
+        createNotificationPayload(
+          NOTIFICATION_TYPES.info,
+          'Linkki kommenttiin on kopioitu leikepöydällesi.'
+        )
+      )
     );
   };
 
@@ -157,7 +195,11 @@ const Comment = (props) => {
     return {
       question: question ? getAttr(question.text, props.intl.locale) : '',
       answers: answer.answers.map((ans) => {
-        if (question) selectedOption = find(question.options, (option) => option.id === ans);
+        if (question)
+          selectedOption = find(
+            question.options,
+            (option) => option.id === ans
+          );
         return question ? getAttr(selectedOption.text, props.intl.locale) : '';
       }),
     };
@@ -167,7 +209,8 @@ const Comment = (props) => {
    * User moment to convert current timestamp to desired format.
    * @returns {String}
    */
-  const parseTimestamp = (timestamp) => moment(timestamp).format('DD.MM.YYYY HH:mm');
+  const parseTimestamp = (timestamp) =>
+    moment(timestamp).format('DD.MM.YYYY HH:mm');
 
   /**
    * Handle posting of a reply
@@ -204,7 +247,12 @@ const Comment = (props) => {
    * @param {Number} answer - id of the answer selected by the user.
    */
   const handleAnswerChange = (question, questionType, answer) => {
-    const updatedAnswer = updateAnswers(state.answers, question, questionType, answer);
+    const updatedAnswer = updateAnswers(
+      state.answers,
+      question,
+      questionType,
+      answer
+    );
     setState({ answers: updatedAnswer });
   };
 
@@ -236,7 +284,11 @@ const Comment = (props) => {
             >
               <Icon name='user' aria-hidden='true' />
               &nbsp;
-              {adminUser ? data.organization : <FormattedMessage id='registered' />}
+              {adminUser ? (
+                data.organization
+              ) : (
+                <FormattedMessage id='registered' />
+              )}
               :&nbsp;
             </span>
           ) : null}
@@ -262,7 +314,11 @@ const Comment = (props) => {
         </Button>
       )}
       {canFlagComments() && !data.deleted && (
-        <Button data-testid='flag-comment' className='hearing-comment-vote-link' onClick={onFlag}>
+        <Button
+          data-testid='flag-comment'
+          className='hearing-comment-vote-link'
+          onClick={onFlag}
+        >
           <Icon
             name={classnames({
               'flag-o': !data.flagged,
@@ -280,7 +336,9 @@ const Comment = (props) => {
    * @returns {JSX<Component>}
    */
   const renderCommentAnswers = () =>
-    props.data.answers.map((answer) => <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />);
+    props.data.answers.map((answer) => (
+      <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
+    ));
 
   /**
    * When an admin user is logged in and editing their comment.
@@ -305,7 +363,9 @@ const Comment = (props) => {
    * For each answer answered, a user may edit the answer.
    */
   const renderQuestionsForAnswer = (answer) => {
-    const correspondingQuestion = props.section.questions.find((question) => question.id === answer.question);
+    const correspondingQuestion = props.section.questions.find(
+      (question) => question.id === answer.question
+    );
     return (
       <QuestionForm
         question={correspondingQuestion}
@@ -332,8 +392,15 @@ const Comment = (props) => {
    */
   const renderEditorForm = () => (
     <>
-      {adminUser && props.data.can_edit && !props.isReply && renderPinUnpinButton()}
-      <form data-testid='editorForm' className='hearing-comment__edit-form' onSubmit={(event) => handleSubmit(event)}>
+      {adminUser &&
+        props.data.can_edit &&
+        !props.isReply &&
+        renderPinUnpinButton()}
+      <form
+        data-testid='editorForm'
+        className='hearing-comment__edit-form'
+        onSubmit={(event) => handleSubmit(event)}
+      >
         <div id='formControlsTextarea'>
           {state.answers && state.answers.length > 0
             ? state.answers.map((answer) => renderQuestionsForAnswer(answer))
@@ -364,11 +431,19 @@ const Comment = (props) => {
    */
   const renderEditLinks = () => (
     <div className='hearing-comment__edit-links'>
-      <Button onClick={(event) => toggleEditor(event)} variant='supplementary' size='small'>
+      <Button
+        onClick={(event) => toggleEditor(event)}
+        variant='supplementary'
+        size='small'
+      >
         <FormattedMessage id='edit' />
       </Button>
       {canDelete && (
-        <Button onClick={(event) => handleDelete(event)} variant='supplementary' size='small'>
+        <Button
+          onClick={(event) => handleDelete(event)}
+          variant='supplementary'
+          size='small'
+        >
           <FormattedMessage id='delete' />
         </Button>
       )}
@@ -421,7 +496,8 @@ const Comment = (props) => {
    * @returns {JSX.Element|null}
    */
   const renderViewReplies = () => {
-    const subCommentsLoaded = Array.isArray(data.comments) && data.comments.length && data.subComments;
+    const subCommentsLoaded =
+      Array.isArray(data.comments) && data.comments.length && data.subComments;
     if (Array.isArray(data.comments) && data.comments.length) {
       return (
         <ShowMore
@@ -443,7 +519,9 @@ const Comment = (props) => {
   const renderSubComments = () => {
     const { showReplies } = state;
     return (
-      <ul className={classnames('sub-comments', { 'list-hidden': !showReplies })}>
+      <ul
+        className={classnames('sub-comments', { 'list-hidden': !showReplies })}
+      >
         {data.subComments.map((subComment) => (
           <Comment
             {...props}
@@ -462,7 +540,9 @@ const Comment = (props) => {
       return <p>{nl2br(data.content)}</p>;
     }
     if (!data.deleted && data.edited) {
-      const modifiedMessageId = data.moderated ? 'sectionCommentModeratedMessage' : 'sectionCommentEditedMessage';
+      const modifiedMessageId = data.moderated
+        ? 'sectionCommentModeratedMessage'
+        : 'sectionCommentEditedMessage';
       return (
         <div>
           <p>
@@ -484,7 +564,11 @@ const Comment = (props) => {
         <p>
           <FormattedMessage
             id='sectionCommentDeletedMessage'
-            values={{ date: data.deleted_at ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm') : '' }}
+            values={{
+              date: data.deleted_at
+                ? moment(new Date(data.deleted_at)).format(' DD.MM.YYYY HH:mm')
+                : '',
+            }}
           />
         </p>
       );
@@ -512,7 +596,8 @@ const Comment = (props) => {
       props.jumpTo &&
       props.data.comments?.includes(props.jumpTo) &&
       !props.data.loadingSubComments &&
-      ((Array.isArray(props.data.subComments) && props.data.subComments.length === 0) ||
+      ((Array.isArray(props.data.subComments) &&
+        props.data.subComments.length === 0) ||
         props.data.subComments === undefined)
     ) {
       getReplies();
@@ -540,7 +625,9 @@ const Comment = (props) => {
         {
           'comment-reply': props.isReply,
           'hearing-comment__has-replys':
-            data.subComments && Array.isArray(data.subComments) && data.subComments.length > 0,
+            data.subComments &&
+            Array.isArray(data.subComments) &&
+            data.subComments.length > 0,
           'comment-animate': state.shouldAnimate,
           'hearing-comment__admin': isCommentByAdmin(),
           'hearing-comment__flagged': canFlagComments() && data.flagged,
@@ -553,13 +640,21 @@ const Comment = (props) => {
       <div className='hearing-comment__comment-wrapper'>
         {renderCommentHeader()}
         {!props.isReply && renderCommentAnswers()}
-        <div className={classnames('hearing-comment-body', { 'hearing-comment-body-disabled': data.deleted })}>
+        <div
+          className={classnames('hearing-comment-body', {
+            'hearing-comment-body-disabled': data.deleted,
+          })}
+        >
           {renderCommentText()}
         </div>
         <div className='hearing-comment__images'>
           {data.images
             ? data.images.map((image) => (
-                <a className='hearing-comment-images-image' key={image.url} href={image.url}>
+                <a
+                  className='hearing-comment-images-image'
+                  key={image.url}
+                  href={image.url}
+                >
                   <img
                     alt={getMessage('commentImageAlt')}
                     src={image.url}
@@ -578,24 +673,40 @@ const Comment = (props) => {
               variant='supplementary'
               aria-expanded={state.displayMap}
             >
-              <FormattedMessage id='commentShowMap'>{(text) => text}</FormattedMessage>
+              <FormattedMessage id='commentShowMap'>
+                {(text) => text}
+              </FormattedMessage>
             </Button>
             {state.displayMap && data.geojson && (
-              <div data-testid='hearing-comment-map-container' className='hearing-comment__map-container'>
-                {data.geojson && <HearingMap hearing={{ geojson: data.geojson }} mapSettings={{ dragging: false }} />}
+              <div
+                data-testid='hearing-comment-map-container'
+                className='hearing-comment__map-container'
+              >
+                {data.geojson && (
+                  <HearingMap
+                    hearing={{ geojson: data.geojson }}
+                    mapSettings={{ dragging: false }}
+                  />
+                )}
               </div>
             )}
           </div>
         )}
         {canEdit && !data.deleted && renderEditLinks()}
         <div className='hearing-comment__actions-bar'>
-          <div className='hearing-comment__reply-link'>{!isReplyEditorOpen && canReply && renderReplyLinks()}</div>
+          <div className='hearing-comment__reply-link'>
+            {!isReplyEditorOpen && canReply && renderReplyLinks()}
+          </div>
           <div className='hearing-comment-votes'>
             {!data.deleted && (
-              <Button className='btn-sm hearing-comment-vote-link' onClick={onVote}>
+              <Button
+                className='btn-sm hearing-comment-vote-link'
+                onClick={onVote}
+              >
                 <Icon name='thumbs-o-up' aria-hidden='true' /> {data.n_votes}
                 <span className='sr-only'>
-                  <FormattedMessage id='voteButtonLikes' />. <FormattedMessage id='voteButtonText' />
+                  <FormattedMessage id='voteButtonLikes' />.{' '}
+                  <FormattedMessage id='voteButtonText' />
                 </span>
               </Button>
             )}
@@ -605,7 +716,9 @@ const Comment = (props) => {
         {isReplyEditorOpen && renderReplyForm()}
         {renderViewReplies()}
       </div>
-      {Array.isArray(data.subComments) && data.subComments.length > 0 && renderSubComments()}
+      {Array.isArray(data.subComments) &&
+        data.subComments.length > 0 &&
+        renderSubComments()}
     </li>
   );
 };

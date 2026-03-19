@@ -68,7 +68,9 @@ describe('<TextInput />', () => {
   it('displays error message when validation fails', () => {
     const validateMock = vi.fn().mockReturnValue('Validation error');
 
-    const { getByLabelText, getByText } = renderComponent({ validate: validateMock });
+    const { getByLabelText, getByText } = renderComponent({
+      validate: validateMock,
+    });
 
     const input = getByLabelText(/label.id/i);
 

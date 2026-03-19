@@ -44,8 +44,12 @@ const Root = ({ store }) => {
         srcUrl: config.matomoSrcUrl,
         enabled: config.matomoEnabled,
         configurations: {
-          ...(config.matomoCookieDomain && { setCookieDomain: config.matomoCookieDomain }),
-          ...(config.matomoDomains && { setDomains: config.matomoDomains.split(',') }),
+          ...(config.matomoCookieDomain && {
+            setCookieDomain: config.matomoCookieDomain,
+          }),
+          ...(config.matomoDomains && {
+            setDomains: config.matomoDomains.split(','),
+          }),
           setDoNotTrack: true,
         },
       });
@@ -64,7 +68,9 @@ const Root = ({ store }) => {
           <ConditionalWrap
             condition={config.enableCookies && !isCookiebotEnabled()}
             wrap={(children) => (
-              <CookieConsentContextProvider {...getCookieConsentSettings(locale)}>
+              <CookieConsentContextProvider
+                {...getCookieConsentSettings(locale)}
+              >
                 {children}
               </CookieConsentContextProvider>
             )}

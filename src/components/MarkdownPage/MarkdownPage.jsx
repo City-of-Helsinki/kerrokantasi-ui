@@ -15,13 +15,22 @@ const MarkdownPage = ({ title, markdown }) => {
       <Helmet
         title={title}
         meta={[
-          { name: 'description', content: intl.formatMessage({ id: 'descriptionTag' }) },
-          { property: 'og:description', content: intl.formatMessage({ id: 'descriptionTag' }) },
+          {
+            name: 'description',
+            content: intl.formatMessage({ id: 'descriptionTag' }),
+          },
+          {
+            property: 'og:description',
+            content: intl.formatMessage({ id: 'descriptionTag' }),
+          },
         ]}
       />
       <div className='row'>
         <div className='col-md-8'>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: MarkdownLinkRenderer }}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{ a: MarkdownLinkRenderer }}
+          >
             {markdown}
           </ReactMarkdown>
         </div>

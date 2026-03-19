@@ -42,11 +42,15 @@ const HearingCard = ({
 }) => {
   const backgroundImage = getHearingMainImageURL(hearing);
   const cardImageStyle = {
-    backgroundImage: backgroundImage ? `url("${backgroundImage}")` : `url("${defaultImage}")`,
+    backgroundImage: backgroundImage
+      ? `url("${backgroundImage}")`
+      : `url("${defaultImage}")`,
   };
 
   // FIXME: Should there be direct linking to hearing using certain language?
-  const translationAvailable = !!getAttr(hearing.title, language, { exact: true });
+  const translationAvailable = !!getAttr(hearing.title, language, {
+    exact: true,
+  });
   const expiresSoon = moment(hearing.close_at).diff(moment(), 'weeks') < 1;
   const favoriteButtonText = getMessage('removeFavorites', language);
   const commentCount =
@@ -65,9 +69,12 @@ const HearingCard = ({
     ) : null;
 
   // For some reason image proportions don't look right on the profile page without a div wrapper.
-  const conditionalWrapper = (children) => (userProfile ? <div>{children}</div> : children);
+  const conditionalWrapper = (children) =>
+    userProfile ? <div>{children}</div> : children;
   const mainImgCaption =
-    hearing.main_image && hearing.main_image.caption ? getAttr(hearing.main_image.caption, language) : '';
+    hearing.main_image && hearing.main_image.caption
+      ? getAttr(hearing.main_image.caption, language)
+      : '';
 
   return (
     <div className={`hearing-card ${className}`}>
@@ -78,12 +85,14 @@ const HearingCard = ({
           history={history}
           url={getHearingURL(hearing)}
           altText={mainImgCaption || getAttr(hearing.title, language)}
-        />,
+        />
       )}
 
       <div className='hearing-card-content'>
         <h3 className='h4 hearing-card-title'>
-          <Link to={{ path: getHearingURL(hearing) }}>{getAttr(hearing.title, language)}</Link>
+          <Link to={{ path: getHearingURL(hearing) }}>
+            {getAttr(hearing.title, language)}
+          </Link>
         </h3>
         {commentCount}
         <div className={`hearing-card-time ${expiresSoon ? 'expires' : ''}`}>
@@ -95,7 +104,11 @@ const HearingCard = ({
           />
         </div>
         <div className='hearing-card-labels clearfix'>
-          <LabelList className='hearing-list-item-labellist' labels={hearing.labels} language={language} />
+          <LabelList
+            className='hearing-list-item-labellist'
+            labels={hearing.labels}
+            language={language}
+          />
         </div>
         {userProfile && (
           <div className='favorite-button-wrapper'>
@@ -116,12 +129,20 @@ const HearingCard = ({
             <FormattedMessage id='hearingTranslationNotAvailable' />
             {config.languages.map((lang) =>
               getAttr(hearing.title, lang, { exact: true }) ? (
-                <div className='language-available-message' key={lang} lang={lang}>
-                  <FormattedMessage id={`hearingAvailable-${lang}`}>{(txt) => txt}</FormattedMessage>
+                <div
+                  className='language-available-message'
+                  key={lang}
+                  lang={lang}
+                >
+                  <FormattedMessage id={`hearingAvailable-${lang}`}>
+                    {(txt) => txt}
+                  </FormattedMessage>
                   &nbsp;
-                  <FormattedMessage id={`hearingAvailableInLang-${lang}`}>{(txt) => txt}</FormattedMessage>
+                  <FormattedMessage id={`hearingAvailableInLang-${lang}`}>
+                    {(txt) => txt}
+                  </FormattedMessage>
                 </div>
-              ) : null,
+              ) : null
             )}
           </div>
         )}

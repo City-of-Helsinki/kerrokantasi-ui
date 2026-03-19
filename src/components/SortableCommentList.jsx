@@ -88,7 +88,7 @@ const SortableCommentListComponent = ({
         type: question.type,
         answers: [],
       })),
-    [section.questions],
+    [section.questions]
   );
 
   const [listState, setListState] = useState({
@@ -137,7 +137,12 @@ const SortableCommentListComponent = ({
         collapseForm: false,
       });
 
-      if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+      if (
+        !isFetching &&
+        results &&
+        results.length === 0 &&
+        section.n_comments !== 0
+      ) {
         fetchComments(section.id, sectionComments.ordering);
 
         setListState({ ...listState, collapseForm: true });
@@ -165,7 +170,10 @@ const SortableCommentListComponent = ({
    * It also sets the showLoader state to true.
    */
   const handleReachBottom = () => {
-    if (sectionComments && sectionComments.count !== sectionComments.results.length) {
+    if (
+      sectionComments &&
+      sectionComments.count !== sectionComments.results.length
+    ) {
       setTimeout(() => fetchMoreComments(), 1000);
 
       setListState({ ...listState, showLoader: true });
@@ -211,7 +219,9 @@ const SortableCommentListComponent = ({
     if (questionType === 'single-choice') {
       setListState({
         answers: [
-          ...listState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter(
+            (answer) => answer.question !== questionId
+          ),
           {
             question: questionId,
             type: questionType,
@@ -219,10 +229,16 @@ const SortableCommentListComponent = ({
           },
         ],
       });
-    } else if (questionType === 'multiple-choice' && oldAnswer && oldAnswer.answers.includes(value)) {
+    } else if (
+      questionType === 'multiple-choice' &&
+      oldAnswer &&
+      oldAnswer.answers.includes(value)
+    ) {
       setListState({
         answers: [
-          ...listState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter(
+            (answer) => answer.question !== questionId
+          ),
           {
             ...oldAnswer,
             answers: oldAnswer.answers.filter((answer) => answer !== value),
@@ -232,7 +248,9 @@ const SortableCommentListComponent = ({
     } else if (questionType === 'multiple-choice' && oldAnswer) {
       setListState({
         answers: [
-          ...listState.answers.filter((answer) => answer.question !== questionId),
+          ...listState.answers.filter(
+            (answer) => answer.question !== questionId
+          ),
           {
             ...oldAnswer,
             answers: [...oldAnswer.answers, value],
@@ -282,7 +300,9 @@ const SortableCommentListComponent = ({
         pluginSource={section.plugin_iframe_url}
         pluginInstanceId='map'
       />
-      <div className='image-caption'>Kaikkien merkintöjen ja äänien tiheyskartta.</div>
+      <div className='image-caption'>
+        Kaikkien merkintöjen ja äänien tiheyskartta.
+      </div>
     </div>
   );
 
@@ -309,14 +329,19 @@ const SortableCommentListComponent = ({
               pluginPurpose='viewComments'
               comments={comments}
             />
-            <div className='image-caption'>Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat kartalla.</div>
+            <div className='image-caption'>
+              Kaikki annetut kommentit sekä siirretyt ja lisätyt asemat
+              kartalla.
+            </div>
             <MapQuestionnaire
               data={section.plugin_data}
               pluginInstanceId='ksv'
               pluginPurpose='viewHeatmap'
               comments={comments}
             />
-            <div className='image-caption'>Siirrettyjen ja lisättyjen asemien tiheyskartta.</div>
+            <div className='image-caption'>
+              Siirrettyjen ja lisättyjen asemien tiheyskartta.
+            </div>
           </div>
         );
       case 'map-questionnaire':
@@ -335,18 +360,28 @@ const SortableCommentListComponent = ({
     : null;
 
   const showCommentList =
-    section && sectionComments && get(sectionComments, 'results') && !isEmpty(sectionComments.results);
+    section &&
+    sectionComments &&
+    get(sectionComments, 'results') &&
+    !isEmpty(sectionComments.results);
 
   const commentForm =
     published && !closed ? (
       <div className='row'>
-        <div className={classnames('comment-form-container', { disabled: !canComment })}>
+        <div
+          className={classnames('comment-form-container', {
+            disabled: !canComment,
+          })}
+        >
           <CommentForm
             canComment={canComment}
             hearingId={hearingId}
             onPostComment={onPostComment}
             defaultNickname={defaultNickname}
-            nicknamePlaceholder={getAuthorDisplayName(user) || intl.formatMessage({ id: 'anonymous' })}
+            nicknamePlaceholder={
+              getAuthorDisplayName(user) ||
+              intl.formatMessage({ id: 'anonymous' })
+            }
             collapseForm={listState.collapseForm}
             section={section}
             language={language}
@@ -357,12 +392,15 @@ const SortableCommentListComponent = ({
             user={user}
             hearingGeojson={hearingGeojson}
           />
-          {!canComment && <FormattedMessage id={getSectionCommentingMessage(section)} />}
+          {!canComment && (
+            <FormattedMessage id={getSectionCommentingMessage(section)} />
+          )}
         </div>
       </div>
     ) : null;
 
-  const pluginContent = showCommentList && displayVisualization ? renderPluginContent() : null;
+  const pluginContent =
+    showCommentList && displayVisualization ? renderPluginContent() : null;
 
   const sortOptions = Object.keys(ORDERING_CRITERIA).map((key) => {
     const message = intl.formatMessage({ id: key });
@@ -379,9 +417,19 @@ const SortableCommentListComponent = ({
       {section.commenting !== 'none' && (
         <div className='sortable-comment-list'>
           {closed && section.questions.length >= 1 && (
-            <div style={{ padding: '12px', marginBottom: '24px', background: '#ffffff' }}>
+            <div
+              style={{
+                padding: '12px',
+                marginBottom: '24px',
+                background: '#ffffff',
+              }}
+            >
               {section.questions.map((question) => (
-                <QuestionResults key={question.id} question={question} lang={language} />
+                <QuestionResults
+                  key={question.id}
+                  question={question}
+                  lang={language}
+                />
               ))}
             </div>
           )}
@@ -409,12 +457,12 @@ const SortableCommentListComponent = ({
                   <div id='sort-select'>
                     <Select
                       texts={{
-                        label: intl.formatMessage({ id: 'commentOrder'})
+                        label: intl.formatMessage({ id: 'commentOrder' }),
                       }}
                       options={sortOptions}
                       onChange={(selected) => {
                         setSelectedSortOption(selected[0].value);
-                        fetchComments(section.id, selected[0].value)
+                        fetchComments(section.id, selected[0].value);
                       }}
                       value={selectedSortOption}
                     />
@@ -436,9 +484,15 @@ const SortableCommentListComponent = ({
                   hearingId={hearingId}
                   intl={intl}
                   isLoading={listState.showLoader}
-                  jumpTo={urlFragmentCommentId || (listState.shouldAnimate && sectionComments.jumpTo)}
+                  jumpTo={
+                    urlFragmentCommentId ||
+                    (listState.shouldAnimate && sectionComments.jumpTo)
+                  }
                   language={language}
-                  nicknamePlaceholder={getAuthorDisplayName(user) || intl.formatMessage({ id: 'anonymous' })}
+                  nicknamePlaceholder={
+                    getAuthorDisplayName(user) ||
+                    intl.formatMessage({ id: 'anonymous' })
+                  }
                   onDeleteComment={onDeleteComment}
                   onEditComment={onEditComment}
                   onPostVote={handlePostVote}
@@ -490,4 +544,6 @@ const mapStateToProps = (state, { section: { id: sectionId } }) => ({
   language: state.language,
 });
 
-export default connect(mapStateToProps)(injectIntl(SortableCommentListComponent));
+export default connect(mapStateToProps)(
+  injectIntl(SortableCommentListComponent)
+);

@@ -5,18 +5,23 @@ import { render } from '@testing-library/react';
 import { LoginProvider } from 'hds-react';
 import { IntlProvider } from 'react-intl';
 
-import createStore from "../createStore"; // Add missing import statement
+import createStore from '../createStore'; // Add missing import statement
 import { userOidcConfig, apiTokenClientConfig } from './oidcConfig';
 
 const loginProviderConfig = {
   userManagerSettings: userOidcConfig,
   apiTokensClientSettings: apiTokenClientConfig,
   sessionPollerSettings: { pollIntervalInMs: 10000 },
-}
+};
 
 const renderWithProviders = (
   ui,
-  { preloadedState = {}, locale = 'fi', store = createStore(preloadedState), ...renderOptions } = {},
+  {
+    preloadedState = {},
+    locale = 'fi',
+    store = createStore(preloadedState),
+    ...renderOptions
+  } = {}
 ) => {
   const Wrapper = ({ children }) => (
     <LoginProvider {...loginProviderConfig}>
@@ -27,6 +32,5 @@ const renderWithProviders = (
   );
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 };
-
 
 export default renderWithProviders;

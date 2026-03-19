@@ -18,7 +18,9 @@ const messages = {
 const formatMessage = ({ id }) => messages[id];
 
 const renderComponent = (changeSort) =>
-  renderWithProviders(<HearingFormControl formatMessage={formatMessage} changeSort={changeSort} />);
+  renderWithProviders(
+    <HearingFormControl formatMessage={formatMessage} changeSort={changeSort} />
+  );
 
 describe('HearingFormControl', () => {
   it('should render correctly with default option', () => {

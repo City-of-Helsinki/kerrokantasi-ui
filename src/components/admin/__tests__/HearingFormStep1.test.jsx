@@ -62,23 +62,25 @@ describe('<HearingFormStep1 />', () => {
 
     fireEvent.blur(input, { target: { value: 'New Title' } });
 
-    await waitFor(() => expect(onHearingChange).toHaveBeenCalledWith('title', { fi: 'New Title' }));
+    await waitFor(() =>
+      expect(onHearingChange).toHaveBeenCalledWith('title', { fi: 'New Title' })
+    );
   });
 
   it('should call onHearingChange when labels are changed', async () => {
-    const {labels} = mockData;
+    const { labels } = mockData;
     const onHearingChange = vi.fn();
     const user = userEvent.setup();
-    const { container }  = renderComponent({ onHearingChange });
-    
+    const { container } = renderComponent({ onHearingChange });
+
     const dropdownButton = container.querySelector('#labels-main-button');
     expect(dropdownButton).toBeInTheDocument();
-    
+
     // Open the dropdown
     await act(async () => {
       await user.click(dropdownButton);
     });
-    
+
     // Wait for the option to appear and click it
     const option = await screen.findByText(labels.data[0].label.fi);
     expect(option).toBeInTheDocument();
@@ -86,7 +88,7 @@ describe('<HearingFormStep1 />', () => {
     await act(async () => {
       await user.click(option);
     });
-    
+
     // Verify that the option was selected by checking the button content
     await waitFor(() => {
       expect(dropdownButton).toHaveTextContent('Mock Von Label');
@@ -94,7 +96,9 @@ describe('<HearingFormStep1 />', () => {
 
     // Since the HDS Select has a bug in testing environment where onClose doesn't trigger,
     // let's manually verify the selection was made and skip the onClose test
-    expect(dropdownButton.getAttribute('aria-label')).toContain('1 valittu vaihtoehto');
+    expect(dropdownButton.getAttribute('aria-label')).toContain(
+      '1 valittu vaihtoehto'
+    );
   });
 
   it('should call onContactsChange when contacts are changed', async () => {
@@ -103,18 +107,24 @@ describe('<HearingFormStep1 />', () => {
     const user = userEvent.setup();
     const { container } = renderComponent({ onContactsChange });
 
-    const dropdownButton = container.querySelector('#contact_persons-main-button');
+    const dropdownButton = container.querySelector(
+      '#contact_persons-main-button'
+    );
     expect(dropdownButton).toBeInTheDocument();
-    
+
     await act(async () => {
       await user.click(dropdownButton);
     });
-    const option = await screen.findByText(mockHearingWithSections.data.contact_persons[0].name);
+    const option = await screen.findByText(
+      mockHearingWithSections.data.contact_persons[0].name
+    );
     expect(option).toBeInTheDocument();
     await act(async () => {
       await user.click(option);
-    })
-    expect(dropdownButton.getAttribute('aria-label')).toContain('1 valittu vaihtoehto');
+    });
+    expect(dropdownButton.getAttribute('aria-label')).toContain(
+      '1 valittu vaihtoehto'
+    );
   });
 
   it('should call onContinue when continue button is clicked', () => {

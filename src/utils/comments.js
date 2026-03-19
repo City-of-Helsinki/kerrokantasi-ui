@@ -1,5 +1,7 @@
 const updateAnswers = (currentAnswers, question, questionType, answer) => {
-  const answerExists = currentAnswers.find((stateAnswer) => stateAnswer.question === question);
+  const answerExists = currentAnswers.find(
+    (stateAnswer) => stateAnswer.question === question
+  );
   let updatedAnswer;
   if (answerExists && typeof answerExists !== 'undefined') {
     updatedAnswer = currentAnswers.map((allAnswers) => {
@@ -18,9 +20,12 @@ const updateAnswers = (currentAnswers, question, questionType, answer) => {
       return allAnswers;
     });
   } else {
-    updatedAnswer = [...currentAnswers, { question, answers: [answer], type: questionType }];
+    updatedAnswer = [
+      ...currentAnswers,
+      { question, answers: [answer], type: questionType },
+    ];
   }
   return updatedAnswer;
 };
 
-export default updateAnswers
+export default updateAnswers;

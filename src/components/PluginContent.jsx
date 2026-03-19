@@ -28,9 +28,18 @@ export default class PluginContent extends React.Component {
     const isFetching = get(nextProps.comments, 'isFetching');
     const results = get(nextProps.comments, 'results');
 
-    if (!isFetching && results && results.length === 0 && section.n_comments !== 0) {
+    if (
+      !isFetching &&
+      results &&
+      results.length === 0 &&
+      section.n_comments !== 0
+    ) {
       // comments have to be reloaded due to posting
-      this.props.fetchAllComments(hearingSlug, nextProps.section.id, nextProps.comments.ordering);
+      this.props.fetchAllComments(
+        hearingSlug,
+        nextProps.section.id,
+        nextProps.comments.ordering
+      );
     }
   }
 
@@ -44,7 +53,13 @@ export default class PluginContent extends React.Component {
     switch (section.plugin_identifier) {
       // reserved word for legacy plugin
       case 'mapdon-hkr':
-        return <MapQuestionnaire data={section.plugin_data} onPostComment={onPostComment} pluginInstanceId='hkr' />;
+        return (
+          <MapQuestionnaire
+            data={section.plugin_data}
+            onPostComment={onPostComment}
+            pluginInstanceId='hkr'
+          />
+        );
       // reserved word for legacy plugin
       case 'mapdon-ksv':
         return (

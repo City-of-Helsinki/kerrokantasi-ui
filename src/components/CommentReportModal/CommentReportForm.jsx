@@ -8,7 +8,10 @@ import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
 import { FILE_FORMATS } from './constants';
 import { getApiTokenFromStorage, getApiURL } from '../../api';
-import { createNotificationPayload, NOTIFICATION_TYPES } from '../../utils/notify';
+import {
+  createNotificationPayload,
+  NOTIFICATION_TYPES,
+} from '../../utils/notify';
 import { addToast } from '../../actions/toast';
 
 /**
@@ -44,8 +47,14 @@ const CommentReportForm = ({ hearing, id, language }) => {
     event.preventDefault();
 
     const accessToken = getApiTokenFromStorage();
-    const targetFileFormat = Object.values(FILE_FORMATS).find((format) => format.id === fileFormat);
-    const reportUrl = new URL(getApiURL(`/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`));
+    const targetFileFormat = Object.values(FILE_FORMATS).find(
+      (format) => format.id === fileFormat
+    );
+    const reportUrl = new URL(
+      getApiURL(
+        `/v1/hearing/${hearing.slug}${targetFileFormat.downloadEndpoint}`
+      )
+    );
     reportUrl.search = new URLSearchParams({ lang: language });
     try {
       const response = await fetch(reportUrl, {
@@ -74,11 +83,18 @@ const CommentReportForm = ({ hearing, id, language }) => {
 
       link.parentNode.removeChild(link);
     } catch (error) {
-      dispatch(addToast(createNotificationPayload(NOTIFICATION_TYPES.error, error.message)));
+      dispatch(
+        addToast(
+          createNotificationPayload(NOTIFICATION_TYPES.error, error.message)
+        )
+      );
     }
   };
 
-  const options = Object.values(FILE_FORMATS).map((format) => ({ value: format.id, label: format.name }));
+  const options = Object.values(FILE_FORMATS).map((format) => ({
+    value: format.id,
+    label: format.name,
+  }));
 
   return (
     <form id={id} onSubmit={handleDownloadClick}>
@@ -86,14 +102,15 @@ const CommentReportForm = ({ hearing, id, language }) => {
         id='download-reports'
         onChange={handleFileFormatChange}
         texts={{
-          label: intl.formatMessage({id: 'commentReportsSelectFileType'})
+          label: intl.formatMessage({ id: 'commentReportsSelectFileType' }),
         }}
         options={options}
         style={{ marginBottom: 'var(--spacing-l)' }}
       />
 
       <Button type='submit'>
-        <Icon name='download' aria-hidden='true' /> <FormattedMessage id='commentReportsDownload' />
+        <Icon name='download' aria-hidden='true' />{' '}
+        <FormattedMessage id='commentReportsDownload' />
       </Button>
     </form>
   );

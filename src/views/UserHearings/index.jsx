@@ -47,10 +47,17 @@ class UserHearings extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.user && this.props.user && this.props.user.adminOrganizations[0]) {
+    if (
+      !prevProps.user &&
+      this.props.user &&
+      this.props.user.adminOrganizations[0]
+    ) {
       this.fetchAllHearings();
     }
-    if (prevState.loadOwn !== this.state.loadOwn || prevState.sortHearingsBy !== this.state.sortHearingsBy) {
+    if (
+      prevState.loadOwn !== this.state.loadOwn ||
+      prevState.sortHearingsBy !== this.state.sortHearingsBy
+    ) {
       this.fetchAllHearings();
     }
   }
@@ -66,15 +73,21 @@ class UserHearings extends React.Component {
     const params = this.getDefaultParams();
     const type = hearingType.toUpperCase();
 
-    const typeParamsArray = Object.keys(SEARCH_PARAMS[type]).reduce((acc, curr) => {
-      if (curr !== 'limit') {
-        acc.push([curr, SEARCH_PARAMS[type][curr]]);
-      }
-      return acc;
-    }, []);
+    const typeParamsArray = Object.keys(SEARCH_PARAMS[type]).reduce(
+      (acc, curr) => {
+        if (curr !== 'limit') {
+          acc.push([curr, SEARCH_PARAMS[type][curr]]);
+        }
+        return acc;
+      },
+      []
+    );
 
     const typeParamsWithoutLimit = Object.fromEntries(typeParamsArray);
-    this.fetchHearing(GET_HEARINGS[type], { ...typeParamsWithoutLimit, ...params });
+    this.fetchHearing(GET_HEARINGS[type], {
+      ...typeParamsWithoutLimit,
+      ...params,
+    });
   }
 
   getHearingListing(type) {
@@ -88,7 +101,9 @@ class UserHearings extends React.Component {
         <div>
           <div className='loader-wrap'>
             <Icon name='search' size='2x' aria-hidden />
-            <FormattedMessage id='noHearings'>{(txt) => <p>{txt}</p>}</FormattedMessage>
+            <FormattedMessage id='noHearings'>
+              {(txt) => <p>{txt}</p>}
+            </FormattedMessage>
           </div>
         </div>
       );
@@ -118,7 +133,7 @@ class UserHearings extends React.Component {
       accumulator.push(
         <div className='user-hearing col-sm-4 col-md-3' key={currentValue.slug}>
           <HearingCard hearing={currentValue} language={locale} intl={intl} />
-        </div>,
+        </div>
       );
       return accumulator;
     }, []);
@@ -155,10 +170,19 @@ class UserHearings extends React.Component {
   fetchAllHearings() {
     const params = this.getDefaultParams();
 
-    this.fetchHearing(GET_HEARINGS.DRAFT, { ...SEARCH_PARAMS.DRAFT, ...params });
-    this.fetchHearing(GET_HEARINGS.QUEUE, { ...SEARCH_PARAMS.QUEUE, ...params });
+    this.fetchHearing(GET_HEARINGS.DRAFT, {
+      ...SEARCH_PARAMS.DRAFT,
+      ...params,
+    });
+    this.fetchHearing(GET_HEARINGS.QUEUE, {
+      ...SEARCH_PARAMS.QUEUE,
+      ...params,
+    });
     this.fetchHearing(GET_HEARINGS.OPEN, { ...SEARCH_PARAMS.OPEN, ...params });
-    this.fetchHearing(GET_HEARINGS.CLOSED, { ...SEARCH_PARAMS.CLOSED, ...params });
+    this.fetchHearing(GET_HEARINGS.CLOSED, {
+      ...SEARCH_PARAMS.CLOSED,
+      ...params,
+    });
   }
 
   /**
@@ -180,19 +204,30 @@ class UserHearings extends React.Component {
     } = this.props;
     const activeTitle = loadOwn ? 'ownHearings' : 'organizationHearings';
     const helmetTitle = <Helmet title={formatMessage({ id: activeTitle })} />;
-    if (userLoading || !userExists || !user || !user.adminOrganizations || user.adminOrganizations.length === 0) {
+    if (
+      userLoading ||
+      !userExists ||
+      !user ||
+      !user.adminOrganizations ||
+      user.adminOrganizations.length === 0
+    ) {
       return helmetTitle;
     }
-    const hearingListings = Object.keys(GET_HEARINGS).reduce((accumulator, currentValue) => {
-      const small = currentValue.toLowerCase();
-      accumulator.push(
-        <div className='row' key={currentValue}>
-          <div className='col-md-12'>{this.getHearingHeader(small)}</div>
-          <div className='col-md-12 user-hearing-list'>{this.getHearingListing(small)}</div>
-        </div>,
-      );
-      return accumulator;
-    }, []);
+    const hearingListings = Object.keys(GET_HEARINGS).reduce(
+      (accumulator, currentValue) => {
+        const small = currentValue.toLowerCase();
+        accumulator.push(
+          <div className='row' key={currentValue}>
+            <div className='col-md-12'>{this.getHearingHeader(small)}</div>
+            <div className='col-md-12 user-hearing-list'>
+              {this.getHearingListing(small)}
+            </div>
+          </div>
+        );
+        return accumulator;
+      },
+      []
+    );
     return (
       <div className='user-hearings'>
         {helmetTitle}
@@ -201,7 +236,9 @@ class UserHearings extends React.Component {
             <div className='col-md-12 head'>
               <div className='row'>
                 <div className='col-md-7'>
-                  <FormattedMessage id={activeTitle}>{(txt) => <h1>{txt}</h1>}</FormattedMessage>
+                  <FormattedMessage id={activeTitle}>
+                    {(txt) => <h1>{txt}</h1>}
+                  </FormattedMessage>
                 </div>
                 <div className='col-md-5 tool-container'>
                   <Toolbar
@@ -246,7 +283,8 @@ const existsSelector = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchHearingList: (list, endpoint, param) => dispatch(fetchHearingListAction(list, endpoint, param)),
+  fetchHearingList: (list, endpoint, param) =>
+    dispatch(fetchHearingListAction(list, endpoint, param)),
 });
 const mapStateToProps = (state) => ({
   user: getUser(state),
@@ -258,4 +296,7 @@ const mapStateToProps = (state) => ({
 
 export { UserHearings as UnconnectedUserHearings };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UserHearings));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(UserHearings));

@@ -22,7 +22,7 @@ const HearingTranslationNotice = ({ title }) => {
           <div className='language-available-message' key={lang} lang={lang}>
             {availableInLanguageMessages[lang]}
           </div>
-        ) : null,
+        ) : null
       )}
     </div>
   );

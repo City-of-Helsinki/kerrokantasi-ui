@@ -187,7 +187,9 @@ describe('<HearingFormStep5 />', () => {
   it('should display error notification when no phases and error exists', () => {
     renderComponent({
       errors: { project_phase_active: 'Error message' },
-      hearing: { project: { id: '123', title: { fi: '', en: '', sv: '' }, phases: [] } },
+      hearing: {
+        project: { id: '123', title: { fi: '', en: '', sv: '' }, phases: [] },
+      },
     });
 
     expect(screen.getByText('Error message')).toBeInTheDocument();

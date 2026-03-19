@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function IframeSelectField(props) {
-  const { name, label, handleInputChange, value, options, isRequired, errorMsg } = props;
+  const {
+    name,
+    label,
+    handleInputChange,
+    value,
+    options,
+    isRequired,
+    errorMsg,
+  } = props;
   const errorId = `iframe-input-error-${name}`;
 
   // options = [{value: "value", text: "text"}]

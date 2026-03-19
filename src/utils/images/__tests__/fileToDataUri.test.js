@@ -14,10 +14,14 @@ describe('fileToDataUri', () => {
     const mockFile = new Blob(['file content'], { type: 'text/plain' });
     const mockError = new Error('File reading failed');
 
-    vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(function () {
-      this.onerror(mockError);
-    });
+    vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(
+      function () {
+        this.onerror(mockError);
+      }
+    );
 
-    await expect(fileToDataUri(mockFile)).rejects.toThrow('File reading failed');
+    await expect(fileToDataUri(mockFile)).rejects.toThrow(
+      'File reading failed'
+    );
   });
 });

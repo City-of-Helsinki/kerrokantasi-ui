@@ -21,7 +21,13 @@ export default defineConfig([
   vitestGlobals(),
   {
     files: ['**/*.{js,jsx,mjs}'],
-    ignores: ['**/*.scss', '**/*.css', '**/*.module.css', 'coverage/**', 'node_modules/**'],
+    ignores: [
+      '**/*.scss',
+      '**/*.css',
+      '**/*.module.css',
+      'coverage/**',
+      'node_modules/**',
+    ],
     plugins: {
       'react-hooks': reactHooks,
       prettier,
@@ -71,7 +77,12 @@ export default defineConfig([
       'import/order': [
         'error',
         {
-          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+          ],
           'newlines-between': 'always',
         },
       ],

@@ -10,32 +10,38 @@ const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
     combinedResults = data;
     count = data.length;
   } else {
-    combinedResults = state[sectionId] ? [...state[sectionId].results, ...data.results] : [];
+    combinedResults = state[sectionId]
+      ? [...state[sectionId].results, ...data.results]
+      : [];
     count = data.count;
     next = data.next;
   }
 
-  return updeep({
-    [sectionId]: {
-      isFetching: false,
-      results: combinedResults,
-      count,
-      next
-    }
-  }, state);
+  return updeep(
+    {
+      [sectionId]: {
+        isFetching: false,
+        results: combinedResults,
+        count,
+        next,
+      },
+    },
+    state
+  );
 };
 
 const postedComment = (state, { payload: { sectionId, jumpTo } }) =>
   // whenever we post, we want the newly posted comment displayed first and results reloaded
-  updeep({
-    [sectionId]: {
-      jumpTo,
-      results: [],
-      ordering: '-created_at'
-    }
-  }, state)
-  ;
-
+  updeep(
+    {
+      [sectionId]: {
+        jumpTo,
+        results: [],
+        ordering: '-created_at',
+      },
+    },
+    state
+  );
 /**
  * When comment is edited, no need to fetch the entire list again.
  * Update the object in array.
@@ -43,122 +49,175 @@ const postedComment = (state, { payload: { sectionId, jumpTo } }) =>
 const editedComment = (state, { payload: { sectionId, comment } }) => {
   const isSubComment = comment.comment; // A number usually represents the parent comment.
   if (isSubComment) {
-    const commentIndex = state[sectionId].results.findIndex((sectionComment) => sectionComment.id === isSubComment);
-    const subCommentIndex = state[sectionId].results[commentIndex].subComments.findIndex(
-      (subComment) => subComment.id === comment.id);
-    return updeep({
-      [sectionId]: {
-        results: {
-          [commentIndex]: {
-            subComments: {
-              [subCommentIndex]: {
-                ...comment,
-              }
-            }
-          }
-        }
-      }
-    }, state);
+    const commentIndex = state[sectionId].results.findIndex(
+      (sectionComment) => sectionComment.id === isSubComment
+    );
+    const subCommentIndex = state[sectionId].results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === comment.id);
+    return updeep(
+      {
+        [sectionId]: {
+          results: {
+            [commentIndex]: {
+              subComments: {
+                [subCommentIndex]: {
+                  ...comment,
+                },
+              },
+            },
+          },
+        },
+      },
+      state
+    );
   }
 
   const commentIndex = state[sectionId].results.findIndex(
-    (sectionComment) => sectionComment.id === comment.id);
-  return updeep({
-    [sectionId]: {
-      results: {
-        [commentIndex]: {
-          ...comment,
-        }
-      }
-    }
-  }, state);
+    (sectionComment) => sectionComment.id === comment.id
+  );
+  return updeep(
+    {
+      [sectionId]: {
+        results: {
+          [commentIndex]: {
+            ...comment,
+          },
+        },
+      },
+    },
+    state
+  );
 };
 
-const postedCommentVote = (state, { payload: { commentId, sectionId, isReply, parentId } }) => {
+const postedCommentVote = (
+  state,
+  { payload: { commentId, sectionId, isReply, parentId } }
+) => {
   // Save voted comment id to localstorage to prevent voting the same comment multiple times for non-authenticated users
-  const votedComments = JSON.parse(localStorage.getItem("votedComments")) || [];
-  localStorage.setItem("votedComments", JSON.stringify([commentId, ...votedComments]));
+  const votedComments = JSON.parse(localStorage.getItem('votedComments')) || [];
+  localStorage.setItem(
+    'votedComments',
+    JSON.stringify([commentId, ...votedComments])
+  );
 
   // the vote went through
   const increment = (votes) => votes + 1;
   if (isReply) {
-    const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
-    const subComponentIndex = state[sectionId].results[commentIndex].subComments
-      .findIndex((subComment) => subComment.id === commentId);
-    return updeep({
-      [sectionId]: {
-        results: {
-          [commentIndex]: {
-            subComments: {
-              [subComponentIndex]: {
-                n_votes: increment,
-              }
-            }
-          }
-        }
-      }
-    }, state);
+    const commentIndex = state[sectionId].results.findIndex(
+      (comment) => comment.id === parentId
+    );
+    const subComponentIndex = state[sectionId].results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === commentId);
+    return updeep(
+      {
+        [sectionId]: {
+          results: {
+            [commentIndex]: {
+              subComments: {
+                [subComponentIndex]: {
+                  n_votes: increment,
+                },
+              },
+            },
+          },
+        },
+      },
+      state
+    );
   }
   const commentIndex = state[sectionId].results.findIndex(
-    (comment) => comment.id === commentId);
-  return updeep({
-    [sectionId]: {
-      results: {
-        [commentIndex]: {
-          n_votes: increment
-        }
-      }
-    }
-  }, state);
-};
-
-const postedCommentFlag = (state, { payload: { commentId, sectionId, isReply, parentId } }) => {
-  // the flagging went through
-  if (isReply) {
-    const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === parentId);
-    const subComponentIndex = state[sectionId].results[commentIndex].subComments
-      .findIndex((subComment) => subComment.id === commentId);
-    return updeep({
+    (comment) => comment.id === commentId
+  );
+  return updeep(
+    {
       [sectionId]: {
         results: {
           [commentIndex]: {
-            subComments: {
-              [subComponentIndex]: {
-                flagged: true,
-              }
-            }
-          }
-        }
-      }
-    }, state);
-  }
-  const commentIndex = state[sectionId].results.findIndex((comment) => comment.id === commentId);
-  return updeep({
-    [sectionId]: {
-      results: {
-        [commentIndex]: {
-          flagged: true
-        }
-      }
-    }
-  }, state);
+            n_votes: increment,
+          },
+        },
+      },
+    },
+    state
+  );
 };
 
-const beginFetchSectionComments = (state, { payload: { sectionId, ordering, cleanFetch } }) => {
-  if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
-    return updeep({
+const postedCommentFlag = (
+  state,
+  { payload: { commentId, sectionId, isReply, parentId } }
+) => {
+  // the flagging went through
+  if (isReply) {
+    const commentIndex = state[sectionId].results.findIndex(
+      (comment) => comment.id === parentId
+    );
+    const subComponentIndex = state[sectionId].results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === commentId);
+    return updeep(
+      {
+        [sectionId]: {
+          results: {
+            [commentIndex]: {
+              subComments: {
+                [subComponentIndex]: {
+                  flagged: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      state
+    );
+  }
+  const commentIndex = state[sectionId].results.findIndex(
+    (comment) => comment.id === commentId
+  );
+  return updeep(
+    {
+      [sectionId]: {
+        results: {
+          [commentIndex]: {
+            flagged: true,
+          },
+        },
+      },
+    },
+    state
+  );
+};
+
+const beginFetchSectionComments = (
+  state,
+  { payload: { sectionId, ordering, cleanFetch } }
+) => {
+  if (
+    state[sectionId] &&
+    state[sectionId].ordering === ordering &&
+    !cleanFetch
+  ) {
+    return updeep(
+      {
+        [sectionId]: {
+          isFetching: true,
+        },
+      },
+      state
+    );
+  }
+  return updeep(
+    {
       [sectionId]: {
         isFetching: true,
-      }
-    }, state);
-  }
-  return updeep({
-    [sectionId]: {
-      isFetching: true,
-      results: [],
-      ordering
-    }
-  }, state);
+        results: [],
+        ordering,
+      },
+    },
+    state
+  );
 };
 
 /**
@@ -177,7 +236,9 @@ const recursiveSearch = (root, current, targetId, initialPath = []) => {
   // current is the same as the root
   if (current.results) {
     // pushes index of the target, if -1 is pushed that means that the target comment is a reply of a reply.
-    finalPath.push(current.results.findIndex(element => element.id === targetId));
+    finalPath.push(
+      current.results.findIndex((element) => element.id === targetId)
+    );
     return finalPath;
   }
 
@@ -226,7 +287,10 @@ const replySearch = (root, targetId, results = []) => {
  * Begin fetching the sub comments.
  * Show loading spinner on the parent comment description.
  */
-const beginFetchSubComments = (state, { payload: { sectionId, commentId } }) => {
+const beginFetchSubComments = (
+  state,
+  { payload: { sectionId, commentId } }
+) => {
   let updatedState = { ...state[sectionId] };
 
   // Array consisting of the path to commentId comment.
@@ -253,15 +317,21 @@ const beginFetchSubComments = (state, { payload: { sectionId, commentId } }) => 
    */
   updatedState = updeep.updateIn(updatePath, true, updatedState);
 
-  return updeep({
-    [sectionId]: updatedState,
-  }, state);
+  return updeep(
+    {
+      [sectionId]: updatedState,
+    },
+    state
+  );
 };
 
 /**
  * Once comments are fetched, update the store with sub comments.
  */
-const subCommentsFetched = (state, { payload: { sectionId, commentId, data, jumpTo } }) => {
+const subCommentsFetched = (
+  state,
+  { payload: { sectionId, commentId, data, jumpTo } }
+) => {
   let updatedState = { ...state[sectionId], jumpTo };
 
   // Array consisting of the path to commentId comment for which we fetched comments.
@@ -287,21 +357,35 @@ const subCommentsFetched = (state, { payload: { sectionId, commentId, data, jump
    * updateState = updateIn([...pathArray, 'subComments'], data.results, updateState)
    * updateState === {results:[{...}, {loadingSubComments: false, subComments: [{...},{...}]}]}
    */
-  updatedState = updeep.updateIn([...updatePath, 'loadingSubComments'], false, updatedState);
-  updatedState = updeep.updateIn([...updatePath, 'subComments'], data.results, updatedState);
+  updatedState = updeep.updateIn(
+    [...updatePath, 'loadingSubComments'],
+    false,
+    updatedState
+  );
+  updatedState = updeep.updateIn(
+    [...updatePath, 'subComments'],
+    data.results,
+    updatedState
+  );
 
-  return updeep({
-    [sectionId]: updatedState,
-  }, state);
+  return updeep(
+    {
+      [sectionId]: updatedState,
+    },
+    state
+  );
 };
 
-export default handleActions({
-  beginFetchSectionComments,
-  beginFetchSubComments,
-  editedComment,
-  postedComment,
-  postedCommentVote,
-  postedCommentFlag,
-  receiveSectionComments,
-  subCommentsFetched,
-}, {});
+export default handleActions(
+  {
+    beginFetchSectionComments,
+    beginFetchSubComments,
+    editedComment,
+    postedComment,
+    postedCommentVote,
+    postedCommentFlag,
+    receiveSectionComments,
+    subCommentsFetched,
+  },
+  {}
+);

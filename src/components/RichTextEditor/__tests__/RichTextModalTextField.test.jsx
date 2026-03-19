@@ -21,7 +21,7 @@ const renderComponent = (propOverrides) => {
   return renderWithProviders(
     <MemoryRouter>
       <RichTextModalTextField {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
@@ -36,7 +36,10 @@ describe('<RichTextModalTextField />', () => {
     const handleInputChangeMock = vi.fn();
     const handleInputBlurMock = vi.fn();
 
-    renderComponent({ handleInputChange: handleInputChangeMock, handleInputBlur: handleInputBlurMock });
+    renderComponent({
+      handleInputChange: handleInputChangeMock,
+      handleInputBlur: handleInputBlurMock,
+    });
 
     const input = await screen.findByTestId('test-form-test-name');
 

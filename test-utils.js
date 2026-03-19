@@ -1,18 +1,23 @@
+/* eslint-disable max-len */
 import { createIntl } from 'react-intl';
 
 import commonInit from './src/commonInit';
 import createStore from './src/createStore';
 import messages from './src/i18n';
 
-
-export const mockUser = { id: "fff", displayName: "Mock von User", adminOrganizations: [] };
+export const mockUser = {
+  id: 'fff',
+  displayName: 'Mock von User',
+  adminOrganizations: [],
+};
 
 export function createTestStore(state) {
   commonInit();
   return createStore(state || {});
 }
 
-export const getIntlAsProp = () => createIntl({ locale: 'fi', messages: messages.fi }, {});
+export const getIntlAsProp = () =>
+  createIntl({ locale: 'fi', messages: messages.fi }, {});
 
 // Contains ready to use mock data & functions for testing purposes
 export const mockStore = {
@@ -20,7 +25,7 @@ export const mockStore = {
     state: 'done',
     data: {
       abstract: {
-        fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+        fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.',
       },
       id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
       n_comments: 1,
@@ -46,9 +51,9 @@ export const mockStore = {
               height: 631,
               title: {},
               caption: {
-                fi: 'A Wonderfull caption'
-              }
-            }
+                fi: 'A Wonderfull caption',
+              },
+            },
           ],
           files: [],
           n_comments: 1,
@@ -60,39 +65,41 @@ export const mockStore = {
           plugin_fullscreen: false,
           title: {},
           abstract: {
-            fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+            fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.',
           },
           content: {
-            fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>'
+            fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>',
           },
-          questions: [{
-            id: 6,
-            type: 'single-choice',
-            n_answers: 1,
-            is_independent_poll: false,
-            text: {
-              en: ' do you like music ?',
-              fi: 'Pidätkö sinä musiikista ?'
-            },
-            options: [
-              {
-                id: 115,
-                n_answers: 1,
-                text: {
-                  en: 'NO',
-                  fi: 'EI !'
-                }
+          questions: [
+            {
+              id: 6,
+              type: 'single-choice',
+              n_answers: 1,
+              is_independent_poll: false,
+              text: {
+                en: ' do you like music ?',
+                fi: 'Pidätkö sinä musiikista ?',
               },
-              {
-                id: 116,
-                n_answers: 0,
-                text: {
-                  en: 'Yes',
-                  fi: 'Joo'
-                }
-              }
-            ]
-          }]
+              options: [
+                {
+                  id: 115,
+                  n_answers: 1,
+                  text: {
+                    en: 'NO',
+                    fi: 'EI !',
+                  },
+                },
+                {
+                  id: 116,
+                  n_answers: 0,
+                  text: {
+                    en: 'Yes',
+                    fi: 'Joo',
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'asuminen-a-asuinalueiden-elinvoi',
@@ -109,9 +116,9 @@ export const mockStore = {
               height: 1067,
               title: {},
               caption: {
-                fi: 'Asuinalueiden elinvoimaisuus.'
-              }
-            }
+                fi: 'Asuinalueiden elinvoimaisuus.',
+              },
+            },
           ],
           files: [],
           n_comments: 59,
@@ -122,13 +129,13 @@ export const mockStore = {
           plugin_iframe_url: '',
           plugin_fullscreen: false,
           title: {
-            fi: 'A. Asuinalueiden elinvoimaisuus'
+            fi: 'A. Asuinalueiden elinvoimaisuus',
           },
           abstract: {},
           content: {
-            fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>'
+            fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>',
           },
-          questions: []
+          questions: [],
         },
         {
           id: 'asuminen-b-asuinalueiden-elinvoi',
@@ -145,9 +152,9 @@ export const mockStore = {
               height: 1067,
               title: {},
               caption: {
-                fi: 'Asuinalueiden elinvoimaisuus.'
-              }
-            }
+                fi: 'Asuinalueiden elinvoimaisuus.',
+              },
+            },
           ],
           files: [],
           n_comments: 59,
@@ -158,13 +165,13 @@ export const mockStore = {
           plugin_iframe_url: '',
           plugin_fullscreen: false,
           title: {
-            fi: 'A. Asuinalueiden elinvoimaisuus'
+            fi: 'A. Asuinalueiden elinvoimaisuus',
           },
-          'abstract': {},
+          abstract: {},
           content: {
-            fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>'
+            fi: '<p>Edistet&auml;&auml;n kest&auml;v&auml;&auml; kaupunkikehityst&auml; tiedostaen alueiden erilaisuus ja eriytymiskehitys.</p>\r\n\r\n<p>Keskeisimm&auml;t aluerakentamiskohteet seuraavina vuosina ovat L&auml;nsisatama, Kalasatama, Pasila, Kruunuvuorenranta, Kuninkaantammi ja Honkasuo. Tulevan asuntotuotannon n&auml;k&ouml;kulmasta suunnittelun etenemist&auml; edistet&auml;&auml;n Malmin lentokent&auml;n, Koivusaaren ja &Ouml;stersundomin alueilla. N&auml;iden alueiden osuus asuntotuotannosta on noin 60 prosenttia.</p>\r\n\r\n<p>Asuntorakentamisesta 40 prosenttia toteutuu t&auml;ydennysrakentamisena. Tuotantotavoitteen turvaamiseksi t&auml;ydennysrakentamisen koordinaatiota vahvistetaan sek&auml; kehitet&auml;&auml;n prosesseja ja kannusteita.</p>\r\n\r\n<p>Asuntotuotantotavoitteen toteuttamiseksi tulee huolehtia riitt&auml;v&auml;st&auml; eri puolilla kaupunkia olevasta asemakaavavarannosta sek&auml; varmistaa tonttien rakentamisedellytykset. T&auml;ydennysrakentamisalueen asemakaavoitusta ohjelmoidaan nykyist&auml; j&auml;rjestelm&auml;llisemmin.</p>\r\n\r\n<p>Alueilla, joiden asuntokanta on yksipuolista ja uudistuotanto v&auml;h&auml;ist&auml;, uusi asuntokantaa monipuolistava t&auml;ydennysrakentaminen on t&auml;rkein tavoite.</p>\r\n\r\n<p>Jatketaan autopaikattomien ja v&auml;h&auml;autopaikkaisten asuntokohteiden toteuttamista erityisesti hyvien joukkoliikenneyhteyksien l&auml;heisyydess&auml;.</p>',
           },
-          questions: []
+          questions: [],
         },
       ],
       closed: false,
@@ -178,8 +185,8 @@ export const mockStore = {
         height: 631,
         title: {},
         caption: {
-          fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala'
-        }
+          fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala',
+        },
       },
       contact_persons: [
         {
@@ -189,23 +196,23 @@ export const mockStore = {
           email: 'seija.suunnittelija@hel.fi',
           organization: 'Kaupunkisuunnitteluvirasto',
           title: {
-            fi: 'arkkitehti'
-          }
-        }
+            fi: 'arkkitehti',
+          },
+        },
       ],
       default_to_fullscreen: false,
       title: {
-        fi: 'Ideoi Isosaaren tulevaisuutta'
+        fi: 'Ideoi Isosaaren tulevaisuutta',
       },
-      borough: {}
-    }
+      borough: {},
+    },
   },
   hearing: {
     mockHearing: {
       state: 'done',
       data: {
         abstract: {
-          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.',
         },
         id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
         n_comments: 1,
@@ -231,9 +238,9 @@ export const mockStore = {
                 height: 631,
                 title: {},
                 caption: {
-                  fi: 'A Wonderfull caption'
-                }
-              }
+                  fi: 'A Wonderfull caption',
+                },
+              },
             ],
             files: [],
             n_comments: 1,
@@ -245,40 +252,42 @@ export const mockStore = {
             plugin_fullscreen: false,
             title: {},
             abstract: {
-              fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+              fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.',
             },
             content: {
-              fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>'
+              fi: '<p>Samanaikaisesti Isosaaren avaamisen kanssa Helsingin kaupunki aloittaa saaren asemakaavoituksen. Saarta suunnitellaan monipuoliseksi virkistyksen ja matkailun keitaaksi. &nbsp;&nbsp;&nbsp;</p>\n<p>Kerro ajatuksesi Isosaaren kehittämisestä: &nbsp;</p>\n<ul>\n  <li>Minkälaisia matkailupalveluja ja toimintaa Isosaaressa voisi olla?</li>\n  <li>Mikä Isosaaressa on ainutlaatuista?&nbsp;</li>\n  <li>Millainen Isosaari olisi tulevaisuudessa? Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.&nbsp;</li>\n</ul>\n<p>&nbsp;&nbsp;Ideoita ja visioita käytetään saaren suunnittelun tukena ja innoituksena.</p>\n<p>Lisätietoja:</p>\n<p><a href="http://www.visitisosaari.fi">Tietoa Isosaaressa vieraileville</a></p>',
             },
-            questions: [{
-              id: 6,
-              type: 'single-choice',
-              n_answers: 1,
-              is_independent_poll: false,
-              text: {
-                en: ' do you like music ?',
-                fi: 'Pidätkö sinä musiikista ?'
-              },
-              options: [
-                {
-                  id: 115,
-                  n_answers: 1,
-                  text: {
-                    en: 'NO',
-                    fi: 'EI !'
-                  }
+            questions: [
+              {
+                id: 6,
+                type: 'single-choice',
+                n_answers: 1,
+                is_independent_poll: false,
+                text: {
+                  en: ' do you like music ?',
+                  fi: 'Pidätkö sinä musiikista ?',
                 },
-                {
-                  id: 116,
-                  n_answers: 0,
-                  text: {
-                    en: 'Yes',
-                    fi: 'Joo'
-                  }
-                }
-              ]
-            }]
-          }
+                options: [
+                  {
+                    id: 115,
+                    n_answers: 1,
+                    text: {
+                      en: 'NO',
+                      fi: 'EI !',
+                    },
+                  },
+                  {
+                    id: 116,
+                    n_answers: 0,
+                    text: {
+                      en: 'Yes',
+                      fi: 'Joo',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
         closed: false,
         geojson: null,
@@ -291,8 +300,8 @@ export const mockStore = {
           height: 631,
           title: {},
           caption: {
-            fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala'
-          }
+            fi: 'Millainen on Isosaaren tulevaisuus? Kuva: Kaupunkiympäristön toimiala',
+          },
         },
         contact_persons: [
           {
@@ -302,31 +311,34 @@ export const mockStore = {
             email: 'seija.suunnittelija@hel.fi',
             organization: 'Kaupunkisuunnitteluvirasto',
             title: {
-              fi: 'arkkitehti'
-            }
-          }
+              fi: 'arkkitehti',
+            },
+          },
         ],
         default_to_fullscreen: false,
         title: {
-          fi: 'Ideoi Isosaaren tulevaisuutta'
+          fi: 'Ideoi Isosaaren tulevaisuutta',
         },
-        borough: {}
-      }
+        borough: {},
+      },
     },
-    currentlyViewed: '#hearing'
+    currentlyViewed: '#hearing',
   },
-  dispatch: () => { },
-  fetchLabels: () => { },
+  dispatch: () => {},
+  fetchLabels: () => {},
   match: {
     params: {
-      tab: 'list'
-    }
+      tab: 'list',
+    },
   },
   location: {
-    search: ''
+    search: '',
   },
   labels: {
-    data: [{ id: 1, label: { fi: 'Mock Von Label' } }, { id: 2, label: { fi: 'Mock Don Label' } }]
+    data: [
+      { id: 1, label: { fi: 'Mock Von Label' } },
+      { id: 2, label: { fi: 'Mock Don Label' } },
+    ],
   },
   user: {},
   accessibility: {
@@ -334,38 +346,40 @@ export const mockStore = {
   },
   hearingLists: {
     allHearings: {
-      data: [{
-        abstract: {
-          fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.'
+      data: [
+        {
+          abstract: {
+            fi: 'Tämä on suomenkielinen testiabstrakti. Sisältää huikean kuvauksen kyseisestä kuulemisesta.',
+          },
+          id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
+          n_comments: 1,
+          published: true,
+          labels: [],
+          open_at: '2017-10-22T21:00:00Z',
+          close_at: '2200-11-28T22:00:00Z',
+          created_at: '2017-10-23T11:07:26.630423Z',
+          servicemap_url: '',
+          closed: false,
+          geojson: null,
+          organization: 'Mock Inc',
+          slug: 'mockHearing',
+          main_image: {
+            id: 92,
+            url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
+            width: 893,
+            height: 631,
+            title: {},
+            caption: {
+              fi: 'A Wonderfull caption',
+            },
+          },
+          default_to_fullscreen: false,
+          title: {
+            fi: 'Mock Hearing',
+          },
+          borough: {},
         },
-        id: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
-        n_comments: 1,
-        published: true,
-        labels: [],
-        open_at: '2017-10-22T21:00:00Z',
-        close_at: '2200-11-28T22:00:00Z',
-        created_at: '2017-10-23T11:07:26.630423Z',
-        servicemap_url: '',
-        closed: false,
-        geojson: null,
-        organization: 'Mock Inc',
-        slug: 'mockHearing',
-        main_image: {
-          id: 92,
-          url: 'https://api.hel.fi/kerrokantasi-test/media/images/2017/10/LzqVMrMI.jpeg',
-          width: 893,
-          height: 631,
-          title: {},
-          caption: {
-            fi: 'A Wonderfull caption'
-          }
-        },
-        default_to_fullscreen: false,
-        title: {
-          fi: 'Mock Hearing'
-        },
-        borough: {}
-      }]
+      ],
     },
     userHearingsOpen: {
       isFetching: false,
@@ -381,7 +395,7 @@ export const mockStore = {
           slug: 'firstOpenSlug',
           title: {
             fi: 'Ensimmäinen avoin',
-          }
+          },
         },
         {
           id: 'bb22',
@@ -393,7 +407,7 @@ export const mockStore = {
           slug: 'secondOpenSlug',
           title: {
             fi: 'Toinen avoin',
-          }
+          },
         },
         {
           id: 'cc33',
@@ -405,7 +419,7 @@ export const mockStore = {
           slug: 'thirdOpenSlug',
           title: {
             fi: 'Kolmas avoin',
-          }
+          },
         },
         {
           id: 'dd44',
@@ -417,14 +431,14 @@ export const mockStore = {
           slug: 'fourthOpenSlug',
           title: {
             fi: 'Neljäs avoin',
-          }
+          },
         },
-      ]
+      ],
     },
     userHearingsQueue: {
       isFetching: false,
       count: 0,
-      data: []
+      data: [],
     },
     userHearingsClosed: {
       isFetching: false,
@@ -433,16 +447,19 @@ export const mockStore = {
         {
           id: 'ab4',
           n_comments: 1,
-          labels: [{ id: 1, label: { fi: 'test label FI' } }, { id: 2, label: { fi: 'toka' } }],
+          labels: [
+            { id: 1, label: { fi: 'test label FI' } },
+            { id: 2, label: { fi: 'toka' } },
+          ],
           open_at: '2021-01-02T21:00:00Z',
           close_at: '2021-01-18T22:00:00Z',
           created_at: '2021-01-01T11:07:26.630423Z',
           slug: 'firstClosedSlug',
           title: {
             fi: 'Ensimmäinen kiinni',
-          }
+          },
         },
-      ]
+      ],
     },
     userHearingsDrafts: {
       isFetching: false,
@@ -451,20 +468,24 @@ export const mockStore = {
         {
           id: 'abs5',
           n_comments: 0,
-          labels: [{ id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } }],
+          labels: [
+            { id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } },
+          ],
           open_at: '2021-03-02T21:00:00Z',
           close_at: '2021-05-18T22:00:00Z',
           created_at: '2021-01-01T11:07:26.630423Z',
           slug: 'firstDraftSlug',
           title: {
             fi: 'Ensimmäinen luonnos',
-            sv: 'Första utkast'
-          }
+            sv: 'Första utkast',
+          },
         },
         {
           id: 'abc6',
           n_comments: 0,
-          labels: [{ id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } }],
+          labels: [
+            { id: 3, label: { fi: 'luonnos label', sv: 'utkast label' } },
+          ],
           open_at: '2021-04-02T21:00:00Z',
           close_at: '2021-07-18T22:00:00Z',
           created_at: '2021-02-01T11:07:26.630423Z',
@@ -472,10 +493,10 @@ export const mockStore = {
           title: {
             fi: 'Toinen luonnos',
             sv: 'Andra utkast',
-            en: 'Second draft'
-          }
+            en: 'Second draft',
+          },
         },
-      ]
+      ],
     },
   },
   sectionComments: {
@@ -500,15 +521,15 @@ export const mockStore = {
           label: null,
           hearing: 'rXT2L1HxEOZTERjluyxyQZ412aYM8oZE',
           plugin_data: '',
-          answers: [{
-            type: "single-choice",
-            question: 6,
-            answers: [
-              115
-            ]
-          }]
-        }
-      ]
-    }
-  }
+          answers: [
+            {
+              type: 'single-choice',
+              question: 6,
+              answers: [115],
+            },
+          ],
+        },
+      ],
+    },
+  },
 };

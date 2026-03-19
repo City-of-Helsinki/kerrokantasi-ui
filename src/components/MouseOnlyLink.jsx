@@ -15,7 +15,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 const MouseOnlyLink = (props) => {
-  const { children, className, headless, language, style, url, altText } = props;
+  const { children, className, headless, language, style, url, altText } =
+    props;
   const location = useLocation();
   const navigate = useNavigate();
   const combinedUrl = `${url}?headless=${headless}&lang=${language}`;

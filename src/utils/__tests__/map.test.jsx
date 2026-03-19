@@ -17,10 +17,18 @@ vi.mock('proj4', () => ({}));
 vi.mock('proj4leaflet', () => ({}));
 
 vi.mock('react-leaflet', () => ({
-  Polygon: vi.fn(({ positions }) => <div data-testid='Polygon'>{JSON.stringify(positions)}</div>),
-  GeoJSON: vi.fn(({ data }) => <div data-testid='GeoJSON'>{JSON.stringify(data)}</div>),
-  Marker: vi.fn(({ position }) => <div data-testid='Marker'>{JSON.stringify(position)}</div>),
-  Polyline: vi.fn(({ positions }) => <div data-testid='Polyline'>{JSON.stringify(positions)}</div>),
+  Polygon: vi.fn(({ positions }) => (
+    <div data-testid='Polygon'>{JSON.stringify(positions)}</div>
+  )),
+  GeoJSON: vi.fn(({ data }) => (
+    <div data-testid='GeoJSON'>{JSON.stringify(data)}</div>
+  )),
+  Marker: vi.fn(({ position }) => (
+    <div data-testid='Marker'>{JSON.stringify(position)}</div>
+  )),
+  Polyline: vi.fn(({ positions }) => (
+    <div data-testid='Polyline'>{JSON.stringify(positions)}</div>
+  )),
 }));
 
 const NORMAL_URL_PNG = 'normal url.png';
@@ -33,7 +41,12 @@ describe('getCorrectContrastMapTileUrl', () => {
       const highContrastMapTileUrl = 'high contrast url.png';
       const language = 'fi';
       expect(
-        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+        getCorrectContrastMapTileUrl(
+          normalMapTileUrl,
+          highContrastMapTileUrl,
+          isHighContrastModeEnabled,
+          language
+        )
       ).toBe('normal url@fi.png');
     });
     it.skip('when high contrast map tile url doesnt exist', () => {
@@ -42,7 +55,12 @@ describe('getCorrectContrastMapTileUrl', () => {
       const highContrastMapTileUrl = undefined;
       const language = 'fi';
       expect(
-        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+        getCorrectContrastMapTileUrl(
+          normalMapTileUrl,
+          highContrastMapTileUrl,
+          isHighContrastModeEnabled,
+          language
+        )
       ).toBe('normal url@fi.png');
     });
   });
@@ -55,7 +73,12 @@ describe('getCorrectContrastMapTileUrl', () => {
       const language = 'fi';
 
       expect(
-        getCorrectContrastMapTileUrl(normalMapTileUrl, highContrastMapTileUrl, isHighContrastModeEnabled, language),
+        getCorrectContrastMapTileUrl(
+          normalMapTileUrl,
+          highContrastMapTileUrl,
+          isHighContrastModeEnabled,
+          language
+        )
       ).toBe('high contrast url@fi.png');
     });
   });
@@ -84,7 +107,7 @@ describe('getMapElement', () => {
         { lat: 0, lng: 0 },
         { lat: 1, lng: 1 },
         { lat: 2, lng: 2 },
-      ]),
+      ])
     );
   });
 
@@ -115,14 +138,14 @@ describe('getMapElement', () => {
         { lat: 0, lng: 0 },
         { lat: 1, lng: 1 },
         { lat: 2, lng: 2 },
-      ]),
+      ])
     );
     expect(polygons[1]).toHaveTextContent(
       JSON.stringify([
         { lat: 3, lng: 3 },
         { lat: 4, lng: 4 },
         { lat: 5, lng: 5 },
-      ]),
+      ])
     );
   });
 
@@ -132,7 +155,9 @@ describe('getMapElement', () => {
       coordinates: [0, 0],
     };
     const { getByTestId } = render(getMapElement(geojson));
-    expect(getByTestId('Marker')).toHaveTextContent(JSON.stringify({ lat: 0, lng: 0 }));
+    expect(getByTestId('Marker')).toHaveTextContent(
+      JSON.stringify({ lat: 0, lng: 0 })
+    );
   });
 
   it('renders Polyline for LineString geojson', () => {
@@ -150,7 +175,7 @@ describe('getMapElement', () => {
         { lat: 0, lng: 0 },
         { lat: 1, lng: 1 },
         { lat: 2, lng: 2 },
-      ]),
+      ])
     );
   });
 
@@ -163,7 +188,9 @@ describe('getMapElement', () => {
       },
     };
     const { getByTestId } = render(getMapElement(geojson));
-    expect(getByTestId('Marker')).toHaveTextContent(JSON.stringify({ lat: 0, lng: 0 }));
+    expect(getByTestId('Marker')).toHaveTextContent(
+      JSON.stringify({ lat: 0, lng: 0 })
+    );
   });
 
   it('renders FeatureCollection geojson', () => {
@@ -190,14 +217,18 @@ describe('getMapElement', () => {
         },
       ],
     };
-    const { getByTestId, getAllByTestId } = render(<div>{getMapElement(geojson)}</div>);
-    expect(getByTestId('Marker')).toHaveTextContent(JSON.stringify({ lat: 0, lng: 0 }));
+    const { getByTestId, getAllByTestId } = render(
+      <div>{getMapElement(geojson)}</div>
+    );
+    expect(getByTestId('Marker')).toHaveTextContent(
+      JSON.stringify({ lat: 0, lng: 0 })
+    );
     expect(getAllByTestId('Polyline')[0]).toHaveTextContent(
       JSON.stringify([
         { lat: 0, lng: 0 },
         { lat: 1, lng: 1 },
         { lat: 2, lng: 2 },
-      ]),
+      ])
     );
   });
 

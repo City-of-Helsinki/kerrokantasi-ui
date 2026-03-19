@@ -13,13 +13,17 @@ import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.pn
 
 export function EPSG3067() {
   const crsName = 'EPSG:3067';
-  const projDef = '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+  const projDef =
+    '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
   const bounds = L.bounds(L.point(-548576, 6291456), L.point(1548576, 8388608));
   const originNw = [bounds.min.x, bounds.max.y];
   const crsOpts = {
-    resolutions: [8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125],
+    resolutions: [
+      8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25,
+      0.125,
+    ],
     bounds,
-    transformation: new L.Transformation(1, -originNw[0], -1, originNw[1])
+    transformation: new L.Transformation(1, -originNw[0], -1, originNw[1]),
   };
   return new L.Proj.CRS(crsName, projDef, crsOpts);
 }
@@ -36,9 +40,8 @@ export function getCorrectContrastMapTileUrl(
   normalMapTilesUrl,
   highContrastMapTilesUrl,
   isHighContrastEnabled,
-  language,
+  language
 ) {
-
   // en -> fi
   const styleLanguage = ['fi', 'sv'].includes(language) ? language : 'fi';
 
@@ -62,15 +65,24 @@ export function getMapElement(geojson) {
   switch (geojson.type) {
     case 'Polygon': {
       // XXX: This only supports the _first_ ring of coordinates in a Polygon
-      const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+      const latLngs = geojson.coordinates[0].map(
+        ([lng, lat]) => new LatLng(lat, lng)
+      );
       return <Polygon key={Math.random()} positions={latLngs} />;
     }
     case 'MultiPolygon': {
-      const latLngs = geojson.coordinates.map((arr) => arr[0].map(([lng, lat]) => new LatLng(lat, lng)));
-      return latLngs.map((latLngItem) => <Polygon key={latLngItem} positions={latLngItem} />);
+      const latLngs = geojson.coordinates.map((arr) =>
+        arr[0].map(([lng, lat]) => new LatLng(lat, lng))
+      );
+      return latLngs.map((latLngItem) => (
+        <Polygon key={latLngItem} positions={latLngItem} />
+      ));
     }
     case 'Point': {
-      const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+      const latLngs = new LatLng(
+        geojson.coordinates[1],
+        geojson.coordinates[0]
+      );
       return (
         <Marker
           key={Math.random()}
@@ -88,7 +100,9 @@ export function getMapElement(geojson) {
       );
     }
     case 'LineString': {
-      const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+      const latLngs = geojson.coordinates.map(
+        ([lng, lat]) => new LatLng(lat, lng)
+      );
       return <Polyline positions={latLngs} />;
     }
     case 'Feature': {

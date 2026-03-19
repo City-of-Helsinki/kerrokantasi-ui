@@ -25,7 +25,9 @@ export const Labels = (props) => {
       }}
       key={label.id || label}
     >
-      <Tag theme={{ '--background-color': 'var(--color-fog)' }}>{getAttr(label.label, language)}</Tag>
+      <Tag theme={{ '--background-color': 'var(--color-fog)' }}>
+        {getAttr(label.label, language)}
+      </Tag>
     </Link>
   );
 

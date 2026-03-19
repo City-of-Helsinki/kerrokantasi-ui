@@ -18,21 +18,23 @@ export const geoJSONshape = PropTypes.shape({
           PropTypes.arrayOf(
             PropTypes.oneOfType([
               PropTypes.number,
-              PropTypes.arrayOf(PropTypes.number)
+              PropTypes.arrayOf(PropTypes.number),
             ])
-          )
+          ),
         ])
-      )
+      ),
     ])
-  )
+  ),
 });
 
 export const translatedShape = PropTypes.oneOfType([
   PropTypes.shape(
-    languages.reduce((shape, lang) =>
-      ({ ...shape, [lang]: PropTypes.string }), {})
+    languages.reduce(
+      (shape, lang) => ({ ...shape, [lang]: PropTypes.string }),
+      {}
+    )
   ),
-  PropTypes.string
+  PropTypes.string,
 ]);
 
 export const labelShape = PropTypes.shape({
@@ -42,9 +44,8 @@ export const labelShape = PropTypes.shape({
 
 export const commentHearingDataShape = PropTypes.shape({
   slug: PropTypes.string,
-  title: PropTypes.object
+  title: PropTypes.object,
 });
-
 
 export const contactShape = PropTypes.shape({
   email: PropTypes.string,
@@ -81,7 +82,6 @@ export const sectionImageShape = PropTypes.shape({
   caption: translatedShape,
 });
 
-
 export const sectionShape = PropTypes.shape({
   id: PropTypes.string,
   type: PropTypes.string,
@@ -102,12 +102,10 @@ export const sectionShape = PropTypes.shape({
   plugin_fullscreen: PropTypes.bool,
 });
 
-
 export const hearingEditorMetaDataShape = PropTypes.shape({
   labels: PropTypes.arrayOf(labelShape),
-  contacts: PropTypes.arrayOf(contactShape)
+  contacts: PropTypes.arrayOf(contactShape),
 });
-
 
 export const hearingShape = PropTypes.shape({
   abstract: translatedShape,
@@ -131,7 +129,6 @@ export const hearingShape = PropTypes.shape({
   default_to_fullscreen: PropTypes.bool,
 });
 
-
 export const userShape = PropTypes.shape({
   id: PropTypes.string,
   displayName: PropTypes.string,
@@ -142,7 +139,6 @@ export const userShape = PropTypes.shape({
   token: PropTypes.string,
   adminOrganizations: PropTypes.arrayOf(PropTypes.string),
 });
-
 
 // TODO: Make sure this is correct and start using it.
 export const commentShape = PropTypes.shape({
@@ -157,15 +153,31 @@ export const commentShape = PropTypes.shape({
   geojson: geoJSONshape,
   images: PropTypes.arrayOf(PropTypes.object),
   label: labelShape,
-  plugin_data: PropTypes.string,  // Not sure about this
+  plugin_data: PropTypes.string, // Not sure about this
 });
 
-export const labelSchema = new schema.Entity('labels', {}, { idAttribute: 'frontId' });
+export const labelSchema = new schema.Entity(
+  'labels',
+  {},
+  { idAttribute: 'frontId' }
+);
 export const labelResultsSchema = new schema.Array(labelSchema);
-export const sectionSchema = new schema.Entity('sections', {}, { idAttribute: 'frontId' });
-export const contactPersonSchema = new schema.Entity('contactPersons', {}, { idAttribute: 'frontId' });
+export const sectionSchema = new schema.Entity(
+  'sections',
+  {},
+  { idAttribute: 'frontId' }
+);
+export const contactPersonSchema = new schema.Entity(
+  'contactPersons',
+  {},
+  { idAttribute: 'frontId' }
+);
 export const contactPersonResultsSchema = new schema.Array(contactPersonSchema);
-export const organizationSchema = new schema.Entity('organizations', {}, { idAttribute: 'frontId' });
+export const organizationSchema = new schema.Entity(
+  'organizations',
+  {},
+  { idAttribute: 'frontId' }
+);
 export const OrganizationResultsSchema = new schema.Array(organizationSchema);
 export const hearingSchema = new schema.Entity('hearing', {
   labels: labelResultsSchema,

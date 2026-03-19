@@ -5,7 +5,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
-import { Polygon, Marker, MapContainer, Polyline, TileLayer, FeatureGroup, Popup, GeoJSON } from 'react-leaflet';
+import {
+  Polygon,
+  Marker,
+  MapContainer,
+  Polyline,
+  TileLayer,
+  FeatureGroup,
+  Popup,
+  GeoJSON,
+} from 'react-leaflet';
 import { connect } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 
@@ -18,7 +27,11 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
-const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) => {
+const OverviewMap = ({
+  mapElementLimit = 0,
+  showOnCarousel = false,
+  ...props
+}) => {
   const { hearings, language } = props;
   const [contents, setContents] = useState(null);
   const mapContainer = undefined;
@@ -104,7 +117,9 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
       switch (geojson.type) {
         case 'Polygon': {
           // XXX: This only supports the _first_ ring of coordinates in a Polygon
-          const latLngs = geojson.coordinates[0].map(([lng, lat]) => new LatLng(lat, lng));
+          const latLngs = geojson.coordinates[0].map(
+            ([lng, lat]) => new LatLng(lat, lng)
+          );
           return (
             <Polygon key={`${id}${Math.random()}`} positions={latLngs}>
               {getPopupContent(hearing, geojson)}
@@ -112,7 +127,10 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
           );
         }
         case 'Point': {
-          const latLngs = new LatLng(geojson.coordinates[1], geojson.coordinates[0]);
+          const latLngs = new LatLng(
+            geojson.coordinates[1],
+            geojson.coordinates[0]
+          );
           return (
             <Marker
               position={latLngs}
@@ -133,7 +151,9 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
           );
         }
         case 'LineString': {
-          const latLngs = geojson.coordinates.map(([lng, lat]) => new LatLng(lat, lng));
+          const latLngs = geojson.coordinates.map(
+            ([lng, lat]) => new LatLng(lat, lng)
+          );
           return (
             <Polyline key={`${id}${Math.random()}`} positions={latLngs}>
               {getPopupContent(hearing, geojson)}
@@ -196,7 +216,8 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
    * In case of carousel, we require static width and height.
    * @returns {Bool}
    */
-  const shouldMapRender = () => (showOnCarousel ? dimensions.height && dimensions.width : true);
+  const shouldMapRender = () =>
+    showOnCarousel ? dimensions.height && dimensions.width : true;
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -225,7 +246,7 @@ const OverviewMap = ({ mapElementLimit = 0, showOnCarousel = false, ...props }) 
             config.rasterMapTiles,
             config.highContrastRasterMapTiles,
             props.isHighContrast,
-            language,
+            language
           )}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />

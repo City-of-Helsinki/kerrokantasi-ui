@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty } from 'lodash';
 
 export function isUrl(string) {
   try {
@@ -115,7 +115,7 @@ const validateFunction = {
       acc.push(this.project_title(curr.title, languages));
       return acc;
     }, []);
-    return phaseTitles.some((value => value));
+    return phaseTitles.some((value) => value);
   },
   /**
    * Returns true if none of the phases are active
@@ -123,8 +123,8 @@ const validateFunction = {
    * @returns {boolean}
    */
   project_phases_active: function phasesactive(projectPhases) {
-    return projectPhases.filter(phase => phase.is_active).length <= 0;
-  }
+    return projectPhases.filter((phase) => phase.is_active).length <= 0;
+  },
 };
 
 export default validateFunction;

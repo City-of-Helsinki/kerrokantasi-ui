@@ -1,5 +1,5 @@
 vi.mock('@city-assets/urls.json', () => ({
-  default: {}
+  default: {},
 }));
 
 import { getLegacyAnalyticsScript } from '../cookieUtils.jsx';

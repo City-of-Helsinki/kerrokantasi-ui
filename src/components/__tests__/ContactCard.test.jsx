@@ -7,12 +7,15 @@ import renderWithProviders from '../../utils/renderWithProviders';
 
 const renderComponent = (propOverrides) => {
   const { mockHearingWithSections } = mockStore;
-  const props = { ...mockHearingWithSections.data.contact_persons[0], ...propOverrides };
+  const props = {
+    ...mockHearingWithSections.data.contact_persons[0],
+    ...propOverrides,
+  };
 
   return renderWithProviders(
     <MemoryRouter>
       <ContactCard {...props} />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 

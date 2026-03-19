@@ -5,12 +5,16 @@ import { setLanguage } from '../actions';
 import { parseQuery } from '../utils/urlQuery';
 import config from '../config';
 
-export const languageFromUrlMiddleware = store => next => action => {
+export const languageFromUrlMiddleware = (store) => (next) => (action) => {
   if (action.type !== '@@router/LOCATION_CHANGE') {
     return next(action);
   }
-  const historyState = action.payload.location ? action.payload.location : action.payload;
-  const queryLang = historyState.search ? parseQuery(historyState.search).lang : '';
+  const historyState = action.payload.location
+    ? action.payload.location
+    : action.payload;
+  const queryLang = historyState.search
+    ? parseQuery(historyState.search).lang
+    : '';
 
   if (isEmpty(queryLang)) {
     store.dispatch(setLanguage('fi'));
@@ -18,8 +22,9 @@ export const languageFromUrlMiddleware = store => next => action => {
   }
   // This will change the current language to store if new is legit and different than current one
   if (
-    queryLang !== store.getState().language
-    && !isEmpty(find(config.languages, (lang) => lang === queryLang))) {
+    queryLang !== store.getState().language &&
+    !isEmpty(find(config.languages, (lang) => lang === queryLang))
+  ) {
     store.dispatch(setLanguage(queryLang));
     return next(action);
   }

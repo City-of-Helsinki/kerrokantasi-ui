@@ -41,10 +41,43 @@ const DEFAULT_DENYLIST = [
   'symfony', // Symfony
   'user_session', // Vue
   '_xsrf', // Tornado
-  'XSRF-TOKEN' // Angular, Laravel
+  'XSRF-TOKEN', // Angular, Laravel
 ];
 
-const SENTRY_DENYLIST = [...DEFAULT_DENYLIST, 'additional_info', 'admin_organizations', 'adminOrganizations', 'answered_questions', 'author_name', 'contact_persons', 'contactPersons', 'contacts', 'displayName', 'email', 'external_organization', 'favorite_hearings', 'first_name', 'firstname', 'followed_hearings', 'has_strong_auth', 'hasStrongAuth', 'last_name', 'lastname', 'name', 'nickname', 'oidc', 'oidcUser', 'organization', 'organizations', 'phone', 'profile', 'provider', 'title', 'user', 'username'];
+const SENTRY_DENYLIST = [
+  ...DEFAULT_DENYLIST,
+  'additional_info',
+  'admin_organizations',
+  'adminOrganizations',
+  'answered_questions',
+  'author_name',
+  'contact_persons',
+  'contactPersons',
+  'contacts',
+  'displayName',
+  'email',
+  'external_organization',
+  'favorite_hearings',
+  'first_name',
+  'firstname',
+  'followed_hearings',
+  'has_strong_auth',
+  'hasStrongAuth',
+  'last_name',
+  'lastname',
+  'name',
+  'nickname',
+  'oidc',
+  'oidcUser',
+  'organization',
+  'organizations',
+  'phone',
+  'profile',
+  'provider',
+  'title',
+  'user',
+  'username',
+];
 const MAX_CLEAN_DEPTH = 32;
 
 export const cleanSensitiveData = (
@@ -91,9 +124,6 @@ export const cleanSensitiveData = (
   return result;
 };
 
-export const beforeSend = (event) =>
-  cleanSensitiveData(event);
+export const beforeSend = (event) => cleanSensitiveData(event);
 
-export const beforeSendTransaction = (
-  event
-) => cleanSensitiveData(event);
+export const beforeSendTransaction = (event) => cleanSensitiveData(event);

@@ -12,7 +12,7 @@ function renderComponent(props) {
   return render(
     <InternalLink {...defaultProps} {...props}>
       <span>test link</span>
-    </InternalLink>,
+    </InternalLink>
   );
 }
 

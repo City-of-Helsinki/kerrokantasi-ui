@@ -24,7 +24,10 @@ const { mockHearingWithSections } = mockData;
 
 const renderComponent = (propOverrides, storeOverride) => {
   const props = {
-    section: { ...mockHearingWithSections.data.sections[0], frontId: mockHearingWithSections.data.sections[0].id },
+    section: {
+      ...mockHearingWithSections.data.sections[0],
+      frontId: mockHearingWithSections.data.sections[0].id,
+    },
     sectionLanguages: ['fi'],
     onSectionChange: vi.fn(),
     intl: getIntlAsProp(),
@@ -45,7 +48,9 @@ describe('<SectionForm />', () => {
   });
 
   beforeAll(() => {
-    window.IntersectionObserver = vi.fn().mockImplementation(intersectionObserverMock);
+    window.IntersectionObserver = vi
+      .fn()
+      .mockImplementation(intersectionObserverMock);
   });
 
   afterAll(() => {
@@ -63,14 +68,19 @@ describe('<SectionForm />', () => {
 
     renderComponent({
       onSectionChange,
-      section: { ...mockHearingWithSections.data.sections[1], frontId: mockHearingWithSections.data.sections[1].id },
+      section: {
+        ...mockHearingWithSections.data.sections[1],
+        frontId: mockHearingWithSections.data.sections[1].id,
+      },
     });
 
     const titleInput = screen.getAllByLabelText('inLanguage-fi')[0];
 
     fireEvent.blur(titleInput, { target: { value: 'New Title' } });
 
-    expect(onSectionChange).toHaveBeenCalledWith(expect.anything(), 'title', { fi: 'New Title' });
+    expect(onSectionChange).toHaveBeenCalledWith(expect.anything(), 'title', {
+      fi: 'New Title',
+    });
   });
 
   it('should toggle commenting map tools', async () => {
@@ -82,7 +92,11 @@ describe('<SectionForm />', () => {
 
     fireEvent.click(checkbox);
 
-    expect(onSectionChange).toHaveBeenCalledWith(expect.anything(), 'commenting_map_tools', 'none');
+    expect(onSectionChange).toHaveBeenCalledWith(
+      expect.anything(),
+      'commenting_map_tools',
+      'none'
+    );
   });
 
   it('should call sectionMoveUp when move up button is clicked', () => {
@@ -91,7 +105,10 @@ describe('<SectionForm />', () => {
     renderComponent({
       sectionMoveUp,
       isFirstSubsection: false,
-      section: { ...mockHearingWithSections.data.sections[1], frontId: mockHearingWithSections.data.sections[1].id },
+      section: {
+        ...mockHearingWithSections.data.sections[1],
+        frontId: mockHearingWithSections.data.sections[1].id,
+      },
     });
 
     const button = screen.getByText('moveUp', { exact: false });
@@ -107,7 +124,10 @@ describe('<SectionForm />', () => {
     renderComponent({
       sectionMoveDown,
       isLastSubsection: false,
-      section: { ...mockHearingWithSections.data.sections[1], frontId: mockHearingWithSections.data.sections[1].id },
+      section: {
+        ...mockHearingWithSections.data.sections[1],
+        frontId: mockHearingWithSections.data.sections[1].id,
+      },
     });
 
     const button = screen.getByText('moveDown', { exact: false });

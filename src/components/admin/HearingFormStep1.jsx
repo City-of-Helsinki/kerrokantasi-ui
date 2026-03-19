@@ -8,10 +8,20 @@ import HearingLanguages from './HearingLanguages';
 import MultiLanguageTextField from '../forms/MultiLanguageTextField';
 import LabelModal from './LabelModal';
 import ContactModal from './ContactModal';
-import { contactShape, hearingShape, labelShape, organizationShape } from '../../types';
+import {
+  contactShape,
+  hearingShape,
+  labelShape,
+  organizationShape,
+} from '../../types';
 import getAttr from '../../utils/getAttr';
 import Icon from '../../utils/Icon';
-import { addLabel, addContact, saveContact, fetchHearingEditorContactPersons } from '../../actions/hearingEditor';
+import {
+  addLabel,
+  addContact,
+  saveContact,
+  fetchHearingEditorContactPersons,
+} from '../../actions/hearingEditor';
 import ContactCard from '../ContactCard';
 
 const HearingFormStep1 = ({
@@ -32,26 +42,32 @@ const HearingFormStep1 = ({
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedLabels, setSelectedLabels] = useState(hearing?.labels?.map(({ id }) => id) || []);
+  const [selectedLabels, setSelectedLabels] = useState(
+    hearing?.labels?.map(({ id }) => id) || []
+  );
   const [selectedContacts, setSelectedContacts] = useState(
-    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || [],
+    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || []
   );
 
   const onLabelsChange = (labels) => {
-    const newLabels = labelOptions.filter((item) => labels.some((label) => item.id === label.value));
+    const newLabels = labelOptions.filter((item) =>
+      labels.some((label) => item.id === label.value)
+    );
     setSelectedLabels(newLabels.map(({ id }) => id));
     onHearingChange(
       'labels',
-      newLabels.map(({ id }) => id),
+      newLabels.map(({ id }) => id)
     );
   };
 
   const onContactsChange = (contacts) => {
-    const newContacts = contactPersons.filter((item) => contacts.some((contact) => item.id === contact.value));
+    const newContacts = contactPersons.filter((item) =>
+      contacts.some((contact) => item.id === contact.value)
+    );
     setSelectedContacts(newContacts.filter(Boolean).map(({ id }) => id));
     onHearingChange(
       'contact_persons',
-      newContacts.map(({ id }) => id),
+      newContacts.map(({ id }) => id)
     );
   };
 
@@ -101,7 +117,10 @@ const HearingFormStep1 = ({
 
   return (
     <div className='form-step'>
-      <HearingLanguages hearingLanguages={hearingLanguages} onChange={onLanguagesChange} />
+      <HearingLanguages
+        hearingLanguages={hearingLanguages}
+        onChange={onLanguagesChange}
+      />
       <MultiLanguageTextField
         error={errors.title}
         languages={hearingLanguages}
@@ -125,8 +144,11 @@ const HearingFormStep1 = ({
             multiSelect
             name='labels'
             filter={(option, inputValue) => {
-              const label = typeof option.label === 'string' ? option.label.toLowerCase() : option.label.toString();
-              return label.includes(inputValue.toLowerCase())
+              const label =
+                typeof option.label === 'string'
+                  ? option.label.toLowerCase()
+                  : option.label.toString();
+              return label.includes(inputValue.toLowerCase());
             }}
             value={hearing.labels.map((opt) => ({
               value: opt.id,
@@ -140,7 +162,9 @@ const HearingFormStep1 = ({
               label: getAttr(opt.label, language),
             }))}
             texts={{
-              placeholder: intl.formatMessage({ id: 'hearingLabelsPlaceholder' }),
+              placeholder: intl.formatMessage({
+                id: 'hearingLabelsPlaceholder',
+              }),
               label: intl.formatMessage({ id: 'hearingLabels' }),
             }}
             required
@@ -181,19 +205,26 @@ const HearingFormStep1 = ({
             name='contact_persons'
             onClose={onContactsChange}
             filter={(option, inputValue) => {
-              const label = typeof option.label === 'string' ? option.label.toLowerCase() : option.label.toString();
-              return label.includes(inputValue.toLowerCase())
+              const label =
+                typeof option.label === 'string'
+                  ? option.label.toLowerCase()
+                  : option.label.toString();
+              return label.includes(inputValue.toLowerCase());
             }}
             value={hearing.contact_persons.filter(Boolean).map((person) => {
               return {
                 value: person.id,
                 label: person.name,
-              }
+              };
             })}
-            options={contactPersons.map((person) =>  { return { value: person.id, label: person.name } })}
+            options={contactPersons.map((person) => {
+              return { value: person.id, label: person.name };
+            })}
             texts={{
-              placeholder: intl.formatMessage({ id: 'hearingContactsPlaceholder' }),
-              label: intl.formatMessage({ id: 'hearingContacts' })
+              placeholder: intl.formatMessage({
+                id: 'hearingContactsPlaceholder',
+              }),
+              label: intl.formatMessage({ id: 'hearingContacts' }),
             }}
             required
             invalid={!!errors.contact_persons}
@@ -236,7 +267,11 @@ const HearingFormStep1 = ({
           <FormattedMessage id='hearingFormNext' />
         </Button>
       </div>
-      <LabelModal isOpen={showLabelModal} onClose={closeLabelModal} onCreateLabel={onCreateLabel} />
+      <LabelModal
+        isOpen={showLabelModal}
+        onClose={closeLabelModal}
+        onCreateLabel={onCreateLabel}
+      />
       <ContactModal
         contactInfo={contactInfo}
         isOpen={showContactModal}

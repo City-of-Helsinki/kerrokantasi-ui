@@ -9,7 +9,7 @@ describe('<SilentRenew />', () => {
     renderWithProviders(
       <MemoryRouter>
         <SilentRenew />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
   });
 });

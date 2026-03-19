@@ -25,7 +25,9 @@ describe('<BrowserWarning />', () => {
   it('contains correct amount of text containers, 1 for each language so 3 in total', () => {
     const { container } = renderComponent();
 
-    const textContainers = container.querySelectorAll(BROWSER_WARNING_CONTAINER_CLASS);
+    const textContainers = container.querySelectorAll(
+      BROWSER_WARNING_CONTAINER_CLASS
+    );
 
     expect(textContainers).toHaveLength(3);
   });
@@ -33,7 +35,9 @@ describe('<BrowserWarning />', () => {
   it('contains 2 p elements per language', () => {
     const { container } = renderComponent();
 
-    const textContainers = container.querySelectorAll(BROWSER_WARNING_CONTAINER_CLASS);
+    const textContainers = container.querySelectorAll(
+      BROWSER_WARNING_CONTAINER_CLASS
+    );
 
     const finnishTexts = textContainers[0].querySelectorAll('p');
     const swedishTexts = textContainers[1].querySelectorAll('p');
@@ -47,7 +51,9 @@ describe('<BrowserWarning />', () => {
   it('contains 3 links per language', () => {
     const { container } = renderComponent();
 
-    const textContainers = container.querySelectorAll(BROWSER_WARNING_CONTAINER_CLASS);
+    const textContainers = container.querySelectorAll(
+      BROWSER_WARNING_CONTAINER_CLASS
+    );
 
     const finnishLinks = textContainers[0].querySelectorAll('a');
     const swedishLinks = textContainers[1].querySelectorAll('a');

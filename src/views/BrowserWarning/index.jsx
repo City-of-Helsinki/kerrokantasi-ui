@@ -24,11 +24,15 @@ function BrowserWarning() {
       <div className='row'>
         <div className='col-xs-12'>
           <div className='browser-warning-text-container'>
-            <p>Kerrokantasi (Säg din åsikt) tjänsten fungerar inte med Internet Explorer.</p>
+            <p>
+              Kerrokantasi (Säg din åsikt) tjänsten fungerar inte med Internet
+              Explorer.
+            </p>
             <p>
               Vänligen använd någon annan webbläsare t.ex.
               <a href='https://www.google.com/intl/sv/chrome/'>Chrome</a>,
-              <a href='https://www.mozilla.org/sv-SE/firefox/new/'>Firefox</a> eller
+              <a href='https://www.mozilla.org/sv-SE/firefox/new/'>Firefox</a>{' '}
+              eller
               <a href='https://www.microsoft.com/sv-se/edge'>Edge</a>.
             </p>
           </div>
@@ -37,11 +41,15 @@ function BrowserWarning() {
       <div className='row'>
         <div className='col-xs-12'>
           <div className='browser-warning-text-container'>
-            <p>Kerrokantasi (Voice your opinion) service does not work with Internet Explorer.</p>
+            <p>
+              Kerrokantasi (Voice your opinion) service does not work with
+              Internet Explorer.
+            </p>
             <p>
               Please use another browser such as
               <a href='https://www.google.com/intl/en_us/chrome/'>Chrome</a>,
-              <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a> or
+              <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a>{' '}
+              or
               <a href='https://www.microsoft.com/en-us/edge'>Edge</a>.
             </p>
           </div>

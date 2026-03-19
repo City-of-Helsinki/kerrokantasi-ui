@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 };
 
 const toggleContrastState = (state) => ({
-  isHighContrast: !state.isHighContrast
+  isHighContrast: !state.isHighContrast,
 });
 
 export default handleActions({ toggleContrastState }, INITIAL_STATE);

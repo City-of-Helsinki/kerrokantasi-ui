@@ -33,7 +33,9 @@ describe('<RichTextEditor />', () => {
     const onChange = vi.fn();
     renderComponent({ onChange });
 
-    fireEvent.input(screen.getByRole('textbox'), { target: { textContent: 'Hello' } });
+    fireEvent.input(screen.getByRole('textbox'), {
+      target: { textContent: 'Hello' },
+    });
 
     expect(onChange).toHaveBeenCalled();
   });

@@ -4,36 +4,54 @@ import { has, isEmpty, omit } from 'lodash';
 
 import { EditorActions } from '../actions/hearingEditor';
 
-
 const beginFetchHearing = (state, { payload }) => {
   if (state[payload.hearingSlug]) {
     // If we already have this hearing, we're only probably refreshing it,
     // so preserve the current state if we can...
     return state;
   }
-  return updeep({
-    [payload.hearingSlug]: { state: "pending" }
-  }, state);
+  return updeep(
+    {
+      [payload.hearingSlug]: { state: 'pending' },
+    },
+    state
+  );
 };
 
+const receiveHearing = (state, { payload }) =>
+  updeep(
+    {
+      [payload.hearingSlug]: { state: 'done', data: payload.data },
+    },
+    state
+  );
 
-const receiveHearing = (state, { payload }) => updeep({
-  [payload.hearingSlug]: { state: "done", data: payload.data }
-}, state);
+const deletingHearingDraft = (state, { payload }) =>
+  updeep(
+    {
+      [payload.hearingSlug]: { state: 'pending' },
+    },
+    state
+  );
 
-const deletingHearingDraft = (state, { payload }) => updeep({
-  [payload.hearingSlug]: { state: "pending" }
-}, state);
+const deletedHearingDraft = (state, { payload }) =>
+  omit(state, [payload.hearingSlug]);
 
-const deletedHearingDraft = (state, { payload }) => omit(state, [payload.hearingSlug]);
+const receiveHearingError = (state, { payload }) =>
+  updeep(
+    {
+      [payload.hearingSlug]: { state: 'error' },
+    },
+    state
+  );
 
-const receiveHearingError = (state, { payload }) => updeep({
-  [payload.hearingSlug]: { state: "error" }
-}, state);
-
-const savedHearing = (state, { payload: { hearing } }) => updeep({
-  [hearing.slug]: { state: 'done', data: hearing }
-}, state);
+const savedHearing = (state, { payload: { hearing } }) =>
+  updeep(
+    {
+      [hearing.slug]: { state: 'done', data: hearing },
+    },
+    state
+  );
 
 const savedHearingChange = (state, { payload }) => {
   const { hearing } = payload;
@@ -41,27 +59,34 @@ const savedHearingChange = (state, { payload }) => {
     // We have just saved hearing with the same slug as we have in
     // state. In order to keep the hearing up to date, let's update it
     // accordingly.
-    return updeep({
-      [hearing.slug]: { state: "done", data: hearing }
-    }, state);
+    return updeep(
+      {
+        [hearing.slug]: { state: 'done', data: hearing },
+      },
+      state
+    );
   }
   return state;
 };
 
 const clearNonPublicHearings = (state) => {
-  const clearNonPublic = (hearing) => ((hearing.data && !hearing.data.published) ? { state: "pending" } : hearing);
+  const clearNonPublic = (hearing) =>
+    hearing.data && !hearing.data.published ? { state: 'pending' } : hearing;
   return updeep.map(clearNonPublic, state);
 };
 
-export default handleActions({
-  beginFetchHearing,
-  receiveHearing,
-  receiveHearingError,
-  savedHearingChange,
-  savedNewHearing: savedHearingChange,
-  clearNonPublicHearings,
-  [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
-  [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
-  deletingHearingDraft,
-  deletedHearingDraft
-}, {});
+export default handleActions(
+  {
+    beginFetchHearing,
+    receiveHearing,
+    receiveHearingError,
+    savedHearingChange,
+    savedNewHearing: savedHearingChange,
+    clearNonPublicHearings,
+    [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
+    [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
+    deletingHearingDraft,
+    deletedHearingDraft,
+  },
+  {}
+);
