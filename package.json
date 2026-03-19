@@ -95,7 +95,6 @@
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
     "lodash": "^4.17.23",
-    "minimist": "^1.2.6",
     "moment": "^2.29.2",
     "normalizr": "^3.6.1",
     "oidc-client": "^1.11.5",
