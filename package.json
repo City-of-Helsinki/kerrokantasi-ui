@@ -106,7 +106,6 @@
     "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.0.0",
-    "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
     "react-i18next": "^15.5.2",
     "react-image-lightbox": "^5.1.1",
