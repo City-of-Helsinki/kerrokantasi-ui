@@ -35,7 +35,7 @@ RUN yarn config set network-timeout 300000
 RUN yarn --frozen-lockfile --ignore-scripts --network-concurrency 1 && yarn cache clean --force
 RUN yarn update-runtime-env
 
-COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .babelrc .prettierrc .env* /app/
+COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* /app/
 COPY --chown=default:root ./src /app/src
 
 # =============================

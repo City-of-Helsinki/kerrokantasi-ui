@@ -8,7 +8,7 @@
   },
   "scripts": {
     "app:version": "echo \"$npm_package_version\"",
-    "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn clear-babel-cache && yarn update-runtime-env && vite ; else yarn clear-babel-cache && yarn update-runtime-env && vite ; fi",
+    "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn update-runtime-env && vite ; else yarn update-runtime-env && vite ; fi",
     "build": "vite build",
     "serve": "vite preview",
     "fetch-plugins": "node deploy/fetch_plugins.js",
@@ -28,8 +28,7 @@
     "report-merged-coverage": "nyc report --report-dir=coverage --temp-dir=coverage-temp",
     "snyk-protect": "snyk protect",
     "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi && yarn update-runtime-env",
-    "update-runtime-env": "esrun scripts/update-runtime-env.js",
-    "clear-babel-cache": "rm -rf ./node_modules/.cache/@babel"
+    "update-runtime-env": "esrun scripts/update-runtime-env.js"
   },
   "repository": {
     "type": "git",
@@ -39,13 +38,6 @@
     "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
   },
   "dependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/eslint-parser": "^7.27.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/preset-env": "^7.22.2",
-    "@babel/preset-react": "^7.22.3",
     "@city-of-helsinki/react-helsinki-notification-manager": "^0.1.0",
     "@draft-js-plugins/drag-n-drop": "^4.2.0",
     "@draft-js-plugins/editor": "^4.1.0",
@@ -55,11 +47,11 @@
     "@eslint/js": "^9.25.1",
     "@formatjs/intl-relativetimeformat": "^11.2.14",
     "@sentry/react": "^9.22.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "alertifyjs": "^1.13.1",
     "autoprefixer": "^10.4.15",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-transform-imports": "^2.0.0",
     "bootstrap-sass": "3.4.3",
     "browser-image-compression": "^2.0.2",
     "classnames": "^2.3.1",
@@ -73,6 +65,7 @@
     "eslint-config-vitest-globals": "^2.0.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-sonarjs": "^3.0.2",
@@ -143,11 +136,11 @@
     "istanbul-merge": "^2.0.0",
     "jsdom": "^26.1.0",
     "nyc": "^17.1.0",
+    "prettier": "^3.8.1",
     "redux-mock-store": "^1.5.4",
     "vitest-fetch-mock": "^0.4.5"
   },
   "resolutions": {
-    "@babel/helpers": "^7.27.0",
     "cross-spawn": "^7.0.6",
     "micromatch": "^4.0.8",
     "rollup": "^4.24.4"
