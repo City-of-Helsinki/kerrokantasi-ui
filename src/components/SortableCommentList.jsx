@@ -118,9 +118,7 @@ const SortableCommentListComponent = ({
 
   useEffect(() => {
     fetchComments(section.id, DEFAULT_ORDERING);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [section.id]);
 
   useEffect(() => {
     if (sectionComments) {

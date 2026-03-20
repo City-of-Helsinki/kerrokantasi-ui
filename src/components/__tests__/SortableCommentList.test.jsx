@@ -181,4 +181,62 @@ describe('<SortableCommentList />', () => {
 
     waitFor(() => expect(fetchCommentsMock).toHaveBeenCalledTimes(2));
   });
+
+  it('should fetch comments again when section changes', async () => {
+    const fetchCommentsMock = vi.fn();
+    const firstSection = {
+      ...mockHearingWithSections.data.sections[0],
+      questions: [],
+    };
+    const secondSection = {
+      ...mockHearingWithSections.data.sections[1],
+      questions: [],
+    };
+
+    const store = mockStore(storeDefaultState);
+
+    const defaultProps = {
+      hearingSlug: mockHearingWithSections.data.slug,
+      canVote: true,
+      canComment: true,
+      published: true,
+      fetchComments: fetchCommentsMock,
+    };
+
+    const { rerender } = renderWithProviders(
+      <MemoryRouter>
+        <SortableCommentListComponent
+          intl={getIntlAsProp()}
+          {...defaultProps}
+          section={firstSection}
+        />
+      </MemoryRouter>,
+      { store }
+    );
+
+    await waitFor(() =>
+      expect(fetchCommentsMock).toHaveBeenCalledWith(
+        firstSection.id,
+        '-created_at'
+      )
+    );
+
+    rerender(
+      <MemoryRouter>
+        <SortableCommentListComponent
+          intl={getIntlAsProp()}
+          {...defaultProps}
+          section={secondSection}
+        />
+      </MemoryRouter>
+    );
+
+    // Verify that fetch was called again when section changed
+    await waitFor(() =>
+      expect(fetchCommentsMock).toHaveBeenCalledWith(
+        secondSection.id,
+        '-created_at'
+      )
+    );
+  });
 });
