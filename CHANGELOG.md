@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.19.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.1...kerrokantasi-ui-v1.19.2) (2026-03-25)
+
+
+### Bug Fixes
+
+* Comments fetching fix on section change ([820caa6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/820caa6d8e13553822d8175afb645d486c147386))
+
+
+### Dependencies
+
+* Remove unused @testing-library/dom dependency ([2ae7246](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2ae724670b66f3bc72cffa845178e762df597259))
+* Remove unused @testing-library/react-hooks dependency ([5c7130e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5c7130e28e0ee79995849a01cf268c00e041abb5))
+* Remove unused @types/node dependency ([6719516](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/67195161eab1afb081606f3bbc2fb1403d6e88a9))
+* Remove unused @vitejs/plugin-react dependency ([fc3b7b8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fc3b7b87224a06ab974fcac2ab0c752ad0ff790e))
+* Remove unused Babel plugin dependencies ([cb4b367](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/cb4b3678c45a4726a569cfc735cfee9fd2079abc))
+* Remove unused cross-fetch dependency ([80fd72c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/80fd72c013508cea9982100689d59f2793c25a53))
+* Remove unused markdown-loader dependency ([c3da186](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c3da18692b7c7cc623a4e5b17612a92336844986))
+* Remove unused minimist dependency ([0255d95](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0255d959227207100e7170acb7ad8ab3955b5036))
+* Remove unused oidc-client and redux-oidc dependencies ([852aafe](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/852aafe7144f0fcb051a3a39583baada36b7cfbc))
+* Remove unused react-datetime dependency ([5e1294c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5e1294cd46d602a6d34e7b7dae35eac4511167dd))
+* Remove unused react-dropzone dependency ([9ad2672](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9ad26720b9392ab693c6866d7a294106a7d439d0))
+* Remove unused react-select and emotion dependencies ([568ade2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/568ade28c69aed9c1ba708ae6fd4df885a67aca7))
+* Remove unused react-toastify dependency ([3bc4097](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/3bc40974ddb022b898182da774db64356064e049))
+* Remove unused scrolltop dependency ([bbb380e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bbb380ec9dbaf58c0d3a02c0f075916ca65ba586))
+* Remove unused url dependency ([77b6f75](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/77b6f75c459c6a51ae623eb85d0176f3236a86ab))
+
 ## [1.19.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.0...kerrokantasi-ui-v1.19.1) (2026-03-18)
 
 
