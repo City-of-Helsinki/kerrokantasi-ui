@@ -8,8 +8,12 @@ vi.mock('leaflet', async () => {
 
   return {
     ...mod,
-    LatLng: vi.fn((lat, lng) => ({ lat, lng })),
-    Icon: vi.fn(() => ({})),
+    LatLng: vi.fn(function (lat, lng) {
+      return { lat, lng };
+    }),
+    Icon: vi.fn(function () {
+      return {};
+    }),
   };
 });
 

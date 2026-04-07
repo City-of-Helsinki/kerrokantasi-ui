@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-incomplete-assertions */
-/* eslint-disable sonarjs/no-nested-functions */
 import {
   initNewSection,
   getSectionCommentingErrorMessage,

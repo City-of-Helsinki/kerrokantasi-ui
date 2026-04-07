@@ -2,7 +2,6 @@
 import path from 'path';
 
 import react from '@vitejs/plugin-react-swc';
-import eslint from 'vite-plugin-eslint';
 import {
   defineConfig,
   coverageConfigDefaults,
@@ -46,7 +45,6 @@ export default defineConfig(() => {
     envPrefix: 'REACT_APP_',
     plugins: [
       react(),
-      eslint(),
       ENABLE_E2E_COVERAGE
         ? istanbul({
             requireEnv: false,
@@ -59,13 +57,32 @@ export default defineConfig(() => {
       outDir: './build',
       emptyOutDir: true,
       sourcemap: true,
+      cssMinify: 'esbuild',
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            ui: ['hds-react'],
-            editor: ['draft-js', '@draft-js-plugins/editor'],
-            maps: ['leaflet', 'react-leaflet'],
+          manualChunks(id) {
+            if (!id.includes('node_modules')) {
+              return;
+            }
+
+            if (id.includes('/react/') || id.includes('/react-dom/')) {
+              return 'vendor';
+            }
+
+            if (id.includes('/hds-react/')) {
+              return 'ui';
+            }
+
+            if (
+              id.includes('/draft-js/') ||
+              id.includes('/@draft-js-plugins/editor/')
+            ) {
+              return 'editor';
+            }
+
+            if (id.includes('/leaflet/') || id.includes('/react-leaflet/')) {
+              return 'maps';
+            }
           },
         },
       },
@@ -79,19 +96,26 @@ export default defineConfig(() => {
       port: 8086,
     },
     resolve: {
-      alias: {
-        '@city-config': cityConfig,
-        '@city-assets': cityAssets,
-        '@city-i18n': cityi18n,
-        '@city-images': cityImages,
-        'kerrokantasi-ui': ui,
-        'kerrokantasi-ui-modules': modules,
-      },
+      alias: [
+        { find: '@city-config', replacement: cityConfig },
+        { find: '@city-assets', replacement: cityAssets },
+        { find: '@city-i18n', replacement: cityi18n },
+        { find: '@city-images', replacement: cityImages },
+        { find: 'kerrokantasi-ui', replacement: ui },
+        { find: 'kerrokantasi-ui-modules', replacement: modules },
+        {
+          find: /^leaflet-draw$/,
+          replacement: path.resolve(__dirname, './src/utils/leafletDrawCompat.js'),
+        },
+      ],
     },
     define: {
       global: 'globalThis',
     },
     css: {
+      lightningcss: {
+        errorRecovery: true,
+      },
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
@@ -115,7 +139,7 @@ export default defineConfig(() => {
       ], // Exclude Playwright files
       coverage: {
         reporter: ['clover', 'json', 'lcov', 'text'],
-        include: ['src/**/*'],
+        include: ['src/**/*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}'],
         exclude: [
           ...coverageConfigDefaults.exclude,
           '**/__snapshots__/**',
@@ -124,6 +148,9 @@ export default defineConfig(() => {
         provider: 'istanbul',
       },
       testTimeout: 100000,
+      deps: {
+        interopDefault: true,
+      },
       alias: {
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
           path.resolve(__dirname, './src/__mocks__/fileMock.js'),

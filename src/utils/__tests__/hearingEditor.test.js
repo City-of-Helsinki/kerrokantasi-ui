@@ -1,5 +1,3 @@
-import { describe } from 'node:test';
-
 import { prepareSection, validateHearing } from '../hearingEditor';
 import { initNewHearing } from '../hearing';
 
