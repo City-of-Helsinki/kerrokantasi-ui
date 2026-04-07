@@ -36,9 +36,9 @@ describe('useMatomo', () => {
   it('should trackPageView', () => {
     const trackPageViewMock = vi.fn();
 
-    vi.spyOn(MatomoTracker, 'default').mockImplementation(() => ({
-      trackPageView: trackPageViewMock,
-    }));
+    vi.spyOn(MatomoTracker, 'default').mockImplementation(function () {
+      return { trackPageView: trackPageViewMock };
+    });
 
     const instance = new MatomoTracker.default({
       urlBase: MOCK_URL,

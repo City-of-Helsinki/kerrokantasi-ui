@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { get, isEmpty, find } from 'lodash';
@@ -107,18 +107,27 @@ const SortableCommentListComponent = ({
    * @param {string} ordering - The ordering of the comments.
    * @returns {Promise} - A promise that resolves to the fetched comments.
    */
-  const fetchComments = (sectionId, ordering) => {
-    // if a plugin is involved, we must fetch all the comments for display, not just a select few
-    if (displayVisualization && section.plugin_identifier) {
-      return fetchAllComments(hearingSlug, sectionId, ordering);
-    }
+  const fetchComments = useCallback(
+    (sectionId, ordering) => {
+      // if a plugin is involved, we must fetch all the comments for display, not just a select few
+      if (displayVisualization && section.plugin_identifier) {
+        return fetchAllComments(hearingSlug, sectionId, ordering);
+      }
 
-    return fetchCommentsFn(sectionId, ordering);
-  };
+      return fetchCommentsFn(sectionId, ordering);
+    },
+    [
+      displayVisualization,
+      section.plugin_identifier,
+      fetchAllComments,
+      fetchCommentsFn,
+      hearingSlug,
+    ]
+  );
 
   useEffect(() => {
     fetchComments(section.id, DEFAULT_ORDERING);
-  }, [section.id]);
+  }, [section.id, fetchComments]);
 
   useEffect(() => {
     if (sectionComments) {

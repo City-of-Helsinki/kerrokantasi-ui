@@ -55,10 +55,12 @@ const renderComponent = (propOverrides, storeOverride) => {
 describe('<HearingFormStep2 />', () => {
   const originalInterSectionObserver = window.IntersectionObserver;
 
-  const intersectionObserverMock = () => ({
-    observe: () => null,
-    disconnect: () => null,
-  });
+  const intersectionObserverMock = function () {
+    return {
+      observe: () => null,
+      disconnect: () => null,
+    };
+  };
 
   beforeAll(() => {
     window.IntersectionObserver = vi

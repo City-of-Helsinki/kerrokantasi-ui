@@ -10,22 +10,21 @@ import { getCityConfig, getCityPublic } from '../scripts/utils';
 
 const USE_TEST_ENV = process.env.NODE_ENV === 'test';
 const defaultNodeEnv = USE_TEST_ENV ? 'test' : 'development';
-
-/* @ts-ignore */
-import.meta.env = {};
-
-import.meta.env.NODE_ENV = process.env.NODE_ENV || defaultNodeEnv;
+const runtimeEnv = {
+  ...process.env,
+  NODE_ENV: process.env.NODE_ENV || defaultNodeEnv,
+};
 
 dotenv.config({
-  processEnv: import.meta.env,
+  processEnv: runtimeEnv,
   ...(USE_TEST_ENV
     ? { path: ['.env', '.env.test'] }
     : { path: ['.env', '.env.local'] }),
   override: true,
 });
 
-const cityConfig = getCityConfig(import.meta.env);
-const cityPublic = getCityPublic(import.meta.env, cityConfig);
+const cityConfig = getCityConfig(runtimeEnv);
+const cityPublic = getCityPublic(runtimeEnv, cityConfig);
 
 // Load generated runtime configuration to be available in tests
 require(`${cityPublic}/test-env-config`);
@@ -45,8 +44,7 @@ window.matchMedia =
 
 window.scrollTo = vi.fn();
 
-// Mock ResizeObserver which is not available in JSDOM
-class ResizeObserver {
+class MockObserver {
   constructor() {
     this.observe = vi.fn();
     this.unobserve = vi.fn();
@@ -54,8 +52,11 @@ class ResizeObserver {
   }
 }
 
-// Add ResizeObserver to the global object
-global.ResizeObserver = ResizeObserver;
+// Mock ResizeObserver which is not available in JSDOM
+global.ResizeObserver = MockObserver;
+
+// Mock IntersectionObserver which is not available in JSDOM
+global.IntersectionObserver = MockObserver;
 
 Object.assign(global, { TextDecoder, TextEncoder });
 
