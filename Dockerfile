@@ -34,8 +34,8 @@ RUN export APP_VERSION=$(grep version package.json | awk -F: '{ print $2 }' | se
 # ============================================================
 FROM container-registry.platta-net.hel.fi/devops-toolchain/nginx-spa-standard:1.0 AS production
 
-# 1. Copy the compiled assets (Using /app/dist as Vite default)
-COPY --from=staticbuilder /app/dist /usr/share/nginx/html
+# 1. Copy the compiled assets
+COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # 2. Inject App-Specific Nginx Config
 COPY --from=staticbuilder /app/readiness.conf* /etc/nginx/includes/
