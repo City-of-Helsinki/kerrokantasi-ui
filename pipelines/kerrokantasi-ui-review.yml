@@ -40,7 +40,7 @@ resources:
       type: git
       # Azure DevOps project/repository
       name: kerrokantasi/kerrokantasi-pipelines
-      ref: Ui-nginx-port
+      ref: refs/heads/Ui-nginx-port
 
 extends:
   # Filename in Azure DevOps Repository
