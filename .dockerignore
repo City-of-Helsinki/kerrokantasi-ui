@@ -3,3 +3,6 @@ dist
 .dockerignore
 Dockerfile
 Dockerfile.prod
+.git
+.gitignore
+*.md
