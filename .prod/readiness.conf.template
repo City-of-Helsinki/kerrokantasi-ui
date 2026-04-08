@@ -1,3 +1,7 @@
+location /healthz {
+    access_log off;
+    return 200 'OK';
+}
 # ── Readiness Check ──────────────────────────────────────────
 location /readiness {
     access_log off;
