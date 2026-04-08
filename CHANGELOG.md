@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.2...kerrokantasi-ui-v1.19.3) (2026-04-08)
+
+
+### Dependencies
+
+* Bump vite from 8.0.3 to 8.0.5 ([71bae43](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/71bae43ed903554233aea82416293aba3a4552b9))
+* Update vulnerable packages ([6ddcfe2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6ddcfe20db4bb3b4aa3f42fd9eac037185ee987a))
+
 ## [1.19.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.1...kerrokantasi-ui-v1.19.2) (2026-03-25)
 
 
