@@ -33,7 +33,8 @@ RUN export APP_VERSION=$(grep version package.json | awk -F: '{ print $2 }' | se
 # STAGE 2: Production Runtime
 # ============================================================
 FROM container-registry.platta-net.hel.fi/devops-toolchain/nginx-spa-standard:1.0 AS production
-
+USER root
+RUN rm -rf /etc/nginx/includes/*
 # 1. Copy the compiled assets
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
@@ -46,7 +47,7 @@ WORKDIR /usr/share/nginx/html
 COPY ./scripts/env.sh .
 COPY .env .
 COPY package.json .
-
+USER 1001
 # - USER (Inherited 1001 from base image)
 # - EXPOSE (Inherited 8080 from base image)
 # - ENTRYPOINT/CMD (Inherited from base image)
