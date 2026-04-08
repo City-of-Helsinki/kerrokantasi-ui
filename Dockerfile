@@ -17,6 +17,7 @@ RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cach
 # 3. Copy remaining source files
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
 COPY --chown=default:root ./src ./src
+COPY --chown=default:root ./.prod ./.prod
 
 # 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
