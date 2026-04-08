@@ -7,17 +7,24 @@ FROM container-registry.platta-net.hel.fi/devops-toolchain/nodejs-builder-base:1
 # Base already has /app as WORKDIR and default user active
 COPY --chown=default:root package.json yarn.lock ./
 COPY --chown=default:root ./scripts ./scripts
+COPY --chown=default:root ./public ./public
+COPY --chown=default:root ./cities ./cities
+COPY --chown=default:root ./assets ./assets
+
+# 2. Run the install (Added --ignore-engines for the HDS Node 24 issue)
 RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cache clean --force
 
-# 2. Copy source and build
-COPY --chown=default:root . . 
-RUN yarn build
+# 3. Copy remaining source files
+COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
+COPY --chown=default:root ./src ./src
 
-# 3. Generate the readiness include file
+# 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
 ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 
-# Use the gettext/envsubst built into base image
+RUN yarn build
+
+# 5. Generate the readiness include file
 RUN export APP_VERSION=$(grep version package.json | awk -F: '{ print $2 }' | sed 's/[", ]//g') && \
     envsubst '${APP_VERSION},${REACT_APP_RELEASE}' < .prod/readiness.conf.template > readiness.conf
 
@@ -26,7 +33,7 @@ RUN export APP_VERSION=$(grep version package.json | awk -F: '{ print $2 }' | se
 # ============================================================
 FROM container-registry.platta-net.hel.fi/devops-toolchain/nginx-spa-standard:1.0 AS production
 
-# 1. Copy the compiled static assets
+# 1. Copy the compiled assets (Using /app/dist as Vite default)
 COPY --from=staticbuilder /app/dist /usr/share/nginx/html
 
 # 2. Inject App-Specific Nginx Config
