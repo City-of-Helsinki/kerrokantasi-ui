@@ -1,5 +1,5 @@
 {
-  "hostname": "https://localhost:8086",
+  "hostname": "https://localhost:8080",
   "dataProtectionFI": "https://www.example.fi",
   "dataProtectionSV": "http://www.example.sv",
   "feedbackEmailEN": "mailto:kerrokantasi@example.com?subject=Kerrokantasi-palaute-en",
