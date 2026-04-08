@@ -6,6 +6,7 @@ FROM container-registry.platta-net.hel.fi/devops-toolchain/nodejs-builder-base:1
 # 1. Install dependencies
 # Base already has /app as WORKDIR and default user active
 COPY --chown=default:root package.json yarn.lock ./
+COPY --chown=default:root ./scripts ./scripts
 RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cache clean --force
 
 # 2. Copy source and build
