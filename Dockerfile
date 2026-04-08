@@ -38,11 +38,11 @@ FROM container-registry.platta-net.hel.fi/devops-toolchain/nginx-spa-standard:1.
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # 2. Inject App-Specific Nginx Config
-COPY --from=staticbuilder /app/readiness.conf* /etc/nginx/includes/
+COPY --from=staticbuilder /app/readiness.conf /etc/nginx/includes/placeholder.conf
 COPY .prod/nginx_env.conf /etc/nginx/env/
 
 # 3. Setup Runtime Env Injection
-# The Managed Entrypoint in the base image will automatically execute env.sh
+WORKDIR /usr/share/nginx/html
 COPY ./scripts/env.sh .
 COPY .env .
 COPY package.json .
