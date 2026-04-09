@@ -1,7 +1,7 @@
 # ============================================================
 # STAGE 1: Build the Static Assets
 # ============================================================
-FROM container-registry.platta-net.hel.fi/devops-toolchain/nodejs-builder-base:1.0 AS staticbuilder
+FROM helsinki.azurecr.io/nodejs-builder-base:1.0 AS staticbuilder
 
 # 1. Install dependencies
 # Base already has /app as WORKDIR and default user active
@@ -17,7 +17,6 @@ RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cach
 # 3. Copy remaining source files
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
 COPY --chown=default:root ./src ./src
-COPY --chown=default:root ./.prod ./.prod
 
 # 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
@@ -25,29 +24,23 @@ ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 
 RUN yarn build
 
-# 5. Generate the readiness include file
-RUN export APP_VERSION=$(grep version package.json | awk -F: '{ print $2 }' | sed 's/[", ]//g') && \
-    envsubst '${APP_VERSION},${REACT_APP_RELEASE}' < .prod/readiness.conf.template > readiness.conf
 
 # ============================================================
 # STAGE 2: Production Runtime
 # ============================================================
-FROM container-registry.platta-net.hel.fi/devops-toolchain/nginx-spa-standard:1.0 AS production
+FROM helsinki.azurecr.io/nginx-spa-standard:1.0 AS production
 USER root
 RUN rm -rf /etc/nginx/includes/*
 # 1. Copy the compiled assets
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
-# 2. Inject App-Specific Nginx Config
-COPY --from=staticbuilder /app/readiness.conf /etc/nginx/includes/placeholder.conf
-COPY .prod/nginx_env.conf /etc/nginx/env/
-
-# 3. Setup Runtime Env Injection
+# 2. Setup Runtime Env Injection
 WORKDIR /usr/share/nginx/html
 COPY ./scripts/env.sh .
 COPY .env .
+
+# 3. Inject Versioning for the /readiness endpoint from package.json using base image
 COPY package.json .
 USER 1001
-# - USER (Inherited 1001 from base image)
 # - EXPOSE (Inherited 8080 from base image)
 # - ENTRYPOINT/CMD (Inherited from base image)
