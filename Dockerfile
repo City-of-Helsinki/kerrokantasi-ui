@@ -4,7 +4,7 @@
 FROM helsinki.azurecr.io/nodejs-builder-base:1.0 AS staticbuilder
 
 # 1. Install dependencies
-# Base already has /app as WORKDIR and default user active
+# Base already has /app as WORKDIR
 COPY --chown=default:root package.json yarn.lock ./
 COPY --chown=default:root ./scripts ./scripts
 COPY --chown=default:root ./public ./public
