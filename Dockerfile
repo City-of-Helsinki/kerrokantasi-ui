@@ -31,6 +31,8 @@ RUN yarn build
 FROM helsinki.azurecr.io/nginx-spa-standard:1.0 AS production
 USER root
 RUN rm -rf /etc/nginx/includes/*
+ARG REACT_APP_SENTRY_RELEASE
+ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 # 1. Copy the compiled assets
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
