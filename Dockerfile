@@ -11,7 +11,7 @@ COPY --chown=default:root ./public ./public
 COPY --chown=default:root ./cities ./cities
 COPY --chown=default:root ./assets ./assets
 
-# 2. Run the install (Added --ignore-engines for the HDS Node 24 issue)
+# 2. Run the install
 RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cache clean --force
 
 # 3. Copy remaining source files
