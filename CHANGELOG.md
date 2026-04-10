@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.3...kerrokantasi-ui-v1.19.4) (2026-04-10)
+
+
+### Dependencies
+
+* Update vulnerable packages ([aec780c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/aec780c3787af359eb8e6d7119663cbec441f1ad))
+
 ## [1.19.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.2...kerrokantasi-ui-v1.19.3) (2026-04-08)
 
 
