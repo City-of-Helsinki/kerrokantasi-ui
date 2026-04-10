@@ -682,8 +682,8 @@ class RichTextEditor extends React.Component {
     const selection = editorState.getSelection();
     const newContent = Modifier.insertText(contentState, selection, linkText);
 
-    // convert given targetId into javascirpt focus function
-    const hrefValue = `javascript:document.getElementById('${linkTargetId}').focus();`;
+    // Use a normal fragment link for skip navigation to avoid javascript: URLs.
+    const hrefValue = `#${linkTargetId}`;
     const className = linkIsHidden ? 'hidden-link' : '';
     const newContentWithEntity = newContent.createEntity('LINK', 'MUTABLE', {
       url: hrefValue,
