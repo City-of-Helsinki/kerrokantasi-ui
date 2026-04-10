@@ -68,7 +68,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-sonarjs": "^4.0.2",
     "esrun": "^3.2.26",
     "font-awesome": "^4.7.0",
     "glob": "^10.5.0",
