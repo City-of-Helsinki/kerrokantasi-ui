@@ -29,8 +29,7 @@ RUN yarn build
 # STAGE 2: Production Runtime
 # ============================================================
 FROM helsinki.azurecr.io/nginx-spa-standard:1.0 AS production
-USER root
-RUN rm -rf /etc/nginx/includes/*
+
 ARG REACT_APP_SENTRY_RELEASE
 ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 # 1. Copy the compiled assets
@@ -43,6 +42,6 @@ COPY .env .
 
 # 3. Inject Versioning for the /readiness endpoint from package.json using base image
 COPY package.json .
-USER 1001
+# - USER 1001 (Inherited USER from base image)
 # - EXPOSE (Inherited 8080 from base image)
 # - ENTRYPOINT/CMD (Inherited from base image)
