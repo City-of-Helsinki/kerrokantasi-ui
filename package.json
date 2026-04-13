@@ -6,6 +6,7 @@
   "engines": {
     "node": ">=22.13.1"
   },
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "app:version": "echo \"$npm_package_version\"",
     "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn update-runtime-env && vite ; else yarn update-runtime-env && vite ; fi",
