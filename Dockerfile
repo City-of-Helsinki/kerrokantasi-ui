@@ -20,7 +20,6 @@ COPY --chown=default:root ./src ./src
 
 # 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
-ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 
 RUN yarn build
 
