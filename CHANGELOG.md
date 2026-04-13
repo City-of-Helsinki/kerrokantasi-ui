@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.19.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.4...kerrokantasi-ui-v1.19.5) (2026-04-13)
+
+
+### Bug Fixes
+
+* Add packageManager field to package.json ([5e53626](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5e53626c1eb53c8f50e3092a7c5a4ca4f8c95b68))
+* Await userEvent.click calls in tests ([c8abbc8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c8abbc8eb2a94e2ac7b21cee3a1559be82f062ad))
+* Show existing comments when commenting is not ongoing ([fbe31b3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fbe31b38a8631762b07e2321afe47a78bd7f214f))
+
 ## [1.19.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.3...kerrokantasi-ui-v1.19.4) (2026-04-10)
 
 
