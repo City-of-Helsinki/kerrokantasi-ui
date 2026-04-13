@@ -60,7 +60,7 @@ describe('<QuestionForm />', () => {
     const onChange = vi.fn();
     renderComponent({ onChange });
 
-    userEvent.click(screen.getByLabelText('fi test one'));
+    await userEvent.click(screen.getByLabelText('fi test one'));
     await waitFor(() => {
       expect(onChange).toHaveBeenCalledWith(10, TYPE_SINGLE_CHOICE, 20);
     });
@@ -104,7 +104,7 @@ describe('<QuestionForm />', () => {
 
     renderComponent({ question, onChange });
 
-    userEvent.click(screen.getByLabelText('fi test one'));
+    await userEvent.click(screen.getByLabelText('fi test one'));
     await waitFor(() => {
       expect(onChange).toHaveBeenCalledWith(10, TYPE_MULTIPLE_CHOICE, 20);
     });

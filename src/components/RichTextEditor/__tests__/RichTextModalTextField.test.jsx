@@ -45,7 +45,7 @@ describe('<RichTextModalTextField />', () => {
 
     const user = userEvent.setup();
 
-    user.type(input, 'test');
+    await user.type(input, 'test');
 
     await waitFor(() => expect(handleInputChangeMock).toHaveBeenCalled());
 
