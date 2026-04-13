@@ -36,12 +36,14 @@ ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # 2. Setup Runtime Env Injection
+# env.sh is provided by the base image
 WORKDIR /usr/share/nginx/html
-COPY ./scripts/env.sh .
 COPY .env .
 
 # 3. Inject Versioning for the /readiness endpoint from package.json using base image
 COPY package.json .
-# - USER 1001 (Inherited USER from base image)
-# - EXPOSE (Inherited 8080 from base image)
+
+# - env.sh      (Inherited from base image at /usr/share/nginx/html/env.sh)
+# - USER 1001   (Inherited from base image)
+# - EXPOSE 8080 (Inherited from base image)
 # - ENTRYPOINT/CMD (Inherited from base image)
