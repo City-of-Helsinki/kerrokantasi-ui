@@ -421,7 +421,7 @@ const SortableCommentListComponent = ({
 
   return (
     <div>
-      {section.commenting !== 'none' && (
+      {(section.commenting !== 'none' || showCommentList) && (
         <div className='sortable-comment-list'>
           {closed && section.questions.length >= 1 && (
             <div
