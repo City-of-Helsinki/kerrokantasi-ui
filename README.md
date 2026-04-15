@@ -68,7 +68,7 @@ as `window._env_` object.
 Generation uses values from either
 [environment variables or files](https://vitejs.dev/guide/env-and-mode.html).
 
-At the production deployment same generation is done with [`env.sh`](scripts/env.sh).
+At the production deployment same generation is done with env.sh from base image.
 
 ### Running service in Docker
 
