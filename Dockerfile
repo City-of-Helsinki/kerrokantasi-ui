@@ -12,7 +12,7 @@ COPY --chown=default:root ./cities ./cities
 COPY --chown=default:root ./assets ./assets
 
 # 2. Run the install
-RUN yarn --frozen-lockfile --ignore-engines --network-concurrency 1 && yarn cache clean --force
+RUN yarn --frozen-lockfile --ignore-engines --ignore-scripts --network-concurrency 1 && yarn cache clean --force
 
 # 3. Copy remaining source files
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
