@@ -1,7 +1,7 @@
 # ============================================================
 # STAGE 1: Build the Static Assets
 # ============================================================
-FROM helsinki.azurecr.io/nodejs-builder-base:1.0 AS staticbuilder
+FROM helsinki.azurecr.io/ubi9/nodejs-22-yarn-builder-base AS staticbuilder
 
 # 1. Install dependencies
 # Base already has /app as WORKDIR
@@ -27,7 +27,7 @@ RUN yarn build
 # ============================================================
 # STAGE 2: Production Runtime
 # ============================================================
-FROM helsinki.azurecr.io/nginx-spa-standard:1.0 AS production
+FROM helsinki.azurecr.io/ubi9/nginx-126-spa-standard AS production
 
 ARG REACT_APP_SENTRY_RELEASE
 ENV APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
