@@ -3,32 +3,33 @@
   "version": "1.19.6",
   "license": "MIT",
   "main": "index.js",
+  "packageManager": "pnpm@10.28.2",
   "engines": {
-    "node": ">=22.13.1"
+    "node": ">=22.13.1",
+    "pnpm": ">=10.28.2"
   },
-  "packageManager": "yarn@1.22.22",
   "scripts": {
     "app:version": "echo \"$npm_package_version\"",
-    "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB yarn update-runtime-env && vite ; else yarn update-runtime-env && vite ; fi",
+    "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB pnpm update-runtime-env && vite ; else pnpm update-runtime-env && vite ; fi",
     "build": "vite build",
     "serve": "vite preview",
     "fetch-plugins": "node deploy/fetch_plugins.js",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src",
-    "test": "NODE_ENV=test yarn update-runtime-env && vitest",
-    "test:cov": "yarn test run --coverage --watch=false",
-    "test:coverage": "yarn test run --coverage --watch=false",
+    "test": "NODE_ENV=test pnpm update-runtime-env && vitest",
+    "test:cov": "NODE_ENV=test pnpm update-runtime-env && vitest run --coverage --watch=false",
+    "test:coverage": "NODE_ENV=test pnpm update-runtime-env && vitest run --coverage --watch=false",
     "test:e2e:install": "playwright install",
     "test:e2e:ci": "playwright test",
     "test:e2e:start": "playwright test",
     "test:e2e:record": "playwright codegen https://kerrokantasi.dev.hel.ninja/",
-    "test:e2e:cov": "node scripts/create-baseline-coverage.mjs && nyc playwright test && yarn test:e2e:cov-report",
-    "test:e2e:cov-report": "yarn merge-coverage-reports && yarn report-merged-coverage",
+    "test:e2e:cov": "node scripts/create-baseline-coverage.mjs && nyc playwright test && pnpm run test:e2e:cov-report",
+    "test:e2e:cov-report": "pnpm run merge-coverage-reports && pnpm run report-merged-coverage",
     "merge-coverage-reports": "istanbul-merge --out coverage-temp/coverage-merged.json coverage-temp/baseline-coverage.json coverage/coverage-final.json",
     "report-merged-coverage": "nyc report --report-dir=coverage --temp-dir=coverage-temp",
     "snyk-protect": "snyk protect",
-    "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi && yarn update-runtime-env",
+    "postinstall": "if test \"$NODE_ENV\" != \"production\" ; then husky install ; fi && pnpm update-runtime-env",
     "update-runtime-env": "esrun scripts/update-runtime-env.js"
   },
   "repository": {
@@ -82,6 +83,7 @@
     "html-react-parser": "^5.2.14",
     "i18next": "^25.2.0",
     "immutability-helper": "^3.1.1",
+    "immutable": "^3.8.3",
     "intl": "^1.2.5",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
@@ -114,6 +116,7 @@
     "redux-actions": "^2.6.5",
     "redux-thunk": "^3.1.0",
     "remark-gfm": "^4.0.0",
+    "reselect": "^5.1.1",
     "sass": "^1.89.0",
     "simple-git": "^3.32.3",
     "updeep": "^1.2.0",
@@ -139,17 +142,19 @@
     "redux-mock-store": "^1.5.4",
     "vitest-fetch-mock": "^0.4.5"
   },
-  "resolutions": {
-    "@draft-js-plugins/drag-n-drop/immutable": "3.8.3",
-    "@draft-js-plugins/editor/immutable": "3.8.3",
-    "@draft-js-plugins/focus/immutable": "3.8.3",
-    "@draft-js-plugins/image/immutable": "3.8.3",
-    "@draft-js-plugins/resizeable/immutable": "3.8.3",
-    "draft-convert/immutable": "3.8.3",
-    "draft-js-export-html/immutable": "3.8.3",
-    "draft-js-utils/immutable": "3.8.3",
-    "draft-js/immutable": "3.8.3",
-    "**/@typescript-eslint/typescript-estree/minimatch": "9.0.7"
+  "pnpm": {
+    "overrides": {
+      "@draft-js-plugins/drag-n-drop>immutable": "3.8.3",
+      "@draft-js-plugins/editor>immutable": "3.8.3",
+      "@draft-js-plugins/focus>immutable": "3.8.3",
+      "@draft-js-plugins/image>immutable": "3.8.3",
+      "@draft-js-plugins/resizeable>immutable": "3.8.3",
+      "draft-convert>immutable": "3.8.3",
+      "draft-js-export-html>immutable": "3.8.3",
+      "draft-js-utils>immutable": "3.8.3",
+      "draft-js>immutable": "3.8.3",
+      "@typescript-eslint/typescript-estree>minimatch": "9.0.7"
+    }
   },
   "snyk": true
 }

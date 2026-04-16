@@ -9,8 +9,9 @@ on:
 
 jobs:
   common:
-    uses: City-of-Helsinki/.github/.github/workflows/ci-node.yml@main
-    secrets: inherit
+    uses: City-of-Helsinki/.github/.github/workflows/ci-pnpm-node.yml@main
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     with:
       node-version: 22.x
-      extra-commands: yarn update-runtime-env
+      extra-commands: pnpm update-runtime-env
