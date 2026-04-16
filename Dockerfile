@@ -1,20 +1,21 @@
 # ============================================================
 # STAGE 1: Build the Static Assets
 # ============================================================
-FROM helsinki.azurecr.io/ubi9/nodejs-22-yarn-builder-base AS staticbuilder
+FROM helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base AS staticbuilder
 
 # 1. Install dependencies
-# Base already has /app as WORKDIR
-COPY --chown=default:root package.json yarn.lock ./
+# Install npm dependencies and build the bundle
+COPY --chown=default:root package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY --chown=default:root ./scripts ./scripts
 COPY --chown=default:root ./public ./public
 COPY --chown=default:root ./cities ./cities
 COPY --chown=default:root ./assets ./assets
 
-# 2. Run the install
-RUN yarn --frozen-lockfile --ignore-engines --ignore-scripts --network-concurrency 1 \
- && yarn update-runtime-env \
- && yarn cache clean --force
+# 2. Run the install and update-runtime-env script
+# corepack in the base image will automatically use the version of pnpm
+# defined in your package.json 'packageManager' field if present.
+RUN pnpm install --frozen-lockfile --ignore-scripts && pnpm store prune
+RUN pnpm update-runtime-env
 
 # 3. Copy remaining source files
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
@@ -22,8 +23,7 @@ COPY --chown=default:root ./src ./src
 
 # 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
-
-RUN yarn build
+RUN pnpm build
 
 
 # ============================================================
