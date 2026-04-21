@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.5...kerrokantasi-ui-v1.19.6) (2026-04-21)
+
+
+### Dependencies
+
+* Bump dompurify from 3.3.3 to 3.4.0 ([07d0686](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/07d068666a359c594fa265be7460b9dc7e0d9d0e))
+
 ## [1.19.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.4...kerrokantasi-ui-v1.19.5) (2026-04-13)
 
 
