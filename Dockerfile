@@ -1,104 +1,50 @@
-# ===============================================
-FROM registry.access.redhat.com/ubi9/nodejs-22 as appbase
-# ===============================================
+# ============================================================
+# STAGE 1: Build the Static Assets
+# ============================================================
+FROM helsinki.azurecr.io/ubi9/nodejs-22-yarn-builder-base AS staticbuilder
 
-WORKDIR /app
+# 1. Install dependencies
+# Base already has /app as WORKDIR
+COPY --chown=default:root package.json yarn.lock ./
+COPY --chown=default:root ./scripts ./scripts
+COPY --chown=default:root ./public ./public
+COPY --chown=default:root ./cities ./cities
+COPY --chown=default:root ./assets ./assets
 
-USER root
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN yum -y install yarn
+# 2. Run the install
+RUN yarn --frozen-lockfile --ignore-engines --ignore-scripts --network-concurrency 1 \
+ && yarn update-runtime-env \
+ && yarn cache clean --force
 
-# Official image has npm log verbosity as info. More info - https://github.com/nodejs/docker-node#verbosity
-ENV NPM_CONFIG_LOGLEVEL warn
+# 3. Copy remaining source files
+COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
+COPY --chown=default:root ./src ./src
 
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
-
-# Yarn
-ENV YARN_VERSION 1.22.19
-RUN yarn policies set-version $YARN_VERSION
-
-# Most files from source tree are needed at runtime
-# COPY . /app/
-RUN chown -R default:root /app
-
-# Install npm dependencies and build the bundle
-USER default
-
-COPY --chown=default:root package.json yarn.lock /app/
-COPY --chown=default:root ./scripts /app/scripts
-COPY --chown=default:root ./public /app/public
-COPY --chown=default:root ./cities /app/cities
-COPY --chown=default:root ./assets /app/assets
-
-RUN yarn config set network-timeout 300000
-RUN yarn --frozen-lockfile --ignore-scripts --network-concurrency 1 && yarn cache clean --force
-RUN yarn update-runtime-env
-
-COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* /app/
-COPY --chown=default:root ./src /app/src
-
-# =============================
-FROM appbase as development
-# =============================
-
-WORKDIR /app
-
-# Set NODE_ENV to development in the development container
-ARG NODE_ENV=development
-ENV NODE_ENV $NODE_ENV
-
-# Bake package.json start command into the image
-CMD yarn start
-
-# ===================================
-FROM appbase as staticbuilder
-# ===================================
-
-WORKDIR /app
-
+# 4. Perform the build
 ARG REACT_APP_SENTRY_RELEASE
-
-ENV REACT_APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
 
 RUN yarn build
 
-# Process nginx configuration with APP_VERSION substitution
-COPY .prod/nginx.conf /app/nginx.conf.template
-RUN export APP_VERSION=$(yarn --silent app:version | tr -d '\n') && \
-    envsubst '${APP_VERSION},${REACT_APP_RELEASE}' < /app/nginx.conf.template > /app/nginx.conf
 
-# =============================
-FROM registry.access.redhat.com/ubi9/nginx-122 as production
-# =============================
+# ============================================================
+# STAGE 2: Production Runtime
+# ============================================================
+FROM helsinki.azurecr.io/ubi9/nginx-126-spa-standard AS production
 
-USER root
-
-RUN chgrp -R 0 /usr/share/nginx/html && \
-    chmod -R g=u /usr/share/nginx/html
-
-# Copy static build
+ARG REACT_APP_SENTRY_RELEASE
+ENV APP_RELEASE=${REACT_APP_SENTRY_RELEASE:-""}
+# 1. Copy the compiled assets
 COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
-# Copy processed nginx config from build stage
-COPY --from=staticbuilder /app/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir /etc/nginx/env
-COPY .prod/nginx_env.conf  /etc/nginx/env/
-
+# 2. Setup Runtime Env Injection
+# env.sh is provided by the base image
 WORKDIR /usr/share/nginx/html
-
-# Copy default environment config and setup script
-COPY ./scripts/env.sh .
 COPY .env .
 
-# Copy package.json so env.sh can read it
+# 3. Inject Versioning for the /readiness endpoint from package.json using base image
 COPY package.json .
 
-RUN chmod +x env.sh
-
-USER 1001
-
-CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
-
-# Expose port 8086
-EXPOSE 8086
+# - env.sh      (Inherited from base image at /usr/share/nginx/html/env.sh)
+# - USER 1001   (Inherited from base image)
+# - EXPOSE 8080 (Inherited from base image)
+# - ENTRYPOINT/CMD (Inherited from base image)
