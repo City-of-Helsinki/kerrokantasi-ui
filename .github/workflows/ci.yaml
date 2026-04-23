@@ -9,8 +9,8 @@ on:
 
 jobs:
   common:
-    uses: City-of-Helsinki/.github/.github/workflows/ci-node.yml@main
+    uses: City-of-Helsinki/.github/.github/workflows/ci-pnpm-node.yml@feat/RATY-319-pnpm-node-workflow
     secrets: inherit
     with:
       node-version: 22.x
-      extra-commands: yarn update-runtime-env
+      extra-commands: pnpm update-runtime-env

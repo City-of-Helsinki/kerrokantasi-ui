@@ -90,10 +90,10 @@ export default defineConfig(() => {
     publicDir: cityPublic,
     server: {
       host: true,
-      port: 8086,
+      port: 8080,
     },
     preview: {
-      port: 8086,
+      port: 8080,
     },
     resolve: {
       alias: [

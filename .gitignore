@@ -41,6 +41,11 @@ bower_components
 
 /assets/js/tracker
 
+# yarn – ei enää käytössä
+yarn.lock
+.yarn/
+.yarnrc.yml
+
 # tests
 report/
 /test-results/
