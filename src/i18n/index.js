@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import fiCity from '@city-i18n/fi.json';
 import svCity from '@city-i18n/sv.json';
 import enCity from '@city-i18n/en.json';

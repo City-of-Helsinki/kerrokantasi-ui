@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, useIntl } from 'react-intl';

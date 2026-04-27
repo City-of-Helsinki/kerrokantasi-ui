@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import urls from '@city-assets/urls.json';
 import siteSettings from '@city-assets/cookieConfig.json';
 

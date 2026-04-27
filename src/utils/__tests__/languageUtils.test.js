@@ -1,4 +1,5 @@
-// eslint-disable-next-line import/no-unresolved
+/* eslint-disable import-x/no-unresolved */
+
 import urls from '@city-assets/urls.json';
 
 import {
