@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v1 as uuid } from 'uuid';
 import { FormattedMessage } from 'react-intl';
 
 import ProgressBar from './ProgressBar';
@@ -18,7 +17,7 @@ export const QuestionResultsComponent = ({ question, lang }) => {
         const answerPercentage =
           Math.round((option.n_answers / totalAnswers) * 100) || 0;
         return (
-          <div key={uuid()}>
+          <div key={`${question.id}-${option.id}`}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ color: 'blue', margin: '10px' }}>
                 {answerPercentage}%

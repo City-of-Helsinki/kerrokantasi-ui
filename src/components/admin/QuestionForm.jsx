@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v1 as uuid } from 'uuid';
 import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';
 
@@ -129,7 +128,7 @@ export class QuestionForm extends React.Component {
               const answerPercentage =
                 Math.round((option.n_answers / question.n_answers) * 100) || 0;
               return (
-                <div key={uuid()}>
+                <div key={`${question.id}-${option.id}`}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <div style={{ color: 'blue', margin: 'auto 10px auto 0' }}>
                       {answerPercentage}%
