@@ -52,7 +52,7 @@
     "@typescript-eslint/parser": "^8.57.1",
     "@vitejs/plugin-react-swc": "^4.3.0",
     "alertifyjs": "^1.13.1",
-    "autoprefixer": "^10.4.15",
+
     "bootstrap-sass": "3.4.3",
     "browser-image-compression": "^2.0.2",
     "classnames": "^2.3.1",
@@ -88,7 +88,7 @@
     "lodash": "^4.17.23",
     "moment": "^2.29.2",
     "normalizr": "^3.6.1",
-    "postcss": "^8.5.10",
+
     "proj4": "^2.7.2",
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",

@@ -113,9 +113,6 @@ export default defineConfig(() => {
       global: 'globalThis',
     },
     css: {
-      lightningcss: {
-        errorRecovery: true,
-      },
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
