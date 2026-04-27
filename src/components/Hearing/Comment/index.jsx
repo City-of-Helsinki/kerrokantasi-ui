@@ -336,12 +336,9 @@ const Comment = (props) => {
    * @returns {JSX<Component>}
    */
   const renderCommentAnswers = () => {
-    return (
-      props.data.answers &&
-      props.data.answers.map((answer) => (
-        <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
-      ))
-    );
+    return props.data?.answers?.map((answer) => (
+      <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
+    ));
   };
 
   /**
