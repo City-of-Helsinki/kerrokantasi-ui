@@ -335,10 +335,14 @@ const Comment = (props) => {
    * Renders answers for a comment.
    * @returns {JSX<Component>}
    */
-  const renderCommentAnswers = () =>
-    props.data.answers.map((answer) => (
-      <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
-    ));
+  const renderCommentAnswers = () => {
+    return (
+      props.data.answers &&
+      props.data.answers.map((answer) => (
+        <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
+      ))
+    );
+  };
 
   /**
    * When an admin user is logged in and editing their comment.
