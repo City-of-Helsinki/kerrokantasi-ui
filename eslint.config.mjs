@@ -2,7 +2,7 @@ import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import sonarjs from 'eslint-plugin-sonarjs';
 import prettier from 'eslint-plugin-prettier';
@@ -32,6 +32,7 @@ export default defineConfig([
       'react-hooks': reactHooks,
       prettier,
       '@typescript-eslint': typescriptEslint,
+      'import-x': importPlugin
     },
     languageOptions: {
       ecmaVersion: 2022,
@@ -52,7 +53,7 @@ export default defineConfig([
       react: {
         version: 'detect',
       },
-      'import/resolver': {
+      'import-x/resolver': {
         node: {
           extensions: ['.js', '.jsx'],
         },
@@ -73,8 +74,8 @@ export default defineConfig([
       'react/require-default-props': 0,
       'react/no-danger': 1,
       'react/display-name': 0,
-      'import/extensions': 0,
-      'import/order': [
+      'import-x/extensions': 0,
+      'import-x/order': [
         'error',
         {
           groups: [
@@ -86,8 +87,8 @@ export default defineConfig([
           'newlines-between': 'always',
         },
       ],
-      'import/no-named-as-default': 0,
-      'import/no-named-as-default-member': 0,
+      'import-x/no-named-as-default': 0,
+      'import-x/no-named-as-default-member': 0,
       'jsx-a11y/label-has-associated-control': [
         'error',
         {

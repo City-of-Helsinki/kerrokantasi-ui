@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import { createRoot } from 'react-dom/client';
 
 import getRoot from './getRoot';

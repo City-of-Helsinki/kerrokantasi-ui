@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';

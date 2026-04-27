@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {

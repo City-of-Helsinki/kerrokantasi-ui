@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import path from 'path';
 
 import react from '@vitejs/plugin-react-swc';

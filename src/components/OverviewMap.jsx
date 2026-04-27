@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/todo-tag */
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import-x/no-unresolved */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
