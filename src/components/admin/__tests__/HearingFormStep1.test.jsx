@@ -14,7 +14,7 @@ const renderComponent = (propOverrides) => {
   const { labels, mockHearingWithSections } = mockData;
 
   const props = {
-    hearing: { title: { fi: '' }, labels: [], contact_persons: [] },
+    hearing: { title: { fi: '' }, labels: [], contact_persons: [], slug: '' },
     labels: labels.data,
     contactPersons: mockHearingWithSections.data.contact_persons,
     hearingLanguages: ['fi'],
@@ -89,23 +89,16 @@ describe('<HearingFormStep1 />', () => {
       await user.click(option);
     });
 
-    // Verify that the option was selected by checking the button content
     await waitFor(() => {
-      expect(dropdownButton).toHaveTextContent('Mock Von Label');
+      expect(onHearingChange).toHaveBeenCalledWith('labels', [labels.data[0].id]);
     });
-
-    // Since the HDS Select has a bug in testing environment where onClose doesn't trigger,
-    // let's manually verify the selection was made and skip the onClose test
-    expect(dropdownButton.getAttribute('aria-label')).toContain(
-      '1 valittu vaihtoehto'
-    );
   });
 
-  it('should call onContactsChange when contacts are changed', async () => {
+  it('should call onHearingChange when contacts are changed', async () => {
     const { mockHearingWithSections } = mockData;
-    const onContactsChange = vi.fn();
+    const onHearingChange = vi.fn();
     const user = userEvent.setup();
-    const { container } = renderComponent({ onContactsChange });
+    const { container } = renderComponent({ onHearingChange });
 
     const dropdownButton = container.querySelector(
       '#contact_persons-main-button'
@@ -122,9 +115,56 @@ describe('<HearingFormStep1 />', () => {
     await act(async () => {
       await user.click(option);
     });
-    expect(dropdownButton.getAttribute('aria-label')).toContain(
-      '1 valittu vaihtoehto'
+
+    await waitFor(() => {
+      expect(onHearingChange).toHaveBeenCalledWith('contact_persons', [
+        mockHearingWithSections.data.contact_persons[0].id,
+      ]);
+    });
+  });
+
+  it('should keep keyboard-selected labels visible after moving focus to slug', async () => {
+    const { labels } = mockData;
+    const user = userEvent.setup();
+    const { container, rerender } = renderComponent();
+
+    const dropdownButton = container.querySelector('#labels-main-button');
+    const slugInput = screen.getByRole('textbox', { name: /hearingSlug/i });
+
+    expect(dropdownButton).toBeInTheDocument();
+    expect(slugInput).toBeInTheDocument();
+
+    await act(async () => {
+      dropdownButton.focus();
+      await user.keyboard('[Enter]');
+      await user.keyboard('[ArrowDown]');
+      await user.keyboard('[Enter]');
+      await user.keyboard('[Tab]');
+      await user.type(slugInput, 'slug-value');
+    });
+
+    rerender(
+      <HearingFormStep1
+        hearing={{
+          title: { fi: '' },
+          labels: [labels.data[0]],
+          contact_persons: [],
+          slug: 'slug-value',
+        }}
+        labels={labels.data}
+        contactPersons={mockData.mockHearingWithSections.data.contact_persons}
+        hearingLanguages={['fi']}
+        onLanguagesChange={vi.fn()}
+        onHearingChange={vi.fn()}
+        onContinue={vi.fn()}
+        errors={{}}
+        organizations={[]}
+      />
     );
+
+    await waitFor(() => {
+      expect(dropdownButton).toHaveTextContent(labels.data[0].label.fi);
+    });
   });
 
   it('should call onContinue when continue button is clicked', () => {
@@ -135,5 +175,19 @@ describe('<HearingFormStep1 />', () => {
     fireEvent.click(screen.getByText(/hearingFormNext/i));
 
     expect(onContinue).toHaveBeenCalled();
+  });
+
+  it('should call onContinue when continue button is activated with keyboard', async () => {
+    const onContinue = vi.fn();
+    const user = userEvent.setup();
+
+    renderComponent({ onContinue });
+
+    const button = screen.getByRole('button', { name: /hearingFormNext/i });
+    button.focus();
+
+    await user.keyboard('[Enter]');
+
+    expect(onContinue).toHaveBeenCalledTimes(1);
   });
 });
