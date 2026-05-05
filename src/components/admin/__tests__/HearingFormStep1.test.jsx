@@ -90,7 +90,9 @@ describe('<HearingFormStep1 />', () => {
     });
 
     await waitFor(() => {
-      expect(onHearingChange).toHaveBeenCalledWith('labels', [labels.data[0].id]);
+      expect(onHearingChange).toHaveBeenCalledWith('labels', [
+        labels.data[0].id,
+      ]);
     });
   });
 
