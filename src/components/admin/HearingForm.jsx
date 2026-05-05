@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-nested-functions */
 import React, {
   createRef,
   useCallback,
@@ -103,22 +102,21 @@ const HearingForm = ({
     setCurrentStep(next);
   };
 
-  const onToggleClick = useCallback(
-    ($this, stepNumber) => {
-      setTimeout(() => {
-        const isOpen = $this.getAttribute('aria-expanded') === 'true';
+  const onToggleClick = useCallback(($this, stepNumber) => {
+    setTimeout(() => {
+      const isOpen = $this.getAttribute('aria-expanded') === 'true';
 
-        if (currentStep === stepNumber) {
-          return;
-        }
+      if (isOpen) {
+        setCurrentStep((previousStep) => {
+          if (previousStep === stepNumber) {
+            return previousStep;
+          }
 
-        if (isOpen) {
-          setCurrentStep(stepNumber);
-        }
-      }, 500);
-    },
-    [currentStep]
-  );
+          return stepNumber;
+        });
+      }
+    }, 500);
+  }, []);
 
   useEffect(() => {
     if (show) {
@@ -127,23 +125,24 @@ const HearingForm = ({
         node: step.current.querySelector(ACCORDION_TOGGLE),
       }));
 
-      toggles.forEach((item) => {
+      const listeners = toggles.map((item) => ({
+        ...item,
+        handler: () => onToggleClick(item.node, item.stepNumber),
+      }));
+
+      listeners.forEach((item) => {
         if (!item.node) {
           return;
         }
-        item.node.addEventListener('click', () =>
-          onToggleClick(item.node, item.stepNumber)
-        );
+        item.node.addEventListener('click', item.handler);
       });
 
       return () => {
-        toggles.forEach((item) => {
+        listeners.forEach((item) => {
           if (!item.node) {
             return;
           }
-          item.node.removeEventListener('click', () =>
-            onToggleClick(item.node, item.stepNumber)
-          );
+          item.node.removeEventListener('click', item.handler);
         });
       };
     }
