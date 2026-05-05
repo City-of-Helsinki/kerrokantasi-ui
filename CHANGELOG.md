@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.20.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.6...kerrokantasi-ui-v1.20.0) (2026-05-05)
+
+
+### Features
+
+* New base image ([8ca34da](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8ca34da4d0a16d2bd493a8a020f6ceab9390cd45))
+* Yarn replaced with pnpm ([89fbcb7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/89fbcb7a2eab8e16bf8cff985e24aae3588a98a9))
+
+
+### Dependencies
+
+* Bump postcss from 8.5.8 to 8.5.10 ([502484c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/502484cc7c99d4f07318c1c3b00bbc6fe3eb76d8))
+* Bump uuid from 9.0.1 to 14.0.0 ([63ce3d1](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/63ce3d1a5e7b704a9cdaed9c846bd9a0eaa41b10))
+* Remove unnecessary postcss autoprefixer ([b497255](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b497255910e864efd8a6416b497f23ec72b947ae))
+
 ## [1.19.6](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.5...kerrokantasi-ui-v1.19.6) (2026-04-21)
 
 
