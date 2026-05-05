@@ -83,15 +83,19 @@ const HearingForm = ({
 
   const intl = useIntl();
 
-  const nextStep = () => {
-    const next = parseInt(currentStep, 10) + 1;
-    const nextAccordion = stepRefs.current[currentStep];
+  const nextStep = (stepNumber) => {
+    const next = parseInt(stepNumber, 10) + 1;
+    const nextAccordion = stepRefs.current[next - 1];
+    const nextToggle = nextAccordion.current?.querySelector(ACCORDION_TOGGLE);
+    const isNextOpen = nextToggle?.getAttribute('aria-expanded') === 'true';
+
+    if (nextAccordion.current && nextToggle && !isNextOpen) {
+      nextToggle.click();
+    }
 
     if (nextAccordion.current) {
-      nextAccordion.current.querySelector(ACCORDION_TOGGLE).click();
-
       setTimeout(
-        () => nextAccordion.current?.scrollIntoView({ behaviour: 'smooth' }),
+        () => nextAccordion.current?.scrollIntoView({ behavior: 'smooth' }),
         250
       );
     }
@@ -189,7 +193,7 @@ const HearingForm = ({
             initSingleChoiceQuestion={initSingleChoiceQuestion}
             labels={labels}
             language={language}
-            onContinue={nextStep}
+            onContinue={() => nextStep(stepNumber)}
             onAddMapMarker={onAddMapMarker}
             onAddMapMarkersToCollection={onAddMapMarkersToCollection}
             onCreateMapMarker={onCreateMapMarker}
