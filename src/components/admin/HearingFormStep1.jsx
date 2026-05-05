@@ -45,7 +45,9 @@ const HearingFormStep1 = ({
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
-  const selectedLabelIds = (hearing?.labels || []).map(getItemId).filter(Boolean);
+  const selectedLabelIds = (hearing?.labels || [])
+    .map(getItemId)
+    .filter(Boolean);
   const selectedContactIds = (hearing?.contact_persons || [])
     .map(getItemId)
     .filter(Boolean);
@@ -272,23 +274,23 @@ const HearingFormStep1 = ({
 
       <ul className='edit-contacts-list hearing-contacts'>
         {selectedContactIds.map((item) => {
-            const contact = contactPersons.find((option) => option.id === item);
-            if (!contact) return null;
-            return (
-              <li key={contact.id} className='hearing-contact'>
-                <ContactCard {...contact} />
-                <Button
-                  className='kerrokantasi-btn'
-                  variant='supplementary'
-                  size='small'
-                  onClick={() => openContactModal(contact)}
-                  aria-label={`Muokkaa yhteyshenkilöä: ${contact.name}`}
-                >
-                  <Icon className='icon' name='edit' />
-                </Button>
-              </li>
-            );
-          })}
+          const contact = contactPersons.find((option) => option.id === item);
+          if (!contact) return null;
+          return (
+            <li key={contact.id} className='hearing-contact'>
+              <ContactCard {...contact} />
+              <Button
+                className='kerrokantasi-btn'
+                variant='supplementary'
+                size='small'
+                onClick={() => openContactModal(contact)}
+                aria-label={`Muokkaa yhteyshenkilöä: ${contact.name}`}
+              >
+                <Icon className='icon' name='edit' />
+              </Button>
+            </li>
+          );
+        })}
       </ul>
       <div className='step-footer'>
         <Button className='kerrokantasi-btn' onClick={onContinue}>
