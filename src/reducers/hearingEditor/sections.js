@@ -265,6 +265,10 @@ const byId = handleActions(
       state,
       { payload: { sectionID, value } }
     ) => {
+      if (!state[sectionID].images.length) {
+        return state;
+      }
+
       const setSection = {
         ...state[sectionID],
         images: [{ ...state[sectionID].images[0], caption: value }],
