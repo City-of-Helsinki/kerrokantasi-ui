@@ -148,6 +148,7 @@
   "hearingContacts": "Kontakter",
   "hearingContactsPlaceholder": "Välj hörselkontakter",
   "hearingFormHeaderContainsErrors": " - innehåller fel",
+  "hearingFormHeaderStep0": "Fel",
   "hearingFormHeaderStep1": "1. Hörandets grundläggande information",
   "hearingFormHeaderStep2": "2. Innehåll",
   "hearingFormHeaderStep3": "3. Karta",
