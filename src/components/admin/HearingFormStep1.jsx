@@ -39,32 +39,70 @@ const HearingFormStep1 = ({
   const intl = useIntl();
   const dispatch = useDispatch();
 
+  const getItemId = (item) =>
+    typeof item === 'object' && item !== null ? item.id : item;
+
   const [showLabelModal, setShowLabelModal] = useState(false);
   const [contactInfo, setContactInfo] = useState({});
   const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedLabels, setSelectedLabels] = useState(
-    hearing?.labels?.map(({ id }) => id) || []
-  );
-  const [selectedContacts, setSelectedContacts] = useState(
-    hearing?.contact_persons?.filter(Boolean)?.map((person) => person?.id) || []
-  );
+  const selectedLabelIds = (hearing?.labels || []).map(getItemId).filter(Boolean);
+  const selectedContactIds = (hearing?.contact_persons || [])
+    .map(getItemId)
+    .filter(Boolean);
 
-  const onLabelsChange = (labels) => {
+  const getLabelSelectValue = () =>
+    (hearing.labels || [])
+      .map((item) => {
+        const option =
+          typeof item === 'object'
+            ? item
+            : labelOptions.find((label) => label.id === item);
+
+        if (!option) {
+          return null;
+        }
+
+        return {
+          value: option.id,
+          title: getAttr(option.label, language),
+          label: getAttr(option.label, language),
+        };
+      })
+      .filter(Boolean);
+
+  const getContactSelectValue = () =>
+    (hearing.contact_persons || [])
+      .map((item) => {
+        const option =
+          typeof item === 'object'
+            ? item
+            : contactPersons.find((person) => person.id === item);
+
+        if (!option) {
+          return null;
+        }
+
+        return {
+          value: option.id,
+          label: option.name,
+        };
+      })
+      .filter(Boolean);
+
+  const onLabelsChange = (labels = []) => {
     const newLabels = labelOptions.filter((item) =>
       labels.some((label) => item.id === label.value)
     );
-    setSelectedLabels(newLabels.map(({ id }) => id));
     onHearingChange(
       'labels',
       newLabels.map(({ id }) => id)
     );
   };
 
-  const onContactsChange = (contacts) => {
+  const onContactsChange = (contacts = []) => {
     const newContacts = contactPersons.filter((item) =>
       contacts.some((contact) => item.id === contact.value)
     );
-    setSelectedContacts(newContacts.filter(Boolean).map(({ id }) => id));
     onHearingChange(
       'contact_persons',
       newContacts.map(({ id }) => id)
@@ -72,12 +110,12 @@ const HearingFormStep1 = ({
   };
 
   const onCreateLabel = (label) => {
-    dispatch(addLabel(label, selectedLabels));
+    dispatch(addLabel(label, selectedLabelIds));
   };
 
   const onCreateContact = async (contact) => {
     try {
-      await dispatch(addContact(contact, selectedContacts));
+      await dispatch(addContact(contact, selectedContactIds));
       await dispatch(fetchHearingEditorContactPersons());
       return true;
     } catch (error) {
@@ -150,12 +188,8 @@ const HearingFormStep1 = ({
                   : option.label.toString();
               return label.includes(inputValue.toLowerCase());
             }}
-            value={hearing.labels.map((opt) => ({
-              value: opt.id,
-              title: getAttr(opt.label, language),
-              label: getAttr(opt.label, language),
-            }))}
-            onClose={onLabelsChange}
+            value={getLabelSelectValue()}
+            onChange={onLabelsChange}
             options={labelOptions.map((opt) => ({
               value: opt.id,
               title: getAttr(opt.label, language),
@@ -185,7 +219,7 @@ const HearingFormStep1 = ({
             id='slug'
             name='slug'
             label={<FormattedMessage id='hearingSlug' />}
-            value={hearing.slug}
+            value={hearing.slug || ''}
             placeholder={intl.formatMessage({ id: 'hearingSlugPlaceholder' })}
             onChange={(event) => {
               const { value } = event.target;
@@ -203,7 +237,7 @@ const HearingFormStep1 = ({
           <Select
             multiSelect
             name='contact_persons'
-            onClose={onContactsChange}
+            onChange={onContactsChange}
             filter={(option, inputValue) => {
               const label =
                 typeof option.label === 'string'
@@ -211,12 +245,7 @@ const HearingFormStep1 = ({
                   : option.label.toString();
               return label.includes(inputValue.toLowerCase());
             }}
-            value={hearing.contact_persons.filter(Boolean).map((person) => {
-              return {
-                value: person.id,
-                label: person.name,
-              };
-            })}
+            value={getContactSelectValue()}
             options={contactPersons.map((person) => {
               return { value: person.id, label: person.name };
             })}
@@ -242,8 +271,7 @@ const HearingFormStep1 = ({
       </div>
 
       <ul className='edit-contacts-list hearing-contacts'>
-        {selectedContacts &&
-          selectedContacts.map((item) => {
+        {selectedContactIds.map((item) => {
             const contact = contactPersons.find((option) => option.id === item);
             if (!contact) return null;
             return (
