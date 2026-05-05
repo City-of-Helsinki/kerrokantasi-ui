@@ -148,6 +148,7 @@
   "hearingContacts": "Contacts",
   "hearingContactsPlaceholder": "Select Hearing Contacts",
   "hearingFormHeaderContainsErrors": " - contains errors",
+  "hearingFormHeaderStep0": "Errors",
   "hearingFormHeaderStep1": "1. Basic information of the hearing",
   "hearingFormHeaderStep2": "2. Content",
   "hearingFormHeaderStep3": "3. Map",
