@@ -11,7 +11,6 @@ import {
   AtomicBlockUtils,
   Modifier,
   SelectionState,
-  getDefaultKeyBinding,
 } from 'draft-js';
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import createImagePlugin from '@draft-js-plugins/image';
@@ -258,7 +257,6 @@ class RichTextEditor extends React.Component {
     this.onURLChange = this.onURLChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.onTab = this.onTab.bind(this);
     this.toggleBlockType = this.toggleBlockType.bind(this);
     this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
     this.promptForLink = this.promptForLink.bind(this);
@@ -332,10 +330,6 @@ class RichTextEditor extends React.Component {
 
   /* EVENT CONTROLS */
   handleKeyCommand(command) {
-    if (command === 'custom-tab') {
-      this.onTab();
-      return true;
-    }
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -343,11 +337,6 @@ class RichTextEditor extends React.Component {
       return true;
     }
     return false;
-  }
-
-  onTab(event) {
-    const maxDepth = 4;
-    this.onChange(RichUtils.onTab(event, this.state.editorState, maxDepth));
   }
 
   onChange(editorState) {
@@ -424,14 +413,6 @@ class RichTextEditor extends React.Component {
       return formatMessage({ id: this.props.placeholderId });
     }
     return '';
-  }
-
-  myKeyBindingFn(e) {
-    if (e.keyCode === 9) {
-      return 'custom-tab';
-    }
-
-    return getDefaultKeyBinding(e);
   }
 
   removeLink(event) {
@@ -838,7 +819,6 @@ class RichTextEditor extends React.Component {
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            keyBindingFn={this.myKeyBindingFn}
             stripPastedStyles
             placeholder={this.getPlaceholder()}
             ref={this.editorRef}
