@@ -98,6 +98,7 @@ const HearingList = ({
       </section>
       <section className='hearing-list-tabs'>
         <HDSTabs
+          key={activeTab}
           initiallyActiveTab={initiallyActiveTab}
           theme={{
             '--tab-min-width': 'auto',
