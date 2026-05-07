@@ -5,10 +5,6 @@ test.describe('Hearing list page', () => {
     await page.goto('/hearings/list?lang=fi');
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.close();
-  });
-
   test('should have correct title', async ({ page }) => {
     await expect(page).toHaveTitle(/.*kuulemiset/);
   });

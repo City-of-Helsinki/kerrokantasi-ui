@@ -1,7 +1,7 @@
 /* eslint-disable import-x/no-unresolved */
 import path from 'path';
 
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import {
   defineConfig,
   coverageConfigDefaults,
@@ -105,7 +105,10 @@ export default defineConfig(() => {
         { find: 'kerrokantasi-ui-modules', replacement: modules },
         {
           find: /^leaflet-draw$/,
-          replacement: path.resolve(__dirname, './src/utils/leafletDrawCompat.js'),
+          replacement: path.resolve(
+            __dirname,
+            './src/utils/leafletDrawCompat.js'
+          ),
         },
       ],
     },

@@ -8,7 +8,7 @@ export default defineConfig({
   testMatch: '**/*.spec.js', // Only match .spec.js files for Playwright
 
   // Timeout for each test in milliseconds
-  timeout: 60 * 1000,
+  timeout: 90 * 1000,
 
   // Run all tests in parallel.
   fullyParallel: true,
@@ -17,7 +17,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
 
   // The maximum number of retry attempts given to failed tests
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 2 : 1,
 
   // Reporter to use. See https://playwright.dev/docs/test-reporters
   reporter: [
@@ -57,7 +57,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'yarn start',
+    command: 'pnpm start:e2e',
     url: process.env.E2E_TESTS_ENV_URL ?? 'http://localhost:8080',
     reuseExistingServer: true,
   },

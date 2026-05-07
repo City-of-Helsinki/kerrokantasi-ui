@@ -15,7 +15,7 @@ import InternalLink from '../InternalLink';
 import HearingListFilters from './HearingListFilters/HearingListFilters';
 import HearingListItem from './HearingListItem/HearingListItem';
 
-const HEARING_LIST_TABS = {
+export const HEARING_LIST_TABS = {
   LIST: 'list',
   MAP: 'map',
 };

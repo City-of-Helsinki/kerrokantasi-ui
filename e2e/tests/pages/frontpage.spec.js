@@ -5,10 +5,6 @@ test.describe('Frontpage', () => {
     await page.goto('/');
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.close();
-  });
-
   test('page title', async ({ page }) => {
     await expect(page).toHaveTitle(/.*Kerrokantasi/);
   });
