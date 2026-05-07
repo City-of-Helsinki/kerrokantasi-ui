@@ -1,9 +1,9 @@
 div:has(> .hearing-form-modal) {
-  z-index: 1003;
+  z-index: 903;
 }
 
 div:has(> .hearing-form-child-modal) {
-  z-index: 1004;
+  z-index: 904;
 }
 
 .form-container {
@@ -273,7 +273,7 @@ div:has(> .hearing-form-child-modal) {
   padding: $line-height-computed / 2;
   position: fixed;
   width: 100%;
-  z-index: 1002;
+  z-index: 902;
 
   .alert {
     margin-bottom: 0;

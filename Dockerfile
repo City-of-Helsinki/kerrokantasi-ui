@@ -1,7 +1,7 @@
 # ============================================================
 # STAGE 1: Build the Static Assets
 # ============================================================
-FROM helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base AS staticbuilder
+FROM helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base AS appbase
 
 # 1. Copy needed files for build
 COPY --chown=default:root package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -20,13 +20,33 @@ RUN pnpm update-runtime-env
 COPY --chown=default:root index.html vite.config.mjs eslint.config.mjs .prettierrc .env* ./
 COPY --chown=default:root ./src ./src
 
-# 4. Perform the build
+
+# ============================================================
+# STAGE 2: Development
+# ============================================================
+FROM appbase AS development
+
+# Set working directory, node environment, and expose port for development server
+WORKDIR /app
+ENV NODE_ENV=development
+EXPOSE 8080
+
+# Start the development server
+CMD pnpm exec vite
+
+
+# ============================================================
+# STAGE 3: Static builder for production
+# ============================================================
+FROM appbase AS staticbuilder
+
+# Perform the build
 ARG REACT_APP_SENTRY_RELEASE
 RUN pnpm build
 
 
 # ============================================================
-# STAGE 2: Production Runtime
+# STAGE 4: Production Runtime
 # ============================================================
 FROM helsinki.azurecr.io/ubi9/nginx-126-spa-standard AS production
 

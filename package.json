@@ -10,7 +10,8 @@
   },
   "scripts": {
     "app:version": "echo \"$npm_package_version\"",
-    "start": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB pnpm update-runtime-env && vite ; else pnpm update-runtime-env && vite ; fi",
+    "start": "pnpm update-runtime-env && vite",
+    "start:e2e": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB pnpm start ; else pnpm start ; fi",
     "build": "vite build",
     "serve": "vite preview",
     "fetch-plugins": "node deploy/fetch_plugins.js",
@@ -51,7 +52,7 @@
     "@sentry/react": "^9.22.0",
     "@typescript-eslint/eslint-plugin": "^8.57.1",
     "@typescript-eslint/parser": "^8.57.1",
-    "@vitejs/plugin-react-swc": "^4.3.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "alertifyjs": "^1.13.1",
     "bootstrap-sass": "3.4.3",
     "browser-image-compression": "^2.0.2",

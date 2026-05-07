@@ -9,7 +9,7 @@ supported by Kerrokantasi API.
 ### Prerequisites
 
 - Node v22 LTS (`nvm use`)
-- Yarn
+- pnpm
 - Docker
 
 ### Configuration
@@ -19,7 +19,7 @@ supported by Kerrokantasi API.
 ### Running development server
 
 ```
-yarn start
+pnpm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -33,7 +33,7 @@ actual used variables when running the app. App is not using default `process.en
 `window._env_` object.
 
 ### Other commands
-```yarn build```
+```pnpm build```
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles app in production mode and optimizes the build for the best performance.
@@ -44,9 +44,9 @@ Your app is ready to be deployed!
 See the section about [build](https://vitejs.dev/guide/cli.html#build) for more information.
 
 Note that running built application locally you need to generate also `public/env-config.js` file. It can be done with
-`yarn update-runtime-env`. By default it's generated for development environment if no `NODE_ENV` is set.
+`pnpm update-runtime-env`. By default it's generated for development environment if no `NODE_ENV` is set.
 
-```yarn run test```
+```pnpm run test```
 
 See the section about [running tests](https://vitest.dev/guide/) for more information.
 
@@ -54,13 +54,13 @@ Scripts generates first environment variables to `public/test-env-config.js` wit
 actual used variables when running the app. App is not using default `process.env` way to refer of variables but
 `window._env_` object.
 
-```yarn test:e2e```
+```pnpm test:e2e```
 
 Runs end-to-end tests using [Playwright](https://playwright.dev).
 
 It is recommended to run these tests to ensure the overall functionality and user experience of the application.
 
-```yarn update-runtime-env```
+```pnpm update-runtime-env```
 
 Generates variable object used when app is running. Generated object is stored at `public/env-config.js` and available
 as `window._env_` object.
@@ -173,12 +173,12 @@ has been to provide map based questionnaries. Examples include having
 citizens indicate places for amenities and polling the public for
 locations of city bike stations.
 
-A default set of plugins can be installed using `yarn run fetch-plugins`.
+A default set of plugins can be installed using `pnpm run fetch-plugins`.
 The plugins are installed in `assets/plugins`. By default, kerrokantasi-ui
 expects to find them in `assets/plugins` URL prefix. The development server
 serves that path, but you can also use a web server of your choice for this.
 For server insllations, the plugin fetcher supports downloading the plugins
-to a directory specified on the command line (`yarn run fetch-plugins /srv/my-kerrokantasi-plugins`).
+to a directory specified on the command line (`pnpm run fetch-plugins /srv/my-kerrokantasi-plugins`).
 
 It is also possible to change the paths that kerrokantasi-ui will search for
 specific plugins. See `src/shared_config.json`, which is the configuration
@@ -205,7 +205,7 @@ To have a non city specific theme, change the `REACT_APP_CITY_CONFIG` config val
 ## Installing city specific assets
 
 Currently the process of using the theme is not super developer friendly as it does
-not support the use of `yarn link`. This means that to do development on the project
+not support the use of `pnpm link`. This means that to do development on the project
 it will have to be installed in the kerrokantasi-ui project and then edited within
 the kerrokantasi-ui `node_modules/<theme_assets>` folder. If someone can find
 a solution to this, please fix.
@@ -219,7 +219,7 @@ a solution to this, please fix.
        /kerrokantasi-ui
        /<theme-assets-folder>
      ```
-2. In the `kerrokantasi-ui` project run `yarn add ../<theme-assets-folder>`
+2. In the `kerrokantasi-ui` project run `pnpm add ../<theme-assets-folder>`
 3. Edit files in `kerrokantasi-ui/node_modules/<theme-assets-folder>` for changes to be reflected
 4. Set the `REACT_APP_CITY_CONFIG` config to `<theme-assets-folder>`
 

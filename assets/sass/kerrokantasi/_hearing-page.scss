@@ -372,6 +372,8 @@
 .hearing-contacts {
   display: flex;
   flex-wrap: wrap;
+  gap: $line-height-computed;
+  margin-bottom: $line-height-computed;
 
   @media (max-width: $screen-xs-max) {
     flex-direction: column;
@@ -381,10 +383,8 @@
     flex: 1;
     max-width: 100%;
     min-width: 25%;
-    margin-bottom: $line-height-computed;
   }
   .contact-card {
-    margin-bottom: $line-height-computed;
     width: 100%;
   }
 }

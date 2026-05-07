@@ -5,8 +5,9 @@ const API_URL = process.env.API_URL || 'https://kerrokantasi.api.dev.hel.ninja';
 const fetchHearing = async () => {
   const hearingSlug = 'kuuleminen-e2e-testausta-varten';
   const hearing = await fetch(`${API_URL}/v1/hearing/${hearingSlug}/`);
+  const result = await hearing.json();
 
-  return hearing.json();
+  return result;
 };
 
 const hearingContainsQuestions = (hearing) =>

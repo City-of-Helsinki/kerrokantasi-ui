@@ -10,7 +10,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
-import WrappedHearingList from '../../components/HearingList/HearingList';
+import WrappedHearingList, {
+  HEARING_LIST_TABS,
+} from '../../components/HearingList/HearingList';
 import LoadSpinner from '../../components/LoadSpinner';
 import CreateHearingButton from '../../components/Hearings/CreateHearingButton';
 import AdminFilterSelector from '../../components/Hearings/AdminFilterSelector';
@@ -94,6 +96,12 @@ const getHearingListParams = (listName) => {
   return params;
 };
 
+const ensuredTab = (tab) =>
+  Object.values(HEARING_LIST_TABS).includes(tab) ? tab : HEARING_LIST_TABS.LIST;
+
+const getHearingListStoreKey = (listName, tab) =>
+  tab === HEARING_LIST_TABS.MAP ? `${listName}Map` : listName;
+
 function Hearings({
   user,
   labels,
@@ -114,7 +122,7 @@ function Hearings({
   const [showOnlyClosed, setShowOnlyClosed] = useState(false);
   const [sortBy, setSortBy] = useState('-created_at');
 
-  const tab = params.tab || 'list';
+  const tab = ensuredTab(params.tab);
 
   const forwardToUserHearings = () => {
     const searchParams = parseQuery(location.search);
@@ -150,12 +158,18 @@ function Hearings({
     return searchParams;
   }, [location.search]);
 
+  const getCurrentHearingListKey = useCallback(
+    () => getHearingListStoreKey(getHearingListName(), tab),
+    [getHearingListName, tab]
+  );
+
   const fetchHearingList = useCallback(() => {
-    const list = getHearingListName();
+    const baseList = getHearingListName();
+    const list = getHearingListStoreKey(baseList, tab);
     const filterByOpen =
       (showOnlyOpen && !showOnlyClosed) || (!showOnlyOpen && showOnlyClosed);
     const fetchParams = {
-      ...getHearingListParams(list),
+      ...getHearingListParams(baseList),
       ordering: sortBy,
       ...(filterByOpen && { open: showOnlyOpen }),
       ...getSearchParams(),
@@ -252,23 +266,17 @@ function Hearings({
     setInitHearingsFetched(false);
   };
 
-  const getIsLoading = () => {
-    const name = getHearingListName();
-    return get(hearingLists, [name, 'isFetching'], true);
-  };
+  const getIsLoading = () =>
+    get(hearingLists, [getCurrentHearingListKey(), 'isFetching'], true);
 
-  const getHearingsCount = () => {
-    const list = getHearingListName();
-    return get(hearingLists, [list, 'count'], 0);
-  };
+  const getHearingsCount = () =>
+    get(hearingLists, [getCurrentHearingListKey(), 'count'], 0);
 
-  const getHearings = () => {
-    const hearingListKey = getHearingListName();
-    return get(hearingLists, [hearingListKey, 'data'], []);
-  };
+  const getHearings = () =>
+    get(hearingLists, [getCurrentHearingListKey(), 'data'], []);
 
   const handleReachBottom = () => {
-    const list = getHearingListName();
+    const list = getCurrentHearingListKey();
 
     if (
       hearingLists[list] &&
@@ -397,10 +405,12 @@ function Hearings({
           handleReachBottom={handleReachBottom}
           onTabChange={(value) => {
             const url = `/hearings/${value}`;
-            navigate({
-              pathname: url,
-              search: location.search,
-            });
+            if (location.pathname !== url) {
+              navigate({
+                pathname: url,
+                search: location.search,
+              });
+            }
           }}
         />
       ) : (

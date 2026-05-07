@@ -6,6 +6,30 @@ const hearingListSkeleton = {
   data: [],
 };
 
+const hearingListsWithMapView = [
+  'allHearings',
+  'openHearings',
+  'publishedHearings',
+  'publishingQueueHearings',
+  'draftHearings',
+  'ownHearings',
+];
+
+const userHearingLists = [
+  'userHearingsOpen',
+  'userHearingsQueue',
+  'userHearingsClosed',
+  'userHearingsDrafts',
+];
+
+const initialHearingListNames = [
+  ...hearingListsWithMapView.flatMap((listName) => [
+    listName,
+    `${listName}Map`,
+  ]),
+  ...userHearingLists,
+];
+
 const createHearingLists = (listNames) =>
   listNames.reduce(
     (listState, name) => ({ ...listState, [name]: hearingListSkeleton }),
@@ -58,15 +82,5 @@ export default handleActions(
     receiveHearingList,
     receiveMoreHearings,
   },
-  createHearingLists([
-    'allHearings',
-    'openHearings',
-    'publishedHearings',
-    'publishingQueueHearings',
-    'draftHearings',
-    'userHearingsOpen',
-    'userHearingsQueue',
-    'userHearingsClosed',
-    'userHearingsDrafts',
-  ])
+  createHearingLists(initialHearingListNames)
 );
