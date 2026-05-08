@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { v1 as uuid } from 'uuid';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Select } from 'hds-react';
@@ -22,7 +21,10 @@ import {
 } from '../../actions/hearingEditor';
 import { addToast } from '../../actions/toast';
 import Project from './Project';
-import { INIT_NEW_PROJECT_ID } from '../../reducers/hearingEditor/hearing';
+import {
+  INIT_NEW_PROJECT_ID,
+  NO_PROJECT_ID,
+} from '../../reducers/hearingEditor/hearing';
 
 const HearingFormStep5 = ({
   errors,
@@ -35,7 +37,7 @@ const HearingFormStep5 = ({
   const intl = useIntl();
 
   const defaultProjectOptions = [
-    { value: uuid(), label: intl.formatMessage({ id: 'noProject' }) },
+    { value: NO_PROJECT_ID, label: intl.formatMessage({ id: 'noProject' }) },
     {
       value: INIT_NEW_PROJECT_ID,
       label: intl.formatMessage({ id: 'defaultProject' }),
@@ -107,9 +109,11 @@ const HearingFormStep5 = ({
           }}
           options={options}
           onChange={onChangeProject}
-          value={
-            selectedProject ? selectedProject.id : [defaultProjectOptions[0]]
-          }
+          value={(() => {
+            if (!selectedProject) return [defaultProjectOptions[0]];
+            if (selectedProject.id === '') return [defaultProjectOptions[1]];
+            return selectedProject.id;
+          })()}
         />
       </div>
       <Project

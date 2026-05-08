@@ -119,6 +119,7 @@ const Project = ({
 
 Project.propTypes = {
   project: PropTypes.shape({
+    id: PropTypes.string,
     phases: PropTypes.arrayOf(PropTypes.object),
     title: PropTypes.shape({
       en: PropTypes.string,
