@@ -108,7 +108,7 @@ const HearingContainerComponent = ({
       fetchEditorMetaData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hearing.slug, user, userCanEditHearing, hearingDraft?.slug]);
+  }, [hearing.slug, user, userCanEditHearing]);
 
   useEffect(() => {
     if (location.state) {
