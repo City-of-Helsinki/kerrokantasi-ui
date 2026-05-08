@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.20.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.0...kerrokantasi-ui-v1.20.1) (2026-05-08)
+
+
+### Bug Fixes
+
+* Change port to 3000 in local development ([4a8069f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4a8069f6c844c55b450e3089445c0f9249603856))
+* Edit hearing slugs Refs: KER-619 ([1f3a47c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1f3a47c44a47a8f7769ac4666a3bbb9877993765))
+* Hearing project noProject option working Refs: KER-618 ([592e971](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/592e9712da7d2db839c7474db3f453c20fab534c))
+* Main navigation ([1aae897](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1aae89787fb429d6bef3f4f99731398e302678f3))
+* Phase remove phase incorrect error Refs: KER-618 ([946e8c3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/946e8c349042d9a83070ec12ef5cd9ea00f04f3b))
+* Pnpm related fixes ([1ab9451](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1ab94519605f5e46adb0cec50c7b32bdc67449d6))
+
+
+### Dependencies
+
+* Bump postcss from 8.5.9 to 8.5.12 ([#1287](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1287)) ([2932c97](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2932c97963b851fae2173085496ec6aaee31ce66))
+* Bump simple-git from 3.35.2 to 3.36.0 ([#1289](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1289)) ([236a93f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/236a93f253fdbbec44bdc0f653d3b4a86e1aa9c6))
+
 ## [1.20.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.19.6...kerrokantasi-ui-v1.20.0) (2026-05-05)
 
 
