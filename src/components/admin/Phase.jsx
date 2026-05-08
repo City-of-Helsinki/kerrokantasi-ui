@@ -119,7 +119,7 @@ const Phase = ({
                         addToast(
                           createNotificationPayload(
                             'error',
-                            'tryingToDeletePhaseWithHearings'
+                            'Vaihetta, jossa on jo kuulemisia, ei voida poistaa.'
                           )
                         )
                       );
