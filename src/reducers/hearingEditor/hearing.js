@@ -11,6 +11,7 @@ import {
 import { EditorActions } from '../../actions/hearingEditor';
 
 export const INIT_NEW_PROJECT_ID = 'pleaseinitnewprojectforme';
+export const NO_PROJECT_ID = 'noProject';
 
 const sectionMoveUp = (sections, sectionId) => {
   const sectionIndex = findIndex(sections, (el) => el === sectionId);
@@ -139,7 +140,9 @@ const data = handleActions(
       { payload: { hearingSlug, projectId, projectLists } }
     ) => {
       let updatedProject;
-      if (projectId === INIT_NEW_PROJECT_ID) {
+      if (projectId === NO_PROJECT_ID) {
+        return { ...state, project: undefined };
+      } else if (projectId === INIT_NEW_PROJECT_ID) {
         updatedProject = initNewProject();
       } else {
         updatedProject =
