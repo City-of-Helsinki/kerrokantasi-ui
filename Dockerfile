@@ -32,7 +32,7 @@ ENV NODE_ENV=development
 EXPOSE 8080
 
 # Start the development server
-CMD pnpm exec vite
+CMD pnpm exec vite --port 8080
 
 
 # ============================================================
