@@ -8,7 +8,9 @@ const CookieManagement = () => {
       <Helmet>
         <title>Kerrokantasi</title>
       </Helmet>
-      <CookieSettingsPage />
+      <div className='container'>
+        <CookieSettingsPage />
+      </div>
     </main>
   );
 };
