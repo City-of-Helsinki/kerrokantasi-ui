@@ -141,7 +141,7 @@ const data = handleActions(
     ) => {
       let updatedProject;
       if (projectId === NO_PROJECT_ID) {
-        return { ...state, project: undefined };
+        return { ...state, project: null };
       } else if (projectId === INIT_NEW_PROJECT_ID) {
         updatedProject = initNewProject();
       } else {

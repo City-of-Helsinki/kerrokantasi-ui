@@ -78,7 +78,7 @@ const validateFunction = {
    * @returns {boolean}
    */
   project: function project(hearingProject) {
-    return !isEmpty(hearingProject);
+    return !isEmpty(hearingProject) && hearingProject.id != null;
   },
   /**
    * Returns true if a language specific title is empty
