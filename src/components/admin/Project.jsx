@@ -40,7 +40,7 @@ const Project = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project]);
 
-  if (!project) {
+  if (project?.id == null) {
     return null;
   }
 
