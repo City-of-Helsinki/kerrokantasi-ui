@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.20.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.1...kerrokantasi-ui-v1.20.2) (2026-05-11)
+
+
+### Bug Fixes
+
+* Add missing localisation ([a45bb73](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a45bb73dd3609bbc260fa79f3414919ee0e1815d))
+* Cookie related fixes ([eeb09fe](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/eeb09fea70ba35207d425ec24e339a3731072c55))
+* For noProject set null in payload Refs: KER-618 ([ac5cb61](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ac5cb61b10ab9990ac2925f9e47e336504958631))
+* Linter ([00c0c02](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/00c0c02934ecd6a2d3ebc42312b1a158346059b2))
+* Listeners ([8e2161e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8e2161e2e243a2d5e4289a27f2210da24a6128b8))
+* Next step ([ff0532b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ff0532b0e9726d771aceb5c7f0d144a1385bd5a9))
+* Rich text edit allows focus exit with tab ([bdf47ef](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/bdf47eff0e87d38ab09aa22db32d49d259158aee))
+* Select on keyboard ([63180a6](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/63180a62e39ea2a0611cd5febbc3087ba8d1c06f))
+* Sending emtpy image info ([7d56bea](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7d56bea487e2b9d67a4e7acb80a78b427053f945))
+
 ## [1.20.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.0...kerrokantasi-ui-v1.20.1) (2026-05-08)
 
 
