@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.3...kerrokantasi-ui-v1.20.4) (2026-05-12)
+
+
+### Bug Fixes
+
+* Support MultiPolygon in GeoJSON ([0f8a8aa](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0f8a8aa4aa30039c6a2ff26b1763904066a78f36))
+
 ## [1.20.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.2...kerrokantasi-ui-v1.20.3) (2026-05-12)
 
 
