@@ -108,4 +108,46 @@ describe('FormatRelativeTime', () => {
 
     expect(getByText('timeClosePast', { exact: false })).toBeInTheDocument();
   });
+
+  it('uses hour relative unit for past hours', () => {
+    const pastDate = new Date(Date.now() - 3 * 60 * 60 * 1000).toString();
+
+    const { container, getByText } = renderComponent({
+      messagePrefix: 'timeOpen',
+      timeVal: pastDate,
+      formatTime: mockFormatTime,
+      formatDate: mockFormatDate,
+    });
+
+    expect(getByText('timeOpenPast', { exact: false })).toBeInTheDocument();
+    expect(container.textContent.toLowerCase()).toMatch(/tunt|hour/);
+  });
+
+  it('uses minute relative unit for past minutes', () => {
+    const pastDate = new Date(Date.now() - 10 * 60 * 1000).toString();
+
+    const { container, getByText } = renderComponent({
+      messagePrefix: 'timeOpen',
+      timeVal: pastDate,
+      formatTime: mockFormatTime,
+      formatDate: mockFormatDate,
+    });
+
+    expect(getByText('timeOpenPast', { exact: false })).toBeInTheDocument();
+    expect(container.textContent.toLowerCase()).toMatch(/minuut|min/);
+  });
+
+  it('uses second relative unit for past seconds', () => {
+    const pastDate = new Date(Date.now() - 20 * 1000).toString();
+
+    const { container, getByText } = renderComponent({
+      messagePrefix: 'timeOpen',
+      timeVal: pastDate,
+      formatTime: mockFormatTime,
+      formatDate: mockFormatDate,
+    });
+
+    expect(getByText('timeOpenPast', { exact: false })).toBeInTheDocument();
+    expect(container.textContent.toLowerCase()).toMatch(/sekun|second/);
+  });
 });

@@ -1,34 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelativeTime, useIntl } from 'react-intl';
+import moment from 'moment';
 
 // Helper function to calculate time difference and unit
 function calculateTimeDifference(timeDifferenceMs, isPast) {
   const timeDifferenceAbs = Math.abs(timeDifferenceMs);
-  const millisecondsInDay = 1000 * 60 * 60 * 24;
-  const millisecondsInWeek = millisecondsInDay * 7;
-  const millisecondsInMonth = millisecondsInDay * 30; // Approximate
-  const millisecondsInYear = millisecondsInDay * 365; // Approximate
+  const duration = moment.duration(timeDifferenceAbs);
 
   let difference = 0;
-  let unit = 'day';
+  let unit;
 
-  if (timeDifferenceAbs >= millisecondsInYear) {
-    difference = Math.floor(timeDifferenceAbs / millisecondsInYear);
+  // Use as('years') instead of years() so exactly 365 days becomes 1 year;
+  // years() can still be 0 because Moment treats a year as ~365.25 days.
+  if (Math.floor(duration.as('years')) > 0) {
+    difference = Math.floor(duration.as('years'));
     unit = 'year';
-  } else if (timeDifferenceAbs >= millisecondsInMonth) {
-    difference = Math.floor(timeDifferenceAbs / millisecondsInMonth);
+  } else if (duration.months() > 0) {
+    difference = duration.months();
     unit = 'month';
-  } else if (timeDifferenceAbs >= millisecondsInWeek) {
-    difference = Math.floor(timeDifferenceAbs / millisecondsInWeek);
+  } else if (duration.weeks() > 0) {
+    difference = duration.weeks();
     unit = 'week';
+  } else if (duration.days() > 0) {
+    difference = duration.days();
+    unit = 'day';
+  } else if (duration.hours() > 0) {
+    difference = duration.hours();
+    unit = 'hour';
+  } else if (duration.minutes() > 0) {
+    difference = duration.minutes();
+    unit = 'minute';
   } else {
-    difference = Math.floor(timeDifferenceAbs / millisecondsInDay);
-  }
-
-  // For very recent past times (0 days), show as 1 day ago to avoid "in 0 days" issue
-  if (difference === 0 && isPast) {
-    difference = 1;
+    difference = duration.seconds();
+    unit = 'second';
   }
 
   return {
