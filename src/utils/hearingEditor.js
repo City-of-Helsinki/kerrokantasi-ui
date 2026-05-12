@@ -214,7 +214,16 @@ export const parseCollection = (featureCollection) => {
   const normalizedFeatures = featureCollection.features.reduce(
     (features, feature) => {
       let normalizedCoordinates;
-      if (feature.geometry.coordinates.length === 1) {
+      if (feature.geometry.type === 'MultiPolygon') {
+        normalizedCoordinates = window.L.GeoJSON.coordsToLatLngs(
+          feature.geometry.coordinates,
+          2
+        );
+        normalizedCoordinates = window.L.GeoJSON.latLngsToCoords(
+          normalizedCoordinates,
+          2
+        );
+      } else if (feature.geometry.coordinates.length === 1) {
         /**
          * geometry.coordinates is a multidimensional array - a Polygon
          * e.g. coordinates =
