@@ -90,7 +90,7 @@ const HearingFormStep3 = (props) => {
       if (
         event.layers &&
         !isEmpty(event.layers._layers) &&
-        hearing.geojson.features
+        hearing.geojson?.features
       ) {
         /**
          * state.initialGeoJSON contains data when editing an existing hearing or when a geojson file has been uploaded.
