@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.2...kerrokantasi-ui-v1.20.3) (2026-05-12)
+
+
+### Bug Fixes
+
+* Null check fix ([0cdb40b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0cdb40b6611536b6cf5384d03d7797aa10732193))
+* Show time difference between dates more precisely ([79c777e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/79c777e25e99a0918e395314024898901bae80b0))
+
 ## [1.20.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.1...kerrokantasi-ui-v1.20.2) (2026-05-11)
 
 
