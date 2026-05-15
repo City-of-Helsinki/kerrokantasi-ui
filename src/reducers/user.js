@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   isFetching: false,
   data: null,
   profile: {},
+  favoriteHearingsFetching: false,
 };
 
 const fetchUserData = (state) => ({
@@ -60,6 +61,23 @@ const receiveFavoriteHearings = (state, { payload }) =>
   updeep(
     {
       profile: { favoriteHearings: payload.data },
+      favoriteHearingsFetching: false,
+    },
+    state
+  );
+
+const beginFetchFavoriteHearings = (state) =>
+  updeep(
+    {
+      favoriteHearingsFetching: true,
+    },
+    state
+  );
+
+const receiveFavoriteHearingsError = (state) =>
+  updeep(
+    {
+      favoriteHearingsFetching: false,
     },
     state
   );
@@ -70,7 +88,9 @@ export default handleActions(
     clearUserData,
     receiveUserComments,
     modifyFavoriteHearingsData,
+    beginFetchFavoriteHearings,
     receiveFavoriteHearings,
+    receiveFavoriteHearingsError,
   },
   INITIAL_STATE
 );

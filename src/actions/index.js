@@ -229,14 +229,15 @@ export function fetchHearing(hearingSlug, previewKey = null) {
     const params = previewKey ? { preview: previewKey } : {};
     return apiGet(url, params)
       .then(getResponseJSON)
-      .then((data) => {
-        dispatch(createAction('receiveHearing')({ hearingSlug, data }));
-      })
-      .catch((err) => {
-        dispatch(createAction('receiveHearingError')({ hearingSlug }));
-        requestErrorHandler(dispatch)(err);
-      });
-    // FIXME: Somehow .catch catches errors also from components' render methods
+      .then(
+        (data) => {
+          dispatch(createAction('receiveHearing')({ hearingSlug, data }));
+        },
+        (err) => {
+          dispatch(createAction('receiveHearingError')({ hearingSlug }));
+          requestErrorHandler(dispatch)(err);
+        }
+      );
   };
 }
 
@@ -252,14 +253,15 @@ export function fetchFavoriteHearings(params) {
     const url = 'v1/hearing/';
     return apiGet(url, params)
       .then(getResponseJSON)
-      .then((data) => {
-        dispatch(createAction('receiveFavoriteHearings')({ data }));
-      })
-      .catch((err) => {
-        dispatch(createAction('receiveFavoriteHearingsError'));
-        requestErrorHandler(dispatch)(err);
-      });
-    // FIXME: Somehow .catch catches errors also from components' render methods
+      .then(
+        (data) => {
+          dispatch(createAction('receiveFavoriteHearings')({ data }));
+        },
+        (err) => {
+          dispatch(createAction('receiveFavoriteHearingsError')());
+          requestErrorHandler(dispatch)(err);
+        }
+      );
   };
 }
 
@@ -390,25 +392,34 @@ export function fetchSectionComments(
       ...(ordering && { ordering }),
     };
 
-    const promises = [
-      apiGet(URL_COMMENT, { ...params, pinned: false }).then(getResponseJSON),
-      apiGet(URL_COMMENT, { ...params, pinned: true }).then(getResponseJSON),
-    ];
-
-    const [unpinnedResponse, pinnedResponse] = await Promise.all(promises);
-    const mergedResults = unpinnedResponse;
-
-    if (pinnedResponse.results.length > 0) {
-      mergedResults.count += pinnedResponse.count;
-      mergedResults.results = [
-        ...pinnedResponse.results,
-        ...mergedResults.results,
+    try {
+      const promises = [
+        apiGet(URL_COMMENT, { ...params, pinned: false }).then(getResponseJSON),
+        apiGet(URL_COMMENT, { ...params, pinned: true }).then(getResponseJSON),
       ];
-    }
 
-    return dispatch(
-      createAction('receiveSectionComments')({ sectionId, data: mergedResults })
-    );
+      const [unpinnedResponse, pinnedResponse] = await Promise.all(promises);
+      const mergedResults = unpinnedResponse;
+
+      if (pinnedResponse.results.length > 0) {
+        mergedResults.count += pinnedResponse.count;
+        mergedResults.results = [
+          ...pinnedResponse.results,
+          ...mergedResults.results,
+        ];
+      }
+
+      return dispatch(
+        createAction('receiveSectionComments')({
+          sectionId,
+          data: mergedResults,
+        })
+      );
+    } catch (err) {
+      dispatch(createAction('receiveSectionCommentsError')({ sectionId }));
+      requestErrorHandler(dispatch)(err);
+      return null;
+    }
   };
 }
 

@@ -220,6 +220,16 @@ const beginFetchSectionComments = (
   );
 };
 
+const receiveSectionCommentsError = (state, { payload: { sectionId } }) =>
+  updeep(
+    {
+      [sectionId]: {
+        isFetching: false,
+      },
+    },
+    state
+  );
+
 /**
  * Returns an array consisting of the path to the comment that is to be updated.
  * Returns false if for some reason the targetId comment was not found anywhere.
@@ -385,6 +395,7 @@ export default handleActions(
     postedCommentVote,
     postedCommentFlag,
     receiveSectionComments,
+    receiveSectionCommentsError,
     subCommentsFetched,
   },
   {}
