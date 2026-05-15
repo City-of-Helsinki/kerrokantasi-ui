@@ -243,6 +243,70 @@ describe('fetchMoreHearings', () => {
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
+
+describe('fetchSectionComments', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.get.mockClear();
+  });
+
+  it('handles network errors without throwing', async () => {
+    const sectionId = 'section-1';
+
+    api.get.mockImplementation((url, params) => {
+      if (params.pinned === false) {
+        return Promise.reject(new TypeError('Failed to fetch'));
+      }
+
+      return Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve({ count: 0, results: [] }),
+      });
+    });
+
+    await expect(
+      store.dispatch(actions.fetchSectionComments(sectionId))
+    ).resolves.toBeNull();
+
+    const actionTypes = store.getActions().map((action) => action.type);
+    expect(actionTypes).toContain('beginFetchSectionComments');
+    expect(actionTypes).not.toContain('receiveSectionComments');
+  });
+});
+
+describe('fetchHearing', () => {
+  beforeEach(() => {
+    api.get.mockClear();
+  });
+
+  it('does not dispatch receiveHearingError when downstream dispatch fails after successful fetch', async () => {
+    const hearingSlug = 'humallahti';
+    const hearingData = { id: 'hearing-1', slug: hearingSlug };
+
+    api.get.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve(hearingData),
+    });
+
+    const dispatch = vi.fn((action) => {
+      if (action?.type === 'receiveHearing') {
+        throw new Error('Render lifecycle error');
+      }
+      return action;
+    });
+
+    await expect(actions.fetchHearing(hearingSlug)(dispatch)).rejects.toThrow(
+      'Render lifecycle error'
+    );
+
+    const dispatchedTypes = dispatch.mock.calls.map(([action]) => action?.type);
+    expect(dispatchedTypes).toContain('beginFetchHearing');
+    expect(dispatchedTypes).toContain('receiveHearing');
+    expect(dispatchedTypes).not.toContain('receiveHearingError');
+  });
+});
 describe('postSectionComment', () => {
   let store;
   const hearingSlug = 'sample-slug';
@@ -351,5 +415,51 @@ describe('fetchLabels', () => {
     await store.dispatch(actions.fetchLabels());
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions)); // Ensure actions are correctly created
     expect(api.getAllFromEndpoint).toHaveBeenCalledWith('/v1/label/');
+  });
+});
+
+describe('fetchFavoriteHearings', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.get.mockClear();
+  });
+
+  it('dispatches beginFetchFavoriteHearings and receiveFavoriteHearings when fetching favorite hearings successfully', async () => {
+    const mockFavoriteHearingsData = {
+      results: [
+        { id: '1', title: 'Favorite Hearing One' },
+        { id: '2', title: 'Favorite Hearing Two' },
+      ],
+    };
+    api.get.mockResolvedValue({
+      json: () => Promise.resolve(mockFavoriteHearingsData),
+    });
+
+    const expectedActions = [
+      { type: 'beginFetchFavoriteHearings', payload: undefined },
+      {
+        type: 'receiveFavoriteHearings',
+        payload: { data: mockFavoriteHearingsData },
+      },
+    ];
+
+    await store.dispatch(actions.fetchFavoriteHearings());
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+    expect(api.get).toHaveBeenCalledWith('v1/hearing/', undefined);
+  });
+
+  it('dispatches beginFetchFavoriteHearings and receiveFavoriteHearingsError when API request fails', async () => {
+    const error = new Error('Network error');
+    api.get.mockRejectedValue(error);
+
+    const expectedActions = [
+      { type: 'beginFetchFavoriteHearings', payload: undefined },
+      { type: 'receiveFavoriteHearingsError', payload: undefined },
+    ];
+
+    await store.dispatch(actions.fetchFavoriteHearings());
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
