@@ -1,8 +1,32 @@
-# Don't allow dependencies to be used before they have been released for at least 1 week
+# Minimum age for new packages before they can be used (in minutes) – 10080 min = 1 week
 minimumReleaseAge: 10080
 
-# Don't warn about ignored build scripts
-ignoredBuiltDependencies: []
-
-# Hoist all dependencies to the root of node_modules, for better compatibility with packages that expect flat node_modules
+# Hoist all dependencies to the root of node_modules because some packages
+# (e.g. the draft-js ecosystem) do not work correctly with pnpm's default isolation strategy
 shamefullyHoist: true
+
+# Force all draft-js ecosystem packages to use immutable 3.x –
+# newer versions are not compatible with draft-js.
+# The minimatch override fixes the version used by @typescript-eslint/typescript-estree.
+overrides:
+  "@draft-js-plugins/drag-n-drop>immutable": 3.8.3
+  "@draft-js-plugins/editor>immutable": 3.8.3
+  "@draft-js-plugins/focus>immutable": 3.8.3
+  "@draft-js-plugins/image>immutable": 3.8.3
+  "@draft-js-plugins/resizeable>immutable": 3.8.3
+  "draft-convert>immutable": 3.8.3
+  "draft-js-export-html>immutable": 3.8.3
+  "draft-js-utils>immutable": 3.8.3
+  "draft-js>immutable": 3.8.3
+  "@typescript-eslint/typescript-estree>minimatch": 9.0.7
+
+# pnpm 11 requires explicit opt-in for packages that run install scripts.
+# - @parcel/watcher: used by sass and vite for file system watching
+# - core-js: does not require a native build, denied as unnecessary
+# - esbuild: downloads its native binary during installation
+# - unrs-resolver: Rust-based module resolver used by eslint-plugin-import-x
+allowBuilds:
+  "@parcel/watcher": true
+  core-js: false
+  esbuild: true
+  unrs-resolver: true
