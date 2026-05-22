@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.4...kerrokantasi-ui-v1.20.5) (2026-05-22)
+
+
+### Bug Fixes
+
+* Enhance error handling in hearing actions ([2134bc9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/2134bc9c94acc7aca219411c5177381d71058376))
+* File attachments not visible in edit view ([#1307](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1307)) ([95cd21c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/95cd21c522152553e04100b7d5e51b8020558848))
+
 ## [1.20.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.3...kerrokantasi-ui-v1.20.4) (2026-05-12)
 
 
