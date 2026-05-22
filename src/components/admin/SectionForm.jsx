@@ -100,6 +100,9 @@ const SectionForm = ({
   );
   const [sectionImage, setSectionImage] = useState();
   const [attachments, setAttachments] = useState();
+  const [attachmentsLoaded, setAttachmentsLoaded] = useState(
+    section.files.length === 0
+  );
 
   const intl = useIntl();
 
@@ -122,6 +125,7 @@ const SectionForm = ({
         const data = await fetchFiles(section.files, 'pdf', language);
         setAttachments(data);
       }
+      setAttachmentsLoaded(true);
     }
 
     fetchAttachments();
@@ -448,18 +452,20 @@ const SectionForm = ({
         </div>
       )}
       <div id='hearingFiles' style={{ marginBottom: 'var(--spacing-m)' }}>
-        <FileInput
-          id='selectOrDropFile'
-          name='selectOrDropFile'
-          dragAndDrop
-          label={<FormattedMessage id='selectOrDropFile' />}
-          accept={ACCEPTED_FILE_TYPES}
-          language={language}
-          onChange={onAttachmentChange}
-          defaultValue={attachments?.map((item) => item.file) || []}
-          maxSize={MAX_FILE_SIZE * 1024 * 1024}
-          multiple
-        />
+        {attachmentsLoaded && (
+          <FileInput
+            id='selectOrDropFile'
+            name='selectOrDropFile'
+            dragAndDrop
+            label={<FormattedMessage id='selectOrDropFile' />}
+            accept={ACCEPTED_FILE_TYPES}
+            language={language}
+            onChange={onAttachmentChange}
+            defaultValue={attachments?.map((item) => item.file) || []}
+            maxSize={MAX_FILE_SIZE * 1024 * 1024}
+            multiple
+          />
+        )}
       </div>
       <div>
         <Button
