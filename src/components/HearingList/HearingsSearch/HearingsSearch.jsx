@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isEmpty } from 'lodash';
-import { SearchInput, Button, Select } from 'hds-react';
+import { Search, Button, Select } from 'hds-react';
 
 import getAttr from '../../../utils/getAttr';
 import { labelShape } from '../../../types';
@@ -18,6 +18,15 @@ const HearingsSearch = ({
   intl,
 }) => {
   const [searchValue, setSearchValue] = useState(searchPhrase);
+
+  const searchTexts = useMemo(
+    () => ({
+      label: intl.formatMessage({ id: 'searchTitles' }),
+      searchButtonAriaLabel: intl.formatMessage({ id: 'searchTitles' }),
+      clearButtonAriaLabel: intl.formatMessage({ id: 'clear' }),
+    }),
+    [intl]
+  );
 
   const labelsAsOptions = labels.map(({ label, id }) => ({
     label: getAttr(label, language),
@@ -36,16 +45,18 @@ const HearingsSearch = ({
         >
           <div className='hearings-search__controls'>
             <div id='formControlsSearchText' className='hearings-search__text'>
-              <SearchInput
+              <Search
                 className='hearings-search__input'
-                label={<FormattedMessage id='searchTitles' />}
-                searchButtonAriaLabel={intl.formatMessage({
-                  id: 'searchTitles',
-                })}
-                clearButtonAriaLabel={intl.formatMessage({ id: 'clear' })}
+                texts={searchTexts}
                 value={searchValue}
-                onChange={(newValue) => setSearchValue(newValue)}
-                onSubmit={(value) => handleSearch(value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSearchValue(value);
+                  if (value === '') {
+                    handleSearch('');
+                  }
+                }}
+                onSend={(value) => handleSearch(value)}
               />
             </div>
             <div

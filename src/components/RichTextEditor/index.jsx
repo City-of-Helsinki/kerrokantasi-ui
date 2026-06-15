@@ -332,8 +332,8 @@ function RichTextEditor({
       /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
     const htmlWithExternalIcons = htmlWithLinkIds.replace(
       externalLinkRegex,
-      '$1$2 <span class="hds-icon icon hds-icon--link-external ' +
-        'hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3'
+      '$1$2 <span class="hds-icon hds-icon--link-external ' +
+        'hds-icon--size-xs" aria-hidden="true"></span>$3'
     );
 
     // strip wrapping figure tags from iframe tags for better accessibility

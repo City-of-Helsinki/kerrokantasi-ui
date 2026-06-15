@@ -42,7 +42,7 @@ const QuestionForm = ({
       {canAnswer &&
         question.options.map((option, index) => {
           const props = {
-            id: option.id,
+            id: `question-option-${option.id}`,
             autoFocus: autoFocus && index === 0,
             checked: answers?.answers.includes(option.id),
             name: `question_${question.id}`,
@@ -57,14 +57,10 @@ const QuestionForm = ({
           };
 
           if (question.type === 'single-choice') {
-            return (
-              <RadioButton key={`${question.id}-${question.type}`} {...props} />
-            );
+            return <RadioButton key={option.id} {...props} />;
           }
 
-          return (
-            <Checkbox key={`${question.id}-${question.type}`} {...props} />
-          );
+          return <Checkbox key={option.id} {...props} />;
         })}
       {!canAnswer && <FormattedMessage id='logInToAnswer' />}
     </Fieldset>

@@ -1,5 +1,21 @@
 ///// Helsinki brand variables
 @import 'hel-bootstrap-3/src/sass/helsinki-variables';
+// HDS 5 renamed the font family from "HelsinkiGrotesk" to "HelsinkiGroteskPro".
+// Override the hel-bootstrap-3 default so Bootstrap-based elements also use the new name.
+$hel-grotesk:
+  'HelsinkiGroteskPro',
+  Arial,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  'Roboto',
+  'Oxygen',
+  'Ubuntu',
+  'Cantarell',
+  'Fira Sans',
+  'Droid Sans',
+  'Helvetica Neue',
+  sans-serif;
 ///// Application specific theme variables
 @import 'hel/variables';
 ///// Helsinki Bootstrap 3 theme variables
@@ -13,6 +29,9 @@
 
 ///// Kerrokantasi Base styles
 @import '../../../../assets/sass/kerrokantasi/kerrokantasi';
+
+///// HDS font assets (HelsinkiGroteskPro @font-face) — must precede component styles
+@import 'hds-core/lib/fonts/fonts.min.css';
 
 ///// HDS React base styles
 @import 'hds-core/lib/base.min.css';
