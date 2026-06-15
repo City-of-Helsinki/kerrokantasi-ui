@@ -426,6 +426,7 @@ describe('fetchFavoriteHearings', () => {
     api.get.mockClear();
   });
 
+  // eslint-disable-next-line max-len
   it('dispatches beginFetchFavoriteHearings and receiveFavoriteHearings when fetching favorite hearings successfully', async () => {
     const mockFavoriteHearingsData = {
       results: [

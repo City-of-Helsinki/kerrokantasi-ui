@@ -1,58 +1,35 @@
-/* eslint-disable sonarjs/pseudo-random */
-import React, { createRef } from 'react';
+import React, { useRef, useEffect, useId } from 'react';
 
 import loadScriptThenCall from './utils';
 
-export default class Facebook extends React.Component {
-  constructor() {
-    super();
+export default function Facebook() {
+  const id = useId();
+  const containerRef = useRef(null);
 
-    this.containerRef = createRef();
-  }
-
-  UNSAFE_componentWillMount() {
-    this.setState({ id: Math.random().toString(36) });
-  }
-
-  componentDidMount() {
-    const setup = this.setupFacebookWidget.bind(this);
-    loadScriptThenCall(
-      'facebook-jssdk',
-      '//connect.facebook.net/en_US/sdk.js',
-      'FB',
-      setup
-    );
-  }
-
-  // eslint-disable-next-line sonarjs/no-identical-functions
-  componentDidUpdate() {
-    const setup = this.setupFacebookWidget.bind(this);
-    loadScriptThenCall(
-      'facebook-jssdk',
-      '//connect.facebook.net/en_US/sdk.js',
-      'FB',
-      setup
-    );
-  }
-
-  setupFacebookWidget(FB) {
-    FB.init({ version: 'v2.4' });
-    FB.XFBML.parse(this.containerRef.current);
-  }
-
-  render() {
-    if (typeof window === 'undefined') {
-      // Unable to render this without a valid `window`
-      return null;
+  useEffect(() => {
+    function setupFacebookWidget(FB) {
+      FB.init({ version: 'v2.4' });
+      FB.XFBML.parse(containerRef.current);
     }
-    return (
-      <span ref={this.containerRef} id={`facebook-${this.state.id}`}>
-        <div
-          className='fb-share-button'
-          data-href={window.location.href}
-          data-layout='button_count'
-        />
-      </span>
+    loadScriptThenCall(
+      'facebook-jssdk',
+      '//connect.facebook.net/en_US/sdk.js',
+      'FB',
+      setupFacebookWidget
     );
+  });
+
+  if (typeof window === 'undefined') {
+    // Unable to render this without a valid `window`
+    return null;
   }
+  return (
+    <span ref={containerRef} id={`facebook-${id}`}>
+      <div
+        className='fb-share-button'
+        data-href={window.location.href}
+        data-layout='button_count'
+      />
+    </span>
+  );
 }

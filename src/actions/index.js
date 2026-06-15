@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/fixme-tag */
 /* eslint-disable sonarjs/no-extra-arguments */
 import { createAction } from 'redux-actions';
 import merge from 'lodash/merge';
