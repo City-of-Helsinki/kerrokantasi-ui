@@ -54,24 +54,24 @@ A codemod is available: ⚙️ `npx codemod@latest react/19/replace-default-prop
 
 ### 1.3 Verify no removed/changed APIs are in use (🟢 audit only)
 
-- [ ] **1.3.1** `ReactDOM.render` / `hydrate` — already migrated (see `src/index.js` uses `createRoot`). ✅
-- [ ] **1.3.2** `findDOMNode` — none in repo. ✅
-- [ ] **1.3.3** String refs — none in repo. ✅
-- [ ] **1.3.4** `react-test-renderer` / Enzyme — not used. ✅
-- [ ] **1.3.5** `propTypes` runtime checks — React 19 no longer warns; the `prop-types` package still works at dev time. Decide whether to keep PropTypes (recommended in the short term for safety since the codebase is JS, not TS) or strip them in a separate cleanup task.
+- [x] **1.3.1** `ReactDOM.render` / `hydrate` — already migrated (see `src/index.js` uses `createRoot`). ✅
+- [x] **1.3.2** `findDOMNode` — none in repo. ✅
+- [x] **1.3.3** String refs — none in repo. ✅
+- [x] **1.3.4** `react-test-renderer` / Enzyme — not used. ✅
+- [x] **1.3.5** `propTypes` runtime checks — React 19 no longer warns; the `prop-types` package still works at dev time. Decide whether to keep PropTypes (recommended in the short term for safety since the codebase is JS, not TS) or strip them in a separate cleanup task.
 - [ ] **1.3.6** `legacy context` (`contextTypes` / `childContextTypes`) — grep again before merge; currently none.
 
 ### 1.4 Optional React 19 ergonomics (🟢, not required — defer to a follow-up PR)
 
 - [ ] **1.4.1** Use `<Context>` directly instead of `<Context.Provider>` (`src/getRoot.jsx`, `src/components/Matomo/matomo-context.jsx`, tests).
-- [ ] **1.4.2** Consider replacing `ref={forwardRef}` patterns — none in repo. ✅
+- [x] **1.4.2** Consider replacing `ref={forwardRef}` patterns — none in repo. ✅
 - [ ] **1.4.3** `react-helmet` is being replaced with `react-helmet-async` (see 2.5) — not a React 19 native rewrite.
 
 ### 1.5 Update test setup for React 19 (🟡 🧪)
 
-- [ ] **1.5.1** **(user action — dependency first)** Before changing any test code, update `@testing-library/react` from `^15` → `^16` (peer-requires React 19): `pnpm add -D @testing-library/react@^16`. After install, re-run `pnpm test:cov` to capture the baseline.
-- [ ] **1.5.2** Ensure `IS_REACT_ACT_ENVIRONMENT` is set in `src/setupTests.js` (Vitest jsdom defaults usually handle this).
-- [ ] **1.5.3** Re-run all 60+ test files using `@testing-library/react`; expect minor changes around `act()` warnings for async state updates.
+- [x] **1.5.1** **(user action — dependency first)** Before changing any test code, update `@testing-library/react` from `^15` → `^16` (peer-requires React 19): `pnpm add -D @testing-library/react@^16`. After install, re-run `pnpm test:cov` to capture the baseline.
+- [x] **1.5.2** Ensure `IS_REACT_ACT_ENVIRONMENT` is set in `src/setupTests.js` (Vitest jsdom defaults usually handle this). Tests run without it.
+- [x] **1.5.3** Re-run all 60+ test files using `@testing-library/react`; expect minor changes around `act()` warnings for async state updates.
 
 ### 1.6 Replace `react-helmet` with `react-helmet-async` (🟡 🧪)
 
