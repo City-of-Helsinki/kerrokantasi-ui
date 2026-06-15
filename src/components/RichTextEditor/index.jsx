@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/single-char-in-character-classes */
 /* eslint-disable sonarjs/concise-regex */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { createRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   EditorState,
   RichUtils,
@@ -172,119 +172,109 @@ const plugins = [
   imagePlugin,
 ];
 
-class RichTextEditor extends React.Component {
-  constructor(props) {
-    super(props);
+const DEFAULT_HIDE_CONTROLS = {
+  hideBlockStyleControls: false,
+  hideInlineStyleControls: false,
+  hideIframeControls: false,
+  hideImageControls: false,
+  hideSkipLinkControls: false,
+  hideLinkControls: false,
+};
 
-    this.editorRef = createRef();
-    this.urlRef = createRef();
+function RichTextEditor({
+  hideControls = DEFAULT_HIDE_CONTROLS,
+  labelId,
+  onBlur,
+  onChange,
+  value,
+  placeholderId,
+}) {
+  const intl = useIntl();
+  const editorRef = useRef(null);
+  const urlRef = useRef(null);
 
-    const createEditorState = () => {
-      if (this.props.value) {
-        // Remove external link icons from HTML before parsing to avoid duplication
-        const cleanHtml = this.props.value.replace(
-          /<span class="[^"]*hds-icon[^"]*hds-icon--link-external[^"]*"[^>]*><\/span>/gi,
-          ''
-        );
+  const createEditorState = () => {
+    if (value) {
+      // Remove external link icons from HTML before parsing to avoid duplication
+      const cleanHtml = value.replace(
+        /<span class="[^"]*hds-icon[^"]*hds-icon--link-external[^"]*"[^>]*><\/span>/gi,
+        ''
+      );
 
-        const contentState = convertFromHTML({
-          htmlToBlock: (nodeName, node) => {
-            if (node.className === 'lead') {
-              return { type: 'LEAD', data: {} };
-            }
-            if (node.className === CLASS_NAME_IMAGE_CAPTION) {
-              return { type: 'ImageCaption', data: {} };
-            }
-            if (nodeName === 'iframe') {
-              return { type: 'atomic', data: {} };
-            }
-            if (nodeName === 'img') {
-              return { type: 'atomic', data: {} };
-            }
-            return null;
-          },
-          htmlToEntity: (nodeName, node, createEntity) => {
-            if (nodeName === 'a') {
-              const hrefAttribute = node.attributes.getNamedItem('href');
-              const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
-              const target = '_self';
+      const contentState = convertFromHTML({
+        htmlToBlock: (nodeName, node) => {
+          if (node.className === 'lead') {
+            return { type: 'LEAD', data: {} };
+          }
+          if (node.className === CLASS_NAME_IMAGE_CAPTION) {
+            return { type: 'ImageCaption', data: {} };
+          }
+          if (nodeName === 'iframe') {
+            return { type: 'atomic', data: {} };
+          }
+          if (nodeName === 'img') {
+            return { type: 'atomic', data: {} };
+          }
+          return null;
+        },
+        htmlToEntity: (nodeName, node, createEntity) => {
+          if (nodeName === 'a') {
+            const hrefAttribute = node.attributes.getNamedItem('href');
+            const href = hrefAttribute ? hrefAttribute.nodeValue : node.href;
+            const target = '_self';
 
-              // Extract link text by removing any icon spans from the text content
-              let linkText = node.textContent || '';
-              // Remove external link icon text if present
-              const iconSpans = node.querySelectorAll(
-                'span[aria-hidden="true"]'
-              );
-              iconSpans.forEach((span) => {
-                linkText = linkText.replace(span.textContent || '', '').trim();
-              });
+            // Extract link text by removing any icon spans from the text content
+            let linkText = node.textContent || '';
+            // Remove external link icon text if present
+            const iconSpans = node.querySelectorAll('span[aria-hidden="true"]');
+            iconSpans.forEach((span) => {
+              linkText = linkText.replace(span.textContent || '', '').trim();
+            });
 
-              return createEntity('LINK', 'MUTABLE', {
-                url: href,
-                target,
-                id: node.id,
-                className: node.className,
-                title: node.id,
-                linkText: linkText,
-              });
+            return createEntity('LINK', 'MUTABLE', {
+              url: href,
+              target,
+              id: node.id,
+              className: node.className,
+              title: node.id,
+              linkText: linkText,
+            });
+          }
+          if (nodeName === 'iframe') {
+            const iframeAttributes = {};
+            for (let index = 0; index < node.attributes.length; index += 1) {
+              const attribute = node.attributes.item(index);
+              iframeAttributes[attribute.name] = attribute.value;
             }
-            if (nodeName === 'iframe') {
-              const iframeAttributes = {};
-              for (let index = 0; index < node.attributes.length; index += 1) {
-                const attribute = node.attributes.item(index);
-                iframeAttributes[attribute.name] = attribute.value;
-              }
-              return createEntity('IFRAME', 'IMMUTABLE', iframeAttributes);
+            return createEntity('IFRAME', 'IMMUTABLE', iframeAttributes);
+          }
+          if (nodeName === 'img') {
+            const imageAttributes = {};
+            for (let index = 0; index < node.attributes.length; index += 1) {
+              const attribute = node.attributes.item(index);
+              imageAttributes[attribute.name] = attribute.value;
             }
-            if (nodeName === 'img') {
-              const imageAttributes = {};
-              for (let index = 0; index < node.attributes.length; index += 1) {
-                const attribute = node.attributes.item(index);
-                imageAttributes[attribute.name] = attribute.value;
-              }
-              return createEntity('image', 'IMMUTABLE', imageAttributes);
-            }
-            return null;
-          },
-        })(stripIframeWrapperDivs(cleanHtml));
-        return EditorState.createWithContent(contentState);
-      }
-      return EditorState.createEmpty();
-    };
+            return createEntity('image', 'IMMUTABLE', imageAttributes);
+          }
+          return null;
+        },
+      })(stripIframeWrapperDivs(cleanHtml));
+      return EditorState.createWithContent(contentState);
+    }
+    return EditorState.createEmpty();
+  };
 
-    this.onFocus = this.onFocus.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onURLChange = this.onURLChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.toggleBlockType = this.toggleBlockType.bind(this);
-    this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
-    this.promptForLink = this.promptForLink.bind(this);
-    this.confirmLink = this.confirmLink.bind(this);
-    this.onLinkInputKeyDown = this.onLinkInputKeyDown.bind(this);
-    this.removeLink = this.removeLink.bind(this);
-    this.openSkipLinkModal = this.openSkipLinkModal.bind(this);
-    this.closeSkipLinkModal = this.closeSkipLinkModal.bind(this);
-    this.confirmSkipLink = this.confirmSkipLink.bind(this);
-    this.openIframeModal = this.openIframeModal.bind(this);
-    this.closeIframeModal = this.closeIframeModal.bind(this);
-    this.confirmIframe = this.confirmIframe.bind(this);
-    this.openImageModal = this.openImageModal.bind(this);
-    this.closeImageModal = this.closeImageModal.bind(this);
-    this.confirmImage = this.confirmImage.bind(this);
-    this.state = {
-      editorState: createEditorState(),
-      showURLInput: false,
-      urlValue: '',
-      showSkipLinkModal: false,
-      showIframeModal: false,
-      showImageModal: false,
-    };
-  }
+  const [editorState, setEditorState] = useState(() => createEditorState());
+  const [showURLInput, setShowURLInput] = useState(false);
+  const [urlValue, setUrlValue] = useState('');
+  const [showSkipLinkModal, setShowSkipLinkModal] = useState(false);
+  const [showIframeModal, setShowIframeModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
-  getHtmlOptions() {
-    const { formatMessage } = this.props.intl;
-    const externalLinkMessage = formatMessage({ id: 'linkLeadsToExternal' });
+  const getHtmlOptions = () => {
+    const externalLinkMessage = intl.formatMessage({
+      id: 'linkLeadsToExternal',
+    });
 
     return {
       blockStyleFn: (block) => {
@@ -326,106 +316,79 @@ class RichTextEditor extends React.Component {
         return null;
       },
     };
-  }
+  };
+
+  const buildHtml = (state) => {
+    const contentState = state.getCurrentContent();
+    const html = stateToHTML(contentState, getHtmlOptions());
+
+    // link title is used as temp storing place for id attribute
+    // convert link titles back into id attributes
+    const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
+    const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+
+    // Add external link icons for external links
+    const externalLinkRegex =
+      /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
+    const htmlWithExternalIcons = htmlWithLinkIds.replace(
+      externalLinkRegex,
+      '$1$2 <span class="hds-icon icon hds-icon--link-external ' +
+        'hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3'
+    );
+
+    // strip wrapping figure tags from iframe tags for better accessibility
+    // and add iframe wrappers which help with iframe screen overflow
+    return addIframeWrapperDivs(stripWrappingFigureTags(htmlWithExternalIcons));
+  };
 
   /* EVENT CONTROLS */
-  handleKeyCommand(command) {
-    const { editorState } = this.state;
+  const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
-      this.onChange(newState);
+      handleChange(newState);
       return true;
     }
     return false;
-  }
+  };
 
-  onChange(editorState) {
-    this.setState({ editorState });
-    const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState, this.getHtmlOptions());
+  const handleChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    onChange(buildHtml(newEditorState));
+  };
 
-    // link title is used as temp storing place for id attribute
-    // convert link titles back into id attributes
-    const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
-    const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
+  const handleBlur = () => {
+    onBlur(buildHtml(editorState));
+  };
 
-    // Add external link icons for external links
-    const externalLinkRegex =
-      /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
-    const htmlWithExternalIcons = htmlWithLinkIds.replace(
-      externalLinkRegex,
-      '$1$2 <span class="hds-icon icon hds-icon--link-external ' +
-        'hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3'
-    );
+  const handleURLChange = (event) => {
+    setUrlValue(event.target.value);
+  };
 
-    // strip wrapping figure tags from iframe tags for better accessibility
-    // and add iframe wrappers which help with iframe screen overflow
-    const iframeWithoutFigureWrap = stripWrappingFigureTags(
-      htmlWithExternalIcons
-    );
-    this.props.onChange(addIframeWrapperDivs(iframeWithoutFigureWrap));
-  }
-
-  onURLChange(event) {
-    this.setState({ urlValue: event.target.value });
-  }
-
-  onBlur() {
-    const { editorState } = this.state;
-    const contentState = editorState.getCurrentContent();
-    const html = stateToHTML(contentState, this.getHtmlOptions());
-
-    // link title is used as temp storing place for id attribute
-    // convert link titles back into id attributes
-    const linkTitleRegex = /(<a[\s\S]*?)(title)(="[\w\W]*?"[\w]*?>)/gi;
-    const htmlWithLinkIds = html.replace(linkTitleRegex, '$1id$3');
-
-    // Add external link icons for external links
-    const externalLinkRegex =
-      /(<a[^>]*data-external="true"[^>]*>)(.*?)(<\/a>)/gi;
-    const htmlWithExternalIcons = htmlWithLinkIds.replace(
-      externalLinkRegex,
-      '$1$2 <span class="hds-icon icon hds-icon--link-external ' +
-        'hds-icon--size-xs vertical-align-small-icon" aria-hidden="true"></span>$3'
-    );
-
-    // strip wrapping figure tags from iframe tags for better accessibility
-    // and add iframe wrappers which help with iframe screen overflow
-    const iframeWithoutFigureWrap = stripWrappingFigureTags(
-      htmlWithExternalIcons
-    );
-    this.props.onBlur(addIframeWrapperDivs(iframeWithoutFigureWrap));
-  }
-
-  onLinkInputKeyDown(event) {
+  const onLinkInputKeyDown = (event) => {
     if (event.which === 13) {
-      this.confirmLink(event);
+      confirmLink(event);
     }
-  }
+  };
 
-  onFocus() {
-    this.editorRef.current.focus();
-  }
+  const onFocus = () => {
+    editorRef.current.focus();
+  };
 
-  getPlaceholder() {
-    const { formatMessage } = this.props.intl;
-    if (this.props.placeholderId) {
-      return formatMessage({ id: this.props.placeholderId });
+  const getPlaceholder = () => {
+    if (placeholderId) {
+      return intl.formatMessage({ id: placeholderId });
     }
     return '';
-  }
+  };
 
-  removeLink(event) {
+  const removeLink = (event) => {
     event.preventDefault();
-    const { editorState } = this.state;
     const selection = editorState.getSelection();
     const contentState = editorState.getCurrentContent();
 
     // If we have a text selection, use it
     if (!selection.isCollapsed()) {
-      this.setState({
-        editorState: RichUtils.toggleLink(editorState, selection, null),
-      });
+      setEditorState(RichUtils.toggleLink(editorState, selection, null));
       return;
     }
 
@@ -466,33 +429,26 @@ class RichTextEditor extends React.Component {
           focusOffset: entityEnd,
         });
 
-        this.setState({
-          editorState: RichUtils.toggleLink(editorState, linkSelection, null),
-        });
+        setEditorState(RichUtils.toggleLink(editorState, linkSelection, null));
       }
     }
-  }
+  };
 
-  openSkipLinkModal(event) {
+  const openSkipLinkModal = (event) => {
     event.preventDefault();
-    this.setState({ showSkipLinkModal: true });
-  }
+    setShowSkipLinkModal(true);
+  };
 
-  closeSkipLinkModal() {
-    this.setState({ showSkipLinkModal: false });
-  }
+  const closeSkipLinkModal = () => setShowSkipLinkModal(false);
 
-  openIframeModal(event) {
+  const openIframeModal = (event) => {
     event.preventDefault();
-    this.setState({ showIframeModal: true });
-  }
+    setShowIframeModal(true);
+  };
 
-  closeIframeModal() {
-    this.setState({ showIframeModal: false });
-  }
+  const closeIframeModal = () => setShowIframeModal(false);
 
-  confirmIframe(iframeValues) {
-    const { editorState } = this.state;
+  const confirmIframe = (iframeValues) => {
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'IFRAME',
@@ -503,25 +459,16 @@ class RichTextEditor extends React.Component {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
-    this.setState(
-      {
-        // The third parameter here is a space string, not an empty string
-        // If you set an empty string, you will get an error: Unknown DraftEntity key: null
-        editorState: AtomicBlockUtils.insertAtomicBlock(
-          newEditorState,
-          entityKey,
-          ' '
-        ),
-        showIframeModal: false,
-      },
-      () => {
-        setTimeout(() => this.onFocus(), 0);
-      }
+    setEditorState(
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ')
     );
-  }
+    setShowIframeModal(false);
+    setTimeout(() => onFocus(), 0);
+  };
 
-  confirmImage(imageValues, imageAltText) {
-    const { editorState } = this.state;
+  const confirmImage = (imageValues, imageAltText) => {
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'image',
@@ -535,47 +482,34 @@ class RichTextEditor extends React.Component {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
-    this.setState(
-      {
-        // The third parameter here is a space string, not an empty string
-        // If you set an empty string, you will get an error: Unknown DraftEntity key: null
-        editorState: AtomicBlockUtils.insertAtomicBlock(
-          newEditorState,
-          entityKey,
-          ' '
-        ),
-        showImageModal: false,
-      },
-      () => {
-        setTimeout(() => this.onFocus(), 0);
-      }
+    setEditorState(
+      // The third parameter here is a space string, not an empty string
+      // If you set an empty string, you will get an error: Unknown DraftEntity key: null
+      AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ')
     );
-  }
+    setShowImageModal(false);
+    setTimeout(() => onFocus(), 0);
+  };
 
-  openImageModal(event) {
+  const openImageModal = (event) => {
     event.preventDefault();
-    this.setState({ showImageModal: true });
-  }
+    setShowImageModal(true);
+  };
 
-  closeImageModal() {
-    this.setState({ showImageModal: false });
-  }
+  const closeImageModal = () => setShowImageModal(false);
 
   /* TOGGLE BUTTONS */
-  toggleBlockType(blockType) {
-    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
-  }
+  const toggleBlockType = (blockType) => {
+    handleChange(RichUtils.toggleBlockType(editorState, blockType));
+  };
 
-  toggleInlineStyle(inlineStyle) {
-    this.onChange(
-      RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
-    );
-  }
+  const toggleInlineStyle = (inlineStyle) => {
+    handleChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  };
 
   /* HYPERLINK CONTROLS */
-  promptForLink(event) {
+  const promptForLink = (event) => {
     event.preventDefault();
-    const { editorState } = this.state;
     const selection = editorState.getSelection();
     if (!selection.isCollapsed()) {
       const contentState = editorState.getCurrentContent();
@@ -588,21 +522,14 @@ class RichTextEditor extends React.Component {
         const linkInstance = contentState.getEntity(linkKey);
         url = linkInstance.getData().url;
       }
-      this.setState(
-        {
-          showURLInput: true,
-          urlValue: url,
-        },
-        () => {
-          setTimeout(() => this.onFocus(), 0);
-        }
-      );
+      setShowURLInput(true);
+      setUrlValue(url);
+      setTimeout(() => onFocus(), 0);
     }
-  }
+  };
 
-  confirmLink(event) {
+  const confirmLink = (event) => {
     event.preventDefault();
-    const { editorState, urlValue } = this.state;
     const contentState = editorState.getCurrentContent();
     const selection = editorState.getSelection();
 
@@ -639,24 +566,19 @@ class RichTextEditor extends React.Component {
     const newEditorState = EditorState.set(editorState, {
       currentContent: contentStateWithEntity,
     });
-    this.setState(
-      {
-        editorState: RichUtils.toggleLink(
-          newEditorState,
-          newEditorState.getSelection(),
-          entityKey
-        ),
-        showURLInput: false,
-        urlValue: '',
-      },
-      () => {
-        setTimeout(() => this.onFocus(), 0);
-      }
+    setEditorState(
+      RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey
+      )
     );
-  }
+    setShowURLInput(false);
+    setUrlValue('');
+    setTimeout(() => onFocus(), 0);
+  };
 
-  confirmSkipLink(linkText, linkOwnId, linkTargetId, linkIsHidden) {
-    const { editorState } = this.state;
+  const confirmSkipLink = (linkText, linkOwnId, linkTargetId, linkIsHidden) => {
     const contentState = editorState.getCurrentContent();
 
     // create link text before adding link
@@ -699,146 +621,118 @@ class RichTextEditor extends React.Component {
       newContent.getSelectionAfter()
     );
 
-    this.setState({
-      editorState: withProperCursor,
-      showSkipLinkModal: false,
-    });
-  }
+    setEditorState(withProperCursor);
+    setShowSkipLinkModal(false);
+  };
 
   /* RENDERING */
-  renderHyperlinkButton() {
-    let urlInput;
-    if (this.state.showURLInput) {
-      urlInput = (
-        <div className='url-input-container'>
-          <input
-            className='url-input'
-            ref={this.urlRef}
-            type='text'
-            value={this.state.urlValue}
-            onKeyDown={this.onLinkInputKeyDown}
-            onChange={this.onURLChange}
-          />
-          <span
-            className='RichEditor-styleButton'
-            onMouseDown={this.confirmLink}
-          >
-            OK
-          </span>
-        </div>
-      );
-    }
+  const {
+    hideBlockStyleControls,
+    hideInlineStyleControls,
+    hideIframeControls,
+    hideImageControls,
+    hideSkipLinkControls,
+    hideLinkControls,
+  } = hideControls;
 
-    return (
-      <div className='hyperlink-button'>
-        <div>
-          <span
-            className='RichEditor-styleButton'
-            onMouseDown={this.promptForLink}
-          >
-            Lisää linkki
-          </span>
-          <span
-            className='RichEditor-styleButton'
-            onMouseDown={this.removeLink}
-          >
-            Poista linkki
-          </span>
-        </div>
-        {urlInput}
-      </div>
-    );
-  }
+  const urlInput = showURLInput ? (
+    <div className='url-input-container'>
+      <input
+        className='url-input'
+        ref={urlRef}
+        type='text'
+        value={urlValue}
+        onKeyDown={onLinkInputKeyDown}
+        onChange={handleURLChange}
+      />
+      <span className='RichEditor-styleButton' onMouseDown={confirmLink}>
+        OK
+      </span>
+    </div>
+  ) : null;
 
-  render() {
-    const { editorState } = this.state;
-    const {
-      hideBlockStyleControls,
-      hideInlineStyleControls,
-      hideIframeControls,
-      hideImageControls,
-      hideSkipLinkControls,
-      hideLinkControls,
-    } = this.props.hideControls;
-    return (
-      <div className='rich-text-editor'>
-        <label className='form-label' htmlFor='rich-text-editor-input'>
-          <FormattedMessage id={this.props.labelId} />
-        </label>
-        {!hideBlockStyleControls && (
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
+  return (
+    <div className='rich-text-editor'>
+      <label className='form-label' htmlFor='rich-text-editor-input'>
+        <FormattedMessage id={labelId} />
+      </label>
+      {!hideBlockStyleControls && (
+        <BlockStyleControls
+          editorState={editorState}
+          onToggle={toggleBlockType}
+        />
+      )}
+      {!hideInlineStyleControls && (
+        <InlineStyleControls
+          editorState={editorState}
+          onToggle={toggleInlineStyle}
+        />
+      )}
+      {!hideIframeControls && (
+        <>
+          <IframeControls onClick={openIframeModal} />
+          <IframeModal
+            isOpen={showIframeModal}
+            onClose={closeIframeModal}
+            onSubmit={confirmIframe}
           />
-        )}
-        {!hideInlineStyleControls && (
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
+        </>
+      )}
+      {!hideImageControls && (
+        <>
+          <ImageControls onClick={openImageModal} />
+          <ImageModal
+            isOpen={showImageModal}
+            onClose={closeImageModal}
+            onSubmit={confirmImage}
           />
-        )}
-        {!hideIframeControls && (
-          <>
-            <IframeControls onClick={this.openIframeModal} />
-            <IframeModal
-              isOpen={this.state.showIframeModal}
-              onClose={this.closeIframeModal}
-              onSubmit={this.confirmIframe}
-            />
-          </>
-        )}
-        {!hideImageControls && (
-          <>
-            <ImageControls onClick={this.openImageModal} />
-            <ImageModal
-              isOpen={this.state.showImageModal}
-              onClose={this.closeImageModal}
-              onSubmit={this.confirmImage}
-            />
-          </>
-        )}
-        {!hideSkipLinkControls && (
-          <>
-            <SkipLinkControls onClick={this.openSkipLinkModal} />
-            <SkipLinkModal
-              isOpen={this.state.showSkipLinkModal}
-              onClose={this.closeSkipLinkModal}
-              onSubmit={this.confirmSkipLink}
-            />
-          </>
-        )}
-        {!hideLinkControls && this.renderHyperlinkButton()}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <div onClick={this.onFocus}>
-          <Editor
-            id='rich-text-editor-input'
-            plugins={plugins}
-            blockStyleFn={getBlockStyle}
-            blockRenderMap={blockRenderMap}
-            editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onChange}
-            onBlur={this.onBlur}
-            stripPastedStyles
-            placeholder={this.getPlaceholder()}
-            ref={this.editorRef}
+        </>
+      )}
+      {!hideSkipLinkControls && (
+        <>
+          <SkipLinkControls onClick={openSkipLinkModal} />
+          <SkipLinkModal
+            isOpen={showSkipLinkModal}
+            onClose={closeSkipLinkModal}
+            onSubmit={confirmSkipLink}
           />
+        </>
+      )}
+      {!hideLinkControls && (
+        <div className='hyperlink-button'>
+          <div>
+            <span
+              className='RichEditor-styleButton'
+              onMouseDown={promptForLink}
+            >
+              Lisää linkki
+            </span>
+            <span className='RichEditor-styleButton' onMouseDown={removeLink}>
+              Poista linkki
+            </span>
+          </div>
+          {urlInput}
         </div>
+      )}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+      <div onClick={onFocus}>
+        <Editor
+          id='rich-text-editor-input'
+          plugins={plugins}
+          blockStyleFn={getBlockStyle}
+          blockRenderMap={blockRenderMap}
+          editorState={editorState}
+          handleKeyCommand={handleKeyCommand}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          stripPastedStyles
+          placeholder={getPlaceholder()}
+          ref={editorRef}
+        />
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-RichTextEditor.defaultProps = {
-  hideControls: {
-    hideBlockStyleControls: false,
-    hideInlineStyleControls: false,
-    hideIframeControls: false,
-    hideImageControls: false,
-    hideSkipLinkControls: false,
-    hideLinkControls: false,
-  },
-};
 
 RichTextEditor.propTypes = {
   hideControls: textEditorHideControlsShape,
@@ -846,9 +740,7 @@ RichTextEditor.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-  formatMessage: PropTypes.func,
   placeholderId: PropTypes.string,
-  intl: PropTypes.object,
 };
 
-export default injectIntl(RichTextEditor);
+export default RichTextEditor;
