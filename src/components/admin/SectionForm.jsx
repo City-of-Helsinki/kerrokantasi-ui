@@ -79,7 +79,7 @@ const SectionForm = ({
   isFirstSubsection,
   isLastSubsection,
   isPublic,
-  maxAbstractLength,
+  maxAbstractLength = 450,
   onDeleteExistingQuestion,
   onDeleteTemporaryQuestion,
   onQuestionChange,
@@ -529,10 +529,6 @@ const SectionForm = ({
         ))}
     </div>
   );
-};
-
-SectionForm.defaultProps = {
-  maxAbstractLength: 450,
 };
 
 SectionForm.propTypes = {

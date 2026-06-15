@@ -29,15 +29,15 @@ Class-component defaultProps still work; **function** component defaultProps are
 
 Audit the following files for `defaultProps` and convert each function-component default to a destructured parameter default. Verify whether the host is a class or function:
 
-- [ ] **1.2.1** `src/utils/FormatRelativeTime.jsx`
-- [ ] **1.2.2** `src/components/HearingList/HearingList.jsx`
-- [ ] **1.2.3** `src/components/admin/SectionForm.jsx`
-- [ ] **1.2.4** `src/components/Hearing/CommentList/index.jsx`
-- [ ] **1.2.5** `src/components/Hearing/Comment/index.jsx`
-- [ ] **1.2.6** `src/components/forms/TextArea.jsx`
-- [ ] **1.2.7** `src/components/forms/MultiLanguageTextField.jsx`
-- [ ] **1.2.8** `src/components/RichTextEditor/index.jsx`
-- [ ] **1.2.9** Test files referencing `defaultProps` (verify mocks still work):
+- [x] **1.2.1** `src/utils/FormatRelativeTime.jsx` — converted by codemod
+- [x] **1.2.2** `src/components/HearingList/HearingList.jsx` — converted by codemod
+- [x] **1.2.3** `src/components/admin/SectionForm.jsx` — converted by codemod
+- [x] **1.2.4** `src/components/Hearing/CommentList/index.jsx` — class → function component (useState/useEffect/useRef), defaultProps removed
+- [x] **1.2.5** `src/components/Hearing/Comment/index.jsx` — converted by codemod
+- [x] **1.2.6** `src/components/forms/TextArea.jsx` — converted by codemod
+- [x] **1.2.7** `src/components/forms/MultiLanguageTextField.jsx` — class → function component, defaultProps removed
+- [x] **1.2.8** `src/components/RichTextEditor/index.jsx` — class → function component (useState/useRef/useIntl, dropped injectIntl wrapper), defaultProps removed
+- [x] **1.2.9** Test files referencing `defaultProps` (verify mocks still work):
   - `src/utils/__tests__/FormatRelativeTime.test.jsx`
   - `src/views/Auth/__tests__/loginCallback.test.jsx`
   - `src/components/__tests__/LabelList.test.jsx`

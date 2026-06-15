@@ -12,7 +12,7 @@ const TextArea = ({
   value: initialValue,
   helperText,
   placeholderId,
-  rows,
+  rows = '3',
   onBlur: onBlurFn,
   intl: { formatMessage },
 }) => {
@@ -49,10 +49,6 @@ const TextArea = ({
       onChange={onChange}
     />
   );
-};
-
-TextArea.defaultProps = {
-  rows: '3',
 };
 
 TextArea.propTypes = {

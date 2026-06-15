@@ -36,10 +36,31 @@ import { addToast } from '../../../actions/toast';
 import updateAnswers from '../../../utils/comments';
 import { isAdmin } from '../../../utils/user';
 
-const Comment = (props) => {
+const Comment = ({
+  canReply,
+  canVote,
+  canFlag,
+  data,
+  defaultNickname,
+  hearingId,
+  isReply = false,
+  jumpTo,
+  language,
+  nicknamePlaceholder,
+  onDeleteComment,
+  onEditComment,
+  onGetSubComments,
+  onPostReply,
+  onPostVote,
+  onPostFlag,
+  parentComponentId,
+  questions,
+  section,
+  showReplies: initialShowReplies,
+  user,
+}) => {
   const dispatch = useDispatch();
   const commentRef = useRef();
-  const { data, canReply, user } = props;
   const canEdit = data.can_edit;
   const canDelete = data.can_delete;
   let commentEditor;
@@ -49,13 +70,13 @@ const Comment = (props) => {
   const [state, setState] = useState({
     editorOpen: false,
     isReplyEditorOpen: false,
-    shouldJumpTo: props.jumpTo === props.data.id,
+    shouldJumpTo: jumpTo === data.id,
     scrollComplete: false,
     shouldAnimate: false,
-    pinned: props.data.pinned,
-    answers: props.data.answers || [],
+    pinned: data.pinned,
+    answers: data.answers || [],
     displayMap: false,
-    showReplies: props.showReplies,
+    showReplies: initialShowReplies,
   });
 
   const { editorOpen, isReplyEditorOpen } = state;
@@ -71,11 +92,11 @@ const Comment = (props) => {
       }
     });
     commentData.content = commentEditor.value;
-    if (props.data.can_edit && adminUser) {
+    if (data.can_edit && adminUser) {
       commentData.pinned = state.pinned;
     }
     commentData.answers = state.answers;
-    props.onEditComment(section, id, commentData);
+    onEditComment(section, id, commentData);
     setState({ editorOpen: false });
   };
 
@@ -84,11 +105,11 @@ const Comment = (props) => {
     const { section, id, answers } = data;
 
     // userdata is updated if the comment contained answers
-    props.onDeleteComment(section, id, answers.length > 0);
+    onDeleteComment(section, id, answers.length > 0);
   };
 
   const onVote = () => {
-    if (props.canVote) {
+    if (canVote) {
       // If user has already voted for this comment, block the user from voting again
       const votedComments =
         JSON.parse(localStorage.getItem('votedComments')) || [];
@@ -103,12 +124,7 @@ const Comment = (props) => {
         );
         return;
       }
-      props.onPostVote(
-        data.id,
-        data.section,
-        props.isReply,
-        props.parentComponentId
-      );
+      onPostVote(data.id, data.section, isReply, parentComponentId);
     } else {
       // TODO: Add translations
       dispatch(
@@ -122,16 +138,11 @@ const Comment = (props) => {
     }
   };
 
-  const canFlagComments = () => user && props.canFlag;
+  const canFlagComments = () => user && canFlag;
 
   const onFlag = () => {
     if (canFlagComments()) {
-      props.onPostFlag(
-        data.id,
-        data.section,
-        props.isReply,
-        props.parentComponentId
-      );
+      onPostFlag(data.id, data.section, isReply, parentComponentId);
     } else {
       // TODO: Add translations
       dispatch(
@@ -149,7 +160,7 @@ const Comment = (props) => {
 
   const onCopyURL = () => {
     // Build absolute URL for comment
-    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${props.data.id}`;
+    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${data.id}`;
     navigator.clipboard.writeText(commentUrl);
     // TODO: Add translations
     dispatch(
@@ -178,8 +189,7 @@ const Comment = (props) => {
    * Call the parent component to retrieve list of sub comments for current comment.
    */
   const getReplies = () => {
-    const { section } = props;
-    props.onGetSubComments(data.id, section.id);
+    onGetSubComments(data.id, section.id);
   };
 
   /**
@@ -189,18 +199,17 @@ const Comment = (props) => {
     setState((prevState) => ({ showReplies: !prevState.showReplies }));
   };
   const getStrigifiedAnswer = (answer) => {
-    const { questions } = props;
     const question = find(questions, (que) => que.id === answer.question);
     let selectedOption = {};
     return {
-      question: question ? getAttr(question.text, props.intl.locale) : '',
+      question: question ? getAttr(question.text, intl.locale) : '',
       answers: answer.answers.map((ans) => {
         if (question)
           selectedOption = find(
             question.options,
             (option) => option.id === ans
           );
-        return question ? getAttr(selectedOption.text, props.intl.locale) : '';
+        return question ? getAttr(selectedOption.text, intl.locale) : '';
       }),
     };
   };
@@ -216,18 +225,16 @@ const Comment = (props) => {
    * Handle posting of a reply
    */
   const handlePostReply = (comment) => {
-    const { section } = props;
-
     let commentData = { ...comment };
 
-    if (props.onPostReply && props.onPostReply instanceof Function) {
-      if (props.isReply && props.parentComponentId) {
-        commentData = { ...commentData, comment: props.parentComponentId };
+    if (onPostReply && onPostReply instanceof Function) {
+      if (isReply && parentComponentId) {
+        commentData = { ...commentData, comment: parentComponentId };
       } else {
-        commentData = { ...commentData, comment: props.data.id };
+        commentData = { ...commentData, comment: data.id };
       }
 
-      props.onPostReply(section.id, { ...commentData });
+      onPostReply(section.id, { ...commentData });
     }
   };
 
@@ -272,7 +279,7 @@ const Comment = (props) => {
    */
   const renderCommentHeader = () => (
     <div className='hearing-comment-header clearfix'>
-      {props.data.pinned && renderPinnedHeader()}
+      {data.pinned && renderPinnedHeader()}
       <div className='hearing-comment-publisher'>
         <span className='hearing-comment-user'>
           {data.is_registered ? (
@@ -336,7 +343,7 @@ const Comment = (props) => {
    * @returns {JSX<Component>}
    */
   const renderCommentAnswers = () => {
-    return props.data?.answers?.map((answer) => (
+    return data?.answers?.map((answer) => (
       <Answer key={answer.question} answer={getStrigifiedAnswer(answer)} />
     ));
   };
@@ -364,18 +371,18 @@ const Comment = (props) => {
    * For each answer answered, a user may edit the answer.
    */
   const renderQuestionsForAnswer = (answer) => {
-    const correspondingQuestion = props.section.questions.find(
+    const correspondingQuestion = section.questions.find(
       (question) => question.id === answer.question
     );
     return (
       <QuestionForm
         question={correspondingQuestion}
-        lang={props.language}
+        lang={language}
         answers={answer}
         key={`$answer-for-question-${answer.question}`}
         loggedIn={!isEmpty(user)}
         onChange={handleAnswerChange}
-        canAnswer={props.canReply}
+        canAnswer={canReply}
       />
     );
   };
@@ -393,10 +400,7 @@ const Comment = (props) => {
    */
   const renderEditorForm = () => (
     <>
-      {adminUser &&
-        props.data.can_edit &&
-        !props.isReply &&
-        renderPinUnpinButton()}
+      {adminUser && data.can_edit && !isReply && renderPinUnpinButton()}
       <form
         data-testid='editorForm'
         className='hearing-comment__edit-form'
@@ -408,7 +412,7 @@ const Comment = (props) => {
             : null}
           <TextArea
             id='edit-comment'
-            defaultValue={props.data.content}
+            defaultValue={data.content}
             placeholder='textarea'
             ref={(input) => {
               commentEditor = input;
@@ -472,21 +476,21 @@ const Comment = (props) => {
   const renderReplyForm = () => (
     <CommentForm
       answers={state.answers}
-      canComment={props.canReply}
+      canComment={canReply}
       closed={false}
-      defaultNickname={props.defaultNickname}
-      hearingId={props.hearingId}
+      defaultNickname={defaultNickname}
+      hearingId={hearingId}
       isReply
-      language={props.language}
+      language={language}
       loggedIn={!isEmpty(user)}
-      nicknamePlaceholder={props.nicknamePlaceholder}
+      nicknamePlaceholder={nicknamePlaceholder}
       onChangeAnswers={handleAnswerChange}
       onOverrideCollapse={handleToggleReplyEditor}
       onPostComment={handlePostReply}
       overrideCollapse
-      section={props.section}
+      section={section}
       user={user}
-      hearingGeojson={props.data.geojson}
+      hearingGeojson={data.geojson}
     />
   );
 
@@ -525,7 +529,24 @@ const Comment = (props) => {
       >
         {data.subComments.map((subComment) => (
           <Comment
-            {...props}
+            canReply={canReply}
+            canVote={canVote}
+            canFlag={canFlag}
+            defaultNickname={defaultNickname}
+            hearingId={hearingId}
+            jumpTo={jumpTo}
+            language={language}
+            nicknamePlaceholder={nicknamePlaceholder}
+            onDeleteComment={onDeleteComment}
+            onEditComment={onEditComment}
+            onGetSubComments={onGetSubComments}
+            onPostReply={onPostReply}
+            onPostVote={onPostVote}
+            onPostFlag={onPostFlag}
+            questions={questions}
+            section={section}
+            showReplies={initialShowReplies}
+            user={user}
             parentComponentId={data.id}
             data={subComment}
             key={`${subComment.id}${Math.random()}`}
@@ -594,18 +615,17 @@ const Comment = (props) => {
       });
     } else if (
       // Jump to child sub-comment
-      props.jumpTo &&
-      props.data.comments?.includes(props.jumpTo) &&
-      !props.data.loadingSubComments &&
-      ((Array.isArray(props.data.subComments) &&
-        props.data.subComments.length === 0) ||
-        props.data.subComments === undefined)
+      jumpTo &&
+      data.comments?.includes(jumpTo) &&
+      !data.loadingSubComments &&
+      ((Array.isArray(data.subComments) && data.subComments.length === 0) ||
+        data.subComments === undefined)
     ) {
       getReplies();
-    } else if (state.showReplies && !props.jumpTo) {
+    } else if (state.showReplies && !jumpTo) {
       // focus is set to the toggle element when mounting with existing/fetched replies.
       const toggleContainer = document
-        .getElementById(`comment-${props.data.id}`)
+        .getElementById(`comment-${data.id}`)
         .querySelector('span.hearing-comment__show-more__wrapper');
       if (toggleContainer) {
         // finds the first anchor element and sets focus on it.
@@ -624,7 +644,7 @@ const Comment = (props) => {
       className={classnames([
         'hearing-comment',
         {
-          'comment-reply': props.isReply,
+          'comment-reply': isReply,
           'hearing-comment__has-replys':
             data.subComments &&
             Array.isArray(data.subComments) &&
@@ -632,7 +652,7 @@ const Comment = (props) => {
           'comment-animate': state.shouldAnimate,
           'hearing-comment__admin': isCommentByAdmin(),
           'hearing-comment__flagged': canFlagComments() && data.flagged,
-          'hearing-comment__is-pinned': props.data.pinned,
+          'hearing-comment__is-pinned': data.pinned,
         },
       ])}
       ref={commentRef}
@@ -640,7 +660,7 @@ const Comment = (props) => {
     >
       <div className='hearing-comment__comment-wrapper'>
         {renderCommentHeader()}
-        {!props.isReply && renderCommentAnswers()}
+        {!isReply && renderCommentAnswers()}
         <div
           className={classnames('hearing-comment-body', {
             'hearing-comment-body-disabled': data.deleted,
@@ -746,11 +766,7 @@ Comment.propTypes = {
   questions: PropTypes.array,
   section: PropTypes.object,
   user: PropTypes.object,
-  showReplies: PropTypes.bool,
-};
-
-Comment.defaultProps = {
-  isReply: false,
+  showReplies: PropTypes,
 };
 
 export default injectIntl(Comment);
