@@ -16,7 +16,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { createAction } from 'redux-actions';
 

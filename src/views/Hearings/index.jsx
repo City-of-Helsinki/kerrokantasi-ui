@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { get, find, includes } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

@@ -5,6 +5,7 @@ import { isIE } from 'react-device-detect';
 import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import PropTypes from 'prop-types';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { history } from './createStore';
 import App from './App';
@@ -62,30 +63,32 @@ const Root = ({ store }) => {
   }
 
   return (
-    <LoginProvider {...loginProviderProps}>
-      <IntlProvider locale={locale} messages={messages[locale]}>
-        <Provider store={store}>
-          <ConditionalWrap
-            condition={config.enableCookies && !isCookiebotEnabled()}
-            wrap={(children) => (
-              <CookieConsentContextProvider
-                {...getCookieConsentSettings(locale)}
-              >
-                {children}
-              </CookieConsentContextProvider>
-            )}
-          >
-            <MatomoContext.Provider value={matomoTracker}>
-              <BrowserRouter history={history}>
-                <ScrollToTop>
-                  <App history={history} onChangeLanguage={changeLanguage} />
-                </ScrollToTop>
-              </BrowserRouter>
-            </MatomoContext.Provider>
-          </ConditionalWrap>
-        </Provider>
-      </IntlProvider>
-    </LoginProvider>
+    <HelmetProvider>
+      <LoginProvider {...loginProviderProps}>
+        <IntlProvider locale={locale} messages={messages[locale]}>
+          <Provider store={store}>
+            <ConditionalWrap
+              condition={config.enableCookies && !isCookiebotEnabled()}
+              wrap={(children) => (
+                <CookieConsentContextProvider
+                  {...getCookieConsentSettings(locale)}
+                >
+                  {children}
+                </CookieConsentContextProvider>
+              )}
+            >
+              <MatomoContext.Provider value={matomoTracker}>
+                <BrowserRouter history={history}>
+                  <ScrollToTop>
+                    <App history={history} onChangeLanguage={changeLanguage} />
+                  </ScrollToTop>
+                </BrowserRouter>
+              </MatomoContext.Provider>
+            </ConditionalWrap>
+          </Provider>
+        </IntlProvider>
+      </LoginProvider>
+    </HelmetProvider>
   );
 };
 

@@ -98,7 +98,7 @@
     "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.0.0",
-    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^3.0.0",
     "react-i18next": "^15.5.2",
     "react-image-lightbox": "^5.1.1",
     "react-intl": "^5.0.0",
