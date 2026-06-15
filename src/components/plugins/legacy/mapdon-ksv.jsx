@@ -58,14 +58,14 @@ class MapdonKSVPlugin extends BaseCommentForm {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate() {
     const { data, pluginPurpose } = this.props;
     let { comments } = this.props;
     if (!comments) {
       comments = [];
     }
     // do not redraw plugin contents if user has interacted with the plugin!
-    if (!nextState.userDataChanged) {
+    if (!this.state.userDataChanged) {
       sendMessageToPluginFrame(this.iframeRef.current, {
         message: 'mapData',
         data,

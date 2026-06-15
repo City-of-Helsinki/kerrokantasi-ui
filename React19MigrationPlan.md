@@ -20,9 +20,9 @@ These changes are needed because of React 19 breaking changes or strongly recomm
 ### 1.1 Replace legacy class lifecycle methods (🔴 breaks behavior; UNSAFE_ still works with warnings)
 React 19 keeps `UNSAFE_*` methods working but the React team intends to remove them; `componentWillUpdate` (non-UNSAFE) is already gone in StrictMode. Convert these to function components or to safe lifecycles.
 
-- [ ] **1.1.1** `src/components/SocialBar/Facebook.jsx` — uses `UNSAFE_componentWillMount`. Convert class → function component with `useEffect`/`useId` for the random id.
-- [ ] **1.1.2** `src/components/PluginContent.jsx` — uses `UNSAFE_componentWillReceiveProps`. Replace with `getDerivedStateFromProps` or `useEffect` after function conversion.
-- [ ] **1.1.3** `src/components/plugins/legacy/mapdon-ksv.jsx` — uses `componentWillUpdate`. Replace with `componentDidUpdate` (compare prev props) or function component + `useEffect`.
+- [x] **1.1.1** `src/components/SocialBar/Facebook.jsx` — uses `UNSAFE_componentWillMount`. Convert class → function component with `useEffect`/`useId` for the random id.
+- [x] **1.1.2** `src/components/PluginContent.jsx` — uses `UNSAFE_componentWillReceiveProps`. Replace with `getDerivedStateFromProps` or `useEffect` after function conversion.
+- [x] **1.1.3** `src/components/plugins/legacy/mapdon-ksv.jsx` — uses `componentWillUpdate`. Replace with `componentDidUpdate` (compare prev props) or function component + `useEffect`.
 
 ### 1.2 Remove `defaultProps` from function components (🔴 React 19 removes support for function-component defaultProps)
 Class-component defaultProps still work; **function** component defaultProps are removed. Switch to ES default parameters.
