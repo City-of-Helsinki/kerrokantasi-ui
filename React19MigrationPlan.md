@@ -126,8 +126,8 @@ References:
 
 ##### 1.7.A — Upgrade to HDS 5 (still on React 18)
 
-- [ ] **1.7.A.1** **(user action — dependency first)** Before any HDS 5 code change, bump `hds-react`, `hds-core`, `hds-design-tokens` to the latest `^5.x` together: `pnpm add hds-react@^5 hds-core@^5 hds-design-tokens@^5`. Run `pnpm install` afterwards to surface peer warnings. Do not start 1.7.A.2 until the install is green.
-- [ ] **1.7.A.2** **Migrate `SearchInput` → `Search` in `src/components/HearingList/HearingsSearch/HearingsSearch.jsx`:**
+- [X] **1.7.A.1** **(user action — dependency first)** Before any HDS 5 code change, bump `hds-react`, `hds-core`, `hds-design-tokens` to the latest `^5.x` together: `pnpm add hds-react@^5 hds-core@^5 hds-design-tokens@^5`. Run `pnpm install` afterwards to surface peer warnings. Do not start 1.7.A.2 until the install is green.
+- [X] **1.7.A.2** **Migrate `SearchInput` → `Search` in `src/components/HearingList/HearingsSearch/HearingsSearch.jsx`:**
   - Change import: `import { SearchInput, Button, Select } from 'hds-react'` → `import { Search, Button, Select } from 'hds-react'`.
   - Move `label`, `placeholder`, `helperText`, `searchButtonAriaLabel`, `clearButtonAriaLabel` into a single `texts` prop object.
   - Rename `onSubmit` → `onSend`.
@@ -137,12 +137,12 @@ References:
   - If `getSuggestions` is used: rewrite to `onSearch` returning `Promise<{ options: Array<{ label, value }> }>`.
   - Memoize the `texts` object via `useState`/`useMemo` and wrap `onSearch` in `useCallback` to prevent state resets (per HDS guide).
   - Update tests for this component if any.
-- [ ] **1.7.A.3** **Font check (Helsinki Grotesk Pro):** confirm the new font asset is delivered (HDS bundles it; check that the Vite/SCSS pipeline does not pin the old `Helsinki Grotesk` filename). Visually verify line-heights and headings on Hearing list, Hearing detail, Header, Footer.
-- [ ] **1.7.A.4** **Color token `--color-alert-dark`** changed `#986700 → #d18200`. Search SCSS for hardcoded `#986700` and replace with the token. Visually verify any `Notification type="alert"` usage (Notification component is imported in multiple files).
-- [ ] **1.7.A.5** Even though we do not import HDS `Link`, the Core CSS no longer ships `.icon` / `.vertical-align-*` link classes — grep `assets/`/`src/` SCSS for these class names and remove any usage.
-- [ ] **1.7.A.6** `pnpm lint`, `pnpm test:cov`, `pnpm build` — fix regressions.
-- [ ] **1.7.A.7** Manual smoke test: site search, hearing list filters, comment form (uses HDS `TextArea`, `TextInput`, `Notification`, `Checkbox`, `RadioButton`, `SelectionGroup`, `Select`, `FileInput`, `Dialog`), admin hearing form (uses `Accordion`, `DateInput`, `TimeInput`, `Tabs`, `Fieldset`, `Tag`, `Tooltip`), login flow (`LoginProvider`, `LoginCallbackHandler`, `useOidcClient`, `useApiTokens`), cookie banner (`CookieBanner`, `CookieConsentContextProvider`, `CookieSettingsPage`).
-- [ ] **1.7.A.8** Merge HDS 5 PR before starting 1.7.B.
+- [x] **1.7.A.3** **Font check (Helsinki Grotesk Pro):** confirm the new font asset is delivered (HDS bundles it; check that the Vite/SCSS pipeline does not pin the old `Helsinki Grotesk` filename). Visually verify line-heights and headings on Hearing list, Hearing detail, Header, Footer.
+- [x] **1.7.A.4** **Color token `--color-alert-dark`** changed `#986700 → #d18200`. Search SCSS for hardcoded `#986700` and replace with the token. Visually verify any `Notification type="alert"` usage (Notification component is imported in multiple files).
+- [x] **1.7.A.5** Even though we do not import HDS `Link`, the Core CSS no longer ships `.icon` / `.vertical-align-*` link classes — grep `assets/`/`src/` SCSS for these class names and remove any usage.
+- [x] **1.7.A.6** `pnpm lint`, `pnpm test:cov`, `pnpm build` — fix regressions.
+- [x] **1.7.A.7** Manual smoke test: site search, hearing list filters, comment form (uses HDS `TextArea`, `TextInput`, `Notification`, `Checkbox`, `RadioButton`, `SelectionGroup`, `Select`, `FileInput`, `Dialog`), admin hearing form (uses `Accordion`, `DateInput`, `TimeInput`, `Tabs`, `Fieldset`, `Tag`, `Tooltip`), login flow (`LoginProvider`, `LoginCallbackHandler`, `useOidcClient`, `useApiTokens`), cookie banner (`CookieBanner`, `CookieConsentContextProvider`, `CookieSettingsPage`).
+- [x] **1.7.A.8** Merge HDS 5 PR before starting 1.7.B.
 
 ##### 1.7.B — Bump Node.js requirement to 24 (prep for HDS 6)
 

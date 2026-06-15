@@ -32,10 +32,10 @@ describe('HearingsSearch', () => {
 
     renderComponent({ handleSearch: handleSearchMock });
 
-    const comboboxes = await screen.findAllByRole('combobox');
-    const combobox = comboboxes[0];
+    // HDS Search renders role="searchbox", not "combobox"
+    const searchInput = screen.getByRole('searchbox');
 
-    fireEvent.change(combobox, { target: { value: 'new search' } });
+    fireEvent.change(searchInput, { target: { value: 'new search' } });
 
     fireEvent.click(await screen.findByRole('button', { name: 'search' }));
 
@@ -47,8 +47,8 @@ describe('HearingsSearch', () => {
 
     renderComponent({ handleSelectLabels: handleSelectLabelsMock });
 
-    const comboboxes = await screen.findAllByRole('combobox');
-    const combobox = comboboxes[1];
+    // HDS Search renders role="searchbox"; the Select is the only role="combobox"
+    const combobox = screen.getByRole('combobox');
 
     fireEvent.click(combobox);
 

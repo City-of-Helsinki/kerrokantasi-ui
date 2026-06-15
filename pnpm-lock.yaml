@@ -22,7 +22,7 @@ importers:
     dependencies:
       '@city-of-helsinki/react-helsinki-notification-manager':
         specifier: ^0.1.0
-        version: 0.1.9(hds-react@4.10.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(react@18.3.1)
+        version: 0.1.9(hds-react@5.2.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(react@18.3.1)
       '@draft-js-plugins/drag-n-drop':
         specifier: ^4.2.0
         version: 4.2.3(draft-js@0.11.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -123,14 +123,14 @@ importers:
         specifier: ^16.0.0
         version: 16.5.0
       hds-core:
-        specifier: ^4.9.0
-        version: 4.10.0
+        specifier: ^5.2.0
+        version: 5.2.0
       hds-design-tokens:
-        specifier: ^4.9.0
-        version: 4.10.0
+        specifier: ^5.2.0
+        version: 5.2.0
       hds-react:
-        specifier: ^4.9.0
-        version: 4.10.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2)
+        specifier: ^5.2.0
+        version: 5.2.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2)
       hel-bootstrap-3:
         specifier: 1.0.0-beta.4
         version: 1.0.0-beta.4(bootstrap-sass@3.4.3)
@@ -990,9 +990,6 @@ packages:
   '@popperjs/core@2.11.5':
     resolution: {integrity: sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==}
 
-  '@reach/observe-rect@1.2.0':
-    resolution: {integrity: sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==}
-
   '@react-aria/interactions@3.27.1':
     resolution: {integrity: sha512-M3wLpTTmDflI0QGNK0PJNUaBXXfeBXue8ZxLMngfc1piHNiH4G5lUvWd9W14XVbqrSCVY8i8DfGrNYpyyZu0tw==}
     peerDependencies:
@@ -1254,8 +1251,8 @@ packages:
   '@types/conventional-commits-parser@5.0.2':
     resolution: {integrity: sha512-BgT2szDXnVypgpNxOK8aL5SGjUdaQbC++WZNjF1Qge3Og2+zhHj+RWhmehLhYyvQwqAmvezruVfOf8+3m74W+g==}
 
-  '@types/cookie@0.4.1':
-    resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
+  '@types/cookie@0.6.0':
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
@@ -1868,9 +1865,6 @@ packages:
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
 
-  compute-scroll-into-view@1.0.20:
-    resolution: {integrity: sha512-UCB0ioiyj8CRjtrvaceBLqqhZCVP+1B8+NWQhmdsm0VXOJtobBCf1dBQmebCCo34qZmUwZfIH2MZLqNHazrfjg==}
-
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
@@ -1896,8 +1890,8 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  cookie@0.4.2:
-    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+  cookie@0.7.2:
+    resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
 
   core-js@3.49.0:
@@ -2057,11 +2051,6 @@ packages:
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
-
-  downshift@6.0.6:
-    resolution: {integrity: sha512-tmLab3cXCn6PtZYl9V8r/nB2m+7/nCNrwo0B3kTHo/2lRBHr+1en1VNOQt2wIt0ajanAnxquZ00WPCyxe6cNFQ==}
-    peerDependencies:
-      react: '>=16.8.0'
 
   draft-convert@2.1.13:
     resolution: {integrity: sha512-/h/n4JCfyO8aWby7wKBkccHdsuVbbDyHWXi/B3Zf2pN++lN1lDOIVt5ulXCcbH2Y5YJEFzMJw/YGfN+R0axxxg==}
@@ -2572,16 +2561,16 @@ packages:
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
 
-  hds-core@4.10.0:
-    resolution: {integrity: sha512-YHsHz6M6GWwJ1p6l6gQWApPy41Gj6rtTpdeFXK+Wy6QjxfTTaYveXW0XPd7NayCTEqmuaVW83T/t7umNmth32g==}
+  hds-core@5.2.0:
+    resolution: {integrity: sha512-8L7wi54U8u00Ei4H4614y3UT2YZcSIHO2Xijah+Vda3UUWoro+arOYsTEpUAa3pxjwCOXO9dydAzsQOGT0sozA==}
     engines: {node: ^22.13.1}
 
-  hds-design-tokens@4.10.0:
-    resolution: {integrity: sha512-MBfJRuH9/SiGGpQHqoCDjiCD7o8URTOQ4WH/8qg1lv6n5q8uyoPvguMqUH+EEqvRorzctXMuYe71lqPfkDCt1A==}
+  hds-design-tokens@5.2.0:
+    resolution: {integrity: sha512-9fSl+Wfy3y0p26gESblyo91s2D32Q29r1jsioRCwD6W3mh/gF+xUsws/B+LYxyFz35vY5y+rwRluR1g6twQCXg==}
     engines: {node: ^22.13.1}
 
-  hds-react@4.10.0:
-    resolution: {integrity: sha512-pRv4fA75Xnx8HWJkIlRX+IuWoGCJWHcPFHKEH64ZNthUUvaev2ITiPWe5y9SmjrwBLFlRbSEK8gDQ8gEIDzj8g==}
+  hds-react@5.2.0:
+    resolution: {integrity: sha512-MN1Y7WNWcD4RLpL4X9MF3NxhcBxXMdXBvQpALSw9dRnFeUMgyZnNzqyUQ+KBHGbxpSCdWsSoigAJt5QnOBGE5A==}
     engines: {node: ^22.13.1}
     peerDependencies:
       postcss: ^8.4.21
@@ -3789,11 +3778,6 @@ packages:
       react: '>=16.13'
       react-dom: '>=16.13'
 
-  react-virtual@2.10.4:
-    resolution: {integrity: sha512-Ir6+oPQZTVHfa6+JL9M7cvMILstFZH/H3jqeYeKI4MSUX+rIruVwFC6nGVXw9wqAw8L0Kg2KvfXxI85OvYQdpQ==}
-    peerDependencies:
-      react: ^16.6.3 || ^17.0.0
-
   react-waypoint@9.0.3:
     resolution: {integrity: sha512-NRmyjW8CUBNNl4WpvBqLDgBs18rFUsixeHVHrRrFlWTdOlWP7eiDjptqlR/cJAPLD6RwP5XFCm3bi9OiofN3nA==}
     peerDependencies:
@@ -4358,11 +4342,6 @@ packages:
     deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
-  uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-    hasBin: true
-
   uzip@0.20201231.0:
     resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
 
@@ -4756,9 +4735,9 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9(hds-react@4.10.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(react@18.3.1)':
+  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9(hds-react@5.2.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2))(react@18.3.1)':
     dependencies:
-      hds-react: 4.10.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2)
+      hds-react: 5.2.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2)
       i18next: 25.10.10(typescript@6.0.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -5310,8 +5289,6 @@ snapshots:
 
   '@popperjs/core@2.11.5': {}
 
-  '@reach/observe-rect@1.2.0': {}
-
   '@react-aria/interactions@3.27.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@react-aria/ssr': 3.9.10(react@18.3.1)
@@ -5555,7 +5532,7 @@ snapshots:
     dependencies:
       '@types/node': 25.6.0
 
-  '@types/cookie@0.4.1': {}
+  '@types/cookie@0.6.0': {}
 
   '@types/debug@4.1.13':
     dependencies:
@@ -6176,8 +6153,6 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
-  compute-scroll-into-view@1.0.20: {}
-
   concat-map@0.0.1: {}
 
   consolidated-events@2.0.2: {}
@@ -6201,7 +6176,7 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  cookie@0.4.2: {}
+  cookie@0.7.2: {}
 
   core-js@3.49.0: {}
 
@@ -6357,14 +6332,6 @@ snapshots:
       is-obj: 2.0.0
 
   dotenv@16.6.1: {}
-
-  downshift@6.0.6(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.29.2
-      compute-scroll-into-view: 1.0.20
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-is: 16.13.1
 
   draft-convert@2.1.13(draft-js@0.11.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -7033,11 +7000,11 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
 
-  hds-core@4.10.0: {}
+  hds-core@5.2.0: {}
 
-  hds-design-tokens@4.10.0: {}
+  hds-design-tokens@5.2.0: {}
 
-  hds-react@4.10.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2):
+  hds-react@5.2.0(@types/react@18.3.28)(eslint@9.39.4(jiti@2.6.1))(postcss@8.5.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@6.0.2):
     dependencies:
       '@apollo/client': 3.14.1(@types/react@18.3.28)(graphql@16.13.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@babel/runtime': 7.29.2
@@ -7047,15 +7014,14 @@ snapshots:
       '@popperjs/core': 2.11.5
       '@react-aria/visually-hidden': 3.8.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-spring/web': 9.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/cookie': 0.4.1
+      '@types/cookie': 0.6.0
       '@typescript-eslint/parser': 6.21.0(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.2)
       await-to-js: 3.0.0
-      cookie: 0.4.2
+      cookie: 0.7.2
       crc-32: 1.2.0
       date-fns: 2.16.1
-      downshift: 6.0.6(react@18.3.1)
       graphql: 16.13.2
-      hds-core: 4.10.0
+      hds-core: 5.2.0
       jwt-decode: 3.1.2
       kashe: 1.0.4
       lodash: 4.18.1
@@ -7068,8 +7034,7 @@ snapshots:
       react-merge-refs: 1.1.0
       react-popper: 2.2.5(@popperjs/core@2.11.5)(react@18.3.1)
       react-use-measure: 2.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-virtual: 2.10.4(react@18.3.1)
-      uuid: 9.0.1
+      uuid: 14.0.0
       yup: 1.7.1
     transitivePeerDependencies:
       - '@types/react'
@@ -8488,11 +8453,6 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-virtual@2.10.4(react@18.3.1):
-    dependencies:
-      '@reach/observe-rect': 1.2.0
-      react: 18.3.1
-
   react-waypoint@9.0.3(react@18.3.1):
     dependencies:
       consolidated-events: 2.0.2
@@ -9165,8 +9125,6 @@ snapshots:
   uuid@14.0.0: {}
 
   uuid@8.3.2: {}
-
-  uuid@9.0.1: {}
 
   uzip@0.20201231.0: {}
 
