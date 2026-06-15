@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button } from 'hds-react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import getUser from '../../selectors/user';
 import { getUserHearingList } from '../../selectors/hearing';

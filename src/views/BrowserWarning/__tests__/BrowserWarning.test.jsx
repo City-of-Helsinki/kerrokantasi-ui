@@ -1,11 +1,17 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import { HelmetProvider } from 'react-helmet-async';
 
 import BrowserWarning from '..';
 
 const BROWSER_WARNING_CONTAINER_CLASS = '.browser-warning-text-container';
 
-const renderComponent = () => render(<BrowserWarning />);
+const renderComponent = () =>
+  render(
+    <HelmetProvider>
+      <BrowserWarning />
+    </HelmetProvider>
+  );
 
 describe('<BrowserWarning />', () => {
   it('contains Helmet title', async () => {

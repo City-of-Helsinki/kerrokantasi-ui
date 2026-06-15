@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { LoginProvider } from 'hds-react';
 import { IntlProvider } from 'react-intl';
+import { HelmetProvider } from 'react-helmet-async';
 
 import createStore from '../createStore'; // Add missing import statement
 import { userOidcConfig, apiTokenClientConfig } from './oidcConfig';
@@ -24,11 +25,13 @@ const renderWithProviders = (
   } = {}
 ) => {
   const Wrapper = ({ children }) => (
-    <LoginProvider {...loginProviderConfig}>
-      <IntlProvider locale={locale}>
-        <Provider store={store}>{children}</Provider>
-      </IntlProvider>
-    </LoginProvider>
+    <HelmetProvider>
+      <LoginProvider {...loginProviderConfig}>
+        <IntlProvider locale={locale}>
+          <Provider store={store}>{children}</Provider>
+        </IntlProvider>
+      </LoginProvider>
+    </HelmetProvider>
   );
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 };

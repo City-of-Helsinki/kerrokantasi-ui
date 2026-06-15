@@ -77,9 +77,9 @@ A codemod is available: ⚙️ `npx codemod@latest react/19/replace-default-prop
 
 `react-helmet-async` is API-compatible for the `<Helmet>` component but requires a `<HelmetProvider>` ancestor. This swap is independent of the React version bump and can land before Phase 4.
 
-- [ ] **1.6.1** **(user action — dependency first)** Install the replacement *before* any code change: `pnpm add react-helmet-async`. Do **not** remove `react-helmet` yet — keep both installed until the swap below compiles.
-- [ ] **1.6.2** Wrap the app in `<HelmetProvider>` in `src/getRoot.jsx` (outermost provider is fine).
-- [ ] **1.6.3** Update imports in all 10 consumer files:
+- [x] **1.6.1** **(user action — dependency first)** Install the replacement *before* any code change: `pnpm add react-helmet-async`. Do **not** remove `react-helmet` yet — keep both installed until the swap below compiles.
+- [x] **1.6.2** Wrap the app in `<HelmetProvider>` in `src/getRoot.jsx` (outermost provider is fine).
+- [x] **1.6.3** Update imports in all 10 consumer files:
   - `src/App.jsx`
   - `src/views/Home.jsx`
   - `src/views/Hearings/index.jsx`
@@ -92,9 +92,9 @@ A codemod is available: ⚙️ `npx codemod@latest react/19/replace-default-prop
   - `src/components/MarkdownPage/MarkdownPage.jsx`
 
   Change `import Helmet from 'react-helmet'` and `import { Helmet } from 'react-helmet'` → `import { Helmet } from 'react-helmet-async'`.
-- [ ] **1.6.4** Update `src/utils/renderWithProviders.jsx` (and any test render helper) to include `<HelmetProvider>` so tests that mount `<Helmet>` don't throw.
-- [ ] **1.6.5** Run `pnpm test:cov` and verify titles/meta still render in dev (`pnpm start`).
-- [ ] **1.6.6** **(user action — cleanup)** Once the swap is verified, remove the old dependency: `pnpm remove react-helmet`.
+- [x] **1.6.4** Update `src/utils/renderWithProviders.jsx` (and any test render helper) to include `<HelmetProvider>` so tests that mount `<Helmet>` don't throw.
+- [x] **1.6.5** Run `pnpm test:cov` and verify titles/meta still render in dev (`pnpm start`).
+- [x] **1.6.6** **(user action — cleanup)** Once the swap is verified, remove the old dependency: `pnpm remove react-helmet`.
 
 ---
 

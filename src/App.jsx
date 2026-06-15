@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import classNames from 'classnames';
 import { useApiTokens, CookieBanner } from 'hds-react';
 import { useLocation, useParams } from 'react-router-dom';
