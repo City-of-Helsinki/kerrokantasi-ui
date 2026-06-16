@@ -152,15 +152,15 @@ References:
 > - The Dockerfile base image is `helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base`. A `nodejs-24-pnpm-builder-base` equivalent must exist in the Helsinki Azure Container Registry. Coordinate with the platform team if it does not.
 > - CI uses the reusable workflow `City-of-Helsinki/.github/.github/workflows/ci-pnpm-node.yml` with `node-version: 22.x`. Verify that the reusable workflow supports `24.x` (it should — `setup-node@v4` handles 24).
 
-- [ ] **1.7.B.1** Update `package.json` `engines.node` from `>=22.13.1` to `>=24.0.0` (or pin the current Node 24 LTS minor).
-- [ ] **1.7.B.2** Update `.nvmrc` from `v22.13.1` to the chosen Node 24 LTS version (e.g. `v24.x.x`).
-- [ ] **1.7.B.3** Update `Dockerfile` `FROM helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base` → the Node 24 equivalent. Confirm tag exists in the registry **before** opening the PR.
-- [ ] **1.7.B.4** Update `.github/workflows/ci.yaml` `node-version: 22.x` → `24.x`. Check `codeql-analysis.yml` and `release-please.yml` for any Node pins (none currently — verify).
-- [ ] **1.7.B.5** Verify `pnpm@10.28.2` (pinned via `packageManager`) works on Node 24 — it does; pnpm 10 supports Node ≥ 18.12. No bump required.
-- [ ] **1.7.B.6** `husky@8` works on Node 24 but is a major behind. Consider a follow-up to `husky@9` (changes the `husky install` invocation in `postinstall`). **Not required** for this migration.
-- [ ] **1.7.B.7** Delete the obsolete `deploy/containerize.sh` / `deploy/docker_test.sh` Travis-era `TRAVIS_NODE_VERSION` checks **or** leave them as-is — they no-op outside Travis. (Optional cleanup.)
-- [ ] **1.7.B.8** **(user action)** Run `pnpm install` on Node 24 locally; then run `pnpm lint`, `pnpm test:cov`, `pnpm build`. Expect no errors. Investigate any new deprecation warnings.
-- [ ] **1.7.B.9** Run Playwright `pnpm test:e2e:ci` on Node 24 to baseline before HDS 6 / React 19 stacking.
+- [x] **1.7.B.1** Update `package.json` `engines.node` from `>=22.13.1` to `>=24.0.0` (or pin the current Node 24 LTS minor).
+- [x] **1.7.B.2** Update `.nvmrc` from `v22.13.1` to the chosen Node 24 LTS version (e.g. `v24.x.x`).
+- [x] **1.7.B.3** Update `Dockerfile` `FROM helsinki.azurecr.io/ubi9/nodejs-22-pnpm-builder-base` → the Node 24 equivalent. Confirm tag exists in the registry **before** opening the PR.
+- [x] **1.7.B.4** Update `.github/workflows/ci.yaml` `node-version: 22.x` → `24.x`. Check `codeql-analysis.yml` and `release-please.yml` for any Node pins (none currently — verify).
+- [x] **1.7.B.5** Verify `pnpm@10.28.2` (pinned via `packageManager`) works on Node 24 — it does; pnpm 10 supports Node ≥ 18.12. No bump required.
+- [x] **1.7.B.6** `husky@8` works on Node 24 but is a major behind. Consider a follow-up to `husky@9` (changes the `husky install` invocation in `postinstall`). **Not required** for this migration.
+- [x] **1.7.B.7** Delete the obsolete `deploy/containerize.sh` / `deploy/docker_test.sh` Travis-era `TRAVIS_NODE_VERSION` checks **or** leave them as-is — they no-op outside Travis. (Optional cleanup.)
+- [x] **1.7.B.8** **(user action)** Run `pnpm install` on Node 24 locally; then run `pnpm lint`, `pnpm test:cov`, `pnpm build`. Expect no errors. Investigate any new deprecation warnings.
+- [x] **1.7.B.9** Run Playwright `pnpm test:e2e:ci` on Node 24 to baseline before HDS 6 / React 19 stacking.
 
 ##### 1.7.C — Upgrade to HDS 6 (concurrent with React 19 bump in Phase 4)
 
