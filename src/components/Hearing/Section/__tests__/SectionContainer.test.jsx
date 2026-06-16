@@ -1,13 +1,16 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../../test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { uniqueId } from 'lodash';
 import { createMemoryHistory } from 'history';
 
+import {
+  thunk,
+  mockStore as mockData,
+  mockUser,
+} from '../../../../../test-utils';
 import SectionContainerComponent from '../SectionContainer';
-import { mockStore as mockData, mockUser } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 import * as mockApi from '../../../../api';
 

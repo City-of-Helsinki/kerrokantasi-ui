@@ -182,9 +182,6 @@ importers:
       react:
         specifier: ^19.2.7
         version: 19.2.7
-      react-anchor-link-smooth-scroll:
-        specifier: ^1.0.12
-        version: 1.0.12
       react-device-detect:
         specifier: ^2.2.3
         version: 2.2.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -206,9 +203,6 @@ importers:
       react-markdown:
         specifier: ^10.1.0
         version: 10.1.0(@types/react@18.3.28)(react@19.2.7)
-      react-nl2br:
-        specifier: ^1.0.4
-        version: 1.0.4(react@19.2.7)
       react-redux:
         specifier: ^9.3.0
         version: 9.3.0(@types/react@18.3.28)(react@19.2.7)(redux@5.0.1)
@@ -3524,9 +3518,6 @@ packages:
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
-  react-anchor-link-smooth-scroll@1.0.12:
-    resolution: {integrity: sha512-aaY+9X0yh8YnC0jBfoTKpsiCLdO/Y6pCltww+VB+NnTBPDOvnIdnp1AlazajsDitc1j+cVSQ+yNtaVeTIMQbxw==}
-
   react-device-detect@2.2.3:
     resolution: {integrity: sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==}
     peerDependencies:
@@ -3607,11 +3598,6 @@ packages:
 
   react-merge-refs@1.1.0:
     resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
-
-  react-nl2br@1.0.4:
-    resolution: {integrity: sha512-KQ+uwmjYk3B04xDl0hus2OeGoqkR8qkoyDBtsIqVacOUMNeaP0W+r/+anded2ehii/FlgFqEuu0T72CJLWFp4A==}
-    peerDependencies:
-      react: ^15.7.0 || ^16.14.0 || ^17.0.0 || ^18.0.0
 
   react-popper@2.2.5:
     resolution: {integrity: sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==}
@@ -8056,8 +8042,6 @@ snapshots:
 
   querystringify@2.2.0: {}
 
-  react-anchor-link-smooth-scroll@1.0.12: {}
-
   react-device-detect@2.2.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       react: 19.2.7
@@ -8148,10 +8132,6 @@ snapshots:
       - supports-color
 
   react-merge-refs@1.1.0: {}
-
-  react-nl2br@1.0.4(react@19.2.7):
-    dependencies:
-      react: 19.2.7
 
   react-popper@2.2.5(@popperjs/core@2.11.5)(react@19.2.7):
     dependencies:

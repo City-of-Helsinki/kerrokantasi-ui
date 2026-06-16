@@ -76,14 +76,20 @@ const data = createReducer(null, (builder) => {
         ...entities.hearing[result],
       })
     )
-    .addCase(EditorActions.ADD_LABEL_SUCCESS, (state, { payload: { label } }) => {
-      const labels = [...state.labels, label.id];
-      return { ...state, labels };
-    })
-    .addCase(EditorActions.SECTION_MOVE_UP, (state, { payload: sectionId }) => ({
-      ...state,
-      sections: sectionMoveUp(state.sections, sectionId),
-    }))
+    .addCase(
+      EditorActions.ADD_LABEL_SUCCESS,
+      (state, { payload: { label } }) => {
+        const labels = [...state.labels, label.id];
+        return { ...state, labels };
+      }
+    )
+    .addCase(
+      EditorActions.SECTION_MOVE_UP,
+      (state, { payload: sectionId }) => ({
+        ...state,
+        sections: sectionMoveUp(state.sections, sectionId),
+      })
+    )
     .addCase(
       EditorActions.SECTION_MOVE_DOWN,
       (state, { payload: sectionId }) => ({
@@ -98,31 +104,25 @@ const data = createReducer(null, (builder) => {
         phases: [...state.project.phases, initNewPhase()],
       },
     }))
-    .addCase(
-      EditorActions.DELETE_PHASE,
-      (state, { payload: { phaseId } }) => ({
-        ...state,
-        project: {
-          ...state.project,
-          phases: state.project.phases.filter(
-            (phase) => phase.id !== phaseId && phase.frontId !== phaseId
-          ),
-        },
-      })
-    )
-    .addCase(
-      EditorActions.ACTIVE_PHASE,
-      (state, { payload: { phaseId } }) => ({
-        ...state,
-        project: {
-          ...state.project,
-          phases: state.project.phases.map((phase) => ({
-            ...phase,
-            is_active: phase.id === phaseId || phase.frontId === phaseId,
-          })),
-        },
-      })
-    )
+    .addCase(EditorActions.DELETE_PHASE, (state, { payload: { phaseId } }) => ({
+      ...state,
+      project: {
+        ...state.project,
+        phases: state.project.phases.filter(
+          (phase) => phase.id !== phaseId && phase.frontId !== phaseId
+        ),
+      },
+    }))
+    .addCase(EditorActions.ACTIVE_PHASE, (state, { payload: { phaseId } }) => ({
+      ...state,
+      project: {
+        ...state.project,
+        phases: state.project.phases.map((phase) => ({
+          ...phase,
+          is_active: phase.id === phaseId || phase.frontId === phaseId,
+        })),
+      },
+    }))
     .addCase(
       EditorActions.EDIT_PHASE,
       (state, { payload: { phaseId, fieldName, language, value } }) => ({

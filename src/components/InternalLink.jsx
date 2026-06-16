@@ -1,20 +1,31 @@
 import React from 'react';
-import AnchorLink from 'react-anchor-link-smooth-scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+const SCROLL_OFFSET = 100;
+
 function InternalLink({ children, destinationId, srOnly = false, className }) {
+  const handleClick = (e) => {
+    e.preventDefault();
+    const target = document.getElementById(destinationId);
+    if (target) {
+      const top =
+        target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <AnchorLink
+    <a
       className={classNames(
         srOnly ? 'internal-link hidden-link' : 'internal-link',
         className
       )}
       href={`#${destinationId}`}
-      offset='100'
+      onClick={handleClick}
     >
       {children}
-    </AnchorLink>
+    </a>
   );
 }
 

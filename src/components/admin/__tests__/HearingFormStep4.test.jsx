@@ -1,9 +1,9 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import moment from 'moment';
 
+import { thunk } from '../../../../test-utils';
 import HearingFormStep4 from '../HearingFormStep4';
 import renderWithProviders from '../../../utils/renderWithProviders';
 

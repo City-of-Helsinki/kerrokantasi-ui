@@ -1,16 +1,16 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import SortableCommentListComponent from '../SortableCommentList';
 import {
+  thunk,
   mockStore as mockData,
   mockUser,
   getIntlAsProp,
 } from '../../../test-utils';
+import SortableCommentListComponent from '../SortableCommentList';
 import renderWithProviders from '../../utils/renderWithProviders';
 
 const middlewares = [thunk];

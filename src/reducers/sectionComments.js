@@ -31,14 +31,25 @@ const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
 
   return {
     ...state,
-    [sectionId]: { ...state[sectionId], isFetching: false, results: combinedResults, count, next },
+    [sectionId]: {
+      ...state[sectionId],
+      isFetching: false,
+      results: combinedResults,
+      count,
+      next,
+    },
   };
 };
 
 const postedComment = (state, { payload: { sectionId, jumpTo } }) => ({
   // whenever we post, we want the newly posted comment displayed first and results reloaded
   ...state,
-  [sectionId]: { ...state[sectionId], jumpTo, results: [], ordering: '-created_at' },
+  [sectionId]: {
+    ...state[sectionId],
+    jumpTo,
+    results: [],
+    ordering: '-created_at',
+  },
 });
 
 /**
@@ -52,9 +63,9 @@ const editedComment = (state, { payload: { sectionId, comment } }) => {
     const commentIndex = sectionState.results.findIndex(
       (sectionComment) => sectionComment.id === isSubComment
     );
-    const subCommentIndex = sectionState.results[commentIndex].subComments.findIndex(
-      (subComment) => subComment.id === comment.id
-    );
+    const subCommentIndex = sectionState.results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === comment.id);
     return {
       ...state,
       [sectionId]: {
@@ -104,9 +115,9 @@ const postedCommentVote = (
     const commentIndex = sectionState.results.findIndex(
       (comment) => comment.id === parentId
     );
-    const subComponentIndex = sectionState.results[commentIndex].subComments.findIndex(
-      (subComment) => subComment.id === commentId
-    );
+    const subComponentIndex = sectionState.results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === commentId);
     return {
       ...state,
       [sectionId]: {
@@ -150,9 +161,9 @@ const postedCommentFlag = (
     const commentIndex = sectionState.results.findIndex(
       (comment) => comment.id === parentId
     );
-    const subComponentIndex = sectionState.results[commentIndex].subComments.findIndex(
-      (subComment) => subComment.id === commentId
-    );
+    const subComponentIndex = sectionState.results[
+      commentIndex
+    ].subComments.findIndex((subComment) => subComment.id === commentId);
     return {
       ...state,
       [sectionId]: {
@@ -188,12 +199,21 @@ const beginFetchSectionComments = (
   state,
   { payload: { sectionId, ordering, cleanFetch } }
 ) => {
-  if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
+  if (
+    state[sectionId] &&
+    state[sectionId].ordering === ordering &&
+    !cleanFetch
+  ) {
     return { ...state, [sectionId]: { ...state[sectionId], isFetching: true } };
   }
   return {
     ...state,
-    [sectionId]: { ...state[sectionId], isFetching: true, results: [], ordering },
+    [sectionId]: {
+      ...state[sectionId],
+      isFetching: true,
+      results: [],
+      ordering,
+    },
   };
 };
 
@@ -334,8 +354,16 @@ const subCommentsFetched = (
    * updateState = setIn(updateState, [...pathArray, 'subComments'], data.results)
    * updateState === {results:[{...}, {loadingSubComments: false, subComments: [{...},{...}]}]}
    */
-  updatedState = setIn(updatedState, [...updatePath, 'loadingSubComments'], false);
-  updatedState = setIn(updatedState, [...updatePath, 'subComments'], data.results);
+  updatedState = setIn(
+    updatedState,
+    [...updatePath, 'loadingSubComments'],
+    false
+  );
+  updatedState = setIn(
+    updatedState,
+    [...updatePath, 'subComments'],
+    data.results
+  );
 
   return { ...state, [sectionId]: updatedState };
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
+import { thunk } from '../../../../test-utils';
 import Phase from '../Phase';
 import renderWithProviders from '../../../utils/renderWithProviders';
 

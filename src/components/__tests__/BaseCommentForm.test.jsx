@@ -1,11 +1,10 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../test-utils';
 
+import { thunk, getIntlAsProp } from '../../../test-utils';
 import BaseCommentForm from '../BaseCommentForm';
 import renderWithProviders from '../../utils/renderWithProviders';
-import { getIntlAsProp } from '../../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
