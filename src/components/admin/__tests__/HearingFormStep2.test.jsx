@@ -2,11 +2,7 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { fireEvent, screen } from '@testing-library/react';
 
-import {
-  thunk,
-  getIntlAsProp,
-  mockStore as mockData,
-} from '../../../../test-utils';
+import { thunk, mockStore as mockData } from '../../../../test-utils';
 import HearingFormStep2 from '../HearingFormStep2';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
@@ -46,7 +42,6 @@ const renderComponent = (propOverrides, storeOverride) => {
     onSectionImageChange: vi.fn(),
     onDeleteExistingQuestion: vi.fn(),
     onContinue: vi.fn(),
-    intl: getIntlAsProp(),
     ...propOverrides,
   };
 

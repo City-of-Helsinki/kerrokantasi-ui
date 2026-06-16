@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { v1 as uuid } from 'uuid';
 import { head, last } from 'lodash';
 import { Accordion, Button } from 'hds-react';
@@ -35,8 +35,8 @@ const HearingFormStep2 = ({
   language,
   onDeleteExistingQuestion,
   onContinue,
-  intl,
 }) => {
+  const intl = useIntl();
   const [activeSection, setActiveSection] = useState(
     getMainSection(hearing).frontId
   );
@@ -184,7 +184,6 @@ HearingFormStep2.propTypes = {
   onSectionImageCaptionChange: PropTypes.func,
   sectionMoveDown: PropTypes.func,
   sectionMoveUp: PropTypes.func,
-  intl: PropTypes.object,
 };
 
 HearingFormStep2.contextTypes = {
@@ -195,4 +194,4 @@ const mapStateToProps = (state) => ({
   language: state.language,
 });
 
-export default connect(mapStateToProps, null)(injectIntl(HearingFormStep2));
+export default connect(mapStateToProps, null)(HearingFormStep2);

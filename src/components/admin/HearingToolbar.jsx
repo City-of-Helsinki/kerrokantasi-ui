@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Button, Notification } from 'hds-react';
 
 import Icon from '../../utils/Icon';
@@ -9,140 +9,142 @@ import { hearingShape } from '../../types';
 
 const DATE_FORMAT = 'LLLL';
 
-class HearingToolbar extends React.Component {
-  constructor(props) {
-    super(props);
-    moment.locale('fi-FI');
+const HearingToolbar = ({
+  hearing,
+  onCloseHearing,
+  onEdit,
+  onPublish,
+  onReportsClick,
+  onRevertPublishing,
+  onDeleteHearingDraft,
+}) => {
+  moment.locale('fi-FI');
+
+  let statusLabel = '';
+  const openingTime = moment(hearing.open_at);
+  const actions = [
+    <Button
+      className='kerrokantasi-btn'
+      onClick={onReportsClick}
+      key='reports'
+      size='small'
+    >
+      <Icon aria-hidden='true' name='list-alt' />{' '}
+      <FormattedMessage id='commentReportsButtonLabel' />
+    </Button>,
+    <Button
+      className='kerrokantasi-btn'
+      onClick={onEdit}
+      key='edit'
+      size='small'
+    >
+      <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
+    </Button>,
+  ];
+
+  if (!hearing.closed && hearing.published) {
+    statusLabel = (
+      <Notification
+        type='success'
+        label={<FormattedMessage id='published' />}
+      />
+    );
+    actions.push(
+      <Button
+        className='kerrokantasi-btn danger'
+        onClick={onRevertPublishing}
+        key='unpublish'
+        size='small'
+      >
+        <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
+      </Button>
+    );
+    actions.push(
+      <Button
+        className='kerrokantasi-btn danger'
+        onClick={onCloseHearing}
+        key='close'
+        size='small'
+      >
+        <Icon name='ban' /> <FormattedMessage id='closeHearing' />
+      </Button>
+    );
+  } else if (
+    hearing.closed &&
+    hearing.published &&
+    moment(hearing.close_at) <= moment()
+  ) {
+    statusLabel = (
+      <Notification
+        type='error'
+        label={<FormattedMessage id='closedHearing' />}
+      />
+    );
+  } else if (hearing.closed && hearing.published) {
+    statusLabel = (
+      <Notification
+        type='alert'
+        label={
+          <>
+            <FormattedMessage id='toBePublishedHearing' />{' '}
+            {openingTime.format(DATE_FORMAT)}
+          </>
+        }
+      />
+    );
+    actions.push(
+      <Button
+        className='kerrokantasi-btn danger'
+        onClick={onRevertPublishing}
+        key='unpublish'
+        size='small'
+      >
+        <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
+      </Button>
+    );
+  } else {
+    statusLabel = (
+      <Notification type='info' label={<FormattedMessage id='draft' />} />
+    );
+    let publishText = <FormattedMessage id='publishHearing' />;
+    if (moment(hearing.open_at).diff(moment()) < 0) {
+      publishText = <FormattedMessage id='publishHearingNow' />;
+    }
+    actions.push(
+      <Button
+        className='kerrokantasi-btn black'
+        onClick={onPublish}
+        key='publish'
+        size='small'
+      >
+        <Icon name='eye' /> {publishText}
+      </Button>
+    );
+    actions.push(
+      <Button
+        className='kerrokantasi-btn danger'
+        onClick={() => onDeleteHearingDraft()}
+        key='unpublish'
+        size='small'
+      >
+        <Icon name='eye-slash' /> <FormattedMessage id='deleteDraft' />
+      </Button>
+    );
   }
 
-  render() {
-    const { hearing } = this.props;
-
-    let statusLabel = '';
-    const openingTime = moment(hearing.open_at);
-    const actions = [
-      <Button
-        className='kerrokantasi-btn'
-        onClick={this.props.onReportsClick}
-        key='reports'
-        size='small'
-      >
-        <Icon aria-hidden='true' name='list-alt' />{' '}
-        <FormattedMessage id='commentReportsButtonLabel' />
-      </Button>,
-      <Button
-        className='kerrokantasi-btn'
-        onClick={this.props.onEdit}
-        key='edit'
-        size='small'
-      >
-        <Icon name='pencil-square-o' /> <FormattedMessage id='editHearing' />
-      </Button>,
-    ];
-    if (!hearing.closed && hearing.published) {
-      statusLabel = (
-        <Notification
-          type='success'
-          label={<FormattedMessage id='published' />}
-        />
-      );
-      actions.push(
-        <Button
-          className='kerrokantasi-btn danger'
-          onClick={this.props.onRevertPublishing}
-          key='unpublish'
-          size='small'
-        >
-          <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
-        </Button>
-      );
-      actions.push(
-        <Button
-          className='kerrokantasi-btn danger'
-          onClick={this.props.onCloseHearing}
-          key='close'
-          size='small'
-        >
-          <Icon name='ban' /> <FormattedMessage id='closeHearing' />
-        </Button>
-      );
-    } else if (
-      hearing.closed &&
-      hearing.published &&
-      moment(hearing.close_at) <= moment()
-    ) {
-      statusLabel = (
-        <Notification
-          type='error'
-          label={<FormattedMessage id='closedHearing' />}
-        />
-      );
-    } else if (hearing.closed && hearing.published) {
-      statusLabel = (
-        <Notification
-          type='alert'
-          label={
-            <>
-              <FormattedMessage id='toBePublishedHearing' />{' '}
-              {openingTime.format(DATE_FORMAT)}
-            </>
-          }
-        />
-      );
-      actions.push(
-        <Button
-          className='kerrokantasi-btn danger'
-          onClick={this.props.onRevertPublishing}
-          key='unpublish'
-          size='small'
-        >
-          <Icon name='eye-slash' /> <FormattedMessage id='revertPublishing' />
-        </Button>
-      );
-    } else {
-      statusLabel = (
-        <Notification type='info' label={<FormattedMessage id='draft' />} />
-      );
-      let publishText = <FormattedMessage id='publishHearing' />;
-      if (moment(hearing.open_at).diff(moment()) < 0) {
-        publishText = <FormattedMessage id='publishHearingNow' />;
-      }
-      actions.push(
-        <Button
-          className='kerrokantasi-btn black'
-          onClick={this.props.onPublish}
-          key='publish'
-          size='small'
-        >
-          <Icon name='eye' /> {publishText}
-        </Button>
-      );
-      actions.push(
-        <Button
-          className='kerrokantasi-btn danger'
-          onClick={() => this.props.onDeleteHearingDraft()}
-          key='unpublish'
-          size='small'
-        >
-          <Icon name='eye-slash' /> <FormattedMessage id='deleteDraft' />
-        </Button>
-      );
-    }
-
-    return (
-      <div className='toolbar-bottom'>
-        <div className='row'>
-          <div className='col-md-6'>{statusLabel}</div>
-          <div className='col-md-6'>
-            <div className='actions btn-toolbar' role='toolbar'>
-              {actions}
-            </div>
+  return (
+    <div className='toolbar-bottom'>
+      <div className='row'>
+        <div className='col-md-6'>{statusLabel}</div>
+        <div className='col-md-6'>
+          <div className='actions btn-toolbar' role='toolbar'>
+            {actions}
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 HearingToolbar.propTypes = {
   hearing: hearingShape,
@@ -154,6 +156,4 @@ HearingToolbar.propTypes = {
   onDeleteHearingDraft: PropTypes.func,
 };
 
-const WrappedHearingToolbar = injectIntl(HearingToolbar);
-
-export default WrappedHearingToolbar;
+export default HearingToolbar;

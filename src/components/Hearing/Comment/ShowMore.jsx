@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import LoadSpinner from '../../LoadSpinner';
 import Icon from '../../../utils/Icon';
@@ -58,4 +58,4 @@ ShowMore.propTypes = {
   open: PropTypes.bool,
 };
 
-export default injectIntl(ShowMore);
+export default ShowMore;

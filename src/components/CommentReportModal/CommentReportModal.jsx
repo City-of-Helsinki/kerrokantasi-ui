@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog, IconInfoCircle } from 'hds-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import CommentReportForm from './CommentReportForm';
 import { hearingShape } from '../../types';
 
-const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
+const CommentReportModal = ({ isOpen, hearing, onClose }) => {
+  const intl = useIntl();
   const titleId = 'comment-report-modal-title';
   const descriptionId = 'comment-report-modal-description';
 
@@ -38,9 +39,8 @@ const CommentReportModal = ({ isOpen, intl, hearing, onClose }) => {
 
 CommentReportModal.propTypes = {
   hearing: hearingShape.isRequired,
-  intl: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default injectIntl(CommentReportModal);
+export default CommentReportModal;

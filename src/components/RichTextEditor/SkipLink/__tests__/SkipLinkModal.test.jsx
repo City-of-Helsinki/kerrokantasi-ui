@@ -5,12 +5,10 @@ import { screen, waitFor, act } from '@testing-library/react';
 
 import SkipLinkModal from '../SkipLinkModal';
 import renderWithProviders from '../../../../utils/renderWithProviders';
-import { getIntlAsProp } from '../../../../../test-utils';
 
 const renderComponent = (propOverrides) => {
   const props = {
     isOpen: true,
-    intl: getIntlAsProp(),
     onClose: vi.fn(),
     onSubmit: vi.fn(),
     ...propOverrides,

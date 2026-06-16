@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import IframeCopyPasteField from './IframeCopyPasteField';
@@ -14,12 +14,12 @@ import {
 import getMessage from '../../../utils/getMessage';
 
 const initialState = {
-  title: '', // required for accessibility
-  src: '', // valid url
-  width: '', // number
-  height: '', // number
-  scrolling: 'no', // should be no, yes or auto
-  allow: '', // string of iframe's security settings etc
+  title: '',
+  src: '',
+  width: '',
+  height: '',
+  scrolling: 'no',
+  allow: '',
   inputErrors: {
     title: '',
     src: '',
@@ -35,188 +35,164 @@ const scrollingOptions = [
   { value: 'auto', text: 'auto' },
 ];
 
-class IframeModal extends React.Component {
-  constructor(props) {
-    super(props);
+const IframeModal = ({ isOpen, onClose, onSubmit }) => {
+  const intl = useIntl();
+  const [state, setState] = useState(initialState);
 
-    this.state = initialState;
-
-    this.updateAttributes = this.updateAttributes.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputBlur = this.handleInputBlur.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
-
-  handleFormSubmit(event, fields) {
+  const handleFormSubmit = (event, fields) => {
     event.preventDefault();
     const inputErrors = validateForm(fields);
     if (isFormValid(inputErrors)) {
-      this.props.onSubmit({ ...fields });
-      this.setState(initialState);
+      onSubmit({ ...fields });
+      setState(initialState);
     } else {
-      this.setState({ inputErrors, showFormErrorMsg: true });
+      setState((prev) => ({ ...prev, inputErrors, showFormErrorMsg: true }));
     }
-  }
+  };
 
-  handleInputBlur(event) {
+  const handleInputBlur = (event) => {
     const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const { name } = target;
     const errorMsg = validateInput(name, value);
 
-    this.setState((state) => {
-      const inputErrors = { ...state.inputErrors, ...{ [name]: errorMsg } };
-      return {
-        [name]: value,
-        inputErrors,
-      };
-    });
-  }
+    setState((prev) => ({
+      ...prev,
+      [name]: value,
+      inputErrors: { ...prev.inputErrors, [name]: errorMsg },
+    }));
+  };
 
-  handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const { name } = target;
 
-    this.setState((state) => {
-      const inputErrors = { ...state.inputErrors, ...{ [name]: '' } };
-      return {
-        showFormErrorMsg: false,
-        [name]: value,
-        inputErrors,
-      };
-    });
-  }
+    setState((prev) => ({
+      ...prev,
+      showFormErrorMsg: false,
+      [name]: value,
+      inputErrors: { ...prev.inputErrors, [name]: '' },
+    }));
+  };
 
-  // expects data to be parsed attribute values for iframe
-  updateAttributes(attributes) {
-    this.setState({
+  const updateAttributes = (attributes) => {
+    setState((prev) => ({
+      ...prev,
       ...attributes,
       inputErrors: initialState.inputErrors,
       showFormErrorMsg: false,
-    });
-  }
+    }));
+  };
 
-  render() {
-    const { isOpen, intl, onClose } = this.props;
-    // eslint-disable-next-line no-unused-vars
-    const { inputErrors, ...fields } = this.state;
-    const formName = 'iframe';
+  const { inputErrors, ...fields } = state;
+  const formName = 'iframe';
+  const titleId = 'iframe-modal-title';
+  const descriptionId = 'iframe-modal-description';
 
-    const titleId = 'iframe-modal-title';
-    const descriptionId = 'iframe-modal-description';
-
-    return (
-      <Dialog
-        className='hearing-form-child-modal'
-        isOpen={isOpen}
-        close={onClose}
-        aria-labelledby={titleId}
-        aria-describedby={descriptionId}
-        closeButtonLabelText={intl.formatMessage({ id: 'close' })}
-        theme={{ '--accent-line-color': 'var(--color-black)' }}
-      >
-        <Dialog.Header
-          id={titleId}
-          title={<FormattedMessage id='iframeModalTitle' />}
-        />
-        <Dialog.Content>
-          <form
-            id={descriptionId}
-            ref={(form) => {
-              this.iframeForm = form;
-            }}
-            onSubmit={this.submitForm}
+  return (
+    <Dialog
+      className='hearing-form-child-modal'
+      isOpen={isOpen}
+      close={onClose}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      closeButtonLabelText={intl.formatMessage({ id: 'close' })}
+      theme={{ '--accent-line-color': 'var(--color-black)' }}
+    >
+      <Dialog.Header
+        id={titleId}
+        title={<FormattedMessage id='iframeModalTitle' />}
+      />
+      <Dialog.Content>
+        <form id={descriptionId}>
+          <IframeCopyPasteField updateAttributes={updateAttributes} />
+          <hr />
+          <RichTextModalTextField
+            name='title'
+            label={getMessage('iframeFormFieldTitle')}
+            handleInputChange={handleInputChange}
+            handleInputBlur={handleInputBlur}
+            value={fields.title}
+            isRequired
+            errorMsg={inputErrors.title}
+            formName={formName}
+          />
+          <RichTextModalTextField
+            name='src'
+            label={getMessage('iframeFormFieldSrc')}
+            handleInputChange={handleInputChange}
+            handleInputBlur={handleInputBlur}
+            value={fields.src}
+            isRequired
+            errorMsg={inputErrors.src}
+            formName={formName}
+          />
+          <RichTextModalTextField
+            name='width'
+            label={getMessage('iframeFormFieldWidth')}
+            handleInputChange={handleInputChange}
+            handleInputBlur={handleInputBlur}
+            value={fields.width}
+            errorMsg={inputErrors.width}
+            formName={formName}
+          />
+          <RichTextModalTextField
+            name='height'
+            label={getMessage('iframeFormFieldHeight')}
+            handleInputChange={handleInputChange}
+            handleInputBlur={handleInputBlur}
+            value={fields.height}
+            errorMsg={inputErrors.height}
+            formName={formName}
+          />
+          <RichTextModalTextField
+            name='allow'
+            label={getMessage('iframeFormFieldAllow')}
+            handleInputChange={handleInputChange}
+            handleInputBlur={handleInputBlur}
+            value={fields.allow}
+            errorMsg={inputErrors.allow}
+            formName={formName}
+          />
+          <IframeSelectField
+            name='scrolling'
+            label={getMessage('iframeFormFieldScrolling')}
+            handleInputChange={handleInputChange}
+            value={fields.scrolling}
+            options={scrollingOptions}
+          />
+        </form>
+      </Dialog.Content>
+      <Dialog.ActionButtons>
+        <Button
+          className='kerrokantasi-btn black'
+          onClick={(event) => handleFormSubmit(event, fields)}
+        >
+          <FormattedMessage id='formButtonAcceptAndAdd' />
+        </Button>
+        <Button className='kerrokantasi-btn' onClick={() => onClose()}>
+          <FormattedMessage id='cancel' />
+        </Button>
+        {fields.showFormErrorMsg && (
+          <p
+            data-testid='iframe-form-submit-error'
+            id='iframe-form-submit-error'
+            role='alert'
+            className='rich-text-editor-form-input-error'
           >
-            <IframeCopyPasteField updateAttributes={this.updateAttributes} />
-            <hr />
-            <RichTextModalTextField
-              name='title'
-              label={getMessage('iframeFormFieldTitle')}
-              handleInputChange={this.handleInputChange}
-              handleInputBlur={this.handleInputBlur}
-              value={this.state.title}
-              isRequired
-              errorMsg={this.state.inputErrors.title}
-              formName={formName}
-            />
-            <RichTextModalTextField
-              name='src'
-              label={getMessage('iframeFormFieldSrc')}
-              handleInputChange={this.handleInputChange}
-              handleInputBlur={this.handleInputBlur}
-              value={this.state.src}
-              isRequired
-              errorMsg={this.state.inputErrors.src}
-              formName={formName}
-            />
-            <RichTextModalTextField
-              name='width'
-              label={getMessage('iframeFormFieldWidth')}
-              handleInputChange={this.handleInputChange}
-              handleInputBlur={this.handleInputBlur}
-              value={this.state.width}
-              errorMsg={this.state.inputErrors.width}
-              formName={formName}
-            />
-            <RichTextModalTextField
-              name='height'
-              label={getMessage('iframeFormFieldHeight')}
-              handleInputChange={this.handleInputChange}
-              handleInputBlur={this.handleInputBlur}
-              value={this.state.height}
-              errorMsg={this.state.inputErrors.height}
-              formName={formName}
-            />
-            <RichTextModalTextField
-              name='allow'
-              label={getMessage('iframeFormFieldAllow')}
-              handleInputChange={this.handleInputChange}
-              handleInputBlur={this.handleInputBlur}
-              value={this.state.allow}
-              errorMsg={this.state.inputErrors.allow}
-              formName={formName}
-            />
-            <IframeSelectField
-              name='scrolling'
-              label={getMessage('iframeFormFieldScrolling')}
-              handleInputChange={this.handleInputChange}
-              value={this.state.scrolling}
-              options={scrollingOptions}
-            />
-          </form>
-        </Dialog.Content>
-        <Dialog.ActionButtons>
-          <Button
-            className='kerrokantasi-btn black'
-            onClick={(event) => this.handleFormSubmit(event, fields)}
-          >
-            <FormattedMessage id='formButtonAcceptAndAdd' />
-          </Button>
-          <Button className='kerrokantasi-btn' onClick={() => onClose()}>
-            <FormattedMessage id='cancel' />
-          </Button>
-          {this.state.showFormErrorMsg && (
-            <p
-              data-testid='iframe-form-submit-error'
-              id='iframe-form-submit-error'
-              role='alert'
-              className='rich-text-editor-form-input-error'
-            >
-              {getMessage('formCheckErrors')}
-            </p>
-          )}
-        </Dialog.ActionButtons>
-      </Dialog>
-    );
-  }
-}
+            {getMessage('formCheckErrors')}
+          </p>
+        )}
+      </Dialog.ActionButtons>
+    </Dialog>
+  );
+};
 
 IframeModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: PropTypes.object,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
-export default injectIntl(IframeModal);
+export default IframeModal;

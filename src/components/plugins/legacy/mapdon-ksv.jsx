@@ -4,7 +4,7 @@
 import { Button, TextArea } from 'hds-react';
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { alert } from '../../../utils/notify';
 import { sendMessageToPluginFrame } from '../pluginUtils';
@@ -180,4 +180,4 @@ MapdonKSVPlugin.propTypes = {
   nicknamePlaceholder: PropTypes.string,
 };
 
-export default injectIntl(MapdonKSVPlugin);
+export default MapdonKSVPlugin;

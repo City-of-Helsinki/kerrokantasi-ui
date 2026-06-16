@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import { get, find, includes } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
@@ -109,10 +109,10 @@ function Hearings({
   fetchAllHearings,
   hearingLists,
   fetchMoreHearings,
-  intl,
   language,
   fetchLabels,
 }) {
+  const intl = useIntl();
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -457,7 +457,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export const UnconnectedHearings = Hearings;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(injectIntl(Hearings));
+export default connect(mapStateToProps, mapDispatchToProps)(Hearings);

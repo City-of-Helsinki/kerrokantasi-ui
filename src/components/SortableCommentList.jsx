@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { get, isEmpty, find } from 'lodash';
 import { Waypoint } from 'react-waypoint';
@@ -65,7 +65,6 @@ const SortableCommentListComponent = ({
   hearingSlug,
   displayVisualization,
   defaultNickname,
-  intl,
   language,
   published,
   section,
@@ -81,6 +80,8 @@ const SortableCommentListComponent = ({
   fetchAllComments,
   fetchMoreComments: fetchMoreCommentsFn,
 }) => {
+  const intl = useIntl();
+
   const answersInitialState = useMemo(
     () =>
       section.questions.map((question) => ({
@@ -489,7 +490,6 @@ const SortableCommentListComponent = ({
                   comments={sectionComments.results}
                   defaultNickname={defaultNickname}
                   hearingId={hearingId}
-                  intl={intl}
                   isLoading={listState.showLoader}
                   jumpTo={
                     urlFragmentCommentId ||
@@ -542,7 +542,6 @@ SortableCommentListComponent.propTypes = {
   section: PropTypes.object,
   sectionComments: PropTypes.object,
   user: PropTypes.object,
-  intl: PropTypes.object,
 };
 
 const mapStateToProps = (state, { section: { id: sectionId } }) => ({
@@ -551,6 +550,4 @@ const mapStateToProps = (state, { section: { id: sectionId } }) => ({
   language: state.language,
 });
 
-export default connect(mapStateToProps)(
-  injectIntl(SortableCommentListComponent)
-);
+export default connect(mapStateToProps)(SortableCommentListComponent);

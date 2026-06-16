@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { TextArea as HDSTextArea } from 'hds-react';
 
 const TextArea = ({
@@ -14,8 +14,8 @@ const TextArea = ({
   placeholderId,
   rows = '3',
   onBlur: onBlurFn,
-  intl: { formatMessage },
 }) => {
+  const { formatMessage } = useIntl();
   const [inputValue, setInputValue] = useState(initialValue);
 
   const onBlur = (event) => onBlurFn(event);
@@ -61,8 +61,7 @@ TextArea.propTypes = {
   rows: PropTypes.string,
   value: PropTypes.string,
   placeholderId: PropTypes.string,
-  intl: PropTypes.object,
   helperText: PropTypes.string,
 };
 
-export default injectIntl(TextArea);
+export default TextArea;

@@ -185,7 +185,6 @@ const HearingForm = ({
             deleteOption={deleteOption}
             editorMetaData={editorMetaData}
             errors={stepErrors}
-            formatMessage={intl.formatMessage}
             hearing={hearing}
             hearingLanguages={hearingLanguages}
             initMultipleChoiceQuestion={initMultipleChoiceQuestion}

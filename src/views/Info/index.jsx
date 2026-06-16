@@ -1,7 +1,7 @@
 /* eslint-disable import-x/no-unresolved */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import ServiceInfoFi from '@city-i18n/service-info/content.fi.md';
 import ServiceInfoSv from '@city-i18n/service-info/content.sv.md';
 import ServiceInfoEn from '@city-i18n/service-info/content.en.md';
@@ -53,4 +53,4 @@ const Info = () => {
   );
 };
 
-export default injectIntl(connect()(Info));
+export default connect()(Info);

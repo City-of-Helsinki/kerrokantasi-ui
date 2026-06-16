@@ -17,7 +17,6 @@ const renderComponent = (propOverrides) => {
     placeholderId: 'placeholder.id',
     onBlur: vi.fn(),
     validate: vi.fn(),
-    intl: { formatMessage: vi.fn(({ id }) => id) },
     ...propOverrides,
   };
 

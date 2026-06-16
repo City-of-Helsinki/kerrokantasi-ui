@@ -2,7 +2,6 @@ import React from 'react';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { getIntlAsProp } from '../../../../test-utils';
 import ContactModal from '../ContactModal';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
@@ -30,9 +29,7 @@ const renderComponent = (propOverrides) => {
     ...propOverrides,
   };
 
-  return renderWithProviders(
-    <ContactModal intl={getIntlAsProp()} isOpen {...props} />
-  );
+  return renderWithProviders(<ContactModal isOpen {...props} />);
 };
 
 describe('<ContactModal />', () => {

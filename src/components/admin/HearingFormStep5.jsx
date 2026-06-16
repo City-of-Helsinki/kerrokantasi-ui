@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Select } from 'hds-react';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   createNotificationPayload,
@@ -142,4 +142,4 @@ const mapStateToProps = (state) => ({
   projects: ProjectsSelector.getProjects(state),
 });
 
-export default connect(mapStateToProps)(injectIntl(HearingFormStep5));
+export default connect(mapStateToProps)(HearingFormStep5);

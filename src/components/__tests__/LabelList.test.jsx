@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Labels } from '../LabelList';
 import renderWithProviders from '../../utils/renderWithProviders';
-import { getIntlAsProp } from '../../../test-utils';
 
 const defaultProps = {
   labels: [],
@@ -12,13 +11,7 @@ const defaultProps = {
 const renderComponent = (props) =>
   renderWithProviders(
     <MemoryRouter>
-      <Labels
-        className='labels'
-        store={{}}
-        intl={getIntlAsProp()}
-        {...defaultProps}
-        {...props}
-      />
+      <Labels className='labels' store={{}} {...defaultProps} {...props} />
     </MemoryRouter>
   );
 

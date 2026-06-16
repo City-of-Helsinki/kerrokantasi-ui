@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { TextInput as HDSTextInput } from 'hds-react';
 
 const TextInput = ({
@@ -15,8 +15,8 @@ const TextInput = ({
   placeholderId,
   onBlur: onBlurFn,
   validate: validateFn,
-  intl: { formatMessage },
 }) => {
+  const { formatMessage } = useIntl();
   const [inputError, setInputError] = useState(error);
   const [inputValue, setInputValue] = useState(initialValue);
 
@@ -82,8 +82,7 @@ TextInput.propTypes = {
   placeholderId: PropTypes.string,
   validate: PropTypes.func,
   value: PropTypes.string,
-  intl: PropTypes.object,
   helperText: PropTypes.string,
 };
 
-export default injectIntl(TextInput);
+export default TextInput;

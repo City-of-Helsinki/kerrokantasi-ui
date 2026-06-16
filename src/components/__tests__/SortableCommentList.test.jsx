@@ -4,12 +4,7 @@ import configureStore from 'redux-mock-store';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {
-  thunk,
-  mockStore as mockData,
-  mockUser,
-  getIntlAsProp,
-} from '../../../test-utils';
+import { thunk, mockStore as mockData, mockUser } from '../../../test-utils';
 import SortableCommentListComponent from '../SortableCommentList';
 import renderWithProviders from '../../utils/renderWithProviders';
 
@@ -65,7 +60,7 @@ const renderComponent = (propOverrides, storeOverriders) => {
 
   return renderWithProviders(
     <MemoryRouter>
-      <SortableCommentListComponent intl={getIntlAsProp()} {...props} />
+      <SortableCommentListComponent {...props} />
     </MemoryRouter>,
     { store }
   );
@@ -206,7 +201,6 @@ describe('<SortableCommentList />', () => {
     const { rerender } = renderWithProviders(
       <MemoryRouter>
         <SortableCommentListComponent
-          intl={getIntlAsProp()}
           {...defaultProps}
           section={firstSection}
         />
@@ -224,7 +218,6 @@ describe('<SortableCommentList />', () => {
     rerender(
       <MemoryRouter>
         <SortableCommentListComponent
-          intl={getIntlAsProp()}
           {...defaultProps}
           section={secondSection}
         />

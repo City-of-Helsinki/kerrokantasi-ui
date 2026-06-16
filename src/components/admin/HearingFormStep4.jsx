@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Button, DateInput, TimeInput } from 'hds-react';
 import { isEmpty } from 'lodash';
 
@@ -42,12 +42,12 @@ const getTime = (value) => {
 const HearingFormStep4 = ({
   hearing,
   hearingLanguages,
-  formatMessage,
   errors,
   onSectionChange,
   onHearingChange,
   onContinue,
 }) => {
+  const { formatMessage } = useIntl();
   moment.locale('fi-FI');
 
   const [openDate, setOpenDate] = useState(getDate(hearing.open_at));
@@ -233,7 +233,6 @@ HearingFormStep4.propTypes = {
   hearingLanguages: PropTypes.arrayOf(PropTypes.string),
   onHearingChange: PropTypes.func,
   onSectionChange: PropTypes.func,
-  formatMessage: PropTypes.func,
 };
 
-export default connect()(injectIntl(HearingFormStep4));
+export default connect()(HearingFormStep4);
