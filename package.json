@@ -14,7 +14,7 @@
     "start:e2e": "if test $NODE_MAX_MEMORY_MIB ; then node --max-old-space-size=$NODE_MAX_MEMORY_MIB pnpm start ; else pnpm start ; fi",
     "build": "vite build",
     "serve": "vite preview",
-    "fetch-plugins": "node deploy/fetch_plugins.js",
+    "fetch-plugins": "node scripts/fetch_plugins.js",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
     "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src",
