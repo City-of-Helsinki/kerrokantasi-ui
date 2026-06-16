@@ -52,7 +52,7 @@ import {
   getHearingContacts,
 } from '../../../selectors/hearing';
 import getUser from '../../../selectors/user';
-import 'react-image-lightbox/style.css';
+import 'yet-another-react-lightbox/styles.css';
 import { getApiTokenFromStorage, getApiURL, get as apiGet } from '../../../api';
 import LoadSpinner from '../../LoadSpinner';
 import { getNickname } from '../../../utils/user';
@@ -99,13 +99,6 @@ const SectionContainerComponent = ({
   );
   const mainSection = sections.find((sec) => sec.type === SectionTypes.MAIN);
   const section = sections.find((sec) => sec.id === sectionId) || mainSection;
-
-  const [data, setData] = useState({
-    commentToDelete: {},
-    showLightbox: false,
-    mapContainer: null,
-    mapContainerMobile: null,
-  });
 
   const [deleteModal, setDeleteModal] = useState({
     showDeleteModal: false,
@@ -263,16 +256,6 @@ const SectionContainerComponent = ({
       commentId: null,
       refreshUser: false,
     });
-  };
-
-  const openLightbox = () => {
-    document.body.classList.remove('nav-fixed');
-    setData({ ...data, showLightbox: true });
-  };
-
-  const closeLightbox = () => {
-    document.body.classList.add('nav-fixed');
-    setData({ ...data, showLightbox: false });
   };
 
   const isHearingAdmin = () =>
@@ -488,7 +471,6 @@ const SectionContainerComponent = ({
 
   const renderSectionImage = (renderLanguage) => {
     const sectionImage = section.images[0];
-    const { showLightbox } = data;
 
     if (!sectionImage) {
       return null;
@@ -500,9 +482,6 @@ const SectionContainerComponent = ({
         caption={getAttr(sectionImage.caption, renderLanguage)}
         title={getAttr(sectionImage.title, renderLanguage)}
         altText={getAttr(sectionImage.alt_text, renderLanguage)}
-        showLightbox={showLightbox}
-        openLightbox={openLightbox}
-        closeLightbox={closeLightbox}
       />
     );
   };
