@@ -43,6 +43,7 @@ window.matchMedia =
   };
 
 window.scrollTo = vi.fn();
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 class MockObserver {
   constructor() {

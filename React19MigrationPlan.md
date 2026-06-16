@@ -166,10 +166,10 @@ References:
 
 HDS 6 declares `peerDependencies: { "react": "^19.0.0", "react-dom": "^19.0.0" }`. It must be installed in the **same commit** as the React 19 bump (or the install will fail).
 
-- [ ] **1.7.C.1** **(user action — dependency first)** In the React 19 upgrade PR (Phase 4), the HDS 6 bump must land in the **same install** as `react@19` / `react-dom@19` because HDS 6 peer-requires React 19. Run together: `pnpm add react@^19 react-dom@^19 hds-react@^6 hds-core@^6 hds-design-tokens@^6`. Do not start the 1.7.C code changes (or any other Phase 4 code change) until this combined install succeeds.
-- [ ] **1.7.C.2** Confirm `ErrorSummary` is not used (already verified above ✅). If new code added it in the meantime, replace with `<Notification type="error" notificationAriaLabel="…" autofocus>…</Notification>`.
-- [ ] **1.7.C.3** Verify `@city-of-helsinki/react-helsinki-notification-manager` is compatible with `hds-react@6`. If not, hold it on `hds-react@5` is not an option — file an upstream issue or vendor the small surface (it is only `0.1.0`).
-- [ ] **1.7.C.4** **(user action)** Run `pnpm install`, then `pnpm lint`, `pnpm test:cov`, `pnpm build` — see Phase 4 for the full integration checklist.
+- [x] **1.7.C.1** **(user action — dependency first)** In the React 19 upgrade PR (Phase 4), the HDS 6 bump must land in the **same install** as `react@19` / `react-dom@19` because HDS 6 peer-requires React 19. Run together: `pnpm add react@^19 react-dom@^19 hds-react@^6 hds-core@^6 hds-design-tokens@^6`. Do not start the 1.7.C code changes (or any other Phase 4 code change) until this combined install succeeds.
+- [x] **1.7.C.2** Confirm `ErrorSummary` is not used (already verified above ✅). If new code added it in the meantime, replace with `<Notification type="error" notificationAriaLabel="…" autofocus>…</Notification>`.
+- [x] **1.7.C.3** Verify `@city-of-helsinki/react-helsinki-notification-manager` is compatible with `hds-react@6`. If not, hold it on `hds-react@5` is not an option — file an upstream issue or vendor the small surface (it is only `0.1.0`).
+- [x] **1.7.C.4** **(user action)** Run `pnpm install`, then `pnpm lint`, `pnpm test:cov`, `pnpm build` — see Phase 4 for the full integration checklist.
 
 ---
 
