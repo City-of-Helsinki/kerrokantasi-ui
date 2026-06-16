@@ -3,10 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 
+import { thunk, getIntlAsProp } from '../../../../test-utils';
 import UserProfile from '..';
-import { getIntlAsProp } from '../../../../test-utils';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
 const middlewares = [thunk];

@@ -1,9 +1,9 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { thunk } from '../../../../test-utils';
 import HearingFormStep5 from '../HearingFormStep5';
 import renderWithProviders from '../../../utils/renderWithProviders';
 

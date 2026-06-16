@@ -1,12 +1,11 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { act, screen } from '@testing-library/react';
 
+import { thunk, mockStore as mockData, mockUser } from '../../../../test-utils';
 import HearingContainerComponent from '../HearingContainer';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { mockStore as mockData, mockUser } from '../../../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);

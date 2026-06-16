@@ -1,11 +1,14 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
+import {
+  thunk,
+  getIntlAsProp,
+  mockStore as mockData,
+} from '../../../../test-utils';
 import HearingFormStep2 from '../HearingFormStep2';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { getIntlAsProp, mockStore as mockData } from '../../../../test-utils';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');

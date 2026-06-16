@@ -1,11 +1,10 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
+import { thunk, mockStore as mockData } from '../../../../test-utils';
 import HearingFormStep3 from '../HearingFormStep3';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { mockStore as mockData } from '../../../../test-utils';
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);

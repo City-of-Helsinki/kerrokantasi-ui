@@ -110,7 +110,10 @@ describe('sections', () => {
     let store;
 
     beforeEach(() => {
-      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
+      store = configureStore({
+        reducer: sections,
+        preloadedState: INITIAL_STATE,
+      });
     });
 
     afterEach(() => {
@@ -225,7 +228,10 @@ describe('sections', () => {
     const sectionId = INITIAL_STATE.all[0];
 
     beforeEach(() => {
-      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
+      store = configureStore({
+        reducer: sections,
+        preloadedState: INITIAL_STATE,
+      });
     });
 
     afterEach(() => {
@@ -277,7 +283,10 @@ describe('sections', () => {
     let questionCount;
 
     beforeEach(() => {
-      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
+      store = configureStore({
+        reducer: sections,
+        preloadedState: INITIAL_STATE,
+      });
       sectionId = store.getState().all[0];
       section = store.getState().byId[sectionId];
       questionCount = section.questions.length;

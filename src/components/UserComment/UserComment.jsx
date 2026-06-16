@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Tooltip, Tag } from 'hds-react';
-import nl2br from 'react-nl2br';
 import moment from 'moment';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import Icon from '../../utils/Icon';
+import { nl2br } from '../../utils/commonUtils';
 import Link from '../LinkWithLang';
 import HearingMap from '../Hearing/HearingMap';
 import getMessage from '../../utils/getMessage';

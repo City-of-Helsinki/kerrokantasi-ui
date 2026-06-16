@@ -10,7 +10,6 @@ import {
   Tooltip as HDSTooltip,
   IconSpeechbubbleText,
 } from 'hds-react';
-import nl2br from 'react-nl2br';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
 import forEach from 'lodash/forEach';
@@ -19,6 +18,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
 import CommentForm from '../../BaseCommentForm';
+import { nl2br } from '../../../utils/commonUtils';
 import ShowMore from './ShowMore';
 import Answer from './Answer';
 import QuestionForm from '../../QuestionForm';

@@ -1,13 +1,12 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../../test-utils';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { thunk, mockUser } from '../../../../test-utils';
 import Header from '../Header';
 import renderWithProviders from '../../../utils/renderWithProviders';
-import { mockUser } from '../../../../test-utils';
 import * as useAuthMock from '../../../hooks/useAuth';
 import * as actionsMock from '../../../actions';
 

@@ -2,12 +2,11 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../test-utils';
 import { act, screen } from '@testing-library/react';
 
+import { thunk, mockStore as mockData, mockUser } from '../../test-utils';
 import renderWithProviders from '../utils/renderWithProviders';
 import App from '../App';
-import { mockStore as mockData, mockUser } from '../../test-utils';
 
 // Mock the useNotifications hook to return empty notifications
 vi.mock('../hooks/useNotifications', () => ({

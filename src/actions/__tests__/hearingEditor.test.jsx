@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import configureStore from 'redux-mock-store';
-import { thunk } from '../../../test-utils';
 
+import { thunk } from '../../../test-utils';
 import * as api from '../../api';
 import * as actions from '../hearingEditor';
 import { EditorActions } from '../hearingEditor';

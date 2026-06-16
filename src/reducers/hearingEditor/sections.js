@@ -94,7 +94,10 @@ const byId = createReducer({}, (builder) => {
         ...state,
         [sectionId]: {
           ...state[sectionId],
-          questions: [...state[sectionId].questions, initSingleChoiceQuestion()],
+          questions: [
+            ...state[sectionId].questions,
+            initSingleChoiceQuestion(),
+          ],
         },
       })
     )
