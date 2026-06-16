@@ -78,7 +78,7 @@ const Root = ({ store }) => {
               )}
             >
               <MatomoContext.Provider value={matomoTracker}>
-                <BrowserRouter history={history}>
+                <BrowserRouter>
                   <ScrollToTop>
                     <App history={history} onChangeLanguage={changeLanguage} />
                   </ScrollToTop>
