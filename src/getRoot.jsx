@@ -65,7 +65,16 @@ const Root = ({ store }) => {
   return (
     <HelmetProvider>
       <LoginProvider {...loginProviderProps}>
-        <IntlProvider locale={locale} messages={messages[locale]}>
+        <IntlProvider
+          locale={locale}
+          messages={messages[locale]}
+          defaultLocale='fi'
+          onError={(err) => {
+            if (err.code === 'MISSING_TRANSLATION') return;
+            // eslint-disable-next-line no-console
+            console.error(err);
+          }}
+        >
           <Provider store={store}>
             <ConditionalWrap
               condition={config.enableCookies && !isCookiebotEnabled()}

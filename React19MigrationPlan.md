@@ -313,7 +313,7 @@ Decisions for every dependency whose React peer range excludes React 19, or that
 | 2.3 | `react-redux` | 8.1.3 | Requires v9+ | **Upgrade** → `^9.x` | v9 drops React 17 support, requires React 18.0+ and supports 19. No code change for hooks; `connect()` still works. |
 | 2.4 | `react-router-dom` | ~~6.30.3~~ → **7.x** ✅ | v6.30+ already accepts React 19 (`">=16.8"`); v7 is the actively-developed line | **Done** — upgraded to v7 via phased migration (future flags → v7 bump). See `react-router-dom-v7-migration.md`. | All future flags are now v7 defaults; no code-level import changes required. |
 | 2.5 | `react-helmet` | 6.1.0 | Unmaintained, peer `^16.x` | **Replace** → `react-helmet-async` | Drop-in API for `<Helmet>`. Requires wrapping the app tree in `<HelmetProvider>` (add in `src/getRoot.jsx`). Update imports in 10 files: change `import Helmet from 'react-helmet'` / `import { Helmet } from 'react-helmet'` → `import { Helmet } from 'react-helmet-async'`. `react-helmet-async` peer declares React 16/17/18; verify React 19 compat (community fork `@dr.pogodin/react-helmet` is the fallback if peer blocks install). |
-| 2.6 | `react-intl` | 5.25.1 | v5 peer is React ≤18 | **Upgrade** → `^7.x` | v6→v7 dropped some APIs (`addLocaleData`, `injectIntl` HOC still present in v6 but generally deprecated). ~100+ message sites; mostly `<FormattedMessage>` / `useIntl()` which are stable. Plan parallel branch. |
+| 2.6 | `react-intl` | ~~5.25.1~~ → **7.x** ✅ | v5 peer is React ≤18 | **Done** — upgraded to v7. See `react-intl-v7-migration.md`. | All phases A–C complete; Playwright baseline (C.3.3) deferred. |
 | 2.7 | `react-i18next` | 15.7.4 | Supports React 19 | **Remove** | Not imported anywhere in `src/`. Pure dead weight. |
 | 2.8 | `i18next` | 25.x | — | **Remove** | Only referenced via `react-i18next`. Verify no transitive consumer. |
 | 2.9 | `react-leaflet` | 4.2.1 | v4 peer requires React 18; v5 supports React 19 | **Upgrade** → `^5.x` | API mostly compatible; `MapContainer` etc. unchanged. Update `react-leaflet-draw` peer accordingly. |
@@ -352,8 +352,8 @@ These can be cleaned up at any time and reduce surface area before the upgrade. 
 - [ ] **3.4** `font-awesome` — **0 imports** in `src/`. Assistant verifies no Sass `@import`; **(user action)** `pnpm remove font-awesome`.
 - [ ] **3.5** `bootstrap-sass` — **0 imports** in `src/`. Assistant verifies SCSS does not `@import "bootstrap"`; **(user action)** `pnpm remove bootstrap-sass` if unused.
 - [ ] **3.6** `intl` — only referenced by `src/commonInit.js` as an IE11 polyfill via `require.ensure`.
-  - [ ] **3.6.1** **(user action — dependency first)** `pnpm remove intl`. The dynamic `require.ensure('intl', …)` branch in `commonInit.js` will fail to resolve at build time — that is expected and is fixed in 3.6.2.
-  - [ ] **3.6.2** Assistant removes the IE11 polyfill branch in `src/commonInit.js`. Run `pnpm build` to confirm the dead import is gone.
+  - [x] **3.6.1** **(user action — dependency first)** `pnpm remove intl`. Handled in react-intl migration C.2.4. ✅
+  - [x] **3.6.2** Assistant removes the IE11 polyfill branch in `src/commonInit.js`. Handled in react-intl migration C.2.3. ✅
 - [ ] **3.7** `react-device-detect` — single usage to detect IE in `getRoot.jsx`. If IE is no longer supported:
   - [ ] **3.7.1** **(user action — dependency first)** `pnpm remove react-device-detect`. The `isIE` import in `getRoot.jsx` will break the build — that is expected and is fixed in 3.7.2.
   - [ ] **3.7.2** Assistant deletes the `BrowserWarning` short-circuit in `getRoot.jsx` (or replaces with a tiny `userAgent` regex if IE detection is still desired).

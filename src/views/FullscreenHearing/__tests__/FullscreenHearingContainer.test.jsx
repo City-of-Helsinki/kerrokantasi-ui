@@ -49,7 +49,15 @@ describe('FullscreenHearingContainerComponent', () => {
     });
 
     render(
-      <IntlProvider>
+      <IntlProvider
+        locale='fi'
+        messages={{}}
+        onError={(err) => {
+          if (err.code === 'MISSING_TRANSLATION') return;
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }}
+      >
         <Provider store={populatedStore}>
           <BrowserRouter>
             <FullscreenHearingContainerComponent />

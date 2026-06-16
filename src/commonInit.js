@@ -8,13 +8,5 @@ export default function commonInit(cb = noop) {
     return;
   }
   done = true;
-  if (!global.Intl) {
-    // see https://github.com/andyearnshaw/Intl.js#intljs-and-browserifywebpack
-    require.ensure(['intl'], function installIntl(require) {
-      global.Intl = require('intl');
-      cb();
-    });
-  } else {
-    cb();
-  }
+  cb();
 }
