@@ -1,35 +1,23 @@
-import { handleActions } from 'redux-actions';
-import updeep from 'updeep';
+import { createReducer } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   isFetching: false,
   user: null,
 };
 
-const fetchOidcUserData = (state) => ({
-  ...state,
-  isFetching: true,
-});
+const fetchOidcUserData = (state) => ({ ...state, isFetching: true });
 
-const receiveOidcUserData = (state, { payload }) => {
+const receiveOidcUserData = (_state, { payload }) => {
   if (payload) {
-    return updeep(
-      {
-        isFetching: false,
-        user: payload.oidcUser,
-      },
-      state
-    );
+    return { isFetching: false, user: payload.oidcUser };
   }
   return INITIAL_STATE;
 };
 const clearOidcUserData = (/* state, action */) => INITIAL_STATE;
 
-export default handleActions(
-  {
-    fetchOidcUserData,
-    receiveOidcUserData,
-    clearOidcUserData,
-  },
-  INITIAL_STATE
-);
+export default createReducer(INITIAL_STATE, (builder) => {
+  builder
+    .addCase('fetchOidcUserData', fetchOidcUserData)
+    .addCase('receiveOidcUserData', receiveOidcUserData)
+    .addCase('clearOidcUserData', clearOidcUserData);
+});

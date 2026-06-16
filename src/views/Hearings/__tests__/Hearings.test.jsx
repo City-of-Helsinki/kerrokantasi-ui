@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../../test-utils';
 
 import Hearings from '../index';
 import renderWithProviders from '../../../utils/renderWithProviders';

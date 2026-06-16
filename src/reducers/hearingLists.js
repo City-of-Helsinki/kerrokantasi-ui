@@ -1,5 +1,4 @@
-import updeep from 'updeep';
-import { handleActions } from 'redux-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 const hearingListSkeleton = {
   isFetching: false,
@@ -36,13 +35,10 @@ const createHearingLists = (listNames) =>
     {}
   );
 
-const beginFetchHearingList = (state, { payload }) =>
-  updeep(
-    {
-      [payload.listId]: { isFetching: true },
-    },
-    state
-  );
+const beginFetchHearingList = (state, { payload }) => ({
+  ...state,
+  [payload.listId]: { ...state[payload.listId], isFetching: true },
+});
 
 const receiveMoreHearings = (state, { payload: { listId, data } }) => {
   const combinedResults =
@@ -50,37 +46,33 @@ const receiveMoreHearings = (state, { payload: { listId, data } }) => {
       ? [...state[listId].data, ...data.results]
       : data.results;
 
-  return updeep(
-    {
-      [listId]: {
-        isFetching: false,
-        data: combinedResults,
-        count: data.count,
-        next: data.next,
-      },
+  return {
+    ...state,
+    [listId]: {
+      isFetching: false,
+      data: combinedResults,
+      count: data.count,
+      next: data.next,
     },
-    state
-  );
+  };
 };
 
-const receiveHearingList = (state, { payload: { listId, data } }) =>
-  updeep(
-    {
-      [listId]: {
-        isFetching: false,
-        data: data.results,
-        count: data.count,
-        next: data.next,
-      },
-    },
-    state
-  );
-
-export default handleActions(
-  {
-    beginFetchHearingList,
-    receiveHearingList,
-    receiveMoreHearings,
+const receiveHearingList = (state, { payload: { listId, data } }) => ({
+  ...state,
+  [listId]: {
+    isFetching: false,
+    data: data.results,
+    count: data.count,
+    next: data.next,
   },
-  createHearingLists(initialHearingListNames)
+});
+
+export default createReducer(
+  createHearingLists(initialHearingListNames),
+  (builder) => {
+    builder
+      .addCase('beginFetchHearingList', beginFetchHearingList)
+      .addCase('receiveHearingList', receiveHearingList)
+      .addCase('receiveMoreHearings', receiveMoreHearings);
+  }
 );

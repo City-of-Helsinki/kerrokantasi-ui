@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../test-utils';
 
 import BaseCommentForm from '../BaseCommentForm';
 import renderWithProviders from '../../utils/renderWithProviders';

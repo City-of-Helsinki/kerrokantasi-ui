@@ -1,6 +1,5 @@
-import updeep from 'updeep';
-import { handleActions } from 'redux-actions';
-import { has, isEmpty, omit } from 'lodash';
+import { createReducer } from '@reduxjs/toolkit';
+import { omit } from 'lodash';
 
 import { EditorActions } from '../actions/hearingEditor';
 
@@ -10,83 +9,51 @@ const beginFetchHearing = (state, { payload }) => {
     // so preserve the current state if we can...
     return state;
   }
-  return updeep(
-    {
-      [payload.hearingSlug]: { state: 'pending' },
-    },
-    state
-  );
+  return { ...state, [payload.hearingSlug]: { state: 'pending' } };
 };
 
-const receiveHearing = (state, { payload }) =>
-  updeep(
-    {
-      [payload.hearingSlug]: { state: 'done', data: payload.data },
-    },
-    state
-  );
+const receiveHearing = (state, { payload }) => ({
+  ...state,
+  [payload.hearingSlug]: { state: 'done', data: payload.data },
+});
 
-const deletingHearingDraft = (state, { payload }) =>
-  updeep(
-    {
-      [payload.hearingSlug]: { state: 'pending' },
-    },
-    state
-  );
+const deletingHearingDraft = (state, { payload }) => ({
+  ...state,
+  [payload.hearingSlug]: { state: 'pending' },
+});
 
 const deletedHearingDraft = (state, { payload }) =>
   omit(state, [payload.hearingSlug]);
 
-const receiveHearingError = (state, { payload }) =>
-  updeep(
-    {
-      [payload.hearingSlug]: { state: 'error' },
-    },
-    state
+const receiveHearingError = (state, { payload }) => ({
+  ...state,
+  [payload.hearingSlug]: { state: 'error' },
+});
+
+const savedHearing = (state, { payload: { hearing } }) => ({
+  ...state,
+  [hearing.slug]: { state: 'done', data: hearing },
+});
+
+const clearNonPublicHearings = (state) =>
+  Object.fromEntries(
+    Object.entries(state).map(([slug, hearing]) => [
+      slug,
+      hearing.data && !hearing.data.published ? { state: 'pending' } : hearing,
+    ])
   );
 
-const savedHearing = (state, { payload: { hearing } }) =>
-  updeep(
-    {
-      [hearing.slug]: { state: 'done', data: hearing },
-    },
-    state
-  );
-
-const savedHearingChange = (state, { payload }) => {
-  const { hearing } = payload;
-  if (has(state, hearing.slug) || isEmpty(state)) {
-    // We have just saved hearing with the same slug as we have in
-    // state. In order to keep the hearing up to date, let's update it
-    // accordingly.
-    return updeep(
-      {
-        [hearing.slug]: { state: 'done', data: hearing },
-      },
-      state
-    );
-  }
-  return state;
-};
-
-const clearNonPublicHearings = (state) => {
-  const clearNonPublic = (hearing) =>
-    hearing.data && !hearing.data.published ? { state: 'pending' } : hearing;
-  return updeep.map(clearNonPublic, state);
-};
-
-export default handleActions(
-  {
-    beginFetchHearing,
-    receiveHearing,
-    receiveHearingError,
-    savedHearingChange,
-    savedNewHearing: savedHearingChange,
-    clearNonPublicHearings,
-    [EditorActions.POST_HEARING_SUCCESS]: savedHearing,
-    [EditorActions.SAVE_HEARING_SUCCESS]: savedHearing,
-    deletingHearingDraft,
-    deletedHearingDraft,
-  },
-  {}
-);
+// NOTE: In the original handleActions map, 'savedNewHearing' and 'savedHearingChange'
+// had duplicate keys where the EditorActions computed keys won. The deduplication is
+// intentional: savedNewHearing -> savedHearing, savedHearingChange -> savedHearing.
+export default createReducer({}, (builder) => {
+  builder
+    .addCase('beginFetchHearing', beginFetchHearing)
+    .addCase('receiveHearing', receiveHearing)
+    .addCase('receiveHearingError', receiveHearingError)
+    .addCase('clearNonPublicHearings', clearNonPublicHearings)
+    .addCase(EditorActions.POST_HEARING_SUCCESS, savedHearing)
+    .addCase(EditorActions.SAVE_HEARING_SUCCESS, savedHearing)
+    .addCase('deletingHearingDraft', deletingHearingDraft)
+    .addCase('deletedHearingDraft', deletedHearingDraft);
+});

@@ -44,6 +44,9 @@ importers:
       '@formatjs/intl-relativetimeformat':
         specifier: ^11.2.14
         version: 11.4.13
+      '@reduxjs/toolkit':
+        specifier: ^2.12.0
+        version: 2.12.0(react-redux@8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@5.0.1))(react@19.2.7)
       '@sentry/react':
         specifier: ^9.22.0
         version: 9.47.1(react@19.2.7)
@@ -214,7 +217,7 @@ importers:
         version: 1.0.4(react@19.2.7)
       react-redux:
         specifier: ^8.0.0
-        version: 8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@3.7.2)
+        version: 8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@5.0.1)
       react-router-dom:
         specifier: ^6.30.3
         version: 6.30.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -227,15 +230,6 @@ importers:
       react-waypoint:
         specifier: ^9.0.3
         version: 9.0.3(react@19.2.7)
-      redux:
-        specifier: ^3.7.2
-        version: 3.7.2
-      redux-actions:
-        specifier: ^2.6.5
-        version: 2.6.5
-      redux-thunk:
-        specifier: ^3.1.0
-        version: 3.1.0(redux@3.7.2)
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
@@ -308,7 +302,7 @@ importers:
         version: 3.8.2
       redux-mock-store:
         specifier: ^1.5.4
-        version: 1.5.5(redux@3.7.2)
+        version: 1.5.5(redux@5.0.1)
       vitest-fetch-mock:
         specifier: ^0.4.5
         version: 0.4.5(vitest@4.1.4)
@@ -1045,6 +1039,17 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@reduxjs/toolkit@2.12.0':
+    resolution: {integrity: sha512-KiT+RzZbp6mQET+Mg+h2c97+9j1sNflUxQkIHI7Yuzf6Peu+OYpmkn6nbHWmLLWj+1ZODUJFwGZ7gx3L9R9EOw==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18 || ^19
+      react-redux: ^7.2.1 || ^8.1.3 || ^9.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-redux:
+        optional: true
+
   '@remix-run/router@1.23.2':
     resolution: {integrity: sha512-Ic6m2U/rMjTkhERIa/0ZtXJP17QUi2CbWE7cqx4J58M8aA3QTfW+2UlQ4psvTX9IO1RfNVhK3pcpdjej7L+t2w==}
     engines: {node: '>=14.0.0'}
@@ -1188,6 +1193,9 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@standard-schema/utils@0.3.0':
+    resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
   '@swc/helpers@0.5.21':
     resolution: {integrity: sha512-jI/VAmtdjB/RnI8GTnokyX7Ug8c+g+ffD6QRLa6XQewtnGyukKkKSk3wLTM3b5cjt1jNh9x0jfVlagdN2gDKQg==}
@@ -2576,6 +2584,9 @@ packages:
     resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
     engines: {node: '>= 4'}
 
+  immer@11.1.8:
+    resolution: {integrity: sha512-/tbkHMW7y10Lx6i1crLjD4/OhNkRG+Fo7byZHtah0547nIeXYcpIXaUh0IAQY6gO5459qpGGYapcEOHtFXkIuA==}
+
   immutability-helper@3.1.1:
     resolution: {integrity: sha512-Q0QaXjPjwIju/28TsugCHNEASwoCcJSyJV3uO1sOIQGI0jKgm9f41Lvz0DZj3n46cNCyAZTsEYoY4C2bVRUzyQ==}
 
@@ -2883,9 +2894,6 @@ packages:
   jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
-
-  just-curry-it@3.2.1:
-    resolution: {integrity: sha512-Q8206k8pTY7krW32cdmPsP+DqqLgWx/hYPSj9/+7SYqSqz7UuwPbfSe07lQtvuuaVyiSJveXk0E5RydOuWwsEg==}
 
   jwt-decode@3.1.2:
     resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
@@ -3695,12 +3703,6 @@ packages:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
 
-  reduce-reducers@0.4.3:
-    resolution: {integrity: sha512-+CNMnI8QhgVMtAt54uQs3kUxC3Sybpa7Y63HR14uGLgI9/QR5ggHvpxwhGGe3wmx5V91YwqQIblN9k5lspAmGw==}
-
-  redux-actions@2.6.5:
-    resolution: {integrity: sha512-pFhEcWFTYNk7DhQgxMGnbsB1H2glqhQJRQrtPb96kD3hWiZRzXHwwmFPswg6V2MjraXRXWNmuP9P84tvdLAJmw==}
-
   redux-mock-store@1.5.5:
     resolution: {integrity: sha512-YxX+ofKUTQkZE4HbhYG4kKGr7oCTJfB0GLy7bSeqx86GLpGirrbUWstMnqXkqHNaQpcnbMGbof2dYs5KsPE6Zg==}
     peerDependencies:
@@ -3711,8 +3713,8 @@ packages:
     peerDependencies:
       redux: ^5.0.0
 
-  redux@3.7.2:
-    resolution: {integrity: sha512-pNqnf9q1hI5HHZRBkj3bAngGZW/JMCmexDlOxw4XagXY2o1327nHH54LoTjiPJ0gizoqPDRqWyX/00g0hD6w+A==}
+  redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
 
   refa@0.12.1:
     resolution: {integrity: sha512-J8rn6v4DBb2nnFqkqwy6/NnTYMcgLA+sLr0iIO41qpv0n+ngb7ksag2tMRl0inb1bbO/esUwzW1vbJi7K0sI0g==}
@@ -4012,10 +4014,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  symbol-observable@1.2.0:
-    resolution: {integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==}
-    engines: {node: '>=0.10.0'}
-
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
@@ -4067,18 +4065,9 @@ packages:
     resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
     hasBin: true
 
-  to-camel-case@1.0.0:
-    resolution: {integrity: sha512-nD8pQi5H34kyu1QDMFjzEIYqk0xa9Alt6ZfrdEMuHCFOfTLhDG5pgTu/aAM9Wt9lXILwlXmWP43b8sav0GNE8Q==}
-
-  to-no-case@1.0.2:
-    resolution: {integrity: sha512-Z3g735FxuZY8rodxV4gH7LxClE4H0hTIyHNIHdk+vpQxjLm0cwnKXq/OFVZ76SOQmto7txVcwSCwkU5kqp+FKg==}
-
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
-
-  to-space-case@1.0.0:
-    resolution: {integrity: sha512-rLdvwXZ39VOn1IxGL3V6ZstoTbwLRckQmn/U8ZDLuWwIXNpuZDhQ3AiRUlhTbOXFVE9C+dR51wM0CBDhk31VcA==}
 
   toposort@2.0.2:
     resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
@@ -5255,6 +5244,18 @@ snapshots:
     dependencies:
       react: 19.2.7
 
+  '@reduxjs/toolkit@2.12.0(react-redux@8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@5.0.1))(react@19.2.7)':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      '@standard-schema/utils': 0.3.0
+      immer: 11.1.8
+      redux: 5.0.1
+      redux-thunk: 3.1.0(redux@5.0.1)
+      reselect: 5.1.1
+    optionalDependencies:
+      react: 19.2.7
+      react-redux: 8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@5.0.1)
+
   '@remix-run/router@1.23.2': {}
 
   '@rolldown/binding-android-arm64@1.0.0-rc.15':
@@ -5352,6 +5353,8 @@ snapshots:
       '@simple-git/args-pathspec': 1.0.3
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@standard-schema/utils@0.3.0': {}
 
   '@swc/helpers@0.5.21':
     dependencies:
@@ -6920,6 +6923,8 @@ snapshots:
 
   ignore@7.0.5: {}
 
+  immer@11.1.8: {}
+
   immutability-helper@3.1.1: {}
 
   immutable@3.8.3: {}
@@ -7246,8 +7251,6 @@ snapshots:
       array.prototype.flat: 1.3.3
       object.assign: 4.1.7
       object.values: 1.2.1
-
-  just-curry-it@3.2.1: {}
 
   jwt-decode@3.1.2: {}
 
@@ -8179,7 +8182,7 @@ snapshots:
 
   react-property@2.0.2: {}
 
-  react-redux@8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@3.7.2):
+  react-redux@8.1.3(@types/react@18.3.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(redux@5.0.1):
     dependencies:
       '@babel/runtime': 7.29.2
       '@types/hoist-non-react-statics': 3.3.7(@types/react@18.3.28)
@@ -8191,7 +8194,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.28
       react-dom: 19.2.7(react@19.2.7)
-      redux: 3.7.2
+      redux: 5.0.1
 
   react-router-dom@6.30.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
@@ -8242,31 +8245,16 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  reduce-reducers@0.4.3: {}
-
-  redux-actions@2.6.5:
-    dependencies:
-      invariant: 2.2.4
-      just-curry-it: 3.2.1
-      loose-envify: 1.4.0
-      reduce-reducers: 0.4.3
-      to-camel-case: 1.0.0
-
-  redux-mock-store@1.5.5(redux@3.7.2):
+  redux-mock-store@1.5.5(redux@5.0.1):
     dependencies:
       lodash.isplainobject: 4.0.6
-      redux: 3.7.2
+      redux: 5.0.1
 
-  redux-thunk@3.1.0(redux@3.7.2):
+  redux-thunk@3.1.0(redux@5.0.1):
     dependencies:
-      redux: 3.7.2
+      redux: 5.0.1
 
-  redux@3.7.2:
-    dependencies:
-      lodash: 4.18.1
-      lodash-es: 4.18.1
-      loose-envify: 1.4.0
-      symbol-observable: 1.2.0
+  redux@5.0.1: {}
 
   refa@0.12.1:
     dependencies:
@@ -8646,8 +8634,6 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  symbol-observable@1.2.0: {}
-
   symbol-observable@4.0.0: {}
 
   symbol-tree@3.2.4: {}
@@ -8691,19 +8677,9 @@ snapshots:
     dependencies:
       tldts-core: 6.1.86
 
-  to-camel-case@1.0.0:
-    dependencies:
-      to-space-case: 1.0.0
-
-  to-no-case@1.0.2: {}
-
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
-
-  to-space-case@1.0.0:
-    dependencies:
-      to-no-case: 1.0.2
 
   toposort@2.0.2: {}
 

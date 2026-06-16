@@ -1,5 +1,5 @@
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../../test-utils';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

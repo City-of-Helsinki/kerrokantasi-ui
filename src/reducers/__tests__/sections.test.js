@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 import sections from '../hearingEditor/sections';
 import { EditorActions } from '../../actions/hearingEditor';
@@ -75,7 +75,7 @@ describe('sections', () => {
       sections: { firstSectionId: {}, secondSectionId: {} },
     };
     beforeEach(() => {
-      store = createStore(sections);
+      store = configureStore({ reducer: sections });
     });
 
     it('should dispatch RECEIVE_HEARING', () => {
@@ -110,7 +110,7 @@ describe('sections', () => {
     let store;
 
     beforeEach(() => {
-      store = createStore(sections, INITIAL_STATE);
+      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
     });
 
     afterEach(() => {
@@ -225,7 +225,7 @@ describe('sections', () => {
     const sectionId = INITIAL_STATE.all[0];
 
     beforeEach(() => {
-      store = createStore(sections, INITIAL_STATE);
+      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
     });
 
     afterEach(() => {
@@ -277,7 +277,7 @@ describe('sections', () => {
     let questionCount;
 
     beforeEach(() => {
-      store = createStore(sections, INITIAL_STATE);
+      store = configureStore({ reducer: sections, preloadedState: INITIAL_STATE });
       sectionId = store.getState().all[0];
       section = store.getState().byId[sectionId];
       questionCount = section.questions.length;

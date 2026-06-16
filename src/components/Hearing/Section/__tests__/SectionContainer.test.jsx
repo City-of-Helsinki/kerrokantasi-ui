@@ -1,6 +1,6 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../../../test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { uniqueId } from 'lodash';

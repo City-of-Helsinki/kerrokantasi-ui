@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../test-utils';
 import { act, screen } from '@testing-library/react';
 
 import renderWithProviders from '../utils/renderWithProviders';
