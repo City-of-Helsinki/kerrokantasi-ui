@@ -192,19 +192,19 @@ Affected files (2): `src/components/Hearing/Section/SectionImage.jsx`, `src/comp
 
 #### Steps
 
-- [ ] **1.8.1** **(user action — dependency first)** Install the replacement *before* any code change: `pnpm add yet-another-react-lightbox`. Do **not** remove `react-image-lightbox` yet — both must coexist until the swap compiles (handled in 1.8.7).
-- [ ] **1.8.2** Update `src/components/Hearing/Section/SectionImage.jsx`:
+- [x] **1.8.1** **(user action — dependency first)** Install the replacement *before* any code change: `pnpm add yet-another-react-lightbox`. Do **not** remove `react-image-lightbox` yet — both must coexist until the swap compiles (handled in 1.8.7).
+- [x] **1.8.2** Update `src/components/Hearing/Section/SectionImage.jsx`:
   - Swap the import.
   - Replace the `<Lightbox …>` JSX with `<Lightbox open={showLightbox} close={closeLightbox} slides={[{ src: image.url, alt: defineImageAlt() }]} />`.
   - Drop the `{showLightbox && …}` conditional wrap (YARL handles mount/unmount via `open`).
   - Preserve the existing `image-lightbox` class if any CSS targets it — pass `className="image-lightbox"` or use the `styles` API.
-- [ ] **1.8.3** Update `src/components/Hearing/Section/SectionContainer.jsx`:
+- [x] **1.8.3** Update `src/components/Hearing/Section/SectionContainer.jsx`:
   - Change `import 'react-image-lightbox/style.css'` → `import 'yet-another-react-lightbox/styles.css'`.
   - No other changes needed (state plumbing `showLightbox/openLightbox/closeLightbox` is unchanged).
-- [ ] **1.8.4** Grep `assets/` and `src/` SCSS for `.image-lightbox` and the old `ril-*` class names (used by `react-image-lightbox`); update or remove rules that no longer apply.
-- [ ] **1.8.5** Optional: install plugins as needed (e.g. `Zoom`, `Captions`, `Fullscreen`) — current usage only needs single-image display, so default Lightbox is sufficient.
-- [ ] **1.8.6** `pnpm test:cov` and manual smoke test on hearing section images (open/close, ESC key, backdrop click, keyboard navigation, mobile swipe).
-- [ ] **1.8.7** **(user action)** Remove `react-image-lightbox` once the swap is verified: `pnpm remove react-image-lightbox`.
+- [x] **1.8.4** Grep `assets/` and `src/` SCSS for `.image-lightbox` and the old `ril-*` class names (used by `react-image-lightbox`); update or remove rules that no longer apply.
+- [x] **1.8.5** Optional: install plugins as needed (e.g. `Zoom`, `Captions`, `Fullscreen`) — current usage only needs single-image display, so default Lightbox is sufficient.
+- [x] **1.8.6** `pnpm test:cov` and manual smoke test on hearing section images (open/close, ESC key, backdrop click, keyboard navigation, mobile swipe).
+- [x] **1.8.7** **(user action)** Remove `react-image-lightbox` once the swap is verified: `pnpm remove react-image-lightbox`.
 
 ---
 

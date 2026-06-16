@@ -1,36 +1,43 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Lightbox from 'react-image-lightbox';
+import Lightbox from 'yet-another-react-lightbox';
 
-export const SectionImageComponent = ({
-  image,
-  altText,
-  caption,
-  title,
-  showLightbox,
-  openLightbox,
-  closeLightbox,
-}) => {
-  const defineImageAlt = () => altText || caption || title || '';
+export const SectionImageComponent = ({ image, altText, caption, title }) => {
+  const [open, setOpen] = useState(false);
+
+  if (!image) return null;
+
+  const alt = altText || caption || title || '';
+
+  const openLightbox = () => {
+    document.body.classList.remove('nav-fixed');
+    setOpen(true);
+  };
+
+  const closeLightbox = () => {
+    document.body.classList.add('nav-fixed');
+    setOpen(false);
+  };
 
   return (
     <figure className='section-image' key={image.url}>
       <img
         className='img-responsive'
-        alt={defineImageAlt()}
+        alt={alt}
         src={image.url}
         onClick={openLightbox}
         onKeyPress={openLightbox}
       />
-      {showLightbox && (
-        <Lightbox
-          reactModalProps={{ className: 'image-lightbox' }}
-          mainSrc={image.url}
-          onCloseRequest={closeLightbox}
-        />
-      )}
       {caption && <figcaption className='image-caption'>{caption}</figcaption>}
+      <Lightbox
+        open={open}
+        close={closeLightbox}
+        slides={[{ src: image.url, alt }]}
+        className='image-lightbox'
+        carousel={{ finite: true }}
+        render={{ buttonPrev: () => null, buttonNext: () => null }}
+      />
     </figure>
   );
 };
@@ -40,9 +47,6 @@ SectionImageComponent.propTypes = {
   caption: PropTypes.string,
   title: PropTypes.string,
   altText: PropTypes.string,
-  showLightbox: PropTypes.bool,
-  openLightbox: PropTypes.func,
-  closeLightbox: PropTypes.func,
 };
 
 export default SectionImageComponent;
