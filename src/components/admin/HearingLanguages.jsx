@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Checkbox, Fieldset } from 'hds-react';
 
 import config from '../../config';
@@ -43,4 +43,4 @@ HearingLanguages.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default injectIntl(HearingLanguages);
+export default HearingLanguages;

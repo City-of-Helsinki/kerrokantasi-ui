@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog } from 'hds-react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 const DeleteModal = ({
   isOpen,
   commentSectionId,
   commentId,
   refreshUser,
-  intl,
   close,
   onDeleteComment,
 }) => {
+  const intl = useIntl();
   const titleId = 'delete-modal-title';
   const descriptionId = 'delete-modal-description';
 
@@ -53,7 +53,6 @@ const DeleteModal = ({
 
 DeleteModal.propTypes = {
   isOpen: PropTypes.bool,
-  intl: PropTypes.object,
   close: PropTypes.func,
   onDeleteComment: PropTypes.func,
   commentSectionId: PropTypes.string,
@@ -61,4 +60,4 @@ DeleteModal.propTypes = {
   refreshUser: PropTypes.bool,
 };
 
-export default injectIntl(DeleteModal);
+export default DeleteModal;

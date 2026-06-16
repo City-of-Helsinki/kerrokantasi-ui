@@ -14,7 +14,6 @@ const renderComponent = (propOverrides) => {
   const props = {
     hearing: {},
     hearingLanguages: ['fi', 'sv', 'en'],
-    formatMessage: vi.fn((msg) => msg.id),
     errors: {},
     onSectionChange: vi.fn(),
     onHearingChange: vi.fn(),

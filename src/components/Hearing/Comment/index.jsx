@@ -3,7 +3,7 @@
 /* eslint-disable sonarjs/todo-tag */
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Button,
   TextArea,
@@ -751,7 +751,6 @@ Comment.propTypes = {
   data: PropTypes.object,
   defaultNickname: PropTypes.string,
   hearingId: PropTypes.string,
-  intl: PropTypes.object,
   isReply: PropTypes.bool,
   jumpTo: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   language: PropTypes.string,
@@ -769,4 +768,4 @@ Comment.propTypes = {
   showReplies: PropTypes,
 };
 
-export default injectIntl(Comment);
+export default Comment;

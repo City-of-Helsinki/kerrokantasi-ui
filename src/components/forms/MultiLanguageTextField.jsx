@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/todo-tag */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import TextInput from './TextInput';
 import TextArea from './TextArea';
@@ -116,4 +116,4 @@ MultiLanguageTextField.propTypes = {
   value: PropTypes.object, // TODO: create shape
 };
 
-export default injectIntl(MultiLanguageTextField);
+export default MultiLanguageTextField;

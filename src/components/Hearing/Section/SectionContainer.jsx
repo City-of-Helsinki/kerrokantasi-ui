@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { Accordion, Button } from 'hds-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { injectIntl, FormattedMessage, FormattedPlural } from 'react-intl';
+import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 import ContactCard from '../../ContactCard';
@@ -768,6 +768,7 @@ SectionContainerComponent.propTypes = {
   onPostReply: PropTypes.func,
 };
 
-export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(SectionContainerComponent)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SectionContainerComponent);

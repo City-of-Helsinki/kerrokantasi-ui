@@ -3,7 +3,7 @@
 /* eslint-disable import-x/no-unresolved */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
 import { Button, Fieldset, FileInput } from 'hds-react';
 import { isEmpty, includes, keys, isMatch } from 'lodash';
@@ -368,4 +368,4 @@ HearingFormStep3.propTypes = {
   onAddMapMarker: PropTypes.func,
 };
 
-export default connect(mapStateToProps, null)(injectIntl(HearingFormStep3));
+export default connect(mapStateToProps, null)(HearingFormStep3);

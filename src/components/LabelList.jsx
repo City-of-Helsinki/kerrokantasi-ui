@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Tag } from 'hds-react';
 
 import getAttr from '../utils/getAttr';
 import Link from './LinkWithLang';
 
 export const Labels = (props) => {
-  const { className, intl, labels, language } = props;
+  const { className, labels, language } = props;
+  const intl = useIntl();
 
   /*
    * Hearing.labels
@@ -44,7 +45,6 @@ Labels.propTypes = {
   labels: PropTypes.array,
   className: PropTypes.string,
   language: PropTypes.string,
-  intl: PropTypes.object,
 };
 
-export default injectIntl(Labels);
+export default Labels;

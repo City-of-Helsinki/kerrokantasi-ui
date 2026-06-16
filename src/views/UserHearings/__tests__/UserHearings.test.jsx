@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { UnconnectedUserHearings } from '..';
-import { getIntlAsProp, mockStore, mockUser } from '../../../../test-utils';
+import { mockStore, mockUser } from '../../../../test-utils';
 import { getUserHearingList } from '../../../selectors/hearing';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
@@ -24,11 +24,7 @@ const TEST_ID_HEARING_CARDS = 'hearing-cards';
 const renderComponent = (props) =>
   renderWithProviders(
     <MemoryRouter>
-      <UnconnectedUserHearings
-        intl={getIntlAsProp()}
-        {...defaultProps}
-        {...props}
-      />
+      <UnconnectedUserHearings {...defaultProps} {...props} />
     </MemoryRouter>
   );
 

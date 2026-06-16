@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Select } from 'hds-react';
@@ -28,8 +28,8 @@ const UserProfile = ({
   fetchComments,
   fetchFavorites,
   removeFromFavorites,
-  intl,
 }) => {
+  const intl = useIntl();
   const { comments, favoriteHearings } = profile;
   const { userExists, userLoading } = userState;
   const { locale } = intl;
@@ -341,7 +341,6 @@ const profileCombiner = (state) => ({
 UserProfile.propTypes = {
   fetchComments: PropTypes.func,
   fetchFavorites: PropTypes.func,
-  intl: PropTypes.object,
   profile: PropTypes.object,
   removeFromFavorites: PropTypes.func,
   user: PropTypes.object,
@@ -369,7 +368,4 @@ const mapStateToProps = (state) => ({
   profile: profileCombiner(state),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(injectIntl(UserProfile));
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

@@ -2,7 +2,7 @@
 /* eslint-disable sonarjs/no-uniq-key */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import Comment from '../Comment';
 
@@ -124,4 +124,4 @@ CommentList.propTypes = {
   user: PropTypes.object,
 };
 
-export default injectIntl(CommentList);
+export default CommentList;

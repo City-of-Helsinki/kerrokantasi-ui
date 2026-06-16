@@ -4,7 +4,7 @@ import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
 
-import { thunk, getIntlAsProp } from '../../../../test-utils';
+import { thunk } from '../../../../test-utils';
 import UserProfile from '..';
 import renderWithProviders from '../../../utils/renderWithProviders';
 
@@ -155,7 +155,6 @@ const defaultState = {
 
 const renderComponent = (storeOverride = false) => {
   const props = {
-    intl: getIntlAsProp(),
     fetchComments: vi.fn(),
     fetchFavorites: vi.fn(),
     removeFromFavorites: vi.fn(),
