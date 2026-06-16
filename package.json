@@ -106,7 +106,7 @@
     "react-leaflet-draw": "^0.20.4",
     "react-markdown": "^10.1.0",
     "react-nl2br": "^1.0.4",
-    "react-redux": "^8.0.0",
+    "react-redux": "^9.3.0",
     "react-router-dom": "^6.30.3",
     "react-router-hash-link": "^2.4.3",
     "react-twitter-widgets": "^1.10.0",
