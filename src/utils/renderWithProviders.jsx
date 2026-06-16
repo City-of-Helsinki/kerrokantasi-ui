@@ -27,7 +27,15 @@ const renderWithProviders = (
   const Wrapper = ({ children }) => (
     <HelmetProvider>
       <LoginProvider {...loginProviderConfig}>
-        <IntlProvider locale={locale}>
+        <IntlProvider
+          locale={locale}
+          messages={{}}
+          onError={(err) => {
+            if (err.code === 'MISSING_TRANSLATION') return;
+            // eslint-disable-next-line no-console
+            console.error(err);
+          }}
+        >
           <Provider store={store}>{children}</Provider>
         </IntlProvider>
       </LoginProvider>

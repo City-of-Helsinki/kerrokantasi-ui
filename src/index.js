@@ -7,7 +7,6 @@ import createStore from './createStore';
 import commonInit from './commonInit';
 import config from './config';
 import '@city-assets/sass/app.scss';
-import '@formatjs/intl-relativetimeformat/polyfill';
 import { beforeSend, beforeSendTransaction } from './utils/sentry';
 
 commonInit(function initReady() {
