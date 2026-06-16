@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 import oidc from '../oidc';
 
@@ -14,7 +14,7 @@ describe('oidc', () => {
   let store;
 
   beforeEach(() => {
-    store = createStore(oidc);
+    store = configureStore({ reducer: oidc });
   });
 
   it('should set isFetching to true', () => {

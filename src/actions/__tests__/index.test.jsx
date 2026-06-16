@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
-import { createAction } from 'redux-actions';
+import { thunk } from '../../../test-utils';
+import { createAction } from '@reduxjs/toolkit';
 
 import * as api from '../../api';
 import * as actions from '../index';

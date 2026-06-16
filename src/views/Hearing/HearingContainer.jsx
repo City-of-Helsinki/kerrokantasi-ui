@@ -18,7 +18,7 @@ import {
 import { isEmpty } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { createAction } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { organizationShape } from '../../types';
 import { getHearingWithSlug } from '../../selectors/hearing';

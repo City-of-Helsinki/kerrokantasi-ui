@@ -1,6 +1,6 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../../test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
 import SectionForm from '../SectionForm';

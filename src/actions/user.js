@@ -1,4 +1,4 @@
-import { createAction } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 import { get } from 'lodash';
 
 import { get as apiGet, getApiTokenFromStorage } from '../api';

@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-extra-arguments */
-import { createAction } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 import merge from 'lodash/merge';
 import parse from 'url-parse';
 import * as Sentry from '@sentry/react';

@@ -1,34 +1,27 @@
-import updeep from 'updeep';
-import { handleActions } from 'redux-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
-export default handleActions(
-  {
-    fetchProjects: (state) =>
-      updeep(
-        {
-          isFetching: true,
-        },
-        state
-      ),
-    receiveProjects: (
-      state,
-      {
-        payload: {
-          data: { results },
-        },
-      }
-    ) =>
-      updeep(
-        {
-          isFetching: false,
-          data: [...results],
-        },
-        state
-      ),
-    receiveProjectsError: (state) => updeep({ isFetching: false }, state),
-  },
+export default createReducer(
   {
     isFetching: false,
     data: [],
+  },
+  (builder) => {
+    builder
+      .addCase('fetchProjects', (state) => ({ ...state, isFetching: true }))
+      .addCase(
+        'receiveProjects',
+        (
+          _state,
+          {
+            payload: {
+              data: { results },
+            },
+          }
+        ) => ({ isFetching: false, data: [...results] })
+      )
+      .addCase('receiveProjectsError', (state) => ({
+        ...state,
+        isFetching: false,
+      }));
   }
 );

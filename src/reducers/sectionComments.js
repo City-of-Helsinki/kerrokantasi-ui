@@ -1,5 +1,17 @@
-import updeep from 'updeep';
-import { handleActions } from 'redux-actions';
+import { createReducer } from '@reduxjs/toolkit';
+
+/** Immutably set a value at a nested path in an object/array. */
+const setIn = (obj, [key, ...rest], value) => {
+  if (rest.length === 0) {
+    return Array.isArray(obj)
+      ? obj.map((item, i) => (i === key ? value : item))
+      : { ...obj, [key]: value };
+  }
+  const child = setIn(obj[key], rest, value);
+  return Array.isArray(obj)
+    ? obj.map((item, i) => (i === key ? child : item))
+    : { ...obj, [key]: child };
+};
 
 const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
   // we must accept flattened as well as paginated comment listings
@@ -17,77 +29,62 @@ const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
     next = data.next;
   }
 
-  return updeep(
-    {
-      [sectionId]: {
-        isFetching: false,
-        results: combinedResults,
-        count,
-        next,
-      },
-    },
-    state
-  );
+  return {
+    ...state,
+    [sectionId]: { ...state[sectionId], isFetching: false, results: combinedResults, count, next },
+  };
 };
 
-const postedComment = (state, { payload: { sectionId, jumpTo } }) =>
+const postedComment = (state, { payload: { sectionId, jumpTo } }) => ({
   // whenever we post, we want the newly posted comment displayed first and results reloaded
-  updeep(
-    {
-      [sectionId]: {
-        jumpTo,
-        results: [],
-        ordering: '-created_at',
-      },
-    },
-    state
-  );
+  ...state,
+  [sectionId]: { ...state[sectionId], jumpTo, results: [], ordering: '-created_at' },
+});
+
 /**
  * When comment is edited, no need to fetch the entire list again.
  * Update the object in array.
  */
 const editedComment = (state, { payload: { sectionId, comment } }) => {
   const isSubComment = comment.comment; // A number usually represents the parent comment.
+  const sectionState = state[sectionId];
   if (isSubComment) {
-    const commentIndex = state[sectionId].results.findIndex(
+    const commentIndex = sectionState.results.findIndex(
       (sectionComment) => sectionComment.id === isSubComment
     );
-    const subCommentIndex = state[sectionId].results[
-      commentIndex
-    ].subComments.findIndex((subComment) => subComment.id === comment.id);
-    return updeep(
-      {
-        [sectionId]: {
-          results: {
-            [commentIndex]: {
-              subComments: {
-                [subCommentIndex]: {
-                  ...comment,
-                },
-              },
-            },
-          },
-        },
-      },
-      state
+    const subCommentIndex = sectionState.results[commentIndex].subComments.findIndex(
+      (subComment) => subComment.id === comment.id
     );
+    return {
+      ...state,
+      [sectionId]: {
+        ...sectionState,
+        results: sectionState.results.map((c, ci) =>
+          ci !== commentIndex
+            ? c
+            : {
+                ...c,
+                subComments: c.subComments.map((sc, si) =>
+                  si === subCommentIndex ? { ...sc, ...comment } : sc
+                ),
+              }
+        ),
+      },
+    };
   }
 
-  const commentIndex = state[sectionId].results.findIndex(
+  const commentIndex = sectionState.results.findIndex(
     (sectionComment) => sectionComment.id === comment.id
   );
-  return updeep(
-    {
-      [sectionId]: {
-        results: {
-          [commentIndex]: {
-            ...comment,
-          },
-        },
-      },
+  return {
+    ...state,
+    [sectionId]: {
+      ...sectionState,
+      results: sectionState.results.map((c, i) =>
+        i === commentIndex ? { ...c, ...comment } : c
+      ),
     },
-    state
-  );
+  };
 };
 
 const postedCommentVote = (
@@ -101,134 +98,109 @@ const postedCommentVote = (
     JSON.stringify([commentId, ...votedComments])
   );
 
+  const sectionState = state[sectionId];
   // the vote went through
-  const increment = (votes) => votes + 1;
   if (isReply) {
-    const commentIndex = state[sectionId].results.findIndex(
+    const commentIndex = sectionState.results.findIndex(
       (comment) => comment.id === parentId
     );
-    const subComponentIndex = state[sectionId].results[
-      commentIndex
-    ].subComments.findIndex((subComment) => subComment.id === commentId);
-    return updeep(
-      {
-        [sectionId]: {
-          results: {
-            [commentIndex]: {
-              subComments: {
-                [subComponentIndex]: {
-                  n_votes: increment,
-                },
-              },
-            },
-          },
-        },
-      },
-      state
+    const subComponentIndex = sectionState.results[commentIndex].subComments.findIndex(
+      (subComment) => subComment.id === commentId
     );
+    return {
+      ...state,
+      [sectionId]: {
+        ...sectionState,
+        results: sectionState.results.map((c, ci) =>
+          ci !== commentIndex
+            ? c
+            : {
+                ...c,
+                subComments: c.subComments.map((sc, si) =>
+                  si === subComponentIndex
+                    ? { ...sc, n_votes: sc.n_votes + 1 }
+                    : sc
+                ),
+              }
+        ),
+      },
+    };
   }
-  const commentIndex = state[sectionId].results.findIndex(
+  const commentIndex = sectionState.results.findIndex(
     (comment) => comment.id === commentId
   );
-  return updeep(
-    {
-      [sectionId]: {
-        results: {
-          [commentIndex]: {
-            n_votes: increment,
-          },
-        },
-      },
+  return {
+    ...state,
+    [sectionId]: {
+      ...sectionState,
+      results: sectionState.results.map((c, i) =>
+        i === commentIndex ? { ...c, n_votes: c.n_votes + 1 } : c
+      ),
     },
-    state
-  );
+  };
 };
 
 const postedCommentFlag = (
   state,
   { payload: { commentId, sectionId, isReply, parentId } }
 ) => {
+  const sectionState = state[sectionId];
   // the flagging went through
   if (isReply) {
-    const commentIndex = state[sectionId].results.findIndex(
+    const commentIndex = sectionState.results.findIndex(
       (comment) => comment.id === parentId
     );
-    const subComponentIndex = state[sectionId].results[
-      commentIndex
-    ].subComments.findIndex((subComment) => subComment.id === commentId);
-    return updeep(
-      {
-        [sectionId]: {
-          results: {
-            [commentIndex]: {
-              subComments: {
-                [subComponentIndex]: {
-                  flagged: true,
-                },
-              },
-            },
-          },
-        },
-      },
-      state
+    const subComponentIndex = sectionState.results[commentIndex].subComments.findIndex(
+      (subComment) => subComment.id === commentId
     );
+    return {
+      ...state,
+      [sectionId]: {
+        ...sectionState,
+        results: sectionState.results.map((c, ci) =>
+          ci !== commentIndex
+            ? c
+            : {
+                ...c,
+                subComments: c.subComments.map((sc, si) =>
+                  si === subComponentIndex ? { ...sc, flagged: true } : sc
+                ),
+              }
+        ),
+      },
+    };
   }
-  const commentIndex = state[sectionId].results.findIndex(
+  const commentIndex = sectionState.results.findIndex(
     (comment) => comment.id === commentId
   );
-  return updeep(
-    {
-      [sectionId]: {
-        results: {
-          [commentIndex]: {
-            flagged: true,
-          },
-        },
-      },
+  return {
+    ...state,
+    [sectionId]: {
+      ...sectionState,
+      results: sectionState.results.map((c, i) =>
+        i === commentIndex ? { ...c, flagged: true } : c
+      ),
     },
-    state
-  );
+  };
 };
 
 const beginFetchSectionComments = (
   state,
   { payload: { sectionId, ordering, cleanFetch } }
 ) => {
-  if (
-    state[sectionId] &&
-    state[sectionId].ordering === ordering &&
-    !cleanFetch
-  ) {
-    return updeep(
-      {
-        [sectionId]: {
-          isFetching: true,
-        },
-      },
-      state
-    );
+  if (state[sectionId] && state[sectionId].ordering === ordering && !cleanFetch) {
+    return { ...state, [sectionId]: { ...state[sectionId], isFetching: true } };
   }
-  return updeep(
-    {
-      [sectionId]: {
-        isFetching: true,
-        results: [],
-        ordering,
-      },
-    },
-    state
-  );
+  return {
+    ...state,
+    [sectionId]: { ...state[sectionId], isFetching: true, results: [], ordering },
+  };
 };
 
-const receiveSectionCommentsError = (state, { payload: { sectionId } }) =>
-  updeep(
-    {
-      [sectionId]: {
-        isFetching: false,
-      },
-    },
-    state
-  );
+const receiveSectionCommentsError = (state, { payload: { sectionId } }) => ({
+  ...state,
+  [sectionId]: { ...state[sectionId], isFetching: false },
+});
 
 /**
  * Returns an array consisting of the path to the comment that is to be updated.
@@ -322,17 +294,12 @@ const beginFetchSubComments = (
    * @example
    * pathArray = ['results',1,'loadingSubComments']
    * updateState = {results:[{...}, {loadingSubComments: false}]}
-   * updateState = updateIn(pathArray, true, updateState)
+   * updateState = setIn(updateState, pathArray, true)
    * updateState === {results:[{...}, {loadingSubComments: true}]}
    */
-  updatedState = updeep.updateIn(updatePath, true, updatedState);
+  updatedState = setIn(updatedState, updatePath, true);
 
-  return updeep(
-    {
-      [sectionId]: updatedState,
-    },
-    state
-  );
+  return { ...state, [sectionId]: updatedState };
 };
 
 /**
@@ -362,41 +329,26 @@ const subCommentsFetched = (
    * pathArray = ['results',1]
    * data = {results: [{...},{...}]}
    * updateState = {results:[{...}, {loadingSubComments: true}]}
-   * updateState = updateIn([...pathArray, 'loadingSubComments'], false, updateState)
+   * updateState = setIn(updateState, [...pathArray, 'loadingSubComments'], false)
    * updateState === {results:[{...}, {loadingSubComments: false}]}
-   * updateState = updateIn([...pathArray, 'subComments'], data.results, updateState)
+   * updateState = setIn(updateState, [...pathArray, 'subComments'], data.results)
    * updateState === {results:[{...}, {loadingSubComments: false, subComments: [{...},{...}]}]}
    */
-  updatedState = updeep.updateIn(
-    [...updatePath, 'loadingSubComments'],
-    false,
-    updatedState
-  );
-  updatedState = updeep.updateIn(
-    [...updatePath, 'subComments'],
-    data.results,
-    updatedState
-  );
+  updatedState = setIn(updatedState, [...updatePath, 'loadingSubComments'], false);
+  updatedState = setIn(updatedState, [...updatePath, 'subComments'], data.results);
 
-  return updeep(
-    {
-      [sectionId]: updatedState,
-    },
-    state
-  );
+  return { ...state, [sectionId]: updatedState };
 };
 
-export default handleActions(
-  {
-    beginFetchSectionComments,
-    beginFetchSubComments,
-    editedComment,
-    postedComment,
-    postedCommentVote,
-    postedCommentFlag,
-    receiveSectionComments,
-    receiveSectionCommentsError,
-    subCommentsFetched,
-  },
-  {}
-);
+export default createReducer({}, (builder) => {
+  builder
+    .addCase('beginFetchSectionComments', beginFetchSectionComments)
+    .addCase('beginFetchSubComments', beginFetchSubComments)
+    .addCase('editedComment', editedComment)
+    .addCase('postedComment', postedComment)
+    .addCase('postedCommentVote', postedCommentVote)
+    .addCase('postedCommentFlag', postedCommentFlag)
+    .addCase('receiveSectionComments', receiveSectionComments)
+    .addCase('receiveSectionCommentsError', receiveSectionCommentsError)
+    .addCase('subCommentsFetched', subCommentsFetched);
+});

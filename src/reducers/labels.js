@@ -1,27 +1,14 @@
-import updeep from 'updeep';
-import { handleActions } from 'redux-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
-const beginFetchLabels = (state) =>
-  updeep(
-    {
-      isFetching: true,
-    },
-    state
-  );
+const beginFetchLabels = (state) => ({ ...state, isFetching: true });
 
-const receiveLabels = (state, { payload }) =>
-  updeep(
-    {
-      isFetching: false,
-      data: payload.data,
-    },
-    state
-  );
+const receiveLabels = (_state, { payload }) => ({
+  isFetching: false,
+  data: payload.data,
+});
 
-export default handleActions(
-  {
-    beginFetchLabels,
-    receiveLabels,
-  },
-  { isFetching: false, data: [] }
-);
+export default createReducer({ isFetching: false, data: [] }, (builder) => {
+  builder
+    .addCase('beginFetchLabels', beginFetchLabels)
+    .addCase('receiveLabels', receiveLabels);
+});

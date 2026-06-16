@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux';
-import { handleActions } from 'redux-actions';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 
 import { EditorActions } from '../../actions/hearingEditor';
 import hearing from './hearing';
@@ -8,38 +7,32 @@ import contactPersons from './contactPersons';
 import organizations from './organizations';
 import sections from './sections';
 
-const showEditor = handleActions(
-  {
-    [EditorActions.INIT_NEW_HEARING]: () => true,
-    [EditorActions.SHOW_FORM]: () => true,
-    [EditorActions.CLOSE_FORM]: () => false,
-  },
-  false
-);
+const showEditor = createReducer(false, (builder) => {
+  builder
+    .addCase(EditorActions.INIT_NEW_HEARING, () => true)
+    .addCase(EditorActions.SHOW_FORM, () => true)
+    .addCase(EditorActions.CLOSE_FORM, () => false);
+});
 
-const editorPending = handleActions(
-  {
-    beginFetchHearing: (state) => state + 1,
-    receiveHearing: (state) => state - 1,
-    receiveHearingError: (state) => state - 1,
-    [EditorActions.FETCH_META_DATA]: (state) => state + 1,
-    [EditorActions.RECEIVE_META_DATA]: (state) => state - 1,
-    [EditorActions.FETCH_CONTACT_PERSONS]: (state) => state - 1,
-    [EditorActions.RECEIVE_CONTACT_PERSONS]: (state) => state + 1,
-  },
-  0
-);
+const editorPending = createReducer(0, (builder) => {
+  builder
+    .addCase('beginFetchHearing', (state) => state + 1)
+    .addCase('receiveHearing', (state) => state - 1)
+    .addCase('receiveHearingError', (state) => state - 1)
+    .addCase(EditorActions.FETCH_META_DATA, (state) => state + 1)
+    .addCase(EditorActions.RECEIVE_META_DATA, (state) => state - 1)
+    .addCase(EditorActions.FETCH_CONTACT_PERSONS, (state) => state - 1)
+    .addCase(EditorActions.RECEIVE_CONTACT_PERSONS, (state) => state + 1);
+});
 
-const editorIsSaving = handleActions(
-  {
-    [EditorActions.POST_HEARING]: () => true,
-    [EditorActions.SAVE_HEARING]: () => true,
-    [EditorActions.POST_HEARING_SUCCESS]: () => false,
-    [EditorActions.SAVE_HEARING_SUCCESS]: () => false,
-    [EditorActions.SAVE_HEARING_FAILED]: () => false,
-  },
-  false
-);
+const editorIsSaving = createReducer(false, (builder) => {
+  builder
+    .addCase(EditorActions.POST_HEARING, () => true)
+    .addCase(EditorActions.SAVE_HEARING, () => true)
+    .addCase(EditorActions.POST_HEARING_SUCCESS, () => false)
+    .addCase(EditorActions.SAVE_HEARING_SUCCESS, () => false)
+    .addCase(EditorActions.SAVE_HEARING_FAILED, () => false);
+});
 
 const editorState = combineReducers({
   show: showEditor,
@@ -47,33 +40,38 @@ const editorState = combineReducers({
   isSaving: editorIsSaving,
 });
 
-const errors = handleActions(
-  {
-    [EditorActions.SAVE_HEARING_FAILED]: (state, { payload }) => payload.errors,
-    [EditorActions.POST_HEARING_SUCCESS]: () => null,
-  },
-  null
-);
+const errors = createReducer(null, (builder) => {
+  builder
+    .addCase(
+      EditorActions.SAVE_HEARING_FAILED,
+      (_state, { payload }) => payload.errors
+    )
+    .addCase(EditorActions.POST_HEARING_SUCCESS, () => null);
+});
 
-const languages = handleActions(
-  {
-    receiveHearing: (
-      state,
-      {
-        payload: {
-          data: { title },
-        },
-      }
-    ) =>
-      Object.keys(title).reduce(
-        (langArr, lang) => (title[lang] ? [...langArr, lang] : langArr),
-        []
-      ),
-    [EditorActions.SET_LANGUAGES]: (state, { payload }) => payload.languages,
-    [EditorActions.INIT_NEW_HEARING]: () => ['fi'],
-  },
-  []
-);
+const languages = createReducer([], (builder) => {
+  builder
+    .addCase(
+      'receiveHearing',
+      (
+        state,
+        {
+          payload: {
+            data: { title },
+          },
+        }
+      ) =>
+        Object.keys(title).reduce(
+          (langArr, lang) => (title[lang] ? [...langArr, lang] : langArr),
+          []
+        )
+    )
+    .addCase(
+      EditorActions.SET_LANGUAGES,
+      (_state, { payload }) => payload.languages
+    )
+    .addCase(EditorActions.INIT_NEW_HEARING, () => ['fi']);
+});
 
 export default combineReducers({
   contactPersons,

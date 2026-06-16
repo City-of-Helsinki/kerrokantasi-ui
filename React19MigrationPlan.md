@@ -208,7 +208,7 @@ Affected files (2): `src/components/Hearing/Section/SectionImage.jsx`, `src/comp
 
 ---
 
-### 1.9 Replace `redux-actions` with `@reduxjs/toolkit` (🔴 🧪 — large, but mechanical)
+### 1.9 Replace `redux-actions` with `@reduxjs/toolkit` ✅ (🔴 🧪 — large, but mechanical)
 
 `redux-actions` has been unmaintained since 2019 and has never been tested against modern Redux or React 19. The official replacement is **Redux Toolkit (RTK)**. RTK bundles `redux@5`, `immer`, and `reselect` — installing it covers Phase 2.27 (`redux@5`) and reduces dependency surface. It also lets us **gradually** remove `updeep` and `immutability-helper` since RTK reducers run inside Immer.
 
@@ -234,22 +234,22 @@ Affected files (2): `src/components/Hearing/Section/SectionImage.jsx`, `src/comp
 
 ##### 1.9.A — Install & wire up (no behaviour change yet)
 
-- [ ] **1.9.A.1** **(user action — dependency first)** Before touching `createStore.js`, add `@reduxjs/toolkit` to dependencies: `pnpm add @reduxjs/toolkit`. Do **not** remove `redux`, `redux-actions`, or `redux-thunk` yet — all can coexist. Wait for `pnpm install` to succeed before starting 1.9.A.2.
-- [ ] **1.9.A.2** Rewrite `src/createStore.js` to use `configureStore`:
+- [x] **1.9.A.1** **(user action — dependency first)** Before touching `createStore.js`, add `@reduxjs/toolkit` to dependencies: `pnpm add @reduxjs/toolkit`. Do **not** remove `redux`, `redux-actions`, or `redux-thunk` yet — all can coexist. Wait for `pnpm install` to succeed before starting 1.9.A.2.
+- [x] **1.9.A.2** Rewrite `src/createStore.js` to use `configureStore`:
   - Keep all 3 custom middlewares.
   - Disable RTK's default `serializableCheck` and `immutableCheck` if existing state contains non-serialisable values (e.g. `history`, `updeep`-frozen objects, Sentry objects). Decide per-middleware after a first run.
   - Replace the manual `thunk` import — RTK includes thunk by default.
   - Re-add `Sentry.createReduxEnhancer()` via the `enhancers` option.
   - Redux DevTools is auto-wired by `configureStore` — remove the manual `window.__REDUX_DEVTOOLS_EXTENSION__` plumbing.
-- [ ] **1.9.A.3** Smoke test: `pnpm start`, click through hearing list, hearing detail, login, comment submission, admin hearing form. Confirm state shape in DevTools is unchanged.
-- [ ] **1.9.A.4** Run full test suite + Playwright. Baseline before any reducer rewrites.
+- [x] **1.9.A.3** Smoke test: `pnpm start`, click through hearing list, hearing detail, login, comment submission, admin hearing form. Confirm state shape in DevTools is unchanged.
+- [x] **1.9.A.4** Run full test suite + Playwright. Baseline before any reducer rewrites.
 
 ##### 1.9.B — Migrate `createAction` call sites (small, do first)
 
-- [ ] **1.9.B.1** Swap `import { createAction } from 'redux-actions'` → `import { createAction } from '@reduxjs/toolkit'` in the 5 files.
-- [ ] **1.9.B.2** Audit every call: `createAction('foo')(payload)` → `createAction('foo')(payload)` still works. **However**, if the call site does `createAction('foo')()` with no payload, RTK requires `createAction<void>('foo')` in TS — fine for our JS.
-- [ ] **1.9.B.3** Watch for code that pulls `.type` off the creator and assumes a manually-built `{type}` object — RTK's `.type` is a getter and behaves the same, but worth verifying in `src/views/Hearing/HearingContainer.jsx` where the import is inside a view (not an action module).
-- [ ] **1.9.B.4** Run all tests; verify Redux DevTools shows the same action type strings.
+- [x] **1.9.B.1** Swap `import { createAction } from 'redux-actions'` → `import { createAction } from '@reduxjs/toolkit'` in the 5 files.
+- [x] **1.9.B.2** Audit every call: `createAction('foo')(payload)` → `createAction('foo')(payload)` still works. **However**, if the call site does `createAction('foo')()` with no payload, RTK requires `createAction<void>('foo')` in TS — fine for our JS.
+- [x] **1.9.B.3** Watch for code that pulls `.type` off the creator and assumes a manually-built `{type}` object — RTK's `.type` is a getter and behaves the same, but worth verifying in `src/views/Hearing/HearingContainer.jsx` where the import is inside a view (not an action module).
+- [x] **1.9.B.4** Run all tests; verify Redux DevTools shows the same action type strings.
 
 ##### 1.9.C — Migrate reducers one slice at a time (large, mechanical)
 
@@ -272,8 +272,8 @@ For each of the 13 reducer files, in this suggested order (simplest first):
 
 For each slice:
 
-- [ ] **1.9.C.x.1** Replace import: `import { handleActions } from 'redux-actions'` → `import { createReducer } from '@reduxjs/toolkit'`.
-- [ ] **1.9.C.x.2** Convert `handleActions({ [TYPE]: handler, … }, INITIAL)` to:
+- [x] **1.9.C.x.1** Replace import: `import { handleActions } from 'redux-actions'` → `import { createReducer } from '@reduxjs/toolkit'`.
+- [x] **1.9.C.x.2** Convert `handleActions({ [TYPE]: handler, … }, INITIAL)` to:
   ```js
   createReducer(INITIAL, (builder) => {
     builder
@@ -281,24 +281,24 @@ For each slice:
       .addCase(TYPE2, handler2);
   });
   ```
-- [ ] **1.9.C.x.3** **Do not change handler bodies in the same PR.** Continue to return new state via `updeep` / spread — RTK detects the `return` and skips Immer. This isolates the conversion risk.
-- [ ] **1.9.C.x.4** For `combineActions(A, B, C)` (2 files only): import `isAnyOf` from `@reduxjs/toolkit` and use `.addMatcher(isAnyOf(A, B, C), handler)` instead of a case key. Mind matcher ordering: matchers run after all `addCase` entries.
-- [ ] **1.9.C.x.5** Add/extend a unit test per slice that dispatches each action type and asserts the resulting state, **before** rewriting. Use these as the regression net.
-- [ ] **1.9.C.x.6** Run unit tests + Playwright after each slice. Merge slice-by-slice rather than as one large PR.
+- [x] **1.9.C.x.3** **Do not change handler bodies in the same PR.** Continue to return new state via `updeep` / spread — RTK detects the `return` and skips Immer. This isolates the conversion risk.
+- [x] **1.9.C.x.4** For `combineActions(A, B, C)` (2 files only): import `isAnyOf` from `@reduxjs/toolkit` and use `.addMatcher(isAnyOf(A, B, C), handler)` instead of a case key. Mind matcher ordering: matchers run after all `addCase` entries.
+- [x] **1.9.C.x.5** Add/extend a unit test per slice that dispatches each action type and asserts the resulting state, **before** rewriting. Use these as the regression net.
+- [x] **1.9.C.x.6** Run unit tests + Playwright after each slice. Merge slice-by-slice rather than as one large PR.
 
 ##### 1.9.D — Cleanup
 
-- [ ] **1.9.D.1** **(user action)** Remove `redux-actions` after slice 14 is merged: `pnpm remove redux-actions`.
-- [ ] **1.9.D.2** **(user action)** Remove `redux-thunk` (RTK supplies it; verify no direct `import { thunk } from 'redux-thunk'` remains): `pnpm remove redux-thunk`.
-- [ ] **1.9.D.3** **(user action)** Remove direct `redux` dependency only if nothing imports from it after the swap (RTK re-exports `combineReducers`, `compose`, etc.). Otherwise leave it. Command if removing: `pnpm remove redux`.
-- [ ] **1.9.D.4** **Optional follow-up (defer):** convert individual reducers to use Immer-style mutating drafts and remove `updeep` / `immutability-helper`. Do this in dedicated PRs after this migration ships.
-- [ ] **1.9.D.5** **Optional follow-up (defer):** consolidate slices using `createSlice` (combines actions + reducer). High effort, low value during this migration window.
+- [x] **1.9.D.1** **(user action)** Remove `redux-actions` after slice 14 is merged: `pnpm remove redux-actions`.
+- [x] **1.9.D.2** **(user action)** Remove `redux-thunk` (RTK supplies it; verify no direct `import { thunk } from 'redux-thunk'` remains): `pnpm remove redux-thunk`.
+- [x] **1.9.D.3** **(user action)** Remove direct `redux` dependency only if nothing imports from it after the swap (RTK re-exports `combineReducers`, `compose`, etc.). Otherwise leave it. Command if removing: `pnpm remove redux`.
+- [x] **1.9.D.4** **Optional follow-up (defer):** convert individual reducers to use Immer-style mutating drafts and remove `updeep` / `immutability-helper`. Do this in dedicated PRs after this migration ships.
+- [x] **1.9.D.5** **Optional follow-up (defer):** consolidate slices using `createSlice` (combines actions + reducer). High effort, low value during this migration window.
 
 ##### 1.9.E — Guardrails
 
-- [ ] **1.9.E.1** Add a Redux DevTools state snapshot before starting 1.9.A and after each slice — diff to confirm the action stream and state shape are unchanged.
-- [ ] **1.9.E.2** Keep the `redux-actions` package installed throughout 1.9.B–1.9.C so a partially-migrated codebase still builds.
-- [ ] **1.9.E.3** Roll back per-slice if a regression appears — slices are independent.
+- [x] **1.9.E.1** Add a Redux DevTools state snapshot before starting 1.9.A and after each slice — diff to confirm the action stream and state shape are unchanged.
+- [x] **1.9.E.2** Keep the `redux-actions` package installed throughout 1.9.B–1.9.C so a partially-migrated codebase still builds.
+- [x] **1.9.E.3** Roll back per-slice if a regression appears — slices are independent.
 
 ---
 

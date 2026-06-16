@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
+import { thunk } from '../../../../test-utils';
 
 import CommentReportForm from '../CommentReportForm';
 import { mockStore as mockData } from '../../../../test-utils';

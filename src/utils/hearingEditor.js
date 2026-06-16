@@ -3,7 +3,6 @@ import { v1 as uuid } from 'uuid';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
 import { assign, flowRight } from 'lodash';
-import updeep from 'updeep';
 
 import { hearingSchema } from '../types';
 import getMessage from './getMessage';
@@ -97,17 +96,16 @@ export const filterFrontIds = (thingz) => thingz.map(removeFrontId);
  */
 export const filterFrontIdFromPhases = (data) => {
   const cleanedPhases = data.project.phases.map((phase) => {
-    if (phase.frontId) return removeFrontId(updeep({ id: '' }, phase));
+    if (phase.frontId) return removeFrontId({ ...phase, id: '' });
     return phase;
   });
-  return updeep(
-    {
-      project: {
-        phases: cleanedPhases,
-      },
+  return {
+    ...data,
+    project: {
+      ...data.project,
+      phases: cleanedPhases,
     },
-    data
-  );
+  };
 };
 
 /**

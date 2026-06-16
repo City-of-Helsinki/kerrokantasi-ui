@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   isHighContrast: false,
@@ -8,4 +8,6 @@ const toggleContrastState = (state) => ({
   isHighContrast: !state.isHighContrast,
 });
 
-export default handleActions({ toggleContrastState }, INITIAL_STATE);
+export default createReducer(INITIAL_STATE, (builder) => {
+  builder.addCase('toggleContrastState', toggleContrastState);
+});

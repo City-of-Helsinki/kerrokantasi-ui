@@ -5,6 +5,12 @@ import commonInit from './src/commonInit';
 import createStore from './src/createStore';
 import messages from './src/i18n';
 
+// redux-thunk is a transitive dep bundled by RTK; inline the middleware to avoid a direct import.
+const thunk = (store) => (next) => (action) =>
+  typeof action === 'function' ? action(store.dispatch, store.getState) : next(action);
+
+export { thunk };
+
 export const mockUser = {
   id: 'fff',
   displayName: 'Mock von User',

@@ -1,5 +1,4 @@
-import { handleActions } from 'redux-actions';
-import updeep from 'updeep';
+import { createReducer } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   isFetching: false,
@@ -8,89 +7,63 @@ const INITIAL_STATE = {
   favoriteHearingsFetching: false,
 };
 
-const fetchUserData = (state) => ({
-  ...state,
-  isFetching: true,
-});
+const fetchUserData = (state) => ({ ...state, isFetching: true });
 
-const receiveUserData = (state, { payload }) => {
+const receiveUserData = (_state, { payload }) => {
   if (payload) {
-    return updeep(
-      {
-        isFetching: false,
-        data: payload,
-      },
-      state
-    );
+    return { ...INITIAL_STATE, isFetching: false, data: payload };
   }
   return INITIAL_STATE;
 };
 const clearUserData = (/* state, action */) => INITIAL_STATE;
 
-const receiveUserComments = (state, { payload }) =>
-  updeep(
-    {
-      profile: {
-        comments: {
-          count: payload.data.count,
-          results: payload.data.results,
-        },
-      },
+const receiveUserComments = (state, { payload }) => ({
+  ...state,
+  profile: {
+    ...state.profile,
+    comments: {
+      count: payload.data.count,
+      results: payload.data.results,
     },
-    state
-  );
+  },
+});
 
 const modifyFavoriteHearingsData = (state, { payload }) => {
   const currentFollowed = state.data.favorite_hearings;
-  let updatedFollowed;
-  if (currentFollowed.includes(payload.hearingId)) {
-    updatedFollowed = currentFollowed.filter((id) => id !== payload.hearingId);
-  } else {
-    updatedFollowed = [...currentFollowed, payload.hearingId];
-  }
+  const updatedFollowed = currentFollowed.includes(payload.hearingId)
+    ? currentFollowed.filter((id) => id !== payload.hearingId)
+    : [...currentFollowed, payload.hearingId];
 
-  return updeep(
-    {
-      data: { favorite_hearings: updatedFollowed },
-    },
-    state
-  );
+  return {
+    ...state,
+    data: { ...state.data, favorite_hearings: updatedFollowed },
+  };
 };
 
-const receiveFavoriteHearings = (state, { payload }) =>
-  updeep(
-    {
-      profile: { favoriteHearings: payload.data },
-      favoriteHearingsFetching: false,
-    },
-    state
-  );
+const receiveFavoriteHearings = (state, { payload }) => ({
+  ...state,
+  profile: { ...state.profile, favoriteHearings: payload.data },
+  favoriteHearingsFetching: false,
+});
 
-const beginFetchFavoriteHearings = (state) =>
-  updeep(
-    {
-      favoriteHearingsFetching: true,
-    },
-    state
-  );
+const beginFetchFavoriteHearings = (state) => ({
+  ...state,
+  favoriteHearingsFetching: true,
+});
 
-const receiveFavoriteHearingsError = (state) =>
-  updeep(
-    {
-      favoriteHearingsFetching: false,
-    },
-    state
-  );
-export default handleActions(
-  {
-    fetchUserData,
-    receiveUserData,
-    clearUserData,
-    receiveUserComments,
-    modifyFavoriteHearingsData,
-    beginFetchFavoriteHearings,
-    receiveFavoriteHearings,
-    receiveFavoriteHearingsError,
-  },
-  INITIAL_STATE
-);
+const receiveFavoriteHearingsError = (state) => ({
+  ...state,
+  favoriteHearingsFetching: false,
+});
+
+export default createReducer(INITIAL_STATE, (builder) => {
+  builder
+    .addCase('fetchUserData', fetchUserData)
+    .addCase('receiveUserData', receiveUserData)
+    .addCase('clearUserData', clearUserData)
+    .addCase('receiveUserComments', receiveUserComments)
+    .addCase('modifyFavoriteHearingsData', modifyFavoriteHearingsData)
+    .addCase('beginFetchFavoriteHearings', beginFetchFavoriteHearings)
+    .addCase('receiveFavoriteHearings', receiveFavoriteHearings)
+    .addCase('receiveFavoriteHearingsError', receiveFavoriteHearingsError);
+});
