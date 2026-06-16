@@ -143,9 +143,6 @@ importers:
       html-react-parser:
         specifier: ^5.2.14
         version: 5.2.17(@types/react@18.3.28)(react@19.2.7)
-      i18next:
-        specifier: ^25.2.0
-        version: 25.10.10(typescript@6.0.2)
       immutability-helper:
         specifier: ^3.1.1
         version: 3.1.1
@@ -197,9 +194,6 @@ importers:
       react-helmet-async:
         specifier: ^3.0.0
         version: 3.0.0(react@19.2.7)
-      react-i18next:
-        specifier: ^15.5.2
-        version: 15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.2)
       react-intl:
         specifier: ^5.0.0
         version: 5.25.1(react@19.2.7)(typescript@6.0.2)
