@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { get, isEmpty, find } from 'lodash';
-import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Select } from 'hds-react';
 
+import { Waypoint } from './Waypoint';
 import WrappedCommentList from './Hearing/CommentList';
 import LoadSpinner from './LoadSpinner';
 import Icon from '../utils/Icon';
