@@ -241,18 +241,9 @@ function Hearings({
       : [selectLabels];
     const searchParams = parseQuery(location.search);
 
-    // Map selected labels to their corresponding IDs from the labels array
     searchParams.label = selectArray
-      .map((selectedItem) => {
-        // Find the label that matches the selected value in the current language
-        const matchingLabel = labels.find(
-          (label) =>
-            getAttr(label.label, language) === selectedItem.label ||
-            getAttr(label.label, language) === selectedItem.value
-        );
-        return matchingLabel ? matchingLabel.id : null;
-      })
-      .filter((id) => id !== null); // Remove any null values
+      .map((selectedItem) => selectedItem.value)
+      .filter(Boolean);
 
     navigate({
       path: location.pathname,

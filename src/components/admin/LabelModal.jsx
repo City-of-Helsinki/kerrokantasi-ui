@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import { useIntl, FormattedMessage } from 'react-intl';

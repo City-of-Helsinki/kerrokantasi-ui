@@ -3,15 +3,25 @@ import PropTypes from 'prop-types';
 
 export const Waypoint = ({ onEnter }) => {
   const ref = useRef(null);
+
   useEffect(() => {
     const node = ref.current;
-    if (!node || !onEnter) return;
+
+    if (!node || !onEnter || typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) onEnter();
     });
+
     io.observe(node);
-    return () => io.disconnect();
+
+    return () => {
+      io.disconnect();
+    };
   }, [onEnter]);
+
   return <div ref={ref} aria-hidden='true' />;
 };
 

@@ -18,10 +18,8 @@ const HearingToolbar = ({
   onRevertPublishing,
   onDeleteHearingDraft,
 }) => {
-  moment.locale('fi-FI');
-
   let statusLabel = '';
-  const openingTime = moment(hearing.open_at);
+  const openingTime = moment(hearing.open_at).locale('fi-FI');
   const actions = [
     <Button
       className='kerrokantasi-btn'

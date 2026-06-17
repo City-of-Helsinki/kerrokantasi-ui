@@ -71,14 +71,14 @@ const editedComment = (state, { payload: { sectionId, comment } }) => {
       [sectionId]: {
         ...sectionState,
         results: sectionState.results.map((c, ci) =>
-          ci !== commentIndex
-            ? c
-            : {
+          ci === commentIndex
+            ? {
                 ...c,
                 subComments: c.subComments.map((sc, si) =>
                   si === subCommentIndex ? { ...sc, ...comment } : sc
                 ),
               }
+            : c
         ),
       },
     };
@@ -123,9 +123,8 @@ const postedCommentVote = (
       [sectionId]: {
         ...sectionState,
         results: sectionState.results.map((c, ci) =>
-          ci !== commentIndex
-            ? c
-            : {
+          ci === commentIndex
+            ? {
                 ...c,
                 subComments: c.subComments.map((sc, si) =>
                   si === subComponentIndex
@@ -133,6 +132,7 @@ const postedCommentVote = (
                     : sc
                 ),
               }
+            : c
         ),
       },
     };
@@ -169,14 +169,14 @@ const postedCommentFlag = (
       [sectionId]: {
         ...sectionState,
         results: sectionState.results.map((c, ci) =>
-          ci !== commentIndex
-            ? c
-            : {
+          ci === commentIndex
+            ? {
                 ...c,
                 subComments: c.subComments.map((sc, si) =>
                   si === subComponentIndex ? { ...sc, flagged: true } : sc
                 ),
               }
+            : c
         ),
       },
     };

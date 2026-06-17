@@ -160,7 +160,7 @@ const Comment = ({
 
   const onCopyURL = () => {
     // Build absolute URL for comment
-    const commentUrl = `${window.location.origin}${window.location.pathname}#comment-${data.id}`;
+    const commentUrl = `${globalThis.window.location.origin}${globalThis.window.location.pathname}#comment-${data.id}`;
     navigator.clipboard.writeText(commentUrl);
     // TODO: Add translations
     dispatch(
@@ -227,7 +227,7 @@ const Comment = ({
   const handlePostReply = (comment) => {
     let commentData = { ...comment };
 
-    if (onPostReply && onPostReply instanceof Function) {
+    if (onPostReply) {
       if (isReply && parentComponentId) {
         commentData = { ...commentData, comment: parentComponentId };
       } else {
@@ -765,7 +765,7 @@ Comment.propTypes = {
   questions: PropTypes.array,
   section: PropTypes.object,
   user: PropTypes.object,
-  showReplies: PropTypes,
+  showReplies: PropTypes.bool,
 };
 
 export default Comment;

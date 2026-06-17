@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useId } from 'react';
+import { useRef, useEffect, useId } from 'react';
 
 import loadScriptThenCall from './utils';
 
@@ -17,7 +17,7 @@ export default function Facebook() {
       'FB',
       setupFacebookWidget
     );
-  });
+  }, []);
 
   if (typeof window === 'undefined') {
     // Unable to render this without a valid `window`

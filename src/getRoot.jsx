@@ -17,6 +17,7 @@ import config from './config';
 import { getCookieConsentSettings } from './utils/cookieUtils';
 import { isCookiebotEnabled } from './utils/cookiebotUtils';
 import { ConditionalWrap } from './components/ConditionalWrap/ConditionalWrap';
+import HashScroll from './components/HashScroll';
 
 const loginProviderProps = {
   userManagerSettings: userOidcConfig,
@@ -82,6 +83,7 @@ const Root = ({ store }) => {
             >
               <MatomoContext.Provider value={matomoTracker}>
                 <BrowserRouter>
+                  <HashScroll />
                   <ScrollToTop>
                     <App history={history} onChangeLanguage={changeLanguage} />
                   </ScrollToTop>

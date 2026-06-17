@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { map, forEach, omit, isEmpty } from 'lodash';
 import { Button, Dialog, Select } from 'hds-react';
 import { useIntl, FormattedMessage } from 'react-intl';

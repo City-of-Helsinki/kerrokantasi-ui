@@ -21,8 +21,8 @@ const editorPending = createReducer(0, (builder) => {
     .addCase('receiveHearingError', (state) => state - 1)
     .addCase(EditorActions.FETCH_META_DATA, (state) => state + 1)
     .addCase(EditorActions.RECEIVE_META_DATA, (state) => state - 1)
-    .addCase(EditorActions.FETCH_CONTACT_PERSONS, (state) => state - 1)
-    .addCase(EditorActions.RECEIVE_CONTACT_PERSONS, (state) => state + 1);
+    .addCase(EditorActions.FETCH_CONTACT_PERSONS, (state) => state + 1)
+    .addCase(EditorActions.RECEIVE_CONTACT_PERSONS, (state) => state - 1);
 });
 
 const editorIsSaving = createReducer(false, (builder) => {

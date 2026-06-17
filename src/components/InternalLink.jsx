@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -12,6 +11,10 @@ function InternalLink({ children, destinationId, srOnly = false, className }) {
       const top =
         target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
       window.scrollTo({ top, behavior: 'smooth' });
+      if (!target.hasAttribute('tabIndex')) {
+        target.setAttribute('tabIndex', '-1');
+      }
+      target.focus({ preventScroll: true });
     }
   };
 
