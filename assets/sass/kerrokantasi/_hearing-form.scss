@@ -179,9 +179,37 @@ div:has(> .hearing-form-child-modal) {
   }
 
   .rich-text-editor {
-    .DraftEditor-editorContainer {
-      border: 2px solid $black;
-      min-height: 90px;
+    margin-bottom: var(--spacing-s);
+
+    .rich-text-editor-extra-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2-xs);
+      margin: var(--spacing-2-xs) 0;
+    }
+
+    .rich-text-editor-extra-button {
+      background: $gray-lighter;
+      border: 1px solid $black;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .ck-editor__editable {
+      min-height: 200px;
+    }
+
+    // Mirror the published-page styling for these block classes inside the editor.
+    .ck-content {
+      .lead {
+        font-weight: bold;
+      }
+
+      .image-caption {
+        font-size: 0.875rem;
+        font-style: italic;
+      }
     }
   }
 

@@ -12,6 +12,15 @@ describe('thirdPartyLicensesConfig', () => {
     expect(decision?.note).toContain('(MPL-2.0 OR Apache-2.0)');
   });
 
+  it('elects GPL-2.0-or-later for CKEditor 5 while it declares a license file', () => {
+    const decisions = thirdPartyLicensesConfig.licenseDecisions ?? {};
+
+    for (const key of ['ckeditor5', '@ckeditor/*']) {
+      expect(decisions[key]?.license).toBe('GPL-2.0-or-later');
+      expect(decisions[key]?.declared).toBe('SEE LICENSE IN LICENSE.md');
+    }
+  });
+
   it('lists the Sass-inlined packages the bundler cannot see', () => {
     expect(thirdPartyLicensesConfig.sassResolvedPackages).toEqual(
       expect.arrayContaining([
