@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 const Twitter = () => {
-  if (typeof globalThis.window === 'undefined') {
+  if (!globalThis.window) {
     return null;
   }
   return (
