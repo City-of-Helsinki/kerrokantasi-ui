@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import ProgressBar from './ProgressBar';
 import getAttr from '../utils/getAttr';
 
-export const QuestionResultsComponent = ({ question, lang }) => {
+const QuestionResultsComponent = ({ question, lang }) => {
   const totalAnswers = question.options
     .map((option) => option.n_answers)
     .reduce((total, answers) => total + answers);

@@ -5,7 +5,7 @@ import { setLanguage } from '../actions';
 import { parseQuery } from '../utils/urlQuery';
 import config from '../config';
 
-export const languageFromUrlMiddleware = (store) => (next) => (action) => {
+const languageFromUrlMiddleware = (store) => (next) => (action) => {
   if (action.type !== '@@router/LOCATION_CHANGE') {
     return next(action);
   }

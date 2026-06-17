@@ -31,26 +31,10 @@ export const fillFrontIds = (thingz, idGenerator) =>
 
 /**
  *
- * @param {Object} data
- * @param {String} entityKey
- * @param {Function} idGenerator
- * @returns
- */
-export const normalizeEntitiesByFrontId = (data, entityKey, idGenerator) =>
-  normalize(
-    {
-      ...data,
-      [entityKey]: fillFrontIds(data[entityKey], idGenerator),
-    },
-    hearingSchema
-  ).entities[entityKey] || {};
-
-/**
- *
  * @param {Hearing} hearing
  * @returns
  */
-export const normalizeHearing = (hearing) => normalize(hearing, hearingSchema);
+const normalizeHearing = (hearing) => normalize(hearing, hearingSchema);
 
 /**
  *
@@ -58,10 +42,7 @@ export const normalizeHearing = (hearing) => normalize(hearing, hearingSchema);
  * @param {Array<string>} attrKeys
  * @returns
  */
-export const fillFrontIdsForAttributes = (
-  data,
-  attrKeys = ATTR_WITH_FRONT_ID
-) => ({
+const fillFrontIdsForAttributes = (data, attrKeys = ATTR_WITH_FRONT_ID) => ({
   ...data,
   ...attrKeys.reduce(
     (filled, key) => ({
@@ -77,7 +58,7 @@ export const fillFrontIdsForAttributes = (
  * @param {Object} obj
  * @returns
  */
-export const removeFrontId = (obj) => {
+const removeFrontId = (obj) => {
   const result = { ...obj };
   delete result.frontId;
   return result;
@@ -88,13 +69,13 @@ export const removeFrontId = (obj) => {
  * @param {Object} thingz
  * @returns
  */
-export const filterFrontIds = (thingz) => thingz.map(removeFrontId);
+const filterFrontIds = (thingz) => thingz.map(removeFrontId);
 
 /**
  * @param {Object} data
  * @returns
  */
-export const filterFrontIdFromPhases = (data) => {
+const filterFrontIdFromPhases = (data) => {
   const cleanedPhases = data.project.phases.map((phase) => {
     if (phase.frontId) return removeFrontId({ ...phase, id: '' });
     return phase;
@@ -166,10 +147,6 @@ export const fillFrontIdsAndNormalizeHearing = flowRight([
   normalizeHearing,
   fillFrontIdsForAttributes,
 ]);
-
-export const getDocumentOrigin = () =>
-  // eslint-disable-next-line sonarjs/no-nested-template-literals
-  `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
 
 export const moveSubsectionInArray = (array, index, delta) => {
   const newArray = array.slice();
@@ -332,16 +309,6 @@ export const prepareHearingForSave = (hearing) => {
 
   return preparedHearing;
 };
-
-/**
- * Get validationState for FormGroup elements.
- * If errors contains value with key -> return error
- * @param {object} errors
- * @param {string} key
- * @returns {'error'|null}
- */
-export const getValidationState = (errors, key) =>
-  errors[key] ? 'error' : null;
 
 export const validateHearing = (hearing, hearingLanguages) => {
   // each key corresponds to that step in the form, ie. 1 = HearingFormStep1 etc

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Lightbox from 'yet-another-react-lightbox';
 
-export const SectionImageComponent = ({ image, altText, caption, title }) => {
+const SectionImageComponent = ({ image, altText, caption, title }) => {
   const [open, setOpen] = useState(false);
 
   if (!image) return null;

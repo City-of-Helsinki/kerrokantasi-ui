@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Comment from '../Comment';
 
-export function CommentList({
+function CommentList({
   comments,
   canComment,
   isLoading,

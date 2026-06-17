@@ -6,7 +6,7 @@ import { Tag } from 'hds-react';
 import getAttr from '../utils/getAttr';
 import Link from './LinkWithLang';
 
-export const Labels = (props) => {
+const Labels = (props) => {
   const { className, labels, language } = props;
   const intl = useIntl();
 
