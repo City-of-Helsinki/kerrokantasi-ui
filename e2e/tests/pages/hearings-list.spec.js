@@ -24,7 +24,7 @@ test.describe('Hearing list page', () => {
   });
 
   test('should perform a search', async ({ page }) => {
-    const searchTextInput = page.getByRole('combobox', {
+    const searchTextInput = page.getByRole('searchbox', {
       name: 'Etsi otsikoista',
     });
 

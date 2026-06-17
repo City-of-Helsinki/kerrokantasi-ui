@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button } from 'hds-react';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../../utils/pageTitle';
 
 import getUser from '../../selectors/user';
 import { getUserHearingList } from '../../selectors/hearing';
@@ -151,7 +152,7 @@ function UserHearings({
 
   const { formatMessage } = intl;
   const activeTitle = loadOwn ? 'ownHearings' : 'organizationHearings';
-  const helmetTitle = <Helmet title={formatMessage({ id: activeTitle })} />;
+  const helmetTitle = <Helmet title={formatPageTitle(formatMessage({ id: activeTitle }))} />;
 
   if (
     userState.userLoading ||

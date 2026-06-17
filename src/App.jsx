@@ -151,7 +151,7 @@ function App({ isHighContrast, history, ...props }) {
       >
         <FormattedMessage id='skipToMainContent' />
       </InternalLink>
-      <Helmet titleTemplate='%s - Kerrokantasi' link={favlinks} meta={favmeta}>
+      <Helmet link={favlinks} meta={favmeta}>
         <html lang={locale} />
         {isCookiebotEnabled() && getCookieBotScripts()}
         {config.enableCookies &&

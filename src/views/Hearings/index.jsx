@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../../utils/pageTitle';
 import { get, find, includes } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -359,7 +360,7 @@ function Hearings({
       <section className='page-section page-section--all-hearings-header'>
         <div className='all-hearings-header-container'>
           <Helmet
-            title={formatMessage({ id: 'allHearings' })}
+            title={formatPageTitle(formatMessage({ id: 'allHearings' }))}
             meta={[
               {
                 name: 'description',
