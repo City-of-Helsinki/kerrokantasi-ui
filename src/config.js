@@ -55,6 +55,12 @@ const config = {
   rasterMapTiles: window._env_.REACT_APP_RASTER_MAP_TILES,
   highContrastRasterMapTiles:
     window._env_.REACT_APP_HIGH_CONTRAST_RASTER_MAP_TILES,
+  // CKEditor 5 rich text editor. Defaults to the open-source GPL build; set a
+  // commercial license key here to remove the "Powered by CKEditor" badge.
+  ckeditorLicenseKey: window._env_.REACT_APP_CKEDITOR_LICENSE_KEY || 'GPL',
+  // Backend endpoint that stores an uploaded editor image and returns { url }.
+  imageUploadEndpoint:
+    window._env_.REACT_APP_IMAGE_UPLOAD_ENDPOINT || '/v1/image',
 };
 
 export default config;

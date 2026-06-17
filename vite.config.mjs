@@ -73,10 +73,7 @@ export default defineConfig(() => {
               return 'ui';
             }
 
-            if (
-              id.includes('/draft-js/') ||
-              id.includes('/@draft-js-plugins/editor/')
-            ) {
+            if (id.includes('/ckeditor5/') || id.includes('/@ckeditor/')) {
               return 'editor';
             }
 
