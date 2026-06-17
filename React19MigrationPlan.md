@@ -246,6 +246,51 @@ No tests, Playwright specs, or bundler configs reference `react-waypoint` / `Way
 
 ---
 
+### 1.11 Replace `react-twitter-widgets` with an inline X intent link (🟢 🧪)
+
+`react-twitter-widgets@1.x` declares a `react` peer of `^15 || ^16 || ^17` — no React 19 release exists and the package has had no commits since 2020. Internally it loads `platform.twitter.com/widgets.js` and calls `twttr.widgets.createShareButton`. Usage in this repo is a single `<Share url={window.location.href} />` — strictly cosmetic, no callbacks or options. The simplest React-19-safe replacement is a plain anchor pointing at the X `intent/tweet` URL: no SDK, no script load, no third-party iframe.
+
+Affected files (1 source + 1 test, both under `src/components/SocialBar/`):
+- `src/components/SocialBar/Twitter.jsx` — the only `react-twitter-widgets` consumer
+- `src/components/SocialBar/__tests__/SocialBar.test.jsx` — asserts the `.twitter-tweet-ctr` container exists (no change required if we keep the wrapper class)
+
+No tests, Playwright specs, SCSS files, or bundler configs target `react-twitter-widgets`. The parent `.social-bar` SCSS rule (`assets/sass/kerrokantasi/_hearing-page.scss:82`) is untouched.
+
+#### API translation reference
+
+| `react-twitter-widgets` (current) | Inline intent link |
+|---|---|
+| `import { Share } from 'react-twitter-widgets'` | _(import removed)_ |
+| `<Share url={window.location.href} />` | `<a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">Tweet</a>` |
+| Loads `widgets.js`, renders X iframe button | No network call; renders styled anchor only |
+
+#### Steps
+
+- [x] **1.11.1** Replace the JSX in `src/components/SocialBar/Twitter.jsx`:
+  - Drop the `import { Share } from 'react-twitter-widgets'` line.
+  - Replace the `<Share url={window.location.href} />` element with an anchor to `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}` carrying `target="_blank"`, `rel="noopener noreferrer"`, an `aria-label` (e.g. `"Share on X"`), and visible label `Tweet`.
+  - Preserve the `.twitter-tweet-ctr` wrapper `<div>` and its inline `marginRight: '8px'` so existing layout (and the `SocialBar.test.jsx` selector) keep working.
+  - Keep the SSR guard pattern consistent with `Facebook.jsx`: if `typeof window === 'undefined'`, return `null` (the original `<Share>` reads `window.location.href` synchronously at render — the anchor does the same, so the guard is required only if we ever SSR this page; safe to mirror Facebook's guard for symmetry).
+- [x] **1.11.2** Add minimal styling so the new anchor does not look like a raw browser link next to the Facebook share button. Two options:
+  - **Lightweight:** add a `.twitter-share-button` rule under the existing `.social-bar` block in `assets/sass/kerrokantasi/_hearing-page.scss` — a small height-matched pill (background `#000` or X blue `#1d9bf0`, white text, ~4px radius, ~6px horizontal padding) to align with the FB button's iframe height.
+  - **Or:** reuse an existing HDS `Button` / `Link` (`hds-react`) with `variant="primary"` `size="small"` to inherit the design system look. Pick whichever fits the visual you want — first option is the closest to "drop-in look-alike", second is more on-brand.
+- [x] **1.11.3** No change needed in `src/components/SocialBar/__tests__/SocialBar.test.jsx` — the assertion `container.querySelector('.twitter-tweet-ctr')` keeps passing because step 1.11.1 preserves the wrapper class. Re-run the file to confirm.
+- [x] **1.11.4** `pnpm lint`, `pnpm test:cov`, `pnpm build` — all green. Expect no new warnings (we are removing an unmaintained dep rather than adding one).
+- [x] **1.11.5** Manual smoke test (`pnpm start`):
+  - Open any hearing detail page; locate the social bar in the header.
+  - Click the new Tweet anchor — confirm it opens `twitter.com/intent/tweet?url=<current page>` in a new tab.
+  - Verify the button's height/spacing matches the adjacent Facebook share button.
+  - Keyboard: `Tab` to the anchor, `Enter` should activate it. `aria-label` should be announced by VoiceOver / NVDA.
+  - Network panel: no request to `platform.twitter.com/widgets.js` on page load (previously fired by the React widget).
+- [x] **1.11.6** **(user action — cleanup)** Once verified, remove the old dependency: `pnpm remove react-twitter-widgets`. Verify `package.json` and `pnpm-lock.yaml` no longer reference it.
+
+#### Optional follow-ups (defer)
+
+- The visible "Tweet" label and `aria-label="Share on X"` are hardcoded English. Either keep as-is (the original widget was language-agnostic too) or wire through `react-intl` later in a small standalone PR.
+- If product later wants the official X button look, the `loadScriptThenCall` helper at `src/components/SocialBar/utils.js` (already used by Facebook) gives a ready-made pattern for loading `widgets.js` and calling `twttr.widgets.createShareButton`.
+
+---
+
 ### 1.9 Replace `redux-actions` with `@reduxjs/toolkit` ✅ (🔴 🧪 — large, but mechanical)
 
 `redux-actions` has been unmaintained since 2019 and has never been tested against modern Redux or React 19. The official replacement is **Redux Toolkit (RTK)**. RTK bundles `redux@5`, `immer`, and `reselect` — installing it covers Phase 2.27 (`redux@5`) and reduces dependency surface. It also lets us **gradually** remove `updeep` and `immutability-helper` since RTK reducers run inside Immer.
@@ -357,7 +402,7 @@ Decisions for every dependency whose React peer range excludes React 19, or that
 | 2.9 | `react-leaflet` | ~~4.2.1~~ → **5.0.0** ✅ | v4 peer requires React 18; v5 supports React 19 | **Done** — upgraded to v5 together with 2.10. No code changes required (all component APIs unchanged; no `whenCreated`/`MapConsumer` usage). Orphan `src/utils/leafletDrawCompat.js` removed. | API mostly compatible; `MapContainer` etc. unchanged. |
 | 2.10 | `react-leaflet-draw` | ~~0.20.4~~ → **0.21.0** ✅ | Last release supports react-leaflet v4 | **Done** — `0.21.0` declares `react-leaflet@^5` + `react@^19.1` peers. `EditControl` API unchanged; no code changes required. | Upgraded in the same install as 2.9. |
 | 2.11 | `react-image-lightbox` | 5.1.1 | Abandoned, peer `^16/17` | **Replace** → `yet-another-react-lightbox` | Actively maintained, React 19 compatible, TypeScript-first, modular plugins (Zoom, Fullscreen, Thumbnails, Captions). API differs from `react-image-lightbox` — uses `slides` array + `open`/`close` props instead of `mainSrc`/`onCloseRequest`. See Phase 1.8 for the concrete swap (2 files). |
-| 2.12 | `react-twitter-widgets` | 1.10.0 | Peer `^16/17`, unmaintained | **Replace or remove** | Used only in `src/components/SocialBar/Twitter.jsx`. Replace with a direct Twitter/X embed `<script>` loader or remove if no longer required. |
+| 2.12 | `react-twitter-widgets` | 1.10.0 | Peer `^15/16/17`, unmaintained (no commits since 2020) | **Replace** → inline X intent link | See Phase 1.11 for the concrete swap (1 source file, ~10 LoC). Drops a script-loaded iframe in favor of a plain anchor to `twitter.com/intent/tweet`. |
 | 2.13 | `react-anchor-link-smooth-scroll` | 1.0.12 | Peer `^15/16`, unmaintained | **Replace** | Used only in `src/components/InternalLink.jsx`. Replace with a 10-line `scrollIntoView({ behavior: 'smooth' })` helper. |
 | 2.14 | `react-nl2br` | 1.0.4 | Peer `^15/16`, unmaintained | **Replace inline** | Used in `Comment/index.jsx`, `UserComment.jsx`. Replace with `text.split('\n').flatMap((s, i) => [i ? <br key={i}/> : null, s])`. |
 | 2.15 | `react-waypoint` | 9.0.3 | Peer pins `react@^15-18` (no React 19 release as of v10.3.0); also uses `findDOMNode` internally | **Replace** → in-repo `IntersectionObserver` shim | See Phase 1.10 for the concrete swap (2 files, ~25 LoC shim). Only `onEnter` is used — trivial surface. |
