@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { CommentList } from '..';
+import CommentList from '..';
 import { mockStore } from '../../../../../test-utils';
 import renderWithProviders from '../../../../utils/renderWithProviders';
 

@@ -1,4 +1,4 @@
-import { find, values, merge } from 'lodash';
+import { values, merge } from 'lodash';
 
 import initAttr from './initAttr';
 import { acceptsComments } from './hearing';
@@ -174,7 +174,7 @@ export function userCanComment(user, section) {
   );
 }
 
-export function userCanVote(user, section) {
+function userCanVote(user, section) {
   return (
     section.voting === 'open' ||
     (section.voting === 'registered' && Boolean(user))
@@ -249,18 +249,6 @@ export function getSectionCommentingMessage(section) {
   }
 }
 
-/**
- * Get the "main" image of given section.
- * As long as only one image per section is supported this "main" image
- * is the first and only image in the images list.
- * Return empty object if no image could be found.
- * @param  {object} section
- * @return {object} object representing the image
- */
-export function getMainImage(section) {
-  return section.images[0] || {};
-}
-
 /*
 Return initialized section object.
 @return {object}
@@ -290,39 +278,6 @@ export function initNewSection(inits) {
     },
     inits || {}
   );
-}
-
-export function initNewSectionImage() {
-  return {
-    caption: initAttr(),
-    height: null,
-    title: initAttr(),
-    url: '',
-    width: null,
-  };
-}
-
-export function groupSections(sections) {
-  const sectionGroups = [];
-  sections.forEach((section) => {
-    const sectionGroup = find(
-      sectionGroups,
-      (group) => section.type === group.type
-    );
-    if (sectionGroup) {
-      sectionGroup.sections.push(section);
-      sectionGroup.n_comments += section.n_comments;
-    } else {
-      sectionGroups.push({
-        name_singular: section.type_name_singular,
-        name_plural: section.type_name_plural,
-        type: section.type,
-        sections: [section],
-        n_comments: section.n_comments,
-      });
-    }
-  });
-  return sectionGroups;
 }
 
 export function getSectionURL(hearingSlug, section) {

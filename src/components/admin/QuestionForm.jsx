@@ -10,7 +10,7 @@ import MultiLanguageTextField, {
 import Icon from '../../utils/Icon';
 import getAttr from '../../utils/getAttr';
 
-export class QuestionForm extends React.Component {
+class QuestionForm extends React.Component {
   /**
    * Delete an existing question from a section
    */

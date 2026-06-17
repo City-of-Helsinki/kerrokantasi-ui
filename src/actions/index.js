@@ -26,7 +26,7 @@ export const setHeadless = createAction('setHeadless');
 const URL_COMMENT = 'v1/comment/';
 
 // Declaring actions as JSON object for consistency
-export const MainActions = {
+const MainActions = {
   BEGIN_FETCH_SUB_COMMENTS: 'beginFetchSubComments',
   SUB_COMMENTS_FETCHED: 'subCommentsFetched',
 };
@@ -68,7 +68,7 @@ function checkResponseStatus(response) {
   }
 }
 
-export function getResponseJSON(response) {
+function getResponseJSON(response) {
   checkResponseStatus(response);
   if (response.status === 304) {
     return { status_code: response.status };

@@ -1,4 +1,4 @@
-import { isFormValid } from '../isFormValid';
+import isFormValid from '../isFormValid';
 
 describe('SkipLinkUtils', () => {
   it('should return false when inputErrors object contains any non empty error texts', () => {

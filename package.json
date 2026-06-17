@@ -17,7 +17,6 @@
     "fetch-plugins": "node scripts/fetch_plugins.js",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix",
-    "lint:complexity": "eslint -c complexity.eslintrc.js --no-eslintrc src",
     "test": "NODE_ENV=test pnpm update-runtime-env && vitest",
     "test:cov": "NODE_ENV=test pnpm update-runtime-env && vitest run --coverage --watch=false",
     "test:coverage": "NODE_ENV=test pnpm update-runtime-env && vitest run --coverage --watch=false",

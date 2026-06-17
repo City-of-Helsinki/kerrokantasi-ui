@@ -6,10 +6,7 @@ export function html2text(html) {
   return tag.innerText || html;
 }
 
-/**
- * Converts newlines in a string to an array of strings and <br> elements,
- * suitable for rendering inside JSX (replaces the react-nl2br package).
- */
+/** Converts newlines in a string to an array of strings and <br> elements, suitable for rendering inside JSX. */
 export function nl2br(text) {
   if (!text) return text;
   return text

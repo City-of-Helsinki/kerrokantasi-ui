@@ -12,7 +12,7 @@ import {
   Select,
 } from 'hds-react';
 
-import { QuestionForm } from './QuestionForm';
+import QuestionForm from './QuestionForm';
 import MultiLanguageTextField, {
   TextFieldTypes,
 } from '../forms/MultiLanguageTextField';

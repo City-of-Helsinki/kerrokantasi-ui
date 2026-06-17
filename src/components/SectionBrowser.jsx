@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Link from './LinkWithLang';
 
-export const SectionBrowserComponent = ({ sectionNav }) => (
+const SectionBrowserComponent = ({ sectionNav }) => (
   <div
     className='section-browser'
     role='navigation'

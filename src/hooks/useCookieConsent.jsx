@@ -29,7 +29,7 @@ export const useHDSCookieContext = () => {
  * @param {string} group - Cookie group to check
  * @returns {boolean} Consent status or false if provider not available
  */
-export const useHDSGroupConsent = (group) => {
+const useHDSGroupConsent = (group) => {
   try {
     return useGroupConsent(group);
   } catch {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import RichTextModalTextField from '../RichTextModalTextField';
 import getMessage from '../../../utils/getMessage';
-import { isFormValid } from '../../../utils/isFormValid';
+import isFormValid from '../../../utils/isFormValid';
 
 const initialState = {
   linkText: '',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { Labels } from '../LabelList';
+import Labels from '../LabelList';
 import renderWithProviders from '../../utils/renderWithProviders';
 
 const defaultProps = {

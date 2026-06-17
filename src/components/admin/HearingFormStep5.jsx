@@ -9,7 +9,7 @@ import {
   createNotificationPayload,
   NOTIFICATION_TYPES,
 } from '../../utils/notify';
-import * as ProjectsSelector from '../../selectors/projectLists';
+import { getProjects } from '../../selectors/projectLists';
 import { hearingShape } from '../../types';
 import {
   changeProjectName,
@@ -139,7 +139,7 @@ HearingFormStep5.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  projects: ProjectsSelector.getProjects(state),
+  projects: getProjects(state),
 });
 
 export default connect(mapStateToProps)(HearingFormStep5);

@@ -28,7 +28,7 @@ function mapNotifications(notifications, language) {
  * @param {string} language - The current language for notifications
  * @returns {Object} - The filtered notifications and related metadata
  */
-export const useNotifications = (language) => {
+const useNotifications = (language) => {
   const location = useLocation();
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

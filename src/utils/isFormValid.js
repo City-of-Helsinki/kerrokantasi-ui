@@ -1,4 +1,4 @@
-export function isFormValid(inputErrors) {
+function isFormValid(inputErrors) {
   const errorValues = Object.keys(inputErrors);
   let isValid = true;
 

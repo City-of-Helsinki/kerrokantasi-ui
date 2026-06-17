@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SanitizedHtml from '../../embed/SanitizedHtml';
 
-export const SectionClosureInfoComponent = ({ content }) => (
+const SectionClosureInfoComponent = ({ content }) => (
   <div className='closure-info'>
     <div className='container'>
       <div>
