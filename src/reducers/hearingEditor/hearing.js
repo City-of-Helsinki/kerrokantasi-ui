@@ -38,13 +38,16 @@ const data = createReducer(null, (builder) => {
       })
     )
     .addCase(EditorActions.ADD_MAP_MARKER, (state, { payload: { value } }) => {
-      const foo = state.geojson;
+      const existingGeojson = state.geojson;
 
       return {
         ...state,
         geojson: {
           type: 'FeatureCollection',
-          features: [{ type: 'Feature', geometry: foo }, { ...value }],
+          features: [
+            { type: 'Feature', geometry: existingGeojson },
+            { ...value },
+          ],
         },
       };
     })

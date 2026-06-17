@@ -9,9 +9,9 @@ const INITIAL_STATE = {
 
 const fetchUserData = (state) => ({ ...state, isFetching: true });
 
-const receiveUserData = (_state, { payload }) => {
+const receiveUserData = (state, { payload }) => {
   if (payload) {
-    return { ...INITIAL_STATE, isFetching: false, data: payload };
+    return { ...state, isFetching: false, data: payload };
   }
   return INITIAL_STATE;
 };
@@ -29,7 +29,11 @@ const receiveUserComments = (state, { payload }) => ({
 });
 
 const modifyFavoriteHearingsData = (state, { payload }) => {
-  const currentFollowed = state.data.favorite_hearings;
+  if (!state.data) {
+    return state;
+  }
+
+  const currentFollowed = state.data.favorite_hearings ?? [];
   const updatedFollowed = currentFollowed.includes(payload.hearingId)
     ? currentFollowed.filter((id) => id !== payload.hearingId)
     : [...currentFollowed, payload.hearingId];

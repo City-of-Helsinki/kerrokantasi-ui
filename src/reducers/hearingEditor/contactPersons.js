@@ -13,7 +13,7 @@ const byId = createReducer({}, (builder) => {
       (_state, { payload: { contactPersons } }) =>
         contactPersons.entities.contactPersons
           ? contactPersons.entities.contactPersons
-          : []
+          : {}
     )
     .addCase(
       EditorActions.UPDATE_HEARING_AFTER_SAVE,

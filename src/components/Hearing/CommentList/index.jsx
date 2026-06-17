@@ -1,6 +1,4 @@
-/* eslint-disable sonarjs/pseudo-random */
-/* eslint-disable sonarjs/no-uniq-key */
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -28,7 +26,7 @@ function CommentList({
   onPostFlag,
 }) {
   const [commentShowReplies, setCommentShowReplies] = useState(() =>
-    [...Array(comments.length)].map(() => false)
+    [new Array(comments.length)].map(() => false)
   );
 
   const prevCommentsRef = useRef(comments);
@@ -82,7 +80,7 @@ function CommentList({
           data={comment}
           defaultNickname={defaultNickname}
           hearingId={hearingId}
-          key={comment.id + Math.random()}
+          key={comment.id}
           jumpTo={jumpTo}
           language={language}
           nicknamePlaceholder={nicknamePlaceholder}

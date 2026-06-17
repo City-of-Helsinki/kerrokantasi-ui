@@ -524,7 +524,7 @@ function RichTextEditor({
       }
       setShowURLInput(true);
       setUrlValue(url);
-      setTimeout(() => onFocus(), 0);
+      setTimeout(() => urlRef.current?.focus(), 0);
     }
   };
 

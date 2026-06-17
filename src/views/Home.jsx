@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -40,20 +40,22 @@ export function Home({ topHearing, openHearings, language, user, dispatch }) {
   const intl = useIntl();
   const { formatMessage } = intl;
   const [isMobile, setIsMobile] = useState(
-    typeof window !== 'undefined' && window.innerWidth < 768
+    typeof globalThis.window !== 'undefined' && window.innerWidth < 768
   );
 
   const handleResize = useCallback(() => {
-    setIsMobile(typeof window !== 'undefined' && window.innerWidth < 768);
+    setIsMobile(
+      typeof globalThis.window !== 'undefined' && window.innerWidth < 768
+    );
   }, []);
 
   useEffect(() => {
     fetchData(dispatch);
-    if (typeof window !== 'undefined') {
+    if (typeof globalThis.window !== 'undefined') {
       window.addEventListener('resize', handleResize);
     }
     return () => {
-      if (typeof window !== 'undefined') {
+      if (typeof globalThis.window !== 'undefined') {
         window.removeEventListener('resize', handleResize);
       }
     };

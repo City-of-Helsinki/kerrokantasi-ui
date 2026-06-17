@@ -2,7 +2,7 @@
 /**
  * Created by riku on 11.5.2017.
  */
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 

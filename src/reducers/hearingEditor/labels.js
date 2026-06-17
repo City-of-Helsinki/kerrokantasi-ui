@@ -8,7 +8,7 @@ const byId = createReducer({}, (builder) => {
     .addCase(
       EditorActions.RECEIVE_META_DATA,
       (_state, { payload: { labels } }) =>
-        labels.entities.labels ? labels.entities.labels : []
+        labels.entities.labels ? labels.entities.labels : {}
     )
     .addCase(
       EditorActions.UPDATE_HEARING_AFTER_SAVE,

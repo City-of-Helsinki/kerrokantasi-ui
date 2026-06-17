@@ -1,10 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Lightbox from 'yet-another-react-lightbox';
 
 const SectionImageComponent = ({ image, altText, caption, title }) => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      document.body.classList.add('nav-fixed');
+    };
+  }, []);
 
   if (!image) return null;
 

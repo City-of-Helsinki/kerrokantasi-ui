@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -62,14 +62,14 @@ function UserHearings({
   const didMountRef = useRef(false);
   const prevUserRef = useRef(null);
   useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true;
-      if (userState.userExists && user && user.adminOrganizations[0]) {
+    if (didMountRef.current) {
+      const prevUser = prevUserRef.current;
+      if (!prevUser && user?.adminOrganizations?.[0]) {
         fetchAllHearings();
       }
     } else {
-      const prevUser = prevUserRef.current;
-      if (!prevUser && user && user.adminOrganizations[0]) {
+      didMountRef.current = true;
+      if (userState.userExists && user?.adminOrganizations?.[0]) {
         fetchAllHearings();
       }
     }

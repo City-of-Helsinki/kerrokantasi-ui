@@ -21,6 +21,7 @@ import {
   cookieBotRemoveListeners,
 } from './utils/cookiebotUtils';
 import useAuthHook from './hooks/useAuth';
+import useLanguageFromUrl from './hooks/useLanguageFromUrl';
 import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
@@ -39,6 +40,8 @@ function App({ isHighContrast, history, ...props }) {
   const { fullscreen } = useParams();
   const location = useLocation();
   const { locale } = useIntl();
+
+  useLanguageFromUrl(onChangeLanguage);
 
   const { authenticated, user: oidcUser, logout } = useAuthHook();
   const { getStoredApiTokens } = useApiTokens();

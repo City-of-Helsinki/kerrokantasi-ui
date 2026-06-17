@@ -1,15 +1,14 @@
 /* eslint-disable max-len */
-import React from 'react';
 
 const Twitter = () => {
-  if (typeof window === 'undefined') {
+  if (typeof globalThis.window === 'undefined') {
     return null;
   }
   return (
     <div className='twitter-tweet-ctr' style={{ marginRight: '8px' }}>
       <a
         className='twitter-share-button'
-        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`}
+        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(globalThis.window.location.href)}`}
         target='_blank'
         rel='noopener noreferrer'
         aria-label='Share on X'

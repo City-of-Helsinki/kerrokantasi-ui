@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable jsx-a11y/iframe-has-title */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, TextArea } from 'hds-react';
@@ -372,6 +372,10 @@ const MapQuestionnaire = ({
       instanceId: formSettings.pluginInstanceId,
     });
   };
+
+  if (!pluginSource) {
+    return null;
+  }
 
   /**
    * Returns the template JSX based on the provided pluginId.
