@@ -8,7 +8,7 @@ supported by Kerrokantasi API.
 
 ### Prerequisites
 
-- Node v22 LTS (`nvm use`)
+- Node v24 LTS (`nvm use`)
 - pnpm
 - Docker
 
