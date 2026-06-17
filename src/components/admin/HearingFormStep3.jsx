@@ -323,8 +323,7 @@ const HearingFormStep3 = (props) => {
             )}
           />
           <FeatureGroup ref={featureGroup}>
-            {/* TEMP: EditControl commented out to unblock editor testing (react-leaflet-draw context bug). DO NOT COMMIT. */}
-            {/* <EditControl
+            <EditControl
               position='topleft'
               onCreated={onDrawCreated}
               onDeleted={onDrawDeleted}
@@ -333,7 +332,7 @@ const HearingFormStep3 = (props) => {
                 featureGroup,
                 edit: false,
               }}
-            /> */}
+            />
             {getMapElement(geoJSON)}
           </FeatureGroup>
         </MapContainer>
