@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { CookieConsentContextProvider, LoginProvider } from 'hds-react';
 import { Provider } from 'react-redux';
-import { isIE } from 'react-device-detect';
 import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -10,7 +9,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { history } from './createStore';
 import App from './App';
 import ScrollToTop from './scrollToTop';
-import BrowserWarning from './views/BrowserWarning';
 import { userOidcConfig, apiTokenClientConfig } from './utils/oidcConfig';
 import messages from './i18n';
 import MatomoTracker from './components/Matomo/MatomoTracker';
@@ -57,10 +55,6 @@ const Root = ({ store }) => {
     }
     return null;
   }, []);
-
-  if (isIE) {
-    return <BrowserWarning />;
-  }
 
   return (
     <HelmetProvider>

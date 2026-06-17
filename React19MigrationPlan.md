@@ -437,9 +437,9 @@ These can be cleaned up at any time and reduce surface area before the upgrade. 
 - [ ] **3.6** `intl` — only referenced by `src/commonInit.js` as an IE11 polyfill via `require.ensure`.
   - [x] **3.6.1** **(user action — dependency first)** `pnpm remove intl`. Handled in react-intl migration C.2.4. ✅
   - [x] **3.6.2** Assistant removes the IE11 polyfill branch in `src/commonInit.js`. Handled in react-intl migration C.2.3. ✅
-- [ ] **3.7** `react-device-detect` — single usage to detect IE in `getRoot.jsx`. If IE is no longer supported:
-  - [ ] **3.7.1** **(user action — dependency first)** `pnpm remove react-device-detect`. The `isIE` import in `getRoot.jsx` will break the build — that is expected and is fixed in 3.7.2.
-  - [ ] **3.7.2** Assistant deletes the `BrowserWarning` short-circuit in `getRoot.jsx` (or replaces with a tiny `userAgent` regex if IE detection is still desired).
+- [x] **3.7** `react-device-detect` — single usage to detect IE in `getRoot.jsx`. If IE is no longer supported:
+  - [x] **3.7.1** **(user action — dependency first)** `pnpm remove react-device-detect`. The `isIE` import in `getRoot.jsx` will break the build — that is expected and is fixed in 3.7.2.
+  - [x] **3.7.2** Assistant deletes the `BrowserWarning` short-circuit in `getRoot.jsx` (or replaces with a tiny `userAgent` regex if IE detection is still desired).
 - [ ] **3.8** `simple-git` — assistant verifies it is build-time only; **(user action)** move from `dependencies` to `devDependencies` via `pnpm remove simple-git && pnpm add -D simple-git`.
 - [ ] **3.9** **(user action)** Audit other suspects with `pnpm dlx depcheck` and remove zero-reference packages flagged.
 
