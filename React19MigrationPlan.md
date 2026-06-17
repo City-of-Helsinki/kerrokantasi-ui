@@ -208,6 +208,44 @@ Affected files (2): `src/components/Hearing/Section/SectionImage.jsx`, `src/comp
 
 ---
 
+### 1.10 Replace `react-waypoint` with an in-repo `IntersectionObserver` shim (🟢 🧪)
+
+`react-waypoint@10` still pins its `react` peer to `^15.3.0 || ^16 || ^17 || ^18` — there is no React 19 release. The library also relies on `findDOMNode` internally, which is deprecated and runtime-risky under React 19. Usage in this repo is trivial: only the `onEnter` prop is used as a "load more when sentinel scrolls into view" trigger. No `topOffset` / `bottomOffset` / `scrollableAncestor` / `onLeave` / `onPositionChange`. Swap to a tiny in-repo component backed by `IntersectionObserver` so the existing JSX stays identical — only the import path changes.
+
+Affected files (2):
+- `src/components/HearingList/HearingList.jsx` (line ~175, inside `{!isLoading && <Waypoint onEnter={handleReachBottom} />}`)
+- `src/components/SortableCommentList.jsx` (line ~511, always-mounted `<Waypoint onEnter={handleReachBottom} />`)
+
+No tests, Playwright specs, or bundler configs reference `react-waypoint` / `Waypoint`.
+
+#### API translation reference
+
+| `react-waypoint` (current usage) | In-repo `Waypoint` shim |
+|---|---|
+| `import { Waypoint } from 'react-waypoint'` | `import { Waypoint } from '<relative>/utils/Waypoint'` |
+| `<Waypoint onEnter={fn} />` | `<Waypoint onEnter={fn} />` — identical |
+| Internally uses `findDOMNode` to observe scroll position | `IntersectionObserver` on a single `aria-hidden` sentinel `<div>` |
+
+#### Steps
+
+- [x] **1.10.1** Assistant adds `src/components/Waypoint.jsx` (moved from `src/utils/` by user):
+  - Function component exporting `{ Waypoint }` with a single `onEnter` prop.
+  - Renders an `aria-hidden="true"` sentinel `<div ref={ref} />`.
+  - `useEffect` creates an `IntersectionObserver` with default options (observes intersection with the viewport, threshold 0); calls `onEnter()` when `entry.isIntersecting` becomes true.
+  - Disconnects the observer on unmount and when `onEnter` changes.
+  - Matches react-waypoint's "fires once on enter, re-fires on re-enter" semantics — IntersectionObserver only calls back when intersection state toggles.
+- [x] **1.10.2** Update `src/components/HearingList/HearingList.jsx`: changed `import { Waypoint } from 'react-waypoint'` → `import { Waypoint } from '../Waypoint'`. JSX unchanged.
+- [x] **1.10.3** Update `src/components/SortableCommentList.jsx`: changed `import { Waypoint } from 'react-waypoint'` → `import { Waypoint } from './Waypoint'`. JSX unchanged.
+- [x] **1.10.4** `pnpm lint`, `pnpm test:cov`, `pnpm build` — all green.
+- [x] **1.10.5** Manual smoke test (`pnpm start`):
+  - Hearing list — scroll to the bottom of a multi-page result; verify the next page loads and the sentinel re-fires only after new items push it off-screen.
+  - Hearing detail comments — scroll to the bottom of a section with paginated comments; verify the next batch loads.
+  - Confirm no infinite loop: the sentinel must not retrigger `handleReachBottom` while a load is already in flight (HearingList guards via `!isLoading &&`; SortableCommentList relies on the reducer's `isFetchingComments` flag — verify both paths).
+  - Throttle the network to confirm the in-flight guard holds under slow loads.
+- [x] **1.10.6** **(user action — cleanup)** Once verified, remove the old dependency: `pnpm remove react-waypoint`.
+
+---
+
 ### 1.9 Replace `redux-actions` with `@reduxjs/toolkit` ✅ (🔴 🧪 — large, but mechanical)
 
 `redux-actions` has been unmaintained since 2019 and has never been tested against modern Redux or React 19. The official replacement is **Redux Toolkit (RTK)**. RTK bundles `redux@5`, `immer`, and `reselect` — installing it covers Phase 2.27 (`redux@5`) and reduces dependency surface. It also lets us **gradually** remove `updeep` and `immutability-helper` since RTK reducers run inside Immer.
@@ -322,7 +360,7 @@ Decisions for every dependency whose React peer range excludes React 19, or that
 | 2.12 | `react-twitter-widgets` | 1.10.0 | Peer `^16/17`, unmaintained | **Replace or remove** | Used only in `src/components/SocialBar/Twitter.jsx`. Replace with a direct Twitter/X embed `<script>` loader or remove if no longer required. |
 | 2.13 | `react-anchor-link-smooth-scroll` | 1.0.12 | Peer `^15/16`, unmaintained | **Replace** | Used only in `src/components/InternalLink.jsx`. Replace with a 10-line `scrollIntoView({ behavior: 'smooth' })` helper. |
 | 2.14 | `react-nl2br` | 1.0.4 | Peer `^15/16`, unmaintained | **Replace inline** | Used in `Comment/index.jsx`, `UserComment.jsx`. Replace with `text.split('\n').flatMap((s, i) => [i ? <br key={i}/> : null, s])`. |
-| 2.15 | `react-waypoint` | 9.0.3 | Peer allows React 18+; React 19 not yet declared | **Upgrade** → latest (`^10.x` when published) **or** keep with peer override | If no React 19 release, consider `IntersectionObserver` hook. Used in `HearingList`, `SortableCommentList`. |
+| 2.15 | `react-waypoint` | 9.0.3 | Peer pins `react@^15-18` (no React 19 release as of v10.3.0); also uses `findDOMNode` internally | **Replace** → in-repo `IntersectionObserver` shim | See Phase 1.10 for the concrete swap (2 files, ~25 LoC shim). Only `onEnter` is used — trivial surface. |
 | 2.16 | `react-router-hash-link` | ~~2.4.3~~ → **removed** ✅ | Peer `react-router-dom@^6` | **Done** — replaced inline in `src/components/LinkWithLang.jsx` (Option C.2), then removed. | Hash scroll now uses native `scrollIntoView({ behavior: 'smooth' })`. |
 | 2.17 | `react-anchor-link-smooth-scroll` | see 2.13 | | | |
 | 2.18 | `react-device-detect` | 2.2.3 | Works with React 19 (no peer constraint on react-dom internals) | **Keep / monitor** | Only used to detect IE in `getRoot.jsx`. Consider removing — IE detection in 2026 is obsolete. |

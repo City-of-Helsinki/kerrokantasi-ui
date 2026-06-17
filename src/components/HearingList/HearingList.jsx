@@ -2,11 +2,11 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import { Waypoint } from 'react-waypoint';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { keys } from 'lodash';
 import { Checkbox as HDSCheckbox, Tabs as HDSTabs } from 'hds-react';
 
+import { Waypoint } from '../Waypoint';
 import HearingsSearch from './HearingsSearch/HearingsSearch';
 import LoadSpinner from '../LoadSpinner';
 import OverviewMap from '../OverviewMap';

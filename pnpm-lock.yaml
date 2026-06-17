@@ -206,9 +206,6 @@ importers:
       react-twitter-widgets:
         specifier: ^1.10.0
         version: 1.11.0(react@19.2.7)
-      react-waypoint:
-        specifier: ^9.0.3
-        version: 9.0.3(react@19.2.7)
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
@@ -1777,9 +1774,6 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
-
-  consolidated-events@2.0.2:
-    resolution: {integrity: sha512-2/uRVMdRypf5z/TW/ncD/66l75P5hH2vM/GR8Jf8HLc2xnfJtmina6F6du8+v4Z2vTrMo7jC+W1tmEEuuELgkQ==}
 
   conventional-changelog-angular@7.0.0:
     resolution: {integrity: sha512-ROjNchA9LgfNMTTFSIWPzebCwOGFdgkEq45EnvvrmSLvCtAw0HSmrCs7/ty+wAeYUZyNay0YMUNYFTRL72PkBQ==}
@@ -3617,11 +3611,6 @@ packages:
     peerDependencies:
       react: '>=16.13'
       react-dom: '>=16.13'
-
-  react-waypoint@9.0.3:
-    resolution: {integrity: sha512-NRmyjW8CUBNNl4WpvBqLDgBs18rFUsixeHVHrRrFlWTdOlWP7eiDjptqlR/cJAPLD6RwP5XFCm3bi9OiofN3nA==}
-    peerDependencies:
-      react: ^15.3.0 || ^16.0.0
 
   react@19.2.7:
     resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
@@ -5893,8 +5882,6 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  consolidated-events@2.0.2: {}
-
   conventional-changelog-angular@7.0.0:
     dependencies:
       compare-func: 2.0.0
@@ -8109,13 +8096,6 @@ snapshots:
       debounce: 1.2.1
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-
-  react-waypoint@9.0.3(react@19.2.7):
-    dependencies:
-      consolidated-events: 2.0.2
-      prop-types: 15.8.1
-      react: 19.2.7
-      react-is: 16.13.1
 
   react@19.2.7: {}
 
