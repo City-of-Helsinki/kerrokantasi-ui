@@ -186,10 +186,6 @@ HearingFormStep2.propTypes = {
   sectionMoveUp: PropTypes.func,
 };
 
-HearingFormStep2.contextTypes = {
-  language: PropTypes.string,
-};
-
 const mapStateToProps = (state) => ({
   language: state.language,
 });

@@ -273,8 +273,4 @@ OverviewMap.propTypes = {
   style: PropTypes.object,
 };
 
-OverviewMap.contextTypes = {
-  language: PropTypes.string.isRequired,
-};
-
 export default connect(mapStateToProps, null)(OverviewMap);
