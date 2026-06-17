@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../utils/pageTitle';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button } from 'hds-react';
@@ -83,7 +84,7 @@ export function Home({ topHearing, openHearings, language, user, dispatch }) {
           <div className='row'>
             <div className='col-xs-10 col-md-8 welcome-content'>
               <Helmet
-                title={formatMessage({ id: 'welcome' })}
+                title={formatPageTitle(formatMessage({ id: 'welcome' }))}
                 meta={[
                   {
                     name: 'description',

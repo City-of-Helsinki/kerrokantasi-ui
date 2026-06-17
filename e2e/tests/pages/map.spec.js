@@ -11,9 +11,9 @@ test.describe('Map Page', () => {
     ).toBeVisible();
   });
 
-  test('should display "Etsi otsikoista" combobox', async ({ page }) => {
+  test('should display "Etsi otsikoista" searchbox', async ({ page }) => {
     await expect(
-      page.getByRole('combobox', { name: 'Etsi otsikoista' })
+      page.getByRole('searchbox', { name: 'Etsi otsikoista' })
     ).toBeVisible();
   });
 
@@ -48,7 +48,7 @@ test.describe('Map Page', () => {
       .toBeVisible();
     await expect.soft(page.getByText('Endast öppna visas')).toBeVisible();
     await expect
-      .soft(page.getByRole('combobox', { name: 'Sök bland rubrikerna' }))
+      .soft(page.getByRole('searchbox', { name: 'Sök bland rubrikerna' }))
       .toBeVisible();
   });
 
@@ -59,7 +59,7 @@ test.describe('Map Page', () => {
       .toBeVisible();
     await expect.soft(page.getByText('Show only open')).toBeVisible();
     await expect
-      .soft(page.getByRole('combobox', { name: 'Search from titles' }))
+      .soft(page.getByRole('searchbox', { name: 'Search from titles' }))
       .toBeVisible();
   });
 });

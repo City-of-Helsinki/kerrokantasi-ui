@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../../utils/pageTitle';
 import { Select } from 'hds-react';
 
 import getUser from '../../selectors/user';
@@ -214,7 +215,7 @@ const UserProfile = ({
 
   return (
     <div className='container user-profile'>
-      <Helmet title={intl.formatMessage({ id: 'userInfo' })} />
+      <Helmet title={formatPageTitle(intl.formatMessage({ id: 'userInfo' }))} />
       <div className='row'>
         <FormattedMessage id='userInfo'>
           {(txt) => <h1>{txt}</h1>}

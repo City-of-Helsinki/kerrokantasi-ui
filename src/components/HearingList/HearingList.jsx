@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../../utils/pageTitle';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
@@ -47,7 +48,7 @@ const HearingList = ({
 
   const hearingListMap = hearingsToShow ? (
     <div className='haring-list-map-container'>
-      <Helmet title={formatMessage({ id: 'mapView' })} />
+      <Helmet title={formatPageTitle(formatMessage({ id: 'mapView' }))} />
       <div className='hearing-list-map map'>
         <HDSCheckbox
           label={<FormattedMessage id='showOnlyOpen' />}

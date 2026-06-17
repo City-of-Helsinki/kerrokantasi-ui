@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
+import { formatPageTitle } from '../../utils/pageTitle';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 
@@ -13,7 +14,7 @@ const MarkdownPage = ({ title, markdown }) => {
   return (
     <>
       <Helmet
-        title={title}
+        title={formatPageTitle(title)}
         meta={[
           {
             name: 'description',
