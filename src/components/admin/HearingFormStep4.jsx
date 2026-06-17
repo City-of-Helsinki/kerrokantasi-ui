@@ -72,6 +72,12 @@ const HearingFormStep4 = ({
   };
 
   const onDateChange = (newDate, type) => {
+    if (!moment(newDate, DATE_FORMAT, true).isValid()) {
+      if (type === 'START') setOpenDate(newDate || null);
+      else setCloseDate(newDate || null);
+      return;
+    }
+
     const time = type === 'START' ? openTime : closeTime;
 
     const currentTime = moment(time, TIME_FORMAT).isValid()
@@ -101,6 +107,12 @@ const HearingFormStep4 = ({
 
   const onTimeChange = (event, type) => {
     const newTime = event.target.value;
+
+    if (!moment(newTime, TIME_FORMAT, true).isValid()) {
+      if (type === 'START') setOpenTime(newTime || null);
+      else setCloseTime(newTime || null);
+      return;
+    }
 
     const hours = moment(newTime, TIME_FORMAT).get('hours');
     const minutes = moment(newTime, TIME_FORMAT).get('minutes');

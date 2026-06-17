@@ -1,7 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import { CookieSettingsPage } from 'hds-react';
+
+import { formatPageTitle } from '../../utils/pageTitle';
 
 const CookieManagement = () => {
   return (

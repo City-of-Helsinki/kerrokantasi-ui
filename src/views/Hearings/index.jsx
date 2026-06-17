@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import { get, find, includes } from 'lodash';
 import isEmpty from 'lodash/isEmpty';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { formatPageTitle } from '../../utils/pageTitle';
 import * as Actions from '../../actions';
 import { isAdmin } from '../../utils/user';
 import WrappedHearingList, {
@@ -305,9 +305,8 @@ function Hearings({
     .map((label) => {
       const translatedLabel = getAttr(label.label, language);
       return {
-        id: label.id,
         label: translatedLabel,
-        value: translatedLabel,
+        value: String(label.id),
       };
     });
 

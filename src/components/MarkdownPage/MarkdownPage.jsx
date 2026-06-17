@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 
+import { formatPageTitle } from '../../utils/pageTitle';
 import MarkdownLinkRenderer from '../../components/MarkdownLinkRenderer/MarkdownLinkRenderer';
 
 const MarkdownPage = ({ title, markdown }) => {
