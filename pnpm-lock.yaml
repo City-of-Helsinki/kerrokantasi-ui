@@ -203,9 +203,6 @@ importers:
       react-router-dom:
         specifier: ^7.17.0
         version: 7.17.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react-twitter-widgets:
-        specifier: ^1.10.0
-        version: 1.11.0(react@19.2.7)
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
@@ -2951,9 +2948,6 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  loadjs@4.3.0:
-    resolution: {integrity: sha512-vNX4ZZLJBeDEOBvdr2v/F+0aN5oMuPu7JTqrMwp+DtgK+AryOlpy6Xtm2/HpNr+azEa828oQjOtWsB6iDtSfSQ==}
-
   locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
@@ -3600,11 +3594,6 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
-
-  react-twitter-widgets@1.11.0:
-    resolution: {integrity: sha512-PMCLJQc30iqy01y1b2+HnMfCX+ZkOxWaPKJb4BhHgOgjSjoZb68K5T0nq3q+3YbX9K7OH0bhptgDihtBG/BqRQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17 || ^18
 
   react-use-measure@2.0.1:
     resolution: {integrity: sha512-lFfHiqcXbJ2/6aUkZwt8g5YYM7EGqNVxJhMqMPqv1BVXRKp8D7jYLlmma0SvhRY4WYxxkZpCdbJvhDylb5gcEA==}
@@ -7220,8 +7209,6 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  loadjs@4.3.0: {}
-
   locate-path@5.0.0:
     dependencies:
       p-locate: 4.1.0
@@ -8085,11 +8072,6 @@ snapshots:
       set-cookie-parser: 2.7.2
     optionalDependencies:
       react-dom: 19.2.7(react@19.2.7)
-
-  react-twitter-widgets@1.11.0(react@19.2.7):
-    dependencies:
-      loadjs: 4.3.0
-      react: 19.2.7
 
   react-use-measure@2.0.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
