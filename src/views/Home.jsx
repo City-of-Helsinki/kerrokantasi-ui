@@ -40,22 +40,20 @@ export function Home({ topHearing, openHearings, language, user, dispatch }) {
   const intl = useIntl();
   const { formatMessage } = intl;
   const [isMobile, setIsMobile] = useState(
-    typeof globalThis.window !== 'undefined' && window.innerWidth < 768
+    globalThis.window && window.innerWidth < 768
   );
 
   const handleResize = useCallback(() => {
-    setIsMobile(
-      typeof globalThis.window !== 'undefined' && window.innerWidth < 768
-    );
+    setIsMobile(globalThis.window && window.innerWidth < 768);
   }, []);
 
   useEffect(() => {
     fetchData(dispatch);
-    if (typeof globalThis.window !== 'undefined') {
+    if (globalThis.window) {
       window.addEventListener('resize', handleResize);
     }
     return () => {
-      if (typeof globalThis.window !== 'undefined') {
+      if (globalThis.window) {
         window.removeEventListener('resize', handleResize);
       }
     };
