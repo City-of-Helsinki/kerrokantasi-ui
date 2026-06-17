@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MapContainer, TileLayer, FeatureGroup } from 'react-leaflet';
 import Leaflet from 'leaflet';
@@ -21,79 +21,69 @@ const DEFAULT_BOUNDS = [
   [61.930637, 20.685796],
   [59.925305, 27.727841],
 ];
-class CommentFormMap extends React.Component {
-  componentDidMount() {
-    Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
-  }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.language !== prevProps.language) {
-      Leaflet.drawLocal = getTranslatedTooltips(this.props.language);
-    }
-  }
+const CommentFormMap = ({
+  center,
+  mapTileUrl,
+  mapBounds,
+  onDrawCreate,
+  onDrawDelete,
+  contents,
+  tools,
+  language,
+}) => {
+  useEffect(() => {
+    Leaflet.drawLocal = getTranslatedTooltips(language);
+  }, [language]);
 
-  /**
-   * If a city-specific configuration is installed and coordinates are passed to this component then they are used.
-   * Default is to use the default coordinates DEFAULT_BOUNDS
-   * @returns {number[][]|Array}
-   */
-  getMapBounds() {
-    if (this.props.mapBounds === null) {
-      return DEFAULT_BOUNDS;
-    }
-    return this.props.mapBounds;
-  }
+  const bounds = mapBounds ?? DEFAULT_BOUNDS;
+  const allToolsEnabled = tools === 'all';
 
-  render() {
-    const { onDrawCreate, onDrawDelete, tools } = this.props;
-    // below checks if all commenting map tools are enabled in this section
-    // if enabled then rectangle and polygon tools are also available in addition to the marker
-    const allToolsEnabled = tools === 'all';
-    return (
-      <MapContainer
-        center={this.props.center}
-        scrollWheelZoom={false}
-        zoom={15}
-        maxZoom={18}
-        minZoom={11}
-        style={{ height: 300, width: '100%' }}
-        maxBounds={this.getMapBounds()}
-      >
-        <TileLayer
-          url={this.props.mapTileUrl}
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  return (
+    <MapContainer
+      center={center}
+      scrollWheelZoom={false}
+      zoom={15}
+      maxZoom={18}
+      minZoom={11}
+      style={{ height: 300, width: '100%' }}
+      maxBounds={bounds}
+    >
+      <TileLayer
+        url={mapTileUrl}
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <FeatureGroup>
+        {contents !== null && <div>{contents}</div>}
+        <EditControl
+          position='topleft'
+          onCreated={onDrawCreate}
+          onDeleted={onDrawDelete}
+          draw={{
+            circle: false,
+            circlemarker: false,
+            polyline: false,
+            polygon: allToolsEnabled,
+            rectangle: allToolsEnabled ? { showArea: false } : false,
+            marker: {
+              icon: new Leaflet.Icon({
+                iconUrl: leafletMarkerIconUrl,
+                shadowUrl: leafletMarkerShadowUrl,
+                iconRetinaUrl: leafletMarkerRetinaIconUrl,
+                iconSize: [25, 41],
+                iconAnchor: [13, 41],
+              }),
+            },
+          }}
+          edit={{
+            edit: false,
+          }}
         />
-        <FeatureGroup>
-          {this.props.contents !== null && <div>{this.props.contents}</div>}
-          <EditControl
-            position='topleft'
-            onCreated={onDrawCreate}
-            onDeleted={onDrawDelete}
-            draw={{
-              circle: false,
-              circlemarker: false,
-              polyline: false,
-              polygon: allToolsEnabled,
-              rectangle: allToolsEnabled ? { showArea: false } : false,
-              marker: {
-                icon: new Leaflet.Icon({
-                  iconUrl: leafletMarkerIconUrl,
-                  shadowUrl: leafletMarkerShadowUrl,
-                  iconRetinaUrl: leafletMarkerRetinaIconUrl,
-                  iconSize: [25, 41],
-                  iconAnchor: [13, 41],
-                }),
-              },
-            }}
-            edit={{
-              edit: false,
-            }}
-          />
-        </FeatureGroup>
-      </MapContainer>
-    );
-  }
-}
+      </FeatureGroup>
+    </MapContainer>
+  );
+};
+
 CommentFormMap.propTypes = {
   center: PropTypes.object,
   mapTileUrl: PropTypes.string,
@@ -104,4 +94,5 @@ CommentFormMap.propTypes = {
   tools: PropTypes.string,
   language: PropTypes.string,
 };
+
 export default CommentFormMap;

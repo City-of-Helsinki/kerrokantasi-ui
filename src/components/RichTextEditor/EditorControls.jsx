@@ -16,27 +16,18 @@ const INLINE_STYLES = [{ label: 'Lihavointi', style: 'BOLD' }];
 
 const STYLE_INLINE_BLOCK = 'inline-block';
 
-class StyleButton extends React.Component {
-  constructor() {
-    super();
-    this.onToggle = (event) => {
-      event.preventDefault();
-      this.props.onToggle(this.props.style);
-    };
-  }
-
-  render() {
-    let className = 'RichEditor-styleButton';
-    if (this.props.active) {
-      className += ' RichEditor-activeButton';
-    }
-    return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
-      </span>
-    );
-  }
-}
+const StyleButton = ({ active, label, onToggle, style }) => {
+  const handleToggle = (event) => {
+    event.preventDefault();
+    onToggle(style);
+  };
+  const className = `RichEditor-styleButton${active ? ' RichEditor-activeButton' : ''}`;
+  return (
+    <span className={className} onMouseDown={handleToggle}>
+      {label}
+    </span>
+  );
+};
 
 StyleButton.propTypes = {
   active: PropTypes.bool,
