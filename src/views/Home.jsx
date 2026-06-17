@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../utils/pageTitle';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button } from 'hds-react';
 import orderBy from 'lodash/orderBy';
 
+import { formatPageTitle } from '../utils/pageTitle';
 import { fetchHearingList } from '../actions';
 import { getTopHearing, getOpenHearings } from '../selectors/hearing';
 import getUser from '../selectors/user';

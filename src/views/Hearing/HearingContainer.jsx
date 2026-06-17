@@ -17,10 +17,10 @@ import {
 } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import { useIntl } from 'react-intl';
 import { createAction } from '@reduxjs/toolkit';
 
+import { formatPageTitle } from '../../utils/pageTitle';
 import { organizationShape } from '../../types';
 import { getHearingWithSlug } from '../../selectors/hearing';
 import * as HearingEditorSelector from '../../selectors/hearingEditor';
@@ -156,7 +156,10 @@ const HearingContainerComponent = ({
   if (!isEmpty(hearing)) {
     hearingContent = (
       <>
-        <Helmet title={formatPageTitle(getAttr(hearing.title, language))} meta={helmetMeta} />
+        <Helmet
+          title={formatPageTitle(getAttr(hearing.title, language))}
+          meta={helmetMeta}
+        />
         {!isEmpty(user) && canEdit(user, hearing) && (
           <Suspense fallback={<LoadSpinner />}>
             <HearingEditor

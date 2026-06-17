@@ -2,7 +2,7 @@ import { normalize } from 'normalizr';
 import { v1 as uuid } from 'uuid';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
-import { assign, flowRight } from 'lodash';
+import { flowRight } from 'lodash';
 
 import { hearingSchema } from '../types';
 import getMessage from './getMessage';
@@ -119,29 +119,29 @@ const filterObjectByLanguages = (object, languages) =>
   pickBy(object, (value, key) => includes(languages, key));
 
 const filterSectionsContentByLanguages = (sections, languages) =>
-  sections.map((section) =>
-    assign(section, {
-      abstract: filterObjectByLanguages(section.abstract, languages),
-      content: filterObjectByLanguages(section.content, languages),
-      images: section.images.map((image) =>
-        assign(image, filterObjectByLanguages(image.abstract))
-      ),
-      title: filterObjectByLanguages(section.title, languages),
-    })
-  );
+  sections.map((section) => ({
+    ...section,
+    abstract: filterObjectByLanguages(section.abstract, languages),
+    content: filterObjectByLanguages(section.content, languages),
+    images: section.images.map((image) => ({
+      ...image,
+      ...filterObjectByLanguages(image.abstract),
+    })),
+    title: filterObjectByLanguages(section.title, languages),
+  }));
 
-export const filterTitleAndContentByLanguage = (data, languages) =>
-  assign(data, {
-    abstract: filterObjectByLanguages(data.title, languages),
-    main_image: data.main_image
-      ? assign(
-          data.main_image,
-          filterObjectByLanguages(data.main_image.caption, languages)
-        )
-      : null,
-    title: filterObjectByLanguages(data.title, languages),
-    sections: filterSectionsContentByLanguages(data.sections, languages),
-  });
+export const filterTitleAndContentByLanguage = (data, languages) => ({
+  ...data,
+  abstract: filterObjectByLanguages(data.title, languages),
+  main_image: data.main_image
+    ? {
+        ...data.main_image,
+        ...filterObjectByLanguages(data.main_image.caption, languages),
+      }
+    : null,
+  title: filterObjectByLanguages(data.title, languages),
+  sections: filterSectionsContentByLanguages(data.sections, languages),
+});
 
 export const fillFrontIdsAndNormalizeHearing = flowRight([
   normalizeHearing,

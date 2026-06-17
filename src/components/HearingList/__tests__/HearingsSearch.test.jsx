@@ -52,7 +52,7 @@ describe('HearingsSearch', () => {
 
     fireEvent.click(combobox);
 
-    const option = await screen.findByText('Label 1');
+    const option = await screen.findByRole('option', { name: 'Label 1' });
 
     fireEvent.click(option);
 

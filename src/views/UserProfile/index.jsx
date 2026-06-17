@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import { Select } from 'hds-react';
 
+import { formatPageTitle } from '../../utils/pageTitle';
 import getUser from '../../selectors/user';
 import {
   fetchFavoriteHearings,

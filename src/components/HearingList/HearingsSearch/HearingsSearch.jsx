@@ -30,7 +30,7 @@ const HearingsSearch = ({
 
   const labelsAsOptions = labels.map(({ label, id }) => ({
     label: getAttr(label, language),
-    id,
+    value: String(id),
   }));
 
   return (

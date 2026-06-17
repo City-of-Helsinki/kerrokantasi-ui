@@ -14,7 +14,15 @@ export default function createAppStore(initialState = null) {
     reducer: rootReducer,
     preloadedState: initialState || {},
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ['receiveOidcUserData'],
+          ignoredPaths: ['oidc.user'],
+        },
+        immutableCheck: {
+          ignoredPaths: ['oidc.user'],
+        },
+      }).concat(
         languageMiddleware,
         headlessMiddleware,
         ...hearingEditorMiddleware

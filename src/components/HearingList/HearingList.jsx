@@ -1,12 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { formatPageTitle } from '../../utils/pageTitle';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
 import { keys } from 'lodash';
 import { Checkbox as HDSCheckbox, Tabs as HDSTabs } from 'hds-react';
 
+import { formatPageTitle } from '../../utils/pageTitle';
 import { Waypoint } from '../Waypoint';
 import HearingsSearch from './HearingsSearch/HearingsSearch';
 import LoadSpinner from '../LoadSpinner';
