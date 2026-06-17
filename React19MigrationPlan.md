@@ -429,19 +429,22 @@ Decisions for every dependency whose React peer range excludes React 19, or that
 
 These can be cleaned up at any time and reduce surface area before the upgrade. Verify each with a fresh `grep` before removal.
 
-- [ ] **3.1** `react-i18next` — **0 imports** in `src/`. **(user action)** `pnpm remove react-i18next`.
-- [ ] **3.2** `i18next` — only consumed by `react-i18next`. **(user action)** `pnpm remove i18next` after 3.1.
-- [ ] **3.3** `hel-bootstrap-3` — **0 imports** in `src/`. Assistant verifies no Sass `@import`; **(user action)** `pnpm remove hel-bootstrap-3`.
-- [ ] **3.4** `font-awesome` — **0 imports** in `src/`. Assistant verifies no Sass `@import`; **(user action)** `pnpm remove font-awesome`.
-- [ ] **3.5** `bootstrap-sass` — **0 imports** in `src/`. Assistant verifies SCSS does not `@import "bootstrap"`; **(user action)** `pnpm remove bootstrap-sass` if unused.
+- [x] **3.1** `react-i18next` — **already removed** from `package.json`; 0 imports in `src/`. ✅
+- [x] **3.2** `i18next` — **already removed** from `package.json`; no remaining consumers. ✅
+- [x] **3.3** `hel-bootstrap-3` — **keep (still in use).** 0 JS imports, but `cities/helsinki/assets/sass/app.scss` `@import`s `helsinki-variables`, `theme-bootstrap-variables`, and `theme-custom-styles` from it. Reachable from `src/index.js` via the `@city-assets` Vite alias.
+- [x] **3.4** `font-awesome` — **keep (still in use).** 0 JS imports, but `assets/sass/kerrokantasi/kerrokantasi.scss:2` `@import`s `font-awesome/scss/font-awesome` and `variables.scss:1` sets `$fa-font-path: "font-awesome/fonts"`.
+- [x] **3.5** `bootstrap-sass` — **keep (still in use).** 0 JS imports, but `assets/sass/kerrokantasi/bootstrap.scss` `@import`s ~25 modules from `bootstrap-sass/assets/stylesheets/bootstrap/*` (variables, mixins, grid, forms, buttons, modals, tooltip, etc.). Imported transitively by both `assets/sass/app.scss` and `cities/helsinki/assets/sass/app.scss`.
 - [ ] **3.6** `intl` — only referenced by `src/commonInit.js` as an IE11 polyfill via `require.ensure`.
   - [x] **3.6.1** **(user action — dependency first)** `pnpm remove intl`. Handled in react-intl migration C.2.4. ✅
   - [x] **3.6.2** Assistant removes the IE11 polyfill branch in `src/commonInit.js`. Handled in react-intl migration C.2.3. ✅
 - [x] **3.7** `react-device-detect` — single usage to detect IE in `getRoot.jsx`. If IE is no longer supported:
   - [x] **3.7.1** **(user action — dependency first)** `pnpm remove react-device-detect`. The `isIE` import in `getRoot.jsx` will break the build — that is expected and is fixed in 3.7.2.
   - [x] **3.7.2** Assistant deletes the `BrowserWarning` short-circuit in `getRoot.jsx` (or replaces with a tiny `userAgent` regex if IE detection is still desired).
-- [ ] **3.8** `simple-git` — assistant verifies it is build-time only; **(user action)** move from `dependencies` to `devDependencies` via `pnpm remove simple-git && pnpm add -D simple-git`.
-- [ ] **3.9** **(user action)** Audit other suspects with `pnpm dlx depcheck` and remove zero-reference packages flagged.
+- [x] **3.8** `simple-git` — moved to `devDependencies`. ✅
+- [x] **3.9** Ran `pnpm dlx depcheck`. Results:
+  - `updeep` — removed. ✅
+  - `@commitlint/cli`, `@commitlint/config-conventional` — false positives, keep (used by `.husky/commit-msg` and `.commitlintrc.js`).
+  - `@city-assets/*`, `@city-i18n/*`, `@city-images/*` "missing" — false positives, Vite aliases.
 
 ---
 
