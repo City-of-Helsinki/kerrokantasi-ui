@@ -556,10 +556,6 @@ SectionForm.propTypes = {
   sectionMoveUp: PropTypes.func,
 };
 
-SectionForm.contextTypes = {
-  language: PropTypes.string,
-};
-
 const mapStateToProps = (state) => ({
   language: state.language,
 });

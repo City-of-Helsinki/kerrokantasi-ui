@@ -30,8 +30,4 @@ HearingImage.propTypes = {
   data: PropTypes.object,
 };
 
-HearingImage.contextTypes = {
-  language: PropTypes.string,
-};
-
 export default HearingImage;

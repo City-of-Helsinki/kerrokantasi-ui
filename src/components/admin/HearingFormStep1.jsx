@@ -327,10 +327,6 @@ HearingFormStep1.propTypes = {
   organizations: PropTypes.arrayOf(organizationShape),
 };
 
-HearingFormStep1.contextTypes = {
-  language: PropTypes.string,
-};
-
 const mapStateToProps = (state) => ({
   language: state.language,
 });
