@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { TextInput as HDSTextInput } from 'hds-react';
 
 const TextInput = ({
@@ -52,10 +52,9 @@ const TextInput = ({
     <HDSTextInput
       style={{ marginBlock: 'var(--spacing-s)' }}
       label={
-        <>
-          <FormattedMessage id={labelId} />
-          {hint ? <span> ({hint})</span> : null}
-        </>
+        hint
+          ? `${formatMessage({ id: labelId })} (${hint})`
+          : formatMessage({ id: labelId })
       }
       id={name}
       name={name}
@@ -74,7 +73,7 @@ const TextInput = ({
 TextInput.propTypes = {
   error: PropTypes.any,
   labelId: PropTypes.string,
-  hint: PropTypes.object,
+  hint: PropTypes.string,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   name: PropTypes.string,

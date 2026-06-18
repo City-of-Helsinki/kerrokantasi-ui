@@ -109,7 +109,7 @@ describe('<HearingEditor />', () => {
     });
     const user = userEvent.setup();
 
-    user.click(button);
+    await user.click(button);
 
     await waitFor(() =>
       expect(createLocalizedNotificationPayload).toHaveBeenCalled()

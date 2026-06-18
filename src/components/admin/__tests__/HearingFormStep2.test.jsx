@@ -1,6 +1,6 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 
 import { thunk, mockStore as mockData } from '../../../../test-utils';
 import HearingFormStep2 from '../HearingFormStep2';
@@ -81,7 +81,9 @@ describe('<HearingFormStep2 />', () => {
 
     renderComponent({}, store);
 
-    fireEvent.click(screen.getByRole('button', { name: 'addSection' }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'addSection' }));
+    });
 
     const actions = store.getActions();
     const expected = [
@@ -96,7 +98,9 @@ describe('<HearingFormStep2 />', () => {
 
     renderComponent({}, store);
 
-    fireEvent.click(screen.getAllByText('deleteSection')[0]);
+    await act(async () => {
+      fireEvent.click(screen.getAllByText('deleteSection')[0]);
+    });
 
     const actions = store.getActions();
     const expected = [
@@ -106,11 +110,13 @@ describe('<HearingFormStep2 />', () => {
     expect(actions).toEqual(expected);
   });
 
-  it('should call onContinue when continue button is clicked', () => {
+  it('should call onContinue when continue button is clicked', async () => {
     const onContinue = vi.fn();
     renderComponent({ onContinue });
 
-    fireEvent.click(screen.getByText('hearingFormNext'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('hearingFormNext'));
+    });
 
     expect(onContinue).toHaveBeenCalled();
   });

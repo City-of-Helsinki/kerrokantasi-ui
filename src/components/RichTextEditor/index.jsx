@@ -59,9 +59,6 @@ const getBlockStyle = (block) => {
 };
 
 const kerrokantasiBlockRenderMap = Map({
-  unstyled: {
-    element: 'p',
-  },
   atomic: {
     component: IframeEntity,
     editable: false,

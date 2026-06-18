@@ -461,7 +461,7 @@ const Comment = ({
   const renderReplyLinks = () => (
     <Button
       variant='supplementary'
-      iconLeft={<IconSpeechbubbleText />}
+      iconStart={<IconSpeechbubbleText />}
       data-testid='replyLink'
       onClick={handleToggleReplyEditor}
     >

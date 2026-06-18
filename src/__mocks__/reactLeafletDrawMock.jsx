@@ -1,5 +1,5 @@
 import React from 'react';
 
-const EditControl = () => <div data-testId='EditControl' />;
+const EditControl = () => <div data-testid='EditControl' />;
 
 export { EditControl };
