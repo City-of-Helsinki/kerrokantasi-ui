@@ -464,3 +464,156 @@ describe('fetchFavoriteHearings', () => {
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
   });
 });
+
+describe('setLanguage / setHeadless', () => {
+  it('setLanguage returns a plain action with the given locale as payload', () => {
+    expect(actions.setLanguage('fi')).toEqual({
+      type: 'setLanguage',
+      payload: 'fi',
+    });
+  });
+
+  it('setHeadless returns a plain action with the boolean payload', () => {
+    expect(actions.setHeadless(true)).toEqual({
+      type: 'setHeadless',
+      payload: true,
+    });
+  });
+});
+
+describe('fetchHearing — invalid slug validation', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.get.mockClear();
+  });
+
+  it('dispatches receiveHearingError and rejects for null slug without calling api.get', async () => {
+    await expect(store.dispatch(actions.fetchHearing(null))).rejects.toThrow(
+      'Invalid hearing slug'
+    );
+    const actionTypes = store.getActions().map((a) => a.type);
+    expect(actionTypes).toContain('receiveHearingError');
+    expect(api.get).not.toHaveBeenCalled();
+  });
+
+  it('dispatches receiveHearingError and rejects for the string "undefined" without calling api.get', async () => {
+    await expect(
+      store.dispatch(actions.fetchHearing('undefined'))
+    ).rejects.toThrow('Invalid hearing slug');
+    const actionTypes = store.getActions().map((a) => a.type);
+    expect(actionTypes).toContain('receiveHearingError');
+    expect(api.get).not.toHaveBeenCalled();
+  });
+});
+
+describe('postVote', () => {
+  let store;
+  const hearingSlug = 'test-hearing';
+  const sectionId = 'section-1';
+  const commentId = 42;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.post.mockClear();
+  });
+
+  it('dispatches ADD_TOAST (alreadyVoted) and no postedCommentVote on 304 response', async () => {
+    api.post.mockResolvedValue({ status: 304 });
+
+    await store.dispatch(
+      actions.postVote(commentId, hearingSlug, sectionId, false, null)
+    );
+
+    const dispatched = store.getActions();
+    const actionTypes = dispatched.map((a) => a.type);
+    expect(actionTypes).toContain('postingCommentVote');
+    expect(actionTypes).toContain('ADD_TOAST');
+    expect(actionTypes).not.toContain('postedCommentVote');
+  });
+});
+
+describe('postFlag', () => {
+  let store;
+  const hearingSlug = 'test-hearing';
+  const sectionId = 'section-1';
+  const commentId = 42;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.post.mockClear();
+  });
+
+  it('dispatches postedCommentFlag and ADD_TOAST on successful (non-304) flag', async () => {
+    api.post.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve({}),
+    });
+
+    await store.dispatch(
+      actions.postFlag(commentId, hearingSlug, sectionId, false, null)
+    );
+
+    const dispatched = store.getActions();
+    const actionTypes = dispatched.map((a) => a.type);
+    expect(actionTypes).toContain('postingCommentVote');
+    expect(actionTypes).toContain('postedCommentFlag');
+    expect(actionTypes).toContain('ADD_TOAST');
+
+    const flagAction = dispatched.find((a) => a.type === 'postedCommentFlag');
+    expect(flagAction.payload).toMatchObject({
+      commentId,
+      sectionId,
+      isReply: false,
+      parentId: null,
+    });
+  });
+});
+
+describe('deleteSectionComment', () => {
+  let store;
+  const hearingSlug = 'test-hearing';
+  const sectionId = 'section-1';
+  const commentId = 99;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.apiDelete.mockClear();
+    api.get.mockClear();
+  });
+
+  it('dispatches enrichUserData (fetchUserData) when refreshUser is true', async () => {
+    api.apiDelete.mockResolvedValue(undefined);
+    api.get.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve({ id: hearingSlug }),
+    });
+
+    await store.dispatch(
+      actions.deleteSectionComment(hearingSlug, sectionId, commentId, true)
+    );
+
+    const actionTypes = store.getActions().map((a) => a.type);
+    expect(actionTypes).toContain('postingComment');
+    expect(actionTypes).toContain('postedComment');
+    expect(actionTypes).toContain('beginFetchHearing');
+    expect(actionTypes).toContain('fetchUserData');
+  });
+
+  it('does not dispatch fetchUserData when refreshUser is false', async () => {
+    api.apiDelete.mockResolvedValue(undefined);
+    api.get.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve({ id: hearingSlug }),
+    });
+
+    await store.dispatch(
+      actions.deleteSectionComment(hearingSlug, sectionId, commentId, false)
+    );
+
+    const actionTypes = store.getActions().map((a) => a.type);
+    expect(actionTypes).toContain('postedComment');
+    expect(actionTypes).not.toContain('fetchUserData');
+  });
+});
