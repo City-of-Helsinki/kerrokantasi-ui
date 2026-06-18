@@ -25,6 +25,12 @@ vi.spyOn(mockApi, 'get').mockImplementation(() =>
   })
 );
 
+// Mutable so individual tests can inject a sectionId for subsection rendering
+const routerParams = {
+  hearingSlug: mockData.mockHearingWithSections.data.id,
+  sectionId: undefined,
+};
+
 vi.mock('react-router-dom', async () => {
   const mod = await vi.importActual('react-router-dom');
 
@@ -34,9 +40,7 @@ vi.mock('react-router-dom', async () => {
       pathname: `/${mockData.mockHearingWithSections.data.id}`,
       search: '',
     }),
-    useParams: () => ({
-      hearingSlug: mockData.mockHearingWithSections.data.id,
-    }),
+    useParams: () => ({ ...routerParams }),
   };
 });
 
@@ -97,6 +101,10 @@ const renderComponent = (storeOverrides) => {
 
 describe('<SectionContainer />', () => {
   const { mockHearingWithSections } = mockData;
+
+  afterEach(() => {
+    routerParams.sectionId = undefined;
+  });
   it('should render correctly', () => {
     renderComponent();
     expect(screen.getByTestId('hearing-content-section')).toBeInTheDocument();
@@ -242,5 +250,68 @@ describe('<SectionContainer />', () => {
         },
       },
     });
+  });
+
+  it('renderFileSection returns nothing when section has no files', () => {
+    // Default sections have empty files arrays — no attachments Accordion should appear
+    const { queryByText } = renderComponent();
+
+    expect(queryByText('attachments')).toBeNull();
+  });
+
+  it('renderProjectPhaseSection returns nothing when hearing has no project', () => {
+    // Default hearing has no project key — no phase section should appear
+    const { queryByText } = renderComponent();
+
+    expect(queryByText('phase')).toBeNull();
+  });
+
+  it('shows unpublishedAttachments warning when hearing is unpublished and files exist', () => {
+    const hearingId = mockHearingWithSections.data.id;
+    const sectionWithFile = {
+      ...mockHearingWithSections.data.sections[0],
+      files: [
+        {
+          id: 1,
+          url: 'https://test.fi/file.pdf',
+          title: { fi: 'test.pdf' },
+          caption: {},
+        },
+      ],
+    };
+
+    const { getByText } = renderComponent({
+      hearing: {
+        [hearingId]: {
+          state: 'done',
+          data: {
+            ...mockHearingWithSections.data,
+            published: false,
+            sections: [
+              sectionWithFile,
+              ...mockHearingWithSections.data.sections.slice(1),
+            ],
+          },
+        },
+      },
+    });
+
+    expect(getByText('unpublishedAttachments')).toBeInTheDocument();
+  });
+
+  it('renders SectionBrowser with correct prev/next when on a subsection', () => {
+    const subsection = mockHearingWithSections.data.sections[1]; // first 'part' section
+    routerParams.sectionId = subsection.id;
+
+    const { container } = renderComponent();
+
+    // When on the first subsection: prev is disabled, next is enabled
+    const prevItem = container.querySelector('li.previous');
+    const nextItem = container.querySelector('li.next');
+
+    expect(prevItem).not.toBeNull();
+    expect(nextItem).not.toBeNull();
+    expect(prevItem.classList.contains('disabled')).toBe(true);
+    expect(nextItem.classList.contains('disabled')).toBe(false);
   });
 });
