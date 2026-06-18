@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 
 import {
   thunk,
@@ -83,7 +83,7 @@ describe('<SectionForm />', () => {
     renderComponent();
   });
 
-  it('should call onSectionChange when title is changed', () => {
+  it('should call onSectionChange when title is changed', async () => {
     const onSectionChange = vi.fn();
 
     renderComponent({
@@ -96,7 +96,9 @@ describe('<SectionForm />', () => {
 
     const titleInput = screen.getAllByLabelText('inLanguage-fi')[0];
 
-    fireEvent.blur(titleInput, { target: { value: 'New Title' } });
+    await act(async () => {
+      fireEvent.blur(titleInput, { target: { value: 'New Title' } });
+    });
 
     expect(onSectionChange).toHaveBeenCalledWith(expect.anything(), 'title', {
       fi: 'New Title',
@@ -110,7 +112,9 @@ describe('<SectionForm />', () => {
 
     const checkbox = screen.getByRole('checkbox');
 
-    fireEvent.click(checkbox);
+    await act(async () => {
+      fireEvent.click(checkbox);
+    });
 
     expect(onSectionChange).toHaveBeenCalledWith(
       expect.anything(),
@@ -119,7 +123,7 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('should call sectionMoveUp when move up button is clicked', () => {
+  it('should call sectionMoveUp when move up button is clicked', async () => {
     const sectionMoveUp = vi.fn();
 
     renderComponent({
@@ -133,12 +137,14 @@ describe('<SectionForm />', () => {
 
     const button = screen.getByText('moveUp', { exact: false });
 
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(sectionMoveUp).toHaveBeenCalled();
   });
 
-  it('should call sectionMoveDown when move down button is clicked', () => {
+  it('should call sectionMoveDown when move down button is clicked', async () => {
     const sectionMoveDown = vi.fn();
 
     renderComponent({
@@ -152,43 +158,51 @@ describe('<SectionForm />', () => {
 
     const button = screen.getByText('moveDown', { exact: false });
 
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(sectionMoveDown).toHaveBeenCalled();
   });
 
-  it('should call initSingleChoiceQuestion when new single choice question button is clicked', () => {
+  it('should call initSingleChoiceQuestion when new single choice question button is clicked', async () => {
     const initSingleChoiceQuestion = vi.fn();
 
     renderComponent({ initSingleChoiceQuestion });
 
     const button = screen.getByText('newSingleChoiceQuestion');
 
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(initSingleChoiceQuestion).toHaveBeenCalled();
   });
 
-  it('should call initMultipleChoiceQuestion when new multiple choice question button is clicked', () => {
+  it('should call initMultipleChoiceQuestion when new multiple choice question button is clicked', async () => {
     const initMultipleChoiceQuestion = vi.fn();
 
     renderComponent({ initMultipleChoiceQuestion });
 
     const button = screen.getByText('newMultipleChoiceQuestion');
 
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(initMultipleChoiceQuestion).toHaveBeenCalled();
   });
 
-  it('abstract field blur calls onSectionChange with abstract field and value', () => {
+  it('abstract field blur calls onSectionChange with abstract field and value', async () => {
     const onSectionChange = vi.fn();
     // sections[0] is type 'main' (special) — title field hidden.
     // MultiLanguageTextField label order: [0] imageCaption, [1] abstract, [2] content RichTextEditor
     renderComponent({ onSectionChange });
 
     const abstractInput = screen.getAllByLabelText('inLanguage-fi')[1];
-    fireEvent.blur(abstractInput, { target: { value: 'Abstract text' } });
+    await act(async () => {
+      fireEvent.blur(abstractInput, { target: { value: 'Abstract text' } });
+    });
 
     expect(onSectionChange).toHaveBeenCalledWith(
       expect.anything(),
@@ -197,12 +211,14 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('image caption field blur calls onSectionImageCaptionChange', () => {
+  it('image caption field blur calls onSectionImageCaptionChange', async () => {
     const onSectionImageCaptionChange = vi.fn();
     renderComponent({ onSectionImageCaptionChange });
 
     const captionInput = screen.getAllByLabelText('inLanguage-fi')[0];
-    fireEvent.blur(captionInput, { target: { value: 'Caption text' } });
+    await act(async () => {
+      fireEvent.blur(captionInput, { target: { value: 'Caption text' } });
+    });
 
     expect(onSectionImageCaptionChange).toHaveBeenCalledWith(
       expect.anything(),
@@ -210,12 +226,14 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('commenting Select change calls onSectionChange with commenting field', () => {
+  it('commenting Select change calls onSectionChange with commenting field', async () => {
     const onSectionChange = vi.fn();
     renderComponent({ onSectionChange });
 
-    fireEvent.change(screen.getByTestId('select-commenting'), {
-      target: { value: 'registered' },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId('select-commenting'), {
+        target: { value: 'registered' },
+      });
     });
 
     expect(onSectionChange).toHaveBeenCalledWith(
@@ -225,12 +243,14 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('voting Select change calls onSectionChange with voting field', () => {
+  it('voting Select change calls onSectionChange with voting field', async () => {
     const onSectionChange = vi.fn();
     renderComponent({ onSectionChange });
 
-    fireEvent.change(screen.getByTestId('select-voting'), {
-      target: { value: 'open' },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId('select-voting'), {
+        target: { value: 'open' },
+      });
     });
 
     expect(onSectionChange).toHaveBeenCalledWith(
@@ -240,13 +260,15 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('commenting_map_tools Select change calls onSectionChange when map tools are enabled', () => {
+  it('commenting_map_tools Select change calls onSectionChange when map tools are enabled', async () => {
     const onSectionChange = vi.fn();
     // sections[0] has commenting_map_tools=undefined → enabledCommentMap=true → Select visible
     renderComponent({ onSectionChange });
 
-    fireEvent.change(screen.getByTestId('select-commenting_map_tools'), {
-      target: { value: 'marker' },
+    await act(async () => {
+      fireEvent.change(screen.getByTestId('select-commenting_map_tools'), {
+        target: { value: 'marker' },
+      });
     });
 
     expect(onSectionChange).toHaveBeenCalledWith(
@@ -256,7 +278,7 @@ describe('<SectionForm />', () => {
     );
   });
 
-  it('question with frontId renders delete button that fires onDeleteTemporaryQuestion', () => {
+  it('question with frontId renders delete button that fires onDeleteTemporaryQuestion', async () => {
     const onDeleteTemporaryQuestion = vi.fn();
     const section = {
       ...mockHearingWithSections.data.sections[0],
@@ -275,14 +297,16 @@ describe('<SectionForm />', () => {
 
     renderComponent({ section, onDeleteTemporaryQuestion });
 
-    fireEvent.click(screen.getByText('deleteQuestion'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('deleteQuestion'));
+    });
     expect(onDeleteTemporaryQuestion).toHaveBeenCalledWith(
       section.frontId,
       'qf-1'
     );
   });
 
-  it('question with id and !isPublic renders delete button that fires onDeleteExistingQuestion', () => {
+  it('question with id and !isPublic renders delete button that fires onDeleteExistingQuestion', async () => {
     const onDeleteExistingQuestion = vi.fn();
     const section = {
       ...mockHearingWithSections.data.sections[0],
@@ -301,7 +325,9 @@ describe('<SectionForm />', () => {
 
     renderComponent({ section, onDeleteExistingQuestion, isPublic: false });
 
-    fireEvent.click(screen.getByText('deleteQuestion'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('deleteQuestion'));
+    });
     expect(onDeleteExistingQuestion).toHaveBeenCalledWith(
       section.frontId,
       'q-server-1'

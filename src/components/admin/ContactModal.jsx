@@ -52,7 +52,9 @@ const ContactModal = ({
     forEach(contactInfo.title, (title, language) => {
       newTitleLanguages[language] = !isEmpty(title);
     });
-    setTitleLanguages(newTitleLanguages);
+    setTitleLanguages(
+      isEmpty(newTitleLanguages) ? initializeLanguages() : newTitleLanguages
+    );
     setContact({
       id: contactInfo.id || '',
       name: contactInfo.name || '',

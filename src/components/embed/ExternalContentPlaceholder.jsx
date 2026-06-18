@@ -57,7 +57,7 @@ const ExternalContentPlaceholder = ({ url }) => {
           variant='secondary'
           size='small'
           onClick={() => window.open(viewUrl, '_blank', 'noopener,noreferrer')}
-          iconRight={<IconLinkExternal />}
+          iconEnd={<IconLinkExternal />}
           aria-label={intl.formatMessage(
             { id: 'openExternalSiteAriaLabel' },
             { domain }

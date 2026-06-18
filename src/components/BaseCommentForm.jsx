@@ -370,7 +370,7 @@ const BaseCommentForm = ({
    */
   const renderHideNameOption = () => (
     <Checkbox
-      label={<FormattedMessage id='hideName' />}
+      label={intl.formatMessage({ id: 'hideName' })}
       checked={formSettings.hideName}
       key='hide-user-name'
       id='hide-user-name'
@@ -385,7 +385,7 @@ const BaseCommentForm = ({
   const renderFormForAdmin = () => (
     <>
       <TextInput
-        label={<FormattedMessage id='nickname' />}
+        label={intl.formatMessage({ id: 'nickname' })}
         hideLabel
         id='nickname'
         placeholder={nicknamePlaceholder}
@@ -395,7 +395,7 @@ const BaseCommentForm = ({
         disabled
       />
       <TextInput
-        label={<FormattedMessage id='organization' />}
+        label={intl.formatMessage({ id: 'organization' })}
         hideLabel
         id='organization'
         placeholder={intl.formatMessage({ id: 'organization' })}
@@ -433,7 +433,7 @@ const BaseCommentForm = ({
         {hideName}
         <TextInput
           id='nickname'
-          label={<FormattedMessage id='nickname' />}
+          label={intl.formatMessage({ id: 'nickname' })}
           placeholder={nicknamePlaceholder}
           value={formSettings.nickname}
           onChange={handleNicknameChange}
@@ -647,7 +647,7 @@ const BaseCommentForm = ({
           <TextArea
             id='write-comment'
             data-testid='write-comment'
-            label={<FormattedMessage id='writeComment' />}
+            label={intl.formatMessage({ id: 'writeComment' })}
             // set focus when there are no questions before to be answered
             autoFocus={isReply || !firstUnansweredQuestion}
             value={comment}
@@ -683,7 +683,7 @@ const BaseCommentForm = ({
             <div>
               <TextInput
                 id='comment-map-info'
-                label={<FormattedMessage id='commentMapAdditionalInfo' />}
+                label={intl.formatMessage({ id: 'commentMapAdditionalInfo' })}
                 value={commentGeoJson.mapCommentText}
                 onChange={handleMapTextChange}
                 maxLength={128}
@@ -707,7 +707,7 @@ const BaseCommentForm = ({
               className='custom-file-input'
               multiple
               accept={ACCEPTED_IMAGE_TYPES}
-              label={<FormattedMessage id='add_images' />}
+              label={intl.formatMessage({ id: 'add_images' })}
               onChange={(files) => handleChange(files)}
               maxSize={IMAGE_MAX_SIZE}
             />

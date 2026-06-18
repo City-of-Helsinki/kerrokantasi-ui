@@ -2,19 +2,19 @@
 import React from 'react';
 
 const MapContainer = ({ children }) => (
-  <div data-testId='MapContainer'>{children}</div>
+  <div data-testid='MapContainer'>{children}</div>
 );
 
 const useMap = () => ({ fitBounds: () => {} });
 
-const TileLayer = () => <div data-testId='TileLayer' />;
+const TileLayer = () => <div data-testid='TileLayer' />;
 
-const Marker = ({ children }) => <div data-testId='Marker'>{children}</div>;
+const Marker = ({ children }) => <div data-testid='Marker'>{children}</div>;
 
 const FeatureGroup = ({ children }) => (
-  <div data-testId='FeatureGroup'>{children}</div>
+  <div data-testid='FeatureGroup'>{children}</div>
 );
 
-const Popup = () => <div data-testId='Popup' />;
+const Popup = () => <div data-testid='Popup' />;
 
 export { MapContainer, TileLayer, Marker, FeatureGroup, Popup, useMap };

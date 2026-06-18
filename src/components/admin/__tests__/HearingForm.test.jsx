@@ -1,6 +1,6 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 
 import { thunk, mockStore as mockData } from '../../../../test-utils';
 import HearingForm from '../HearingForm';
@@ -131,22 +131,26 @@ describe('<HearingForm />', () => {
     renderComponent();
   });
 
-  it('should call onLeaveForm when cancel button is clicked', () => {
+  it('should call onLeaveForm when cancel button is clicked', async () => {
     const onLeaveForm = vi.fn();
 
     renderComponent({ onLeaveForm });
 
-    fireEvent.click(screen.getByText('cancel'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('cancel'));
+    });
 
     expect(onLeaveForm).toHaveBeenCalled();
   });
 
-  it('should call onSaveAndPreview when save and preview button is clicked', () => {
+  it('should call onSaveAndPreview when save and preview button is clicked', async () => {
     const onSaveAndPreview = vi.fn();
 
     renderComponent({ onSaveAndPreview });
 
-    fireEvent.click(screen.getByText('saveAndPreviewHearing'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('saveAndPreviewHearing'));
+    });
 
     expect(onSaveAndPreview).toHaveBeenCalled();
   });

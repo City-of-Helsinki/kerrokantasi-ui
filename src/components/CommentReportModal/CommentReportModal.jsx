@@ -23,7 +23,7 @@ const CommentReportModal = ({ isOpen, hearing, onClose }) => {
       <Dialog.Header
         id={titleId}
         title={<FormattedMessage id='commentReportsTitle' />}
-        iconLeft={<IconInfoCircle aria-hidden='true' />}
+        iconStart={<IconInfoCircle aria-hidden='true' />}
       />
       <Dialog.Content>
         <CommentReportForm hearing={hearing} id={descriptionId} />

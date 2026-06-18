@@ -167,11 +167,7 @@ const HearingFormStep1 = ({
         onBlur={(value) => onHearingChange('title', value)}
         onChange={(value) => onHearingChange('title', value)}
         labelId='title'
-        hint={
-          <>
-            200 <FormattedMessage id='characters' />
-          </>
-        }
+        hint={`200 ${intl.formatMessage({ id: 'characters' })}`}
         maxLength={200}
         value={hearing.title}
         name='title'

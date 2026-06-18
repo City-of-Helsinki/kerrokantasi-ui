@@ -38,7 +38,10 @@ describe('<HearingFormStep1 />', () => {
   it('should open label modal when add label button is clicked', async () => {
     renderComponent();
 
-    fireEvent.click(await screen.findByTestId('add-new-label'));
+    const addLabelBtn = await screen.findByTestId('add-new-label');
+    await act(async () => {
+      fireEvent.click(addLabelBtn);
+    });
 
     expect(screen.getByText('createLabel')).toBeInTheDocument();
   });
@@ -46,7 +49,10 @@ describe('<HearingFormStep1 />', () => {
   it('should open contact modal when add contact button is clicked', async () => {
     renderComponent();
 
-    fireEvent.click(await screen.findByTestId('add-new-contact'));
+    const addContactBtn = await screen.findByTestId('add-new-contact');
+    await act(async () => {
+      fireEvent.click(addContactBtn);
+    });
 
     expect(screen.getByText('createContact')).toBeInTheDocument();
   });
@@ -168,12 +174,14 @@ describe('<HearingFormStep1 />', () => {
     });
   });
 
-  it('should call onContinue when continue button is clicked', () => {
+  it('should call onContinue when continue button is clicked', async () => {
     const onContinue = vi.fn();
 
     renderComponent({ onContinue });
 
-    fireEvent.click(screen.getByText(/hearingFormNext/i));
+    await act(async () => {
+      fireEvent.click(screen.getByText(/hearingFormNext/i));
+    });
 
     expect(onContinue).toHaveBeenCalled();
   });
