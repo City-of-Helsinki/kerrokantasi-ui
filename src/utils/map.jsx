@@ -57,8 +57,11 @@ export function getMapElement(geojson) {
       const latLngs = geojson.coordinates.map((arr) =>
         arr[0].map(([lng, lat]) => new LatLng(lat, lng))
       );
-      return latLngs.map((latLngItem, index) => (
-        <Polygon key={index} positions={latLngItem} />
+      return latLngs.map((latLngItem) => (
+        <Polygon
+          key={`${latLngItem[0].lat},${latLngItem[0].lng}`}
+          positions={latLngItem}
+        />
       ));
     }
     case 'Point': {

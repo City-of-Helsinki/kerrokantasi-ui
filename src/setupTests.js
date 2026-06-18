@@ -82,7 +82,7 @@ if (virtualConsole?.removeAllListeners && virtualConsole?.on) {
 const originalError = console.error.bind(console.error);
 
 console.error = (msg, ...optionalParams) => {
-  const msgStr = msg.toString();
+  const msgStr = msg?.toString() ?? '';
 
   return (
     !msgStr.includes('Could not parse CSS stylesheet') &&

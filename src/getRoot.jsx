@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { CookieConsentContextProvider, LoginProvider } from 'hds-react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -31,9 +31,9 @@ const Root = ({ store }) => {
   const [locale, setLocale] = useState('fi');
 
   // This function will now update state and trigger re-renders
-  const changeLanguage = (language) => {
+  const changeLanguage = useCallback((language) => {
     setLocale(language);
-  };
+  }, []);
 
   const matomoTracker = useMemo(() => {
     // Only create tracker if Matomo is enabled and siteId is provided
