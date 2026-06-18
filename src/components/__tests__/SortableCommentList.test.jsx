@@ -20,6 +20,13 @@ vi.mock('hds-react', async () => {
   };
 });
 
+vi.mock('../Waypoint', () => ({
+  // eslint-disable-next-line react/prop-types
+  Waypoint: ({ onEnter }) => (
+    <button type='button' data-testid='waypoint-trigger' onClick={onEnter} />
+  ),
+}));
+
 const { sectionComments, mockHearingWithSections, dispatch } = mockData;
 
 const storeDefaultState = {
@@ -231,5 +238,71 @@ describe('<SortableCommentList />', () => {
         '-created_at'
       )
     );
+  });
+
+  it('does not render comment form when published is false', () => {
+    const { queryByRole } = renderComponent({ published: false });
+
+    expect(queryByRole('button', { name: 'addComment' })).toBeNull();
+  });
+
+  it('does not render comment form when closed is true', () => {
+    const { queryByRole } = renderComponent({ closed: true, published: true });
+
+    expect(queryByRole('button', { name: 'addComment' })).toBeNull();
+  });
+
+  it('renders no plugin visualization for an unknown plugin_identifier', () => {
+    const sectionWithResults = {
+      ...mockHearingWithSections.data.sections[0],
+      plugin_identifier: 'unknown-plugin',
+      questions: [],
+    };
+    const store = mockStore({
+      ...storeDefaultState,
+      sectionComments: {
+        [sectionWithResults.id]: {
+          ...sectionComments.mock,
+        },
+      },
+    });
+
+    const { container } = renderComponent(
+      {
+        section: sectionWithResults,
+        displayVisualization: true,
+        fetchAllComments: vi.fn(),
+      },
+      store
+    );
+
+    expect(container.querySelector('.comments-visualization')).toBeNull();
+  });
+
+  it('does not call fetchMoreComments via Waypoint when all comments are loaded', async () => {
+    const fetchMoreCommentsMock = vi.fn();
+    const sectionId = mockHearingWithSections.data.sections[0].id;
+    const oneComment = sectionComments.mock.results[0];
+
+    const store = mockStore({
+      ...storeDefaultState,
+      sectionComments: {
+        [sectionId]: {
+          ...sectionComments.mock,
+          count: 1,
+          results: [oneComment],
+        },
+      },
+    });
+
+    const { getByTestId } = renderComponent(
+      { fetchMoreComments: fetchMoreCommentsMock },
+      store
+    );
+
+    const user = userEvent.setup();
+    await user.click(getByTestId('waypoint-trigger'));
+
+    expect(fetchMoreCommentsMock).not.toHaveBeenCalled();
   });
 });
