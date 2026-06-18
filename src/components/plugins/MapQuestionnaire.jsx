@@ -305,19 +305,21 @@ const MapQuestionnaire = ({
         window.addEventListener('message', messageListener, false);
     }
 
-    frameRef.current.addEventListener(
-      'load',
-      () => {
-        sendMessageToPluginFrame(frameRef.current, {
-          message: 'mapData',
-          data,
-          pluginPurpose,
-          comments: formSettings.comments,
-          instanceId: formSettings.pluginInstanceId,
-        });
-      },
-      false
-    );
+    if (frameRef.current) {
+      frameRef.current.addEventListener(
+        'load',
+        () => {
+          sendMessageToPluginFrame(frameRef.current, {
+            message: 'mapData',
+            data,
+            pluginPurpose,
+            comments: formSettings.comments,
+            instanceId: formSettings.pluginInstanceId,
+          });
+        },
+        false
+      );
+    }
 
     return () => {
       if (messageListener) {

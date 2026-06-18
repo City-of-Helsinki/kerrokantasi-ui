@@ -1,4 +1,3 @@
-import React from 'react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -14,14 +13,16 @@ const renderWithHash = (initialEntry = '/') =>
 
 describe('<HashScroll />', () => {
   let scrollIntoViewMock;
+  let originalScrollIntoView;
 
   beforeEach(() => {
+    originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
     scrollIntoViewMock = vi.fn();
     HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
   });
 
   afterEach(() => {
-    delete HTMLElement.prototype.scrollIntoView;
+    HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
   });
 
   it('renders nothing', () => {
