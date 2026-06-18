@@ -26,7 +26,7 @@ function CommentList({
   onPostFlag,
 }) {
   const [commentShowReplies, setCommentShowReplies] = useState(() =>
-    [new Array(comments.length)].map(() => false)
+    [...Array(comments.length)].map(() => false)
   );
 
   const prevCommentsRef = useRef(comments);
