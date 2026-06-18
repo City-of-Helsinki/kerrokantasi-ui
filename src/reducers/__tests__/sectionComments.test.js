@@ -34,7 +34,10 @@ describe('sectionComments reducer', () => {
       const results = [makeComment({ id: 1 }), makeComment({ id: 2 })];
       store.dispatch({
         type: 'receiveSectionComments',
-        payload: { sectionId: SECTION_ID, data: { count: 2, results, next: null } },
+        payload: {
+          sectionId: SECTION_ID,
+          data: { count: 2, results, next: null },
+        },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(false);
@@ -45,19 +48,21 @@ describe('sectionComments reducer', () => {
 
     it('appends paginated results to existing results', () => {
       const existing = [makeComment({ id: 1 })];
-      const store = makeStore({ [SECTION_ID]: { results: existing, count: 1, isFetching: true } });
+      const store = makeStore({
+        [SECTION_ID]: { results: existing, count: 1, isFetching: true },
+      });
       const incoming = [makeComment({ id: 2 }), makeComment({ id: 3 })];
       store.dispatch({
         type: 'receiveSectionComments',
         payload: {
           sectionId: SECTION_ID,
-          data: { count: 3, results: incoming, next: 'http://next-page' },
+          data: { count: 3, results: incoming, next: 'https://next-page' },
         },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(false);
       expect(state.count).toBe(3);
-      expect(state.next).toBe('http://next-page');
+      expect(state.next).toBe('https://next-page');
       expect(state.results).toHaveLength(3);
       expect(state.results[0].id).toBe(1);
       expect(state.results[1].id).toBe(2);
@@ -87,7 +92,11 @@ describe('sectionComments reducer', () => {
       });
       store.dispatch({
         type: 'beginFetchSectionComments',
-        payload: { sectionId: SECTION_ID, ordering: '-created_at', cleanFetch: false },
+        payload: {
+          sectionId: SECTION_ID,
+          ordering: '-created_at',
+          cleanFetch: false,
+        },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(true);
@@ -97,11 +106,19 @@ describe('sectionComments reducer', () => {
 
     it('clears results when ordering differs', () => {
       const store = makeStore({
-        [SECTION_ID]: { results: [makeComment()], ordering: '-created_at', isFetching: false },
+        [SECTION_ID]: {
+          results: [makeComment()],
+          ordering: '-created_at',
+          isFetching: false,
+        },
       });
       store.dispatch({
         type: 'beginFetchSectionComments',
-        payload: { sectionId: SECTION_ID, ordering: 'created_at', cleanFetch: false },
+        payload: {
+          sectionId: SECTION_ID,
+          ordering: 'created_at',
+          cleanFetch: false,
+        },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(true);
@@ -111,11 +128,19 @@ describe('sectionComments reducer', () => {
 
     it('clears results when cleanFetch is true regardless of ordering', () => {
       const store = makeStore({
-        [SECTION_ID]: { results: [makeComment()], ordering: '-created_at', isFetching: false },
+        [SECTION_ID]: {
+          results: [makeComment()],
+          ordering: '-created_at',
+          isFetching: false,
+        },
       });
       store.dispatch({
         type: 'beginFetchSectionComments',
-        payload: { sectionId: SECTION_ID, ordering: '-created_at', cleanFetch: true },
+        payload: {
+          sectionId: SECTION_ID,
+          ordering: '-created_at',
+          cleanFetch: true,
+        },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(true);
@@ -126,7 +151,11 @@ describe('sectionComments reducer', () => {
   describe('postedComment', () => {
     it('resets results, sets jumpTo and ordering', () => {
       const store = makeStore({
-        [SECTION_ID]: { results: [makeComment()], count: 1, ordering: 'created_at' },
+        [SECTION_ID]: {
+          results: [makeComment()],
+          count: 1,
+          ordering: 'created_at',
+        },
       });
       store.dispatch({
         type: 'postedComment',
@@ -141,11 +170,17 @@ describe('sectionComments reducer', () => {
 
   describe('editedComment', () => {
     it('updates a top-level comment in-place', () => {
-      const comments = [makeComment({ id: 1, content: 'Original' }), makeComment({ id: 2 })];
+      const comments = [
+        makeComment({ id: 1, content: 'Original' }),
+        makeComment({ id: 2 }),
+      ];
       const store = makeStore({ [SECTION_ID]: { results: comments } });
       store.dispatch({
         type: 'editedComment',
-        payload: { sectionId: SECTION_ID, comment: { id: 1, content: 'Updated' } },
+        payload: {
+          sectionId: SECTION_ID,
+          comment: { id: 1, content: 'Updated' },
+        },
       });
       const state = store.getState()[SECTION_ID];
       expect(state.results[0].content).toBe('Updated');
@@ -155,7 +190,10 @@ describe('sectionComments reducer', () => {
 
   describe('postedCommentVote', () => {
     it('increments n_votes on the target comment', () => {
-      const comments = [makeComment({ id: 1, n_votes: 3 }), makeComment({ id: 2, n_votes: 0 })];
+      const comments = [
+        makeComment({ id: 1, n_votes: 3 }),
+        makeComment({ id: 2, n_votes: 0 }),
+      ];
       const store = makeStore({ [SECTION_ID]: { results: comments } });
       store.dispatch({
         type: 'postedCommentVote',
@@ -167,7 +205,9 @@ describe('sectionComments reducer', () => {
     });
 
     it('persists voted comment id to localStorage', () => {
-      const store = makeStore({ [SECTION_ID]: { results: [makeComment({ id: 7 })] } });
+      const store = makeStore({
+        [SECTION_ID]: { results: [makeComment({ id: 7 })] },
+      });
       store.dispatch({
         type: 'postedCommentVote',
         payload: { commentId: 7, sectionId: SECTION_ID, isReply: false },
@@ -179,7 +219,10 @@ describe('sectionComments reducer', () => {
 
   describe('postedCommentFlag', () => {
     it('sets flagged to true on the target comment', () => {
-      const comments = [makeComment({ id: 1, flagged: false }), makeComment({ id: 2, flagged: false })];
+      const comments = [
+        makeComment({ id: 1, flagged: false }),
+        makeComment({ id: 2, flagged: false }),
+      ];
       const store = makeStore({ [SECTION_ID]: { results: comments } });
       store.dispatch({
         type: 'postedCommentFlag',
@@ -193,7 +236,9 @@ describe('sectionComments reducer', () => {
 
   describe('receiveSectionCommentsError', () => {
     it('sets isFetching to false', () => {
-      const store = makeStore({ [SECTION_ID]: { isFetching: true, results: [makeComment()] } });
+      const store = makeStore({
+        [SECTION_ID]: { isFetching: true, results: [makeComment()] },
+      });
       store.dispatch({
         type: 'receiveSectionCommentsError',
         payload: { sectionId: SECTION_ID },
