@@ -1,5 +1,5 @@
 /* eslint-disable import-x/no-unresolved */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useIntl } from 'react-intl';
 import ServiceInfoFi from '@city-i18n/service-info/content.fi.md';

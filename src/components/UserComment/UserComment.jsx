@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Tooltip, Tag } from 'hds-react';
 import moment from 'moment';

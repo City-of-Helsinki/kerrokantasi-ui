@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

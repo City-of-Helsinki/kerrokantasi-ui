@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/single-char-in-character-classes */
 /* eslint-disable sonarjs/concise-regex */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {

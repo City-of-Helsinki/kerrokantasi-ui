@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CookieConsentContextProvider, LoginProvider } from 'hds-react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';

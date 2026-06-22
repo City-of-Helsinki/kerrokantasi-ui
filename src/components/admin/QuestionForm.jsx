@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'hds-react';
 import { FormattedMessage } from 'react-intl';

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-underscore-dangle */
 import { Button, TextArea } from 'hds-react';
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 

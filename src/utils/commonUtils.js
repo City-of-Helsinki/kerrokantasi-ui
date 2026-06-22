@@ -1,4 +1,4 @@
-import React from 'react';
+import { createElement } from 'react';
 
 export function html2text(html) {
   const tag = document.createElement('div');
@@ -11,9 +11,7 @@ export function nl2br(text) {
   if (!text) return text;
   return text
     .split('\n')
-    .flatMap((s, i) =>
-      i === 0 ? [s] : [React.createElement('br', { key: i }), s]
-    );
+    .flatMap((s, i) => (i === 0 ? [s] : [createElement('br', { key: i }), s]));
 }
 
 export default { html2text, nl2br };

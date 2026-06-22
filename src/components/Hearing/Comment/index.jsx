@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable sonarjs/todo-tag */
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {

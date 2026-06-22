@@ -1,4 +1,3 @@
-import React from 'react';
 import configureStore from 'redux-mock-store';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import moment from 'moment';

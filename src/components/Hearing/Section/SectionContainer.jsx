@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-inverted-boolean-check */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';

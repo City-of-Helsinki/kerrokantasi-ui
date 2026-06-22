@@ -1,5 +1,4 @@
 import moment from 'moment';
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Notification } from 'hds-react';

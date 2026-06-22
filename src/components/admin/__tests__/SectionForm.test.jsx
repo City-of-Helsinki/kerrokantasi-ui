@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
 import configureStore from 'redux-mock-store';
 import { act, fireEvent, screen } from '@testing-library/react';
 

@@ -1,5 +1,4 @@
 /* eslint react/prop-types: 0 */
-import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { LoginProvider } from 'hds-react';
