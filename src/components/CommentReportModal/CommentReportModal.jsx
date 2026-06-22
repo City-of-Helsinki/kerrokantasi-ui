@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog, IconInfoCircle } from 'hds-react';
 import { FormattedMessage, useIntl } from 'react-intl';

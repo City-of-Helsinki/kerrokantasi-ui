@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/todo-tag */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import-x/no-unresolved */
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';

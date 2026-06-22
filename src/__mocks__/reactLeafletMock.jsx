@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
 
 const MapContainer = ({ children }) => (
   <div data-testid='MapContainer'>{children}</div>

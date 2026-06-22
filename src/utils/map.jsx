@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/todo-tag */
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
-import React from 'react';
 import L, { LatLng } from 'leaflet';
 import { Polygon, GeoJSON, Marker, Polyline } from 'react-leaflet';
 

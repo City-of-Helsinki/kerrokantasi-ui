@@ -1,4 +1,3 @@
-import React from 'react';
 import configureStore from 'redux-mock-store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

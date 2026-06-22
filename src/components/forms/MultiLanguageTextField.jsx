@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/todo-tag */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 

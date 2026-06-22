@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useIntl, FormattedMessage } from 'react-intl';

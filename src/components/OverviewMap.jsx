@@ -2,7 +2,7 @@
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable import-x/no-unresolved */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
 import {
@@ -50,7 +50,7 @@ const OverviewMap = ({
   };
 
   // Memoize sanitized abstracts for all hearings
-  const sanitizedAbstracts = React.useMemo(() => {
+  const sanitizedAbstracts = useMemo(() => {
     const map = new Map();
     hearings.forEach((hearing) => {
       const abstract = getAttr(hearing.abstract, language);
