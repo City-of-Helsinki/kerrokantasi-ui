@@ -58,7 +58,7 @@ export function getMapElement(geojson) {
       );
       return latLngs.map((latLngItem) => (
         <Polygon
-          key={`${latLngItem[0].lat},${latLngItem[0].lng}`}
+          key={latLngItem.map(({ lat, lng }) => `${lat},${lng}`).join('|')}
           positions={latLngItem}
         />
       ));
