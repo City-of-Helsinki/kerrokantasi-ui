@@ -1,5 +1,52 @@
 # Changelog
 
+## [1.21.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.5...kerrokantasi-ui-v1.21.0) (2026-06-22)
+
+
+### Features
+
+* React 19 defaultProps Refs: KER-571 ([473ce29](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/473ce29f5957e320580d96f45eba21ea33d95382))
+* React 19 legacy lifecycle methods Refs: KER-571 ([de85225](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/de85225bfb277fa1fcc651bff693a069fd93cd15))
+* React-waypoint shim Refs: KER-571 ([6940adb](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6940adbdfac05287a5ee5d23e40ec184123416c1))
+* Redux to reduxjs/toolkit Refs: KER-571 ([86c0413](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/86c04131efb77b00dafaff325c1dd2b175625109))
+* Reduxjs/toolkit clean dependencies Refs: KER-571 ([86c0413](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/86c04131efb77b00dafaff325c1dd2b175625109))
+* Reduxjs/toolkit createAction Refs: KER-571 ([86c0413](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/86c04131efb77b00dafaff325c1dd2b175625109))
+* Reduxjs/toolkit reducers Refs: KER-571 ([86c0413](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/86c04131efb77b00dafaff325c1dd2b175625109))
+
+
+### Bug Fixes
+
+* Map MultiPolygon key Refs: KER-571 ([1c94317](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1c94317bafb8ef3f00efe34001677eca093a8863))
+* React 19 migration bug fixes Refs: KER-571 ([d2d963c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d2d963c3f685069a1db086c7d68366f659497715))
+* React 19 migration e2e fixes Refs: KER-571 ([6a14820](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6a148202b4304099b3f8d6905e9b317b23af916f))
+* React 19 migration fixes and enhancements Refs: KER-571 ([e3c6a28](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e3c6a28f1c3efbbf9ba6df0a982d6edc582f68df))
+* React 19 migration fixes Refs: KER-571 ([dd01461](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/dd0146160977866386e8c5883761facbfdef2860))
+* Remove component contextTypes Refs: KER-571 ([72ff16c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/72ff16cce570c1ac7cbe5b1c0f5be617dc19c6a6))
+* Sonar fixes Refs: KER-571 ([5afa857](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5afa857feb55c31421342e12342752d41b2f81ad))
+* Suppress unit tests noise Refs: Refs: KER-571 ([6e27b64](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6e27b6457a1094788d8bbb0d0bb20ac0f5241d40))
+* Upgrade base images, nodejs and pnpm ([04e3ede](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/04e3ede56d78329d50c18fba17114fc3d92e77c8))
+
+
+### Dependencies
+
+* Bump hds to version 5 Refs: KER-571 ([f7ffe38](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f7ffe387afddbfa11a6f7b15cc99ae88b17a11fb))
+* Bump testing-library/react Refs: KER-571 ([9aa00d2](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9aa00d2530f567a281a3990536cfe7ce95ea8fe2))
+* React to v19, HDS to v6 Refs: KER-571 ([a86a1d8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a86a1d8bb08bbfefccd3bdf088be5a693f25d5a7))
+* React-helmet to react-helmet-async Refs: KER-571 ([23d94ec](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/23d94ec4c577ecfe79273c79cffb03ac88777633))
+* Remove react-anchor-link-smooth-scroll and nl2br Refs: KER-571 ([632cfab](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/632cfab594cad2710310e391dca0a11b1b2e0726))
+* Remove react-device-detect Refs: KER-571 ([fa00405](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fa00405952928e367265b9df06b59172c6c95b2c))
+* Remove unused i18n packages Refs: KER-571 ([8573c3e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8573c3e82cce01a575a8de4d7241bf88f31b1515))
+* Replace react image lightbox Refs: KER-571 ([9b0fe59](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/9b0fe594b1058c65fcaa3681cbdfe2c106b3471b))
+* Upgrade react-intl to v7 Refs: KER-571 ([8bba9c9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8bba9c974e07e633c87b105a08623df657a59ca9))
+* Upgrade react-leaflet Refs: KER-571 ([ca6afd5](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ca6afd57bf12925dc8ffddac651444fcd09c73ce))
+* Upgrade react-redux to v9 Refs: KER-571 ([1d964ef](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/1d964efe1d69660da16bc9c320880492b4c3f4aa))
+* Upgrade react-router-dom to v7 Refs: KER-571 ([476696e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/476696ed662113e481d9817eb8615ede0ab9d743))
+
+
+### Documentation
+
+* Migration plan Refs: KER-571 ([8ce1786](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/8ce178660d47fbf8873a793f79af2d4dc128957b))
+
 ## [1.20.5](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.4...kerrokantasi-ui-v1.20.5) (2026-05-22)
 
 
