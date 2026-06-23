@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.0...kerrokantasi-ui-v1.21.1) (2026-06-23)
+
+
+### Bug Fixes
+
+* Node version to 24.16 ([190b9a8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/190b9a83c35fc165d0ca17313393b5c805df7123))
+
 ## [1.21.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.20.5...kerrokantasi-ui-v1.21.0) (2026-06-22)
 
 
