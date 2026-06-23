@@ -1,6 +1,6 @@
 {
   "name": "kerrokantasi-ui",
-  "version": "1.21.0",
+  "version": "1.21.1",
   "license": "MIT",
   "main": "index.js",
   "packageManager": "pnpm@11.1.3",
