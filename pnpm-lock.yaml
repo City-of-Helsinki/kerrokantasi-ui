@@ -214,7 +214,7 @@ importers:
         version: 1.5.10
       uuid:
         specifier: ^14.0.0
-        version: 14.0.0
+        version: 14.0.1
       vite:
         specifier: ^8.0.16
         version: 8.0.16(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)
@@ -4127,8 +4127,8 @@ packages:
   util-arity@1.1.0:
     resolution: {integrity: sha512-kkyIsXKwemfSy8ZEoaIz06ApApnWsk5hQO0vLjZS6UkBiGiW++Jsyb8vSBoc0WKlffGoGs5yYy/j5pp8zckrFA==}
 
-  uuid@14.0.0:
-    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
+  uuid@14.0.1:
+    resolution: {integrity: sha512-6ZxzVpzDXDa3bJWaHilVayA+BH/1zmxCJoVgvmqJnid/gPoKHxUrS/aC/T6LGQtNHT+XHG9fXPJB4d+IrU30Ew==}
     hasBin: true
 
   uuid@8.3.2:
@@ -6762,7 +6762,7 @@ snapshots:
       react-merge-refs: 1.1.0
       react-popper: 2.2.5(@popperjs/core@2.11.5)(react@19.2.7)
       react-use-measure: 2.0.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      uuid: 14.0.0
+      uuid: 14.0.1
       yup: 1.7.1
     transitivePeerDependencies:
       - '@types/react'
@@ -8733,7 +8733,7 @@ snapshots:
 
   util-arity@1.1.0: {}
 
-  uuid@14.0.0: {}
+  uuid@14.0.1: {}
 
   uuid@8.3.2: {}
 
