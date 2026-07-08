@@ -20,6 +20,12 @@ overrides:
   "draft-js>immutable": 3.8.3
   "@typescript-eslint/typescript-estree>minimatch": 9.0.7
 
+# Allow plugins that haven't yet updated their peer dep to accept eslint@10.
+# The plugins work fine under v10; the peer range is just stale.
+peerDependencyRules:
+  allowedVersions:
+    "eslint-plugin-jsx-a11y>eslint": "10"
+
 # pnpm 11 requires explicit opt-in for packages that run install scripts.
 # - @parcel/watcher: used by sass and vite for file system watching
 # - core-js: does not require a native build, denied as unnecessary

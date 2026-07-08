@@ -65,6 +65,7 @@ const MESSAGE_INCORRECT_FILE = 'Virheellinen tiedosto.';
 
 const HearingFormStep3 = (props) => {
   let map;
+  // eslint-disable-next-line no-unassigned-vars
   let featureGroup;
   const { hearing, language, isHighContrast, visible } = props; // const props
   const { onHearingChange, onAddMapMarker, onContinue } = props; // function props
@@ -285,6 +286,7 @@ const HearingFormStep3 = (props) => {
 
   useEffect(() => {
     if (map && visible) {
+      // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout
       setTimeout(() => {
         map.invalidateSize();
       }, 200); // Short delay to wait for the animation to end

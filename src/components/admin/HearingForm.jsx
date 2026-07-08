@@ -72,6 +72,7 @@ const HearingForm = ({
   );
 
   const formSteps = [Step1, Step2, Step3, Step4, Step5];
+  // eslint-disable-next-line @eslint-react/no-create-ref
   const stepRefs = useRef(formSteps.map((step) => createRef(step)));
 
   const intl = useIntl();
@@ -364,6 +365,7 @@ const HearingForm = ({
           </a>
           {getErrors()}
           <form>
+            {/* eslint-disable-next-line react-hooks/refs */}
             {formSteps.map((step, index) => getFormStep(step, index))}
           </form>
         </div>

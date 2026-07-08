@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
-
 const MapContainer = ({ children }) => (
   <div data-testid='MapContainer'>{children}</div>
 );
 
+// eslint-disable-next-line @eslint-react/no-unnecessary-use-prefix
 const useMap = () => ({ fitBounds: () => {} });
 
 const TileLayer = () => <div data-testid='TileLayer' />;

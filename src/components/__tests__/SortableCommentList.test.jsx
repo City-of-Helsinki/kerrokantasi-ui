@@ -20,7 +20,6 @@ vi.mock('hds-react', async () => {
 });
 
 vi.mock('../Waypoint', () => ({
-  // eslint-disable-next-line react/prop-types
   Waypoint: ({ onEnter }) => (
     <button type='button' data-testid='waypoint-trigger' onClick={onEnter} />
   ),
