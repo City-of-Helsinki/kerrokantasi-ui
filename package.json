@@ -90,7 +90,7 @@
     "proj4": "^2.7.2",
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",
-    "qs": "^6.14.2",
+    "qs": "^6.15.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-helmet-async": "^3.0.0",
