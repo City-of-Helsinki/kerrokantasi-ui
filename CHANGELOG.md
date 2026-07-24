@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.21.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.1...kerrokantasi-ui-v1.21.2) (2026-07-24)
+
+
+### Bug Fixes
+
+* Stuck Dependabot workflows ([#1319](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1319)) ([c62a321](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c62a3216e290b23e8c7bf6e252d228b45c6c0ac9))
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.0 to 3.4.11 ([d761d8f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d761d8f14e1b9e7be479925cd9adbeb67b72533f))
+* Bump qs from 6.15.1 to 6.15.2 ([0aa1e24](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0aa1e2452a5e85116b9d3029c43770672fd6c9bb))
+* Bump uuid from 8.3.2 to 14.0.1 ([54aa2a7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/54aa2a75f40e598e8998a6c2b21728a9ee6011c7))
+* Bump vite from 8.0.8 to 8.0.16 ([364d4fc](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/364d4fc19f176ed5f459446b0024ac7d4376d1a4))
+
 ## [1.21.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.0...kerrokantasi-ui-v1.21.1) (2026-06-23)
 
 
