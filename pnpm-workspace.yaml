@@ -1,6 +1,15 @@
 # Minimum age for new packages before they can be used (in minutes) – 10080 min = 1 week
 minimumReleaseAge: 10080
 
+minimumReleaseAgeExclude:
+  - 'baseline-browser-mapping@2.11.13'
+  - 'browserslist@4.28.8'
+  - 'caniuse-lite@1.0.30001809'
+  - 'electron-to-chromium@1.5.403'
+  - 'nanoid@3.3.18'
+  - 'node-releases@2.0.53'
+  - 'update-browserslist-db@1.3.0'
+
 # Hoist all dependencies to the root of node_modules because some packages
 # (e.g. the draft-js ecosystem) do not work correctly with pnpm's default isolation strategy
 shamefullyHoist: true
