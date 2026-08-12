@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.21.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.2...kerrokantasi-ui-v1.21.3) (2026-08-12)
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.12 to 3.4.13 ([c738e7e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c738e7ec274bcd95bf39c8e77855c1b4148d19cf))
+* Dompurify minimumReleaseAgeExclude Refs: RATY-357 ([44d73c0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/44d73c0b26144b21ec7c560346d0987024abf956))
+
 ## [1.21.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.1...kerrokantasi-ui-v1.21.2) (2026-08-07)
 
 
