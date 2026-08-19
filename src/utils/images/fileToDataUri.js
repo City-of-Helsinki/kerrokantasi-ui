@@ -6,8 +6,13 @@ const fileToDataUri = (file) =>
       resolve(event.target.result);
     };
 
-    fileReader.onerror = (error) => {
-      reject(error);
+    fileReader.onerror = (event) => {
+      const error = event instanceof Error ? event : fileReader.error;
+      reject(
+        error instanceof Error
+          ? error
+          : new Error('Failed to read file as data URI')
+      );
     };
 
     fileReader.readAsDataURL(file);

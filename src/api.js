@@ -69,7 +69,7 @@ export function getApiURL(endpoint, params = null) {
   return url;
 }
 
-export function apiCall(endpoint, params, options = {}) {
+export function apiCall(endpoint, params, options = null) {
   const token = getApiTokenFromStorage();
   options = merge({ method: 'GET' }, options);
   const defaultHeaders = {
@@ -84,7 +84,14 @@ export function apiCall(endpoint, params, options = {}) {
   return fetch(url, options);
 }
 
-export function jsonRequest(method, endpoint, data, params = {}, options = {}) {
+export function jsonRequest(
+  method,
+  endpoint,
+  data,
+  params = {},
+  options = null
+) {
+  options = options || {};
   if (typeof data !== 'string') {
     data = JSON.stringify(data);
     options.headers = merge(
@@ -95,31 +102,27 @@ export function jsonRequest(method, endpoint, data, params = {}, options = {}) {
   return apiCall(endpoint, params, merge({ body: data, method }, options));
 }
 
-export function post(endpoint, data, params = {}, options = {}) {
+export function post(endpoint, data, params = {}, options = null) {
   return jsonRequest('POST', endpoint, data, params, options);
 }
 
-export function put(endpoint, data, params = {}, options = {}) {
+export function put(endpoint, data, params = {}, options = null) {
   return jsonRequest('PUT', endpoint, data, params, options);
 }
 
-export function patch(endpoint, data, params = {}, options = {}) {
+export function patch(endpoint, data, params = {}, options = null) {
   return jsonRequest('PATCH', endpoint, data, params, options);
 }
 
-export function apiDelete(
-  endpoint,
-  params = {},
-  options = { method: 'DELETE' }
-) {
+export function apiDelete(endpoint, params = {}, options = null) {
+  return apiCall(endpoint, params, merge({ method: 'DELETE' }, options));
+}
+
+export function get(endpoint, params = {}, options = null) {
   return apiCall(endpoint, params, options);
 }
 
-export function get(endpoint, params = {}, options = {}) {
-  return apiCall(endpoint, params, options);
-}
-
-export const getAllFromEndpoint = (endpoint, params = {}, options = {}) => {
+export const getAllFromEndpoint = (endpoint, params = {}, options = null) => {
   const getPaginated = (results, paramsForPage = params) =>
     get(endpoint, paramsForPage, options)
       .then((response) => {

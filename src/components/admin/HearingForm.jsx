@@ -68,7 +68,7 @@ const HearingForm = ({
   errors,
 }) => {
   const [currentStep, setCurrentStep] = useState(
-    parseInt(initialStep, 10) || 1
+    Number.parseInt(initialStep, 10) || 1
   );
 
   const formSteps = [Step1, Step2, Step3, Step4, Step5];
@@ -78,7 +78,7 @@ const HearingForm = ({
   const intl = useIntl();
 
   const nextStep = (stepNumber) => {
-    const next = parseInt(stepNumber, 10) + 1;
+    const next = Number.parseInt(stepNumber, 10) + 1;
     const nextAccordion = stepRefs.current[next - 1];
     const nextToggle = nextAccordion.current?.querySelector(ACCORDION_TOGGLE);
     const isNextOpen = nextToggle?.getAttribute('aria-expanded') === 'true';
