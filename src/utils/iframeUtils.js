@@ -81,8 +81,8 @@ export function convertStyleDimensionSettings(attributes) {
       styleObj[formatted] = value.trim();
     });
 
-    const setWidth = parseInt(styleObj.width, 10);
-    const setHeight = parseInt(styleObj.height, 10);
+    const setWidth = Number.parseInt(styleObj.width, 10);
+    const setHeight = Number.parseInt(styleObj.height, 10);
 
     if (setWidth) {
       newAttributes.width = setWidth.toString();

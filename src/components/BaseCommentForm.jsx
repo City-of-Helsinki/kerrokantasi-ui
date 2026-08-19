@@ -157,7 +157,7 @@ const BaseCommentForm = ({
         collapsed: !formSettings.collapsed,
       }));
 
-      if (onOverrideCollapse instanceof Function) {
+      if (typeof onOverrideCollapse === 'function') {
         onOverrideCollapse();
       }
     } else {

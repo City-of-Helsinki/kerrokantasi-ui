@@ -50,7 +50,7 @@ const QuestionForm = ({
               onChange(
                 question.id,
                 question.type,
-                parseInt(e.target.value, 10)
+                Number.parseInt(e.target.value, 10)
               ),
             label: getAttr(option.text, lang),
           };
