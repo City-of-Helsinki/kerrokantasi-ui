@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/no-inverted-boolean-check */
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
-import keys from 'lodash/keys';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Button, Tooltip } from 'hds-react';
@@ -159,7 +158,7 @@ function HeaderComponent(props) {
   };
 
   const getLanguageChanger = () => {
-    const languageOptions = keys(hearing.title);
+    const languageOptions = Object.keys(hearing.title ?? {});
 
     const translationAvailable = !!getAttr(hearing.title, language, {
       exact: true,

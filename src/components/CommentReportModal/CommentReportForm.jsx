@@ -81,7 +81,7 @@ const CommentReportForm = ({ hearing, id, language }) => {
 
       link.click();
 
-      link.parentNode.removeChild(link);
+      link.remove();
     } catch (error) {
       dispatch(
         addToast(

@@ -26,14 +26,12 @@ export const getCookieConsentSettings = (locale = 'fi') => {
           globalThis._paq.push(['setConsentGiven']);
           globalThis._paq.push(['setCookieConsentGiven']);
         }
-      } else {
+      } else if (globalThis._paq) {
         // tell matomo to forget consent
-        if (globalThis._paq) {
-          globalThis._paq.push(['forgetConsentGiven']);
-        }
+        globalThis._paq.push(['forgetConsentGiven']);
       }
     },
-    siteSettings: siteSettings,
+    siteSettings,
     options: { focusTargetSelector: `#${MAIN_CONTAINER_ID}`, language: locale },
   };
 

@@ -29,6 +29,51 @@ import {
 
 const ACCORDION_TOGGLE = 'div button';
 
+const HearingActions = ({
+  published,
+  isSaving,
+  onSaveAsCopy,
+  onSaveChanges,
+  onSaveAndPreview,
+}) => {
+  if (isSaving) {
+    return (
+      <div className='pull-right'>
+        <LoadSpinner />
+      </div>
+    );
+  }
+
+  if (published) {
+    return (
+      <div className='btn-toolbar'>
+        <Button className='kerrokantasi-btn' onClick={onSaveAsCopy}>
+          <Icon name='copy' /> <FormattedMessage id='copyHearing' />
+        </Button>
+        <Button className='kerrokantasi-btn black' onClick={onSaveChanges}>
+          <Icon className='icon' name='check-circle-o' />{' '}
+          <FormattedMessage id='saveHearingChanges' />
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <Button className='kerrokantasi-btn black' onClick={onSaveAndPreview}>
+      <Icon className='icon' name='check-circle-o' />{' '}
+      <FormattedMessage id='saveAndPreviewHearing' />
+    </Button>
+  );
+};
+
+HearingActions.propTypes = {
+  published: PropTypes.bool,
+  isSaving: PropTypes.bool,
+  onSaveAsCopy: PropTypes.func,
+  onSaveChanges: PropTypes.func,
+  onSaveAndPreview: PropTypes.func,
+};
+
 const HearingForm = ({
   contactPersons,
   currentStep: initialStep,
@@ -210,40 +255,15 @@ const HearingForm = ({
     );
   };
 
-  const getActions = () => {
-    let ActionButton;
-
-    if (hearing.published) {
-      ActionButton = () => (
-        <div className='btn-toolbar'>
-          <Button className='kerrokantasi-btn' onClick={onSaveAsCopy}>
-            <Icon name='copy' /> <FormattedMessage id='copyHearing' />
-          </Button>
-          <Button className='kerrokantasi-btn black' onClick={onSaveChanges}>
-            <Icon className='icon' name='check-circle-o' />{' '}
-            <FormattedMessage id='saveHearingChanges' />
-          </Button>
-        </div>
-      );
-    } else {
-      ActionButton = () => (
-        <Button className='kerrokantasi-btn black' onClick={onSaveAndPreview}>
-          <Icon className='icon' name='check-circle-o' />{' '}
-          <FormattedMessage id='saveAndPreviewHearing' />
-        </Button>
-      );
-    }
-
-    if (!isSaving) {
-      return <ActionButton />;
-    }
-
-    return (
-      <div className='pull-right'>
-        <LoadSpinner />
-      </div>
-    );
-  };
+  const getActions = () => (
+    <HearingActions
+      published={hearing.published}
+      isSaving={isSaving}
+      onSaveAsCopy={onSaveAsCopy}
+      onSaveChanges={onSaveChanges}
+      onSaveAndPreview={onSaveAndPreview}
+    />
+  );
 
   // Helper function to serialize complex error values for React rendering
   const serializeErrorValue = (value) => {

@@ -1,5 +1,5 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit';
-import keys from 'lodash/keys';
+import { v1 as uuid } from 'uuid';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 
@@ -136,7 +136,9 @@ const byId = createReducer({}, (builder) => {
           [sectionId]: {
             ...state[sectionId],
             questions: state[sectionId].questions.map((q, i) =>
-              i === index ? { ...q, options: [...q.options, {}] } : q
+              i === index
+                ? { ...q, options: [...q.options, { frontId: uuid() }] }
+                : q
             ),
           },
         };
@@ -252,15 +254,18 @@ const all = createReducer([], (builder) => {
     ])
     .addCase(
       EditorActions.RECEIVE_HEARING,
-      (_state, { payload: { entities } }) => keys(entities.sections)
+      (_state, { payload: { entities } }) =>
+        Object.keys(entities.sections ?? {})
     )
     .addCase(
       EditorActions.INIT_NEW_HEARING,
-      (_state, { payload: { entities } }) => keys(entities.sections)
+      (_state, { payload: { entities } }) =>
+        Object.keys(entities.sections ?? {})
     )
     .addCase(
       EditorActions.UPDATE_HEARING_AFTER_SAVE,
-      (_state, { payload: { entities } }) => keys(entities.sections)
+      (_state, { payload: { entities } }) =>
+        Object.keys(entities.sections ?? {})
     );
 });
 

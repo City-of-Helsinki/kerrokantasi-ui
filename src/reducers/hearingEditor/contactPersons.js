@@ -1,6 +1,5 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit';
 import get from 'lodash/get';
-import keys from 'lodash/keys';
 
 import { EditorActions } from '../../actions/hearingEditor';
 
@@ -34,7 +33,7 @@ const all = createReducer([], (builder) => {
     .addCase(
       EditorActions.UPDATE_HEARING_AFTER_SAVE,
       (state, { payload: { entities } }) => [
-        ...new Set([...state, ...keys(entities[CONTACTS])]),
+        ...new Set([...state, ...Object.keys(entities[CONTACTS] ?? {})]),
       ]
     );
 });

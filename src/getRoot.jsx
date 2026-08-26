@@ -25,6 +25,17 @@ const loginProviderProps = {
   sessionPollerSettings: { pollIntervalInMs: 10000 },
 };
 
+const CookieConsentWrapper = ({ children, locale }) => (
+  <CookieConsentContextProvider {...getCookieConsentSettings(locale)}>
+    {children}
+  </CookieConsentContextProvider>
+);
+
+CookieConsentWrapper.propTypes = {
+  children: PropTypes.node,
+  locale: PropTypes.string,
+};
+
 // Convert to a React component instead of a function
 const Root = ({ store }) => {
   // Use state to manage locale information
@@ -74,11 +85,9 @@ const Root = ({ store }) => {
             <ConditionalWrap
               condition={config.enableCookies && !isCookiebotEnabled()}
               wrap={(children) => (
-                <CookieConsentContextProvider
-                  {...getCookieConsentSettings(locale)}
-                >
+                <CookieConsentWrapper locale={locale}>
                   {children}
-                </CookieConsentContextProvider>
+                </CookieConsentWrapper>
               )}
             >
               <MatomoContext.Provider value={matomoTracker}>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { map, forEach, omit, isEmpty } from 'lodash';
+import { forEach, omit, isEmpty } from 'lodash';
 import { Button, Dialog, Select } from 'hds-react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
@@ -119,7 +119,7 @@ const ContactModal = ({
     onClose();
   };
 
-  const checkBoxes = map(config.languages, (language) => (
+  const checkBoxes = config.languages.map((language) => (
     <div key={language} className='checkbox-container'>
       <FormattedMessage id={`inLanguage-${language}`} />
       <input

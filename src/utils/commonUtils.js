@@ -9,9 +9,16 @@ export function html2text(html) {
 /** Converts newlines in a string to an array of strings and <br> elements, suitable for rendering inside JSX. */
 export function nl2br(text) {
   if (!text) return text;
-  return text
-    .split('\n')
-    .flatMap((s, i) => (i === 0 ? [s] : [createElement('br', { key: i }), s]));
+  return text.split('\n').flatMap((segment, index, segments) =>
+    index === 0
+      ? [segment]
+      : [
+          createElement('br', {
+            key: segments.slice(0, index + 1).join('\n'),
+          }),
+          segment,
+        ]
+  );
 }
 
 export default { html2text, nl2br };

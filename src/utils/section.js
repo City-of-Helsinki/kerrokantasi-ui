@@ -1,4 +1,4 @@
-import { values, merge } from 'lodash';
+import { merge } from 'lodash';
 
 import initAttr from './initAttr';
 import { acceptsComments } from './hearing';
@@ -10,7 +10,7 @@ export const SectionTypes = {
   CLOSURE: 'closure-info',
 };
 
-const specialSectionTypes = values(SectionTypes);
+const specialSectionTypes = Object.values(SectionTypes);
 
 /**
  * Tells whether section has any questions or not.
