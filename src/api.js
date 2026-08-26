@@ -45,7 +45,7 @@ export function getBaseApiURL(baseUrl) {
 export function getApiURL(endpoint, params = null) {
   const baseUrl = getBaseApiURL(config.apiBaseUrl);
   let url = `${baseUrl}/${endpoint.replace(/^\//g, '')}`;
-  if (!/\/$/.test(url)) url += '/'; // All API endpoints end with a slash
+  if (!url.endsWith('/')) url += '/'; // All API endpoints end with a slash
 
   if (params && Object.keys(params).length > 0) {
     if (url.indexOf('?') > -1) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { get, isArray, isEmpty } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import {
   Button,
   Card,
@@ -57,12 +57,12 @@ const fetchFiles = async (data, fileType, language) => {
         type,
       });
 
-      return Promise.resolve({ id: item.id, name, type, file });
+      return { id: item.id, name, type, file };
     });
 
     return Promise.all(promises);
   } catch (error) {
-    return Promise.reject(new Error(error));
+    throw new Error(error?.message ?? String(error), { cause: error });
   }
 };
 
@@ -139,7 +139,7 @@ const SectionForm = ({
    */
   const onChange = (selected, field) => {
     // Propagate interesting changes to parent components
-    const { value } = isArray(selected) ? selected[0] : selected;
+    const { value } = Array.isArray(selected) ? selected[0] : selected;
 
     switch (field) {
       case 'imageCaption':

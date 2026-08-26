@@ -174,7 +174,7 @@ const SectionContainerComponent = ({
 
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      link.remove();
       // eslint-disable-next-line no-unused-vars, sonarjs/no-ignored-exceptions
     } catch (error) {
       dispatch(

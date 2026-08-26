@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Leaflet from 'leaflet';
 import { Button, Fieldset, FileInput } from 'hds-react';
-import { isEmpty, includes, keys, isMatch } from 'lodash';
+import { isEmpty, isMatch } from 'lodash';
 import { connect, useDispatch } from 'react-redux';
 import localization from '@city-i18n/localization.json';
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
@@ -201,9 +201,9 @@ const HearingFormStep3 = (props) => {
         const filteredFeatured = collectionFeatures
           .filter((feature) => {
             const hasRequiredProperties =
-              includes(keys(feature), 'geometry') &&
-              includes(keys(feature.geometry), 'type') &&
-              includes(keys(feature.geometry), 'coordinates');
+              Object.keys(feature ?? {}).includes('geometry') &&
+              Object.keys(feature?.geometry ?? {}).includes('type') &&
+              Object.keys(feature?.geometry ?? {}).includes('coordinates');
 
             if (hasRequiredProperties) {
               if (!feature.geometry.coordinates.length) {

@@ -262,7 +262,7 @@ export const addContact = (contact, selectedContacts) => async (dispatch) => {
     })
     .catch((err) => {
       requestErrorHandler(dispatch)(err);
-      return Promise.reject(err);
+      throw err;
     })
     .finally(() => true);
 };

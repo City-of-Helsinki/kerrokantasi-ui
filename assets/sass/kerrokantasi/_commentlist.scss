@@ -269,12 +269,19 @@
       &__wrapper {
         padding: 0 $padding-small;
 
-        & > a {
+        & > button {
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: inherit;
+          cursor: pointer;
+          font: inherit;
           text-decoration: none;
 
           &:hover,
           &:focus {
             border-bottom: 1px solid $link-hover-color;
+            color: $link-hover-color;
           }
         }
 

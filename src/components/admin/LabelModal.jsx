@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import { useIntl, FormattedMessage } from 'react-intl';
 import update from 'immutability-helper';
@@ -50,7 +49,7 @@ const LabelModal = ({ isOpen, onClose, onCreateLabel }) => {
     closeFn();
   };
 
-  const checkBoxes = map(config.languages, (language) => (
+  const checkBoxes = config.languages.map((language) => (
     <div key={language} className='checkbox-container'>
       <FormattedMessage id={`inLanguage-${language}`} />
       <input

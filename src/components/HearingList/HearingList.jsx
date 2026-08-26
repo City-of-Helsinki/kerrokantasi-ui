@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { FormattedMessage, FormattedPlural } from 'react-intl';
-import { keys } from 'lodash';
 import { Checkbox as HDSCheckbox, Tabs as HDSTabs } from 'hds-react';
 
 import { formatPageTitle } from '../../utils/pageTitle';
@@ -110,7 +109,7 @@ const HearingList = ({
           }}
         >
           <HDSTabs.TabList className='page-section--hearings-tabs'>
-            {keys(HEARING_LIST_TABS).map((key) => {
+            {Object.keys(HEARING_LIST_TABS).map((key) => {
               const value = HEARING_LIST_TABS[key];
 
               return (

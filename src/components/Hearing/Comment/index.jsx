@@ -189,6 +189,7 @@ const Comment = ({
    * Call the parent component to retrieve list of sub comments for current comment.
    */
   const getReplies = () => {
+    setState((prevState) => ({ ...prevState, showReplies: true }));
     onGetSubComments(data.id, section.id);
   };
 
@@ -628,8 +629,7 @@ const Comment = ({
         .getElementById(`comment-${data.id}`)
         .querySelector('span.hearing-comment__show-more__wrapper');
       if (toggleContainer) {
-        // finds the first anchor element and sets focus on it.
-        toggleContainer.querySelector('a').focus();
+        toggleContainer.querySelector('button').focus();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

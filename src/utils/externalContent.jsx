@@ -70,7 +70,7 @@ export const replaceIframesWithPlaceholders = (
     const beforeHtml = remainingHtml.substring(0, searchIndex);
     if (beforeHtml.trim()) {
       elements.push(
-        <React.Fragment key={`before-${index}`}>
+        <React.Fragment key={`before-${index}-${searchIndex}-${iframeString}`}>
           {sanitizeHtml(beforeHtml)}
         </React.Fragment>
       );
@@ -79,7 +79,10 @@ export const replaceIframesWithPlaceholders = (
     // Add placeholder (iframe always has src at this point due to extractIframes filtering)
     const src = iframe.getAttribute('src');
     elements.push(
-      <PlaceholderComponent key={`placeholder-${index}`} url={src} />
+      <PlaceholderComponent
+        key={`placeholder-${index}-${searchIndex}-${iframeString}`}
+        url={src}
+      />
     );
 
     remainingHtml = remainingHtml.substring(searchIndex + searchString.length);

@@ -104,6 +104,22 @@ describe('<Comment />', () => {
     );
   });
 
+  it('should show replies after fetching them on the first click', async () => {
+    const onGetSubComments = vi.fn();
+    const props = createCommentData({ comments: ['reply-id'] });
+    renderComponent({ ...props, onGetSubComments });
+
+    const showRepliesButton = screen.getByRole('button', {
+      name: /showMoreReplies/i,
+    });
+    const user = userEvent.setup();
+
+    await user.click(showRepliesButton);
+
+    expect(onGetSubComments).toHaveBeenCalledWith('f00f00', undefined);
+    expect(showRepliesButton).toHaveAttribute(ARIA_EXPANDED, 'true');
+  });
+
   it('should have edit links open if canReply is true', async () => {
     renderComponent({ canReply: true });
 

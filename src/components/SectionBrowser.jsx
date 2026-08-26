@@ -4,11 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Link from './LinkWithLang';
 
 const SectionBrowserComponent = ({ sectionNav }) => (
-  <div
-    className='section-browser'
-    role='navigation'
-    aria-labelledby='section-browser-title'
-  >
+  <nav className='section-browser' aria-labelledby='section-browser-title'>
     <ul className='pager'>
       <li className={`previous ${sectionNav.prev.path ? '' : 'disabled'}`}>
         <LinkWrapper disabled={!sectionNav.prev.path} to={sectionNav.prev}>
@@ -33,7 +29,7 @@ const SectionBrowserComponent = ({ sectionNav }) => (
         </LinkWrapper>
       </li>
     </ul>
-  </div>
+  </nav>
 );
 
 export default SectionBrowserComponent;

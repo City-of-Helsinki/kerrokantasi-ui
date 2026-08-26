@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -34,16 +33,11 @@ const ShowMore = ({ isLoadingSubComment = false, open = false, ...props }) => {
         <LoadSpinner style={{ padding: '12px' }} />
       ) : (
         <span className='hearing-comment__show-more__wrapper'>
-          <a
-            href=''
-            onClick={handleShowMore}
-            role='button'
-            aria-expanded={open}
-          >
+          <button type='button' onClick={handleShowMore} aria-expanded={open}>
             <Icon name={toggle.icon} aria-hidden='true' />
             <FormattedMessage id={toggle.msg} />
             <span className='hearing-comment__show-more__count'>{`(${props.numberOfComments})`}</span>
-          </a>
+          </button>
         </span>
       )}
     </div>

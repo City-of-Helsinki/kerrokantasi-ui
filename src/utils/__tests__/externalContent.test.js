@@ -1,9 +1,31 @@
 import { vi } from 'vitest';
 import DOMPurify from 'dompurify';
 
-import { convertEmbedToViewUrl, sanitizeHtml } from '../externalContent';
+import {
+  convertEmbedToViewUrl,
+  extractIframes,
+  replaceIframesWithPlaceholders,
+  sanitizeHtml,
+} from '../externalContent';
 
 describe('externalContent utilities', () => {
+  describe('replaceIframesWithPlaceholders', () => {
+    it('uses unique keys for identical adjacent iframes', () => {
+      const html =
+        '<iframe src="https://example.com/embed"></iframe><iframe src="https://example.com/embed"></iframe>';
+      const Placeholder = () => null;
+      const elements = replaceIframesWithPlaceholders(
+        html,
+        extractIframes(html),
+        Placeholder
+      );
+
+      expect(new Set(elements.map((element) => element.key)).size).toBe(
+        elements.length
+      );
+    });
+  });
+
   describe('convertEmbedToViewUrl', () => {
     it('converts YouTube embed URL to watch URL', () => {
       const embedUrl = 'https://www.youtube.com/embed/abc123';

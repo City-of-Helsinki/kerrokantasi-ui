@@ -98,11 +98,10 @@ class MapdonHKRPlugin extends BaseCommentForm {
   componentDidMount() {
     const iframe = this.iframeRef.current;
     const { data } = this.props;
-    const self = this;
-    if (!self._messageListener) {
-      self._messageListener = this.onReceiveMessage.bind(self);
+    if (!this._messageListener) {
+      this._messageListener = this.onReceiveMessage.bind(this);
       if (typeof window !== 'undefined')
-        window.addEventListener('message', self._messageListener, false);
+        window.addEventListener('message', this._messageListener, false);
     }
 
     iframe.addEventListener(

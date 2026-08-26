@@ -47,7 +47,7 @@ const QuestionForm = ({
         placeholderId='questionTextPlaceholder'
       />
       {question.options.map((option, index) => (
-        <div style={{ display: 'flex' }} key={`option-${index}`}>
+        <div style={{ display: 'flex' }} key={option.id ?? option.frontId}>
           <div style={{ flex: '19' }}>
             <MultiLanguageTextField
               labelId='option'

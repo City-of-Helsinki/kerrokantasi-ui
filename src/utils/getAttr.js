@@ -1,4 +1,4 @@
-import { has, isObject, isArray, keys } from 'lodash';
+import { has, isObject } from 'lodash';
 
 const DefaultOptions = {
   exact: false,
@@ -24,7 +24,7 @@ const getAttr = (attr, lang, options = DefaultOptions) => {
     return undefined;
   }
   if (!translated || isObject(translated)) {
-    const attrKeys = keys(attr);
+    const attrKeys = Object.keys(attr ?? {});
     for (let index = 0; index < attrKeys.length; index += 1) {
       translated = attr[attrKeys[index]];
       if (translated) {
@@ -37,8 +37,8 @@ const getAttr = (attr, lang, options = DefaultOptions) => {
   }
   if (
     isObject(translated) &&
-    keys(translated).length === 0 &&
-    !isArray(translated)
+    Object.keys(translated ?? {}).length === 0 &&
+    !Array.isArray(translated)
   ) {
     return undefined;
   }

@@ -1,6 +1,5 @@
 /* eslint-disable sonarjs/no-extra-arguments */
 import { createAction } from '@reduxjs/toolkit';
-import merge from 'lodash/merge';
 import parse from 'url-parse';
 import * as Sentry from '@sentry/react';
 
@@ -106,7 +105,7 @@ export function fetchInitialHearingList(listId, endpoint, params) {
     dispatch(fetchAction);
 
     // make sure the results will get paginated
-    const paramsWithLimit = merge({ limit: 10 }, params);
+    const paramsWithLimit = { limit: 10, ...params };
 
     return apiGet(endpoint, paramsWithLimit)
       .then(getResponseJSON)
@@ -126,7 +125,7 @@ export function fetchHearingList(listId, endpoint, params) {
     dispatch(fetchAction);
 
     // make sure the results won't get paginated
-    const paramsWithLimit = merge({ limit: 99998 }, params);
+    const paramsWithLimit = { limit: 99998, ...params };
 
     return apiGet(endpoint, paramsWithLimit)
       .then(getResponseJSON)
