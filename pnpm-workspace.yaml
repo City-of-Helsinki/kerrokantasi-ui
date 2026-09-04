@@ -1,15 +1,6 @@
 # Minimum age for new packages before they can be used (in minutes) – 10080 min = 1 week
 minimumReleaseAge: 10080
 
-minimumReleaseAgeExclude:
-  - 'baseline-browser-mapping@2.11.13'
-  - 'browserslist@4.28.8'
-  - 'caniuse-lite@1.0.30001809'
-  - 'electron-to-chromium@1.5.403'
-  - 'nanoid@3.3.18'
-  - 'node-releases@2.0.53'
-  - 'update-browserslist-db@1.3.0'
-
 # Hoist all dependencies to the root of node_modules because some packages
 # (e.g. the draft-js ecosystem) do not work correctly with pnpm's default isolation strategy
 shamefullyHoist: true
@@ -18,19 +9,23 @@ shamefullyHoist: true
 # newer versions are not compatible with draft-js.
 # The minimatch override fixes the version used by @typescript-eslint/typescript-estree.
 overrides:
-  '@draft-js-plugins/drag-n-drop>immutable': 3.8.3
-  '@draft-js-plugins/editor>immutable': 3.8.3
-  '@draft-js-plugins/focus>immutable': 3.8.3
-  '@draft-js-plugins/image>immutable': 3.8.3
-  '@draft-js-plugins/resizeable>immutable': 3.8.3
-  'draft-convert>immutable': 3.8.3
-  'draft-js-export-html>immutable': 3.8.3
-  'draft-js-utils>immutable': 3.8.3
-  'draft-js>immutable': 3.8.3
+  '@draft-js-plugins/drag-n-drop>immutable': 3.8.4
+  '@draft-js-plugins/editor>immutable': 3.8.4
+  '@draft-js-plugins/focus>immutable': 3.8.4
+  '@draft-js-plugins/image>immutable': 3.8.4
+  '@draft-js-plugins/resizeable>immutable': 3.8.4
+  'draft-convert>immutable': 3.8.4
+  'draft-js-export-html>immutable': 3.8.4
+  'draft-js-utils>immutable': 3.8.4
+  'draft-js>immutable': 3.8.4
   '@typescript-eslint/typescript-estree>minimatch': 9.0.7
-  'js-yaml@^3': '^3.15.0'
-  'brace-expansion@^1': '^5.0.6'
-  'brace-expansion@^2': '^5.0.6'
+  'immutable@^5': '^5.1.8'
+  'js-yaml@^3': '^3.15.1'
+  'js-yaml@^4': '^4.3.1'
+  'brace-expansion': '^5.0.9'
+  'fast-uri': '^3.1.6'
+  'postcss': '^8.5.18'
+  'ws': '^8.21.0'
 
 # Allow plugins that haven't yet updated their peer dep to accept eslint@10.
 # The plugins work fine under v10; the peer range is just stale.

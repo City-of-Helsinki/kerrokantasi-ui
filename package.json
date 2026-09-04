@@ -99,7 +99,7 @@
     "react-leaflet-draw": "^0.21.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.3.0",
-    "react-router-dom": "^7.17.0",
+    "react-router-dom": "^7.18.2",
     "remark-gfm": "^4.0.0",
     "reselect": "^5.1.1",
     "sass": "^1.89.0",
