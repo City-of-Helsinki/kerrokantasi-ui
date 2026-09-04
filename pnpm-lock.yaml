@@ -5,19 +5,23 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@draft-js-plugins/drag-n-drop>immutable': 3.8.3
-  '@draft-js-plugins/editor>immutable': 3.8.3
-  '@draft-js-plugins/focus>immutable': 3.8.3
-  '@draft-js-plugins/image>immutable': 3.8.3
-  '@draft-js-plugins/resizeable>immutable': 3.8.3
-  draft-convert>immutable: 3.8.3
-  draft-js-export-html>immutable: 3.8.3
-  draft-js-utils>immutable: 3.8.3
-  draft-js>immutable: 3.8.3
+  '@draft-js-plugins/drag-n-drop>immutable': 3.8.4
+  '@draft-js-plugins/editor>immutable': 3.8.4
+  '@draft-js-plugins/focus>immutable': 3.8.4
+  '@draft-js-plugins/image>immutable': 3.8.4
+  '@draft-js-plugins/resizeable>immutable': 3.8.4
+  draft-convert>immutable: 3.8.4
+  draft-js-export-html>immutable: 3.8.4
+  draft-js-utils>immutable: 3.8.4
+  draft-js>immutable: 3.8.4
   '@typescript-eslint/typescript-estree>minimatch': 9.0.7
-  js-yaml@^3: ^3.15.0
-  brace-expansion@^1: ^5.0.6
-  brace-expansion@^2: ^5.0.6
+  immutable@^5: ^5.1.8
+  js-yaml@^3: ^3.15.1
+  js-yaml@^4: ^4.3.1
+  brace-expansion: ^5.0.9
+  fast-uri: ^3.1.6
+  postcss: ^8.5.18
+  ws: ^8.21.0
 
 importers:
 
@@ -25,7 +29,7 @@ importers:
     dependencies:
       '@city-of-helsinki/react-helsinki-notification-manager':
         specifier: ^0.1.0
-        version: 0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.16)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.2))(react@19.2.8)
+        version: 0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.2))(react@19.2.8)
       '@draft-js-plugins/drag-n-drop':
         specifier: ^4.2.0
         version: 4.2.3(draft-js@0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -133,7 +137,7 @@ importers:
         version: 6.0.5
       hds-react:
         specifier: ^6.0.5
-        version: 6.0.5(@types/react@18.3.28)(postcss@8.5.16)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        version: 6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       hel-bootstrap-3:
         specifier: 1.0.0-beta.4
         version: 1.0.0-beta.4(bootstrap-sass@3.4.3)
@@ -201,8 +205,8 @@ importers:
         specifier: ^9.3.0
         version: 9.3.0(@types/react@18.3.28)(react@19.2.8)(redux@5.0.1)
       react-router-dom:
-        specifier: ^7.17.0
-        version: 7.17.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: ^7.18.2
+        version: 7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
@@ -1754,9 +1758,9 @@ packages:
   bootstrap-sass@3.4.3:
     resolution: {integrity: sha512-vPgFnGMp1jWZZupOND65WS6mkR8rxhJxndT/AcMbqcq1hHMdkcH4sMPhznLzzoHOHkSCrd6J9F8pWBriPCKP2Q==}
 
-  brace-expansion@5.0.7:
-    resolution: {integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA==}
-    engines: {node: 18 || 20 || >=22}
+  brace-expansion@5.0.9:
+    resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
+    engines: {node: 20 || >=22}
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -2072,13 +2076,13 @@ packages:
     resolution: {integrity: sha512-G4VGBSalPowktIE4wp3rFbhjs+Ln9IZ2FhXeHjsZDSw0a2+h+BjKu5Enq+mcsyVb51RW740GBK8Xbf7Iic51tw==}
     peerDependencies:
       draft-js: '>=0.10.0'
-      immutable: 3.8.3
+      immutable: 3.8.4
 
   draft-js-utils@1.4.1:
     resolution: {integrity: sha512-xE81Y+z/muC5D5z9qWmKfxEW1XyXfsBzSbSBk2JRsoD0yzMGGHQm/0MtuqHl/EUDkaBJJLjJ2EACycoDMY/OOg==}
     peerDependencies:
       draft-js: '>=0.10.0'
-      immutable: 3.8.3
+      immutable: 3.8.4
 
   draft-js@0.11.7:
     resolution: {integrity: sha512-ne7yFfN4sEL82QPQEn80xnADR8/Q6ALVworbC5UOSzOvjffmYfFsr3xSZtxbIirti14R7Y33EZC5rivpLgIbsg==}
@@ -2363,8 +2367,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fast-uri@3.1.3:
-    resolution: {integrity: sha512-i70LwGWUduXqzicKXWshooq+sWL1K3WUU5rKZNG/0i3a1OSoX3HqhH5WbWwTmqWfor4urUakGPiRQcleRZTwOg==}
+  fast-uri@3.1.6:
+    resolution: {integrity: sha512-7Ical1vFEMr0onbVzEDIreM22I4khW+fzyQPwvAFWBp1iwdshSZRsL4jjRvPG9JP1uiqMHRto+YU6R2/CzDz5Q==}
 
   fbjs-css-vars@1.0.2:
     resolution: {integrity: sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==}
@@ -2596,7 +2600,7 @@ packages:
     resolution: {integrity: sha512-OFaaPTop9UElK6NN/o99b/N+7+ZqQIYcYFM1OKtSw/yHLwHidoIRDbOsQqnGjSEpiTgNWLZjxhcSlwzNMdqiQg==}
     engines: {node: ^24}
     peerDependencies:
-      postcss: ^8.4.21
+      postcss: ^8.5.18
       react: ^19.0.0
       react-dom: ^19.0.0
 
@@ -2684,15 +2688,15 @@ packages:
   immutability-helper@3.1.1:
     resolution: {integrity: sha512-Q0QaXjPjwIju/28TsugCHNEASwoCcJSyJV3uO1sOIQGI0jKgm9f41Lvz0DZj3n46cNCyAZTsEYoY4C2bVRUzyQ==}
 
-  immutable@3.8.3:
-    resolution: {integrity: sha512-AUY/VyX0E5XlibOmWt10uabJzam1zlYjwiEgQSDc5+UIkFNaF9WM0JxXKaNMGf+F/ffUF+7kRKXM9A7C0xXqMg==}
+  immutable@3.8.4:
+    resolution: {integrity: sha512-ZQv17KolYrYmsDoDB8N67zhIKsNi9mGYlk96y/yuxyAqJB2hLzSGSM7k/sB0/ZvO4kx27U9+fBeD/XlLGh/uXQ==}
     engines: {node: '>=0.10.0'}
 
   immutable@4.3.9:
     resolution: {integrity: sha512-ObHy4YN7ycwZOUCLI1/6svfyAFu7vL8RhAvVu/bh/RZW9EPlOyDaQ9jDQWCtdqzaXUjgXZCW1migtHE7YI7UGQ==}
 
-  immutable@5.1.5:
-    resolution: {integrity: sha512-t7xcm2siw+hlUM68I+UEOK+z84RzmN59as9DZ7P1l0994DKUWV7UXBMQZVxaoMSRQ+PBZbHCOoBt7a2wxOMt+A==}
+  immutable@5.1.9:
+    resolution: {integrity: sha512-m8nVez3rwrgmWxtLMt1ZYXB2Lv7OKYn/disyxAlSDYAlKSlFoPPfIAmAM/M5xqL4m4C/wAPw7S2/CNaUii1Hxg==}
 
   import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
@@ -2927,12 +2931,12 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-yaml@3.15.0:
-    resolution: {integrity: sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==}
+  js-yaml@3.15.2:
+    resolution: {integrity: sha512-6EuL879VkRA+1Cz578mKMiKvjPNEuk6+r1JaFzoSWejZmtf7xWbIyw1e3KkxlkzTIt9Taw6JBhEppG7utc1P+w==}
     hasBin: true
 
-  js-yaml@4.3.0:
-    resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
+  js-yaml@4.3.2:
+    resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
   jsdom@26.1.0:
@@ -3545,14 +3549,14 @@ packages:
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
     engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
-      postcss: ^8.2
+      postcss: ^8.5.18
 
   postcss-selector-parser@6.1.4:
     resolution: {integrity: sha512-bIoJLOmjCO1S9XdY/DcnR5hJxvrDir1PbGChrzXG3vw0/FOliy/fA3dmdhQ441kah4gKv+TwckGzex6wNS5cnQ==}
     engines: {node: '>=4'}
 
-  postcss@8.5.16:
-    resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
+  postcss@8.5.26:
+    resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -3708,15 +3712,15 @@ packages:
       redux:
         optional: true
 
-  react-router-dom@7.17.0:
-    resolution: {integrity: sha512-fyU2yjGups/hE6Xz0I5ZYbVL8Gx29eCjgpHaRaTaVU+OOAdfRX05KsvyRm0GO8YQwOkhpU3MurW1jyMUJn+zSw==}
+  react-router-dom@7.18.2:
+    resolution: {integrity: sha512-AIKJ/jgGlFb3EbfCXk5Gzshiwt+l3mqbCrNjmEWMMjqQxNJ3svBa6bgzFyCC2Sw3RA0VWF1kg3uQf2OFhxb8hw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
 
-  react-router@7.17.0:
-    resolution: {integrity: sha512-FDELK7rTMlCHO5+reyXsPlmfr7N1F91lPHsWYfMEGQm/KQ+F4JFM8jGoeQDmDvdTs93Fw9aSilH+uKRb4/jXvQ==}
+  react-router@7.18.2:
+    resolution: {integrity: sha512-aUVMjFm3GAPTTZL7oYr5E7ETiqfQCHRLH+B+5afnICvf0r7kkK4eR6SMuwbSTJw/7t+12khT/Kahij49fqOCIg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -4448,8 +4452,8 @@ packages:
   write-file-atomic@3.0.3:
     resolution: {integrity: sha512-AvHcyZ5JnSfq3ioSyjrBkH9yW4m7Ayk8/9My/DD9onKeu/94fwrMocemO2QAJFAlnnDN+ZDS+ZjAR5ua1/PV/Q==}
 
-  ws@8.20.0:
-    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
+  ws@8.21.3:
+    resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -4698,9 +4702,9 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.16)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.2))(react@19.2.8)':
+  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.2))(react@19.2.8)':
     dependencies:
-      hds-react: 6.0.5(@types/react@18.3.28)(postcss@8.5.16)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      hds-react: 6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       i18next: 25.10.10(typescript@6.0.2)
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -4846,14 +4850,14 @@ snapshots:
   '@draft-js-plugins/drag-n-drop@4.2.3(draft-js@0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       draft-js: 0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      immutable: 3.8.3
+      immutable: 3.8.4
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
   '@draft-js-plugins/editor@4.1.4(draft-js@0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       draft-js: 0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      immutable: 3.8.3
+      immutable: 3.8.4
       prop-types: 15.8.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -4862,7 +4866,7 @@ snapshots:
     dependencies:
       clsx: 1.2.1
       draft-js: 0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      immutable: 3.8.3
+      immutable: 3.8.4
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
@@ -5193,7 +5197,7 @@ snapshots:
       camelcase: 5.3.1
       find-up: 4.1.0
       get-package-type: 0.1.0
-      js-yaml: 3.15.0
+      js-yaml: 3.15.2
       resolve-from: 5.0.0
 
   '@istanbuljs/schema@0.1.3': {}
@@ -5912,7 +5916,7 @@ snapshots:
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.3
+      fast-uri: 3.1.6
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -6029,7 +6033,7 @@ snapshots:
 
   bootstrap-sass@3.4.3: {}
 
-  brace-expansion@5.0.7:
+  brace-expansion@5.0.9:
     dependencies:
       balanced-match: 4.0.4
 
@@ -6188,7 +6192,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.3.0
+      js-yaml: 4.3.2
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 6.0.2
@@ -6325,7 +6329,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.2
       draft-js: 0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      immutable: 3.8.3
+      immutable: 3.8.4
       invariant: 2.2.4
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -6344,7 +6348,7 @@ snapshots:
   draft-js@0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       fbjs: 2.0.0
-      immutable: 3.8.3
+      immutable: 3.8.4
       object-assign: 4.1.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -6780,7 +6784,7 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-uri@3.1.3: {}
+  fast-uri@3.1.6: {}
 
   fbjs-css-vars@1.0.2: {}
 
@@ -7030,7 +7034,7 @@ snapshots:
 
   hds-design-tokens@6.0.5: {}
 
-  hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.16)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       '@apollo/client': 3.14.1(@types/react@18.3.28)(graphql@16.14.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@babel/runtime': 7.29.7
@@ -7051,8 +7055,8 @@ snapshots:
       kashe: 1.2.0
       lodash: 4.18.1
       oidc-client-ts: 2.5.0
-      postcss: 8.5.16
-      postcss-nesting: 10.2.0(postcss@8.5.16)
+      postcss: 8.5.26
+      postcss-nesting: 10.2.0(postcss@8.5.26)
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
       react-hook-form: 7.83.0(react@19.2.8)
@@ -7152,11 +7156,11 @@ snapshots:
 
   immutability-helper@3.1.1: {}
 
-  immutable@3.8.3: {}
+  immutable@3.8.4: {}
 
   immutable@4.3.9: {}
 
-  immutable@5.1.5: {}
+  immutable@5.1.9: {}
 
   import-fresh@3.3.1:
     dependencies:
@@ -7403,12 +7407,12 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@3.15.0:
+  js-yaml@3.15.2:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.3.0:
+  js-yaml@4.3.2:
     dependencies:
       argparse: 2.0.1
 
@@ -7432,7 +7436,7 @@ snapshots:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
-      ws: 8.20.0
+      ws: 8.21.3
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -7966,19 +7970,19 @@ snapshots:
 
   minimatch@10.2.5:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.9
 
   minimatch@3.1.5:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.9
 
   minimatch@9.0.7:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.9
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 5.0.7
+      brace-expansion: 5.0.9
 
   minimist@1.2.8: {}
 
@@ -8210,10 +8214,10 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss-nesting@10.2.0(postcss@8.5.16):
+  postcss-nesting@10.2.0(postcss@8.5.26):
     dependencies:
       '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.4)
-      postcss: 8.5.16
+      postcss: 8.5.26
       postcss-selector-parser: 6.1.4
 
   postcss-selector-parser@6.1.4:
@@ -8221,7 +8225,7 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss@8.5.16:
+  postcss@8.5.26:
     dependencies:
       nanoid: 3.3.18
       picocolors: 1.1.1
@@ -8392,13 +8396,13 @@ snapshots:
       '@types/react': 18.3.28
       redux: 5.0.1
 
-  react-router-dom@7.17.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  react-router-dom@7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
-      react-router: 7.17.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-router: 7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
-  react-router@7.17.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  react-router@7.18.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       cookie: 1.1.1
       react: 19.2.8
@@ -8587,7 +8591,7 @@ snapshots:
   sass@1.99.0:
     dependencies:
       chokidar: 4.0.3
-      immutable: 5.1.5
+      immutable: 5.1.9
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.6
@@ -9050,7 +9054,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.16
+      postcss: 8.5.26
       rolldown: 1.0.3
       tinyglobby: 0.2.17
     optionalDependencies:
@@ -9206,7 +9210,7 @@ snapshots:
       signal-exit: 3.0.7
       typedarray-to-buffer: 3.1.5
 
-  ws@8.20.0: {}
+  ws@8.21.3: {}
 
   xml-name-validator@5.0.0: {}
 
