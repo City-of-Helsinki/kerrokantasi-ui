@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.21.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.3...kerrokantasi-ui-v1.21.4) (2026-09-05)
+
+
+### Bug Fixes
+
+* Dependabot alerts ([d4a57aa](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d4a57aa0c0a20c0461f77de909e854ea8dfcba5c))
+* Sonar maintainability fixes ([c1f487b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/c1f487bb7e2799d6f2e6e29c69b7df1ec0a605fd))
+* Sonar reliability issues ([d851e3e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/d851e3e890cab59d3115daa981ede2127898d0ed))
+
 ## [1.21.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.2...kerrokantasi-ui-v1.21.3) (2026-08-12)
 
 
