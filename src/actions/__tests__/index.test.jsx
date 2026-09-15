@@ -130,7 +130,7 @@ describe('fetchProjects', () => {
 
     await store.dispatch(actions.fetchProjects());
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
-    expect(api.get).toHaveBeenCalledWith('v1/project');
+    expect(api.get).toHaveBeenCalledWith('v1/project', {}, { skipAuth: true });
   });
 
   it('handles errors when fetching projects fails', async () => {
