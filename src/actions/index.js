@@ -140,7 +140,7 @@ export function fetchProjects() {
   return (dispatch) => {
     const fetchAction = createAction('fetchProjects')();
     dispatch(fetchAction);
-    return apiGet('v1/project')
+    return apiGet('v1/project', {}, { skipAuth: true })
       .then(getResponseJSON)
       .then((data) => {
         dispatch(createAction('receiveProjects')({ data }));

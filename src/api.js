@@ -70,12 +70,14 @@ export function getApiURL(endpoint, params = null) {
 }
 
 export function apiCall(endpoint, params, options = null) {
+  const { skipAuth, ...restOptions } = options || {};
   const token = getApiTokenFromStorage();
-  options = merge({ method: 'GET' }, options);
+  options = merge({ method: 'GET' }, restOptions);
   const defaultHeaders = {
     Accept: 'application/json',
   };
-  if (token) {
+  // Authorization triggers a CORS preflight that public endpoints don't need to allow.
+  if (token && !skipAuth) {
     defaultHeaders.Authorization = `Bearer ${token}`;
   }
   options.headers = merge(defaultHeaders, options.headers || {});

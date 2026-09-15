@@ -134,6 +134,27 @@ describe('api.js', () => {
         })
       );
     });
+
+    it('should omit Authorization header when skipAuth is set even if token exists', async () => {
+      const token = 'test-token';
+      sessionStorage.setItem(
+        storageKey,
+        JSON.stringify({ 'test-audience': token })
+      );
+      fetch.mockResolvedValue({
+        status: 200,
+        json: vi.fn().mockResolvedValue({}),
+      });
+      await apiCall('test-endpoint', null, { skipAuth: true });
+      expect(fetch).toHaveBeenCalledWith(
+        'http://example.com/api/test-endpoint/',
+        expect.objectContaining({
+          headers: expect.not.objectContaining({
+            Authorization: expect.anything(),
+          }),
+        })
+      );
+    });
   });
 
   describe('jsonRequest', () => {
