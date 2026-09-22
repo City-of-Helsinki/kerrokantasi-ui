@@ -26,6 +26,12 @@ const ORDERING_CRITERIA = {
 
 const DEFAULT_ORDERING = ORDERING_CRITERIA.CREATED_AT_DESC;
 
+// Consecutive failed comment fetches to retry before giving up. Without a limit a persistently
+// failing request (iOS Safari drops in-flight requests, which surfaces as `TypeError: Load
+// failed`) leaves the list empty and the effect below refetches on every failure, forever.
+const MAX_FETCH_RETRIES = 2;
+const FETCH_RETRY_DELAY = 1000;
+
 /**
  * SortableCommentListComponent is a component that displays a sortable list of comments.
  *
@@ -131,8 +137,10 @@ const SortableCommentListComponent = ({
   }, [section.id, fetchComments]);
 
   useEffect(() => {
+    let retryTimeout;
+
     if (sectionComments) {
-      const { isFetching, results, fetchError } = sectionComments;
+      const { isFetching, results, fetchErrorCount = 0 } = sectionComments;
 
       setListState({
         ...listState,
@@ -147,16 +155,28 @@ const SortableCommentListComponent = ({
 
       if (
         !isFetching &&
-        !fetchError &&
         results &&
         results.length === 0 &&
-        section.n_comments !== 0
+        section.n_comments !== 0 &&
+        fetchErrorCount <= MAX_FETCH_RETRIES
       ) {
-        fetchComments(section.id, sectionComments.ordering);
+        // A count of 0 means the list was emptied without an error (posting or deleting a
+        // comment clears it), so fetch right away. After a failure, back off before retrying:
+        // retrying in the same tick just reproduces the failure.
+        if (fetchErrorCount === 0) {
+          fetchComments(section.id, sectionComments.ordering);
+        } else {
+          retryTimeout = setTimeout(
+            () => fetchComments(section.id, sectionComments.ordering),
+            FETCH_RETRY_DELAY
+          );
+        }
 
         setListState({ ...listState, collapseForm: true });
       }
     }
+
+    return () => clearTimeout(retryTimeout);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section, sectionComments, user]);

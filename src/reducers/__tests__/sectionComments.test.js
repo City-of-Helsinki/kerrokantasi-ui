@@ -82,6 +82,20 @@ describe('sectionComments reducer', () => {
       expect(state.next).toBeNull();
       expect(state.results).toEqual(flat);
     });
+
+    it('resets fetchErrorCount on a successful fetch', () => {
+      const store = makeStore({
+        [SECTION_ID]: { results: [], count: 0, fetchErrorCount: 2 },
+      });
+      store.dispatch({
+        type: 'receiveSectionComments',
+        payload: {
+          sectionId: SECTION_ID,
+          data: { count: 1, results: [makeComment()], next: null },
+        },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(0);
+    });
   });
 
   describe('beginFetchSectionComments', () => {
@@ -146,6 +160,25 @@ describe('sectionComments reducer', () => {
       expect(state.isFetching).toBe(true);
       expect(state.results).toEqual([]);
     });
+
+    it('preserves fetchErrorCount so retries stay bounded', () => {
+      const store = makeStore({
+        [SECTION_ID]: {
+          results: [],
+          ordering: '-created_at',
+          fetchErrorCount: 2,
+        },
+      });
+      store.dispatch({
+        type: 'beginFetchSectionComments',
+        payload: {
+          sectionId: SECTION_ID,
+          ordering: '-created_at',
+          cleanFetch: true,
+        },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(2);
+    });
   });
 
   describe('postedComment', () => {
@@ -165,6 +198,21 @@ describe('sectionComments reducer', () => {
       expect(state.results).toEqual([]);
       expect(state.jumpTo).toBe(42);
       expect(state.ordering).toBe('-created_at');
+    });
+
+    it('resets fetchErrorCount so the cleared list is reloaded', () => {
+      const store = makeStore({
+        [SECTION_ID]: {
+          results: [makeComment()],
+          count: 1,
+          fetchErrorCount: 3,
+        },
+      });
+      store.dispatch({
+        type: 'postedComment',
+        payload: { sectionId: SECTION_ID, jumpTo: 42 },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(0);
     });
   });
 
@@ -246,6 +294,32 @@ describe('sectionComments reducer', () => {
       const state = store.getState()[SECTION_ID];
       expect(state.isFetching).toBe(false);
       expect(state.results).toHaveLength(1);
+    });
+
+    it('counts consecutive failures', () => {
+      const store = makeStore({
+        [SECTION_ID]: { isFetching: true, results: [] },
+      });
+      store.dispatch({
+        type: 'receiveSectionCommentsError',
+        payload: { sectionId: SECTION_ID },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(1);
+
+      store.dispatch({
+        type: 'receiveSectionCommentsError',
+        payload: { sectionId: SECTION_ID },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(2);
+    });
+
+    it('counts a failure when no prior section state exists', () => {
+      const store = makeStore();
+      store.dispatch({
+        type: 'receiveSectionCommentsError',
+        payload: { sectionId: SECTION_ID },
+      });
+      expect(store.getState()[SECTION_ID].fetchErrorCount).toBe(1);
     });
   });
 });

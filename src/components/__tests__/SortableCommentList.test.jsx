@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { thunk, mockStore as mockData, mockUser } from '../../../test-utils';
@@ -302,5 +302,56 @@ describe('<SortableCommentList />', () => {
     await user.click(getByTestId('waypoint-trigger'));
 
     expect(fetchMoreCommentsMock).not.toHaveBeenCalled();
+  });
+
+  describe('refetching an empty comment list', () => {
+    const sectionId = mockHearingWithSections.data.sections[0].id;
+
+    const renderWithFetchErrorCount = (fetchErrorCount) => {
+      const fetchCommentsMock = vi.fn();
+      const store = mockStore({
+        ...storeDefaultState,
+        sectionComments: {
+          [sectionId]: {
+            ...sectionComments.mock,
+            count: 0,
+            results: [],
+            isFetching: false,
+            fetchErrorCount,
+          },
+        },
+      });
+
+      renderComponent({ fetchComments: fetchCommentsMock }, store);
+
+      return fetchCommentsMock;
+    };
+
+    beforeEach(() => vi.useFakeTimers());
+    afterEach(() => vi.useRealTimers());
+
+    it('refetches immediately when the list was emptied without an error', () => {
+      // one call on mount, one from the refetch of the empty list
+      expect(renderWithFetchErrorCount(0)).toHaveBeenCalledTimes(2);
+    });
+
+    it('delays the refetch after a failed fetch', () => {
+      const fetchCommentsMock = renderWithFetchErrorCount(1);
+
+      expect(fetchCommentsMock).toHaveBeenCalledTimes(1);
+
+      act(() => vi.advanceTimersByTime(1000));
+
+      expect(fetchCommentsMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('stops refetching once the retry limit is reached', () => {
+      const fetchCommentsMock = renderWithFetchErrorCount(3);
+
+      act(() => vi.advanceTimersByTime(5000));
+
+      // only the mount fetch, no retry
+      expect(fetchCommentsMock).toHaveBeenCalledTimes(1);
+    });
   });
 });

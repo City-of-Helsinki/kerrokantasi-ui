@@ -34,7 +34,7 @@ const receiveSectionComments = (state, { payload: { sectionId, data } }) => {
     [sectionId]: {
       ...state[sectionId],
       isFetching: false,
-      fetchError: false,
+      fetchErrorCount: 0,
       results: combinedResults,
       count,
       next,
@@ -48,6 +48,7 @@ const postedComment = (state, { payload: { sectionId, jumpTo } }) => ({
   [sectionId]: {
     ...state[sectionId],
     jumpTo,
+    fetchErrorCount: 0,
     results: [],
     ordering: '-created_at',
   },
@@ -205,17 +206,13 @@ const beginFetchSectionComments = (
     state[sectionId].ordering === ordering &&
     !cleanFetch
   ) {
-    return {
-      ...state,
-      [sectionId]: { ...state[sectionId], isFetching: true, fetchError: false },
-    };
+    return { ...state, [sectionId]: { ...state[sectionId], isFetching: true } };
   }
   return {
     ...state,
     [sectionId]: {
       ...state[sectionId],
       isFetching: true,
-      fetchError: false,
       results: [],
       ordering,
     },
@@ -224,7 +221,11 @@ const beginFetchSectionComments = (
 
 const receiveSectionCommentsError = (state, { payload: { sectionId } }) => ({
   ...state,
-  [sectionId]: { ...state[sectionId], isFetching: false, fetchError: true },
+  [sectionId]: {
+    ...state[sectionId],
+    isFetching: false,
+    fetchErrorCount: (state[sectionId]?.fetchErrorCount ?? 0) + 1,
+  },
 });
 
 /**
