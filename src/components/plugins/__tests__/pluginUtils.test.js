@@ -27,6 +27,12 @@ describe('pluginUtils', () => {
     });
 
     describe('when frame.src is missing', () => {
+      it('should not throw when frame is missing', () => {
+        expect(() =>
+          sendMessageToPluginFrame(null, { message: 'test' })
+        ).not.toThrow();
+      });
+
       it.each(['', null, undefined])(
         'should not send message when src is %p',
         (srcValue) => {

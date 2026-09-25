@@ -14,7 +14,7 @@ const validateFunction = {
      * @example [false, false, true]
      */
     const titlesArray = languages.reduce((acc, curr) => {
-      const langTitle = hearingTitles[curr].trim();
+      const langTitle = (hearingTitles[curr] || '').trim();
       acc.push(langTitle === '');
       return acc;
     }, []);

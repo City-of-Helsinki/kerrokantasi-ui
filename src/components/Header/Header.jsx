@@ -125,6 +125,10 @@ const Header = ({ user, onChangeLanguage }) => {
     { label: 'Svenska', value: 'sv', isPrimary: true },
     { label: 'English', value: 'en', isPrimary: true },
   ];
+  // hds-react's language selector crashes if the default language isn't in `languages`.
+  const defaultLanguage = languages.some((item) => item.value === language)
+    ? language
+    : languages[0].value;
 
   const logo = (
     <FormattedMessage id='headerLogoAlt'>
@@ -149,7 +153,7 @@ const Header = ({ user, onChangeLanguage }) => {
     <HDSHeader
       onDidChangeLanguage={onLanguageChange}
       languages={languages}
-      defaultLanguage={language}
+      defaultLanguage={defaultLanguage}
       key={language}
     >
       <HDSHeader.ActionBar

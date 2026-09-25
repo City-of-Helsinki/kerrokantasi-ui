@@ -24,6 +24,25 @@ if (config.sentryDsn && config.sentryEnvironment) {
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
       'ResizeObserver loop limit exceeded',
+      // Generic network noise: transient connectivity issues, not actionable app bugs.
+      // Users already get a localized error toast via requestErrorHandler.
+      'Failed to fetch',
+      'Load failed',
+      'NetworkError when attempting to fetch resource',
+      // Browser/runtime resource exhaustion, not something the app can prevent
+      'NS_ERROR_OUT_OF_MEMORY',
+      // hds-react CookieSettingsPage crashes when indexedDB/localStorage is blocked
+      // (privacy modes, some mobile browsers)
+      "Can't find variable: indexedDB",
+      'indexedDB is not defined',
+      'Map container is already initialized',
+      // Android WebView JS bridge dropped its Java-side counterpart (embedded app view)
+      'Error invoking postMessage',
+      // Stale JS/CSS chunk references after a new deploy; handled by chunk-reload logic
+      'Failed to fetch dynamically imported module',
+      'error loading dynamically imported module',
+      'Importing a module script failed',
+      'Unable to preload CSS for',
     ],
     beforeSend,
     beforeSendTransaction,

@@ -5,7 +5,7 @@
  * @param {any} message - The message to send.
  */
 export const sendMessageToPluginFrame = (frame, message) => {
-  if (!frame.src) {
+  if (!frame?.src) {
     return;
   }
   const frameOrigin = new URL(frame.src, globalThis.location.href).origin;

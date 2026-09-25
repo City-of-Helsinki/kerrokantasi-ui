@@ -92,6 +92,10 @@ const HearingFormStep4 = ({
     stringToDate.setHours(hours);
     stringToDate.setMinutes(minutes);
 
+    if (Number.isNaN(stringToDate.getTime())) {
+      return;
+    }
+
     if (type === 'START') {
       setOpenDate(newDate);
       setOpenTime(moment(stringToDate).format(TIME_FORMAT));
@@ -127,6 +131,10 @@ const HearingFormStep4 = ({
 
     stringToDate.setHours(hours);
     stringToDate.setMinutes(minutes);
+
+    if (Number.isNaN(stringToDate.getTime())) {
+      return;
+    }
 
     if (type === 'START') {
       setOpenDate(moment(stringToDate).format(DATE_FORMAT));
