@@ -66,6 +66,24 @@ describe('<HearingFormStep4 />', () => {
     expect(onHearingChange).toHaveBeenCalledWith('open_at', expect.any(String));
   });
 
+  it('does not save an invalid date after a time change', () => {
+    const onHearingChange = vi.fn();
+    renderComponent({ onHearingChange });
+
+    const toDate = vi
+      .spyOn(moment.fn, 'toDate')
+      .mockReturnValueOnce(new Date(NaN));
+    try {
+      fireEvent.change(screen.getAllByLabelText(/Tunti/i)[0], {
+        target: { value: '12' },
+      });
+
+      expect(onHearingChange).not.toHaveBeenCalled();
+    } finally {
+      toDate.mockRestore();
+    }
+  });
+
   it('should call onContinue when the button is clicked', async () => {
     const onContinue = vi.fn();
     renderComponent({ onContinue });

@@ -23,6 +23,12 @@ describe('validateFunction', () => {
       const returnValue = validationFunction.title(titles, languages);
       expect(returnValue).toBe(false);
     });
+
+    it('returns true if a title is missing for a language', () => {
+      expect(
+        validationFunction.title({ fi: 'otsikko', sv: 'rubrik' }, languages)
+      ).toBe(true);
+    });
   });
 
   describe('labels validation', () => {

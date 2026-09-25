@@ -24,7 +24,7 @@ const stateWithoutUser = {
   user: { data: null },
 };
 
-const renderComponent = (storeOverride, authMock = {}) => {
+const renderComponent = (storeOverride, authMock = {}, locale = 'fi') => {
   vi.spyOn(actionsMock, 'setLanguage').mockImplementation(() => vi.fn());
 
   vi.spyOn(useAuthMock, 'default').mockImplementation(() => ({
@@ -43,13 +43,18 @@ const renderComponent = (storeOverride, authMock = {}) => {
         setLocale={mockSetLocale}
       />
     </MemoryRouter>,
-    { store }
+    { store, locale }
   );
 };
 
 describe('<Header />', () => {
   it('renders correctly', () => {
     renderComponent();
+  });
+
+  it('falls back to Finnish for an unsupported locale', () => {
+    renderComponent(undefined, {}, 'de');
+    expect(screen.getByRole('button', { name: 'Suomi' })).toBeInTheDocument();
   });
 
   it('displays login button when user is not logged in', async () => {
