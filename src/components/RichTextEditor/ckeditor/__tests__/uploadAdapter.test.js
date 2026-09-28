@@ -75,6 +75,9 @@ describe('KerrokantasiUploadAdapter', () => {
     expect(adapter.xhr.url).toBe(UPLOAD_URL);
     expect(adapter.xhr.requestHeaders.Authorization).toBe('Bearer test-token');
     expect(adapter.xhr.body).toBeInstanceOf(FormData);
+    expect(adapter.xhr.body.get('image').name).toBe('photo.webp');
+    expect(adapter.xhr.body.get('purpose')).toBe('inline');
+    expect(adapter.xhr.body.get('file')).toBeNull();
   });
 
   it('rejects on a server error status', async () => {

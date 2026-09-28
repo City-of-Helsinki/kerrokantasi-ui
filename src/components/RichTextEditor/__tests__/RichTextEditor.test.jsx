@@ -8,7 +8,6 @@ import { getIntlAsProp } from '../../../../test-utils';
 // The real ClassicEditor needs a browser; mock the React wrapper with a light
 // stub that calls onReady with a fake editor and exposes a textbox.
 vi.mock('@ckeditor/ckeditor5-react', () => ({
-  // eslint-disable-next-line react/prop-types
   CKEditor: ({ onReady, onChange, onBlur }) => {
     const editor = {
       getData: () => '<p>hello</p>',
