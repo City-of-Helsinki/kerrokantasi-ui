@@ -4,6 +4,7 @@ import {
   MAX_WIDTH_OR_HEIGHT,
 } from '../../../utils/images/constants';
 import { getApiTokenFromStorage } from '../../../api';
+import { SECTION_IMAGE_PURPOSE } from '../../../constants';
 
 /**
  * CKEditor upload adapter that compresses an image to WebP client-side and
@@ -67,7 +68,8 @@ class KerrokantasiUploadAdapter {
 
       const webpName = originalName.replace(/\.[^.]+$/, '') + '.webp';
       const data = new FormData();
-      data.append('file', file, webpName);
+      data.append('image', file, webpName);
+      data.append('purpose', SECTION_IMAGE_PURPOSE.INLINE);
       xhr.send(data);
     });
   }
