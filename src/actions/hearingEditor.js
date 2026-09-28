@@ -1,14 +1,21 @@
 /* eslint-disable sonarjs/todo-tag */
 import { createAction } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { omit } from 'lodash';
+import { omit, pick } from 'lodash';
 
 import {
   createNotificationPayload,
   NOTIFICATION_TYPES,
   createLocalizedNotificationPayload,
 } from '../utils/notify';
-import { patch, put, post, apiDelete, getAllFromEndpoint } from '../api';
+import {
+  patch,
+  put,
+  post,
+  postMultipart,
+  apiDelete,
+  getAllFromEndpoint,
+} from '../api';
 import { requestErrorHandler } from './index';
 import { initNewHearing as getHearingSkeleton } from '../utils/hearing';
 import {
@@ -19,6 +26,7 @@ import {
 } from '../utils/hearingEditor';
 import { addToast } from './toast';
 import getMessage from '../utils/getMessage';
+import { SECTION_IMAGE_PURPOSE } from '../constants';
 
 export const EditorActions = {
   ACTIVE_PHASE: 'activePhase',
@@ -88,6 +96,16 @@ const HEARING_CREATED_MESSAGE = 'Luonti onnistui';
 const HEARING_CHECK_HEARING_INFORMATION_MESSAGE = 'Tarkista kuulemisen tiedot.';
 const HEARING_CANT_MODIFY = 'Et voi muokata tätä kuulemista.';
 const CANT_CREATE_CONTACT = 'Et voi luoda yhteyshenkilöä.';
+const SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS = [
+  'id',
+  'title',
+  'url',
+  'width',
+  'height',
+  'caption',
+  'alt_text',
+  'ordering',
+];
 
 export const startHearingEdit = () => (dispatch) =>
   dispatch(createAction(EditorActions.SHOW_FORM)());
@@ -347,15 +365,74 @@ export const changeSection = (sectionID, field, value) => (dispatch) =>
     createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value })
   );
 
-export const setSectionMainImage = (sectionID, value) => (dispatch) =>
-  dispatch(
-    createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, value })
-  );
+const checkSectionImageResponse = (response) => {
+  if (response.status >= 400) {
+    const error = new Error('Bad response from server');
+    error.response = response;
+    throw error;
+  }
+  return response;
+};
 
-export const deleteSectionMainImage = (sectionID) => (dispatch) =>
-  dispatch(
-    createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
-  );
+const deleteUnattachedSectionImage = (imageId) =>
+  apiDelete(`/v1/image/${imageId}`).then(checkSectionImageResponse);
+
+export const setSectionMainImage =
+  (sectionID, file) => (dispatch, getState) => {
+    const previousImage =
+      getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
+    const formData = new FormData();
+    formData.append('image', file, file.name.replace(/\.[^.]+$/, '') + '.webp');
+    formData.append('purpose', SECTION_IMAGE_PURPOSE.SECTION_LEVEL);
+
+    return postMultipart('/v1/image/', formData)
+      .then(checkSectionImageResponse)
+      .then((response) => response.json())
+      .then((image) => {
+        const sectionImage = {
+          ...pick(image, SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
+          isNew: true,
+        };
+        dispatch(
+          createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({
+            sectionID,
+            image: sectionImage,
+          })
+        );
+
+        if (previousImage?.isNew && previousImage.id) {
+          return deleteUnattachedSectionImage(previousImage.id)
+            .catch(requestErrorHandler(dispatch))
+            .then(() => sectionImage);
+        }
+
+        return sectionImage;
+      })
+      .catch((error) => {
+        requestErrorHandler(dispatch)(error);
+        throw error;
+      });
+  };
+
+export const deleteSectionMainImage = (sectionID) => (dispatch, getState) => {
+  const image =
+    getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
+  const deleteImageFromSection = () =>
+    dispatch(
+      createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
+    );
+
+  if (!image?.isNew || !image.id) {
+    return deleteImageFromSection();
+  }
+
+  return deleteUnattachedSectionImage(image.id)
+    .then(deleteImageFromSection)
+    .catch((error) => {
+      requestErrorHandler(dispatch)(error);
+      throw error;
+    });
+};
 
 export const changeSectionMainImageCaption = (sectionID, value) => (dispatch) =>
   dispatch(
