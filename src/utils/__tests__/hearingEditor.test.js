@@ -1,4 +1,8 @@
-import { prepareSection, validateHearing } from '../hearingEditor';
+import {
+  filterTitleAndContentByLanguage,
+  prepareSection,
+  validateHearing,
+} from '../hearingEditor';
 import { initNewHearing } from '../hearing';
 
 describe('prepareSection', () => {
@@ -39,6 +43,60 @@ describe('prepareSection', () => {
 
     expect(preparedSection.files[0].id).toBe('');
     expect(preparedSection.files[0].reference_id).toBe('fileId1');
+  });
+
+  it('keeps pre-uploaded images attached by ID when creating a hearing', () => {
+    const section = {
+      id: 'sectionId',
+      questions: [],
+      files: [],
+      images: [
+        {
+          id: 12,
+          url: '/uploaded.webp',
+          image: '/media/uploaded.webp',
+          isNew: true,
+        },
+        { id: 34, url: '/existing.webp' },
+      ],
+    };
+
+    const preparedSection = prepareSection(section);
+
+    expect(preparedSection.images).toEqual([
+      { id: 12, reference_id: '', url: '/uploaded.webp' },
+      { id: '', reference_id: 34, url: '/existing.webp' },
+    ]);
+  });
+
+  it('omits the local upload marker when saving a hearing edit', () => {
+    const hearing = {
+      title: { fi: 'Hearing' },
+      abstract: { fi: '' },
+      main_image: null,
+      sections: [
+        {
+          title: { fi: 'Section' },
+          abstract: { fi: '' },
+          content: { fi: '' },
+          images: [
+            {
+              id: 12,
+              url: '/uploaded.webp',
+              caption: { fi: '' },
+              image: '/media/uploaded.webp',
+              isNew: true,
+            },
+          ],
+        },
+      ],
+    };
+
+    const preparedHearing = filterTitleAndContentByLanguage(hearing, ['fi']);
+
+    expect(preparedHearing.sections[0].images).toEqual([
+      { id: 12, url: '/uploaded.webp', caption: { fi: '' } },
+    ]);
   });
 });
 

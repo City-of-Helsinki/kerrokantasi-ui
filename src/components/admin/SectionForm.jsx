@@ -99,6 +99,7 @@ const SectionForm = ({
     section.commenting_map_tools !== 'none'
   );
   const [sectionImage, setSectionImage] = useState();
+  const [isUploadingSectionImage, setIsUploadingSectionImage] = useState(false);
   const [attachments, setAttachments] = useState();
   const [attachmentsLoaded, setAttachmentsLoaded] = useState(
     section.files.length === 0
@@ -155,27 +156,32 @@ const SectionForm = ({
   };
 
   const onImageChange = async (files) => {
-    try {
-      const file = files[0];
+    const file = files[0];
 
-      if (!file) {
-        onSectionImageDelete(section.frontId);
-
-        return;
+    if (!file) {
+      try {
+        await onSectionImageDelete(section.frontId);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
+      return;
+    }
 
+    setIsUploadingSectionImage(true);
+    try {
       const compressed = await compressFile(
         file,
         MAX_IMAGE_SIZE,
         MAX_WIDTH_OR_HEIGHT,
         'image/webp'
       );
-      const blob = await fileToDataUri(compressed);
-
-      onSectionImageSet(section.frontId, blob);
+      await onSectionImageSet(section.frontId, compressed);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
+    } finally {
+      setIsUploadingSectionImage(false);
     }
   };
 
@@ -357,6 +363,7 @@ const SectionForm = ({
           id='sectionImage'
           name='sectionImage'
           dragAndDrop
+          disabled={isUploadingSectionImage}
           label={<FormattedMessage id='sectionImage' />}
           accept={ACCEPTED_IMAGE_TYPES}
           helperText={<FormattedMessage id='sectionImageHelpText' />}
@@ -365,6 +372,7 @@ const SectionForm = ({
           maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
           defaultValue={sectionImage}
         />
+        {isUploadingSectionImage && <LoadingSpinner />}
       </div>
       <MultiLanguageTextField
         labelId='sectionImageCaption'

@@ -173,7 +173,11 @@ describe('sections', () => {
 
     it('should dispatch SET_SECTION_MAIN_IMAGE', () => {
       const sectionID = INITIAL_STATE.all[0];
-      const mockImage = 'mockimage';
+      const mockImage = {
+        id: 123,
+        url: '/section-image.webp',
+        isNew: true,
+      };
 
       expect(store.getState().byId[sectionID].images).toEqual(
         INITIAL_STATE.byId[sectionID].images
@@ -181,12 +185,10 @@ describe('sections', () => {
 
       store.dispatch({
         type: EditorActions.SET_SECTION_MAIN_IMAGE,
-        payload: { sectionID, value: mockImage },
+        payload: { sectionID, image: mockImage },
       });
 
-      expect(store.getState().byId[sectionID].images[0].image).toEqual(
-        mockImage
-      );
+      expect(store.getState().byId[sectionID].images[0]).toEqual(mockImage);
     });
 
     it('should dispatch DELETE_SECTION_MAIN_IMAGE', () => {
