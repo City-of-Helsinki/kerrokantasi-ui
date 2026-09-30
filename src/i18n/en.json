@@ -1,7 +1,6 @@
 {
   "accessibilityLink": "Accessibility Statement",
   "accessibilityPage": "Accessibility Statement",
-  "add_images": "Add images to comment",
   "addComment": "Write a comment",
   "addCommentAndVote": "Vote and write a comment",
   "addedFavorites": "Hearing added to favorites.",
@@ -232,7 +231,6 @@
   "moveDown": "Move down",
   "moveUp": "Move up",
   "multipleChoiceQuestion": "Multiple choice question (respondent can select multiple options)",
-  "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed.",
   "name": "Name",
   "nameAndOrganization": "Name and organization",
   "newestFirst": "Newest first",
