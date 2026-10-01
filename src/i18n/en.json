@@ -38,6 +38,7 @@
   "commentFlagged": "This comment has been Flagged.",
   "commentHearingStatus": "The hearing is: ",
   "commentHelpAnswerOrCommentRequired": "Answer at least one question or write a comment.",
+  "commentHelpNoPersonalInfo": "Please don't leave any personal information in your comment.",
   "commentHelpStarRequired": "Fields marked with an asterisk (*) are mandatory.",
   "commentImageAlt": "Image added by comment author",
   "commentMapAdditionalInfo": "Additional info related to the map (e.g. address)",

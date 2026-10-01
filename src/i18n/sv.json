@@ -38,6 +38,7 @@
   "commentFlagged": "Den här kommentaren har flaggats.",
   "commentHearingStatus": "Hörandet är: ",
   "commentHelpAnswerOrCommentRequired": "Svara på minst en fråga eller skriv en kommentar.",
+  "commentHelpNoPersonalInfo": "Lämna väl inte några personuppgifter i din kommentar.",
   "commentHelpStarRequired": "Obligatoriska fält är utmärkta med en asterisk (*).",
   "commentImageAlt": "Bild tillagd av kommenterare",
   "commentMapAdditionalInfo": "Ytterligare information relaterad till kartan (t.ex. adress)",
