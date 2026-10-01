@@ -556,6 +556,9 @@ const BaseCommentForm = ({
             }
           />
         </p>
+        <p>
+          <FormattedMessage id='commentHelpNoPersonalInfo' />
+        </p>
         {!isReply &&
           section.questions.map((question) => {
             const canShowQuestionResult =

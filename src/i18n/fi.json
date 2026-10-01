@@ -38,6 +38,7 @@
   "commentFlagged": "Kommentti liputettu.",
   "commentHearingStatus": "Kuulemisen tila: ",
   "commentHelpAnswerOrCommentRequired": "Vastaa vähintään yhteen kysymykseen tai kirjoita kommentti.",
+  "commentHelpNoPersonalInfo": "Ethän jätä henkilötietoja kommenttiisi.",
   "commentHelpStarRequired": "Tähdellä (*) merkityt kentät ovat pakollisia.",
   "commentImageAlt": "Kommentoijan lisäämä kuva",
   "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
