@@ -42,6 +42,10 @@ vi.mock('../ckeditor/uploadAdapter', () => ({
   createUploadAdapterPlugin: vi.fn(() => function plugin() {}),
 }));
 
+vi.mock('../ckeditor/pastedImageFilter', () => ({
+  createPastedImageFilterPlugin: vi.fn(() => function plugin() {}),
+}));
+
 const renderComponent = (props = {}) =>
   renderWithProviders(
     <RichTextEditor

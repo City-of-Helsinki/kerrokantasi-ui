@@ -9,6 +9,7 @@ import { getApiURL } from '../../api';
 import getMessage from '../../utils/getMessage';
 import { ClassicEditor, buildEditorConfig } from './ckeditor/editorConfig';
 import { createUploadAdapterPlugin } from './ckeditor/uploadAdapter';
+import { createPastedImageFilterPlugin } from './ckeditor/pastedImageFilter';
 import { fromAppHtml, toAppHtml } from './ckeditor/htmlPostProcess';
 import IframeModal from './Iframe/IframeModal';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
@@ -59,6 +60,9 @@ const RichTextEditor = ({
         licenseKey: config.ckeditorLicenseKey,
         uploadAdapterPlugin: createUploadAdapterPlugin(
           getApiURL(config.imageUploadEndpoint)
+        ),
+        pastedImageFilterPlugin: createPastedImageFilterPlugin(
+          new URL(getApiURL(''), window.location.href).origin
         ),
         placeholder: placeholderId
           ? intl.formatMessage({ id: placeholderId })

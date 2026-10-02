@@ -17,7 +17,6 @@ import {
   ImageResizeButtons,
   ImageUpload,
   ImageInsert,
-  ImageInsertViaUrl,
   FileRepository,
   GeneralHtmlSupport,
   Style,
@@ -56,12 +55,14 @@ export const LEGACY_BLOCK_CLASSES = ['lead', 'image-caption'];
  * @param {string} opts.language app locale (fi | sv | en)
  * @param {string} opts.licenseKey CKEditor license key ('GPL' for the open-source build)
  * @param {Function} [opts.uploadAdapterPlugin] CKEditor plugin registering the image upload adapter
+ * @param {Function} [opts.pastedImageFilterPlugin] CKEditor plugin removing disallowed pasted images
  * @param {string} [opts.placeholder] editor placeholder text
  */
 export const buildEditorConfig = ({
   language = 'fi',
   licenseKey = 'GPL',
   uploadAdapterPlugin,
+  pastedImageFilterPlugin,
   placeholder = '',
 } = {}) => ({
   licenseKey,
@@ -87,13 +88,12 @@ export const buildEditorConfig = ({
     ImageResizeButtons,
     ImageUpload,
     ImageInsert,
-    ImageInsertViaUrl,
     FileRepository,
     GeneralHtmlSupport,
     Style,
     PasteFromOffice,
   ],
-  extraPlugins: uploadAdapterPlugin ? [uploadAdapterPlugin] : [],
+  extraPlugins: [uploadAdapterPlugin, pastedImageFilterPlugin].filter(Boolean),
   toolbar: {
     items: [
       'undo',
