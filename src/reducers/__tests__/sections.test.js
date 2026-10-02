@@ -191,6 +191,56 @@ describe('sections', () => {
       expect(store.getState().byId[sectionID].images[0]).toEqual(mockImage);
     });
 
+    it('should keep caption and alt_text when replacing the image', () => {
+      const sectionID = INITIAL_STATE.all[0];
+      const previousImage = {
+        id: 1,
+        url: '/old.webp',
+        caption: { fi: 'Kuvateksti' },
+        alt_text: { fi: 'Vaihtoehtoinen teksti' },
+      };
+      const newImage = {
+        id: 2,
+        url: '/new.webp',
+        caption: {},
+        alt_text: {},
+        isNew: true,
+      };
+
+      store.dispatch({
+        type: EditorActions.SET_SECTION_MAIN_IMAGE,
+        payload: { sectionID, image: previousImage },
+      });
+      store.dispatch({
+        type: EditorActions.SET_SECTION_MAIN_IMAGE,
+        payload: { sectionID, image: newImage },
+      });
+
+      expect(store.getState().byId[sectionID].images).toEqual([
+        {
+          ...newImage,
+          caption: previousImage.caption,
+          alt_text: previousImage.alt_text,
+        },
+      ]);
+    });
+
+    it('should store the first image as is', () => {
+      const sectionID = INITIAL_STATE.all[0];
+      const mockImage = { id: 5, url: '/first.webp', caption: { fi: 'a' } };
+
+      store.dispatch({
+        type: EditorActions.DELETE_SECTION_MAIN_IMAGE,
+        payload: { sectionID },
+      });
+      store.dispatch({
+        type: EditorActions.SET_SECTION_MAIN_IMAGE,
+        payload: { sectionID, image: mockImage },
+      });
+
+      expect(store.getState().byId[sectionID].images).toEqual([mockImage]);
+    });
+
     it('should dispatch DELETE_SECTION_MAIN_IMAGE', () => {
       const sectionID = INITIAL_STATE.all[0];
 

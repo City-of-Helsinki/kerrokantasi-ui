@@ -331,4 +331,49 @@ describe('<SectionForm />', () => {
       'q-server-1'
     );
   });
+
+  describe('section image preview', () => {
+    const image = { id: 1, url: 'http://example.com/img.webp' };
+    const mockFetch = () =>
+      vi
+        .spyOn(global, 'fetch')
+        .mockClear()
+        .mockResolvedValue({
+          blob: () => Promise.resolve(new Blob(['x'])),
+        });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('fetches a saved image for the preview', async () => {
+      const fetchSpy = mockFetch();
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+        images: [image],
+      };
+
+      await act(async () => {
+        renderComponent({ section });
+      });
+
+      expect(fetchSpy).toHaveBeenCalledWith(image.url, { method: 'GET' });
+    });
+
+    it('does not fetch a just uploaded image', async () => {
+      const fetchSpy = mockFetch();
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+        images: [{ ...image, isNew: true }],
+      };
+
+      await act(async () => {
+        renderComponent({ section });
+      });
+
+      expect(fetchSpy.mock.calls.map(([url]) => url)).not.toContain(image.url);
+    });
+  });
 });

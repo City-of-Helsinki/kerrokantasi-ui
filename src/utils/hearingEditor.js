@@ -126,10 +126,7 @@ const filterSectionsContentByLanguages = (sections, languages) =>
     ...section,
     abstract: filterObjectByLanguages(section.abstract, languages),
     content: filterObjectByLanguages(section.content, languages),
-    images: section.images.map((image) => ({
-      ...filterSectionImageForSave(image),
-      ...filterObjectByLanguages(image.abstract, languages),
-    })),
+    images: section.images.map(filterSectionImageForSave),
     title: filterObjectByLanguages(section.title, languages),
   }));
 

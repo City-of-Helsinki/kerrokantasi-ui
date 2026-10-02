@@ -105,7 +105,12 @@ const SectionForm = ({
 
   useEffect(() => {
     async function fetchImages() {
-      if (section.images.length && section.images[0].url) {
+      // A just uploaded image is already shown by the FileInput
+      if (
+        section.images.length &&
+        section.images[0].url &&
+        !section.images[0].isNew
+      ) {
         const data = await fetchFiles(section.images, 'image', language);
 
         setSectionImage(data);
@@ -223,7 +228,7 @@ const SectionForm = ({
     const { images } = section;
 
     if (images && images.length) {
-      // Image property may contain the base64 encoded image
+      // Url of the uploaded or saved image
       return images[0].image || images[0].url;
     }
 
