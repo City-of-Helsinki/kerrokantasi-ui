@@ -1,7 +1,6 @@
 {
   "accessibilityLink": "Saavutettavuusseloste",
   "accessibilityPage": "Saavutettavuusseloste",
-  "add_images": "Lisää kuvia kommenttiisi",
   "addComment": "Kirjoita kommentti",
   "addCommentAndVote": "Äänestä ja kommentoi",
   "addedFavorites": "Kuuleminen lisätty suosikkeihin.",
@@ -39,6 +38,7 @@
   "commentFlagged": "Kommentti liputettu.",
   "commentHearingStatus": "Kuulemisen tila: ",
   "commentHelpAnswerOrCommentRequired": "Vastaa vähintään yhteen kysymykseen tai kirjoita kommentti.",
+  "commentHelpNoPersonalInfo": "Ethän jätä henkilötietoja kommenttiisi.",
   "commentHelpStarRequired": "Tähdellä (*) merkityt kentät ovat pakollisia.",
   "commentImageAlt": "Kommentoijan lisäämä kuva",
   "commentMapAdditionalInfo": "Lisätietoja karttaan liittyen (esim. osoite)",
@@ -232,7 +232,6 @@
   "moveDown": "Siirrä alas",
   "moveUp": "Siirrä ylös",
   "multipleChoiceQuestion": "Monivalintakysymys (vastaaja voi valita useamman vaihtoehdon)",
-  "multipleImages": "Voit lisätä useita kuvia klikkaamalla useampaa tiedostoa samalla kun pidät Ctrl- tai komentonäppäintä painettuna.",
   "name": "Nimi",
   "nameAndOrganization": "Nimi ja organisaatio",
   "newestFirst": "Uusimmat ensin",

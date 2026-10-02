@@ -1,7 +1,6 @@
 {
   "accessibilityLink": "Tillgänglighetsutlåtande",
   "accessibilityPage": "Tillgänglighetsutlåtande",
-  "add_images": "Lägg till bilder till din kommentar",
   "addComment": "Skriv en kommentar",
   "addCommentAndVote": "Rösta och skriv en kommentar",
   "addedFavorites": "Hörandet lades till favoriter.",
@@ -39,6 +38,7 @@
   "commentFlagged": "Den här kommentaren har flaggats.",
   "commentHearingStatus": "Hörandet är: ",
   "commentHelpAnswerOrCommentRequired": "Svara på minst en fråga eller skriv en kommentar.",
+  "commentHelpNoPersonalInfo": "Lämna väl inte några personuppgifter i din kommentar.",
   "commentHelpStarRequired": "Obligatoriska fält är utmärkta med en asterisk (*).",
   "commentImageAlt": "Bild tillagd av kommenterare",
   "commentMapAdditionalInfo": "Ytterligare information relaterad till kartan (t.ex. adress)",
@@ -232,7 +232,6 @@
   "moveDown": "Flytta ner",
   "moveUp": "Flytta upp",
   "multipleChoiceQuestion": "Flervalsfråga (respondenten kan välja flera alternativ)",
-  "multipleImages": "Du kan lägga till flera bilder genom att klicka på flera filer och samtidigt trycka ner Ctrl- eller commandknappen.",
   "name": "Namn",
   "nameAndOrganization": "Namn och organisation",
   "newestFirst": "Nyaste först",

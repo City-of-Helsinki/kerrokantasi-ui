@@ -8,7 +8,6 @@ import {
   Button,
   Checkbox,
   Fieldset,
-  FileInput,
   Notification,
   TextArea,
   TextInput,
@@ -21,7 +20,6 @@ import localization from '@city-i18n/localization.json';
 import Leaflet, { LatLng } from 'leaflet';
 
 import Icon from '../utils/Icon';
-import { getImageAsBase64Promise } from '../utils/hearing';
 import CommentDisclaimer from './CommentDisclaimer';
 import QuestionResults from './QuestionResults';
 import QuestionForm from './QuestionForm';
@@ -48,7 +46,6 @@ import {
   createLocalizedNotificationPayload,
   NOTIFICATION_TYPES,
 } from '../utils/notify';
-import { ACCEPTED_IMAGE_TYPES } from '../constants';
 
 Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconUrl: leafletMarkerIconUrl,
@@ -57,7 +54,6 @@ Leaflet.Marker.prototype.options.icon = new Leaflet.Icon({
   iconSize: [25, 41],
   iconAnchor: [13, 41],
 });
-const IMAGE_MAX_SIZE = 1000000;
 
 const BaseCommentForm = ({
   loggedIn,
@@ -104,7 +100,6 @@ const BaseCommentForm = ({
   };
 
   const [comment, setComment] = useState('');
-  const [commentImages, setCommentImages] = useState([]);
   const [commentGeoJson, setCommentGeoJson] = useState({
     geojson: {},
     mapCommentText: '',
@@ -113,21 +108,18 @@ const BaseCommentForm = ({
   const [formSettings, setFormSettings] = useState(formInitialSettings);
 
   const [formErrors, setFormErrors] = useState({
-    imageTooBig: false,
     commentRequiredError: false,
     commentOrAnswerRequiredError: false,
   });
 
   const resetForm = () => {
     setComment('');
-    setCommentImages([]);
     setCommentGeoJson({
       geojson: {},
       mapCommentText: '',
     });
     setFormSettings(formInitialSettings);
     setFormErrors({
-      imageTooBig: false,
       commentRequiredError: false,
       commentOrAnswerRequiredError: false,
     });
@@ -189,10 +181,9 @@ const BaseCommentForm = ({
   };
 
   const hasFormErrors = () => {
-    const { imageTooBig, commentRequiredError, commentOrAnswerRequiredError } =
-      formErrors;
+    const { commentRequiredError, commentOrAnswerRequiredError } = formErrors;
 
-    return imageTooBig || commentRequiredError || commentOrAnswerRequiredError;
+    return commentRequiredError || commentOrAnswerRequiredError;
   };
 
   const getPluginData = () => undefined;
@@ -204,7 +195,6 @@ const BaseCommentForm = ({
       commentOrAnswerRequiredError: errors.includes(
         'commentOrAnswerRequiredError'
       ),
-      imageTooBig: errors.includes('imageTooBig'),
     });
   };
 
@@ -226,16 +216,14 @@ const BaseCommentForm = ({
 
     const { nickname, pinned, organization } = formSettings;
     const { geojson, mapCommentText } = commentGeoJson;
-    const { imageTooBig } = formErrors;
 
     const commentText = comment;
-    const images = commentImages;
 
     const data = {
       nickname: nickname === '' ? nicknamePlaceholder : nickname,
       commentText: commentText === null ? '' : commentText,
       geojson,
-      images,
+      images: [],
       pinned,
       mapCommentText,
       label: null,
@@ -262,7 +250,7 @@ const BaseCommentForm = ({
       loggedIn && hasUserAnsweredAllQuestions(user, section);
 
     const errors = checkFormErrors(
-      imageTooBig,
+      false,
       data.commentText,
       section,
       answers,
@@ -296,37 +284,6 @@ const BaseCommentForm = ({
     });
 
     resetForm();
-  };
-
-  const isImageTooBig = (images) => {
-    let imageTooBig = false;
-    Array.from(images).forEach((image) => {
-      if (image.size > IMAGE_MAX_SIZE) {
-        imageTooBig = true;
-      }
-    });
-
-    setFormErrors((prevState) => ({ ...prevState, imageTooBig }));
-  };
-
-  const handleChange = (files) => {
-    isImageTooBig(files);
-
-    const imagePromisesArray = files.map((image) =>
-      getImageAsBase64Promise(image)
-    );
-
-    Promise.all(imagePromisesArray).then((arrayOfResults) => {
-      const images = arrayOfResults.map((result) => {
-        const imageObject = { title: 'Title', caption: 'Caption' };
-
-        imageObject.image = result;
-
-        return imageObject;
-      });
-
-      setCommentImages(images);
-    });
   };
 
   /**
@@ -599,6 +556,9 @@ const BaseCommentForm = ({
             }
           />
         </p>
+        <p>
+          <FormattedMessage id='commentHelpNoPersonalInfo' />
+        </p>
         {!isReply &&
           section.questions.map((question) => {
             const canShowQuestionResult =
@@ -692,30 +652,6 @@ const BaseCommentForm = ({
           </div>
         )}
 
-        <div className='comment-form__selected-images'>
-          {formErrors.imageTooBig && (
-            <div className='comment-form__image-too-big'>
-              <FormattedMessage id='imageSizeError' />
-            </div>
-          )}
-        </div>
-        <div className='comment-form__file'>
-          <div className='comment-form__select-file'>
-            <FileInput
-              id='fileInput'
-              defaultValue={commentImages}
-              className='custom-file-input'
-              multiple
-              accept={ACCEPTED_IMAGE_TYPES}
-              label={intl.formatMessage({ id: 'add_images' })}
-              onChange={(files) => handleChange(files)}
-              maxSize={IMAGE_MAX_SIZE}
-            />
-          </div>
-          <span style={{ fontSize: 13, marginTop: 20 }}>
-            <FormattedMessage id='multipleImages' />
-          </span>
-        </div>
         {renderNameFormForUser()}
         <div className='comment-buttons clearfix'>
           <Button className='kerrokantasi-btn' onClick={toggle}>
@@ -735,7 +671,6 @@ const BaseCommentForm = ({
         <CommentFormErrors
           commentRequiredError={formErrors.commentRequiredError}
           commentOrAnswerRequiredError={formErrors.commentOrAnswerRequiredError}
-          imageTooBig={formErrors.imageTooBig}
         />
         <CommentDisclaimer />
       </form>

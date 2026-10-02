@@ -60,6 +60,14 @@ describe('<BaseCommentForm />', () => {
     expect(screen.getByText('submit')).toBeInTheDocument();
   });
 
+  it('shows the personal information notice', () => {
+    renderComponent();
+
+    fireEvent.click(screen.getByText('addComment'));
+
+    expect(screen.getByText('commentHelpNoPersonalInfo')).toBeInTheDocument();
+  });
+
   it('submits a comment', async () => {
     const onPostComment = vi.fn();
 

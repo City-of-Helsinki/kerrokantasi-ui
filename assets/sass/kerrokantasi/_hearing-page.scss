@@ -453,25 +453,6 @@
     }
   }
 
-  .custom-file-input {
-    button[type='button'] {
-      margin: 0px 2px;
-      border-color: $black;
-      color: $black;
-      background: transparent;
-
-      &:hover {
-        border-color: $black;
-        color: $black;
-        background: $light-gray;
-      }
-    }
-  }
-
-  &__selected-images {
-    padding-top: 10px;
-  }
-
   &__heading-container {
     position: relative;
     padding-top: var(--spacing-m);

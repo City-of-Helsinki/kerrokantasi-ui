@@ -1,7 +1,6 @@
 {
   "accessibilityLink": "Accessibility Statement",
   "accessibilityPage": "Accessibility Statement",
-  "add_images": "Add images to comment",
   "addComment": "Write a comment",
   "addCommentAndVote": "Vote and write a comment",
   "addedFavorites": "Hearing added to favorites.",
@@ -39,6 +38,7 @@
   "commentFlagged": "This comment has been Flagged.",
   "commentHearingStatus": "The hearing is: ",
   "commentHelpAnswerOrCommentRequired": "Answer at least one question or write a comment.",
+  "commentHelpNoPersonalInfo": "Please don't leave any personal information in your comment.",
   "commentHelpStarRequired": "Fields marked with an asterisk (*) are mandatory.",
   "commentImageAlt": "Image added by comment author",
   "commentMapAdditionalInfo": "Additional info related to the map (e.g. address)",
@@ -232,7 +232,6 @@
   "moveDown": "Move down",
   "moveUp": "Move up",
   "multipleChoiceQuestion": "Multiple choice question (respondent can select multiple options)",
-  "multipleImages": "If you want to add multiple images, choose them by clicking while keeping CTRL or CMD button pressed.",
   "name": "Name",
   "nameAndOrganization": "Name and organization",
   "newestFirst": "Newest first",
