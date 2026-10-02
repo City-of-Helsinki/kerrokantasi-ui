@@ -27,6 +27,11 @@ import {
 import { addToast } from './toast';
 import getMessage from '../utils/getMessage';
 import { SECTION_IMAGE_PURPOSE } from '../constants';
+import {
+  IMAGE_UPLOAD_ENDPOINT,
+  buildImageUploadData,
+  getImageUploadErrorKey,
+} from '../utils/images/uploadImage';
 
 export const EditorActions = {
   ACTIVE_PHASE: 'activePhase',
@@ -58,6 +63,8 @@ export const EditorActions = {
   DELETE_SECTION_MAIN_IMAGE: 'deleteSectionMainImage',
   CHANGE_SECTION_MAIN_IMAGE_CAPTION: 'changeSectionMainImageCaption',
   EDIT_SECTION: 'changeSection',
+  IMAGE_UPLOAD_STARTED: 'imageUploadStarted',
+  IMAGE_UPLOAD_FINISHED: 'imageUploadFinished',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   FETCH_CONTACT_PERSONS: 'beginFetchHearingEditorContactPersons',
@@ -365,73 +372,70 @@ export const changeSection = (sectionID, field, value) => (dispatch) =>
     createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value })
   );
 
-const checkSectionImageResponse = (response) => {
-  if (response.status >= 400) {
-    const error = new Error('Bad response from server');
-    error.response = response;
-    throw error;
-  }
-  return response;
+export const imageUploadStarted = () =>
+  createAction(EditorActions.IMAGE_UPLOAD_STARTED)();
+
+export const imageUploadFinished = () =>
+  createAction(EditorActions.IMAGE_UPLOAD_FINISHED)();
+
+const getSectionMainImage = (getState, sectionID) =>
+  getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
+
+// Removes an uploaded image that was never saved to a section. Failures are
+// ignored: the backend cleanup job deletes images left unattached.
+const deleteUnattachedSectionImage = (image) => {
+  if (!image?.isNew || !image.id) return;
+  apiDelete(`${IMAGE_UPLOAD_ENDPOINT}${image.id}`).catch(() => {
+    // Left for the cleanup job.
+  });
 };
 
-const deleteUnattachedSectionImage = (imageId) =>
-  apiDelete(`/v1/image/${imageId}`).then(checkSectionImageResponse);
-
+/**
+ * Upload a section's main image right away and keep only its ID in the
+ * editor state. The backend attaches the image when the hearing is saved.
+ * Upload failures are reported with a toast.
+ */
 export const setSectionMainImage =
-  (sectionID, file) => (dispatch, getState) => {
-    const previousImage =
-      getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
-    const formData = new FormData();
-    formData.append('image', file, file.name.replace(/\.[^.]+$/, '') + '.webp');
-    formData.append('purpose', SECTION_IMAGE_PURPOSE.SECTION_LEVEL);
-
-    return postMultipart('/v1/image/', formData)
-      .then(checkSectionImageResponse)
-      .then((response) => response.json())
-      .then((image) => {
-        const sectionImage = {
-          ...pick(image, SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
-          isNew: true,
-        };
-        dispatch(
-          createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({
-            sectionID,
-            image: sectionImage,
-          })
-        );
-
-        if (previousImage?.isNew && previousImage.id) {
-          return deleteUnattachedSectionImage(previousImage.id)
-            .catch(requestErrorHandler(dispatch))
-            .then(() => sectionImage);
-        }
-
-        return sectionImage;
-      })
-      .catch((error) => {
-        requestErrorHandler(dispatch)(error);
+  (sectionID, file) => async (dispatch, getState) => {
+    const previousImage = getSectionMainImage(getState, sectionID);
+    dispatch(imageUploadStarted());
+    try {
+      const data = await buildImageUploadData(
+        file,
+        SECTION_IMAGE_PURPOSE.SECTION_LEVEL
+      );
+      const response = await postMultipart(IMAGE_UPLOAD_ENDPOINT, data);
+      if (response.status >= 400) {
+        const error = new Error('Bad response from server');
+        error.response = response;
         throw error;
-      });
+      }
+      const image = await response.json();
+      dispatch(
+        createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({
+          sectionID,
+          image: {
+            ...pick(image, SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
+            isNew: true,
+          },
+        })
+      );
+      deleteUnattachedSectionImage(previousImage);
+    } catch (error) {
+      requestErrorHandler(
+        dispatch,
+        getImageUploadErrorKey(error.response?.status)
+      )(error);
+    } finally {
+      dispatch(imageUploadFinished());
+    }
   };
 
 export const deleteSectionMainImage = (sectionID) => (dispatch, getState) => {
-  const image =
-    getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
-  const deleteImageFromSection = () =>
-    dispatch(
-      createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
-    );
-
-  if (!image?.isNew || !image.id) {
-    return deleteImageFromSection();
-  }
-
-  return deleteUnattachedSectionImage(image.id)
-    .then(deleteImageFromSection)
-    .catch((error) => {
-      requestErrorHandler(dispatch)(error);
-      throw error;
-    });
+  deleteUnattachedSectionImage(getSectionMainImage(getState, sectionID));
+  dispatch(
+    createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
+  );
 };
 
 export const changeSectionMainImageCaption = (sectionID, value) => (dispatch) =>

@@ -10,6 +10,11 @@ import {
   createNotificationPayload,
 } from '../../utils/notify';
 import { addToast } from '../toast';
+import getMessage from '../../utils/getMessage';
+
+vi.mock('../../utils/images/compressFile', () => ({
+  default: vi.fn(async (file) => file),
+}));
 
 // Mocking API module and middleware setup
 vi.mock('../../api', () => ({
@@ -178,19 +183,60 @@ describe('HearingEditor actions', () => {
       expect(endpoint).toBe('/v1/image/');
       expect(formData.get('purpose')).toBe('section_level');
       expect(formData.get('image').name).toBe('section-image.webp');
-      expect(store.getActions()).toContainEqual({
-        type: EditorActions.SET_SECTION_MAIN_IMAGE,
-        payload: {
-          sectionID: 'section-1',
-          image: {
-            id: uploadedImage.id,
-            url: uploadedImage.url,
-            caption: uploadedImage.caption,
-            isNew: true,
+      expect(store.getActions()).toEqual([
+        { type: EditorActions.IMAGE_UPLOAD_STARTED, payload: undefined },
+        {
+          type: EditorActions.SET_SECTION_MAIN_IMAGE,
+          payload: {
+            sectionID: 'section-1',
+            image: {
+              id: uploadedImage.id,
+              url: uploadedImage.url,
+              caption: uploadedImage.caption,
+              isNew: true,
+            },
           },
         },
-      });
+        { type: EditorActions.IMAGE_UPLOAD_FINISHED, payload: undefined },
+      ]);
     });
+
+    it.each([
+      [500, 'imageFileUploadError'],
+      [413, 'imageUploadTooLarge'],
+      [403, 'imageUploadNotAllowed'],
+    ])(
+      'shows a localized toast when the section image upload fails with %s',
+      async (status, messageKey) => {
+        api.postMultipart.mockResolvedValue({ status });
+
+        await store.dispatch(
+          actions.setSectionMainImage(
+            'section-1',
+            new File(['image'], 'new.jpg', { type: 'image/webp' })
+          )
+        );
+
+        const dispatched = store.getActions();
+        expect(dispatched[0].type).toBe(EditorActions.IMAGE_UPLOAD_STARTED);
+        expect(dispatched).toContainEqual(
+          addToast(
+            createNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              getMessage(messageKey)
+            )
+          )
+        );
+        expect(dispatched.at(-1).type).toBe(
+          EditorActions.IMAGE_UPLOAD_FINISHED
+        );
+        expect(
+          dispatched.some(
+            (action) => action.type === EditorActions.SET_SECTION_MAIN_IMAGE
+          )
+        ).toBe(false);
+      }
+    );
 
     it('deletes a previous unattached section image after replacement', async () => {
       const sectionImageState = {
@@ -237,7 +283,7 @@ describe('HearingEditor actions', () => {
       });
       api.apiDelete.mockResolvedValue({ status: 204 });
 
-      await store.dispatch(actions.deleteSectionMainImage('section-1'));
+      store.dispatch(actions.deleteSectionMainImage('section-1'));
 
       expect(api.apiDelete).toHaveBeenCalledWith('/v1/image/55');
       expect(store.getActions()).toContainEqual({

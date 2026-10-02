@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch, useStore } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 
@@ -76,18 +76,6 @@ const HearingEditor = (props) => {
   } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const store = useStore();
-  const pendingSectionImageRequests = useRef(new Set());
-
-  const trackSectionImageRequest = (request) => {
-    const trackedRequest = Promise.resolve(request);
-    pendingSectionImageRequests.current.add(trackedRequest);
-    trackedRequest.then(
-      () => pendingSectionImageRequests.current.delete(trackedRequest),
-      () => pendingSectionImageRequests.current.delete(trackedRequest)
-    );
-    return trackedRequest;
-  };
   useEffect(() => {
     fetchEditorContactPersons();
   }, [fetchEditorContactPersons]);
@@ -139,26 +127,15 @@ const HearingEditor = (props) => {
    * @param {function} callbackAction
    * @returns {void|*}
    */
-  const validateHearing = async (callbackAction) => {
-    while (pendingSectionImageRequests.current.size) {
-      try {
-        await Promise.all([...pendingSectionImageRequests.current]);
-      } catch {
-        // The upload action already reports its failure.
-        return;
-      }
-    }
-
-    const hearingToSave =
-      EditorSelector.getPopulatedHearing(store.getState()) || hearing;
-    const localErrors = validateHearingFn(hearingToSave, hearingLanguages);
+  const validateHearing = (callbackAction) => {
+    const localErrors = validateHearingFn(hearing, hearingLanguages);
 
     // true if one of the keys in localErrors contain entries
 
     setErrors(localErrors);
     const containsError = checkIfEmpty(localErrors);
     if (containsError) {
-      dispatch(callbackAction(hearingToSave)).then(() => setShouldSubmit(true));
+      dispatch(callbackAction(hearing)).then(() => setShouldSubmit(true));
     } else {
       dispatch(
         addToast(
@@ -234,16 +211,11 @@ const HearingEditor = (props) => {
     dispatch(deleteExistingQuestion(sectionId, questionFrontId));
   };
 
-  const onSectionImageSet = (sectionID, file) => {
-    return trackSectionImageRequest(
-      dispatch(setSectionMainImage(sectionID, file))
-    );
-  };
+  const onSectionImageSet = (sectionID, file) =>
+    dispatch(setSectionMainImage(sectionID, file));
 
   const onSectionImageDelete = (sectionID) => {
-    return trackSectionImageRequest(
-      dispatch(deleteSectionMainImage(sectionID))
-    );
+    dispatch(deleteSectionMainImage(sectionID));
   };
 
   const onSectionImageCaptionChange = (sectionID, value) => {

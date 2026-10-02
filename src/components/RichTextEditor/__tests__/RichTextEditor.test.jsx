@@ -1,9 +1,13 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 
 import RichTextEditor from '..';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { getIntlAsProp } from '../../../../test-utils';
+import { getIsUploadingImages } from '../../../selectors/hearingEditor';
+
+// Listeners the component registers on the fake editor's plugins, by event.
+const mockListeners = vi.hoisted(() => ({}));
 
 // The real ClassicEditor needs a browser; mock the React wrapper with a light
 // stub that calls onReady with a fake editor and exposes a textbox.
@@ -20,6 +24,13 @@ vi.mock('@ckeditor/ckeditor5-react', () => ({
       },
       data: { processor: { toView: () => ({}) }, toModel: () => ({}) },
       model: { insertContent: () => {} },
+      plugins: {
+        get: () => ({
+          on: (event, callback) => {
+            mockListeners[event] = callback;
+          },
+        }),
+      },
     };
     if (onReady) onReady(editor);
     return (
@@ -101,5 +112,33 @@ describe('<RichTextEditor />', () => {
 
     fireEvent.click(screen.getByText('cancel'));
     expect(screen.queryByText('skipLinkModalTitle')).not.toBeInTheDocument();
+  });
+
+  it('marks images as uploading while the editor has pending uploads', () => {
+    const { store, unmount } = renderComponent();
+
+    act(() => mockListeners['change:hasAny']({}, 'hasAny', true));
+    expect(getIsUploadingImages(store.getState())).toBe(true);
+
+    act(() => mockListeners['change:hasAny']({}, 'hasAny', false));
+    expect(getIsUploadingImages(store.getState())).toBe(false);
+
+    act(() => mockListeners['change:hasAny']({}, 'hasAny', true));
+    unmount();
+    expect(getIsUploadingImages(store.getState())).toBe(false);
+  });
+
+  it('shows editor warnings as a toast instead of an alert', () => {
+    const { store } = renderComponent();
+    const evt = { stop: vi.fn() };
+
+    act(() => mockListeners['show:warning'](evt, { message: 'Upload failed' }));
+
+    expect(evt.stop).toHaveBeenCalled();
+    expect(store.getState().toast).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: 'error', message: 'Upload failed' }),
+      ])
+    );
   });
 });

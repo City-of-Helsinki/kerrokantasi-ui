@@ -34,10 +34,22 @@ const editorIsSaving = createReducer(false, (builder) => {
     .addCase(EditorActions.SAVE_HEARING_FAILED, () => false);
 });
 
+// Number of image uploads in progress (section images and CKEditor images).
+// Saving is blocked while any are running so no image is left out.
+const uploadingImages = createReducer(0, (builder) => {
+  builder
+    .addCase(EditorActions.IMAGE_UPLOAD_STARTED, (state) => state + 1)
+    .addCase(EditorActions.IMAGE_UPLOAD_FINISHED, (state) =>
+      Math.max(0, state - 1)
+    )
+    .addCase(EditorActions.CLOSE_FORM, () => 0);
+});
+
 const editorState = combineReducers({
   show: showEditor,
   pending: editorPending,
   isSaving: editorIsSaving,
+  uploadingImages,
 });
 
 const errors = createReducer(null, (builder) => {

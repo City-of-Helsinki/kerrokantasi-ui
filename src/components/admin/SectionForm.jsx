@@ -18,11 +18,7 @@ import MultiLanguageTextField, {
 } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
-import compressFile from '../../utils/images/compressFile';
-import {
-  MAX_IMAGE_SIZE,
-  MAX_WIDTH_OR_HEIGHT,
-} from '../../utils/images/constants';
+import { MAX_IMAGE_SIZE } from '../../utils/images/constants';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
 import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../constants';
@@ -159,27 +155,14 @@ const SectionForm = ({
     const file = files[0];
 
     if (!file) {
-      try {
-        await onSectionImageDelete(section.frontId);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
+      onSectionImageDelete(section.frontId);
       return;
     }
 
+    // The upload action reports failures itself.
     setIsUploadingSectionImage(true);
     try {
-      const compressed = await compressFile(
-        file,
-        MAX_IMAGE_SIZE,
-        MAX_WIDTH_OR_HEIGHT,
-        'image/webp'
-      );
-      await onSectionImageSet(section.frontId, compressed);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      await onSectionImageSet(section.frontId, file);
     } finally {
       setIsUploadingSectionImage(false);
     }
@@ -372,7 +355,13 @@ const SectionForm = ({
           maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
           defaultValue={sectionImage}
         />
-        {isUploadingSectionImage && <LoadingSpinner />}
+        {isUploadingSectionImage && (
+          <LoadingSpinner
+            small
+            loadingText={formatMessage({ id: 'imageUploadInProgress' })}
+            loadingFinishedText={formatMessage({ id: 'imageUploadFinished' })}
+          />
+        )}
       </div>
       <MultiLanguageTextField
         labelId='sectionImageCaption'
