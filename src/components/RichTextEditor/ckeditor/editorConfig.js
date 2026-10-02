@@ -168,20 +168,14 @@ export const buildEditorConfig = ({
   htmlSupport: {
     allow: [
       { name: 'iframe', attributes: true, classes: true, styles: true },
+      // No `target` here: the external link decorator sets it, and allowing it
+      // in both places splits a link into two nested anchors.
       {
         name: 'a',
-        attributes: [
-          'id',
-          'rel',
-          'title',
-          'target',
-          'data-external',
-          'aria-label',
-        ],
+        attributes: ['id', 'rel', 'title', 'data-external', 'aria-label'],
         classes: true,
       },
       { name: 'p', classes: LEGACY_BLOCK_CLASSES },
-      { name: 'div', classes: ['iframe-wrapper'] },
       { name: 'span', classes: true, attributes: ['aria-hidden'] },
       { name: 'img', attributes: true, classes: true, styles: true },
     ],
