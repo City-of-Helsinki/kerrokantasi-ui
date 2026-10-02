@@ -128,6 +128,17 @@ describe('<RichTextEditor />', () => {
     expect(getIsUploadingImages(store.getState())).toBe(false);
   });
 
+  it('passes content to onBlur when uploads finish after the editor lost focus', () => {
+    const onBlur = vi.fn();
+    renderComponent({ onBlur });
+
+    act(() => mockListeners['change:hasAny']({}, 'hasAny', true));
+    expect(onBlur).not.toHaveBeenCalled();
+
+    act(() => mockListeners['change:hasAny']({}, 'hasAny', false));
+    expect(onBlur).toHaveBeenCalledWith('<p>hello</p>');
+  });
+
   it('shows editor warnings as a toast instead of an alert', () => {
     const { store } = renderComponent();
     const evt = { stop: vi.fn() };

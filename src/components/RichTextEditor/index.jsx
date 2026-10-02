@@ -55,6 +55,7 @@ const RichTextEditor = ({
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const isUploadingRef = useRef(false);
+  const onBlurRef = useRef(onBlur);
   const [showIframeModal, setShowIframeModal] = useState(false);
   const [showSkipLinkModal, setShowSkipLinkModal] = useState(false);
 
@@ -92,6 +93,10 @@ const RichTextEditor = ({
     isUploadingRef.current = isUploading;
     dispatch(isUploading ? imageUploadStarted() : imageUploadFinished());
   };
+
+  useEffect(() => {
+    onBlurRef.current = onBlur;
+  }, [onBlur]);
 
   // An editor removed mid-upload never reports the upload as finished.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,7 +143,12 @@ const RichTextEditor = ({
     // FileRepository registers a pending action for every upload in progress.
     editor.plugins
       .get('PendingActions')
-      .on('change:hasAny', (_evt, _name, hasAny) => setUploading(hasAny));
+      .on('change:hasAny', (_evt, _name, hasAny) => {
+        setUploading(hasAny);
+        // Hearing forms store editor content on blur. An upload that finishes
+        // after the editor lost focus would otherwise never reach the form.
+        if (!hasAny) emit(onBlurRef.current);
+      });
 
     // CKEditor shows upload failures with window.alert by default; use a toast.
     editor.plugins.get('Notification').on(
