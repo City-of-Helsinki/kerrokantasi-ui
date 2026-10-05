@@ -287,6 +287,7 @@ const HearingEditor = (props) => {
         errors={errors}
         hearing={hearing}
         hearingLanguages={hearingLanguages}
+        isSaving={editorIsSaving}
         initMultipleChoiceQuestion={initMultipleChoiceQuestionFn}
         initSingleChoiceQuestion={initSingleChoiceQuestionFn}
         labels={labels}

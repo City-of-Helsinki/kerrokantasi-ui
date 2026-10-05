@@ -393,7 +393,8 @@ const deleteUnattachedSectionImage = (image) => {
 /**
  * Upload a section's main image right away and keep only its ID in the
  * editor state. The backend attaches the image when the hearing is saved.
- * Upload failures are reported with a toast.
+ * Resolves with the stored image, or undefined if the upload failed; failures
+ * are reported with a toast.
  */
 export const setSectionMainImage =
   (sectionID, file) => async (dispatch, getState) => {
@@ -410,17 +411,15 @@ export const setSectionMainImage =
         error.response = response;
         throw error;
       }
-      const image = await response.json();
+      const image = {
+        ...pick(await response.json(), SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
+        isNew: true,
+      };
       dispatch(
-        createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({
-          sectionID,
-          image: {
-            ...pick(image, SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
-            isNew: true,
-          },
-        })
+        createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, image })
       );
       deleteUnattachedSectionImage(previousImage);
+      return image;
     } catch (error) {
       requestErrorHandler(
         dispatch,

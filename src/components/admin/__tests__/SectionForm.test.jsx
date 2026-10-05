@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import configureStore from 'redux-mock-store';
 import { act, fireEvent, screen } from '@testing-library/react';
+import { FileInput } from 'hds-react';
 
 import {
   thunk,
@@ -374,6 +376,67 @@ describe('<SectionForm />', () => {
       });
 
       expect(fetchSpy.mock.calls.map(([url]) => url)).not.toContain(image.url);
+    });
+  });
+
+  describe('section image upload', () => {
+    let mounts;
+    const sectionImageInputProps = () =>
+      FileInput.mock.calls
+        .map(([props]) => props)
+        .findLast((props) => props.id === 'sectionImage');
+
+    // Let the preview of the section's saved image load before uploading.
+    const renderAndSettle = async (props) => {
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        blob: () => Promise.resolve(new Blob(['x'])),
+      });
+      await act(async () => {
+        renderComponent(props);
+      });
+    };
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    beforeEach(() => {
+      mounts = 0;
+      FileInput.mockImplementation(({ id }) => {
+        useEffect(() => {
+          if (id === 'sectionImage') mounts += 1;
+        }, [id]);
+        return <div>FileInput</div>;
+      });
+    });
+
+    it('keeps the selected file shown after a successful upload', async () => {
+      const onSectionImageSet = vi.fn().mockResolvedValue({ id: 5 });
+      await renderAndSettle({ onSectionImageSet });
+      const file = new File(['x'], 'photo.jpg', { type: 'image/jpeg' });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([file]);
+      });
+
+      expect(onSectionImageSet).toHaveBeenCalledWith(expect.anything(), file);
+      expect(mounts).toBe(1);
+      expect(sectionImageInputProps().defaultValue).toEqual([
+        { id: 5, name: 'photo.jpg', type: 'image/jpeg', file },
+      ]);
+    });
+
+    it('resets the input after a failed upload so it does not list the failed file', async () => {
+      const onSectionImageSet = vi.fn().mockResolvedValue(undefined);
+      await renderAndSettle({ onSectionImageSet });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([
+          new File(['x'], 'broken.jpg', { type: 'image/jpeg' }),
+        ]);
+      });
+
+      expect(mounts).toBe(2);
     });
   });
 });

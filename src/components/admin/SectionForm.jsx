@@ -96,6 +96,9 @@ const SectionForm = ({
   );
   const [sectionImage, setSectionImage] = useState();
   const [isUploadingSectionImage, setIsUploadingSectionImage] = useState(false);
+  // Remounts the image input so it shows the section's image again after a
+  // failed upload instead of the file that failed.
+  const [sectionImageInputKey, setSectionImageInputKey] = useState(0);
   const [attachments, setAttachments] = useState();
   const [attachmentsLoaded, setAttachmentsLoaded] = useState(
     section.files.length === 0
@@ -161,13 +164,21 @@ const SectionForm = ({
 
     if (!file) {
       onSectionImageDelete(section.frontId);
+      setSectionImage([]);
       return;
     }
 
     // The upload action reports failures itself.
     setIsUploadingSectionImage(true);
     try {
-      await onSectionImageSet(section.frontId, file);
+      const image = await onSectionImageSet(section.frontId, file);
+      if (image) {
+        setSectionImage([
+          { id: image.id, name: file.name, type: file.type, file },
+        ]);
+      } else {
+        setSectionImageInputKey((key) => key + 1);
+      }
     } finally {
       setIsUploadingSectionImage(false);
     }
@@ -348,6 +359,7 @@ const SectionForm = ({
           />
         </Card>
         <FileInput
+          key={sectionImageInputKey}
           id='sectionImage'
           name='sectionImage'
           dragAndDrop

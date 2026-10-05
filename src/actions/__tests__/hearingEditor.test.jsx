@@ -177,8 +177,16 @@ describe('HearingEditor actions', () => {
         json: () => Promise.resolve(uploadedImage),
       });
 
-      await store.dispatch(actions.setSectionMainImage('section-1', file));
+      const result = await store.dispatch(
+        actions.setSectionMainImage('section-1', file)
+      );
 
+      expect(result).toEqual({
+        id: uploadedImage.id,
+        url: uploadedImage.url,
+        caption: uploadedImage.caption,
+        isNew: true,
+      });
       const [endpoint, formData] = api.postMultipart.mock.calls[0];
       expect(endpoint).toBe('/v1/image/');
       expect(formData.get('purpose')).toBe('section_level');
@@ -210,13 +218,14 @@ describe('HearingEditor actions', () => {
       async (status, messageKey) => {
         api.postMultipart.mockResolvedValue({ status });
 
-        await store.dispatch(
+        const result = await store.dispatch(
           actions.setSectionMainImage(
             'section-1',
             new File(['image'], 'new.jpg', { type: 'image/webp' })
           )
         );
 
+        expect(result).toBeUndefined();
         const dispatched = store.getActions();
         expect(dispatched[0].type).toBe(EditorActions.IMAGE_UPLOAD_STARTED);
         expect(dispatched).toContainEqual(
