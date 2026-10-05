@@ -5,7 +5,7 @@ import SanitizedHtml from '../../embed/SanitizedHtml';
 const SectionClosureInfoComponent = ({ content }) => (
   <div className='closure-info'>
     <div className='container'>
-      <div>
+      <div className='rich-text-content'>
         <SanitizedHtml html={content} />
       </div>
     </div>

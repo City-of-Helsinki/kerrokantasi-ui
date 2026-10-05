@@ -359,8 +359,9 @@
   }
 }
 
-// Images in section content written with the CKEditor rich text editor. Mirrors
-// CKEditor's own content styles for the image options the editor offers.
+// Images in content written with the CKEditor rich text editor (section
+// content, abstracts and closure info). Mirrors CKEditor's own content styles
+// for the image options the editor offers.
 .rich-text-content {
   // Contain floated side images within the content.
   display: flow-root;
