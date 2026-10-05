@@ -35,14 +35,16 @@ const editorIsSaving = createReducer(false, (builder) => {
 });
 
 // Number of image uploads in progress (section images and CKEditor images).
-// Saving is blocked while any are running so no image is left out.
+// Saving is blocked while any are running so no image is left out. Not reset
+// when the editor closes: every start is matched by exactly one finish, and an
+// upload from a closed editor that finishes late must not lower the count of
+// uploads running in a reopened editor.
 const uploadingImages = createReducer(0, (builder) => {
   builder
     .addCase(EditorActions.IMAGE_UPLOAD_STARTED, (state) => state + 1)
     .addCase(EditorActions.IMAGE_UPLOAD_FINISHED, (state) =>
       Math.max(0, state - 1)
-    )
-    .addCase(EditorActions.CLOSE_FORM, () => 0);
+    );
 });
 
 const editorState = combineReducers({

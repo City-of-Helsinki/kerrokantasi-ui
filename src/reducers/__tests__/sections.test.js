@@ -225,6 +225,23 @@ describe('sections', () => {
       ]);
     });
 
+    it('should ignore an image for a section that was removed during the upload', () => {
+      const sectionID = INITIAL_STATE.all[0];
+      store.dispatch({
+        type: EditorActions.REMOVE_SECTION,
+        payload: { sectionID },
+      });
+      const stateBefore = store.getState().byId;
+
+      expect(() =>
+        store.dispatch({
+          type: EditorActions.SET_SECTION_MAIN_IMAGE,
+          payload: { sectionID, image: { id: 9, url: '/late.webp' } },
+        })
+      ).not.toThrow();
+      expect(store.getState().byId).toEqual(stateBefore);
+    });
+
     it('should store the first image as is', () => {
       const sectionID = INITIAL_STATE.all[0];
       const mockImage = { id: 5, url: '/first.webp', caption: { fi: 'a' } };

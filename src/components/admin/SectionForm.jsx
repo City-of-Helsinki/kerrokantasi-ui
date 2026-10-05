@@ -108,11 +108,12 @@ const SectionForm = ({
 
   useEffect(() => {
     async function fetchImages() {
-      // A just uploaded image is already shown by the FileInput
+      // Skip an image this form already holds, e.g. one it just uploaded. A
+      // remounted form (editor closed and reopened) loads it again.
       if (
         section.images.length &&
         section.images[0].url &&
-        !section.images[0].isNew
+        section.images[0].id !== sectionImage?.[0]?.id
       ) {
         const data = await fetchFiles(section.images, 'image', language);
 

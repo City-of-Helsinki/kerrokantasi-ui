@@ -22,27 +22,9 @@ import { ClassicEditor, buildEditorConfig } from './ckeditor/editorConfig';
 import { createUploadAdapterPlugin } from './ckeditor/uploadAdapter';
 import { createPastedImageFilterPlugin } from './ckeditor/pastedImageFilter';
 import { fromAppHtml, toAppHtml } from './ckeditor/htmlPostProcess';
+import { buildIframeHtml, buildSkipLinkHtml } from './ckeditor/embedHtml';
 import IframeModal from './Iframe/IframeModal';
 import SkipLinkModal from './SkipLink/SkipLinkModal';
-
-const buildIframeHtml = ({ title, src, width, height, scrolling, allow }) => {
-  const attributes = [
-    `src="${src}"`,
-    title && `title="${title}"`,
-    width && `width="${width}"`,
-    height && `height="${height}"`,
-    scrolling && `scrolling="${scrolling}"`,
-    allow && `allow="${allow}"`,
-  ]
-    .filter(Boolean)
-    .join(' ');
-  return `<iframe ${attributes}></iframe>`;
-};
-
-const buildSkipLinkHtml = (text, ownId, targetId, isHidden) => {
-  const className = isHidden ? ' class="hidden-link"' : '';
-  return `<a href="#${targetId}" id="${ownId}"${className}>${text}</a>`;
-};
 
 const RichTextEditor = ({
   intl,

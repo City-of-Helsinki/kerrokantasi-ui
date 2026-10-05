@@ -201,6 +201,10 @@ const byId = createReducer({}, (builder) => {
     .addCase(
       EditorActions.SET_SECTION_MAIN_IMAGE,
       (state, { payload: { sectionID, image } }) => {
+        // The section may have been removed, or another hearing opened, while
+        // its image was still uploading.
+        if (!state[sectionID]) return state;
+
         const previousImage = state[sectionID].images?.[0];
         const newImage = { ...image };
 

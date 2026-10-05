@@ -20,12 +20,15 @@ describe('hearingEditor reducer: uploadingImages', () => {
     expect(uploadingImages([EditorActions.IMAGE_UPLOAD_FINISHED])).toBe(0);
   });
 
-  it('resets when the editor is closed', () => {
+  it('keeps counting an upload that finishes after the editor was closed', () => {
     expect(
       uploadingImages([
         EditorActions.IMAGE_UPLOAD_STARTED,
         EditorActions.CLOSE_FORM,
+        EditorActions.SHOW_FORM,
+        EditorActions.IMAGE_UPLOAD_STARTED,
+        EditorActions.IMAGE_UPLOAD_FINISHED,
       ])
-    ).toBe(0);
+    ).toBe(1);
   });
 });

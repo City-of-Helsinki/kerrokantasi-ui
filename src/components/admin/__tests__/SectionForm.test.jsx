@@ -363,7 +363,7 @@ describe('<SectionForm />', () => {
       expect(fetchSpy).toHaveBeenCalledWith(image.url, { method: 'GET' });
     });
 
-    it('does not fetch a just uploaded image', async () => {
+    it('loads a just uploaded image again when the form is remounted', async () => {
       const fetchSpy = mockFetch();
       const section = {
         ...mockHearingWithSections.data.sections[0],
@@ -375,7 +375,7 @@ describe('<SectionForm />', () => {
         renderComponent({ section });
       });
 
-      expect(fetchSpy.mock.calls.map(([url]) => url)).not.toContain(image.url);
+      expect(fetchSpy).toHaveBeenCalledWith(image.url, { method: 'GET' });
     });
   });
 
@@ -424,6 +424,44 @@ describe('<SectionForm />', () => {
       expect(sectionImageInputProps().defaultValue).toEqual([
         { id: 5, name: 'photo.jpg', type: 'image/jpeg', file },
       ]);
+    });
+
+    it('does not download an image it just uploaded', async () => {
+      const uploaded = { id: 5, url: 'http://example.com/uploaded.webp' };
+      const onSectionImageSet = vi.fn().mockResolvedValue(uploaded);
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        blob: () => Promise.resolve(new Blob(['x'])),
+      });
+      let view;
+      await act(async () => {
+        view = renderComponent({ section, onSectionImageSet });
+      });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([
+          new File(['x'], 'photo.jpg', { type: 'image/jpeg' }),
+        ]);
+      });
+      // The store now holds the uploaded image for the section.
+      await act(async () => {
+        view.rerender(
+          <SectionForm
+            section={{ ...section, images: [{ ...uploaded, isNew: true }] }}
+            sectionLanguages={['fi']}
+            onSectionChange={vi.fn()}
+            onSectionImageSet={onSectionImageSet}
+            intl={getIntlAsProp()}
+          />
+        );
+      });
+
+      expect(global.fetch.mock.calls.map(([url]) => url)).not.toContain(
+        uploaded.url
+      );
     });
 
     it('resets the input after a failed upload so it does not list the failed file', async () => {
