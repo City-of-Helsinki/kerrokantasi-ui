@@ -64,6 +64,12 @@ describe('<UserComment />', () => {
     expect(await screen.findByText('DefaultUser')).toBeInTheDocument();
   });
 
+  it('should render the exact creation date and time', async () => {
+    renderComponent();
+
+    expect(await screen.findByText('10.09.2021 12:30')).toBeInTheDocument();
+  });
+
   it('should render hearing comment status', async () => {
     renderComponent();
 

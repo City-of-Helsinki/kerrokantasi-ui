@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Tooltip, Tag } from 'hds-react';
+import { Button, Tag } from 'hds-react';
 import moment from 'moment';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from '../../utils/Icon';
 import { nl2br } from '../../utils/commonUtils';
@@ -10,7 +10,6 @@ import Link from '../LinkWithLang';
 import HearingMap from '../Hearing/HearingMap';
 import getMessage from '../../utils/getMessage';
 import getAttr from '../../utils/getAttr';
-import FormatRelativeTime from '../../utils/FormatRelativeTime';
 
 const UserComment = (props) => {
   const [displayMap, setDisplayMap] = useState(false);
@@ -20,7 +19,6 @@ const UserComment = (props) => {
     style: data.closed ? 'default' : 'success',
     id: data.closed ? 'closedHearing' : 'openHearing',
   };
-  const intl = useIntl();
   /**
    * Returns a formatted timestamp
    * @param {string} timestamp
@@ -29,13 +27,6 @@ const UserComment = (props) => {
    */
   const parseTimestamp = (timestamp) =>
     moment(timestamp).format('DD.MM.YYYY HH:mm');
-
-  /**
-   * Returns a Tooltip component with timestamp from date.
-   * @param {string} date
-   * @returns {JSX.Element}
-   */
-  const dateTooltip = (date) => parseTimestamp(date);
 
   const renderCommentText = () => {
     if (!comment.deleted) {
@@ -82,19 +73,8 @@ const UserComment = (props) => {
               {comment.author_name}
             </span>
             <span className='hearing-comment-date'>
-              <FormatRelativeTime
-                messagePrefix=''
-                timeVal={comment.created_at}
-                formatTime={intl.formatTime}
-                formatDate={intl.formatDate}
-              />
+              {parseTimestamp(comment.created_at)}
             </span>
-            <Tooltip
-              placement='top'
-              style={{ marginLeft: 'var(--spacing-2-xs)' }}
-            >
-              <span>{dateTooltip(comment.created_at)}</span>
-            </Tooltip>
           </div>
           <div className='hearing-comment-status'>
             <div>

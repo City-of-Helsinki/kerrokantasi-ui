@@ -4,12 +4,7 @@
 import { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  Button,
-  TextArea,
-  Tooltip as HDSTooltip,
-  IconSpeechbubbleText,
-} from 'hds-react';
+import { Button, TextArea, IconSpeechbubbleText } from 'hds-react';
 import { isEmpty } from 'lodash';
 import classnames from 'classnames';
 import forEach from 'lodash/forEach';
@@ -31,7 +26,6 @@ import {
 import getAttr from '../../../utils/getAttr';
 import HearingMap from '../HearingMap';
 import getMessage from '../../../utils/getMessage';
-import FormatRelativeTime from '../../../utils/FormatRelativeTime';
 import { addToast } from '../../../actions/toast';
 import updateAnswers from '../../../utils/comments';
 import { isAdmin } from '../../../utils/user';
@@ -302,19 +296,9 @@ const Comment = ({
           ) : null}
           {data.author_name || <FormattedMessage id='anonymous' />}
         </span>
-        <div className='hearing-comment-date-wrapper'>
-          <span className='hearing-comment-date'>
-            <FormatRelativeTime
-              messagePrefix=''
-              timeVal={data.created_at}
-              formatTime={intl.formatTime}
-              formatDate={intl.formatDate}
-            />
-          </span>
-          <HDSTooltip className='hearing-comment-date-tooltip' placement='top'>
-            {parseTimestamp(data.created_at)}
-          </HDSTooltip>
-        </div>
+        <span className='hearing-comment-date'>
+          {parseTimestamp(data.created_at)}
+        </span>
       </div>
       {canFlagComments() && (
         <Button className='hearing-comment-vote-link' onClick={onCopyURL}>

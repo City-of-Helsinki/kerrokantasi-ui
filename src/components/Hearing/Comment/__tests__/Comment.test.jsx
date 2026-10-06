@@ -54,6 +54,12 @@ describe('<Comment />', () => {
     expect(getByText('Reiciendis')).toBeInTheDocument();
   });
 
+  it('should show the exact creation date and time', () => {
+    renderComponent(createCommentData({ created_at: '2021-09-10T12:30:00' }));
+
+    expect(screen.getByText('10.09.2021 12:30')).toBeInTheDocument();
+  });
+
   it('should vote comments', async () => {
     const onPostVoteMock = vi.fn();
 
