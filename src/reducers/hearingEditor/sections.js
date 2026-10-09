@@ -200,10 +200,10 @@ const byId = createReducer({}, (builder) => {
     )
     .addCase(
       EditorActions.SET_SECTION_MAIN_IMAGE,
-      (state, { payload: { sectionID, value } }) => {
+      (state, { payload: { sectionID, image } }) => {
         const setSection = {
           ...state[sectionID],
-          images: [{ image: value, url: '', caption: '' }],
+          images: [image],
         };
 
         return { ...state, [sectionID]: setSection };
