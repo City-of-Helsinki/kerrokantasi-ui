@@ -211,9 +211,8 @@ const HearingEditor = (props) => {
     dispatch(deleteExistingQuestion(sectionId, questionFrontId));
   };
 
-  const onSectionImageSet = (sectionID, value) => {
-    dispatch(setSectionMainImage(sectionID, value));
-  };
+  const onSectionImageSet = (sectionID, file) =>
+    dispatch(setSectionMainImage(sectionID, file));
 
   const onSectionImageDelete = (sectionID) => {
     dispatch(deleteSectionMainImage(sectionID));
@@ -288,6 +287,7 @@ const HearingEditor = (props) => {
         errors={errors}
         hearing={hearing}
         hearingLanguages={hearingLanguages}
+        isSaving={editorIsSaving}
         initMultipleChoiceQuestion={initMultipleChoiceQuestionFn}
         initSingleChoiceQuestion={initSingleChoiceQuestionFn}
         labels={labels}

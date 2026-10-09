@@ -10,11 +10,17 @@ import {
   createNotificationPayload,
 } from '../../utils/notify';
 import { addToast } from '../toast';
+import getMessage from '../../utils/getMessage';
+
+vi.mock('../../utils/images/compressFile', () => ({
+  default: vi.fn(async (file) => file),
+}));
 
 // Mocking API module and middleware setup
 vi.mock('../../api', () => ({
   get: vi.fn(),
   post: vi.fn(),
+  postMultipart: vi.fn(),
   put: vi.fn(),
   apiDelete: vi.fn(),
   getApiTokenFromStorage: vi.fn(() => 'dummykey'),
@@ -153,6 +159,146 @@ describe('HearingEditor actions', () => {
         actions.addSectionAttachment(section, file, title, isNew)
       );
       expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('uploads section images separately and stores the returned image ID', async () => {
+      const file = new File(['image content'], 'section-image.jpg', {
+        type: 'image/webp',
+      });
+      const uploadedImage = {
+        id: 123,
+        url: 'https://example.com/section-image.webp',
+        caption: {},
+        image: '/media/section-image.webp',
+        purpose: 'section_level',
+      };
+      api.postMultipart.mockResolvedValue({
+        status: 201,
+        json: () => Promise.resolve(uploadedImage),
+      });
+
+      const result = await store.dispatch(
+        actions.setSectionMainImage('section-1', file)
+      );
+
+      expect(result).toEqual({
+        id: uploadedImage.id,
+        url: uploadedImage.url,
+        caption: uploadedImage.caption,
+        isNew: true,
+      });
+      const [endpoint, formData] = api.postMultipart.mock.calls[0];
+      expect(endpoint).toBe('/v1/image/');
+      expect(formData.get('purpose')).toBe('section_level');
+      expect(formData.get('image').name).toBe('section-image.webp');
+      expect(store.getActions()).toEqual([
+        { type: EditorActions.IMAGE_UPLOAD_STARTED, payload: undefined },
+        {
+          type: EditorActions.SET_SECTION_MAIN_IMAGE,
+          payload: {
+            sectionID: 'section-1',
+            image: {
+              id: uploadedImage.id,
+              url: uploadedImage.url,
+              caption: uploadedImage.caption,
+              isNew: true,
+            },
+          },
+        },
+        { type: EditorActions.IMAGE_UPLOAD_FINISHED, payload: undefined },
+      ]);
+    });
+
+    it.each([
+      [500, 'imageFileUploadError'],
+      [413, 'imageUploadTooLarge'],
+      [403, 'imageUploadNotAllowed'],
+    ])(
+      'shows a localized toast when the section image upload fails with %s',
+      async (status, messageKey) => {
+        api.postMultipart.mockResolvedValue({ status });
+
+        const result = await store.dispatch(
+          actions.setSectionMainImage(
+            'section-1',
+            new File(['image'], 'new.jpg', { type: 'image/webp' })
+          )
+        );
+
+        expect(result).toBeUndefined();
+        const dispatched = store.getActions();
+        expect(dispatched[0].type).toBe(EditorActions.IMAGE_UPLOAD_STARTED);
+        expect(dispatched).toContainEqual(
+          addToast(
+            createNotificationPayload(
+              NOTIFICATION_TYPES.error,
+              getMessage(messageKey)
+            )
+          )
+        );
+        expect(dispatched.at(-1).type).toBe(
+          EditorActions.IMAGE_UPLOAD_FINISHED
+        );
+        expect(
+          dispatched.some(
+            (action) => action.type === EditorActions.SET_SECTION_MAIN_IMAGE
+          )
+        ).toBe(false);
+      }
+    );
+
+    it('deletes a previous unattached section image after replacement', async () => {
+      const sectionImageState = {
+        ...initialState,
+        hearingEditor: {
+          sections: {
+            byId: {
+              'section-1': {
+                images: [{ id: 55, isNew: true }],
+              },
+            },
+          },
+        },
+      };
+      store = mockStore(sectionImageState);
+      api.postMultipart.mockResolvedValue({
+        status: 201,
+        json: () => Promise.resolve({ id: 56, url: '/new.webp' }),
+      });
+      api.apiDelete.mockResolvedValue({ status: 204 });
+
+      await store.dispatch(
+        actions.setSectionMainImage(
+          'section-1',
+          new File(['image'], 'new.jpg', { type: 'image/webp' })
+        )
+      );
+
+      expect(api.apiDelete).toHaveBeenCalledWith('/v1/image/55');
+    });
+
+    it('deletes a new unattached image when it is removed before save', async () => {
+      store = mockStore({
+        ...initialState,
+        hearingEditor: {
+          sections: {
+            byId: {
+              'section-1': {
+                images: [{ id: 55, isNew: true }],
+              },
+            },
+          },
+        },
+      });
+      api.apiDelete.mockResolvedValue({ status: 204 });
+
+      store.dispatch(actions.deleteSectionMainImage('section-1'));
+
+      expect(api.apiDelete).toHaveBeenCalledWith('/v1/image/55');
+      expect(store.getActions()).toContainEqual({
+        type: EditorActions.DELETE_SECTION_MAIN_IMAGE,
+        payload: { sectionID: 'section-1' },
+      });
     });
   });
   describe('Deletion Actions', () => {

@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import configureStore from 'redux-mock-store';
 import { act, fireEvent, screen } from '@testing-library/react';
+import { FileInput } from 'hds-react';
 
 import {
   thunk,
@@ -330,5 +332,149 @@ describe('<SectionForm />', () => {
       section.frontId,
       'q-server-1'
     );
+  });
+
+  describe('section image preview', () => {
+    const image = { id: 1, url: 'http://example.com/img.webp' };
+    const mockFetch = () =>
+      vi
+        .spyOn(global, 'fetch')
+        .mockClear()
+        .mockResolvedValue({
+          blob: () => Promise.resolve(new Blob(['x'])),
+        });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('fetches a saved image for the preview', async () => {
+      const fetchSpy = mockFetch();
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+        images: [image],
+      };
+
+      await act(async () => {
+        renderComponent({ section });
+      });
+
+      expect(fetchSpy).toHaveBeenCalledWith(image.url, { method: 'GET' });
+    });
+
+    it('loads a just uploaded image again when the form is remounted', async () => {
+      const fetchSpy = mockFetch();
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+        images: [{ ...image, isNew: true }],
+      };
+
+      await act(async () => {
+        renderComponent({ section });
+      });
+
+      expect(fetchSpy).toHaveBeenCalledWith(image.url, { method: 'GET' });
+    });
+  });
+
+  describe('section image upload', () => {
+    let mounts;
+    const sectionImageInputProps = () =>
+      FileInput.mock.calls
+        .map(([props]) => props)
+        .findLast((props) => props.id === 'sectionImage');
+
+    // Let the preview of the section's saved image load before uploading.
+    const renderAndSettle = async (props) => {
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        blob: () => Promise.resolve(new Blob(['x'])),
+      });
+      await act(async () => {
+        renderComponent(props);
+      });
+    };
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    beforeEach(() => {
+      mounts = 0;
+      FileInput.mockImplementation(({ id }) => {
+        useEffect(() => {
+          if (id === 'sectionImage') mounts += 1;
+        }, [id]);
+        return <div>FileInput</div>;
+      });
+    });
+
+    it('keeps the selected file shown after a successful upload', async () => {
+      const onSectionImageSet = vi.fn().mockResolvedValue({ id: 5 });
+      await renderAndSettle({ onSectionImageSet });
+      const file = new File(['x'], 'photo.jpg', { type: 'image/jpeg' });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([file]);
+      });
+
+      expect(onSectionImageSet).toHaveBeenCalledWith(expect.anything(), file);
+      expect(mounts).toBe(1);
+      expect(sectionImageInputProps().defaultValue).toEqual([
+        { id: 5, name: 'photo.jpg', type: 'image/jpeg', file },
+      ]);
+    });
+
+    it('does not download an image it just uploaded', async () => {
+      const uploaded = { id: 5, url: 'http://example.com/uploaded.webp' };
+      const onSectionImageSet = vi.fn().mockResolvedValue(uploaded);
+      const section = {
+        ...mockHearingWithSections.data.sections[0],
+        frontId: mockHearingWithSections.data.sections[0].id,
+      };
+      vi.spyOn(global, 'fetch').mockResolvedValue({
+        blob: () => Promise.resolve(new Blob(['x'])),
+      });
+      let view;
+      await act(async () => {
+        view = renderComponent({ section, onSectionImageSet });
+      });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([
+          new File(['x'], 'photo.jpg', { type: 'image/jpeg' }),
+        ]);
+      });
+      // The store now holds the uploaded image for the section.
+      await act(async () => {
+        view.rerender(
+          <SectionForm
+            section={{ ...section, images: [{ ...uploaded, isNew: true }] }}
+            sectionLanguages={['fi']}
+            onSectionChange={vi.fn()}
+            onSectionImageSet={onSectionImageSet}
+            intl={getIntlAsProp()}
+          />
+        );
+      });
+
+      expect(global.fetch.mock.calls.map(([url]) => url)).not.toContain(
+        uploaded.url
+      );
+    });
+
+    it('resets the input after a failed upload so it does not list the failed file', async () => {
+      const onSectionImageSet = vi.fn().mockResolvedValue(undefined);
+      await renderAndSettle({ onSectionImageSet });
+
+      await act(async () => {
+        await sectionImageInputProps().onChange([
+          new File(['x'], 'broken.jpg', { type: 'image/jpeg' }),
+        ]);
+      });
+
+      expect(mounts).toBe(2);
+    });
   });
 });

@@ -1,14 +1,21 @@
 /* eslint-disable sonarjs/todo-tag */
 import { createAction } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { omit } from 'lodash';
+import { omit, pick } from 'lodash';
 
 import {
   createNotificationPayload,
   NOTIFICATION_TYPES,
   createLocalizedNotificationPayload,
 } from '../utils/notify';
-import { patch, put, post, apiDelete, getAllFromEndpoint } from '../api';
+import {
+  patch,
+  put,
+  post,
+  postMultipart,
+  apiDelete,
+  getAllFromEndpoint,
+} from '../api';
 import { requestErrorHandler } from './index';
 import { initNewHearing as getHearingSkeleton } from '../utils/hearing';
 import {
@@ -19,6 +26,12 @@ import {
 } from '../utils/hearingEditor';
 import { addToast } from './toast';
 import getMessage from '../utils/getMessage';
+import { SECTION_IMAGE_PURPOSE } from '../constants';
+import {
+  IMAGE_UPLOAD_ENDPOINT,
+  buildImageUploadData,
+  getImageUploadErrorKey,
+} from '../utils/images/uploadImage';
 
 export const EditorActions = {
   ACTIVE_PHASE: 'activePhase',
@@ -50,6 +63,8 @@ export const EditorActions = {
   DELETE_SECTION_MAIN_IMAGE: 'deleteSectionMainImage',
   CHANGE_SECTION_MAIN_IMAGE_CAPTION: 'changeSectionMainImageCaption',
   EDIT_SECTION: 'changeSection',
+  IMAGE_UPLOAD_STARTED: 'imageUploadStarted',
+  IMAGE_UPLOAD_FINISHED: 'imageUploadFinished',
   ERROR_META_DATA: 'errorHearingEditorMetaData',
   FETCH_META_DATA: 'beginFetchHearingEditorMetaData',
   FETCH_CONTACT_PERSONS: 'beginFetchHearingEditorContactPersons',
@@ -88,6 +103,16 @@ const HEARING_CREATED_MESSAGE = 'Luonti onnistui';
 const HEARING_CHECK_HEARING_INFORMATION_MESSAGE = 'Tarkista kuulemisen tiedot.';
 const HEARING_CANT_MODIFY = 'Et voi muokata tätä kuulemista.';
 const CANT_CREATE_CONTACT = 'Et voi luoda yhteyshenkilöä.';
+const SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS = [
+  'id',
+  'title',
+  'url',
+  'width',
+  'height',
+  'caption',
+  'alt_text',
+  'ordering',
+];
 
 export const startHearingEdit = () => (dispatch) =>
   dispatch(createAction(EditorActions.SHOW_FORM)());
@@ -347,15 +372,70 @@ export const changeSection = (sectionID, field, value) => (dispatch) =>
     createAction(EditorActions.EDIT_SECTION)({ sectionID, field, value })
   );
 
-export const setSectionMainImage = (sectionID, value) => (dispatch) =>
-  dispatch(
-    createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, value })
-  );
+export const imageUploadStarted = () =>
+  createAction(EditorActions.IMAGE_UPLOAD_STARTED)();
 
-export const deleteSectionMainImage = (sectionID) => (dispatch) =>
+export const imageUploadFinished = () =>
+  createAction(EditorActions.IMAGE_UPLOAD_FINISHED)();
+
+const getSectionMainImage = (getState, sectionID) =>
+  getState().hearingEditor?.sections?.byId?.[sectionID]?.images?.[0];
+
+// Removes an uploaded image that was never saved to a section. Failures are
+// ignored: the backend cleanup job deletes images left unattached.
+const deleteUnattachedSectionImage = (image) => {
+  if (!image?.isNew || !image.id) return;
+  apiDelete(`${IMAGE_UPLOAD_ENDPOINT}${image.id}`).catch(() => {
+    // Left for the cleanup job.
+  });
+};
+
+/**
+ * Upload a section's main image right away and keep only its ID in the
+ * editor state. The backend attaches the image when the hearing is saved.
+ * Resolves with the stored image, or undefined if the upload failed; failures
+ * are reported with a toast.
+ */
+export const setSectionMainImage =
+  (sectionID, file) => async (dispatch, getState) => {
+    const previousImage = getSectionMainImage(getState, sectionID);
+    dispatch(imageUploadStarted());
+    try {
+      const data = await buildImageUploadData(
+        file,
+        SECTION_IMAGE_PURPOSE.SECTION_LEVEL
+      );
+      const response = await postMultipart(IMAGE_UPLOAD_ENDPOINT, data);
+      if (response.status >= 400) {
+        const error = new Error('Bad response from server');
+        error.response = response;
+        throw error;
+      }
+      const image = {
+        ...pick(await response.json(), SECTION_IMAGE_UPLOAD_RESPONSE_FIELDS),
+        isNew: true,
+      };
+      dispatch(
+        createAction(EditorActions.SET_SECTION_MAIN_IMAGE)({ sectionID, image })
+      );
+      deleteUnattachedSectionImage(previousImage);
+      return image;
+    } catch (error) {
+      requestErrorHandler(
+        dispatch,
+        getImageUploadErrorKey(error.response?.status)
+      )(error);
+    } finally {
+      dispatch(imageUploadFinished());
+    }
+  };
+
+export const deleteSectionMainImage = (sectionID) => (dispatch, getState) => {
+  deleteUnattachedSectionImage(getSectionMainImage(getState, sectionID));
   dispatch(
     createAction(EditorActions.DELETE_SECTION_MAIN_IMAGE)({ sectionID })
   );
+};
 
 export const changeSectionMainImageCaption = (sectionID, value) => (dispatch) =>
   dispatch(
