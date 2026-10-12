@@ -45,6 +45,19 @@ window.matchMedia =
 window.scrollTo = vi.fn();
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
+// Node 22+ defines an experimental global `localStorage`/`sessionStorage` that
+// resolves to `undefined` unless run with `--localstorage-file`. Since that name
+// already exists on Node's global, Vitest's jsdom environment setup skips
+// overriding it with JSDOM's working `window.localStorage`/`sessionStorage`.
+// `window` is merged into `global` by Vitest, so `window.localStorage` is the
+// same broken property; reach into the underlying JSDOM instance instead.
+// eslint-disable-next-line no-underscore-dangle
+const jsdomWindow = window.jsdom?.window || window._core?.window;
+if (jsdomWindow) {
+  global.localStorage = jsdomWindow.localStorage;
+  global.sessionStorage = jsdomWindow.sessionStorage;
+}
+
 class MockObserver {
   constructor() {
     this.observe = vi.fn();
