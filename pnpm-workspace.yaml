@@ -39,6 +39,7 @@ overrides:
   'fast-uri': '^3.1.6'
   'postcss': '^8.5.18'
   'ws': '^8.21.0'
+  '@simple-git/argv-parser': '>=2.0.1'
 
 # Allow plugins that haven't yet updated their peer dep to accept eslint@10.
 # The plugins work fine under v10; the peer range is just stale.
