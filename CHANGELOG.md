@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.22.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.0...kerrokantasi-ui-v1.22.1) (2026-10-12)
+
+
+### Bug Fixes
+
+* FetchPlugins script errors Refs: RATY-357 ([189f40f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/189f40f26450785817e26bae00b66a5f0efa285d))
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.13 to 3.4.16 ([b40be3c](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b40be3cd946dd78a639440cd8daf0a1f2b6ed8ab))
+* Bump moment from 2.30.1 to 2.31.0 ([b6a8179](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/b6a8179898afa91d7084a2ce43a058eaabdfd3a1))
+* Bump simple-git from 3.36.0 to 4.0.1 ([7d145e9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/7d145e9eb8ed551502688c1b5a08da41b63d1439))
+* Moment upgrade conflict fixes Refs: RATY-357 ([7616196](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/761619626aa4d801b6664258c025b3e5fb1d69ab))
+* Override vulnerable simple-git/argv-parser ([5b2c2d8](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/5b2c2d89fd775625d708bdf40ad31d69ab0096fa))
+
 ## [1.22.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.21.3...kerrokantasi-ui-v1.22.0) (2026-10-12)
 
 
