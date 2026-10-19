@@ -12,6 +12,7 @@ import oidc from './oidc';
 import projectLists from './projectLists';
 import accessibility from './accessibility';
 import toastReducer from './toast';
+import alertDialogReducer from './alertDialog';
 
 /**
 A reducer that stores the type -- and _only_ the type --
@@ -38,4 +39,5 @@ export default combineReducers({
   user,
   labels,
   toast: toastReducer,
+  alertDialog: alertDialogReducer,
 });

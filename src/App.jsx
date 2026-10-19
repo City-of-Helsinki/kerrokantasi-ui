@@ -26,6 +26,7 @@ import { setOidcUser } from './actions';
 import getUser from './selectors/user';
 import enrichUserData from './actions/user';
 import Toast from './components/Toast';
+import AlertDialog from './components/AlertDialog';
 import { MAIN_CONTAINER_ID } from './constants';
 import useMatomo from './components/Matomo/hooks/useMatomo';
 import {
@@ -175,6 +176,7 @@ function App({ isHighContrast, history, ...props }) {
       </main>
       <Footer />
       <Toast />
+      <AlertDialog />
     </div>
   );
 }

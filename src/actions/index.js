@@ -4,12 +4,12 @@ import parse from 'url-parse';
 import * as Sentry from '@sentry/react';
 
 import {
-  createLocalizedAlert,
   createNotificationPayload,
   createLocalizedNotificationPayload,
   NOTIFICATION_TYPES,
 } from '../utils/notify';
 import { addToast } from './toast';
+import { showAlertDialog } from './alertDialog';
 import {
   get as apiGet,
   getAllFromEndpoint,
@@ -554,7 +554,7 @@ export function postSectionComment(hearingSlug, sectionId, commentData = {}) {
         dispatch(fetchHearing(hearingSlug, null, commentData.comment));
         // also, update user answered questions
         dispatch(enrichUserData());
-        createLocalizedAlert('commentReceived');
+        dispatch(showAlertDialog('commentReceived'));
       })
       .catch((err) => {
         requestErrorHandler(dispatch, 'loginToComment')(err);
@@ -584,7 +584,7 @@ export function editSectionComment(
           createAction('editedComment')({ sectionId, comment: responseJSON })
         );
         dispatch(fetchHearing(hearingSlug));
-        createLocalizedAlert('commentEdited');
+        dispatch(showAlertDialog('commentEdited'));
       })
       .catch(requestErrorHandler(dispatch));
   };
@@ -621,7 +621,7 @@ export function deleteSectionComment(
         if (refreshUser) {
           dispatch(enrichUserData());
         }
-        createLocalizedAlert('commentDeleted');
+        dispatch(showAlertDialog('commentDeleted'));
       })
       .catch(requestErrorHandler(dispatch));
   };
