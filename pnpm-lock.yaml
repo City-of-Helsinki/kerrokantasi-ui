@@ -70,9 +70,6 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^6.0.1
         version: 6.0.1(vite@8.0.16(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0))
-      alertifyjs:
-        specifier: ^1.13.1
-        version: 1.14.0
       bootstrap-sass:
         specifier: 3.4.3
         version: 3.4.3
@@ -1617,9 +1614,6 @@ packages:
 
   ajv@8.18.0:
     resolution: {integrity: sha512-PlXPeEWMXMZ7sPYOHqmDyCJzcfNrUr3fGNKtezX14ykXOEIvyK81d+qydx89KY5O71FKMPaQ2vBfBFI5NHR63A==}
-
-  alertifyjs@1.14.0:
-    resolution: {integrity: sha512-jUxJTcNYhJ2P1Wal73nmyTwMkaPim4PjZP9CAG+S8SK2SinraXxvOxnPrEY81/wc2iBPDFBP7mdg61db4WsuHQ==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -5888,8 +5882,6 @@ snapshots:
       fast-uri: 3.1.6
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
-
-  alertifyjs@1.14.0: {}
 
   ansi-regex@5.0.1: {}
 
