@@ -7,7 +7,6 @@ import { Button, TextArea } from 'hds-react';
 import { useDispatch } from 'react-redux';
 
 import {
-  alert,
   createLocalizedNotificationPayload,
   NOTIFICATION_TYPES,
 } from '../../utils/notify';
@@ -20,6 +19,7 @@ import {
 import CommentDisclaimer from '../CommentDisclaimer';
 import config from '../../config';
 import { addToast } from '../../actions/toast';
+import { showAlertDialog } from '../../actions/alertDialog';
 import { sendMessageToPluginFrame } from './pluginUtils';
 
 /**
@@ -284,7 +284,7 @@ const MapQuestionnaire = ({
       if (formSettings.lastUserComment) {
         submitComment();
       } else {
-        alert('Et muuttanut mitään kartassa.');
+        dispatch(showAlertDialog('mapNotChanged'));
       }
     }
 

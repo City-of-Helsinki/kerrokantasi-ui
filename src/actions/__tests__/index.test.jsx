@@ -4,6 +4,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { thunk } from '../../../test-utils';
 import * as api from '../../api';
 import * as actions from '../index';
+import { showAlertDialog } from '../alertDialog';
 
 vi.mock('../../api', () => ({
   get: vi.fn(),
@@ -359,6 +360,7 @@ describe('postSectionComment', () => {
       createAction('postedComment')({ sectionId, jumpTo: '123' }),
       createAction('beginFetchHearing')({ hearingSlug }),
       createAction('fetchUserData')(),
+      showAlertDialog('commentReceived'),
     ];
 
     await store.dispatch(
@@ -388,6 +390,44 @@ describe('postSectionComment', () => {
       actions.postSectionComment(hearingSlug, sectionId, commentData)
     );
     expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+    expect(store.getActions()).not.toContainEqual(
+      showAlertDialog('commentReceived')
+    );
+  });
+});
+describe('editSectionComment', () => {
+  let store;
+  const hearingSlug = 'test-hearing';
+  const sectionId = 'section-1';
+  const commentId = 99;
+
+  beforeEach(() => {
+    store = mockStore({});
+    api.put.mockClear();
+    api.get.mockClear();
+  });
+
+  it('confirms the edit in the alert dialog', async () => {
+    const comment = { id: commentId, content: 'Edited' };
+    api.put.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve(comment),
+    });
+    api.get.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve({ id: hearingSlug }),
+    });
+
+    await store.dispatch(
+      actions.editSectionComment(hearingSlug, sectionId, commentId, comment)
+    );
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        createAction('editedComment')({ sectionId, comment }),
+        showAlertDialog('commentEdited'),
+      ])
+    );
   });
 });
 describe('fetchLabels', () => {
@@ -598,6 +638,9 @@ describe('deleteSectionComment', () => {
     expect(actionTypes).toContain('postedComment');
     expect(actionTypes).toContain('beginFetchHearing');
     expect(actionTypes).toContain('fetchUserData');
+    expect(store.getActions()).toContainEqual(
+      showAlertDialog('commentDeleted')
+    );
   });
 
   it('does not dispatch fetchUserData when refreshUser is false', async () => {
