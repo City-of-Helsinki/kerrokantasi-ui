@@ -1,6 +1,7 @@
 /* eslint-disable import-x/no-unresolved */
 import path from 'path';
 
+import { thirdPartyLicenses } from '@city-of-helsinki/license-notices';
 import react from '@vitejs/plugin-react';
 import {
   defineConfig,
@@ -10,6 +11,7 @@ import {
 import dotenv from 'dotenv';
 import istanbul from 'vite-plugin-istanbul';
 
+import { thirdPartyLicensesConfig } from './scripts/thirdPartyLicenses.config.ts';
 import { getCityAssets, getCityConfig, getCityPublic } from './scripts/utils';
 
 const USE_TEST_ENV = process.env.NODE_ENV === 'test';
@@ -51,6 +53,7 @@ export default defineConfig(() => {
             nycrcPath: './nyc.config.js',
           })
         : undefined,
+      thirdPartyLicenses(thirdPartyLicensesConfig),
     ],
     assetsInclude: ['**/*.md'],
     build: {
@@ -129,7 +132,10 @@ export default defineConfig(() => {
       setupFiles: './src/setupTests.js',
       css: true,
       reporters: ['verbose'],
-      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'], // Only Vitest files
+      include: [
+        'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+        'scripts/__tests__/**/*.test.{js,ts}',
+      ], // Only Vitest files
       exclude: [
         ...configDefaults.exclude,
         'e2e',
