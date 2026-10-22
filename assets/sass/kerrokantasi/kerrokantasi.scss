@@ -6,9 +6,6 @@
 @import "leaflet-draw/dist/leaflet.draw.css";
 @import "leaflet-overrides";
 
-///// Alertify
-@import "alertifyjs/build/css/alertify.css";
-
 ///// Kerrokantasi styles
 @import "common";
 @import "home";
@@ -23,7 +20,6 @@
 @import "hearing-card";
 @import "hearing-card-list";
 @import "commentlist";
-@import "alertify";
 @import "hearing-attachment";
 @import "hearing-languages";
 @import "section-attachment-editor";

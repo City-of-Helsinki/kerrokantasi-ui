@@ -33,7 +33,8 @@ actual used variables when running the app. App is not using default `process.en
 `window._env_` object.
 
 ### Other commands
-```pnpm build```
+
+`pnpm build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles app in production mode and optimizes the build for the best performance.
@@ -46,7 +47,7 @@ See the section about [build](https://vitejs.dev/guide/cli.html#build) for more 
 Note that running built application locally you need to generate also `public/env-config.js` file. It can be done with
 `pnpm update-runtime-env`. By default it's generated for development environment if no `NODE_ENV` is set.
 
-```pnpm run test```
+`pnpm run test`
 
 See the section about [running tests](https://vitest.dev/guide/) for more information.
 
@@ -54,13 +55,13 @@ Scripts generates first environment variables to `public/test-env-config.js` wit
 actual used variables when running the app. App is not using default `process.env` way to refer of variables but
 `window._env_` object.
 
-```pnpm test:e2e```
+`pnpm test:e2e`
 
 Runs end-to-end tests using [Playwright](https://playwright.dev).
 
 It is recommended to run these tests to ensure the overall functionality and user experience of the application.
 
-```pnpm update-runtime-env```
+`pnpm update-runtime-env`
 
 Generates variable object used when app is running. Generated object is stored at `public/env-config.js` and available
 as `window._env_` object.
@@ -305,3 +306,39 @@ The following favicons are recommended, but not mandatory to include.
 If no favicon is provided the UI will use the default kerrokantasi favicon.
 
 Test change for pipeline reasons.
+
+## License
+
+The source code in this repository is licensed under the MIT License; see
+[LICENSE](./LICENSE). The licenses of the third-party code included in the
+production build are listed in `third-party-licenses.txt`, which is generated
+during the build and served from the root of the deployed application. The
+same information is emitted alongside it as `oss-licenses.json`, for license
+audit tooling.
+
+The MIT License covers source code only. The following files are **not**
+covered by it and remain with their respective rights holders:
+
+| Files                                                                                                                                     | Rights holder and terms                                                                                                                                                                                                                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cities/helsinki/assets/images/logo-*.svg`, `cities/helsinki/public/`                                                                     | City of Helsinki. The City of Helsinki logo, used in the site logos, favicons and app icons, is a trademark of the City of Helsinki.                                                                                                                                                                                                      |
+| `assets/images/leaflet/`                                                                                                                  | The Leaflet marker images, copied from [Leaflet](https://github.com/Leaflet/Leaflet) and distributed under its [BSD-2-Clause license](https://github.com/Leaflet/Leaflet/blob/main/LICENSE).                                                                                                                                              |
+| `assets/images/pin-image.svg`, `assets/images/unpin-image.svg`                                                                            | Unverified. Added in 2019 without a recorded source; they appear to be exported from a third-party icon set, so they are not offered for reuse under the MIT License.                                                                                                                                                                     |
+| `assets/mapdon-hkr/`, `assets/mapdon-ksv/`                                                                                                | Unverified. Legacy map plugin files copied in 2016 from the kerrokantasi-budgeting and kerrokantasi-citybikes projects, which state no license. They include prebuilt bundles of third-party libraries (among them Leaflet, proj4 and Handlebars), a Fontello-generated icon font and photographs. They are not part of the build output. |
+| `assets/images/logo-*.svg`, `assets/images/default-image.svg`, `cities/helsinki/assets/images/default-image.svg`, the images in `public/` | Unverified. The whitelabel logos and favicons and the default hearing image were added in 2017–2019 without a recorded source, so they are not offered for reuse under the MIT License.                                                                                                                                                   |
+
+Some content is loaded at runtime from other services instead of being
+bundled, so it does not appear in either generated file:
+
+- The Helsinki Grotesk typeface used by the user interface is proprietary and
+  licensed by Camelot Typefaces. No font files are stored in this repository;
+  they are loaded at runtime from a City of Helsinki service.
+- The map plugins installed with `pnpm run fetch-plugins` (see
+  [Plugins](#plugins)) are cloned from their own repositories, which state no
+  license. They are served next to the application, but they are not part of
+  this repository or its build output.
+- Map tiles are loaded from the tile service configured for the deployment.
+  The OpenStreetMap data in them is © OpenStreetMap contributors, available
+  under the [Open Database License](https://www.openstreetmap.org/copyright).
+- The Facebook SDK, the Matomo tracker and the Cookiebot consent script are
+  loaded from their providers when the corresponding features are enabled.
