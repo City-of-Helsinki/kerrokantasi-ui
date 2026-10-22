@@ -18,11 +18,7 @@ import MultiLanguageTextField, {
 } from '../forms/MultiLanguageTextField';
 import { sectionShape } from '../../types';
 import { isSpecialSectionType } from '../../utils/section';
-import compressFile from '../../utils/images/compressFile';
-import {
-  MAX_IMAGE_SIZE,
-  MAX_WIDTH_OR_HEIGHT,
-} from '../../utils/images/constants';
+import { MAX_IMAGE_SIZE } from '../../utils/images/constants';
 import fileToDataUri from '../../utils/images/fileToDataUri';
 import config from '../../config';
 import { ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES } from '../../constants';
@@ -99,6 +95,10 @@ const SectionForm = ({
     section.commenting_map_tools !== 'none'
   );
   const [sectionImage, setSectionImage] = useState();
+  const [isUploadingSectionImage, setIsUploadingSectionImage] = useState(false);
+  // Remounts the image input so it shows the section's image again after a
+  // failed upload instead of the file that failed.
+  const [sectionImageInputKey, setSectionImageInputKey] = useState(0);
   const [attachments, setAttachments] = useState();
   const [attachmentsLoaded, setAttachmentsLoaded] = useState(
     section.files.length === 0
@@ -108,7 +108,13 @@ const SectionForm = ({
 
   useEffect(() => {
     async function fetchImages() {
-      if (section.images.length && section.images[0].url) {
+      // Skip an image this form already holds, e.g. one it just uploaded. A
+      // remounted form (editor closed and reopened) loads it again.
+      if (
+        section.images.length &&
+        section.images[0].url &&
+        section.images[0].id !== sectionImage?.[0]?.id
+      ) {
         const data = await fetchFiles(section.images, 'image', language);
 
         setSectionImage(data);
@@ -155,27 +161,27 @@ const SectionForm = ({
   };
 
   const onImageChange = async (files) => {
+    const file = files[0];
+
+    if (!file) {
+      onSectionImageDelete(section.frontId);
+      setSectionImage([]);
+      return;
+    }
+
+    // The upload action reports failures itself.
+    setIsUploadingSectionImage(true);
     try {
-      const file = files[0];
-
-      if (!file) {
-        onSectionImageDelete(section.frontId);
-
-        return;
+      const image = await onSectionImageSet(section.frontId, file);
+      if (image) {
+        setSectionImage([
+          { id: image.id, name: file.name, type: file.type, file },
+        ]);
+      } else {
+        setSectionImageInputKey((key) => key + 1);
       }
-
-      const compressed = await compressFile(
-        file,
-        MAX_IMAGE_SIZE,
-        MAX_WIDTH_OR_HEIGHT,
-        'image/webp'
-      );
-      const blob = await fileToDataUri(compressed);
-
-      onSectionImageSet(section.frontId, blob);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+    } finally {
+      setIsUploadingSectionImage(false);
     }
   };
 
@@ -234,7 +240,7 @@ const SectionForm = ({
     const { images } = section;
 
     if (images && images.length) {
-      // Image property may contain the base64 encoded image
+      // Url of the uploaded or saved image
       return images[0].image || images[0].url;
     }
 
@@ -354,9 +360,11 @@ const SectionForm = ({
           />
         </Card>
         <FileInput
+          key={sectionImageInputKey}
           id='sectionImage'
           name='sectionImage'
           dragAndDrop
+          disabled={isUploadingSectionImage}
           label={<FormattedMessage id='sectionImage' />}
           accept={ACCEPTED_IMAGE_TYPES}
           helperText={<FormattedMessage id='sectionImageHelpText' />}
@@ -365,6 +373,13 @@ const SectionForm = ({
           maxSize={MAX_IMAGE_SIZE * 1024 * 1024}
           defaultValue={sectionImage}
         />
+        {isUploadingSectionImage && (
+          <LoadingSpinner
+            small
+            loadingText={formatMessage({ id: 'imageUploadInProgress' })}
+            loadingFinishedText={formatMessage({ id: 'imageUploadFinished' })}
+          />
+        )}
       </div>
       <MultiLanguageTextField
         labelId='sectionImageCaption'

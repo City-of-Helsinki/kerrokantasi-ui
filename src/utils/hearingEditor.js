@@ -2,7 +2,7 @@ import { normalize } from 'normalizr';
 import { v1 as uuid } from 'uuid';
 import pickBy from 'lodash/pickBy';
 import includes from 'lodash/includes';
-import { flowRight } from 'lodash';
+import { flowRight, omit } from 'lodash';
 
 import { hearingSchema } from '../types';
 import getMessage from './getMessage';
@@ -118,15 +118,15 @@ export const filterFrontIdsFromAttributes = (
 const filterObjectByLanguages = (object, languages) =>
   pickBy(object, (value, key) => includes(languages, key));
 
+const filterSectionImageForSave = (image) =>
+  omit(image, image.id ? ['isNew', 'image'] : ['isNew']);
+
 const filterSectionsContentByLanguages = (sections, languages) =>
   sections.map((section) => ({
     ...section,
     abstract: filterObjectByLanguages(section.abstract, languages),
     content: filterObjectByLanguages(section.content, languages),
-    images: section.images.map((image) => ({
-      ...image,
-      ...filterObjectByLanguages(image.abstract),
-    })),
+    images: section.images.map(filterSectionImageForSave),
     title: filterObjectByLanguages(section.title, languages),
   }));
 
@@ -255,9 +255,9 @@ export const prepareSection = (section) => ({
   ...section,
   id: '',
   images: section.images.map((image) => ({
-    ...image,
-    id: '',
-    reference_id: image.id,
+    ...filterSectionImageForSave(image),
+    id: image.isNew ? image.id : '',
+    reference_id: image.isNew ? '' : image.id,
   })),
   files: section.files.map((file) => ({
     ...file,

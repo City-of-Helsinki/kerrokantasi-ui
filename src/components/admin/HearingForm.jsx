@@ -1,6 +1,6 @@
 import { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
 import {
   Accordion,
@@ -26,6 +26,7 @@ import {
   labelShape,
   organizationShape,
 } from '../../types';
+import { getIsUploadingImages } from '../../selectors/hearingEditor';
 
 const ACCORDION_TOGGLE = 'div button';
 
@@ -36,6 +37,8 @@ const HearingActions = ({
   onSaveChanges,
   onSaveAndPreview,
 }) => {
+  const isUploadingImages = useSelector(getIsUploadingImages);
+
   if (isSaving) {
     return (
       <div className='pull-right'>
@@ -44,25 +47,51 @@ const HearingActions = ({
     );
   }
 
+  // Saving while an image is still uploading would leave the image out. The
+  // status element is always rendered so screen readers announce changes.
+  const uploadStatus = (
+    <p role='status'>
+      {isUploadingImages && <FormattedMessage id='imageUploadInProgress' />}
+    </p>
+  );
+
   if (published) {
     return (
-      <div className='btn-toolbar'>
-        <Button className='kerrokantasi-btn' onClick={onSaveAsCopy}>
-          <Icon name='copy' /> <FormattedMessage id='copyHearing' />
-        </Button>
-        <Button className='kerrokantasi-btn black' onClick={onSaveChanges}>
-          <Icon className='icon' name='check-circle-o' />{' '}
-          <FormattedMessage id='saveHearingChanges' />
-        </Button>
-      </div>
+      <>
+        <div className='btn-toolbar'>
+          <Button
+            className='kerrokantasi-btn'
+            onClick={onSaveAsCopy}
+            disabled={isUploadingImages}
+          >
+            <Icon name='copy' /> <FormattedMessage id='copyHearing' />
+          </Button>
+          <Button
+            className='kerrokantasi-btn black'
+            onClick={onSaveChanges}
+            disabled={isUploadingImages}
+          >
+            <Icon className='icon' name='check-circle-o' />{' '}
+            <FormattedMessage id='saveHearingChanges' />
+          </Button>
+        </div>
+        {uploadStatus}
+      </>
     );
   }
 
   return (
-    <Button className='kerrokantasi-btn black' onClick={onSaveAndPreview}>
-      <Icon className='icon' name='check-circle-o' />{' '}
-      <FormattedMessage id='saveAndPreviewHearing' />
-    </Button>
+    <>
+      <Button
+        className='kerrokantasi-btn black'
+        onClick={onSaveAndPreview}
+        disabled={isUploadingImages}
+      >
+        <Icon className='icon' name='check-circle-o' />{' '}
+        <FormattedMessage id='saveAndPreviewHearing' />
+      </Button>
+      {uploadStatus}
+    </>
   );
 };
 
