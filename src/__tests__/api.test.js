@@ -7,6 +7,7 @@ import {
   apiCall,
   jsonRequest,
   post,
+  postMultipart,
   put,
   patch,
   apiDelete,
@@ -186,6 +187,29 @@ describe('api.js', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ key: 'value' }),
+        })
+      );
+    });
+
+    it('should make a multipart POST request without setting Content-Type', async () => {
+      const data = new FormData();
+      data.append('image', new Blob(['image content']), 'image.webp');
+      data.append('purpose', 'section_level');
+      fetch.mockResolvedValue({
+        status: 201,
+        json: vi.fn().mockResolvedValue({ id: 1 }),
+      });
+
+      await postMultipart('image', data);
+
+      expect(fetch).toHaveBeenCalledWith(
+        'http://example.com/api/image/',
+        expect.objectContaining({
+          method: 'POST',
+          body: data,
+          headers: expect.not.objectContaining({
+            'Content-Type': expect.anything(),
+          }),
         })
       );
     });
