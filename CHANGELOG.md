@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.1...kerrokantasi-ui-v1.22.2) (2026-10-24)
+
+
+### Bug Fixes
+
+* Update nodejs and pnpm version ([ab4ce7b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ab4ce7bb6778bf6c71361d75d0ee13947d31667d))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.0...kerrokantasi-ui-v1.22.1) (2026-10-12)
 
 
