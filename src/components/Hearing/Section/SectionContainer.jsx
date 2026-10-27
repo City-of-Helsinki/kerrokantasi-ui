@@ -491,7 +491,11 @@ const SectionContainerComponent = ({
       return null;
     }
     const content = getAttr(section.content, renderLanguage);
-    return <HtmlWithConsentCheck htmlString={content} />;
+    return (
+      <div className='rich-text-content'>
+        <HtmlWithConsentCheck htmlString={content} />
+      </div>
+    );
   };
 
   const renderSectionAbstract = (renderLanguage) => {
@@ -500,7 +504,7 @@ const SectionContainerComponent = ({
     }
     const abstract = getAttr(section.abstract, renderLanguage);
     return (
-      <div className='lead'>
+      <div className='lead rich-text-content'>
         <HtmlWithConsentCheck htmlString={abstract} />
       </div>
     );

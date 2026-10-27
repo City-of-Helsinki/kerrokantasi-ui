@@ -67,6 +67,27 @@ describe('htmlPostProcess', () => {
       expect(result).toContain('>link</a>');
     });
 
+    it('strips the iframe wrapper so saving does not nest another one', () => {
+      const stored =
+        '<div class="iframe-wrapper"><iframe src="https://example.com/embed"></iframe></div>';
+
+      const loaded = fromAppHtml(stored);
+
+      expect(loaded).not.toContain('iframe-wrapper');
+      expect(loaded).toContain('<iframe src="https://example.com/embed">');
+      expect(toAppHtml(loaded)).toBe(stored);
+    });
+
+    it('marks Draft.js image figures as CKEditor block images', () => {
+      const result = fromAppHtml(
+        '<figure><img src="data:image/webp;base64,AAA" alt="Kuva"></figure>'
+      );
+
+      expect(result).toBe(
+        '<figure class="image"><img src="data:image/webp;base64,AAA" alt="Kuva"></figure>'
+      );
+    });
+
     it('returns empty string for empty input', () => {
       expect(fromAppHtml('')).toBe('');
     });

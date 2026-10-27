@@ -1,17 +1,16 @@
-import compressFile from '../../../utils/images/compressFile';
-import {
-  MAX_IMAGE_SIZE,
-  MAX_WIDTH_OR_HEIGHT,
-} from '../../../utils/images/constants';
 import { getApiTokenFromStorage } from '../../../api';
 import { SECTION_IMAGE_PURPOSE } from '../../../constants';
+import getMessage from '../../../utils/getMessage';
+import {
+  buildImageUploadData,
+  getImageUploadErrorKey,
+} from '../../../utils/images/uploadImage';
 
 /**
  * CKEditor upload adapter that compresses an image to WebP client-side and
- * uploads it to the backend, then inserts the returned URL into the editor.
- *
- * This replaces the previous behaviour of embedding images as base64 data URIs
- * in the section HTML, which bloated request bodies and forced the WAF off.
+ * uploads it to the backend as an inline image, then inserts the returned URL
+ * into the editor. The backend attaches the image to the section when the
+ * section is saved with the URL in its content.
  *
  * Expected backend response: `{ url: 'https://.../image.webp' }`.
  */
@@ -23,16 +22,16 @@ class KerrokantasiUploadAdapter {
 
   async upload() {
     const file = await this.loader.file;
-    const compressed = await compressFile(
-      file,
-      MAX_IMAGE_SIZE,
-      MAX_WIDTH_OR_HEIGHT,
-      'image/webp'
-    );
-    return this.sendRequest(compressed, file.name);
+    let data;
+    try {
+      data = await buildImageUploadData(file, SECTION_IMAGE_PURPOSE.INLINE);
+    } catch {
+      throw getMessage(getImageUploadErrorKey());
+    }
+    return this.sendRequest(data);
   }
 
-  sendRequest(file, originalName) {
+  sendRequest(data) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       this.xhr = xhr;
@@ -44,14 +43,15 @@ class KerrokantasiUploadAdapter {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`);
       }
 
-      const genericError = `Couldn't upload file: ${originalName}.`;
-
-      xhr.addEventListener('error', () => reject(genericError));
+      // CKEditor shows the rejection reason to the user.
+      xhr.addEventListener('error', () =>
+        reject(getMessage(getImageUploadErrorKey()))
+      );
       xhr.addEventListener('abort', () => reject());
       xhr.addEventListener('load', () => {
         const { response } = xhr;
-        if (!response || xhr.status >= 400 || response.error) {
-          reject(response?.error?.message || genericError);
+        if (xhr.status >= 400 || !response?.url) {
+          reject(getMessage(getImageUploadErrorKey(xhr.status)));
           return;
         }
         resolve({ default: response.url });
@@ -66,10 +66,6 @@ class KerrokantasiUploadAdapter {
         });
       }
 
-      const webpName = originalName.replace(/\.[^.]+$/, '') + '.webp';
-      const data = new FormData();
-      data.append('image', file, webpName);
-      data.append('purpose', SECTION_IMAGE_PURPOSE.INLINE);
       xhr.send(data);
     });
   }
