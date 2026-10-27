@@ -1,6 +1,7 @@
 import {
   stripWrappingFigureTags,
   addIframeWrapperDivs,
+  stripIframeWrapperDivs,
 } from '../../../utils/iframeUtils';
 import isExternalLink from '../../../utils/isExternalLink';
 
@@ -25,7 +26,7 @@ const isExternalIconSpan = (span) =>
 // if it becomes empty). Done manually to avoid a backtracking-prone regex.
 const trimTrailingWhitespace = (element) => {
   const last = element.lastChild;
-  if (!last || last.nodeType !== 3) return;
+  if (last?.nodeType !== 3) return;
   const text = last.textContent;
   let end = text.length;
   while (end > 0 && WHITESPACE.includes(text[end - 1])) end -= 1;
@@ -44,15 +45,21 @@ const parseHtml = (html) => {
 const serializeBody = (doc) => doc.body.innerHTML;
 
 /**
- * Strip app-specific decorations so CKEditor holds clean links.
- * Removes external-link icon spans and the aria-label/data-external attributes;
- * the link decorator + post-processing re-derive them on save.
+ * Strip app-specific decorations so CKEditor holds clean content.
+ * Removes external-link icon spans and iframe wrappers, which are re-added on
+ * save, and marks Draft.js image figures so CKEditor keeps them as block images.
  * @param {string} html stored value
  * @returns {string} html for CKEditor setData / initial data
  */
 export const fromAppHtml = (html) => {
   if (!html) return '';
-  const doc = parseHtml(html);
+  const doc = parseHtml(stripIframeWrapperDivs(html));
+
+  // Draft.js stored images as a bare <figure><img></figure>; CKEditor only
+  // treats figure.image as a block image and would otherwise inline it.
+  doc.querySelectorAll('figure:not(.image)').forEach((figure) => {
+    if (figure.querySelector('img')) figure.classList.add('image');
+  });
 
   doc.querySelectorAll('a').forEach((anchor) => {
     anchor
@@ -83,7 +90,7 @@ export const toAppHtml = (html, externalLinkMessage = '') => {
     if (externalLinkMessage) {
       anchor.setAttribute('aria-label', `${text} ${externalLinkMessage}`);
     }
-    anchor.setAttribute('data-external', 'true');
+    anchor.dataset.external = 'true';
     if (!anchor.classList.contains('hds-link')) {
       anchor.classList.add('hds-link');
     }

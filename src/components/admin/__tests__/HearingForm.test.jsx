@@ -154,6 +154,26 @@ describe('<HearingForm />', () => {
     expect(onSaveAndPreview).toHaveBeenCalled();
   });
 
+  it('should disable saving while images are uploading', () => {
+    const onSaveAndPreview = vi.fn();
+    const store = mockStore({
+      ...storeInitialState,
+      hearingEditor: { editorState: { uploadingImages: 1 } },
+    });
+
+    renderComponent({ onSaveAndPreview }, store);
+
+    const saveButton = screen
+      .getByText('saveAndPreviewHearing')
+      .closest('button');
+    expect(saveButton).toBeDisabled();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'imageUploadInProgress'
+    );
+    fireEvent.click(saveButton);
+    expect(onSaveAndPreview).not.toHaveBeenCalled();
+  });
+
   it('should display errors if present', () => {
     const errors = {
       1: { title: 'Fill in title', slug: 'Fill in address' },

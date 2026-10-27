@@ -201,9 +201,23 @@ const byId = createReducer({}, (builder) => {
     .addCase(
       EditorActions.SET_SECTION_MAIN_IMAGE,
       (state, { payload: { sectionID, image } }) => {
+        // The section may have been removed, or another hearing opened, while
+        // its image was still uploading.
+        if (!state[sectionID]) return state;
+
+        const previousImage = state[sectionID].images?.[0];
+        const newImage = { ...image };
+
+        // Keep the caption and alt text already written for the previous image
+        ['caption', 'alt_text'].forEach((key) => {
+          if (previousImage && key in previousImage) {
+            newImage[key] = previousImage[key];
+          }
+        });
+
         const setSection = {
           ...state[sectionID],
-          images: [image],
+          images: [newImage],
         };
 
         return { ...state, [sectionID]: setSection };

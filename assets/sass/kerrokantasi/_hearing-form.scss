@@ -369,3 +369,9 @@ div:has(> .hearing-form-child-modal) {
 .project-container {
   width: 100%;
 }
+
+// Upload status next to the save buttons; <output> is inline by default.
+.hearing-form-upload-status {
+  display: block;
+  margin-bottom: $line-height-computed * 0.5;
+}
