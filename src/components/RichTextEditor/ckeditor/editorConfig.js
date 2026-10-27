@@ -1,5 +1,4 @@
 import {
-  ClassicEditor,
   Essentials,
   Paragraph,
   Heading,
@@ -17,7 +16,6 @@ import {
   ImageResizeButtons,
   ImageUpload,
   ImageInsert,
-  ImageInsertViaUrl,
   FileRepository,
   GeneralHtmlSupport,
   Style,
@@ -30,7 +28,7 @@ import coreTranslationsEn from 'ckeditor5/translations/en.js';
 
 import isExternalLink from '../../../utils/isExternalLink';
 
-export { ClassicEditor };
+export { ClassicEditor } from 'ckeditor5';
 
 const TRANSLATIONS = {
   fi: coreTranslationsFi,
@@ -56,12 +54,14 @@ export const LEGACY_BLOCK_CLASSES = ['lead', 'image-caption'];
  * @param {string} opts.language app locale (fi | sv | en)
  * @param {string} opts.licenseKey CKEditor license key ('GPL' for the open-source build)
  * @param {Function} [opts.uploadAdapterPlugin] CKEditor plugin registering the image upload adapter
+ * @param {Function} [opts.pastedImageFilterPlugin] CKEditor plugin removing disallowed pasted images
  * @param {string} [opts.placeholder] editor placeholder text
  */
 export const buildEditorConfig = ({
   language = 'fi',
   licenseKey = 'GPL',
   uploadAdapterPlugin,
+  pastedImageFilterPlugin,
   placeholder = '',
 } = {}) => ({
   licenseKey,
@@ -87,13 +87,12 @@ export const buildEditorConfig = ({
     ImageResizeButtons,
     ImageUpload,
     ImageInsert,
-    ImageInsertViaUrl,
     FileRepository,
     GeneralHtmlSupport,
     Style,
     PasteFromOffice,
   ],
-  extraPlugins: uploadAdapterPlugin ? [uploadAdapterPlugin] : [],
+  extraPlugins: [uploadAdapterPlugin, pastedImageFilterPlugin].filter(Boolean),
   toolbar: {
     items: [
       'undo',
@@ -168,20 +167,14 @@ export const buildEditorConfig = ({
   htmlSupport: {
     allow: [
       { name: 'iframe', attributes: true, classes: true, styles: true },
+      // No `target` here: the external link decorator sets it, and allowing it
+      // in both places splits a link into two nested anchors.
       {
         name: 'a',
-        attributes: [
-          'id',
-          'rel',
-          'title',
-          'target',
-          'data-external',
-          'aria-label',
-        ],
+        attributes: ['id', 'rel', 'title', 'data-external', 'aria-label'],
         classes: true,
       },
       { name: 'p', classes: LEGACY_BLOCK_CLASSES },
-      { name: 'div', classes: ['iframe-wrapper'] },
       { name: 'span', classes: true, attributes: ['aria-hidden'] },
       { name: 'img', attributes: true, classes: true, styles: true },
     ],

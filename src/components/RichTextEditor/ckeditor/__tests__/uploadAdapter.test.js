@@ -1,6 +1,8 @@
 import KerrokantasiUploadAdapter, {
   createUploadAdapterPlugin,
 } from '../uploadAdapter';
+import compressFile from '../../../../utils/images/compressFile';
+import getMessage from '../../../../utils/getMessage';
 
 vi.mock('../../../../utils/images/compressFile', () => ({
   default: vi.fn(async (file) => file),
@@ -80,12 +82,30 @@ describe('KerrokantasiUploadAdapter', () => {
     expect(adapter.xhr.body.get('file')).toBeNull();
   });
 
-  it('rejects on a server error status', async () => {
-    MockXHR.status = 500;
-    MockXHR.response = { error: { message: 'boom' } };
+  it.each([
+    [500, { detail: 'boom' }, 'imageFileUploadError'],
+    [400, { image: ['Upload a valid image.'] }, 'imageFileUploadError'],
+    [413, null, 'imageUploadTooLarge'],
+    [403, { detail: 'Forbidden' }, 'imageUploadNotAllowed'],
+    [201, {}, 'imageFileUploadError'],
+  ])(
+    'rejects status %s with a localized message',
+    async (status, response, messageKey) => {
+      MockXHR.status = status;
+      MockXHR.response = response;
+      const adapter = new KerrokantasiUploadAdapter(makeLoader(), UPLOAD_URL);
+
+      await expect(adapter.upload()).rejects.toBe(getMessage(messageKey));
+    }
+  );
+
+  it('rejects with a localized message when compression fails', async () => {
+    compressFile.mockRejectedValueOnce(new Error('not an image'));
     const adapter = new KerrokantasiUploadAdapter(makeLoader(), UPLOAD_URL);
 
-    await expect(adapter.upload()).rejects.toBe('boom');
+    await expect(adapter.upload()).rejects.toBe(
+      getMessage('imageFileUploadError')
+    );
   });
 
   it('registers an adapter factory on FileRepository', () => {

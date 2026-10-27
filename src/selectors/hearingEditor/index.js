@@ -20,6 +20,9 @@ export const getShowForm = (state) => getHearingEditor(state).editorState.show;
 export const getIsSaving = (state) =>
   getHearingEditor(state).editorState.isSaving;
 
+export const getIsUploadingImages = (state) =>
+  getHearingEditor(state)?.editorState?.uploadingImages > 0;
+
 export const getHearing = (state) => getHearingEditor(state).hearing.data;
 
 export const getEditorState = (state) =>
