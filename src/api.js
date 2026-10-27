@@ -108,6 +108,14 @@ export function post(endpoint, data, params = {}, options = null) {
   return jsonRequest('POST', endpoint, data, params, options);
 }
 
+export function postMultipart(endpoint, data, params = {}, options = null) {
+  return apiCall(
+    endpoint,
+    params,
+    merge({ body: data, method: 'POST' }, options)
+  );
+}
+
 export function put(endpoint, data, params = {}, options = null) {
   return jsonRequest('PUT', endpoint, data, params, options);
 }

@@ -359,6 +359,55 @@
   }
 }
 
+// Images in content written with the CKEditor rich text editor (section
+// content, abstracts and closure info). Mirrors CKEditor's own content styles
+// for the image options the editor offers.
+.rich-text-content {
+  // Contain floated side images within the content.
+  display: flow-root;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  figure.image {
+    clear: both;
+    width: fit-content;
+    max-width: 100%;
+    margin: $line-height-computed auto;
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      padding: 10px 15px;
+      background-color: $gray-lighter;
+      font-size: $font-size-small;
+      word-break: break-word;
+    }
+  }
+
+  // Width set inline with the editor's resize option.
+  figure.image_resized img {
+    width: 100%;
+  }
+
+  figure.image-style-side {
+    float: right;
+    max-width: 50%;
+    margin: 0 0 $line-height-computed $line-height-computed;
+
+    @media (max-width: $screen-xs-max) {
+      float: none;
+      max-width: 100%;
+      margin: $line-height-computed auto;
+    }
+  }
+}
+
 .hearing-image-list {
   margin-bottom: $line-height-computed * 2;
 }
