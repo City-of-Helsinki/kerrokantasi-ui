@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.22.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.1...kerrokantasi-ui-v1.22.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* Update dependencies with known vulnerabilities KER-404 ([#1350](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1350)) ([157cabe](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/157cabeee87a37f54a5f0586ce5e7715b43ec606))
+* Update nodejs and pnpm version ([ab4ce7b](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ab4ce7bb6778bf6c71361d75d0ee13947d31667d))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.0...kerrokantasi-ui-v1.22.1) (2026-10-12)
 
 
