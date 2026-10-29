@@ -40,7 +40,7 @@
     "url": "https://github.com/City-of-Helsinki/kerrokantasi-ui/issues"
   },
   "dependencies": {
-    "@city-of-helsinki/react-helsinki-notification-manager": "^0.1.0",
+    "@city-of-helsinki/react-helsinki-notification-manager": "^0.2.3",
     "@draft-js-plugins/drag-n-drop": "^4.2.0",
     "@draft-js-plugins/editor": "^4.1.0",
     "@draft-js-plugins/focus": "^4.1.1",
