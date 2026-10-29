@@ -9,12 +9,6 @@ export const thirdPartyLicensesConfig: ThirdPartyLicensesConfig = {
   repositoryUrl: 'https://github.com/City-of-Helsinki/kerrokantasi-ui',
 
   licenseDecisions: {
-    '@city-of-helsinki/react-helsinki-notification-manager': {
-      license: 'MIT',
-      note:
-        'Declares no license in its package.json. The LICENSE file it ' +
-        'ships is the MIT License, so this distribution states MIT.',
-    },
     dompurify: {
       license: 'Apache-2.0',
       note:

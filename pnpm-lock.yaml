@@ -36,8 +36,8 @@ importers:
   .:
     dependencies:
       '@city-of-helsinki/react-helsinki-notification-manager':
-        specifier: ^0.1.0
-        version: 0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(react@19.2.8)
+        specifier: ^0.2.3
+        version: 0.2.3(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(react@19.2.8)
       '@draft-js-plugins/drag-n-drop':
         specifier: ^4.2.0
         version: 4.2.3(draft-js@0.11.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -428,11 +428,11 @@ packages:
     peerDependencies:
       vite: ^7 || ^8
 
-  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9':
-    resolution: {integrity: sha512-plCuDG3qN0dlzJj3fE/IqxEM7HnXcXz1onjMsKq0DIGOyZ+6caP0UeqenBGOA1ttX2E5tLLQVTocUYjmYoyDKg==}
+  '@city-of-helsinki/react-helsinki-notification-manager@0.2.3':
+    resolution: {integrity: sha512-zVU0CtjuTc13YPB0bN/IdKTK5D9bDKIJvv2lQilR8JihkZotnyqVqgRLXDvVL6P3ZI5I+AttHxbsqV6HVnYfoQ==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      hds-react: ^4.2.0
+      hds-react: ^5.0.0
       i18next: ^24.2.3
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -4717,7 +4717,7 @@ snapshots:
       rollup-license-plugin: 3.2.1
       vite: 8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0)
 
-  '@city-of-helsinki/react-helsinki-notification-manager@0.1.9(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(react@19.2.8)':
+  '@city-of-helsinki/react-helsinki-notification-manager@0.2.3(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(react@19.2.8)':
     dependencies:
       hds-react: 6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       i18next: 24.2.3(typescript@5.9.3)
