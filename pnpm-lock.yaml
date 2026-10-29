@@ -241,8 +241,8 @@ importers:
         version: 3.32.0(@types/react@18.3.28)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
       '@city-of-helsinki/license-notices':
-        specifier: ^0.1.0
-        version: 0.1.0(vite@8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0))
+        specifier: ^0.2.0
+        version: 0.2.0(vite@8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0))
       '@commitlint/cli':
         specifier: ^19.8.0
         version: 19.8.1(@types/node@25.6.0)(typescript@6.0.2)
@@ -422,11 +422,23 @@ packages:
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
 
-  '@city-of-helsinki/license-notices@0.1.0':
-    resolution: {integrity: sha512-ra7GdFRysy+ySgq1GpkRgxWzvLY35+hejtXGoz1Zq54LV64zkIatgnJFGVr6EuJVoKraXSvL+0LiAWZoKNr+5Q==}
-    engines: {node: '>=22.13'}
+  '@city-of-helsinki/license-notices@0.2.0':
+    resolution: {integrity: sha512-+xSD6i1mD/BNjq7KTSFkw+XSbDb0Nk0ghkPjT6N9Hk8GXUPODU0sBC/Oy9jkqVMw+Fhd1zVJoocKhse079+XUA==}
+    engines: {node: ^22.23.4 || >=24.22.1}
     peerDependencies:
+      '@rsbuild/core': ^2
+      next: ^16
       vite: ^7 || ^8
+      webpack: ^5
+    peerDependenciesMeta:
+      '@rsbuild/core':
+        optional: true
+      next:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
 
   '@city-of-helsinki/react-helsinki-notification-manager@0.2.3':
     resolution: {integrity: sha512-zVU0CtjuTc13YPB0bN/IdKTK5D9bDKIJvv2lQilR8JihkZotnyqVqgRLXDvVL6P3ZI5I+AttHxbsqV6HVnYfoQ==}
@@ -3974,6 +3986,9 @@ packages:
   spdx-expression-parse@3.0.1:
     resolution: {integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==}
 
+  spdx-expression-parse@5.0.0:
+    resolution: {integrity: sha512-vngmw3Rgn+o2arXNbnZaj5UtOEBuWBfvaI+Wc8GFfykIhA5/vdK9/Sp/XkLv63dykz2rxKDvKEHupF5P0FORcQ==}
+
   spdx-expression-validate@2.0.0:
     resolution: {integrity: sha512-b3wydZLM+Tc6CFvaRDBOF9d76oGIHNCLYFeHbftFXUWjnfZWganmDmvtM5sm1cRwJc/VDBMLyGGrsLFd1vOxbg==}
 
@@ -4712,9 +4727,11 @@ snapshots:
       hashery: 1.5.1
       keyv: 5.6.0
 
-  '@city-of-helsinki/license-notices@0.1.0(vite@8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0))':
+  '@city-of-helsinki/license-notices@0.2.0(vite@8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0))':
     dependencies:
       rollup-license-plugin: 3.2.1
+      spdx-expression-parse: 5.0.0
+    optionalDependencies:
       vite: 8.3.4(@types/node@25.6.0)(jiti@2.6.1)(sass@1.99.0)(yaml@2.9.0)
 
   '@city-of-helsinki/react-helsinki-notification-manager@0.2.3(hds-react@6.0.5(@types/react@18.3.28)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react-i18next@15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(react@19.2.8)':
@@ -8701,6 +8718,11 @@ snapshots:
   spdx-exceptions@2.5.0: {}
 
   spdx-expression-parse@3.0.1:
+    dependencies:
+      spdx-exceptions: 2.5.0
+      spdx-license-ids: 3.0.24
+
+  spdx-expression-parse@5.0.0:
     dependencies:
       spdx-exceptions: 2.5.0
       spdx-license-ids: 3.0.24
