@@ -508,7 +508,10 @@ const SortableCommentListComponent = ({
                   totalCount={sectionComments.count}
                   user={user}
                 />
-                <Waypoint onEnter={handleReachBottom} />
+                <Waypoint
+                  onEnter={handleReachBottom}
+                  resetKey={sectionComments.next}
+                />
               </div>
             )}
           </div>
