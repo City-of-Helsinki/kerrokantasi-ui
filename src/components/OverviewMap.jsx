@@ -1,8 +1,6 @@
 /* eslint-disable sonarjs/todo-tag */
-/* eslint-disable sonarjs/pseudo-random */
-/* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable import-x/no-unresolved */
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet, { LatLng } from 'leaflet';
 import {
@@ -27,26 +25,26 @@ import leafletMarkerRetinaIconUrl from '../../assets/images/leaflet/marker-icon-
 import leafletMarkerShadowUrl from '../../assets/images/leaflet/marker-shadow.png';
 import { getCorrectContrastMapTileUrl } from '../utils/map';
 
+const geojsonLayerKeys = new WeakMap();
+let nextGeojsonLayerKey = 0;
+
+const getGeojsonLayerKey = (geojson) => {
+  if (!geojsonLayerKeys.has(geojson)) {
+    nextGeojsonLayerKey += 1;
+    geojsonLayerKeys.set(geojson, nextGeojsonLayerKey);
+  }
+  return geojsonLayerKeys.get(geojson);
+};
+
 const OverviewMap = ({
   mapElementLimit = 0,
   showOnCarousel = false,
   ...props
 }) => {
   const { hearings, language } = props;
-  const [contents, setContents] = useState(null);
-  const mapContainer = undefined;
-  const [dimensions, setDimensions] = useState({
+  const dimensions = {
     height: showOnCarousel ? null : props.style.height,
     width: showOnCarousel ? null : props.style.width,
-  });
-
-  const handleUpdateMapDimensions = (container) => {
-    if (container) {
-      const { width, height } = container.getBoundingClientRect();
-      if (width > 0 && height > 0) {
-        setDimensions({ width: `${width}px`, height: `${height}px` });
-      }
-    }
   };
 
   // Memoize sanitized abstracts for all hearings
@@ -111,8 +109,8 @@ const OverviewMap = ({
    * @param {Object} hearing
    * @returns {JSX.Element|*}
    */
-  const getMapElement = (geojson, hearing) => {
-    const { id } = hearing;
+  const getMapElement = (geojson, hearing, keyPrefix) => {
+    const id = keyPrefix;
     if (geojson) {
       switch (geojson.type) {
         case 'Polygon': {
@@ -121,7 +119,7 @@ const OverviewMap = ({
             ([lng, lat]) => new LatLng(lat, lng)
           );
           return (
-            <Polygon key={`${id}${Math.random()}`} positions={latLngs}>
+            <Polygon key={`${id}`} positions={latLngs}>
               {getPopupContent(hearing, geojson)}
             </Polygon>
           );
@@ -134,7 +132,7 @@ const OverviewMap = ({
           return (
             <Marker
               position={latLngs}
-              key={`${id}${Math.random()}`}
+              key={`${id}-${language}`}
               icon={
                 new Leaflet.Icon({
                   iconUrl: leafletMarkerIconUrl,
@@ -155,7 +153,7 @@ const OverviewMap = ({
             ([lng, lat]) => new LatLng(lat, lng)
           );
           return (
-            <Polyline key={`${id}${Math.random()}`} positions={latLngs}>
+            <Polyline key={`${id}`} positions={latLngs}>
               {getPopupContent(hearing, geojson)}
             </Polyline>
           );
@@ -164,13 +162,19 @@ const OverviewMap = ({
           // if mapElementLimit is true & more than 0, display up to that amount of elements
           const mapElementArray = [];
           if (mapElementLimit && mapElementLimit > 0) {
-            geojson.features.slice(0, mapElementLimit).forEach((feature) => {
-              mapElementArray.push(getMapElement(feature.geometry, hearing));
-            });
+            geojson.features
+              .slice(0, mapElementLimit)
+              .forEach((feature, index) => {
+                mapElementArray.push(
+                  getMapElement(feature.geometry, hearing, `${id}-${index}`)
+                );
+              });
           } else {
             // if mapElementLimit is false -> display all elements found in FeatureCollection
-            geojson.features.forEach((feature) => {
-              mapElementArray.push(getMapElement(feature.geometry, hearing));
+            geojson.features.forEach((feature, index) => {
+              mapElementArray.push(
+                getMapElement(feature.geometry, hearing, `${id}-${index}`)
+              );
             });
           }
           return mapElementArray;
@@ -179,12 +183,15 @@ const OverviewMap = ({
           /**
            * Recursively get the Map element
            */
-          return getMapElement(geojson.geometry, hearing);
+          return getMapElement(geojson.geometry, hearing, `${id}-f`);
         }
         default:
           // TODO: Implement support for other geometries too (markers, square, circle)
           return (
-            <GeoJSON data={geojson} key={`${id}${Math.random()}`}>
+            <GeoJSON
+              data={geojson}
+              key={`${id}-${getGeojsonLayerKey(geojson)}`}
+            >
               {getPopupContent(hearing, geojson)}
             </GeoJSON>
           );
@@ -195,10 +202,14 @@ const OverviewMap = ({
 
   const getHearingMapContent = (tmpHearings) => {
     const mapElements = [];
-    tmpHearings.forEach((hearing) => {
+    tmpHearings.forEach((hearing, hearingIndex) => {
       const { geojson } = hearing;
       if (geojson) {
-        const mapElement = getMapElement(geojson, hearing);
+        const mapElement = getMapElement(
+          geojson,
+          hearing,
+          `${hearing.id ?? 'hearing'}-${hearingIndex}`
+        );
         if (Array.isArray(mapElement) && mapElement.length > 0) {
           mapElement.forEach((mapEl) => {
             mapElements.push(mapEl);
@@ -208,7 +219,7 @@ const OverviewMap = ({
         }
       }
     });
-    setContents(mapElements);
+    return mapElements;
   };
 
   /**
@@ -219,15 +230,23 @@ const OverviewMap = ({
   const shouldMapRender = () =>
     showOnCarousel ? dimensions.height && dimensions.width : true;
 
+  // Derive map layers during render instead of storing them in state from an
+  // effect, so parent re-renders can no longer trigger cascading state updates.
   /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    getHearingMapContent(hearings);
-    handleUpdateMapDimensions(mapContainer);
-    // Add any other functions that should run on component mount or hearings change here
-  }, [hearings]);
+  const contents = useMemo(
+    () => getHearingMapContent(hearings),
+    [
+      hearings,
+      language,
+      props.enablePopups,
+      mapElementLimit,
+      sanitizedAbstracts,
+    ]
+  );
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   if (typeof window === 'undefined') return null;
-  if (!contents && props.hideIfEmpty) {
+  if (contents.length === 0 && props.hideIfEmpty) {
     return null;
   }
 

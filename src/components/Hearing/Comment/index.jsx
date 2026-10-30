@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/pseudo-random */
 /* eslint-disable sonarjs/no-uniq-key */
 /* eslint-disable sonarjs/todo-tag */
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, TextArea, IconSpeechbubbleText } from 'hds-react';
@@ -74,6 +74,12 @@ const Comment = ({
   });
 
   const { editorOpen, isReplyEditorOpen } = state;
+
+  // Stable object reference for the comment's map so it isn't rebuilt on every render.
+  const commentMapHearing = useMemo(
+    () => ({ geojson: data.geojson }),
+    [data.geojson]
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -689,7 +695,7 @@ const Comment = ({
               >
                 {data.geojson && (
                   <HearingMap
-                    hearing={{ geojson: data.geojson }}
+                    hearing={commentMapHearing}
                     mapSettings={{ dragging: false }}
                   />
                 )}
