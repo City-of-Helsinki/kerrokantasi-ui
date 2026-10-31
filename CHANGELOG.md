@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.23.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.2...kerrokantasi-ui-v1.23.0) (2026-10-31)
+
+
+### Features
+
+* Generate third-party license notices at build time ([ec728ca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ec728cae51612571afc571f1a586ead0c39dd673))
+* Replace alertifyjs with HDS Dialog ([ff94b59](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ff94b59a381166df757e4841e2d1fec3ca1bbcdc))
+
+
+### Dependencies
+
+* Bump license-notices to 0.2.0 ([a6fdc71](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a6fdc7178403d5c4ce36ff53ec04a011662b7465))
+* Bump react-helsinki-notification-manager to 0.2.3 ([935ee2e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/935ee2e5bc04f1f7b0838396070606ed5ad22393))
+
 ## [1.22.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.1...kerrokantasi-ui-v1.22.2) (2026-10-27)
 
 
