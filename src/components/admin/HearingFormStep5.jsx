@@ -109,7 +109,6 @@ const HearingFormStep5 = ({
           }}
           options={options}
           onChange={onChangeProject}
-          // eslint-disable-next-line @eslint-react/unsupported-syntax
           value={(() => {
             if (selectedProject?.id == null) return [defaultProjectOptions[0]];
             if (selectedProject.id === '') return [defaultProjectOptions[1]];

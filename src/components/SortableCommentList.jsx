@@ -132,7 +132,7 @@ const SortableCommentListComponent = ({
 
   useEffect(() => {
     if (sectionComments) {
-      const { isFetching, results } = sectionComments;
+      const { isFetching, results, fetchError } = sectionComments;
 
       setListState({
         ...listState,
@@ -147,6 +147,7 @@ const SortableCommentListComponent = ({
 
       if (
         !isFetching &&
+        !fetchError &&
         results &&
         results.length === 0 &&
         section.n_comments !== 0
