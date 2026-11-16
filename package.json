@@ -71,7 +71,7 @@
     "eslint-plugin-sonarjs": "^4.1.0",
     "esrun": "^3.2.30",
     "font-awesome": "^4.7.0",
-    "glob": "^10.5.0",
+    "glob": "^14.0.2",
     "globals": "^17.0.0",
     "hds-core": "^6.0.5",
     "hds-design-tokens": "^6.0.5",
