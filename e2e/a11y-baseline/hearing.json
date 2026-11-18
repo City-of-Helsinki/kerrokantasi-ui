@@ -1,0 +1,8 @@
+{
+  "scan": "hearing",
+  "violations": [
+    "color-contrast iframe | ._49vh",
+    "label-content-name-mismatch .twitter-share-button",
+    "label-content-name-mismatch a[aria-label=\"[object Object]\"]"
+  ]
+}

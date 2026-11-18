@@ -61,6 +61,30 @@ Runs end-to-end tests using [Playwright](https://playwright.dev).
 
 It is recommended to run these tests to ensure the overall functionality and user experience of the application.
 
+`pnpm test:e2e:docker`
+
+Runs the browser and accessibility tests in the official Playwright Docker image, against a
+production build of this app and the shared dev Kerrokantasi API (the same API the PR review
+environments use). Only Docker is needed.
+
+- Playwright arguments are passed through, e.g.
+  `pnpm test:e2e:docker e2e/tests/accessibility.spec.js --project=chromium`.
+- Reports are written to `report/` and `test-results/`.
+- Note: the existing hearing tests post a comment to the e2e hearing in the dev API.
+
+#### Accessibility tests
+
+`e2e/tests/accessibility.spec.js` scans pages and UI states with axe against WCAG 2.1 A/AA and
+fails on violations. Known, not yet fixed violations are recorded in a baseline
+(`e2e/a11y-baseline/`), so that only new violations fail:
+
+```
+A11Y_UPDATE_BASELINE=1 pnpm test:e2e:docker e2e/tests/accessibility.spec.js --project=chromium
+```
+
+Review the resulting baseline diff like any other change. Baselined violations that no longer
+occur are reported in the test results so the baseline can be shrunk.
+
 `pnpm update-runtime-env`
 
 Generates variable object used when app is running. Generated object is stored at `public/env-config.js` and available
