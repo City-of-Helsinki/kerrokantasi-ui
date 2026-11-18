@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.23.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.2...kerrokantasi-ui-v1.23.0) (2026-11-18)
+
+
+### Features
+
+* Generate third-party license notices at build time ([ec728ca](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ec728cae51612571afc571f1a586ead0c39dd673))
+* Replace alertifyjs with HDS Dialog ([ff94b59](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ff94b59a381166df757e4841e2d1fec3ca1bbcdc))
+
+
+### Bug Fixes
+
+* Prevent infinite update loop in OverviewMap KERROKANTASI-UI-86 ([0a1cf61](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/0a1cf618f7ee35db0f27370ebcbcf6cd51f007fe))
+* Update env-config.js script version to v2 ([4306ba7](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4306ba74e34a63d6770266b2ae99664962031b9b))
+
+
+### Dependencies
+
+* Bump glob from 10.5.0 to 14.0.2 ([f9690f3](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f9690f39ff1f2c548b1f8156c84025780a17cc44))
+* Bump license-notices to 0.2.0 ([a6fdc71](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/a6fdc7178403d5c4ce36ff53ec04a011662b7465))
+* Bump qs from 6.16.0 to 6.16.1 ([ac3137a](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/ac3137a23fb47b099eb92fc7476b7550c8a81202))
+* Bump react-helsinki-notification-manager to 0.2.3 ([935ee2e](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/935ee2e5bc04f1f7b0838396070606ed5ad22393))
+* Patch vulnerable glob Refs: RATY-357 ([fe744e9](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/fe744e9b868502f7e2230ac14aea160afecd9457))
+
 ## [1.22.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.1...kerrokantasi-ui-v1.22.2) (2026-10-27)
 
 
