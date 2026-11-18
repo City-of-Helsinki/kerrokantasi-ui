@@ -22,8 +22,9 @@ const openPage = async (
   ready = (p) => p.locator('#main-container')
 ) => {
   await page.goto(path);
-  await page.locator('button[data-approved="required"]').click();
-  await expect(page.locator('div#hds-cc')).toBeHidden();
+  const banner = page.locator('#hds-cc.hds-cc--banner');
+  await banner.locator('button[data-approved="required"]').click();
+  await expect(banner).toBeHidden();
   await expect(ready(page)).toBeVisible();
   await page.waitForLoadState('networkidle');
 };
@@ -112,7 +113,12 @@ test.describe('Accessibility scans', () => {
   });
 
   test('cookie settings', async ({ page }, testInfo) => {
-    await openPage(page, '/cookies?lang=fi');
+    // The settings page renders the consent form with the same id as the banner; accept the
+    // banner on the front page first so only the settings form is on the page.
+    await openPage(page, '/?lang=fi');
+    await page.goto('/cookies?lang=fi');
+    await expect(page.locator('#hds-cc.hds-cc--page')).toBeVisible();
+    await page.waitForLoadState('networkidle');
 
     await checkA11y(page, testInfo, 'cookie settings');
   });
