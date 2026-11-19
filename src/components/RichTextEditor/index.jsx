@@ -20,7 +20,7 @@ import {
 } from '../../actions/hearingEditor';
 import { ClassicEditor, buildEditorConfig } from './ckeditor/editorConfig';
 import { createUploadAdapterPlugin } from './ckeditor/uploadAdapter';
-import { createPastedImageFilterPlugin } from './ckeditor/pastedImageFilter';
+import { createImageSourceFilterPlugin } from './ckeditor/imageSourceFilter';
 import { fromAppHtml, toAppHtml } from './ckeditor/htmlPostProcess';
 import { buildIframeHtml, buildSkipLinkHtml } from './ckeditor/embedHtml';
 import IframeModal from './Iframe/IframeModal';
@@ -57,7 +57,7 @@ const RichTextEditor = ({
         uploadAdapterPlugin: createUploadAdapterPlugin(
           getApiURL(IMAGE_UPLOAD_ENDPOINT)
         ),
-        pastedImageFilterPlugin: createPastedImageFilterPlugin(
+        imageSourceFilterPlugin: createImageSourceFilterPlugin(
           new URL(getApiURL(''), window.location.href).origin
         ),
         placeholder: placeholderId

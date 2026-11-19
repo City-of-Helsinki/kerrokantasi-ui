@@ -15,7 +15,6 @@ import {
   ImageResize,
   ImageResizeButtons,
   ImageUpload,
-  ImageInsert,
   FileRepository,
   GeneralHtmlSupport,
   Style,
@@ -54,14 +53,14 @@ export const LEGACY_BLOCK_CLASSES = ['lead', 'image-caption'];
  * @param {string} opts.language app locale (fi | sv | en)
  * @param {string} opts.licenseKey CKEditor license key ('GPL' for the open-source build)
  * @param {Function} [opts.uploadAdapterPlugin] CKEditor plugin registering the image upload adapter
- * @param {Function} [opts.pastedImageFilterPlugin] CKEditor plugin removing disallowed pasted images
+ * @param {Function} [opts.imageSourceFilterPlugin] CKEditor plugin removing images linked from other sites
  * @param {string} [opts.placeholder] editor placeholder text
  */
 export const buildEditorConfig = ({
   language = 'fi',
   licenseKey = 'GPL',
   uploadAdapterPlugin,
-  pastedImageFilterPlugin,
+  imageSourceFilterPlugin,
   placeholder = '',
 } = {}) => ({
   licenseKey,
@@ -86,13 +85,12 @@ export const buildEditorConfig = ({
     ImageResize,
     ImageResizeButtons,
     ImageUpload,
-    ImageInsert,
     FileRepository,
     GeneralHtmlSupport,
     Style,
     PasteFromOffice,
   ],
-  extraPlugins: [uploadAdapterPlugin, pastedImageFilterPlugin].filter(Boolean),
+  extraPlugins: [uploadAdapterPlugin, imageSourceFilterPlugin].filter(Boolean),
   toolbar: {
     items: [
       'undo',
@@ -107,7 +105,9 @@ export const buildEditorConfig = ({
       'numberedList',
       '|',
       'link',
-      'insertImage',
+      // Upload only: the API does not accept images linked by URL, so no
+      // ImageInsert, which would add an "Insert via URL" option.
+      'uploadImage',
       '|',
       'style',
     ],
