@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.24.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.23.0...kerrokantasi-ui-v1.24.0) (2026-11-19)
+
+
+### Features
+
+* Finish image uploads and CKEditor content handling ([6e17d2f](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/6e17d2fb1f95807fc4d2bf4cf77a04efe647eb61))
+* Migrate rich text editor to CKEditor ([00e1500](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/00e1500b978070d16fe43ebd06491babc7d462b9))
+* Upload images separately from hearing data ([670b429](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/670b42969b85cdec51fc91407b0d6ba3dd7a841d))
+
 ## [1.23.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.22.2...kerrokantasi-ui-v1.23.0) (2026-11-18)
 
 
