@@ -1,0 +1,6 @@
+{
+  "scan": "hearing not found",
+  "violations": [
+    "button-name section[aria-label=\"Notification\"] > .Notification-module_close.notification_hds-notification__close-button.Notification-module_error"
+  ]
+}
