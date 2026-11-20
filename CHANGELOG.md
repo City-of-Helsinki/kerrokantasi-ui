@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.24.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.0...kerrokantasi-ui-v1.24.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* Block images linked from other sites in the editor ([275d3ec](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/275d3ec367a69967dead975276aef3e2bb32d73a))
+* Keep pasted uploads and drop image styles that load images ([634f345](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/634f345f868bfb164a438503898031b9e270a99e))
+* Prevent infinite comment fetch retry loop on iOS ([f898097](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/f8980977b630edbc72f355493f4ee9334efcb130))
+
 ## [1.24.0](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.23.0...kerrokantasi-ui-v1.24.0) (2026-11-19)
 
 
