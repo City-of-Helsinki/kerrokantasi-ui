@@ -63,6 +63,8 @@ const RichTextEditor = ({
         placeholder: placeholderId
           ? intl.formatMessage({ id: placeholderId })
           : '',
+        // The visible label, so screen readers announce which field this is.
+        label: labelId ? intl.formatMessage({ id: labelId }) : undefined,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [intl.locale]
@@ -113,14 +115,6 @@ const RichTextEditor = ({
 
   const handleReady = (editor) => {
     editorRef.current = editor;
-    // Associate the visible label with the editable region for screen readers.
-    editor.editing.view.change((writer) => {
-      writer.setAttribute(
-        'aria-label',
-        intl.formatMessage({ id: labelId }),
-        editor.editing.view.document.getRoot()
-      );
-    });
 
     // FileRepository registers a pending action for every upload in progress.
     editor.plugins

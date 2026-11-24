@@ -5,6 +5,7 @@ import RichTextEditor from '..';
 import renderWithProviders from '../../../utils/renderWithProviders';
 import { getIntlAsProp } from '../../../../test-utils';
 import { getIsUploadingImages } from '../../../selectors/hearingEditor';
+import { buildEditorConfig } from '../ckeditor/editorConfig';
 
 // Listeners the component registers on the fake editor's plugins, by event.
 const mockListeners = vi.hoisted(() => ({}));
@@ -72,6 +73,14 @@ describe('<RichTextEditor />', () => {
   it('renders correctly', () => {
     renderComponent();
     expect(screen.getByTestId('ckeditor')).toBeInTheDocument();
+  });
+
+  it('passes the field label to the editor as its accessible name', () => {
+    renderComponent();
+
+    expect(buildEditorConfig).toHaveBeenLastCalledWith(
+      expect.objectContaining({ label: 'someLabelId' })
+    );
   });
 
   it('calls onChange when the editor changes', () => {
