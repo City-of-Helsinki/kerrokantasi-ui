@@ -55,6 +55,7 @@ export const LEGACY_BLOCK_CLASSES = ['lead', 'image-caption'];
  * @param {Function} [opts.uploadAdapterPlugin] CKEditor plugin registering the image upload adapter
  * @param {Function} [opts.imageSourceFilterPlugin] CKEditor plugin removing images linked from other sites
  * @param {string} [opts.placeholder] editor placeholder text
+ * @param {string} [opts.label] accessible name of the editing area
  */
 export const buildEditorConfig = ({
   language = 'fi',
@@ -62,11 +63,14 @@ export const buildEditorConfig = ({
   uploadAdapterPlugin,
   imageSourceFilterPlugin,
   placeholder = '',
+  label,
 } = {}) => ({
   licenseKey,
   language,
   translations: [TRANSLATIONS[language] || coreTranslationsFi],
   placeholder,
+  // CKEditor adds the "Press Alt+0 for help" hint after this label.
+  ...(label && { label }),
   plugins: [
     Essentials,
     Paragraph,
@@ -151,17 +155,21 @@ export const buildEditorConfig = ({
     },
   },
   image: {
+    // Images are blocks of their own, as in the old Draft.js editor: no inline
+    // images (they can't have a caption) and no text wrapping around them,
+    // only left / center / right alignment. Content that already has inline
+    // or side images still loads, as the default image styles stay defined.
     toolbar: [
       'toggleImageCaption',
       'imageTextAlternative',
       '|',
-      'imageStyle:inline',
+      'imageStyle:alignBlockLeft',
       'imageStyle:block',
-      'imageStyle:side',
+      'imageStyle:alignBlockRight',
       '|',
       'resizeImage',
     ],
-    insert: { type: 'auto' },
+    insert: { type: 'block' },
   },
   // GeneralHtmlSupport keeps the markup of existing hearings intact on load/save.
   htmlSupport: {

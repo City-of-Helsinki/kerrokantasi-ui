@@ -395,6 +395,16 @@
     width: 100%;
   }
 
+  // Left / right alignment, without text wrapping around the image.
+  figure.image-style-block-align-left {
+    margin-left: 0;
+  }
+
+  figure.image-style-block-align-right {
+    margin-right: 0;
+  }
+
+  // No longer offered in the editor, kept for content that already uses it.
   figure.image-style-side {
     float: right;
     max-width: 50%;
