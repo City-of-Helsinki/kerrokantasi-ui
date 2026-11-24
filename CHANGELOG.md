@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.1...kerrokantasi-ui-v1.24.2) (2026-11-24)
+
+
+### Bug Fixes
+
+* Image alignment keeps captions and editor help hint KER-599 ([#1360](https://github.com/City-of-Helsinki/kerrokantasi-ui/issues/1360)) ([e40fa9d](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e40fa9d6e582b019139fec1f4425ff39acce4262))
+
 ## [1.24.1](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.0...kerrokantasi-ui-v1.24.1) (2026-11-20)
 
 
