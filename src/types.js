@@ -58,15 +58,6 @@ export const organizationShape = PropTypes.shape({
   external_organization: PropTypes.bool,
 });
 
-export const textEditorHideControlsShape = PropTypes.shape({
-  hideBlockStyleControls: PropTypes.bool,
-  hideInlineStyleControls: PropTypes.bool,
-  hideIframeControls: PropTypes.bool,
-  hideImageControls: PropTypes.bool,
-  hideSkipLinkControls: PropTypes.bool,
-  hideLinkControls: PropTypes.bool,
-});
-
 const sectionImageShape = PropTypes.shape({
   id: PropTypes.number,
   title: translatedShape,

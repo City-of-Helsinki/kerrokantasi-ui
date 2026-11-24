@@ -399,13 +399,6 @@ const SectionForm = ({
         languages={sectionLanguages}
         fieldType={TextFieldTypes.TEXTAREA}
         placeholderId='sectionAbstractPlaceholder'
-        hideControls={{
-          hideBlockStyleControls: true,
-          hideInlineStyleControls: true,
-          hideIframeControls: true,
-          hideImageControls: true,
-          hideSkipLinkControls: true,
-        }}
       />
 
       <MultiLanguageTextField
