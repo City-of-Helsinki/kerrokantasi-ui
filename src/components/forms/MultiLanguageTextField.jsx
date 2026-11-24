@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import TextInput from './TextInput';
 import TextArea from './TextArea';
 import RichTextEditor from '../RichTextEditor';
-import { textEditorHideControlsShape } from '../../types';
 
 export const TextFieldTypes = {
   INPUT: 'input',
@@ -19,18 +18,8 @@ const TextFields = {
 
 const getTextField = (fieldType) => TextFields[fieldType] || TextInput;
 
-const DEFAULT_HIDE_CONTROLS = {
-  hideBlockStyleControls: false,
-  hideInlineStyleControls: false,
-  hideIframeControls: false,
-  hideImageControls: false,
-  hideSkipLinkControls: false,
-  hideLinkControls: false,
-};
-
 function MultiLanguageTextField({
   fieldType = TextFieldTypes.INPUT,
-  hideControls = DEFAULT_HIDE_CONTROLS,
   languages,
   value,
   labelId,
@@ -69,7 +58,6 @@ function MultiLanguageTextField({
         if (richTextEditor) {
           return (
             <RichTextEditor
-              hideControls={hideControls}
               key={lang}
               labelId={`inLanguage-${lang}`}
               value={currentValue}
@@ -102,7 +90,6 @@ function MultiLanguageTextField({
 MultiLanguageTextField.propTypes = {
   defaultValue: PropTypes.object, // TODO: create shape! {'fi': ..., 'sv': ..., 'en': ...}
   fieldType: PropTypes.string,
-  hideControls: textEditorHideControlsShape,
   labelId: PropTypes.string,
   hint: PropTypes.object,
   languages: PropTypes.arrayOf(PropTypes.string),
