@@ -2,16 +2,6 @@ import { camelCase } from 'lodash';
 
 import getMessage from './getMessage';
 
-// finds <iframe> tags wrapped with <figure> in given input,
-// removes the wrapping <figure> tags and returns the result
-export function stripWrappingFigureTags(htmlInput) {
-  const startRegex = /<figure><iframe/gi;
-  const endRegex = /<\/iframe><\/figure>/gi;
-  const firstStrip = htmlInput.replace(startRegex, '<iframe');
-
-  return firstStrip.replace(endRegex, '</iframe>');
-}
-
 // finds <iframe> tags wrapped with <div class="iframe-wrapper>"> in given input,
 // removes the wrapping <div> tags and returns the result
 export function stripIframeWrapperDivs(htmlInput) {

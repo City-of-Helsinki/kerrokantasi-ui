@@ -1,5 +1,4 @@
 import {
-  stripWrappingFigureTags,
   stripIframeWrapperDivs,
   addIframeWrapperDivs,
   parseIframeHtml,
@@ -17,16 +16,6 @@ const TEST_URL = 'https://google.fi';
 const BORDER_NONE = 'border: none';
 
 describe('iframeUtils', () => {
-  describe('stripWrappingFigureTags', () => {
-    it('removes figure tags surrounding iframe tags and returns the result', () => {
-      const htmlString =
-        '<div><figure><iframe></iframe></figure><figure><p>text</p></figure></div>';
-      const expectedResult =
-        '<div><iframe></iframe><figure><p>text</p></figure></div>';
-      expect(stripWrappingFigureTags(htmlString)).toBe(expectedResult);
-    });
-  });
-
   describe('stripIframeWrapperDivs', () => {
     it('removes div.iframe-wrapper tags surrounding iframe tags and returns the result', () => {
       const htmlString = `<div class="iframe-wrapper"><iframe src="https://google.fi">
