@@ -202,10 +202,19 @@ div:has(> .hearing-form-child-modal) {
 
     // Mirror the published-page styling for these block classes inside the editor.
     .ck-content {
+      // Left-aligned images and captions, as on the hearing page. CKEditor
+      // centers them.
+      .image {
+        margin-left: 0;
+        margin-right: 0;
+        text-align: left;
+      }
+
       .lead {
         font-weight: bold;
       }
 
+      // Image captions written with the Draft.js editor.
       .image-caption {
         font-size: 0.875rem;
         font-style: italic;

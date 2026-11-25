@@ -11,7 +11,6 @@ import {
   Image,
   ImageToolbar,
   ImageCaption,
-  ImageStyle,
   ImageResize,
   ImageResizeButtons,
   ImageUpload,
@@ -35,16 +34,37 @@ const TRANSLATIONS = {
   en: coreTranslationsEn,
 };
 
+// Fixes CKEditor's texts for the image caption button, added after its own
+// translations so they win. The image and table plugins share these texts, and
+// CKEditor's Finnish one is the table's ("Lisää taulukon kuvaus") and its
+// Swedish one means heading ("Slå på rubrik").
+const TRANSLATION_FIXES = {
+  fi: {
+    dictionary: {
+      'Toggle caption on': 'Lisää kuvateksti',
+      'Toggle caption off': 'Poista kuvateksti',
+    },
+  },
+  sv: {
+    dictionary: {
+      'Toggle caption on': 'Lägg till bildtext',
+      'Toggle caption off': 'Ta bort bildtext',
+    },
+  },
+};
+
 // The legacy Draft.js editor showed these block/style labels in Finnish for all
-// locales; kept here for parity. The matching CSS classes (`lead`, `image-caption`)
-// are what the published hearing page styles against.
+// locales; kept here for parity. The `lead` class is what the published hearing
+// page styles against.
 const LABELS = {
   paragraph: 'Kappale',
   subheading: 'Väliotsikko',
   lead: 'Korostettu kappale',
-  imageCaption: 'Kuvateksti',
 };
 
+// Paragraph classes kept in content written with the Draft.js editor.
+// `image-caption` paragraphs were its image captions; images now have their
+// own caption, so the class is no longer offered in the style menu.
 export const LEGACY_BLOCK_CLASSES = ['lead', 'image-caption'];
 
 /**
@@ -67,7 +87,10 @@ export const buildEditorConfig = ({
 } = {}) => ({
   licenseKey,
   language,
-  translations: [TRANSLATIONS[language] || coreTranslationsFi],
+  translations: [
+    TRANSLATIONS[language] || coreTranslationsFi,
+    TRANSLATION_FIXES,
+  ],
   placeholder,
   // CKEditor adds the "Press Alt+0 for help" hint after this label.
   ...(label && { label }),
@@ -85,7 +108,6 @@ export const buildEditorConfig = ({
     Image,
     ImageToolbar,
     ImageCaption,
-    ImageStyle,
     ImageResize,
     ImageResizeButtons,
     ImageUpload,
@@ -133,10 +155,7 @@ export const buildEditorConfig = ({
     ],
   },
   style: {
-    definitions: [
-      { name: LABELS.lead, element: 'p', classes: ['lead'] },
-      { name: LABELS.imageCaption, element: 'p', classes: ['image-caption'] },
-    ],
+    definitions: [{ name: LABELS.lead, element: 'p', classes: ['lead'] }],
   },
   link: {
     addTargetToExternalLinks: false,
@@ -155,20 +174,9 @@ export const buildEditorConfig = ({
     },
   },
   image: {
-    // Images are blocks of their own, as in the old Draft.js editor: no inline
-    // images (they can't have a caption) and no text wrapping around them,
-    // only left / center / right alignment. Content that already has inline
-    // or side images still loads, as the default image styles stay defined.
-    toolbar: [
-      'toggleImageCaption',
-      'imageTextAlternative',
-      '|',
-      'imageStyle:alignBlockLeft',
-      'imageStyle:block',
-      'imageStyle:alignBlockRight',
-      '|',
-      'resizeImage',
-    ],
+    // Images are left-aligned blocks of their own, as in the old Draft.js
+    // editor: no ImageStyle plugin, so no alignment or text wrapping.
+    toolbar: ['toggleImageCaption', 'imageTextAlternative', '|', 'resizeImage'],
     insert: { type: 'block' },
   },
   // GeneralHtmlSupport keeps the markup of existing hearings intact on load/save.

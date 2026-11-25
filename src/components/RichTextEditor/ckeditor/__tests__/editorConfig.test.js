@@ -1,9 +1,6 @@
 import { ClassicEditor, buildEditorConfig } from '../editorConfig';
 
 const IMAGE = 'https://api.test/media/images/2026/11/abc.webp';
-const CAPTIONED_IMAGE =
-  `<figure class="image"><img src="${IMAGE}">` +
-  '<figcaption>Kuvateksti</figcaption></figure>';
 
 // These rules were checked against stored Draft.js content in a real browser:
 // each one, if reverted, corrupts existing hearings on the first save.
@@ -20,10 +17,6 @@ describe('buildEditorConfig html support', () => {
   });
 });
 
-const IMAGE_STYLE_BUTTONS = buildEditorConfig()
-  .image.toolbar.filter((item) => item.startsWith('imageStyle:'))
-  .map((item) => item.replace('imageStyle:', ''));
-
 // Runs the real editor with the app's configuration.
 describe('buildEditorConfig in the editor', () => {
   let editor;
@@ -32,11 +25,6 @@ describe('buildEditorConfig in the editor', () => {
   const createEditor = async (options) => {
     editor = await ClassicEditor.create(element, buildEditorConfig(options));
   };
-
-  const selectFirstBlock = () =>
-    editor.model.change((writer) =>
-      writer.setSelection(editor.model.document.getRoot().getChild(0), 'on')
-    );
 
   beforeEach(() => {
     element = document.createElement('div');
@@ -49,26 +37,33 @@ describe('buildEditorConfig in the editor', () => {
     element.remove();
   });
 
-  it('offers left, center and right alignment, as blocks only', () => {
-    expect(IMAGE_STYLE_BUTTONS).toEqual([
-      'alignBlockLeft',
-      'block',
-      'alignBlockRight',
+  it('offers no image alignment, as the old Draft.js editor', async () => {
+    await createEditor();
+
+    expect(editor.plugins.has('ImageStyle')).toBe(false);
+    expect(buildEditorConfig().image.toolbar).toEqual([
+      'toggleImageCaption',
+      'imageTextAlternative',
+      '|',
+      'resizeImage',
     ]);
   });
 
-  it.each(IMAGE_STYLE_BUTTONS)(
-    'keeps the image caption when the image style is set to %s',
-    async (style) => {
-      await createEditor();
-      editor.setData(`${CAPTIONED_IMAGE}<p>text</p>`);
-      selectFirstBlock();
+  it('offers only the lead paragraph style, as images have their own caption', () => {
+    expect(buildEditorConfig().style.definitions).toEqual([
+      { name: 'Korostettu kappale', element: 'p', classes: ['lead'] },
+    ]);
+  });
 
-      editor.execute('imageStyle', { value: style });
+  it('keeps image caption paragraphs written with the Draft.js editor', async () => {
+    await createEditor();
+    const data =
+      '<p class="lead">Lead</p><p class="image-caption">Kuvateksti</p>';
 
-      expect(editor.getData()).toContain('<figcaption>Kuvateksti</figcaption>');
-    }
-  );
+    editor.setData(data);
+
+    expect(editor.getData()).toBe(data);
+  });
 
   it('inserts images as blocks, also in the middle of text', async () => {
     await createEditor();
@@ -86,16 +81,27 @@ describe('buildEditorConfig in the editor', () => {
     );
   });
 
-  it('still loads inline and side images in existing content', async () => {
-    await createEditor();
-    const data =
-      `<p>text <img src="${IMAGE}"> text</p>` +
-      `<figure class="image image-style-side"><img src="${IMAGE}"></figure>`;
+  it.each([
+    ['fi', 'Lisää kuvateksti', 'Poista kuvateksti', 'Syötä kuvateksti'],
+    ['sv', 'Lägg till bildtext', 'Ta bort bildtext', 'Fyll i bildtext'],
+    ['en', 'Toggle caption on', 'Toggle caption off', 'Enter image caption'],
+  ])(
+    'labels the image caption button correctly in %s',
+    async (language, addLabel, removeLabel, captionPlaceholder) => {
+      await createEditor({ language });
+      editor.setData(`<figure class="image"><img src="${IMAGE}"></figure>`);
+      editor.model.change((writer) =>
+        writer.setSelection(editor.model.document.getRoot().getChild(0), 'on')
+      );
+      const button = editor.ui.componentFactory.create('toggleImageCaption');
 
-    editor.setData(data);
-
-    expect(editor.getData()).toBe(data);
-  });
+      expect(button.label).toBe(addLabel);
+      editor.execute('toggleImageCaption');
+      expect(button.label).toBe(removeLabel);
+      // CKEditor's other texts are still used.
+      expect(editor.t('Enter image caption')).toBe(captionPlaceholder);
+    }
+  );
 
   it('gives the editing area the label and the keyboard help hint', async () => {
     await createEditor({ language: 'en', label: 'Section content' });
