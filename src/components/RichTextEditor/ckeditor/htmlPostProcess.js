@@ -1,5 +1,4 @@
 import {
-  stripWrappingFigureTags,
   addIframeWrapperDivs,
   stripIframeWrapperDivs,
 } from '../../../utils/iframeUtils';
@@ -109,5 +108,5 @@ export const toAppHtml = (html, externalLinkMessage = '') => {
   });
 
   // Wrap bare <iframe> tags in the responsive wrapper the consent renderer expects.
-  return addIframeWrapperDivs(stripWrappingFigureTags(serializeBody(doc)));
+  return addIframeWrapperDivs(serializeBody(doc));
 };
