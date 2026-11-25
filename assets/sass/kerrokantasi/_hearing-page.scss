@@ -359,27 +359,22 @@
   }
 }
 
-// Images in content written with the CKEditor rich text editor (section
-// content, abstracts and closure info). Mirrors CKEditor's own content styles
-// for the image options the editor offers.
+// Images in content written with the rich text editor (section content,
+// abstracts and closure info). Images are left-aligned blocks with the page's
+// default <figure> styles (no margin), as with the old Draft.js editor, which
+// saved a bare <figure><img></figure>.
 .rich-text-content {
-  // Contain floated side images within the content.
-  display: flow-root;
-
   img {
     max-width: 100%;
     height: auto;
   }
 
   figure.image {
-    clear: both;
+    // Fits the image, so a caption is as wide as the image.
     width: fit-content;
-    max-width: 100%;
-    margin: $line-height-computed auto;
 
     img {
       display: block;
-      margin: 0 auto;
     }
 
     figcaption {
@@ -393,28 +388,6 @@
   // Width set inline with the editor's resize option.
   figure.image_resized img {
     width: 100%;
-  }
-
-  // Left / right alignment, without text wrapping around the image.
-  figure.image-style-block-align-left {
-    margin-left: 0;
-  }
-
-  figure.image-style-block-align-right {
-    margin-right: 0;
-  }
-
-  // No longer offered in the editor, kept for content that already uses it.
-  figure.image-style-side {
-    float: right;
-    max-width: 50%;
-    margin: 0 0 $line-height-computed $line-height-computed;
-
-    @media (max-width: $screen-xs-max) {
-      float: none;
-      max-width: 100%;
-      margin: $line-height-computed auto;
-    }
   }
 }
 
