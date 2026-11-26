@@ -1,3 +1,6 @@
-.leaflet-bottom, .leaflet-top {
-  z-index: 998;
+// Keep Leaflet's own layers (zoom buttons at z-index 1000) inside the map, so
+// they stay under the page's fixed elements: the cookie banner and the hearing
+// editor's bottom toolbar.
+.leaflet-container {
+  isolation: isolate;
 }
