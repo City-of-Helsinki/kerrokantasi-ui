@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { BrowserRouter } from 'react-router-dom';
@@ -21,9 +21,11 @@ function renderComponent(props) {
 }
 
 describe('<LoginCallback />', () => {
-  it('should render CallbackComponent with correct props', () => {
+  it('shows the redirect text inside the page container', async () => {
     renderComponent();
 
-    waitFor(() => expect(screen.getByText('Redirecting...')).toBeTruthy());
+    // The test intl provider has no messages, so the message id is shown.
+    const text = await screen.findByText('loginRedirecting');
+    expect(text).toHaveClass('container');
   });
 });
