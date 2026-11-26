@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.2...kerrokantasi-ui-v1.24.3) (2026-11-26)
+
+
+### Bug Fixes
+
+* Keep editor images and captions as in the old editor ([57924e0](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/57924e029f7841555454d13a37e3ad1cd74563fd))
+
 ## [1.24.2](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.1...kerrokantasi-ui-v1.24.2) (2026-11-24)
 
 
