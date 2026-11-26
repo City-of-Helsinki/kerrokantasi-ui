@@ -2,6 +2,7 @@ import React from 'react';
 import { LoginCallbackHandler } from 'hds-react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import useUpdateApiTokens from './hooks/useUpdateApiTokens';
 
@@ -21,7 +22,9 @@ const UnconnectedLoginCallback = () => {
 
   return (
     <LoginCallbackHandler onSuccess={success} onError={failure}>
-      <div>Redirecting...</div>
+      <div className='container auth-message'>
+        <FormattedMessage id='loginRedirecting' />
+      </div>
     </LoginCallbackHandler>
   );
 };

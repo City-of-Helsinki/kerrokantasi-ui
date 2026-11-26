@@ -277,3 +277,9 @@ a.list-group-item {
     }
   }
 }
+
+// Login prompt and login redirect text, shown on their own on the page.
+.auth-message {
+  padding-top: var(--spacing-l);
+  padding-bottom: var(--spacing-l);
+}

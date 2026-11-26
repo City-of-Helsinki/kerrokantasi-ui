@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 function PleaseLogin({ login }) {
   return (
-    <div>
+    <div className='container auth-message'>
       <h3>
         <FormattedMessage id='loginToContinue' />
       </h3>
