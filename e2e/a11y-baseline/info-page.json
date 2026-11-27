@@ -1,0 +1,16 @@
+{
+  "scan": "info page",
+  "violations": [
+    "label-content-name-mismatch a[href$=\"osallistu.hel.fi\"]",
+    "label-content-name-mismatch a[href$=\"tietosuoja\"]",
+    "label-content-name-mismatch a[target=\"_self\"]:nth-child(2)",
+    "label-content-name-mismatch a[target=\"_self\"]:nth-child(3)",
+    "label-content-name-mismatch p:nth-child(11) > a[href$=\"login\"][target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(15) > a[target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(19) > a[href$=\"palautteet.hel.fi\"][target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(4) > a[href$=\"palautteet.hel.fi\"][target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(44) > a[target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(45) > a[href$=\"login\"][target=\"_self\"]",
+    "label-content-name-mismatch p:nth-child(48) > a[target=\"_self\"]"
+  ]
+}

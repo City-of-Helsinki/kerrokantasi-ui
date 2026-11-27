@@ -23,6 +23,7 @@
     "test:e2e:install": "playwright install",
     "test:e2e:ci": "playwright test",
     "test:e2e:start": "playwright test",
+    "test:e2e:docker": "./e2e/docker/run.sh",
     "test:e2e:record": "playwright codegen https://kerrokantasi.dev.hel.ninja/",
     "test:e2e:cov": "node scripts/create-baseline-coverage.mjs && nyc playwright test && pnpm run test:e2e:cov-report",
     "test:e2e:cov-report": "pnpm run merge-coverage-reports && pnpm run report-merged-coverage",
@@ -103,6 +104,7 @@
     "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@city-of-helsinki/license-notices": "^0.2.0",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
