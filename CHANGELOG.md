@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.24.4](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.3...kerrokantasi-ui-v1.24.4) (2026-11-27)
+
+
+### Bug Fixes
+
+* Align login prompt and redirect text with page content ([e934132](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/e9341324dc059b8712d1d08b3079e67f14d45d59))
+* Keep map zoom buttons under the hearing toolbar ([4c0aa75](https://github.com/City-of-Helsinki/kerrokantasi-ui/commit/4c0aa758df6bab66c1ae6a6cb9bb36805b866f10))
+
 ## [1.24.3](https://github.com/City-of-Helsinki/kerrokantasi-ui/compare/kerrokantasi-ui-v1.24.2...kerrokantasi-ui-v1.24.3) (2026-11-26)
 
 
